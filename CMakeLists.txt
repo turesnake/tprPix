@@ -49,6 +49,7 @@ set ( VERSION_MINOR 1 )
 #-- 指定 依赖的 h文件所在 路径:
 include_directories (${PROJECT_SOURCE_DIR}/include)
 include_directories (${PROJECT_SOURCE_DIR}/include/test)
+include_directories (${PROJECT_SOURCE_DIR}/include/gl)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
@@ -77,27 +78,8 @@ FILE(GLOB PIXEL_FILES  src/*.cpp
                         src/class/*.cpp   
                         src/sys/*.cpp 
                         src/test/*.cpp 
+                        src/gl/*.cpp 
                         )
-
-#---------------------------------------------------#
-#                modules: assimp
-#---------------------------------------------------#
-
-#-- 添加 CMAKE_MODULE_PATH 内容，
-#-- 这个变量存储 寻找 module／库 所依赖的 路径。
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
-
-#-- 指定 连接器 搜索 库文件 时的路径
-#-- 在目前版本，/lib/ 目录下只有一个 assimp.lib 库文件。
-#-- 而且是从 LearnOpenGL 项目中 抄来的
-link_directories(${CMAKE_SOURCE_DIR}/lib)
-
-
-# find the required packages
-#-- 查找并加载外来工程的设置 
-#-- REQUIRED 选项 表示如果 包没有找到的话，cmake的过程会终止，并输出警告信息
-find_package(ASSIMP REQUIRED)
-message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
 
 
 #---------------------------------------------------#
@@ -112,7 +94,7 @@ set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 #                       doit
 #---------------------------------------------------#
 add_executable(
-    game
+    tprpix
     ${PIXEL_FILES}
     ${PROJECT_SOURCE_DIR}/deps/glad/src/glad.c
 )
@@ -134,12 +116,14 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDB)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer)
 
+
 #---------------------------------------------------#
 #             target_link_libraries
 #---------------------------------------------------#
 if ( APPLE )
-    target_link_libraries( game 
+    target_link_libraries( tprpix 
         glfw
+        ${GLFW_LIBRARIES}
         MsgIO
         wrapFuncs
         tprBitMap
@@ -151,8 +135,9 @@ if ( APPLE )
         )
 
 elseif( UNIX AND NOT APPLE )
-    target_link_libraries( game 
+    target_link_libraries( tprpix 
         glfw
+        ${GLFW_LIBRARIES}
         MsgIO
         wrapFuncs
         tprBitMap

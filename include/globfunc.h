@@ -1,11 +1,10 @@
 /*
  * ========================= globfunc.h ==========================
  *                            -- tpr --
- *                                        创建 -- 2018.08.23
- *                                        修改 -- 2018.08.23
+ *                                        创建 -- 2018.11.21
+ *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
  *   全局函数
- *   server / client 通用
  * ----------------------------
  */
 
@@ -34,6 +33,8 @@ const std::string get_exit_status_info( int _status );
 
 int sleep_tpr( long _msec );
 void Sleep_tpr( long _msec, const std::string &_err_info );
+
+
 
 
 

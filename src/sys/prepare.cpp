@@ -1,8 +1,8 @@
 /*
  * ========================= prepare.cpp ==========================
  *                          -- tpr --
- *                                        创建 -- 2018.08.23
- *                                        修改 -- 2018.08.23
+ *                                        创建 -- 2018.11.21
+ *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
  *   main 函数 的前期 准备工作
  * ----------------------------
@@ -44,7 +44,7 @@ using std::endl;
 void prepare();
 
 //---------------------- 局部 函数 ---------------------
-namespace{
+namespace {
     void build_path_cwd();
     void data_type_confirm();
     void check_OS();
@@ -89,7 +89,7 @@ void prepare(){
     return;
 }
 
-namespace{ //------------ namespace ------------//
+namespace { //------------ namespace ------------//
 
 
 /*===========================================================
@@ -148,18 +148,6 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_home = tpr::Getenv( "HOME", err_info );
 
-    //---------------------------------//
-    //  path_downloads / fd_downloads
-    //---------------------------------//
-    path_downloads = tpr::path_combine( path_home, "Downloads/tprnet/" );
-    //-- 创建 "~/Downloads/tprnet/" 这个目录 --
-    tpr::mk_dir( path_downloads.c_str(),
-            RWXR_XR_X,
-            err_info
-            );
-
-    fd_downloads = tpr::Open(path_downloads.c_str(), O_RDONLY | O_DIRECTORY, 0, err_info);
-    //-- fd_downloads 将会始终保持 open 状态，直到 本进程终止（自动close）--//
 
     //---------------------------------//
     //           path_data
