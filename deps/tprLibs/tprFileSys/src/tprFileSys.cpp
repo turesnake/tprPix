@@ -743,8 +743,31 @@ off_t get_file_size( const char *_path, const std::string &_err_info ){
     return r;
 }
 
+/* ===========================================================
+ *                        file_load
+ * -----------------------------------------------------------
+ * -- 输入 文件路的 绝对路径名。
+ *    打开并读取此文件，获得其数据
+ * -- param: _pathp -- 目标文件 绝对路径名
+ * -- param: _buf   -- 获得的文件数据 存入buf. (此buf的原数据将被丢弃)
+ *
+ */
+void file_load( const char *_pathp, std::string &_buf ){
 
+    string err_info = "file_load(): ";
+    //-------
+    int fd;
+    off_t flen;   //- 文件 字节数
+    ssize_t rlen; //- 实际读取 字节数
+    
+    flen = get_file_size( _pathp, err_info );
+    _buf.resize( flen );
+    fd = Open( _pathp, O_RDONLY, 0, err_info );
+    rlen = Read( fd, (void*)_buf.c_str(), flen, err_info );
+    assert( rlen == (ssize_t)flen );
 
+    Close( fd, err_info );
+}
 
 
 

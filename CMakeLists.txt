@@ -51,6 +51,8 @@ include_directories (${PROJECT_SOURCE_DIR}/include)
 include_directories (${PROJECT_SOURCE_DIR}/include/test)
 include_directories (${PROJECT_SOURCE_DIR}/include/gl)
 
+include_directories (${PROJECT_SOURCE_DIR}/src/gl)
+
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)

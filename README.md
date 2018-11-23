@@ -1,2 +1,2 @@
 # tprPixelGames
-a C/C++/OpenGL/cmake Game project.
+a C/C++/OpenGL/cmake Pixel Game project.

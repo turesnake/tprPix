@@ -29,12 +29,14 @@
 #include "wrapFuncs.h"
 #include "MsgIO.h"
 
-
 //------------------- SELF --------------------//
 #include "globfunc.h"
 #include "global.h"
 
 #include "gl.h"
+#include "rectangle.h" //-- 矩形 顶点数据
+
+#include "ShaderProgram.h" 
 
  
 using std::cout;
@@ -77,6 +79,28 @@ int main(){
     //------------------------------------------//
     glad_init();
     glad_set();
+
+    //---------------------------------------------//
+    //                shader_program
+    //---------------------------------------------//
+    ShaderProgram rect_shader( 
+                            "/shaders/base.vs",
+                            "/shaders/base.fs"
+                            );
+    rect_shader.init();
+
+    //--- 
+    rect_shader.get_uniform_location( "model" );
+    rect_shader.get_uniform_location( "view" );
+    rect_shader.get_uniform_location( "projection" );
+
+    //---------------------------------------------//
+    //          创建／初始化  所有 模型 
+    //---------------------------------------------//
+
+
+
+
 
     //---------------------------------------------//
     //           main render loop

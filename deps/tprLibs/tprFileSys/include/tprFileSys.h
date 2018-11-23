@@ -53,6 +53,8 @@ off_t get_file_size( int _fd, const std::string &_err_info );
 off_t get_file_size( FILE *_fp, const std::string &_err_info );
 off_t get_file_size( const char *_path, const std::string &_err_info );
 
+void file_load( const char *_pathp, std::string &_buf );
+
 
 
 }//------------------- namespace: tpr ------------------------//
