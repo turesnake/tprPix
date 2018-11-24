@@ -33,11 +33,14 @@
 #include "globfunc.h"
 #include "global.h"
 
-#include "gl.h"
-#include "rectangle.h" //-- 矩形 顶点数据
+#include "glob_gl.h"
+#include "RectVertics.h" //-- 矩形 顶点数据
 
 #include "ShaderProgram.h" 
 
+#include "Camera.h" 
+#include "Texture.h" 
+#include "Model.h"
  
 using std::cout;
 using std::endl;
@@ -94,12 +97,53 @@ int main(){
     rect_shader.get_uniform_location( "view" );
     rect_shader.get_uniform_location( "projection" );
 
+    rect_shader.get_uniform_location( "texture1" );
+    //rect_shader.get_uniform_location( "texture2" );
+
+
+    rect_shader.use_program();
+
     //---------------------------------------------//
     //          创建／初始化  所有 模型 
     //---------------------------------------------//
+    Texture textel_1( "/textures/pix_01.png" );
+
+    //-- 生成一个 16 * 16 像素的 顶点数据集
+    //-- 推荐被 合并到 Model 类内
+    RectVertics rv_1(16, 16); 
+
+    Model mod_1;
+    mod_1.set_VBO( rv_1.get_data(),
+                    rv_1.get_size(),
+                    rv_1.get_stride()  
+                    );
+    
+    mod_1.add_texture( textel_1 );
+    
+    mod_1.set_shader_program( &rect_shader );
+
+    mod_1.init();
+
+    
 
 
+    //---------------------------------------------//
+    //                texture
+    //---------------------------------------------//
+    //-- 必须要激活 shaderProgram，这样才能修改其 uniform 变量值。
+    rect_shader.use_program();
+    //-- 为 两个 uniform 变量 texture1,texture2  设置值。
+    //-- 分别指向 GL_TEXTURE0，GL_TEXTURE1 这两个 纹理单元。
+    glUniform1i( rect_shader.uniform_location( "texture1" ), 0);
+    //glUniform1i( rect_shader.uniform_location( "texture2" ), 1);
 
+
+    //---------------------------------------------//
+    //                 camera
+    //---------------------------------------------//
+    Camera camera; //-- 本游戏暂时只有 一个 摄像机
+    camera.init();
+    bind_camera_current( &camera ); //-- 将其绑定为 当前摄像机
 
 
     //---------------------------------------------//
@@ -120,10 +164,22 @@ int main(){
                     //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
 
 
+        //------------------------------------------//
+        //                 
+        //------------------------------------------//
+        rect_shader.use_program();
+        rect_shader.send_mat4_view_2_shader( 
+                                camera_current()->update_mat4_view()
+                                );
+
+        rect_shader.send_mat4_projection_2_shader(
+                                camera_current()->update_mat4_projection()
+                                );
 
 
+        //-------------------- 绘制图形 -----------------------
 
-
+        mod_1.model_draw();
 
 
         //-- check and call events and swap the buffers
@@ -131,6 +187,10 @@ int main(){
 		glfwSwapBuffers( window );
 
     }//---------- while render loop end -----------//
+
+
+    //------------ 删除 所有 model -------------
+    mod_1.model_delete();
 
     //---------------------------------------------//
     //                glfw Terminate

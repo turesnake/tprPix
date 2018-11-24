@@ -17,7 +17,7 @@
 
 #include <iostream> // cout
 
-//#include "Camera.h" //- camera_current,
+#include "Camera.h" //- camera_current,
 
 using std::cout;
 using std::endl;
@@ -44,38 +44,34 @@ void processInput( GLFWwindow *window ){
     //-- W -- 
     if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
-        //camera_current()->cameraPos_forward();
+        camera_current()->cameraPos_down();
     }
 
     //-- S -- 
     if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
-        //camera_current()->cameraPos_back();
+        camera_current()->cameraPos_up();
     }
 
     //-- A -- 
     if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS ){
             //cout << "-A-" << endl;
-        //camera_current()->cameraPos_left();
+        camera_current()->cameraPos_left();
     }
 
     //-- D -- 
     if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS ){
             //cout << "-D-" << endl;
-        //camera_current()->cameraPos_right();
+        camera_current()->cameraPos_right();
     }
 
     //-- SPACE -- 
-    if( glfwGetKey( window, GLFW_KEY_SPACE ) == GLFW_PRESS ){
-            //cout << "-SPACE-" << endl;
-        //camera_current()->cameraPos_up();
-    }
+    //if( glfwGetKey( window, GLFW_KEY_SPACE ) == GLFW_PRESS ){
+    //}
 
     //-- TAB -- 
-    if( glfwGetKey( window, GLFW_KEY_TAB ) == GLFW_PRESS ){
-            //cout << "-SPACE-" << endl;
-        //camera_current()->cameraPos_down();
-    }
+    //if( glfwGetKey( window, GLFW_KEY_TAB ) == GLFW_PRESS ){
+    //}
 }
 
 
@@ -89,7 +85,7 @@ void processInput( GLFWwindow *window ){
 void mouse_callback(GLFWwindow* window, double xpos, double ypos){
 
         //cout << "xpos = " << xpos << "ypos = " << ypos << endl; 
-    //camera_current()->mousePos_move( xpos, ypos );
+    camera_current()->mousePos_move( xpos, ypos );
 
 }
 
@@ -101,12 +97,13 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
  *  鼠标 滚轮 缩放。 控制摄像机 广角度
  *    （double 类型是定死的，不能改。）
  */
+/*
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
 
         //cout << "xoffset = " << xoffset << "yoffset = " << yoffset << endl;
     //camera_current()->mouseFov_reset( xoffset, yoffset );
 }
-
+*/
 
 
 

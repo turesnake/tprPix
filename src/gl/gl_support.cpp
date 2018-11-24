@@ -28,7 +28,7 @@
 #include "global.h"
 #include "config.h" //-- SCR_WIDTH
 #include "callback.h" 
-#include "gl.h" 
+#include "glob_gl.h" 
 
 using std::cout;
 using std::endl;

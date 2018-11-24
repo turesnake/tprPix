@@ -49,7 +49,6 @@ set ( VERSION_MINOR 1 )
 #-- 指定 依赖的 h文件所在 路径:
 include_directories (${PROJECT_SOURCE_DIR}/include)
 include_directories (${PROJECT_SOURCE_DIR}/include/test)
-include_directories (${PROJECT_SOURCE_DIR}/include/gl)
 
 include_directories (${PROJECT_SOURCE_DIR}/src/gl)
 
