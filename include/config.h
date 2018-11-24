@@ -12,14 +12,14 @@
 #define _TPR_CONFIG_H_
 
 //-- window 显示尺寸（像素）--
-#define SCR_WIDTH  800
-#define SCR_HEIGHT  600
+#define SCR_WIDTH  880
+#define SCR_HEIGHT  660
 
 //-- 游戏工作尺寸（像素）--
 //- 由于是 pixel游戏，所以这个值会很小。
 //- 这个值 也是 Camera 的尺寸
-#define WORK_WIDTH  120
-#define WORK_HEIGHT 90
+#define WORK_WIDTH  160
+#define WORK_HEIGHT 120
 
 
 

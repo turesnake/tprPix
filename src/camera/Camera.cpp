@@ -10,14 +10,14 @@
 
 #include "Camera.h"
 
-//------------------- SELF --------------------//
-#include "config.h" // SCR_WIDTH, SCR_HEIGHT
-#include "glob_gl.h" //- get_deltaTime,
-
 //-------------------- CPP --------------------//
 #include <cassert> //- assert
 #include <string>
 #include <iostream>
+
+//------------------- SELF --------------------//
+#include "config.h" // SCR_WIDTH, SCR_HEIGHT
+#include "glob_gl.h" //- get_deltaTime,
 
 
 using std::cout;

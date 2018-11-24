@@ -7,7 +7,6 @@
  *   3D模型 Model 类
  * ----------------------------
  */
-
 #ifndef _TPR_MODEL_H_
 #define _TPR_MODEL_H_
 
@@ -44,13 +43,10 @@
 
 
 class Model{
-    //============== friend ==============
-
 
 public:
     Model()
-        :
-        scale_val( glm::vec3( 1.0f, 1.0f, 1.0f ) )
+        //:
         {}
 
     
@@ -138,7 +134,7 @@ private:
     //-- 更新任一向量，都需要将 is_model_change 设为 true。
     glm::vec3 translate_val; 
     glm::vec3 rotate_val; //-- （角度）
-    glm::vec3 scale_val;  
+    glm::vec3 scale_val { glm::vec3(1.0f, 1.0f, 1.0f) };  
 
     //+++++++++++ anchor ／ 锚点 +++++++++++++
    

@@ -26,8 +26,7 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "wrapFuncs.h"
-#include "MsgIO.h"
+
 
 //------------------- SELF --------------------//
 #include "globfunc.h"
@@ -37,7 +36,6 @@
 #include "RectVertics.h" //-- 矩形 顶点数据
 
 #include "ShaderProgram.h" 
-
 #include "Camera.h" 
 #include "Texture.h" 
 #include "Model.h"
@@ -86,10 +84,8 @@ int main(){
     //---------------------------------------------//
     //                shader_program
     //---------------------------------------------//
-    ShaderProgram rect_shader( 
-                            "/shaders/base.vs",
-                            "/shaders/base.fs"
-                            );
+    ShaderProgram rect_shader( "/shaders/base.vs",
+                               "/shaders/base.fs" );
     rect_shader.init();
 
     //--- 
@@ -98,7 +94,6 @@ int main(){
     rect_shader.get_uniform_location( "projection" );
 
     rect_shader.get_uniform_location( "texture1" );
-    //rect_shader.get_uniform_location( "texture2" );
 
 
     rect_shader.use_program();
@@ -107,6 +102,9 @@ int main(){
     //          创建／初始化  所有 模型 
     //---------------------------------------------//
     Texture textel_1( "/textures/pix_01.png" );
+
+
+    
 
     //-- 生成一个 16 * 16 像素的 顶点数据集
     //-- 推荐被 合并到 Model 类内
@@ -118,6 +116,7 @@ int main(){
                     rv_1.get_stride()  
                     );
     
+    
     mod_1.add_texture( textel_1 );
     
     mod_1.set_shader_program( &rect_shader );
@@ -125,7 +124,6 @@ int main(){
     mod_1.init();
 
     
-
 
     //---------------------------------------------//
     //                texture
@@ -149,6 +147,9 @@ int main(){
     //---------------------------------------------//
     //           main render loop
     //---------------------------------------------//
+
+        //u64 print_counter = 0;
+
     while( !glfwWindowShouldClose( window ) ){
 
         //------- 刷新 deltaTime ---------//
@@ -176,7 +177,6 @@ int main(){
                                 camera_current()->update_mat4_projection()
                                 );
 
-
         //-------------------- 绘制图形 -----------------------
 
         mod_1.model_draw();
@@ -185,6 +185,20 @@ int main(){
         //-- check and call events and swap the buffers
 		glfwPollEvents();   //-- 处理所有 处于 event queue 中的 待决 event。
 		glfwSwapBuffers( window );
+
+        //------------ 显示数据到终端 -----------//
+
+            /*
+            print_counter++;
+            glm::vec3 pos;
+            if( (print_counter%100) == 0 ){
+                pos = camera_current()->get_cameraPos();
+                cout << pos.x << ", "
+                    << pos.y << ", "
+                    << pos.z
+                    << endl;
+            }
+            */
 
     }//---------- while render loop end -----------//
 
