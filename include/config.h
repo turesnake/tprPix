@@ -1,6 +1,6 @@
 /*
  * ========================= config.h ==========================
- *                          -- GL_CPP --
+ *                          -- tpr --
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
@@ -8,8 +8,8 @@
  * ----------------------------
  */
 
-#ifndef _GLCPP_CONFIG_H_
-#define _GLCPP_CONFIG_H_
+#ifndef _TPR_CONFIG_H_
+#define _TPR_CONFIG_H_
 
 //-- window 显示尺寸（像素）--
 #define SCR_WIDTH  800
@@ -20,12 +20,6 @@
 //- 这个值 也是 Camera 的尺寸
 #define WORK_WIDTH  120
 #define WORK_HEIGHT 90
-
-
-
-
-
-
 
 
 

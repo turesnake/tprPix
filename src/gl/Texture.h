@@ -15,8 +15,8 @@
  * ----------------------------
  */
 
-#ifndef _GLCPP_TEXTURE_H_
-#define _GLCPP_TEXTURE_H_
+#ifndef _TPR_TEXTURE_H_
+#define _TPR_TEXTURE_H_
 
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
  * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），

@@ -1,6 +1,6 @@
 /*
  * ========================= input.cpp ==========================
- *                          -- GL_CPP --
+ *                          -- tpr --
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
@@ -15,12 +15,12 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-#include <iostream> // cout
+//#include <iostream> // cout
 
 #include "Camera.h" //- camera_current,
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 
 
 //------------------- 提供给全局的 函数 ----------------
@@ -88,7 +88,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
     camera_current()->mousePos_move( xpos, ypos );
 
 }
-
 
 
 /* ==========================================================
