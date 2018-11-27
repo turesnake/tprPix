@@ -71,6 +71,7 @@ include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileSys/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer/include)
+include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor/include)
 
 
 include_directories (${PROJECT_BINARY_DIR}/sysconfig)
@@ -85,7 +86,6 @@ FILE(GLOB PIXEL_FILES  src/*.cpp
                         src/camera/*.cpp 
                         src/game/*.cpp 
                         )
-
 
 #---------------------------------------------------#
 #                   build/bin/
@@ -120,6 +120,7 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDB)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer)
+add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor)
 
 
 #---------------------------------------------------#
@@ -137,6 +138,7 @@ if ( APPLE )
         tprBinary
         tprDB
         tprTimer
+        tprMemAllor
         )
 
 elseif( UNIX AND NOT APPLE )
@@ -151,6 +153,7 @@ elseif( UNIX AND NOT APPLE )
         tprBinary
         tprDB
         tprTimer
+        tprMemAllor
         )
 
 endif( APPLE )

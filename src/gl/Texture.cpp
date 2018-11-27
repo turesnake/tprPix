@@ -82,7 +82,8 @@ void Texture::init(){
                     data               //-- 图像数据
                     );
     
-    glGenerateMipmap(GL_TEXTURE_2D); //-- 生成 多级渐远纹理
+    //-- 8-bit 游戏不需要 多级渐远 
+    //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成 多级渐远纹理
     //-- 释放 png图片 数据。
     stbi_image_free( data );
 
