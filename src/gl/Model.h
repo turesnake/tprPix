@@ -49,7 +49,8 @@ public:
         //:
         {}
 
-    
+    //- 随着 RectVertics 的调用 被内置到 model/ new mesh 类中，
+    //- 这个函数将被废弃
     inline void set_VBO( GLvoid *VBOdata, GLsizeiptr VBOsize, GLsizei stride_ )
                 {  
                     VBO_data = VBOdata;
@@ -71,6 +72,7 @@ public:
                     translate_val = v;
                 }
 
+    //- pixel 游戏 几乎不需要 旋转。选择性保留
     inline void set_rotate( const glm::vec3 &v )
                 {
                     if( is_model_change != true ){
@@ -141,7 +143,6 @@ private:
 
     //--------- funcs ----------
     void update_mat4_model(); //-- 重新计算 model矩阵
-
 
 
 };

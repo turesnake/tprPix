@@ -157,6 +157,23 @@ void check_and_creat_important_dir(){
                         RWXR_XR_X,
                         err_info
                         );
+    //---------------------------------//
+    //           path_textures
+    //---------------------------------//
+    path_textures = tpr::mk_dir( path_cwd.c_str(),
+                        "textures/",
+                        RWXR_XR_X,
+                        err_info
+                        );
+    //---------------------------------//
+    //          path_action_srcs
+    //---------------------------------//
+    path_action_srcs = tpr::mk_dir( path_textures.c_str(),
+                        "action_srcs/",
+                        RWXR_XR_X,
+                        err_info
+                        );
+            
 }
 
 

@@ -28,7 +28,7 @@ using std::endl;
 /* ===========================================================
  *                       init
  * -----------------------------------------------------------
- * -- 
+ * -- 这个 init 函数 一直被推迟到 model ／ new mesh 类的 init 的结束处 才被调用
  */
 void Texture::init(){
 
@@ -43,7 +43,9 @@ void Texture::init(){
     //-- 合成 文件的 绝对路径名
     string path_img = path_cwd + lpath_img;
 
-    glGenTextures(     1, &textel_name );
+    glGenTextures(     1, &textel_name ); //-- 申请 n个 tex实例，并获得其 names
+
+
     glBindTexture( GL_TEXTURE_2D, textel_name );
 
     //-- 为 GL_TEXTURE_2D 设置环绕、过滤方式
@@ -61,23 +63,23 @@ void Texture::init(){
     int height;
     int nrChannels;
     unsigned char *data; //-- 临时，图片数据的指针。
+                        //- 真实数据存储在 stbi 模块自己创建的 内存中。
+                        //- 我们只获得一个 调用指针。
 
     stbi_set_flip_vertically_on_load( 1 ); //-- 防止 图片 y轴颠倒。
     data = stbi_load( path_img.c_str(), &width, &height, &nrChannels, 0 );
-    if( !data ){
-        //err_sys("model_2_init: stbi_load: error.");
-        cout << "Texture::init: stbi_load: error." << endl;
-        assert(0);
-    }
+    assert( data != nullptr );
+
+
 
     //-- 通过之前的 png图片数据，生成 一个 纹理。
     glTexImage2D( GL_TEXTURE_2D,    //-- 指定纹理目标／target，
                     0,              //-- 多级渐远纹理的级别: 0: 基本级别
-                    GL_RGB,         //-- 希望把纹理储存为何种格式
+                    GL_RGBA,        //-- 希望把纹理储存为何种格式
                     width,          //-- 纹理的宽度
                     height,         //-- 纹理的高度
                     0,              //-- 总是被设为0（历史遗留问题
-                    format,         //-- 源图的 格式
+                    GL_RGBA,         //-- 源图的 格式
                     GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
                     data               //-- 图像数据
                     );

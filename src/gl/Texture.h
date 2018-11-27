@@ -49,8 +49,6 @@ public:
 private:
     GLuint      textel_name {0};    //-- texture textel_name
     std::string lpath_img;          //-- 贴图的 相对路径名
-    GLenum      format { GL_RGBA }; //-- jpg:GL_RGB. png:GL_RGBA.
-
 
 };
 

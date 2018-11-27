@@ -24,6 +24,13 @@
 #include "GameWorldCoord.h" 
 
 
+//-- 一种 go 需要的全部参数 ---
+struct GameObjParams{
+	std::string  name; //- go name
+    //std::string  path;
+    //...
+
+}; 
 
 
 
@@ -37,7 +44,6 @@ public:
         {}
 
 
-
     void init();
 
 
@@ -46,7 +52,7 @@ private:
     u64          id;     //- go实例 在程序中的 主要搜索依据。
     std::string  name;
 
-    GameWorldCoord  gwCoord; //- 游戏世界坐标值
+    GameWorldCoord  gwCoord {0.0f, 0.0f}; //- 游戏世界坐标值
 
 
     std::vector<Mesh> meshes;

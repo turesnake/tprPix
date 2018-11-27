@@ -27,11 +27,18 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
+//------------------- SELF --------------------//
+#include "Action_SRC.h"
+#include "game_srcs.h"
+
 
 
 class Mesh{
 
 public:
+    explicit Mesh()
+        //:
+        {}
 
 
     void init();

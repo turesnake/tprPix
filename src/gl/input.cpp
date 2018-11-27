@@ -44,13 +44,13 @@ void processInput( GLFWwindow *window ){
     //-- W -- 
     if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
-        camera_current()->cameraPos_down();
+        camera_current()->cameraPos_up();
     }
 
     //-- S -- 
     if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
-        camera_current()->cameraPos_up();
+        camera_current()->cameraPos_down();
     }
 
     //-- A -- 

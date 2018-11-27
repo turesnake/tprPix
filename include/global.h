@@ -34,7 +34,9 @@ inline std::string path_cwd {}; //-- 项目 主目录 路径名
                 
 inline std::string path_home {};  //-- ~/
 inline std::string path_data {};  //-- .../data/
+inline std::string path_textures {}; //-- .../textures/
 
+inline std::string path_action_srcs {}; //-- .../textures/action_srcs
 
 
 //----------------------------------------------------//
