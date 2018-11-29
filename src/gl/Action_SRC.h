@@ -2,7 +2,7 @@
  * ========================= Action_SRC.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
- *                                        修改 -- 2018.11.23
+ *                                        修改 -- 2018.11.28
  * ----------------------------------------------------------
  *   资源类
  *   存储一个 动画动作 的所有 帧text names
@@ -40,10 +40,12 @@
 #include <string>
 #include <vector>
 
-
 //------------------- Libs --------------------//
 #include "nocopyable.h" 
 #include "tprDataType.h"
+
+//-------------------- SELF --------------------//
+#include "PixVec.h" 
 
 
 //-- 1个 png 像素 的 data 结构 --
@@ -55,24 +57,30 @@ struct PngPix{
 };
 
 
+
+//-- AS实例 需要的参数 --
+struct Action_SRC_Params{
+    std::string lpath_pic;
+    PixVec2  pixes_per_frame;
+    PixVec2  frames;
+    PixVec2  anchor_root;
+
+};
+
+
+
 class Action_SRC{
 
 public:
     explicit Action_SRC(const std::string &_lpath_pic, 
-                        u32 _pixes_per_frame_w,
-                        u32 _pixes_per_frame_h,
-                        u32 _frames_w,
-                        u32 _frames_h,
-                        u32 _root_anchor_w,
-                        u32 _root_anchor_h
+                        PixVec2  _pixes_per_frame,
+                        PixVec2  _frames,
+                        PixVec2  _anchor_root
                         ):
         lpath_pic(_lpath_pic),
-        pixes_per_frame_w(_pixes_per_frame_w),
-        pixes_per_frame_h(_pixes_per_frame_h),
-        frames_w(_frames_w),
-        frames_h(_frames_h),
-        root_anchor_w(_root_anchor_w),
-        root_anchor_h(_root_anchor_h)
+        pixes_per_frame(_pixes_per_frame),
+        frames(_frames),
+        anchor_root(_anchor_root)
         {}
 
 
@@ -97,41 +105,21 @@ private:
     std::string  lpath_pjt;   
 
     //- 单帧画面 的 长宽 像素值
-    int  pixes_per_frame_w {};
-    int  pixes_per_frame_h {};  
+    PixVec2  pixes_per_frame {};
 
     //- 画面中，横排可分为几帧，纵向可分为几帧
-    int  frames_w {};
-    int  frames_h {};
+    PixVec2  frames {};
 
     //- 每一帧中，root锚点 像素值
-    int  root_anchor_w {};
-    int  root_anchor_h {};
+    PixVec2  anchor_root {};
+
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系 --
     std::vector<GLuint> texNames;   
 
-    //- 一整张 png 图的数据，真实存储区。
-    //- 通过 stbi_load 直接读取到的数据
-    //   ***  AS 类并不存储这些 数据  ***
-    //std::vector<u8>  png_P_total_buf; //- pic
-    //std::vector<u8>  png_J_total_buf; //- pjt
-
-
 };
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif

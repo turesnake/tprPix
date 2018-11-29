@@ -42,8 +42,6 @@
 
 #include "game_srcs.h"
 
-#include "Action_SRC.h" //- tmp
-
  
 using std::cout;
 using std::endl;
@@ -123,15 +121,15 @@ int main(){
     //          创建／初始化  所有 model
     //---------------------------------------------//
 
-    //-- 生成一个 16 * 16 像素的 顶点数据集
-    //-- 推荐被 合并到 Model／new mesh 类内
-    RectVertics rv_1(16, 16); 
-
     Model mod_1;
-    mod_1.set_VBO( rv_1.get_data(),
-                    rv_1.get_size(),
-                    rv_1.get_stride()  
+
+    //-- 此矩形是 长宽为1 的基础矩形 --
+    //-- 需要在每一帧，拉升为 目标尺寸 --
+    mod_1.set_VBO( (GLvoid*)&(rect_base[0]),
+                    (GLsizeiptr)(sizeof(float) * rect_base.size()),
+                    (GLsizei)( sizeof(float) * 5 ) 
                     );
+
     
     mod_1.add_texture( textel_1 );
     
@@ -192,6 +190,8 @@ int main(){
 
         //-------------------- 绘制图形 -----------------------
 
+        //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
+        mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
         mod_1.model_draw();
 
 

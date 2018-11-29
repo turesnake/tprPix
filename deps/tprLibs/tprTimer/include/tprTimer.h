@@ -48,7 +48,7 @@ public:
                         //-- system_clock 使用的时钟精度似乎为 microsec
 
     //---- 构造函数 ----//
-    explicit tprTimer(){}
+    explicit tprTimer() = default;
 
     void init(); //-- 所有 tprTimer 实例，必须init
 

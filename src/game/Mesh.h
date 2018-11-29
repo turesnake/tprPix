@@ -32,7 +32,7 @@
 #include "game_srcs.h"
 
 
-
+//-- Mesh 实例 只能在 GameObj 中创建 -- 
 class Mesh{
 
 public:

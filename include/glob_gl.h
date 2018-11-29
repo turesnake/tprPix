@@ -12,7 +12,6 @@
 #ifndef _TPR_GL_H_
 #define _TPR_GL_H_
 
-
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
  * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
  * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
@@ -20,6 +19,7 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
+#include "PixVec.h"
 
 
 //-- 一个 类实例 维护一个 window。
@@ -44,11 +44,13 @@ void glad_set();
 //------ time.cpp -------//
 void update_time();
 float get_deltaTime();
+float get_currentTime();
 
 
 //------ input -------//
 void processInput( GLFWwindow *window );
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+PixVec2 get_mouse_pos();
 
 #endif

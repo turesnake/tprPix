@@ -93,11 +93,7 @@ void Model::model_draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    if( shader_p == nullptr ){
-        cout << "Model::model_draw: error \n" 
-             << "shader_p == nullptr" << endl; 
-        assert(0); //-- 粗鲁地报错。
-    }
+    assert( shader_p != nullptr );
     shader_p->send_mat4_model_2_shader( mat4_model );
 
     //----------- 绑定 本Model对象 的 所有 textures ------------

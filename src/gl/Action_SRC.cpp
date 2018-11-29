@@ -2,14 +2,18 @@
  * ========================= Action_SRC.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
- *                                        修改 -- 2018.11.23
+ *                                        修改 -- 2018.11.28
  * ----------------------------------------------------------
  * 
  * ----------------------------
  */
 #include "Action_SRC.h"
 
-#define STB_IMAGE_IMPLEMENTATION
+/*
+#ifndef STB_IMAGE_IMPLEMENTATION
+    #define STB_IMAGE_IMPLEMENTATION
+#endif
+*/
 #include "stb_image.h" //-- 加载图片数据用
 
 //-------------------- C --------------------//
@@ -67,7 +71,7 @@ void Action_SRC::init(){
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
-    int frames = frames_w * frames_h; //- 总帧数
+    int frames_total = frames.x * frames.y; //- 总帧数
 
     //-- 帧数据容器组。这里的帧排序 符合 左上坐标系 --
     vector< vector<PngPix> > P_frame_data_ary {}; 
@@ -86,12 +90,11 @@ void Action_SRC::init(){
     //---------------------------------//
     //  依次 制作每一动画帧 的 texture 实例
     //---------------------------------//
-    texNames.resize( frames );
+    texNames.resize( frames_total );
     //-- 申请 n个 tex实例，并获得其 names
-    glGenTextures( frames, &texNames[0] );
+    glGenTextures( frames_total, &texNames[0] );
 
-    
-    for( int i=0; i<frames; i++ ){
+    for( int i=0; i<frames_total; i++ ){
 
         glBindTexture( GL_TEXTURE_2D, texNames[i] );
 
@@ -109,8 +112,8 @@ void Action_SRC::init(){
         glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
                         0,                 //-- 多级渐远纹理的级别: 0: 基本级别
                         GL_RGBA,           //-- 希望把纹理储存为何种格式
-                        pixes_per_frame_w, //-- 纹理的宽度
-                        pixes_per_frame_h, //-- 纹理的高度
+                        pixes_per_frame.x, //-- 纹理的宽度
+                        pixes_per_frame.y, //-- 纹理的高度
                         0,                 //-- 总是被设为0（历史遗留问题
                         GL_RGBA,           //-- 源图的 格式
                         GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
@@ -159,7 +162,7 @@ void Action_SRC::load_and_divide_png( bool _is_pic,
     //   获得 每一帧的数据, 存入各自 帧容器中
     //------------------------------------// 
     //-- 填入 相应数量的 帧容器 --
-    for( int i=0; i<(frames_w*frames_h); i++ ){
+    for( int i=0; i<(frames.x*frames.y); i++ ){
         vector<PngPix> v {};
         _frame_data_ary.push_back( v );
     }
@@ -178,11 +181,11 @@ void Action_SRC::load_and_divide_png( bool _is_pic,
         for( int w=0; w<width; w++  ){
 
             //-- 计算 本像素 所属帧的容器 的迭代器 fit --
-            wf = w/pixes_per_frame_w;
-            hf = h/pixes_per_frame_h;
-            hf = frames_h - hf; //- 关键步骤！修正帧排序，
+            wf = w/pixes_per_frame.x;
+            hf = h/pixes_per_frame.y;
+            hf = frames.y - hf; //- 关键步骤！修正帧排序，
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
-            nrf = hf*frames_w + wf;
+            nrf = hf*frames.x + wf;
             fit = _frame_data_ary.begin() + nrf;
 
             //-- 获得 本像素 的数据 --

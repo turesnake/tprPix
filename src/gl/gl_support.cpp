@@ -114,7 +114,7 @@ void glfw_callback_set(){
 
     
     glfwSetFramebufferSizeCallback( window, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
-    //glfwSetCursorPosCallback(       window, mouse_callback );  //-- 鼠标运动 -- 控制视角
+    glfwSetCursorPosCallback(       window, mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 
 

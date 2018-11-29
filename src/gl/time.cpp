@@ -28,6 +28,7 @@ namespace{ //------------ namespace -----------//
 //------------------- 提供给全局的 函数 ----------------
 void update_time();
 float get_deltaTime();
+float get_currentTime();
 
 
 /* ==========================================================
@@ -49,5 +50,14 @@ void update_time(){
  */
 float get_deltaTime(){
     return deltaTime;
+}
+
+/* ==========================================================
+ *                     get_currentTime
+ *-----------------------------------------------------------
+ * -- 获得 当前时间 （从 glfw 启动 开始计算）
+ */
+float get_currentTime(){
+    return glfwGetTime();
 }
 
