@@ -13,5 +13,6 @@
 #include <random>
 
 std::default_random_engine &get_dRandEng();
+unsigned int get_new_seed();
 
 #endif
