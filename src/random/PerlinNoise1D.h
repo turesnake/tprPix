@@ -8,8 +8,8 @@
  *    Perlin Noise Next 
  * ----------------------------
  */
-#ifndef _TPR_PERLIN_NOISE_H_
-#define _TPR_PERLIN_NOISE_H_
+#ifndef _TPR_PERLIN_NOISE_1D_H_
+#define _TPR_PERLIN_NOISE_1D_H_
 #include "random.h"
 
 
@@ -96,7 +96,7 @@ private:
     float freq; //- 频率
     float ampl; //- 振幅
 
-    bool is_init; //- 检查 是否执行 init，
+    bool is_init; //- 检查 是否执行 init
 
 
     //-- 一个恒定不变的 伪随机数 序列 --
