@@ -22,7 +22,7 @@ void action_srcs_add(){
 
     action_srcs.clear();
 
-    action_srcs.insert( {"dog_ack_01",  Action_SRC{ "/animal/dog_ack_01.P.png", 65, 112, 3, 4, 17, 2 } } );
+    action_srcs.insert( {"dog_ack_01",  Action_SRC{ "/animal/dog_ack_01.P.png", PixVec2{65, 112}, PixVec2{3, 4}, PixVec2{17, 2} } } );
 
 
 
