@@ -53,6 +53,7 @@ include_directories (${PROJECT_SOURCE_DIR}/include/test)
 include_directories (${PROJECT_SOURCE_DIR}/src/gl)
 include_directories (${PROJECT_SOURCE_DIR}/src/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/game)
+include_directories (${PROJECT_SOURCE_DIR}/src/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/game_src)
 include_directories (${PROJECT_SOURCE_DIR}/src/random)
 
@@ -86,9 +87,10 @@ FILE(GLOB PIXEL_FILES  src/*.cpp
                         src/test/*.cpp 
                         src/gl/*.cpp 
                         src/camera/*.cpp 
-                        src/game/*.cpp 
-                        src/game_src/*.cpp 
                         src/random/*.cpp 
+                        src/game_src/*.cpp 
+                        src/game/*.cpp 
+                        src/game/map/*.cpp 
                         )
 
 #---------------------------------------------------#

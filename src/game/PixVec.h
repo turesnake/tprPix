@@ -11,19 +11,13 @@
 #define _TPR_PIX_VEC2_H_
 
 
-//------------------- Libs --------------------//
-//#include "tprDataType.h" 
-
-
-class PixVec2{
-public:
-    int  x  {0}; 
+struct PixVec2{
+    int  x {0}; 
     int  y {0};
 };
 
 
-class PixVec3{
-public:
+struct PixVec3{
     int  x  {0}; 
     int  y  {0};
     int  z  {0};
