@@ -21,7 +21,7 @@
 
 
 //-- 玩家数据 [硬盘态] --
-//-  独一无二的存在，在 游戏中只有一份 
+//-  独一无二的存在，在硬盘中只有一份 
 struct diskPlayer{
 
 
@@ -33,9 +33,10 @@ struct diskPlayer{
 
 
 //-- 玩家数据 [内存态] --
+//-  独一无二的存在，在 游戏中只有一份 
 class Player{
 public:
-
+    explicit Player() = default;
 
 
 
@@ -44,7 +45,9 @@ public:
 
 private:
 
-    GameObj go; //- 玩家当前绑定的 go
+    GameObj go { "nullgo" }; //- 玩家当前绑定的 go
+                            //- 游戏初始化时 绑定的是一个 名为 "nullgo" 的 go类型
+                            //- 这是一个 空go 
 
 
 

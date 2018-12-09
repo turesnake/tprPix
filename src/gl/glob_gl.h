@@ -27,9 +27,6 @@
 //-- 用户只需保存一个指针。用来访问这个 window。
 inline GLFWwindow  *window {};
 
-
-
-
 //------ gl_support.cpp -----//
 void glfw_init();
 void glfw_hints_set();

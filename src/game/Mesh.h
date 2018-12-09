@@ -29,7 +29,7 @@
 
 //------------------- SELF --------------------//
 #include "Action_SRC.h"
-#include "game_srcs.h"
+#include "srcs_manager.h"
 
 
 //-- Mesh 实例 只能在 GameObj 中创建 -- 

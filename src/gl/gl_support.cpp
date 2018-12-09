@@ -24,7 +24,6 @@
 
 
 //------------------- SELF --------------------//
-#include "globfunc.h"
 #include "global.h"
 #include "config.h" //-- SCR_WIDTH
 #include "callback.h" 

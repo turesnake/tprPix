@@ -47,14 +47,12 @@ set ( VERSION_MINOR 1 )
 #                   include
 #---------------------------------------------------#
 #-- 指定 依赖的 h文件所在 路径:
-include_directories (${PROJECT_SOURCE_DIR}/include)
-include_directories (${PROJECT_SOURCE_DIR}/include/test)
-
+include_directories (${PROJECT_SOURCE_DIR}/src)
 include_directories (${PROJECT_SOURCE_DIR}/src/gl)
 include_directories (${PROJECT_SOURCE_DIR}/src/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/game/map)
-include_directories (${PROJECT_SOURCE_DIR}/src/game_src)
+include_directories (${PROJECT_SOURCE_DIR}/src/game/source)
 include_directories (${PROJECT_SOURCE_DIR}/src/random)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
@@ -76,7 +74,6 @@ include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor/include)
 
-
 include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 
 #-- 创建变量 PIXEL_FILES （是个 list）
@@ -88,9 +85,9 @@ FILE(GLOB PIXEL_FILES  src/*.cpp
                         src/gl/*.cpp 
                         src/camera/*.cpp 
                         src/random/*.cpp 
-                        src/game_src/*.cpp 
                         src/game/*.cpp 
                         src/game/map/*.cpp 
+                        src/game/source/*.cpp 
                         )
 
 #---------------------------------------------------#
