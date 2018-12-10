@@ -8,8 +8,8 @@
  * 
  * ----------------------------
  */
-#ifndef _TPR_GAME_SRC_H_
-#define _TPR_GAME_SRC_H_
+#ifndef _TPR_SRCS_MANAGER_H_
+#define _TPR_SRCS_MANAGER_H_
 
 
 //-------------------- CPP --------------------//
@@ -31,10 +31,17 @@ inline std::unordered_map< std::string, Action_SRC > action_srcs {};
 void action_srcs_add();
 
 
+//----- globState 资源 ------//
+void globState_srcs_load();
+void globState_srcs_save();
+
 
 //----- Player 资源 ------//
-
 inline Player  player; //- 全游戏唯一 Player 实例  
+void player_srcs_load();
+void player_srcs_save();
+
+
 
 
 

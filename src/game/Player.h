@@ -24,10 +24,8 @@
 //-  独一无二的存在，在硬盘中只有一份 
 struct diskPlayer{
 
-
-    u64      go_id; //- 玩家当前绑定的 go 的 id
-    PixVec2  pos;   //- 在地图中的 坐标。
-
+    u64      go_id {}; //- 玩家当前绑定的 go 的 id
+    PixVec2  pos   {};   //- 在地图中的 坐标。
 
 };
 
@@ -38,7 +36,14 @@ class Player{
 public:
     explicit Player() = default;
 
+    //-- 延迟初始化 --
+    void init();
 
+    //-- 硬盘态 - 内存态 转换 --
+    void d2m( diskPlayer *_dp );
+    diskPlayer m2d();
+
+    //------- vals --------//
 
 
 

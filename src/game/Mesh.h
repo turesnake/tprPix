@@ -29,16 +29,16 @@
 
 //------------------- SELF --------------------//
 #include "Action_SRC.h"
-#include "srcs_manager.h"
+//#include "srcs_manager.h" //- 会引发一个 引用bug
 
 
 //-- Mesh 实例 只能在 GameObj 中创建 -- 
 class Mesh{
 
 public:
-    explicit Mesh()
+    explicit Mesh() = default;
         //:
-        {}
+        //{}
 
 
     void init();

@@ -33,7 +33,7 @@
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
-
+//------------------- SELF --------------------//
 #include "vector_matrix.h" 
 
 

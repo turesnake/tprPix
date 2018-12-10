@@ -107,6 +107,8 @@ public:
 
     //-----------------//
     bool check_id( bool _is_fix, DB::eid_t _id ); //-- 检测 _id 对应的 entry 是否已存在。
+    size_t ent_nums(); //- 当前有多少 dbent
+    DB::eid_t get_fst_id(); //- 获得 数据库中 第一个 ent 的id 
 
     void info( bool _fix, bool _var );
 

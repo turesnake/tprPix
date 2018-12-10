@@ -74,8 +74,11 @@ public:
     //-----------------//
     bool check_id( DB::eid_t _id ); //-- 检测 目标_id 是否在 数据库中
     ssize_t get_entData_len( DB::eid_t _id );
+    size_t ent_nums(); //- 当前有多少 dbent
+    DB::eid_t get_fst_id(); //- 获得 数据库中 第一个 ent 的id   
 
     void info(); //-- 打印数据库信息
+
 
 
 private:

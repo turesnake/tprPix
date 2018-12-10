@@ -322,8 +322,8 @@ CheckSum128 mk_checksum128( u8 *_buf, size_t _len ){
         len -= block64_len;
     }//------ while end ------//
     
-        cout << "    L = " << L << endl;
-        cout << "    R = " << R << endl;
+        //cout << "    L = " << L << endl;
+        //cout << "    R = " << R << endl;
 
     //-------------------------------//
     //    将 L 和 R 存入 最后的 checksum

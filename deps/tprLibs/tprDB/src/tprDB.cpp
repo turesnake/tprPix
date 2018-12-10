@@ -473,6 +473,33 @@ bool tprDB::check_id( bool _is_fix, eid_t _id ){
     }
 }
 
+
+/* ===========================================================
+ *                   ent_nums
+ * -----------------------------------------------------------
+ */
+size_t tprDB::ent_nums(){
+
+    if( db_type == DB::DB_TYPE::Pure_Var ){
+        return varDB.ent_nums();
+    }else{
+        return fixDB.ent_nums();
+    }
+}
+
+/* ===========================================================
+ *                   get_fst_id
+ * -----------------------------------------------------------
+ */
+DB::eid_t tprDB::get_fst_id(){
+
+    if( db_type == DB::DB_TYPE::Pure_Var ){
+        return varDB.get_fst_id();
+    }else{
+        return fixDB.get_fst_id();
+    }
+}
+
 /* ===========================================================
  *                      insert
  * -----------------------------------------------------------
