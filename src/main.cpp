@@ -89,23 +89,24 @@ int main(){
         //return(0);
 
 
-
     //------------------------------------------//
     //               加载所有 资源
     //------------------------------------------//
-    action_srcs_add();
 
+    //---- init -----//
+    globState_srcs_init(); //---- globState 资源 ----
+    player_srcs_init();    //----  player 资源 ----
+    //...
 
-
-
+    //---- load -----//
 
     //------------------------------------------//
+    action_srcs_load();
 
-    //---- 加载 globState 数据 ----
-    globState_srcs_load();
 
-    //---- 加载 player 数据 ----
-    player_srcs_load();
+
+        
+    
 
     
     //---- 加载 map 数据 ----

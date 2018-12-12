@@ -15,6 +15,9 @@
 #include "tprDataType.h" 
 
 
+//-- id 默认从 1 开始增长。0号id 被保留，表示空id --
+inline constexpr int NULLID = 0;
+
 //----- id 管理器 -----
 // 通常作为 其他类的 静态成员 存在。
 // 0 号 id 就是空id

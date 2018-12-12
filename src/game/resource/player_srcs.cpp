@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.12.10
  *                                        修改 -- 2018.12.10
  * ----------------------------------------------------------
- *    player 资源的 管理
+ *  资源管理: player
  * ----------------------------
  */
 #include "srcs_manager.h"
@@ -33,33 +33,32 @@ using std::endl;
 
 
 //------------------- 提供给外部的函数 ----------------
-void player_srcs_load();
+void player_srcs_init();
 void player_srcs_save();
 
 
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_fix 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB player_db{ false};
+    tpr::tprDB player_db { tpr::DB::DB_TYPE::Pure_Fix, true };
     
 }//---------------- namespace end --------------//
 
 
-
 /* ===========================================================
- *                       player_srcs_load 
+ *                       player_srcs_init
  * -----------------------------------------------------------
  */
-void player_srcs_load(){
-
+void player_srcs_init(){
 
     player_db.init( path_data,
                     "player",
-                    { tpr::DB::DATA_T::U64,
-                      tpr::DB::DATA_T::I32,
-                      tpr::DB::DATA_T::I32
+                    { 
+                        tpr::DB::DATA_T::U64,
+                        tpr::DB::DATA_T::I32,
+                        tpr::DB::DATA_T::I32
                     },
-                    (tpr::DB::len_t)sizeof(diskPlayer)
+                    sizeof(diskPlayer)
                     );
     //----------------------------------
     // 临时方案：
@@ -85,7 +84,9 @@ void player_srcs_load(){
         //----- 没有存档，新建之 --------//
         diskPlayer dp;
         dp.go_id = GameObj::id_manager.apply_a_id();
-        dp.pos = PixVec2{ 0,0 };
+        //dp.pos = PixVec2{ 0,0 };
+        dp.posx = 0;
+        dp.posy = 0;
 
         //---- 将dp, 写入 player -----
         player.d2m( &dp );

@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.12.10
  *                                        修改 -- 2018.12.10
  * ----------------------------------------------------------
- *    游戏全局状态资源 的 管理
+ *  资源管理: 游戏全局状态
  * ----------------------------
  */
 #include "srcs_manager.h"
@@ -30,14 +30,14 @@ using std::cout;
 using std::endl;
 
 //------------------- 提供给外部的函数 ----------------
-void globState_srcs_load();
+void globState_srcs_init();
 void globState_srcs_save();
 
 
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_var 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB globState_db{ true };
+    tpr::tprDB globState_db{ tpr::DB::DB_TYPE::Pure_Var, true };
 
     //--- 全局状态 资源 ---
     struct diskGlobState{
@@ -55,12 +55,12 @@ namespace{//------------ namespace --------------//
  *                    globState_srcs_load    
  * -----------------------------------------------------------
  */
-void globState_srcs_load(){
+void globState_srcs_init(){
 
     globState_db.init( path_data,
                     "globState",
                     { tpr::DB::DATA_T::STRID },
-                    (tpr::DB::len_t)sizeof( tpr::DB::T_STRID )
+                    sizeof( tpr::DB::T_STRID )
                     );
     //----------------------------------
     // 临时方案：

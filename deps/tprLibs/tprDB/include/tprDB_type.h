@@ -40,14 +40,14 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 namespace DB {//---------- namespace: DB ----------//
 
 //--- 文件 后缀名 ---//
-inline const std::string SUFFIX_TPR_FIX{ ".tprFix" };
-inline const std::string SUFFIX_TPR_VAR{ ".tprVar" };
+inline const std::string SUFFIX_TPR_FIX { ".tprFix" };
+inline const std::string SUFFIX_TPR_VAR { ".tprVar" };
 
 
-inline size_t TPRDB_MAGIC_NUM_BYTES{16};
+inline constexpr size_t TPRDB_MAGIC_NUM_BYTES = 16;
 //--------------------------------"123456789012345"--16-bytes--//
-inline const std::string FIX_MAGIC_NUM{ "_____tprFix____" };
-inline const std::string VAR_MAGIC_NUM{ "_____tprVar____" };
+inline const std::string FIX_MAGIC_NUM { "_____tprFix____" };
+inline const std::string VAR_MAGIC_NUM { "_____tprVar____" };
 
 //------ .tprFix/.tprVar 两文件 的 头部结构 --------
 //--- 请确保这个 头部是 2^n 对齐的 ----
@@ -59,7 +59,7 @@ struct tprDB_File_Head{
 
 using eid_t     = u64;   //-- id 的类型
 using base_t   = u64;   //-- 文件内 地址偏移 --
-using len_t    = u16;   //-- 数据长度类型，（ 65536字节 ）
+using len_t    = u32;   //-- 数据长度类型，（ 4GB ）
 
 
 //--- 当调用者 搭建 entry 的类型 ：一个 C风格的 struct 时，
@@ -91,19 +91,21 @@ enum class DATA_T : u8{
     STRID  = 5,  //-- 8-bytes -- 字符串／变长二进制数据
     I64    = 6,  //-- 8-bytes --
     U64    = 7,  //-- 8-bytes --
-    DOUBLE = 8   //-- 8-bytes --
+    DOUBLE = 8,  //-- 8-bytes --
+
+    HUGE_BINARY = 9 //-- n-bytes -- 巨型二进制数据块
 };
 //---------------
 len_t DATA_T_2_bytes( DATA_T _dt );
 
 
-//-- DATA_T ( struct ) 中，每个 字段的 类型信息 --6-bytes--
+//-- DATA_T ( struct ) 中，每个 字段的 类型信息 --  -bytes--
 struct Field_T{
-    len_t    base {0};    //--2-bytes- 本字段 在 struct 中的 地址偏移
-    len_t    len {0};     //--2-bytes- 本字段 的 字节数
+    len_t    base {0};    //--4-bytes- 本字段 在 struct 中的 地址偏移
+    len_t    len {0};     //--4-bytes- 本字段 的 字节数
     DATA_T   data_type;   //--1-bytes- 本字段 的 类型
     //--- padding ---//
-    u8       padding {0}; //--1-bytes- 
+    u8       padding[3] {0}; //--3-bytes- 
 };
 //---------------
 bool is_DATA_T_a_INT( DATA_T _dt );
@@ -132,7 +134,7 @@ enum class Block_T : u32{
 };
 */
 //-- 目前一共有 14 个 block 类型。
-inline const len_t BLOCK_T_NUMS = 14;
+inline constexpr len_t BLOCK_T_NUMS = 14;
 
 
 //-- 一条 strEnt 所处的 block 的 当前状态 -- 
@@ -163,7 +165,7 @@ struct file_EntHead{
     u8 binary[16]{ 0 }; 
 };
 //-- VAR / FIX 通用的 file态，ent头部字节数 --
-inline const len_t FILE_ENT_HEAD_LEN = 16;
+inline constexpr len_t FILE_ENT_HEAD_LEN = sizeof(file_EntHead);
 
 //====================== FILE FIX  =========================//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
@@ -171,12 +173,12 @@ inline const len_t FILE_ENT_HEAD_LEN = 16;
 //-- 在 .tprFix 文件中，tprDB_File_Head结构后方， --
 //   跟随一个 数据块，记录有关 fixEnt 数据的信息  16-bytes
 struct file_FixOptions{
-    len_t   ent_len    = 0; //--2- 一个 ent 的有效数据是 多少字节
-    len_t   blk_aligns = 0; //--2- 一个 blk 由多少个 "4字节" 组成
+    len_t   ent_len    = 0; //--4- 一个 ent 的有效数据是 多少字节
+    len_t   blk_aligns = 0; //--4- 一个 blk 由多少个 "4字节" 组成
     //---- padding ----//
-    u8   padding[12]{ 0 };
+    u8   padding[8] { 0 };  //--8-
 };
-inline const len_t FILE_FIXOPTION_LEN = 16;
+inline constexpr len_t FILE_FIXOPTION_LEN = sizeof(file_FixOptions);
 
 file_FixOptions mk_options( len_t _len );
 
@@ -188,7 +190,7 @@ file_FixOptions mk_options( len_t _len );
 //-- 兼容 VAR ／ FIX --
 struct mem_Block{
     base_t  base = 0;          //--8- 本 block 在 文件中的 地址偏移。（mem 特有）
-    len_t   blk_bytes = 0;     //--2- blk 字节数 
+    len_t   blk_bytes = 0;     //--4- blk 字节数 
     u8      blk_state_idx = 0; //--1- blk 状态: 空置，使用...
 };
 
@@ -197,7 +199,7 @@ struct mem_Block{
 struct mem_Ent{
 
     eid_t     id = 0;       //--8- 本条 ent 的 id
-    len_t    len = 0;      //--2- 本条 ent data 的字节数（不包含 尾后0）
+    len_t    len = 0;      //--4- 本条 ent data 的字节数（不包含 尾后0）
     //--- 读写次数 ----//
     u32      rd_times = 0;  //--4- 被读取的次数
     u32      wr_times = 0;  //--4- 被改写的次数
@@ -206,7 +208,7 @@ struct mem_Ent{
     bool    is_data_in_mem = false; //-- data本体 是否已存入 mem 中。 
     bool    is_dirty       = false; //-- 是否被改写。
 
-    std::vector<u8>  data{ 0 };    //-- 数据本体
+    std::vector<u8>  data { 0 };    //-- 数据本体
 };
 
 
@@ -220,7 +222,6 @@ enum class DB_TYPE : u8{
 
 
 //========================= funcs ==========================//
-
 
 len_t find_suited_Blk_bytes( len_t _size ); //- VAR
 len_t find_suited_Blk_aligns( len_t _len ); //- FIX

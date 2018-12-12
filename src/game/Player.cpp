@@ -23,8 +23,8 @@
 void Player::d2m( diskPlayer *_dp ){
 
     go.id = _dp->go_id;
-    go.pos.x = (float)_dp->pos.x;
-    go.pos.y = (float)_dp->pos.y;
+    go.targetPos.x = _dp->posx;
+    go.targetPos.y = _dp->posy;
 
 }
 
@@ -38,8 +38,8 @@ diskPlayer Player::m2d(){
     diskPlayer dp; //- return
 
     dp.go_id = go.id;
-    dp.pos.x = (int)go.pos.x;
-    dp.pos.y = (int)go.pos.y;
+    dp.posx = go.targetPos.x;
+    dp.posy = go.targetPos.y;
 
 
     return dp;

@@ -26,19 +26,18 @@
 
 
 //----- Action_SRC 资源 ------//
-
 inline std::unordered_map< std::string, Action_SRC > action_srcs {};
-void action_srcs_add();
+void action_srcs_load();
 
 
 //----- globState 资源 ------//
-void globState_srcs_load();
+void globState_srcs_init();
 void globState_srcs_save();
 
 
 //----- Player 资源 ------//
 inline Player  player; //- 全游戏唯一 Player 实例  
-void player_srcs_load();
+void player_srcs_init();
 void player_srcs_save();
 
 

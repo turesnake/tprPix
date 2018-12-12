@@ -41,7 +41,6 @@
 namespace tpr { //--------------- namespace: tpr -------------------//
 
 class tprDB_Orig : nocopyable {
-    //============== friend ==============
 public:
 
     //---- 构造函数 ----//
@@ -57,10 +56,10 @@ public:
     }
 
     //----- init ------//
-    void init( int _fd, const std::string &_path, DB::len_t _len=0 );
+    void init( int _fd, const std::string &_path, bool _is_id_alloc_auto, DB::len_t _len=0 );
 
     // -< 增 >-
-    DB::eid_t insert( const void *_buf, DB::len_t _len ); //-- 添加一条 数据，返回为其分配的id
+    DB::eid_t insert( const void *_buf, DB::len_t _len, DB::eid_t _id); //-- 添加一条 数据，返回为其分配的id
     // -< 删 >-
     int erase( DB::eid_t _id ); //-- 彻底删除 一条 varEnt
     // -< 查 >-
@@ -82,10 +81,10 @@ public:
 
 
 private:
-//---- 不可被类外部访问，被派生类访问 ---
 
     bool is_fix; //-- FIX --> true 
                  //-- VAR --> false
+    bool is_id_alloc_auto {true}; //- 是否自动分配 dbent 的 id 号
 
     //++++++++++++++++|  FILE  |++++++++++++++++//
     std::string path_file {};  //-- 文件 路径名 -- 通常由 tprDB 提供  
@@ -104,7 +103,7 @@ private:
     //++++++++++++++++|  MEM  |++++++++++++++++//
     std::unordered_map<DB::eid_t, DB::mem_Ent> mem_hash; //-- 每条ent 的 综合信息。
 
-    DB::eid_t     max_id    {}; //-- 当前数据库实例中，最大的id值 (删掉的也算。一个id永远不会被使用两次)
+    DB::eid_t     max_id   {}; //-- 当前数据库实例中，最大的id值 (删掉的也算。一个id永远不会被使用两次)
     DB::base_t   next_base {}; //-- 当前数据库实例中，文件中最后一个 ent 所在 blk 的 尾后字节地址
                          //  （可能远大于文件尾后字节...）
     

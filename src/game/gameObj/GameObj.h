@@ -31,52 +31,57 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-
 //------------------- SELF --------------------//
+#include "GameObjtype.h" 
 #include "Mesh.h" 
 #include "ID_Manager.h" 
-//#include "GameWorldCoord.h" 
-
-
-//-- 一种 go 需要的全部参数 ---
-struct GameObjParams{
-	std::string  type; //- go type_name
-    //std::string  path;
-    //...
-
-}; 
-
-
+ 
 
 class GameObj{
-
 public:
 
     explicit GameObj( const std::string &_typename )
-        :
-        type(_typename)
+        //:
+        //type(_typename)
         {}
 
 
     void init();
 
 
+    void  d2m( diskGameObj *_dgo );
+    diskGameObj  m2d();
 
-    //------ vals --------//
+
+
+    //----------------- vals ---------------//
     u64          id;     //- go实例 在程序中的 主要搜索依据。
-    std::string  type;   //- 代表类型的 字符串
+    GameObjType  type {GameObjType::NullType};   //- 代表类型的 字符串
+
+    bool is_top_go {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
+    u64   id_parent;    //- 不管是否为顶层go，都可以有自己的 父go。
+                        //- 如果没有，此项写 NULLID
 
 
-    glm::vec2    pos {};    //- go实例 在游戏世界中的 pos
+    GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
+    GameObjState      state     {GameObjState::Sleep}; //- 常规状态
+
+    PixVec2  targetPos {}; //- 目标pos，对齐与mapent 
+    glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
+
+    glm::vec2  velocity; //- 运动速度
+
+    float  weight; //- go重量 （影响自己是否会被 一个 force 推动）
 
 
-    static ID_Manager  id_manager;
+    //------------ static ----------//
+    static ID_Manager  id_manager; //- 负责生产 go_id
 
 private:
     
     
 
-    //GameWorldCoord  gwCoord {0.0f, 0.0f}; //- 游戏世界坐标值
+    
     
     std::vector<Mesh> meshes;
 

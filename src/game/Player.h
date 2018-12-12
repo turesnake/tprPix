@@ -25,7 +25,8 @@
 struct diskPlayer{
 
     u64      go_id {}; //- 玩家当前绑定的 go 的 id
-    PixVec2  pos   {};   //- 在地图中的 坐标。
+    i32      posx {}; //- 在地图中的 坐标。
+    i32      posy {}; //- 在地图中的 坐标。
 
 };
 

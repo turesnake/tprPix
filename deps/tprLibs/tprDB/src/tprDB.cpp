@@ -48,20 +48,19 @@ using DB::mk_options;
 
 using DB::DB_TYPE;
 
+
 /* ===========================================================
- *                   init_DATA_T 
+ *                     init   
  * -----------------------------------------------------------
- * -- 此函数应该先于 init 函数调用，
- * 
- * -- 通过此函数，获得 DATA_T 的几乎所有信息。
- *    包括 每个字段 在 struct 中的 基址，字节数，类型。
- *    以及 DATA_T struct 自己的 字节数
- * 
- * -- param: _field_types  DATA_T struct 中，所有字段的 类型
- * -- param: _DATA_T_size  DATA_T struct 的字节数。
+ * -- 适用于：
+ *     regular 
+ *     pure_fix (不包含 巨型二进制数据块 )
+ *     pure_var
  */
-void tprDB::init_DATA_T( std::initializer_list<DB::DATA_T> _field_types,
-                                DB::len_t _DATA_T_size ){
+void tprDB::init(const std::string &_path_dir_parent,
+                const std::string &_DBname,
+                std::initializer_list<DB::DATA_T> _field_types,
+                DB::len_t _DATA_T_size ){
 
     //------------------------------//
     //   组装出 所有 field_type, 存入容器
@@ -69,6 +68,8 @@ void tprDB::init_DATA_T( std::initializer_list<DB::DATA_T> _field_types,
     field_types.clear();
     len_t  base = 0; //- tmp
     for( const auto &i : _field_types ){
+
+        assert( i !=  DB::DATA_T::HUGE_BINARY );//-不含巨型二进制数据块
 
         DB::Field_T field;
         field.data_type = i;
@@ -79,14 +80,13 @@ void tprDB::init_DATA_T( std::initializer_list<DB::DATA_T> _field_types,
         //-------
         base += field.len;
     }
+
     //------------------------------//
     //       遍历所有 filed 类型
     // -- 确保 类型排序符合：
     //     8, 8, 8... 4, 4, 4...
     // -- 计数 有多少个 4-bytes 类型
-    // -- 查看 有无 STRID 类型
     //------------------------------//
-    is_have_VAR = false;
     int   nr_of_4 = 0; //-- 类型序列中，有多少个 4-bytes
     bool  find_4 = false;
     for( const auto &i : field_types ){
@@ -97,11 +97,8 @@ void tprDB::init_DATA_T( std::initializer_list<DB::DATA_T> _field_types,
             find_4 = true;
             nr_of_4++;
         }
-
-        if( i.data_type == DB::DATA_T::STRID ){
-            is_have_VAR = true;
-        }
     }
+
     //------------------------------//
     //   校准／获得 D_size
     //------------------------------//
@@ -120,39 +117,58 @@ void tprDB::init_DATA_T( std::initializer_list<DB::DATA_T> _field_types,
     //------------------------------//
     fixData_bytes = D_size;
 
-    //------------------------------//
-    //     初始化  db_type
-    //------------------------------//
-    if( is_have_FIX && is_have_VAR ){
-        db_type = DB_TYPE::Regular;
-    }else if( is_have_FIX ){
-        db_type = DB_TYPE::Pure_Fix;
-    }else{
-        db_type = DB_TYPE::Pure_Var;
-    }
+    //--------------------------------------//
+    //          _inn_init
+    //--------------------------------------//
+    _inn_init( _path_dir_parent, _DBname );
 }
 
-/* ===========================================================
- *                     init  
- * -----------------------------------------------------------
- */
-void tprDB::init(const std::string &_path_dir_parent,
-                const std::string &_DBname,
-                std::initializer_list<DB::DATA_T> _field_types,
-                DB::len_t _DATA_T_size ){
 
-    std::string err_info = "tprDB::init(): ";
+/* ===========================================================
+ *                     init_huge   
+ * -----------------------------------------------------------
+ * -- 仅用于：
+ *     pure_fix ( 巨型二进制数据块 )
+ */
+void tprDB::init_huge( const std::string &_path_dir_parent, 
+                        const std::string &_DBname,         
+                        DB::len_t  _DATA_T_size ){
+
+    fixData_bytes = _DATA_T_size;
+    //--------------------------------------//
+    //   只包含一个字段：HUGE_BINARY
+    //--------------------------------------//
+    field_types.clear();
+    
+    DB::Field_T field;
+    field.data_type = DB::DATA_T::HUGE_BINARY;
+    field.base = 0;
+    field.len = fixData_bytes;
+
+    field_types.push_back( field ); //-- 复制，暂不优化
+
+    //--------------------------------------//
+    //          _inn_init
+    //--------------------------------------//
+    _inn_init( _path_dir_parent, _DBname );
+}
+
+
+/* ===========================================================
+ *                   _inn_init  
+ * -----------------------------------------------------------
+ * -- init() / init_huge() 内部函数
+ */
+void tprDB::_inn_init( const std::string &_path_dir_parent,
+                        const std::string &_DBname ){
+
+    std::string err_info = "tprDB::_inn_init(): ";
     //--------------------------------------//
     //               file 
     //--------------------------------------//
     path_dir_parent = _path_dir_parent;
     DBname = _DBname;
 
-    //--------------------------------------//
-    //          init_DATA_T
-    //--------------------------------------//
-    init_DATA_T( _field_types, _DATA_T_size );
-  
     //--------------------------------------//
     //   确保 path_dir_parent 是 已存在的 目录
     //   通常为: .../data/
@@ -200,11 +216,11 @@ void tprDB::init(const std::string &_path_dir_parent,
         path_file_tprVar = path_combine( path_dir_self, path_tmp );
         fd_tprVar = Open( path_file_tprVar.c_str(), O_RDWR|O_CREAT, RW_R__R__, err_info);
     }
-
     //--------------------------------------//
     //    制作 本数据库实例的 唯一 checksum
     //--------------------------------------//
     mk_checksum();
+
     //--------------------------------------//
     //    检查 .tprFix 文件 的 头部
     //--------------------------------------//
@@ -213,8 +229,15 @@ void tprDB::init(const std::string &_path_dir_parent,
         DB::file_FixOptions  opt; 
         std::string   str_fix;
         len_t         d_size = fixData_bytes;
-
-        switch( check_tprDB_file_head(true) ){
+        //-----------------
+        int rcheck = check_tprDB_file_head(true);
+        assert( rcheck != -1 ); //--- 文件长度 短于 头部
+        assert( rcheck != -2 ); //--- 魔数 不正确
+        assert( rcheck != -3 ); //--- 魔数 正确，但 checksum 不正确
+                //-- 推荐的处理:
+                //--     将错误文件 重新命名，将错误记录到 log文件
+                //--     制作一个新的 .tprFix 文件
+        switch( rcheck ){
             case 1: //--- 文件头部正确
                 str_fix = "tprFix_head is corrent. ";
                 break;
@@ -231,19 +254,13 @@ void tprDB::init(const std::string &_path_dir_parent,
                 Write( fd_tprFix, (const void*)&opt, FILE_FIXOPTION_LEN, err_info );
                 break;
 
-            case -1: //--- 文件长度 短于 头部
-            case -2: //--- 魔数 不正确
-            case -3: //--- 魔数 正确，但 checksum 不正确
-                //-- 推荐的处理:
-                //--     将错误文件 重新命名，将错误记录到 log文件
-                //--     制作一个新的 .tprFix 文件
             default: //--- 其他值（不可能，直接报错终止吧）
                 assert(0);
                 break;
         }
 
         //--- fix init ---//
-        fixDB.init( fd_tprFix, path_file_tprVar, d_size );
+        fixDB.init( fd_tprFix, path_file_tprVar, is_id_alloc_auto, d_size );
         cout << str_fix << endl;
     }
 
@@ -253,33 +270,37 @@ void tprDB::init(const std::string &_path_dir_parent,
     if( is_have_VAR == true ){
 
         std::string str_var;
-        switch( check_tprDB_file_head(false) ){
+        //-----------------
+        int rcheck = check_tprDB_file_head(false);
+        assert( rcheck != -1 ); //--- 文件长度 短于 头部
+        assert( rcheck != -2 ); //--- 魔数 不正确
+        assert( rcheck != -3 ); //--- 魔数 正确，但 checksum 不正确
+                //-- 推荐的处理:
+                //--     将错误文件 重新命名，将错误记录到 log文件
+                //--     制作一个新的 .tprFix 文件
+        switch( rcheck ){
             case 1: //--- 文件头部正确
                 str_var = "tprVar_head is corrent. ";
                 break;
 
             case 0: //--- 文件是空的（新创建的）
                 str_var = "file .tprVar is empty. ";
-
                 //--- 制作并写入 head段 ---//
                 _1_creat_and_save_file_head( fd_tprVar, false );
                 break;
 
-            case -1: //--- 文件长度 短于 头部
-            case -2: //--- 魔数 不正确
-            case -3: //--- 魔数 正确，但 checksum 不正确
-                //-- 推荐的处理:
-                //--     将错误文件 重新命名，将错误记录到 log文件
-                //--     制作一个新的 .tprVar 文件
             default: //--- 其他值（不可能，直接报错终止吧）
                 assert(0);
                 break;
         }
         //--- var init ---//
-        varDB.init( fd_tprVar, path_file_tprVar );
+        varDB.init( fd_tprVar, path_file_tprVar, is_id_alloc_auto );
         cout << str_var << endl;
     }
 }
+
+
+
 
 /* ========================================================
  *               check_tprDB_file_head   
@@ -501,20 +522,46 @@ DB::eid_t tprDB::get_fst_id(){
 }
 
 /* ===========================================================
- *                      insert
+ *                      insert    [1]
  * -----------------------------------------------------------
+ * -- 自动分配 id 版
  */
 DB::eid_t tprDB::insert( bool _is_fix, const void *_buf, DB::len_t _len ){
 
+    assert( is_id_alloc_auto == true );
+
     if( _is_fix == true ){
         assert( is_have_FIX == true );
-        return fixDB.insert( _buf, _len );
+        return fixDB.insert( _buf, _len, 0 );
     
     }else{
         assert( is_have_VAR == true );
-        return varDB.insert( _buf, _len );
+        return varDB.insert( _buf, _len, 0 );
     }
 }
+
+/* ===========================================================
+ *                      insert     [2]
+ * -----------------------------------------------------------
+ * -- 手动设置 id 版
+ */
+void tprDB::insert( bool _is_fix, const void *_buf, DB::len_t _len, DB::eid_t _id ){
+
+    assert( is_id_alloc_auto == false );
+
+    if( _is_fix == true ){
+        assert( is_have_FIX == true );
+        fixDB.insert( _buf, _len, _id );
+    
+    }else{
+        assert( is_have_VAR == true );
+        varDB.insert( _buf, _len, _id );
+    }
+
+
+}
+
+
 
 /* ===========================================================
  *                     erase

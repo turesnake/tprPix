@@ -26,6 +26,7 @@
 
 //------------ CPP -------------//
 #include <sstream> //- stringstream
+#include <algorithm> //- find
 
 using std::cout;
 using std::endl;
@@ -70,12 +71,14 @@ using DB::mk_options;
  * -----------------------------------------------------------
  * -- FIX / VAR 通用
  */
-void tprDB_Orig::init( int _fd, const std::string &_path, DB::len_t _len ){
+void tprDB_Orig::init( int _fd, const std::string &_path,
+                    bool _is_id_alloc_auto, DB::len_t _len ){
 
     string err_info = "tprDB_Orig::init(): ";
     //-----------------------//
     fd_file   = _fd;
     path_file = _path;
+    is_id_alloc_auto = _is_id_alloc_auto;
 
     if( is_fix == true ){
         //---------------------//
@@ -100,7 +103,7 @@ void tprDB_Orig::init( int _fd, const std::string &_path, DB::len_t _len ){
         assert( opt.blk_aligns == fOpt.blk_aligns );
 
         //--- 初始化 rcy_pools ---//
-        assert( (fOpt.blk_aligns * 4) < 65536 );
+        //assert( (fOpt.blk_aligns * 4) < 65536 );
         rcy_pools.init( true, (fOpt.blk_aligns * 4) );
 
     }else{
@@ -136,23 +139,32 @@ DB::eid_t tprDB_Orig::get_fst_id(){
     return mem_hash.begin()->first;
 }
 
+
 /* ===========================================================
  *                      insert   [1]
  * -----------------------------------------------------------
  * -- 添加一条 entry
+ * -- param:: _id -- 只在 手动分配模式 有效，在自动模式,此值被废弃（可填任意值）
  * 
  */
-DB::eid_t tprDB_Orig::insert( const void *_buf, DB::len_t _len ){
+DB::eid_t tprDB_Orig::insert(  const void *_buf, DB::len_t _len, DB::eid_t _id ){
 
     //----- 申请 分配一个 新id -----//
     eid_t id;
-    id = apply_a_id();
+
+    if( is_id_alloc_auto == true ){
+        id = apply_a_id();
+    }else{
+        //-- 确保输入的 _id 不与现有 id 重复 --
+        assert( mem_hash.find(_id) == mem_hash.end() );
+        id = _id;
+    }
 
     //------- 制作 memblk ------//
     mem_Block memblk;
 
     size_t bsize = FILE_ENT_HEAD_LEN + _len;
-    assert( bsize < 65536 );
+    //assert( bsize < 65536 );
 
     if( is_fix == true ){
         //---- FIX ----//

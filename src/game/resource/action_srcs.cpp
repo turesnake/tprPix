@@ -1,10 +1,10 @@
 /*
- * ========================= action_srcs_add.cpp ==========================
+ * ========================= action_srcs.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
  *                                        修改 -- 2018.11.23
  * ----------------------------------------------------------
- *    Action_SRC 资源的 加载
+ *  资源管理:  Action_SRC
  * ----------------------------
  */
 #include "Action_SRC.h"
@@ -13,16 +13,16 @@
 
 
 /* ===========================================================
- *                     action_srcs_add
+ *                     action_srcs_load
  * -----------------------------------------------------------
  * -- 在游戏初始化阶段，被调用。
  * -- 统一加载并初始化 所有 Action_SRC 资源
  */
-void action_srcs_add(){
+void action_srcs_load(){
 
     action_srcs.clear();
 
-    action_srcs.insert( {"dog_ack_01",  Action_SRC{ "/animal/dog_ack_01.P.png", PixVec2{65, 112}, PixVec2{3, 4}, PixVec2{17, 2} } } );
+    action_srcs.insert( {"dog_ack_01",  Action_SRC{ "/human/human-1-web.P.png", PixVec2{11, 19}, PixVec2{1, 1}, PixVec2{0, 4} } } );
 
 
 

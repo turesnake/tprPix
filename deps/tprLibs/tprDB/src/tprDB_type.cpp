@@ -105,7 +105,7 @@ len_t aligns_2_Blk_bytes( len_t _aligns ){
 
     //-- 缺环 还原后的 blk字节数 不超过 len_t 类型上限
     u32 s = _aligns * 4;
-    assert( s < 65536 );
+    //assert( s < 65536 );
 
     return ( _aligns * 4 );
 }
@@ -211,7 +211,7 @@ len_t find_suited_Blk_aliBytes( len_t _len ){
     if( (_len%4) != 0 ){
         s++;
     }
-    assert( (s*4) < 65536 );
+    //assert( (s*4) < 65536 );
     return (s*4);
 }
 
@@ -399,6 +399,9 @@ file_EntHead fixEntHead_m2f( const mem_Ent &_mEnt ){
  */
 len_t DATA_T_2_bytes( DATA_T _dt ){
 
+    //--- 此函数不可用于 HUGE_BINARY 类型 ---
+    assert( _dt != DATA_T::HUGE_BINARY );
+
     if( (u8)_dt <= 4 ){
         return 4;
     }else{
@@ -422,6 +425,8 @@ bool is_DATA_T_a_INT( DATA_T _dt ){
         case DATA_T::I64:    return true;
         case DATA_T::U64:    return true;
         case DATA_T::DOUBLE: return false;
+
+        case DATA_T::HUGE_BINARY: return false;
         default:
             assert(0);
             return false; //- 不会运行到此行

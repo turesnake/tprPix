@@ -82,9 +82,9 @@ using DB::mk_options;
 namespace{//------ namespace [static] ----------//
 
     //-------- vals --------//
-    unsigned int step_1 = 4; //-- 列间距
-    unsigned int step_2 = 7; 
-    unsigned int step_3 = 8; 
+    unsigned int step_1 = 8; //-- 列间距
+    unsigned int step_2 = 8; 
+    unsigned int step_3 = 10; 
     unsigned int step_4 = 10; 
     unsigned int step_5 = 12; 
 

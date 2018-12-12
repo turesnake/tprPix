@@ -71,15 +71,25 @@ class tprDB : nocopyable {
 public:
 
     //-- 构造函数 --//
-    explicit tprDB( bool _is_pure_val=false ) //- 是否为一个纯 VAR 数据库
-        :
-        is_have_FIX( !_is_pure_val )
-        {}
+    explicit tprDB( tpr::DB::DB_TYPE _db_type, 
+                    bool _is_id_alloc_auto=true ): 
+        db_type( _db_type ),
+        is_id_alloc_auto( _is_id_alloc_auto )
+        {
+            if( db_type == tpr::DB::DB_TYPE::Pure_Fix ){
+                is_have_FIX = true;
+                is_have_VAR = false;
+            }else if( db_type == tpr::DB::DB_TYPE::Pure_Var ){
+                is_have_FIX = false;
+                is_have_VAR = true;
+            }else{
+                is_have_FIX = true;
+                is_have_VAR = true;
+            }
+        }
 
     //---- 析构函数 ----//    *** 需要析构函数的类，也需要 拷贝构造函数 和 拷贝赋值运算符 *** --
-    ~tprDB(){
-        //flush();
-    }
+    ~tprDB() = default;
 
     //----- init ------//
     void init(  const std::string &_path_dir_parent, //- 通常为 .../data/
@@ -88,9 +98,16 @@ public:
                 DB::len_t _DATA_T_size
                 );
 
+    //- 仅用于 "pure_fix--巨型二进制数据块" 的 init 
+    void init_huge( const std::string &_path_dir_parent, //- 通常为 .../data/
+                    const std::string &_DBname,          //- 本数据库实例的 name 
+                    DB::len_t  _DATA_T_size
+                );
+
     //-----------------//
     // ---< 增 >---
     DB::eid_t insert( bool _is_fix, const void *_buf, DB::len_t _len );
+    void insert( bool _is_fix, const void *_buf, DB::len_t _len, DB::eid_t _id );
                                             
     // ---< 删 >---
     int erase( DB::eid_t _id ); 
@@ -141,11 +158,9 @@ private:
                                 //-- 新建 文件 head，并将它写入 文件中
 
     int check_tprDB_file_head( bool _is_fix );
-    
-    void init_DATA_T( std::initializer_list<DB::DATA_T> _field_types, 
-                            DB::len_t _DATA_T_size ); 
-                    //-- 通过此函数，调用者 传入 DATA_T 中每个 元素的 类型
-                    //-- 必须使用 tprDB 提供的 类型组:
+            
+    void _inn_init( const std::string &_path_dir_parent,
+                    const std::string &_DBname ); //- init() / init_huge() 内部函数
 
 
     //++++++++++++++++|  DATA_T  |++++++++++++++++//
@@ -154,8 +169,9 @@ private:
 
     bool  is_have_VAR {true}; //- 是否创建 var 文件  -[自动识别]-
     bool  is_have_FIX {true}; //- 是否创建 fix 文件. -[手动设置]-
-    DB::DB_TYPE   db_type; //- 数据库类型
+    DB::DB_TYPE   db_type;    //- 数据库类型
 
+    bool is_id_alloc_auto {true}; //- 是否自动分配 dbent 的 id 号
 
 
     //++++++++++++++++|  child DB  |++++++++++++++++//
