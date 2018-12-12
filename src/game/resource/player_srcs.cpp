@@ -83,7 +83,7 @@ void player_srcs_init(){
     }else{
         //----- 没有存档，新建之 --------//
         diskPlayer dp;
-        dp.go_id = GameObj::id_manager.apply_a_id();
+        dp.go_id = GameObj::id_manager.apply_a_u64_id();
         //dp.pos = PixVec2{ 0,0 };
         dp.posx = 0;
         dp.posy = 0;

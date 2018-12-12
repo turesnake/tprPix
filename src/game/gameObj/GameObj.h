@@ -32,14 +32,13 @@
 #include "tprDataType.h" 
 
 //------------------- SELF --------------------//
-#include "GameObjtype.h" 
+#include "GameObjType.h" 
 #include "Mesh.h" 
 #include "ID_Manager.h" 
  
 
 class GameObj{
 public:
-
     explicit GameObj( const std::string &_typename )
         //:
         //type(_typename)
@@ -55,11 +54,11 @@ public:
 
 
     //----------------- vals ---------------//
-    u64          id;     //- go实例 在程序中的 主要搜索依据。
+    u64          id  {0};     //- go实例 在程序中的 主要搜索依据。
     GameObjType  type {GameObjType::NullType};   //- 代表类型的 字符串
 
-    bool is_top_go {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
-    u64   id_parent;    //- 不管是否为顶层go，都可以有自己的 父go。
+    bool is_top_go  {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
+    u64   id_parent {0};    //- 不管是否为顶层go，都可以有自己的 父go。
                         //- 如果没有，此项写 NULLID
 
 
@@ -69,9 +68,15 @@ public:
     PixVec2  targetPos {}; //- 目标pos，对齐与mapent 
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
 
-    glm::vec2  velocity; //- 运动速度
+    glm::vec2  velocity {}; //- 运动速度
 
-    float  weight; //- go重量 （影响自己是否会被 一个 force 推动）
+    float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+
+
+    bool is_default {true}; //- 是否为 默认go
+                            //- “默认go” 意味着这个 go没有被游戏改写过。
+                            //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_type 信息。
+                            //- 以便少存储 一份 go实例，节省 硬盘空间。
 
 
     //------------ static ----------//
@@ -88,14 +93,6 @@ private:
 
 
 };
-
-
-
-
-
-
-
-
 
 
 
