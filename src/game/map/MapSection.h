@@ -27,11 +27,10 @@ inline constexpr int SECTION_W = 256;
 inline constexpr int SECTION_H = 256; 
 
 
-//-- 256*256 个 Fst_diskMapEnt 元素。
-struct diskMapSection_fst{
+//-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
+struct Fst_diskMapSection{
 
-    Fst_memMapEnt data[ SECTION_W * SECTION_H ]; //- 512KB
-
+    Fst_diskMapEnt data[ SECTION_W * SECTION_H ]; //- 512KB
 };
 
 
@@ -46,7 +45,7 @@ public:
 
 
 
-    std::vector<Fst_memMapEnt> fstMapEnts; 
+    std::vector<MemMapEnt> memMapEnts; 
 
     PixVec2  pos; //- 本 section 左下角 mapEnt pos.
     u64      key; //- 本 section 左下角 mapEnt，的 宽长坐标值（int）:w+h

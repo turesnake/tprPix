@@ -52,8 +52,8 @@ namespace{//------------ namespace --------------//
 void mapSection_srcs_init(){
 
     mapSection_fst_db.init_huge( path_data,
-                                "mapSection_fst",
-                                sizeof(diskMapSection_fst)
+                                "fst_mapSection",
+                                sizeof(Fst_diskMapSection)
                                 );
 
 }

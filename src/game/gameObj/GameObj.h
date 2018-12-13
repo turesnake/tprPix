@@ -35,31 +35,30 @@
 #include "GameObjType.h" 
 #include "Mesh.h" 
 #include "ID_Manager.h" 
- 
 
+
+
+//--- 最基础的 go 类 ----//
 class GameObj{
 public:
-    explicit GameObj( const std::string &_typename )
-        //:
-        //type(_typename)
+    explicit GameObj()
         {}
 
 
     void init();
 
-
+    //-- disl <-> mem --//
     void  d2m( diskGameObj *_dgo );
     diskGameObj  m2d();
 
 
-
     //----------------- vals ---------------//
     u64          id  {0};     //- go实例 在程序中的 主要搜索依据。
-    GameObjType  type {GameObjType::NullType};   //- 代表类型的 字符串
+    GameObjType  type {GameObjType::NullType};   //- go类型
 
     bool is_top_go  {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
-    u64   id_parent {0};    //- 不管是否为顶层go，都可以有自己的 父go。
-                        //- 如果没有，此项写 NULLID
+    u64  id_parent {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
+                             //- 如果没有，此项写 NULLID
 
 
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
