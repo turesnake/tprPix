@@ -22,6 +22,8 @@
 #include "glob_gl.h" 
 #include "PixVec.h" 
 
+#include "srcs_manager.h" //- 所有资源
+
 using std::string;
 using std::cout;
 using std::endl;
@@ -64,7 +66,7 @@ unsigned int get_new_seed(){
     PixVec2 mousePos = get_mouse_pos();
     seed = mousePos.x + (mousePos.y*3);
 
-    float tm = get_currentTime();
+    float tm = timer.get_currentTime();
     seed += (unsigned int)(tm * 10000000);
                     //-- glfw 时钟的精度就是这么多位
 

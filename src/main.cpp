@@ -39,8 +39,8 @@
 #include "Texture.h" 
 #include "Model.h"
 
-#include "srcs_manager.h"
-
+#include "srcs_manager.h" //- 所有资源
+#include "TimeCircle.h" 
  
 using std::cout;
 using std::endl;
@@ -105,10 +105,6 @@ int main(){
 
 
 
-        
-    
-
-    
     //---- 加载 map 数据 ----
 
     
@@ -182,25 +178,50 @@ int main(){
     //---------------------------------------------//
     //           main render loop
     //---------------------------------------------//
-        //u64 print_counter = 0;
     while( !glfwWindowShouldClose( window ) ){
 
-        //------- 刷新 deltaTime ---------//
-        update_time();
-
-        //------- input 处理 -----------//
+        //--------------------------------//
+        //            input   
+        //--------------------------------//
         //-- 目前这个版本 非常简陋
 		processInput( window );
 
-        //--------- 重绘背景 ---------
+        //--------------------------------//
+        //             time   
+        //--------------------------------//
+        timer.update_time();
+
+        //-- 依据 逻辑时间循环，调用不同的 函数 --// 
+        switch( logicTimeCircle.current() ){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            default:
+                assert(0);
+        }
+
+            
+
+        
+
+        //--------------------------------//
+        //      render background   
+        //--------------------------------//
         glClearColor( 0.25f, 0.24f, 0.25f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
                     //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
 
 
-        //------------------------------------------//
+        //--------------------------------//
         //                 
-        //------------------------------------------//
+        //--------------------------------//
         rect_shader.use_program();
         rect_shader.send_mat4_view_2_shader( 
                                 camera_current()->update_mat4_view()
@@ -210,11 +231,27 @@ int main(){
                                 camera_current()->update_mat4_projection()
                                 );
 
-        //-------------------- 绘制图形 -----------------------
 
+        //--------------------------------//
+        //                 
+        //--------------------------------//
+
+
+
+
+
+
+
+
+
+        //--------------------------------//
+        //             渲染图形
+        //--------------------------------//
+        
         //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
         mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
         mod_1.model_draw();
+        
 
 
         //-- check and call events and swap the buffers
@@ -222,18 +259,8 @@ int main(){
 		glfwSwapBuffers( window );
 
         //------------ 显示数据到终端 -----------//
+        //...
 
-            /*
-            print_counter++;
-            glm::vec3 pos;
-            if( (print_counter%100) == 0 ){
-                pos = camera_current()->get_cameraPos();
-                cout << pos.x << ", "
-                    << pos.y << ", "
-                    << pos.z
-                    << endl;
-            }
-            */
 
     }//---------- while render loop end -----------//
 

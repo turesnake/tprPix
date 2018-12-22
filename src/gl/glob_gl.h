@@ -39,9 +39,9 @@ void glad_set();
 
 
 //------ time.cpp -------//
-void update_time();
-float get_deltaTime();
-float get_currentTime();
+//void update_time();
+//float get_deltaTime();
+//float get_currentTime();
 
 
 //------ input -------//

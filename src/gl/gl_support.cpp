@@ -80,7 +80,30 @@ void glfw_hints_set(){
  */
 void glfw_window_creat(){
 
-	window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, "tprcraft", NULL, NULL );
+    assert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
+    if( IS_FULL_SCREEN == true){
+        //------ 全屏模式 ------//
+        // 未完工...
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+
+        window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+                                    "tprcraft", 
+                                    monitor, 
+                                    NULL );
+    }else{
+        //------ 窗口模式 ------//
+        // 暂不知 如何设置 帧率...
+        window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+                                    "tprcraft", 
+                                    NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
+                                    NULL );
+    }
 
 	if(window == NULL){
 		glfwTerminate();
@@ -99,7 +122,7 @@ void glfw_window_creat(){
  * -- glfw 一些杂乱选项的 设置
  */
 void glfw_oth_set(){
-     //-- 当本 window in forcus 后，隐藏鼠标
+    //-- 当本 window in forcus 后，隐藏鼠标
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 

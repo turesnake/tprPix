@@ -72,8 +72,6 @@ void Texture::init(){
     data = stbi_load( path_img.c_str(), &width, &height, &nrChannels, 0 );
     assert( data != nullptr );
 
-
-
     //-- 通过之前的 png图片数据，生成 一个 纹理。
     glTexImage2D( GL_TEXTURE_2D,    //-- 指定纹理目标／target，
                     0,              //-- 多级渐远纹理的级别: 0: 基本级别
@@ -90,7 +88,6 @@ void Texture::init(){
     //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成 多级渐远纹理
     //-- 释放 png图片 数据。
     stbi_image_free( data );
-
 }
 
 

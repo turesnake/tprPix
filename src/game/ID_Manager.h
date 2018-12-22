@@ -86,9 +86,17 @@ public:
         return max_id;
     }
 
+    inline void set_max_id( u64 _max_id ){
+        max_id = _max_id;
+    }
+
+    inline u64 get_max_id() const {
+        return max_id;
+    }
+
 private:
-    ID_TYPE id_scope; //- id类型
-    u64     max_id;      //- 当前 使用的 数值最大的 id号
+    ID_TYPE id_scope;  //- id类型
+    u64     max_id;    //- 当前 使用的 数值最大的 id号
     u64     id_limit;  //- id号 上限
 };
 

@@ -117,8 +117,8 @@ CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
         L = sum_wrapping( L, R ); //-- 加权累加
     }
     
-        cout << "    L = " << L << endl;
-        cout << "    R = " << R << endl;
+        //cout << "    L = " << L << endl;
+        //cout << "    R = " << R << endl;
 
     //-------------------------------//
     //    将 L 和 R 存入 最后的 checksum
@@ -181,8 +181,8 @@ CheckSum64 mk_checksum64( u8 *_buf, size_t _len ){
         len -= block32_len;
     }//------ while end ------//
 
-        cout << "    L = " << L << endl;
-        cout << "    R = " << R << endl;
+        //cout << "    L = " << L << endl;
+        //cout << "    R = " << R << endl;
 
     //-------------------------------//
     //    将 L 和 R 存入 最后的 checksum
@@ -258,8 +258,8 @@ CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
         L = sum_wrapping( L, R ); //-- 加权累加
     }
     
-        cout << "    L = " << L << endl;
-        cout << "    R = " << R << endl;
+        //cout << "    L = " << L << endl;
+        //cout << "    R = " << R << endl;
 
     //-------------------------------//
     //    将 L 和 R 存入 最后的 checksum
@@ -322,8 +322,8 @@ CheckSum128 mk_checksum128( u8 *_buf, size_t _len ){
         len -= block64_len;
     }//------ while end ------//
     
-        cout << "    L = " << L << endl;
-        cout << "    R = " << R << endl;
+        //cout << "    L = " << L << endl;
+        //cout << "    R = " << R << endl;
 
     //-------------------------------//
     //    将 L 和 R 存入 最后的 checksum

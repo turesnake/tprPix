@@ -17,7 +17,9 @@
 
 //------------------- SELF --------------------//
 #include "config.h" // SCR_WIDTH, SCR_HEIGHT
-#include "glob_gl.h" //- get_deltaTime,
+//#include "glob_gl.h" //- get_deltaTime,
+
+#include "srcs_manager.h" //- 所有资源
 
 
 using std::cout;
@@ -108,24 +110,24 @@ void Camera::cameraPos_back(){
 
 
 void Camera::cameraPos_left(){
-    cameraSpeed = 30.0f * get_deltaTime();
+    cameraSpeed = 30.0f * timer.get_last_deltaTime();
     cameraPos -= cameraRight * cameraSpeed;
 }
 
 
 void Camera::cameraPos_right(){
-    cameraSpeed = 30.0f * get_deltaTime();
+    cameraSpeed = 30.0f * timer.get_last_deltaTime();
     cameraPos += cameraRight * cameraSpeed;
 }
 
 
 void Camera::cameraPos_up(){
-    cameraSpeed = 30.0f * get_deltaTime();
+    cameraSpeed = 30.0f * timer.get_last_deltaTime();
     cameraPos += cameraUp * cameraSpeed;
 }
 
 void Camera::cameraPos_down(){
-    cameraSpeed = 30.0f * get_deltaTime();
+    cameraSpeed = 30.0f * timer.get_last_deltaTime();
     cameraPos -= cameraUp * cameraSpeed;
 }
 

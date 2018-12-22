@@ -51,7 +51,7 @@ public:
 
 private:
 
-    GameObj go { "nullgo" }; //- 玩家当前绑定的 go
+    GameObj go {}; //- 玩家当前绑定的 go
                             //- 游戏初始化时 绑定的是一个 名为 "nullgo" 的 go类型
                             //- 这是一个 空go 
 

@@ -33,13 +33,13 @@
 
 
 
+using goid_t = u64; //- gameObj id 
+
+
 //-- go 数据 [硬盘态] ---
 struct diskGameObj{
-
     u64  id;
     u32  type; //- GameObjType --> u32
-    
-
 };
 
 
@@ -54,7 +54,6 @@ struct GameObjParams{
 
 //-- go move state／运动状态 --
 enum class GameObjMoveState{
-
     AbsFixed  = 1, //- 固定于地面，绝对静止
     BeMovable = 2, //- 静止，但可被移动（通过外部 forse 施加的影响）
     Movable   = 3  //- 可移动。本go 可启动移动操作。
@@ -63,21 +62,25 @@ enum class GameObjMoveState{
 
 //-- go state / go 常规状态 --
 enum class GameObjState{
-
     Sleep = 1, //- 休眠状态，不主动行动，（但可被动回应）
     Waked = 2  //- 活跃状态，主动发起行动。 
 };
 
+//- 三大 go 类群 --
+enum class GameObjFamily{
+    Major   = 1, //- 主go： 活体，树，建筑...
+    Item    = 2, //- 道具go： 武器，药剂
+    surface = 3  //- 表面go： 液体，火焰...
+};
 
-//-- go type -- 
-enum class GameObjType : u32 {
 
-    NullType = 0, //- 保留，表示 空类型 
+//-- go species -- 
+enum class GameObjSpecies : u32 {
+
+    NullSpecies = 0, //- 保留，表示 空类型 
 
     //-------  ----------//
     
-
-
 
 
     //------- tree ----------//

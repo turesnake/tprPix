@@ -54,7 +54,7 @@ struct Fst_diskMapEnt{
 
     u8   sec_data_info {0}; //-- 二级信息 额外数据
                     //- 1-bit -- is_major_go_default.
-                    //           若为“常规”，surface_go 存储的是 type。
+                    //           若为“常规”，surface_go 存储的是 species。
                     //           若不为常规，surface_go 存储的是 具体 go id号。                    
                     //[-余-7-bits-]...
 
@@ -85,6 +85,57 @@ struct Fst_diskMapEnt{
 };
 
 
+//-- 投影地图单位的 二级信息 --//
+//-  存储在一个 内存池中，数量有限。
+//--- 为了最大限度地 减少 go硬盘存储，二级信息中的 字段。兼容2种信息:
+//  -1- 在硬盘态, 有些 go 为压缩态，只存储其 go_species 信息，
+//      当我们从 硬盘读取到 内存后，根据这个 go_species 信息，就地生成一个 go实例，
+//      放在对应 mapent 上。并把此时的 二级信息，改为 这个临时新建的 go_id
+//
+//  --- 如果一个 go 始终没被改动过，它的 is_default 字段始终 true。
+//  --- 一个 被改动过的 go实例，在间隔一定游戏时间后，也会恢复 default 态。
+//      比如一颗树，被玩家砍过一刀。但过去了很久，这颗树的 go实例将会恢复 default。
+//  --- 部分 go实例，只要不死，会在每次 伴随 section 存入硬盘时，被强行 default 化。
+//      又比如某颗树，只要不被砍死，在存入硬盘时，都会被 default 化。
+//
+//  -2- 当我们 要把一个 mapSection 存储到 硬盘中时。会遍历 此 section 中的所有 go实例
+//      如果一个 go实例 为 default。我们会丢弃这个 go实例，仅把它的 go_species 信息，
+//      写入 二级信息中。 以此节约 一份 go实例的 硬盘存储。
+//------------------
+// -- 一个 surface go 的每一个 mapent，都会被记录到 二级信息中
+//     尽管它看起来有点浪费 二级信息存储空间，但它节省了 go硬盘存储空间
+// -- 一个 item go 永不独立存入硬盘。（但可放置 宝箱内）
+// -- 一个 major go 拥有数个 mapent，其中只有一个 head ent
+//     只有这个 head ent 会被记录到 二级信息中，剩余的 常规 ent，会被丢弃。
+struct Sec_diskMapEnt{
+
+    u64  major_go   {0}; //- 主体 go id／species (活体，建筑，树...)  
+    
+    //- 道具 go. 并不存入硬盘。
+    //- 当 section 被存入硬盘时，其上的所有 裸露道具go（宝箱内不算）都会被销毁。
+    //- 下一次读取此 section 时。也不会重建。
+    //- 一切 道具go， 只占据 1个 mapent，且是 head ent 
+    //----------------
+    //  道具go 的创建方式：
+    //  --1-- 当一张 section 第一次被创建时，会在地图上随机生成 宝箱，宝箱内有 若干道具。 
+    //        存在一种 道具密集点，那里分部的 道具会非常多...
+    //        这种创建 只发生一次。
+    //        宝箱作为一种 major go, 也存在生命值（通常非常大）。
+    //        一旦被击毁，会把自己携带的 所有 道具go 都散布在地图上。
+    //  --2-- 当 击败一名 major go 时，有一定记录 爆出 道具。
+
+    u32  surface_go_species {0}; //- 地面 go species (液体，火焰等)
+                              //- 一切 surface类 go实例，在硬盘存储时，都会被压缩为 species。
+                              //- 每次都在 section 加载阶段，根据 species 临时创建 go实例。
+
+    //---- padding -----//
+    u32  padding    {0};
+};
+
+
+
+
+
 //-- 投影地图单位的信息 [内存态] --
 //-  牺牲一定的 内存空间，换取访问便捷度
 class MemMapEnt{
@@ -108,7 +159,7 @@ public:
                     //  这块地面上的 具体像素颜色，都可能发生变化。
                     //  就算是 深渊类型的地面，也会有材质信息。
     //--- 二级信息区 ---
-    u16   sec_data_id  {NULLID}; //- 二级信息 id号
+    u16  sec_data_id  {NULLID}; //- 二级信息 id号
 
     bool is_major_go_default   {true};
 
@@ -118,9 +169,9 @@ public:
 
     
     //=============== data: 二级信息 ===============//
-    u64  major_go_id {NULLID};   //- 主体go id. (实例)
-    u64  item_go_id  {NULLID};   //- 道具go id. (实例，并不存入硬盘)
-    u64  surface_go_id {NULLID}; //- 表面go id. (实例，压缩为 type 存入硬盘)
+    u64  major_go_id   {NULLID}; //- 主体go id. (实例)
+    u64  item_go_id    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
+    u64  surface_go_id {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
 
     //-- 二级信息： mem <--> disk --
     void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
@@ -134,52 +185,6 @@ private:
 
 
 
-//-- 投影地图单位的 二级信息 --//
-//-  存储在一个 内存池中，数量有限。
-//--- 为了最大限度地 减少 go硬盘存储，二级信息中的 字段。兼容2种信息:
-//  -1- 在硬盘态, 有些 go 为压缩态，只存储其 go_type 信息，
-//      当我们从 硬盘读取到 内存后，根据这个 go_type 信息，就地生成一个 go实例，
-//      放在对应 mapent 上。并把此时的 二级信息，改为 这个临时新建的 go_id
-//
-//  --- 如果一个 go 始终没被改动过，它的 is_default 字段始终 true。
-//  --- 一个 被改动过的 go实例，在间隔一定游戏时间后，也会恢复 default 态。
-//      比如一颗树，被玩家砍过一刀。但过去了很久，这颗树的 go实例将会恢复 default。
-//  --- 部分 go实例，只要不死，会在每次 伴随 section 存入硬盘时，被强行 default 化。
-//      又比如某颗树，只要不被砍死，在存入硬盘时，都会被 default 化。
-//
-//  -2- 当我们 要把一个 mapSection 存储到 硬盘中时。会遍历 此 section 中的所有 go实例
-//      如果一个 go实例 为 default。我们会丢弃这个 go实例，仅把它的 go_type 信息，
-//      写入 二级信息中。 以此节约 一份 go实例的 硬盘存储。
-//------------------
-// -- 一个 surface go 的每一个 mapent，都会被记录到 二级信息中
-//     尽管它看起来有点浪费 二级信息存储空间，但它节省了 go硬盘存储空间
-// -- 一个 item go 永不独立存入硬盘。（但可放置 宝箱内）
-// -- 一个 major go 拥有数个 mapent，其中只有一个 head ent
-//     只有这个 head ent 会被记录到 二级信息中，剩余的 常规 ent，会被丢弃。
-struct Sec_diskMapEnt{
-
-    u64  major_go   {0}; //- 主体 go id／type (活体，建筑，树...)  
-    
-    //- 道具 go. 并不存入硬盘。
-    //- 当 section 被存入硬盘时，其上的所有 裸露道具go（宝箱内不算）都会被销毁。
-    //- 下一次读取此 section 时。也不会重建。
-    //- 一切 道具go， 只占据 1个 mapent，且是 head ent 
-    //----------------
-    //  道具go 的创建方式：
-    //  --1-- 当一张 section 第一次被创建时，会在地图上随机生成 宝箱，宝箱内有 若干道具。 
-    //        存在一种 道具密集点，那里分部的 道具会非常多...
-    //        这种创建 只发生一次。
-    //        宝箱作为一种 major go, 也存在生命值（通常非常大）。
-    //        一旦被击毁，会把自己携带的 所有 道具go 都散布在地图上。
-    //  --2-- 当 击败一名 major go 时，有一定记录 爆出 道具。
-
-    u32  surface_go_type {0}; //- 地面 go type (液体，火焰等)
-                              //- 一切 surface类 go实例，在硬盘存储时，都会被压缩为 type。
-                              //- 每次都在 section 加载阶段，根据 type 临时创建 go实例。
-
-    //---- padding -----//
-    u32  padding    {0};
-};
 
 
 

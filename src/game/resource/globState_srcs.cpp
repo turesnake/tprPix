@@ -78,19 +78,21 @@ void globState_srcs_init(){
         assert( rlen == sizeof(dgs) );
 
         //--- 将读取到的 全局状态，写入各模块中 --
-        GameObj::id_manager.max_id = dgs.GameObj_max_id;
+        //GameObj::id_manager.max_id = dgs.GameObj_max_id;
+        GameObj::id_manager.set_max_id( dgs.GameObj_max_id );
         //...
 
     }else{
         //----- 没有存档，新建之 --------//
 
         //--- 初始化各 全局状态 ------
-        GameObj::id_manager.max_id = 0;
+        //GameObj::id_manager.max_id = 0;
+        GameObj::id_manager.set_max_id( 0 );
         //...
 
         //---- 制作 diskGlobState 实例 ----
         diskGlobState  dgs;
-        dgs.GameObj_max_id = GameObj::id_manager.max_id;
+        dgs.GameObj_max_id = GameObj::id_manager.get_max_id();
         //....
 
         //---- 存入 数据库 ----
@@ -113,7 +115,7 @@ void globState_srcs_save(){
 
     //---- 制作 diskGlobState 实例 ----
     diskGlobState  dgs;
-    dgs.GameObj_max_id = GameObj::id_manager.max_id;
+    dgs.GameObj_max_id = GameObj::id_manager.get_max_id();
     //....
 
     //-- 获得 dbent id --

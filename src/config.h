@@ -21,7 +21,8 @@
 #define WORK_WIDTH  160
 #define WORK_HEIGHT 120
 
-
+//-- 是否开启 全屏模式 --
+inline bool IS_FULL_SCREEN = false; 
 
 
 
