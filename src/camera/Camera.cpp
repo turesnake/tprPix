@@ -51,8 +51,8 @@ void Camera::init(){
                                    ow,   //-- 右边界
                                   -oh,   //-- 下边界
                                    oh,   //-- 上边界
-                                  -100.0f, //-- 近平面
-                                  2000.0f  //-- 远平面
+                                  -1000.0f, //-- 近平面
+                                   1000.0f  //-- 远平面
                                 );
 
 }
@@ -225,15 +225,18 @@ void Camera::update_camera_vectors(){
  * -----------------------------------------------------------
  * --  将 参数 cp 绑定为 当前摄像机
  */
+/*
 void bind_camera_current( const Camera *cp ){
     camera_p_current = const_cast<Camera*>( cp );
 }
+*/
 
 /* ===========================================================
  *                       camera_current
  * -----------------------------------------------------------
  * --  获得 指向 当前摄像机 的指针
  */
+/*
 Camera *camera_current(){
 
     if( camera_p_current == nullptr ){
@@ -245,6 +248,7 @@ Camera *camera_current(){
 
     return camera_p_current;
 }
+*/
 
 
 

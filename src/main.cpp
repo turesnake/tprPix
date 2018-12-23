@@ -170,9 +170,7 @@ int main(){
     //---------------------------------------------//
     //                 camera
     //---------------------------------------------//
-    Camera camera; //-- 本游戏暂时只有 一个 摄像机
     camera.init();
-    bind_camera_current( &camera ); //-- 将其绑定为 当前摄像机
 
 
     //---------------------------------------------//
@@ -194,6 +192,7 @@ int main(){
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
         switch( logicTimeCircle.current() ){
             case 0:
+                realloc_inactive_goes(); 
                 break;
             case 1:
                 break;
@@ -224,11 +223,11 @@ int main(){
         //--------------------------------//
         rect_shader.use_program();
         rect_shader.send_mat4_view_2_shader( 
-                                camera_current()->update_mat4_view()
+                                camera.update_mat4_view()
                                 );
 
         rect_shader.send_mat4_projection_2_shader(
-                                camera_current()->update_mat4_projection()
+                                camera.update_mat4_projection()
                                 );
 
 
@@ -254,7 +253,9 @@ int main(){
         
 
 
-        //-- check and call events and swap the buffers
+        //--------------------------------//
+        //   check and call events and swap the buffers               
+        //--------------------------------//
 		glfwPollEvents();   //-- 处理所有 处于 event queue 中的 待决 event。
 		glfwSwapBuffers( window );
 

@@ -14,7 +14,6 @@
  * 
  * ----------------------------
  */
-
 #ifndef _TPR_TEXTURE_H_
 #define _TPR_TEXTURE_H_
 

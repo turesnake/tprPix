@@ -155,7 +155,11 @@ void Model::update_mat4_model(){
                             translate_val );
 
     //----- 旋转 ------
-    //- pixel 游戏不支持旋转
+    //- pix游戏 只支持 z轴旋转
+    mat4_model = glm::rotate( mat4_model, 
+                            glm::radians(rotate_val.z),
+                            axle_z );
+
 
     //----- 缩放 ------
     mat4_model = glm::scale( mat4_model, 

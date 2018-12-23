@@ -17,10 +17,12 @@
 
 //#include <iostream> // cout
 
-#include "Camera.h" //- camera_current,
 
+//------------------- SELF --------------------//
 #include "glob_gl.h" 
 #include "PixVec.h" 
+
+#include "srcs_manager.h" //- 所有资源
 
 //using std::cout;
 //using std::endl;
@@ -48,25 +50,25 @@ void processInput( GLFWwindow *window ){
     //-- W -- 
     if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
-        camera_current()->cameraPos_up();
+        camera.cameraPos_up();
     }
 
     //-- S -- 
     if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
-        camera_current()->cameraPos_down();
+        camera.cameraPos_down();
     }
 
     //-- A -- 
     if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS ){
             //cout << "-A-" << endl;
-        camera_current()->cameraPos_left();
+        camera.cameraPos_left();
     }
 
     //-- D -- 
     if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS ){
             //cout << "-D-" << endl;
-        camera_current()->cameraPos_right();
+        camera.cameraPos_right();
     }
 
     //-- SPACE -- 

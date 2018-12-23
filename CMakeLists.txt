@@ -56,6 +56,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src/game/resource)
 include_directories (${PROJECT_SOURCE_DIR}/src/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/time)
+include_directories (${PROJECT_SOURCE_DIR}/src/script)
+include_directories (${PROJECT_SOURCE_DIR}/src/script/gameObjs)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
@@ -80,7 +82,7 @@ include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 
 #-- 创建变量 PIXEL_FILES （是个 list）
 #-- 包含 主进程需要的 cpp 文件
-FILE(GLOB PIXEL_FILES  src/*.cpp     
+FILE(GLOB PIXEL_FILES   src/*.cpp     
                         src/sys/*.cpp 
                         src/test/*.cpp 
                         src/gl/*.cpp 
@@ -91,6 +93,8 @@ FILE(GLOB PIXEL_FILES  src/*.cpp
                         src/game/map/*.cpp 
                         src/game/resource/*.cpp 
                         src/game/gameObj/*.cpp 
+                        src/script/*.cpp 
+                        src/script/gameObjs/*.cpp 
                         )
 
 #---------------------------------------------------#

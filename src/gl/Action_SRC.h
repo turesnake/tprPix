@@ -68,7 +68,9 @@ struct Action_SRC_Params{
 };
 
 
-
+//-- 作为纯粹的 图像资源类，Action_SRC 应该被设计得尽可能简洁 --
+//   不负责其他任何数据 
+//   Action_SRC 是唯一的类，不存在 具象as类。
 class Action_SRC{
 
 public:
@@ -93,7 +95,8 @@ public:
 
 private:
 
-    //-- 本动画动作 的name。 起到 id 的作用
+    //-- 本动画动作 的name。 起到 id 的作用。
+    //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
     std::string  name;
 
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
@@ -116,7 +119,7 @@ private:
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
-    //- 帧排序 符合 左上坐标系 --
+    //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames;   
 
 };

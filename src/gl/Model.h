@@ -51,7 +51,8 @@ public:
         {}
 
     //- 随着 RectVertics 的调用 被内置到 model/ new mesh 类中，
-    //- 这个函数将被废弃
+    //- 这个函数将被废弃。
+    //- 由于数据是固定的，不再需要外部绑定，而是直接固定在 Mesh 类内
     inline void set_VBO( GLvoid *VBOdata, GLsizeiptr VBOsize, GLsizei stride_ )
                 {  
                     VBO_data = VBOdata;
@@ -73,7 +74,7 @@ public:
                     translate_val = v;
                 }
 
-    //- pixel 游戏 几乎不需要 旋转。选择性保留
+    //- pix游戏 也需要 旋转 --
     inline void set_rotate( const glm::vec3 &v )
                 {
                     if( is_model_change != true ){
@@ -98,8 +99,6 @@ public:
     void model_delete(); 
 
     
-
-    
     inline size_t nr_of_textures() const 
                     { return textures.size(); }
 
@@ -111,7 +110,8 @@ private:
     GLuint VAO = 0; //- obj
     GLuint VBO = 0; //- obj
 
-    GLvoid *VBO_data;
+    GLvoid *VBO_data; //- 在本游戏中，固定为 &(rect_base[0])
+                      //- 一个 2*2像素 的固定矩形。
     GLsizeiptr VBO_size;  //-- sizeof(VBO_data)
     GLsizei stride; //-- 步长，glVertexAttribPointer 函数中用到
 
@@ -119,7 +119,7 @@ private:
     std::vector<Texture> textures;
 
     //-- 本 Model对象 绑定的 着色器程序对象 指针
-    ShaderProgram *shader_p = nullptr; 
+    ShaderProgram *shader_p  {nullptr}; 
 
     
     //+++++++++ 与 model 矩阵计算 有关的 变量 ++++++++++++

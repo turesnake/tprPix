@@ -46,7 +46,6 @@ public:
         //:
         {}
 
-
     void init(); //-- 真正的初始化函数
 
 
@@ -64,8 +63,9 @@ public:
     void mousePos_move( double xpos, double ypos );
     void mouseFov_reset( double xoffset, double yoffset );
 
-    inline glm::vec3 &get_cameraPos()
-                { return cameraPos;  }
+    //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
+    inline glm::vec2 get_camera2DPos()
+                { return  glm::vec2{ cameraPos.x, cameraPos.y };  }
 
 
 private:
@@ -74,7 +74,7 @@ private:
     glm::mat4 mat4_projection; //-- 投影矩阵，默认初始化为 单位矩阵
 
     //------ 坐标向量 -------
-    glm::vec3 cameraPos { glm::vec3(0.0f, 0.0f, 1.94f) }; 
+    glm::vec3 cameraPos { glm::vec3(0.0f, 0.0f, 1000.0f) }; 
                         //-- 摄像机 相对于世界的 位置。（世界坐标体系中）
                         //-- 初始值为，从世界中心 沿着 z轴正方向 后退 3.0f
     
@@ -109,12 +109,12 @@ private:
     void update_camera_vectors(); //-- 刷新 camera 的几个核心向量。 
 };
 
+
 //-- 将 参数 cp 绑定为 当前摄像机
-void bind_camera_current( const Camera *cp );
+//void bind_camera_current( const Camera *cp );
 
 //-- 获得 指向 当前摄像机 的指针
-Camera *camera_current();
-
+//Camera *camera_current();
 
 
 

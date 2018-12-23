@@ -13,6 +13,7 @@
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>
+            //-- glm::vec2
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
@@ -82,7 +83,7 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
 
-    PixVec2  targetPos {}; //- 目标pos，对齐与mapent 
+    PixVec2    targetPos {}; //- 目标pos，对齐与mapent 
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
 
     glm::vec2  velocity {}; //- 运动速度
@@ -96,7 +97,10 @@ public:
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
 
-    std::vector<Mesh> meshes;
+    std::vector< Mesh* > meshptrs; //- go实例 与 mesh 是比较静态的关系。
+                            // 大部分go不会卸载／增加自己的 mesh实例
+                            //- 在一个 具象go类实例 的创建过程中，会把特定的 mesh实例的指针 填入此容器
+                            //- mesh实例本体，则存储在 具象go类 实例中。 
 
 
 

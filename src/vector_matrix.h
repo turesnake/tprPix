@@ -42,6 +42,4 @@ inline glm::vec3 vec3_zero {};
 inline glm::vec3 vec3_one { 1.0f, 1.0f, 1.0f };
 
 
-
-
 #endif
