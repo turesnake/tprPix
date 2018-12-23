@@ -53,8 +53,8 @@ public:
     glm::mat4 &update_mat4_projection();
 
     //--- input: 鼠标位移 控制 摄像机运动 ---
-    void cameraPos_forward();
-    void cameraPos_back();
+    //void cameraPos_forward();
+    //void cameraPos_back();
     void cameraPos_left();
     void cameraPos_right();
     void cameraPos_up();

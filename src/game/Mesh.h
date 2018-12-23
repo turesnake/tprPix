@@ -69,7 +69,6 @@ public:
     void mesh_delete(); 
 
 
-
     u64   id;     //- go实例 在程序中的 主要搜索依据。
 
     //--- pos ---
@@ -80,15 +79,14 @@ public:
                     //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
                     //- 这个值 多数由 具象go类 填入。
 
-    GLuint  *texNameptr {nullptr}; //- 指向 texName 的指针。
+    GLuint  *texNamePtr {nullptr}; //- 指向 texName 的指针。
                     // texName 被存储在 action_src实例中，
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处
                     //-- tex 会在每次 draw 时 才被绑定，这正是我们想要的
 
     //--------------------------//
-
     inline void set_shader_program( ShaderProgram *sp ){
-        shader_p = sp;
+        shaderPtr = sp;
     }
 
     inline void set_translate( const glm::vec3 &v ){
@@ -115,7 +113,7 @@ private:
 
 
     //-- 本 Model对象 绑定的 着色器程序对象 指针
-    ShaderProgram  *shader_p  {nullptr}; 
+    ShaderProgram  *shaderPtr  {nullptr}; 
 
 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++

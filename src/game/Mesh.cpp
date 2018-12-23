@@ -18,7 +18,7 @@
 namespace{//------------------ namespace ---------------------//
 
     //----------------------------//
-    // 图元 定点数据 模版. 2*2 像素
+    // 图元 定点数据 模版. 2*2 像素(半径扩展法)
     // 左下坐标系
     std::vector<float> rectBase {
         //      坐标            textuel 
@@ -93,7 +93,7 @@ void Mesh::init(){
     //---------------------------------------------//
     //                  texName
     //---------------------------------------------//
-    // texNameptr 不在此处被绑定...
+    // texNamePtr 不在此处被绑定...
 }
 
 
@@ -107,20 +107,19 @@ void Mesh::mesh_draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( shader_p != nullptr );
-    shader_p->send_mat4_model_2_shader( mat4_model );
+    assert( shaderPtr != nullptr );
+    shaderPtr->send_mat4_model_2_shader( mat4_model );
 
     //----------- 绑定 本mesh对象 唯一的 texture ------------    
     glActiveTexture( GL_TEXTURE0 );
-    assert( texNameptr != nullptr );
-    glBindTexture(GL_TEXTURE_2D, *texNameptr );
+    assert( texNamePtr != nullptr );
+    glBindTexture(GL_TEXTURE_2D, *texNamePtr );
 
     //----------- 绑定 本Model对象 的 VAO ----------
     glBindVertexArray( VAO );
 
     //----------- 正式绘制 ----------
     glDrawArrays( GL_TRIANGLES, 0, 6 ); //-- 绘制 图元(rect). 不依赖 EBO 的写法
-
 }
 
 
@@ -151,7 +150,6 @@ void Mesh::update_mat4_model(){
     }
     is_model_change = false;  //--- 重置 标志符。
     */
-
 
     //----- 位移：正常移动 ------
     mat4_model = glm::translate(

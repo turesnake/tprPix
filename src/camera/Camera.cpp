@@ -40,21 +40,6 @@ namespace{
 void Camera::init(){
 
     update_camera_vectors();
-
-    //----------------------//
-    //  生成 mat4_projection
-    //----------------------//
-    float ow = (float)(WORK_WIDTH/2);  //- 横向边界半径（像素）
-    float oh = (float)(WORK_HEIGHT/2); //- 纵向边界半径（像素）
-
-    mat4_projection = glm::ortho( -ow,   //-- 左边界
-                                   ow,   //-- 右边界
-                                  -oh,   //-- 下边界
-                                   oh,   //-- 上边界
-                                  -1000.0f, //-- 近平面
-                                   1000.0f  //-- 远平面
-                                );
-
 }
 
 
@@ -80,10 +65,25 @@ glm::mat4 &Camera::update_mat4_view(){
  * --  
  */
 glm::mat4 &Camera::update_mat4_projection(){
-        
-    //-----------------------------//
-    //  已在 init 阶段生成，不需要改写
-    //-----------------------------//
+
+    //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
+    //   所以不推荐，将 ow/oh 写成定值
+    float ow = (float)(WORK_WIDTH/2);  //- 横向边界半径（像素）
+    float oh = (float)(WORK_HEIGHT/2); //- 纵向边界半径（像素）
+
+    //-- 每一帧都要计算 近平面远平面，根据 camera pos.y --
+    //   camera 在 z轴其实是存在运动的，以此确保 渲染盒子始终匹配图元
+    float zNear = -1000.0f - cameraPos.y;
+    float zFar  = 1000.0f  - cameraPos.y;
+
+    mat4_projection = glm::ortho( -ow,   //-- 左边界
+                                   ow,   //-- 右边界
+                                  -oh,   //-- 下边界
+                                   oh,   //-- 上边界
+                                   zNear, //-- 近平面
+                                   zFar  //-- 远平面
+                                );
+
     return mat4_projection;
 }
 
@@ -93,20 +93,20 @@ glm::mat4 &Camera::update_mat4_projection(){
  * -----------------------------------------------------------
  * --  通过 wsad 键，控制摄像机 前后左右移动
  */
-void Camera::cameraPos_forward(){
+//void Camera::cameraPos_forward(){
     /*
     cameraSpeed = 2.5f * get_deltaTime();
     cameraPos += cameraFront * cameraSpeed;
     */
-}
+//}
 
 
-void Camera::cameraPos_back(){
+//void Camera::cameraPos_back(){
     /*
     cameraSpeed = 2.5f * get_deltaTime();
     cameraPos -= cameraFront * cameraSpeed;
     */
-}
+//}
 
 
 void Camera::cameraPos_left(){

@@ -4,9 +4,7 @@
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
- * 
  *    main();
- *    
  * ----------------------------
  */
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
@@ -119,6 +117,7 @@ int main(){
     //---------------------------------------------//
     //                shader_program
     //---------------------------------------------//
+    // shader 也是 资源，也应该被 整合...
     ShaderProgram rect_shader( "/shaders/base.vs",
                                "/shaders/base.fs" );
     rect_shader.init();
@@ -179,15 +178,33 @@ int main(){
     while( !glfwWindowShouldClose( window ) ){
 
         //--------------------------------//
+        //             time   
+        //--------------------------------//
+        timer.update_time();
+
+        //--------------------------------//
         //            input   
         //--------------------------------//
         //-- 目前这个版本 非常简陋
 		processInput( window );
 
         //--------------------------------//
-        //             time   
+        //      render background   
         //--------------------------------//
-        timer.update_time();
+        glClearColor( 0.25f, 0.24f, 0.25f, 1.0f );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
+                    //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
+
+        //--------------------------------//
+        //    camera:: view, projection
+        //--------------------------------//
+        rect_shader.use_program();
+        rect_shader.send_mat4_view_2_shader( camera.update_mat4_view() );
+        rect_shader.send_mat4_projection_2_shader( camera.update_mat4_projection() );
+
+        //--------------------------------//
+        //           logic
+        //--------------------------------//
 
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
         switch( logicTimeCircle.current() ){
@@ -206,46 +223,10 @@ int main(){
                 assert(0);
         }
 
-            
-
-        
-
         //--------------------------------//
-        //      render background   
+        //        render graphic
         //--------------------------------//
-        glClearColor( 0.25f, 0.24f, 0.25f, 1.0f );
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-                    //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
-
-
-        //--------------------------------//
-        //                 
-        //--------------------------------//
-        rect_shader.use_program();
-        rect_shader.send_mat4_view_2_shader( 
-                                camera.update_mat4_view()
-                                );
-
-        rect_shader.send_mat4_projection_2_shader(
-                                camera.update_mat4_projection()
-                                );
-
-
-        //--------------------------------//
-        //                 
-        //--------------------------------//
-
-
-
-
-
-
-
-
-
-        //--------------------------------//
-        //             渲染图形
-        //--------------------------------//
+        // 将被整合 ...
         
         //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
         mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
@@ -254,10 +235,11 @@ int main(){
 
 
         //--------------------------------//
-        //   check and call events and swap the buffers               
+        //   check and call events
+        //     swap the buffers               
         //--------------------------------//
-		glfwPollEvents();   //-- 处理所有 处于 event queue 中的 待决 event。
-		glfwSwapBuffers( window );
+		glfwPollEvents();          //-- 处理所有 处于 event queue 中的 待决event
+		glfwSwapBuffers( window ); //- 交换 两个 帧缓冲区
 
         //------------ 显示数据到终端 -----------//
         //...
@@ -267,6 +249,7 @@ int main(){
 
 
     //------------ 删除 所有 model -------------
+    //...
     mod_1.model_delete();
 
     //---------------------------------------------//

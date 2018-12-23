@@ -97,7 +97,7 @@ public:
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
 
-    std::vector< Mesh* > meshptrs; //- go实例 与 mesh 是比较静态的关系。
+    std::vector< Mesh* > meshPtrs; //- go实例 与 mesh 是比较静态的关系。
                             // 大部分go不会卸载／增加自己的 mesh实例
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 mesh实例的指针 填入此容器
                             //- mesh实例本体，则存储在 具象go类 实例中。 
