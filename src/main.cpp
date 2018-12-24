@@ -102,10 +102,7 @@ int main(){
     action_srcs_load();
 
 
-
     //---- 加载 map 数据 ----
-
-    
 
 
     //---------------------------------------------//
@@ -115,25 +112,18 @@ int main(){
 
 
     //---------------------------------------------//
-    //                shader_program
+    //                shader
     //---------------------------------------------//
-    // shader 也是 资源，也应该被 整合...
-    ShaderProgram rect_shader( "/shaders/base.vs",
-                               "/shaders/base.fs" );
     rect_shader.init();
-
     //--- 
     rect_shader.get_uniform_location( "model" );
     rect_shader.get_uniform_location( "view" );
     rect_shader.get_uniform_location( "projection" );
-
     rect_shader.get_uniform_location( "texture1" );
-
 
     rect_shader.use_program();
 
 
-    
     //---------------------------------------------//
     //          创建／初始化  所有 model
     //---------------------------------------------//
@@ -147,7 +137,6 @@ int main(){
                     (GLsizei)( sizeof(float) * 5 ) 
                     );
 
-    
     mod_1.add_texture( textel_1 );
     
     mod_1.set_shader_program( &rect_shader );
@@ -160,10 +149,9 @@ int main(){
     //---------------------------------------------//
     //-- 必须要激活 shaderProgram，这样才能修改其 uniform 变量值。
     rect_shader.use_program();
-    //-- 为 两个 uniform 变量 texture1,texture2  设置值。
-    //-- 分别指向 GL_TEXTURE0，GL_TEXTURE1 这两个 纹理单元。
+    //-- 为 uniform 变量 texture1 设置值
+    //-- 指向 GL_TEXTURE0 这两个 纹理单元
     glUniform1i( rect_shader.uniform_location( "texture1" ), 0);
-    //glUniform1i( rect_shader.uniform_location( "texture2" ), 1);
 
 
     //---------------------------------------------//

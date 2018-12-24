@@ -38,7 +38,7 @@ void mapSection_srcs_init();
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_var 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB mapSection_fst_db{ tpr::DB::DB_TYPE::Pure_Var, false };
+    tpr::tprDB  fstMapSection_db  { tpr::DB::DB_TYPE::Pure_Var, false };
 
     
 }//---------------- namespace end --------------//
@@ -51,10 +51,37 @@ namespace{//------------ namespace --------------//
  */
 void mapSection_srcs_init(){
 
-    mapSection_fst_db.init_huge( path_data,
-                                "fst_mapSection",
+    fstMapSection_db.init_huge( path_data,
+                                "fstMapSection",
                                 sizeof(Fst_diskMapSection)
                                 );
+    //----------------------------------
+    // 临时方案：
+    //     若有存档，读取之
+    //     若无存档，创建之
+    //----------------------------------
+    size_t fstMapSection_db_ents = fstMapSection_db.ent_nums();
+    if( fstMapSection_db_ents = 0 ){
+        //----- 没有存档，新建之 --------//
+        
+
+
+
+    }else{
+        //----- 有现成存档，读取之 --------//
+        //...
+
+
+
+    }
+
+
+
+
+
+
+
+
 
 }
 
