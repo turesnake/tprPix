@@ -57,7 +57,6 @@ struct PngPix{
 };
 
 
-
 //-- AS实例 需要的参数 --
 struct Action_SRC_Params{
     std::string lpath_pic;
@@ -65,6 +64,13 @@ struct Action_SRC_Params{
     PixVec2  frames;
     PixVec2  anchor_root;
 
+};
+
+
+//-- 动画帧类型。以后有用处 ---
+enum class ActionType{
+    Null      = 1, //- 空
+    Walk_loop = 2  //- tmp
 };
 
 
@@ -93,11 +99,12 @@ public:
                 std::vector< std::vector<PngPix>> &_frame_data_ary );
 
 
-private:
 
     //-- 本动画动作 的name。 起到 id 的作用。
     //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
     std::string  name;
+
+    ActionType   type {ActionType::Null};  //- 类型，以后可能有用
 
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
@@ -122,6 +129,7 @@ private:
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames;   
 
+private:
 };
 
 

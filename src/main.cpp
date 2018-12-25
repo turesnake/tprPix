@@ -86,6 +86,10 @@ int main(){
         //test_1();
         //return(0);
 
+    //==========================================//
+    //        glob only VAO，VBO
+    //------------------------------------------//
+    VAOVBO_init();
 
     //------------------------------------------//
     //               加载所有 资源
@@ -132,10 +136,12 @@ int main(){
 
     //-- 此矩形是 长宽为1 的基础矩形 --
     //-- 需要在每一帧，拉升为 目标尺寸 --
+    /*
     mod_1.set_VBO( (GLvoid*)&(rect_base[0]),
                     (GLsizeiptr)(sizeof(float) * rect_base.size()),
                     (GLsizei)( sizeof(float) * 5 ) 
                     );
+    */
 
     mod_1.add_texture( textel_1 );
     
@@ -217,8 +223,15 @@ int main(){
         // 将被整合 ...
         
         //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
+        mod_1.set_translate( glm::vec3( 7.0f, 0.0f, 0.0f ) );
         mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
         mod_1.model_draw();
+
+        
+        mod_1.set_translate( glm::vec3( -6.0f, 7.0f, 0.0f ) );
+        mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
+        mod_1.model_draw();
+        
         
 
 
@@ -238,7 +251,10 @@ int main(){
 
     //------------ 删除 所有 model -------------
     //...
-    mod_1.model_delete();
+    //mod_1.model_delete();
+
+    //------------ 删除 全局唯一的 VAO，VBO -------------
+    VAOVBO_del();
 
     //---------------------------------------------//
     //                glfw Terminate

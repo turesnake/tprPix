@@ -80,9 +80,10 @@ private:
     
     //------ 方向向量 -------
     //-- 以下3个向量 都是 单位向量
+    //-- 二维游戏的 摄像机视角是固定的，不需要每帧运算 --
     glm::vec3 cameraFront { glm::vec3(0.0f, 0.0f, -1.0f) }; //-- 摄像机 观察的方向
-    glm::vec3 cameraRight; //-- 摄像机 右手 指向的方向。 
-    glm::vec3 cameraUp;    //-- 摄像机 头顶向上 指向的方向。
+    glm::vec3 cameraRight { glm::vec3(1.0f, 0.0f, 0.0f) }; //-- 摄像机 右手 指向的方向。 
+    glm::vec3 cameraUp    { glm::vec3(0.0f, 1.0f, 0.0f) }; //-- 摄像机 头顶向上 指向的方向。
 
     glm::vec3 worldUp { glm::vec3(0.0f, 1.0f, 0.0f) };     //-- 世界轴的 Up方向，和 cameraUp 有区别。
 
@@ -106,7 +107,7 @@ private:
     //float fov {45.0f}; //-- Field of View／视野，初始化为 45.0f
 
     //---- funcs -----
-    void update_camera_vectors(); //-- 刷新 camera 的几个核心向量。 
+    //void update_camera_vectors(); //-- 刷新 camera 的几个核心向量。 
 };
 
 

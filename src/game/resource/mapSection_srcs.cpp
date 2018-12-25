@@ -61,7 +61,7 @@ void mapSection_srcs_init(){
     //     若无存档，创建之
     //----------------------------------
     size_t fstMapSection_db_ents = fstMapSection_db.ent_nums();
-    if( fstMapSection_db_ents = 0 ){
+    if( fstMapSection_db_ents == 0 ){
         //----- 没有存档，新建之 --------//
         
 

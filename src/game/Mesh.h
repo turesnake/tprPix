@@ -10,12 +10,13 @@
  * Mesh 和 Action_SRC 的区别：
  *	  mesh 的主体部分 就是原本的 model类
  *	  mesh 需要 图片资源，
- *	  而大部分 图片资源，以 Action_SRC 的形式存储。
+ *	  而大部分 图片资源，以 gl texName 的形式，存储在 Action_SRC 模块中。
  *  ----------
  *   一个 mesh 拥有：
  *     一个 根锚点 ／ root anchor   -- 代表 mesh 本身
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 meshes
- *  
+ *  ----------
+ *   和 go类一样，mesh只记录数据，具体的使用方式，由最终的 具象go类 区定义
  * 
  * 
  * ----------------------------
@@ -53,12 +54,20 @@
 //#include "Action_SRC.h"
 #include "vector_matrix.h"
 #include "ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
+#include "VAOVBO.h" 
 
 
 
 //-- 和 go类一样，Mesh类也是一个 "半伪接口类" --
-//   在最终由用户定义的 “具象go类” 中，将创建 go／mesh实例
-//   并对其做 具象配置和绑定。 
+// mesh 被轻量化了：
+//  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
+//  -- texName 存储在 action_src 模块中。mesh 通过一个指针 调用它们
+//    （调用方式由 具象go类 定义）
+// --------
+// 每个 具象go类实例 所拥有的 mesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
+// 但是，mesh实例 不会被存入 硬盘态。
+// 而是在每次 加载section中 具象go实例时，临时生成。
+//
 class Mesh{
 
 public:
@@ -66,10 +75,7 @@ public:
 
     void init();
     void mesh_draw();
-    void mesh_delete(); 
 
-
-    u64   id;     //- go实例 在程序中的 主要搜索依据。
 
     //--- pos ---
     glm::vec2  pos; //- 以go实例 根锚点 为 0点的 相对pos位移
@@ -79,10 +85,13 @@ public:
                     //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
                     //- 这个值 多数由 具象go类 填入。
 
+    
     GLuint  *texNamePtr {nullptr}; //- 指向 texName 的指针。
                     // texName 被存储在 action_src实例中，
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处
                     //-- tex 会在每次 draw 时 才被绑定，这正是我们想要的
+    int      currentFrameIdx {};   //- 当前播放的 action实例 中的 第几帧
+
 
     //--------------------------//
     inline void set_shader_program( ShaderProgram *sp ){
@@ -102,16 +111,8 @@ public:
         scale_val = v;
     }
 
-    
-
-
-
 
 private:
-    GLuint VAO  {0}; //- obj id
-    GLuint VBO  {0}; //- obj id
-
-
     //-- 本 Model对象 绑定的 着色器程序对象 指针
     ShaderProgram  *shaderPtr  {nullptr}; 
 
@@ -136,11 +137,8 @@ private:
     float     rotate_z    {0.0f};  //- z轴旋转角度
     glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
-
-
     //--------- funcs ----------
     void update_mat4_model(); //-- 重新计算 model矩阵
-
 };
 
 

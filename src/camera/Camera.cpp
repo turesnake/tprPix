@@ -39,7 +39,7 @@ namespace{
  */
 void Camera::init(){
 
-    update_camera_vectors();
+    //update_camera_vectors();
 }
 
 
@@ -71,10 +71,22 @@ glm::mat4 &Camera::update_mat4_projection(){
     float ow = (float)(WORK_WIDTH/2);  //- 横向边界半径（像素）
     float oh = (float)(WORK_HEIGHT/2); //- 纵向边界半径（像素）
 
-    //-- 每一帧都要计算 近平面远平面，根据 camera pos.y --
+    //------ 近平面 / 远平面 --------
+    // 对这组值的理解：
+    //  沿着 摄像机的视角，从摄像机当前pos出发，
+    //  向“前”推进 zNear 获得的平面就是 近平面
+    //  向“前”推进 zFar  获得的平面就是 远平面
+    //----------
+    //  由于我们的 二维游戏，摄像机始终朝向 负z轴，
+    //  所以这两个值就是沿着 fz轴的叠加
+    //
+    //-- 每一帧都要计算 近平面/远平面，根据 camera pos.y --
+    //   z = -y;
     //   camera 在 z轴其实是存在运动的，以此确保 渲染盒子始终匹配图元
-    float zNear = -1000.0f - cameraPos.y;
-    float zFar  = 1000.0f  - cameraPos.y;
+    //
+    float zNear = 0.1f + cameraPos.y;
+    float zFar  = 2000.0f  + cameraPos.y;
+
 
     mat4_projection = glm::ortho( -ow,   //-- 左边界
                                    ow,   //-- 右边界
@@ -169,7 +181,7 @@ void Camera::mousePos_move( double xpos, double ypos ){
     }
 
     //--- 因为 camera 姿态发生改变，需要更新 几个核心向量。
-    update_camera_vectors(); 
+    //update_camera_vectors(); 
 }
 
 
@@ -200,8 +212,10 @@ void Camera::mouseFov_reset( double xoffset, double yoffset ){
  * -----------------------------------------------------------
  * -- 刷新 camera 的几个核心向量。 
  * -- 分别在 camera 初始化，以及 camera 视角转变（通过鼠标位移）时，
- * -- 本函数被执行
+ * --  在 二维游戏中，camera方向是固定的，不用每帧都运算 本函数将被废弃
+ * 
  */
+/*
 void Camera::update_camera_vectors(){
 
     //-- 更新 camera 前视向量
@@ -213,11 +227,14 @@ void Camera::update_camera_vectors(){
     cameraFront = glm::normalize(front);
 
     //- 更新 camera 右手向量
+    //  在 二维游戏中是固定的，不用每帧都运算
     cameraRight = glm::normalize(glm::cross(cameraFront, worldUp)); 
     //- 更新 camera 头顶向量
+    //  在 二维游戏中是固定的，不用每帧都运算
     cameraUp    = glm::normalize(glm::cross(cameraRight, cameraFront));   
 
 }
+*/
 
 
 /* ===========================================================

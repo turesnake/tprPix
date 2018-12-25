@@ -263,8 +263,6 @@ void glVertexAttribPointer(	GLuint index, //-
  	                        GLsizei stride,        //-
  	                        const GLvoid * pointer); //-
 
-
-
     //- 参数 index，就是在 vs着色器程序中，通过 
     //  layout (location = 0) in vec3 aPos;
     //  指定 的 0  这个 idx。

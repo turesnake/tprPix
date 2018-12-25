@@ -40,6 +40,7 @@
 
 #include "vector_matrix.h" 
 
+#include "VAOVBO.h" 
 
 
 
@@ -53,12 +54,14 @@ public:
     //- 随着 RectVertics 的调用 被内置到 model/ new mesh 类中，
     //- 这个函数将被废弃。
     //- 由于数据是固定的，不再需要外部绑定，而是直接固定在 Mesh 类内
+    /*
     inline void set_VBO( GLvoid *VBOdata, GLsizeiptr VBOsize, GLsizei stride_ )
                 {  
                     VBO_data = VBOdata;
                     VBO_size = VBOsize;
                     stride = stride_;
                 }
+    */
 
 
     inline void set_shader_program( ShaderProgram * const sp )
@@ -96,7 +99,7 @@ public:
     
     void init();
     void model_draw();
-    void model_delete(); 
+    //void model_delete(); 
 
     
     inline size_t nr_of_textures() const 
@@ -107,13 +110,11 @@ public:
 
 
 private:
-    GLuint VAO = 0; //- obj
-    GLuint VBO = 0; //- obj
 
-    GLvoid *VBO_data; //- 在本游戏中，固定为 &(rect_base[0])
+    //GLvoid *VBO_data; //- 在本游戏中，固定为 &(rect_base[0])
                       //- 一个 2*2像素 的固定矩形。
-    GLsizeiptr VBO_size;  //-- sizeof(VBO_data)
-    GLsizei stride; //-- 步长，glVertexAttribPointer 函数中用到
+    //GLsizeiptr VBO_size;  //-- sizeof(VBO_data)
+    //GLsizei stride; //-- 步长，glVertexAttribPointer 函数中用到
 
     //-- 一个模型拥有数个 贴图文件, 动态添加
     std::vector<Texture> textures;

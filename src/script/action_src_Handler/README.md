@@ -1,0 +1,1 @@
+#  专门存储：处理 Action_SRC 资源的 class（类似闭包）

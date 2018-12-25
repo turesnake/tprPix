@@ -56,12 +56,7 @@ void action_srcs_load();
 //-------------------------//
 //--- mem ---//
 inline std::unordered_map<goid_t, GameObj> memGameObjs {}; //- 所有载入内存的 go实例 实际存储区。
-                                    // GO类 能容纳的数据 是非常有限的，目前来看，只能提供基础的 视觉渲染 的需求
-                                    // 想要让 具象go类实例 变强壮，就的支持 具象go类实例 的动态存储
-                                    //...
-                                    // 进一步的，如果正式支持 具象go类实例的 存储，那就 只需把 具象go实例的 go实例指针
-                                    // 存储到本容器中。 真身 则始终在 具象go类实例 体内。
- 
+                                    
 inline std::unordered_set<goid_t> goids_active   {}; //- 激活组 (身处 激活圈 之内)
 inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 激活圈 之外)
 
