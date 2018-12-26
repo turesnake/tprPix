@@ -7,10 +7,10 @@
  *   Mesh 类, 可以看作 图元类。
  *   一个 mesh，负责管理 一张 矩形图元
  *  ----------
- * Mesh 和 Action_SRC 的区别：
+ * Mesh 和 Action 的区别：
  *	  mesh 的主体部分 就是原本的 model类
  *	  mesh 需要 图片资源，
- *	  而大部分 图片资源，以 gl texName 的形式，存储在 Action_SRC 模块中。
+ *	  而大部分 图片资源，以 gl texName 的形式，存储在 Action 模块中。
  *  ----------
  *   一个 mesh 拥有：
  *     一个 根锚点 ／ root anchor   -- 代表 mesh 本身
@@ -51,7 +51,7 @@
 #include "tprDataType.h" 
 
 //------------------- SELF --------------------//
-//#include "Action_SRC.h"
+//#include "Action.h"
 #include "vector_matrix.h"
 #include "ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
 #include "VAOVBO.h" 
@@ -61,7 +61,7 @@
 //-- 和 go类一样，Mesh类也是一个 "半伪接口类" --
 // mesh 被轻量化了：
 //  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
-//  -- texName 存储在 action_src 模块中。mesh 通过一个指针 调用它们
+//  -- texName 存储在 action 模块中。mesh 通过一个指针 调用它们
 //    （调用方式由 具象go类 定义）
 // --------
 // 每个 具象go类实例 所拥有的 mesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
@@ -87,7 +87,7 @@ public:
 
     
     GLuint  *texNamePtr {nullptr}; //- 指向 texName 的指针。
-                    // texName 被存储在 action_src实例中，
+                    // texName 被存储在 action实例中，
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处
                     //-- tex 会在每次 draw 时 才被绑定，这正是我们想要的
     int      currentFrameIdx {};   //- 当前播放的 action实例 中的 第几帧

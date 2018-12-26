@@ -15,6 +15,10 @@ struct PixVec2{
     int  x {0}; 
     int  y {0};
 };
+inline bool is_equal( const PixVec2 &_a, const PixVec2 &_b ){
+    return ( ((_a.x==_b.x)&&(_a.y==_b.y)) );
+}
+
 
 
 struct PixVec3{
@@ -22,6 +26,11 @@ struct PixVec3{
     int  y  {0};
     int  z  {0};
 };
+inline bool is_equal( const PixVec3 &_a, const PixVec3 &_b ){
+    return ( ((_a.x==_b.x)&&(_a.y==_b.y)&&(_a.z==_b.z)) );
+}
+
+
 
 
 #endif

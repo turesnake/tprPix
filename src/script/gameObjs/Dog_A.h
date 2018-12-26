@@ -21,7 +21,7 @@
 //-------------------- SELF --------------------//
 #include "GameObj.h"
 #include "Mesh.h"
-#include "Action_SRC.h"
+#include "Action.h"
 
 
 //--- 具象GameObj类 示范 --

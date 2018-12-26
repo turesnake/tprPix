@@ -1,5 +1,5 @@
 /*
- * ========================= Action_SRC.h ==========================
+ * ========================= Action.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
  *                                        修改 -- 2018.11.28
@@ -22,13 +22,21 @@
  *      3_4        --- 本图片横排放 3 帧，一共 4 排。
  *      17_2       --- 每一帧的锚点。 "中下点"
  * 
- * 
  *      以 文件名表示信息的 方式，可能会被配置表取代。
- * 
+ *   
+ *   -----------------
+ *   texture 管理：
+ *   gl中，texture资源的唯一限制在于 显存大小。
+ *   所以，在目前版本中，假定现存无限大，
+ *   将游戏的所有 texture资源 一股脑存入 显存中
+ *  （等正式爆发 显存危机了，再做调整...）
+ *   ---
+ *   随着 tex动态生成器的 引入，texture 的数量将呈爆炸态
+ *   此时就有必要进入 更为完善的 tex显存管理（到时再说）
  * ----------------------------
  */
-#ifndef _TPR_ACTION_SRC_H_
-#define _TPR_ACTION_SRC_H_
+#ifndef _TPR_ACTION_H_
+#define _TPR_ACTION_H_
 
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
  * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
@@ -46,19 +54,14 @@
 
 //-------------------- SELF --------------------//
 #include "PixVec.h" 
+#include "RGBA.h" 
 
 
-//-- 1个 png 像素 的 data 结构 --
-struct PngPix{
-    u8 r {0};
-    u8 g {0};
-    u8 b {0};
-    u8 a {0};
-};
+
 
 
 //-- AS实例 需要的参数 --
-struct Action_SRC_Params{
+struct ActionParams{
     std::string lpath_pic;
     PixVec2  pixes_per_frame;
     PixVec2  frames;
@@ -74,21 +77,18 @@ enum class ActionType{
 };
 
 
-//-- 作为纯粹的 图像资源类，Action_SRC 应该被设计得尽可能简洁 --
+//-- 作为纯粹的 图像资源类，Action 应该被设计得尽可能简洁 --
 //   不负责其他任何数据 
-//   Action_SRC 是唯一的类，不存在 具象as类。
-class Action_SRC{
-
+//   Action 是唯一的类，不存在 具象as类。
+class Action{
 public:
-    explicit Action_SRC(const std::string &_lpath_pic, 
-                        PixVec2  _pixes_per_frame,
-                        PixVec2  _frames,
-                        PixVec2  _anchor_root
-                        ):
+    Action( const std::string &_lpath_pic, 
+                PixVec2  _pixes_per_frame,
+                PixVec2  _frames
+                ):
         lpath_pic(_lpath_pic),
         pixes_per_frame(_pixes_per_frame),
-        frames(_frames),
-        anchor_root(_anchor_root)
+        frames(_frames)
         {}
 
 
@@ -96,9 +96,10 @@ public:
 
     //--- 分别 加载，分解 pic / pjt 两张图 --- 
     void load_and_divide_png( bool _is_pic,
-                std::vector< std::vector<PngPix>> &_frame_data_ary );
+                std::vector< std::vector<RGBA>> &_frame_data_ary );
 
-
+    void debug(); //- 向终端输出 本Action的信息，用来 debug
+    //---------------------- vals -------------------------//
 
     //-- 本动画动作 的name。 起到 id 的作用。
     //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
@@ -110,24 +111,24 @@ public:
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
     //- 相对路径名，从 path_action_srcs 目录开始
     std::string  lpath_pic;
-
     //- 画面 投影单位集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     std::string  lpath_pjt;   
 
-    //- 单帧画面 的 长宽 像素值
-    PixVec2  pixes_per_frame {};
+    PixVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
+    PixVec2  frames {};           //- 画面中，横排可分为几帧，纵向可分为几帧
 
-    //- 画面中，横排可分为几帧，纵向可分为几帧
-    PixVec2  frames {};
 
-    //- 每一帧中，root锚点 像素值
-    PixVec2  anchor_root {};
-
+    //- 每一帧中，root锚点 像素值偏移，（从0开始算）
+    //  每一帧的都不一样
+    std::vector<PixVec2> anchors_root;
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames;   
+
+    //- 多维数组，存储每一帧 投影单位集（取投影单位 左下像素pos）
+    std::vector<std::vector<PixVec2>> pjtMasks; 
 
 private:
 };

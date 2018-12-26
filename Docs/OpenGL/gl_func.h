@@ -57,7 +57,7 @@ void glGenTextures(	GLsizei n, GLuint * textures);
 //- param: target  -- 目标
 //- param: texture -- text name
 void glBindTexture(	GLenum target, GLuint texture);
-    //- target 似乎是一个 单独的对象：
+    //- target 是一个 单独的对象：
     //- 当一个新的 text实例 被绑定到 某 target 上时。
     //- 这个 target 原先绑定的 text实例 会被自动解脱
 
@@ -67,6 +67,9 @@ void glBindTexture(	GLenum target, GLuint texture);
     //- 一个被分配了 name 的 text实例，可以被反复 绑定到 同一个 target上
     //- 通常，这种 重新绑定的 速度 会很快
     //- 至少比 用  glTexImage2D 之类的函数 重新加载 text img 文件 要快
+
+    //- 不允许将 一个texture，绑定向不同的 target 类型（只能绑定一种）
+    //  因为这将影响 gl中，此texture的 数据存储区
     
     //- target 必须属于如下之一: 
     //- GL_TEXTURE_1D
@@ -99,8 +102,25 @@ void glDeleteTextures(	GLsizei n, const GLuint * textures);
     //- 这个 text实例 会被删除，相关的 target 会被绑定到 0 号 text实例
     //- （一个状态机 默认值）
 
+    //- 如果传入的 name 是0，或者是已经不存在的 name，
+    //  本函数不会引发错误，而是简单地 忽略它们
+
     //- ERROR:
     //- GL_INVALID_VALUE -- 当 n 为负数时
+
+
+
+//----------------------------
+// 检测 参数texture 是否为一个 可用的 tex
+GLboolean glIsTexture(GLuint texture​);
+    //- return:
+    //  -- 如果参数texture 是可用的tex。返回 GL_TRUE
+    //  -- 如果是：
+    //       - 0
+    //       - 刚通过 glGenTextures 创建，但还未通过 glBindTexture 绑定的 names
+    //       - 确实无效的 names
+    //     那么都将返回  GL_FALSE。
+
 
 //----------------------------
 //- 将 图形数据，喂给 text target 实例。
@@ -124,6 +144,9 @@ void glTexImage2D(	GLenum target, //- 目标 target 实例（唯一）
     //- 若要加载所有 mipmap 图像，需要将这个值，设置为 n （mipmap 中图像的个数）
     //- 更简单的方法是：
     //- 在 用 level = 0 生成text之后，调用 glGenerateMipmap 函数来自动生成一张 mipmap
+
+    //- 可以向gl存入多少 tex资源，只首先于 显存大小。
+    //  当显存不够时，glTexImage2D 调用将会引发 error.
 
 
 //----------------------------

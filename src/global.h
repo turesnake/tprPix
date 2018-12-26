@@ -36,7 +36,7 @@ inline std::string path_home {};  //-- ~/
 inline std::string path_data {};  //-- .../data/
 inline std::string path_textures {}; //-- .../textures/
 
-inline std::string path_action_srcs {}; //-- .../textures/action_srcs
+inline std::string path_actions {}; //-- .../textures/actions
 
 
 //----------------------------------------------------//

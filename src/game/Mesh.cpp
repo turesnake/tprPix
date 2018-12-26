@@ -51,7 +51,9 @@ void Mesh::mesh_draw(){
     assert( shaderPtr != nullptr );
     shaderPtr->send_mat4_model_2_shader( mat4_model );
 
-    //----------- 绑定 本mesh对象 唯一的 texture ------------    
+    //----------- 绑定 本mesh对象 唯一的 texture ------------   
+    //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
+    //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
     assert( texNamePtr != nullptr ); 
     glBindTexture(GL_TEXTURE_2D, *texNamePtr ); //- 绑定纹理单元

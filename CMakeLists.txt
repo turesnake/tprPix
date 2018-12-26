@@ -56,8 +56,13 @@ include_directories (${PROJECT_SOURCE_DIR}/src/game/resource)
 include_directories (${PROJECT_SOURCE_DIR}/src/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/time)
+
 include_directories (${PROJECT_SOURCE_DIR}/src/script)
+include_directories (${PROJECT_SOURCE_DIR}/src/script/actionSrcHandler)
+include_directories (${PROJECT_SOURCE_DIR}/src/script/byPass)
 include_directories (${PROJECT_SOURCE_DIR}/src/script/gameObjs)
+include_directories (${PROJECT_SOURCE_DIR}/src/script/textureBuilder)
+
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
@@ -94,7 +99,10 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/game/resource/*.cpp 
                         src/game/gameObj/*.cpp 
                         src/script/*.cpp 
-                        src/script/gameObjs/*.cpp 
+                        src/script/actionSrcHandler/*.cpp 
+                        src/script/byPass/*.cpp 
+                        src/script/gameObjs/*.cpp
+                        src/script/textureBuilder/*.cpp 
                         )
 
 #---------------------------------------------------#

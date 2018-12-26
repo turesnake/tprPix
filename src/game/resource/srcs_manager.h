@@ -19,11 +19,13 @@
 
 //------------------- SELF --------------------//
 #include "GameObj.h"
-#include "Action_SRC.h"
+#include "Action.h"
 #include "Player.h" 
 #include "TimeBase.h" 
 #include "TimeCircle.h" 
 #include "Camera.h"
+#include "ShaderProgram.h"
+
 
 //-------------------------//
 //       time 资源 
@@ -41,14 +43,15 @@ inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 //-------------------------//
 //       Shader 资源 
 //-------------------------//
-inline ShaderProgram rect_shader { "/shaders/base.vs",
-                                   "/shaders/base.fs" };
+inline ShaderProgram rect_shader { "/shaders/base.vs", "/shaders/base.fs" };
+void shaders_init();
+
 
 //-------------------------//
-//     Action_SRC 资源
+//     Action 资源
 //-------------------------//
-inline std::unordered_map< std::string, Action_SRC > action_srcs {};
-void action_srcs_load();
+inline std::unordered_map<std::string, Action> actions {};
+void actions_load();
 
 
 //-------------------------//

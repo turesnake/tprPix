@@ -39,13 +39,15 @@
 
 #include "srcs_manager.h" //- 所有资源
 #include "TimeCircle.h" 
+
+#include "byPass.h"
  
 using std::cout;
 using std::endl;
 using std::string;
 
 
-//------------------- 从外部获得的 函数 ----------------
+//------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
 extern void test_1();
 
@@ -79,57 +81,46 @@ int main(){
     //                  TEST
     //------------------------------------------//
 
-        //Action_SRC as{ "/animal/dog_ack_01.P.png", 65, 112, 3, 4, 17, 2 };
+        //Action as{ "/animal/dog_ack_01.P.png", 65, 112, 3, 4, 17, 2 };
         //as.init();
         
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
-        //test_1();
         //return(0);
-
-    //==========================================//
-    //        glob only VAO，VBO
-    //------------------------------------------//
-    VAOVBO_init();
 
     //------------------------------------------//
     //               加载所有 资源
     //------------------------------------------//
 
-    //---- init -----//
-    globState_srcs_init(); //---- globState 资源 ----
+    //++++++ init ++++++//
+    VAOVBO_init();         //---- VAO,VBO 资源 ----
+    camera.init();         //---- camera 资源 ----
+    shaders_init();        //---- shaders 资源 ----
+    //globState_srcs_init(); //---- globState 资源 ----
+        globState_byPass();
+
     player_srcs_init();    //----  player 资源 ----
     //...
 
-    //---- load -----//
 
-    //------------------------------------------//
-    action_srcs_load();
 
+    //++++++ load ++++++//
+    actions_load();    //-- actions --
+    //...
 
     //---- 加载 map 数据 ----
+    //...
 
 
     //---------------------------------------------//
     //          创建／初始化  所有 texture 
+    //             [*** 将被废弃 ***]
     //---------------------------------------------//
     Texture textel_1( "/textures/pix_01.png" );
 
 
     //---------------------------------------------//
-    //                shader
-    //---------------------------------------------//
-    rect_shader.init();
-    //--- 
-    rect_shader.get_uniform_location( "model" );
-    rect_shader.get_uniform_location( "view" );
-    rect_shader.get_uniform_location( "projection" );
-    rect_shader.get_uniform_location( "texture1" );
-
-    rect_shader.use_program();
-
-
-    //---------------------------------------------//
     //          创建／初始化  所有 model
+    //             [*** 将被废弃 ***]
     //---------------------------------------------//
 
     Model mod_1;
@@ -152,6 +143,7 @@ int main(){
     
     //---------------------------------------------//
     //                texture
+    //             [*** 将被废弃 ***]
     //---------------------------------------------//
     //-- 必须要激活 shaderProgram，这样才能修改其 uniform 变量值。
     rect_shader.use_program();
@@ -160,15 +152,10 @@ int main(){
     glUniform1i( rect_shader.uniform_location( "texture1" ), 0);
 
 
-    //---------------------------------------------//
-    //                 camera
-    //---------------------------------------------//
-    camera.init();
 
-
-    //---------------------------------------------//
-    //           main render loop
-    //---------------------------------------------//
+    //========================================================//
+    //                 main render loop
+    //========================================================//
     while( !glfwWindowShouldClose( window ) ){
 
         //--------------------------------//
@@ -234,7 +221,6 @@ int main(){
         
         
 
-
         //--------------------------------//
         //   check and call events
         //     swap the buffers               
@@ -246,15 +232,15 @@ int main(){
         //...
 
 
-    }//---------- while render loop end -----------//
+    }//------------ while render loop end --------------------//
+    //                delete everthing
+    //========================================================//
+    
 
-
-    //------------ 删除 所有 model -------------
+    //mod_1.model_delete(); //------ 删除 所有 model ------
+    VAOVBO_del();           //------ 删除 全局唯一 VAO，VBO -----
     //...
-    //mod_1.model_delete();
 
-    //------------ 删除 全局唯一的 VAO，VBO -------------
-    VAOVBO_del();
 
     //---------------------------------------------//
     //                glfw Terminate

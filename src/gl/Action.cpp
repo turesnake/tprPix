@@ -1,5 +1,5 @@
 /*
- * ========================= Action_SRC.cpp ==========================
+ * ========================= Action.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
  *                                        修改 -- 2018.11.28
@@ -7,7 +7,7 @@
  * 
  * ----------------------------
  */
-#include "Action_SRC.h"
+#include "Action.h"
 
 /*
 #ifndef STB_IMAGE_IMPLEMENTATION
@@ -17,12 +17,12 @@
 #include "stb_image.h" //-- 加载图片数据用
 
 //-------------------- C --------------------//
-//#include <errno.h> //- errno
 #include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <algorithm> //- find
 #include <iostream>
+//#include <iterator> //- distance
 
 //------------------- Libs --------------------//
 #include "tprFileSys.h" 
@@ -36,12 +36,19 @@ using std::endl;
 using std::string;
 using std::vector;
 
+namespace{//----------------- namespace ------------------//
+
+    RGBA color_pjtMask    { 0,0,0,255 };   //- 投影单位 颜色 
+    RGBA color_rootAnchor { 255,0,0,255 }; //- 根锚点 颜色
+
+}//-------------------- namespace: end ------------------//
+
 
 /* ===========================================================
  *                       init
  * -----------------------------------------------------------
  */
-void Action_SRC::init(){
+void Action::init(){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
     //-- tmp --
@@ -74,8 +81,8 @@ void Action_SRC::init(){
     int frames_total = frames.x * frames.y; //- 总帧数
 
     //-- 帧数据容器组。这里的帧排序 符合 左上坐标系 --
-    vector< vector<PngPix> > P_frame_data_ary {}; 
-    vector< vector<PngPix> > J_frame_data_ary {}; 
+    vector< vector<RGBA> > P_frame_data_ary {}; 
+    vector< vector<RGBA> > J_frame_data_ary {}; 
 
     load_and_divide_png( true,  P_frame_data_ary );
     load_and_divide_png( false, J_frame_data_ary );
@@ -83,9 +90,35 @@ void Action_SRC::init(){
     //----------------------------//
     //      读取 pjt 投影信息
     //----------------------------//
-    //...
-    //..
-    //.
+    int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
+
+    for( int j=0; j<frames_total; j++ ){
+
+        std::vector<PixVec2> pjtmask;
+        PixVec2 pix; //- tmp 
+
+        for( int i=0; i<pixNums; i++ ){
+
+            if( is_equal( J_frame_data_ary[j][i], color_pjtMask ) ){
+
+                pix.y = i/pixes_per_frame.x;
+                pix.x = i%pixes_per_frame.x;
+                pjtmask.push_back(pix);
+            }            
+            if( is_equal( J_frame_data_ary[j][i], color_rootAnchor ) ){
+                
+                pix.y = i/pixes_per_frame.x;
+                pix.x = i%pixes_per_frame.x;
+                anchors_root.push_back(pix);
+            }
+        }
+
+        pjtMasks.push_back( pjtmask ); //- copy, 低效...
+    }
+    //--- 基础查错 -----
+    assert( anchors_root.size() == frames_total );
+    assert( pjtMasks.size() == frames_total );
+
 
     //---------------------------------//
     //  依次 制作每一动画帧 的 texture 实例
@@ -119,7 +152,7 @@ void Action_SRC::init(){
                         GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
                         dptr               //-- 图像数据
                         );
-        //-- 8-bit 游戏不需要 多级渐远 
+        //-- 本游戏不需要 多级渐远 
         //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成多级渐远纹理
     }
 }
@@ -131,17 +164,17 @@ void Action_SRC::init(){
  * -- param: _is_pic
  * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
  */
-void Action_SRC::load_and_divide_png( bool _is_pic,
-        std::vector< std::vector<PngPix>> &_frame_data_ary ){
+void Action::load_and_divide_png( bool _is_pic,
+        std::vector< std::vector<RGBA>> &_frame_data_ary ){
 
     //----------------------------//
     //      合成 文件的 绝对路径名
     //----------------------------//
     string path;
     if( _is_pic == true ){
-        path = tpr::path_combine( path_textures, lpath_pic );
+        path = tpr::path_combine( path_actions, lpath_pic );
     }else{
-        path = tpr::path_combine( path_textures, lpath_pjt );
+        path = tpr::path_combine( path_actions, lpath_pjt );
     }
 
     //------------------------------//
@@ -161,20 +194,24 @@ void Action_SRC::load_and_divide_png( bool _is_pic,
     //------------------------------------//
     //   获得 每一帧的数据, 存入各自 帧容器中
     //------------------------------------// 
-    //-- 填入 相应数量的 帧容器 --
-    for( int i=0; i<(frames.x*frames.y); i++ ){
-        vector<PngPix> v {};
-        _frame_data_ary.push_back( v );
+    int frames_total = frames.x * frames.y; //- 总帧数
+
+    //-- 事先准备好 每一帧的容器 --
+    _frame_data_ary.clear();
+    for( int i=0; i<frames_total; i++ ){
+        vector<RGBA> v {};
+        _frame_data_ary.push_back( v );//- copy
     }
 
     auto fit = _frame_data_ary.begin(); //- 指向某个 帧容器
 
     int wf; //-- 以帧为单位，目标像素在横排中 的序号
-    int hf; //-- 以帧为单位，目标像素的 纵向 序号
+    int hf; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
+    int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的)
     int nrf; //-- 像素 属于的 帧序号
 
-    PngPix *pixhead = (PngPix*)data;
-    PngPix *pixp; //- tmp
+    RGBA *pixhead = (RGBA*)data;
+    RGBA *pixp; //- tmp
 
     //--- 遍历 png 中的 每一像素 ---
     for( int h=0; h<height; h++  ){
@@ -183,10 +220,12 @@ void Action_SRC::load_and_divide_png( bool _is_pic,
             //-- 计算 本像素 所属帧的容器 的迭代器 fit --
             wf = w/pixes_per_frame.x;
             hf = h/pixes_per_frame.y;
-            hf = frames.y - hf; //- 关键步骤！修正帧排序，
+            hf = frames.y - 1 - hf; 
+                        //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
             nrf = hf*frames.x + wf;
             fit = _frame_data_ary.begin() + nrf;
+            assert( nrf < frames_total ); //- 避免迭代器越界
 
             //-- 获得 本像素 的数据 --
             pixp = pixhead + (h*width + w);
@@ -201,6 +240,48 @@ void Action_SRC::load_and_divide_png( bool _is_pic,
 
 
 
+/* ===========================================================
+ *                    debug
+ * -----------------------------------------------------------
+ * -- 向终端输出 本Action的信息，用来 debug
+ */
+void Action::debug(){
+
+        cout<< "\nname = " << name
+            << "\nlpath_pic = " << lpath_pic
+            << "\nlpath_pjt = " << lpath_pjt
+            << "\npixes_per_frame.x = " << pixes_per_frame.x
+            << "\npixes_per_frame.y = " << pixes_per_frame.y
+            << "\nframes.x = " << frames.x
+            << "\nframes.y = " << frames.y
+            << endl;
+
+        cout << "anchors_root: " << endl;
+        for( auto i : anchors_root ){
+            cout << "  " << i.x
+                << ",  " << i.y
+                << endl;
+        }
+
+        cout << "texNames: " << endl;
+        for( auto i : texNames ){
+            cout << "  " << i << endl;
+        }
+
+        cout << "pjtMasks: " << endl;
+        for( int j=0; j<pjtMasks.size(); j++ ){
+            cout << "  " << j << " frame: " << endl;;
+
+            for( int i=0; i<pjtMasks[j].size(); i++ ){
+
+                PixVec2 pix = pjtMasks[j][i];
+                cout << "    " << pix.x
+                    << ", " << pix.y
+                    << endl; 
+            }
+            cout << endl;
+        }
+}
 
 
 

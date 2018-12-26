@@ -168,8 +168,8 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     //          path_action_srcs
     //---------------------------------//
-    path_action_srcs = tpr::mk_dir( path_textures.c_str(),
-                        "action_srcs/",
+    path_actions = tpr::mk_dir( path_textures.c_str(),
+                        "actions/",
                         RWXR_XR_X,
                         err_info
                         );
