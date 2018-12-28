@@ -12,7 +12,7 @@
 
 
 void globState_byPass();
-
+void player_byPass();
 
 
 

@@ -1,18 +1,26 @@
 #include "GameObj.h" 
 
 
-
 /* ===========================================================
- *                       globState_byPass
+ *                       player_byPass
  * -----------------------------------------------------------
- * -- bypass globState_srcs_init()
+ * -- 手动配置 全局变量 player
  */
-void globState_byPass(){
+void player_byPass(){
 
+    
 
-    GameObj::id_manager.set_max_id( 1 );
+    
+
+    
 
 
 
 
 }
+
+
+
+
+
+

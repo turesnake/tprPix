@@ -48,20 +48,24 @@ set ( VERSION_MINOR 1 )
 #---------------------------------------------------#
 #-- 指定 依赖的 h文件所在 路径:
 include_directories (${PROJECT_SOURCE_DIR}/src)
-include_directories (${PROJECT_SOURCE_DIR}/src/gl)
-include_directories (${PROJECT_SOURCE_DIR}/src/camera)
-include_directories (${PROJECT_SOURCE_DIR}/src/game)
-include_directories (${PROJECT_SOURCE_DIR}/src/game/map)
-include_directories (${PROJECT_SOURCE_DIR}/src/game/resource)
-include_directories (${PROJECT_SOURCE_DIR}/src/game/gameObj)
-include_directories (${PROJECT_SOURCE_DIR}/src/random)
-include_directories (${PROJECT_SOURCE_DIR}/src/time)
 
-include_directories (${PROJECT_SOURCE_DIR}/src/script)
-include_directories (${PROJECT_SOURCE_DIR}/src/script/actionSrcHandler)
-include_directories (${PROJECT_SOURCE_DIR}/src/script/byPass)
-include_directories (${PROJECT_SOURCE_DIR}/src/script/gameObjs)
-include_directories (${PROJECT_SOURCE_DIR}/src/script/textureBuilder)
+#  后期将缩减范围
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
+
+#  后期将缩减范围
+include_directories (${PROJECT_SOURCE_DIR}/src/Script)
+include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionSrcHandler)
+include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
+include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
+include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
 
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
@@ -89,20 +93,21 @@ include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 #-- 包含 主进程需要的 cpp 文件
 FILE(GLOB PIXEL_FILES   src/*.cpp     
                         src/sys/*.cpp 
-                        src/test/*.cpp 
-                        src/gl/*.cpp 
-                        src/time/*.cpp 
-                        src/camera/*.cpp 
-                        src/random/*.cpp 
-                        src/game/*.cpp 
-                        src/game/map/*.cpp 
-                        src/game/resource/*.cpp 
-                        src/game/gameObj/*.cpp 
-                        src/script/*.cpp 
-                        src/script/actionSrcHandler/*.cpp 
-                        src/script/byPass/*.cpp 
-                        src/script/gameObjs/*.cpp
-                        src/script/textureBuilder/*.cpp 
+                        src/test/*.cpp
+                        src/Engine/*.cpp
+                        src/Engine/gl/*.cpp 
+                        src/Engine/time/*.cpp 
+                        src/Engine/camera/*.cpp 
+                        src/Engine/random/*.cpp 
+                        src/Engine/game/*.cpp 
+                        src/Engine/game/map/*.cpp 
+                        src/Engine/resource/*.cpp 
+                        src/Engine/game/gameObj/*.cpp 
+                        src/Script/*.cpp 
+                        src/Script/actionSrcHandler/*.cpp 
+                        src/Script/byPass/*.cpp 
+                        src/Script/gameObjs/*.cpp
+                        src/Script/textureBuilder/*.cpp 
                         )
 
 #---------------------------------------------------#
