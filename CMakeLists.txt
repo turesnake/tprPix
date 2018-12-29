@@ -58,11 +58,12 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
 
 #  后期将缩减范围
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
-include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionSrcHandler)
+include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionHandler)
 include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
 include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
 include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
@@ -92,9 +93,10 @@ include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 #-- 创建变量 PIXEL_FILES （是个 list）
 #-- 包含 主进程需要的 cpp 文件
 FILE(GLOB PIXEL_FILES   src/*.cpp     
-                        src/sys/*.cpp 
                         src/test/*.cpp
+
                         src/Engine/*.cpp
+                        src/Engine/sys/*.cpp
                         src/Engine/gl/*.cpp 
                         src/Engine/time/*.cpp 
                         src/Engine/camera/*.cpp 
@@ -103,8 +105,9 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/map/*.cpp 
                         src/Engine/resource/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
+                        
                         src/Script/*.cpp 
-                        src/Script/actionSrcHandler/*.cpp 
+                        src/Script/actionHandler/*.cpp 
                         src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
                         src/Script/textureBuilder/*.cpp 

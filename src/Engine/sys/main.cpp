@@ -15,7 +15,6 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-#include <string.h> //- memset, memcpy
 #include <cassert> //-- assert
 
 //-------------------- CPP --------------------//
@@ -23,12 +22,8 @@
 #include <string>
 #include <vector>
 
-//------------------- Libs --------------------//
-
-
 //------------------- SELF --------------------//
-#include "sys/global.h"
-
+#include "Engine/sys/global.h"
 #include "Engine/gl/glob_gl.h"
 #include "Engine/gl/RectVertics.h" //-- 矩形 顶点数据
 
@@ -46,7 +41,6 @@
 using std::cout;
 using std::endl;
 using std::string;
-
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
@@ -87,12 +81,15 @@ int main(){
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
 
-
-    //==========================================//
-    //        Behaviour.AwakeFuncs
+    //------------------------------------------//
+    //          call_scriptMain
     //------------------------------------------//
     src::call_scriptMain();
-    src::behaviour.call_AwakeFuncs();
+
+    //------------------------------------------//
+    //        Behaviour.Awakes
+    //------------------------------------------//
+    src::behaviour.call_Awakes();
 
     //------------------------------------------//
     //               加载所有 资源
@@ -125,7 +122,6 @@ int main(){
     //             [*** 将被废弃 ***]
     //---------------------------------------------//
     Texture textel_1( "/textures/pix_01.png" );
-
 
     //---------------------------------------------//
     //          创建／初始化  所有 model
@@ -161,6 +157,11 @@ int main(){
     glUniform1i( src::rect_shader.uniform_location( "texture1" ), 0);
 
 
+
+    //------------------------------------------//
+    //        Behaviour.Starts
+    //------------------------------------------//
+    src::behaviour.call_Starts();
 
     //========================================================//
     //                 main render loop

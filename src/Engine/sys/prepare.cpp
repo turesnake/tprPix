@@ -29,7 +29,7 @@
 #include "tprFileSys.h" 
 
 //------------------- SELF --------------------//
-#include "global.h"
+#include "Engine/sys/global.h"
 
 
 using std::string;

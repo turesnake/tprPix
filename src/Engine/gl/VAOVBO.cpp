@@ -95,10 +95,3 @@ void VAOVBO_del(){
     glDeleteBuffers(      1, &VBO );
 }
 
-
-
-
-
-
-
-

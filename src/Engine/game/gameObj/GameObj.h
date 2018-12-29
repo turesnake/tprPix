@@ -42,25 +42,24 @@
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
-// 具象go类 并不用继承 基础go类，而是 包含 一个go实例，
-// 通过  动态绑定 来配置 这个被包含的 go实例的数据。
+// 具象go类 并不用继承 基础go类，而是 “装配” 一个go实例，
+// 通过  动态绑定 来配置 这个被绑定的 go实例的数据。
 // 通过 function / bind 动态绑定各种回调函数
-// 在 主引擎中，go类 是通用／官方认可的类型。也只通过这个 类来 访问 一切 go实例
+// 在 主引擎中，go类 是官方认可的通用类型。也只能通过这个 类来 访问 一切 go实例
 //-------
-//  并不存在孤立的 go实例，每个go实例，都被一个 具象go实例 所包含
+//  并不存在孤立的 go实例，每个go实例，都被一个 具象go实例 所"表达“
 //  goid 是全局唯一的。 其外层的 具象go实例 也使用这个 id号
 //-------
 //  go类 与 具象go类：
 //  -- go类实例 负责存储实际的数据
-//  -- 具象go类 只是一个 “装配工厂”，不存在 “具象go类实例”
+//  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj{
 
     using F_V_V = std::function<void()>;
-
 public:
     GameObj() = default;
 
-    void init();
+    void init();//- 暂时无用
 
     //-- disl <-> mem --//
     void  d2m( diskGameObj *_dgo );
@@ -70,8 +69,8 @@ public:
     //-- 几个经典的回调函数，tmp...
     F_V_V  Awake {nullptr};  //- 初始化阶段执行的 内容
     F_V_V  Start {nullptr};  //- 游戏在进入 主循环之前，执行的内容
-    F_V_V  Update {nullptr}; //- 每一游戏帧，被主程序调用
 
+    F_V_V  Update {nullptr}; //- 每一帧，被主程序调用 （帧周期未定）
     F_V_V  BeAffect {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
                                 //- 未来会添加一个 参数：“被施加技能的类型”
 
@@ -81,12 +80,11 @@ public:
     goSpecId_t     species {0};                     //- go species id
     GameObjFamily  family  {GameObjFamily::Major};  //- go 类群
 
-
     bool   is_top_go  {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
     goid_t id_parent {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                              //- 如果没有，此项写 NULLID
 
-    //--- go 状态 ----//
+    //---- go 状态 ----//
     bool              is_active {false}; //- 是否进入激活圈. 
                                         //   未进入激活圈的go，不参与任何逻辑运算，也不会被渲染
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
@@ -105,7 +103,7 @@ public:
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
-    std::vector<std::string> action_names; //- 所有 action实例 都存储在 统一容器中
+    std::vector<std::string> actionNames; //- 所有 action实例 都存储在 统一容器中
                             // 其他代码只通过 name／id 来调用它
                             // 每个 go实例，独立拥有一份 action names。
                             // 这样就能 用一种 具象go类（比如橡树）生成不同颜色的 橡树实例。

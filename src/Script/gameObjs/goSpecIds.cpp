@@ -47,7 +47,9 @@ void onGoSpecIds_SignUp(){
 
 
 
-
+void onStart_test(){
+    cout << "--- onStart_test(). DONE. ---" << endl;
+}
 
 
 

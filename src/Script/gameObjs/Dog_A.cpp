@@ -28,16 +28,26 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr = _goPtr;
 
     //-------- 绑定回调函数 ---------//
-    goPtr->Update   = std::bind( &Dog_A::Update, (Dog_A*)this );   
-    goPtr->BeAffect = std::bind( &Dog_A::BeAffect, (Dog_A*)this ); 
+    //  注意，此处绑定存在严重错误！！！
+    //  当 本实例销毁后，绑定出去的 函数对象，却保留了 此处的 this 这个指针
+    //  且仍旧指向 原来的位置
+    //  当 基础go类 调用 绑定函数，就会在此访问这个 this 指针。从而引发 内存泄漏
+    //  
+    //  目前仍在寻找 更好的 具象go函数 实现方法中。
+    //
+    goPtr->Update   = std::bind( &Dog_A::Update, (Dog_A*)this );   //- *** 严重错误 ***
+    goPtr->BeAffect = std::bind( &Dog_A::BeAffect, (Dog_A*)this ); //- *** 严重错误 ***
 
     //-------- 格式化 go.binary ---------//
     goPtr->binary.clear();
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
     binaryPtr = (Dog_A_Binary*)&(goPtr->binary[0]); //- 绑定到本地指针
 
+    binaryPtr->HP = 100;
+    binaryPtr->MP = 95;
 
-
+    //-------- action ---------//
+    goPtr->actionNames.push_back( "human_1" ); //- 待机动画
 
 
 

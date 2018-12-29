@@ -84,7 +84,6 @@ public:
                     //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
                     //- 这个值 多数由 具象go类 填入。
 
-    
     GLuint  *texNamePtr {nullptr}; //- 指向 texName 的指针。
                     // texName 被存储在 action实例中，
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处

@@ -20,7 +20,7 @@
 #include "tprFileSys.h" 
 
 //------------------- SELF --------------------//
-#include "sys/global.h"
+#include "Engine/sys/global.h"
 
 
 using std::string;

@@ -23,8 +23,3 @@ void GameObj::init(){
 }
 
 
-
-
-
-
-

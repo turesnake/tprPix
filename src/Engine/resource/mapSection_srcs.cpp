@@ -22,7 +22,7 @@
 #include "tprDB.h"
 
 //------------------- SELF --------------------//
-#include "sys/global.h"
+#include "Engine/sys/global.h"
 #include "Engine/game/gameObj/GameObj.h" 
 #include "Engine/game/map/MapSection.h"
 

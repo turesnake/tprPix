@@ -59,7 +59,7 @@ void shaders_init();
 
 
 //-------------------------//
-//     Action 资源
+//     Action 资源（动画动作图集）
 //-------------------------//
 inline std::unordered_map<std::string, Action> actions {};
 void actions_load();
@@ -119,8 +119,8 @@ void player_srcs_save();
 //-------------------------//
 inline Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
 
-void call_scriptMain(); //- 调用 脚本层 入口函数
 
+void call_scriptMain(); //- 调用 脚本层 入口函数
 
 
 

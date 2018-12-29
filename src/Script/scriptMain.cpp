@@ -1,18 +1,15 @@
 /*
- * ========================= scriptMain.h ==========================
+ * ========================= scriptMain.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.12.28
  *                                        修改 -- 2018.12.28
  * ----------------------------------------------------------
- *   script／脚本区 入口文件
- *   - 这个h文件将被 游戏引擎 include 
- *    （这意味着，如果本文件被丢弃，游戏将无法运行）
+ *   script／脚本区 入口函数
+ * 
  *   - 本文件中，必须存在 void scriptMain(); 函数
- *    （同样的，如果这个函数被丢弃，游戏也将无法运行）
+ *    （如果这个函数被丢弃，游戏也将无法运行）
  * ----------------------------
  */
-#ifndef _TPR_SCRIPT_MAIN_H_
-#define _TPR_SCRIPT_MAIN_H_
 
 //-------------------- CPP --------------------//
 #include <functional> 
@@ -22,10 +19,10 @@
 
 
 
-//----------- 需要注册的函数 ---------------//
+
+//----------- 需要注册到 engine 的函数 ---------------//
 void onGoSpecIds_SignUp();
-
-
+void onStart_test();
 
 
 /* ===========================================================
@@ -36,27 +33,15 @@ void onGoSpecIds_SignUp();
  */
 void scriptMain(){
 
-    //------- AwakeFuncs -------//
-    src::behaviour.signUp_AwakeFuncs( std::bind( &onGoSpecIds_SignUp ) );
+    //------- Awakes -------//
+    src::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) );
 
-
-
-
+    //------- Starts -------//
+    src::behaviour.signUp_Starts( std::bind( &onStart_test ) );
 
 
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-#endif
 

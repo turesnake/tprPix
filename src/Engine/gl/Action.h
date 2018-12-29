@@ -57,9 +57,6 @@
 #include "Engine/gl/RGBA.h" 
 
 
-
-
-
 //-- AS实例 需要的参数 --
 struct ActionParams{
     std::string lpath_pic;

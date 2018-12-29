@@ -24,7 +24,7 @@
 
 
 //------------------- SELF --------------------//
-#include "sys/global.h"
+#include "Engine/sys/global.h"
 #include "config.h" //-- SCR_WIDTH
 #include "Engine/gl/callback.h" 
 #include "Engine/gl/glob_gl.h" 

@@ -39,12 +39,6 @@ void glad_init();
 void glad_set();
 
 
-//------ time.cpp -------//
-//void update_time();
-//float get_deltaTime();
-//float get_currentTime();
-
-
 //------ input -------//
 void processInput( GLFWwindow *window );
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);

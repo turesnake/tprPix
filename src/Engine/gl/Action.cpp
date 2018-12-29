@@ -27,7 +27,7 @@
 #include "tprFileSys.h" 
 
 //------------------- SELF --------------------//
-#include "sys/global.h"
+#include "Engine/sys/global.h"
 
 
 using std::cout;
@@ -236,7 +236,6 @@ void Action::load_and_divide_png( bool _is_pic,
     //-- png图片 原始数据已经没用了，释放掉 ---
     stbi_image_free( data );
 }
-
 
 
 /* ===========================================================
