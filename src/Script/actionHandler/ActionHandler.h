@@ -30,20 +30,15 @@
 //  一切 AH类 以及 具象AH类 数据，都只存储在 mem态
 class ActionHandler{
 
-    using F_GENERAL = std::function<void*(void*,int*)>; //- 万能函数接口
+    using F_GENERAL = std::function<void*(ActionHandler*,void*,int*)>; //- 万能函数接口
 public:
     ActionHandler() = default;
 
     //----------- interface -------------//
     std::unordered_map<std::string, F_GENERAL> funcs; 
 
-    //----------- vals -------------//
-    u32  type;       //- 具象AH类 类型id。
-
-    int  frames;     //- action实例 的 总画面帧数
-    int  enterIdx;   //- 入口帧序号. 这个值永不变
-    int  currentIdx; //- 当前指向的 画面帧序号（基于0）
-    int  step;       //- 每切换一帧画面，停留多少 时间帧
+    //----------- self vals -------------//
+    u32  typeId;       //- 具象AH类 类型id。
 
     //----------- binary chunk -------------//
     std::vector<u8>  binary; //- 具象AH类 定义的 二进制数据块。真实存储地
