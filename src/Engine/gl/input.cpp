@@ -50,25 +50,25 @@ void processInput( GLFWwindow *window ){
     //-- W -- 
     if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
-        src::camera.cameraPos_up();
+        esrc::camera.cameraPos_up();
     }
 
     //-- S -- 
     if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
-        src::camera.cameraPos_down();
+        esrc::camera.cameraPos_down();
     }
 
     //-- A -- 
     if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS ){
             //cout << "-A-" << endl;
-        src::camera.cameraPos_left();
+        esrc::camera.cameraPos_left();
     }
 
     //-- D -- 
     if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS ){
             //cout << "-D-" << endl;
-        src::camera.cameraPos_right();
+        esrc::camera.cameraPos_right();
     }
 
     //-- SPACE -- 

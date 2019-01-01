@@ -22,6 +22,8 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
+//------------------- Engine --------------------//
+#include "Engine/script/ScriptBuf.h"
 
 
 //-- 类似 GameObj，一个“伪接口类” --
@@ -30,7 +32,8 @@
 //  一切 AH类 以及 具象AH类 数据，都只存储在 mem态
 class ActionHandler{
 
-    using F_GENERAL = std::function<void*(ActionHandler*,void*,int*)>; //- 万能函数接口
+    //- 万能函数接口, 依赖 scriptBuf 传递 参数／返回值
+    using F_GENERAL = std::function<int(ActionHandler*,int)>; 
 public:
     ActionHandler() = default;
 

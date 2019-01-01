@@ -18,7 +18,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 /* ===========================================================
  *                     actions_load
@@ -28,9 +28,9 @@ namespace src{ //------------------ namespace: src -------------------------//
  */
 void actions_load(){
 
-    src::actions.clear();
+    actions.clear();
 
-    src::actions.insert( {"human_1",  Action{ "/human/human_1.P.png", PixVec2{13, 21}, PixVec2{4, 1} } } );
+    actions.insert( {"human_1",  Action{ "/human/human_1.P.png", PixVec2{13, 21}, PixVec2{4, 1} } } );
 
 
 
@@ -40,8 +40,8 @@ void actions_load(){
     //---------------------------------//
     //        init all actions
     //---------------------------------//
-    auto it = src::actions.begin();
-    for( ; it!=src::actions.end(); it++ ){
+    auto it = actions.begin();
+    for( ; it!=actions.end(); it++ ){
         it->second.init();
         it->second.debug();
     }
@@ -49,5 +49,5 @@ void actions_load(){
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 

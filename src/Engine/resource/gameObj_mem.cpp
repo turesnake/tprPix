@@ -30,7 +30,7 @@
 using std::vector;
 
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================
@@ -50,11 +50,11 @@ void realloc_active_goes(){
     float range = 1600.0f; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
-    for( auto id : src::goids_active ){
+    for( auto id : goids_active ){
 
-        goptr = &(src::memGameObjs.at( id ));
+        goptr = &(memGameObjs.at( id ));
 
-        v = src::camera.get_camera2DPos() - goptr->currentPos;
+        v = camera.get_camera2DPos() - goptr->currentPos;
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -65,8 +65,8 @@ void realloc_active_goes(){
 
     //-- 正式移动 这些 goid --
     for( auto i : container ){
-        src::goids_inactive.insert( i );
-        src::goids_active.erase( i );
+        goids_inactive.insert( i );
+        goids_active.erase( i );
     }
 }
 
@@ -88,11 +88,11 @@ void realloc_inactive_goes(){
     float range = 1600.0f; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
-    for( auto id : src::goids_inactive ){
+    for( auto id : goids_inactive ){
 
-        goptr = &(src::memGameObjs.at( id ));
+        goptr = &(memGameObjs.at( id ));
 
-        v = src::camera.get_camera2DPos() - goptr->currentPos;
+        v = camera.get_camera2DPos() - goptr->currentPos;
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将进入 激活圈的 go 移动到 激活组 --
@@ -103,8 +103,8 @@ void realloc_inactive_goes(){
 
     //-- 正式移动 这些 goid --
     for( auto i : container ){
-        src::goids_active.insert( i );
-        src::goids_inactive.erase( i );
+        goids_active.insert( i );
+        goids_inactive.erase( i );
     }
 }
 
@@ -112,5 +112,5 @@ void realloc_inactive_goes(){
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 

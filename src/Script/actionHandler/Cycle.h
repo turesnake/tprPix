@@ -16,8 +16,10 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- Self --------------------//
-#include "ActionHandler.h"
+//------------------- Engine --------------------//
+#include "Engine/script/ScriptBuf.h"
+
+#include "Engine/actionHandler/ActionHandler.h"
 
 
 namespace actionHdlr{//------------- namespace ActionHdlr ----------------
@@ -33,6 +35,9 @@ struct Cycle_Binary{
     int  updates;    //- 本实例自创建以来，调用 update() 的次数
     int  step_new;       //- 临时存储 新的 step值
     bool is_step_change; //- step 是否被要求更换
+
+    //------ padding -----
+    u8   padding[3];
 };
 
 
@@ -41,7 +46,6 @@ struct Cycle_Binary{
 //  当外部发生事件，需要退出 本action 时。会立即退出（从任何一帧）
 class Cycle{
 public:
-
     void bind(  ActionHandler *_ahPtr,
                 int _frames,
                 int _enterIdx,
@@ -56,9 +60,9 @@ public:
     static u32  typeId;
 
     //------- callback --------//  
-    void *update( ActionHandler *_ahPtr );
-    void *get_currentIdx( ActionHandler *_ahPtr );
-    void *set_step( ActionHandler *_ahPtr, void *_buf, int *_len );
+    int update( ActionHandler *_ahPtr );
+    int get_currentIdx( ActionHandler *_ahPtr );
+    int set_step( ActionHandler *_ahPtr, int _len );
 
 
 };

@@ -84,12 +84,12 @@ int main(){
     //------------------------------------------//
     //          call_scriptMain
     //------------------------------------------//
-    src::call_scriptMain();
+    esrc::call_scriptMain();
 
     //------------------------------------------//
     //        Behaviour.Awakes
     //------------------------------------------//
-    src::behaviour.call_Awakes();
+    esrc::behaviour.call_Awakes();
 
     //------------------------------------------//
     //               加载所有 资源
@@ -97,8 +97,8 @@ int main(){
 
     //++++++ init ++++++//
     VAOVBO_init();         //---- VAO,VBO 资源 ----
-    src::camera.init();         //---- camera 资源 ----
-    src::shaders_init();        //---- shaders 资源 ----
+    esrc::camera.init();         //---- camera 资源 ----
+    esrc::shaders_init();        //---- shaders 资源 ----
     //globState_srcs_init(); //---- globState 资源 ----
         globState_byPass();
 
@@ -110,7 +110,7 @@ int main(){
 
 
     //++++++ load ++++++//
-    src::actions_load();    //-- actions --
+    esrc::actions_load();    //-- actions --
     //...
 
     //---- 加载 map 数据 ----
@@ -141,7 +141,7 @@ int main(){
 
     mod_1.add_texture( textel_1 );
     
-    mod_1.set_shader_program( &src::rect_shader );
+    mod_1.set_shader_program( &esrc::rect_shader );
 
     mod_1.init();
 
@@ -151,17 +151,17 @@ int main(){
     //             [*** 将被废弃 ***]
     //---------------------------------------------//
     //-- 必须要激活 shaderProgram，这样才能修改其 uniform 变量值。
-    src::rect_shader.use_program();
+    esrc::rect_shader.use_program();
     //-- 为 uniform 变量 texture1 设置值
     //-- 指向 GL_TEXTURE0 这两个 纹理单元
-    glUniform1i( src::rect_shader.uniform_location( "texture1" ), 0);
+    glUniform1i( esrc::rect_shader.uniform_location( "texture1" ), 0);
 
 
 
     //------------------------------------------//
     //        Behaviour.Starts
     //------------------------------------------//
-    src::behaviour.call_Starts();
+    esrc::behaviour.call_Starts();
 
     //========================================================//
     //                 main render loop
@@ -171,7 +171,7 @@ int main(){
         //--------------------------------//
         //             time   
         //--------------------------------//
-        src::timer.update_time();
+        esrc::timer.update_time();
 
         //--------------------------------//
         //            input   
@@ -189,18 +189,18 @@ int main(){
         //--------------------------------//
         //    camera:: view, projection
         //--------------------------------//
-        src::rect_shader.use_program();
-        src::rect_shader.send_mat4_view_2_shader( src::camera.update_mat4_view() );
-        src::rect_shader.send_mat4_projection_2_shader( src::camera.update_mat4_projection() );
+        esrc::rect_shader.use_program();
+        esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
+        esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
 
         //--------------------------------//
         //           logic
         //--------------------------------//
 
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
-        switch( src::logicTimeCircle.current() ){
+        switch( esrc::logicTimeCircle.current() ){
             case 0:
-                src::realloc_inactive_goes(); 
+                esrc::realloc_inactive_goes(); 
                 break;
             case 1:
                 break;

@@ -60,6 +60,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandler)
 
 #  后期将缩减范围
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
@@ -105,6 +107,8 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/map/*.cpp 
                         src/Engine/resource/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
+                        src/Engine/script/*.cpp 
+                        src/Engine/actionHandler/*.cpp 
                         
                         src/Script/*.cpp 
                         src/Script/actionHandler/*.cpp 

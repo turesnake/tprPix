@@ -17,13 +17,15 @@ using namespace std::placeholders;
 
 namespace actionHdlr{//------------- namespace ActionHdlr ----------------
 
-namespace{
-    int   retIdx {0}; //- method return val store place
-}
+
+//--- static member ----
+u32  Cycle::typeId {0};
+
 
 /* ===========================================================
- *                          bind
+ *                       bind
  * -----------------------------------------------------------
+ * -- 并不是单纯的 bind，还附带了 目标ah实例 的初始化工作。
  */
 void Cycle::bind(  ActionHandler *_ahPtr,
                 int _frames,
@@ -45,17 +47,17 @@ void Cycle::bind(  ActionHandler *_ahPtr,
 
     bp->frames = _frames;
     bp->enterIdx = _enterIdx;
+    bp->lastIdx = _enterIdx;
     bp->currentIdx = _enterIdx;
     bp->step = _step;
-
-    bp->lastIdx = _enterIdx;
+    
     bp->updates = 0;
     bp->step_new = 0;
     bp->is_step_change = false;
 
-
     //----- sign up callback funcs -----
     //-- 故意将 首参数this 绑定到 保留类实例 ah3 身上
+    
     ahPtr->funcs.insert({ "update", 
             std::bind( &Cycle::update, &ah_cycle, _1 )
             });
@@ -65,9 +67,11 @@ void Cycle::bind(  ActionHandler *_ahPtr,
             });
 
     ahPtr->funcs.insert({ "set_step", 
-            std::bind( &Cycle::set_step, &ah_cycle, _1, _2, _3 )
+            std::bind( &Cycle::set_step, &ah_cycle, _1, _2 )
             });
+    
 }
+
 
 
 /* ===========================================================
@@ -78,15 +82,17 @@ void Cycle::bind(  ActionHandler *_ahPtr,
  * -- 若 某段时间 不主动调用本函数，动画将陷入停滞（并不会严格对应到全局总时间帧）
  * -- 顺带返回  currentIdx 的值
  */
-void *Cycle::update( ActionHandler *_ahPtr ){
+int Cycle::update( ActionHandler *_ahPtr ){
 
-    //-- check type -----
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
     assert( _ahPtr->typeId == Cycle::typeId );
     //-- rebind ptr -----
     ahPtr = _ahPtr;
     bp = (Cycle_Binary*)&(ahPtr->binary[0]);
-    //=====================================//
 
+    //=====================================//
     bp->updates++;
     //-------
     int steps = bp->updates / bp->step;
@@ -101,9 +107,11 @@ void *Cycle::update( ActionHandler *_ahPtr ){
             bp->updates = 0;
         }
     }
-    //-- ret --
-    retIdx = bp->currentIdx;
-    return (void*)&retIdx; //- 确保外部按规则解指针
+    //=====================================//
+    //                ret
+    //-------------------------------------//  
+    scriptBuf.push_int( bp->currentIdx );
+    return sizeof(int);
 }
 
 
@@ -112,18 +120,23 @@ void *Cycle::update( ActionHandler *_ahPtr ){
  * -----------------------------------------------------------
  * -- int get_currentIdx( ActionHandler *_ahPtr )
  */
-void *Cycle::get_currentIdx( ActionHandler *_ahPtr ){
+int Cycle::get_currentIdx( ActionHandler *_ahPtr ){
 
-    //-- check type -----
+    //=====================================//
+    //              ptr rebind
+    //-------------------------------------//
     assert( _ahPtr->typeId == Cycle::typeId );
     //-- rebind ptr -----
     ahPtr = _ahPtr;
     bp = (Cycle_Binary*)&(ahPtr->binary[0]);
     //=====================================//
 
-    //-- ret --
-    retIdx = bp->currentIdx;
-    return (void*)&retIdx; //- 确保外部按规则解指针
+
+    //=====================================//
+    //                ret
+    //-------------------------------------// 
+    scriptBuf.push_int( bp->currentIdx );
+    return sizeof(int);
 }
 
 
@@ -135,36 +148,40 @@ void *Cycle::get_currentIdx( ActionHandler *_ahPtr ){
  * -- 通过不停地 重设 step，可以实现 动画 带有节奏地播放
  * -- 重设 step 不会立即起效，而是先登记下来，等下一 画面帧切换时，再更新 step
  */
-void *Cycle::set_step( ActionHandler *_ahPtr, void *_buf, int *_len ){
+int Cycle::set_step( ActionHandler *_ahPtr, int _len ){
 
-    //-- check type -----
+    //=====================================//
+    //              ptr rebind
+    //-------------------------------------//
     assert( _ahPtr->typeId == Cycle::typeId );
     //-- rebind ptr -----
     ahPtr = _ahPtr;
     bp = (Cycle_Binary*)&(ahPtr->binary[0]);
+    
     //=====================================//
+    //           get params
+    //-------------------------------------//
+    assert( _len == sizeof(int) ); //- 意义不大
+    int _step = scriptBuf.pop_int();
 
-    //-- get int _step --
-    assert( *_len == sizeof(int) );
-    int _step = *((int*)_buf);
-
+    //=====================================//
     assert( _step > 0 );
     if( _step == bp->step_new ){
-        return;
+        return 0;
     }
     bp->step_new = _step;
 
     if( bp->is_step_change == true ){
-        return;
+        return 0;
     }else{
         bp->is_step_change = true;
     }
-    //-- ret --
-    return nullptr;
+
+    //=====================================//
+    //                ret
+    //-------------------------------------// 
+    return  0;
 }
-
-
-
 
 
 }//----------------- namespace ActionHdlr: end -------------------

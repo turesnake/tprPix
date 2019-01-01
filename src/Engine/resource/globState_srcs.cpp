@@ -33,7 +33,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 //------------------- 提供给外部的函数 ----------------
 void globState_srcs_init();
@@ -133,5 +133,5 @@ void globState_srcs_save(){
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 

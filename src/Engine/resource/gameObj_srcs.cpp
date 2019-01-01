@@ -31,7 +31,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 namespace{//------------ namespace --------------//
@@ -64,5 +64,5 @@ void gameObj_srcs_init(){
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 

@@ -66,7 +66,7 @@ unsigned int get_new_seed(){
     PixVec2 mousePos = get_mouse_pos();
     seed = mousePos.x + (mousePos.y*3);
 
-    float tm = src::timer.get_currentTime();
+    float tm = esrc::timer.get_currentTime();
     seed += (unsigned int)(tm * 10000000);
                     //-- glfw 时钟的精度就是这么多位
 

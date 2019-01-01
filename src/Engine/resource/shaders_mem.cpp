@@ -9,7 +9,7 @@
  */
 #include "Engine/resource/srcs_manager.h" //- 所有资源
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 /* ===========================================================
  *                    shaders_init
@@ -19,14 +19,14 @@ namespace src{ //------------------ namespace: src -------------------------//
 void shaders_init(){
 
     //---- rect_sahder ----//
-    src::rect_shader.init(); 
-    src::rect_shader.get_uniform_location( "model" );
-    src::rect_shader.get_uniform_location( "view" );
-    src::rect_shader.get_uniform_location( "projection" );
-    src::rect_shader.get_uniform_location( "texture1" );
-    src::rect_shader.use_program();
+    rect_shader.init(); 
+    rect_shader.get_uniform_location( "model" );
+    rect_shader.get_uniform_location( "view" );
+    rect_shader.get_uniform_location( "projection" );
+    rect_shader.get_uniform_location( "texture1" );
+    rect_shader.use_program();
 }
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//

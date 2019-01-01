@@ -31,7 +31,7 @@
 #include "Behaviour.h" 
 
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 using FUNC_V_V = std::function<void()>;
@@ -74,7 +74,6 @@ inline std::unordered_map<goid_t, GameObj> memGameObjs {}; //- 所有载入内�
 inline std::unordered_set<goid_t> goids_active   {}; //- 激活组 (身处 激活圈 之内)
 inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 激活圈 之外)
 
-inline std::unordered_set<goSpecId_t> goSpecIds  {}; //- 记录了所有 go species ids.
 
 inline FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
@@ -124,6 +123,6 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 #endif
 

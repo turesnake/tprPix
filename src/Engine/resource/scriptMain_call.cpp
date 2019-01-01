@@ -10,11 +10,11 @@
  */
 extern void scriptMain();
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 void call_scriptMain(){
     scriptMain();
 }
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 

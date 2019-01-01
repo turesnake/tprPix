@@ -18,11 +18,14 @@
 #include "Engine/resource/srcs_manager.h" //- 所有资源
 
 
+//-------------------- Script --------------------//
+#include "Script/actionHandler/ah.h"
 
 
 //----------- 需要注册到 engine 的函数 ---------------//
-void onGoSpecIds_SignUp();
-void onStart_test();
+extern void onGoSpecIds_SignUp();
+extern void onStart_test();
+
 
 
 /* ===========================================================
@@ -34,10 +37,16 @@ void onStart_test();
 void scriptMain(){
 
     //------- Awakes -------//
-    src::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) );
+    esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
+
+    esrc::behaviour.signUp_Awakes( std::bind( &actionHdlr::typeId_alloc ) );
+
+
 
     //------- Starts -------//
-    src::behaviour.signUp_Starts( std::bind( &onStart_test ) );
+    esrc::behaviour.signUp_Starts( std::bind( &onStart_test ) );
+
+
 
 
 }

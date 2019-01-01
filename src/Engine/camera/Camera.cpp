@@ -120,24 +120,24 @@ glm::mat4 &Camera::update_mat4_projection(){
 
 
 void Camera::cameraPos_left(){
-    cameraSpeed = 30.0f * src::timer.get_last_deltaTime();
+    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
     cameraPos -= cameraRight * cameraSpeed;
 }
 
 
 void Camera::cameraPos_right(){
-    cameraSpeed = 30.0f * src::timer.get_last_deltaTime();
+    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
     cameraPos += cameraRight * cameraSpeed;
 }
 
 
 void Camera::cameraPos_up(){
-    cameraSpeed = 30.0f * src::timer.get_last_deltaTime();
+    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
     cameraPos += cameraUp * cameraSpeed;
 }
 
 void Camera::cameraPos_down(){
-    cameraSpeed = 30.0f * src::timer.get_last_deltaTime();
+    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
     cameraPos -= cameraUp * cameraSpeed;
 }
 

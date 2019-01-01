@@ -31,7 +31,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-namespace src{ //------------------ namespace: src -------------------------//
+namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 //------------------- 提供给外部的函数 ----------------
@@ -79,7 +79,7 @@ void player_srcs_init(){
         assert( rlen == sizeof(dp) );
 
         //--- 将读取到的 dp, 写入 player ---
-        src::player.d2m( &dp );
+        player.d2m( &dp );
 
 
     }else{
@@ -93,7 +93,7 @@ void player_srcs_init(){
         dp.posy = 0;
 
         //---- 将dp, 写入 player -----
-        src::player.d2m( &dp );
+        player.d2m( &dp );
         
         //---- 添加到 数据库 ----
         //-- 由于 数据库为空，所以此处使用 insert
@@ -113,7 +113,7 @@ void player_srcs_init(){
  */
 void player_srcs_save(){
 
-    diskPlayer dp = src::player.m2d();
+    diskPlayer dp = player.m2d();
 
     //-- 获得 dbent id --
     tpr::DB::eid_t id = player_db.get_fst_id();
@@ -131,5 +131,5 @@ void player_srcs_save(){
 
 
 
-}//---------------------- namespace: src -------------------------//
+}//---------------------- namespace: esrc -------------------------//
 
