@@ -18,11 +18,10 @@
 #include <iostream>
 #include <string>
 
-//------------------- SELF --------------------//
-#include "Engine/gl/glob_gl.h" 
-#include "Engine/game/PixVec.h" 
-
-#include "Engine/resource/srcs_manager.h" //- 所有资源
+//-------------------- Engine --------------------//
+#include "glob_gl.h" 
+#include "PixVec.h" 
+#include "srcs_engine.h" //- 所有资源
 
 using std::string;
 using std::cout;

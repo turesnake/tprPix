@@ -10,7 +10,7 @@
  */
 #ifndef _TPR_GAME_OBJ_SURFACE_H_
 #define _TPR_GAME_OBJ_SURFACE_H_
-#include "Engine/game/gameObj/GameObj.h"
+#include "GameObj.h"
 
 //- 主策略已转变，再也不会有 “继承于 GameObj 的 GameObjSurface 类” --
 class GameObjSurface : public GameObj{

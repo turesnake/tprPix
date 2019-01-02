@@ -14,7 +14,15 @@
 //-------------------- CPP --------------------//
 #include <functional>
 
+//-------------------- Engine --------------------//
+#include "srcs_engine.h" 
 
+//-------------------- Script --------------------//
+#include "Script/actionHandler/Cycle.h"
+#include "Script/resource/srcs_script.h" 
+
+
+namespace gameObjs{//------------- namespace gameObjs ----------------
 
 /* ===========================================================
  *                         init
@@ -27,34 +35,32 @@ void Dog_A::init( GameObj *_goPtr ){
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
-    //-------- 绑定回调函数 ---------//
-    //  注意，此处绑定存在严重错误！！！
-    //  当 本实例销毁后，绑定出去的 函数对象，却保留了 此处的 this 这个指针
-    //  且仍旧指向 原来的位置
-    //  当 基础go类 调用 绑定函数，就会在此访问这个 this 指针。从而引发 内存泄漏
-    //  
-    //  目前仍在寻找 更好的 具象go函数 实现方法中。
-    //
-    goPtr->Update   = std::bind( &Dog_A::Update, (Dog_A*)this );   //- *** 严重错误 ***
-    goPtr->BeAffect = std::bind( &Dog_A::BeAffect, (Dog_A*)this ); //- *** 严重错误 ***
+    //-------- bind callback funcs ---------//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goPtr->Update   = std::bind( &Dog_A::Update, &dog_a );   
+    goPtr->BeAffect = std::bind( &Dog_A::BeAffect, &dog_a ); 
 
-    //-------- 格式化 go.binary ---------//
-    goPtr->binary.clear();
+    //-------- go self vals ---------//
+    goPtr->species = ssrc::go_name_specIds.at("Dog_A");
+
+    //-------- go.binary ---------//
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
     binaryPtr = (Dog_A_Binary*)&(goPtr->binary[0]); //- 绑定到本地指针
 
     binaryPtr->HP = 100;
     binaryPtr->MP = 95;
 
-    //-------- action ---------//
+    //-------- action／actionHandler/mesh ---------//
     goPtr->actionNames.push_back( "human_1" ); //- 待机动画
 
+        //-- 制作唯一的 mesh 实例 --
+        Mesh  mesh;
+        mesh.set_shader_program( &esrc::rect_shader );
+        mesh.init(); 
+        //-- bind actionHandler --
+        actionHdlr::cycle.bind( &mesh.actionHandlr, 4, 0, 3 );
 
-
-
-
-
-
+    goPtr->meshs.push_back( mesh ); //- copy
 }
 
 
@@ -67,6 +73,19 @@ void Dog_A::init( GameObj *_goPtr ){
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void Dog_A::bind( GameObj *_goPtr ){
+
+
+
+}
+
+
+/* ===========================================================
+ *                       rebind
+ * -----------------------------------------------------------
+ * -- 从硬盘读取到 go实例数据后，重bind callback
+ * -- 会被 脚本层的一个 巨型分配函数 调用
+ */
+void Dog_A::rebind( GameObj *_goPtr ){
 
 
 
@@ -99,10 +118,5 @@ void Dog_A::BeAffect(){
 
 
 
-
-
-
-
-
-
+}//------------- namespace gameObjs: end ----------------
 

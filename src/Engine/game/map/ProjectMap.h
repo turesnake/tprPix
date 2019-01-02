@@ -32,9 +32,9 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/game/gameObj/GameObj.h" 
-#include "Engine/game/map/MapEnt.h"
+//-------------------- Engine --------------------//
+#include "GameObj.h" 
+#include "MapEnt.h"
 
 
 

@@ -7,7 +7,7 @@
  *    随机数 模块
  * ----------------------------
  */
-#include "Engine/random/PerlinNoise3D.h"
+#include "PerlinNoise3D.h"
 #include <cmath>
 
 #include <algorithm>

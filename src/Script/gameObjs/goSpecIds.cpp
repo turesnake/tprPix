@@ -13,11 +13,10 @@
 
 
 //-------------------- Engine --------------------//
-#include "Engine/game/gameObj/GameObj.h" //- goSpecId_t
-
+#include "GameObj.h" //- goSpecId_t
 
 //-------------------- Script --------------------//
-#include "Script/resource/src_script.h" 
+#include "Script/resource/srcs_script.h" 
 
 
 using std::cout;

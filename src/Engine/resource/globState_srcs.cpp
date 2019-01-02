@@ -11,8 +11,6 @@
  *  - 在save时 临时从各个变量上抽取
  * ----------------------------
  */
-#include "Engine/resource/srcs_manager.h" //- 所有资源
-
 //-------------------- C ----------------------//
 //#include <string.h> //- memset, memcpy
 #include <cassert> //-- assert
@@ -25,9 +23,10 @@
 //------------------- Libs --------------------//
 #include "tprDB.h"
 
-//------------------- SELF --------------------//
-#include "Engine/sys/global.h"
-#include "Engine/game/gameObj/GameObj.h" 
+//-------------------- Engine --------------------//
+#include "srcs_engine.h" //- 所有资源
+#include "global.h"
+#include "GameObj.h" 
 
 using std::string;
 using std::cout;

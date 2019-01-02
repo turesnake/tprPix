@@ -8,7 +8,7 @@
  *   一个 mesh，负责管理 一张 矩形图元
  * ----------------------------
  */
-#include "Engine/game/Mesh.h" 
+#include "Mesh.h" 
 
 //-------------------- C --------------------//
 #include <cassert> //-- assert

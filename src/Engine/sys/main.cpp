@@ -22,18 +22,18 @@
 #include <string>
 #include <vector>
 
-//------------------- SELF --------------------//
-#include "Engine/sys/global.h"
-#include "Engine/gl/glob_gl.h"
-#include "Engine/gl/RectVertics.h" //-- 矩形 顶点数据
+//-------------------- Engine --------------------//
+#include "global.h"
+#include "glob_gl.h"
+#include "RectVertics.h" //-- 矩形 顶点数据
 
-#include "Engine/gl/ShaderProgram.h" 
-#include "Engine/camera/Camera.h" 
-#include "Engine/gl/Texture.h" 
-#include "Engine/gl/Model.h"
+#include "ShaderProgram.h" 
+#include "Camera.h" 
+#include "Texture.h" 
+#include "Model.h"
 
-#include "Engine/resource/srcs_manager.h" //- 所有资源
-#include "Engine/time/TimeCircle.h" 
+#include "srcs_engine.h" //- 所有资源
+#include "TimeCircle.h" 
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h"
@@ -112,9 +112,11 @@ int main(){
     //++++++ load ++++++//
     esrc::actions_load();    //-- actions --
     //...
+        
 
     //---- 加载 map 数据 ----
     //...
+        go_byPass();//- 硬生产一个 Dog_A 实例
 
 
     //---------------------------------------------//

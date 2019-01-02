@@ -23,7 +23,7 @@
 #include "tprDataType.h" 
 
 //------------------- Engine --------------------//
-#include "Engine/script/ScriptBuf.h"
+#include "ScriptBuf.h"
 
 
 //-- 类似 GameObj，一个“伪接口类” --
@@ -46,7 +46,6 @@ public:
     //----------- binary chunk -------------//
     std::vector<u8>  binary; //- 具象AH类 定义的 二进制数据块。真实存储地
                             //- binary 本质是一个 C struct。 由 具象AH类方法 使用。
-private:
 };
 
 

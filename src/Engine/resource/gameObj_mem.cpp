@@ -7,7 +7,7 @@
  *  GameObj 在 内存中的 管理
  * ----------------------------
  */
-#include "Engine/resource/srcs_manager.h" //- 所有资源
+#include "srcs_engine.h" //- 所有资源
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>
@@ -31,6 +31,20 @@ using std::vector;
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
+
+
+/* ===========================================================
+ *                  insert_new_gameObj
+ * -----------------------------------------------------------
+ * -- 存入一个 go实例，并为其分配新 goid
+ * -- 不能用在 从 硬盘读出的 go数据上
+ */
+void insert_new_gameObj( GameObj &_go  ){
+
+    goid_t goid = GameObj::id_manager.apply_a_u64_id();
+    _go.id = goid;
+    memGameObjs.insert({ goid, _go }); //- copy
+}
 
 
 /* ===========================================================

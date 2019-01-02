@@ -7,7 +7,7 @@
  *    动画动作 处理器：简单死循环动作 处理器
  * ----------------------------
  */
-#include "Cycle.h"
+#include "Script/actionHandler/Cycle.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -56,18 +56,18 @@ void Cycle::bind(  ActionHandler *_ahPtr,
     bp->is_step_change = false;
 
     //----- sign up callback funcs -----
-    //-- 故意将 首参数this 绑定到 保留类实例 ah3 身上
+    //-- 故意将 首参数this 绑定到 保留类实例 cycle 身上
     
     ahPtr->funcs.insert({ "update", 
-            std::bind( &Cycle::update, &ah_cycle, _1 )
+            std::bind( &Cycle::update, &cycle, _1 )
             });
 
     ahPtr->funcs.insert({ "get_currentIdx", 
-            std::bind( &Cycle::get_currentIdx, &ah_cycle, _1 )
+            std::bind( &Cycle::get_currentIdx, &cycle, _1 )
             });
 
     ahPtr->funcs.insert({ "set_step", 
-            std::bind( &Cycle::set_step, &ah_cycle, _1, _2 )
+            std::bind( &Cycle::set_step, &cycle, _1, _2 )
             });
     
 }

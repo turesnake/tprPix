@@ -15,9 +15,9 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/game/PixVec.h" 
-#include "Engine/game/gameObj/GameObj.h" 
+//-------------------- Engine --------------------//
+#include "PixVec.h" 
+#include "GameObj.h" 
 
 
 //-- 玩家数据 [硬盘态] --

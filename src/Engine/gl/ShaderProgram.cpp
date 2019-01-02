@@ -19,8 +19,8 @@
 //------------------- Libs --------------------//
 #include "tprFileSys.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/sys/global.h"
+//-------------------- Engine --------------------//
+#include "global.h"
 
 
 using std::string;

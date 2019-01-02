@@ -31,10 +31,10 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/game/PixVec.h" 
-#include "Engine/game/gameObj/GameObj.h" 
-#include "Engine/game/ID_Manager.h" 
+//-------------------- Engine --------------------//
+#include "PixVec.h" 
+#include "GameObj.h" 
+#include "ID_Manager.h" 
 
 
 //-- 投影地图单位的 一级信息 [硬盘态] --//

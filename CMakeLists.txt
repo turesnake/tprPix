@@ -49,8 +49,10 @@ set ( VERSION_MINOR 1 )
 #-- 指定 依赖的 h文件所在 路径:
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
-#  后期将缩减范围
+#-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/action)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandler)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
@@ -58,17 +60,17 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandler)
 
-#  后期将缩减范围
+
+#-- Script 只 include 顶层目录 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
-include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionHandler)
-include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
-include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
-include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
+#include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionHandler)
+#include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
+#include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
+#include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
 
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
@@ -98,22 +100,24 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/test/*.cpp
 
                         src/Engine/*.cpp
-                        src/Engine/sys/*.cpp
-                        src/Engine/gl/*.cpp 
-                        src/Engine/time/*.cpp 
+                        src/Engine/action/*.cpp 
+                        src/Engine/actionHandler/*.cpp
                         src/Engine/camera/*.cpp 
-                        src/Engine/random/*.cpp 
                         src/Engine/game/*.cpp 
-                        src/Engine/game/map/*.cpp 
-                        src/Engine/resource/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
+                        src/Engine/game/map/*.cpp 
+                        src/Engine/gl/*.cpp 
+                        src/Engine/random/*.cpp 
+                        src/Engine/resource/*.cpp 
                         src/Engine/script/*.cpp 
-                        src/Engine/actionHandler/*.cpp 
+                        src/Engine/sys/*.cpp
+                        src/Engine/time/*.cpp 
                         
                         src/Script/*.cpp 
                         src/Script/actionHandler/*.cpp 
                         src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
+                        src/Script/resource/*.cpp
                         src/Script/textureBuilder/*.cpp 
                         )
 

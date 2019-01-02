@@ -8,16 +8,16 @@
  * ----------------------------
  */
 
-#include "Engine/camera/Camera.h"
+#include "Camera.h"
 
 //-------------------- CPP --------------------//
 #include <cassert> //- assert
 #include <string>
 #include <iostream>
 
-//------------------- SELF --------------------//
+//-------------------- Engine --------------------//
 #include "config.h" // SCR_WIDTH, SCR_HEIGHT
-#include "Engine/resource/srcs_manager.h" //- 所有资源
+#include "srcs_engine.h" //- 所有资源
 
 
 using std::cout;

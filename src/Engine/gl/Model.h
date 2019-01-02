@@ -34,13 +34,12 @@
 #include <string>
 #include <vector>
 
-//------------------- SELF --------------------//
-#include "Engine/gl/Texture.h"
-#include "Engine/gl/ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
 
-#include "Engine/gl/vector_matrix.h" 
-
-#include "Engine/gl/VAOVBO.h" 
+//-------------------- Engine --------------------//
+#include "Texture.h"
+#include "ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
+#include "vector_matrix.h" 
+#include "VAOVBO.h" 
 
 
 

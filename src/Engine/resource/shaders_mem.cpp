@@ -7,7 +7,8 @@
  *  shaders  在 内存中的 管理
  * ----------------------------
  */
-#include "Engine/resource/srcs_manager.h" //- 所有资源
+//-------------------- Engine --------------------//
+#include "srcs_engine.h" //- 所有资源
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 

@@ -33,11 +33,12 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/game/gameObj/GameObjType.h" 
-#include "Engine/game/Mesh.h" 
-#include "Engine/game/ID_Manager.h" 
-#include "Engine/game/PixVec.h" 
+
+//-------------------- Engine --------------------//
+#include "GameObjType.h" 
+#include "Mesh.h" 
+#include "ID_Manager.h" 
+#include "PixVec.h" 
 
 
 
@@ -75,7 +76,7 @@ public:
                                 //- 未来会添加一个 参数：“被施加技能的类型”
 
 
-    //----------------- vals ---------------//
+    //----------------- self vals ---------------//
     goid_t         id      {NULLID};    //- go实例 在程序中的 主要搜索依据。
     goSpecId_t     species {0};                     //- go species id
     GameObjFamily  family  {GameObjFamily::Major};  //- go 类群
@@ -98,7 +99,7 @@ public:
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
 
-    bool is_default {true}; //- 是否为 默认go
+    bool is_dirty {false};  //- 是否为 默认go（是否被改写过）
                             //- “默认go” 意味着这个 go没有被游戏改写过。
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
@@ -115,7 +116,8 @@ public:
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 mesh实例 存入此容器
                             //- 只存储在 mem态。 在go实例存入 硬盘时，mesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 mesh实例。
-                            
+
+    //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
                             //- binary 本质是一个 C struct。 由 具象go类方法 使用。
                             //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）

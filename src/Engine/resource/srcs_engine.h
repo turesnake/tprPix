@@ -1,5 +1,5 @@
 /*
- * ========================= srcs_manager.h ==========================
+ * ========================= srcs_engine.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
@@ -19,7 +19,7 @@
 #include <functional> 
 #include <map>
 
-//------------------- SELF --------------------//
+//-------------------- Engine --------------------//
 #include "GameObj.h"
 #include "Action.h"
 #include "Player.h" 
@@ -74,10 +74,10 @@ inline std::unordered_map<goid_t, GameObj> memGameObjs {}; //- 所有载入内�
 inline std::unordered_set<goid_t> goids_active   {}; //- 激活组 (身处 激活圈 之内)
 inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 激活圈 之外)
 
-
 inline FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
 
+void insert_new_gameObj( GameObj &_go );
 void realloc_active_goes();
 void realloc_inactive_goes();
 

@@ -17,12 +17,11 @@
 #include "tprDataType.h" 
 
 //------------------- Engine --------------------//
-#include "Engine/script/ScriptBuf.h"
+#include "ScriptBuf.h"
+#include "ActionHandler.h"
 
-#include "Engine/actionHandler/ActionHandler.h"
 
-
-namespace actionHdlr{//------------- namespace ActionHdlr ----------------
+namespace actionHdlr{//------------- namespace actionHdlr ----------------
 
 
 struct Cycle_Binary{
@@ -68,11 +67,11 @@ public:
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====
-inline Cycle  ah_cycle {};
+inline Cycle  cycle {};
 
 
 
 
-}//----------------- namespace ActionHdlr: end -------------------
+}//----------------- namespace actionHdlr: end -------------------
 #endif 
 

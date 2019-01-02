@@ -17,8 +17,8 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
-//------------------- SELF --------------------//
-#include "Engine/random/random.h" 
+//-------------------- Engine --------------------//
+#include "random.h" 
 
 
 class PerlinNoise3D {

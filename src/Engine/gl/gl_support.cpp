@@ -23,11 +23,11 @@
 #include <string>
 
 
-//------------------- SELF --------------------//
-#include "Engine/sys/global.h"
+//-------------------- Engine --------------------//
+#include "global.h"
 #include "config.h" //-- SCR_WIDTH
-#include "Engine/gl/callback.h" 
-#include "Engine/gl/glob_gl.h" 
+#include "callback.h" 
+#include "glob_gl.h" 
 
 using std::cout;
 using std::endl;

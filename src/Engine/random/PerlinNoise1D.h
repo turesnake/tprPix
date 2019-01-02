@@ -10,8 +10,7 @@
  */
 #ifndef _TPR_PERLIN_NOISE_1D_H_
 #define _TPR_PERLIN_NOISE_1D_H_
-#include "Engine/random/random.h"
-
+#include "random.h"
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>

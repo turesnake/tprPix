@@ -15,10 +15,10 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- SELF --------------------//
-#include "Engine/game/PixVec.h" 
-#include "Engine/game/gameObj/GameObj.h" 
-#include "Engine/game/map/MapEnt.h"
+//-------------------- Engine --------------------//
+#include "PixVec.h" 
+#include "GameObj.h" 
+#include "MapEnt.h"
 
 //-- 1个 mapent 占用 3*3 个像素
 inline constexpr int MAPENT_PIX_STEP = 3;

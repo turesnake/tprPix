@@ -7,12 +7,14 @@
  *  资源管理:  Action
  * ----------------------------
  */
-#include "Engine/gl/Action.h"
-#include "Engine/resource/srcs_manager.h" //- 所有资源
-
-
+//-------------------- CPP --------------------//
 #include <iostream>
 #include <string>
+
+//-------------------- Engine --------------------//
+#include "Action.h"
+#include "srcs_engine.h" //- 所有资源
+
 
 using std::string;
 using std::cout;

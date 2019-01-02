@@ -50,10 +50,11 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-//------------------- SELF --------------------//
-#include "Engine/gl/vector_matrix.h" 
-#include "Engine/gl/ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
-#include "Engine/gl/VAOVBO.h" 
+//-------------------- Engine --------------------//
+#include "vector_matrix.h" 
+#include "ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
+#include "VAOVBO.h" 
+#include "ActionHandler.h"
 
 
 
@@ -75,7 +76,6 @@ public:
     void init();
     void mesh_draw();
 
-
     //--- pos ---
     glm::vec2  pos; //- 以go实例 根锚点 为 0点的 相对pos位移
                     //  用来记录，本mesh 在 go中的 位置（图形）
@@ -89,7 +89,11 @@ public:
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处
                     //-- tex 会在每次 draw 时 才被绑定，这正是我们想要的
     int      currentFrameIdx {};   //- 当前播放的 action实例 中的 第几帧
+                                    //- 此变量可能会被丢弃
 
+    ActionHandler actionHandlr {}; //- 一个 mesh拥有一个 ah实例
+                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
+                                    //- 但是存在 类型验证的需求：通过 .typeId 
 
     //--------------------------//
     inline void set_shader_program( ShaderProgram *sp ){

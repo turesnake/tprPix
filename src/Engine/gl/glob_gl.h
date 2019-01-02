@@ -20,7 +20,7 @@
 #include<GLFW/glfw3.h>
 
 //------------------- Engine --------------------//
-#include "Engine/game/PixVec.h"
+#include "PixVec.h"
 
 
 //-- 一个 类实例 维护一个 window。

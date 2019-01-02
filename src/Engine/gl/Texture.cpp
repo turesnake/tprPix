@@ -19,7 +19,8 @@
 #include <cassert>
 #include <iostream>
 
-#include "Engine/sys/global.h"
+//-------------------- Engine --------------------//
+#include "global.h"
 
 
 using std::string;

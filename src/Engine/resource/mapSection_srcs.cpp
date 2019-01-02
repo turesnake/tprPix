@@ -7,8 +7,6 @@
  *  资源管理: mapSection 
  * ----------------------------
  */
-#include "Engine/resource/srcs_manager.h" //- 所有资源
-
 //-------------------- C ----------------------//
 //#include <string.h> //- memset, memcpy
 #include <cassert> //-- assert
@@ -21,10 +19,11 @@
 //------------------- Libs --------------------//
 #include "tprDB.h"
 
-//------------------- SELF --------------------//
-#include "Engine/sys/global.h"
-#include "Engine/game/gameObj/GameObj.h" 
-#include "Engine/game/map/MapSection.h"
+//-------------------- Engine --------------------//
+#include "srcs_engine.h" //- 所有资源
+#include "global.h"
+#include "GameObj.h" 
+#include "MapSection.h"
 
 using std::string;
 using std::cout;

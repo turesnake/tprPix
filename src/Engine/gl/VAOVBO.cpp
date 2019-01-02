@@ -8,7 +8,7 @@
  *   所有的 mesh 都使用它
  * ----------------------------
  */
-#include "Engine/gl/VAOVBO.h"
+#include "VAOVBO.h"
 
 //-------------------- C --------------------//
 #include <cassert> //-- assert

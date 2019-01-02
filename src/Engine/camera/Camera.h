@@ -33,8 +33,8 @@
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
-//------------------- SELF --------------------//
-#include "Engine/gl/vector_matrix.h" 
+//-------------------- Engine --------------------//
+#include "vector_matrix.h" 
 
 
 class Camera{

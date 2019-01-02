@@ -52,9 +52,9 @@
 #include "nocopyable.h" 
 #include "tprDataType.h"
 
-//-------------------- SELF --------------------//
-#include "Engine/game/PixVec.h" 
-#include "Engine/gl/RGBA.h" 
+//-------------------- Engine --------------------//
+#include "PixVec.h" 
+#include "RGBA.h" 
 
 
 //-- AS实例 需要的参数 --

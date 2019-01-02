@@ -7,8 +7,11 @@
  *   
  * ----------------------------
  */
-#include "Engine/game/ID_Manager.h"
-#include "Script/resource/src_script.h" 
+//-------------------- Engine --------------------//
+#include "ID_Manager.h"
+
+//-------------------- Script --------------------//
+#include "Script/resource/srcs_script.h" 
 
 //-------------------- CPP --------------------//
 #include <string>

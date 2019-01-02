@@ -15,8 +15,7 @@
 #include <functional> 
 
 //-------------------- Engine --------------------//
-#include "Engine/resource/srcs_manager.h" //- 所有资源
-
+#include "srcs_engine.h" //- 所有资源
 
 //-------------------- Script --------------------//
 #include "Script/actionHandler/ah.h"

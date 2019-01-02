@@ -7,7 +7,7 @@
  *   
  * ----------------------------
  */
-#include "Engine/game/gameObj/GameObj.h" 
+#include "GameObj.h" 
 
 
 //============== 类静态成员 ===============//
