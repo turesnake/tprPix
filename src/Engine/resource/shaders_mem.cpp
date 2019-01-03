@@ -21,6 +21,7 @@ void shaders_init(){
 
     //---- rect_sahder ----//
     rect_shader.init(); 
+    rect_shader.use_program();
     rect_shader.get_uniform_location( "model" );
     rect_shader.get_uniform_location( "view" );
     rect_shader.get_uniform_location( "projection" );

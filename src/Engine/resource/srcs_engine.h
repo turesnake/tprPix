@@ -11,6 +11,13 @@
 #ifndef _TPR_SRCS_MANAGER_H_
 #define _TPR_SRCS_MANAGER_H_
 
+/* -- 确保 glad GLFW 两个库 的引用顺序 ---
+ * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
+ * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
+ */
+#include<glad/glad.h>  
+#include<GLFW/glfw3.h>
+
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -37,6 +44,13 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 using FUNC_V_V = std::function<void()>;
 
 
+//-------------------------//
+//       window 资源 
+//-------------------------//
+//-- 一个 类实例 维护一个 window。
+//-- window 数据结构的 具体内容由 glfw库管理。
+//-- 用户只需保存一个指针。用来访问这个 window。
+inline GLFWwindow  *window {};
 
 //-------------------------//
 //       time 资源 

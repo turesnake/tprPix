@@ -30,19 +30,11 @@ public:
     }
 
 
-
-
 private:
     TimeBase  *timerp; //- 绑定一个 全局 timer
     int        frames; //- 一个circle 需要 多少 帧。
 
 };
-
-
-
-
-
-
 
 
 #endif

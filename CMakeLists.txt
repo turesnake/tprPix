@@ -58,11 +58,15 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/shaderProgram)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
 
 
 #-- Script 只 include 顶层目录 --
@@ -107,11 +111,15 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
                         src/Engine/gl/*.cpp 
+                        src/Engine/mesh/*.cpp 
+                        src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/resource/*.cpp 
                         src/Engine/script/*.cpp 
+                        src/Engine/shaderProgram/*.cpp 
                         src/Engine/sys/*.cpp
                         src/Engine/time/*.cpp 
+                        src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
                         src/Script/actionHandle/*.cpp 

@@ -24,10 +24,11 @@
 
 
 //-------------------- Engine --------------------//
+#include "srcs_engine.h" 
 #include "global.h"
 #include "config.h" //-- SCR_WIDTH
 #include "callback.h" 
-#include "glob_gl.h" 
+#include "gl_funcs.h" 
 
 using std::cout;
 using std::endl;
@@ -92,26 +93,26 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        esrc::window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
                                     "tprcraft", 
                                     monitor, 
                                     NULL );
     }else{
         //------ 窗口模式 ------//
         // 暂不知 如何设置 帧率...
-        window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        esrc::window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
                                     "tprcraft", 
                                     NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                     NULL );
     }
 
-	if(window == NULL){
+	if(esrc::window == NULL){
 		glfwTerminate();
         cout << "glfw_window_creat: glfwCreateWindow: error. " << endl;
         assert(0);
 	}
     //-- 将这个 唯一的 window 设为 current context
-	glfwMakeContextCurrent( window );
+	glfwMakeContextCurrent( esrc::window );
 
 }
 
@@ -123,7 +124,7 @@ void glfw_window_creat(){
  */
 void glfw_oth_set(){
     //-- 当本 window in forcus 后，隐藏鼠标
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(esrc::window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
@@ -135,10 +136,9 @@ void glfw_oth_set(){
 void glfw_callback_set(){
 
     
-    glfwSetFramebufferSizeCallback( window, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
-    glfwSetCursorPosCallback(       window, mouse_callback );  //-- 鼠标运动 -- 控制视角
+    glfwSetFramebufferSizeCallback( esrc::window, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
+    glfwSetCursorPosCallback(       esrc::window, mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
-
 
 }
 
@@ -178,17 +178,6 @@ void glad_set(){
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

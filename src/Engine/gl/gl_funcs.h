@@ -1,17 +1,14 @@
 /*
- * ========================= glob_gl.h ===================
+ * ========================= gl_funcs.h ===================
  *                          -- tpr --
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
- * 
- *   glfw / glad
- * 
+ *   gl 模块中的 公共函数
  * ----------------------------
  */
 #ifndef _TPR_GL_H_
 #define _TPR_GL_H_
-
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
  * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
  * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
@@ -21,12 +18,6 @@
 
 //------------------- Engine --------------------//
 #include "PixVec.h"
-
-
-//-- 一个 类实例 维护一个 window。
-//-- window 数据结构的 具体内容由 glfw库管理。
-//-- 用户只需保存一个指针。用来访问这个 window。
-inline GLFWwindow  *window {};
 
 //------ gl_support.cpp -----//
 void glfw_init();
@@ -38,11 +29,10 @@ void glfw_callback_set();
 void glad_init();
 void glad_set();
 
-
-//------ input -------//
-void processInput( GLFWwindow *window );
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+//------ input.cpp -------//
+void processInput( GLFWwindow *_window );
+void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos);
+void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset);
 PixVec2 get_mouse_pos();
 
 #endif

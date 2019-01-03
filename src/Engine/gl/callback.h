@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
- *   回调函数
+ *  有关 OpenGL 的一些 回调函数
  * ----------------------------
  */
 #ifndef _TPR_CALL_BACK_H_
@@ -21,8 +21,6 @@
 
 //----- callback.cpp -----
 void framebuffer_size_callback( GLFWwindow *window, int width, int height );
-
-
 
 
 

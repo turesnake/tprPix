@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.11.21
  *                                        修改 -- 2018.11.21
  * ----------------------------------------------------------
- *   通用 回调函数 设置区
+ *   有关 OpenGL 的一些 回调函数
  * ----------------------------
  */
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
@@ -29,7 +29,5 @@ void framebuffer_size_callback( GLFWwindow *window, int width, int height ){
 	glViewport( 0, 0, width, height );
                 //-- 此处的 参数 width, height 时 glfw 库 写入的，
 }
-
-
 
 

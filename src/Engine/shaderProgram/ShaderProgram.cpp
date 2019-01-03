@@ -7,7 +7,7 @@
  *   着色器程序 类
  * ----------------------------
  */
-#include "Engine/gl/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 #include<GLFW/glfw3.h>
 

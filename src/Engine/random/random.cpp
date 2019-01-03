@@ -19,7 +19,7 @@
 #include <string>
 
 //-------------------- Engine --------------------//
-#include "glob_gl.h" 
+#include "gl_funcs.h" 
 #include "PixVec.h" 
 #include "srcs_engine.h" //- 所有资源
 

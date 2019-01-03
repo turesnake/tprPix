@@ -16,9 +16,10 @@
 #include<GLFW/glfw3.h>
 
 //#include <iostream> // cout
+//#include <string>
 
 //-------------------- Engine --------------------//
-#include "glob_gl.h" 
+#include "gl_funcs.h" 
 #include "PixVec.h" 
 #include "srcs_engine.h" //- 所有资源
 
@@ -27,9 +28,9 @@
 
 
 //------------------- 提供给全局的 函数 ----------------
-void processInput( GLFWwindow *window );
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput( GLFWwindow *_window );
+void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos);
+void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset);
 PixVec2 get_mouse_pos();
 
 
@@ -38,43 +39,43 @@ PixVec2 get_mouse_pos();
  *-----------------------------------------------------------
  * input 处理函数。 看起来很简陋。
  */
-void processInput( GLFWwindow *window ){
+void processInput( GLFWwindow *_window ){
 
     //-- ESC -- 
-	if( glfwGetKey( window, GLFW_KEY_ESCAPE ) == GLFW_PRESS ){
-		glfwSetWindowShouldClose( window, GL_TRUE );
+	if( glfwGetKey( _window, GLFW_KEY_ESCAPE ) == GLFW_PRESS ){
+		glfwSetWindowShouldClose( _window, GL_TRUE );
 	}
 
     //-- W -- 
-    if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS ){
+    if( glfwGetKey( _window, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
         esrc::camera.cameraPos_up();
     }
 
     //-- S -- 
-    if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS ){
+    if( glfwGetKey( _window, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
         esrc::camera.cameraPos_down();
     }
 
     //-- A -- 
-    if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS ){
+    if( glfwGetKey( _window, GLFW_KEY_A ) == GLFW_PRESS ){
             //cout << "-A-" << endl;
         esrc::camera.cameraPos_left();
     }
 
     //-- D -- 
-    if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS ){
+    if( glfwGetKey( _window, GLFW_KEY_D ) == GLFW_PRESS ){
             //cout << "-D-" << endl;
         esrc::camera.cameraPos_right();
     }
 
     //-- SPACE -- 
-    //if( glfwGetKey( window, GLFW_KEY_SPACE ) == GLFW_PRESS ){
+    //if( glfwGetKey( _window, GLFW_KEY_SPACE ) == GLFW_PRESS ){
     //}
 
     //-- TAB -- 
-    //if( glfwGetKey( window, GLFW_KEY_TAB ) == GLFW_PRESS ){
+    //if( glfwGetKey( _window, GLFW_KEY_TAB ) == GLFW_PRESS ){
     //}
 }
 
@@ -86,7 +87,7 @@ void processInput( GLFWwindow *window ){
  *  鼠标位移运动 回调函数，控制 摄像机 俯仰，偏航
  *    （double 类型是 回调函数 定死的，不能改。）
  */
-void mouse_callback(GLFWwindow* window, double xpos, double ypos){
+void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos){
 
         //cout << "xpos = " << xpos << "ypos = " << ypos << endl; 
     //camera_current()->mousePos_move( xpos, ypos );
@@ -117,7 +118,7 @@ PixVec2 get_mouse_pos(){
 
     double x;
     double y;
-    glfwGetCursorPos( window, &x, &y);
+    glfwGetCursorPos( esrc::window, &x, &y);
     return PixVec2{ (int)x, (int)y };
 }
 
@@ -129,7 +130,7 @@ PixVec2 get_mouse_pos(){
  *    （double 类型是定死的，不能改。）
  */
 /*
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
+void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
 
         //cout << "xoffset = " << xoffset << "yoffset = " << yoffset << endl;
     //camera_current()->mouseFov_reset( xoffset, yoffset );

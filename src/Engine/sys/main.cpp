@@ -24,19 +24,12 @@
 
 //-------------------- Engine --------------------//
 #include "global.h"
-#include "glob_gl.h"
-#include "RectVertics.h" //-- 矩形 顶点数据
-
-#include "ShaderProgram.h" 
-#include "Camera.h" 
-#include "Texture.h" 
-#include "Model.h"
-
+#include "gl_funcs.h"
 #include "srcs_engine.h" //- 所有资源
 #include "TimeCircle.h" 
 
 //------------------- Script --------------------//
-#include "Script/byPass/byPass.h"
+#include "Script/byPass/byPass.h" //- tmp
  
 using std::cout;
 using std::endl;
@@ -101,7 +94,6 @@ int main(){
 
     //player_srcs_init();    //----  player 资源 ----
         player_byPass();
-        
     //...
 
 
@@ -115,34 +107,7 @@ int main(){
     //...
         go_byPass();//- 硬生产一个 Dog_A 实例
 
-
-    //---------------------------------------------//
-    //          创建／初始化  所有 texture 
-    //             [*** 将被废弃 ***]
-    //---------------------------------------------//
-    Texture textel_1( "/textures/pix_01.png" );
-
-    //---------------------------------------------//
-    //          创建／初始化  所有 model
-    //             [*** 将被废弃 ***]
-    //---------------------------------------------//
-
-    Model mod_1;
-    mod_1.add_texture( textel_1 );
-    mod_1.set_shader_program( &esrc::rect_shader );
-    mod_1.init();
     
-    //---------------------------------------------//
-    //                texture
-    //             [*** 将被废弃 ***]
-    //---------------------------------------------//
-    //-- 必须要激活 shaderProgram，这样才能修改其 uniform 变量值。
-    esrc::rect_shader.use_program();
-    //-- 为 uniform 变量 texture1 设置值
-    //-- 指向 GL_TEXTURE0 这两个 纹理单元
-    glUniform1i( esrc::rect_shader.uniform_location( "texture1" ), 0);
-
-
     //------------------------------------------//
     //        Behaviour.Starts
     //------------------------------------------//
@@ -151,7 +116,7 @@ int main(){
     //========================================================//
     //                 main render loop
     //========================================================//
-    while( !glfwWindowShouldClose( window ) ){
+    while( !glfwWindowShouldClose( esrc::window ) ){
 
         //--------------------------------//
         //             time   
@@ -162,7 +127,7 @@ int main(){
         //            input   
         //--------------------------------//
         //-- 目前这个版本 非常简陋
-		processInput( window );
+		processInput( esrc::window );
 
         //--------------------------------//
         //      render background   
@@ -208,25 +173,11 @@ int main(){
         }
 
                 
-
         //--------------------------------//
         //        render graphic
         //--------------------------------//
         // 将被整合 ...
         
-        //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
-        
-        mod_1.set_translate( glm::vec3( 0.0f, 0.0f, 0.0f ) );
-        mod_1.set_scale( glm::vec3( 1.0f, 1.0f, 1.0f ) );
-        mod_1.model_draw();
-        
-
-        //mod_1.set_translate( glm::vec3( -6.0f, 7.0f, 0.0f ) );
-        //mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
-        //mod_1.model_draw();
-
-
-
             auto it = esrc::memGameObjs.begin();
             for( ; it!=esrc::memGameObjs.end(); it++ ){
                 it->second.RenderUpdate( (GameObj*)&(it->second) );
@@ -238,18 +189,19 @@ int main(){
         //     swap the buffers               
         //--------------------------------//
 		glfwPollEvents();          //-- 处理所有 处于 event queue 中的 待决event
-		glfwSwapBuffers( window ); //- 交换 两个 帧缓冲区
+		glfwSwapBuffers( esrc::window ); //- 交换 两个 帧缓冲区
 
         //------------ 显示数据到终端 -----------//
+        // [-DEBUG-]
         //...
 
 
     }//------------ while render loop end --------------------//
-    //                delete everthing
-    //========================================================//
-    
 
-    //mod_1.model_delete(); //------ 删除 所有 model ------
+
+    //========================================================//
+    //             save / delete everthing
+    //--------------------------------------------------------//
     VAOVBO_del();           //------ 删除 全局唯一 VAO，VBO -----
     //...
 
@@ -261,10 +213,5 @@ int main(){
     //------------//
     return(0);
 }
-
-
-
-
-
 
 
