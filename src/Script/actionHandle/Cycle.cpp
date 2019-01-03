@@ -7,15 +7,24 @@
  *    动画动作 处理器：简单死循环动作 处理器
  * ----------------------------
  */
-#include "Script/actionHandler/Cycle.h"
+#include "Script/actionHandle/Cycle.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
 
+//-------------------- CPP --------------------//
+#include <iostream>
+#include <string>
+
 using namespace std::placeholders;
 
 
-namespace actionHdlr{//------------- namespace ActionHdlr ----------------
+using std::string;
+using std::cout;
+using std::endl;
+
+
+namespace actionHdle{//------------- namespace ActionHdle ----------------
 
 
 //--- static member ----
@@ -27,7 +36,7 @@ u32  Cycle::typeId {0};
  * -----------------------------------------------------------
  * -- 并不是单纯的 bind，还附带了 目标ah实例 的初始化工作。
  */
-void Cycle::bind(  ActionHandler *_ahPtr,
+void Cycle::bind(  ActionHandle *_ahPtr,
                 int _frames,
                 int _enterIdx,
                 int _step ){
@@ -48,7 +57,7 @@ void Cycle::bind(  ActionHandler *_ahPtr,
     bp->frames = _frames;
     bp->enterIdx = _enterIdx;
     bp->lastIdx = _enterIdx;
-    bp->currentIdx = _enterIdx;
+    ahPtr->currentIdx = _enterIdx;
     bp->step = _step;
     
     bp->updates = 0;
@@ -62,10 +71,6 @@ void Cycle::bind(  ActionHandler *_ahPtr,
             std::bind( &Cycle::update, &cycle, _1 )
             });
 
-    ahPtr->funcs.insert({ "get_currentIdx", 
-            std::bind( &Cycle::get_currentIdx, &cycle, _1 )
-            });
-
     ahPtr->funcs.insert({ "set_step", 
             std::bind( &Cycle::set_step, &cycle, _1, _2 )
             });
@@ -73,16 +78,15 @@ void Cycle::bind(  ActionHandler *_ahPtr,
 }
 
 
-
 /* ===========================================================
  *                        update
  * -----------------------------------------------------------
- * -- int update( ActionHandler *_ahPtr )
+ * -- int update( ActionHandle *_ahPtr )
  * -- 需要在 每一视觉帧 调用
  * -- 若 某段时间 不主动调用本函数，动画将陷入停滞（并不会严格对应到全局总时间帧）
  * -- 顺带返回  currentIdx 的值
  */
-int Cycle::update( ActionHandler *_ahPtr ){
+int Cycle::update( ActionHandle *_ahPtr ){
 
     //=====================================//
     //            ptr rebind
@@ -96,46 +100,22 @@ int Cycle::update( ActionHandler *_ahPtr ){
     bp->updates++;
     //-------
     int steps = bp->updates / bp->step;
-    int newIdx = (bp->lastIdx + steps)%bp->frames;
+    int newIdx = (bp->lastIdx + steps)%(bp->frames);
     //- 发生了 画面帧 切换 -
-    if( bp->currentIdx != newIdx ){
-        bp->currentIdx = newIdx;
+    if( ahPtr->currentIdx != newIdx ){
+        ahPtr->currentIdx = newIdx;
         if( bp->is_step_change == true ){
             bp->is_step_change = false;
             bp->step = bp->step_new;
-            bp->lastIdx = bp->currentIdx;
+            bp->lastIdx = ahPtr->currentIdx;
             bp->updates = 0;
         }
     }
+
     //=====================================//
     //                ret
     //-------------------------------------//  
-    scriptBuf.push_int( bp->currentIdx );
-    return sizeof(int);
-}
-
-
-/* ===========================================================
- *                   get_currentIdx
- * -----------------------------------------------------------
- * -- int get_currentIdx( ActionHandler *_ahPtr )
- */
-int Cycle::get_currentIdx( ActionHandler *_ahPtr ){
-
-    //=====================================//
-    //              ptr rebind
-    //-------------------------------------//
-    assert( _ahPtr->typeId == Cycle::typeId );
-    //-- rebind ptr -----
-    ahPtr = _ahPtr;
-    bp = (Cycle_Binary*)&(ahPtr->binary[0]);
-    //=====================================//
-
-
-    //=====================================//
-    //                ret
-    //-------------------------------------// 
-    scriptBuf.push_int( bp->currentIdx );
+    scriptBuf.push_int( ahPtr->currentIdx );
     return sizeof(int);
 }
 
@@ -143,12 +123,12 @@ int Cycle::get_currentIdx( ActionHandler *_ahPtr ){
 /* ===========================================================
  *                   set_step
  * -----------------------------------------------------------
- * -- void set_step( ActionHandler *_ahPtr, int _step ){
+ * -- void set_step( ActionHandle *_ahPtr, int _step ){
  * -- 重设 step 将清零 updates，并改写 lastIdx。
  * -- 通过不停地 重设 step，可以实现 动画 带有节奏地播放
  * -- 重设 step 不会立即起效，而是先登记下来，等下一 画面帧切换时，再更新 step
  */
-int Cycle::set_step( ActionHandler *_ahPtr, int _len ){
+int Cycle::set_step( ActionHandle *_ahPtr, int _len ){
 
     //=====================================//
     //              ptr rebind
@@ -184,5 +164,5 @@ int Cycle::set_step( ActionHandler *_ahPtr, int _len ){
 }
 
 
-}//----------------- namespace ActionHdlr: end -------------------
+}//----------------- namespace ActionHdle: end -------------------
 

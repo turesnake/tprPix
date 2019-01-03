@@ -33,13 +33,11 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-
 //-------------------- Engine --------------------//
 #include "GameObjType.h" 
 #include "Mesh.h" 
 #include "ID_Manager.h" 
 #include "PixVec.h" 
-
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -55,8 +53,7 @@
 //  -- go类实例 负责存储实际的数据
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj{
-
-    using F_V_V = std::function<void()>;
+    using F_GO  = std::function<void(GameObj*)>;
 public:
     GameObj() = default;
 
@@ -66,15 +63,14 @@ public:
     void  d2m( diskGameObj *_dgo );
     diskGameObj  m2d();
 
-    //-----------------//
-    //-- 几个经典的回调函数，tmp...
-    F_V_V  Awake {nullptr};  //- 初始化阶段执行的 内容
-    F_V_V  Start {nullptr};  //- 游戏在进入 主循环之前，执行的内容
+    //---------------- callback -----------------//
+    F_GO  Awake {nullptr};  //- 初始化阶段执行的 内容
+    F_GO  Start {nullptr};  //- 游戏在进入 主循环之前，执行的内容
 
-    F_V_V  Update {nullptr}; //- 每一帧，被主程序调用 （帧周期未定）
-    F_V_V  BeAffect {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
-                                //- 未来会添加一个 参数：“被施加技能的类型”
-
+    F_GO  RenderUpdate {nullptr}; //- 每1视觉帧，被引擎调用
+    F_GO  LogicUpdate  {nullptr}; //- 每1逻辑帧，被主程序调用 （帧周期未定）
+    F_GO  BeAffect     {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
+                                  //- 未来会添加一个 参数：“被施加技能的类型”
 
     //----------------- self vals ---------------//
     goid_t         id      {NULLID};    //- go实例 在程序中的 主要搜索依据。
@@ -122,9 +118,10 @@ public:
                             //- binary 本质是一个 C struct。 由 具象go类方法 使用。
                             //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）
 
+    //----------- funcs --------------//
+
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
-
 private:
 };
 

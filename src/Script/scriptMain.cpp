@@ -18,7 +18,7 @@
 #include "srcs_engine.h" //- 所有资源
 
 //-------------------- Script --------------------//
-#include "Script/actionHandler/ah.h"
+#include "Script/actionHandle/ah.h"
 
 
 //----------- 需要注册到 engine 的函数 ---------------//
@@ -38,7 +38,7 @@ void scriptMain(){
     //------- Awakes -------//
     esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
 
-    esrc::behaviour.signUp_Awakes( std::bind( &actionHdlr::typeId_alloc ) );
+    esrc::behaviour.signUp_Awakes( std::bind( &actionHdle::typeId_alloc ) );
 
 
 

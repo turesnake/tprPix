@@ -10,12 +10,12 @@
 #ifndef _TPR_AH_H_
 #define _TPR_AH_H_
 
-namespace actionHdlr{//------------- namespace ActionHdlr ----------------
+namespace actionHdle{//------------- namespace ActionHdle ----------------
 
 
 void typeId_alloc();
 
 
-}//----------------- namespace ActionHdlr: end -------------------
+}//----------------- namespace ActionHdle: end -------------------
 #endif 
 

@@ -46,6 +46,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <string>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -54,7 +55,8 @@
 #include "vector_matrix.h" 
 #include "ShaderProgram.h" //-- 每个 Model对象。都会绑定一个 着色器程序对象
 #include "VAOVBO.h" 
-#include "ActionHandler.h"
+#include "ActionHandle.h"
+#include "Action.h" 
 
 
 
@@ -67,9 +69,7 @@
 // 每个 具象go类实例 所拥有的 mesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
 // 但是，mesh实例 不会被存入 硬盘态。
 // 而是在每次 加载section中 具象go实例时，临时生成。
-//
 class Mesh{
-
 public:
     explicit Mesh() = default;
 
@@ -77,21 +77,22 @@ public:
     void mesh_draw();
 
     //--- pos ---
-    glm::vec2  pos; //- 以go实例 根锚点 为 0点的 相对pos位移
+    glm::vec2  pos; //- 以go实例 根锚点 为 0点的 相对pos位移 
                     //  用来记录，本mesh 在 go中的 位置（图形）
                     //  大部分情况下（尤其是只有一个 mesh的 go实例），此值为 0
+                    //--- 此值与 action 的 anchors_root 不同。
+                    //  此值就是个单纯的 具象类定义值
+
     float      z;   //- 一个 go实例 可能拥有数个 mesh，相互间需要区分 视觉上的 前后顺序
                     //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
                     //- 这个值 多数由 具象go类 填入。
 
-    GLuint  *texNamePtr {nullptr}; //- 指向 texName 的指针。
+    GLuint  texName {0}; //- 当前指向的 texName 值。
                     // texName 被存储在 action实例中，
                     // 在 具象go类，负责 动画帧调度的函数代码中，被动态绑定到此处
                     //-- tex 会在每次 draw 时 才被绑定，这正是我们想要的
-    int      currentFrameIdx {};   //- 当前播放的 action实例 中的 第几帧
-                                    //- 此变量可能会被丢弃
 
-    ActionHandler actionHandlr {}; //- 一个 mesh拥有一个 ah实例
+    ActionHandle actionHandle {}; //- 一个 mesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
 
@@ -100,8 +101,15 @@ public:
         shaderPtr = sp;
     }
 
-    inline void set_translate( const glm::vec3 &v ){
-        translate_val = v;
+    //-- 此函数 只能在 RenderUpdate 阶段被调用 --
+    //-- 其余代码 不应随意调用 此函数!!! --
+    inline void set_translate( const glm::vec2 &_goCurrentPos ){
+
+        PixVec2 v = actionPtr->anchors_root[ actionHandle.currentIdx ];
+        
+        translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)v.x, 
+                                    _goCurrentPos.y + (float)pos.y - (float)v.y, 
+                                    _goCurrentPos.y + (float)pos.y - (float)v.y + z };
     }
 
     //- pix游戏 暂时只支持 轴旋转 --
@@ -113,11 +121,25 @@ public:
         scale_val = v;
     }
 
+    void bind_actionPtr( const std::string &_name );
+
+    //-- 每次调用 actionHandle 的 update() 后
+    // 务必调用本函数，更新 texName
+    inline void refresh_texName(){
+        texName = actionPtr->texNames[ actionHandle.currentIdx ];
+    }
+
+    inline const PixVec2 &get_pixes_per_frame() const {
+        return actionPtr->pixes_per_frame;
+    }
+
 
 private:
     //-- 本 Model对象 绑定的 着色器程序对象 指针
     ShaderProgram  *shaderPtr  {nullptr}; 
 
+    Action *actionPtr {nullptr}; //- 指向 esrc::actions 中的某个 action 实例
+                    //- 通过 bind_actionPtr() 来绑定
 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
@@ -131,7 +153,6 @@ private:
     //-- 由于每一帧 都需要 设置 scale值（将图元从 2*2 扩展为目标大小）
     //   这个值似乎很难用上。或者，可以做些试验
     bool is_model_change  {false};
-
 
     //-- 位移／旋转／缩放 变化向量。
     //-- 更新任一向量，都需要将 is_model_change 设为 true （未实现）

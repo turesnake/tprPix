@@ -88,7 +88,6 @@ public:
         frames(_frames)
         {}
 
-
     void init();
 
     //--- 分别 加载，分解 pic / pjt 两张图 --- 
@@ -126,9 +125,9 @@ public:
 
     //- 多维数组，存储每一帧 投影单位集（取投影单位 左下像素pos）
     std::vector<std::vector<PixVec2>> pjtMasks; 
-
 private:
 };
 
 
 #endif
+

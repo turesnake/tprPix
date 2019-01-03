@@ -74,9 +74,6 @@ int main(){
     //==========================================//
     //                  TEST
     //------------------------------------------//
-
-        //Action as{ "/animal/dog_ack_01.P.png", 65, 112, 3, 4, 17, 2 };
-        //as.init();
         
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
@@ -131,22 +128,9 @@ int main(){
     //---------------------------------------------//
 
     Model mod_1;
-
-    //-- 此矩形是 长宽为1 的基础矩形 --
-    //-- 需要在每一帧，拉升为 目标尺寸 --
-    /*
-    mod_1.set_VBO( (GLvoid*)&(rect_base[0]),
-                    (GLsizeiptr)(sizeof(float) * rect_base.size()),
-                    (GLsizei)( sizeof(float) * 5 ) 
-                    );
-    */
-
     mod_1.add_texture( textel_1 );
-    
     mod_1.set_shader_program( &esrc::rect_shader );
-
     mod_1.init();
-
     
     //---------------------------------------------//
     //                texture
@@ -157,7 +141,6 @@ int main(){
     //-- 为 uniform 变量 texture1 设置值
     //-- 指向 GL_TEXTURE0 这两个 纹理单元
     glUniform1i( esrc::rect_shader.uniform_location( "texture1" ), 0);
-
 
 
     //------------------------------------------//
@@ -199,10 +182,18 @@ int main(){
         //           logic
         //--------------------------------//
 
+            auto itgo = esrc::memGameObjs.begin(); //- tmp
+
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
         switch( esrc::logicTimeCircle.current() ){
             case 0:
                 esrc::realloc_inactive_goes(); 
+
+                itgo = esrc::memGameObjs.begin();
+                for( ; itgo!=esrc::memGameObjs.end(); itgo++ ){
+                    itgo->second.LogicUpdate( (GameObj*)&(itgo->second) );
+                }
+
                 break;
             case 1:
                 break;
@@ -216,23 +207,32 @@ int main(){
                 assert(0);
         }
 
+                
+
         //--------------------------------//
         //        render graphic
         //--------------------------------//
         // 将被整合 ...
         
         //-- 每一次切换 动画动作，都将 矩形图元的长宽，拉升为对应的 像素值 --
-        mod_1.set_translate( glm::vec3( 7.0f, 0.0f, 0.0f ) );
-        mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
-        mod_1.model_draw();
-
         
-        mod_1.set_translate( glm::vec3( -6.0f, 7.0f, 0.0f ) );
-        mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
+        mod_1.set_translate( glm::vec3( 0.0f, 0.0f, 0.0f ) );
+        mod_1.set_scale( glm::vec3( 1.0f, 1.0f, 1.0f ) );
         mod_1.model_draw();
         
-        
 
+        //mod_1.set_translate( glm::vec3( -6.0f, 7.0f, 0.0f ) );
+        //mod_1.set_scale( glm::vec3( 16.0f, 16.0f, 1.0f ) );
+        //mod_1.model_draw();
+
+
+
+            auto it = esrc::memGameObjs.begin();
+            for( ; it!=esrc::memGameObjs.end(); it++ ){
+                it->second.RenderUpdate( (GameObj*)&(it->second) );
+            }
+        
+        
         //--------------------------------//
         //   check and call events
         //     swap the buffers               

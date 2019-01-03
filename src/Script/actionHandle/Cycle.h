@@ -7,8 +7,8 @@
  *    动画动作 处理器：简单死循环动作 处理器
  * ----------------------------
  */
-#ifndef _TPR_ACTION_HANDLER_CYCLE_H_
-#define _TPR_ACTION_HANDLER_CYCLE_H_
+#ifndef _TPR_ACTION_HANDLE_CYCLE_H_
+#define _TPR_ACTION_HANDLE_CYCLE_H_
 
 //-------------------- C ----------------------//
 #include <cassert> //-- assert
@@ -18,17 +18,17 @@
 
 //------------------- Engine --------------------//
 #include "ScriptBuf.h"
-#include "ActionHandler.h"
+#include "ActionHandle.h"
 
 
-namespace actionHdlr{//------------- namespace actionHdlr ----------------
+namespace actionHdle{//------------- namespace actionHdle ----------------
 
 
 struct Cycle_Binary{
     int  frames;     //- action实例 的 总画面帧数
     int  enterIdx;   //- 入口帧序号. 这个值永不变
     int  lastIdx;    //-当 step值被重设时，这个值会被对齐到 当时的 currentIdx
-    int  currentIdx; //- 当前指向的 画面帧序号（基于0）
+    //int  currentIdx; //- 当前指向的 画面帧序号（基于0）
     int  step;       //- 每切换一帧画面，停留多少 时间帧
     //----------------
     int  updates;    //- 本实例自创建以来，调用 update() 的次数
@@ -45,23 +45,22 @@ struct Cycle_Binary{
 //  当外部发生事件，需要退出 本action 时。会立即退出（从任何一帧）
 class Cycle{
 public:
-    void bind(  ActionHandler *_ahPtr,
+    void bind(  ActionHandle *_ahPtr,
                 int _frames,
                 int _enterIdx,
                 int _step );
 
     //------ tmp ptr ------
     // 不能信赖，务必在每次 callback 时重新绑定
-    ActionHandler  *ahPtr  {nullptr}; //- 
+    ActionHandle  *ahPtr  {nullptr}; //- 
     Cycle_Binary   *bp     {nullptr}; //- 指向 ahPtr->binary
 
     //------ static vals -------
     static u32  typeId;
 
     //------- callback --------//  
-    int update( ActionHandler *_ahPtr );
-    int get_currentIdx( ActionHandler *_ahPtr );
-    int set_step( ActionHandler *_ahPtr, int _len );
+    int update( ActionHandle *_ahPtr );
+    int set_step( ActionHandle *_ahPtr, int _len );
 
 
 };
@@ -72,6 +71,6 @@ inline Cycle  cycle {};
 
 
 
-}//----------------- namespace actionHdlr: end -------------------
+}//----------------- namespace actionHdle: end -------------------
 #endif 
 

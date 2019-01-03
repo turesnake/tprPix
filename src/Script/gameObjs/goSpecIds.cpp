@@ -18,6 +18,8 @@
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
 
+#include "Script/gameObjs/Dog_A.h" 
+
 
 using std::cout;
 using std::endl;
@@ -39,13 +41,13 @@ void onGoSpecIds_SignUp(){
 
     //goSpecIds.insert(0); //--- 0号id 保留。
     //==================================//
-    goSpec_alloc( 1, "human_1" );
+    goSpec_alloc( 1, "human_1" );  gameObjs::Dog_A::specId = 1;
 
     goSpec_alloc( 1000, "Tree_Pine" ); //- 松树
     goSpec_alloc( 1001, "Tree_Oak" ); //- 橡树
 
 
-    goSpec_alloc( 2000, "Dog_A" );
+    //goSpec_alloc( 2000, "Dog_A" );
 
 
     cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 

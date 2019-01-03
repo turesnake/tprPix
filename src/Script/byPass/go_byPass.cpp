@@ -14,21 +14,21 @@
  */
 void go_byPass(){
 
-    GameObj go;
-
-        //go
-
-        gameObjs::dog_a.init( &go );
-
-
-
-
-
-    esrc::insert_new_gameObj( go );
+    // ***| INSERT FIRST, INIT LATER  |***
+    GameObj tmp_go;
+    goid_t goid = esrc::insert_new_gameObj( tmp_go );
+    GameObj *gop = &(esrc::memGameObjs.at(goid)); //- 获得目标go指针
+    gameObjs::dog_a.init( gop );
+    gop->currentPos = glm::vec2{ 10.0f, 0.0f };
+    
+    //-- 再创建一个 --
+    goid = esrc::insert_new_gameObj( tmp_go );
+    gop = &(esrc::memGameObjs.at(goid)); //- 获得目标go指针
+    gameObjs::dog_a.init( gop );
+    gop->currentPos = glm::vec2{ 0.0f, 10.0f };
     
 
-
-
+    
 
 }
 

@@ -14,6 +14,9 @@
 #include <cassert> //-- assert
 
 
+//-------------------- Engine --------------------//
+#include "srcs_engine.h"
+
 
 namespace{//------------------ namespace ---------------------//
 
@@ -55,8 +58,8 @@ void Mesh::mesh_draw(){
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
-    assert( texNamePtr != nullptr ); 
-    glBindTexture(GL_TEXTURE_2D, *texNamePtr ); //- 绑定纹理单元
+    assert( texName != 0 ); 
+    glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------
     glBindVertexArray( VAO );
@@ -104,4 +107,13 @@ void Mesh::update_mat4_model(){
     //...
 }
 
+
+
+/* ===========================================================
+ *                  bind_actionPtr
+ * -----------------------------------------------------------
+ */
+void Mesh::bind_actionPtr( const std::string &_name ){
+    actionPtr = &(esrc::actions.at(_name));
+}
 

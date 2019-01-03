@@ -21,22 +21,19 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-
 //-------------------- Engine --------------------//
 #include "GameObj.h" //- goSpecId_t
 
 
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
 
-//-- actionHandler类 typeId-name 正反表 [tmp] --
-inline std::unordered_map<u32, std::string> acionHdlr_typeId_names;
-inline std::unordered_map<std::string, u32> acionHdlr_name_typeIds;
+//-- actionHandle类 typeId-name 正反表 [tmp] --
+inline std::unordered_map<u32, std::string> acionHdle_typeId_names;
+inline std::unordered_map<std::string, u32> acionHdle_name_typeIds;
 
 //-- 正反表 --
 inline std::unordered_map<goSpecId_t, std::string> go_specId_names;
 inline std::unordered_map<std::string, goSpecId_t> go_name_specIds;
-
-
 
 
 

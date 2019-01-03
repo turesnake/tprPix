@@ -77,7 +77,7 @@ inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 �
 inline FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
 
-void insert_new_gameObj( GameObj &_go );
+goid_t insert_new_gameObj( GameObj &_go );
 void realloc_active_goes();
 void realloc_inactive_goes();
 

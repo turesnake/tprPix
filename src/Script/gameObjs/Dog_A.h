@@ -50,8 +50,9 @@ public:
     void rebind( GameObj *_goPtr );
 
     //--- callback ---//
-    void Update(); 
-    void BeAffect();
+    void RenderUpdate( GameObj *_goPtr ); 
+    void LogicUpdate( GameObj *_goPtr ); 
+    void BeAffect( GameObj *_goPtr );
 
 
     //--------------- tmp vals -----------------//
@@ -60,11 +61,13 @@ public:
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    Dog_A_Binary  *binaryPtr {nullptr}; //- 指向 goPtr->binary 
+    Dog_A_Binary  *bp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
-private:
+
+    //-------------- static --------------//
+    static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 };
 
 
