@@ -27,7 +27,7 @@
 
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
 
-//-- actionHandle类 typeId-name 正反表 [tmp] --
+//-- 正反表 --
 inline std::unordered_map<u32, std::string> acionHdle_typeId_names;
 inline std::unordered_map<std::string, u32> acionHdle_name_typeIds;
 

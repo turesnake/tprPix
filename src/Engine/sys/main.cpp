@@ -109,7 +109,7 @@ int main(){
 
     //---- 加载 map 数据 ----
     //...
-        go_byPass();//- 硬生产一个 Dog_A 实例
+        go_byPass();//- 硬生产一组 Dog_A 实例
 
     
     //------------------------------------------//
@@ -151,33 +151,20 @@ int main(){
         //           logic
         //--------------------------------//
 
-            //auto itgo = esrc::memGameObjs.begin(); //- tmp
-            //GameObj *gop;
-
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
         switch( esrc::logicTimeCircle.current() ){
             case 0:
-                esrc::realloc_inactive_goes(); 
-
-                /*
-                itgo = esrc::memGameObjs.begin();
-                for( ; itgo!=esrc::memGameObjs.end(); itgo++ ){
-                    itgo->second.LogicUpdate( (GameObj*)&(itgo->second) );
-                }
-                */
-                
-                
-                /*
-                for( auto goid : esrc::goids_active ){
-                    gop = (GameObj*)&(esrc::memGameObjs.at(goid));
-                    gop->LogicUpdate();
-                }
-                */
-
+                esrc::realloc_inactive_goes(); //- tmp
                 break;
+
             case 1:
-                //debug_();
+                esrc::foreach_goids_active(
+                    []( goid_t _goid, GameObj *_goPtr ){
+                        _goPtr->LogicUpdate( _goPtr );
+                    }
+                );
                 break;
+
             case 2:
                 break;
             case 3:
@@ -193,13 +180,13 @@ int main(){
         //        render graphic
         //--------------------------------//
         // 将被整合 ...
-        
-            auto it = esrc::memGameObjs.begin();
-            for( ; it!=esrc::memGameObjs.end(); it++ ){
-                assert( it->second.RenderUpdate != nullptr );
-                it->second.RenderUpdate( (GameObj*)&(it->second) );
+        esrc::foreach_goids_active(
+            []( goid_t _goid, GameObj *_goPtr ){
+
+                assert( _goPtr->RenderUpdate != nullptr );
+                _goPtr->RenderUpdate( _goPtr );
             }
-        
+        );
         
         //--------------------------------//
         //   check and call events
@@ -209,7 +196,6 @@ int main(){
 		glfwSwapBuffers( esrc::windowPtr ); //- 交换 两个 帧缓冲区
 
         //------------ 显示数据到终端 -----------//
-        //cout << ".";
         // [-DEBUG-]
         //...
 
@@ -234,7 +220,11 @@ int main(){
 
 
 
-
+/* ===========================================================
+ *                        debug_
+ * -----------------------------------------------------------
+ * -- tmp...
+ */
 void debug_(){
     
 

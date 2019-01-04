@@ -31,6 +31,22 @@ void GameObj::init(){
 }
 
 
+/* ===========================================================
+ *                     creat_new_mesh
+ * -----------------------------------------------------------
+ * -- 在 meshs 容器中添加一个 新mesh实例，
+ * -- 再返回这个 mesh实例的 指针
+ */
+Mesh *GameObj::creat_new_mesh(){
+
+    // ***| INSERT FIRST, INIT LATER  |***
+    Mesh  mesh; //- tmp 
+    meshs.push_back( mesh ); //- copy
+    return  (Mesh*)&(meshs.back()); //- *** 也许有问题 ***
+}
+
+
+
 
 /* ===========================================================
  *                       debug

@@ -90,8 +90,14 @@ inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 �
 
 inline FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
+using F_GOID_GOPTR = std::function<void(goid_t,GameObj*)>;
+void foreach_memGameObjs( F_GOID_GOPTR _fp );
+void foreach_goids_active( F_GOID_GOPTR _fp );
+void foreach_goids_inactive( F_GOID_GOPTR _fp );
 
-goid_t insert_new_gameObj( GameObj *_goPtr );
+
+
+goid_t insert_new_gameObj();
 void realloc_active_goes();
 void realloc_inactive_goes();
 

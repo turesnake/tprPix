@@ -67,11 +67,11 @@ void Cycle::bind(  ActionHandle *_ahPtr,
     //-- 故意将 首参数this 绑定到 保留类实例 cycle 身上
     
     ahPtr->funcs.insert({ "update", 
-            std::bind( &Cycle::update, &ah_cycle, _1 )
+            std::bind( &Cycle::update, &cycle_obj, _1 )
             });
 
     ahPtr->funcs.insert({ "set_step", 
-            std::bind( &Cycle::set_step, &ah_cycle, _1, _2 )
+            std::bind( &Cycle::set_step, &cycle_obj, _1, _2 )
             });
     
 }

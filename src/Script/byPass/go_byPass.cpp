@@ -46,11 +46,10 @@ void go_byPass(){
     //  手动将所有 现存的 go实例，
     //  添加入  goids_active 容器
     //--------------------------//
-    /*
-    for( const auto &p : esrc::memGameObjs ){
-        //esrc::goids_active.insert( p.first );
+    auto it = esrc::memGameObjs.begin();
+    for( ; it!=esrc::memGameObjs.end(); it++ ){
+        esrc::goids_active.insert( it->first );
     }
-    */
 
 }
 
@@ -62,22 +61,10 @@ void go_byPass(){
  */
 void creat_a_go( glm::vec2 _pos ){
 
-    // ***| INSERT FIRST, INIT LATER  |***
-    GameObj  tmp_go {};
-    //goid_t goid = esrc::insert_new_gameObj( &tmp_go );
+    goid_t goid = esrc::insert_new_gameObj();
 
-    goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    tmp_go.id = goid;
-    esrc::memGameObjs.insert({ goid, tmp_go }); //- copy
-
-
-        //GameObj  *goPtr1 = (GameObj*)&(esrc::memGameObjs.at(goid)); //- 获得目标go指针
-        //gameObjs::dog_a.init( goPtr1 );
-        //dog_1.init( goPtr1 );
-        //goPtr1->currentPos = glm::vec2{ 10.0f, 0.0f };
-
-        GameObj &rgo = esrc::memGameObjs.at(goid); //- 获得 目标go的 引用
-        gameObjs::dog_a.init( &rgo );
-        rgo.currentPos = _pos;
+    GameObj *gop = (GameObj*)&(esrc::memGameObjs.at(goid)); //- 获取目标go指针
+    gameObjs::dog_a.init( gop );
+    gop->currentPos = _pos;
 }
 

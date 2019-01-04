@@ -94,18 +94,11 @@ public:
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
-
     bool is_dirty {false};  //- 是否为 默认go（是否被改写过）
                             //- “默认go” 意味着这个 go没有被游戏改写过。
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
-    std::vector<std::string> actionNames; //- 所有 action实例 都存储在 统一容器中
-                            // 其他代码只通过 name／id 来调用它
-                            // 每个 go实例，独立拥有一份 action names。
-                            // 这样就能 用一种 具象go类（比如橡树）生成不同颜色的 橡树实例。
-                            // 此处牵扯到 texture 的动态生成
-                            // 在未来可能会 拓展出一个 大模块
 
     std::vector<Mesh> meshs {}; //- go实例 与 mesh 是比较静态的关系。
                             // 大部分go不会卸载／增加自己的 mesh实例
@@ -118,7 +111,6 @@ public:
                 // 但如果不调用，程序无法显示图形
                 // 目前还没搞清原因
 
-    //Mesh mesh {}; //- 测试
 
     //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
@@ -127,6 +119,7 @@ public:
 
     //----------- funcs --------------//
     //void debug(); //- 打印 本go实例 的所有信息
+    Mesh *creat_new_mesh(); 
 
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )

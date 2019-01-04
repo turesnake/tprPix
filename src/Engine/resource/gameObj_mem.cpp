@@ -36,16 +36,18 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 /* ===========================================================
  *                  insert_new_gameObj
  * -----------------------------------------------------------
- * -- 存入一个 go实例，并为其分配新 goid. 
+ * -- 创建1个 go实例，并为其分配新 goid. 然后存入 memGameObjs 容器中
  * -- 不能用在 从 硬盘读出的 go数据上
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_gameObj( GameObj *_goPtr  ){
+goid_t insert_new_gameObj(){
 
+    // ***| INSERT FIRST, INIT LATER  |***
+    GameObj  tmp_go {};
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    _goPtr->id = goid;
-    memGameObjs.insert({ goid, *_goPtr }); //- copy
+    tmp_go.id = goid; //- MUST -
+    memGameObjs.insert({ goid, tmp_go }); //- copy
     return goid;
 }
 

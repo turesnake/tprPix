@@ -13,7 +13,6 @@
 //-------------------- C --------------------//
 #include <cassert> //-- assert
 
-
 //-------------------- Engine --------------------//
 #include "srcs_engine.h"
 
@@ -34,10 +33,7 @@ namespace{//------------------ namespace ---------------------//
  * -- 暂无内容...
  */
 void Mesh::init(){
-    //---------------------------------------------//
-    //                  texName
-    //---------------------------------------------//
-    // texNamePtr 不在此处被绑定...
+    // 暂时为空...
 }
 
 
@@ -47,7 +43,10 @@ void Mesh::init(){
  */
 void Mesh::draw(){
 
-    //---------- 重新计算 model矩阵 -------------
+    //---------- refresh texName -------------
+    texName = actionPtr->texNames[ actionHandle.currentIdx ];
+
+    //---------- refresh mat4_model -------------
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
@@ -78,25 +77,15 @@ void Mesh::draw(){
  */
 void Mesh::update_mat4_model(){
 
-    /*
-    if( is_model_change == false ){
-        return; 
-    }
-    is_model_change = false;  //--- 重置 标志符。
-    */
-
     //----- 位移：正常移动 ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    mat4_model = glm::translate(
-                            normal_mat4,
-                            translate_val );
+    mat4_model = glm::translate( normal_mat4, translate_val );
 
     //----- 旋转 ------
     //- pix游戏 只支持 z轴旋转
     mat4_model = glm::rotate( mat4_model, 
                             glm::radians(rotate_z),
                             axle_z );
-
 
     //----- 缩放 ------
     mat4_model = glm::scale( mat4_model, 
@@ -110,10 +99,11 @@ void Mesh::update_mat4_model(){
 
 
 /* ===========================================================
- *                  bind_actionPtr
+ *                 bind_action
  * -----------------------------------------------------------
  */
-void Mesh::bind_actionPtr( const std::string &_name ){
+void Mesh::bind_action( const std::string &_name ){
+    actionName = _name;
     actionPtr = &(esrc::actions.at(_name));
 }
 

@@ -65,7 +65,7 @@ public:
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====
-inline Cycle  ah_cycle {};
+inline Cycle  cycle_obj {};
 
 
 
