@@ -20,8 +20,8 @@
 //------------ self -------------//
 #include "tprBinary.h" 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 using std::vector;
 using std::stringstream;
@@ -110,7 +110,7 @@ CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
     u32 L = 0; //-- checksum 高 32-bits
     u32 R = 0; //-- checksum 低 32-bits
 
-        cout << "\nblock32_ary.size() = " << block32_ary.size() << endl;
+        //cout << "\nblock32_ary.size() = " << block32_ary.size() << endl;
 
     for( auto b : block32_ary ){
         R = sum_wrapping( R, b ); //-- 线性累加 
@@ -251,7 +251,7 @@ CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
     u64 L = 0; //-- checksum 高 64-bits
     u64 R = 0; //-- checksum 低 64-bits
 
-        cout << "\nblock64_ary.size() = " << block64_ary.size() << endl;
+        //cout << "\nblock64_ary.size() = " << block64_ary.size() << endl;
 
     for( auto b : block64_ary ){
         R = sum_wrapping( R, b ); //-- 线性累加 

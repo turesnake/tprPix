@@ -13,15 +13,15 @@
 //-------------------- CPP --------------------//
 #include <cassert> //- assert
 #include <string>
-#include <iostream>
+//#include <iostream>
 
 //-------------------- Engine --------------------//
 #include "config.h" // SCR_WIDTH, SCR_HEIGHT
 #include "srcs_engine.h" //- 所有资源
 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 
 //---------------------- 局部 变量 ---------------------

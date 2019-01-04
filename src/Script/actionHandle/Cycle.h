@@ -28,7 +28,6 @@ struct Cycle_Binary{
     int  frames;     //- action实例 的 总画面帧数
     int  enterIdx;   //- 入口帧序号. 这个值永不变
     int  lastIdx;    //-当 step值被重设时，这个值会被对齐到 当时的 currentIdx
-    //int  currentIdx; //- 当前指向的 画面帧序号（基于0）
     int  step;       //- 每切换一帧画面，停留多少 时间帧
     //----------------
     int  updates;    //- 本实例自创建以来，调用 update() 的次数
@@ -66,7 +65,7 @@ public:
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====
-inline Cycle  cycle {};
+inline Cycle  ah_cycle {};
 
 
 

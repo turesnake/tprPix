@@ -107,11 +107,18 @@ public:
                             // 此处牵扯到 texture 的动态生成
                             // 在未来可能会 拓展出一个 大模块
 
-    std::vector<Mesh> meshs; //- go实例 与 mesh 是比较静态的关系。
+    std::vector<Mesh> meshs {}; //- go实例 与 mesh 是比较静态的关系。
                             // 大部分go不会卸载／增加自己的 mesh实例
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 mesh实例 存入此容器
                             //- 只存储在 mem态。 在go实例存入 硬盘时，mesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 mesh实例。
+
+                // *** 此容器 疑似引发了一个 史诗级BUG... ***
+                // 当在 具象类init() 中，调用 meshs.size() 等之类的语句时，程序就正常。
+                // 但如果不调用，程序无法显示图形
+                // 目前还没搞清原因
+
+    //Mesh mesh {}; //- 测试
 
     //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
@@ -119,6 +126,7 @@ public:
                             //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）
 
     //----------- funcs --------------//
+    //void debug(); //- 打印 本go实例 的所有信息
 
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )

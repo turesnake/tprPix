@@ -4,11 +4,13 @@
  *                                        创建 -- 2018.12.23
  *                                        修改 -- 2018.12.23
  * ----------------------------------------------------------
- *   将 具象go species 注册到 engine 的 全局变量 goSpecIds 中
+ *   将 具象go species 注册到 
+ *    ssrc::go_specId_names 
+ *    ssrc::go_name_specIds 中去
  * ----------------------------
  */
 //-------------------- CPP --------------------//
-#include <iostream> //-- cout
+//#include <iostream> //-- cout
 #include <string>
 
 
@@ -21,8 +23,8 @@
 #include "Script/gameObjs/Dog_A.h" 
 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 
 
@@ -50,7 +52,7 @@ void onGoSpecIds_SignUp(){
     //goSpec_alloc( 2000, "Dog_A" );
 
 
-    cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 
+    //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 
 }
 
 
@@ -80,7 +82,7 @@ void goSpec_alloc( goSpecId_t _id, const string &_name ){
 
 
 void onStart_test(){
-    cout << "--- onStart_test(). DONE. ---" << endl;
+    //cout << "--- onStart_test(). DONE. ---" << endl;
 }
 
 

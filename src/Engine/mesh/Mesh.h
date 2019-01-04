@@ -71,19 +71,19 @@
 // 而是在每次 加载section中 具象go实例时，临时生成。
 class Mesh{
 public:
-    explicit Mesh() = default;
+    Mesh() = default;
 
     void init();
-    void mesh_draw();
+    void draw();
 
     //--- pos ---
-    glm::vec2  pos; //- 以go实例 根锚点 为 0点的 相对pos位移 
+    glm::vec2  pos {}; //- 以go实例 根锚点 为 0点的 相对pos位移 
                     //  用来记录，本mesh 在 go中的 位置（图形）
                     //  大部分情况下（尤其是只有一个 mesh的 go实例），此值为 0
                     //--- 此值与 action 的 anchors_root 不同。
                     //  此值就是个单纯的 具象类定义值
 
-    float      z;   //- 一个 go实例 可能拥有数个 mesh，相互间需要区分 视觉上的 前后顺序
+    float      z {};   //- 一个 go实例 可能拥有数个 mesh，相互间需要区分 视觉上的 前后顺序
                     //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
                     //- 这个值 多数由 具象go类 填入。
 
@@ -95,6 +95,8 @@ public:
     ActionHandle actionHandle {}; //- 一个 mesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
+    
+    bool   is_visible  {true}; //- 是否可见
 
     //--------------------------//
     inline void set_shader_program( ShaderProgram *sp ){
@@ -152,7 +154,7 @@ private:
     //-- 目前尚未投入使用：
     //-- 由于每一帧 都需要 设置 scale值（将图元从 2*2 扩展为目标大小）
     //   这个值似乎很难用上。或者，可以做些试验
-    bool is_model_change  {false};
+    //bool is_model_change  {false};
 
     //-- 位移／旋转／缩放 变化向量。
     //-- 更新任一向量，都需要将 is_model_change 设为 true （未实现）

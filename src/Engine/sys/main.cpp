@@ -18,7 +18,7 @@
 #include <cassert> //-- assert
 
 //-------------------- CPP --------------------//
-#include <iostream> //-- cout
+//#include <iostream> //-- cout
 #include <string>
 #include <vector>
 
@@ -31,12 +31,16 @@
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
  
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
+
+
+inline int debugCount {0};
+void debug_();
 
 
 /* ===========================================================
@@ -116,7 +120,7 @@ int main(){
     //========================================================//
     //                 main render loop
     //========================================================//
-    while( !glfwWindowShouldClose( esrc::window ) ){
+    while( !glfwWindowShouldClose( esrc::windowPtr ) ){
 
         //--------------------------------//
         //             time   
@@ -127,7 +131,7 @@ int main(){
         //            input   
         //--------------------------------//
         //-- 目前这个版本 非常简陋
-		processInput( esrc::window );
+		processInput( esrc::windowPtr );
 
         //--------------------------------//
         //      render background   
@@ -147,20 +151,32 @@ int main(){
         //           logic
         //--------------------------------//
 
-            auto itgo = esrc::memGameObjs.begin(); //- tmp
+            //auto itgo = esrc::memGameObjs.begin(); //- tmp
+            //GameObj *gop;
 
         //-- 依据 逻辑时间循环，调用不同的 函数 --// 
         switch( esrc::logicTimeCircle.current() ){
             case 0:
                 esrc::realloc_inactive_goes(); 
 
+                /*
                 itgo = esrc::memGameObjs.begin();
                 for( ; itgo!=esrc::memGameObjs.end(); itgo++ ){
                     itgo->second.LogicUpdate( (GameObj*)&(itgo->second) );
                 }
+                */
+                
+                
+                /*
+                for( auto goid : esrc::goids_active ){
+                    gop = (GameObj*)&(esrc::memGameObjs.at(goid));
+                    gop->LogicUpdate();
+                }
+                */
 
                 break;
             case 1:
+                //debug_();
                 break;
             case 2:
                 break;
@@ -180,6 +196,7 @@ int main(){
         
             auto it = esrc::memGameObjs.begin();
             for( ; it!=esrc::memGameObjs.end(); it++ ){
+                assert( it->second.RenderUpdate != nullptr );
                 it->second.RenderUpdate( (GameObj*)&(it->second) );
             }
         
@@ -189,9 +206,10 @@ int main(){
         //     swap the buffers               
         //--------------------------------//
 		glfwPollEvents();          //-- 处理所有 处于 event queue 中的 待决event
-		glfwSwapBuffers( esrc::window ); //- 交换 两个 帧缓冲区
+		glfwSwapBuffers( esrc::windowPtr ); //- 交换 两个 帧缓冲区
 
         //------------ 显示数据到终端 -----------//
+        //cout << ".";
         // [-DEBUG-]
         //...
 
@@ -214,4 +232,28 @@ int main(){
     return(0);
 }
 
+
+
+
+void debug_(){
+    
+
+    //--------- only once -------------//
+    debugCount++;
+    if(debugCount != 5){
+        return;
+    }
+    //--------- only once -------------//
+
+    //cout << endl;
+
+    /*
+    auto it = esrc::memGameObjs.begin();
+    for( ; it!=esrc::memGameObjs.end(); it++ ){
+
+        it->second.debug();
+    }
+    */
+
+}
 

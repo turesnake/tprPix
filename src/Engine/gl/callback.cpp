@@ -16,7 +16,7 @@
 
 
 //------------------- 提供给全局的 函数 ----------------
-void framebuffer_size_callback( GLFWwindow *window, int width, int height );
+void framebuffer_size_callback( GLFWwindow *_windowPtr, int _width, int _height );
 
 
 /* ==========================================================
@@ -25,8 +25,8 @@ void framebuffer_size_callback( GLFWwindow *window, int width, int height );
  * -- 当 目标window 的 framebuffer_size 改变时，此回调函数 会被调用。
  * -- 支持 运行时 动态调整 window 尺寸（拉伸 window）
  */
-void framebuffer_size_callback( GLFWwindow *window, int width, int height ){
-	glViewport( 0, 0, width, height );
+void framebuffer_size_callback( GLFWwindow *_windowPtr, int _width, int _height ){
+	glViewport( 0, 0, _width, _height );
                 //-- 此处的 参数 width, height 时 glfw 库 写入的，
 }
 

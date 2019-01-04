@@ -19,8 +19,8 @@
 //------------ self -------------//
 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 
 namespace tpr { //--------------- namespace: tpr -------------------//
@@ -72,8 +72,8 @@ int BitMap::save( u8 *_buf, size_t *_lenp ){
     //---------------------------//
     //   检测 参数 _lenp 指向的值 是否足够大
     if( *_lenp < bitmap.size() ){
-        cout << err_info << "ERROR. _len < bitmap.size() " 
-            << endl;
+        //cout << err_info << "ERROR. _len < bitmap.size() " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 
@@ -103,9 +103,9 @@ int BitMap::setbit( size_t _idx, u8 _bit ){
     //---------------------------//
     //   检测 参数 _idx 是否越界
     if( _idx > idx_lst ){
-        cout << err_info << "ERROR. "
-            << "_idx = " << _idx << ". _idx > bitmap.size() " 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "_idx = " << _idx << ". _idx > bitmap.size() " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 
@@ -132,23 +132,23 @@ int BitMap::setbits( size_t _idx_fst, size_t _idx_lst, u8 _bit ){
     //         检测 参数 
     //---------------------------//
     if( _idx_fst > idx_lst ){
-        cout << err_info << "ERROR. "
-            << "_idx_fst = " << _idx_fst << ". _idx_fst > bitmap.size() " 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "_idx_fst = " << _idx_fst << ". _idx_fst > bitmap.size() " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 
     if( _idx_lst > idx_lst ){
-        cout << err_info << "ERROR. "
-            << "_idx_lst = " << _idx_lst << ". _idx_lst > bitmap.size() " 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "_idx_lst = " << _idx_lst << ". _idx_lst > bitmap.size() " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 
     if( _idx_fst > _idx_lst ){
-        cout << err_info << "ERROR. "
-            << "_idx_fst > _idx_lst " 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "_idx_fst > _idx_lst " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 
@@ -197,9 +197,9 @@ size_t BitMap::next( ssize_t _idx_corrent, u8 _bitmask ){
     }else if( (_idx_corrent >= 0) || (_idx_corrent < idx_lst) ){
         idx = _idx_corrent + 1;
     }else{
-        cout << err_info << "ERROR. "
-            << "_idx_corrent out of range " 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "_idx_corrent out of range " 
+        //    << endl;
         assert(0); //-- 调用者代码问题，直接报错终止
     }
 

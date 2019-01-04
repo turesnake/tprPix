@@ -50,7 +50,7 @@ using FUNC_V_V = std::function<void()>;
 //-- 一个 类实例 维护一个 window。
 //-- window 数据结构的 具体内容由 glfw库管理。
 //-- 用户只需保存一个指针。用来访问这个 window。
-inline GLFWwindow  *window {};
+inline GLFWwindow  *windowPtr {};
 
 //-------------------------//
 //       time 资源 
@@ -91,7 +91,7 @@ inline std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 �
 inline FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
 
-goid_t insert_new_gameObj( GameObj &_go );
+goid_t insert_new_gameObj( GameObj *_goPtr );
 void realloc_active_goes();
 void realloc_inactive_goes();
 

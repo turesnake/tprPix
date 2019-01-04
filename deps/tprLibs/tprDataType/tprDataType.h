@@ -12,37 +12,44 @@
 //-------- integer --------//
 #ifndef _TPR_U8_
     #define _TPR_U8_
-    typedef unsigned char u8;
+    //typedef unsigned char u8;
+    using u8 = unsigned char;
 #endif
 
 #ifndef _TPR_I16_
     #define _TPR_I16_
-    typedef short          i16;
+    //typedef short          i16;
+    using i16 = short;
 #endif
 
 #ifndef _TPR_U16_
     #define _TPR_U16_
-    typedef unsigned short u16;
+    //typedef unsigned short u16;
+    using u16 = unsigned short;
 #endif
 
 #ifndef _TPR_I32_
     #define _TPR_I32_
-    typedef int           i32;
+    //typedef int           i32;
+    using i32 = int;
 #endif
 
 #ifndef _TPR_U32_
     #define _TPR_U32_
-    typedef unsigned int  u32;
+    //typedef unsigned int  u32;
+    using u32 = unsigned int;
 #endif
 
 #ifndef _TPR_I64_
     #define _TPR_I64_
-    typedef  long long    i64; 
+    //typedef  long long    i64;
+    using i64 =  long long;
 #endif
 
 #ifndef _TPR_U64_
     #define _TPR_U64_
-    typedef unsigned long long u64; 
+    //typedef unsigned long long u64;
+    using u64 =  unsigned long long;
 #endif
 
 //--------- bytes --------//

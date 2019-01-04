@@ -20,7 +20,7 @@
 
 
 //----- callback.cpp -----
-void framebuffer_size_callback( GLFWwindow *window, int width, int height );
+void framebuffer_size_callback( GLFWwindow *_windowPtr, int _width, int _height );
 
 
 

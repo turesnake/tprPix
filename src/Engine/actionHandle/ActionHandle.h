@@ -31,7 +31,6 @@
 //  被 具象AH类 装配
 //  一切 AH类 以及 具象AH类 数据，都只存储在 mem态
 class ActionHandle{
-
     //- 万能函数接口, 依赖 scriptBuf 传递 参数／返回值
     using F_GENERAL = std::function<int(ActionHandle*,int)>; 
 public:

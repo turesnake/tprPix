@@ -28,9 +28,9 @@
 
 
 //------------------- 提供给全局的 函数 ----------------
-void processInput( GLFWwindow *_window );
-void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos);
-void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset);
+void processInput( GLFWwindow *_windowPtr );
+void mouse_callback(GLFWwindow* _windowPtr, double _xpos, double _ypos);
+void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
 PixVec2 get_mouse_pos();
 
 
@@ -39,39 +39,39 @@ PixVec2 get_mouse_pos();
  *-----------------------------------------------------------
  * input 处理函数。 看起来很简陋。
  */
-void processInput( GLFWwindow *_window ){
+void processInput( GLFWwindow *_windowPtr ){
 
     //-- ESC -- 
-	if( glfwGetKey( _window, GLFW_KEY_ESCAPE ) == GLFW_PRESS ){
-		glfwSetWindowShouldClose( _window, GL_TRUE );
+	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE ) == GLFW_PRESS ){
+		glfwSetWindowShouldClose( _windowPtr, GL_TRUE );
 	}
 
     //-- W -- 
-    if( glfwGetKey( _window, GLFW_KEY_W ) == GLFW_PRESS ){
+    if( glfwGetKey( _windowPtr, GLFW_KEY_W ) == GLFW_PRESS ){
             //cout << "-W-" << endl;
         esrc::camera.cameraPos_up();
     }
 
     //-- S -- 
-    if( glfwGetKey( _window, GLFW_KEY_S ) == GLFW_PRESS ){
+    if( glfwGetKey( _windowPtr, GLFW_KEY_S ) == GLFW_PRESS ){
             //cout << "-S-" << endl;
         esrc::camera.cameraPos_down();
     }
 
     //-- A -- 
-    if( glfwGetKey( _window, GLFW_KEY_A ) == GLFW_PRESS ){
+    if( glfwGetKey( _windowPtr, GLFW_KEY_A ) == GLFW_PRESS ){
             //cout << "-A-" << endl;
         esrc::camera.cameraPos_left();
     }
 
     //-- D -- 
-    if( glfwGetKey( _window, GLFW_KEY_D ) == GLFW_PRESS ){
+    if( glfwGetKey( _windowPtr, GLFW_KEY_D ) == GLFW_PRESS ){
             //cout << "-D-" << endl;
         esrc::camera.cameraPos_right();
     }
 
     //-- SPACE -- 
-    //if( glfwGetKey( _window, GLFW_KEY_SPACE ) == GLFW_PRESS ){
+    //if( glfwGetKey( _windowPtr, GLFW_KEY_SPACE ) == GLFW_PRESS ){
     //}
 
     //-- TAB -- 
@@ -118,7 +118,7 @@ PixVec2 get_mouse_pos(){
 
     double x;
     double y;
-    glfwGetCursorPos( esrc::window, &x, &y);
+    glfwGetCursorPos( esrc::windowPtr, &x, &y);
     return PixVec2{ (int)x, (int)y };
 }
 

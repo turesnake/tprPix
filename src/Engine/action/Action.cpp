@@ -20,7 +20,7 @@
 
 //-------------------- CPP --------------------//
 #include <algorithm> //- find
-#include <iostream>
+//#include <iostream>
 
 //------------------- Libs --------------------//
 #include "tprFileSys.h" 
@@ -29,8 +29,8 @@
 #include "global.h"
 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 using std::vector;
 
@@ -242,6 +242,7 @@ void Action::load_and_divide_png( bool _is_pic,
  * -----------------------------------------------------------
  * -- 向终端输出 本Action的信息，用来 debug
  */
+/*
 void Action::debug() const{
 
         cout<< "\nname = " << name
@@ -279,7 +280,7 @@ void Action::debug() const{
             cout << endl;
         }
 }
-
+*/
 
 
 

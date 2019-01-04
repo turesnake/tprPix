@@ -94,7 +94,7 @@ public:
     void load_and_divide_png( bool _is_pic,
                 std::vector< std::vector<RGBA>> &_frame_data_ary );
 
-    void debug() const; //- 向终端输出 本Action的信息，用来 debug
+    //void debug() const; //- 向终端输出 本Action的信息，用来 debug
     //---------------------- vals -------------------------//
 
     //-- 本动画动作 的name。 起到 id 的作用。

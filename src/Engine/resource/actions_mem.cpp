@@ -8,7 +8,7 @@
  * ----------------------------
  */
 //-------------------- CPP --------------------//
-#include <iostream>
+//#include <iostream>
 #include <string>
 
 //-------------------- Engine --------------------//
@@ -17,8 +17,8 @@
 
 
 using std::string;
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
@@ -37,15 +37,13 @@ void actions_load(){
 
 
 
-
-
     //---------------------------------//
     //        init all actions
     //---------------------------------//
     auto it = actions.begin();
     for( ; it!=actions.end(); it++ ){
         it->second.init();
-        it->second.debug();
+        //it->second.debug();
     }
 }
 

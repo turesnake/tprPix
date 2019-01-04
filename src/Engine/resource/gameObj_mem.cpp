@@ -41,11 +41,11 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_gameObj( GameObj &_go  ){
+goid_t insert_new_gameObj( GameObj *_goPtr  ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    _go.id = goid;
-    memGameObjs.insert({ goid, _go }); //- copy
+    _goPtr->id = goid;
+    memGameObjs.insert({ goid, *_goPtr }); //- copy
     return goid;
 }
 

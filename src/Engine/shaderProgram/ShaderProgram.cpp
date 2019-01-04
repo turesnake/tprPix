@@ -13,7 +13,7 @@
 
 //-------------------- C ----------------------//
 #include <cassert> //-- assert。
-#include <iostream>
+//#include <iostream>
 #include <stdio.h> // printf
 
 //------------------- Libs --------------------//
@@ -24,8 +24,8 @@
 
 
 using std::string;
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 
 using tpr::path_combine;
 using tpr::file_load;
@@ -67,8 +67,8 @@ void ShaderProgram::init(){
     glGetProgramiv( program, GL_LINK_STATUS, &success );
     if( !success ){
         glGetProgramInfoLog( program, 512, NULL, infoLog );
-        cout << "ShaderProgram::init: error: \n" 
-             << infoLog << endl;
+        //cout << "ShaderProgram::init: error: \n" 
+        //     << infoLog << endl;
         assert(0);
     }
     //--- 及时释放 ---
@@ -99,9 +99,9 @@ void ShaderProgram::compile( int _shaderObj, const string &_sbuf, const string &
     glGetShaderiv( _shaderObj, GL_COMPILE_STATUS, &success );
     if( !success ){
         glGetShaderInfoLog( _shaderObj, 512, NULL, infoLog );
-        cout << "ShaderProgram::compile: \n" << _sname
-             << "     error:\n"
-             << infoLog << endl;
+        //cout << "ShaderProgram::compile: \n" << _sname
+        //     << "     error:\n"
+        //     << infoLog << endl;
         assert(0);
     }
 }
@@ -150,9 +150,9 @@ GLuint ShaderProgram::uniform_location( const string &name ){
     //-- 获得 map 元素的 迭代器，类型为一个 pair
     auto map_it = uniform_vals.find( name ); 
     if( map_it == uniform_vals.end() ){
-        cout << "\nuniform_location: error:\n"
-            << "    no such val : " << name
-            << endl;
+        //cout << "\nuniform_location: error:\n"
+        //    << "    no such val : " << name
+        //    << endl;
         assert(0);
     }
     return map_it->second;

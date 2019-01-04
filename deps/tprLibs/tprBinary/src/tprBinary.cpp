@@ -16,7 +16,6 @@
 
 
 //------------ C -------------//
-
 #include <errno.h>  //- errno
 #include <cassert>  //- assert
 #include <string.h> //- memcpy
@@ -26,8 +25,8 @@
 
 //------------ self -------------//
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 using std::vector;
 using std::stringstream;
@@ -76,7 +75,7 @@ const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b 
     int len; //-- 两参数中，长度 大的那个值
     int off = (int)(_a.size()) - (int)(_b.size());
 
-        cout << "off = " << off << endl;
+        //cout << "off = " << off << endl;
 
     //--- 补齐 短的那个数据，使两数据 一样长（方便后面的相加）---//
     if( off == 0 ){
@@ -214,9 +213,9 @@ char _get_hexChar( u8 _v, bool _is_cap ){
     char r; //-- 返回值
     //----- 参数检测 -------//
     if( _v >= 16 ){
-        cout << "_get_hexChar(): ERROR. "
-            << "_v >= 16. _v = " << _v    
-            << endl;
+        //cout << "_get_hexChar(): ERROR. "
+        //    << "_v >= 16. _v = " << _v    
+        //    << endl;
         assert(0); //-- 调用者代码错误
     }
 

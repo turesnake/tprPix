@@ -43,8 +43,6 @@ public:
 
     }
 
-
-
     std::vector<MemMapEnt> memMapEnts; 
 
     PixVec2  pos; //- 本 section 左下角 mapEnt pos.

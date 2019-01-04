@@ -15,7 +15,7 @@
 #include "random.h" 
 
 //-------------------- CPP --------------------//
-#include <iostream>
+//#include <iostream>
 #include <string>
 
 //-------------------- Engine --------------------//
@@ -24,8 +24,8 @@
 #include "srcs_engine.h" //- 所有资源
 
 using std::string;
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 
 
 namespace{//------------- namespace ----------------//

@@ -30,9 +30,9 @@ void glad_init();
 void glad_set();
 
 //------ input.cpp -------//
-void processInput( GLFWwindow *_window );
-void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos);
-void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset);
+void processInput( GLFWwindow *_windowPtr );
+void mouse_callback(GLFWwindow* _windowPtr, double _xpos, double _ypos);
+void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
 PixVec2 get_mouse_pos();
 
 #endif

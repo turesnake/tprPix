@@ -13,15 +13,15 @@
 #include <cassert> //- assert
 
 //-------------------- CPP --------------------//
-#include <iostream>
+//#include <iostream>
 #include <string>
 
 using namespace std::placeholders;
 
 
 using std::string;
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 
 
 namespace actionHdle{//------------- namespace ActionHdle ----------------
@@ -49,7 +49,6 @@ void Cycle::bind(  ActionHandle *_ahPtr,
     ahPtr->typeId = Cycle::typeId;
 
     //-- binary --
-    ahPtr->binary.clear();
     ahPtr->binary.resize( sizeof(Cycle_Binary) );
     bp = (Cycle_Binary*)&(ahPtr->binary[0]); 
     //===================================//
@@ -68,11 +67,11 @@ void Cycle::bind(  ActionHandle *_ahPtr,
     //-- 故意将 首参数this 绑定到 保留类实例 cycle 身上
     
     ahPtr->funcs.insert({ "update", 
-            std::bind( &Cycle::update, &cycle, _1 )
+            std::bind( &Cycle::update, &ah_cycle, _1 )
             });
 
     ahPtr->funcs.insert({ "set_step", 
-            std::bind( &Cycle::set_step, &cycle, _1, _2 )
+            std::bind( &Cycle::set_step, &ah_cycle, _1, _2 )
             });
     
 }

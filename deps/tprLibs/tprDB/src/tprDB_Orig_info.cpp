@@ -32,6 +32,8 @@
 #include <sstream>
 #include <iomanip> //- setw
 
+#include <iostream> //- tmp
+
 using std::cout;
 using std::endl;
 using std::string;

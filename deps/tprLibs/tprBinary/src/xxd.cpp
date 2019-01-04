@@ -32,8 +32,8 @@
 
 //------------ self -------------//
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 using std::vector;
 using std::stringstream;
@@ -90,9 +90,9 @@ const std::string xxd( void *_buf, size_t _len,
     //           参数检测
     //-------------------------------//
     if( (_buf==NULL) || (_len==0) ){
-        cout << err_info << "ERROR. "
-            << "(_buf==NULL) || (_len==0)" 
-            << endl;
+        //cout << err_info << "ERROR. "
+        //    << "(_buf==NULL) || (_len==0)" 
+        //    << endl;
         assert(0);
     }
     //--- 目前只支持，8/16 两种 行字节数 ---//

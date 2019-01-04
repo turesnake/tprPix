@@ -19,7 +19,7 @@
 #include <cassert> //-- assert。
 
 //-------------------- CPP --------------------//
-#include <iostream> //-- cout
+//#include <iostream> //-- cout
 #include <string>
 
 
@@ -30,8 +30,8 @@
 #include "callback.h" 
 #include "gl_funcs.h" 
 
-using std::cout;
-using std::endl;
+//using std::cout;
+//using std::endl;
 using std::string;
 
 
@@ -93,26 +93,26 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        esrc::window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        esrc::windowPtr = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
                                     "tprcraft", 
                                     monitor, 
                                     NULL );
     }else{
         //------ 窗口模式 ------//
         // 暂不知 如何设置 帧率...
-        esrc::window = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        esrc::windowPtr = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
                                     "tprcraft", 
                                     NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                     NULL );
     }
 
-	if(esrc::window == NULL){
+	if(esrc::windowPtr == NULL){
 		glfwTerminate();
-        cout << "glfw_window_creat: glfwCreateWindow: error. " << endl;
+        //cout << "glfw_window_creat: glfwCreateWindow: error. " << endl;
         assert(0);
 	}
     //-- 将这个 唯一的 window 设为 current context
-	glfwMakeContextCurrent( esrc::window );
+	glfwMakeContextCurrent( esrc::windowPtr );
 
 }
 
@@ -124,7 +124,7 @@ void glfw_window_creat(){
  */
 void glfw_oth_set(){
     //-- 当本 window in forcus 后，隐藏鼠标
-    glfwSetInputMode(esrc::window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
@@ -136,8 +136,8 @@ void glfw_oth_set(){
 void glfw_callback_set(){
 
     
-    glfwSetFramebufferSizeCallback( esrc::window, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
-    glfwSetCursorPosCallback(       esrc::window, mouse_callback );  //-- 鼠标运动 -- 控制视角
+    glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
+    glfwSetCursorPosCallback(       esrc::windowPtr, mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 
 }
