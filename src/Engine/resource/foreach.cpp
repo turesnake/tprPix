@@ -9,6 +9,11 @@
  */
 #include "srcs_engine.h"
 
+/*
+#include <iostream>
+using std::cout;
+using std::endl;
+*/
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
@@ -50,7 +55,7 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
  * -----------------------------------------------------------
  * -- 
  */
-void foreach_goids_active( F_GOID_GOPTR _fp ){
+void foreach_goids_inactive( F_GOID_GOPTR _fp ){
 
     GameObj *goPtr;
     auto it = esrc::goids_inactive.begin();
@@ -62,7 +67,22 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
 }
 
 
+/* ===========================================================
+ *                draw_renderPool
+ * -----------------------------------------------------------
+ * -- 
+ */
+void draw_renderPool(){
 
+    auto ipair = esrc::renderPool.begin();
+    for( ; ipair!=esrc::renderPool.end(); ipair++ ){
+
+        //cout << ipair->first << ", ";
+        //-- 渲染持续，pos.z值小的 先渲染 --
+        ipair->second->draw();
+    }
+    //cout << endl;
+}
 
 
 

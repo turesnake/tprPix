@@ -96,7 +96,6 @@ void foreach_goids_active( F_GOID_GOPTR _fp );
 void foreach_goids_inactive( F_GOID_GOPTR _fp );
 
 
-
 goid_t insert_new_gameObj();
 void realloc_active_goes();
 void realloc_inactive_goes();
@@ -108,10 +107,12 @@ void realloc_inactive_goes();
 //   renderPool / 渲染池
 //-------------------------//
 //--- mem ---//
-inline std::map<float, Mesh*> renderPool {}; 
+inline std::multimap<float, Mesh*> renderPool {}; 
             //- key 是 图元的 z值。map会自动排序(负无穷在前，正无穷在后，符合我们要的顺序)
             //- 遍历 渲染池，就能从远到近地 渲染每一个 图元
+            //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
 
+void draw_renderPool();
 
 //-------------------------//
 //     globState 资源

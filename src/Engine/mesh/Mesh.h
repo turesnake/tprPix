@@ -60,7 +60,7 @@
 
 
 
-//-- Mesh 是个 "整合类"，没有 具象类 --
+//-- Mesh 是个 "整合类"，不存在它的 具象类 --
 // mesh 被轻量化了：
 //  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
 //  -- texName 存储在 action 模块中。mesh 通过一个指针 调用它们
@@ -89,8 +89,8 @@ public:
                     //--- 此值与 action 的 anchors_root 不同。
                     //  此值就是个单纯的 具象类定义值
 
-    float      z {0.0f};   //- 一个 go实例 可能拥有数个 mesh，相互间需要区分 视觉上的 前后顺序
-                    //- 此处的 z 值只是个 相对偏移值。比如，靠近摄像机的 mesh z +0.1f
+    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 mesh，相互间需要区分 视觉上的 前后顺序
+                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 mesh off_z +0.1f
                     //- 这个值 多数由 具象go类 填入的。
 
     ActionHandle actionHandle {}; //- 一个 mesh拥有一个 ah实例
@@ -111,10 +111,16 @@ public:
     //-- 其余代码 不应随意调用 此函数!!! --
     inline void set_translate( const glm::vec2 &_goCurrentPos ){
 
+        //- 图元左下角 到 anchor_root 的pos偏移 --
         PixVec2 v = actionPtr->anchors_root[ actionHandle.currentIdx ];
         translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)v.x, 
                                     _goCurrentPos.y + (float)pos.y - (float)v.y, 
-                                    _goCurrentPos.y + (float)pos.y - (float)v.y + z };
+                                    -(_goCurrentPos.y + (float)pos.y + off_z) }; 
+                                        //-- ** 注意！**  z值的计算有不同：
+                                        // -1- 取负...
+                                        // -2- 没有算入 v.y; 因为这个值只代表：
+                                        //     图元 和 根锚点的 偏移
+                                        //     而 z值 仅仅记录 mesh锚点 在 游戏世界中的位置
     }
 
     //- pix游戏 暂时只支持 轴旋转 --
@@ -134,6 +140,11 @@ public:
     inline void set_scale_auto(){
         const PixVec2 &p = actionPtr->pixes_per_frame;
         scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
+    }
+
+    //- 通过 translate_val.z 值 来给 待渲染的 mesh 排序 --
+    inline float get_render_z() const {
+        return translate_val.z;
     }
 
 
@@ -167,6 +178,7 @@ private:
     glm::vec3 translate_val {};    //- 位移
     float     rotate_z    {0.0f};  //- z轴旋转角度
     glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
+
 
     //--------- funcs ----------
     void update_mat4_model(); //-- 重新计算 model矩阵

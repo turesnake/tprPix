@@ -130,7 +130,7 @@ int main(){
         //--------------------------------//
         //            input   
         //--------------------------------//
-        //-- 目前这个版本 非常简陋
+        //-- 目前版本 非常简陋
 		processInput( esrc::windowPtr );
 
         //--------------------------------//
@@ -175,18 +175,20 @@ int main(){
                 assert(0);
         }
 
-                
         //--------------------------------//
         //        render graphic
         //--------------------------------//
-        // 将被整合 ...
+        esrc::renderPool.clear(); //- *** 必须清空 ！！！*** -
+
         esrc::foreach_goids_active(
             []( goid_t _goid, GameObj *_goPtr ){
 
                 assert( _goPtr->RenderUpdate != nullptr );
-                _goPtr->RenderUpdate( _goPtr );
+                _goPtr->RenderUpdate( _goPtr ); 
             }
         );
+
+        esrc::draw_renderPool(); //++ 统一渲染mesh ++
         
         //--------------------------------//
         //   check and call events
@@ -236,7 +238,6 @@ void debug_(){
     //--------- only once -------------//
 
     //cout << endl;
-
     /*
     auto it = esrc::memGameObjs.begin();
     for( ; it!=esrc::memGameObjs.end(); it++ ){

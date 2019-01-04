@@ -97,9 +97,6 @@ void Dog_A::init( GameObj *_goPtr ){
 
 
 
-
-
-
 /* ===========================================================
  *                       bind
  * -----------------------------------------------------------
@@ -134,25 +131,29 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     bp = (Dog_A_Binary*)&(goPtr->binary[0]);
     //=====================================//
 
-    //======= 渲染 一组 meshs ========//
-    auto it = goPtr->meshs.begin();
-    for( ; it!=goPtr->meshs.end(); it++ ){
+    
+    for( auto &rm : goPtr->meshs ){
 
         //-- 也许不该放在 这个位置 --
-        if( it->is_visible == false ){
+        if( rm.is_visible == false ){
             continue;
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        it->actionHandle.funcs.at("update")(&(it->actionHandle), 0);
+        rm.actionHandle.funcs.at("update")(&(rm.actionHandle), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
-        it->set_translate( goPtr->currentPos );
-        it->set_scale_auto(); //- 没必要每帧都执行
-        it->draw();
+        rm.set_translate( goPtr->currentPos );
+        rm.set_scale_auto(); //- 没必要每帧都执行
+
+        //---------------------//
+        // 并不直接调用 draw call
+        // 而是将 确定要渲染的 mesh
+        //  添加到 renderPool
+        //---------------------//
+        esrc::renderPool.insert({ rm.get_render_z(), (Mesh*)&rm }); 
     }
 }
-
 
 
 /* ===========================================================
