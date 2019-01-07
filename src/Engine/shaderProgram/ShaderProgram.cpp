@@ -13,7 +13,6 @@
 
 //-------------------- C ----------------------//
 #include <cassert> //-- assert。
-//#include <iostream>
 #include <stdio.h> // printf
 
 //------------------- Libs --------------------//
@@ -24,12 +23,11 @@
 
 
 using std::string;
-//using std::cout;
-//using std::endl;
 
 using tpr::path_combine;
 using tpr::file_load;
 
+//#include "debug.h" //- tmp
 
 //-------- 初始化 静态数据成员 ----------
 GLuint ShaderProgram::shaderProgram_current = 0;

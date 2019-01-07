@@ -18,12 +18,12 @@
 //-------------------- Engine --------------------//
 #include "PixVec.h" 
 #include "GameObj.h" 
+#include "CrossState.h" 
 
 
 //-- 玩家数据 [硬盘态] --
 //-  独一无二的存在，在硬盘中只有一份 
 struct diskPlayer{
-
     u64      go_id {}; //- 玩家当前绑定的 go 的 id
     i32      posx {}; //- 在地图中的 坐标。
     i32      posy {}; //- 在地图中的 坐标。
@@ -44,16 +44,29 @@ public:
     diskPlayer m2d();
 
     //------- vals --------//
-
+    goid_t   goid   {NULLID}; 
     GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
-                        //- 注意，此处的 指针，只是一个 基础go类指针
-                        //  玩家能调用的，也仅仅是 基础go类指针，所提供的服务。
-                        //  这促使我们反向强化 基础go 这个伪接口类 的设计
+                        
 
-
+    //-- 必须等 section 彻底加载到 mem态（相伴的go数据也实例化）之后 --
+    //   才能调用本函数 
+    void bind_goPtr();
 
 
 private:
+
+
+    void  onKeyDown_W();
+    void  onKeyDown_S();
+    void  onKeyDown_A();
+    void  onKeyDown_D();
+    void  onKeyDown_SPACE();
+
+    void  onGameCross( CrossState _cs );
+
+
+
+
 };
 
 

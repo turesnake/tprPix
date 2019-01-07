@@ -8,7 +8,6 @@
 #include <cassert>
 
 //-------------------- CPP --------------------//
-//#include <iostream>
 #include <string>
 
 //-------------------- Engine --------------------//
@@ -16,8 +15,8 @@
 #include "GameObj.h" 
 
 using std::string;
-//using std::cout;
-//using std::endl;
+
+//#include "debug.h" //- tmp
 
 //-- 试验
 static gameObjs::Dog_A  dog_1 {};
@@ -68,7 +67,7 @@ void creat_a_go( glm::vec2 _pos ){
 
     goid_t goid = esrc::insert_new_gameObj();
 
-    GameObj *gop = (GameObj*)&(esrc::memGameObjs.at(goid)); //- 获取目标go指针
+    GameObj *gop = esrc::find_memGameObjs( goid ); //- 获取目标go指针
     gameObjs::dog_a.init( gop );
     gop->currentPos = _pos;
 }

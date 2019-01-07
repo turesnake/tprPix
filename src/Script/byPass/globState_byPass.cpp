@@ -11,7 +11,7 @@
 void globState_byPass(){
 
 
-    GameObj::id_manager.set_max_id( 1 );
+    GameObj::id_manager.set_max_id( 0 );
 
 
 

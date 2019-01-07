@@ -37,11 +37,7 @@
  */
 #ifndef _TPR_ACTION_H_
 #define _TPR_ACTION_H_
-
-/* -- 确保 glad GLFW 两个库 的引用顺序 ---
- * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
- * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
- */
+//=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
 //-------------------- CPP --------------------//

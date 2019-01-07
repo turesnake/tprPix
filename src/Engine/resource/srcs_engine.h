@@ -10,11 +10,7 @@
  */
 #ifndef _TPR_SRCS_MANAGER_H_
 #define _TPR_SRCS_MANAGER_H_
-
-/* -- 确保 glad GLFW 两个库 的引用顺序 ---
- * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
- * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
- */
+//=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -34,8 +30,9 @@
 #include "TimeCircle.h" 
 #include "Camera.h"
 #include "ShaderProgram.h"
-#include "Mesh.h" 
+#include "GameMesh.h" 
 #include "Behaviour.h" 
+#include "MapSection.h" 
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -95,10 +92,14 @@ void foreach_memGameObjs( F_GOID_GOPTR _fp );
 void foreach_goids_active( F_GOID_GOPTR _fp );
 void foreach_goids_inactive( F_GOID_GOPTR _fp );
 
-
 goid_t insert_new_gameObj();
 void realloc_active_goes();
 void realloc_inactive_goes();
+
+inline GameObj *find_memGameObjs( goid_t _goid ){
+    return (GameObj*)&(memGameObjs.at(_goid));
+}
+
 
 //--- db ---//
 
@@ -107,7 +108,7 @@ void realloc_inactive_goes();
 //   renderPool / 渲染池
 //-------------------------//
 //--- mem ---//
-inline std::multimap<float, Mesh*> renderPool {}; 
+inline std::multimap<float, GameMesh*> renderPool {}; 
             //- key 是 图元的 z值。map会自动排序(负无穷在前，正无穷在后，符合我们要的顺序)
             //- 遍历 渲染池，就能从远到近地 渲染每一个 图元
             //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
@@ -141,6 +142,12 @@ inline Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
 
 
 void call_scriptMain(); //- 调用 脚本层 入口函数
+
+
+//-------------------------//
+//     MapSection 资源
+//-------------------------//
+inline std::unordered_map<u64, MapSection> mapSections {};
 
 
 

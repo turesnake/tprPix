@@ -10,7 +10,6 @@
  * ----------------------------
  */
 //-------------------- CPP --------------------//
-//#include <iostream> //-- cout
 #include <string>
 
 
@@ -23,9 +22,9 @@
 #include "Script/gameObjs/Dog_A.h" 
 
 
-//using std::cout;
-//using std::endl;
 using std::string;
+
+//#include "debug.h" //- tmp
 
 
 namespace{//------------------- namespace ---------------------

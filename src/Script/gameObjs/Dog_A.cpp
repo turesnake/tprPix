@@ -15,7 +15,6 @@
 
 //-------------------- CPP --------------------//
 #include <functional>
-//#include <iostream>
 #include <string>
 
 //-------------------- Engine --------------------//
@@ -28,8 +27,8 @@
 using namespace std::placeholders;
 
 using std::string;
-//using std::cout;
-//using std::endl;
+
+//#include "debug.h" //- tmp
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -67,23 +66,25 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->moveState = GameObjMoveState::Movable;
     goPtr->targetPos = PixVec2{ 0, 0 };
     goPtr->currentPos = glm::vec2{ 0.0f, 0.0f };
-    goPtr->velocity = glm::vec2{ 0.0f, 0.0f };
+    goPtr->currentVelocity = glm::vec2{ 0.0f, 0.0f };
     goPtr->weight = 5.0f;
     goPtr->is_dirty = false;
 
-    //-------- action／actionHandle/mesh ---------//
-
+    //-------- action／actionHandle/ gameMesh ---------//
 
         //-- 制作唯一的 mesh 实例 --
-        Mesh *mp = goPtr->creat_new_mesh();
+        GameMesh *mp = goPtr->creat_new_gameMesh();
         mp->set_shader_program( &esrc::rect_shader );
         mp->init(); 
         mp->is_visible = true;
         //-- bind action / actionHandle --
         mp->bind_action( "human_1" );
-        actionHdle::cycle_obj.bind( &(mp->actionHandle), 4, 0, 6 );
+        actionHdle::cycle_obj.bind( &(mp->actionHandle), 
+                                    mp->get_frames(), //- 画面帧总数
+                                    0,                //- 起始画面帧序号
+                                    6 );              //- 画面帧间 时长
         //-- oth vals --
-        mp->pos = glm::vec2{ 0.0f, 0.0f }; //- 此mesh 在 go 中的 坐标偏移 
+        mp->pos = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
       
 
 
@@ -132,7 +133,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     //=====================================//
 
     
-    for( auto &rm : goPtr->meshs ){
+    for( auto &rm : goPtr->gameMeshs ){
 
         //-- 也许不该放在 这个位置 --
         if( rm.is_visible == false ){
@@ -148,10 +149,10 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
 
         //---------------------//
         // 并不直接调用 draw call
-        // 而是将 确定要渲染的 mesh
+        // 而是将 确定要渲染的 gameMesh
         //  添加到 renderPool
         //---------------------//
-        esrc::renderPool.insert({ rm.get_render_z(), (Mesh*)&rm }); 
+        esrc::renderPool.insert({ rm.get_render_z(), (GameMesh*)&rm }); 
     }
 }
 

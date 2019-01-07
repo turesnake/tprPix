@@ -35,9 +35,10 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjType.h" 
-#include "Mesh.h" 
+#include "GameMesh.h" 
 #include "ID_Manager.h" 
 #include "PixVec.h" 
+#include "Move.h" 
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -57,15 +58,15 @@ class GameObj{
 public:
     GameObj() = default;
 
-    void init();//- 暂时无用
+    void init();//-- MUST --
 
     //-- disl <-> mem --//
-    void  d2m( diskGameObj *_dgo );
-    diskGameObj  m2d();
+    void        d2m( diskGameObj *_dgo );
+    diskGameObj m2d();
 
     //---------------- callback -----------------//
-    F_GO  Awake {nullptr};  //- 初始化阶段执行的 内容
-    F_GO  Start {nullptr};  //- 游戏在进入 主循环之前，执行的内容
+    F_GO  Awake {nullptr};  //- unused
+    F_GO  Start {nullptr};  //- unused
 
     F_GO  RenderUpdate {nullptr}; //- 每1视觉帧，被引擎调用
     F_GO  LogicUpdate  {nullptr}; //- 每1逻辑帧，被主程序调用 （帧周期未定）
@@ -73,9 +74,9 @@ public:
                                   //- 未来会添加一个 参数：“被施加技能的类型”
 
     //----------------- self vals ---------------//
-    goid_t         id      {NULLID};    //- go实例 在程序中的 主要搜索依据。
-    goSpecId_t     species {0};                     //- go species id
-    GameObjFamily  family  {GameObjFamily::Major};  //- go 类群
+    goid_t         id       {NULLID};    
+    goSpecId_t     species  {0};                //- go species id
+    GameObjFamily  family   {GameObjFamily::Major};  
 
     bool   is_top_go  {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
     goid_t id_parent {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
@@ -88,9 +89,12 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
 
-    PixVec2    targetPos {}; //- 目标pos，对齐与mapent 
+    PixVec2    targetPos {};   //- based on mapEnt sys
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
-    glm::vec2  velocity {}; //- 运动速度
+    glm::vec2  currentVelocity {};   //- 当前运动速度
+
+    Move  move {}; //- 管理 本go实例 的位移运动
+
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
@@ -100,16 +104,17 @@ public:
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
 
-    std::vector<Mesh> meshs {}; //- go实例 与 mesh 是比较静态的关系。
-                            // 大部分go不会卸载／增加自己的 mesh实例
-                            //- 在一个 具象go类实例 的创建过程中，会把特定的 mesh实例 存入此容器
-                            //- 只存储在 mem态。 在go实例存入 硬盘时，mesh实例会被丢弃
-                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 mesh实例。
+    std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 是比较静态的关系。
+                            // 大部分go不会卸载／增加自己的 GameMesh实例
+                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GameMesh实例 存入此容器
+                            //- 只存储在 mem态。 在go实例存入 硬盘时，GameMesh实例会被丢弃
+                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GameMesh实例。
 
                 // *** 此容器 疑似引发了一个 史诗级BUG... ***
-                // 当在 具象类init() 中，调用 meshs.size() 等之类的语句时，程序就正常。
+                // 当在 具象类init() 中，调用 gameMeshs.size() 等之类的语句时，程序就正常。
                 // 但如果不调用，程序无法显示图形
                 // 目前还没搞清原因
+                // --- 这个 bug 暂时消失了... ---
 
 
     //----------- binary chunk -------------//         
@@ -119,7 +124,7 @@ public:
 
     //----------- funcs --------------//
     //void debug(); //- 打印 本go实例 的所有信息
-    Mesh *creat_new_mesh(); 
+    GameMesh *creat_new_gameMesh(); 
 
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )

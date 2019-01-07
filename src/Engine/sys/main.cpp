@@ -7,10 +7,7 @@
  *    main();
  * ----------------------------
  */
-/* -- 确保 glad GLFW 两个库 的引用顺序 ---
- * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
- * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
- */
+//=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -18,22 +15,23 @@
 #include <cassert> //-- assert
 
 //-------------------- CPP --------------------//
-//#include <iostream> //-- cout
 #include <string>
 #include <vector>
 
 //-------------------- Engine --------------------//
 #include "global.h"
 #include "gl_funcs.h"
+#include "input.h" 
 #include "srcs_engine.h" //- 所有资源
 #include "TimeCircle.h" 
+#include "VAOVBO.h" 
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
  
-//using std::cout;
-//using std::endl;
 using std::string;
+
+#include "debug.h" //- tmp
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
@@ -97,9 +95,9 @@ int main(){
         globState_byPass();
 
     //player_srcs_init();    //----  player 资源 ----
+        //esrc::player.init();
         player_byPass();
     //...
-
 
 
     //++++++ load ++++++//
@@ -109,7 +107,11 @@ int main(){
 
     //---- 加载 map 数据 ----
     //...
-        go_byPass();//- 硬生产一组 Dog_A 实例
+        map_byPass(); //- 硬制作 一张 section map
+        go_byPass();  //- 硬生产一组 Dog_A 实例
+
+
+        esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
     //------------------------------------------//
@@ -131,7 +133,7 @@ int main(){
         //            input   
         //--------------------------------//
         //-- 目前版本 非常简陋
-		processInput( esrc::windowPtr );
+		input::processInput( esrc::windowPtr );
 
         //--------------------------------//
         //      render background   
@@ -141,8 +143,11 @@ int main(){
                     //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
 
         //--------------------------------//
-        //    camera:: view, projection
+        //    camera:: RenderUpdate()
+        //    camera --> shader: view, projection
         //--------------------------------//
+        esrc::camera.RenderUpdate();
+        //--- 
         esrc::rect_shader.use_program();
         esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
         esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
@@ -166,6 +171,8 @@ int main(){
                 break;
 
             case 2:
+                //esrc::camera.print_pos();
+                
                 break;
             case 3:
                 break;
@@ -175,11 +182,19 @@ int main(){
                 assert(0);
         }
 
+        
+
         //--------------------------------//
         //        render graphic
         //--------------------------------//
         esrc::renderPool.clear(); //- *** 必须清空 ！！！*** -
 
+        //-- mapSection --
+        for( auto& p : esrc::mapSections ){
+            p.second.mesh.draw();
+        }
+            
+        //-- gameObj --
         esrc::foreach_goids_active(
             []( goid_t _goid, GameObj *_goPtr ){
 

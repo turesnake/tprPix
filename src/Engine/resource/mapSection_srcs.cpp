@@ -12,7 +12,6 @@
 #include <cassert> //-- assert
 
 //-------------------- CPP --------------------//
-//#include <iostream> //-- cout
 #include <string>
 #include <vector>
 
@@ -26,8 +25,8 @@
 #include "MapSection.h"
 
 using std::string;
-//using std::cout;
-//using std::endl;
+
+//#include "debug.h" //- tmp
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 

@@ -15,17 +15,18 @@
 #include "random.h" 
 
 //-------------------- CPP --------------------//
-//#include <iostream>
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "input.h" 
 #include "gl_funcs.h" 
 #include "PixVec.h" 
 #include "srcs_engine.h" //- 所有资源
 
 using std::string;
-//using std::cout;
-//using std::endl;
+
+
+//#include "debug.h" //- tmp
 
 
 namespace{//------------- namespace ----------------//
@@ -62,7 +63,7 @@ unsigned int get_new_seed(){
 
     unsigned int seed; //- return;
 
-    PixVec2 mousePos = get_mouse_pos();
+    PixVec2 mousePos = input::get_mouse_pos();
     seed = mousePos.x + (mousePos.y*3);
 
     float tm = esrc::timer.get_currentTime();

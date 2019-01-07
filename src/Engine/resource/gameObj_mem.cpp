@@ -45,8 +45,9 @@ goid_t insert_new_gameObj(){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObj  tmp_go {};
+    tmp_go.init(); //- MUST --
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    tmp_go.id = goid; //- MUST -
+    tmp_go.id = goid; //-- MUST --
     memGameObjs.insert({ goid, tmp_go }); //- copy
     return goid;
 }
@@ -62,7 +63,7 @@ void realloc_active_goes(){
 
     vector<goid_t> container; //- tmp, 容纳 命中的id
 
-    GameObj *goptr;
+    GameObj *goPtr;
 
     glm::vec2 v;
     float distance;
@@ -71,9 +72,9 @@ void realloc_active_goes(){
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_active ){
 
-        goptr = &(memGameObjs.at( id ));
+        goPtr = esrc::find_memGameObjs( id );
 
-        v = camera.get_camera2DPos() - goptr->currentPos;
+        v = camera.get_camera2DPos() - goPtr->currentPos;
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -100,7 +101,7 @@ void realloc_inactive_goes(){
 
     vector<goid_t> container; //- tmp, 容纳 命中的id
 
-    GameObj *goptr;
+    GameObj *goPtr;
 
     glm::vec2 v;
     float distance;
@@ -109,9 +110,9 @@ void realloc_inactive_goes(){
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_inactive ){
 
-        goptr = &(memGameObjs.at( id ));
-
-        v = camera.get_camera2DPos() - goptr->currentPos;
+        goPtr = esrc::find_memGameObjs( id );
+        
+        v = camera.get_camera2DPos() - goPtr->currentPos;
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将进入 激活圈的 go 移动到 激活组 --
@@ -126,6 +127,8 @@ void realloc_inactive_goes(){
         goids_inactive.erase( i );
     }
 }
+
+
 
 
 

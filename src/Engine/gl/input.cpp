@@ -7,77 +7,93 @@
  *   键盘，鼠标，joystick 等输入设备 管理文件
  * ----------------------------
  */
+#include "input.h" 
 
-/* -- 确保 glad GLFW 两个库 的引用顺序 ---
- * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
- * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
- */
-#include<glad/glad.h>  
-#include<GLFW/glfw3.h>
+//-------------------- C --------------------//
+#include <cassert>
 
-//#include <iostream> // cout
+//-------------------- CPP --------------------//
 //#include <string>
 
 //-------------------- Engine --------------------//
-#include "gl_funcs.h" 
 #include "PixVec.h" 
 #include "srcs_engine.h" //- 所有资源
 
-//using std::cout;
-//using std::endl;
+
+//#include "debug.h" //- tmp
 
 
-//------------------- 提供给全局的 函数 ----------------
-void processInput( GLFWwindow *_windowPtr );
-void mouse_callback(GLFWwindow* _windowPtr, double _xpos, double _ypos);
-void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
-PixVec2 get_mouse_pos();
+namespace input{//------------- namespace input --------------------
+
+
+namespace{
+
+    inline F_V_V   keyDown_W      {nullptr};
+    inline F_V_V   keyDown_S      {nullptr};
+    inline F_V_V   keyDown_A      {nullptr};
+    inline F_V_V   keyDown_D      {nullptr};
+    inline F_V_V   keyDown_SPACE  {nullptr};
+    
+    //--
+    inline F_CROSS_STATE   gameCross  {nullptr};
+
+    CrossState   crossState {}; 
+    //---------
+    void onMoveLeft();
+    void onMoveRight();
+    void onMoveUp();
+    void onMoveDown();
+}
 
 
 /* ==========================================================
  *                 processInput
  *-----------------------------------------------------------
- * input 处理函数。 看起来很简陋。
+ * input 处理函数。 每一视觉帧 都调用
  */
 void processInput( GLFWwindow *_windowPtr ){
 
     //-- ESC -- 
-	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE ) == GLFW_PRESS ){
+	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE )==GLFW_PRESS ){
 		glfwSetWindowShouldClose( _windowPtr, GL_TRUE );
 	}
 
-    //-- W -- 
-    if( glfwGetKey( _windowPtr, GLFW_KEY_W ) == GLFW_PRESS ){
-            //cout << "-W-" << endl;
-        esrc::camera.cameraPos_up();
-    }
+    //-- clear --
+    crossState.x = 0;
+    crossState.y = 0;
 
-    //-- S -- 
-    if( glfwGetKey( _windowPtr, GLFW_KEY_S ) == GLFW_PRESS ){
-            //cout << "-S-" << endl;
-        esrc::camera.cameraPos_down();
+    //-------------------------------------------------------//
+    //  each Key 
+    //--- W ---
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_W )==GLFW_PRESS) && (keyDown_W!=nullptr) ){
+        keyDown_W();
     }
-
-    //-- A -- 
-    if( glfwGetKey( _windowPtr, GLFW_KEY_A ) == GLFW_PRESS ){
-            //cout << "-A-" << endl;
-        esrc::camera.cameraPos_left();
+    //--- S ---
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_S )==GLFW_PRESS) && (keyDown_S!=nullptr) ){
+        keyDown_S();
     }
-
-    //-- D -- 
-    if( glfwGetKey( _windowPtr, GLFW_KEY_D ) == GLFW_PRESS ){
-            //cout << "-D-" << endl;
-        esrc::camera.cameraPos_right();
+    //--- A --- 
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_A )==GLFW_PRESS) && (keyDown_A!=nullptr) ){
+        keyDown_A();
     }
-
+    //--- D --- 
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_D )==GLFW_PRESS) && (keyDown_D!=nullptr) ){
+        keyDown_D();
+    }
     //-- SPACE -- 
-    //if( glfwGetKey( _windowPtr, GLFW_KEY_SPACE ) == GLFW_PRESS ){
-    //}
-
+    if( glfwGetKey( _windowPtr, GLFW_KEY_SPACE ) == GLFW_PRESS ){
+        keyDown_SPACE();
+    }
     //-- TAB -- 
     //if( glfwGetKey( _window, GLFW_KEY_TAB ) == GLFW_PRESS ){
     //}
+    //-------------------------------------------------------//
+
+    //--- call gameCross() to handle the crossState [-Each Render Frame-] --
+    assert( gameCross!=nullptr );
+    gameCross( crossState );
 }
+
 
 
 
@@ -91,12 +107,11 @@ void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos){
 
         //cout << "xpos = " << xpos << "ypos = " << ypos << endl; 
     //camera_current()->mousePos_move( xpos, ypos );
-
 }
 
 
 /* ==========================================================
- *                 mouse_callback
+ *                 get_mouse_pos
  *-----------------------------------------------------------
  * -- 获得鼠标 当前 坐标值
  * -- 当鼠标指针 未隐藏时：
@@ -137,6 +152,82 @@ void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
 }
 */
 
+/* ==========================================================
+ *                bind_gameCross_key
+ * -----------------------------------------------------------
+ * -- 设置 哪些key 来实现 游戏十字键
+ * -- 这些被选中的 key，原本绑定的 callback 会被 替代。
+ */
+void bind_gameCross_key( DIRECTION _dir, input::KEY _key ){
+
+    switch( _dir ){
+        case DIRECTION::Left:  bind_key_callback( _key, std::bind( &onMoveLeft ) );
+            break;
+        case DIRECTION::Right: bind_key_callback( _key, std::bind( &onMoveRight ) );
+            break;
+        case DIRECTION::Up:    bind_key_callback( _key, std::bind( &onMoveUp ) );
+            break;
+        case DIRECTION::Down:  bind_key_callback( _key, std::bind( &onMoveDown ) );
+            break;
+        case DIRECTION::Idle:  //-- just do nothing...
+            break;
+        default:
+            assert(0);
+    }
+}
+
+/* ==========================================================
+ *                 bind_key_callback
+ * -----------------------------------------------------------
+ * -- 外部代码通过 此函数 来将一个 callback函数 绑定到 某个key上
+ */
+void bind_key_callback( input::KEY _key, F_V_V _fp ){
+
+    switch(_key){
+        case KEY::W:  keyDown_W = _fp;
+            break;
+        case KEY::A:  keyDown_A = _fp;
+            break;
+        case KEY::S:  keyDown_S = _fp;
+            break;
+        case KEY::D:  keyDown_D = _fp;
+            break;
+        case KEY::SPACE:  keyDown_SPACE = _fp;
+            break;
+        default:
+            assert(0);
+    }
+}
+
+/* ==========================================================
+ *                bind_gameCross_callback
+ * -----------------------------------------------------------
+ * -- 当发生 游戏十字键操作，最终调用的 callback
+ * -- 会把 十字健的状态 回传出去。
+ */
+void bind_gameCross_callback( F_CROSS_STATE _fp ){
+    gameCross = _fp;
+}
 
 
+namespace{ //------------------- namespace ----------------------//
+
+void onMoveLeft(){
+    crossState.x = -1;
+}
+void onMoveRight(){
+    crossState.x = 1;
+}
+void onMoveUp(){
+    crossState.y = 1;
+}
+void onMoveDown(){
+    crossState.y = -1;
+}
+
+}//------------------------ namespace: end --------------------//
+
+
+
+}//----------------- namespace input: end -------------------
 

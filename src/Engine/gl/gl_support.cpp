@@ -7,11 +7,7 @@
  *   支援 main 函数的 子函数。
  * ----------------------------
  */
-
-/* -- 确保 glad GLFW 两个库 的引用顺序 ---
- * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
- * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
- */
+//=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -19,20 +15,19 @@
 #include <cassert> //-- assert。
 
 //-------------------- CPP --------------------//
-//#include <iostream> //-- cout
 #include <string>
 
-
 //-------------------- Engine --------------------//
+#include "input.h" 
 #include "srcs_engine.h" 
 #include "global.h"
 #include "config.h" //-- SCR_WIDTH
 #include "callback.h" 
 #include "gl_funcs.h" 
 
-//using std::cout;
-//using std::endl;
 using std::string;
+
+//#include "debug.h" //- tmp
 
 
 //------------------- 提供给全局的 函数 ----------------
@@ -135,9 +130,8 @@ void glfw_oth_set(){
  */
 void glfw_callback_set(){
 
-    
     glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
-    glfwSetCursorPosCallback(       esrc::windowPtr, mouse_callback );  //-- 鼠标运动 -- 控制视角
+    glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 
 }

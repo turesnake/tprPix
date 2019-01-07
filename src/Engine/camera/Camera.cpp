@@ -10,19 +10,23 @@
 
 #include "Camera.h"
 
+//-------------------- C --------------------//
+#include <math.h> //- abs
+
 //-------------------- CPP --------------------//
 #include <cassert> //- assert
 #include <string>
-//#include <iostream>
+
 
 //-------------------- Engine --------------------//
 #include "config.h" // SCR_WIDTH, SCR_HEIGHT
 #include "srcs_engine.h" //- 所有资源
 
-
-//using std::cout;
-//using std::endl;
 using std::string;
+
+
+#include "debug.h" //- tmp
+
 
 //---------------------- 局部 变量 ---------------------
 namespace{
@@ -37,7 +41,61 @@ namespace{
  */
 void Camera::init(){
 
-    //update_camera_vectors();
+    boxSize = glm::vec3( (float)WORK_WIDTH,
+                         (float)WORK_HEIGHT,
+                         1000.0f   //-- tmp 
+                        );  
+
+    currentPos = glm::vec3( 0.0f,
+                            0.0f,
+                            0.5f * boxSize.z   
+                            ); 
+
+    targetPos = glm::vec2( 0.0f, 0.0f );
+}
+
+
+/* ===========================================================
+ *                  set_targetPos
+ * -----------------------------------------------------------
+ * -- 外部代码控制 camera运动 的唯一方式
+ */
+void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
+
+    if( _tpos == targetPos ){
+        return;
+    }
+    targetPos = _tpos;
+    is_moving = true;
+    approachPercent = _approachPercent;
+}
+
+
+/* ===========================================================
+ *                  RenderUpdate 
+ * -----------------------------------------------------------
+ * -- 每1渲染帧 执行的 update()
+ * -- 目前只含有 运动系统
+ */
+void Camera::RenderUpdate(){
+
+    if( is_moving == false ){
+        return;
+    }
+
+    glm::vec2 off { targetPos.x-currentPos.x, 
+                    targetPos.y-currentPos.y };
+    //-- 若非常接近，直接同步 --
+    if( (abs(off.x)<0.1f) && (abs(off.y)<0.1f) ){
+        targetPos.x = currentPos.x;
+        targetPos.y = currentPos.y;
+        is_moving = false;
+        return;
+    }
+
+    currentPos.x += approachPercent * off.x;
+    currentPos.y += approachPercent * off.y;
+    currentPos.z =  -currentPos.y + (0.5f * boxSize.z); //-- IMPORTANT --
 }
 
 
@@ -48,10 +106,9 @@ void Camera::init(){
  */
 glm::mat4 &Camera::update_mat4_view(){
 
-    mat4_view = glm::lookAt( cameraPos, 
-                             (cameraPos + cameraFront), 
+    mat4_view = glm::lookAt( currentPos, 
+                             (currentPos + cameraFront), 
                              cameraUp );
-
     return mat4_view;
 }
 
@@ -60,86 +117,68 @@ glm::mat4 &Camera::update_mat4_view(){
  *                update_mat4_projection  
  * -----------------------------------------------------------
  * --  生成 ortho 投影矩阵, 并将 投影矩阵 的指针 (const float *) 返回出去
- * --  
  */
 glm::mat4 &Camera::update_mat4_projection(){
 
     //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
     //   所以不推荐，将 ow/oh 写成定值
-    float ow = (float)(WORK_WIDTH/2);  //- 横向边界半径（像素）
-    float oh = (float)(WORK_HEIGHT/2); //- 纵向边界半径（像素）
+    float ow = 0.5f * boxSize.x;  //- 横向边界半径（像素）
+    float oh = 0.5f * boxSize.y;  //- 纵向边界半径（像素）
 
-    //------ 近平面 / 远平面 --------
-    // 对这组值的理解：
-    //  沿着 摄像机的视角，从摄像机当前pos出发，
-    //  向“前”推进 zNear 获得的平面就是 近平面
-    //  向“前”推进 zFar  获得的平面就是 远平面
-    //----------
-    //  由于我们的 二维游戏，摄像机始终朝向 负z轴，
-    //  所以这两个值就是沿着 fz轴的叠加
-    //
-    //-- 每一帧都要计算 近平面/远平面，根据 camera pos.y --
-    //   z = -y;
-    //   camera 在 z轴其实是存在运动的，以此确保 渲染盒子始终匹配图元
-    //
-    float zNear = 0.1f + cameraPos.y;
-    float zFar  = 2000.0f  + cameraPos.y;
+    //------ relative: zNear / zFar --------
+    // 基于 currentPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
+    // 基于 currentPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
+    // 两者都是 定值（无需每帧变化）
+    float zNear_relative  = 0.0f;  //- 负数也接受
+    float zFar_relative   = boxSize.z;
 
 
     mat4_projection = glm::ortho( -ow,   //-- 左边界
                                    ow,   //-- 右边界
                                   -oh,   //-- 下边界
                                    oh,   //-- 上边界
-                                   zNear, //-- 近平面
-                                   zFar  //-- 远平面
+                                   zNear_relative, //-- 近平面
+                                   zFar_relative  //-- 远平面
                                 );
-
     return mat4_projection;
+}
+
+
+/* ===========================================================
+ *                print_pos    [debug]
+ * -----------------------------------------------------------
+ */
+void Camera::print_pos(){
+    cout << "cameraPos: " << currentPos.x 
+        << ", " << currentPos.y 
+        << ", " << currentPos.z
+        << endl;
 }
 
 
 /* ===========================================================
  *           cameraPos_up / down / left / right   
  * -----------------------------------------------------------
- * --  通过 wsad 键，控制摄像机 前后左右移动
+ * --
  */
-//void Camera::cameraPos_forward(){
-    /*
-    cameraSpeed = 2.5f * get_deltaTime();
-    cameraPos += cameraFront * cameraSpeed;
-    */
-//}
-
-
-//void Camera::cameraPos_back(){
-    /*
-    cameraSpeed = 2.5f * get_deltaTime();
-    cameraPos -= cameraFront * cameraSpeed;
-    */
-//}
-
-
+/*
 void Camera::cameraPos_left(){
     cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    cameraPos -= cameraRight * cameraSpeed;
+    currentPos -= cameraRight * cameraSpeed;
 }
-
-
 void Camera::cameraPos_right(){
     cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    cameraPos += cameraRight * cameraSpeed;
+    currentPos += cameraRight * cameraSpeed;
 }
-
-
 void Camera::cameraPos_up(){
     cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    cameraPos += cameraUp * cameraSpeed;
+    currentPos += cameraUp * cameraSpeed;
 }
-
 void Camera::cameraPos_down(){
     cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    cameraPos -= cameraUp * cameraSpeed;
+    currentPos -= cameraUp * cameraSpeed;
 }
+*/
 
 
 /* ===========================================================
@@ -147,6 +186,7 @@ void Camera::cameraPos_down(){
  * -----------------------------------------------------------
  * -- 鼠标位移，控制 摄像机 视角。
  */
+/*
 void Camera::mousePos_move( double xpos, double ypos ){
 
     //--- 游戏开始时，第一次鼠标运动 时的 配置。
@@ -177,103 +217,8 @@ void Camera::mousePos_move( double xpos, double ypos ){
     if( pitch < -89.0f ){
         pitch = -89.0f;
     }
-
-    //--- 因为 camera 姿态发生改变，需要更新 几个核心向量。
-    //update_camera_vectors(); 
-}
-
-
-/* ===========================================================
- *                     mouseFov_reset    
- * -----------------------------------------------------------
- * -- 鼠标滚轮，控制 视角 fov ／ field of view
- */
-/*
-void Camera::mouseFov_reset( double xoffset, double yoffset ){
-
-    if( fov >= 1.0f && fov <= 45.0f ){
-        fov -= yoffset;
-    }
-
-    if( fov <= 1.0f ){
-        fov = 1.0f;
-    }
-    
-    if( fov >= 45.0f ){
-        fov = 45.0f;
-    }
 }
 */
-
-/* ===========================================================
- *                 update_camera_vectors
- * -----------------------------------------------------------
- * -- 刷新 camera 的几个核心向量。 
- * -- 分别在 camera 初始化，以及 camera 视角转变（通过鼠标位移）时，
- * --  在 二维游戏中，camera方向是固定的，不用每帧都运算 本函数将被废弃
- * 
- */
-/*
-void Camera::update_camera_vectors(){
-
-    //-- 更新 camera 前视向量
-    glm::vec3 front;
-    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    front.y = sin(glm::radians(pitch));
-    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-
-    cameraFront = glm::normalize(front);
-
-    //- 更新 camera 右手向量
-    //  在 二维游戏中是固定的，不用每帧都运算
-    cameraRight = glm::normalize(glm::cross(cameraFront, worldUp)); 
-    //- 更新 camera 头顶向量
-    //  在 二维游戏中是固定的，不用每帧都运算
-    cameraUp    = glm::normalize(glm::cross(cameraRight, cameraFront));   
-
-}
-*/
-
-
-/* ===========================================================
- *                      bind_camera_current   
- * -----------------------------------------------------------
- * --  将 参数 cp 绑定为 当前摄像机
- */
-/*
-void bind_camera_current( const Camera *cp ){
-    camera_p_current = const_cast<Camera*>( cp );
-}
-*/
-
-/* ===========================================================
- *                       camera_current
- * -----------------------------------------------------------
- * --  获得 指向 当前摄像机 的指针
- */
-/*
-Camera *camera_current(){
-
-    if( camera_p_current == nullptr ){
-        cout << "Camera::camera_current: error. \n"
-             << "camera_p_current = nullptr"
-             << endl;
-        assert(0);
-    }
-
-    return camera_p_current;
-}
-*/
-
-
-
-
-
-
-
-
-
-
 
 
 

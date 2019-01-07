@@ -13,15 +13,15 @@
 #include <cassert> //- assert
 
 //-------------------- CPP --------------------//
-//#include <iostream>
 #include <string>
 
 using namespace std::placeholders;
 
 
 using std::string;
-//using std::cout;
-//using std::endl;
+
+
+//#include "debug.h" //- tmp
 
 
 namespace actionHdle{//------------- namespace ActionHdle ----------------

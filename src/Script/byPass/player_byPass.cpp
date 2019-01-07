@@ -1,5 +1,6 @@
 //-------------------- Engine --------------------//
 #include "GameObj.h" 
+#include "srcs_engine.h" 
 
 
 /* ===========================================================
@@ -9,7 +10,9 @@
  */
 void player_byPass(){
 
-    
+    esrc::player.init();
+
+    esrc::player.goid = 1; 
 
     
 

@@ -10,12 +10,11 @@
 #include "GameObj.h" 
 
 //-------------------- CPP --------------------//
-//#include <iostream> //-- cout
 #include <string>
 
-//using std::cout;
-//using std::endl;
 using std::string;
+
+//#include "debug.h" //- tmp
 
 
 //============== 类静态成员 ===============//
@@ -27,22 +26,22 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    
+    move.init( (GameObj*)this );
 }
 
 
 /* ===========================================================
- *                     creat_new_mesh
+ *                     creat_new_gameMesh
  * -----------------------------------------------------------
- * -- 在 meshs 容器中添加一个 新mesh实例，
- * -- 再返回这个 mesh实例的 指针
+ * -- 在 gameMeshs 容器中添加一个 新GameMesh实例，
+ * -- 再返回这个 GameMesh实例的 指针
  */
-Mesh *GameObj::creat_new_mesh(){
+GameMesh *GameObj::creat_new_gameMesh(){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    Mesh  mesh; //- tmp 
-    meshs.push_back( mesh ); //- copy
-    return  (Mesh*)&(meshs.back()); //- *** 也许有问题 ***
+    GameMesh  gmesh; //- tmp 
+    gameMeshs.push_back( gmesh ); //- copy
+    return  (GameMesh*)&(gameMeshs.back()); //- *** 也许有问题 ***
 }
 
 
@@ -89,7 +88,7 @@ void GameObj::debug(){
     cout << "actionNames.size() = " << actionNames.size()
         << endl;
 
-    //cout << "meshs.size() = " << meshs.size()
+    //cout << "gameMeshs.size() = " << gameMeshs.size()
         //<< endl;
 
     cout << "binary.size() = " << binary.size()

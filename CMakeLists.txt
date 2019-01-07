@@ -54,6 +54,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/action)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
@@ -107,6 +108,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/action/*.cpp 
                         src/Engine/actionHandle/*.cpp
                         src/Engine/camera/*.cpp 
+                        src/Engine/debug/*.cpp 
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
@@ -125,6 +127,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/actionHandle/*.cpp 
                         src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
+                        src/Script/map/*.cpp
                         src/Script/resource/*.cpp
                         src/Script/textureBuilder/*.cpp 
                         )
