@@ -128,7 +128,7 @@ public:
     //  所以可以直接从 action 中获取数据
     //  这个函数很常用
     //  但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
-    inline void set_scale_auto(){
+    inline void refresh_scale_auto(){
         const PixVec2 &p = actionPtr->pixes_per_frame;
         scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
     }

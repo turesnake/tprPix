@@ -147,7 +147,20 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 //-------------------------//
 //     MapSection 资源
 //-------------------------//
+//-- 可能在 mem态，加载很多张 mapsection
+//-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
 inline std::unordered_map<u64, MapSection> mapSections {};
+
+
+
+//-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中
+//-- 比如：
+//    - mapSection
+//    - go脚下的阴影
+//    - UI图元等
+inline std::multimap<float, Mesh*> renderPool_meshs {};
+
+void draw_renderPool_meshs();
 
 
 

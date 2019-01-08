@@ -7,26 +7,19 @@
 /* ===========================================================
  *                       map_byPass
  * -----------------------------------------------------------
- * -- 
+ * -- 临时性的 创建一个 mapSection 实例。
  */
 void map_byPass(){
 
-    /*
     // ***| INSERT FIRST, INIT LATER  |***
-    MapTexture  mapTex;
-    esrc::mapTexes.push_back( mapTex ); //- copy
-    MapTexture *mapTexPtr = (MapTexture*)&(esrc::mapTexes.back());
-    mapTexPtr->init();
-    */
 
-    // ***| INSERT FIRST, INIT LATER  |***
     MapSection section {};
     section.set_pos( glm::vec2{ 0.0f, 0.0f } );
     u64 key = section.get_key();
     esrc::mapSections.insert({ key, section }); //- copy
     MapSection *sectionPtr = (MapSection*)&(esrc::mapSections.at(key));
 
-    sectionPtr->mapTex.init();
+    sectionPtr->mapTex.init(); //- 自动通过 mapBuilder 函数来实现 mapTex 合成
 
     //-- bind mapTex - mesh --
     sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );
@@ -35,17 +28,9 @@ void map_byPass(){
 
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
-    sectionPtr->mesh.set_translate(glm::vec3{   sectionPtr->get_pixPos().x,
-                                                sectionPtr->get_pixPos().y,
-                                                esrc::camera.get_zFar() + 1.0f //-- 重要 --
-                                                });
+    sectionPtr->refresh_translate_auto();
     
-    //-- 此值一旦设置，不用再修改 --
-    sectionPtr->mesh.set_scale(glm::vec3{   (float)(SECTION_W_ENTS * PIXES_PER_MAPENT),
-                                            (float)(SECTION_H_ENTS * PIXES_PER_MAPENT),
-                                            1.0f
-                                            });
-
+    sectionPtr->init();
 
 }
 

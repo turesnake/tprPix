@@ -45,10 +45,10 @@ goid_t insert_new_gameObj(){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObj  tmp_go {};
-    tmp_go.init(); //- MUST --
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
     tmp_go.id = goid; //-- MUST --
     memGameObjs.insert({ goid, tmp_go }); //- copy
+    memGameObjs.at(goid).init(); //- MUST --
     return goid;
 }
 

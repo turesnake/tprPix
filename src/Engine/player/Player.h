@@ -56,16 +56,14 @@ public:
 private:
 
 
-    void  onKeyDown_W();
-    void  onKeyDown_S();
-    void  onKeyDown_A();
-    void  onKeyDown_D();
     void  onKeyDown_SPACE();
 
     void  onGameCross( CrossState _cs );
 
 
+    void tmp_move( CrossState _cs ); //- test
 
+    void basic_translate(); //- test
 
 };
 

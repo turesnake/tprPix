@@ -78,16 +78,18 @@ public:
         return sectionKey.get_key();
     }
 
+    //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
+    void refresh_translate_auto();
+
 
     //-----------------
     MapTexture  mapTex {};
     Mesh        mesh   {}; 
 
 
-    std::vector<MemMapEnt> memMapEnts; 
+    std::vector<MemMapEnt> memMapEnts; //- 暂未使用
 
 private:
-
     //---------- pos & key ------------//
     //-- once init, never change.
     SectionKey  sectionKey {};

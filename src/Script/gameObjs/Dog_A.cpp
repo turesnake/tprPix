@@ -66,9 +66,10 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->moveState = GameObjMoveState::Movable;
     goPtr->targetPos = PixVec2{ 0, 0 };
     goPtr->currentPos = glm::vec2{ 0.0f, 0.0f };
-    goPtr->currentVelocity = glm::vec2{ 0.0f, 0.0f };
     goPtr->weight = 5.0f;
     goPtr->is_dirty = false;
+
+    goPtr->speedLevel = SpeedLevel::LV_3;
 
     //-------- action／actionHandle/ gameMesh ---------//
 
@@ -145,7 +146,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
         rm.set_translate( goPtr->currentPos );
-        rm.set_scale_auto(); //- 没必要每帧都执行
+        rm.refresh_scale_auto(); //- 没必要每帧都执行
 
         //---------------------//
         // 并不直接调用 draw call

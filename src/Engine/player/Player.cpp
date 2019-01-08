@@ -14,7 +14,6 @@
 //-------------------- CPP --------------------//
 #include <string>
 
-
 //-------------------- Engine --------------------//
 #include "input.h" 
 #include "srcs_engine.h" 
@@ -23,6 +22,19 @@ using namespace std::placeholders;
 
 
 #include "debug.h" //- tmp
+
+
+namespace{//------------
+
+    //--- tmp ---
+    CrossState  cs        {};      //- 每一回合的 cs值
+    //bool    is_on_moving  {false}; //- 是否正处于回合内，只有在 节点帧（非回合内），才能改写 cs值
+    int     count         {0};     //- 回合内计数器 
+    int     maxCount      {4};     //- 计数器z最大值，与speed联动
+    float   speed         {0.75f};  //- 单帧位移距离， 与maxCount联动
+
+}//---------------------
+
 
 
 /* ===========================================================
@@ -98,20 +110,68 @@ void Player::bind_goPtr(){
 void Player::onGameCross( CrossState _cs ){
 
     //-----------------//
-    //      TMP 
+    //      camera
     //-----------------//
-    if( _cs.x == -1 ){
-        onKeyDown_A();
-    }else if( _cs.x == 1 ){
-        onKeyDown_D();
+    //-- 让 camera 对其上1渲染帧 --
+    //- 这会造成 camera 的延迟，但不要紧
+    esrc::camera.set_targetPos( goPtr->currentPos ); //- 不应该放在此处。
+
+
+    //---------------------------//
+    //  试验1: 
+    //---------------------------//
+    //tmp_move( _cs );
+    goPtr->move.RenderUpdate( _cs );
+
+}
+
+
+/* ===========================================================
+ *                      tmp_move
+ * -----------------------------------------------------------
+ */
+void Player::tmp_move( CrossState _cs ){
+
+    if( count == maxCount ){
+        count = 0;
     }
 
-    if( _cs.y == 1 ){
-        onKeyDown_W();
-    }else if( _cs.y == -1 ){
-        onKeyDown_S();
+    if( count == 0 ){
+        cs = _cs;
+        //------
+        /*
+        if( (cs.x!=0) && (cs.y!=0) ){ //- 斜向
+            speed    = 1.0f;
+            maxCount = 3;
+        }else{ //- 十字移动
+            speed    = 1.5f;
+            maxCount = 2;
+        }
+        */
     }
 
+    count++;
+    basic_translate();
+}
+
+
+/* ===========================================================
+ *                     basic_translate
+ * -----------------------------------------------------------
+ * -- 用于 tmp_move() 
+ */
+void Player::basic_translate(){
+
+    if( cs.x == -1 ){
+        goPtr->currentPos += glm::vec2{ -speed, 0.0f };  //- A -
+    }else if( cs.x == 1 ){
+        goPtr->currentPos += glm::vec2{ speed, 0.0f };   //- D -
+    }
+    if( cs.y == 1 ){
+        goPtr->currentPos += glm::vec2{ 0.0f, speed };   //- W -
+    }else if( cs.y == -1 ){
+        goPtr->currentPos += glm::vec2{ 0.0f, -speed };   //- S -
+    }
 }
 
 
@@ -120,30 +180,6 @@ void Player::onGameCross( CrossState _cs ){
  *               Keyboard CallBack
  * -----------------------------------------------------------
  */
-void Player::onKeyDown_W(){
-    //cout << "w" << endl;
-    float speed = 1.5f;
-    goPtr->currentPos += glm::vec2{ 0.0f, speed };
-    esrc::camera.set_targetPos( goPtr->currentPos ); //- 不应该放在此处。
-}
-void Player::onKeyDown_S(){
-    //cout << "s" << endl;
-    float speed = 1.5f;
-    goPtr->currentPos += glm::vec2{ 0.0f, -speed };
-    esrc::camera.set_targetPos( goPtr->currentPos );
-}
-void Player::onKeyDown_A(){
-    //cout << "a" << endl;
-    float speed = 1.5f;
-    goPtr->currentPos += glm::vec2{ -speed, 0.0f };
-    esrc::camera.set_targetPos( goPtr->currentPos );
-}
-void Player::onKeyDown_D(){
-    //cout << "d" << endl;
-    float speed = 1.5f;
-    goPtr->currentPos += glm::vec2{ speed, 0.0f };
-    esrc::camera.set_targetPos( goPtr->currentPos );
-}
 void Player::onKeyDown_SPACE(){
     //cout << "_" << endl;
 }

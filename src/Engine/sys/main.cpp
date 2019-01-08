@@ -182,19 +182,28 @@ int main(){
                 assert(0);
         }
 
-        
 
         //--------------------------------//
-        //        render graphic
+        //        render  meshs
+        //--------------------------------//
+        esrc::renderPool_meshs.clear();
+        
+        //-- mapSection --
+        for( auto& p : esrc::mapSections ){
+            
+            //- update translate
+            p.second.refresh_translate_auto();
+            //-- add to renderPool
+            esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
+                                                (Mesh*)&p.second.mesh });
+        }
+        esrc::draw_renderPool_meshs();
+
+        //--------------------------------//
+        //       render gameMeshs
         //--------------------------------//
         esrc::renderPool.clear(); //- *** 必须清空 ！！！*** -
 
-        //-- mapSection --
-        for( auto& p : esrc::mapSections ){
-            p.second.mesh.draw();
-        }
-            
-        //-- gameObj --
         esrc::foreach_goids_active(
             []( goid_t _goid, GameObj *_goPtr ){
 
@@ -202,7 +211,6 @@ int main(){
                 _goPtr->RenderUpdate( _goPtr ); 
             }
         );
-
         esrc::draw_renderPool(); //++ 统一渲染mesh ++
         
         //--------------------------------//

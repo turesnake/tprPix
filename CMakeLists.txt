@@ -54,6 +54,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/action)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
@@ -108,6 +109,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/action/*.cpp 
                         src/Engine/actionHandle/*.cpp
                         src/Engine/camera/*.cpp 
+                        src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 

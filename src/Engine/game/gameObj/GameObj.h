@@ -91,7 +91,8 @@ public:
 
     PixVec2    targetPos {};   //- based on mapEnt sys
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
-    glm::vec2  currentVelocity {};   //- 当前运动速度
+
+    SpeedLevel   speedLevel  { SpeedLevel::LV_3 };
 
     Move  move {}; //- 管理 本go实例 的位移运动
 

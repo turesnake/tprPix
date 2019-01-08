@@ -80,6 +80,22 @@ void draw_renderPool(){
     //cout << endl;
 }
 
+/* ===========================================================
+ *                draw_renderPool_meshs
+ * -----------------------------------------------------------
+ * -- 
+ */
+void draw_renderPool_meshs(){
+
+    auto ipair = esrc::renderPool_meshs.begin();
+    for( ; ipair!=esrc::renderPool_meshs.end(); ipair++ ){
+        ipair->second->draw();
+    }
+}
+
+
+
+
 
 
 
