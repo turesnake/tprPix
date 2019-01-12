@@ -61,6 +61,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/move)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
@@ -116,6 +117,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/map/*.cpp 
                         src/Engine/gl/*.cpp 
                         src/Engine/mesh/*.cpp 
+                        src/Engine/move/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/resource/*.cpp 

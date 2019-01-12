@@ -14,7 +14,7 @@ void map_byPass(){
     // ***| INSERT FIRST, INIT LATER  |***
 
     MapSection section {};
-    section.set_pos( glm::vec2{ 0.0f, 0.0f } );
+    section.set_by_ppos( glm::vec2{ 0.0f, 0.0f } );
     u64 key = section.get_key();
     esrc::mapSections.insert({ key, section }); //- copy
     MapSection *sectionPtr = (MapSection*)&(esrc::mapSections.at(key));

@@ -64,12 +64,13 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->is_active = true;
     goPtr->state = GameObjState::Waked;
     goPtr->moveState = GameObjMoveState::Movable;
-    goPtr->targetPos = PixVec2{ 0, 0 };
+    //goPtr->targetPos = PixVec2{ 0, 0 };
+    goPtr->targetPos.set_by_ppos( 0,0 );
     goPtr->currentPos = glm::vec2{ 0.0f, 0.0f };
     goPtr->weight = 5.0f;
     goPtr->is_dirty = false;
 
-    goPtr->speedLevel = SpeedLevel::LV_3;
+    goPtr->speedLevel = SpeedLevel::LV_1;
 
     //-------- action／actionHandle/ gameMesh ---------//
 
@@ -131,9 +132,17 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     //-- rebind ptr -----
     goPtr = _goPtr;
     bp = (Dog_A_Binary*)&(goPtr->binary[0]);
-    //=====================================//
-
     
+
+    //=====================================//
+    //         更新 位移系统
+    //-------------------------------------//
+    goPtr->crawl.RenderUpdate();
+
+
+    //=====================================//
+    //  将 确认要渲染的 gameMeshs，添加到 renderPool          
+    //-------------------------------------//
     for( auto &rm : goPtr->gameMeshs ){
 
         //-- 也许不该放在 这个位置 --
@@ -148,11 +157,6 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         rm.set_translate( goPtr->currentPos );
         rm.refresh_scale_auto(); //- 没必要每帧都执行
 
-        //---------------------//
-        // 并不直接调用 draw call
-        // 而是将 确定要渲染的 gameMesh
-        //  添加到 renderPool
-        //---------------------//
         esrc::renderPool.insert({ rm.get_render_z(), (GameMesh*)&rm }); 
     }
 }
@@ -173,6 +177,8 @@ void Dog_A::LogicUpdate( GameObj *_goPtr ){
     //=====================================//
 
     // 什么也没做...
+
+    
     
     
 

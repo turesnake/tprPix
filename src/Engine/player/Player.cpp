@@ -26,12 +26,7 @@ using namespace std::placeholders;
 
 namespace{//------------
 
-    //--- tmp ---
-    CrossState  cs        {};      //- 每一回合的 cs值
-    //bool    is_on_moving  {false}; //- 是否正处于回合内，只有在 节点帧（非回合内），才能改写 cs值
-    int     count         {0};     //- 回合内计数器 
-    int     maxCount      {4};     //- 计数器z最大值，与speed联动
-    float   speed         {0.75f};  //- 单帧位移距离， 与maxCount联动
+
 
 }//---------------------
 
@@ -116,63 +111,13 @@ void Player::onGameCross( CrossState _cs ){
     //- 这会造成 camera 的延迟，但不要紧
     esrc::camera.set_targetPos( goPtr->currentPos ); //- 不应该放在此处。
 
-
     //---------------------------//
-    //  试验1: 
+    //  just save the cs in goPtr->move 
     //---------------------------//
-    //tmp_move( _cs );
-    goPtr->move.RenderUpdate( _cs );
-
+    goPtr->crawl.set_newCrossState( _cs );
 }
 
 
-/* ===========================================================
- *                      tmp_move
- * -----------------------------------------------------------
- */
-void Player::tmp_move( CrossState _cs ){
-
-    if( count == maxCount ){
-        count = 0;
-    }
-
-    if( count == 0 ){
-        cs = _cs;
-        //------
-        /*
-        if( (cs.x!=0) && (cs.y!=0) ){ //- 斜向
-            speed    = 1.0f;
-            maxCount = 3;
-        }else{ //- 十字移动
-            speed    = 1.5f;
-            maxCount = 2;
-        }
-        */
-    }
-
-    count++;
-    basic_translate();
-}
-
-
-/* ===========================================================
- *                     basic_translate
- * -----------------------------------------------------------
- * -- 用于 tmp_move() 
- */
-void Player::basic_translate(){
-
-    if( cs.x == -1 ){
-        goPtr->currentPos += glm::vec2{ -speed, 0.0f };  //- A -
-    }else if( cs.x == 1 ){
-        goPtr->currentPos += glm::vec2{ speed, 0.0f };   //- D -
-    }
-    if( cs.y == 1 ){
-        goPtr->currentPos += glm::vec2{ 0.0f, speed };   //- W -
-    }else if( cs.y == -1 ){
-        goPtr->currentPos += glm::vec2{ 0.0f, -speed };   //- S -
-    }
-}
 
 
 
@@ -183,12 +128,6 @@ void Player::basic_translate(){
 void Player::onKeyDown_SPACE(){
     //cout << "_" << endl;
 }
-
-
-
-
-
-
 
 
 

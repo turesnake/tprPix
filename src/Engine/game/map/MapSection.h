@@ -35,6 +35,7 @@
 #include "Mesh.h"
 #include "MapTexture.h" 
 #include "SectionKey.h"
+#include "MapCoord.h" 
 
  
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
@@ -54,24 +55,26 @@ public:
 
 
     //----------- pos / key ------------
-    inline void set_pos( const PixVec2 &_mepos ){
-        mapEntPos = _mepos;
-        pixPos = glm::vec2{ (float)(_mepos.x*PIXES_PER_MAPENT), 
-                            (float)(_mepos.y*PIXES_PER_MAPENT) };
-        sectionKey.init_by_pos( mapEntPos );
-    }
-    inline void set_pos( const glm::vec2 &_ppos ){
-        pixPos = _ppos;
-        mapEntPos = PixVec2{ (int)(_ppos.x/PIXES_PER_MAPENT), 
-                             (int)(_ppos.y/PIXES_PER_MAPENT) };
-        sectionKey.init_by_pos( mapEntPos );
+    inline void set_by_mpos( const PixVec2 &_mpos ){
+        pos.set_by_mpos( _mpos );
+        sectionKey.init_by_pos( pos.get_mpos() );
     }
 
-    inline const glm::vec2& get_pixPos() const {
-        return pixPos;
+    inline void set_by_ppos( const glm::vec2 &_ppos ){
+        pos.set_by_ppos( (int)_ppos.x, (int)_ppos.y ); //- ?
+        sectionKey.init_by_pos( pos.get_mpos() );
     }
-    inline const PixVec2& get_mapEntPos() const {
-        return mapEntPos;
+
+    inline void set_by_ppos( const PixVec2 &_ppos ){
+        pos.set_by_ppos( _ppos ); 
+        sectionKey.init_by_pos( pos.get_mpos() );
+    }
+
+    inline const glm::vec2 get_ppos() const {
+        return pos.get_ppos_glm(); //- return a tmp val
+    }
+    inline const PixVec2& get_mpos() const {
+        return pos.get_mpos();
     }
 
     inline const u64 get_key() const {
@@ -94,9 +97,7 @@ private:
     //-- once init, never change.
     SectionKey  sectionKey {};
     //-- [left-bottom] --
-    glm::vec2   pixPos     {0.0f, 0.0f}; //- based on game pixel
-    PixVec2     mapEntPos  {0, 0};       //- based on mapEnt
-
+    MapCoord      pos  {}; //- mpos/ppos  
 
 };
 

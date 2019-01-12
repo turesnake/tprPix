@@ -37,12 +37,11 @@ void go_byPass(){
     //  手动创建 若干个 go/Dog_A 实例
     //--------------------------//
     
-    creat_a_go( glm::vec2{ 10.0f, 0.0f } );
-    creat_a_go( glm::vec2{ -10.0f, 2.0f } );
-    creat_a_go( glm::vec2{ 0.0f, 6.0f } );
-    creat_a_go( glm::vec2{ 0.0f, -5.0f } );
-
+    creat_a_go( glm::vec2{ 0.0f, 0.0f } );
     
+    creat_a_go( glm::vec2{ 0.0f, 18.0f } );
+    creat_a_go( glm::vec2{ 15.0f, 27.0f } );
+    creat_a_go( glm::vec2{ 18.0f, 0.0f } );
     
     
     

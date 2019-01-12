@@ -77,7 +77,7 @@ public:
     glm::vec2  pos {}; //- 以go实例 根锚点 为 0点的 相对pos位移 
                     //  用来记录，本GameMesh 在 go中的 位置（图形）
                     //  大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
-                    //--- 此值与 action 的 anchors_root 不同。
+                    //--- 此值与 action 的 rootAnchors 不同。
                     //  此值就是个单纯的 具象类定义值
 
     float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
@@ -102,8 +102,8 @@ public:
     //-- 其余代码 不应随意调用 此函数!!! --
     inline void set_translate( const glm::vec2 &_goCurrentPos ){
 
-        //- 图元左下角 到 anchor_root 的pos偏移 --
-        PixVec2 v = actionPtr->anchors_root[ actionHandle.currentIdx ];
+        //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
+        PixVec2 v = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorOff();
         translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)v.x, 
                                     _goCurrentPos.y + (float)pos.y - (float)v.y, 
                                     -(_goCurrentPos.y + (float)pos.y + off_z) }; 

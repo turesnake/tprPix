@@ -59,7 +59,6 @@ struct Fst_diskMapEnt{
 
     //--- 一级信息区 ---
     u8   fst_data {0}; //- 高4-bits -- [0,15] 地形高度/altitude
-                        //- 1-bit  -- is_reserved. 本mapent 是否被 某 major_go 预定 （若有，可访问 二级信息）
                         //- 1-bit  -- is_covered. 本mapent 是否被 某 major_go 覆盖／踩住 （若有，可访问 二级信息）
                         //            go_head. 如果被踩住，本单位是否是 那个 go 的 起始单位
                         //            由于在 硬盘态，并不保留独立的 道具go，
@@ -70,7 +69,7 @@ struct Fst_diskMapEnt{
                         //           （以此来，精确定位 go 的摆放位置）
                         //            一个 major_go 占据数个单位的 mapent，且只有一个 go head
                         //
-                        //[-余-2-bits-]...
+                        //[-余-3-bits-]...
 
     u8    mask_id {0}; //- 高1-bit -- 陆地(1) 还是 深渊(0)
                        //  低7-bit -- mask_id.记录 3*3点阵 的 mask 信息
@@ -109,6 +108,8 @@ struct Fst_diskMapEnt{
 struct Sec_diskMapEnt{
 
     u64  major_go   {0}; //- 主体 go id／species (活体，建筑，树...)  
+
+            //-- *** 在引入 “高度区间” 概念之后，一个 mapent 可以占有 数个go实例 *** ---
     
     //- 道具 go. 并不存入硬盘。
     //- 当 section 被存入硬盘时，其上的所有 裸露道具go（宝箱内不算）都会被销毁。
@@ -145,7 +146,6 @@ public:
     bool is_land     {true}; //- 陆地／深渊
     u8   mask_id     {0}; //- 3*3矩阵 渲染像素 mask
     u8   altitude    {0}; //- 海拔.(低4-bit 有效)
-    bool is_reserved {true}; //- 是否被某 go 预订
     bool is_covered  {true};  //- 是否被某 go 覆盖／踩住
     bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位
     u16  tex_id      {NULLID};   //- 地面材质类型texture

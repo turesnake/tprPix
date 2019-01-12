@@ -38,7 +38,9 @@
 #include "GameMesh.h" 
 #include "ID_Manager.h" 
 #include "PixVec.h" 
-#include "Move.h" 
+#include "Crawl.h" 
+#include "MapCoord.h" 
+#include "GameObjPos.h"
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -89,12 +91,13 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
 
-    PixVec2    targetPos {};   //- based on mapEnt sys
+    //--- 现有的整个 pos数据集，可能会被 整合到一个 新的结构中... ---//
+    MapCoord   targetPos  {};  //- 可能会被合并
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
 
+    //--- move sys ---//
     SpeedLevel   speedLevel  { SpeedLevel::LV_3 };
-
-    Move  move {}; //- 管理 本go实例 的位移运动
+    Crawl        crawl       {}; //- 管理 本go实例 的位移运动
 
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）

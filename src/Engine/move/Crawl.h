@@ -1,14 +1,15 @@
 /*
- * ========================= Move.h ==========================
+ * ========================= Crawl.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2019.01.05
  *                                        修改 -- 2019.01.05
  * ----------------------------------------------------------
- *    专门管理 GameObj实例 的 位移运动
+ *    专门管理 GameObj实例 的 位移运动: 爬行
  * ----------------------------
  */
-#ifndef _TPR_MOVE_H_
-#define _TPR_MOVE_H_
+#ifndef _TPR_CRAWL_H_
+#define _TPR_CRAWL_H_
+
 //-------------------- Engine --------------------//
 #include "CrossState.h" 
 
@@ -31,20 +32,26 @@ enum class SpeedLevel : u8 {
 };
 
 
-//-- 实际上，Move只计算 go实例 的 currentVelocity --
-//-- 并不影响 go实例的 pos -- 
-class Move{
+//-- 想要控制一个 go的移动[爬行]，就应该 向其输入 crossState, 改写其 speedLevel
+//-- 
+class Crawl{
 public:
-    Move() = default;
+    Crawl() = default;
 
     void init( GameObj *_goPtr ); //-- MUST --
-    void RenderUpdate( CrossState _newCS ); 
+    void RenderUpdate(); 
+
+    //-- 被 player.onGameCross() 调用
+    inline void set_newCrossState( const CrossState &_newCS ){
+        newCS = _newCS;
+    }
 
 private:
     GameObj  *goPtr {nullptr}; //- 每个 move实例 都属于一个 go实例
                                 //  两者 强关联，共存亡
 
-    CrossState  currentCS {0,0};  //- 每回合的 cs值。（只在节点帧被改写）
+    CrossState  newCS     {0,0};  //- 本次渲染帧，新传入的 cs值（每一帧都被外部代码更新）
+    CrossState  currentCS {0,0};  //- 当前正在处理的 cs值。（只在节点帧被改写）
     int   count  {};  //- 计数器，达到 max 后清零
     int   max    {};  //- count最大值， speeds[n].first
     float speed  {};  //- 当前帧的 位移速度（单轴）

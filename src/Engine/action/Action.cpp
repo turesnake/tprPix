@@ -26,18 +26,15 @@
 
 //------------------- Engine --------------------//
 #include "global.h"
+#include "PjtRGBAHandle.h"
 
 using std::string;
 using std::vector;
 
-//#include "debug.h" //- tmp
+#include "debug.h" //- tmp
 
-namespace{//----------------- namespace ------------------//
-
-    RGBA color_pjtMask    { 0,0,0,255 };   //- 投影单位 颜色 
-    RGBA color_rootAnchor { 255,0,0,255 }; //- 根锚点 颜色
-
-}//-------------------- namespace: end ------------------//
+//namespace{//----------------- namespace ------------------//
+//}//-------------------- namespace: end ------------------//
 
 
 /* ===========================================================
@@ -87,33 +84,55 @@ void Action::init(){
     //      读取 pjt 投影信息
     //----------------------------//
     int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
+    PjtRGBAHandle  jh {5};
+    framePoses.resize( frames_total );
 
-    for( int j=0; j<frames_total; j++ ){
 
-        std::vector<PixVec2> pjtmask;
+    for( int j=0; j<frames_total; j++ ){ //- each frame
+
+        std::vector<PixVec2> abs_colliEnts; 
+                                    //- 每一图元帧的 colliEnts 要先暂存起来。
+                                    //- 等找到 rootColliEnt 之后，
+                                    //- 再统一输入到 framePos 容器中
         PixVec2 pix; //- tmp 
 
-        for( int i=0; i<pixNums; i++ ){
+        for( int i=0; i<pixNums; i++ ){ //- each frame.pix [left-bottom]
 
-            if( is_equal( J_frame_data_ary[j][i], color_pjtMask ) ){
-
-                pix.y = i/pixes_per_frame.x;
-                pix.x = i%pixes_per_frame.x;
-                pjtmask.push_back(pix);
-            }            
-            if( is_equal( J_frame_data_ary[j][i], color_rootAnchor ) ){
-                
-                pix.y = i/pixes_per_frame.x;
-                pix.x = i%pixes_per_frame.x;
-                anchors_root.push_back(pix);
+            jh.set_rgba( J_frame_data_ary[j][i] );
+            if( jh.is_emply() == true ){
+                continue; //- next frame.pix
             }
-        }
 
-        pjtMasks.push_back( pjtmask ); //- copy, 低效...
+            pix.x = i%pixes_per_frame.x;
+            pix.y = i/pixes_per_frame.x;
+
+            if( jh.is_rootAnchor() == true ){
+                framePoses.at(j).set_rootAnchorOff( pix );
+            }
+
+            //if( jh.is_childAnchor() == true ){
+                //-- 暂时什么也不做...
+            //}
+
+            if( jh.is_rootColliEnt() == true ){
+                framePoses.at(j).set_rootColliEntOff( pix );
+            }
+
+            if( jh.is_colliEnt() == true ){
+                abs_colliEnts.push_back( pix ); //- copy 
+                //-- 提取 altiRange 数据 --
+                framePoses.at(j).altiRanges_push_back( jh.get_altiRange() );
+            }
+        }//------ each frame.pix ------
+
+        //-- delay --
+        for( const auto & i : abs_colliEnts ){
+            framePoses.at(j).colliEntOffs_push_back( i );
+        }
     }
     //--- 基础查错 -----
-    assert( anchors_root.size() == frames_total );
-    assert( pjtMasks.size() == frames_total );
+    //...
+    
 
 
     //---------------------------------//
@@ -252,8 +271,8 @@ void Action::debug() const{
             << "\nframes.y = " << frames.y
             << endl;
 
-        cout << "anchors_root: " << endl;
-        for( auto i : anchors_root ){
+        cout << "rootAnchors: " << endl;
+        for( auto i : rootAnchors ){
             cout << "  " << i.x
                 << ",  " << i.y
                 << endl;

@@ -57,13 +57,7 @@ private:
 
 
     void  onKeyDown_SPACE();
-
     void  onGameCross( CrossState _cs );
-
-
-    void tmp_move( CrossState _cs ); //- test
-
-    void basic_translate(); //- test
 
 };
 

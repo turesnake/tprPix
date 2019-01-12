@@ -1,5 +1,5 @@
 /*
- * ========================= Move.cpp ==========================
+ * ========================= Crawl.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2019.01.05
  *                                        修改 -- 2019.01.05
@@ -7,7 +7,7 @@
  *    专门管理 GameObj实例 的 位移运动
  * ----------------------------
  */
-#include "Move.h" 
+#include "Crawl.h" 
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -46,7 +46,7 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Move::init( GameObj *_goPtr ){
+void Crawl::init( GameObj *_goPtr ){
     goPtr = _goPtr;
     //-- 暂时设置为 3档速度， 在go正式运行时，这个值会被改回去 --
     std::pair<int, float> pair = get_speed( SpeedLevel::LV_3 );
@@ -62,7 +62,13 @@ void Move::init( GameObj *_goPtr ){
  * -- 通过参数 获得 每一帧的 最新 CrossState 信息。
  * -- 结合原有的 cs信息，做成计算／决策
  */
-void Move::RenderUpdate( CrossState _newCS ){
+void Crawl::RenderUpdate(){
+
+    //-- skip the time without "crossState" input --
+    if( (currentCS.x==0) && (currentCS.y==0) 
+        && (newCS.x==0) && (newCS.y==0) ){
+            return;
+    }
 
     if( count == max ){
         count = 0;
@@ -72,9 +78,16 @@ void Move::RenderUpdate( CrossState _newCS ){
 
     //=== node frame ／ 节点 ===
     if( count == 0 ){
-        currentCS = _newCS;
+        currentCS = newCS;
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
+        // 根据 currentCS，确定 哪一个mapent 是 target
+        // 访问这个 mapent 的数据，确保其没有被 占有
+        //   -- 如果被占有了，查看此mapent上的 go，是否可“碰” 
+        //      不管是否 “可碰”，本次移动都将被终止。将 target 设置为当前占有的格子。
+        //      return， 结束本次函数调用
+        //   -- 如果未被占有，正式 占有 此mapent
+        //      然后执行下方的 操作
         //...
 
         //-- 设置 goPtr->targetPos --
@@ -104,7 +117,7 @@ void Move::RenderUpdate( CrossState _newCS ){
         goPtr->currentPos += glm::vec2{ 0.0f, -speed };   //- down -
     }
 
-    //-- 如果本帧为 节点帧，因确保 goPtr->currentPos 对齐于 mapent
+    //-- 如果本帧为 节点帧，需确保 goPtr->currentPos 对齐于 mapent
     //...
 }
 

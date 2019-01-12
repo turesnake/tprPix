@@ -24,8 +24,7 @@ void MemMapEnt::fst_d2m( Fst_diskMapEnt *_dme ){
 
     //---------- is_XXX ----------------
     is_land =          ((((_dme->mask_id)>>7) & 1) == 1 );
-    is_reserved =      ((((_dme->fst_data)>>3) & 1) == 1 );
-    is_covered =       ((((_dme->fst_data)>>2) & 1) == 1 );    
+    is_covered =       ((((_dme->fst_data)>>3) & 1) == 1 );    
     is_cover_go_head = is_covered;
 
             //- 此时 的 is_covered 并未初始化完全：
@@ -63,8 +62,7 @@ Fst_diskMapEnt MemMapEnt::fst_m2d(){
     me.fst_data = (altitude & 0xF) << 4; //- 高4-bit：altitude
 
     //--------- is_reserved -----------------
-    if( is_reserved == true )     { me.fst_data += 1<<3; }
-    if( is_covered == true )      { me.fst_data += 1<<2; }
+    if( is_covered == true )      { me.fst_data += 1<<3; }
 
             //- 硬盘态 并不保留 is_cover_go_head 信息
 
