@@ -38,9 +38,10 @@
 #include "GameMesh.h" 
 #include "ID_Manager.h" 
 #include "PixVec.h" 
-#include "Crawl.h" 
+#include "Move.h"
 #include "MapCoord.h" 
 #include "GameObjPos.h"
+
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -96,9 +97,7 @@ public:
     glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
 
     //--- move sys ---//
-    SpeedLevel   speedLevel  { SpeedLevel::LV_3 };
-    Crawl        crawl       {}; //- 管理 本go实例 的位移运动
-
+    Move         move  {};
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
@@ -106,6 +105,8 @@ public:
                             //- “默认go” 意味着这个 go没有被游戏改写过。
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
+
+    bool is_control_by_player  {false}; 
 
 
     std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 是比较静态的关系。

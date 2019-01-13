@@ -39,6 +39,15 @@ u32  Dog_A::specId {0};
 
 
 
+namespace{//-------------- namespace ------------------//
+
+    int step_x_count {0};
+
+    FlyIns  flyIns { -3.14f };
+
+
+}//------------------ namespace: end ------------------//
+
 /* ===========================================================
  *                         init
  * -----------------------------------------------------------
@@ -69,8 +78,11 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->currentPos = glm::vec2{ 0.0f, 0.0f };
     goPtr->weight = 5.0f;
     goPtr->is_dirty = false;
+    goPtr->is_control_by_player = false;
 
-    goPtr->speedLevel = SpeedLevel::LV_1;
+    goPtr->move.set_speedLv( SpeedLevel::LV_6 );
+
+    goPtr->move.set_MoveType( true ); //- tmp
 
     //-------- action／actionHandle/ gameMesh ---------//
 
@@ -88,7 +100,6 @@ void Dog_A::init( GameObj *_goPtr ){
         //-- oth vals --
         mp->pos = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
       
-
 
     //-------- go.binary ---------//
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
@@ -132,12 +143,31 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     //-- rebind ptr -----
     goPtr = _goPtr;
     bp = (Dog_A_Binary*)&(goPtr->binary[0]);
-    
 
+    //=====================================//
+    //           test: AI
+    //-------------------------------------//
+    //...
+    /*
+    if( goPtr->is_control_by_player == false  ){
+
+        if( step_x_count > 2 ){
+            step_x_count = 0;
+        }
+
+        if( step_x_count == 0 ){
+
+            flyIns.rad += 0.5f;
+            //goPtr->move.set_newflyIns( flyIns );
+        }
+        step_x_count++;
+    }
+    */
+    
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goPtr->crawl.RenderUpdate();
+    goPtr->move.RenderUpdate();
 
 
     //=====================================//
@@ -195,6 +225,20 @@ void Dog_A::BeAffect( GameObj *_goPtr ){
 
 
 
+
+
+/* ===========================================================
+ *                   move_to_target
+ * -----------------------------------------------------------
+ * --  为爬行go确定一个 目标pos，让它朝着那个方向移动。
+ */
+void Dog_A::move_to_target(){
+
+    //-- 假定一个 targetPos 
+    glm::vec2  targetPos { 200.0f, 35.0f };
+
+	
+}
 
 
 

@@ -91,9 +91,15 @@ void Player::init(){
  */
 void Player::bind_goPtr(){
 
+    //-- 解绑旧go --//
+    if( goPtr!=nullptr ){
+        goPtr->is_control_by_player = false;
+    }
+
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
     goPtr = esrc::find_memGameObjs( goid );
+    goPtr->is_control_by_player = true;
 }
 
 
@@ -102,7 +108,7 @@ void Player::bind_goPtr(){
  * -----------------------------------------------------------
  * -- 每一渲染帧都会被调用，来处理 
  */
-void Player::onGameCross( CrossState _cs ){
+void Player::onGameCross( CrawlIns _ci ){
 
     //-----------------//
     //      camera
@@ -114,7 +120,7 @@ void Player::onGameCross( CrossState _cs ){
     //---------------------------//
     //  just save the cs in goPtr->move 
     //---------------------------//
-    goPtr->crawl.set_newCrossState( _cs );
+    goPtr->move.set_newCrawlIns( _ci );
 }
 
 

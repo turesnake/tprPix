@@ -99,6 +99,11 @@ private:
     PixVec2     rootAnchorOff     {0,0};
                                 //-- 从图元帧 左下角，到 rootAnchor 的 pos偏移值
                                 //   [-可以是任意 整形数，不用对齐于 mapEnt-]
+
+    //-- 下方的部分数据将被合并，
+    //  在新 move系统中，不再支持 自定义 colliEnts集，
+    //  改为使用 预制的 collients集 
+    //...
                                                                 
     std::vector<MapCoord>  colliEntOffs {};
                                 //- 当前图元帧，所有 colliEnts 相对于 rootColliEnt 的偏移 

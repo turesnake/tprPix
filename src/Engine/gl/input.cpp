@@ -37,7 +37,7 @@ namespace{
     //--
     inline F_CROSS_STATE   gameCross  {nullptr};
 
-    CrossState   crossState {}; 
+    CrawlIns   crawlIns {}; 
     //---------
     void onMoveLeft();
     void onMoveRight();
@@ -59,8 +59,8 @@ void processInput( GLFWwindow *_windowPtr ){
 	}
 
     //-- clear --
-    crossState.x = 0;
-    crossState.y = 0;
+    crawlIns.x = 0;
+    crawlIns.y = 0;
 
     //-------------------------------------------------------//
     //  each Key 
@@ -89,9 +89,9 @@ void processInput( GLFWwindow *_windowPtr ){
     //}
     //-------------------------------------------------------//
 
-    //--- call gameCross() to handle the crossState [-Each Render Frame-] --
+    //--- call gameCross() to handle the crawlIns [-Each Render Frame-] --
     assert( gameCross!=nullptr );
-    gameCross( crossState );
+    gameCross( crawlIns );
 }
 
 
@@ -213,16 +213,16 @@ void bind_gameCross_callback( F_CROSS_STATE _fp ){
 namespace{ //------------------- namespace ----------------------//
 
 void onMoveLeft(){
-    crossState.x = -1;
+    crawlIns.x = -1;
 }
 void onMoveRight(){
-    crossState.x = 1;
+    crawlIns.x = 1;
 }
 void onMoveUp(){
-    crossState.y = 1;
+    crawlIns.y = 1;
 }
 void onMoveDown(){
-    crossState.y = -1;
+    crawlIns.y = -1;
 }
 
 }//------------------------ namespace: end --------------------//

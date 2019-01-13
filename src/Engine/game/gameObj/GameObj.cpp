@@ -26,7 +26,8 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    crawl.init( (GameObj*)this ); //- 这句话有问题
+    move.init( (GameObj*)this );
+    //...
 }
 
 

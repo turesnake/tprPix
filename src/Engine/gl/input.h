@@ -18,7 +18,7 @@
 
 //-------------------- Engine --------------------//
 #include "PixVec.h" 
-#include "CrossState.h" 
+#include "CrawlIns.h" 
 
 namespace input{//------------- namespace input --------------------
 
@@ -41,7 +41,7 @@ PixVec2 get_mouse_pos();
 using F_V_V = std::function<void()>;
 void bind_key_callback( input::KEY _key, F_V_V _fp );
 
-using F_CROSS_STATE = std::function<void(CrossState)>;
+using F_CROSS_STATE = std::function<void(CrawlIns)>;
 void bind_gameCross_callback( F_CROSS_STATE _fp );
 
 //- 绑定 游戏十字键 对应的 key --

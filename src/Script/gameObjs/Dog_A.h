@@ -68,6 +68,9 @@ public:
 
     //-------------- static --------------//
     static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+
+
+    void move_to_target(); //- tmp/test
 };
 
 

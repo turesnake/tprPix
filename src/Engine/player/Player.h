@@ -18,7 +18,7 @@
 //-------------------- Engine --------------------//
 #include "PixVec.h" 
 #include "GameObj.h" 
-#include "CrossState.h" 
+#include "CrawlIns.h" 
 
 
 //-- 玩家数据 [硬盘态] --
@@ -57,7 +57,7 @@ private:
 
 
     void  onKeyDown_SPACE();
-    void  onGameCross( CrossState _cs );
+    void  onGameCross( CrawlIns _cs );
 
 };
 
