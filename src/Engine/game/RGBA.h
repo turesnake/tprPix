@@ -32,9 +32,6 @@ struct RGBA{
     u8 b {0};
     u8 a {255};
 };
-inline bool is_equal( const RGBA &_a, const RGBA &_b ){
-    return ( (_a.r==_b.r)&&(_a.g==_b.g)&&(_a.b==_b.b)&&(_a.a==_b.a) );
-}
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 inline bool is_near( const RGBA &_a, const RGBA &_b, u8 _off ){
@@ -45,6 +42,18 @@ inline bool is_near( const RGBA &_a, const RGBA &_b, u8 _off ){
        (abs(_a.a-_b.a) <= _off)
    );
 }
+
+/* ===========================================================
+ *                  operator  ==, !=
+ * -----------------------------------------------------------
+ */
+inline bool operator==( const RGBA &_a, const RGBA &_b  ){
+    return ( (_a.r==_b.r) && (_a.g==_b.g) && (_a.b==_b.b) && (_a.a==_b.a) );
+}
+inline bool operator!=( const RGBA &_a, const RGBA &_b  ){
+    return ( (_a.r!=_b.r) || (_a.g!=_b.g) || (_a.b!=_b.b) || (_a.a!=_b.a) );
+}
+
 
 
 

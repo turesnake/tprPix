@@ -61,14 +61,14 @@ void Crawl::init( GameObj *_goPtr, Move *_movePtr ){
  *                     RenderUpdate
  * -----------------------------------------------------------
  * -- 本函数 在每1渲染帧，被 goPtr->RenderUpdate() 调用
- * -- 通过参数 获得 每一帧的 最新 CrawlIns 信息。
+ * -- 通过参数 获得 每一帧的 最新 NineBox 信息。
  * -- 结合原有的 cs信息，做成计算／决策
  */
 void Crawl::RenderUpdate(){
 
     //-- skip the time without "crossState" input --
-    if( (currentCI.x==0) && (currentCI.y==0) 
-        && (newCI.x==0) && (newCI.y==0) ){
+    if( (currentNB.x==0) && (currentNB.y==0) 
+        && (newNB.x==0) && (newNB.y==0) ){
             return;
     }
 
@@ -80,7 +80,7 @@ void Crawl::RenderUpdate(){
 
     //=== node frame ／ 节点 ===
     if( count == 0 ){
-        currentCI = newCI;
+        currentNB = newNB;
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
         // 根据 currentCS，确定 哪一个mapent 是 target
@@ -95,7 +95,7 @@ void Crawl::RenderUpdate(){
         //-- 设置 goPtr->targetPos --
 
         //-------- refresh speed / max -------//
-        if( (currentCI.x!=0) && (currentCI.y!=0) ){ //- 斜向
+        if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
         }else{ //- 横移竖移
             pair = get_speed( movePtr->get_speedLv() );
@@ -108,14 +108,14 @@ void Crawl::RenderUpdate(){
     //-------------------------//
     //   可能会 延迟到别处
     //-------------------------//
-    if( currentCI.x == -1 ){
+    if( currentNB.x == -1 ){
         goPtr->currentPos += glm::vec2{ -speed, 0.0f };  //- left -
-    }else if( currentCI.x == 1 ){
+    }else if( currentNB.x == 1 ){
         goPtr->currentPos += glm::vec2{ speed, 0.0f };   //- right -
     }
-    if( currentCI.y == 1 ){
+    if( currentNB.y == 1 ){
         goPtr->currentPos += glm::vec2{ 0.0f, speed };   //- up -
-    }else if( currentCI.y == -1 ){
+    }else if( currentNB.y == -1 ){
         goPtr->currentPos += glm::vec2{ 0.0f, -speed };   //- down -
     }
 

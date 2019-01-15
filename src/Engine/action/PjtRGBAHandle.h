@@ -6,6 +6,9 @@
  * ----------------------------------------------------------
  *    在 "dog.PJ.png" 中，记载了每个图元帧的 pjt信息
  *    本模块就是用来 解析读取这些信息，将它们还原为 外部所需的状态
+ * -------
+ *  随着 colliEnts 的标准化预制化，这个 模块可能会被大幅度简化
+ *  甚至被 合并取消
  * ----------------------------
  */
 #ifndef _TPR_PJT_RGBA_HANDLE_H_
@@ -50,7 +53,10 @@ public:
         {}    
 
     inline void set_rgba( const RGBA &_rgba ){
+        //-- reset --
         rgba = _rgba;
+        altiRange.low = 0;
+        altiRange.high = 0; 
         //--- A ---
         if( is_near(RGBA_ChannelType::A, A_SOLID) == false ){
             is_emply_ = true;

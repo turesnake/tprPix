@@ -35,35 +35,37 @@
 //-- [left-bottom] --
 class MapCoord{
 public:
+    //---- constructor -----//
+    MapCoord() = default;
 
-    //--- set ----
+    explicit MapCoord( const PixVec2 &_mpos ):
+        mpos(_mpos),
+        ppos( mpos * PIXES_PER_MAPENT )
+        {}
+
+    //----- set ------//
     inline void set_by_mpos( const PixVec2 &_mpos ){
         mpos = _mpos;
-        ppos.x = mpos.x * PIXES_PER_MAPENT;
-        ppos.y = mpos.y * PIXES_PER_MAPENT;
+        ppos = mpos * PIXES_PER_MAPENT;
     }
 
     inline void set_by_mpos( int _x, int _y ){
         mpos.x = _x;
         mpos.y = _y;
-        ppos.x = mpos.x * PIXES_PER_MAPENT;
-        ppos.y = mpos.y * PIXES_PER_MAPENT;
+        ppos = mpos * PIXES_PER_MAPENT;
     }
-
 
     inline void set_by_ppos( const PixVec2 &_ppos ){
         assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         ppos = _ppos;
-        mpos.x = ppos.x/PIXES_PER_MAPENT;
-        mpos.y = ppos.y/PIXES_PER_MAPENT;
+        mpos = ppos / PIXES_PER_MAPENT;
     }
 
     inline void set_by_ppos( int _x, int _y ){
         assert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
         ppos.x = _x;
         ppos.y = _y;
-        mpos.x = ppos.x/PIXES_PER_MAPENT;
-        mpos.y = ppos.y/PIXES_PER_MAPENT;
+        mpos = ppos / PIXES_PER_MAPENT;
     }
 
     //--- get ---
@@ -86,6 +88,39 @@ private:
     PixVec2   mpos  {0, 0}; //- based on mapEnt
     PixVec2   ppos  {0, 0}; //- based on pixel
 };
+
+/* ===========================================================
+ *                  operator  ==, !=
+ * -----------------------------------------------------------
+ */
+inline bool operator == ( const MapCoord &_a, const MapCoord &_b ){
+    return ( _a.get_mpos() == _b.get_mpos() );
+}
+inline bool operator != ( const MapCoord &_a, const MapCoord &_b ){
+    return ( _a.get_mpos() != _b.get_mpos() );
+}
+
+/* ===========================================================
+ *                 operator <
+ * -----------------------------------------------------------
+ * -- 通过这个 "<" 运算符重载，MapCoord 类型将支持 set.find() 
+ */
+inline bool operator < ( const MapCoord &_a, const MapCoord &_b ){
+    return ( _a.get_mpos() < _b.get_mpos() );
+}
+
+/* ===========================================================
+ *                 operator +, -
+ * -----------------------------------------------------------
+ */
+inline MapCoord operator + ( const MapCoord &_a, const MapCoord &_b ){
+    return MapCoord { _a.get_mpos() + _b.get_mpos() };
+}
+inline MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
+    return MapCoord { _a.get_mpos() - _b.get_mpos() };
+}
+
+
 
 
 #endif 

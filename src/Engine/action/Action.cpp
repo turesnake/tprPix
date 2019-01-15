@@ -9,11 +9,12 @@
  */
 #include "Action.h"
 
-
+/*
 #ifndef STB_IMAGE_IMPLEMENTATION
     #define STB_IMAGE_IMPLEMENTATION
 #endif
 #include "stb_image.h" //-- 加载图片数据用
+*/
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -32,6 +33,13 @@ using std::string;
 using std::vector;
 
 #include "debug.h" //- tmp
+
+
+extern void load_and_divide_png( const std::string &_path,
+                                 const PixVec2 &_frames,
+                                 const PixVec2 &_pixes_per_frame,
+        std::vector< std::vector<RGBA>> &_frame_data_ary );
+
 
 //namespace{//----------------- namespace ------------------//
 //}//-------------------- namespace: end ------------------//
@@ -71,14 +79,23 @@ void Action::init(){
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
-    int frames_total = frames.x * frames.y; //- 总帧数
+    int frames_total = frames.x * frames.y; //- 总帧数[不严谨]
 
-    //-- 帧数据容器组。这里的帧排序 符合 左上坐标系 --
+    //-- 图元帧 数据容器组。帧排序为 [left-top] --
     vector< vector<RGBA> > P_frame_data_ary {}; 
     vector< vector<RGBA> > J_frame_data_ary {}; 
 
-    load_and_divide_png( true,  P_frame_data_ary );
-    load_and_divide_png( false, J_frame_data_ary );
+    //load_and_divide_png( true,  P_frame_data_ary );
+    //load_and_divide_png( false, J_frame_data_ary );
+    load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
+                        frames,
+                        pixes_per_frame,
+                        P_frame_data_ary );
+
+    load_and_divide_png( tpr::path_combine( path_actions, lpath_pjt ),
+                        frames,
+                        pixes_per_frame,
+                        J_frame_data_ary );
 
     //----------------------------//
     //      读取 pjt 投影信息
@@ -86,6 +103,7 @@ void Action::init(){
     int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
     PjtRGBAHandle  jh {5};
     framePoses.resize( frames_total );
+            //-- 此处不够严谨。有些 图集并不满...
 
 
     for( int j=0; j<frames_total; j++ ){ //- each frame
@@ -179,6 +197,7 @@ void Action::init(){
  * -- param: _is_pic
  * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
  */
+/*
 void Action::load_and_divide_png( bool _is_pic,
         std::vector< std::vector<RGBA>> &_frame_data_ary ){
 
@@ -252,6 +271,7 @@ void Action::load_and_divide_png( bool _is_pic,
     //-- png图片 原始数据已经没用了，释放掉 ---
     stbi_image_free( data );
 }
+*/
 
 
 /* ===========================================================

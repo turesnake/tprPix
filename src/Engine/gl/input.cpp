@@ -37,7 +37,7 @@ namespace{
     //--
     inline F_CROSS_STATE   gameCross  {nullptr};
 
-    CrawlIns   crawlIns {}; 
+    NineBox   nb {}; 
     //---------
     void onMoveLeft();
     void onMoveRight();
@@ -59,8 +59,8 @@ void processInput( GLFWwindow *_windowPtr ){
 	}
 
     //-- clear --
-    crawlIns.x = 0;
-    crawlIns.y = 0;
+    nb.x = 0;
+    nb.y = 0;
 
     //-------------------------------------------------------//
     //  each Key 
@@ -89,9 +89,9 @@ void processInput( GLFWwindow *_windowPtr ){
     //}
     //-------------------------------------------------------//
 
-    //--- call gameCross() to handle the crawlIns [-Each Render Frame-] --
+    //--- call gameCross() to handle the nineBox [-Each Render Frame-] --
     assert( gameCross!=nullptr );
-    gameCross( crawlIns );
+    gameCross( nb );
 }
 
 
@@ -213,16 +213,16 @@ void bind_gameCross_callback( F_CROSS_STATE _fp ){
 namespace{ //------------------- namespace ----------------------//
 
 void onMoveLeft(){
-    crawlIns.x = -1;
+    nb.x = -1;
 }
 void onMoveRight(){
-    crawlIns.x = 1;
+    nb.x = 1;
 }
 void onMoveUp(){
-    crawlIns.y = 1;
+    nb.y = 1;
 }
 void onMoveDown(){
-    crawlIns.y = -1;
+    nb.y = -1;
 }
 
 }//------------------------ namespace: end --------------------//

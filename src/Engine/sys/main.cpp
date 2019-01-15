@@ -101,7 +101,8 @@ int main(){
 
 
     //++++++ load ++++++//
-    esrc::actions_load();    //-- actions --
+    esrc::actions_load();      //-- actions --
+    esrc::colliEntSets_load(); //-- colliEntSets --
     //...
         
 

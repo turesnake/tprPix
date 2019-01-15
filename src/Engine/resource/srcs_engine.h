@@ -33,6 +33,7 @@
 #include "GameMesh.h" 
 #include "Behaviour.h" 
 #include "MapSection.h" 
+#include "ColliEntSet.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -74,6 +75,12 @@ void shaders_init();
 //-------------------------//
 inline std::unordered_map<std::string, Action> actions {};
 void actions_load();
+
+//-------------------------//
+//     colliEntSet 资源
+//-------------------------//
+inline std::unordered_map<std::string, ColliEntSet> colliEntSets {};
+void colliEntSets_load();
 
 
 //-------------------------//

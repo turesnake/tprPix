@@ -40,9 +40,9 @@ public:
         return speedLv;
     }
 
-    inline void set_newCrawlIns( const CrawlIns &_newCI ){
+    inline void set_newCrawlDir( const NineBox &_newNB ){
         assert( is_crawl_ == true );
-        crawl.set_newCrawlIns( _newCI );
+        crawl.set_newCrawlDir( _newNB );
     }
 
     inline void set_newflyIns( const FlyIns &_newFlyIns ){

@@ -74,10 +74,10 @@ void Player::init(){
     input::bind_key_callback( input::KEY::SPACE,  std::bind( &Player::onKeyDown_SPACE, &esrc::player ) );
 
     //--- bind gameCross[move] Keys ---
-    input::bind_gameCross_key( DIRECTION::Left,  input::KEY::A );
-    input::bind_gameCross_key( DIRECTION::Right, input::KEY::D );
-    input::bind_gameCross_key( DIRECTION::Up,    input::KEY::W );
-    input::bind_gameCross_key( DIRECTION::Down,  input::KEY::S );
+    input::bind_gameCross_key( input::DIRECTION::Left,  input::KEY::A );
+    input::bind_gameCross_key( input::DIRECTION::Right, input::KEY::D );
+    input::bind_gameCross_key( input::DIRECTION::Up,    input::KEY::W );
+    input::bind_gameCross_key( input::DIRECTION::Down,  input::KEY::S );
 
     //--- bind gameCross callback ---
     input::bind_gameCross_callback( std::bind( &Player::onGameCross, &esrc::player, _1 ) );
@@ -108,7 +108,7 @@ void Player::bind_goPtr(){
  * -----------------------------------------------------------
  * -- 每一渲染帧都会被调用，来处理 
  */
-void Player::onGameCross( CrawlIns _ci ){
+void Player::onGameCross( NineBox _nb ){
 
     //-----------------//
     //      camera
@@ -120,9 +120,8 @@ void Player::onGameCross( CrawlIns _ci ){
     //---------------------------//
     //  just save the cs in goPtr->move 
     //---------------------------//
-    goPtr->move.set_newCrawlIns( _ci );
+    goPtr->move.set_newCrawlDir( _nb );
 }
-
 
 
 

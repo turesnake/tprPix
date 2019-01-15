@@ -88,8 +88,8 @@ public:
     void init();
 
     //--- 分别 加载，分解 pic / pjt 两张图 --- 
-    void load_and_divide_png( bool _is_pic,
-                std::vector< std::vector<RGBA>> &_frame_data_ary );
+    //void load_and_divide_png( bool _is_pic,
+    //            std::vector< std::vector<RGBA>> &_frame_data_ary );
 
     //void debug() const; //- 向终端输出 本Action的信息，用来 debug
     //---------------------- vals -------------------------//

@@ -18,7 +18,7 @@
 //-------------------- Engine --------------------//
 #include "PixVec.h" 
 #include "GameObj.h" 
-#include "CrawlIns.h" 
+#include "NineBox.h" 
 
 
 //-- 玩家数据 [硬盘态] --
@@ -57,7 +57,7 @@ private:
 
 
     void  onKeyDown_SPACE();
-    void  onGameCross( CrawlIns _cs );
+    void  onGameCross( NineBox _nb );
 
 };
 
