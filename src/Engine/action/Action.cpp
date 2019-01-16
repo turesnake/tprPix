@@ -75,18 +75,13 @@ void Action::init(){
     lpath_pjt.assign( lpath_pic.begin(), (lpath_pic.begin()+point_idx) );
     lpath_pjt += ".J.png";
 
-
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
-    int frames_total = frames.x * frames.y; //- 总帧数[不严谨]
-
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     vector< vector<RGBA> > P_frame_data_ary {}; 
     vector< vector<RGBA> > J_frame_data_ary {}; 
 
-    //load_and_divide_png( true,  P_frame_data_ary );
-    //load_and_divide_png( false, J_frame_data_ary );
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
                         frames,
                         pixes_per_frame,
@@ -102,16 +97,10 @@ void Action::init(){
     //----------------------------//
     int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
     PjtRGBAHandle  jh {5};
-    framePoses.resize( frames_total );
-            //-- 此处不够严谨。有些 图集并不满...
+    framePoses.resize( totalFrames );
 
+    for( int j=0; j<totalFrames; j++ ){ //--- each frame ---
 
-    for( int j=0; j<frames_total; j++ ){ //- each frame
-
-        std::vector<PixVec2> abs_colliEnts; 
-                                    //- 每一图元帧的 colliEnts 要先暂存起来。
-                                    //- 等找到 rootColliEnt 之后，
-                                    //- 再统一输入到 framePos 容器中
         PixVec2 pix; //- tmp 
 
         for( int i=0; i<pixNums; i++ ){ //- each frame.pix [left-bottom]
@@ -134,20 +123,14 @@ void Action::init(){
 
             if( jh.is_rootColliEnt() == true ){
                 framePoses.at(j).set_rootColliEntOff( pix );
-            }
-
-            if( jh.is_colliEnt() == true ){
-                abs_colliEnts.push_back( pix ); //- copy 
-                //-- 提取 altiRange 数据 --
-                framePoses.at(j).altiRanges_push_back( jh.get_altiRange() );
+                framePoses.at(j).set_altiRange( jh.get_altiRange() );
+                framePoses.at(j).set_colliEntSetIdx( jh.get_colliEntSetIdx() );
             }
         }//------ each frame.pix ------
 
-        //-- delay --
-        for( const auto & i : abs_colliEnts ){
-            framePoses.at(j).colliEntOffs_push_back( i );
-        }
-    }
+        framePoses.at(j).check(); //-- MUST --//
+
+    }//-------- each frame -------
     //--- 基础查错 -----
     //...
     
@@ -156,11 +139,11 @@ void Action::init(){
     //---------------------------------//
     //  依次 制作每一动画帧 的 texture 实例
     //---------------------------------//
-    texNames.resize( frames_total );
+    texNames.resize( totalFrames );
     //-- 申请 n个 tex实例，并获得其 names
-    glGenTextures( frames_total, &texNames[0] );
+    glGenTextures( totalFrames, &texNames[0] );
 
-    for( int i=0; i<frames_total; i++ ){
+    for( int i=0; i<totalFrames; i++ ){
 
         glBindTexture( GL_TEXTURE_2D, texNames[i] );
 
@@ -189,89 +172,6 @@ void Action::init(){
         //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成多级渐远纹理
     }
 }
-
-
-/* ===========================================================
- *                load_and_divide_png
- * -----------------------------------------------------------
- * -- param: _is_pic
- * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
- */
-/*
-void Action::load_and_divide_png( bool _is_pic,
-        std::vector< std::vector<RGBA>> &_frame_data_ary ){
-
-    //----------------------------//
-    //      合成 文件的 绝对路径名
-    //----------------------------//
-    string path;
-    if( _is_pic == true ){
-        path = tpr::path_combine( path_actions, lpath_pic );
-    }else{
-        path = tpr::path_combine( path_actions, lpath_pjt );
-    }
-
-    //------------------------------//
-    //   加载 png图片，获得其 原始数据
-    //------------------------------//
-    int width;
-    int height;
-    int nrChannels;
-    unsigned char *data; //-- 临时，图片数据的指针。
-                        //- 真实数据存储在 stbi 模块自己创建的 内存中。
-                        //- 我们只获得一个 调用指针。
-
-    stbi_set_flip_vertically_on_load( 1 ); //-- 防止 图片 y轴颠倒。
-    data = stbi_load( path.c_str(), &width, &height, &nrChannels, 0 );
-    assert( data != nullptr );
-
-    //------------------------------------//
-    //   获得 每一帧的数据, 存入各自 帧容器中
-    //------------------------------------// 
-    int frames_total = frames.x * frames.y; //- 总帧数
-
-    //-- 事先准备好 每一帧的容器 --
-    _frame_data_ary.clear();
-    for( int i=0; i<frames_total; i++ ){
-        vector<RGBA> v {};
-        _frame_data_ary.push_back( v );//- copy
-    }
-
-    auto fit = _frame_data_ary.begin(); //- 指向某个 帧容器
-
-    int wf; //-- 以帧为单位，目标像素在横排中 的序号
-    int hf; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
-    int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的)
-    int nrf; //-- 像素 属于的 帧序号
-
-    RGBA *pixhead = (RGBA*)data;
-    RGBA *pixp; //- tmp
-
-    //--- 遍历 png 中的 每一像素 ---
-    for( int h=0; h<height; h++  ){
-        for( int w=0; w<width; w++  ){
-
-            //-- 计算 本像素 所属帧的容器 的迭代器 fit --
-            wf = w/pixes_per_frame.x;
-            hf = h/pixes_per_frame.y;
-            hf = frames.y - 1 - hf; 
-                        //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
-                        //- 现在，帧排序从 左下 修正为 左上角坐标系
-            nrf = hf*frames.x + wf;
-            fit = _frame_data_ary.begin() + nrf;
-            assert( nrf < frames_total ); //- 避免迭代器越界
-
-            //-- 获得 本像素 的数据 --
-            pixp = pixhead + (h*width + w);
-
-            //-- 将数据 压入 对应的 帧容器 中 --
-            fit->push_back( *pixp ); //-copy
-        }
-    }
-    //-- png图片 原始数据已经没用了，释放掉 ---
-    stbi_image_free( data );
-}
-*/
 
 
 /* ===========================================================
@@ -318,6 +218,4 @@ void Action::debug() const{
         }
 }
 */
-
-
 

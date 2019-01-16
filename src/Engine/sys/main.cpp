@@ -88,21 +88,25 @@ int main(){
     //------------------------------------------//
 
     //++++++ init ++++++//
-    VAOVBO_init();         //---- VAO,VBO 资源 ----
-    esrc::camera.init();         //---- camera 资源 ----
-    esrc::shaders_init();        //---- shaders 资源 ----
-    //globState_srcs_init(); //---- globState 资源 ----
+    VAOVBO_init();                   //---- VAO,VBO 资源 ----
+    esrc::camera.init();             //---- camera 资源 ----
+    esrc::shaders_init();            //---- shaders 资源 ----
+    esrc::colliEntSet_tables_init(); //---- ces_tables 资源 ----
+    //globState_srcs_init();         //---- globState 资源 ----
         globState_byPass();
 
-    //player_srcs_init();    //----  player 资源 ----
+    //player_srcs_init();            //----  player 资源 ----
         //esrc::player.init();
         player_byPass();
     //...
 
 
     //++++++ load ++++++//
-    esrc::actions_load();      //-- actions --
     esrc::colliEntSets_load(); //-- colliEntSets --
+        //esrc::colliEntSets_debug();
+    esrc::actions_load();      //-- actions --, 确保在 colliEntSets_load 之后
+    
+    
     //...
         
 

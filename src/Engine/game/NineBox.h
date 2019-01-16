@@ -15,6 +15,10 @@
 //-------------------- C --------------------//
 #include <cassert>
 
+//-------------------- Engine --------------------//
+#include "config.h"
+#include "PixVec.h"
+
 
 //-- 九宫格中的 9个位置：
 //  -1 -- 左／下
@@ -109,6 +113,17 @@ inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
             assert(0);
             return nb_left_bottom; //- nener touch
     }
+}
+
+
+/* ===========================================================
+ *                 get_ppos_compass
+ * -----------------------------------------------------------
+ * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置
+ */
+inline NineBox get_ppos_compass( const PixVec2 _ppos ){
+    return NineBox { (_ppos.x%PIXES_PER_MAPENT)-1, 
+                     (_ppos.y%PIXES_PER_MAPENT)-1 };
 }
 
 

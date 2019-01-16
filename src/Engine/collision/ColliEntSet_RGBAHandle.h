@@ -50,29 +50,29 @@ public:
     inline void set_rgba( const RGBA &_rgba ){
         //-- reset --
         rgba = _rgba;
-        radius = 0;
+        radius_10 = 0;
+
+        is_emply_ = true;
+        is_center_ = false;
+        is_colliEnt_ = false;
+
         //-- empty --
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
             (is_near(rgba, uselessColor_1, 5)==true) ){
-            is_emply_ = true;
-            is_center_ = false;
-            is_colliEnt_ = false;
             return;
         }
         is_emply_ = false;
 
         //--- R --- 
         if( is_near_inner(RGBA_ChannelType::R, R_colliEnt) == true ){
-            is_center_       = false;
             is_colliEnt_     = true;
         }
 
         //--- B --- 
         if( is_near_inner(RGBA_ChannelType::B, B_center) == true ){
             is_center_       = true;
-            is_colliEnt_     = false;
             assert( rgba.g > 0 );
-            radius = (int)rgba.g;
+            radius_10 = (int)rgba.g;
         }
     }
 
@@ -86,13 +86,13 @@ public:
         return  is_colliEnt_;
     }
 
-    inline int get_radius() const {
-        return radius;
+    inline int get_radius_10() const {
+        return radius_10;
     }
 
 private:
-    RGBA   rgba   {};  //- 本模块处理的数据
-    int    radius {};  //- 半径
+    RGBA   rgba      {};  //- 本模块处理的数据
+    int    radius_10 {};  //- (半径 * 10) -- 从而维持 整型 
 
     u8     off  {}; //- 颜色误差
     

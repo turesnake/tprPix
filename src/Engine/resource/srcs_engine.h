@@ -81,6 +81,12 @@ void actions_load();
 //-------------------------//
 inline std::unordered_map<std::string, ColliEntSet> colliEntSets {};
 void colliEntSets_load();
+void colliEntSets_debug(); //- debug
+
+//-- 正反表 --
+inline std::unordered_map<std::string, int> colliEntSet_name_idx {};
+inline std::unordered_map<int, std::string> colliEntSet_idx_name {};
+void colliEntSet_tables_init(); 
 
 
 //-------------------------//

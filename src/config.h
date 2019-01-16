@@ -33,6 +33,7 @@ inline bool IS_FULL_SCREEN = false;
 #define SECTION_H_ENTS 256
 
 //-- 一个 mapent 占用 3*3像素
+//   CAN'T CHANGE !!! 
 #define PIXES_PER_MAPENT  3
 
 

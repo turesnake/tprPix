@@ -7,13 +7,11 @@
  *    加载 解析 “图元帧式的png文件” 
  * ----------------------------
  */
-
 //-- 全局唯一 
 #ifndef STB_IMAGE_IMPLEMENTATION
     #define STB_IMAGE_IMPLEMENTATION
 #endif
 #include "stb_image.h" //-- 加载图片数据用
-
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -22,9 +20,6 @@
 //------------------- Engine --------------------//
 #include "RGBA.h"
 #include "PixVec.h"
-
-
-
 
 /* ===========================================================
  *                load_and_divide_png

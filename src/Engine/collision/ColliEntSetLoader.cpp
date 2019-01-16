@@ -72,7 +72,7 @@ void ColliEntSetLoader::init(){
 
             if( ch.is_center() == true ){
                 collientSets.at(j).set_center( pix );
-                collientSets.at(j).set_radius( ch.get_radius() );
+                collientSets.at(j).set_radius( ch.get_radius_10() );
             }
 
             if( ch.is_colliEnt() == true ){

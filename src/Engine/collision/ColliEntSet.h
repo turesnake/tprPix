@@ -4,7 +4,8 @@
  *                                        创建 -- 2019.01.13
  *                                        修改 -- 2019.01.13
  * ----------------------------------------------------------
- *    
+ *    碰撞区预制件 （目前这个名字不够好）
+ *    所有的 go 都不在具备 独立的 碰撞区，而是选用 现成的预制件 来有机组合。
  * ----------------------------
  */
 #ifndef _TPR_COLLI_ENT_SET_H_
@@ -59,17 +60,22 @@ public:
 
     inline void set_center( const PixVec2 &_ppos ){
         center = _ppos;
+        centerCompass = get_ppos_compass( center );
     }
 
-    inline void set_radius( int _r ){
-        radius = _r;
+    //- 注意，传入的 _r 是 (radius * 10)
+    inline void set_radius( int _r_10 ){
+        radius = (float)_r_10 * 0.1f;
     }
 
     void create_adds_dels();
     //---- get ----//    
     
-       
+    inline const PixVec2 &get_center() const {
+        return center;
+    }
 
+    void debug();
 
 private:
 
@@ -87,21 +93,15 @@ private:
     std::vector< std::set<MapCoord> > colliEnt_dels {};
 
 
-    PixVec2   center  {}; //- 碰撞区中心 ppos
-    int       radius {}; //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
-                    //- 以像素为单位，和 移动模块的距离 统一单位
+    PixVec2   center        {}; //- 碰撞区中心 ppos
+    NineBox   centerCompass {0,0}; //- center 在其 mapent 中的位置 
+    float     radius        {}; //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
+                                //- 以像素为单位
 
     //----- funcs -------
     void create_adds_dels_by_nineBox( NineBoxIdx _idx );
 
 };
-
-
-
-
-
-
-
 
 
 #endif 

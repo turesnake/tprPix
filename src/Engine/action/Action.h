@@ -78,18 +78,16 @@ class Action{
 public:
     Action( const std::string &_lpath_pic, 
                 PixVec2  _pixes_per_frame,
-                PixVec2  _frames
+                PixVec2  _frames,
+                int      _totalFrames 
                 ):
         lpath_pic(_lpath_pic),
         pixes_per_frame(_pixes_per_frame),
-        frames(_frames)
+        frames(_frames),
+        totalFrames(_totalFrames)
         {}
 
     void init();
-
-    //--- 分别 加载，分解 pic / pjt 两张图 --- 
-    //void load_and_divide_png( bool _is_pic,
-    //            std::vector< std::vector<RGBA>> &_frame_data_ary );
 
     //void debug() const; //- 向终端输出 本Action的信息，用来 debug
     //---------------------- vals -------------------------//
@@ -109,23 +107,13 @@ public:
 
     PixVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
     PixVec2  frames {};           //- 画面中，横排可分为几帧，纵向可分为几帧
+    int      totalFrames {};      //- 总 图元帧 个数
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames; 
 
-
-    //- 每一帧中，root锚点 像素值偏移，（从0开始算）
-    //  每一帧的都不一样
-    //  rootAnchor 是一张 图元帧 上真正的 “基准坐标”
-    //  这意味着，为了节约空间，每张图元 不需要对齐，只需要各自记好自己的 rootAnchor 值
-    //  *** 将被整合到 GameObjPos 模块 ***
-    //std::vector<PixVec2> rootAnchors;
-
-    //- 多维数组，存储每一帧 投影单位集（取投影单位 左下像素pos）
-    //  *** 将被整合到 GameObjPos 模块 ***
-    //std::vector<std::vector<PixVec2>> pjtMasks; 
 
     //-- 统一管理 每个 图元帧 的所有 pjt信息（pos信息） --
     std::vector<FramePos>  framePoses {};

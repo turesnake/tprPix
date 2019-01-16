@@ -27,7 +27,6 @@
 #include "MapCoord.h"
 #include "AltiRange.h"
 
-//#include "debug.h" 
 
 
 class FramePos{
@@ -39,9 +38,13 @@ public:
     inline void clear_all(){
         rootColliEntOff = PixVec2{ 0, 0};
         rootAnchorOff   = PixVec2{ 0, 0};
-        colliEntOffs.clear();
+        altiRange.low = 0;
+        altiRange.high = 0;
+        colliEntSetIdx = 0;
         is_rootColliEntOff_set = false;
         is_rootAnchorOff_set = false;
+        is_altiRange_set = false;
+        is_colliEntSetIdx_set = false;
     }
 
     inline void set_rootColliEntOff( const PixVec2 &_v ){
@@ -54,21 +57,19 @@ public:
         is_rootAnchorOff_set = true;
     }
 
-    //-- 输入的是 相对于 图元帧 左下角的 绝对 ppos
-    //  called by action.init() 
-    inline void colliEntOffs_push_back( const PixVec2 &_abs_ppos ){
-        assert( is_rootColliEntOff_set == true );
-        MapCoord pos;
-        pos.set_by_ppos(_abs_ppos.x-rootColliEntOff.x,
-                        _abs_ppos.y-rootColliEntOff.y );
-        colliEntOffs.push_back( pos ); //- copy 
+    inline void set_altiRange( const AltiRange &_ar ){
+        altiRange = _ar;
+        is_altiRange_set = true;
     }
 
-    //  called by action.init() 
-    inline void altiRanges_push_back( const AltiRange &_ar ){
-        altiRanges.push_back( _ar  ); //- copy -
+    inline void set_colliEntSetIdx( int _idx ){
+        colliEntSetIdx = _idx;
+        is_colliEntSetIdx_set = true;
     }
 
+    //-- 检测 rootAnchor偏移 是否与 idx指向的 colliEntSet预制件
+    //   中的 center 偏移 吻合 
+    void check();
 
     //---- get ----//
     inline const PixVec2 &get_rootAnchorOff() const {
@@ -76,17 +77,7 @@ public:
     }
 
     //-- debug --
-    /*
-    inline void print_colliEnts() const {
-        cout << "-------" << endl;
-        for( const auto &i : colliEnts ){
-            PixVec2 ppos = i.get_ppos();
-            cout << "" << ppos.x
-                << ", " << ppos.y
-                << endl;
-        }
-    }
-    */
+
 
 private:
 
@@ -99,29 +90,26 @@ private:
     PixVec2     rootAnchorOff     {0,0};
                                 //-- 从图元帧 左下角，到 rootAnchor 的 pos偏移值
                                 //   [-可以是任意 整形数，不用对齐于 mapEnt-]
+                                //   每一帧的都不一样
+                                //   rootAnchor 是一张 图元帧 上真正的 “基准坐标”
+                                //   这意味着，为了节约空间，每张图元 不需要对齐，
+                                //   只需要各自记好自己的 rootAnchor 值
 
-    //-- 下方的部分数据将被合并，
-    //  在新 move系统中，不再支持 自定义 colliEnts集，
-    //  改为使用 预制的 collients集 
-    //...
-                                                                
-    std::vector<MapCoord>  colliEntOffs {};
-                                //- 当前图元帧，所有 colliEnts 相对于 rootColliEnt 的偏移 
-                                //  由于这些 偏移一定是 基于 mapEnt 对齐的
-                                //  所以单位类型设置为 MapCoord
+    //std::vector<AltiRange> altiRanges {};
+    AltiRange     altiRange    {0,0};
+                                //- 和 colliEnts 对应，记载每一个 collient 携带的 高度区间信息
+                                //  暂时只支持 1份。
+                                //  等 单个图元帧 可以容纳数个 ces预制件时，此处将被拓展
 
-    std::vector<AltiRange> altiRanges {};
-                                //- 和 colliEnts 对应，记载每一个 collient 携带的
-                                //  高度区间 信息
+    int        colliEntSetIdx  {0}; 
+                                //- ces预制件 idx号
 
+    //-- 在未来，下方部分 flag 可能会被改成 计数器。
     bool is_rootColliEntOff_set {false};
     bool is_rootAnchorOff_set   {false};
+    bool is_altiRange_set       {false};
+    bool is_colliEntSetIdx_set  {false};
 };
-
-
-
-
-
 
 
 #endif 

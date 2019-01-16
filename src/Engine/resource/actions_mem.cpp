@@ -32,7 +32,7 @@ void actions_load(){
 
     actions.clear();
 
-    actions.insert( {"human_1",  Action{ "/human/human_1.P.png", PixVec2{13, 21}, PixVec2{4, 1} } } );
+    actions.insert( {"human_1",  Action{ "/human/human_1.P.png", PixVec2{13, 21}, PixVec2{4, 1}, 4 } } );
 
 
 

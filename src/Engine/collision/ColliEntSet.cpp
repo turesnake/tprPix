@@ -85,4 +85,51 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
 }
 
 
+/* ===========================================================
+ *                   debug
+ * -----------------------------------------------------------
+ */
+
+void ColliEntSet::debug(){
+
+    
+    cout << "center: " << center.x 
+        << ", " << center.y
+        << endl; //- check --
+    cout << "centerCompass: " << centerCompass.x
+        << ", " << centerCompass.y
+        << endl; //- check --
+    cout << "radius = " << radius 
+        << endl; //-- check --
+    
+
+    /*
+    cout << "colliEnts.size() = " << colliEnts.size()
+         << "\ncolliEntCenters.size() = " << colliEntCenters.size()
+         << "\ncolliEnt_adds.size() = " << colliEnt_adds.size()
+         << "\ncolliEnt_dels.size() = " << colliEnt_dels.size()
+         << endl; //-- check --
+    
+    
+    for( const auto &v : colliEnt_adds ){
+
+        cout << "  colliEnt_adds.size() = " << v.size()
+            << endl;
+    }
+
+    
+    for( int i=0; i<9; i++ ){
+        //cout << " adds.size() = " << colliEnt_adds.at(i).size() << endl;
+        //cout << " dels.size() = " << colliEnt_dels.at(i).size() << endl;
+        //cout << endl;
+        size_t a = colliEnt_adds.at(i).size();
+        size_t d = colliEnt_dels.at(i).size();
+        assert( a == d );
+    }
+    */
+
+}
+
+
+
 

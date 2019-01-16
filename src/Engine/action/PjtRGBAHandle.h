@@ -7,8 +7,10 @@
  *    在 "dog.PJ.png" 中，记载了每个图元帧的 pjt信息
  *    本模块就是用来 解析读取这些信息，将它们还原为 外部所需的状态
  * -------
- *  随着 colliEnts 的标准化预制化，这个 模块可能会被大幅度简化
- *  甚至被 合并取消
+ *  随着 colliEntSet 预制件 的推广，这个 模块 被大幅度简化
+ * -------
+ *  目前本模块 暂时只支持 一个 图元帧，包好 一个 colliEntSet预制件。
+ *  需要拓展 ...
  * ----------------------------
  */
 #ifndef _TPR_PJT_RGBA_HANDLE_H_
@@ -30,13 +32,13 @@ namespace{//---------- namespace ---------//
     u8    A_SOLID         = 255; 
     //--- R --- 
     u8    R_rootColliEnt  = 100;
-    u8    R_colliEnt      = 200;
-    u8    R_bothColliEnt  = 250;
 
     //--- B --- 
     u8    B_rootAnchor    = 255;
     u8    B_childAnchor   = 100;
     //...more...
+
+    RGBA  uselessColor_1  { 200, 200, 200, 255 };
 
 }//------------ namespace: end ---------//
 
@@ -55,36 +57,28 @@ public:
     inline void set_rgba( const RGBA &_rgba ){
         //-- reset --
         rgba = _rgba;
+        colliEntSetIdx = 0;
         altiRange.low = 0;
         altiRange.high = 0; 
+
+        is_emply_        = true;
+        is_rootColliEnt_ = false;
+        is_rootAnchor_   = false;
+        is_childAnchor_  = false;
+
         //--- A ---
-        if( is_near(RGBA_ChannelType::A, A_SOLID) == false ){
-            is_emply_ = true;
-            is_rootColliEnt_ = false;
-            is_colliEnt_ = false;
-            is_rootAnchor_ = false;
-            is_childAnchor_ = false;
+        if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) ||
+            (is_near(rgba, uselessColor_1, 5)==true) ){
             return;
         }
         is_emply_ = false;
 
         //--- R --- 
-        // 三者只会出现一种 
-        if( is_near(RGBA_ChannelType::R, R_rootColliEnt) == true ){
+        //------- rootColliEnt --------
+        int idx = rgba.r - R_rootColliEnt;
+        if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
             is_rootColliEnt_ = true;
-            is_colliEnt_     = false;
-        }else if( is_near(RGBA_ChannelType::R, R_colliEnt) == true ){
-            is_rootColliEnt_ = false;
-            is_colliEnt_     = true;
-        }else if( is_near(RGBA_ChannelType::R, R_bothColliEnt) == true ){
-            is_rootColliEnt_ = true;
-            is_colliEnt_     = true;
-        }else{
-            is_rootColliEnt_ = false;
-            is_colliEnt_     = false;
-        }
-
-        if( is_colliEnt_ == true ){
+            colliEntSetIdx = idx;
             assert( (rgba.g<=AltiRange::jumpLimit) &&
                     (rgba.g < rgba.b) );
             altiRange.low  = rgba.g;
@@ -92,8 +86,8 @@ public:
         }
 
         //--- B --- 
-        is_rootAnchor_   = is_near( RGBA_ChannelType::B, B_rootAnchor );
-        is_childAnchor_  = is_near( RGBA_ChannelType::B, B_childAnchor );
+        is_rootAnchor_   = is_near_inner( RGBA_ChannelType::B, B_rootAnchor );
+        is_childAnchor_  = is_near_inner( RGBA_ChannelType::B, B_childAnchor );
         //...more...
     }
 
@@ -103,9 +97,6 @@ public:
     inline bool is_rootColliEnt() const {
         return  is_rootColliEnt_;
     }
-    inline bool is_colliEnt() const {
-        return  is_colliEnt_;
-    }
     inline bool is_rootAnchor() const {
         return  is_rootAnchor_;
     }
@@ -113,23 +104,27 @@ public:
         return  is_childAnchor_;
     }
 
+    inline const int get_colliEntSetIdx() const {
+        return colliEntSetIdx;
+    };
+
     inline const AltiRange &get_altiRange() const {
         return altiRange;
     }
 
 private:
-    RGBA   rgba {};     //- 本模块处理的数据
+    RGBA       rgba           {}; //- 本模块处理的数据
+    int        colliEntSetIdx {}; //- ces预制件 idx号 
+    AltiRange  altiRange      {}; //- 高度区间 
+
     u8     off  {}; //- 颜色误差
-    
-    AltiRange  altiRange {};
 
     bool is_emply_        {false}; //- when chanel_A==0;
     bool is_rootColliEnt_ {false};
-    bool is_colliEnt_     {false};
     bool is_rootAnchor_   {false};
     bool is_childAnchor_  {false}; 
 
-    inline bool is_near( RGBA_ChannelType _ct, u8 _target ){
+    inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){
             case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
             case RGBA_ChannelType::G:  return (abs(rgba.g-_target) <= off);
