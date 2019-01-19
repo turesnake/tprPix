@@ -128,6 +128,14 @@ public:
     //void debug(); //- 打印 本go实例 的所有信息
     GameMesh *creat_new_gameMesh(); 
 
+
+    //-- 代表整个go实例 的 rootAnchorPos --
+    //  放得非常深，通过多层调用才实现...
+    inline const AnchorPos &get_rootAnchorPos() const {
+        return gameMeshs.at(0).get_rootAnchorPos();
+    }
+
+
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 

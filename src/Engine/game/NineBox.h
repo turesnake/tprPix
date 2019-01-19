@@ -32,7 +32,21 @@ struct NineBox{
     int y;
 };
 
-//-- 仅有的 9个 变量值 -- 
+/* ===========================================================
+ *                  operator  ==, !=
+ * -----------------------------------------------------------
+ */
+inline bool operator == ( const NineBox &_a, const NineBox &_b ){
+    return ( (_a.x==_b.x) && (_a.y==_b.y) );
+}
+inline bool operator != ( const NineBox &_a, const NineBox &_b ){
+    return ( (_a.x!=_b.x) || (_a.y!=_b.y) );
+}
+
+
+//-- 仅有的 (1+9)个 变量值 -- 
+inline const NineBox  nineBoxNull    {0,0};
+//---
 inline const NineBox  nb_left_bottom  { -1, -1 };
 inline const NineBox  nb_mid_bottom   {  0, -1 };
 inline const NineBox  nb_right_bottom {  1, -1 };
@@ -117,11 +131,11 @@ inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
 
 
 /* ===========================================================
- *                 get_ppos_compass
+ *                 calc_ppos_compass
  * -----------------------------------------------------------
  * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置
  */
-inline NineBox get_ppos_compass( const PixVec2 _ppos ){
+inline NineBox calc_ppos_compass( const PixVec2 _ppos ){
     return NineBox { (_ppos.x%PIXES_PER_MAPENT)-1, 
                      (_ppos.y%PIXES_PER_MAPENT)-1 };
 }

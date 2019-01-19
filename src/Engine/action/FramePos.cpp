@@ -26,25 +26,21 @@ using std::string;
 
 
 /* ===========================================================
- *                       init
+ *                      check
  * -----------------------------------------------------------
  */
 void FramePos::check(){
-    
-    //-- 确保关键数据已经载入完毕 --//
-    
-    assert( is_rootAnchorOff_set && 
+
+    //--- 确保关键数据已载入 ---//
+    assert( is_rootAnchorPos_set &&
             is_rootColliEntHeadIdx_set &&
             (!colliEntHeads.empty()) );
     
-
     //-- 检测 action.rootAnchor 与 root ceh 是否对齐 --//
     ColliEntHead &rootCehRef = colliEntHeads.at(rootColliEntHeadIdx);
     //--
-    PixVec2 center_ppos     = esrc::colliEntSets.at( rootCehRef.colliEntSetIdx ).get_center();
-    PixVec2 rootAnchor_ppos = rootAnchorOff - rootCehRef.colliEntHeadPPosOff;
-    assert( center_ppos == rootAnchor_ppos ); //- 确保对齐 ！！！ --
-
+    NineBox  centerCompass = esrc::colliEntSets.at( rootCehRef.colliEntSetIdx ).get_centerCompass();
+    assert( centerCompass == rootAnchorPos.compass ); //- 确保对齐 ！！！ --
 
     //-- 检测 regular ceh 是否与 root ceh 对齐 --//
     PixVec2 pposOff;

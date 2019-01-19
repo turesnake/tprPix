@@ -98,6 +98,7 @@ void Crawl::RenderUpdate(){
 
 
 
+
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
@@ -125,6 +126,7 @@ void Crawl::RenderUpdate(){
     }
 
     //-- 如果本帧为 节点帧，需确保 movePtr->currentFPos 对齐于 mapent
+    //- 也许不该放在此处 
     //...
 }
 

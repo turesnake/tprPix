@@ -102,16 +102,17 @@ void Action::init(){
     PjtRGBAHandle  jh {5};
     framePoses.resize( totalFrameNum );
 
+    PixVec2  pixPPos; //- tmp. current pix ppos
+    PixVec2  rootAnchorOff;       //- tmp
+    PixVec2  rootColliEntHeadOff; //- tmp
+
     for( int f=0; f<totalFrameNum; f++ ){ //--- each frame ---
-
-        PixVec2 pixPos; //- tmp. current pix pos
-
         for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
-            pixPos.set( p%pixes_per_frame.x,
-                        p/pixes_per_frame.x );
+            pixPPos.set( p%pixes_per_frame.x,
+                         p/pixes_per_frame.x );
 
-            jh.set_rgba( J_frame_data_ary.at(f).at(p), pixPos );
+            jh.set_rgba( J_frame_data_ary.at(f).at(p), pixPPos );
             if( jh.is_emply() == true ){
                 continue; //- next frame.pix
             }
@@ -119,7 +120,7 @@ void Action::init(){
 
             //--- 一张 action.frame 只有一个 rootAnchor ---
             if( jh.is_rootAnchor() == true ){
-                framePoses.at(f).set_rootAnchorOff( pixPos );
+                rootAnchorOff = pixPPos; //- 并不直接设置，而是先缓存起来。
             }
 
             //if( jh.is_childAnchor() == true ){
@@ -128,6 +129,7 @@ void Action::init(){
 
 
             if( jh.is_rootColliEntHead() == true ){
+                rootColliEntHeadOff = pixPPos;
                 framePoses.at(f).pushBack_the_rootColliEntHead( jh.get_colliEntHead() );
             }
             if( jh.is_colliEntHead() == true ){
@@ -135,8 +137,8 @@ void Action::init(){
             }
         }//------ each frame.pix ------
 
-        //-- 检测 root_ceh / regular_ceh 是否对齐 --//
-        framePoses.at(f).check(); //-- MUST --//
+        framePoses.at(f).set_rootAnchorPos( rootAnchorOff, rootColliEntHeadOff );
+        framePoses.at(f).check();                 //-- MUST --//
 
     }//-------- each frame -------
 

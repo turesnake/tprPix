@@ -26,6 +26,8 @@
 #include "MapCoord.h"
 #include "AltiRange.h"
 #include "ColliEntHead.h"
+#include "NineBox.h"
+#include "AnchorPos.h"
 
 
 
@@ -37,18 +39,21 @@ public:
     //---- set ----//
     // set 阶段 无需考虑性能
     inline void clear_all(){
-        rootAnchorOff.clear_all();
+        rootAnchorPos.clear_all();
         rootColliEntHeadIdx = 0;
-        is_rootAnchorOff_set       = false;
+        is_rootAnchorPos_set       = false;
         is_rootColliEntHeadIdx_set = false;
         colliEntHeads.clear();
     }
 
-    inline void set_rootAnchorOff( const PixVec2 &_v  ){
-        rootAnchorOff  = _v;
-        is_rootAnchorOff_set = true;
+    //-- 需要一股脑设置 --
+    inline void set_rootAnchorPos( const PixVec2 &_rootAnchor, const PixVec2 &_rootCEH ){
+        rootAnchorPos.pposOff = _rootAnchor;
+        rootAnchorPos.compass = calc_ppos_compass( _rootAnchor - _rootCEH );
+        is_rootAnchorPos_set  = true;
     }
-    
+
+
     //-- regular ceh --
     inline void pushBack_new_colliEntHead( const ColliEntHead &_ceh ){
         colliEntHeads.push_back( _ceh ); //- copy
@@ -66,22 +71,15 @@ public:
     void check();
 
     //---- get ----//
-    inline const PixVec2 &get_rootAnchorOff() const {
-        return rootAnchorOff;
+    inline const AnchorPos &get_rootAnchorPos() const {
+        return rootAnchorPos;
     }
     
-
     //-- debug --
 
 private:
     //-- 单个 图元帧 只有一个 --
-    PixVec2     rootAnchorOff     {0,0};
-                                //-- 从图元帧 左下角，到 rootAnchor 的 pos偏移值
-                                //   [-可以是任意 整形数，不用对齐于 mapEnt-]
-                                //   每一帧的都不一样
-                                //   rootAnchor 是一张 图元帧 上真正的 “基准坐标”
-                                //   这意味着，为了节约空间，每张图元 不需要对齐，
-                                //   只需要各自记好自己的 rootAnchor 值
+    AnchorPos   rootAnchorPos     {};
 
     //-- 单个 图元帧 只有一个 -- 
     int         rootColliEntHeadIdx  {0};
@@ -93,7 +91,7 @@ private:
                                 //  包括 rootColliEntHeadOff
 
     //-- 在未来，下方部分 flag 可能会被改成 计数器。
-    bool is_rootAnchorOff_set       {false};
+    bool is_rootAnchorPos_set       {false};
     bool is_rootColliEntHeadIdx_set {false};
     
 

@@ -73,7 +73,7 @@ void ColliEntSetLoader::init(){
                         p/pixes_per_frame.x );
 
             if( ch.is_center() == true ){
-                collientSets.at(f).set_center( pixPos );
+                collientSets.at(f).set_centerPPos( pixPos );
                 collientSets.at(f).set_radius( ch.get_radius_10() );
             }
 

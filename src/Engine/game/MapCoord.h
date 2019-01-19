@@ -86,7 +86,6 @@ public:
     }
 
     //--- add ---
-    //inline 
 
 private:
     PixVec2   mpos  {0, 0}; //- based on mapEnt

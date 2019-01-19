@@ -93,8 +93,8 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
 void ColliEntSet::debug(){
 
     
-    cout << "center: " << center.x 
-        << ", " << center.y
+    cout << "centerPPos: " << centerPPos.x 
+        << ", " << centerPPos.y
         << endl; //- check --
     cout << "centerCompass: " << centerCompass.x
         << ", " << centerCompass.y

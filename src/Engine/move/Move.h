@@ -37,8 +37,21 @@ public:
 
     //---- set ----//
 
-    //-- currentFPos 是基于 go.rootAnchor 的。所以这个值不能乱设
-    //  （否则会造成 go的碰撞区 不对齐于 mapent）
+    //-- "放置go实例到map" 的制定函数 --
+    //  在调用此函数之前，应先确保 潜在碰撞区的 干净
+    inline void set_initPos( const MapCoord &_pos ){
+
+        //...
+
+
+
+    }
+
+
+
+    //-- 简单设置 currentFPos 的值 --
+    //  禁止用此函数来 “放置go实例到map”，改用 set_initPos()
+    //
     inline void set_currentFPos( const glm::vec2 &_fpos ){
         currentFPos = _fpos;
     }
@@ -93,6 +106,7 @@ private:
                                 //  两者 强关联，共存亡
 
     glm::vec2  currentFPos {};  //- 当前帧 pos，float，不一定对齐与mapent
+                                //- based on go.rootAnchor
 
     Crawl   crawl   {}; //- 未来可能被拓展为 一组 crawl实例
     Fly     fly     {}; //- 未来可能被拓展为 一组 fly实例

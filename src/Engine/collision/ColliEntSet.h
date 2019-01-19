@@ -43,10 +43,10 @@ public:
     //---- set ----//
     inline void clear_all(){
         colliEnts.clear();
-        colliEntCenters.clear();
+        colliEntMidFPoses.clear();
         colliEnt_adds.clear();
         colliEnt_dels.clear();
-        center.clear_all();
+        centerPPos.clear_all();
         radius = 0;
     }
 
@@ -54,13 +54,13 @@ public:
         MapCoord pos;
         pos.set_by_ppos( _ppos );
         colliEnts.insert( pos ); //- copy 
-        colliEntCenters.push_back(glm::vec2{ (float)(_ppos.x + 1.5f),
+        colliEntMidFPoses.push_back(glm::vec2{ (float)(_ppos.x + 1.5f),
                                           (float)(_ppos.y + 1.5f) }); //- copy
     }
 
-    inline void set_center( const PixVec2 &_ppos ){
-        center = _ppos;
-        centerCompass = get_ppos_compass( center );
+    inline void set_centerPPos( const PixVec2 &_ppos ){
+        centerPPos = _ppos;
+        centerCompass = calc_ppos_compass( centerPPos );
     }
 
     //- 注意，传入的 _r 是 (radius * 10)
@@ -71,15 +71,20 @@ public:
     void create_adds_dels();
     //---- get ----//    
     
-    inline const PixVec2 &get_center() const {
-        return center;
+    inline const PixVec2 &get_centerPPos() const {
+        return  centerPPos;
     }
+
+    inline const NineBox &get_centerCompass() const {
+        return  centerCompass;
+    }
+
 
     void debug();
 
 private:
-    std::set<MapCoord>  colliEnts {};       //- mapEnt坐标(左下) 
-    std::vector<glm::vec2> colliEntCenters {}; //- mapEnt中心（用于 fly）
+    std::set<MapCoord>     colliEnts {};         //- mapEnt坐标(左下) 
+    std::vector<glm::vec2> colliEntMidFPoses {}; //- mapEnt中心（用于 fly）
                                     //-- glm::vec2 暂时无法放入 set 容器
                                     //-- 先存储在 vector 中
 
@@ -91,7 +96,7 @@ private:
     std::vector< std::set<MapCoord> > colliEnt_dels {};
 
 
-    PixVec2   center        {}; //- 碰撞区中心 ppos
+    PixVec2   centerPPos        {}; //- 碰撞区中心 ppos
     NineBox   centerCompass {0,0}; //- center 在其 mapent 中的位置 
     float     radius        {}; //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
                                 //- 以像素为单位

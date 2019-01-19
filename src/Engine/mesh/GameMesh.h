@@ -49,6 +49,7 @@
 #include "ActionHandle.h"
 #include "Action.h" 
 #include "Collision.h" 
+#include "AnchorPos.h"
 
 
 
@@ -109,7 +110,7 @@ public:
     inline void set_translate( const glm::vec2 &_goCurrentPos ){
 
         //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-        const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorOff();
+        const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
         translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)vRef.x, 
                                     _goCurrentPos.y + (float)pos.y - (float)vRef.y, 
                                     -(_goCurrentPos.y + (float)pos.y + off_z) }; 
@@ -157,6 +158,11 @@ public:
     //--- IMPORTANT !!! ---
     inline int get_currentActionFrameIdx() const {
         return actionHandle.currentIdx;
+    }
+
+    //--- IMPORTANT !!! ---
+    inline const AnchorPos &get_rootAnchorPos() const {
+        return actionPtr->framePoses.at( actionHandle.currentIdx ).get_rootAnchorPos();
     }
 
 
