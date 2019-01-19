@@ -85,8 +85,7 @@ void colliEntSets_load(){
 
     //-- 将 loader 中的数据，手动 搬运到 全局容器中  [ copy ] --
     for( int i=0; i<totalSets; i++ ){
-        esrc::colliEntSets.insert({ esrc::colliEntSet_idx_name.at(i), 
-                                    loader.get_collientSet(i) });
+        esrc::colliEntSets.insert({ i, loader.get_collientSet(i) });
     }
 
     //-- 自动销毁 ColliEntSetLoader 实例: loader -- 

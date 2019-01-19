@@ -18,21 +18,21 @@
 //  每 n 帧 算一次 循环
 class TimeCircle{
 public: 
-    explicit TimeCircle( TimeBase *_timerp, int _frames ):
+    explicit TimeCircle( TimeBase *_timerp, int _frameNum ):
         timerp(_timerp),
-        frames(_frames)
+        frameNum(_frameNum)
         {}
 
     
     //-- 返回当前 帧 在 时间循环中的 位置 --
     inline int current(){
-        return (timerp->get_frames() % frames);
+        return (timerp->get_frameNum() % frameNum);
     }
 
 
 private:
     TimeBase  *timerp; //- 绑定一个 全局 timer
-    int        frames; //- 一个circle 需要 多少 帧。
+    int        frameNum; //- 一个circle 需要 多少 帧。
 
 };
 

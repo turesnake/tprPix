@@ -23,6 +23,7 @@
 #include <map>
 
 //-------------------- Engine --------------------//
+//     不应该在 这个文件中 加载如此多的  Engine_h文件 
 #include "GameObj.h"
 #include "Action.h"
 #include "Player.h" 
@@ -34,6 +35,7 @@
 #include "Behaviour.h" 
 #include "MapSection.h" 
 #include "ColliEntSet.h"
+#include "MapCoord.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -71,15 +73,9 @@ void shaders_init();
 
 
 //-------------------------//
-//     Action 资源（动画动作图集）
-//-------------------------//
-inline std::unordered_map<std::string, Action> actions {};
-void actions_load();
-
-//-------------------------//
 //     colliEntSet 资源
 //-------------------------//
-inline std::unordered_map<std::string, ColliEntSet> colliEntSets {};
+inline std::unordered_map<int, ColliEntSet> colliEntSets {};
 void colliEntSets_load();
 void colliEntSets_debug(); //- debug
 
@@ -87,6 +83,13 @@ void colliEntSets_debug(); //- debug
 inline std::unordered_map<std::string, int> colliEntSet_name_idx {};
 inline std::unordered_map<int, std::string> colliEntSet_idx_name {};
 void colliEntSet_tables_init(); 
+
+
+//-------------------------//
+//     Action 资源（动画动作图集）
+//-------------------------//
+inline std::unordered_map<std::string, Action> actions {};
+void actions_load();
 
 
 //-------------------------//
@@ -164,6 +167,8 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
 inline std::unordered_map<u64, MapSection> mapSections {};
 
+MapSection *insert_new_mapSection( const MapCoord &_sectionPos );
+MemMapEnt *get_memMapEnt( const MapCoord &_mc ); //- 临时放这 
 
 
 //-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中

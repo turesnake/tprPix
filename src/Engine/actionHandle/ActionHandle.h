@@ -40,7 +40,7 @@ public:
     std::unordered_map<std::string, F_GENERAL> funcs; 
 
     //----------- self vals -------------//
-    u32  typeId;       //- 具象AH类 类型id。
+    u32  typeId;     //- 具象AH类 类型id。
     int  currentIdx; //- 当前指向的 画面帧序号（基于0）
 
     //----------- binary chunk -------------//

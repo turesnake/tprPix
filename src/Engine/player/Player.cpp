@@ -115,7 +115,7 @@ void Player::onGameCross( NineBox _nb ){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetPos( goPtr->currentPos ); //- 不应该放在此处。
+    esrc::camera.set_targetPos( goPtr->move.get_currentFPos() ); //- 不应该放在此处。
 
     //---------------------------//
     //  just save the cs in goPtr->move 

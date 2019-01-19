@@ -80,7 +80,7 @@ public:
     //============== binary ==============//
     inline void push_binary( void *_buf, int _len ){
         binary.resize(_len);
-        memcpy( (void*)&(binary[0]),
+        memcpy( (void*)&(binary.at(0)),
                 _buf,
                 (size_t)_len );
         is_binary_push = true;
@@ -92,7 +92,7 @@ public:
         is_binary_push = false;
         assert( binary.size() == _len );
         memcpy( _buf,
-                (void*)&(binary[0]),
+                (void*)&(binary.at(0)),
                 (size_t)_len );
         binary.clear();
     }

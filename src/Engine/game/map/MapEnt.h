@@ -26,6 +26,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
+#include <utility> //- pair
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -34,9 +35,10 @@
 #include "PixVec.h" 
 #include "GameObj.h" 
 #include "ID_Manager.h" 
+#include "AltiRange.h"
 
 
-//-- 投影地图单位的 一级信息 [硬盘态] --//
+//-- 投影地图单位的 一级信息 [disk] --//
 //-  优先查看此信息，如有需要，再通过 id 查找 二级信息。
 //-  -- 调整过字段排序 --
 struct Fst_diskMapEnt{
@@ -107,7 +109,7 @@ struct Fst_diskMapEnt{
 //     只有这个 head ent 会被记录到 二级信息中，剩余的 常规 ent，会被丢弃。
 struct Sec_diskMapEnt{
 
-    u64  major_go   {0}; //- 主体 go id／species (活体，建筑，树...)  
+    goid_t  major_go   {0}; //- 主体 go id／species (活体，建筑，树...)  
 
             //-- *** 在引入 “高度区间” 概念之后，一个 mapent 可以占有 数个go实例 *** ---
     
@@ -133,14 +135,13 @@ struct Sec_diskMapEnt{
 };
 
 
-//-- 投影地图单位的信息 [内存态] --
+//-- 投影地图单位的信息 [mem] --
 //-  牺牲一定的 内存空间，换取访问便捷度
 class MemMapEnt{
 public:
     explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         fst_d2m( _fdme );
     }
-
     
     //=============== data: 一级信息 ===============//
     bool is_land     {true}; //- 陆地／深渊
@@ -158,16 +159,30 @@ public:
     u16  sec_data_id  {NULLID}; //- 二级信息 id号
 
     bool is_major_go_default   {true};
+                //-- 现在开始拥有 多个 go实例，需要多个 default / dirty 检测
+                // 这个值暂时不修改
+                // [待拓展...] 
+
 
     //-- 一级信息： mem <--> disk --
-    void fst_d2m( Fst_diskMapEnt *_dme );
+    void           fst_d2m( Fst_diskMapEnt *_dme );
     Fst_diskMapEnt fst_m2d();
 
     
     //=============== data: 二级信息 ===============//
-    u64  major_go_id   {NULLID}; //- 主体go id. (实例)
-    u64  item_go_id    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
-    u64  surface_go_id {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
+    //-- 在最新设计中，major/item/surface 体系被弱化
+    //   altiRange 体系崛起。
+    //   现在，支持 一个 mapent 容纳多个 go实例 
+    //goid_t  major_go_id   {NULLID}; //- 主体go id. (实例)
+    goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
+    goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
+
+
+    std::vector<std::pair<goid_t, AltiRange>> major_gos {};  
+                //- 不仅要存储 每一个 goid
+                //  还要把这个 goid 在这个 mapent 的 altiRange 也存储下来
+                //  这样可以 快速实现 碰撞检测
+
 
     //-- 二级信息： mem <--> disk --
     void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
@@ -175,17 +190,13 @@ public:
 
 
     //=============== data: oth ===============//
+
+
     PixVec2  pos {}; //- 本 mapent 左下角像素的 坐标值 
+            // *** 过于古老，此值是否还有效，是否要换成 MapCoord  ***
+
 private:
 };
-
-
-
-
-
-
-
-
 
 
 

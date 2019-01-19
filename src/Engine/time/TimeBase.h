@@ -29,14 +29,14 @@ public:
 
     //--- 在 每一主循环 中调用 ---//
     inline void update_time(){
-        frames++;
+        frameNum++;
         currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime; //-- 更新 deltaTime
         lastTime = currentTime;
 
         //---- smoothDeltaTime ----//
         //-- 游戏启动后，前10帧 不平滑 dt值 --
-        if( frames < 10 ){
+        if( frameNum < 10 ){
             smoothDeltaTime = deltaTime;
             return;
         }
@@ -71,14 +71,14 @@ public:
     }
 
     //-- 获得 游戏 总帧数 --//
-    inline const u64 get_frames() const {
-        return frames;
+    inline const u64 get_frameNum() const {
+        return frameNum;
     }
 
 
 
 private:
-    u64  frames {0}; //- 游戏运行后的 总帧数
+    u64  frameNum {0}; //- 游戏运行后的 总帧数
 
     //-- deltaTime --
     float currentTime {0.0f}; //-- 当前 时间值

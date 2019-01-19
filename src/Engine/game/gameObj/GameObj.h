@@ -40,7 +40,6 @@
 #include "PixVec.h" 
 #include "Move.h"
 #include "MapCoord.h" 
-#include "GameObjPos.h"
 
 
 
@@ -71,7 +70,7 @@ public:
     F_GO  Awake {nullptr};  //- unused
     F_GO  Start {nullptr};  //- unused
 
-    F_GO  RenderUpdate {nullptr}; //- 每1视觉帧，被引擎调用
+    F_GO  RenderUpdate {nullptr}; //- 每1渲染帧，被引擎调用
     F_GO  LogicUpdate  {nullptr}; //- 每1逻辑帧，被主程序调用 （帧周期未定）
     F_GO  BeAffect     {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
                                   //- 未来会添加一个 参数：“被施加技能的类型”
@@ -91,13 +90,9 @@ public:
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
-
-    //--- 现有的整个 pos数据集，可能会被 整合到一个 新的结构中... ---//
-    MapCoord   targetPos  {};  //- 可能会被合并
-    glm::vec2  currentPos {};  //- 当前帧 pos，float，不一定对齐与mapent
-
     //--- move sys ---//
     Move         move  {};
+
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
@@ -109,6 +104,9 @@ public:
     bool is_control_by_player  {false}; 
 
 
+    //-- 也许该用 umap 来管理，尤其是 gameMesh实例很多时。
+    // - rootGameMesh  -- 排在第一个，或者name==“root” 的 gameMesh实例
+    // - childGameMesh -- 剩下的其余实例
     std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 是比较静态的关系。
                             // 大部分go不会卸载／增加自己的 GameMesh实例
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 GameMesh实例 存入此容器
@@ -121,7 +119,6 @@ public:
                 // 目前还没搞清原因
                 // --- 这个 bug 暂时消失了... ---
 
-
     //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
                             //- binary 本质是一个 C struct。 由 具象go类方法 使用。
@@ -133,7 +130,7 @@ public:
 
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
-private:
+
 };
 
 

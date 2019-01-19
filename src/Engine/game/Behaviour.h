@@ -21,7 +21,6 @@
 //-- 设计思路类似 u3d 中的 MonoBehaviour/Behaviour, 但更为简单 --
 //  本类只有一个 全局变量 
 class Behaviour{
-
     using F_V_V = std::function<void()>;
 public:
     Behaviour() = default;

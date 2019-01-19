@@ -25,18 +25,20 @@
 //------------------- Engine --------------------//
 #include "RGBA.h"
 #include "AltiRange.h" 
+#include "ColliEntHead.h"
 
 
 namespace{//---------- namespace ---------//
     //--- A --- 
     u8    A_SOLID         = 255; 
     //--- R --- 
-    u8    R_rootColliEnt  = 100;
-
+    u8    R_rootColliEntHead = 100;  //- ces with rootAnchor 
+    u8    R_colliEntHead     = 200;  //- regular ces
+    
     //--- B --- 
     u8    B_rootAnchor    = 255;
-    u8    B_childAnchor   = 100;
-    //...more...
+    u8    B_childAnchor   = 100; //- 子锚点应当 额外记录 z深度偏移。
+    //...more...                 //- 从而获得 3DPos 的 子锚点信息。
 
     RGBA  uselessColor_1  { 200, 200, 200, 255 };
 
@@ -46,7 +48,7 @@ namespace{//---------- namespace ---------//
 //  use:
 //  - PjtRGBAHandle jh { 5 };
 //  - jh.set_rgba( _pixColor );
-//  - XXX = jh.is_rootColliEnt();
+//  - XXX = jh.is_colliEntHead();
 //
 class PjtRGBAHandle{
 public:
@@ -54,17 +56,16 @@ public:
         off(_off)
         {}    
 
-    inline void set_rgba( const RGBA &_rgba ){
+    inline void set_rgba( const RGBA &_rgba, const PixVec2 &_pixPos ){
         //-- reset --
         rgba = _rgba;
-        colliEntSetIdx = 0;
-        altiRange.low = 0;
-        altiRange.high = 0; 
+        colliEntHead.clear_all(); 
 
         is_emply_        = true;
-        is_rootColliEnt_ = false;
-        is_rootAnchor_   = false;
-        is_childAnchor_  = false;
+        is_rootColliEntHead_ = false;
+        is_colliEntHead_     = false;
+        is_rootAnchor_       = false;
+        is_childAnchor_      = false;
 
         //--- A ---
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) ||
@@ -74,17 +75,23 @@ public:
         is_emply_ = false;
 
         //--- R --- 
-        //------- rootColliEnt --------
-        int idx = rgba.r - R_rootColliEnt;
+        //------- rootColliEntHead --------
+        int idx = rgba.r - R_rootColliEntHead;
         if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
-            is_rootColliEnt_ = true;
-            colliEntSetIdx = idx;
-            assert( (rgba.g<=AltiRange::jumpLimit) &&
-                    (rgba.g < rgba.b) );
-            altiRange.low  = rgba.g;
-            altiRange.high = rgba.b;
+            is_rootColliEntHead_ = true;
+            colliEntHead.colliEntSetIdx = idx;
+            colliEntHead.colliEntHeadPPosOff = _pixPos;
+            set_altiRange();
         }
-
+        //------- colliEntHead --------
+        idx = rgba.r - R_colliEntHead;
+        if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
+            is_colliEntHead_ = true;
+            colliEntHead.colliEntSetIdx = idx;
+            colliEntHead.colliEntHeadPPosOff = _pixPos;
+            set_altiRange();
+        }
+        
         //--- B --- 
         is_rootAnchor_   = is_near_inner( RGBA_ChannelType::B, B_rootAnchor );
         is_childAnchor_  = is_near_inner( RGBA_ChannelType::B, B_childAnchor );
@@ -94,8 +101,11 @@ public:
     inline bool is_emply() const {
         return  is_emply_;
     }
-    inline bool is_rootColliEnt() const {
-        return  is_rootColliEnt_;
+    inline bool is_rootColliEntHead() const {
+        return  is_rootColliEntHead_;
+    }
+    inline bool is_colliEntHead() const {
+        return  is_colliEntHead_;
     }
     inline bool is_rootAnchor() const {
         return  is_rootAnchor_;
@@ -104,25 +114,22 @@ public:
         return  is_childAnchor_;
     }
 
-    inline const int get_colliEntSetIdx() const {
-        return colliEntSetIdx;
-    };
-
-    inline const AltiRange &get_altiRange() const {
-        return altiRange;
+    inline const ColliEntHead &get_colliEntHead() const {
+        return colliEntHead;
     }
 
 private:
-    RGBA       rgba           {}; //- 本模块处理的数据
-    int        colliEntSetIdx {}; //- ces预制件 idx号 
-    AltiRange  altiRange      {}; //- 高度区间 
+    RGBA          rgba         {}; //- 本模块处理的数据
+    //---
+    ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
+    //---
+    u8            off          {}; //- 颜色误差
 
-    u8     off  {}; //- 颜色误差
-
-    bool is_emply_        {false}; //- when chanel_A==0;
-    bool is_rootColliEnt_ {false};
-    bool is_rootAnchor_   {false};
-    bool is_childAnchor_  {false}; 
+    bool is_emply_            {false}; //- when chanel_A==0;
+    bool is_rootColliEntHead_ {false}; //- 与 is_colliEntHead_ 不会同时亮起
+    bool is_colliEntHead_     {false};
+    bool is_rootAnchor_       {false};
+    bool is_childAnchor_      {false}; 
 
     inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){
@@ -135,6 +142,25 @@ private:
                 return  false; //- never touch -
         }
     } 
+
+    //-- 将 rgba 态 高度信息，转换为 mem态 altiRange值 --
+    inline void set_altiRange(){
+        u8 low  = rgba.g;
+        u8 high = rgba.b;
+        //-- item / surface --//
+        if( low == high ){
+            if( low == AltiRange::diskAlti_item ){
+                colliEntHead.lAltiRange = altiRange_item;
+            }else if( low == AltiRange::diskAlti_surface ){
+                colliEntHead.lAltiRange = altiRange_surface;
+            }else{
+                assert(0);
+            }
+        }
+        //--- major ---//
+        colliEntHead.lAltiRange.set( (char)rgba.g, (char)rgba.b );
+    }
+
 };
 
 #endif 

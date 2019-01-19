@@ -39,13 +39,15 @@
 
  
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
-struct Fst_diskMapSection{
+//-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
 
+struct Fst_diskMapSection{
     Fst_diskMapEnt data[ SECTION_W_ENTS * SECTION_H_ENTS ]; //- 512KB
 };
 
 
-//-- 256*256 个 mapEnt, 组成一张 section --
+
+//-- 256*256 个 mapEnt, 组成一张 section  [mem] --
 //  section 作为一个整体被存储到硬盘，就像 mc 中的 chunk
 class MapSection{
 public:
@@ -57,17 +59,17 @@ public:
     //----------- pos / key ------------
     inline void set_by_mpos( const PixVec2 &_mpos ){
         pos.set_by_mpos( _mpos );
-        sectionKey.init_by_pos( pos.get_mpos() );
+        sectionKey.init_by_mpos( pos.get_mpos() );
     }
 
     inline void set_by_ppos( const glm::vec2 &_ppos ){
         pos.set_by_ppos( (int)_ppos.x, (int)_ppos.y ); //- ?
-        sectionKey.init_by_pos( pos.get_mpos() );
+        sectionKey.init_by_mpos( pos.get_mpos() );
     }
 
     inline void set_by_ppos( const PixVec2 &_ppos ){
         pos.set_by_ppos( _ppos ); 
-        sectionKey.init_by_pos( pos.get_mpos() );
+        sectionKey.init_by_mpos( pos.get_mpos() );
     }
 
     inline const glm::vec2 get_ppos() const {
@@ -85,12 +87,14 @@ public:
     void refresh_translate_auto();
 
 
-    //-----------------
+
+
+    //------- section 自己的 图形 ---
     MapTexture  mapTex {};
     Mesh        mesh   {}; 
 
 
-    std::vector<MemMapEnt> memMapEnts; //- 暂未使用
+    std::vector<MemMapEnt> memMapEnts; 
 
 private:
     //---------- pos & key ------------//

@@ -14,11 +14,25 @@
 #include <cassert>
 
 
-struct PixVec2{
+//--- [mem] --//
+// 为了方便在 内存态使用，还是应该单独实现：mem/disk 两种数据结构
+class PixVec2{
+public:
     int  x {0}; 
     int  y {0};
-};
 
+    //---- funcs ----//
+    inline void clear_all(){
+        x = 0;
+        y = 0;
+    }
+
+    inline void set( int _x, int _y ){
+        x = _x;
+        y = _y;
+    }
+
+};
 /* ===========================================================
  *                  operator  ==, !=
  * -----------------------------------------------------------
@@ -75,8 +89,9 @@ inline PixVec2 operator / ( const PixVec2 &_a, int _div ){
 
 
 
-
-struct PixVec3{
+//--- [mem] --//
+class PixVec3{
+public:
     int  x  {0}; 
     int  y  {0};
     int  z  {0};

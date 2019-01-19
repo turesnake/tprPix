@@ -24,11 +24,12 @@ using std::vector;
 
 //#include "debug.h" //- tmp
 
-extern void load_and_divide_png( const std::string &_path,
-                                 const PixVec2 &_frames,
-                                 const PixVec2 &_pixes_per_frame,
-        std::vector< std::vector<RGBA>> &_frame_data_ary );
 
+extern void load_and_divide_png( const std::string &_path,
+                                const PixVec2 &_pixes_per_frame,
+                                const PixVec2 &_frameNum,
+                                int            _totalFrameNum,
+        std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 
 /* ===========================================================
@@ -45,43 +46,44 @@ void ColliEntSetLoader::init(){
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector< std::vector<RGBA> > frame_data_ary {}; 
     load_and_divide_png( tpr::path_combine( path_colliEntSet, lpath ),
-                        frames,
                         pixes_per_frame,
+                        frameNum,
+                        totalFrameNum,
                         frame_data_ary );
     
     //----------------------------//
     //   parse each frame data
     //----------------------------//
-    int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
+    int pixNum = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
     ColliEntSet_RGBAHandle  ch {5};
-    collientSets.resize( totalFrames );
+    collientSets.resize( totalFrameNum );
 
-    for( int j=0; j<totalFrames; j++ ){ //- each frame
+    for( int f=0; f<totalFrameNum; f++ ){ //- each frame
 
-        PixVec2 pix; //- tmp. pos for each rgba Pix
+        PixVec2 pixPos; //- tmp. pos for each rgba Pix
 
-        for( int i=0; i<pixNums; i++ ){ //- each frame.pix [left-bottom]
+        for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
-            ch.set_rgba( frame_data_ary[j][i] );
+            ch.set_rgba( frame_data_ary.at(f).at(p) );
             if( ch.is_emply() == true ){
                 continue; //- next frame.pix
             }
 
-            pix.x = i%pixes_per_frame.x;
-            pix.y = i/pixes_per_frame.x;
+            pixPos.set( p%pixes_per_frame.x,
+                        p/pixes_per_frame.x );
 
             if( ch.is_center() == true ){
-                collientSets.at(j).set_center( pix );
-                collientSets.at(j).set_radius( ch.get_radius_10() );
+                collientSets.at(f).set_center( pixPos );
+                collientSets.at(f).set_radius( ch.get_radius_10() );
             }
 
             if( ch.is_colliEnt() == true ){
-                collientSets.at(j).add_colliEnt( pix );
+                collientSets.at(f).add_colliEnt( pixPos );
             }
         }
 
         //-- 生成 crawl 的“新增集”／“减少集” --
-        collientSets.at(j).create_adds_dels();
+        collientSets.at(f).create_adds_dels();
     }
     //--- 基础查错 -----
     //...

@@ -37,7 +37,6 @@ using std::string;
 extern void prepare();
 
 
-inline int debugCount {0};
 void debug_();
 
 
@@ -104,7 +103,7 @@ int main(){
     //++++++ load ++++++//
     esrc::colliEntSets_load(); //-- colliEntSets --
         //esrc::colliEntSets_debug();
-    esrc::actions_load();      //-- actions --, 确保在 colliEntSets_load 之后
+    esrc::actions_load();      //-- actions --, MUST after colliEntSets_load()
     
     
     //...
@@ -255,6 +254,7 @@ int main(){
  * -----------------------------------------------------------
  * -- tmp...
  */
+inline int debugCount {0};
 void debug_(){
     
 

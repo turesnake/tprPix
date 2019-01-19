@@ -13,21 +13,44 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
-//-- 暂不关心 硬盘存储 --
+//-- 暂不关心 硬盘存储 -- 
+//  0 <= val < 45:  major   -- (u8) [0, 45)
+//  val ==     -1:  item    -- (u8) 255
+//  val ==     -2:  surface -- (u8) 254 
 class AltiRange{
 public:
     //--- vals ---//
-    u8  low  {0}; //- 不应高过 jumpLimit
-    u8  high {0}; //- 要比 low 值大
+    char  low  {0}; //- 不应大于 jumpLimit
+    char  high {0}; //- 要比 low 值大
 
-    static u8 jumpLimit; //- 此值仅仅用来限制 low
+    //---- static ----//
+    static char jumpLimit; //- 此值仅仅用来限制 low
+    static u8  diskAlti_item;    //- 在 action图片文件中，代表 item 的 高度值
+    static u8  diskAlti_surface; //- 在 action图片文件中，代表 surface 的 高度值
 
-private:
+    //---- funcs -----//
+    inline void clear_all(){
+        low = 0;
+        high = 0;
+    }
+    inline void set( char _low, char _high ){
+        low  = _low;
+        high = _high;
+    }
 };
 
-
 //-- static --
-inline u8 AltiRange::jumpLimit = 45;
+inline char AltiRange::jumpLimit = 45;
+inline u8 AltiRange::diskAlti_item    = 255;
+inline u8 AltiRange::diskAlti_surface = 254;
+
+
+
+//-- item / surface --//
+inline const AltiRange altiRange_item    {  (char)AltiRange::diskAlti_item, 
+                                            (char)AltiRange::diskAlti_item };
+inline const AltiRange altiRange_surface {  (char)AltiRange::diskAlti_surface, 
+                                            (char)AltiRange::diskAlti_surface };
 
 
 /* ===========================================================
@@ -48,9 +71,6 @@ inline bool is_AltiRange_collide( const AltiRange& _a, const AltiRange& _b ){
         return rbool;
     }
 }
-
-
-
 
 
 #endif 

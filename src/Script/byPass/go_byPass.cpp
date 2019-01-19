@@ -19,8 +19,8 @@ using std::string;
 //#include "debug.h" //- tmp
 
 //-- 试验
-static gameObjs::Dog_A  dog_1 {};
-static gameObjs::Dog_A  dog_2 {};
+//static gameObjs::Dog_A  dog_1 {};
+//static gameObjs::Dog_A  dog_2 {};
 
 
 void creat_a_go( glm::vec2 _pos );
@@ -38,11 +38,9 @@ void go_byPass(){
     //--------------------------//
     
     creat_a_go( glm::vec2{ 0.0f, 0.0f } );
-    
-    creat_a_go( glm::vec2{ 0.0f, 18.0f } );
-    creat_a_go( glm::vec2{ 15.0f, 27.0f } );
-    creat_a_go( glm::vec2{ 18.0f, 0.0f } );
-    
+    creat_a_go( glm::vec2{ 30.0f, 48.0f } );
+    creat_a_go( glm::vec2{ 45.0f, 57.0f } );
+    creat_a_go( glm::vec2{ 48.0f, 30.0f } );
     
     
     //-------------------------//
@@ -65,9 +63,9 @@ void go_byPass(){
 void creat_a_go( glm::vec2 _pos ){
 
     goid_t goid = esrc::insert_new_gameObj();
+    GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针
 
-    GameObj *gop = esrc::find_memGameObjs( goid ); //- 获取目标go指针
-    gameObjs::dog_a.init( gop );
-    gop->currentPos = _pos;
+    gameObjs::dog_a.init( goPtr );
+    goPtr->move.set_currentFPos( _pos );
 }
 

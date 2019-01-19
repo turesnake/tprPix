@@ -60,7 +60,7 @@ void VAOVBO_init(){
     glBindBuffer( GL_ARRAY_BUFFER, VBO );
     glBufferData( GL_ARRAY_BUFFER, 
                 VBO_size, 
-                (GLvoid*)&(rectBase[0]), 
+                (GLvoid*)&(rectBase.at(0)), 
                 GL_STATIC_DRAW );
 
     //-- 将 VAO 的 0号顶点属性，绑定到 VBO数据 的 position 段 

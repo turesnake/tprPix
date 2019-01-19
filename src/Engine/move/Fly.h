@@ -30,15 +30,15 @@
 
 
 //-- 依赖代码 --
-class GameObj;
 class Move;
 
 
 
 class Fly{
 public:
+    Fly() = default;
 
-    void init( GameObj *_goPtr, Move *_movePtr ); //-- MUST --
+    void init( Move *_movePtr ); //-- MUST --
     void RenderUpdate(); 
 
 
@@ -59,9 +59,8 @@ public:
     //...
 
 private:
-    GameObj  *goPtr {nullptr}; //- 每个 fly实例 都属于一个 go实例
+    Move     *movePtr {nullptr}; //- 每个 fly实例 都属于一个 move实例
                                 //  两者 强关联，共存亡
-    Move     *movePtr {nullptr};
 
     FlyIns    newflyIns     { 0.0f };
     FlyIns    currentFlyIns { 0.0f };

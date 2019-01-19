@@ -48,6 +48,7 @@
 #include "ShaderProgram.h" //-- each GameMesh instance,will bind a shader
 #include "ActionHandle.h"
 #include "Action.h" 
+#include "Collision.h" 
 
 
 
@@ -61,10 +62,13 @@
 // 但是，GameMesh实例 不会被存入 硬盘态。
 // 而是在每次 加载section中 具象go实例时，临时生成。
 // --------
+//  当切换 action时，gameMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
+// --------
 // GameMesh实例拥有：
-//  -1- actionPtr  实例本体 存储在 全局容器 actions 中。
-//  -2- actionHandle实例（独占）
+//  -1- actionPtr.  实例本体 存储在 全局容器 actions 中。
+//  -2- actionHandle. 实例（独占）
 //  GameMesh 整合这两个数据，并实现最终的 draw() 函数
+//  -3- collision. 实例，管理 本gameMesh 的 碰撞检测  
 //
 class GameMesh{
 public:
@@ -88,6 +92,8 @@ public:
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
     
+    Collision    collision {}; //- 一个 gameMesh实例，对应一个 collision 实例。强关联
+    
     bool   is_visible  {true}; //- 是否可见
                                 //- 默认初始值 务必为 false
                                 //- 可以避免没有 init完成的 GameMesh 被渲染
@@ -103,13 +109,13 @@ public:
     inline void set_translate( const glm::vec2 &_goCurrentPos ){
 
         //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-        PixVec2 v = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorOff();
-        translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)v.x, 
-                                    _goCurrentPos.y + (float)pos.y - (float)v.y, 
+        const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorOff();
+        translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)vRef.x, 
+                                    _goCurrentPos.y + (float)pos.y - (float)vRef.y, 
                                     -(_goCurrentPos.y + (float)pos.y + off_z) }; 
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负...
-                                        // -2- 没有算入 v.y; 因为这个值只代表：
+                                        // -2- 没有算入 vRef.y; 因为这个值只代表：
                                         //     图元 和 根锚点的 偏移
                                         //     而 z值 仅仅记录 GameMesh锚点 在 游戏世界中的位置
     }
@@ -144,9 +150,15 @@ public:
         return actionName;
     }
 
-    inline int get_frames() const {
-        return actionPtr->texNames.size();
+    inline int get_totalFrames() const {
+        return actionPtr->totalFrameNum;
     }
+
+    //--- IMPORTANT !!! ---
+    inline int get_currentActionFrameIdx() const {
+        return actionHandle.currentIdx;
+    }
+
 
 private:
     //------- action -------
@@ -155,12 +167,9 @@ private:
     std::string  actionName;       //- 与下方的 actionPtr 强关联 --
     Action      *actionPtr {nullptr}; //- 指向 esrc::actions 中的某个 action 实例
                                     //- 通过 bind_action() 来绑定
-    GLuint  texName {0}; //- 当前指向的 texName 值。
-                    // texName 被存储在 action实例中，
-                    // 这个变量只是为了 调用方便...
+
 
     ShaderProgram  *shaderPtr  {nullptr}; 
-
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
                           //-- 自动初始化为 标准矩阵

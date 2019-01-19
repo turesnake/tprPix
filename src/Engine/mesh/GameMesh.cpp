@@ -18,6 +18,8 @@
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
 
+//#include "debug.h"
+
 
 namespace{//------------------ namespace ---------------------//
 
@@ -34,7 +36,9 @@ namespace{//------------------ namespace ---------------------//
  * -----------------------------------------------------------
  */
 void GameMesh::init(){
-    // 暂时为空...
+    
+    collision.init( (GameMesh*)this );
+    //...
 }
 
 
@@ -44,13 +48,12 @@ void GameMesh::init(){
  */
 void GameMesh::draw(){
 
-    
     if( is_visible == false ){
         return;
     }
 
     //---------- refresh texName -------------
-    texName = actionPtr->texNames[ actionHandle.currentIdx ];
+    GLuint texName = actionPtr->texNames.at( get_currentActionFrameIdx() );
 
     //---------- refresh mat4_model -------------
     update_mat4_model();

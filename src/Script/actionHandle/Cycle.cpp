@@ -37,7 +37,7 @@ u32  Cycle::typeId {0};
  * -- 并不是单纯的 bind，还附带了 目标ah实例 的初始化工作。
  */
 void Cycle::bind(  ActionHandle *_ahPtr,
-                int _frames,
+                int _frameNum,
                 int _enterIdx,
                 int _step ){
 
@@ -50,10 +50,10 @@ void Cycle::bind(  ActionHandle *_ahPtr,
 
     //-- binary --
     ahPtr->binary.resize( sizeof(Cycle_Binary) );
-    bp = (Cycle_Binary*)&(ahPtr->binary[0]); 
+    bp = (Cycle_Binary*)&(ahPtr->binary.at(0)); 
     //===================================//
 
-    bp->frames = _frames;
+    bp->frameNum = _frameNum;
     bp->enterIdx = _enterIdx;
     bp->lastIdx = _enterIdx;
     ahPtr->currentIdx = _enterIdx;
@@ -93,13 +93,13 @@ int Cycle::update( ActionHandle *_ahPtr ){
     assert( _ahPtr->typeId == Cycle::typeId );
     //-- rebind ptr -----
     ahPtr = _ahPtr;
-    bp = (Cycle_Binary*)&(ahPtr->binary[0]);
+    bp = (Cycle_Binary*)&(ahPtr->binary.at(0));
 
     //=====================================//
     bp->updates++;
     //-------
     int steps = bp->updates / bp->step;
-    int newIdx = (bp->lastIdx + steps)%(bp->frames);
+    int newIdx = (bp->lastIdx + steps)%(bp->frameNum);
     //- 发生了 画面帧 切换 -
     if( ahPtr->currentIdx != newIdx ){
         ahPtr->currentIdx = newIdx;
@@ -135,7 +135,7 @@ int Cycle::set_step( ActionHandle *_ahPtr, int _len ){
     assert( _ahPtr->typeId == Cycle::typeId );
     //-- rebind ptr -----
     ahPtr = _ahPtr;
-    bp = (Cycle_Binary*)&(ahPtr->binary[0]);
+    bp = (Cycle_Binary*)&(ahPtr->binary.at(0));
     
     //=====================================//
     //           get params

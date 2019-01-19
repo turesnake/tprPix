@@ -47,8 +47,7 @@ namespace{//---------- namespace ---------------//
 void map_builder( u8*_texBuf, int _pixes_w, int _pixes_h ){
 
     pixBufPtr = (RGBA*)_texBuf;
-    pixWH.x = _pixes_w;
-    pixWH.y = _pixes_h;
+    pixWH.set( _pixes_w, _pixes_h );
     //------
 
     foreach_pix(

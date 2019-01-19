@@ -17,8 +17,9 @@
 #include <utility> //- pair
 
 //-------------------- Engine --------------------//
-#include "GameObj.h" 
+#include "Move.h" 
 #include "SpeedLevel.h"
+
 
 #include "debug.h" 
 
@@ -47,8 +48,7 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Crawl::init( GameObj *_goPtr, Move *_movePtr ){
-    goPtr   = _goPtr;
+void Crawl::init( Move *_movePtr  ){
     movePtr = _movePtr;
     //-- 暂时设置为 3档速度， 在go正式运行时，这个值会被改回去 --
     std::pair<int, float> pair = get_speed( SpeedLevel::LV_3 );
@@ -66,7 +66,7 @@ void Crawl::init( GameObj *_goPtr, Move *_movePtr ){
  */
 void Crawl::RenderUpdate(){
 
-    //-- skip the time without "crossState" input --
+    //-- skip the time without "NineBox" input --
     if( (currentNB.x==0) && (currentNB.y==0) 
         && (newNB.x==0) && (newNB.y==0) ){
             return;
@@ -78,7 +78,9 @@ void Crawl::RenderUpdate(){
 
     std::pair<int, float> pair;
 
-    //=== node frame ／ 节点 ===
+    //----------------------------//
+    //     Node Frame ／ 节点
+    //----------------------------//
     if( count == 0 ){
         currentNB = newNB;
 
@@ -92,7 +94,9 @@ void Crawl::RenderUpdate(){
         //      然后执行下方的 操作
         //...
 
-        //-- 设置 goPtr->targetPos --
+
+
+
 
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
@@ -105,21 +109,22 @@ void Crawl::RenderUpdate(){
     }
 
     count++;
-    //-------------------------//
-    //   可能会 延迟到别处
-    //-------------------------//
+    //---------------------------//
+    //  确保本回合移动成立后（未碰撞）
+    //  再实现真正的移动
+    //---------------------------//
     if( currentNB.x == -1 ){
-        goPtr->currentPos += glm::vec2{ -speed, 0.0f };  //- left -
+        movePtr->accum_currentFPos( -speed, 0.0f );        //- left -
     }else if( currentNB.x == 1 ){
-        goPtr->currentPos += glm::vec2{ speed, 0.0f };   //- right -
+        movePtr->accum_currentFPos( speed, 0.0f );         //- right -
     }
     if( currentNB.y == 1 ){
-        goPtr->currentPos += glm::vec2{ 0.0f, speed };   //- up -
+        movePtr->accum_currentFPos( 0.0f, speed );         //- up -
     }else if( currentNB.y == -1 ){
-        goPtr->currentPos += glm::vec2{ 0.0f, -speed };   //- down -
+        movePtr->accum_currentFPos( 0.0f, -speed );         //- down -
     }
 
-    //-- 如果本帧为 节点帧，需确保 goPtr->currentPos 对齐于 mapent
+    //-- 如果本帧为 节点帧，需确保 movePtr->currentFPos 对齐于 mapent
     //...
 }
 

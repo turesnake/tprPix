@@ -43,6 +43,12 @@ public:
         ppos( mpos * PIXES_PER_MAPENT )
         {}
 
+    //---- clear -----//
+    inline void clear_all(){
+        mpos.clear_all();
+        ppos.clear_all();
+    }
+
     //----- set ------//
     inline void set_by_mpos( const PixVec2 &_mpos ){
         mpos = _mpos;
@@ -50,8 +56,7 @@ public:
     }
 
     inline void set_by_mpos( int _x, int _y ){
-        mpos.x = _x;
-        mpos.y = _y;
+        mpos.set( _x, _y );
         ppos = mpos * PIXES_PER_MAPENT;
     }
 
@@ -63,8 +68,7 @@ public:
 
     inline void set_by_ppos( int _x, int _y ){
         assert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
-        ppos.x = _x;
-        ppos.y = _y;
+        ppos.set( _x, _y );
         mpos = ppos / PIXES_PER_MAPENT;
     }
 

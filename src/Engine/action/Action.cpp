@@ -36,8 +36,9 @@ using std::vector;
 
 
 extern void load_and_divide_png( const std::string &_path,
-                                 const PixVec2 &_frames,
-                                 const PixVec2 &_pixes_per_frame,
+                                const PixVec2 &_pixes_per_frame,
+                                const PixVec2 &_frameNum,
+                                int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 
@@ -83,69 +84,73 @@ void Action::init(){
     vector< vector<RGBA> > J_frame_data_ary {}; 
 
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
-                        frames,
                         pixes_per_frame,
+                        frameNum,
+                        totalFrameNum,
                         P_frame_data_ary );
 
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pjt ),
-                        frames,
                         pixes_per_frame,
+                        frameNum,
+                        totalFrameNum,
                         J_frame_data_ary );
 
     //----------------------------//
     //      读取 pjt 投影信息
     //----------------------------//
-    int pixNums = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
+    int pixNum = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
     PjtRGBAHandle  jh {5};
-    framePoses.resize( totalFrames );
+    framePoses.resize( totalFrameNum );
 
-    for( int j=0; j<totalFrames; j++ ){ //--- each frame ---
+    for( int f=0; f<totalFrameNum; f++ ){ //--- each frame ---
 
-        PixVec2 pix; //- tmp 
+        PixVec2 pixPos; //- tmp. current pix pos
 
-        for( int i=0; i<pixNums; i++ ){ //- each frame.pix [left-bottom]
+        for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
-            jh.set_rgba( J_frame_data_ary[j][i] );
+            pixPos.set( p%pixes_per_frame.x,
+                        p/pixes_per_frame.x );
+
+            jh.set_rgba( J_frame_data_ary.at(f).at(p), pixPos );
             if( jh.is_emply() == true ){
                 continue; //- next frame.pix
             }
 
-            pix.x = i%pixes_per_frame.x;
-            pix.y = i/pixes_per_frame.x;
 
+            //--- 一张 action.frame 只有一个 rootAnchor ---
             if( jh.is_rootAnchor() == true ){
-                framePoses.at(j).set_rootAnchorOff( pix );
+                framePoses.at(f).set_rootAnchorOff( pixPos );
             }
 
             //if( jh.is_childAnchor() == true ){
                 //-- 暂时什么也不做...
             //}
 
-            if( jh.is_rootColliEnt() == true ){
-                framePoses.at(j).set_rootColliEntOff( pix );
-                framePoses.at(j).set_altiRange( jh.get_altiRange() );
-                framePoses.at(j).set_colliEntSetIdx( jh.get_colliEntSetIdx() );
+
+            if( jh.is_rootColliEntHead() == true ){
+                framePoses.at(f).pushBack_the_rootColliEntHead( jh.get_colliEntHead() );
+            }
+            if( jh.is_colliEntHead() == true ){
+                framePoses.at(f).pushBack_new_colliEntHead( jh.get_colliEntHead() );
             }
         }//------ each frame.pix ------
 
-        framePoses.at(j).check(); //-- MUST --//
+        //-- 检测 root_ceh / regular_ceh 是否对齐 --//
+        framePoses.at(f).check(); //-- MUST --//
 
     }//-------- each frame -------
-    //--- 基础查错 -----
-    //...
-    
 
 
     //---------------------------------//
     //  依次 制作每一动画帧 的 texture 实例
     //---------------------------------//
-    texNames.resize( totalFrames );
+    texNames.resize( totalFrameNum );
     //-- 申请 n个 tex实例，并获得其 names
-    glGenTextures( totalFrames, &texNames[0] );
+    glGenTextures( totalFrameNum, &texNames.at(0) );
 
-    for( int i=0; i<totalFrames; i++ ){
+    for( int i=0; i<totalFrameNum; i++ ){
 
-        glBindTexture( GL_TEXTURE_2D, texNames[i] );
+        glBindTexture( GL_TEXTURE_2D, texNames.at(i) );
 
         //-- 为 GL_TEXTURE_2D 设置环绕、过滤方式
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  //-- 设置 S轴的 环绕方式
@@ -155,7 +160,7 @@ void Action::init(){
                                                         //-- GL_NEAREST 临近过滤，8-bit 专用
                                                         //-- GL_LINEAR  线性过滤，
 
-        u8 *dptr = (u8*)&P_frame_data_ary[i][0];
+        u8 *dptr = (u8*)&P_frame_data_ary.at(i).at(0);
 
         //-- 通过之前的 png图片数据，生成 一个 纹理。
         glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
@@ -168,7 +173,7 @@ void Action::init(){
                         GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
                         dptr               //-- 图像数据
                         );
-        //-- 本游戏不需要 多级渐远 
+        //-- 本游戏不需要 多级渐远 --
         //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成多级渐远纹理
     }
 }
@@ -187,8 +192,8 @@ void Action::debug() const{
             << "\nlpath_pjt = " << lpath_pjt
             << "\npixes_per_frame.x = " << pixes_per_frame.x
             << "\npixes_per_frame.y = " << pixes_per_frame.y
-            << "\nframes.x = " << frames.x
-            << "\nframes.y = " << frames.y
+            << "\nframeNum.x = " << frameNum.x
+            << "\nframeNum.y = " << frameNum.y
             << endl;
 
         cout << "rootAnchors: " << endl;

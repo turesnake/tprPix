@@ -73,9 +73,6 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->is_active = true;
     goPtr->state = GameObjState::Waked;
     goPtr->moveState = GameObjMoveState::Movable;
-    //goPtr->targetPos = PixVec2{ 0, 0 };
-    goPtr->targetPos.set_by_ppos( 0,0 );
-    goPtr->currentPos = glm::vec2{ 0.0f, 0.0f };
     goPtr->weight = 5.0f;
     goPtr->is_dirty = false;
     goPtr->is_control_by_player = false;
@@ -83,6 +80,7 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->move.set_speedLv( SpeedLevel::LV_6 );
 
     goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_currentFPos( glm::vec2{ 0.0f, 0.0f } ); //-- 有点问题？
 
     //-------- action／actionHandle/ gameMesh ---------//
 
@@ -94,7 +92,7 @@ void Dog_A::init( GameObj *_goPtr ){
         //-- bind action / actionHandle --
         mp->bind_action( "human_1" );
         actionHdle::cycle_obj.bind( &(mp->actionHandle), 
-                                    mp->get_frames(), //- 画面帧总数
+                                    mp->get_totalFrames(), //- 画面帧总数
                                     0,                //- 起始画面帧序号
                                     6 );              //- 画面帧间 时长
         //-- oth vals --
@@ -103,7 +101,7 @@ void Dog_A::init( GameObj *_goPtr ){
 
     //-------- go.binary ---------//
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
-    bp = (Dog_A_Binary*)&(goPtr->binary[0]); //- 绑定到本地指针
+    bp = (Dog_A_Binary*)&(goPtr->binary.at(0)); //- 绑定到本地指针
 
     bp->HP = 100;
     bp->MP = 95;
@@ -142,7 +140,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     assert( _goPtr->species == Dog_A::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)&(goPtr->binary[0]);
+    bp = (Dog_A_Binary*)&(goPtr->binary.at(0));
 
     //=====================================//
     //           test: AI
@@ -173,21 +171,21 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //  将 确认要渲染的 gameMeshs，添加到 renderPool          
     //-------------------------------------//
-    for( auto &rm : goPtr->gameMeshs ){
+    for( auto &meshRef : goPtr->gameMeshs ){
 
         //-- 也许不该放在 这个位置 --
-        if( rm.is_visible == false ){
+        if( meshRef.is_visible == false ){
             continue;
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        rm.actionHandle.funcs.at("update")(&(rm.actionHandle), 0);
+        meshRef.actionHandle.funcs.at("update")(&(meshRef.actionHandle), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
-        rm.set_translate( goPtr->currentPos );
-        rm.refresh_scale_auto(); //- 没必要每帧都执行
+        meshRef.set_translate( goPtr->move.get_currentFPos() );
+        meshRef.refresh_scale_auto(); //- 没必要每帧都执行
 
-        esrc::renderPool.insert({ rm.get_render_z(), (GameMesh*)&rm }); 
+        esrc::renderPool.insert({ meshRef.get_render_z(), (GameMesh*)&meshRef }); 
     }
 }
 
@@ -203,7 +201,7 @@ void Dog_A::LogicUpdate( GameObj *_goPtr ){
     assert( _goPtr->species == Dog_A::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)&(goPtr->binary[0]);
+    bp = (Dog_A_Binary*)&(goPtr->binary.at(0));
     //=====================================//
 
     // 什么也没做...

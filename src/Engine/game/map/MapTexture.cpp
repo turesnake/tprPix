@@ -42,7 +42,7 @@ void MapTexture::init(){
     texBuf.resize( pixSize.x * pixSize.y * sizeof(RGBA) );
     assert( MapTexture::mapBuilder != nullptr );
     
-    MapTexture::mapBuilder( (u8*)&(texBuf[0]),
+    MapTexture::mapBuilder( (u8*)&(texBuf.at(0)),
                             pixSize.x,
                             pixSize.y );
     
@@ -57,7 +57,7 @@ void MapTexture::init(){
                     0,              //-- 总是被设为0（历史遗留问题
                     GL_RGBA,        //-- 源图的 格式
                     GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
-                    (u8*)&(texBuf[0])  //-- 图像数据
+                    (u8*)&(texBuf.at(0))  //-- 图像数据
                     );
     //--- no need MipMap ---
     //-- 可以选择性释放 texBuf 资源 ---

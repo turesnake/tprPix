@@ -58,7 +58,7 @@
 struct ActionParams{
     std::string lpath_pic;
     PixVec2  pixes_per_frame;
-    PixVec2  frames;
+    PixVec2  frameNums;
     PixVec2  anchor_root;
 
 };
@@ -78,13 +78,13 @@ class Action{
 public:
     Action( const std::string &_lpath_pic, 
                 PixVec2  _pixes_per_frame,
-                PixVec2  _frames,
-                int      _totalFrames 
+                PixVec2  _frameNum,
+                int      _totalFrameNum 
                 ):
         lpath_pic(_lpath_pic),
         pixes_per_frame(_pixes_per_frame),
-        frames(_frames),
-        totalFrames(_totalFrames)
+        frameNum(_frameNum),
+        totalFrameNum(_totalFrameNum)
         {}
 
     void init();
@@ -106,8 +106,8 @@ public:
     std::string  lpath_pjt;   
 
     PixVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
-    PixVec2  frames {};           //- 画面中，横排可分为几帧，纵向可分为几帧
-    int      totalFrames {};      //- 总 图元帧 个数
+    PixVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧
+    int      totalFrameNum {};   //- 总 图元帧 个数
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
@@ -115,7 +115,7 @@ public:
     std::vector<GLuint> texNames; 
 
 
-    //-- 统一管理 每个 图元帧 的所有 pjt信息（pos信息） --
+    //-- each frame --
     std::vector<FramePos>  framePoses {};
 
 private:

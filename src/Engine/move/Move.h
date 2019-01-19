@@ -16,13 +16,41 @@
 #include "Fly.h"
 #include "SpeedLevel.h"
 
+//-- need --
+class GameObj;
 
 
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
 class Move{
 public:
-    void init( GameObj *_goPtr ); //-- MUST --
-    void RenderUpdate(); 
+    Move() = default;
+
+    inline void init( GameObj *_goPtr ){ //-- MUST --
+        goPtr = _goPtr;
+        crawl.init( (Move*)this ); 
+        fly.init(   (Move*)this );
+    }
+
+    inline void RenderUpdate(){
+        (is_crawl_==true) ? crawl.RenderUpdate() : fly.RenderUpdate();
+    }
+
+    //---- set ----//
+
+    //-- currentFPos 是基于 go.rootAnchor 的。所以这个值不能乱设
+    //  （否则会造成 go的碰撞区 不对齐于 mapent）
+    inline void set_currentFPos( const glm::vec2 &_fpos ){
+        currentFPos = _fpos;
+    }
+
+    //-- 对 currentFPos 进行 累加累减 --
+    inline void accum_currentFPos( const glm::vec2 &_fpos ){
+        currentFPos += _fpos;
+    }
+    inline void accum_currentFPos( float _x, float _y ){
+        currentFPos.x += _x;
+        currentFPos.y += _y;
+    }
 
     inline void set_MoveType( bool _is_crawl ){
         is_crawl_ = _is_crawl;
@@ -55,18 +83,22 @@ public:
         fly.set_maskCountLimit( _limit );
     }
 
+    //---- get ----//
+    inline const glm::vec2 &get_currentFPos() const {
+        return currentFPos;
+    }
 
 private:
     GameObj  *goPtr {nullptr}; //- 每个 fly实例 都属于一个 go实例
                                 //  两者 强关联，共存亡
+
+    glm::vec2  currentFPos {};  //- 当前帧 pos，float，不一定对齐与mapent
 
     Crawl   crawl   {}; //- 未来可能被拓展为 一组 crawl实例
     Fly     fly     {}; //- 未来可能被拓展为 一组 fly实例
     bool    is_crawl_  {true};
 
     SpeedLevel   speedLv  { SpeedLevel::LV_3 }; //- 未来可能被拓展为 一组 speedLv数据集
-
-    
 
 };
 

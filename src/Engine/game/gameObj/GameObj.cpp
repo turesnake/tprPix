@@ -69,13 +69,7 @@ void GameObj::debug(){
         << "\nis_active: " << ( is_active ? "true" : "false" )
         << endl;
 
-    cout << "targetPos: " << targetPos.x 
-        << ", " << targetPos.y 
-        << endl;
 
-    cout << "currentPos: " << currentPos.x
-        << ", " << currentPos.y 
-        << endl;
 
     cout << "velocity: " << velocity.x
         << ", " << velocity.y 

@@ -14,17 +14,17 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
-//#include <utility> //- pair
 
 //-------------------- Engine --------------------//
-#include "GameObj.h" 
-//#include "SpeedLevel.h"
+#include "Move.h" 
+#include "SpeedLevel.h"
 
 //#include "debug.h" 
 
 
 namespace{//-------------- namespace ------------------//
 
+    /*
     float PI { 3.14159f };
     //-- [0, 2PI)
     float rad_up      { 0.5f*PI };
@@ -32,6 +32,7 @@ namespace{//-------------- namespace ------------------//
     float rad_left    {  PI };
     float rad_right   { 0.0f };
     float rad_right_2 { 2*PI };
+    */
 
 
 }//------------------ namespace: end ------------------//
@@ -41,11 +42,9 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Fly::init( GameObj *_goPtr, Move *_movePtr ){
-    goPtr = _goPtr;
+void Fly::init( Move *_movePtr ){
     movePtr = _movePtr;
     //...
-
 }
 
 
@@ -69,7 +68,7 @@ void Fly::RenderUpdate(){
     //...
 
     //-- 正式移动 --
-    goPtr->currentPos += translate;
+    movePtr->accum_currentFPos( translate );
 }
 
 
@@ -82,7 +81,7 @@ void Fly::calc_dir(){
 
     translate = glm::normalize( glm::vec2{ cos(currentFlyIns.rad), sin(currentFlyIns.rad) } );
     float speed = (float)(int)movePtr->get_speedLv();
-    translate = translate * speed; //-- 乘以 位移距离
+    translate *= speed; //-- 乘以 位移距离
 }
 
 

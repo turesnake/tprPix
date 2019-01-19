@@ -26,30 +26,30 @@ public:
         key = _key;
         //-------
         int *ptr = (int*)&key;
-        mapEntPos.x = *ptr;
+        mpos.x = *ptr;
         ptr++;
-        mapEntPos.y = *ptr;
+        mpos.y = *ptr;
     }
 
-    inline void init_by_pos( const PixVec2 &_pos ){
-        mapEntPos = _pos;
+    inline void init_by_mpos( const PixVec2 &_mpos ){
+        mpos = _mpos;
         //--------
         int *ptr = (int*)&key;
-        *ptr = mapEntPos.x;
+        *ptr = mpos.x;
         ptr++;
-        *ptr = mapEntPos.y;
+        *ptr = mpos.y;
     }
 
     inline const u64 get_key() const {
         return key;
     }
     inline const PixVec2& get_pos() const {
-        return mapEntPos;
+        return mpos;
     }
 
 private:
-    u64        key       {0};
-    PixVec2    mapEntPos {0,0};
+    u64        key   {0};
+    PixVec2    mpos  {0,0};
 };
 
 

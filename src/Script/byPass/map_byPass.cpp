@@ -11,13 +11,9 @@
  */
 void map_byPass(){
 
-    // ***| INSERT FIRST, INIT LATER  |***
 
-    MapSection section {};
-    section.set_by_ppos( glm::vec2{ 0.0f, 0.0f } );
-    u64 key = section.get_key();
-    esrc::mapSections.insert({ key, section }); //- copy
-    MapSection *sectionPtr = (MapSection*)&(esrc::mapSections.at(key));
+    MapCoord  initPos { PixVec2{ 0,0 } }; //- 目标 mapSection 坐标
+    MapSection *sectionPtr = esrc::insert_new_mapSection( initPos );
 
     sectionPtr->mapTex.init(); //- 自动通过 mapBuilder 函数来实现 mapTex 合成
 

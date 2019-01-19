@@ -25,7 +25,7 @@ namespace actionHdle{//------------- namespace actionHdle ----------------
 
 
 struct Cycle_Binary{
-    int  frames;     //- action实例 的 总画面帧数
+    int  frameNum;     //- action实例 的 总画面帧数
     int  enterIdx;   //- 入口帧序号. 这个值永不变
     int  lastIdx;    //-当 step值被重设时，这个值会被对齐到 当时的 currentIdx
     int  step;       //- 每切换一帧画面，停留多少 时间帧
@@ -45,14 +45,14 @@ struct Cycle_Binary{
 class Cycle{
 public:
     void bind(  ActionHandle *_ahPtr,
-                int _frames,
+                int _frameNum,
                 int _enterIdx,
                 int _step );
 
     //------ tmp ptr ------
     // 不能信赖，务必在每次 callback 时重新绑定
     ActionHandle  *ahPtr  {nullptr}; //- 
-    Cycle_Binary   *bp     {nullptr}; //- 指向 ahPtr->binary
+    Cycle_Binary  *bp     {nullptr}; //- 指向 ahPtr->binary
 
     //------ static vals -------
     static u32  typeId;

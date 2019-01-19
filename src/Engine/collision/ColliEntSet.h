@@ -46,7 +46,7 @@ public:
         colliEntCenters.clear();
         colliEnt_adds.clear();
         colliEnt_dels.clear();
-        center = PixVec2{ 0,0 };
+        center.clear_all();
         radius = 0;
     }
 
@@ -78,8 +78,6 @@ public:
     void debug();
 
 private:
-
-    //-- 也许要在未来该用 set 做容器 --
     std::set<MapCoord>  colliEnts {};       //- mapEnt坐标(左下) 
     std::vector<glm::vec2> colliEntCenters {}; //- mapEnt中心（用于 fly）
                                     //-- glm::vec2 暂时无法放入 set 容器
@@ -100,7 +98,6 @@ private:
 
     //----- funcs -------
     void create_adds_dels_by_nineBox( NineBoxIdx _idx );
-
 };
 
 
