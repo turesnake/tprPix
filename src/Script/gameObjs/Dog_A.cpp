@@ -80,23 +80,22 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->move.set_speedLv( SpeedLevel::LV_6 );
 
     goPtr->move.set_MoveType( true ); //- tmp
-    goPtr->move.set_currentFPos( glm::vec2{ 0.0f, 0.0f } ); //-- 有点问题？
 
     //-------- action／actionHandle/ gameMesh ---------//
 
         //-- 制作唯一的 mesh 实例 --
-        GameMesh *mp = goPtr->creat_new_gameMesh();
-        mp->set_shader_program( &esrc::rect_shader );
-        mp->init(); 
-        mp->is_visible = true;
+        GameMesh *meshPtr = goPtr->creat_new_gameMesh();
+        meshPtr->set_shader_program( &esrc::rect_shader );
+        meshPtr->init( goPtr ); 
+        meshPtr->is_visible = true;
         //-- bind action / actionHandle --
-        mp->bind_action( "human_1" );
-        actionHdle::cycle_obj.bind( &(mp->actionHandle), 
-                                    mp->get_totalFrames(), //- 画面帧总数
+        meshPtr->bind_action( "human_1" );
+        actionHdle::cycle_obj.bind( &(meshPtr->actionHandle), 
+                                    meshPtr->get_totalFrames(), //- 画面帧总数
                                     0,                //- 起始画面帧序号
                                     6 );              //- 画面帧间 时长
         //-- oth vals --
-        mp->pos = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
+        meshPtr->pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
       
 
     //-------- go.binary ---------//
@@ -182,7 +181,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         meshRef.actionHandle.funcs.at("update")(&(meshRef.actionHandle), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
-        meshRef.set_translate( goPtr->move.get_currentFPos() );
+        meshRef.refresh_translate();
         meshRef.refresh_scale_auto(); //- 没必要每帧都执行
 
         esrc::renderPool.insert({ meshRef.get_render_z(), (GameMesh*)&meshRef }); 

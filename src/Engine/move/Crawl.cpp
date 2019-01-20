@@ -19,6 +19,7 @@
 //-------------------- Engine --------------------//
 #include "Move.h" 
 #include "SpeedLevel.h"
+#include "GameObjPos.h"
 
 
 #include "debug.h" 
@@ -48,8 +49,9 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Crawl::init( Move *_movePtr  ){
-    movePtr = _movePtr;
+void Crawl::init( Move *_movePtr, GameObjPos *_goPosPtr  ){
+    movePtr  = _movePtr;
+    goPosPtr = _goPosPtr;
     //-- 暂时设置为 3档速度， 在go正式运行时，这个值会被改回去 --
     std::pair<int, float> pair = get_speed( SpeedLevel::LV_3 );
     max = pair.first;
@@ -115,14 +117,14 @@ void Crawl::RenderUpdate(){
     //  再实现真正的移动
     //---------------------------//
     if( currentNB.x == -1 ){
-        movePtr->accum_currentFPos( -speed, 0.0f );        //- left -
+        goPosPtr->accum_currentFPos( -speed, 0.0f );    //- left -
     }else if( currentNB.x == 1 ){
-        movePtr->accum_currentFPos( speed, 0.0f );         //- right -
+        goPosPtr->accum_currentFPos( speed, 0.0f );     //- right -
     }
     if( currentNB.y == 1 ){
-        movePtr->accum_currentFPos( 0.0f, speed );         //- up -
+        goPosPtr->accum_currentFPos( 0.0f, speed );     //- up -
     }else if( currentNB.y == -1 ){
-        movePtr->accum_currentFPos( 0.0f, -speed );         //- down -
+        goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
     }
 
     //-- 如果本帧为 节点帧，需确保 movePtr->currentFPos 对齐于 mapent

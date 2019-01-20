@@ -40,6 +40,7 @@
 #include "PixVec.h" 
 #include "Move.h"
 #include "MapCoord.h" 
+#include "GameObjPos.h"
 
 
 
@@ -91,6 +92,7 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
     //--- move sys ---//
+    GameObjPos   goPos {}; 
     Move         move  {};
 
 
@@ -107,7 +109,7 @@ public:
     //-- 也许该用 umap 来管理，尤其是 gameMesh实例很多时。
     // - rootGameMesh  -- 排在第一个，或者name==“root” 的 gameMesh实例
     // - childGameMesh -- 剩下的其余实例
-    std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 是比较静态的关系。
+    std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 强关联
                             // 大部分go不会卸载／增加自己的 GameMesh实例
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 GameMesh实例 存入此容器
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GameMesh实例会被丢弃

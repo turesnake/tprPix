@@ -31,14 +31,18 @@
 
 //-- 依赖代码 --
 class Move;
-
+class GameObjPos;
 
 
 class Fly{
 public:
     Fly() = default;
 
-    void init( Move *_movePtr ); //-- MUST --
+    inline void init( Move *_movePtr, GameObjPos *_goPosPtr ){
+        movePtr  = _movePtr;
+        goPosPtr = _goPosPtr;
+    }
+
     void RenderUpdate(); 
 
 
@@ -59,8 +63,8 @@ public:
     //...
 
 private:
-    Move     *movePtr {nullptr}; //- 每个 fly实例 都属于一个 move实例
-                                //  两者 强关联，共存亡
+    Move        *movePtr  {nullptr}; //- 每个 fly实例 都属于一个 move实例, 强关联
+    GameObjPos  *goPosPtr {nullptr};                           
 
     FlyIns    newflyIns     { 0.0f };
     FlyIns    currentFlyIns { 0.0f };

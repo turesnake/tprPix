@@ -20,6 +20,7 @@
 
 //-- 依赖代码 --
 class Move;
+class GameObjPos;
 
 
 //-- 想要控制一个 go的移动[爬行]，就应该 向其输入 crawlIns, 改写其 speedLevel
@@ -28,7 +29,7 @@ class Crawl{
 public:
     Crawl() = default;
 
-    void init( Move *_movePtr ); //-- MUST --
+    void init( Move *_movePtr, GameObjPos *_goPosPtr ); //-- MUST --
     void RenderUpdate(); 
 
     inline void set_newCrawlDir( const NineBox &_newNB ){
@@ -36,11 +37,12 @@ public:
     }
 
 private:
-    Move     *movePtr {nullptr}; //- 每个 crawl实例 都属于一个 move实例
-                                //  两者 强关联，共存亡
+    Move        *movePtr  {nullptr}; //- 每个 crawl实例 都属于一个 move实例, 强关联
+    GameObjPos  *goPosPtr {nullptr};                            
     
     MapCoord  targetPos {};   //- 当前（及上一回合 设置的 目标pos（基于 go.rootAnchor）
                               //- 只在 节点帧 才被更新
+                              // *** 此值可能被合并 ***
 
     NineBox  newNB     {0,0};  //- 本次渲染帧，新传入的 ci值（每一帧都被外部代码更新）
     NineBox  currentNB {0,0};  //- 当前正在处理的 ci值。（只在节点帧被改写）

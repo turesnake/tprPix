@@ -51,7 +51,8 @@
 #include "Collision.h" 
 #include "AnchorPos.h"
 
-
+//--- need ---//
+class GameObj;
 
 //-- GameMesh 是个 "整合类"，不存在它的 具象类 --
 // GameMesh 被轻量化了：
@@ -75,15 +76,22 @@ class GameMesh{
 public:
     GameMesh() = default;
 
-    void init();
+    inline void init( GameObj *_goPtr ){
+        goPtr = _goPtr;
+        //---
+        collision.init( (GameMesh*)this );
+        //...
+    }
+
+
+
     void draw();
 
     //--- pos ---
-    glm::vec2  pos {}; //- 以go实例 根锚点 为 0点的 相对pos位移 
+    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos相对偏移 
                     //  用来记录，本GameMesh 在 go中的 位置（图形）
-                    //  大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
-                    //--- 此值与 action 的 rootAnchors 不同。
-                    //  此值就是个单纯的 具象类定义值
+                    //-- 大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
+                    //   若本 gameMesh实例 是 root gameMesh。此值必须为0
 
     float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
                     //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameMesh off_z +0.1f
@@ -104,23 +112,6 @@ public:
         shaderPtr = _sp;
     }
 
-    //-- GameMesh 的 世界pos 与 go实例 强关联 --
-    //-- 此函数 只能在 RenderUpdate 阶段被调用 --
-    //-- 其余代码 不应随意调用 此函数!!! --
-    inline void set_translate( const glm::vec2 &_goCurrentPos ){
-
-        //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-        const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
-        translate_val = glm::vec3{  _goCurrentPos.x + (float)pos.x - (float)vRef.x, 
-                                    _goCurrentPos.y + (float)pos.y - (float)vRef.y, 
-                                    -(_goCurrentPos.y + (float)pos.y + off_z) }; 
-                                        //-- ** 注意！**  z值的计算有不同：
-                                        // -1- 取负...
-                                        // -2- 没有算入 vRef.y; 因为这个值只代表：
-                                        //     图元 和 根锚点的 偏移
-                                        //     而 z值 仅仅记录 GameMesh锚点 在 游戏世界中的位置
-    }
-
     //- pix游戏 暂时只支持 轴旋转 --
     inline void set_rotate_z( float _z ){
         rotate_z = _z;
@@ -130,6 +121,10 @@ public:
     inline void set_scale( const glm::vec3 &_v ){
         scale_val = _v;
     }
+
+    //-- 此函数 只能在 RenderUpdate 阶段被调用 --
+    //-- 其余代码 不应随意调用 此函数!!! --
+    void refresh_translate();
 
     //- 大部分 具象go实例 的 GameMesh图元 长宽值 与 action数据 强关联 --
     //  所以可以直接从 action 中获取数据
@@ -167,6 +162,9 @@ public:
 
 
 private:
+    GameObj  *goPtr {nullptr}; //- 每个 gameMesh实例 都属于一个 go实例. 强关联
+                               
+
     //------- action -------
     // 具象go类代码 通过 name／id 来 设置／改写 action数据
     // 在单一时间，一个GameMesh实例 只能绑定 一个 action实例

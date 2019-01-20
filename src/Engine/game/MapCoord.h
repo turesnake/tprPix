@@ -38,6 +38,7 @@ public:
     //---- constructor -----//
     MapCoord() = default;
 
+    //-- 只支持 mpos初始化，若想用 ppos来初始化，先用 ppos_2_mpos() 转换
     explicit MapCoord( const PixVec2 &_mpos ):
         mpos(_mpos),
         ppos( mpos * PIXES_PER_MAPENT )
@@ -81,7 +82,11 @@ public:
         return ppos;
     }
 
-    inline glm::vec2 get_ppos_glm() const {
+    inline const PixVec2 get_midPPos() const { //- ppos of the mid_box
+        return ( ppos + pixVec2_1_1 );
+    }
+
+    inline glm::vec2 get_fpos() const {
         return glm::vec2( (float)ppos.x, (float)ppos.y );
     }
 
@@ -121,6 +126,17 @@ inline MapCoord operator + ( const MapCoord &_a, const MapCoord &_b ){
 }
 inline MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
     return MapCoord { _a.get_mpos() - _b.get_mpos() };
+}
+
+
+/* ===========================================================
+ *                   ppos_2_mpos
+ * -----------------------------------------------------------
+ * -- 参数 ppos 必须对齐于 mapent坐标系
+ */
+inline PixVec2 ppos_2_mpos( const PixVec2 &_ppos ){
+    assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
+    return (_ppos/PIXES_PER_MAPENT);
 }
 
 

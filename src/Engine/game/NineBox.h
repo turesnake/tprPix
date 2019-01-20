@@ -27,9 +27,21 @@
 //--- 但是为了增强 结构的鲁棒性，
 // 一切小于0的 当作 -1
 // 一切大于0的 当作 1
-struct NineBox{
+class NineBox{
+public:
     int x;
     int y;
+
+    //---- funcs ----//
+    inline void clear_all(){
+        x = 0;
+        y = 0;
+    }
+
+    inline PixVec2 to_pixVec2() const {
+        return PixVec2{ x, y };
+    } 
+
 };
 
 /* ===========================================================
@@ -44,9 +56,7 @@ inline bool operator != ( const NineBox &_a, const NineBox &_b ){
 }
 
 
-//-- 仅有的 (1+9)个 变量值 -- 
-inline const NineBox  nineBoxNull    {0,0};
-//---
+//-- 仅有的 9个 变量值 -- 
 inline const NineBox  nb_left_bottom  { -1, -1 };
 inline const NineBox  nb_mid_bottom   {  0, -1 };
 inline const NineBox  nb_right_bottom {  1, -1 };

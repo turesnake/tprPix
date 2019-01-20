@@ -72,8 +72,8 @@ public:
         sectionKey.init_by_mpos( pos.get_mpos() );
     }
 
-    inline const glm::vec2 get_ppos() const {
-        return pos.get_ppos_glm(); //- return a tmp val
+    inline const glm::vec2 get_fpos() const {
+        return pos.get_fpos(); //- return a tmp val
     }
     inline const PixVec2& get_mpos() const {
         return pos.get_mpos();

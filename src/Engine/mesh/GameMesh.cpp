@@ -17,6 +17,7 @@
 #include "srcs_engine.h"
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
+#include "GameObj.h"
 
 //#include "debug.h"
 
@@ -32,13 +33,28 @@ namespace{//------------------ namespace ---------------------//
 
 
 /* ===========================================================
- *                         init
+ *                  refresh_translate
  * -----------------------------------------------------------
+ * -- 此函数 只能在 go.RenderUpdate 阶段被调用
+ * -- 其余代码 不应随意调用 此函数!!!
  */
-void GameMesh::init(){
-    
-    collision.init( (GameMesh*)this );
-    //...
+void GameMesh::refresh_translate(){
+
+    const glm::vec2 &goCurrentFPos = goPtr->goPos.get_currentFPos();
+    //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
+    const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
+    translate_val = glm::vec3{  goCurrentFPos.x + (float)pposOff.x - (float)vRef.x, 
+                                goCurrentFPos.y + (float)pposOff.y - (float)vRef.y, 
+                                -(goCurrentFPos.y + (float)pposOff.y + off_z) }; 
+                                    //-- ** 注意！**  z值的计算有不同：
+                                    // -1- 取负...
+                                    // -2- 没有算入 vRef.y; 因为这个值只代表：
+                                    //     图元 和 根锚点的 偏移
+                                    //     而 z值 仅仅记录 GameMesh锚点 在 游戏世界中的位置
+            //-- 未来拓展：
+            //  应当为 每个go 设置一个随机的 z深度 base值
+            //  在此 z_base 基础上，再做 深度加减
+            //  从而避免同一 z深度的 图元 在渲染时 碰撞
 }
 
 

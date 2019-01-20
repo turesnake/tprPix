@@ -15,9 +15,12 @@
 #include "Crawl.h"
 #include "Fly.h"
 #include "SpeedLevel.h"
+#include "AnchorPos.h"
+#include "MapCoord.h"
 
 //-- need --
 class GameObj;
+class GameObjPos;
 
 
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
@@ -25,10 +28,11 @@ class Move{
 public:
     Move() = default;
 
-    inline void init( GameObj *_goPtr ){ //-- MUST --
-        goPtr = _goPtr;
-        crawl.init( (Move*)this ); 
-        fly.init(   (Move*)this );
+    inline void init( GameObj *_goPtr, GameObjPos *_goPosPtr ){ //-- MUST --
+        goPtr    = _goPtr;
+        goPosPtr = _goPosPtr;
+        crawl.init( (Move*)this, goPosPtr ); 
+        fly.init(   (Move*)this, goPosPtr );
     }
 
     inline void RenderUpdate(){
@@ -36,34 +40,6 @@ public:
     }
 
     //---- set ----//
-
-    //-- "放置go实例到map" 的制定函数 --
-    //  在调用此函数之前，应先确保 潜在碰撞区的 干净
-    inline void set_initPos( const MapCoord &_pos ){
-
-        //...
-
-
-
-    }
-
-
-
-    //-- 简单设置 currentFPos 的值 --
-    //  禁止用此函数来 “放置go实例到map”，改用 set_initPos()
-    //
-    inline void set_currentFPos( const glm::vec2 &_fpos ){
-        currentFPos = _fpos;
-    }
-
-    //-- 对 currentFPos 进行 累加累减 --
-    inline void accum_currentFPos( const glm::vec2 &_fpos ){
-        currentFPos += _fpos;
-    }
-    inline void accum_currentFPos( float _x, float _y ){
-        currentFPos.x += _x;
-        currentFPos.y += _y;
-    }
 
     inline void set_MoveType( bool _is_crawl ){
         is_crawl_ = _is_crawl;
@@ -97,16 +73,10 @@ public:
     }
 
     //---- get ----//
-    inline const glm::vec2 &get_currentFPos() const {
-        return currentFPos;
-    }
 
 private:
-    GameObj  *goPtr {nullptr}; //- 每个 fly实例 都属于一个 go实例
-                                //  两者 强关联，共存亡
-
-    glm::vec2  currentFPos {};  //- 当前帧 pos，float，不一定对齐与mapent
-                                //- based on go.rootAnchor
+    GameObj     *goPtr    {nullptr}; //- 每个 fly实例 都属于一个 go实例, 强关联
+    GameObjPos  *goPosPtr {nullptr};
 
     Crawl   crawl   {}; //- 未来可能被拓展为 一组 crawl实例
     Fly     fly     {}; //- 未来可能被拓展为 一组 fly实例

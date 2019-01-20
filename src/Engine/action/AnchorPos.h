@@ -5,6 +5,9 @@
  *                                        修改 -- 2019.01.19
  * ----------------------------------------------------------
  *    rootAnchor / childAnchor
+ * ---
+ *   这组数据仅仅是 anchor 相对于 图元帧左下角的 “相对数据” 
+ *   而且是静态的，不代表任何 go的 当前pos
  * ----------------------------
  */
 #ifndef _TPR_ROOT_ANCHOR_POS_H_
@@ -32,7 +35,7 @@ public:
     //---- funcs ----//
     inline void clear_all(){
         pposOff.clear_all();
-        compass = nineBoxNull;
+        compass.clear_all();
     }
 
 

@@ -13,17 +13,15 @@
 //-------------------- Engine --------------------//
 #include "srcs_engine.h" 
 #include "GameObj.h" 
+#include "MapCoord.h"
+#include "PixVec.h"
 
 using std::string;
 
 //#include "debug.h" //- tmp
 
-//-- 试验
-//static gameObjs::Dog_A  dog_1 {};
-//static gameObjs::Dog_A  dog_2 {};
 
-
-void creat_a_go( glm::vec2 _pos );
+void creat_a_go( const PixVec2 &_ppos );
 
 
 /* ===========================================================
@@ -37,11 +35,11 @@ void go_byPass(){
     //  手动创建 若干个 go/Dog_A 实例
     //--------------------------//
     
-    creat_a_go( glm::vec2{ 0.0f, 0.0f } );
-    creat_a_go( glm::vec2{ 30.0f, 48.0f } );
-    creat_a_go( glm::vec2{ 45.0f, 57.0f } );
-    creat_a_go( glm::vec2{ 48.0f, 30.0f } );
-    
+    creat_a_go( PixVec2{  0,  0 } );
+    creat_a_go( PixVec2{ 30, 48 } );
+    creat_a_go( PixVec2{ 45, 57 } );
+    creat_a_go( PixVec2{ 48, 30 } );
+
     
     //-------------------------//
     //  手动将所有 现存的 go实例，
@@ -60,12 +58,13 @@ void go_byPass(){
  * -----------------------------------------------------------
  * -- 
  */
-void creat_a_go( glm::vec2 _pos ){
+void creat_a_go( const PixVec2 &_ppos ){
 
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针
 
     gameObjs::dog_a.init( goPtr );
-    goPtr->move.set_currentFPos( _pos );
+
+    goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
 }
 

@@ -46,13 +46,12 @@ public:
         colliEntHeads.clear();
     }
 
-    //-- 需要一股脑设置 --
+    //-- 统一设置 --
     inline void set_rootAnchorPos( const PixVec2 &_rootAnchor, const PixVec2 &_rootCEH ){
         rootAnchorPos.pposOff = _rootAnchor;
         rootAnchorPos.compass = calc_ppos_compass( _rootAnchor - _rootCEH );
         is_rootAnchorPos_set  = true;
     }
-
 
     //-- regular ceh --
     inline void pushBack_new_colliEntHead( const ColliEntHead &_ceh ){
@@ -78,10 +77,10 @@ public:
     //-- debug --
 
 private:
-    //-- 单个 图元帧 只有一个 --
+    //-- only one --
     AnchorPos   rootAnchorPos     {};
 
-    //-- 单个 图元帧 只有一个 -- 
+    //-- only one -- 
     int         rootColliEntHeadIdx  {0};
                                 //-- root ceh 在 colliEntHeads容器中的 idx
 

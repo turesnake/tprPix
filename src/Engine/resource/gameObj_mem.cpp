@@ -74,7 +74,7 @@ void realloc_active_goes(){
 
         goPtr = esrc::find_memGameObjs( id );
 
-        v = camera.get_camera2DPos() - goPtr->move.get_currentFPos();
+        v = camera.get_camera2DPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -112,7 +112,7 @@ void realloc_inactive_goes(){
 
         goPtr = esrc::find_memGameObjs( id );
         
-        v = camera.get_camera2DPos() - goPtr->move.get_currentFPos();
+        v = camera.get_camera2DPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
 
         //-- 将进入 激活圈的 go 移动到 激活组 --

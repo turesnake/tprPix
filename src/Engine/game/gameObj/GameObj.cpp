@@ -26,7 +26,8 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    move.init( (GameObj*)this );
+    goPos.init( (GameObj*)this ); //- MUST before move.init()
+    move.init( (GameObj*)this, &goPos );
     //...
 }
 

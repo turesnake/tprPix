@@ -87,6 +87,9 @@ inline PixVec2 operator / ( const PixVec2 &_a, int _div ){
     return PixVec2 { _a.x/_div, _a.y/_div };
 }
 
+//-- 常用的 PixVec2 值:
+inline const PixVec2 pixVec2_1_1 { 1,1 };
+
 
 
 //--- [mem] --//

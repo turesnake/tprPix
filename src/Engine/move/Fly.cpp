@@ -18,6 +18,7 @@
 //-------------------- Engine --------------------//
 #include "Move.h" 
 #include "SpeedLevel.h"
+#include "GameObjPos.h"
 
 //#include "debug.h" 
 
@@ -36,16 +37,6 @@ namespace{//-------------- namespace ------------------//
 
 
 }//------------------ namespace: end ------------------//
-
-
-/* ===========================================================
- *                        init
- * -----------------------------------------------------------
- */
-void Fly::init( Move *_movePtr ){
-    movePtr = _movePtr;
-    //...
-}
 
 
 /* ===========================================================
@@ -68,7 +59,7 @@ void Fly::RenderUpdate(){
     //...
 
     //-- 正式移动 --
-    movePtr->accum_currentFPos( translate );
+    goPosPtr->accum_currentFPos( translate );
 }
 
 
