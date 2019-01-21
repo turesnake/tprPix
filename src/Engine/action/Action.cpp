@@ -36,8 +36,8 @@ using std::vector;
 
 
 extern void load_and_divide_png( const std::string &_path,
-                                const PixVec2 &_pixes_per_frame,
-                                const PixVec2 &_frameNum,
+                                const IntVec2 &_pixes_per_frame,
+                                const IntVec2 &_frameNum,
                                 int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
@@ -102,9 +102,9 @@ void Action::init(){
     PjtRGBAHandle  jh {5};
     framePoses.resize( totalFrameNum );
 
-    PixVec2  pixPPos; //- tmp. current pix ppos
-    PixVec2  rootAnchorOff;       //- tmp
-    PixVec2  rootColliEntHeadOff; //- tmp
+    IntVec2  pixPPos; //- tmp. current pix ppos
+    IntVec2  rootAnchorOff;       //- tmp
+    IntVec2  rootColliEntHeadOff; //- tmp
 
     for( int f=0; f<totalFrameNum; f++ ){ //--- each frame ---
         for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
@@ -216,7 +216,7 @@ void Action::debug() const{
 
             for( int i=0; i<pjtMasks[j].size(); i++ ){
 
-                PixVec2 pix = pjtMasks[j][i];
+                IntVec2 pix = pjtMasks[j][i];
                 cout << "    " << pix.x
                     << ", " << pix.y
                     << endl; 

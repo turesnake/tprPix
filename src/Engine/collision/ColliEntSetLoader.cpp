@@ -26,8 +26,8 @@ using std::vector;
 
 
 extern void load_and_divide_png( const std::string &_path,
-                                const PixVec2 &_pixes_per_frame,
-                                const PixVec2 &_frameNum,
+                                const IntVec2 &_pixes_per_frame,
+                                const IntVec2 &_frameNum,
                                 int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
@@ -60,7 +60,7 @@ void ColliEntSetLoader::init(){
 
     for( int f=0; f<totalFrameNum; f++ ){ //- each frame
 
-        PixVec2 pixPos; //- tmp. pos for each rgba Pix
+        IntVec2 pixPos; //- tmp. pos for each rgba Pix
 
         for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 

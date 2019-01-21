@@ -32,7 +32,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "GameObj.h" 
 #include "ID_Manager.h" 
 #include "AltiRange.h"
@@ -192,7 +192,7 @@ public:
     //=============== data: oth ===============//
 
 
-    PixVec2  pos {}; //- 本 mapent 左下角像素的 坐标值 
+    IntVec2  pos {}; //- 本 mapent 左下角像素的 坐标值 
             // *** 过于古老，此值是否还有效，是否要换成 MapCoord  ***
 
 private:

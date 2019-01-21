@@ -24,7 +24,7 @@ void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
     currentMCPos = _mcpos;
     //---
     const NineBox &compass = goPtr->get_rootAnchorPos().compass;
-    PixVec2 p = currentMCPos.get_midPPos() + compass.to_pixVec2();
+    IntVec2 p = currentMCPos.get_midPPos() + compass.to_IntVec2();
     currentFPos.x = (float)p.x;
     currentFPos.y = (float)p.y;
 }

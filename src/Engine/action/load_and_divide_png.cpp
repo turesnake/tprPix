@@ -19,7 +19,7 @@
 
 //------------------- Engine --------------------//
 #include "RGBA.h"
-#include "PixVec.h"
+#include "IntVec.h"
 
 /* ===========================================================
  *                load_and_divide_png
@@ -31,8 +31,8 @@
  * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
  */
 void load_and_divide_png( const std::string &_path,
-                          const PixVec2 &_pixes_per_frame,
-                          const PixVec2 &_frameNum,
+                          const IntVec2 &_pixes_per_frame,
+                          const IntVec2 &_frameNum,
                           int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary ){
 

@@ -15,6 +15,7 @@
 #include <string>
 
 //--- need ---//
+class GameObj;
 class GameMesh;
 
 
@@ -24,7 +25,7 @@ class Collision{
 public:
     Collision() = default;
 
-    void init( GameMesh *_gameMeshPtr );
+    void init( GameObj *_goPtr, GameMesh *_gameMeshPtr );
 
     void refresh(); //-- 刷新所有数据 
 
@@ -33,7 +34,8 @@ public:
 
  
 private:
-    GameMesh *gameMeshPtr;
+    GameObj  *goPtr       {nullptr};
+    GameMesh *gameMeshPtr {nullptr};
 
     //-- 检测是否要 refresh --
     std::string   currentaActionName    {};

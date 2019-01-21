@@ -26,13 +26,14 @@
 
 //-------------------- Engine --------------------//
 #include "config.h" 
-#include "PixVec.h"
+#include "IntVec.h"
 #include "MapCoord.h"
 #include "NineBox.h"
 
 
 //--- need ---//
 class GameObj;
+
 
 //-- based on go.rootAnchor 
 class GameObjPos{
@@ -54,18 +55,19 @@ public:
     //   为了确保 go 与 mapent坐标 的对齐。不要随意使用本函数 ！！！
     inline void set_by_currentFPos( const glm::vec2 &_fpos ){
         currentFPos = _fpos;
-        refresh_currentMCPos();
+        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
+
     }
 
     //-- 对 currentFPos 进行 累加累减 --
     inline void accum_currentFPos( const glm::vec2 &_fpos ){
         currentFPos += _fpos;
-        refresh_currentMCPos();
+        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
     }
     inline void accum_currentFPos( float _x, float _y ){
         currentFPos.x += _x;
         currentFPos.y += _y;
-        refresh_currentMCPos();
+        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
     }
 
 
@@ -79,21 +81,18 @@ public:
 
 
 private:
+    GameObj     *goPtr    {nullptr}; 
+    //---
+
     glm::vec2  currentFPos  {};  //- go.rootAnchor 当前 fpos，不一定对齐与mapent
     MapCoord   currentMCPos {}; 
-
-    GameObj     *goPtr    {nullptr}; 
-
-    //--- funcs ----//
-    //-- 通过 currentFPos，计算出 currentMCPos
-    inline void refresh_currentMCPos(){
-        currentMCPos.set_by_mpos(   ((int)currentFPos.x)/PIXES_PER_MAPENT, 
-                                    ((int)currentFPos.y)/PIXES_PER_MAPENT );
-    }
+                //- 这个值的计算 可能要做调整
+                // -1- currentFPos 所在的 mapent
+                // -2- go.rootAnchor 所在mapent的 midPPos，所在的 mapent
+                //---
+                // 等这个值被具体使用了，再看具体实现哪一个？
 
 };
-
-
 
 
 #endif 

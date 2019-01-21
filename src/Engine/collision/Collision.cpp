@@ -12,6 +12,9 @@
 
 //-------------------- Engine --------------------//
 #include "GameMesh.h"
+#include "GameObj.h"
+#include "FramePos.h"
+#include "srcs_engine.h"
 
 
 /* ===========================================================
@@ -19,7 +22,8 @@
  * -----------------------------------------------------------
  * -- 
  */
-void Collision::init( GameMesh *_gameMeshPtr ){
+void Collision::init( GameObj *_goPtr, GameMesh *_gameMeshPtr ){
+    goPtr = _goPtr;
     gameMeshPtr = _gameMeshPtr;
     //...
 }
@@ -44,12 +48,6 @@ void Collision::refresh(){
     //...
     
 
-
-
-
-
-
-
 }
 
 
@@ -59,6 +57,32 @@ void Collision::refresh(){
  * -- 碰撞检测主流程 
  */
 void Collision::collide(){
+
+    //-- 最简状态：什么也不优化，先走一遍流程 --//
+
+    for( auto &m : goPtr->gameMeshs ){ //-- each go.gameMesh
+
+        const FramePos &framePos = m.get_currentFramePos();
+
+        for( auto &ceh : framePos.colliEntHeads ){ //-- each colliEntHead
+
+        
+
+            ColliEntSet &cesRef = esrc::colliEntSets.at( ceh.colliEntSetIdx ); //- get ces ref
+
+            //--- 这就是我们要找的数据 ---//
+            //cesRef.colliEnt_adds
+            //cesRef.colliEnt_dels
+
+
+
+
+        }
+
+    }
+
+
+
 
 
 

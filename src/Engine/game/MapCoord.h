@@ -28,7 +28,7 @@
 #include <cassert>
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "config.h" 
 
 
@@ -39,10 +39,15 @@ public:
     MapCoord() = default;
 
     //-- 只支持 mpos初始化，若想用 ppos来初始化，先用 ppos_2_mpos() 转换
-    explicit MapCoord( const PixVec2 &_mpos ):
+    explicit MapCoord( const IntVec2 &_mpos ):
         mpos(_mpos),
         ppos( mpos * PIXES_PER_MAPENT )
         {}
+    MapCoord( int _mpos_x, int _mpos_y ):
+        mpos( IntVec2{ _mpos_x, _mpos_y } ),
+        ppos( mpos * PIXES_PER_MAPENT )
+        {}
+    
 
     //---- clear -----//
     inline void clear_all(){
@@ -51,7 +56,7 @@ public:
     }
 
     //----- set ------//
-    inline void set_by_mpos( const PixVec2 &_mpos ){
+    inline void set_by_mpos( const IntVec2 &_mpos ){
         mpos = _mpos;
         ppos = mpos * PIXES_PER_MAPENT;
     }
@@ -61,7 +66,7 @@ public:
         ppos = mpos * PIXES_PER_MAPENT;
     }
 
-    inline void set_by_ppos( const PixVec2 &_ppos ){
+    inline void set_by_ppos( const IntVec2 &_ppos ){
         assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         ppos = _ppos;
         mpos = ppos / PIXES_PER_MAPENT;
@@ -74,16 +79,16 @@ public:
     }
 
     //--- get ---
-    inline const PixVec2& get_mpos() const {
+    inline const IntVec2& get_mpos() const {
         return mpos;
     }
 
-    inline const PixVec2& get_ppos() const{
+    inline const IntVec2& get_ppos() const{
         return ppos;
     }
 
-    inline const PixVec2 get_midPPos() const { //- ppos of the mid_box
-        return ( ppos + pixVec2_1_1 );
+    inline const IntVec2 get_midPPos() const { //- ppos of the mid_box
+        return ( ppos + IntVec2_1_1 );
     }
 
     inline glm::vec2 get_fpos() const {
@@ -93,8 +98,8 @@ public:
     //--- add ---
 
 private:
-    PixVec2   mpos  {0, 0}; //- based on mapEnt
-    PixVec2   ppos  {0, 0}; //- based on pixel
+    IntVec2   mpos  {0, 0}; //- based on mapEnt
+    IntVec2   ppos  {0, 0}; //- based on pixel
 };
 
 /* ===========================================================
@@ -130,13 +135,23 @@ inline MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
 
 
 /* ===========================================================
- *                   ppos_2_mpos
+ *                   ppos_2_mpos  [严格对齐]
  * -----------------------------------------------------------
- * -- 参数 ppos 必须对齐于 mapent坐标系
+ * -- 参数 _ppos 必须对齐于 mapent坐标系
  */
-inline PixVec2 ppos_2_mpos( const PixVec2 &_ppos ){
+inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
     assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
     return (_ppos/PIXES_PER_MAPENT);
+}
+
+/* ===========================================================
+ *                   ppos_2_mpos  [宽松]    IMPORTANT !!!
+ * -----------------------------------------------------------
+ * -- 参数 _fpos 可以为任意值。 无序对齐于 mapent坐标系
+ */
+inline MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
+    return MapCoord{    ((int)_fpos.x)/PIXES_PER_MAPENT, 
+                        ((int)_fpos.y)/PIXES_PER_MAPENT };
 }
 
 

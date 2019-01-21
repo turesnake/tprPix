@@ -21,7 +21,7 @@
 
 
 //------------------- Engine --------------------//
-#include "PixVec.h"
+#include "IntVec.h"
 #include "config.h" 
 #include "RGBA.h"
 
@@ -36,7 +36,7 @@ public:
 
     void init();
 
-    inline void set_pixSize( PixVec2 _newSize ){
+    inline void set_pixSize( IntVec2 _newSize ){
         pixSize = _newSize;
     }
 
@@ -54,7 +54,7 @@ private:
                                     // 在生成 texName 之后，此数据可以被释放 
                                     // 若不选择释放，则存储在 本实例中，直到实例被销毁
 
-    PixVec2  pixSize  { SECTION_W_ENTS*PIXES_PER_MAPENT,  //- mapTex 长宽像素值
+    IntVec2  pixSize  { SECTION_W_ENTS*PIXES_PER_MAPENT,  //- mapTex 长宽像素值
                         SECTION_W_ENTS*PIXES_PER_MAPENT}; 
 };
 

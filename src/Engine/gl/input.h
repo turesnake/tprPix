@@ -17,7 +17,7 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "NineBox.h" 
 
 namespace input{//------------- namespace input --------------------
@@ -45,7 +45,7 @@ enum class DIRECTION{
 void processInput( GLFWwindow *_windowPtr );
 void mouse_callback(GLFWwindow* _windowPtr, double _xpos, double _ypos);
 void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
-PixVec2 get_mouse_pos();
+IntVec2 get_mouse_pos();
 
 using F_V_V = std::function<void()>;
 void bind_key_callback( input::KEY _key, F_V_V _fp );

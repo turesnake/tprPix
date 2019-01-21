@@ -56,7 +56,7 @@ public:
         off(_off)
         {}    
 
-    inline void set_rgba( const RGBA &_rgba, const PixVec2 &_pixPos ){
+    inline void set_rgba( const RGBA &_rgba, const IntVec2 &_pixPos ){
         //-- reset --
         rgba = _rgba;
         colliEntHead.clear_all(); 
@@ -80,7 +80,7 @@ public:
         if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
             is_rootColliEntHead_ = true;
             colliEntHead.colliEntSetIdx = idx;
-            colliEntHead.colliEntHeadPPosOff = _pixPos;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
             set_altiRange();
         }
         //------- colliEntHead --------
@@ -88,7 +88,7 @@ public:
         if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
             is_colliEntHead_ = true;
             colliEntHead.colliEntSetIdx = idx;
-            colliEntHead.colliEntHeadPPosOff = _pixPos;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
             set_altiRange();
         }
         

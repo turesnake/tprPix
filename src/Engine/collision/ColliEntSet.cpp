@@ -58,7 +58,7 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
     NineBox nb = NineBox_Idx_2_XY( _idx );
 
     //-- 每个 collient 需要的 位移向量 --
-    MapCoord  mcOff { PixVec2{ nb.x, nb.y } };
+    MapCoord  mcOff { IntVec2{ nb.x, nb.y } };
 
     //-- 生成 位移后的 collient集 --
     std::set<MapCoord> neo {};

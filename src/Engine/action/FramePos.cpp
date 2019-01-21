@@ -25,6 +25,19 @@ using std::string;
 #include "debug.h" 
 
 
+
+/* ===========================================================
+ *             calc_ceh_pposOff_fromRootAnchor
+ * -----------------------------------------------------------
+ */
+void FramePos::calc_ceh_pposOff_fromRootAnchor(){
+
+    for( auto &i : colliEntHeads ){
+        i.pposOff_fromRootAnchor -= rootAnchorPos.pposOff;
+    }
+}
+
+
 /* ===========================================================
  *                      check
  * -----------------------------------------------------------
@@ -43,14 +56,14 @@ void FramePos::check(){
     assert( centerCompass == rootAnchorPos.compass ); //- 确保对齐 ！！！ --
 
     //-- 检测 regular ceh 是否与 root ceh 对齐 --//
-    PixVec2 pposOff;
+    IntVec2 pposOff;
     for( size_t i=0; i<colliEntHeads.size(); i++ ){
 
         if( i == rootColliEntHeadIdx ){
             continue;
         }
 
-        pposOff = colliEntHeads.at(i).colliEntHeadPPosOff - rootCehRef.colliEntHeadPPosOff;
+        pposOff = colliEntHeads.at(i).pposOff_fromRootAnchor - rootCehRef.pposOff_fromRootAnchor;
         assert( (pposOff.x%PIXES_PER_MAPENT==0) && (pposOff.y%PIXES_PER_MAPENT==0) );
     }
 }

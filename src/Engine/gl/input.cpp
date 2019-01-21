@@ -16,7 +16,7 @@
 //#include <string>
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "srcs_engine.h" //- 所有资源
 
 
@@ -129,12 +129,12 @@ void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos){
  *       这种模式时，并不适合 在 游戏初始化阶段，通过鼠标坐标值来 启动 随机数种子。 
  *       毕竟，此时的 鼠标坐标值，始终是 (0,0) 
  */
-PixVec2 get_mouse_pos(){
+IntVec2 get_mouse_pos(){
 
     double x;
     double y;
     glfwGetCursorPos( esrc::windowPtr, &x, &y);
-    return PixVec2{ (int)x, (int)y };
+    return IntVec2{ (int)x, (int)y };
 }
 
 

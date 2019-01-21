@@ -14,7 +14,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 
 
 //-- based on mapEntPos 
@@ -31,7 +31,7 @@ public:
         mpos.y = *ptr;
     }
 
-    inline void init_by_mpos( const PixVec2 &_mpos ){
+    inline void init_by_mpos( const IntVec2 &_mpos ){
         mpos = _mpos;
         //--------
         int *ptr = (int*)&key;
@@ -43,13 +43,13 @@ public:
     inline const u64 get_key() const {
         return key;
     }
-    inline const PixVec2& get_pos() const {
+    inline const IntVec2& get_pos() const {
         return mpos;
     }
 
 private:
     u64        key   {0};
-    PixVec2    mpos  {0,0};
+    IntVec2    mpos  {0,0};
 };
 
 

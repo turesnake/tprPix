@@ -79,7 +79,7 @@ public:
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
         //---
-        collision.init( (GameMesh*)this );
+        collision.init( goPtr, (GameMesh*)this );
         //...
     }
 
@@ -131,7 +131,7 @@ public:
     //  这个函数很常用
     //  但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
     inline void refresh_scale_auto(){
-        const PixVec2 &p = actionPtr->pixes_per_frame;
+        const IntVec2 &p = actionPtr->pixes_per_frame;
         scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
     }
 
@@ -159,6 +159,12 @@ public:
     inline const AnchorPos &get_rootAnchorPos() const {
         return actionPtr->framePoses.at( actionHandle.currentIdx ).get_rootAnchorPos();
     }
+
+    //--- IMPORTANT !!! ---
+    inline const FramePos &get_currentFramePos() const {
+        return actionPtr->framePoses.at( actionHandle.currentIdx );
+    }
+
 
 
 private:

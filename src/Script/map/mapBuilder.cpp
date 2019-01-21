@@ -18,13 +18,13 @@
 
 //------------------- Engine --------------------//
 #include "RGBA.h" 
-#include "PixVec.h"
+#include "IntVec.h"
 
 
 namespace{//---------- namespace ---------------//
 
     RGBA    *pixBufPtr;
-    PixVec2  pixWH {0,0}; 
+    IntVec2  pixWH {0,0}; 
 
     using F_PIX  = std::function<void(int,int)>;
     void foreach_pix( F_PIX _fp );

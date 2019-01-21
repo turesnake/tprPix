@@ -47,7 +47,7 @@ public:
     }
 
     //-- 统一设置 --
-    inline void set_rootAnchorPos( const PixVec2 &_rootAnchor, const PixVec2 &_rootCEH ){
+    inline void set_rootAnchorPos( const IntVec2 &_rootAnchor, const IntVec2 &_rootCEH ){
         rootAnchorPos.pposOff = _rootAnchor;
         rootAnchorPos.compass = calc_ppos_compass( _rootAnchor - _rootCEH );
         is_rootAnchorPos_set  = true;
@@ -65,6 +65,10 @@ public:
         is_rootColliEntHeadIdx_set = true;
     }
 
+    //-- ceh.pposOff_fromRootAnchor 在 pjt_rgba解析器中，只计算到一半
+    //   通过本函数，正式计算出这个值
+    void calc_ceh_pposOff_fromRootAnchor();
+
     //-- 检测 rootAnchor偏移 是否与 idx指向的 colliEntSet预制件
     //   中的 center 偏移 吻合 
     void check();
@@ -74,7 +78,15 @@ public:
         return rootAnchorPos;
     }
     
-    //-- debug --
+
+    //------- vals -------//
+
+    //-- 每个 图元帧 拥有一组  --
+    //  因为要提供给 碰撞模块访问，暂时暴露在 public 中...
+    //  未来优化...
+    std::vector<ColliEntHead>  colliEntHeads {};
+                                //-- 统一存储 所有 colliEntHead 信息
+                                //  包括 rootColliEntHeadOff
 
 private:
     //-- only one --
@@ -84,10 +96,7 @@ private:
     int         rootColliEntHeadIdx  {0};
                                 //-- root ceh 在 colliEntHeads容器中的 idx
 
-    //-- 单个 图元帧 拥有一组  --
-    std::vector<ColliEntHead>  colliEntHeads {};
-                                //-- 统一存储 所有 colliEntHead 信息
-                                //  包括 rootColliEntHeadOff
+    
 
     //-- 在未来，下方部分 flag 可能会被改成 计数器。
     bool is_rootAnchorPos_set       {false};

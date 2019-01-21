@@ -14,7 +14,7 @@
 #include<GLFW/glfw3.h>
 
 //------------------- Engine --------------------//
-#include "PixVec.h"
+#include "IntVec.h"
 
 //------ gl_support.cpp -----//
 void glfw_init();

@@ -32,7 +32,7 @@ void MapSection::init(){
  * -----------------------------------------------------------
  */
 void MapSection::refresh_translate_auto(){
-    const PixVec2 &ppos = pos.get_ppos();
+    const IntVec2 &ppos = pos.get_ppos();
     mesh.set_translate(glm::vec3{   (float)ppos.x,
                                     (float)ppos.y,
                                     esrc::camera.get_zFar() + 1.0f //-- MUST --

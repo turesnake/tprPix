@@ -14,14 +14,14 @@
 #include "srcs_engine.h" 
 #include "GameObj.h" 
 #include "MapCoord.h"
-#include "PixVec.h"
+#include "IntVec.h"
 
 using std::string;
 
 //#include "debug.h" //- tmp
 
 
-void creat_a_go( const PixVec2 &_ppos );
+void creat_a_go( const IntVec2 &_ppos );
 
 
 /* ===========================================================
@@ -35,10 +35,12 @@ void go_byPass(){
     //  手动创建 若干个 go/Dog_A 实例
     //--------------------------//
     
-    creat_a_go( PixVec2{  0,  0 } );
-    creat_a_go( PixVec2{ 30, 48 } );
-    creat_a_go( PixVec2{ 45, 57 } );
-    creat_a_go( PixVec2{ 48, 30 } );
+    creat_a_go( IntVec2{  0,  0 } );
+    
+    creat_a_go( IntVec2{ 30, 48 } );
+    creat_a_go( IntVec2{ 45, 57 } );
+    creat_a_go( IntVec2{ 48, 30 } );
+    
 
     
     //-------------------------//
@@ -58,7 +60,7 @@ void go_byPass(){
  * -----------------------------------------------------------
  * -- 
  */
-void creat_a_go( const PixVec2 &_ppos ){
+void creat_a_go( const IntVec2 &_ppos ){
 
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针

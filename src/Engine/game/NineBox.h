@@ -17,7 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "config.h"
-#include "PixVec.h"
+#include "IntVec.h"
 
 
 //-- 九宫格中的 9个位置：
@@ -38,9 +38,16 @@ public:
         y = 0;
     }
 
-    inline PixVec2 to_pixVec2() const {
-        return PixVec2{ x, y };
+    inline IntVec2 to_IntVec2() const {
+        return IntVec2{ x, y };
     } 
+
+    inline bool is_zero() const {
+        if( (x==0) && (y==0) ){
+            return true;
+        }
+        return false;
+    }
 
 };
 
@@ -145,7 +152,7 @@ inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
  * -----------------------------------------------------------
  * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置
  */
-inline NineBox calc_ppos_compass( const PixVec2 _ppos ){
+inline NineBox calc_ppos_compass( const IntVec2 _ppos ){
     return NineBox { (_ppos.x%PIXES_PER_MAPENT)-1, 
                      (_ppos.y%PIXES_PER_MAPENT)-1 };
 }

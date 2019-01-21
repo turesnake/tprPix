@@ -28,7 +28,7 @@
 #include <vector>
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "GameObj.h" 
 #include "MapEnt.h"
 #include "config.h" 
@@ -57,7 +57,7 @@ public:
 
 
     //----------- pos / key ------------
-    inline void set_by_mpos( const PixVec2 &_mpos ){
+    inline void set_by_mpos( const IntVec2 &_mpos ){
         pos.set_by_mpos( _mpos );
         sectionKey.init_by_mpos( pos.get_mpos() );
     }
@@ -67,7 +67,7 @@ public:
         sectionKey.init_by_mpos( pos.get_mpos() );
     }
 
-    inline void set_by_ppos( const PixVec2 &_ppos ){
+    inline void set_by_ppos( const IntVec2 &_ppos ){
         pos.set_by_ppos( _ppos ); 
         sectionKey.init_by_mpos( pos.get_mpos() );
     }
@@ -75,7 +75,7 @@ public:
     inline const glm::vec2 get_fpos() const {
         return pos.get_fpos(); //- return a tmp val
     }
-    inline const PixVec2& get_mpos() const {
+    inline const IntVec2& get_mpos() const {
         return pos.get_mpos();
     }
 

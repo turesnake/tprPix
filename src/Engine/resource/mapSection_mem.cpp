@@ -42,7 +42,7 @@ MapSection *insert_new_mapSection( const MapCoord &_sectionPos ){
 MemMapEnt *get_memMapEnt( const MapCoord &_mc ){
 
     //-- 计算 目标 mapSection 的 key --
-    const PixVec2 &mposRef = _mc.get_mpos();
+    const IntVec2 &mposRef = _mc.get_mpos();
     SectionKey key;
     key.init_by_mpos( mposRef );
 
@@ -53,7 +53,7 @@ MemMapEnt *get_memMapEnt( const MapCoord &_mc ){
     MapSection &sectionRef = esrc::mapSections.at(key.get_key());
 
     //-- 获得 目标 mapEnt 在 section内部的 相对mpos
-    PixVec2 lmpos { mposRef.x%SECTION_W_ENTS, 
+    IntVec2 lmpos { mposRef.x%SECTION_W_ENTS, 
                     mposRef.y%SECTION_H_ENTS };
     
     int idx = lmpos.y*SECTION_W_ENTS + lmpos.x;

@@ -16,7 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "NineBox.h"
-#include "PixVec.h"
+#include "IntVec.h"
 #include "MapCoord.h"
 
 
@@ -24,7 +24,7 @@
 //   但是 这组数据 过于复杂，制作一个 结构 来管理它。
 class AnchorPos{
 public:
-    PixVec2     pposOff     {};
+    IntVec2     pposOff     {};
                         //-- 最原始的数据，从 图元帧左下角，到 rootAnchor点的 pposOff
                         //-- *** 可以是任意 整形数，不用对齐于 mapEnt ***
                         //-- 只有在以 图元帧左下角 思考时，这个值才有意义。
@@ -41,9 +41,9 @@ public:
 
     //-- 调用者传入 图元帧左下角的 当前ppos，
     //   计算出 本anchor 所在的 mapent pos
-    inline MapCoord calc_mapCoordPos( const PixVec2 &_left_bottom_ppos ){
+    inline MapCoord calc_mapCoordPos( const IntVec2 &_left_bottom_ppos ){
 
-        PixVec2 pixPPos = _left_bottom_ppos + pposOff + PixVec2{ compass.x, compass.y };
+        IntVec2 pixPPos = _left_bottom_ppos + pposOff + IntVec2{ compass.x, compass.y };
 
         MapCoord  mcpos; //- return
         mcpos.set_by_ppos( pixPPos );

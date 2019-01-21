@@ -15,7 +15,6 @@
 
 //-------------------- Engine --------------------//
 #include "NineBox.h" 
-#include "MapCoord.h"
 
 
 //-- 依赖代码 --
@@ -40,7 +39,7 @@ private:
     Move        *movePtr  {nullptr}; //- 每个 crawl实例 都属于一个 move实例, 强关联
     GameObjPos  *goPosPtr {nullptr};                            
     
-    MapCoord  targetPos {};   //- 当前（及上一回合 设置的 目标pos（基于 go.rootAnchor）
+    //MapCoord  targetPos {};   //- 当前（及上一回合 设置的 目标pos（基于 go.rootAnchor）
                               //- 只在 节点帧 才被更新
                               // *** 此值可能被合并 ***
 

@@ -42,7 +42,7 @@ void GameMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const PixVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
+    const IntVec2 &vRef = actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
     translate_val = glm::vec3{  goCurrentFPos.x + (float)pposOff.x - (float)vRef.x, 
                                 goCurrentFPos.y + (float)pposOff.y - (float)vRef.y, 
                                 -(goCurrentFPos.y + (float)pposOff.y + off_z) }; 

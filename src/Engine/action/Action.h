@@ -49,7 +49,7 @@
 #include "tprDataType.h"
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "RGBA.h" 
 #include "FramePos.h"
 
@@ -57,9 +57,9 @@
 //-- AS实例 需要的参数 --
 struct ActionParams{
     std::string lpath_pic;
-    PixVec2  pixes_per_frame;
-    PixVec2  frameNums;
-    PixVec2  anchor_root;
+    IntVec2  pixes_per_frame;
+    IntVec2  frameNums;
+    IntVec2  anchor_root;
 
 };
 
@@ -77,8 +77,8 @@ enum class ActionType{
 class Action{
 public:
     Action( const std::string &_lpath_pic, 
-                PixVec2  _pixes_per_frame,
-                PixVec2  _frameNum,
+                IntVec2  _pixes_per_frame,
+                IntVec2  _frameNum,
                 int      _totalFrameNum 
                 ):
         lpath_pic(_lpath_pic),
@@ -105,8 +105,8 @@ public:
     //- 画面 投影单位集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     std::string  lpath_pjt;   
 
-    PixVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
-    PixVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧
+    IntVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
+    IntVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧
     int      totalFrameNum {};   //- 总 图元帧 个数
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。

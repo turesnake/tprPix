@@ -32,7 +32,7 @@
 //-------------------- Engine --------------------//
 #include "config.h"
 #include "MapCoord.h"
-#include "PixVec.h"
+#include "IntVec.h"
 #include "NineBox.h"
 
 
@@ -50,7 +50,7 @@ public:
         radius = 0;
     }
 
-    inline void add_colliEnt( const PixVec2 &_ppos ){
+    inline void add_colliEnt( const IntVec2 &_ppos ){
         MapCoord pos;
         pos.set_by_ppos( _ppos );
         colliEnts.insert( pos ); //- copy 
@@ -58,7 +58,7 @@ public:
                                           (float)(_ppos.y + 1.5f) }); //- copy
     }
 
-    inline void set_centerPPos( const PixVec2 &_ppos ){
+    inline void set_centerPPos( const IntVec2 &_ppos ){
         centerPPos = _ppos;
         centerCompass = calc_ppos_compass( centerPPos );
     }
@@ -71,7 +71,7 @@ public:
     void create_adds_dels();
     //---- get ----//    
     
-    inline const PixVec2 &get_centerPPos() const {
+    inline const IntVec2 &get_centerPPos() const {
         return  centerPPos;
     }
 
@@ -83,7 +83,7 @@ public:
     void debug();
 
 private:
-    std::set<MapCoord>     colliEnts {};         //- mapEnt坐标(左下) 
+    std::set<MapCoord>     colliEnts {};         //- mapEnt坐标( 基于 ces左下点 ) 
     std::vector<glm::vec2> colliEntMidFPoses {}; //- mapEnt中心（用于 fly）
                                     //-- glm::vec2 暂时无法放入 set 容器
                                     //-- 先存储在 vector 中
@@ -96,7 +96,7 @@ private:
     std::vector< std::set<MapCoord> > colliEnt_dels {};
 
 
-    PixVec2   centerPPos        {}; //- 碰撞区中心 ppos
+    IntVec2   centerPPos        {}; //- 碰撞区中心 ppos
     NineBox   centerCompass {0,0}; //- center 在其 mapent 中的位置 
     float     radius        {}; //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
                                 //- 以像素为单位

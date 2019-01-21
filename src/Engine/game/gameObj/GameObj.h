@@ -37,7 +37,7 @@
 #include "GameObjType.h" 
 #include "GameMesh.h" 
 #include "ID_Manager.h" 
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "Move.h"
 #include "MapCoord.h" 
 #include "GameObjPos.h"

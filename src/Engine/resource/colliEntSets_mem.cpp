@@ -76,8 +76,8 @@ void colliEntSets_load(){
 
     //-- 创建 ColliEntSetLoader 实例 --
     ColliEntSetLoader  loader { "colliEntSet_1.png",
-                                PixVec2{ 21, 21 },
-                                PixVec2{ 4, 4 },
+                                IntVec2{ 21, 21 },
+                                IntVec2{ 4, 4 },
                                 totalSets };
     
     //-- 解析 图片数据，将数据存储自身容器中 --

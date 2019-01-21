@@ -15,7 +15,7 @@
 #define _TPR_COLLI_ENT_HEAD_H_
 
 //-------------------- Engine --------------------//
-#include "PixVec.h"
+#include "IntVec.h"
 #include "AltiRange.h"
 #include "MapCoord.h"
 
@@ -24,9 +24,17 @@ class ColliEntHead{
 public:
     int         colliEntSetIdx; 
                             //- ces预制件 idx号
-    PixVec2     colliEntHeadPPosOff; 
+    //IntVec2     colliEntHeadPPosOff; 
                             //-- 从图元帧 左下角，到 colliEntHead 像素点 的 offPos
                             //   *** 注意，此值可为 任意整形值，不用对齐于 mapEnt ***
+            // *** 这个值使用很不方便，将被替代 ***
+
+    IntVec2     pposOff_fromRootAnchor;
+                            //-- 从图元帧 rootAnchorPPos，到 本ces左下角 的偏移向量
+                            //   *** 注意，此值可为 任意整形值，不用对齐于 mapEnt ***
+                            //   这个值 被用于 碰撞检测
+
+
     AltiRange   lAltiRange;
                             //- 和 colliEntHead 对应，记载每一个 ces实例 携带的 高度区间信息
                             //-- 仅仅是 相对高度区间 
@@ -34,7 +42,8 @@ public:
     //---- funcs ------//
     inline void clear_all(){
         colliEntSetIdx = 0;
-        colliEntHeadPPosOff.clear_all();
+        //colliEntHeadPPosOff.clear_all();
+        pposOff_fromRootAnchor.clear_all();
         lAltiRange.clear_all();
     }
 };

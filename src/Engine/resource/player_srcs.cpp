@@ -86,7 +86,7 @@ void player_srcs_init(){
         dp.go_id = GameObj::id_manager.apply_a_u64_id();
                 //-- 仅仅申请一个 goid 还不够，
                 //   应该通过某个 具象go类， 生成一个 go实例。
-        //dp.pos = PixVec2{ 0,0 };
+        //dp.pos = IntVec2{ 0,0 };
         dp.posx = 0;
         dp.posy = 0;
 

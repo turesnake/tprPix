@@ -16,7 +16,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "PixVec.h" 
+#include "IntVec.h" 
 #include "GameObj.h" 
 #include "NineBox.h" 
 

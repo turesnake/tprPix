@@ -20,6 +20,7 @@
 #include "Move.h" 
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
+#include "MapCoord.h"
 
 
 #include "debug.h" 
@@ -69,13 +70,8 @@ void Crawl::init( Move *_movePtr, GameObjPos *_goPosPtr  ){
 void Crawl::RenderUpdate(){
 
     //-- skip the time without "NineBox" input --
-    if( (currentNB.x==0) && (currentNB.y==0) 
-        && (newNB.x==0) && (newNB.y==0) ){
-            return;
-    }
-
-    if( count == max ){
-        count = 0;
+    if( currentNB.is_zero() && newNB.is_zero() ){
+        return;
     }
 
     std::pair<int, float> pair;
@@ -85,6 +81,25 @@ void Crawl::RenderUpdate(){
     //----------------------------//
     if( count == 0 ){
         currentNB = newNB;
+
+        if( newNB.is_zero() ){
+            return; //- end_frame of one_piece_input
+        }
+
+        //-- 确保当前 goPos.currentFPos 对齐于 mapent坐标系
+        //...
+
+
+            //--- print 当前 信息 ---//
+            /*
+            glm::vec2 fp = goPosPtr->get_currentFPos();
+            cout << "fp: " << fp.x
+                << ", " << fp.y
+                << "; currentNB: " << currentNB.x
+                << ", " << currentNB.y
+                << endl;
+            */
+
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
         // 根据 currentCS，确定 哪一个mapent 是 target
@@ -96,6 +111,8 @@ void Crawl::RenderUpdate(){
         //      然后执行下方的 操作
         //...
 
+
+            
 
 
 
@@ -110,8 +127,13 @@ void Crawl::RenderUpdate(){
         max = pair.first;
         speed = pair.second;
     }
-
+    //----------//
     count++;
+    //----------//
+    if( count == max ){
+        count = 0;
+    }
+
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）
     //  再实现真正的移动
@@ -127,9 +149,6 @@ void Crawl::RenderUpdate(){
         goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
     }
 
-    //-- 如果本帧为 节点帧，需确保 movePtr->currentFPos 对齐于 mapent
-    //- 也许不该放在此处 
-    //...
 }
 
 
