@@ -14,6 +14,10 @@
 //#include <vector>
 #include <string>
 
+//-------------------- Engine --------------------//
+#include "NineBox.h"
+
+
 //--- need ---//
 class GameObj;
 class GameMesh;
@@ -25,24 +29,15 @@ class Collision{
 public:
     Collision() = default;
 
-    void init( GameObj *_goPtr, GameMesh *_gameMeshPtr );
+    void init( GameObj *_goPtr );
 
-    void refresh(); //-- 刷新所有数据 
-
-    void collide(); //-- 碰撞检测主流程 
+    void collide_for_crawl( const NineBoxIdx &_nbIdx ); //-- 碰撞检测主流程 
+                    //-- 临时的，局限性很大...
 
 
  
 private:
     GameObj  *goPtr       {nullptr};
-    GameMesh *gameMeshPtr {nullptr};
-
-    //-- 检测是否要 refresh --
-    std::string   currentaActionName    {};
-    int           currentActionFrameIdx {};
-
-    //----
-
 
 
 };

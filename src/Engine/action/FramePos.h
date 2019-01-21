@@ -77,32 +77,29 @@ public:
     inline const AnchorPos &get_rootAnchorPos() const {
         return rootAnchorPos;
     }
+
+    //-- IMPORTANT !!! --//
+    // 直接返回 容器访问权 （引用）
+    inline const std::vector<ColliEntHead> &get_colliEntHeads() const {
+        return colliEntHeads;
+    }
     
-
-    //------- vals -------//
-
-    //-- 每个 图元帧 拥有一组  --
-    //  因为要提供给 碰撞模块访问，暂时暴露在 public 中...
-    //  未来优化...
-    std::vector<ColliEntHead>  colliEntHeads {};
-                                //-- 统一存储 所有 colliEntHead 信息
-                                //  包括 rootColliEntHeadOff
 
 private:
     //-- only one --
     AnchorPos   rootAnchorPos     {};
-
-    //-- only one -- 
     int         rootColliEntHeadIdx  {0};
                                 //-- root ceh 在 colliEntHeads容器中的 idx
 
+    //-- 每个 图元帧 拥有一组  --
+    std::vector<ColliEntHead>  colliEntHeads {};
+                                //-- 统一存储 所有 colliEntHead 信息
+                                //  包括 rootColliEntHeadOff
     
-
     //-- 在未来，下方部分 flag 可能会被改成 计数器。
     bool is_rootAnchorPos_set       {false};
     bool is_rootColliEntHeadIdx_set {false};
     
-
 };
 
 

@@ -68,14 +68,14 @@ void Dog_A::init( GameObj *_goPtr ){
     //-------- go self vals ---------//
     goPtr->species = Dog_A::specId;
     goPtr->family = GameObjFamily::Major;
-    goPtr->is_top_go = true;
-    goPtr->id_parent = NULLID;
-    goPtr->is_active = true;
+    goPtr->isTopGo = true;
+    goPtr->parentId = NULLID;
+    goPtr->isActive = true;
     goPtr->state = GameObjState::Waked;
     goPtr->moveState = GameObjMoveState::Movable;
     goPtr->weight = 5.0f;
-    goPtr->is_dirty = false;
-    goPtr->is_control_by_player = false;
+    goPtr->isDirty = false;
+    goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_6 );
 
@@ -87,7 +87,8 @@ void Dog_A::init( GameObj *_goPtr ){
         GameMesh *meshPtr = goPtr->creat_new_gameMesh();
         meshPtr->set_shader_program( &esrc::rect_shader );
         meshPtr->init( goPtr ); 
-        meshPtr->is_visible = true;
+        meshPtr->isVisible = true;
+        meshPtr->isCollide = true;
         //-- bind action / actionHandle --
         meshPtr->bind_action( "human_1" );
         actionHdle::cycle_obj.bind( &(meshPtr->actionHandle), 
@@ -173,7 +174,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     for( auto &meshRef : goPtr->gameMeshs ){
 
         //-- 也许不该放在 这个位置 --
-        if( meshRef.is_visible == false ){
+        if( meshRef.isVisible == false ){
             continue;
         }
 

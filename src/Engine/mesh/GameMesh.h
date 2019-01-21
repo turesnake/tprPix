@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.11.24
  *                                        修改 -- 2018.11.24
  * ----------------------------------------------------------
- *   A Mesh class DEEP bind to GameObj & Action.
+ *   A Mesh class bind to GameObj & Action.
  *  ----------
  * GameMesh 和 Action 的区别：
  *	  GameMesh 需要 图片资源，
@@ -15,7 +15,6 @@
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 GameMeshes
  *  ----------
  *   和 go类一样，GameMesh 只记录数据，具体的使用方式，由最终的 具象go类 区定义
- * 
  * ----------------------------
  */
 #ifndef _TPR_GAME_MESH_H_
@@ -57,20 +56,20 @@ class GameObj;
 //-- GameMesh 是个 "整合类"，不存在它的 具象类 --
 // GameMesh 被轻量化了：
 //  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
-//  -- texName 存储在 action 模块中。GameMesh 通过一个指针 调用它们
+//  -- texName 存储在 action数据中。GameMesh 通过一个指针 调用它们
 //    （调用方式由 具象go类 定义）
 // --------
 // 每个 具象go类实例 所拥有的 GameMesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
-// 但是，GameMesh实例 不会被存入 硬盘态。
+// GameMesh实例 不会被存入 硬盘态。
 // 而是在每次 加载section中 具象go实例时，临时生成。
 // --------
 //  当切换 action时，gameMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
+//  这个方法也有其他问题：如果不同类型的 go.gameMeshs 数量不同，该怎么办？
 // --------
 // GameMesh实例拥有：
 //  -1- actionPtr.  实例本体 存储在 全局容器 actions 中。
 //  -2- actionHandle. 实例（独占）
-//  GameMesh 整合这两个数据，并实现最终的 draw() 函数
-//  -3- collision. 实例，管理 本gameMesh 的 碰撞检测  
+//  GameMesh 整合这两个数据，并实现最终的 draw() 函数 
 //
 class GameMesh{
 public:
@@ -78,36 +77,10 @@ public:
 
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
-        //---
-        collision.init( goPtr, (GameMesh*)this );
-        //...
     }
-
-
 
     void draw();
 
-    //--- pos ---
-    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos相对偏移 
-                    //  用来记录，本GameMesh 在 go中的 位置（图形）
-                    //-- 大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
-                    //   若本 gameMesh实例 是 root gameMesh。此值必须为0
-
-    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
-                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameMesh off_z +0.1f
-                    //- 这个值 多数由 具象go类 填入的。
-
-    ActionHandle actionHandle {}; //- 一个 GameMesh拥有一个 ah实例
-                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
-                                    //- 但是存在 类型验证的需求：通过 .typeId 
-    
-    Collision    collision {}; //- 一个 gameMesh实例，对应一个 collision 实例。强关联
-    
-    bool   is_visible  {true}; //- 是否可见
-                                //- 默认初始值 务必为 false
-                                //- 可以避免没有 init完成的 GameMesh 被渲染
-
-    //--------------------------//
     inline void set_shader_program( ShaderProgram *_sp ){
         shaderPtr = _sp;
     }
@@ -165,19 +138,36 @@ public:
         return actionPtr->framePoses.at( actionHandle.currentIdx );
     }
 
+    //--------- vals ---------//
+    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos相对偏移 
+                    //  用来记录，本GameMesh 在 go中的 位置（图形）
+                    //-- 大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
+                    //   若本 gameMesh实例 是 root gameMesh。此值必须为0
+
+    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
+                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameMesh off_z +0.1f
+                    //- 这个值 多数由 具象go类 填入的。
+
+    ActionHandle actionHandle {}; //- 一个 GameMesh拥有一个 ah实例
+                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
+                                    //- 但是存在 类型验证的需求：通过 .typeId 
+    
+    bool   isVisible  {true};  //- 是否可见
+                                //- 默认初始值 务必为 false ？？
+                                //- 可以避免没有 init完成的 GameMesh 被渲染
+    
+    bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
 
 
 private:
     GameObj  *goPtr {nullptr}; //- 每个 gameMesh实例 都属于一个 go实例. 强关联
                                
-
     //------- action -------
     // 具象go类代码 通过 name／id 来 设置／改写 action数据
     // 在单一时间，一个GameMesh实例 只能绑定 一个 action实例
     std::string  actionName;       //- 与下方的 actionPtr 强关联 --
     Action      *actionPtr {nullptr}; //- 指向 esrc::actions 中的某个 action 实例
                                     //- 通过 bind_action() 来绑定
-
 
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
@@ -193,7 +183,6 @@ private:
     //--------- funcs ----------
     void update_mat4_model(); //-- 重新计算 model矩阵
 };
-
 
 
 

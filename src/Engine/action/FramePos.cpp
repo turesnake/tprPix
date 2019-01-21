@@ -22,7 +22,7 @@
 
 using std::string;
 
-#include "debug.h" 
+//#include "debug.h" 
 
 
 
@@ -31,7 +31,7 @@ using std::string;
  * -----------------------------------------------------------
  */
 void FramePos::calc_ceh_pposOff_fromRootAnchor(){
-
+    assert( is_rootAnchorPos_set == true );
     for( auto &i : colliEntHeads ){
         i.pposOff_fromRootAnchor -= rootAnchorPos.pposOff;
     }

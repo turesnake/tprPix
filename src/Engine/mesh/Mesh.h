@@ -47,7 +47,7 @@ public:
     void init( GLuint _texName );
     void draw();
 
-    bool   is_visible  {false};
+    bool   isVisible  {false};
 
     //--------------------------//
     inline void set_shader_program( ShaderProgram *_sp ){
@@ -60,12 +60,12 @@ public:
 
     inline void set_translate( const glm::vec3 &_v ){
         translate_val = _v;
-        is_mat4_change = true;
+        isMat4Change = true;
     }
 
     inline void set_scale( const glm::vec3 &_v ){
         scale_val = _v;
-        is_mat4_change = true;
+        isMat4Change = true;
     }
 
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
@@ -85,7 +85,7 @@ private:
     glm::vec3 translate_val {};    
     glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
-    bool is_mat4_change {true}; //- 位移／旋转／缩放 是否被改写。
+    bool isMat4Change {true}; //- 位移／旋转／缩放 是否被改写。
                                 //-  若被改写，就要重新计算 mat4_model
 
     //--------- funcs ----------

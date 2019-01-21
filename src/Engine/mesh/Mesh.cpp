@@ -34,7 +34,7 @@ namespace{//------------------ namespace ---------------------//
  */
 void Mesh::init( GLuint _texName ){
     texName = _texName;
-    is_mat4_change = true;
+    isMat4Change = true;
 }
 
 
@@ -45,13 +45,13 @@ void Mesh::init( GLuint _texName ){
  */
 void Mesh::draw(){
 
-    if( is_visible == false ){
+    if( isVisible == false ){
         return;
     }
 
     //---------- refresh mat4_model -------------
-    if( is_mat4_change == true ){
-        is_mat4_change = false;
+    if( isMat4Change == true ){
+        isMat4Change = false;
         update_mat4_model();
     }
     

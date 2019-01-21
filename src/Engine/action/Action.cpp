@@ -137,7 +137,9 @@ void Action::init(){
             }
         }//------ each frame.pix ------
 
+        //-- 注意，顺序不能错!!! --//
         framePoses.at(f).set_rootAnchorPos( rootAnchorOff, rootColliEntHeadOff );
+        framePoses.at(f).calc_ceh_pposOff_fromRootAnchor();
         framePoses.at(f).check();                 //-- MUST --//
 
     }//-------- each frame -------

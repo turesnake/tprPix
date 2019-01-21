@@ -114,11 +114,8 @@ public:
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames; 
 
-
     //-- each frame --
     std::vector<FramePos>  framePoses {};
-
-private:
 };
 
 

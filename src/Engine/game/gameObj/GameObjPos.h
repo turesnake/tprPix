@@ -75,6 +75,14 @@ public:
     inline const glm::vec2 &get_currentFPos() const {
         return currentFPos;
     }
+
+    //-- 注意，这个函数返回的是 currentFPos 的整形值（将丢失小数）
+    //  只可用于：明确知道 当前 rootAnchor所在 collient 已对齐于 mapent 时。
+    //  比如在 crawl 节点帧
+    inline const IntVec2 get_currentPPos() const {
+        return IntVec2{ (int)currentFPos.x, (int)currentFPos.y };
+    }
+
     inline const MapCoord &get_currentMCPos() const {
         return currentMCPos;
     }

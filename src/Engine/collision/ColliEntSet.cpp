@@ -22,8 +22,8 @@
 void ColliEntSet::create_adds_dels(){
 
     //-- 9个 子容器 --
-    colliEnt_adds.resize( NineBoxIdxSize );
-    colliEnt_dels.resize( NineBoxIdxSize );
+    addEntOffss.resize( NineBoxIdxSize );
+    delEntOffss.resize( NineBoxIdxSize );
 
     //- 填充每一个 子容器 --
     create_adds_dels_by_nineBox( NineBoxIdx::Left_Bottom );
@@ -67,19 +67,19 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
     }
 
     //-- 事先把 子容器 清空 --
-    colliEnt_adds.at(idx).clear();
-    colliEnt_dels.at(idx).clear();
+    addEntOffss.at(idx).clear();
+    delEntOffss.at(idx).clear();
     
-    //-- 填充 colliEnt_adds 子容器 --
+    //-- 填充 addEntOffss 子容器 --
     for( const auto &i : neo ){
         if( colliEnts.find(i) == colliEnts.end() ){
-            colliEnt_adds.at(idx).insert(i);
+            addEntOffss.at(idx).insert(i);
         }
     }
-    //-- 填充 colliEnt_dels 子容器 --
+    //-- 填充 delEntOffss 子容器 --
     for( const auto &i : colliEnts ){
         if( neo.find(i) == neo.end() ){
-            colliEnt_dels.at(idx).insert(i);
+            delEntOffss.at(idx).insert(i);
         }
     }
 }
@@ -106,24 +106,24 @@ void ColliEntSet::debug(){
     /*
     cout << "colliEnts.size() = " << colliEnts.size()
          << "\ncolliEntCenters.size() = " << colliEntCenters.size()
-         << "\ncolliEnt_adds.size() = " << colliEnt_adds.size()
-         << "\ncolliEnt_dels.size() = " << colliEnt_dels.size()
+         << "\naddEntOffss.size() = " << addEntOffss.size()
+         << "\ndelEntOffss.size() = " << delEntOffss.size()
          << endl; //-- check --
     
     
-    for( const auto &v : colliEnt_adds ){
+    for( const auto &v : addEntOffs ){
 
-        cout << "  colliEnt_adds.size() = " << v.size()
+        cout << "  addEntOffs.size() = " << v.size()
             << endl;
     }
 
     
     for( int i=0; i<9; i++ ){
-        //cout << " adds.size() = " << colliEnt_adds.at(i).size() << endl;
-        //cout << " dels.size() = " << colliEnt_dels.at(i).size() << endl;
+        //cout << " adds.size() = " << addEntOffss.at(i).size() << endl;
+        //cout << " dels.size() = " << delEntOffss.at(i).size() << endl;
         //cout << endl;
-        size_t a = colliEnt_adds.at(i).size();
-        size_t d = colliEnt_dels.at(i).size();
+        size_t a = addEntOffss.at(i).size();
+        size_t d = delEntOffss.at(i).size();
         assert( a == d );
     }
     */

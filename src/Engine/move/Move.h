@@ -21,6 +21,7 @@
 //-- need --
 class GameObj;
 class GameObjPos;
+class Collision;
 
 
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
@@ -28,10 +29,12 @@ class Move{
 public:
     Move() = default;
 
-    inline void init( GameObj *_goPtr, GameObjPos *_goPosPtr ){ //-- MUST --
+    inline void init(   GameObj *_goPtr, 
+                        GameObjPos *_goPosPtr,
+                        Collision *_collisionPtr ){ //-- MUST --
         goPtr    = _goPtr;
         goPosPtr = _goPosPtr;
-        crawl.init( (Move*)this, goPosPtr ); 
+        crawl.init( (Move*)this, goPosPtr, _collisionPtr ); 
         fly.init(   (Move*)this, goPosPtr );
     }
 

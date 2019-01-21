@@ -21,6 +21,7 @@
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
 #include "MapCoord.h"
+#include "Collision.h"
 
 
 #include "debug.h" 
@@ -50,9 +51,12 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Crawl::init( Move *_movePtr, GameObjPos *_goPosPtr  ){
+void Crawl::init(   Move *_movePtr, 
+                    GameObjPos *_goPosPtr, 
+                    Collision *_collisionPtr  ){
     movePtr  = _movePtr;
     goPosPtr = _goPosPtr;
+    collisionPtr = _collisionPtr;
     //-- 暂时设置为 3档速度， 在go正式运行时，这个值会被改回去 --
     std::pair<int, float> pair = get_speed( SpeedLevel::LV_3 );
     max = pair.first;
@@ -110,7 +114,7 @@ void Crawl::RenderUpdate(){
         //   -- 如果未被占有，正式 占有 此mapent
         //      然后执行下方的 操作
         //...
-
+        collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
 
             
 

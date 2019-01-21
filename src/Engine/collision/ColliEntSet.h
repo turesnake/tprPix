@@ -44,8 +44,8 @@ public:
     inline void clear_all(){
         colliEnts.clear();
         colliEntMidFPoses.clear();
-        colliEnt_adds.clear();
-        colliEnt_dels.clear();
+        addEntOffss.clear();
+        delEntOffss.clear();
         centerPPos.clear_all();
         radius = 0;
     }
@@ -79,8 +79,18 @@ public:
         return  centerCompass;
     }
 
+    //--- IMPORTANT !!! ---//
+    //  直接返回指定 adds/dels 子容器的 访问权（引用）
+    inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx _nbIdx ) const {
+        return addEntOffss.at( (int)_nbIdx );
+    }
+    inline const std::set<MapCoord> &get_delEntOffs( NineBoxIdx _nbIdx ) const {
+        return delEntOffss.at( (int)_nbIdx );
+    }
+
 
     void debug();
+
 
 private:
     std::set<MapCoord>     colliEnts {};         //- mapEnt坐标( 基于 ces左下点 ) 
@@ -92,8 +102,8 @@ private:
     // set -- 类内自动生成
     // get -- 通过 NineBoxIdx 下标来访问。 
     // idx==4 的 子容器 是空的  
-    std::vector< std::set<MapCoord> > colliEnt_adds {};
-    std::vector< std::set<MapCoord> > colliEnt_dels {};
+    std::vector< std::set<MapCoord> > addEntOffss {};
+    std::vector< std::set<MapCoord> > delEntOffss {};
 
 
     IntVec2   centerPPos        {}; //- 碰撞区中心 ppos

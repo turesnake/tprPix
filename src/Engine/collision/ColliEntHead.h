@@ -24,16 +24,11 @@ class ColliEntHead{
 public:
     int         colliEntSetIdx; 
                             //- ces预制件 idx号
-    //IntVec2     colliEntHeadPPosOff; 
-                            //-- 从图元帧 左下角，到 colliEntHead 像素点 的 offPos
-                            //   *** 注意，此值可为 任意整形值，不用对齐于 mapEnt ***
-            // *** 这个值使用很不方便，将被替代 ***
 
     IntVec2     pposOff_fromRootAnchor;
                             //-- 从图元帧 rootAnchorPPos，到 本ces左下角 的偏移向量
                             //   *** 注意，此值可为 任意整形值，不用对齐于 mapEnt ***
                             //   这个值 被用于 碰撞检测
-
 
     AltiRange   lAltiRange;
                             //- 和 colliEntHead 对应，记载每一个 ces实例 携带的 高度区间信息
@@ -42,7 +37,6 @@ public:
     //---- funcs ------//
     inline void clear_all(){
         colliEntSetIdx = 0;
-        //colliEntHeadPPosOff.clear_all();
         pposOff_fromRootAnchor.clear_all();
         lAltiRange.clear_all();
     }

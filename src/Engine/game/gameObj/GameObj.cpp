@@ -26,8 +26,10 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
+    collision.init( (GameObj*)this );
     goPos.init( (GameObj*)this ); //- MUST before move.init()
-    move.init( (GameObj*)this, &goPos );
+    move.init( (GameObj*)this, &goPos, &collision );
+    
     //...
 }
 
@@ -66,7 +68,7 @@ void GameObj::debug(){
         << "\n"
         << "\nspecies = " << species
         << "\nis_top_go: " << ( is_top_go ? "true" : "false" )
-        << "\nid_parent = " << id_parent
+        << "\nid_parent = " << parentId
         << "\nis_active: " << ( is_active ? "true" : "false" )
         << endl;
 

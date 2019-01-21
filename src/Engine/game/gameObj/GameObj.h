@@ -81,12 +81,12 @@ public:
     goSpecId_t     species  {0};                //- go species id
     GameObjFamily  family   {GameObjFamily::Major};  
 
-    bool   is_top_go  {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
-    goid_t id_parent {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
+    bool   isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
+    goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                              //- 如果没有，此项写 NULLID
 
     //---- go 状态 ----//
-    bool              is_active {false}; //- 是否进入激活圈. 
+    bool              isActive {false}; //- 是否进入激活圈. 
                                         //   未进入激活圈的go，不参与任何逻辑运算，也不会被渲染
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
@@ -98,12 +98,12 @@ public:
 
     float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
-    bool is_dirty {false};  //- 是否为 默认go（是否被改写过）
+    bool isDirty {false};  //- 是否为 默认go（是否被改写过）
                             //- “默认go” 意味着这个 go没有被游戏改写过。
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
 
-    bool is_control_by_player  {false}; 
+    bool isControlByPlayer  {false}; 
 
 
     //-- 也许该用 umap 来管理，尤其是 gameMesh实例很多时。
@@ -120,6 +120,9 @@ public:
                 // 但如果不调用，程序无法显示图形
                 // 目前还没搞清原因
                 // --- 这个 bug 暂时消失了... ---
+
+    Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
+
 
     //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地

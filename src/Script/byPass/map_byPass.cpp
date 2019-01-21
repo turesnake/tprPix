@@ -20,7 +20,7 @@ void map_byPass(){
     //-- bind mapTex - mesh --
     sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );
     sectionPtr->mesh.set_shader_program( &(esrc::rect_shader) );
-    sectionPtr->mesh.is_visible = true;
+    sectionPtr->mesh.isVisible = true;
 
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值

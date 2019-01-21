@@ -64,7 +64,7 @@ void GameMesh::refresh_translate(){
  */
 void GameMesh::draw(){
 
-    if( is_visible == false ){
+    if( isVisible == false ){
         return;
     }
 

@@ -61,24 +61,24 @@ public:
         rgba = _rgba;
         colliEntHead.clear_all(); 
 
-        is_emply_        = true;
-        is_rootColliEntHead_ = false;
-        is_colliEntHead_     = false;
-        is_rootAnchor_       = false;
-        is_childAnchor_      = false;
+        isEmpty        = true;
+        isRootColliEntHead = false;
+        isColliEntHead     = false;
+        isRootAnchor       = false;
+        isChildAnchor      = false;
 
         //--- A ---
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) ||
             (is_near(rgba, uselessColor_1, 5)==true) ){
             return;
         }
-        is_emply_ = false;
+        isEmpty = false;
 
         //--- R --- 
         //------- rootColliEntHead --------
         int idx = rgba.r - R_rootColliEntHead;
         if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
-            is_rootColliEntHead_ = true;
+            isRootColliEntHead = true;
             colliEntHead.colliEntSetIdx = idx;
             colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
             set_altiRange();
@@ -86,32 +86,32 @@ public:
         //------- colliEntHead --------
         idx = rgba.r - R_colliEntHead;
         if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
-            is_colliEntHead_ = true;
+            isColliEntHead = true;
             colliEntHead.colliEntSetIdx = idx;
             colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
             set_altiRange();
         }
         
         //--- B --- 
-        is_rootAnchor_   = is_near_inner( RGBA_ChannelType::B, B_rootAnchor );
-        is_childAnchor_  = is_near_inner( RGBA_ChannelType::B, B_childAnchor );
+        isRootAnchor   = is_near_inner( RGBA_ChannelType::B, B_rootAnchor );
+        isChildAnchor  = is_near_inner( RGBA_ChannelType::B, B_childAnchor );
         //...more...
     }
 
     inline bool is_emply() const {
-        return  is_emply_;
+        return  isEmpty;
     }
     inline bool is_rootColliEntHead() const {
-        return  is_rootColliEntHead_;
+        return  isRootColliEntHead;
     }
     inline bool is_colliEntHead() const {
-        return  is_colliEntHead_;
+        return  isColliEntHead;
     }
     inline bool is_rootAnchor() const {
-        return  is_rootAnchor_;
+        return  isRootAnchor;
     }
     inline bool is_childAnchor() const {
-        return  is_childAnchor_;
+        return  isChildAnchor;
     }
 
     inline const ColliEntHead &get_colliEntHead() const {
@@ -125,11 +125,11 @@ private:
     //---
     u8            off          {}; //- 颜色误差
 
-    bool is_emply_            {false}; //- when chanel_A==0;
-    bool is_rootColliEntHead_ {false}; //- 与 is_colliEntHead_ 不会同时亮起
-    bool is_colliEntHead_     {false};
-    bool is_rootAnchor_       {false};
-    bool is_childAnchor_      {false}; 
+    bool isEmpty            {false}; //- when chanel_A==0;
+    bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起
+    bool isColliEntHead     {false};
+    bool isRootAnchor       {false};
+    bool isChildAnchor      {false}; 
 
     inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){

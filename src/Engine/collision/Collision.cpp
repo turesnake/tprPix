@@ -15,65 +15,75 @@
 #include "GameObj.h"
 #include "FramePos.h"
 #include "srcs_engine.h"
+#include "MapCoord.h"
 
+#include "debug.h"
 
 /* ===========================================================
  *                       init
  * -----------------------------------------------------------
  * -- 
  */
-void Collision::init( GameObj *_goPtr, GameMesh *_gameMeshPtr ){
+void Collision::init( GameObj *_goPtr ){
     goPtr = _goPtr;
-    gameMeshPtr = _gameMeshPtr;
     //...
 }
 
 
 
 /* ===========================================================
- *                     refresh
- * -----------------------------------------------------------
- * -- 也许会被 内置到 collide 函数内 
- */
-void Collision::refresh(){
-
-    //-- 若无动画帧切换，不执行后续 refresh --
-    if( (gameMeshPtr->get_actionName()==currentaActionName) &&
-        (gameMeshPtr->get_currentActionFrameIdx()==currentActionFrameIdx) ){
-        return;
-    }
-    currentaActionName = gameMeshPtr->get_actionName();
-    currentActionFrameIdx = gameMeshPtr->get_currentActionFrameIdx();
-
-    //...
-    
-
-}
-
-
-/* ===========================================================
- *                     collide
+ *                   collide_for_crawl
  * -----------------------------------------------------------
  * -- 碰撞检测主流程 
  */
-void Collision::collide(){
+void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
 
-    //-- 最简状态：什么也不优化，先走一遍流程 --//
+    //-- 最简状态：什么也不优化，先走一遍流程... --//
 
-    for( auto &m : goPtr->gameMeshs ){ //-- each go.gameMesh
+    //------------------------------//
+    //  获得  rootAnchor 当前 ppos
+    //------------------------------//
+    // 当前处于 crawl 节点帧，
+    // rootAnchor 所在的 collient 一定对齐于 mapent
+    IntVec2  currentPPos = goPtr->goPos.get_currentPPos();  //-- 直指 current rootAnchor 检测用
 
-        const FramePos &framePos = m.get_currentFramePos();
-
-        for( auto &ceh : framePos.colliEntHeads ){ //-- each colliEntHead
-
+    MapCoord  cesMCPos;      //- 每个 ces左下角的 mcpos （世界绝对pos）
+    MapCoord  colliEntMCPos; //- adds/dels 中，每个ent 的 mcpos （世界绝对pos）
+    
+    //------------------------------//
+    //  遍历每个  go.gameMesh
+    //  遍历每个  ces
+    //------------------------------//
+    for( auto &gMeshRef : goPtr->gameMeshs ){ //-- each go.gameMesh
         
+        //-- 检测这个 mesh 是否可以跳过
+        if( gMeshRef.isCollide == false ){
+            continue;
+        }
 
+        for( auto &ceh : gMeshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each colliEntHead
+
+            // ceh.lAltiRange //-- 高度区间值。
+
+            cesMCPos.set_by_ppos( currentPPos + ceh.pposOff_fromRootAnchor );
             ColliEntSet &cesRef = esrc::colliEntSets.at( ceh.colliEntSetIdx ); //- get ces ref
 
-            //--- 这就是我们要找的数据 ---//
-            //cesRef.colliEnt_adds
-            //cesRef.colliEnt_dels
+            //--- 访问 adds ---//
+            for( const auto &i : cesRef.get_addEntOffs(_nbIdx) ){
 
+                colliEntMCPos = i + cesMCPos;
+                //-- 拿着这个值，就能去 mapent／section 中查看数据了 
+
+                    //-- 现在，我们可以先打印这组数据... 
+                    /*
+                    cout << "addEntMPos: " << colliEntMCPos.get_mpos().x
+                        << ", " << colliEntMCPos.get_mpos().y 
+                        << endl;
+                    */
+                   //-- 在未来，这个检测应该通过 图形来表达。
+                    
+            }
+                    //cout << endl;
 
 
 

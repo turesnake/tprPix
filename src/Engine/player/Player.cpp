@@ -93,13 +93,13 @@ void Player::bind_goPtr(){
 
     //-- 解绑旧go --//
     if( goPtr!=nullptr ){
-        goPtr->is_control_by_player = false;
+        goPtr->isControlByPlayer = false;
     }
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
     goPtr = esrc::find_memGameObjs( goid );
-    goPtr->is_control_by_player = true;
+    goPtr->isControlByPlayer = true;
 }
 
 

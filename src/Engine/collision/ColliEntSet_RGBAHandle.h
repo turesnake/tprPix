@@ -52,38 +52,38 @@ public:
         rgba = _rgba;
         radius_10 = 0;
 
-        is_emply_ = true;
-        is_center_ = false;
-        is_colliEnt_ = false;
+        isEmpty = true;
+        isCenter = false;
+        isColliEnt = false;
 
         //-- empty --
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
             (is_near(rgba, uselessColor_1, 5)==true) ){
             return;
         }
-        is_emply_ = false;
+        isEmpty = false;
 
         //--- R --- 
         if( is_near_inner(RGBA_ChannelType::R, R_colliEnt) == true ){
-            is_colliEnt_     = true;
+            isColliEnt     = true;
         }
 
         //--- B --- 
         if( is_near_inner(RGBA_ChannelType::B, B_center) == true ){
-            is_center_       = true;
+            isCenter       = true;
             assert( rgba.g > 0 );
             radius_10 = (int)rgba.g;
         }
     }
 
     inline bool is_emply() const {
-        return  is_emply_;
+        return  isEmpty;
     }
     inline bool is_center() const {
-        return  is_center_;
+        return  isCenter;
     }
     inline bool is_colliEnt() const {
-        return  is_colliEnt_;
+        return  isColliEnt;
     }
 
     inline int get_radius_10() const {
@@ -96,9 +96,9 @@ private:
 
     u8     off  {}; //- 颜色误差
     
-    bool is_emply_        {false}; //- when chanel_A==0, or {200,200,200,255}
-    bool is_center_       {false};
-    bool is_colliEnt_     {false};
+    bool isEmpty        {false}; //- when chanel_A==0, or {200,200,200,255}
+    bool isCenter       {false};
+    bool isColliEnt     {false};
  
     inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){

@@ -38,6 +38,7 @@ public:
         y = 0;
     }
 
+    //- 只是简单转换为 IntVec2, 在用于 MapCoord 时要注意
     inline IntVec2 to_IntVec2() const {
         return IntVec2{ x, y };
     } 
