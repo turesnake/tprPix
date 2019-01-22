@@ -41,6 +41,7 @@
 #include "Move.h"
 #include "MapCoord.h" 
 #include "GameObjPos.h"
+#include "Collision.h"
 
 
 

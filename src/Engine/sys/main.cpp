@@ -187,27 +187,38 @@ int main(){
         }
 
 
-        //--------------------------------//
-        //        render  meshs
-        //--------------------------------//
+        //====================================//
+        //          -- RENDER --
+        //    Z-Deep 深的 mesh 必须先渲染
+        //====================================//
+
+        //--- clear RenderPools:
         esrc::renderPool_meshs.clear();
+        esrc::renderPool_shadowMeshs.clear();
+        esrc::renderPool_picMeshs.clear();
         
-        //-- mapSection --
+
+        //------------------------//
+        //       mapSections
+        //------------------------//
         for( auto& p : esrc::mapSections ){
-            
-            //- update translate
+            //- update translate   MUST !!!
             p.second.refresh_translate_auto();
             //-- add to renderPool
             esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
                                                 (Mesh*)&p.second.mesh });
         }
-        esrc::draw_renderPool_meshs();
 
-        //--------------------------------//
-        //       render gameMeshs
-        //--------------------------------//
-        esrc::renderPool.clear(); //- *** 必须清空 ！！！*** -
+        //------------------------//
+        //     mapEntSlices
+        //------------------------//
+        //...
 
+
+        //------------------------//
+        //      shadowMeshs
+        //        picMeshs
+        //------------------------//
         esrc::foreach_goids_active(
             []( goid_t _goid, GameObj *_goPtr ){
 
@@ -215,7 +226,15 @@ int main(){
                 _goPtr->RenderUpdate( _goPtr ); 
             }
         );
-        esrc::draw_renderPool(); //++ 统一渲染mesh ++
+
+
+        //>>>>>>>>>>>>>>>>>>>>>>>>//
+        //        draw call
+        //>>>>>>>>>>>>>>>>>>>>>>>>//
+        esrc::draw_renderPool_meshs(); 
+        esrc::draw_renderPool_shadowMeshs();
+        esrc::draw_renderPool_picMeshs(); 
+
         
         //--------------------------------//
         //   check and call events

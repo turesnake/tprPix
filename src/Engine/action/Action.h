@@ -100,10 +100,12 @@ public:
 
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
-    //- 相对路径名，从 path_action_srcs 目录开始
-    std::string  lpath_pic;
-    //- 画面 投影单位集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
-    std::string  lpath_pjt;   
+    //- local path，based on path_action_srcs
+    std::string  lpath_pic;    //-- picture
+    std::string  lpath_pjt;    //-- collients
+    std::string  lpath_shadow; //-- shadow
+
+
 
     IntVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
     IntVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧
@@ -112,10 +114,16 @@ public:
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
-    std::vector<GLuint> texNames; 
+    std::vector<GLuint> texNames_pic; 
+    std::vector<GLuint> texNames_shadow; 
 
     //-- each frame --
     std::vector<FramePos>  framePoses {};
+
+private:
+    void create_texNames( std::vector<std::vector<RGBA>> &_frame_data_ary,
+                          std::vector<GLuint> &_texNames );
+
 };
 
 

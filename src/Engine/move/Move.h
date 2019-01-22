@@ -34,7 +34,7 @@ public:
                         Collision *_collisionPtr ){ //-- MUST --
         goPtr    = _goPtr;
         goPosPtr = _goPosPtr;
-        crawl.init( (Move*)this, goPosPtr, _collisionPtr ); 
+        crawl.init( goPtr, (Move*)this, goPosPtr, _collisionPtr ); 
         fly.init(   (Move*)this, goPosPtr );
     }
 

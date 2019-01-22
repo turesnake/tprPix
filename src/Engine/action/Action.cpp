@@ -76,12 +76,21 @@ void Action::init(){
     lpath_pjt.assign( lpath_pic.begin(), (lpath_pic.begin()+point_idx) );
     lpath_pjt += ".J.png";
 
+    //--------------------//
+    //    生成 lpath_shadow
+    //--------------------//
+    //- lpath_shadow 暂时等于 "/animal/dog_ack_01"
+    lpath_shadow.assign( lpath_pic.begin(), (lpath_pic.begin()+point_idx) );
+    lpath_shadow += ".S.png";
+
+
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
-    vector< vector<RGBA> > P_frame_data_ary {}; 
-    vector< vector<RGBA> > J_frame_data_ary {}; 
+    vector<vector<RGBA>> P_frame_data_ary {}; 
+    vector<vector<RGBA>> J_frame_data_ary {}; 
+    vector<vector<RGBA>> S_frame_data_ary {};
 
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
                         pixes_per_frame,
@@ -94,10 +103,16 @@ void Action::init(){
                         frameNum,
                         totalFrameNum,
                         J_frame_data_ary );
+    
+    load_and_divide_png( tpr::path_combine( path_actions, lpath_shadow ),
+                        pixes_per_frame,
+                        frameNum,
+                        totalFrameNum,
+                        S_frame_data_ary );
 
-    //----------------------------//
-    //      读取 pjt 投影信息
-    //----------------------------//
+    //---------------------------------//
+    //        读取 pjt 投影信息
+    //---------------------------------//
     int pixNum = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
     PjtRGBAHandle  jh {5};
     framePoses.resize( totalFrameNum );
@@ -146,15 +161,35 @@ void Action::init(){
 
 
     //---------------------------------//
-    //  依次 制作每一动画帧 的 texture 实例
+    //        读取 shadow 信息
     //---------------------------------//
-    texNames.resize( totalFrameNum );
-    //-- 申请 n个 tex实例，并获得其 names
-    glGenTextures( totalFrameNum, &texNames.at(0) );
+    //...
 
+
+
+
+    //---------------------------------//
+    //       create GL.texNames
+    //---------------------------------//
+    create_texNames( P_frame_data_ary, texNames_pic );
+    create_texNames( S_frame_data_ary, texNames_shadow );
+}
+
+
+/* ===========================================================
+ *                    create_texNames
+ * -----------------------------------------------------------
+ */
+void Action::create_texNames( std::vector<std::vector<RGBA>> &_frame_data_ary,
+                              std::vector<GLuint> &_texNames ){
+
+    _texNames.resize( totalFrameNum );
+    //-- 申请 n个 tex实例，并获得其 names
+    glGenTextures( totalFrameNum, &_texNames.at(0) );
+    
     for( int i=0; i<totalFrameNum; i++ ){
 
-        glBindTexture( GL_TEXTURE_2D, texNames.at(i) );
+        glBindTexture( GL_TEXTURE_2D, _texNames.at(i) );
 
         //-- 为 GL_TEXTURE_2D 设置环绕、过滤方式
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  //-- 设置 S轴的 环绕方式
@@ -164,7 +199,7 @@ void Action::init(){
                                                         //-- GL_NEAREST 临近过滤，8-bit 专用
                                                         //-- GL_LINEAR  线性过滤，
 
-        u8 *dptr = (u8*)&P_frame_data_ary.at(i).at(0);
+        u8 *dptr = (u8*)&_frame_data_ary.at(i).at(0);
 
         //-- 通过之前的 png图片数据，生成 一个 纹理。
         glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
@@ -207,8 +242,8 @@ void Action::debug() const{
                 << endl;
         }
 
-        cout << "texNames: " << endl;
-        for( auto i : texNames ){
+        cout << "texNames_pic: " << endl;
+        for( auto i : texNames_pic ){
             cout << "  " << i << endl;
         }
 

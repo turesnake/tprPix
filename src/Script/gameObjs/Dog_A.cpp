@@ -28,7 +28,7 @@ using namespace std::placeholders;
 
 using std::string;
 
-//#include "debug.h" //- tmp
+#include "debug.h" 
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -85,8 +85,10 @@ void Dog_A::init( GameObj *_goPtr ){
 
         //-- 制作唯一的 mesh 实例 --
         GameMesh *meshPtr = goPtr->creat_new_gameMesh();
-        meshPtr->set_shader_program( &esrc::rect_shader );
         meshPtr->init( goPtr ); 
+        //meshPtr->set_shader_program( &esrc::rect_shader );
+        meshPtr->picMesh.set_shader_program( &esrc::rect_shader );
+        meshPtr->shadowMesh.set_shader_program( &esrc::rect_shader );
         meshPtr->isVisible = true;
         meshPtr->isCollide = true;
         //-- bind action / actionHandle --
@@ -96,8 +98,8 @@ void Dog_A::init( GameObj *_goPtr ){
                                     0,                //- 起始画面帧序号
                                     6 );              //- 画面帧间 时长
         //-- oth vals --
-        meshPtr->pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
-      
+        //meshPtr->picMesh.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
+        //meshPtr->shadowMesh.pposOff = glm::vec2{ 0.0f, 0.0f };
 
     //-------- go.binary ---------//
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
@@ -169,7 +171,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
 
 
     //=====================================//
-    //  将 确认要渲染的 gameMeshs，添加到 renderPool          
+    //  将 确认要渲染的 gameMeshs，添加到 renderPool_gameMeshs          
     //-------------------------------------//
     for( auto &meshRef : goPtr->gameMeshs ){
 
@@ -182,11 +184,16 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         meshRef.actionHandle.funcs.at("update")(&(meshRef.actionHandle), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
-        meshRef.refresh_translate();
-        meshRef.refresh_scale_auto(); //- 没必要每帧都执行
+        meshRef.shadowMesh.refresh_translate();
+        meshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
 
-        esrc::renderPool.insert({ meshRef.get_render_z(), (GameMesh*)&meshRef }); 
+        meshRef.picMesh.refresh_translate();
+        meshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
+
+        esrc::renderPool_shadowMeshs.insert({ meshRef.shadowMesh.get_render_z(), (ChildMesh*)&(meshRef.shadowMesh) });
+        esrc::renderPool_picMeshs.insert(   { meshRef.picMesh.get_render_z(),    (ChildMesh*)&(meshRef.picMesh) }); 
     }
+
 }
 
 

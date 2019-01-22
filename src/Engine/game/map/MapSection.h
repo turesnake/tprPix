@@ -87,8 +87,6 @@ public:
     void refresh_translate_auto();
 
 
-
-
     //------- section 自己的 图形 ---
     MapTexture  mapTex {};
     Mesh        mesh   {}; 

@@ -37,6 +37,10 @@ inline bool IS_FULL_SCREEN = false;
 #define PIXES_PER_MAPENT  3
 
 
+//-- camera.viewingBox z_deep
+#define VIEWING_BOX_Z_DEEP  1000
+
+
 
 #endif
 

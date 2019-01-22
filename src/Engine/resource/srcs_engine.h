@@ -31,7 +31,8 @@
 #include "TimeCircle.h" 
 #include "Camera.h"
 #include "ShaderProgram.h"
-#include "GameMesh.h" 
+//#include "GameMesh.h" 
+#include "ChildMesh.h"
 #include "Behaviour.h" 
 #include "MapSection.h" 
 #include "ColliEntSet.h"
@@ -121,15 +122,18 @@ inline GameObj *find_memGameObjs( goid_t _goid ){
 
 
 //-------------------------//
-//   renderPool / 渲染池
+//   renderPool_picMeshs
 //-------------------------//
 //--- mem ---//
-inline std::multimap<float, GameMesh*> renderPool {}; 
+inline std::multimap<float, ChildMesh*> renderPool_picMeshs {}; 
+inline std::multimap<float, ChildMesh*> renderPool_shadowMeshs {}; 
             //- key 是 图元的 z值。map会自动排序(负无穷在前，正无穷在后，符合我们要的顺序)
             //- 遍历 渲染池，就能从远到近地 渲染每一个 图元
             //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
+void draw_renderPool_picMeshs();
+void draw_renderPool_shadowMeshs();
 
-void draw_renderPool();
+
 
 //-------------------------//
 //     globState 资源
@@ -171,6 +175,9 @@ MapSection *insert_new_mapSection( const MapCoord &_sectionPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mc ); //- 临时放这 
 
 
+//-------------------------//
+//   renderPool_meshs
+//-------------------------//
 //-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中
 //-- 比如：
 //    - mapSection

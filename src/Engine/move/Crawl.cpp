@@ -23,6 +23,8 @@
 #include "MapCoord.h"
 #include "Collision.h"
 
+#include "GameObj.h" //- tmp
+
 
 #include "debug.h" 
 
@@ -51,9 +53,11 @@ namespace{//-------------- namespace ------------------//
  *                        init
  * -----------------------------------------------------------
  */
-void Crawl::init(   Move *_movePtr, 
+void Crawl::init(   GameObj *_goPtr, 
+                    Move *_movePtr, 
                     GameObjPos *_goPosPtr, 
                     Collision *_collisionPtr  ){
+    goPtr = _goPtr; 
     movePtr  = _movePtr;
     goPosPtr = _goPosPtr;
     collisionPtr = _collisionPtr;
@@ -117,11 +121,6 @@ void Crawl::RenderUpdate(){
         collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
 
             
-
-
-
-
-
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
@@ -130,6 +129,28 @@ void Crawl::RenderUpdate(){
         }
         max = pair.first;
         speed = pair.second;
+
+                /*
+                if( goPtr->isControlByPlayer == true ){
+                    cout << "---- player ----" << endl;
+                }
+
+                glm::vec3 pixPos    = goPtr->gameMeshs.at(0).picMesh.get_translate_val();
+                glm::vec3 shadowPos = goPtr->gameMeshs.at(0).shadowMesh.get_translate_val();
+
+                cout << "pic   : " << pixPos.x
+                    << ", " << pixPos.y
+                    << ", " << pixPos.z
+                    << endl;
+
+                cout << "shadow: " << shadowPos.x
+                    << ", " << shadowPos.y
+                    << ", " << shadowPos.z
+                    << endl;
+                */
+                
+
+
     }
     //----------//
     count++;

@@ -41,17 +41,12 @@ namespace{
  */
 void Camera::init(){
 
-    boxSize = glm::vec3( (float)WORK_WIDTH,
-                         (float)WORK_HEIGHT,
-                         1000.0f   //-- tmp 
-                        );  
-
-    currentPos = glm::vec3( 0.0f,
+    currentPPos = glm::vec3( 0.0f,
                             0.0f,
-                            0.5f * boxSize.z   
+                            0.5f * ViewingBox::z   
                             ); 
 
-    targetPos = glm::vec2( 0.0f, 0.0f );
+    targetPPos = glm::vec2( 0.0f, 0.0f );
 }
 
 
@@ -62,11 +57,11 @@ void Camera::init(){
  */
 void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
 
-    if( _tpos == targetPos ){
+    if( _tpos == targetPPos ){
         return;
     }
-    targetPos = _tpos;
-    is_moving = true;
+    targetPPos = _tpos;
+    isMoving = true;
     approachPercent = _approachPercent;
 }
 
@@ -79,23 +74,23 @@ void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
  */
 void Camera::RenderUpdate(){
 
-    if( is_moving == false ){
+    if( isMoving == false ){
         return;
     }
 
-    glm::vec2 off { targetPos.x-currentPos.x, 
-                    targetPos.y-currentPos.y };
+    glm::vec2 off { targetPPos.x-currentPPos.x, 
+                    targetPPos.y-currentPPos.y };
     //-- 若非常接近，直接同步 --
     if( (abs(off.x)<0.1f) && (abs(off.y)<0.1f) ){
-        targetPos.x = currentPos.x;
-        targetPos.y = currentPos.y;
-        is_moving = false;
+        targetPPos.x = currentPPos.x;
+        targetPPos.y = currentPPos.y;
+        isMoving = false;
         return;
     }
 
-    currentPos.x += approachPercent * off.x;
-    currentPos.y += approachPercent * off.y;
-    currentPos.z =  -currentPos.y + (0.5f * boxSize.z); //-- IMPORTANT --
+    currentPPos.x += approachPercent * off.x;
+    currentPPos.y += approachPercent * off.y;
+    currentPPos.z =  -currentPPos.y + (0.5f * ViewingBox::z); //-- IMPORTANT --
 }
 
 
@@ -106,8 +101,8 @@ void Camera::RenderUpdate(){
  */
 glm::mat4 &Camera::update_mat4_view(){
 
-    mat4_view = glm::lookAt( currentPos, 
-                             (currentPos + cameraFront), 
+    mat4_view = glm::lookAt( currentPPos, 
+                             (currentPPos + cameraFront), 
                              cameraUp );
     return mat4_view;
 }
@@ -122,15 +117,15 @@ glm::mat4 &Camera::update_mat4_projection(){
 
     //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
     //   所以不推荐，将 ow/oh 写成定值
-    float ow = 0.5f * boxSize.x;  //- 横向边界半径（像素）
-    float oh = 0.5f * boxSize.y;  //- 纵向边界半径（像素）
+    float ow = 0.5f * ViewingBox::x;  //- 横向边界半径（像素）
+    float oh = 0.5f * ViewingBox::y;  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
-    // 基于 currentPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
-    // 基于 currentPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
+    // 基于 currentPPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
+    // 基于 currentPPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
     float zNear_relative  = 0.0f;  //- 负数也接受
-    float zFar_relative   = boxSize.z;
+    float zFar_relative   = ViewingBox::z;
 
 
     mat4_projection = glm::ortho( -ow,   //-- 左边界
@@ -149,77 +144,10 @@ glm::mat4 &Camera::update_mat4_projection(){
  * -----------------------------------------------------------
  */
 void Camera::print_pos(){
-    cout << "cameraPos: " << currentPos.x 
-        << ", " << currentPos.y 
-        << ", " << currentPos.z
+    cout << "cameraPos: " << currentPPos.x 
+        << ", " << currentPPos.y 
+        << ", " << currentPPos.z
         << endl;
 }
-
-
-/* ===========================================================
- *           cameraPos_up / down / left / right   
- * -----------------------------------------------------------
- * --
- */
-/*
-void Camera::cameraPos_left(){
-    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    currentPos -= cameraRight * cameraSpeed;
-}
-void Camera::cameraPos_right(){
-    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    currentPos += cameraRight * cameraSpeed;
-}
-void Camera::cameraPos_up(){
-    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    currentPos += cameraUp * cameraSpeed;
-}
-void Camera::cameraPos_down(){
-    cameraSpeed = 30.0f * esrc::timer.get_last_deltaTime();
-    currentPos -= cameraUp * cameraSpeed;
-}
-*/
-
-
-/* ===========================================================
- *                    mousePos_move     
- * -----------------------------------------------------------
- * -- 鼠标位移，控制 摄像机 视角。
- */
-/*
-void Camera::mousePos_move( double xpos, double ypos ){
-
-    //--- 游戏开始时，第一次鼠标运动 时的 配置。
-    if( 1 == fst_mouse ){
-        mouseX_last = xpos;
-        mouseY_last = ypos;
-        fst_mouse = 0;
-    }
-
-    //---- 更新 鼠标坐标
-    mouseX_off = xpos - mouseX_last;
-    mouseY_off = -(ypos - mouseY_last); //-- 反向 一下。
-
-    mouseX_last = xpos;
-    mouseY_last = ypos;
-
-    //---- 
-    mouseX_off *= mousePos_sensitivity;
-    mouseY_off *= mousePos_sensitivity;
-
-    yaw   += mouseX_off; //-- 偏航（角度）
-    pitch += mouseY_off; //-- 俯仰（角度）
-
-    //------ 避免 俯仰值 到达 90度 （看向天顶）
-    if( pitch > 89.0f ){
-        pitch = 89.0f;
-    }
-    if( pitch < -89.0f ){
-        pitch = -89.0f;
-    }
-}
-*/
-
-
 
 

@@ -44,11 +44,11 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "ShaderProgram.h" //-- each GameMesh instance,will bind a shader
 #include "ActionHandle.h"
 #include "Action.h" 
 #include "Collision.h" 
 #include "AnchorPos.h"
+#include "ChildMesh.h"
 
 //--- need ---//
 class GameObj;
@@ -77,44 +77,14 @@ public:
 
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
-    }
-
-    void draw();
-
-    inline void set_shader_program( ShaderProgram *_sp ){
-        shaderPtr = _sp;
-    }
-
-    //- pix游戏 暂时只支持 轴旋转 --
-    inline void set_rotate_z( float _z ){
-        rotate_z = _z;
-    }
-
-    //- 外部手动改写 scale_val --
-    inline void set_scale( const glm::vec3 &_v ){
-        scale_val = _v;
-    }
-
-    //-- 此函数 只能在 RenderUpdate 阶段被调用 --
-    //-- 其余代码 不应随意调用 此函数!!! --
-    void refresh_translate();
-
-    //- 大部分 具象go实例 的 GameMesh图元 长宽值 与 action数据 强关联 --
-    //  所以可以直接从 action 中获取数据
-    //  这个函数很常用
-    //  但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
-    inline void refresh_scale_auto(){
-        const IntVec2 &p = actionPtr->pixes_per_frame;
-        scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
-    }
-
-    //- 通过 translate_val.z 值 来给 待渲染的 gameMeshs 排序 --
-    inline float get_render_z() const {
-        return translate_val.z;
+        //-----
+        picMesh.init(    goPtr, (GameMesh*)this );
+        shadowMesh.init( goPtr, (GameMesh*)this );
     }
 
     //------ action ------
     void bind_action( const std::string &_name );
+
     inline const std::string &get_actionName() const {
         return actionName;
     }
@@ -138,50 +108,41 @@ public:
         return actionPtr->framePoses.at( actionHandle.currentIdx );
     }
 
-    //--------- vals ---------//
-    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos相对偏移 
-                    //  用来记录，本GameMesh 在 go中的 位置（图形）
-                    //-- 大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
-                    //   若本 gameMesh实例 是 root gameMesh。此值必须为0
+    inline GLuint get_currentTexName_pic() const {
+        return actionPtr->texNames_pic.at(actionHandle.currentIdx);
+    }
+    inline GLuint get_currentTexName_shadow() const {
+        return actionPtr->texNames_shadow.at(actionHandle.currentIdx);
+    }
 
-    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
-                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameMesh off_z +0.1f
-                    //- 这个值 多数由 具象go类 填入的。
-
-    ActionHandle actionHandle {}; //- 一个 GameMesh拥有一个 ah实例
-                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
-                                    //- 但是存在 类型验证的需求：通过 .typeId 
-    
-    bool   isVisible  {true};  //- 是否可见
-                                //- 默认初始值 务必为 false ？？
-                                //- 可以避免没有 init完成的 GameMesh 被渲染
-    
-    bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
+    inline const IntVec2 &get_currentRootAnchorPPosOff() const {
+        return actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
+    }
 
 
-private:
-    GameObj  *goPtr {nullptr}; //- 每个 gameMesh实例 都属于一个 go实例. 强关联
-                               
     //------- action -------
+    //  ... 临时设置为公共 ...
     // 具象go类代码 通过 name／id 来 设置／改写 action数据
     // 在单一时间，一个GameMesh实例 只能绑定 一个 action实例
     std::string  actionName;       //- 与下方的 actionPtr 强关联 --
     Action      *actionPtr {nullptr}; //- 指向 esrc::actions 中的某个 action 实例
                                     //- 通过 bind_action() 来绑定
 
-    ShaderProgram  *shaderPtr  {nullptr}; 
-    //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
-    glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
-                          //-- 自动初始化为 标准矩阵
-
-    //-- 位移／旋转／缩放 变化向量。
-    glm::vec3 translate_val {};    
-    float     rotate_z    {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
+    ActionHandle actionHandle {}; //- 一个 GameMesh拥有一个 ah实例
+                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
+                                    //- 但是存在 类型验证的需求：通过 .typeId 
+    
+    ChildMesh   picMesh    { true };
+    ChildMesh   shadowMesh { false };
 
 
-    //--------- funcs ----------
-    void update_mat4_model(); //-- 重新计算 model矩阵
+    bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
+    bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
+
+
+private:
+    GameObj  *goPtr {nullptr}; //- 每个 gameMesh实例 都属于一个 go实例. 强关联
+                               
 };
 
 

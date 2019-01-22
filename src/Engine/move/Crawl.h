@@ -18,6 +18,7 @@
 
 
 //-- 依赖代码 --
+class GameObj; //- tmp
 class Move;
 class GameObjPos;
 class Collision;
@@ -29,7 +30,8 @@ class Crawl{
 public:
     Crawl() = default;
 
-    void init(  Move *_movePtr, 
+    void init(  GameObj *_goPtr, 
+                Move *_movePtr, 
                 GameObjPos *_goPosPtr, 
                 Collision *_collisionPtr ); //-- MUST --
     void RenderUpdate(); 
@@ -39,6 +41,8 @@ public:
     }
 
 private:
+    GameObj     *goPtr    {nullptr};
+
     Move        *movePtr  {nullptr}; //- 每个 crawl实例 都属于一个 move实例, 强关联
     GameObjPos  *goPosPtr {nullptr}; 
     Collision   *collisionPtr {nullptr};                           
