@@ -106,10 +106,10 @@ private:
     std::vector< std::set<MapCoord> > delEntOffss {};
 
 
-    IntVec2   centerPPos        {}; //- 碰撞区中心 ppos
+    IntVec2   centerPPos    {};    //- 碰撞区中心 ppos
     NineBox   centerCompass {0,0}; //- center 在其 mapent 中的位置 
-    float     radius        {}; //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
-                                //- 以像素为单位
+    float     radius        {};    //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
+                                   //- 以像素为单位
 
     //----- funcs -------
     void create_adds_dels_by_nineBox( NineBoxIdx _idx );

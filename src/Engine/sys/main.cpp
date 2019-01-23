@@ -193,18 +193,17 @@ int main(){
         //====================================//
 
         //--- clear RenderPools:
+        // *** 注意次序 ***
         esrc::renderPool_meshs.clear();
-        esrc::renderPool_shadowMeshs.clear();
-        esrc::renderPool_picMeshs.clear();
+        esrc::renderPool_goMeshs_pic.clear();
+        esrc::renderPool_goMeshs_shadow.clear();
         
 
         //------------------------//
         //       mapSections
         //------------------------//
         for( auto& p : esrc::mapSections ){
-            //- update translate   MUST !!!
-            p.second.refresh_translate_auto();
-            //-- add to renderPool
+            p.second.refresh_translate_auto(); //-- MUST !!!
             esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
                                                 (Mesh*)&p.second.mesh });
         }
@@ -216,12 +215,11 @@ int main(){
 
 
         //------------------------//
-        //      shadowMeshs
-        //        picMeshs
+        //     - shadowMeshs
+        //     - picMeshs
         //------------------------//
         esrc::foreach_goids_active(
             []( goid_t _goid, GameObj *_goPtr ){
-
                 assert( _goPtr->RenderUpdate != nullptr );
                 _goPtr->RenderUpdate( _goPtr ); 
             }
@@ -231,9 +229,10 @@ int main(){
         //>>>>>>>>>>>>>>>>>>>>>>>>//
         //        draw call
         //>>>>>>>>>>>>>>>>>>>>>>>>//
+        // *** 注意次序 ***
         esrc::draw_renderPool_meshs(); 
-        esrc::draw_renderPool_shadowMeshs();
-        esrc::draw_renderPool_picMeshs(); 
+        esrc::draw_renderPool_goMeshs_shadow();
+        esrc::draw_renderPool_goMeshs_pic(); 
 
         
         //--------------------------------//

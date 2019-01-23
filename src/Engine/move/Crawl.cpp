@@ -135,8 +135,8 @@ void Crawl::RenderUpdate(){
                     cout << "---- player ----" << endl;
                 }
 
-                glm::vec3 pixPos    = goPtr->gameMeshs.at(0).picMesh.get_translate_val();
-                glm::vec3 shadowPos = goPtr->gameMeshs.at(0).shadowMesh.get_translate_val();
+                glm::vec3 pixPos    = goPtr->goMeshs.at(0).picMesh.get_translate_val();
+                glm::vec3 shadowPos = goPtr->goMeshs.at(0).shadowMesh.get_translate_val();
 
                 cout << "pic   : " << pixPos.x
                     << ", " << pixPos.y

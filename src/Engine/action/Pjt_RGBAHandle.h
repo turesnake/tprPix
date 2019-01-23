@@ -1,5 +1,5 @@
 /*
- * ========================= PjtRGBAHandle.h ==========================
+ * ========================= Pjt_RGBAHandle.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2019.01.09
  *                                        修改 -- 2019.01.09
@@ -46,13 +46,13 @@ namespace{//---------- namespace ---------//
 
 //-- 只在 action 资源被加载时 才被调用，对性能无要求 --
 //  use:
-//  - PjtRGBAHandle jh { 5 };
+//  - Pjt_RGBAHandle jh { 5 };
 //  - jh.set_rgba( _pixColor );
 //  - XXX = jh.is_colliEntHead();
 //
-class PjtRGBAHandle{
+class Pjt_RGBAHandle{
 public:
-    explicit PjtRGBAHandle( u8 _off=5 ):
+    explicit Pjt_RGBAHandle( u8 _off=5 ):
         off(_off)
         {}    
 
@@ -69,7 +69,7 @@ public:
 
         //--- A ---
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) ||
-            (is_near(rgba, uselessColor_1, 5)==true) ){
+            (rgba.is_near( uselessColor_1, 5)==true) ){
             return;
         }
         isEmpty = false;

@@ -58,7 +58,7 @@ public:
 
         //-- empty --
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
-            (is_near(rgba, uselessColor_1, 5)==true) ){
+            (rgba.is_near( uselessColor_1, 5)==true) ){
             return;
         }
         isEmpty = false;

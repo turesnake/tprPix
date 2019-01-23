@@ -81,10 +81,10 @@ void Dog_A::init( GameObj *_goPtr ){
 
     goPtr->move.set_MoveType( true ); //- tmp
 
-    //-------- action／actionHandle/ gameMesh ---------//
+    //-------- action／actionHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例 --
-        GameMesh *meshPtr = goPtr->creat_new_gameMesh();
+        GameObjMesh *meshPtr = goPtr->creat_new_goMesh();
         meshPtr->init( goPtr ); 
         //meshPtr->set_shader_program( &esrc::rect_shader );
         meshPtr->picMesh.set_shader_program( &esrc::rect_shader );
@@ -93,13 +93,13 @@ void Dog_A::init( GameObj *_goPtr ){
         meshPtr->isCollide = true;
         //-- bind action / actionHandle --
         meshPtr->bind_action( "human_1" );
-        actionHdle::cycle_obj.bind( &(meshPtr->actionHandle), 
+        actionHdle::cycle_obj.bind( meshPtr->get_actionHandlePtr(), 
                                     meshPtr->get_totalFrames(), //- 画面帧总数
                                     0,                //- 起始画面帧序号
                                     6 );              //- 画面帧间 时长
-        //-- oth vals --
-        //meshPtr->picMesh.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 gameMesh 在 go 中的 坐标偏移 
-        //meshPtr->shadowMesh.pposOff = glm::vec2{ 0.0f, 0.0f };
+        //-- goMesh pos in go --
+        meshPtr->pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        meshPtr->off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
     goPtr->binary.resize( sizeof(Dog_A_Binary) );
@@ -171,9 +171,9 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
 
 
     //=====================================//
-    //  将 确认要渲染的 gameMeshs，添加到 renderPool_gameMeshs          
+    //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &meshRef : goPtr->gameMeshs ){
+    for( auto &meshRef : goPtr->goMeshs ){
 
         //-- 也许不该放在 这个位置 --
         if( meshRef.isVisible == false ){
@@ -181,7 +181,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        meshRef.actionHandle.funcs.at("update")(&(meshRef.actionHandle), 0);
+        meshRef.get_actionHandle_func("update")( meshRef.get_actionHandlePtr(), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
         meshRef.shadowMesh.refresh_translate();
@@ -190,8 +190,8 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
         meshRef.picMesh.refresh_translate();
         meshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
 
-        esrc::renderPool_shadowMeshs.insert({ meshRef.shadowMesh.get_render_z(), (ChildMesh*)&(meshRef.shadowMesh) });
-        esrc::renderPool_picMeshs.insert(   { meshRef.picMesh.get_render_z(),    (ChildMesh*)&(meshRef.picMesh) }); 
+        esrc::renderPool_goMeshs_pic.insert(    { meshRef.shadowMesh.get_render_z(), (ChildMesh*)&(meshRef.shadowMesh) });
+        esrc::renderPool_goMeshs_shadow.insert( { meshRef.picMesh.get_render_z(),    (ChildMesh*)&(meshRef.picMesh) }); 
     }
 
 }

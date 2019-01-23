@@ -57,10 +57,9 @@
 //-- AS实例 需要的参数 --
 struct ActionParams{
     std::string lpath_pic;
-    IntVec2  pixes_per_frame;
+    IntVec2  pixNum_per_frame;
     IntVec2  frameNums;
     IntVec2  anchor_root;
-
 };
 
 
@@ -77,12 +76,12 @@ enum class ActionType{
 class Action{
 public:
     Action( const std::string &_lpath_pic, 
-                IntVec2  _pixes_per_frame,
+                IntVec2  _pixNum_per_frame,
                 IntVec2  _frameNum,
                 int      _totalFrameNum 
                 ):
         lpath_pic(_lpath_pic),
-        pixes_per_frame(_pixes_per_frame),
+        pixNum_per_frame(_pixNum_per_frame),
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
         {}
@@ -106,8 +105,7 @@ public:
     std::string  lpath_shadow; //-- shadow
 
 
-
-    IntVec2  pixes_per_frame {};  //- 单帧画面 的 长宽 像素值
+    IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值
     IntVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧
     int      totalFrameNum {};   //- 总 图元帧 个数
 
@@ -123,6 +121,9 @@ public:
 private:
     void create_texNames( std::vector<std::vector<RGBA>> &_frame_data_ary,
                           std::vector<GLuint> &_texNames );
+
+    void handle_pjt();
+    void handle_shadow();
 
 };
 

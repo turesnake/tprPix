@@ -31,7 +31,6 @@
 #include "TimeCircle.h" 
 #include "Camera.h"
 #include "ShaderProgram.h"
-//#include "GameMesh.h" 
 #include "ChildMesh.h"
 #include "Behaviour.h" 
 #include "MapSection.h" 
@@ -122,16 +121,16 @@ inline GameObj *find_memGameObjs( goid_t _goid ){
 
 
 //-------------------------//
-//   renderPool_picMeshs
+//   renderPool goMeshs
 //-------------------------//
 //--- mem ---//
-inline std::multimap<float, ChildMesh*> renderPool_picMeshs {}; 
-inline std::multimap<float, ChildMesh*> renderPool_shadowMeshs {}; 
+inline std::multimap<float, ChildMesh*> renderPool_goMeshs_pic {}; 
+inline std::multimap<float, ChildMesh*> renderPool_goMeshs_shadow {}; 
             //- key 是 图元的 z值。map会自动排序(负无穷在前，正无穷在后，符合我们要的顺序)
             //- 遍历 渲染池，就能从远到近地 渲染每一个 图元
             //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
-void draw_renderPool_picMeshs();
-void draw_renderPool_shadowMeshs();
+void draw_renderPool_goMeshs_pic();
+void draw_renderPool_goMeshs_shadow();
 
 
 

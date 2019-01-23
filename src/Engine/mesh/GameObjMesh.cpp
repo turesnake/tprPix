@@ -1,14 +1,14 @@
 /*
- * ========================= GameMesh.cpp ==========================
+ * ========================= GameObjMesh.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.24
  *                                        修改 -- 2018.11.24
  * ----------------------------------------------------------
- *   GameMesh 类, 可以看作 图元类。
- *   一个 GameMesh，负责管理 一张 矩形图元
+ *   GameObjMesh 类, 可以看作 图元类。
+ *   一个 GameObjMesh，负责管理 一张 矩形图元
  * ----------------------------
  */
-#include "GameMesh.h" 
+#include "GameObjMesh.h" 
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h"
@@ -18,7 +18,7 @@
  *                 bind_action
  * -----------------------------------------------------------
  */
-void GameMesh::bind_action( const std::string &_name ){
+void GameObjMesh::bind_action( const std::string &_name ){
     actionName = _name;
     actionPtr = &(esrc::actions.at(_name));
 }

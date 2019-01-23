@@ -27,23 +27,27 @@
 
 //------------------- Engine --------------------//
 #include "global.h"
-#include "PjtRGBAHandle.h"
+#include "Pjt_RGBAHandle.h"
 
 using std::string;
-using std::vector;
 
 #include "debug.h" //- tmp
 
-
 extern void load_and_divide_png( const std::string &_path,
-                                const IntVec2 &_pixes_per_frame,
+                                const IntVec2 &_pixNum_per_frame,
                                 const IntVec2 &_frameNum,
                                 int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 
-//namespace{//----------------- namespace ------------------//
-//}//-------------------- namespace: end ------------------//
+namespace{//----------------- namespace ------------------//
+
+    //-- 图元帧 数据容器组。帧排序为 [left-top] --
+    std::vector<std::vector<RGBA>> P_frame_data_ary {}; 
+    std::vector<std::vector<RGBA>> J_frame_data_ary {}; 
+    std::vector<std::vector<RGBA>> S_frame_data_ary {};
+
+}//-------------------- namespace: end ------------------//
 
 
 /* ===========================================================
@@ -87,34 +91,49 @@ void Action::init(){
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
-    //-- 图元帧 数据容器组。帧排序为 [left-top] --
-    vector<vector<RGBA>> P_frame_data_ary {}; 
-    vector<vector<RGBA>> J_frame_data_ary {}; 
-    vector<vector<RGBA>> S_frame_data_ary {};
+    P_frame_data_ary.clear();
+    J_frame_data_ary.clear();
+    S_frame_data_ary.clear();
 
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
-                        pixes_per_frame,
+                        pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
                         P_frame_data_ary );
 
     load_and_divide_png( tpr::path_combine( path_actions, lpath_pjt ),
-                        pixes_per_frame,
+                        pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
                         J_frame_data_ary );
     
     load_and_divide_png( tpr::path_combine( path_actions, lpath_shadow ),
-                        pixes_per_frame,
+                        pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
                         S_frame_data_ary );
 
     //---------------------------------//
-    //        读取 pjt 投影信息
+    handle_pjt();
+    handle_shadow();
+    
+    
     //---------------------------------//
-    int pixNum = pixes_per_frame.x * pixes_per_frame.y; //- 一帧有几个像素点
-    PjtRGBAHandle  jh {5};
+    //       create GL.texNames
+    //---------------------------------//
+    create_texNames( P_frame_data_ary, texNames_pic );
+    create_texNames( S_frame_data_ary, texNames_shadow );
+}
+
+
+/* ===========================================================
+ *                   handle_pjt
+ * -----------------------------------------------------------
+ */
+void Action::handle_pjt(){
+
+    int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
+    Pjt_RGBAHandle  jh {5};
     framePoses.resize( totalFrameNum );
 
     IntVec2  pixPPos; //- tmp. current pix ppos
@@ -122,16 +141,15 @@ void Action::init(){
     IntVec2  rootColliEntHeadOff; //- tmp
 
     for( int f=0; f<totalFrameNum; f++ ){ //--- each frame ---
-        for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
+        for( int p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
-            pixPPos.set( p%pixes_per_frame.x,
-                         p/pixes_per_frame.x );
+            pixPPos.set( p%pixNum_per_frame.x,
+                         p/pixNum_per_frame.x );
 
             jh.set_rgba( J_frame_data_ary.at(f).at(p), pixPPos );
             if( jh.is_emply() == true ){
                 continue; //- next frame.pix
             }
-
 
             //--- 一张 action.frame 只有一个 rootAnchor ---
             if( jh.is_rootAnchor() == true ){
@@ -158,21 +176,34 @@ void Action::init(){
         framePoses.at(f).check();                 //-- MUST --//
 
     }//-------- each frame -------
+}
 
 
-    //---------------------------------//
-    //        读取 shadow 信息
-    //---------------------------------//
-    //...
+/* ===========================================================
+ *                   handle_shadow
+ * -----------------------------------------------------------
+ */
+void Action::handle_shadow(){
 
+    int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
+    RGBA  color_shadow { 0,0,0, 255 };
 
+    for( int f=0; f<totalFrameNum; f++ ){ //--- each frame ---
+        for( int p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
-
-    //---------------------------------//
-    //       create GL.texNames
-    //---------------------------------//
-    create_texNames( P_frame_data_ary, texNames_pic );
-    create_texNames( S_frame_data_ary, texNames_shadow );
+        RGBA &rgbaRef = S_frame_data_ary.at(f).at(p);
+        if( rgbaRef.is_near(color_shadow, 5) == false ){
+            continue; //- next frame.pix
+        }
+        
+        //-- 将 shadow pix 改为需要的颜色 --//
+        //  （一个临时的简陋的方案）
+        rgbaRef.r = 0;
+        rgbaRef.g = 5;
+        rgbaRef.b = 10;
+        rgbaRef.a = 100;
+        }
+    }
 }
 
 
@@ -205,8 +236,8 @@ void Action::create_texNames( std::vector<std::vector<RGBA>> &_frame_data_ary,
         glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
                         0,                 //-- 多级渐远纹理的级别: 0: 基本级别
                         GL_RGBA,           //-- 希望把纹理储存为何种格式
-                        pixes_per_frame.x, //-- 纹理的宽度
-                        pixes_per_frame.y, //-- 纹理的高度
+                        pixNum_per_frame.x, //-- 纹理的宽度
+                        pixNum_per_frame.y, //-- 纹理的高度
                         0,                 //-- 总是被设为0（历史遗留问题
                         GL_RGBA,           //-- 源图的 格式
                         GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
@@ -229,8 +260,8 @@ void Action::debug() const{
         cout<< "\nname = " << name
             << "\nlpath_pic = " << lpath_pic
             << "\nlpath_pjt = " << lpath_pjt
-            << "\npixes_per_frame.x = " << pixes_per_frame.x
-            << "\npixes_per_frame.y = " << pixes_per_frame.y
+            << "\npixNum_per_frame.x = " << pixNum_per_frame.x
+            << "\npixNum_per_frame.y = " << pixNum_per_frame.y
             << "\nframeNum.x = " << frameNum.x
             << "\nframeNum.y = " << frameNum.y
             << endl;

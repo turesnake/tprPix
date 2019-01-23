@@ -26,10 +26,10 @@
 
 
 //-------------------- Engine --------------------//
-#include "ShaderProgram.h" //-- each GameMesh instance,will bind a shader
+#include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader
 
 //--- need ---//
-class GameMesh;
+class GameObjMesh;
 class GameObj;
 
 
@@ -40,9 +40,9 @@ public:
         isPic(_isPic)
         {}
 
-    inline void init( GameObj *_goPtr, GameMesh *_gameMeshPtr ){
+    inline void init( GameObj *_goPtr, GameObjMesh *_goMeshPtr ){
         goPtr = _goPtr;
-        gameMeshPtr = _gameMeshPtr;
+        goMeshPtr = _goMeshPtr;
     }
 
     void draw();
@@ -55,14 +55,14 @@ public:
     //-- 其余代码 不应随意调用 此函数!!! --
     void refresh_translate();
 
-    //- 大部分 具象go实例 的 GameMesh图元 长宽值 与 action数据 强关联 --
+    //- 大部分 具象go实例 的 goMesh图元 长宽值 与 action数据 强关联 --
     //  所以可以直接从 action 中获取数据
     //  这个函数很常用
     //  但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
     void refresh_scale_auto();
 
 
-    //- 通过 translate_val.z 值 来给 待渲染的 gameMeshs 排序 --
+    //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
     inline float get_render_z() const {
         return translate_val.z;
     }
@@ -72,21 +72,10 @@ public:
         return translate_val;
     }
 
-    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos相对偏移 
-                    //  用来记录，本GameMesh 在 go中的 位置（图形）
-                    //-- 大部分情况下（尤其是只有一个 GameMesh的 go实例），此值为 0
-                    //   若本 gameMesh实例 是 root gameMesh。此值必须为0
-
-
-    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameMesh，相互间需要区分 视觉上的 前后顺序
-                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameMesh off_z +0.1f
-                    //- 这个值 多数由 具象go类 填入的。
-                    // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
-
-
+    
 private:
-    GameObj   *goPtr       {nullptr};
-    GameMesh  *gameMeshPtr {nullptr};
+    GameObj      *goPtr       {nullptr};
+    GameObjMesh  *goMeshPtr {nullptr};
 
     bool     isPic {true}; //-- pic / shadow
 
@@ -100,10 +89,8 @@ private:
     float     rotate_z    {0.0f};  //- 只有 z轴旋转角度
     glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
-
     //--------- funcs ----------
     void update_mat4_model(); //-- 重新计算 model矩阵
-
 };
 
 

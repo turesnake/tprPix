@@ -30,12 +30,12 @@
 class ColliEntSetLoader{
 public:
     ColliEntSetLoader(  const std::string &_lpath,
-                        IntVec2  _pixes_per_frame,
+                        IntVec2  _pixNum_per_frame,
                         IntVec2  _frameNum,
                         int      _totalFrameNum
                         ):
         lpath(_lpath),
-        pixes_per_frame(_pixes_per_frame),
+        pixNum_per_frame(_pixNum_per_frame),
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
         {};
@@ -52,7 +52,7 @@ public:
 private:
     std::string  lpath {};
 
-    IntVec2  pixes_per_frame {};   //- 单帧画面 的 长宽 像素值
+    IntVec2  pixNum_per_frame {};   //- 单帧画面 的 长宽 像素值
     IntVec2  frameNum {};         //- 画面中，横排可分为几帧，纵向可分为几帧
     int      totalFrameNum {};    //- 总 图元帧 个数
 

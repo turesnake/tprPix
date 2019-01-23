@@ -25,13 +25,13 @@
  *                load_and_divide_png
  * -----------------------------------------------------------
  * -- param: _path   -- png文件的 绝对path
- * -- param: _pixes_per_frame -- 每一图元帧 xy轴 像素个数
+ * -- param: _pixNum_per_frame -- 每一图元帧 xy轴 像素个数
  * -- param: _frameNums -- xy轴 图元帧 个数
  * -- param: _totalFrameNums -- 总帧数 
  * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
  */
 void load_and_divide_png( const std::string &_path,
-                          const IntVec2 &_pixes_per_frame,
+                          const IntVec2 &_pixNum_per_frame,
                           const IntVec2 &_frameNum,
                           int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary ){
@@ -75,8 +75,8 @@ void load_and_divide_png( const std::string &_path,
         for( int w=0; w<width; w++  ){
 
             //-- 计算 本像素 所属帧的容器 的迭代器 fit --
-            wf = w/_pixes_per_frame.x;
-            hf = h/_pixes_per_frame.y;
+            wf = w/_pixNum_per_frame.x;
+            hf = h/_pixNum_per_frame.y;
             hf = _frameNum.y - 1 - hf; 
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系

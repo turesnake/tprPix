@@ -14,7 +14,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
-#include "GameMesh.h"
+#include "GameObjMesh.h"
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
 #include "srcs_engine.h"
@@ -33,13 +33,13 @@ namespace{//------------------ namespace ---------------------//
 /* ===========================================================
  *                refresh_scale_auto
  * -----------------------------------------------------------
- * 大部分 具象go实例 的 GameMesh图元 长宽值 与 action数据 强关联 --
+ * 大部分 具象go实例 的 GameObjMesh图元 长宽值 与 action数据 强关联 --
  *     所以可以直接从 action 中获取数据
  *     这个函数很常用
  *     但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = gameMeshPtr->actionPtr->pixes_per_frame;
+    const IntVec2 &p = goMeshPtr->get_action_pixNum_per_frame();
     scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
 }
 
@@ -54,19 +54,20 @@ void ChildMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = gameMeshPtr->get_currentRootAnchorPPosOff();
+    const IntVec2 &vRef = goMeshPtr->get_currentRootAnchorPPosOff();
+    const glm::vec2 &pposOff = goMeshPtr->pposOff;
 
     //--- set translate_val ---//
     translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
 
     if( isPic == true ){
         translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y;
-        translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + off_z);
+        translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + goMeshPtr->off_z);
                                     //-- ** 注意！**  z值的计算有不同：
                                     // -1- 取负...
                                     // -2- 没有算入 vRef.y; 因为这个值只代表：
                                     //     图元 和 根锚点的 偏移
-                                    //     而 z值 仅仅记录 GameMesh锚点 在 游戏世界中的位置
+                                    //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
     }else{
         translate_val.y = goCurrentFPos.y - (float)vRef.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
@@ -90,14 +91,14 @@ void ChildMesh::refresh_translate(){
  */
 void ChildMesh::draw(){
 
-    if( gameMeshPtr->isVisible == false ){
+    if( goMeshPtr->isVisible == false ){
         return;
     }
 
     //---------- refresh texName -------------
     GLuint texName;
-    (isPic) ? texName=gameMeshPtr->get_currentTexName_pic() :
-              texName=gameMeshPtr->get_currentTexName_shadow();
+    (isPic) ? texName=goMeshPtr->get_currentTexName_pic() :
+              texName=goMeshPtr->get_currentTexName_shadow();
 
 
     //---------- refresh mat4_model -------------
@@ -107,7 +108,7 @@ void ChildMesh::draw(){
     assert( shaderPtr != nullptr );
     shaderPtr->send_mat4_model_2_shader( mat4_model );
 
-    //----------- 绑定 本GameMesh对象 唯一的 texture ------------   
+    //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
@@ -125,7 +126,7 @@ void ChildMesh::draw(){
 /* ===========================================================
  *                 update_mat4_model
  * -----------------------------------------------------------
- * -- 当 GameMesh对象的 位移／旋转／缩放 任一维发生变化，就要重新计算 model矩阵
+ * -- 当 GameObjMesh对象的 位移／旋转／缩放 任一维发生变化，就要重新计算 model矩阵
  * -- 目前 优化粒度较粗。一有变化就全盘重算。
  */
 void ChildMesh::update_mat4_model(){

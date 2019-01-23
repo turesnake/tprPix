@@ -35,17 +35,17 @@ void GameObj::init(){
 
 
 /* ===========================================================
- *                     creat_new_gameMesh
+ *                     creat_new_goMesh
  * -----------------------------------------------------------
- * -- 在 gameMeshs 容器中添加一个 新GameMesh实例，
- * -- 再返回这个 GameMesh实例的 指针
+ * -- 在 goMeshs 容器中添加一个 新GoMesh实例，
+ * -- 再返回这个 GoMesh实例的 指针
  */
-GameMesh *GameObj::creat_new_gameMesh(){
+GameObjMesh *GameObj::creat_new_goMesh(){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    GameMesh  gmesh; //- tmp 
-    gameMeshs.push_back( gmesh ); //- copy
-    return  (GameMesh*)&(gameMeshs.back()); //- *** 也许有问题 ***
+    GameObjMesh  goMesh; //- tmp 
+    goMeshs.push_back( goMesh ); //- copy
+    return  (GameObjMesh*)&(goMeshs.back()); //- *** 也许有问题 ***
 }
 
 
@@ -86,7 +86,7 @@ void GameObj::debug(){
     cout << "actionNames.size() = " << actionNames.size()
         << endl;
 
-    //cout << "gameMeshs.size() = " << gameMeshs.size()
+    //cout << "goMeshs.size() = " << goMeshs.size()
         //<< endl;
 
     cout << "binary.size() = " << binary.size()

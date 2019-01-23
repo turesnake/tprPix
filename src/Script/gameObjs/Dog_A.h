@@ -18,7 +18,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
-#include "GameMesh.h"
+#include "GameObjMesh.h"
 #include "Action.h"
 
 

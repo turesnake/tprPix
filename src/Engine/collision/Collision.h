@@ -20,7 +20,7 @@
 
 //--- need ---//
 class GameObj;
-class GameMesh;
+//class GameObjMesh;
 
 
 //-- 和 Mesh 一样，也是一个 “整合类”

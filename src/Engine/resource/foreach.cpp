@@ -64,28 +64,28 @@ void foreach_goids_inactive( F_GOID_GOPTR _fp ){
 
 
 /* ===========================================================
- *                draw_renderPool_picMeshs
+ *                draw_renderPool_goMeshs_pic
  * -----------------------------------------------------------
  * -- 
  */
-void draw_renderPool_picMeshs(){
+void draw_renderPool_goMeshs_pic(){
 
-    auto ipair = esrc::renderPool_picMeshs.begin();
-    for( ; ipair!=esrc::renderPool_picMeshs.end(); ipair++ ){
+    auto ipair = esrc::renderPool_goMeshs_pic.begin();
+    for( ; ipair!=esrc::renderPool_goMeshs_pic.end(); ipair++ ){
         //-- 渲染持续，pos.z值小的 先渲染 --
         ipair->second->draw();
     }
 }
 
 /* ===========================================================
- *                draw_renderPool_shadowMeshs
+ *                draw_renderPool_goMeshs_shaodw
  * -----------------------------------------------------------
  * -- 
  */
-void draw_renderPool_shadowMeshs(){
+void draw_renderPool_goMeshs_shadow(){
 
-    auto ipair = esrc::renderPool_shadowMeshs.begin();
-    for( ; ipair!=esrc::renderPool_shadowMeshs.end(); ipair++ ){
+    auto ipair = esrc::renderPool_goMeshs_shadow.begin();
+    for( ; ipair!=esrc::renderPool_goMeshs_shadow.end(); ipair++ ){
         //-- 渲染持续，pos.z值小的 先渲染 --
         ipair->second->draw();
     }

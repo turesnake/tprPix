@@ -35,7 +35,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjType.h" 
-#include "GameMesh.h" 
+#include "GameObjMesh.h" 
 #include "ID_Manager.h" 
 #include "IntVec.h" 
 #include "Move.h"
@@ -107,17 +107,17 @@ public:
     bool isControlByPlayer  {false}; 
 
 
-    //-- 也许该用 umap 来管理，尤其是 gameMesh实例很多时。
-    // - rootGameMesh  -- 排在第一个，或者name==“root” 的 gameMesh实例
-    // - childGameMesh -- 剩下的其余实例
-    std::vector<GameMesh> gameMeshs {}; //- go实例 与 GameMesh实例 强关联
-                            // 大部分go不会卸载／增加自己的 GameMesh实例
-                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GameMesh实例 存入此容器
-                            //- 只存储在 mem态。 在go实例存入 硬盘时，GameMesh实例会被丢弃
-                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GameMesh实例。
+    //-- 也许该用 umap 来管理，尤其是 goMesh实例很多时。
+    // - rootGoMesh  -- 排在第一个，或者name==“root” 的 goMesh实例
+    // - childGoMesh -- 剩下的其余实例
+    std::vector<GameObjMesh> goMeshs {}; //- go实例 与 GoMesh实例 强关联
+                            // 大部分go不会卸载／增加自己的 GoMesh实例
+                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
+                            //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
+                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
                 // *** 此容器 疑似引发了一个 史诗级BUG... ***
-                // 当在 具象类init() 中，调用 gameMeshs.size() 等之类的语句时，程序就正常。
+                // 当在 具象类init() 中，调用 goMeshs.size() 等之类的语句时，程序就正常。
                 // 但如果不调用，程序无法显示图形
                 // 目前还没搞清原因
                 // --- 这个 bug 暂时消失了... ---
@@ -132,13 +132,13 @@ public:
 
     //----------- funcs --------------//
     //void debug(); //- 打印 本go实例 的所有信息
-    GameMesh *creat_new_gameMesh(); 
+    GameObjMesh *creat_new_goMesh(); 
 
 
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...
     inline const AnchorPos &get_rootAnchorPos() const {
-        return gameMeshs.at(0).get_rootAnchorPos();
+        return goMeshs.at(0).get_rootAnchorPos();
     }
 
 

@@ -11,7 +11,7 @@
 #include "Collision.h"
 
 //-------------------- Engine --------------------//
-#include "GameMesh.h"
+#include "GameObjMesh.h"
 #include "GameObj.h"
 #include "FramePos.h"
 #include "srcs_engine.h"
@@ -51,10 +51,10 @@ void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     MapCoord  colliEntMCPos; //- adds/dels 中，每个ent 的 mcpos （世界绝对pos）
     
     //------------------------------//
-    //  遍历每个  go.gameMesh
+    //  遍历每个  go.goMesh
     //  遍历每个  ces
     //------------------------------//
-    for( auto &gMeshRef : goPtr->gameMeshs ){ //-- each go.gameMesh
+    for( auto &gMeshRef : goPtr->goMeshs ){ //-- each go.goMesh
         
         //-- 检测这个 mesh 是否可以跳过
         if( gMeshRef.isCollide == false ){
