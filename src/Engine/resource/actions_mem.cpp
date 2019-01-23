@@ -23,12 +23,12 @@ using std::string;
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 /* ===========================================================
- *                     actions_load
+ *                     load_actions
  * -----------------------------------------------------------
  * -- 在游戏初始化阶段，被调用。
  * -- 统一加载并初始化 所有 Actions 资源
  */
-void actions_load(){
+void load_actions(){
 
     actions.clear();
 

@@ -40,6 +40,9 @@ void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
 
     //-- 最简状态：什么也不优化，先走一遍流程... --//
 
+    //-- 清空 renderPool --
+    debug::clear_mapEntSlices();
+
     //------------------------------//
     //  获得  rootAnchor 当前 ppos
     //------------------------------//
@@ -54,14 +57,16 @@ void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     //  遍历每个  go.goMesh
     //  遍历每个  ces
     //------------------------------//
-    for( auto &gMeshRef : goPtr->goMeshs ){ //-- each go.goMesh
-        
+    auto ipair = goPtr->goMeshs.begin();
+    for( ; ipair!=goPtr->goMeshs.end(); ipair++ ){
+        GameObjMesh &meshRef = ipair->second;
+
         //-- 检测这个 mesh 是否可以跳过
-        if( gMeshRef.isCollide == false ){
+        if( meshRef.isCollide == false ){
             continue;
         }
 
-        for( auto &ceh : gMeshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each colliEntHead
+        for( auto &ceh : meshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each colliEntHead
 
             // ceh.lAltiRange //-- 高度区间值。
 
@@ -80,23 +85,16 @@ void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                         << ", " << colliEntMCPos.get_mpos().y 
                         << endl;
                     */
-                   //-- 在未来，这个检测应该通过 图形来表达。
+
+                    //-- 用图形来显示 
+                    debug::insert_new_mapEntSlice( colliEntMCPos );
                     
             }
                     //cout << endl;
 
-
-
         }
 
     }
-
-
-
-
-
-
-
 
 
 }

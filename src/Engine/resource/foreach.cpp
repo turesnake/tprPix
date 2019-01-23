@@ -83,11 +83,9 @@ void draw_renderPool_goMeshs_pic(){
  * -- 
  */
 void draw_renderPool_goMeshs_shadow(){
-
-    auto ipair = esrc::renderPool_goMeshs_shadow.begin();
-    for( ; ipair!=esrc::renderPool_goMeshs_shadow.end(); ipair++ ){
-        //-- 渲染持续，pos.z值小的 先渲染 --
-        ipair->second->draw();
+    
+    for( auto &ptr : esrc::renderPool_goMeshs_shadow ){
+        ptr->draw();
     }
 }
 

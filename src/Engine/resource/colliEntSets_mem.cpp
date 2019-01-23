@@ -24,12 +24,12 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================
- *                 colliEntSet_tables_init
+ *                 init_colliEntSet_tables
  * -----------------------------------------------------------
  * -- 创建 name - idx 正反表 
  * -- 目前有 16 个 collientSet 预制件 
  */
-void colliEntSet_tables_init(){
+void init_colliEntSet_tables(){
 
     std::vector<std::string> names {
         "ces_1_1", //- 0
@@ -64,12 +64,12 @@ void colliEntSet_tables_init(){
 
 
 /* ===========================================================
- *                   colliEntSets_load
+ *                   load_colliEntSets
  * -----------------------------------------------------------
  * -- 在游戏初始化阶段，被调用。
  * -- 统一加载并初始化 所有 colliEntSets 资源
  */
-void colliEntSets_load(){
+void load_colliEntSets(){
 
     //- ces 预制件 个数 --
     int totalSets = 16; 
@@ -93,11 +93,11 @@ void colliEntSets_load(){
 
 
 /* ===========================================================
- *                  colliEntSets_debug
+ *                  debug_colliEntSets
  * -----------------------------------------------------------
  * -- 
  */
-void colliEntSets_debug(){
+void debug_colliEntSets(){
     /*
     auto p = esrc::colliEntSets.begin();
     for( ; p!=esrc::colliEntSets.end(); p++ ){

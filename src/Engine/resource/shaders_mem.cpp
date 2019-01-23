@@ -13,11 +13,11 @@
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 /* ===========================================================
- *                    shaders_init
+ *                    init_shaders
  * -----------------------------------------------------------
  * -- init 游戏中 所有 shader实例
  */
-void shaders_init(){
+void init_shaders(){
 
     //---- rect_sahder ----//
     rect_shader.init(); 

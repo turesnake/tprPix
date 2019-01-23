@@ -45,7 +45,7 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "nocopyable.h" 
+//#include "nocopyable.h" 
 #include "tprDataType.h"
 
 //-------------------- Engine --------------------//
@@ -119,9 +119,6 @@ public:
     std::vector<FramePos>  framePoses {};
 
 private:
-    void create_texNames( std::vector<std::vector<RGBA>> &_frame_data_ary,
-                          std::vector<GLuint> &_texNames );
-
     void handle_pjt();
     void handle_shadow();
 

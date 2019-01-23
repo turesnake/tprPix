@@ -35,8 +35,8 @@ using std::string;
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 //------------------- 提供给外部的函数 ----------------
-void globState_srcs_init();
-void globState_srcs_save();
+void init_globState_srcs();
+void save_globState_srcs();
 
 
 namespace{//------------ namespace --------------//
@@ -57,10 +57,10 @@ namespace{//------------ namespace --------------//
 
 
 /* ===========================================================
- *                    globState_srcs_load    
+ *                    init_globState_srcs 
  * -----------------------------------------------------------
  */
-void globState_srcs_init(){
+void init_globState_srcs(){
 
     globState_db.init( path_data,
                     "globState",
@@ -113,10 +113,10 @@ void globState_srcs_init(){
 
 
 /* ===========================================================
- *                    globState_srcs_load    
+ *                    save_globState_srcs 
  * -----------------------------------------------------------
  */
-void globState_srcs_save(){
+void save_globState_srcs(){
 
     //---- 制作 diskGlobState 实例 ----
     diskGlobState  dgs;

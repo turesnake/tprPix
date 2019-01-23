@@ -79,7 +79,6 @@ public:
     }
 
     //-- IMPORTANT !!! --//
-    // 直接返回 容器访问权 （引用）
     inline const std::vector<ColliEntHead> &get_colliEntHeads() const {
         return colliEntHeads;
     }

@@ -16,7 +16,7 @@
 inline GLuint VAO  {0}; //- obj id
 inline GLuint VBO  {0}; //- obj id
 
-void VAOVBO_init(); //- 创建 VAO, VBO
+void init_VAOVBO(); //- 创建 VAO, VBO
 void VAOVBO_del();  //- 删除 VAO, VBO
 
 #endif

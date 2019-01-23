@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <unordered_map>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -68,6 +69,27 @@ public:
     void        d2m( diskGameObj *_dgo );
     diskGameObj m2d();
 
+
+    inline void resize_binary( size_t _size ){
+        binary.resize( _size );
+    }
+
+    inline u8 *get_binaryHeadPtr(){
+        return &(binary.at(0));
+    }
+
+    GameObjMesh &creat_new_goMesh( const std::string &_name ); 
+
+    //-- 代表整个go实例 的 rootAnchorPos --
+    //  放得非常深，通过多层调用才实现...
+    inline const AnchorPos &get_rootAnchorPos() const {
+        //return goMeshs.at(0).get_rootAnchorPos();
+        return goMeshs.at("root").get_rootAnchorPos();
+    }
+
+
+    //void debug(); //- 打印 本go实例 的所有信息
+
     //---------------- callback -----------------//
     F_GO  Awake {nullptr};  //- unused
     F_GO  Start {nullptr};  //- unused
@@ -82,13 +104,12 @@ public:
     goSpecId_t     species  {0};                //- go species id
     GameObjFamily  family   {GameObjFamily::Major};  
 
-    bool   isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
     goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                              //- 如果没有，此项写 NULLID
+    
+    float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
     //---- go 状态 ----//
-    bool              isActive {false}; //- 是否进入激活圈. 
-                                        //   未进入激活圈的go，不参与任何逻辑运算，也不会被渲染
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
@@ -96,21 +117,9 @@ public:
     GameObjPos   goPos {}; 
     Move         move  {};
 
-
-    float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
-
-    bool isDirty {false};  //- 是否为 默认go（是否被改写过）
-                            //- “默认go” 意味着这个 go没有被游戏改写过。
-                            //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
-                            //- 以便少存储 一份 go实例，节省 硬盘空间。
-
-    bool isControlByPlayer  {false}; 
-
-
-    //-- 也许该用 umap 来管理，尤其是 goMesh实例很多时。
-    // - rootGoMesh  -- 排在第一个，或者name==“root” 的 goMesh实例
-    // - childGoMesh -- 剩下的其余实例
-    std::vector<GameObjMesh> goMeshs {}; //- go实例 与 GoMesh实例 强关联
+    // - rootGoMesh  -- name = “root”; 核心goMesh;
+    // - childGoMesh -- 剩下的goMesh
+    std::unordered_map<std::string, GameObjMesh>  goMeshs {}; //- go实例 与 GoMesh实例 强关联
                             // 大部分go不会卸载／增加自己的 GoMesh实例
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
@@ -122,28 +131,28 @@ public:
                 // 目前还没搞清原因
                 // --- 这个 bug 暂时消失了... ---
 
-    Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
+    //--------- flags ------------//
+    bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
+    bool    isActive  {false}; //- 是否进入激活圈. 未进入激活圈的go，不参与逻辑运算，不被渲染
+    bool    isDirty   {false};  //- 是否为 默认go（是否被改写过）
+                            //- “默认go” 意味着这个 go没有被游戏改写过。
+                            //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
+                            //- 以便少存储 一份 go实例，节省 硬盘空间。
+    bool    isControlByPlayer  {false}; 
 
+    
+    //------------ static ----------//
+    static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
+private:
     //----------- binary chunk -------------//         
     std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
                             //- binary 本质是一个 C struct。 由 具象go类方法 使用。
                             //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）
 
-    //----------- funcs --------------//
-    //void debug(); //- 打印 本go实例 的所有信息
-    GameObjMesh *creat_new_goMesh(); 
+    Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
 
 
-    //-- 代表整个go实例 的 rootAnchorPos --
-    //  放得非常深，通过多层调用才实现...
-    inline const AnchorPos &get_rootAnchorPos() const {
-        return goMeshs.at(0).get_rootAnchorPos();
-    }
-
-
-    //------------ static ----------//
-    static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
 };
 

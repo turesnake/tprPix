@@ -68,42 +68,41 @@ void Dog_A::init( GameObj *_goPtr ){
     //-------- go self vals ---------//
     goPtr->species = Dog_A::specId;
     goPtr->family = GameObjFamily::Major;
-    goPtr->isTopGo = true;
     goPtr->parentId = NULLID;
-    goPtr->isActive = true;
     goPtr->state = GameObjState::Waked;
     goPtr->moveState = GameObjMoveState::Movable;
     goPtr->weight = 5.0f;
+
+    goPtr->isTopGo = true;
+    goPtr->isActive = true;
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_6 );
-
     goPtr->move.set_MoveType( true ); //- tmp
 
     //-------- action／actionHandle/ goMesh ---------//
 
-        //-- 制作唯一的 mesh 实例 --
-        GameObjMesh *meshPtr = goPtr->creat_new_goMesh();
-        meshPtr->init( goPtr ); 
-        //meshPtr->set_shader_program( &esrc::rect_shader );
-        meshPtr->picMesh.set_shader_program( &esrc::rect_shader );
-        meshPtr->shadowMesh.set_shader_program( &esrc::rect_shader );
-        meshPtr->isVisible = true;
-        meshPtr->isCollide = true;
+        //-- 制作唯一的 mesh 实例: "root" --
+        GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
+        goMeshRef.init( goPtr ); 
+        goMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
+        goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
+        goMeshRef.isVisible = true;
+        goMeshRef.isCollide = true;
         //-- bind action / actionHandle --
-        meshPtr->bind_action( "human_1" );
-        actionHdle::cycle_obj.bind( meshPtr->get_actionHandlePtr(), 
-                                    meshPtr->get_totalFrames(), //- 画面帧总数
+        goMeshRef.bind_action( "human_1" );
+        actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
+                                    goMeshRef.get_totalFrames(), //- 画面帧总数
                                     0,                //- 起始画面帧序号
                                     6 );              //- 画面帧间 时长
         //-- goMesh pos in go --
-        meshPtr->pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        meshPtr->off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
+        goMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
-    goPtr->binary.resize( sizeof(Dog_A_Binary) );
-    bp = (Dog_A_Binary*)&(goPtr->binary.at(0)); //- 绑定到本地指针
+    goPtr->resize_binary( sizeof(Dog_A_Binary) );
+    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr(); //- 绑定到本地指针
 
     bp->HP = 100;
     bp->MP = 95;
@@ -142,7 +141,7 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     assert( _goPtr->species == Dog_A::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)&(goPtr->binary.at(0));
+    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr();
 
     //=====================================//
     //           test: AI
@@ -173,25 +172,26 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &meshRef : goPtr->goMeshs ){
+    auto ipair = goPtr->goMeshs.begin();
+    for( ; ipair!=goPtr->goMeshs.end(); ipair++ ){
+        GameObjMesh &goMeshRef = ipair->second;
 
         //-- 也许不该放在 这个位置 --
-        if( meshRef.isVisible == false ){
+        if( goMeshRef.isVisible == false ){
             continue;
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        meshRef.get_actionHandle_func("update")( meshRef.get_actionHandlePtr(), 0);
+        goMeshRef.get_actionHandle_func("update")( goMeshRef.get_actionHandlePtr(), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
-        meshRef.shadowMesh.refresh_translate();
-        meshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
+        goMeshRef.shadowMesh.refresh_translate();
+        goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
+        goMeshRef.picMesh.refresh_translate();
+        goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
 
-        meshRef.picMesh.refresh_translate();
-        meshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-
-        esrc::renderPool_goMeshs_pic.insert(    { meshRef.shadowMesh.get_render_z(), (ChildMesh*)&(meshRef.shadowMesh) });
-        esrc::renderPool_goMeshs_shadow.insert( { meshRef.picMesh.get_render_z(),    (ChildMesh*)&(meshRef.picMesh) }); 
+        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.shadowMesh) });
+        esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
     }
 
 }
@@ -208,7 +208,7 @@ void Dog_A::LogicUpdate( GameObj *_goPtr ){
     assert( _goPtr->species == Dog_A::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)&(goPtr->binary.at(0));
+    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr();
     //=====================================//
 
     // 什么也没做...

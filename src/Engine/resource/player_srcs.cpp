@@ -33,7 +33,7 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 //------------------- 提供给外部的函数 ----------------
-void player_srcs_init();
+void init_player_srcs();
 void player_srcs_save();
 
 
@@ -46,10 +46,10 @@ namespace{//------------ namespace --------------//
 
 
 /* ===========================================================
- *                       player_srcs_init
+ *                       init_player_srcs
  * -----------------------------------------------------------
  */
-void player_srcs_init(){
+void init_player_srcs(){
 
     player_db.init( path_data,
                     "player",

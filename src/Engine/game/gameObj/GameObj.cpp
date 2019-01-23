@@ -40,13 +40,14 @@ void GameObj::init(){
  * -- 在 goMeshs 容器中添加一个 新GoMesh实例，
  * -- 再返回这个 GoMesh实例的 指针
  */
-GameObjMesh *GameObj::creat_new_goMesh(){
+GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObjMesh  goMesh; //- tmp 
-    goMeshs.push_back( goMesh ); //- copy
-    return  (GameObjMesh*)&(goMeshs.back()); //- *** 也许有问题 ***
+    goMeshs.insert({ _name, goMesh }); //- copy
+    return goMeshs.at(_name);
 }
+
 
 
 

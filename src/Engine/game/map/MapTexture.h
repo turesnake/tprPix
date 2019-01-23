@@ -31,7 +31,7 @@
 //-2- create MapTexture instance: mapTex
 //-3- call mapTex.init();
 class MapTexture{
-    using  F_MAP_BUILDER = std::function<void(u8*, int, int)>;
+    using  F_MAP_BUILDER = std::function<void(RGBA*, int, int)>;
 public:
 
     void init();
@@ -49,8 +49,8 @@ public:
     static void bind_mapBuilder( F_MAP_BUILDER _fp );
 
 private:
-    GLuint            texName {0}; //- texture textel_name
-    std::vector<u8>   texBuf;      //- 本模块的重心，一张合成的 texture
+    GLuint              texName {0}; //- texture textel_name
+    std::vector<RGBA>   texBuf;      //- 本模块的重心，一张合成的 texture
                                     // 在生成 texName 之后，此数据可以被释放 
                                     // 若不选择释放，则存储在 本实例中，直到实例被销毁
 

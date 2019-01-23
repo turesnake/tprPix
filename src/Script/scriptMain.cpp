@@ -32,7 +32,7 @@ using namespace std::placeholders;
 extern void onGoSpecIds_SignUp();
 extern void onStart_test();
 
-extern void map_builder( u8*_texBuf, int _pixes_w, int _pixes_h );
+extern void map_builder( RGBA *_texBuf, int _pixes_w, int _pixes_h );
 
 
 /* ===========================================================

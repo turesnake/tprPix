@@ -44,9 +44,9 @@ namespace{//---------- namespace ---------------//
  * -- tmp
  * -- 外部代码负责 _texBuf 已分配空间（resize）
  */
-void map_builder( u8*_texBuf, int _pixes_w, int _pixes_h ){
+void map_builder( RGBA *_texBuf, int _pixes_w, int _pixes_h ){
 
-    pixBufPtr = (RGBA*)_texBuf;
+    pixBufPtr = _texBuf;  //-- 需要改进...
     pixWH.set( _pixes_w, _pixes_h );
     //------
 

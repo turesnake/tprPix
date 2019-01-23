@@ -69,27 +69,27 @@ inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 //       Shader 资源 
 //-------------------------//
 inline ShaderProgram rect_shader { "/shaders/base.vs", "/shaders/base.fs" };
-void shaders_init();
+void init_shaders();
 
 
 //-------------------------//
 //     colliEntSet 资源
 //-------------------------//
 inline std::unordered_map<int, ColliEntSet> colliEntSets {};
-void colliEntSets_load();
-void colliEntSets_debug(); //- debug
+void load_colliEntSets();
+void debug_colliEntSets(); //- debug
 
 //-- 正反表 --
 inline std::unordered_map<std::string, int> colliEntSet_name_idx {};
 inline std::unordered_map<int, std::string> colliEntSet_idx_name {};
-void colliEntSet_tables_init(); 
+void init_colliEntSet_tables(); 
 
 
 //-------------------------//
 //     Action 资源（动画动作图集）
 //-------------------------//
 inline std::unordered_map<std::string, Action> actions {};
-void actions_load();
+void load_actions();
 
 
 //-------------------------//
@@ -125,10 +125,12 @@ inline GameObj *find_memGameObjs( goid_t _goid ){
 //-------------------------//
 //--- mem ---//
 inline std::multimap<float, ChildMesh*> renderPool_goMeshs_pic {}; 
-inline std::multimap<float, ChildMesh*> renderPool_goMeshs_shadow {}; 
             //- key 是 图元的 z值。map会自动排序(负无穷在前，正无穷在后，符合我们要的顺序)
             //- 遍历 渲染池，就能从远到近地 渲染每一个 图元
             //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
+inline std::vector<ChildMesh*> renderPool_goMeshs_shadow {};
+            //- 所有 shadow 拥有相同的 z-deep. 对渲染次序 无要求
+            
 void draw_renderPool_goMeshs_pic();
 void draw_renderPool_goMeshs_shadow();
 
@@ -138,8 +140,8 @@ void draw_renderPool_goMeshs_shadow();
 //     globState 资源
 //-------------------------//
 //--- db ---//
-void globState_srcs_init();
-void globState_srcs_save();
+void init_globState_srcs();
+void save_globState_srcs();
 
 
 //-------------------------//
@@ -149,7 +151,7 @@ void globState_srcs_save();
 inline Player  player {}; //- 全游戏唯一 Player 实例  
 
 //--- db ---//
-void player_srcs_init();
+void init_player_srcs();
 void player_srcs_save();
 
 

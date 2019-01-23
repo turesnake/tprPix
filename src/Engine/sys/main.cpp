@@ -87,23 +87,24 @@ int main(){
     //------------------------------------------//
 
     //++++++ init ++++++//
-    VAOVBO_init();                   //---- VAO,VBO 资源 ----
+    init_VAOVBO();                   //---- VAO,VBO 资源 ----
     esrc::camera.init();             //---- camera 资源 ----
-    esrc::shaders_init();            //---- shaders 资源 ----
-    esrc::colliEntSet_tables_init(); //---- ces_tables 资源 ----
-    //globState_srcs_init();         //---- globState 资源 ----
+    esrc::init_shaders();            //---- shaders 资源 ----
+    esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
+    //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
 
-    //player_srcs_init();            //----  player 资源 ----
+    //init_player_srcs();            //----  player 资源 ----
         //esrc::player.init();
         player_byPass();
     //...
 
+    debug::init_debug();             //---- debug 资源 ----
 
     //++++++ load ++++++//
-    esrc::colliEntSets_load(); //-- colliEntSets --
-        //esrc::colliEntSets_debug();
-    esrc::actions_load();      //-- actions --, MUST after colliEntSets_load()
+    esrc::load_colliEntSets(); //-- colliEntSets --
+        //esrc::debug_colliEntSets();
+    esrc::load_actions();      //-- actions --, MUST after load_colliEntSets()
     
     
     //...
@@ -232,6 +233,7 @@ int main(){
         // *** 注意次序 ***
         esrc::draw_renderPool_meshs(); 
         esrc::draw_renderPool_goMeshs_shadow();
+        debug::draw_renderPool_mapEntSlices(); //-- 但是不在此文件中 clear
         esrc::draw_renderPool_goMeshs_pic(); 
 
         
