@@ -2,19 +2,10 @@
  * ========================= Action.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
- *                                        修改 -- 2018.11.28
+ *                                        修改 -- 
  * ----------------------------------------------------------
- * 
- * ----------------------------
  */
 #include "Action.h"
-
-/*
-#ifndef STB_IMAGE_IMPLEMENTATION
-    #define STB_IMAGE_IMPLEMENTATION
-#endif
-#include "stb_image.h" //-- 加载图片数据用
-*/
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -29,8 +20,6 @@
 #include "global.h"
 #include "Pjt_RGBAHandle.h"
 #include "create_texNames.h"
-
-using std::string;
 
 #include "debug.h" //- tmp
 
@@ -59,18 +48,18 @@ void Action::init(){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
     //-- tmp --
-    string lst; //- tmp, 尾部字符串，不停地被截断
+    std::string lst; //- tmp, 尾部字符串，不停地被截断
 
     //--------------------//
     //      生成 name
     //--------------------//
     auto lst_slash_idx = lpath_pic.rfind( '/' ); //- 指向最后一个 '/'
-    assert( lst_slash_idx != string::npos ); 
+    assert( lst_slash_idx != std::string::npos ); 
     //- lst 等于 "dog_ack_01.P.png"
     lst.assign( (lpath_pic.begin()+lst_slash_idx+1), lpath_pic.end() );
 
     auto point_idx = lst.find( '.', 0 ); //- 指向第一个 '.'
-    assert( point_idx != string::npos );
+    assert( point_idx != std::string::npos );
     name.assign( lst.begin(), (lst.begin()+point_idx) );
 
     //--------------------//
@@ -131,7 +120,6 @@ void Action::init(){
                      pixNum_per_frame,
                      S_frame_data_ary,
                      texNames_shadow );
-
 }
 
 

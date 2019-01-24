@@ -28,7 +28,8 @@
 #include "config.h" 
 #include "IntVec.h"
 #include "MapCoord.h"
-#include "NineBox.h"
+#include "MapEntCompass.h"
+//#include "NineBox.h"
 
 
 //--- need ---//
@@ -55,19 +56,18 @@ public:
     //   为了确保 go 与 mapent坐标 的对齐。不要随意使用本函数 ！！！
     inline void set_by_currentFPos( const glm::vec2 &_fpos ){
         currentFPos = _fpos;
-        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
-
+        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
 
     //-- 对 currentFPos 进行 累加累减 --
     inline void accum_currentFPos( const glm::vec2 &_fpos ){
         currentFPos += _fpos;
-        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
+        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
     inline void accum_currentFPos( float _x, float _y ){
         currentFPos.x += _x;
         currentFPos.y += _y;
-        currentMCPos = fpos_2_mcpos( currentFPos ); //- 这个方法有问题
+        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
 
 
@@ -92,14 +92,19 @@ private:
     GameObj     *goPtr    {nullptr}; 
     //---
 
-    glm::vec2  currentFPos  {};  //- go.rootAnchor 当前 fpos，不一定对齐与mapent
-    MapCoord   currentMCPos {}; 
-                //- 这个值的计算 可能要做调整
-                // -1- currentFPos 所在的 mapent
-                // -2- go.rootAnchor 所在mapent的 midPPos，所在的 mapent
-                //---
-                // 等这个值被具体使用了，再看具体实现哪一个？
+    glm::vec2   currentFPos  {};  //- 基于 go.rootAnchor 的， 当前 fpos，无需对齐与mapent
+    MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent
+                                  //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置
+                                  //- 此值往往在 crawl的 回合中段 发生切换。
+                
+    //-- 这个值暂时 没被使用 --
+    //glm::vec2   targetFPos  { 0.0f, 0.0f };  //- 基于 go.rootAnchor 的，目标 fpos，无需对齐与mapent
+                                //- 此值的用途很多样，有待开发...
+                                //  目前版本中，主要用于 crawl 节点帧 对齐。
+                                //  用来记录 新回合的 最终 位移绝对地址
 
+    //----- funcs ------//
+    glm::vec2 calc_rootAnchor_midFPos();
 };
 
 

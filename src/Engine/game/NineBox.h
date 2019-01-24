@@ -4,13 +4,19 @@
  *                                        创建 -- 2018.12.26
  *                                        修改 -- 2018.12.26
  * ----------------------------------------------------------
- *      九宫格 
- *  可以表达 crawl 的 8方向， 
- *  以及 像素点 在某个 mapent 中的位置
+ *      九宫格
+ *  仅适用于 表达 crawl 的 8方向， 
  * ----------------------------
  */
 #ifndef _TPR_NINE_BOX_H_
 #define _TPR_NINE_BOX_H_
+
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec2
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -29,8 +35,8 @@
 // 一切大于0的 当作 1
 class NineBox{
 public:
-    int x;
-    int y;
+    int x;  //- [-1, 1]
+    int y;  //- [-1, 1]
 
     //---- funcs ----//
     inline void clear_all(){
@@ -39,8 +45,23 @@ public:
     }
 
     //- 只是简单转换为 IntVec2, 在用于 MapCoord 时要注意
+    /*
     inline IntVec2 to_IntVec2() const {
         return IntVec2{ x, y };
+    } 
+    */
+    
+    //-- 专用于 crawl模式，将方向转换为 位移值 --
+    inline IntVec2 to_mpos() const {
+        return IntVec2{ x, y };
+    }
+    inline IntVec2 to_ppos() const {
+        return IntVec2{ x*PIXES_PER_MAPENT, 
+                        y*PIXES_PER_MAPENT };
+    } 
+    inline glm::vec2 to_fpos() const {
+        return glm::vec2{ (float)(x*PIXES_PER_MAPENT), 
+                          (float)(y*PIXES_PER_MAPENT) };
     } 
 
     inline bool is_zero() const {
@@ -152,11 +173,14 @@ inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
  *                 calc_ppos_compass
  * -----------------------------------------------------------
  * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置
+ * -- 被移到其他 结构中 
  */
+/*
 inline NineBox calc_ppos_compass( const IntVec2 _ppos ){
     return NineBox { (_ppos.x%PIXES_PER_MAPENT)-1, 
                      (_ppos.y%PIXES_PER_MAPENT)-1 };
 }
+*/
 
 
 #endif 

@@ -11,6 +11,18 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
+#include "MapEntCompass.h"
+
+#include "debug.h"
+
+
+namespace{//-------- namespace -----------//
+
+    glm::vec2 halfMapEnt{   (float)HALF_PIXES_PER_MAPENT,
+                            (float)HALF_PIXES_PER_MAPENT };
+    
+}//------------ namespace: end -----------//
+
 
 
 /* ===========================================================
@@ -23,12 +35,26 @@
 void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
     currentMCPos = _mcpos;
     //---
-    const NineBox &compass = goPtr->get_rootAnchorPos().compass;
-    IntVec2 p = currentMCPos.get_midPPos() + compass.to_IntVec2();
+    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
+    IntVec2 p = currentMCPos.get_ppos() + compassRef.to_IntVec2();
     currentFPos.x = (float)p.x;
     currentFPos.y = (float)p.y;
 }
 
+
+
+
+
+/* ===========================================================
+ *             calc_rootAnchor_midFPos
+ * -----------------------------------------------------------
+ * -- 计算 go.rootAnchor 当前所在的 collient 的 midFPos
+ */
+glm::vec2 GameObjPos::calc_rootAnchor_midFPos(){
+
+    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
+    return ( currentFPos - compassRef.to_fpos() + halfMapEnt );
+}
 
 
 

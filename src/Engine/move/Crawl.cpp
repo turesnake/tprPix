@@ -32,6 +32,7 @@
 namespace{//-------------- namespace ------------------//
 
     //--- speed table, 8-level ----
+    /*
     std::vector<std::pair<int, float>> speeds {
     //  max,   speed,                 speedLevel //
         { 1,    3.0f },   //- idx = 0,  LV_8
@@ -42,6 +43,21 @@ namespace{//-------------- namespace ------------------//
         { 6,    0.5f },   //- idx = 5,  LV_3
         { 8,    0.375f }, //- idx = 6,  LV_2
         { 10,   0.3f }    //- idx = 7,  LV_1
+    };
+    */
+
+    //-- 基于 5*5 mapent 的新速度表 --
+    //  注意，3/6 两档无法整除。需要在每个 节点帧做修正...
+    std::vector<std::pair<int, float>> speeds {
+    //  max,   speed,                 speedLevel //
+        { 1,    5.0f   },   //- idx = 0,  LV_8
+        { 2,    2.5f   },   //- idx = 1,  LV_7
+        { 3,    1.667f },   //- idx = 2,  LV_6 : 非整除，1回合移动 5.001; 需要修正
+        { 4,    1.25f  },   //- idx = 3,  LV_5
+        { 5,    1.0f   },   //- idx = 4,  LV_4
+        { 6,    0.833f },   //- idx = 5,  LV_3 : 非整除，1回合移动 4.998; 需要修正
+        { 8,    0.625f },   //- idx = 6,  LV_2
+        { 10,   0.5f   }    //- idx = 7,  LV_1
     };
     std::pair<int, float>& get_speed( SpeedLevel _lv );
     std::pair<int, float>& get_speed_next( SpeedLevel _lv );
@@ -84,29 +100,18 @@ void Crawl::RenderUpdate(){
 
     std::pair<int, float> pair;
 
+
     //----------------------------//
     //     Node Frame ／ 节点
     //----------------------------//
     if( count == 0 ){
         currentNB = newNB;
-
         if( newNB.is_zero() ){
             return; //- end_frame of one_piece_input
         }
 
-        //-- 确保当前 goPos.currentFPos 对齐于 mapent坐标系
-        //...
-
-
-            //--- print 当前 信息 ---//
-            /*
-            glm::vec2 fp = goPosPtr->get_currentFPos();
-            cout << "fp: " << fp.x
-                << ", " << fp.y
-                << "; currentNB: " << currentNB.x
-                << ", " << currentNB.y
-                << endl;
-            */
+        //-- 缺一个 goPos.currentFPos 对齐（消除小数偏移）
+        //... 
 
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
@@ -129,27 +134,6 @@ void Crawl::RenderUpdate(){
         }
         max = pair.first;
         speed = pair.second;
-
-                /*
-                if( goPtr->isControlByPlayer == true ){
-                    cout << "---- player ----" << endl;
-                }
-
-                glm::vec3 pixPos    = goPtr->goMeshs.at(0).picMesh.get_translate_val();
-                glm::vec3 shadowPos = goPtr->goMeshs.at(0).shadowMesh.get_translate_val();
-
-                cout << "pic   : " << pixPos.x
-                    << ", " << pixPos.y
-                    << ", " << pixPos.z
-                    << endl;
-
-                cout << "shadow: " << shadowPos.x
-                    << ", " << shadowPos.y
-                    << ", " << shadowPos.z
-                    << endl;
-                */
-                
-
 
     }
     //----------//

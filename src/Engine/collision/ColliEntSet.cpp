@@ -102,16 +102,17 @@ void ColliEntSet::debug(){
     cout << "radius = " << radius 
         << endl; //-- check --
     
+    
 
     /*
     cout << "colliEnts.size() = " << colliEnts.size()
-         << "\ncolliEntCenters.size() = " << colliEntCenters.size()
+         << "\ncolliEntMidFPoses.size() = " << colliEntMidFPoses.size()
          << "\naddEntOffss.size() = " << addEntOffss.size()
          << "\ndelEntOffss.size() = " << delEntOffss.size()
          << endl; //-- check --
     
     
-    for( const auto &v : addEntOffs ){
+    for( const auto &v : addEntOffss ){
 
         cout << "  addEntOffs.size() = " << v.size()
             << endl;
@@ -127,6 +128,7 @@ void ColliEntSet::debug(){
         assert( a == d );
     }
     */
+    
 
 }
 

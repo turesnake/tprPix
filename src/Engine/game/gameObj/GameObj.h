@@ -83,7 +83,6 @@ public:
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...
     inline const AnchorPos &get_rootAnchorPos() const {
-        //return goMeshs.at(0).get_rootAnchorPos();
         return goMeshs.at("root").get_rootAnchorPos();
     }
 

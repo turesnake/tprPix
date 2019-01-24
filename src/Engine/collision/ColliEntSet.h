@@ -34,6 +34,7 @@
 #include "MapCoord.h"
 #include "IntVec.h"
 #include "NineBox.h"
+#include "MapEntCompass.h"
 
 
 //-- 一个 碰撞区预制件，创建一个实例 --
@@ -54,8 +55,8 @@ public:
         MapCoord pos;
         pos.set_by_ppos( _ppos );
         colliEnts.insert( pos ); //- copy 
-        colliEntMidFPoses.push_back(glm::vec2{ (float)(_ppos.x + 1.5f),
-                                          (float)(_ppos.y + 1.5f) }); //- copy
+        colliEntMidFPoses.push_back(glm::vec2{ (float)(_ppos.x + HALF_PIXES_PER_MAPENT),
+                                               (float)(_ppos.y + HALF_PIXES_PER_MAPENT) }); //- copy
     }
 
     inline void set_centerPPos( const IntVec2 &_ppos ){
@@ -75,7 +76,7 @@ public:
         return  centerPPos;
     }
 
-    inline const NineBox &get_centerCompass() const {
+    inline const MapEntCompass &get_centerCompass() const {
         return  centerCompass;
     }
 
@@ -106,10 +107,10 @@ private:
     std::vector< std::set<MapCoord> > delEntOffss {};
 
 
-    IntVec2   centerPPos    {};    //- 碰撞区中心 ppos
-    NineBox   centerCompass {0,0}; //- center 在其 mapent 中的位置 
-    float     radius        {};    //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
-                                   //- 以像素为单位
+    IntVec2         centerPPos    {};    //- 碰撞区中心 ppos
+    MapEntCompass   centerCompass {0,0}; //- center 在其 mapent 中的位置 
+    float           radius        {};    //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
+                                         //- 以像素为单位
 
     //----- funcs -------
     void create_adds_dels_by_nineBox( NineBoxIdx _idx );

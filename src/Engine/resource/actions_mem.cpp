@@ -32,7 +32,7 @@ void load_actions(){
 
     actions.clear();
 
-    actions.insert( {"human_1",  Action{ "/human/human_1.P.png", IntVec2{13, 23}, IntVec2{4, 1}, 4 } } );
+    actions.insert( {"human_new",  Action{ "/human/human_new.P.png", IntVec2{15, 30}, IntVec2{4, 1}, 4 } } );
 
 
 

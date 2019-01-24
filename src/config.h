@@ -32,10 +32,11 @@ inline bool IS_FULL_SCREEN = false;
 #define SECTION_W_ENTS  256
 #define SECTION_H_ENTS 256
 
-//-- 一个 mapent 占用 3*3像素
+//-- 一个 mapent 占用 5*5像素
 //   CAN'T CHANGE !!! 
-#define PIXES_PER_MAPENT  3
-
+//#define PIXES_PER_MAPENT  3
+#define PIXES_PER_MAPENT  5
+#define HALF_PIXES_PER_MAPENT 2.5
 
 //-- camera.viewingBox z_deep
 #define VIEWING_BOX_Z_DEEP  1000

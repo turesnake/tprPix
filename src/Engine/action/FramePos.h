@@ -26,7 +26,8 @@
 #include "MapCoord.h"
 #include "AltiRange.h"
 #include "ColliEntHead.h"
-#include "NineBox.h"
+//#include "NineBox.h"
+#include "MapEntCompass.h"
 #include "AnchorPos.h"
 
 

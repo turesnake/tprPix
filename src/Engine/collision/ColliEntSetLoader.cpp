@@ -19,9 +19,6 @@
 #include "global.h"
 #include "ColliEntSet_RGBAHandle.h"
 
-using std::string;
-using std::vector;
-
 //#include "debug.h" //- tmp
 
 

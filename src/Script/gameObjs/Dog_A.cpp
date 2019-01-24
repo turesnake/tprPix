@@ -78,7 +78,7 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_6 );
+    goPtr->move.set_speedLv( SpeedLevel::LV_5 );
     goPtr->move.set_MoveType( true ); //- tmp
 
     //-------- action／actionHandle/ goMesh ---------//
@@ -91,7 +91,7 @@ void Dog_A::init( GameObj *_goPtr ){
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
         //-- bind action / actionHandle --
-        goMeshRef.bind_action( "human_1" );
+        goMeshRef.bind_action( "human_new" );
         actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
                                     goMeshRef.get_totalFrames(), //- 画面帧总数
                                     0,                //- 起始画面帧序号

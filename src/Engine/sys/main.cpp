@@ -85,6 +85,7 @@ int main(){
     //------------------------------------------//
     //               加载所有 资源
     //------------------------------------------//
+        
 
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
@@ -106,15 +107,16 @@ int main(){
         //esrc::debug_colliEntSets();
     esrc::load_actions();      //-- actions --, MUST after load_colliEntSets()
     
-    
     //...
         
 
     //---- 加载 map 数据 ----
     //...
         map_byPass(); //- 硬制作 一张 section map
-        go_byPass();  //- 硬生产一组 Dog_A 实例
 
+            //return 0;
+        go_byPass();  //- 硬生产一组 Dog_A 实例
+            //return 0;
 
         esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
@@ -123,6 +125,8 @@ int main(){
     //        Behaviour.Starts
     //------------------------------------------//
     esrc::behaviour.call_Starts();
+
+        //return 0;
 
     //========================================================//
     //                 main render loop

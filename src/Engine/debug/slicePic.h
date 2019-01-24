@@ -17,23 +17,28 @@
 
 //-------------------- Engine --------------------//
 #include "RGBA.h"
+#include "IntVec.h"
+
 
 namespace debug {//---------- namespace: debug --------------//
 
 //-- 这段完全可以在 函数内创建...
 
 namespace{//-------- namespace ----------//
-    inline RGBA empty { 0,0,0,0 };
-    inline RGBA color { 255,255,0,200 };
+    inline RGBA e_ { 0,0,0,0 };       //- 空白
+    inline RGBA CO { 255,255,0,150 }; //- 有颜色
 }//-------------- namespace: end --------//
 
 //-- mapEntSlice 使用的 “黄色边框” img
 inline std::vector<RGBA> slicePic{
-    color, color, color,
-    color, empty, color,
-    color, color, color
+    CO, CO, CO, CO, CO,
+    CO, e_, e_, e_, CO,
+    CO, e_, e_, e_, CO,
+    CO, e_, e_, e_, CO,
+    CO, CO, CO, CO, CO
 };
-
+//inline IntVec2 slicePicSize { 3, 3 };
+inline IntVec2 slicePicSize { 5, 5 };
 
 inline  GLuint  texName_slice {}; //- the only texName
 

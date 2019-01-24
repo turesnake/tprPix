@@ -43,7 +43,6 @@ public:
     void init();
 
     //---- get ----//
-    // 先实现 copy 
     const ColliEntSet &get_collientSet( int _idx ) const {
         return collientSets.at(_idx); //-- auto throw error
     }

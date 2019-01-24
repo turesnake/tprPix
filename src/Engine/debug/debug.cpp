@@ -23,6 +23,7 @@
             //-- glm::value_ptr
 
 //-------------------- Engine --------------------//
+#include "config.h"
 #include "slicePic.h"
 #include "create_texNames.h"
 #include "IntVec.h"
@@ -34,7 +35,7 @@ namespace debug {//---------- namespace: debug --------------//
 
 namespace{//-------- namespace ----------//
 
-    bool  is_mapEntSlice_show  {true}; //-- 简易开关，用来快速关闭 mes显示功能
+    bool  is_mapEntSlice_show  {false}; //-- 简易开关，用来快速关闭 mes显示功能
 
     std::vector<Mesh> renderPool_mapEntSlices {};
                 //-- 因为所有 mapEntSlice.mesh 都统一放在 同一 z-depp层，
@@ -51,7 +52,7 @@ namespace{//-------- namespace ----------//
 void init_debug(){
 
     //-- 生成 mapEntSlice 唯一的 texName
-    texName_slice = create_a_texName( IntVec2{3,3},
+    texName_slice = create_a_texName( slicePicSize,
                                       (const GLvoid*)&(slicePic.at(0)) );
 
     //...
@@ -63,6 +64,11 @@ void init_debug(){
  * -----------------------------------------------------------
  */
 void clear_mapEntSlices(){
+    
+    if( is_mapEntSlice_show == false ){
+        return;
+    }
+
     renderPool_mapEntSlices.clear();
 }
 
@@ -88,8 +94,9 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
                                      _mcpos.get_fpos().y,
                                     esrc::camera.get_zFar()+ViewingBox::mapEntSlices_zOff
                                         });
-    meshRef.set_scale(glm::vec3{ 3.0f, 3.0f, 1.0f });
-
+    meshRef.set_scale(glm::vec3{ (float)PIXES_PER_MAPENT, 
+                                (float)PIXES_PER_MAPENT, 
+                                1.0f });
 }
 
 

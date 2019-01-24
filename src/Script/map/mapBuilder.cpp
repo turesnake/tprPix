@@ -17,6 +17,7 @@
 
 
 //------------------- Engine --------------------//
+#include "config.h"
 #include "RGBA.h" 
 #include "IntVec.h"
 
@@ -86,8 +87,8 @@ void foreach_pix( F_PIX _fp ){
  */
 bool _is_black( int _w, int _h ){
 
-    int w = _w/3;
-    int h = _h/3;
+    int w = _w/PIXES_PER_MAPENT;
+    int h = _h/PIXES_PER_MAPENT;
     //---------
     if(h%2==0){
         if(w%2==0){

@@ -31,6 +31,8 @@ namespace{//---------- namespace ---------//
     //...more...
 
     RGBA  uselessColor_1  { 200, 200, 200, 255 };
+    RGBA  uselessColor_2  { 170, 170, 170, 255 };
+    RGBA  uselessColor_3  { 140, 150, 140, 255 };
 
 }//------------ namespace: end ---------//
 
@@ -58,7 +60,9 @@ public:
 
         //-- empty --
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
-            (rgba.is_near( uselessColor_1, 5)==true) ){
+            (rgba.is_near( uselessColor_1, 5)==true) ||
+            (rgba.is_near( uselessColor_2, 5)==true) ||
+            (rgba.is_near( uselessColor_3, 5)==true) ){
             return;
         }
         isEmpty = false;

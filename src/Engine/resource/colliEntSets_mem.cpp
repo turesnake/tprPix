@@ -16,8 +16,6 @@
 #include "ColliEntSetLoader.h"
 #include "srcs_engine.h" //- 所有资源
 
-using std::string;
-
 #include "debug.h" //- tmp
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -39,9 +37,9 @@ void init_colliEntSet_tables(){
 
         "ces_2_2", //- 3
 
-        "ces_3_3", //- 4
-        "ces_3_2", //- 5
-        "ces_2_3", //- 6
+        "ces_3_2", //- 4
+        "ces_2_3", //- 5
+        "ces_3_3", //- 6
 
         "ces_4_3", //- 7
         "ces_5_3", //- 8
@@ -76,7 +74,7 @@ void load_colliEntSets(){
 
     //-- 创建 ColliEntSetLoader 实例 --
     ColliEntSetLoader  loader { "colliEntSet_1.png",
-                                IntVec2{ 21, 21 },
+                                IntVec2{ 35, 35 },
                                 IntVec2{ 4, 4 },
                                 totalSets };
     
@@ -98,7 +96,7 @@ void load_colliEntSets(){
  * -- 
  */
 void debug_colliEntSets(){
-    /*
+    
     auto p = esrc::colliEntSets.begin();
     for( ; p!=esrc::colliEntSets.end(); p++ ){
 
@@ -108,7 +106,7 @@ void debug_colliEntSets(){
         p->second.debug();
         cout << endl;
     }
-    */
+    
 
     
     

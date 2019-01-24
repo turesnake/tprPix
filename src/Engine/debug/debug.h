@@ -38,7 +38,6 @@ void draw_renderPool_mapEntSlices();
 
 
 
-
 }//-------------------- namespace: debug end --------------//
 
 

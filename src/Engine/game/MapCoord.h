@@ -147,11 +147,24 @@ inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
 /* ===========================================================
  *                   ppos_2_mpos  [宽松]    IMPORTANT !!!
  * -----------------------------------------------------------
- * -- 参数 _fpos 可以为任意值。 无序对齐于 mapent坐标系
+ * -- 参数 _fpos 可以为任意值。 无需对齐于 mapent坐标系
+ * -- 
  */
 inline MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
     return MapCoord{    ((int)_fpos.x)/PIXES_PER_MAPENT, 
                         ((int)_fpos.y)/PIXES_PER_MAPENT };
+}
+
+/* ===========================================================
+ *             mpos_2_ppos / mpos_2_fpos  
+ * -----------------------------------------------------------
+ */
+inline IntVec2 mpos_2_ppos( const IntVec2 &_mpos ){
+    return (_mpos*PIXES_PER_MAPENT);
+}
+inline glm::vec2 mpos_2_fpos( const IntVec2 &_mpos ){
+    return glm::vec2{   (float)(_mpos.x*PIXES_PER_MAPENT),
+                        (float)(_mpos.y*PIXES_PER_MAPENT) };
 }
 
 
