@@ -27,6 +27,7 @@
 
 
 #include "debug.h" 
+#include <iomanip>
 
 
 namespace{//-------------- namespace ------------------//
@@ -100,6 +101,19 @@ void Crawl::RenderUpdate(){
 
     std::pair<int, float> pair;
 
+        /*
+        cout << std::left;
+        cout << count << ": "
+            << "FPos{ " <<  std::setw(5) << goPosPtr->get_currentFPos().x
+            << ", " <<      std::setw(5) << goPosPtr->get_currentFPos().y 
+            //<< "} mid{ " << std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().x
+            //<< ", " <<      std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().y
+            << " } MC{ " << std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().x
+            << ", " <<      std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().y
+            << " }";
+        */
+        
+
 
     //----------------------------//
     //     Node Frame ／ 节点
@@ -107,11 +121,11 @@ void Crawl::RenderUpdate(){
     if( count == 0 ){
         currentNB = newNB;
         if( newNB.is_zero() ){
+                //cout << endl;
             return; //- end_frame of one_piece_input
         }
 
-        //-- 缺一个 goPos.currentFPos 对齐（消除小数偏移）
-        //... 
+                //cout << " +NODE+";
 
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
@@ -126,6 +140,8 @@ void Crawl::RenderUpdate(){
         collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
 
             
+
+            
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
@@ -134,14 +150,9 @@ void Crawl::RenderUpdate(){
         }
         max = pair.first;
         speed = pair.second;
-
     }
-    //----------//
-    count++;
-    //----------//
-    if( count == max ){
-        count = 0;
-    }
+    
+        //cout << endl;
 
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）
@@ -156,6 +167,18 @@ void Crawl::RenderUpdate(){
         goPosPtr->accum_currentFPos( 0.0f, speed );     //- up -
     }else if( currentNB.y == -1 ){
         goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
+    }
+
+    //---------------------------//
+    //  累加计数器
+    //  如果确认为回合结束点，务必校正 currentFPos 的值
+    //---------------------------//
+    count++;
+    //----------//
+    if( count == max ){
+        count = 0;
+        //-- 将 goPos.currentFPos 对齐与 mapent坐标系（消除小数偏移）
+        goPosPtr->align_currentFPos_by_currentMCPos();
     }
 
 }

@@ -55,8 +55,8 @@ public:
         MapCoord pos;
         pos.set_by_ppos( _ppos );
         colliEnts.insert( pos ); //- copy 
-        colliEntMidFPoses.push_back(glm::vec2{ (float)(_ppos.x + HALF_PIXES_PER_MAPENT),
-                                               (float)(_ppos.y + HALF_PIXES_PER_MAPENT) }); //- copy
+        colliEntMidFPoses.push_back(glm::vec2{ ((float)_ppos.x + HALF_PIXES_PER_MAPENT),
+                                               ((float)_ppos.y + HALF_PIXES_PER_MAPENT) }); //- copy
     }
 
     inline void set_centerPPos( const IntVec2 &_ppos ){
@@ -94,6 +94,7 @@ public:
 
 
 private:
+    //-- 此处的 set，依赖 MapCoord类型的 "<" 运算符
     std::set<MapCoord>     colliEnts {};         //- mapEnt坐标( 基于 ces左下点 ) 
     std::vector<glm::vec2> colliEntMidFPoses {}; //- mapEnt中心（用于 fly）
                                     //-- glm::vec2 暂时无法放入 set 容器

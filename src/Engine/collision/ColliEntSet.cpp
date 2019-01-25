@@ -92,7 +92,7 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
 
 void ColliEntSet::debug(){
 
-    
+    /*
     cout << "centerPPos: " << centerPPos.x 
         << ", " << centerPPos.y
         << endl; //- check --
@@ -101,17 +101,30 @@ void ColliEntSet::debug(){
         << endl; //- check --
     cout << "radius = " << radius 
         << endl; //-- check --
-    
+    */
     
 
     /*
-    cout << "colliEnts.size() = " << colliEnts.size()
+    cout << "colliEnts.size() = "           << colliEnts.size()
          << "\ncolliEntMidFPoses.size() = " << colliEntMidFPoses.size()
-         << "\naddEntOffss.size() = " << addEntOffss.size()
-         << "\ndelEntOffss.size() = " << delEntOffss.size()
+         << "\naddEntOffss.size() = "       << addEntOffss.size()
+         << "\ndelEntOffss.size() = "       << delEntOffss.size()
          << endl; //-- check --
+    */
+
+    cout << "midFPos: " << endl;
+    for( auto &i : colliEntMidFPoses ){
+        
+        cout << "    " << i.x
+            << ", " << i.y 
+            << endl;
+    }
     
-    
+
+
+
+
+    /*
     for( const auto &v : addEntOffss ){
 
         cout << "  addEntOffs.size() = " << v.size()
@@ -128,6 +141,7 @@ void ColliEntSet::debug(){
         assert( a == d );
     }
     */
+    
     
 
 }

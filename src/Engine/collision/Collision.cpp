@@ -85,6 +85,7 @@ void Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                         << ", " << colliEntMCPos.get_mpos().y 
                         << endl;
                     */
+                    
 
                     //-- 用图形来显示 
                     debug::insert_new_mapEntSlice( colliEntMCPos );

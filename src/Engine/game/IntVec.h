@@ -13,6 +13,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
+#include <math.h>
 
 
 //--- [mem] --//
@@ -43,6 +44,16 @@ public:
         x -= _a.x;
         y -= _a.y;
         return *this;
+    }
+
+    //-- 地板除法，向低取节点值 --
+    //  -1- float 除法
+    //  -2- math.floor()
+    inline IntVec2 floorDiv( float _div ){
+        float fx = ((float)x) / _div;
+        float fy = ((float)y) / _div;
+        return IntVec2{ (int)floor(fx),
+                        (int)floor(fy) };
     }
 
 };
@@ -91,18 +102,20 @@ inline IntVec2 operator * ( int _m, const IntVec2 &_a ){
     return IntVec2 { _a.x*_m, _a.y*_m };
 }
 
+
 /* ===========================================================
- *                   operator /
+ *                     floorDiv
  * -----------------------------------------------------------
+ * -- 地板除法，向低取节点值 --
+ *  -1- float 除法
+ *  -2- math.floor()
  */
-inline IntVec2 operator / ( const IntVec2 &_a, int _div ){
-    assert( _div != 0 );
-    return IntVec2 { _a.x/_div, _a.y/_div };
+inline IntVec2 floorDiv(  const IntVec2 &_a, float _div ){
+    float fx = ((float)_a.x) / _div;
+    float fy = ((float)_a.y) / _div;
+    return IntVec2{ (int)floor(fx),
+                    (int)floor(fy) };
 }
-
-//-- 常用的 IntVec2 值:
-inline const IntVec2 IntVec2_1_1 { 1,1 };
-
 
 
 //--- [mem] --//

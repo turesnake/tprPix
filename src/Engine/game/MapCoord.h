@@ -26,6 +26,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
+#include <math.h>
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
@@ -69,13 +70,15 @@ public:
     inline void set_by_ppos( const IntVec2 &_ppos ){
         assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         ppos = _ppos;
-        mpos = ppos / PIXES_PER_MAPENT;
+        //mpos = ppos / PIXES_PER_MAPENT;
+        mpos = ppos.floorDiv( (float)PIXES_PER_MAPENT );
     }
 
     inline void set_by_ppos( int _x, int _y ){
         assert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
         ppos.set( _x, _y );
-        mpos = ppos / PIXES_PER_MAPENT;
+        //mpos = ppos / PIXES_PER_MAPENT;
+        mpos = ppos.floorDiv( (float)PIXES_PER_MAPENT );
     }
 
     //--- get ---
@@ -87,12 +90,14 @@ public:
         return ppos;
     }
 
-    inline const IntVec2 get_midPPos() const { //- ppos of the mid_box
-        return ( ppos + IntVec2_1_1 );
+    inline const glm::vec2 get_midFPos() const { //- ppos of the mid_box
+        //return ( ppos + IntVec2_1_1 );
+        return glm::vec2{   (float)ppos.x + HALF_PIXES_PER_MAPENT,
+                            (float)ppos.y + HALF_PIXES_PER_MAPENT };
     }
 
-    inline glm::vec2 get_fpos() const {
-        return glm::vec2( (float)ppos.x, (float)ppos.y );
+    inline const glm::vec2 get_fpos() const {
+        return glm::vec2{ (float)ppos.x, (float)ppos.y };
     }
 
     //--- add ---
@@ -100,7 +105,9 @@ public:
 private:
     IntVec2   mpos  {0, 0}; //- based on mapEnt
     IntVec2   ppos  {0, 0}; //- based on pixel
+
 };
+
 
 /* ===========================================================
  *                  operator  ==, !=
@@ -141,7 +148,8 @@ inline MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
  */
 inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
     assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
-    return (_ppos/PIXES_PER_MAPENT);
+    //return (_ppos/PIXES_PER_MAPENT);
+    return floorDiv( _ppos, (float)PIXES_PER_MAPENT );
 }
 
 /* ===========================================================
@@ -151,8 +159,13 @@ inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
  * -- 
  */
 inline MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
-    return MapCoord{    ((int)_fpos.x)/PIXES_PER_MAPENT, 
-                        ((int)_fpos.y)/PIXES_PER_MAPENT };
+
+    //-- float除法
+    float fx = _fpos.x / (float)PIXES_PER_MAPENT;
+    float fy = _fpos.y / (float)PIXES_PER_MAPENT;
+    //-- math.floor() 
+    return MapCoord{    (int)floor(fx), 
+                        (int)floor(fy) };
 }
 
 /* ===========================================================

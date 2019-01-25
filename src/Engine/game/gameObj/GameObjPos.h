@@ -70,6 +70,8 @@ public:
         currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
 
+    void align_currentFPos_by_currentMCPos();
+
 
     //---- get ----//
     inline const glm::vec2 &get_currentFPos() const {
@@ -86,6 +88,9 @@ public:
     inline const MapCoord &get_currentMCPos() const {
         return currentMCPos;
     }
+
+    //- 获得 rootAnchor 所在的 collient 的 midFPos 
+    glm::vec2 calc_rootAnchor_midFPos();
 
 
 private:
@@ -104,7 +109,7 @@ private:
                                 //  用来记录 新回合的 最终 位移绝对地址
 
     //----- funcs ------//
-    glm::vec2 calc_rootAnchor_midFPos();
+    
 };
 
 

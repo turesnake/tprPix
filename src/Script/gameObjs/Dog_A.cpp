@@ -78,7 +78,7 @@ void Dog_A::init( GameObj *_goPtr ){
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_5 );
+    goPtr->move.set_speedLv( SpeedLevel::LV_6 );
     goPtr->move.set_MoveType( true ); //- tmp
 
     //-------- action／actionHandle/ goMesh ---------//

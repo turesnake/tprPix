@@ -107,10 +107,6 @@ void debug_colliEntSets(){
         cout << endl;
     }
     
-
-    
-    
-
 }
 
 

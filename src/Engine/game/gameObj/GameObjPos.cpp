@@ -42,7 +42,18 @@ void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
 }
 
 
+/* ===========================================================
+ *            align_currentFPos_by_currentMCPos
+ * -----------------------------------------------------------
+ * -- 将 currentFPos 对齐于 mapent坐标系
+ */
+void GameObjPos::align_currentFPos_by_currentMCPos(){
 
+    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
+    IntVec2 p = currentMCPos.get_ppos() + compassRef.to_IntVec2();
+    currentFPos.x = (float)p.x;
+    currentFPos.y = (float)p.y;
+}
 
 
 /* ===========================================================
