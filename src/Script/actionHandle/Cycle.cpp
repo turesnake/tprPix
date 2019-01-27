@@ -37,9 +37,11 @@ u32  Cycle::typeId {0};
  * -- 并不是单纯的 bind，还附带了 目标ah实例 的初始化工作。
  */
 void Cycle::bind(  ActionHandle *_ahPtr,
-                int _frameNum,
+                int _begIdx,
+                int _endIdx,
                 int _enterIdx,
-                int _step ){
+                const std::vector<int> &_steps,
+                bool _isStepEqual ){
 
     //-- 绑定 基础ah实例 --
     //  在此之前，外部代码需要自行生成 基础ah类实例
@@ -53,25 +55,27 @@ void Cycle::bind(  ActionHandle *_ahPtr,
     bp = (Cycle_Binary*)&(ahPtr->binary.at(0)); 
     //===================================//
 
-    bp->frameNum = _frameNum;
+    bp->begIdx = _begIdx;
+    bp->endIdx = _endIdx;
     bp->enterIdx = _enterIdx;
-    bp->lastIdx = _enterIdx;
     ahPtr->currentIdx = _enterIdx;
-    bp->step = _step;
-    
     bp->updates = 0;
-    bp->step_new = 0;
-    bp->is_step_change = false;
+
+    //-------- steps --------//
+    bp->isStepEqual = _isStepEqual;
+    bp->steps.insert( bp->steps.end(), _steps.begin(), _steps.end() );
+    if( _isStepEqual == true ){
+        assert( _steps.size() == 1 );
+        bp->currentStep = bp->steps.at(0);
+    }else{
+        assert( _steps.size() == (_endIdx - _begIdx + 1) );
+        bp->currentStep = bp->steps.at( _enterIdx - _begIdx );
+    }
 
     //----- sign up callback funcs -----
     //-- 故意将 首参数this 绑定到 保留类实例 cycle 身上
-    
     ahPtr->funcs.insert({ "update", 
             std::bind( &Cycle::update, &cycle_obj, _1 )
-            });
-
-    ahPtr->funcs.insert({ "set_step", 
-            std::bind( &Cycle::set_step, &cycle_obj, _1, _2 )
             });
     
 }
@@ -97,18 +101,16 @@ int Cycle::update( ActionHandle *_ahPtr ){
 
     //=====================================//
     bp->updates++;
-    //-------
-    int steps = bp->updates / bp->step;
-    int newIdx = (bp->lastIdx + steps)%(bp->frameNum);
-    //- 发生了 画面帧 切换 -
-    if( ahPtr->currentIdx != newIdx ){
-        ahPtr->currentIdx = newIdx;
-        if( bp->is_step_change == true ){
-            bp->is_step_change = false;
-            bp->step = bp->step_new;
-            bp->lastIdx = ahPtr->currentIdx;
-            bp->updates = 0;
-        }
+
+    //----- node frame -----//
+    if( bp->updates >= bp->currentStep ){
+        bp->updates = 0;
+        //--- currentIdx ---
+        (ahPtr->currentIdx==bp->endIdx) ? ahPtr->currentIdx=bp->begIdx :
+                                          ahPtr->currentIdx++;
+        //--- currentStep ---
+        bp->isStepEqual ? bp->currentStep=bp->steps.at(0) :
+                          bp->currentStep=bp->steps.at(ahPtr->currentIdx-bp->begIdx);
     }
 
     //=====================================//
@@ -116,50 +118,6 @@ int Cycle::update( ActionHandle *_ahPtr ){
     //-------------------------------------//  
     scriptBuf.push_int( ahPtr->currentIdx );
     return sizeof(int);
-}
-
-
-/* ===========================================================
- *                   set_step
- * -----------------------------------------------------------
- * -- void set_step( ActionHandle *_ahPtr, int _step ){
- * -- 重设 step 将清零 updates，并改写 lastIdx。
- * -- 通过不停地 重设 step，可以实现 动画 带有节奏地播放
- * -- 重设 step 不会立即起效，而是先登记下来，等下一 画面帧切换时，再更新 step
- */
-int Cycle::set_step( ActionHandle *_ahPtr, int _len ){
-
-    //=====================================//
-    //              ptr rebind
-    //-------------------------------------//
-    assert( _ahPtr->typeId == Cycle::typeId );
-    //-- rebind ptr -----
-    ahPtr = _ahPtr;
-    bp = (Cycle_Binary*)&(ahPtr->binary.at(0));
-    
-    //=====================================//
-    //           get params
-    //-------------------------------------//
-    assert( _len == sizeof(int) ); //- 意义不大
-    int _step = scriptBuf.pop_int();
-
-    //=====================================//
-    assert( _step > 0 );
-    if( _step == bp->step_new ){
-        return 0;
-    }
-    bp->step_new = _step;
-
-    if( bp->is_step_change == true ){
-        return 0;
-    }else{
-        bp->is_step_change = true;
-    }
-
-    //=====================================//
-    //                ret
-    //-------------------------------------// 
-    return  0;
 }
 
 

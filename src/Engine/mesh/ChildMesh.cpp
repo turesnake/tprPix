@@ -40,7 +40,11 @@ namespace{//------------------ namespace ---------------------//
  */
 void ChildMesh::refresh_scale_auto(){
     const IntVec2 &p = goMeshPtr->get_action_pixNum_per_frame();
-    scale_val = glm::vec3{ (float)p.x, (float)p.y, 1.0f };
+    //scale_val = glm::vec3{ -(float)p.x, (float)p.y, 1.0f };
+
+    scale_val.x = 1.0f * (float)p.x;
+    scale_val.y = 1.0f * (float)p.y;
+    scale_val.z = 1.0f;
 }
 
 
@@ -58,8 +62,8 @@ void ChildMesh::refresh_translate(){
     const glm::vec2 &pposOff = goMeshPtr->pposOff;
 
     //--- set translate_val ---//
+    
     translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
-
     if( isPic == true ){
         translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y;
         translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + goMeshPtr->off_z);
@@ -76,10 +80,33 @@ void ChildMesh::refresh_translate(){
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }
+    
             //-- 未来拓展：
             //  应当为 每个go 设置一个随机的 z深度 base值
             //  在此 z_base 基础上，再做 深度加减
             //  从而避免同一 z深度的 图元 在渲染时 碰撞
+
+    /*
+    translate_val.x = goCurrentFPos.x + (float)pposOff.x ;
+    if( isPic == true ){
+        translate_val.y = goCurrentFPos.y + (float)pposOff.y ;
+        translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + goMeshPtr->off_z);
+                                    //-- ** 注意！**  z值的计算有不同：
+                                    // -1- 取负...
+                                    // -2- 没有算入 vRef.y; 因为这个值只代表：
+                                    //     图元 和 根锚点的 偏移
+                                    //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
+    }else{
+        translate_val.y = goCurrentFPos.y ;
+                                    //-- shadow 的 y值 并不随着 pposOff 而变化。
+                                    //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
+        translate_val.z = esrc::camera.get_zFar() + ViewingBox::goShadows_zOff;
+                                    //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
+                                    //   而且始终 “相对 camera.viewingBox 静止”
+    }
+    */
+
+
 }
 
 

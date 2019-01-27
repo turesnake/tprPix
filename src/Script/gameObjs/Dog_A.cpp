@@ -26,17 +26,10 @@
 
 using namespace std::placeholders;
 
-using std::string;
-
 #include "debug.h" 
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
-
-
-//---------- static ----------//
-u32  Dog_A::specId {0};
-
 
 
 namespace{//-------------- namespace ------------------//
@@ -93,9 +86,14 @@ void Dog_A::init( GameObj *_goPtr ){
         //-- bind action / actionHandle --
         goMeshRef.bind_action( "human_new" );
         actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
-                                    goMeshRef.get_totalFrames(), //- 画面帧总数
-                                    0,                //- 起始画面帧序号
-                                    6 );              //- 画面帧间 时长
+                                    0,                //- 起始图元帧序号
+                                    3,                //- 结束图元帧序号
+                                    0,               //- 入口图元帧序号
+                                    std::vector<int>{ 3, 6, 8, 16 }, //- steps
+                                    false            //- isStepEqual
+                                    );
+
+
         //-- goMesh pos in go --
         goMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
         goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0

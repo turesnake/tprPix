@@ -13,6 +13,9 @@
 //-------------------- C ----------------------//
 #include <cassert> //-- assert
 
+//-------------------- CPP ----------------------//
+#include <vector>
+
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
@@ -25,15 +28,19 @@ namespace actionHdle{//------------- namespace actionHdle ----------------
 
 
 struct Cycle_Binary{
-    int  frameNum;     //- action实例 的 总画面帧数
-    int  enterIdx;   //- 入口帧序号. 这个值永不变
-    int  lastIdx;    //-当 step值被重设时，这个值会被对齐到 当时的 currentIdx
-    int  step;       //- 每切换一帧画面，停留多少 时间帧
-    //----------------
-    int  updates;    //- 本实例自创建以来，调用 update() 的次数
-    int  step_new;       //- 临时存储 新的 step值
-    bool is_step_change; //- step 是否被要求更换
 
+    std::vector<int>  steps; //- 此vector实例 自身占有 24-bytes。
+                             //- 并将 此struct 对齐标准提升到 8-bytes
+
+    int  begIdx;      //- 循环起始帧序号. 这个值永不变
+    int  endIdx;      //- 循环结束帧序号. 这个值永不变
+    int  enterIdx;     //- 指定从那一帧开始播 （不一定是 begIdx）
+
+    //----------------
+    int  updates;    //- 每次帧切换后，用此值来记录 调用 update() 的次数
+
+    int  currentStep;  //- 当前帧 使用的 step
+    bool isStepEqual;  //- 使用单一step值: steps.at(0); 还是使用 steps 离散值
     //------ padding -----
     u8   padding[3];
 };
@@ -45,9 +52,11 @@ struct Cycle_Binary{
 class Cycle{
 public:
     void bind(  ActionHandle *_ahPtr,
-                int _frameNum,
+                int _begIdx,
+                int _endIdx,
                 int _enterIdx,
-                int _step );
+                const std::vector<int> &_steps,
+                bool _isStepEqual );
 
     //------ tmp ptr ------
     // 不能信赖，务必在每次 callback 时重新绑定
@@ -59,15 +68,10 @@ public:
 
     //------- callback --------//  
     int update( ActionHandle *_ahPtr );
-    int set_step( ActionHandle *_ahPtr, int _len );
-
-
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====
 inline Cycle  cycle_obj {};
-
-
 
 
 }//----------------- namespace actionHdle: end -------------------

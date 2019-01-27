@@ -21,8 +21,12 @@
 //   由于是 pixel游戏，所以这个值会很小。
 //   这个值 也是 Camera 的尺寸
 //-- 目前版本中，拉升窗口并不会改变这个值。（后期应实现 自动匹配）
-#define WORK_WIDTH  160
-#define WORK_HEIGHT 120
+//-- 请尽量确保此变量 与 SCR_WIDTH／SCR_HEIGHT 等比例
+//#define WORK_WIDTH  160
+//#define WORK_HEIGHT 120
+#define WORK_WIDTH  220
+#define WORK_HEIGHT 165
+
 
 //-- 是否开启 全屏模式 --
 inline bool IS_FULL_SCREEN = false; 
