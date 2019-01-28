@@ -3,6 +3,7 @@
 
 
 #include "Script/gameObjs/Dog_A.h" 
+#include "Script/gameObjs/SingleFoot.h" 
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -21,8 +22,8 @@ using std::string;
 //#include "debug.h" //- tmp
 
 
-void creat_a_go( const IntVec2 &_ppos );
-
+void create_a_Dog_A( const IntVec2 &_ppos );
+void create_a_SingleFoot( const IntVec2 &_ppos );
 
 /* ===========================================================
  *                       go_byPass
@@ -35,11 +36,13 @@ void go_byPass(){
     //  手动创建 若干个 go/Dog_A 实例
     //--------------------------//
     
-    creat_a_go( IntVec2{  0,  0 } );
+    create_a_Dog_A( IntVec2{  0,  0 } );
+    //create_a_SingleFoot( IntVec2{  0,  0 } );
     
-    creat_a_go( IntVec2{ 30, 45 } );
-    creat_a_go( IntVec2{ 45, 55 } );
-    creat_a_go( IntVec2{ 50, 30 } );
+    
+    create_a_Dog_A( IntVec2{ 30, 45 } );
+    create_a_Dog_A( IntVec2{ 45, 55 } );
+    create_a_Dog_A( IntVec2{ 50, 30 } );
     
     
 
@@ -57,15 +60,25 @@ void go_byPass(){
 
 
 /* ===========================================================
- *                      creat_a_go
+ *                      create_a_Dog_A
  * -----------------------------------------------------------
  * -- 
  */
-void creat_a_go( const IntVec2 &_ppos ){
+void create_a_Dog_A( const IntVec2 &_ppos ){
 
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针
     gameObjs::dog_a.init( goPtr );
+
+    goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
+            //-- 这是一个严格检查，_ppos 必须对齐于 mapent
+}
+
+void create_a_SingleFoot( const IntVec2 &_ppos ){
+
+    goid_t goid = esrc::insert_new_gameObj();
+    GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针
+    gameObjs::single_foot.init( goPtr );
 
     goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
             //-- 这是一个严格检查，_ppos 必须对齐于 mapent

@@ -108,8 +108,8 @@ void Crawl::RenderUpdate(){
             << ", " <<      std::setw(5) << goPosPtr->get_currentFPos().y 
             //<< "} mid{ " << std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().x
             //<< ", " <<      std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().y
-            << " } MC{ " << std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().x
-            << ", " <<      std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().y
+            //<< " } MC{ " << std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().x
+            //<< ", " <<      std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().y
             << " }";
         */
         
@@ -140,8 +140,6 @@ void Crawl::RenderUpdate(){
         collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
 
             
-
-            
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
@@ -152,7 +150,7 @@ void Crawl::RenderUpdate(){
         speed = pair.second;
     }
     
-        //cout << endl;
+            //cout << endl;
 
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）

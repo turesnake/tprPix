@@ -43,13 +43,6 @@ public:
         x = 0;
         y = 0;
     }
-
-    //- 只是简单转换为 IntVec2, 在用于 MapCoord 时要注意
-    /*
-    inline IntVec2 to_IntVec2() const {
-        return IntVec2{ x, y };
-    } 
-    */
     
     //-- 专用于 crawl模式，将方向转换为 位移值 --
     inline IntVec2 to_mpos() const {
@@ -167,20 +160,6 @@ inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
             return nb_left_bottom; //- nener touch
     }
 }
-
-
-/* ===========================================================
- *                 calc_ppos_compass
- * -----------------------------------------------------------
- * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置
- * -- 被移到其他 结构中 
- */
-/*
-inline NineBox calc_ppos_compass( const IntVec2 _ppos ){
-    return NineBox { (_ppos.x%PIXES_PER_MAPENT)-1, 
-                     (_ppos.y%PIXES_PER_MAPENT)-1 };
-}
-*/
 
 
 #endif 

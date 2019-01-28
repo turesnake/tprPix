@@ -131,6 +131,8 @@ public:
         return actionHandle.funcs.at( _funcName );
     }
 
+
+
     
     ChildMesh   picMesh    { true };
     ChildMesh   shadowMesh { false };
@@ -147,7 +149,7 @@ public:
 
     bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
-
+    bool   isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
 
 private:
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联

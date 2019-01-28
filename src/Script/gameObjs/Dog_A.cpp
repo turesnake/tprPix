@@ -41,6 +41,7 @@ namespace{//-------------- namespace ------------------//
 
 }//------------------ namespace: end ------------------//
 
+
 /* ===========================================================
  *                         init
  * -----------------------------------------------------------
@@ -89,10 +90,13 @@ void Dog_A::init( GameObj *_goPtr ){
                                     0,                //- 起始图元帧序号
                                     3,                //- 结束图元帧序号
                                     0,               //- 入口图元帧序号
-                                    std::vector<int>{ 3, 6, 8, 16 }, //- steps
+                                    std::vector<int>{ 3, 6, 8, 14 }, //- steps
                                     false            //- isStepEqual
-                                    );
+                                    ); 
 
+        goMeshRef.isVisible = true;
+        goMeshRef.isCollide = true;
+        goMeshRef.isFlipOver = false;
 
         //-- goMesh pos in go --
         goMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
@@ -104,6 +108,7 @@ void Dog_A::init( GameObj *_goPtr ){
 
     bp->HP = 100;
     bp->MP = 95;
+    //...
 }
 
 
@@ -210,11 +215,6 @@ void Dog_A::LogicUpdate( GameObj *_goPtr ){
     //=====================================//
 
     // 什么也没做...
-
-    
-    
-    
-
 }
 
 

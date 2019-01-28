@@ -4,7 +4,7 @@
  *                                        创建 -- 2018.12.31
  *                                        修改 -- 2018.12.31
  * ----------------------------------------------------------
- *    动画动作 处理器：简单死循环动作 处理器
+ *    动画动作 处理器：简单死循环动作 处理器 [第二版]
  * ----------------------------
  */
 #ifndef _TPR_ACTION_HANDLE_CYCLE_H_
@@ -67,7 +67,9 @@ public:
     static u32  typeId;
 
     //------- callback --------//  
-    int update( ActionHandle *_ahPtr );
+    //-- 为了提高运行效率，制作了两个版本
+    int update_equal( ActionHandle *_ahPtr );
+    int update_NotEqual( ActionHandle *_ahPtr );
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====

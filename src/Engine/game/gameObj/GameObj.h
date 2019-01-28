@@ -43,6 +43,7 @@
 #include "MapCoord.h" 
 #include "GameObjPos.h"
 #include "Collision.h"
+#include "Direction.h"
 
 
 
@@ -86,6 +87,11 @@ public:
         return goMeshs.at("root").get_rootAnchorPos();
     }
 
+    //-- 根据 direction，自动改写 isFlipOver --
+    inline void set_isFlipOver_auto(){
+        isFlipOver = (direction==Direction::Left);    
+    }
+
 
     //void debug(); //- 打印 本go实例 的所有信息
 
@@ -106,7 +112,8 @@ public:
     goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                              //- 如果没有，此项写 NULLID
     
-    float  weight {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+    float      weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+    Direction  direction {Direction::Left};  //- 朝向
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
@@ -138,7 +145,9 @@ public:
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
     bool    isControlByPlayer  {false}; 
-
+    bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+                                //- 注意，这个值不应该由 具象go类手动配置
+                                //  而应由 move／动画播放器 自动改写
     
     //------------ static ----------//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )

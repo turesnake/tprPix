@@ -17,6 +17,7 @@
 //-------------------- Engine --------------------//
 #include "input.h" 
 #include "srcs_engine.h" 
+#include "Direction.h"
 
 using namespace std::placeholders;
 
@@ -122,6 +123,18 @@ void Player::onGameCross( NineBox _nb ){
     //  just save the cs in goPtr->move 
     //---------------------------//
     goPtr->move.set_newCrawlDir( _nb );
+
+    //-- 设置 go 方向 --
+    if( _nb.x < 0 ){
+        goPtr->direction = Direction::Left;
+        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+
+    }else if(_nb.x > 0){
+        goPtr->direction = Direction::Right;
+        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+
+    }
+    
 }
 
 
