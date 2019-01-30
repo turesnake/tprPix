@@ -35,7 +35,7 @@ namespace debug {//---------- namespace: debug --------------//
 
 namespace{//-------- namespace ----------//
 
-    bool  is_mapEntSlice_show  {true}; //-- 简易开关，用来快速关闭 mes显示功能
+    bool  is_mapEntSlice_show  {false}; //-- 简易开关，用来快速关闭 mes显示功能
 
     std::vector<Mesh> renderPool_mapEntSlices {};
                 //-- 因为所有 mapEntSlice.mesh 都统一放在 同一 z-depp层，

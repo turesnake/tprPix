@@ -17,7 +17,7 @@
 //-------------------- Engine --------------------//
 #include "input.h" 
 #include "srcs_engine.h" 
-#include "Direction.h"
+#include "GODirection.h"
 
 using namespace std::placeholders;
 
@@ -72,6 +72,8 @@ diskPlayer Player::m2d(){
 void Player::init(){
 
     //--- bind keyboard callback ---
+    input::bind_key_callback( input::KEY::J,  std::bind( &Player::onKeyDown_J, &esrc::player ) );
+    input::bind_key_callback( input::KEY::K,  std::bind( &Player::onKeyDown_K, &esrc::player ) );
     input::bind_key_callback( input::KEY::SPACE,  std::bind( &Player::onKeyDown_SPACE, &esrc::player ) );
 
     //--- bind gameCross[move] Keys ---
@@ -126,11 +128,11 @@ void Player::onGameCross( NineBox _nb ){
 
     //-- 设置 go 方向 --
     if( _nb.x < 0 ){
-        goPtr->direction = Direction::Left;
+        goPtr->direction = GODirection::Left;
         goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
 
     }else if(_nb.x > 0){
-        goPtr->direction = Direction::Right;
+        goPtr->direction = GODirection::Right;
         goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
 
     }
@@ -148,6 +150,20 @@ void Player::onKeyDown_SPACE(){
     //cout << "_" << endl;
 }
 
+/* ===========================================================
+ *               Keyboard J
+ * -----------------------------------------------------------
+ */
+void Player::onKeyDown_J(){
+    //cout << "J" << endl;
+}
 
+/* ===========================================================
+ *               Keyboard K
+ * -----------------------------------------------------------
+ */
+void Player::onKeyDown_K(){
+    //cout << "K" << endl;
+}
 
 

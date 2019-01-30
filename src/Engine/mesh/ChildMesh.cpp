@@ -73,7 +73,8 @@ void ChildMesh::refresh_translate(){
     }
 
     if( isPic == true ){
-        translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y;
+        translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
+                                    //-- 累加 高度alti
         translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + goMeshPtr->off_z);
                                     //-- ** 注意！**  z值的计算有不同：
                                     // -1- 取负...

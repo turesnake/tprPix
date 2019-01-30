@@ -43,7 +43,7 @@
 #include "MapCoord.h" 
 #include "GameObjPos.h"
 #include "Collision.h"
-#include "Direction.h"
+#include "GODirection.h"
 
 
 
@@ -89,7 +89,7 @@ public:
 
     //-- 根据 direction，自动改写 isFlipOver --
     inline void set_isFlipOver_auto(){
-        isFlipOver = (direction==Direction::Left);    
+        isFlipOver = (direction==GODirection::Left);    
     }
 
 
@@ -113,7 +113,7 @@ public:
                              //- 如果没有，此项写 NULLID
     
     float      weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
-    Direction  direction {Direction::Left};  //- 朝向
+    GODirection  direction {GODirection::Left};  //- 朝向
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态

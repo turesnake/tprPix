@@ -32,8 +32,8 @@ namespace{//---------- namespace ---------------//
     bool _is_black( int _w, int _h );
 
     //------
-    RGBA color1 { 150, 150, 200, 255 };
-    RGBA color2 { 150, 200, 150, 255 };
+    RGBA color1 { 146, 129,  87, 255 }; //- 中黄
+    RGBA color2 { 147, 138, 125, 255 }; //- 中灰
     RGBA red    { 240, 100, 100, 255 };
 
 }//---------------- namespace: end ---------------//

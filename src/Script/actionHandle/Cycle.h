@@ -41,8 +41,9 @@ struct Cycle_Binary{
 
     int  currentStep;  //- 当前帧 使用的 step
     bool isStepEqual;  //- 使用单一step值: steps.at(0); 还是使用 steps 离散值
+    bool isOrder;      //- 正序播放(true) ／ 倒序播放(false)
     //------ padding -----
-    u8   padding[3];
+    u8   padding[2];
 };
 
 
@@ -56,7 +57,8 @@ public:
                 int _endIdx,
                 int _enterIdx,
                 const std::vector<int> &_steps,
-                bool _isStepEqual );
+                bool _isStepEqual,
+                bool _isOrder );
 
     //------ tmp ptr ------
     // 不能信赖，务必在每次 callback 时重新绑定
@@ -68,8 +70,7 @@ public:
 
     //------- callback --------//  
     //-- 为了提高运行效率，制作了两个版本
-    int update_equal( ActionHandle *_ahPtr );
-    int update_NotEqual( ActionHandle *_ahPtr );
+    int update( ActionHandle *_ahPtr );
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====

@@ -55,7 +55,8 @@ public:
 
 private:
 
-
+    void  onKeyDown_J();
+    void  onKeyDown_K();
     void  onKeyDown_SPACE();
     void  onGameCross( NineBox _nb );
 

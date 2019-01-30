@@ -32,6 +32,9 @@ namespace{
     inline F_V_V   keyDown_S      {nullptr};
     inline F_V_V   keyDown_A      {nullptr};
     inline F_V_V   keyDown_D      {nullptr};
+
+    inline F_V_V   keyDown_J      {nullptr};
+    inline F_V_V   keyDown_K      {nullptr};
     inline F_V_V   keyDown_SPACE  {nullptr};
     
     //--
@@ -79,6 +82,14 @@ void processInput( GLFWwindow *_windowPtr ){
     //--- D --- 
     if( (glfwGetKey( _windowPtr, GLFW_KEY_D )==GLFW_PRESS) && (keyDown_D!=nullptr) ){
         keyDown_D();
+    }
+    //--- J --- 
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_J )==GLFW_PRESS) && (keyDown_J!=nullptr) ){
+        keyDown_J();
+    }
+    //--- K --- 
+    if( (glfwGetKey( _windowPtr, GLFW_KEY_K )==GLFW_PRESS) && (keyDown_K!=nullptr) ){
+        keyDown_K();
     }
     //-- SPACE -- 
     if( glfwGetKey( _windowPtr, GLFW_KEY_SPACE ) == GLFW_PRESS ){
@@ -191,6 +202,10 @@ void bind_key_callback( input::KEY _key, F_V_V _fp ){
         case KEY::S:  keyDown_S = _fp;
             break;
         case KEY::D:  keyDown_D = _fp;
+            break;
+        case KEY::J:  keyDown_J = _fp;
+            break;
+        case KEY::K:  keyDown_K = _fp;
             break;
         case KEY::SPACE:  keyDown_SPACE = _fp;
             break;

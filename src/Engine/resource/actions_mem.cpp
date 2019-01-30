@@ -34,6 +34,8 @@ void load_actions(){
 
     actions.insert( {"human_new",      Action{ "/human/human_new.P.png",             IntVec2{15, 30}, IntVec2{4, 1}, 4 } } );
     actions.insert( {"singleFootWalk", Action{ "/singleFoot/singleFootWalk_1.P.png", IntVec2{26, 29}, IntVec2{4, 2}, 8 } } );
+    actions.insert( {"norman",         Action{ "/norman/norman.P.png",               IntVec2{24, 39}, IntVec2{6, 2}, 12 } } );
+    actions.insert( {"bigMan",         Action{ "/bigMan/bigMan.P.png",               IntVec2{22, 40}, IntVec2{6, 2}, 12 } } );
 
 
 

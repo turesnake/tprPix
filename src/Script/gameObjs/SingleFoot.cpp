@@ -30,8 +30,6 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 namespace{//-------------- namespace ------------------//
-
-
 }//------------------ namespace: end ------------------//
 
 
@@ -84,7 +82,8 @@ void SingleFoot::init( GameObj *_goPtr ){
                                     7,                //- 结束图元帧序号
                                     1,               //- 入口图元帧序号
                                     std::vector<int>{ 8 }, //- steps
-                                    true            //- isStepEqual
+                                    true,            //- isStepEqual
+                                    true             //- isOrder
                                     ); 
 
         //-- goMesh pos in go --

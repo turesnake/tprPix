@@ -29,6 +29,8 @@ enum class KEY{
     S,
     A,
     D,
+    J,
+    K,
     SPACE
 };
 

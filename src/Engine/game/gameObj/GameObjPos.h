@@ -48,7 +48,6 @@ public:
     }
     
     //---- set ----//
-
     //-- 若要在map上“放置”go实例，请用本函数 
     void init_by_currentMCPos( const MapCoord &_mcpos );
 
@@ -72,6 +71,9 @@ public:
 
     void align_currentFPos_by_currentMCPos();
 
+    inline void set_alti( float _alti ){
+        alti = _alti;
+    }
 
     //---- get ----//
     inline const glm::vec2 &get_currentFPos() const {
@@ -92,6 +94,10 @@ public:
     //- 获得 rootAnchor 所在的 collient 的 midFPos 
     glm::vec2 calc_rootAnchor_midFPos();
 
+    inline float get_alti() const {
+        return alti;
+    }
+
 
 private:
     GameObj     *goPtr    {nullptr}; 
@@ -101,6 +107,8 @@ private:
     MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent
                                   //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置
                                   //- 此值往往在 crawl的 回合中段 发生切换。
+    
+    float       alti         {0.0f}; //- 腾空高度。
                 
     //-- 这个值暂时 没被使用 --
     //glm::vec2   targetFPos  { 0.0f, 0.0f };  //- 基于 go.rootAnchor 的，目标 fpos，无需对齐与mapent

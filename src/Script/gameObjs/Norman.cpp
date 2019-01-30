@@ -1,14 +1,13 @@
 /*
- * ========================= Dog_A.cpp ==========================
+ * ========================= Norman.cpp ==========================
  *                          -- tpr --
- *                                        创建 -- 2018.12.23
- *                                        修改 -- 2018.12.23
+ *                                        创建 -- 2019.01.30
+ *                                        修改 -- 2019.01.30
  * ----------------------------------------------------------
- *   具象GameObj类 示范。
  * 
  * ----------------------------
  */
-#include "Script/gameObjs/Dog_A.h"
+#include "Script/gameObjs/Norman.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -33,34 +32,26 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 namespace{//-------------- namespace ------------------//
-
-    int step_x_count {0};
-
-    FlyIns  flyIns { -3.14f };
-
-
 }//------------------ namespace: end ------------------//
 
 
 /* ===========================================================
  *                         init
  * -----------------------------------------------------------
- * -- 应该在 调用 init 之前，创建 基础go实例（并添加到 全局容器中）
- * -- 尽量把 具象go类 做得 “工厂化” 一些。
  */
-void Dog_A::init( GameObj *_goPtr ){
+void Norman::init( GameObj *_goPtr ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Dog_A::RenderUpdate, &dog_a, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Dog_A::LogicUpdate,  &dog_a, _1 );
-    goPtr->BeAffect     = std::bind( &Dog_A::BeAffect,     &dog_a, _1 ); 
+    goPtr->RenderUpdate = std::bind( &Norman::RenderUpdate, &norman, _1 );   
+    goPtr->LogicUpdate  = std::bind( &Norman::LogicUpdate,  &norman, _1 );
+    goPtr->BeAffect     = std::bind( &Norman::BeAffect,     &norman, _1 ); 
 
     //-------- go self vals ---------//
-    goPtr->species = Dog_A::specId;
+    goPtr->species = Norman::specId;
     goPtr->family = GameObjFamily::Major;
     goPtr->parentId = NULLID;
     goPtr->state = GameObjState::Waked;
@@ -87,12 +78,12 @@ void Dog_A::init( GameObj *_goPtr ){
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
         //-- bind action / actionHandle --
-        goMeshRef.bind_action( "human_new" );
+        goMeshRef.bind_action( "norman" );
         actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
-                                    0,                //- 起始图元帧序号
-                                    3,                //- 结束图元帧序号
-                                    0,               //- 入口图元帧序号
-                                    std::vector<int>{ 3, 6, 8, 14 }, //- steps
+                                    6,                //- 起始图元帧序号
+                                    11,                //- 结束图元帧序号
+                                    6,               //- 入口图元帧序号
+                                    std::vector<int>{ 6, 4, 4, 6, 4, 4 }, //- steps
                                     false,            //- isStepEqual
                                     true              //- isOrder
                                     ); 
@@ -106,15 +97,12 @@ void Dog_A::init( GameObj *_goPtr ){
         goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
-    goPtr->resize_binary( sizeof(Dog_A_Binary) );
-    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr(); //- 绑定到本地指针
+    goPtr->resize_binary( sizeof(Norman_Binary) );
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr(); //- 绑定到本地指针
 
     bp->HP = 100;
-    bp->MP = 95;
     //...
 }
-
-
 
 /* ===========================================================
  *                       bind
@@ -122,7 +110,7 @@ void Dog_A::init( GameObj *_goPtr ){
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Dog_A::bind( GameObj *_goPtr ){
+void Norman::bind( GameObj *_goPtr ){
 }
 
 
@@ -132,48 +120,31 @@ void Dog_A::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Dog_A::rebind( GameObj *_goPtr ){
+void Norman::rebind( GameObj *_goPtr ){
 }
-
 
 /* ===========================================================
  *                      RenderUpdate
  * -----------------------------------------------------------
  */
-void Dog_A::RenderUpdate( GameObj *_goPtr ){
+void Norman::RenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Dog_A::specId );
+    assert( _goPtr->species == Norman::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr();
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
 
     //=====================================//
     //           test: AI
     //-------------------------------------//
     //...
-    /*
-    if( goPtr->is_control_by_player == false  ){
 
-        if( step_x_count > 2 ){
-            step_x_count = 0;
-        }
-
-        if( step_x_count == 0 ){
-
-            flyIns.rad += 0.5f;
-            //goPtr->move.set_newflyIns( flyIns );
-        }
-        step_x_count++;
-    }
-    */
-    
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
     goPtr->move.RenderUpdate();
-
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -207,14 +178,14 @@ void Dog_A::RenderUpdate( GameObj *_goPtr ){
  *                        LogicUpdate
  * -----------------------------------------------------------
  */
-void Dog_A::LogicUpdate( GameObj *_goPtr ){
+void Norman::LogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Dog_A::specId );
+    assert( _goPtr->species == Norman::specId );
     //-- rebind ptr -----
     goPtr = _goPtr;
-    bp = (Dog_A_Binary*)goPtr->get_binaryHeadPtr();
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
     //=====================================//
 
     // 什么也没做...
@@ -226,24 +197,7 @@ void Dog_A::LogicUpdate( GameObj *_goPtr ){
  *                       BeAffect
  * -----------------------------------------------------------
  */
-void Dog_A::BeAffect( GameObj *_goPtr ){
-}
-
-
-
-
-
-/* ===========================================================
- *                   move_to_target
- * -----------------------------------------------------------
- * --  为爬行go确定一个 目标pos，让它朝着那个方向移动。
- */
-void Dog_A::move_to_target(){
-
-    //-- 假定一个 targetPos 
-    glm::vec2  targetPos { 200.0f, 35.0f };
-
-	
+void Norman::BeAffect( GameObj *_goPtr ){
 }
 
 
