@@ -33,13 +33,13 @@ namespace{//------------------ namespace ---------------------//
 /* ===========================================================
  *                refresh_scale_auto
  * -----------------------------------------------------------
- * 大部分 具象go实例 的 GameObjMesh图元 长宽值 与 action数据 强关联 --
- *     所以可以直接从 action 中获取数据
+ * 大部分 具象go实例 的 GameObjMesh图元 长宽值 与 AnimFrameSet 数据 强关联 --
+ *     所以可以直接从 AnimFrameSet 中获取数据
  *     这个函数很常用
- *     但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
+ *     但如果 AnimFrameSet 实例 并不更换，也没必要 每1视觉帧 都执行此函数
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = goMeshPtr->get_action_pixNum_per_frame();
+    const IntVec2 &p = goMeshPtr->get_animFrameSet_pixNum_per_frame();
 
     scale_val.x = (float)p.x;
     scale_val.y = (float)p.y;
@@ -69,7 +69,7 @@ void ChildMesh::refresh_translate(){
     translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
     //---- 亦或时 才左右翻转 ----//
     if( goPtr->isFlipOver != goMeshPtr->isFlipOver ){
-        translate_val.x += goMeshPtr->get_action_pixNum_per_frame().x;
+        translate_val.x += goMeshPtr->get_animFrameSet_pixNum_per_frame().x;
     }
 
     if( isPic == true ){

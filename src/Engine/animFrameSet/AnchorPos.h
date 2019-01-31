@@ -21,7 +21,7 @@
 #include "MapCoord.h"
 
 
-//-- rootAnchor / childAnchor 记录在 action:: j.png 图片资源中。
+//-- rootAnchor / childAnchor 记录在 animFrameSet:: j.png 图片资源中。
 //   但是 这组数据 过于复杂，制作一个 结构 来管理它。
 class AnchorPos{
 public:
@@ -44,12 +44,7 @@ public:
     //   计算出 本anchor 所在的 mapent pos
     inline MapCoord calc_mapCoordPos( const IntVec2 &_left_bottom_ppos ){
 
-        //IntVec2 pixPPos = _left_bottom_ppos + pposOff + IntVec2{ compass.x, compass.y };
         IntVec2 pixPPos = _left_bottom_ppos + pposOff - compass.to_IntVec2();
-
-        //MapCoord  mcpos; //- return
-        //mcpos.set_by_ppos( pixPPos );
-        //return mcpos;
         return MapCoord { ppos_2_mpos(pixPPos) };
     } 
     

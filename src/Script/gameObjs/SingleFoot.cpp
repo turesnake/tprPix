@@ -66,7 +66,7 @@ void SingleFoot::init( GameObj *_goPtr ){
     goPtr->move.set_speedLv( SpeedLevel::LV_6 );
     goPtr->move.set_MoveType( true ); //- tmp
 
-    //-------- action／actionHandle/ goMesh ---------//
+    //-------- animFrameSet／actionHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
@@ -75,8 +75,8 @@ void SingleFoot::init( GameObj *_goPtr ){
         goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
-        //-- bind action / actionHandle --
-        goMeshRef.bind_action( "singleFootWalk" );
+        //-- bind animFrameSet / actionHandle --
+        goMeshRef.bind_animFrameSet( "singleFootWalk" );
         actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
                                     1,                //- 起始图元帧序号
                                     7,                //- 结束图元帧序号

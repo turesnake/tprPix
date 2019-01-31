@@ -44,7 +44,7 @@ namespace{//---------- namespace ---------//
 
 }//------------ namespace: end ---------//
 
-//-- 只在 action 资源被加载时 才被调用，对性能无要求 --
+//-- 只在 animFrameSet 资源被加载时 才被调用，对性能无要求 --
 //  use:
 //  - Pjt_RGBAHandle jh { 5 };
 //  - jh.set_rgba( _pixColor );

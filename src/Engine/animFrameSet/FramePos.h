@@ -4,7 +4,7 @@
  *                                        创建 -- 2019.01.09
  *                                        修改 -- 2019.01.09
  * ----------------------------------------------------------
- *    action 中，单张 图元帧 拥有的 全部 pos数据集
+ *    animFrameSet 中，单张 图元帧 拥有的 全部 pos数据集
  *  ----
  *  -1- rootColliEntsOff
  *  -3- colliEnts
@@ -32,7 +32,7 @@
 
 
 
-//-- 仅用来描述 action，所以必须是 静态数据 --//
+//-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
 class FramePos{
 public:
     FramePos(){};

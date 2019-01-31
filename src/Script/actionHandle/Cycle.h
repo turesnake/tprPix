@@ -47,9 +47,9 @@ struct Cycle_Binary{
 };
 
 
-//- 适用于： 一个无限循环的动画action --
+//- 适用于： 一个无限循环的动画 action --
 //  从入口帧开始，周而复始地播放。
-//  当外部发生事件，需要退出 本action 时。会立即退出（从任何一帧）
+//  当外部发生事件，需要退出 本 animFrameSet 时。会立即退出（从任何一帧）
 class Cycle{
 public:
     void bind(  ActionHandle *_ahPtr,

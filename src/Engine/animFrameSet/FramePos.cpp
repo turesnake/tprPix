@@ -47,7 +47,7 @@ void FramePos::check(){
             is_rootColliEntHeadIdx_set &&
             (!colliEntHeads.empty()) );
     
-    //-- 检测 action.rootAnchor 与 root ceh 是否对齐 --//
+    //-- 检测 animFrameSet.rootAnchor 与 root ceh 是否对齐 --//
     ColliEntHead &rootCehRef = colliEntHeads.at(rootColliEntHeadIdx);
     //--
     const MapEntCompass &centerCompass = esrc::colliEntSets.at( rootCehRef.colliEntSetIdx ).get_centerCompass();

@@ -1,11 +1,11 @@
 /*
- * ========================= Action.cpp ==========================
+ * ================= AnimFrameSet.cpp ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
-#include "Action.h"
+#include "AnimFrameSet.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -44,7 +44,7 @@ namespace{//----------------- namespace ------------------//
  *                       init
  * -----------------------------------------------------------
  */
-void Action::init(){
+void AnimFrameSet::init(){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
     //-- tmp --
@@ -85,19 +85,19 @@ void Action::init(){
     J_frame_data_ary.clear();
     S_frame_data_ary.clear();
 
-    load_and_divide_png( tpr::path_combine( path_actions, lpath_pic ),
+    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pic ),
                         pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
                         P_frame_data_ary );
 
-    load_and_divide_png( tpr::path_combine( path_actions, lpath_pjt ),
+    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pjt ),
                         pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
                         J_frame_data_ary );
     
-    load_and_divide_png( tpr::path_combine( path_actions, lpath_shadow ),
+    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_shadow ),
                         pixNum_per_frame,
                         frameNum,
                         totalFrameNum,
@@ -127,7 +127,7 @@ void Action::init(){
  *                   handle_pjt
  * -----------------------------------------------------------
  */
-void Action::handle_pjt(){
+void AnimFrameSet::handle_pjt(){
 
     int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
     Pjt_RGBAHandle  jh {5};
@@ -148,7 +148,7 @@ void Action::handle_pjt(){
                 continue; //- next frame.pix
             }
 
-            //--- 一张 action.frame 只有一个 rootAnchor ---
+            //--- 一张 animFrameSet.frame 只有一个 rootAnchor ---
             if( jh.is_rootAnchor() == true ){
                 rootAnchorOff = pixPPos; //- 并不直接设置，而是先缓存起来。
             }
@@ -180,7 +180,7 @@ void Action::handle_pjt(){
  *                   handle_shadow
  * -----------------------------------------------------------
  */
-void Action::handle_shadow(){
+void AnimFrameSet::handle_shadow(){
 
     int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
     RGBA  color_shadow { 0,0,0, 255 };
@@ -207,10 +207,10 @@ void Action::handle_shadow(){
 /* ===========================================================
  *                    debug
  * -----------------------------------------------------------
- * -- 向终端输出 本Action的信息，用来 debug
+ * -- 向终端输出 本 AnimFrameSet 的信息，用来 debug
  */
 /*
-void Action::debug() const{
+void AnimFrameSet::debug() const{
 
         cout<< "\nname = " << name
             << "\nlpath_pic = " << lpath_pic

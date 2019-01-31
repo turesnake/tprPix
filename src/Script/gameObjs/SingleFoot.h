@@ -18,7 +18,7 @@
 //-------------------- Engine --------------------//
 #include "GameObj.h"
 #include "GameObjMesh.h"
-#include "Action.h"
+#include "AnimFrameSet.h"
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 

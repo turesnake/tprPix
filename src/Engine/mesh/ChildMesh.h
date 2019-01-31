@@ -55,10 +55,10 @@ public:
     //-- 其余代码 不应随意调用 此函数!!! --
     void refresh_translate();
 
-    //- 大部分 具象go实例 的 goMesh图元 长宽值 与 action数据 强关联 --
-    //  所以可以直接从 action 中获取数据
+    //- 大部分 具象go实例 的 goMesh图元 长宽值 与 AnimFrameSet数据 强关联 --
+    //  所以可以直接从 AnimFrameSet 中获取数据
     //  这个函数很常用
-    //  但如果 action实例 并不更换，也没必要 每1视觉帧 都执行此函数
+    //  但如果 AnimFrameSet实例 并不更换，也没必要 每1视觉帧 都执行此函数
     void refresh_scale_auto();
 
 

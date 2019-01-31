@@ -4,11 +4,11 @@
  *                                        创建 -- 2018.11.24
  *                                        修改 -- 2018.11.24
  * ----------------------------------------------------------
- *   A Mesh class bind to GameObj & Action.
+ *   A Mesh class bind to GameObj & AnimFrameSet.
  *  ----------
- * GameObjMesh 和 Action 的区别：
+ * GameObjMesh 和 AnimFrameSet 的区别：
  *	  GameObjMesh 需要 图片资源，
- *	  而大部分 图片资源，以 gl texName 的形式，存储在 Action 模块中。
+ *	  而大部分 图片资源，以 gl texName 的形式，存储在 AnimFrameSet 模块中。
  *  ----------
  *   一个 GameObjMesh 实例 拥有：
  *     一个 根锚点 ／ root anchor   -- 代表 GameObjMesh 本身
@@ -45,7 +45,7 @@
 
 //-------------------- Engine --------------------//
 #include "ActionHandle.h"
-#include "Action.h" 
+#include "AnimFrameSet.h" 
 #include "Collision.h" 
 #include "AnchorPos.h"
 #include "ChildMesh.h"
@@ -56,18 +56,18 @@ class GameObj;
 //-- GameObjMesh 是个 "整合类"，不存在进一步的 具象类 --
 // GameObjMesh 被轻量化了：
 //  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
-//  -- texName 存储在 action数据中。GameObjMesh 通过一个指针 调用它们
+//  -- texName 存储在 AnimFrameSet 数据中。GameObjMesh 通过一个指针 调用它们
 //    （调用方式由 具象go类 定义）
 // --------
 // 每个 具象go类实例 所拥有的 GameObjMesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
 // GameObjMesh实例 不会被存入 硬盘态。
 // 而是在每次 加载section中 具象go实例时，临时生成。
 // --------
-//  当切换 action时，GameObjMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
+//  当切换 action 时，GameObjMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
 // --------
 // GameObjMesh实例拥有：
-//  -1- actionPtr.  实例本体 存储在 全局容器 actions 中。
+//  -1- animFrameSetPtr.  实例本体 存储在 全局容器 animFrameSets 中。
 //  -2- actionHandle. 实例（独占）
 //  -3- 2 个 子mesh实例，分别对应 pic/shadow 两份图形数据。
 //
@@ -82,15 +82,15 @@ public:
         shadowMesh.init( goPtr, (GameObjMesh*)this );
     }
 
-    //------ action ------
-    void bind_action( const std::string &_name );
+    //------ animFrameSet ------
+    void bind_animFrameSet( const std::string &_name );
 
-    inline const std::string &get_actionName() const {
-        return actionName;
+    inline const std::string &get_animFrameSetName() const {
+        return animFrameSetName;
     }
 
     inline int get_totalFrames() const {
-        return actionPtr->totalFrameNum;
+        return animFrameSetPtr->totalFrameNum;
     }
 
     //--- IMPORTANT !!! ---
@@ -100,27 +100,27 @@ public:
 
     //--- IMPORTANT !!! ---
     inline const AnchorPos &get_rootAnchorPos() const {
-        return actionPtr->framePoses.at( actionHandle.currentIdx ).get_rootAnchorPos();
+        return animFrameSetPtr->framePoses.at( actionHandle.currentIdx ).get_rootAnchorPos();
     }
 
     //--- IMPORTANT !!! ---
     inline const FramePos &get_currentFramePos() const {
-        return actionPtr->framePoses.at( actionHandle.currentIdx );
+        return animFrameSetPtr->framePoses.at( actionHandle.currentIdx );
     }
 
     inline GLuint get_currentTexName_pic() const {
-        return actionPtr->texNames_pic.at(actionHandle.currentIdx);
+        return animFrameSetPtr->texNames_pic.at(actionHandle.currentIdx);
     }
     inline GLuint get_currentTexName_shadow() const {
-        return actionPtr->texNames_shadow.at(actionHandle.currentIdx);
+        return animFrameSetPtr->texNames_shadow.at(actionHandle.currentIdx);
     }
 
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return actionPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
+        return animFrameSetPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
     }
 
-    inline const IntVec2 &get_action_pixNum_per_frame() const {
-        return actionPtr->pixNum_per_frame;
+    inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
+        return animFrameSetPtr->pixNum_per_frame;
     }
 
     inline ActionHandle *get_actionHandlePtr(){
@@ -130,7 +130,6 @@ public:
     inline ActionHandle::F_GENERAL &get_actionHandle_func( const std::string &_funcName ){
         return actionHandle.funcs.at( _funcName );
     }
-
 
 
     
@@ -154,13 +153,13 @@ public:
 private:
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
 
-    //------- action -------
+    //------- AnimFrameSet -------
     //  ... 临时设置为公共 ...
-    // 具象go类代码 通过 name／id 来 设置／改写 action数据
-    // 在单一时间，一个GameObjMesh实例 只能绑定 一个 action实例
-    std::string  actionName;       //- 与下方的 actionPtr 强关联 --
-    Action      *actionPtr {nullptr}; //- 指向 esrc::actions 中的某个 action 实例
-                                    //- 通过 bind_action() 来绑定
+    // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据
+    // 在单一时间，一个GameObjMesh实例 只能绑定 一个 animFrameSetPtr实例
+    std::string     animFrameSetName;       //- 与下方的 animFrameSetPtr 强关联 --
+    AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
+                                    //- 通过 bind_animFrameSet() 来绑定
     
     ActionHandle actionHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。

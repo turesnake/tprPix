@@ -105,7 +105,7 @@ int main(){
     //++++++ load ++++++//
     esrc::load_colliEntSets(); //-- colliEntSets --
         //esrc::debug_colliEntSets();
-    esrc::load_actions();      //-- actions --, MUST after load_colliEntSets()
+    esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
     
     //...
         

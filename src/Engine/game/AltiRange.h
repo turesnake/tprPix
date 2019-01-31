@@ -25,8 +25,8 @@ public:
 
     //---- static ----//
     static char jumpLimit; //- 此值仅仅用来限制 low
-    static u8  diskAlti_item;    //- 在 action图片文件中，代表 item 的 高度值
-    static u8  diskAlti_surface; //- 在 action图片文件中，代表 surface 的 高度值
+    static u8  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
+    static u8  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
 
     //---- funcs -----//
     inline void clear_all(){

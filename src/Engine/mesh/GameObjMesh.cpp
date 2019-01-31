@@ -15,11 +15,11 @@
 
 
 /* ===========================================================
- *                 bind_action
+ *                 bind_animFrameSet
  * -----------------------------------------------------------
  */
-void GameObjMesh::bind_action( const std::string &_name ){
-    actionName = _name;
-    actionPtr = &(esrc::actions.at(_name));
+void GameObjMesh::bind_animFrameSet( const std::string &_name ){
+    animFrameSetName = _name;
+    animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
 }
 

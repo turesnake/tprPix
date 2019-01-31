@@ -77,7 +77,7 @@ void Dog_A::init( GameObj *_goPtr ){
 
     goPtr->goPos.set_alti( 0.0f );
 
-    //-------- action／actionHandle/ goMesh ---------//
+    //-------- animFrameSet／actionHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
@@ -86,8 +86,8 @@ void Dog_A::init( GameObj *_goPtr ){
         goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
-        //-- bind action / actionHandle --
-        goMeshRef.bind_action( "human_new" );
+        //-- bind animFrameSet / actionHandle --
+        goMeshRef.bind_animFrameSet( "human_new" );
         actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
                                     0,                //- 起始图元帧序号
                                     3,                //- 结束图元帧序号

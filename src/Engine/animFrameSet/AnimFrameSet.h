@@ -1,5 +1,5 @@
 /*
- * ========================= Action.h ==========================
+ * =================== AnimFrameSet.h ==========================
  *                          -- tpr --
  *                                        创建 -- 2018.11.23
  *                                        修改 -- 
@@ -31,8 +31,8 @@
  *   此时就有必要进入 更为完善的 tex显存管理（到时再说）
  * ----------------------------
  */
-#ifndef _TPR_ACTION_H_
-#define _TPR_ACTION_H_
+#ifndef _TPR_ANIM_FRAME_SET_H_
+#define _TPR_ANIM_FRAME_SET_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
@@ -51,7 +51,7 @@
 
 //-- AS实例 需要的参数 --
 //  -* 暂时无用 *-
-struct ActionParams{
+struct AnimFrameSetParams{
     std::string lpath_pic;
     IntVec2  pixNum_per_frame;
     IntVec2  frameNums;
@@ -61,18 +61,18 @@ struct ActionParams{
 
 //-- 动画帧类型。以后有用处 ---
 //  -* 暂时无用 *-
-enum class ActionType{
+enum class AnimFrameSetType{
     Null      = 1, //- 空
     Walk_loop = 2  //- tmp
 };
 
 
-//-- 作为纯粹的 图像资源类，Action 应该被设计得尽可能简洁 --
+//-- 作为纯粹的 图像资源类，AnimFrameSet 应该被设计得尽可能简洁 --
 //   不负责其他任何数据 
-//   Action 没有 具象as类。
-class Action{
+//   AnimFrameSet 没有 具象as类。
+class AnimFrameSet{
 public:
-    Action( const std::string &_lpath_pic, 
+    AnimFrameSet( const std::string &_lpath_pic, 
                 IntVec2  _pixNum_per_frame,
                 IntVec2  _frameNum,
                 int      _totalFrameNum 
@@ -85,18 +85,18 @@ public:
 
     void init();
 
-    //void debug() const; //- 向终端输出 本Action的信息，用来 debug
+    //void debug() const; //- 向终端输出 本 AnimFrameSet 的信息，用来 debug
     //---------------------- vals -------------------------//
 
     //-- 本动画动作 的name。 起到 id 的作用。
     //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
     std::string  name;
 
-    ActionType   type {ActionType::Null};  //- 类型，以后可能有用
+    AnimFrameSetType   type {AnimFrameSetType::Null};  //- 类型，以后可能有用
 
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
-    //- local path，based on path_action_srcs
+    //- local path，based on path_animFrameSet_srcs
     std::string  lpath_pic;    //-- picture
     std::string  lpath_pjt;    //-- collients
     std::string  lpath_shadow; //-- shadow

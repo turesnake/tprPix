@@ -25,7 +25,7 @@
 //-------------------- Engine --------------------//
 //     不应该在 这个文件中 加载如此多的  Engine_h文件 
 #include "GameObj.h"
-#include "Action.h"
+#include "AnimFrameSet.h"
 #include "Player.h" 
 #include "TimeBase.h" 
 #include "TimeCircle.h" 
@@ -86,10 +86,10 @@ void init_colliEntSet_tables();
 
 
 //-------------------------//
-//     Action 资源（动画动作图集）
+//     AnimFrameSet 资源（动画动作图集）
 //-------------------------//
-inline std::unordered_map<std::string, Action> actions {};
-void load_actions();
+inline std::unordered_map<std::string, AnimFrameSet> animFrameSets {};
+void load_animFrameSets();
 
 
 //-------------------------//

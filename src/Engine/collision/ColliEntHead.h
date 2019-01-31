@@ -4,9 +4,9 @@
  *                                        创建 -- 2019.01.19
  *                                        修改 -- 2019.01.19
  * ----------------------------------------------------------
- *    action:: J.png 往往会携带 数个 ColliEntHead 信息点。
+ *    animFrameSet:: J.png 往往会携带 数个 ColliEntHead 信息点。
  *    本结构是对这个 信息点的 描述。
- *    因为这组信息往往会 存储在一起: action.framePos.colliEntHead
+ *    因为这组信息往往会 存储在一起: animFrameSet.framePos.colliEntHead
  *    ----
  *    这个 struct 名字不够好，后期可能会被修改
  * ----------------------------

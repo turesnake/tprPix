@@ -84,9 +84,6 @@ void GameObj::debug(){
     cout << "is_dirty: " << ( is_dirty ? "true" : "false" )
         << endl;
 
-    cout << "actionNames.size() = " << actionNames.size()
-        << endl;
-
     //cout << "goMeshs.size() = " << goMeshs.size()
         //<< endl;
 

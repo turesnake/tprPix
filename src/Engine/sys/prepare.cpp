@@ -164,15 +164,15 @@ void check_and_creat_important_dir(){
                         err_info
                         );
     //---------------------------------//
-    //          path_action_srcs
+    //          path_animFrameSets
     //---------------------------------//
-    path_actions = tpr::mk_dir( path_textures.c_str(),
-                        "actions/",
+    path_animFrameSets = tpr::mk_dir( path_textures.c_str(),
+                        "animFrameSets/",
                         RWXR_XR_X,
                         err_info
                         );
     //---------------------------------//
-    //          path_action_colliEntSet
+    //          path_colliEntSet
     //---------------------------------//
     path_colliEntSet = tpr::mk_dir( path_textures.c_str(),
                         "colliEntSet/",
