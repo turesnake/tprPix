@@ -33,7 +33,7 @@ void create_a_BigMan( const IntVec2 &_ppos );
 void go_byPass(){
 
     //-------------------------//
-    //  手动创建 若干个 go/Dog_A 实例
+    //  手动CREATE 若干个 go/Dog_A 实例
     //--------------------------//
     
 

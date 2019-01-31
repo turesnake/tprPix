@@ -1,8 +1,8 @@
 /*
  * ========================= Norman.cpp ==========================
  *                          -- tpr --
- *                                        创建 -- 2019.01.30
- *                                        修改 -- 2019.01.30
+ *                                        CREATE -- 2019.01.30
+ *                                        MODIFY -- 
  * ----------------------------------------------------------
  * 
  * ----------------------------
@@ -49,7 +49,6 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->RenderUpdate = std::bind( &Norman::RenderUpdate, &norman, _1 );   
     goPtr->LogicUpdate  = std::bind( &Norman::LogicUpdate,  &norman, _1 );
     goPtr->BeAffect     = std::bind( &Norman::BeAffect,     &norman, _1 ); 
-
 
     goPtr->move.OnIdle = std::bind( &Norman::actionSwitch_OnIdle, &norman, _1 );
     goPtr->move.OnMove = std::bind( &Norman::actionSwitch_OnMove, &norman, _1 );
