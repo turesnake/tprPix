@@ -20,7 +20,7 @@
 #include "srcs_engine.h" 
 
 //-------------------- Script --------------------//
-#include "Script/actionHandle/Cycle.h"
+#include "Script/animFrameIdxHandle/Cycle.h"
 #include "Script/resource/srcs_script.h" 
 
 using namespace std::placeholders;
@@ -50,6 +50,10 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->LogicUpdate  = std::bind( &Norman::LogicUpdate,  &norman, _1 );
     goPtr->BeAffect     = std::bind( &Norman::BeAffect,     &norman, _1 ); 
 
+
+    goPtr->move.OnIdle = std::bind( &Norman::actionSwitch_OnIdle, &norman, _1 );
+    goPtr->move.OnMove = std::bind( &Norman::actionSwitch_OnMove, &norman, _1 );
+
     //-------- go self vals ---------//
     goPtr->species = Norman::specId;
     goPtr->family = GameObjFamily::Major;
@@ -63,12 +67,12 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_3 );
+    goPtr->move.set_speedLv( SpeedLevel::LV_6 );
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
 
-    //-------- animFrameSet／actionHandle/ goMesh ---------//
+    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
@@ -77,13 +81,13 @@ void Norman::init( GameObj *_goPtr ){
         goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
-        //-- bind animFrameSet / actionHandle --
+        //-- bind animFrameSet / animFrameIdxHandle --
         goMeshRef.bind_animFrameSet( "norman" );
-        actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
-                                    6,                //- 起始图元帧序号
-                                    11,                //- 结束图元帧序号
-                                    6,               //- 入口图元帧序号
-                                    std::vector<int>{ 8, 8, 8, 8, 8, 8 }, //- steps
+        animFrameIdxHdle::cycle_obj.bind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    0,                //- 起始图元帧序号
+                                    5,                //- 结束图元帧序号
+                                    0,               //- 入口图元帧序号
+                                    std::vector<int>{ 12, 8, 8, 12, 8, 8 }, //- steps
                                     false,            //- isStepEqual
                                     true              //- isOrder
                                     ); 
@@ -159,7 +163,7 @@ void Norman::RenderUpdate( GameObj *_goPtr ){
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        goMeshRef.get_actionHandle_func("update")( goMeshRef.get_actionHandlePtr(), 0);
+        goMeshRef.get_animFrameIdxHandle_func("update")( goMeshRef.get_animFrameIdxHandlePtr(), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
         goMeshRef.shadowMesh.refresh_translate();
@@ -192,13 +196,75 @@ void Norman::LogicUpdate( GameObj *_goPtr ){
 }
 
 
-
 /* ===========================================================
  *                       BeAffect
  * -----------------------------------------------------------
  */
 void Norman::BeAffect( GameObj *_goPtr ){
 }
+
+
+/* ===========================================================
+ *               actionSwitch_OnMove
+ * -----------------------------------------------------------
+ * -- 切换 go动画： 跑步
+ * -- 测试用...
+ */
+void Norman::actionSwitch_OnMove( GameObj *_goPtr ){
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    assert( _goPtr->species == Norman::specId );
+    //-- rebind ptr -----
+    goPtr = _goPtr;
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    //=====================================//
+
+    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
+    //goMeshRef.bind_animFrameSet( "norman" );
+    animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    6,                //- 起始图元帧序号
+                                    11,                //- 结束图元帧序号
+                                    6,               //- 入口图元帧序号
+                                    std::vector<int>{ 3, 6, 3, 3, 6, 3 }, //- steps
+                                    false,            //- isStepEqual
+                                    true              //- isOrder
+                                    ); 
+}
+
+
+
+
+/* ===========================================================
+ *               actionSwitch_OnIdle
+ * -----------------------------------------------------------
+ * -- 切换 go动画： 待机
+ * -- 测试用...
+ */
+void Norman::actionSwitch_OnIdle( GameObj *_goPtr ){
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    assert( _goPtr->species == Norman::specId );
+    //-- rebind ptr -----
+    goPtr = _goPtr;
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    //=====================================//
+
+    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
+    //goMeshRef.bind_animFrameSet( "norman" );
+    animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    0,                //- 起始图元帧序号
+                                    5,                //- 结束图元帧序号
+                                    0,               //- 入口图元帧序号
+                                    std::vector<int>{ 12, 8, 8, 12, 8, 8 }, //- steps
+                                    false,            //- isStepEqual
+                                    true              //- isOrder
+                                    );
+}
+
+
+
 
 
 

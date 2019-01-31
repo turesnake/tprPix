@@ -52,7 +52,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src)
 #-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionHandle)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
@@ -74,7 +74,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
 
 #-- Script 只 include 顶层目录 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
-#include_directories (${PROJECT_SOURCE_DIR}/src/Script/actionHandle)
+#include_directories (${PROJECT_SOURCE_DIR}/src/Script/animFrameIdxHandle)
 #include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
 #include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
 #include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
@@ -108,7 +108,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
 
                         src/Engine/*.cpp
                         src/Engine/animFrameSet/*.cpp 
-                        src/Engine/actionHandle/*.cpp
+                        src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
@@ -128,7 +128,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
-                        src/Script/actionHandle/*.cpp 
+                        src/Script/animFrameIdxHandle/*.cpp 
                         src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
                         src/Script/map/*.cpp

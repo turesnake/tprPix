@@ -7,8 +7,8 @@
  *    动画动作 处理器：简单死循环动作 处理器 [第二版]
  * ----------------------------
  */
-#ifndef _TPR_ACTION_HANDLE_CYCLE_H_
-#define _TPR_ACTION_HANDLE_CYCLE_H_
+#ifndef _TPR_ANIM_FRAME_IDX_HANDLE_CYCLE_H_
+#define _TPR_ANIM_FRAME_IDX_HANDLE_CYCLE_H_
 
 //-------------------- C ----------------------//
 #include <cassert> //-- assert
@@ -21,10 +21,10 @@
 
 //------------------- Engine --------------------//
 #include "ScriptBuf.h"
-#include "ActionHandle.h"
+#include "AnimFrameIdxHandle.h"
 
 
-namespace actionHdle{//------------- namespace actionHdle ----------------
+namespace animFrameIdxHdle{//------------- namespace animFrameIdxHdle ----------------
 
 
 struct Cycle_Binary{
@@ -52,7 +52,17 @@ struct Cycle_Binary{
 //  当外部发生事件，需要退出 本 animFrameSet 时。会立即退出（从任何一帧）
 class Cycle{
 public:
-    void bind(  ActionHandle *_ahPtr,
+    //-- 仅用于 本ah实例 初始化阶段 --
+    void bind(  AnimFrameIdxHandle *_ahPtr,
+                int _begIdx,
+                int _endIdx,
+                int _enterIdx,
+                const std::vector<int> &_steps,
+                bool _isStepEqual,
+                bool _isOrder );
+
+    //-- 仅用于 本ah实例 绑定新的 action 阶段 --
+    void rebind(  AnimFrameIdxHandle *_ahPtr,
                 int _begIdx,
                 int _endIdx,
                 int _enterIdx,
@@ -62,7 +72,7 @@ public:
 
     //------ tmp ptr ------
     // 不能信赖，务必在每次 callback 时重新绑定
-    ActionHandle  *ahPtr  {nullptr}; //- 
+    AnimFrameIdxHandle  *ahPtr  {nullptr}; //- 
     Cycle_Binary  *bp     {nullptr}; //- 指向 ahPtr->binary
 
     //------ static vals -------
@@ -70,13 +80,13 @@ public:
 
     //------- callback --------//  
     //-- 为了提高运行效率，制作了两个版本
-    int update( ActionHandle *_ahPtr );
+    int update( AnimFrameIdxHandle *_ahPtr );
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====
 inline Cycle  cycle_obj {};
 
 
-}//----------------- namespace actionHdle: end -------------------
+}//----------------- namespace animFrameIdxHdle: end -------------------
 #endif 
 

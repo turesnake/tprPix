@@ -44,7 +44,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "ActionHandle.h"
+#include "AnimFrameIdxHandle.h"
 #include "AnimFrameSet.h" 
 #include "Collision.h" 
 #include "AnchorPos.h"
@@ -68,7 +68,7 @@ class GameObj;
 // --------
 // GameObjMesh实例拥有：
 //  -1- animFrameSetPtr.  实例本体 存储在 全局容器 animFrameSets 中。
-//  -2- actionHandle. 实例（独占）
+//  -2- animFrameIdxHandle. 实例（独占）
 //  -3- 2 个 子mesh实例，分别对应 pic/shadow 两份图形数据。
 //
 class GameObjMesh{
@@ -94,41 +94,41 @@ public:
     }
 
     //--- IMPORTANT !!! ---
-    inline int get_currentActionFrameIdx() const {
-        return actionHandle.currentIdx;
+    inline int get_currentAnimFrameIdx() const {
+        return animFrameIdxHandle.currentIdx;
     }
 
     //--- IMPORTANT !!! ---
     inline const AnchorPos &get_rootAnchorPos() const {
-        return animFrameSetPtr->framePoses.at( actionHandle.currentIdx ).get_rootAnchorPos();
+        return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
 
     //--- IMPORTANT !!! ---
     inline const FramePos &get_currentFramePos() const {
-        return animFrameSetPtr->framePoses.at( actionHandle.currentIdx );
+        return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx );
     }
 
     inline GLuint get_currentTexName_pic() const {
-        return animFrameSetPtr->texNames_pic.at(actionHandle.currentIdx);
+        return animFrameSetPtr->texNames_pic.at(animFrameIdxHandle.currentIdx);
     }
     inline GLuint get_currentTexName_shadow() const {
-        return animFrameSetPtr->texNames_shadow.at(actionHandle.currentIdx);
+        return animFrameSetPtr->texNames_shadow.at(animFrameIdxHandle.currentIdx);
     }
 
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return animFrameSetPtr->framePoses.at(actionHandle.currentIdx).get_rootAnchorPos().pposOff;
+        return animFrameSetPtr->framePoses.at(animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
     }
 
     inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
         return animFrameSetPtr->pixNum_per_frame;
     }
 
-    inline ActionHandle *get_actionHandlePtr(){
-        return &actionHandle;
+    inline AnimFrameIdxHandle *get_animFrameIdxHandlePtr(){
+        return &animFrameIdxHandle;
     }
 
-    inline ActionHandle::F_GENERAL &get_actionHandle_func( const std::string &_funcName ){
-        return actionHandle.funcs.at( _funcName );
+    inline AnimFrameIdxHandle::F_GENERAL &get_animFrameIdxHandle_func( const std::string &_funcName ){
+        return animFrameIdxHandle.funcs.at( _funcName );
     }
 
 
@@ -161,7 +161,7 @@ private:
     AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
                                     //- 通过 bind_animFrameSet() 来绑定
     
-    ActionHandle actionHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
+    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
                                

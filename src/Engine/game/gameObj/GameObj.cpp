@@ -73,8 +73,6 @@ void GameObj::debug(){
         << "\nis_active: " << ( is_active ? "true" : "false" )
         << endl;
 
-
-
     cout << "velocity: " << velocity.x
         << ", " << velocity.y 
         << endl;
@@ -93,8 +91,5 @@ void GameObj::debug(){
     cout << "\n\n" << endl;
 }
 */
-
-
-
 
 

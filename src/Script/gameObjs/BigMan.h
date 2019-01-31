@@ -63,7 +63,7 @@ public:
 };
 
 //---------- static ----------//
-inline u32  BigMan::specId {4};
+inline u32  BigMan::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< BigMan类 唯一的 保留实例 >=====
 inline BigMan  big_man {};

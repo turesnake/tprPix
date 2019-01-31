@@ -10,12 +10,12 @@
 #ifndef _TPR_AH_H_
 #define _TPR_AH_H_
 
-namespace actionHdle{//------------- namespace ActionHdle ----------------
+namespace animFrameIdxHdle{//------------- namespace animFrameIdxHdle ----------------
 
 
 void typeId_alloc();
 
 
-}//----------------- namespace ActionHdle: end -------------------
+}//----------------- namespace animFrameIdxHdle: end -------------------
 #endif 
 

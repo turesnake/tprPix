@@ -60,10 +60,21 @@ public:
 
     //-------------- static --------------//
     static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+
+
+private:
+
+    //--- callback ---//
+    //  试验用
+    void actionSwitch_OnMove( GameObj *_goPtr );
+    void actionSwitch_OnIdle( GameObj *_goPtr );
+
+
+
 };
 
 //---------- static ----------//
-inline u32  Norman::specId {3};
+inline u32  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< Norman类 唯一的 保留实例 >=====
 inline Norman  norman {};

@@ -16,14 +16,14 @@
 //-------------------- CPP --------------------//
 #include <string>
 
-//------ need to include all ActionHandle .h files --------
+//------ need to include all AnimFrameIdxHandle .h files --------
 #include "Cycle.h" 
 
 
 using std::string;
 
 
-namespace actionHdle{//------------- namespace ActionHdle ----------------
+namespace animFrameIdxHdle{//------------- namespace animFrameIdxHdle ----------------
 
 namespace{//------------------- namespace ---------------------
     ID_Manager idm { ID_TYPE::U32, 1 }; 
@@ -33,7 +33,7 @@ namespace{//------------------- namespace ---------------------
 /* ===========================================================
  *                 typeId_alloc
  * -----------------------------------------------------------
- * -- 为每一个 actionHandle 类 分配 typeId
+ * -- 为每一个 AnimFrameIdxHandle 类 分配 typeId
  */
 void typeId_alloc(){
 
@@ -74,5 +74,5 @@ u64 alloc( const string &_name ){
 
 
 }//------------------------- namespace: end -------------------
-}//----------------- namespace ActionHdle: end -------------------
+}//----------------- namespace animFrameIdxHdle: end -------------------
 

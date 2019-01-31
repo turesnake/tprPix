@@ -20,7 +20,7 @@
 #include "srcs_engine.h" 
 
 //-------------------- Script --------------------//
-#include "Script/actionHandle/Cycle.h"
+#include "Script/animFrameIdxHandle/Cycle.h"
 #include "Script/resource/srcs_script.h" 
 
 using namespace std::placeholders;
@@ -68,7 +68,7 @@ void BigMan::init( GameObj *_goPtr ){
 
     goPtr->goPos.set_alti( 0.0f );
 
-    //-------- animFrameSet／actionHandle/ goMesh ---------//
+    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
@@ -77,9 +77,9 @@ void BigMan::init( GameObj *_goPtr ){
         goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         goMeshRef.isVisible = true;
         goMeshRef.isCollide = true;
-        //-- bind animFrameSet / actionHandle --
+        //-- bind animFrameSet / animFrameIdxHandle --
         goMeshRef.bind_animFrameSet( "bigMan" );
-        actionHdle::cycle_obj.bind( goMeshRef.get_actionHandlePtr(), 
+        animFrameIdxHdle::cycle_obj.bind( goMeshRef.get_animFrameIdxHandlePtr(), 
                                     0,                //- 起始图元帧序号
                                     5,                //- 结束图元帧序号
                                     0,               //- 入口图元帧序号
@@ -159,7 +159,7 @@ void BigMan::RenderUpdate( GameObj *_goPtr ){
         }
 
         //=== 传参到 scriptBuf : [无参数] ===
-        goMeshRef.get_actionHandle_func("update")( goMeshRef.get_actionHandlePtr(), 0);
+        goMeshRef.get_animFrameIdxHandle_func("update")( goMeshRef.get_animFrameIdxHandlePtr(), 0);
         //=== 从 scriptBuf 取返回值 : [无返回值] ===
 
         goMeshRef.shadowMesh.refresh_translate();

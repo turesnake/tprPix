@@ -5,6 +5,8 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  *  资源管理:  animFrameSeta
+ * -----
+ *   这部分代码，应该放到 script层 中去
  * ----------------------------
  */
 //-------------------- CPP --------------------//
@@ -32,11 +34,8 @@ void load_animFrameSets(){
 
     animFrameSets.clear();
 
-    animFrameSets.insert( {"human_new",      AnimFrameSet{ "/human/human_new.P.png",             IntVec2{15, 30}, IntVec2{4, 1}, 4 } } );
-    animFrameSets.insert( {"singleFootWalk", AnimFrameSet{ "/singleFoot/singleFootWalk_1.P.png", IntVec2{26, 29}, IntVec2{4, 2}, 8 } } );
     animFrameSets.insert( {"norman",         AnimFrameSet{ "/norman/norman.P.png",               IntVec2{24, 39}, IntVec2{6, 2}, 12 } } );
     animFrameSets.insert( {"bigMan",         AnimFrameSet{ "/bigMan/bigMan.P.png",               IntVec2{22, 40}, IntVec2{6, 2}, 12 } } );
-
 
 
     //---------------------------------//

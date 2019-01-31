@@ -1,16 +1,18 @@
 /*
- * ========================= ActionHandle.h ==========================
+ * ================== AnimFrameIdxHandle.h ===================
  *                          -- tpr --
  *                                        创建 -- 2018.12.28
- *                                        修改 -- 2018.12.28
+ *                                        修改 -- 
  * ----------------------------------------------------------
- *    action 处理器
+ *    动画帧 idx 管理器
  *    这是一个 非常疯狂的 计划...
+ *    ------
+ *    由于我们使用使用的 animFrameIdxHandle 种类很少，
+ *    这个模块可能会类似 move模块一样，被简化+写死
  * ----------------------------
  */
-#ifndef _TPR_ACTION_HANDLE_H_
-#define _TPR_ACTION_HANDLE_H_
-
+#ifndef _TPR_ANIM_FRAME_IDX_HANDLE_H_
+#define _TPR_ANIM_FRAME_IDX_HANDLE_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -30,12 +32,12 @@
 //  存储 数据 和 接口
 //  被 具象AH类 装配
 //  一切 AH类 以及 具象AH类 数据，都只存储在 mem态
-class ActionHandle{
+class AnimFrameIdxHandle{
 public:
     //- 万能函数接口, 依赖 scriptBuf 传递 参数／返回值
-    using F_GENERAL = std::function<int(ActionHandle*,int)>; 
+    using F_GENERAL = std::function<int(AnimFrameIdxHandle*,int)>; 
 
-    ActionHandle() = default;
+    AnimFrameIdxHandle() = default;
 
     //----------- interface -------------//
     std::unordered_map<std::string, F_GENERAL> funcs; 

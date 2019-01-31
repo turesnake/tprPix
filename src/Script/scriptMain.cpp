@@ -22,7 +22,7 @@
 #include "MapTexture.h" 
 
 //-------------------- Script --------------------//
-#include "Script/actionHandle/ah.h"
+#include "Script/animFrameIdxHandle/ah.h"
 
 
 using namespace std::placeholders;
@@ -45,7 +45,7 @@ void scriptMain(){
 
     //------- Awakes -------//
     esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
-    esrc::behaviour.signUp_Awakes( std::bind( &actionHdle::typeId_alloc ) );
+    esrc::behaviour.signUp_Awakes( std::bind( &animFrameIdxHdle::typeId_alloc ) );
     MapTexture::bind_mapBuilder( std::bind( &map_builder, _1, _2, _3 ) );
 
 
