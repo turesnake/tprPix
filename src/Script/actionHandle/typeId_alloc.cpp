@@ -58,7 +58,7 @@ u64 alloc( const string &_name ){
 
     u64 id = idm.apply_a_u32_id();
 
-    //-- 存入一个 script区的 公共容器中 --
+    //-- 存入一个 script区的 公共容器（正反表）中 --
     ssrc::acionHdle_typeId_names.insert({ id, _name });
     ssrc::acionHdle_name_typeIds.insert({ _name, id });
 

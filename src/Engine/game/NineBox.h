@@ -43,6 +43,12 @@ public:
         x = 0;
         y = 0;
     }
+
+    inline void set( int _x, int _y ){
+        assert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) );
+        x = _x;
+        y = _y;
+    }
     
     //-- 专用于 crawl模式，将方向转换为 位移值 --
     inline IntVec2 to_mpos() const {

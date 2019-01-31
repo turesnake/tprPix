@@ -33,20 +33,6 @@
 namespace{//-------------- namespace ------------------//
 
     //--- speed table, 8-level ----
-    /*
-    std::vector<std::pair<int, float>> speeds {
-    //  max,   speed,                 speedLevel //
-        { 1,    3.0f },   //- idx = 0,  LV_8
-        { 2,    1.5f },   //- idx = 1,  LV_7
-        { 3,    1.0f },   //- idx = 2,  LV_6
-        { 4,    0.75f },  //- idx = 3,  LV_5
-        { 5,    0.6f },   //- idx = 4,  LV_4
-        { 6,    0.5f },   //- idx = 5,  LV_3
-        { 8,    0.375f }, //- idx = 6,  LV_2
-        { 10,   0.3f }    //- idx = 7,  LV_1
-    };
-    */
-
     //-- 基于 5*5 mapent 的新速度表 --
     //  注意，3/6 两档无法整除。需要在每个 节点帧做修正...
     std::vector<std::pair<int, float>> speeds {
@@ -113,8 +99,6 @@ void Crawl::RenderUpdate(){
             << " }";
         */
         
-
-
     //----------------------------//
     //     Node Frame ／ 节点
     //----------------------------//
@@ -179,6 +163,29 @@ void Crawl::RenderUpdate(){
         goPosPtr->align_currentFPos_by_currentMCPos();
     }
 
+}
+
+
+/* ===========================================================
+ *                   set_newCrawlDir
+ * -----------------------------------------------------------
+ * -- 
+ */
+void Crawl::set_newCrawlDir( const NineBox &_newNB ){
+    newNB = _newNB;
+
+
+    //-- 设置 go 方向 --
+    if( newNB.x < 0 ){
+        goPtr->direction = GODirection::Left;
+        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+
+    }else if(newNB.x > 0){
+        goPtr->direction = GODirection::Right;
+        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+
+    }
+ 
 }
 
 

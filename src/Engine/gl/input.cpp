@@ -40,7 +40,8 @@ namespace{
     //--
     inline F_CROSS_STATE   gameCross  {nullptr};
 
-    NineBox   nb {}; 
+    NineBox   nb     {}; 
+    NineBox   lastNb {}; //- 上一次nb值...
     //---------
     void onMoveLeft();
     void onMoveRight();
@@ -62,8 +63,7 @@ void processInput( GLFWwindow *_windowPtr ){
 	}
 
     //-- clear --
-    nb.x = 0;
-    nb.y = 0;
+    nb.clear_all(); //- (0,0)
 
     //-------------------------------------------------------//
     //  each Key 

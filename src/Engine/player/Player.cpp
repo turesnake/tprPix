@@ -126,17 +126,6 @@ void Player::onGameCross( NineBox _nb ){
     //---------------------------//
     goPtr->move.set_newCrawlDir( _nb );
 
-    //-- 设置 go 方向 --
-    if( _nb.x < 0 ){
-        goPtr->direction = GODirection::Left;
-        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
-
-    }else if(_nb.x > 0){
-        goPtr->direction = GODirection::Right;
-        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
-
-    }
-    
 }
 
 

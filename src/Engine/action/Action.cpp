@@ -198,7 +198,7 @@ void Action::handle_shadow(){
         rgbaRef.r = 0;
         rgbaRef.g = 5;
         rgbaRef.b = 10;
-        rgbaRef.a = 100;
+        rgbaRef.a = 70;
         }
     }
 }

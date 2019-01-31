@@ -63,7 +63,7 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_6 );
+    goPtr->move.set_speedLv( SpeedLevel::LV_3 );
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
@@ -83,7 +83,7 @@ void Norman::init( GameObj *_goPtr ){
                                     6,                //- 起始图元帧序号
                                     11,                //- 结束图元帧序号
                                     6,               //- 入口图元帧序号
-                                    std::vector<int>{ 6, 4, 4, 6, 4, 4 }, //- steps
+                                    std::vector<int>{ 8, 8, 8, 8, 8, 8 }, //- steps
                                     false,            //- isStepEqual
                                     true              //- isOrder
                                     ); 

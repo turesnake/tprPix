@@ -36,9 +36,7 @@ public:
                 Collision *_collisionPtr ); //-- MUST --
     void RenderUpdate(); 
 
-    inline void set_newCrawlDir( const NineBox &_newNB ){
-        newNB = _newNB;
-    }
+    void set_newCrawlDir( const NineBox &_newNB );
 
 private:
     GameObj     *goPtr    {nullptr};
