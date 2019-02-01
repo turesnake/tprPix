@@ -44,6 +44,7 @@
 #include "GameObjPos.h"
 #include "Collision.h"
 #include "GODirection.h"
+#include "ActionSwitch.h"
 
 
 
@@ -136,6 +137,8 @@ public:
                 // 但如果不调用，程序无法显示图形
                 // 目前还没搞清原因
                 // --- 这个 bug 暂时消失了... ---
+
+    ActionSwitch  actionSwitch {};
 
     //--------- flags ------------//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)

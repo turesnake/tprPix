@@ -22,6 +22,7 @@
 #include "AnimFrameSet.h"
 
 
+
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
@@ -65,9 +66,8 @@ public:
 private:
 
     //--- callback ---//
-    //  试验用
-    void actionSwitch_OnMove( GameObj *_goPtr );
-    void actionSwitch_OnIdle( GameObj *_goPtr );
+
+    void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
 
 
 

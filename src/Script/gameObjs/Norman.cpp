@@ -50,8 +50,12 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->LogicUpdate  = std::bind( &Norman::LogicUpdate,  &norman, _1 );
     goPtr->BeAffect     = std::bind( &Norman::BeAffect,     &norman, _1 ); 
 
-    goPtr->move.OnIdle = std::bind( &Norman::actionSwitch_OnIdle, &norman, _1 );
-    goPtr->move.OnMove = std::bind( &Norman::actionSwitch_OnMove, &norman, _1 );
+    
+    //-------- actionSwitch ---------//
+    goPtr->actionSwitch.func = std::bind( &Norman::OnActionSwitch, &norman, _1, _2 );
+    goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Idle );
+    goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Move );
+
 
     //-------- go self vals ---------//
     goPtr->species = Norman::specId;
@@ -203,13 +207,14 @@ void Norman::BeAffect( GameObj *_goPtr ){
 }
 
 
+
 /* ===========================================================
- *               actionSwitch_OnMove
+ *               OnActionSwitch
  * -----------------------------------------------------------
- * -- 切换 go动画： 跑步
- * -- 测试用...
+ * -- 
  */
-void Norman::actionSwitch_OnMove( GameObj *_goPtr ){
+void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -219,40 +224,14 @@ void Norman::actionSwitch_OnMove( GameObj *_goPtr ){
     bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
     //=====================================//
 
+    //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
-    //goMeshRef.bind_animFrameSet( "norman" );
-    animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
-                                    6,                //- 起始图元帧序号
-                                    11,                //- 结束图元帧序号
-                                    6,               //- 入口图元帧序号
-                                    std::vector<int>{ 3, 6, 3, 3, 6, 3 }, //- steps
-                                    false,            //- isStepEqual
-                                    true              //- isOrder
-                                    ); 
-}
 
-
-
-
-/* ===========================================================
- *               actionSwitch_OnIdle
- * -----------------------------------------------------------
- * -- 切换 go动画： 待机
- * -- 测试用...
- */
-void Norman::actionSwitch_OnIdle( GameObj *_goPtr ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    assert( _goPtr->species == Norman::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
-    //=====================================//
-
-    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
-    //goMeshRef.bind_animFrameSet( "norman" );
-    animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+    //-- 处理不同的 actionSwitch 分支 --
+    switch( _type ){
+        case ActionSwitchType::Move_Idle:
+            //goMeshRef.bind_animFrameSet( "norman" );
+            animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
                                     0,                //- 起始图元帧序号
                                     5,                //- 结束图元帧序号
                                     0,               //- 入口图元帧序号
@@ -260,7 +239,31 @@ void Norman::actionSwitch_OnIdle( GameObj *_goPtr ){
                                     false,            //- isStepEqual
                                     true              //- isOrder
                                     );
+            break;
+
+        case ActionSwitchType::Move_Move:
+            //goMeshRef.bind_animFrameSet( "norman" );
+            animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    6,                //- 起始图元帧序号
+                                    11,                //- 结束图元帧序号
+                                    6,               //- 入口图元帧序号
+                                    std::vector<int>{ 3, 6, 3, 3, 6, 3 }, //- steps
+                                    false,            //- isStepEqual
+                                    true              //- isOrder
+                                    ); 
+            break;
+
+        default:
+            break;
+            //-- 并不报错，什么也不做...
+
+    }
+
+
 }
+
+
+
 
 
 

@@ -107,13 +107,11 @@ void Crawl::RenderUpdate(){
 
         //-- 在 move状态切换的 两个点 调用 OnMove() ／ OnIdle() --
         if( currentNB.is_zero() && (newNB.is_zero()==false) ){
-            if( movePtr->OnMove != nullptr ){
-                movePtr->OnMove( goPtr );
-            }
+            goPtr->actionSwitch.call_func( ActionSwitchType::Move_Move );
+
         }else if( (currentNB.is_zero()==false) && newNB.is_zero() ){
-            if( movePtr->OnIdle != nullptr ){
-                movePtr->OnIdle( goPtr );    
-            }
+           goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
+
         }
 
         currentNB = newNB;

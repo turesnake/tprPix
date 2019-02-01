@@ -30,7 +30,6 @@ class Collision;
 
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
 class Move{
-    using F_GO  = std::function<void(GameObj*)>;
 public:
     Move() = default;
 
@@ -87,11 +86,6 @@ public:
     }
 
     //---- get ----//
-
-    //------ vals ------//
-    F_GO  OnIdle {nullptr};  //- 当开始静止 的那一帧被调用
-    F_GO  OnMove {nullptr};  //- 当开始运动 的那一帧被调用
-
 
 private:
     GameObj     *goPtr    {nullptr}; //- 每个 fly实例 都属于一个 go实例, 强关联

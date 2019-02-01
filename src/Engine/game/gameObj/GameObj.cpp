@@ -29,7 +29,7 @@ void GameObj::init(){
     collision.init( (GameObj*)this );
     goPos.init( (GameObj*)this ); //- MUST before move.init()
     move.init( (GameObj*)this, &goPos, &collision );
-    
+    actionSwitch.init( (GameObj*)this );
     //...
 }
 

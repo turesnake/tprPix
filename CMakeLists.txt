@@ -51,6 +51,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src)
 
 #-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
@@ -107,6 +108,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/test/*.cpp
 
                         src/Engine/*.cpp
+                        src/Engine/actionSwitch/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
