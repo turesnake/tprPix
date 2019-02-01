@@ -74,7 +74,6 @@ void load_colliEntSets(){
 
     //-- 创建 ColliEntSetLoader 实例 --
     ColliEntSetLoader  loader { "colliEntSet_1.png",
-                                IntVec2{ 35, 35 },
                                 IntVec2{ 4, 4 },
                                 totalSets };
     

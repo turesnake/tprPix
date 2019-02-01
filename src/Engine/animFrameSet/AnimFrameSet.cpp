@@ -23,10 +23,9 @@
 
 #include "debug.h" //- tmp
 
-extern void load_and_divide_png( const std::string &_path,
-                                const IntVec2 &_pixNum_per_frame,
-                                const IntVec2 &_frameNum,
-                                int            _totalFrameNum,
+extern IntVec2 load_and_divide_png( const std::string &_path,
+                          const IntVec2 &_frameNum,
+                          int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 
@@ -85,28 +84,27 @@ void AnimFrameSet::init(){
     J_frame_data_ary.clear();
     S_frame_data_ary.clear();
 
-    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pic ),
-                        pixNum_per_frame,
-                        frameNum,
-                        totalFrameNum,
-                        P_frame_data_ary );
+    IntVec2 tmpv2; //-tmp
+    pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pic ),
+                                            frameNum,
+                                            totalFrameNum,
+                                            P_frame_data_ary );
 
-    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pjt ),
-                        pixNum_per_frame,
-                        frameNum,
-                        totalFrameNum,
-                        J_frame_data_ary );
+    tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pjt ),
+                                frameNum,
+                                totalFrameNum,
+                                J_frame_data_ary );
+    assert( tmpv2 == pixNum_per_frame );
     
-    load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_shadow ),
-                        pixNum_per_frame,
-                        frameNum,
-                        totalFrameNum,
-                        S_frame_data_ary );
+    tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_shadow ),
+                                frameNum,
+                                totalFrameNum,
+                                S_frame_data_ary );
+    assert( tmpv2 == pixNum_per_frame );
 
     //---------------------------------//
     handle_pjt();
     handle_shadow();
-    
     
     //---------------------------------//
     //       create GL.texNames

@@ -97,6 +97,7 @@ public:
     //void debug(); //- 打印 本go实例 的所有信息
 
     //---------------- callback -----------------//
+    // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
     F_GO  Awake {nullptr};  //- unused
     F_GO  Start {nullptr};  //- unused
 

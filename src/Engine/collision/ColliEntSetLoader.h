@@ -30,12 +30,10 @@
 class ColliEntSetLoader{
 public:
     ColliEntSetLoader(  const std::string &_lpath,
-                        IntVec2  _pixNum_per_frame,
                         IntVec2  _frameNum,
                         int      _totalFrameNum
                         ):
         lpath(_lpath),
-        pixNum_per_frame(_pixNum_per_frame),
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
         {};

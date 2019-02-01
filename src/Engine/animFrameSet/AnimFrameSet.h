@@ -73,12 +73,10 @@ enum class AnimFrameSetType{
 class AnimFrameSet{
 public:
     AnimFrameSet( const std::string &_lpath_pic, 
-                IntVec2  _pixNum_per_frame,
                 IntVec2  _frameNum,
                 int      _totalFrameNum 
                 ):
         lpath_pic(_lpath_pic),
-        pixNum_per_frame(_pixNum_per_frame),
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
         {}

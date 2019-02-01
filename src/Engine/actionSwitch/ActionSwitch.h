@@ -4,7 +4,9 @@
  *                                        CREATE -- 2019.02.01
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    
+ *    一个 go实例 在不同的状态，需要切换到不同的 action
+ *    一部分 切换工作 是在 引擎内部调用的。
+ *    通过本模块来 统一管理
  * ----------------------------
  */
 #ifndef _TPR_ACTION_SWITCH_H_
@@ -35,7 +37,9 @@ public:
         goPtr = _goPtr;
     }
 
-
+    inline void bind_func( const F_ACTION_SWITCH &_func ){
+        func = _func;
+    }
 
     inline void call_func( ActionSwitchType _type ){
 
@@ -68,17 +72,13 @@ public:
     }
     
 
-    //--- functor ----//
-    //  最好放到 private 中去
-    F_ACTION_SWITCH  func {nullptr};
-
-
 private:
     GameObj *goPtr {nullptr};
 
     u64  typeMap {0}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
                       //- 暂定上限为 64 个
-    
+    //--- functor ----//
+    F_ACTION_SWITCH  func {nullptr};
 };
 
 

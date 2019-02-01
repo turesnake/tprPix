@@ -52,7 +52,7 @@ void Norman::init( GameObj *_goPtr ){
 
     
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.func = std::bind( &Norman::OnActionSwitch, &norman, _1, _2 );
+    goPtr->actionSwitch.bind_func( std::bind( &Norman::OnActionSwitch, &norman, _1, _2 ) );
     goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Idle );
     goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Move );
 

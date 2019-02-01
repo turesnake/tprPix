@@ -22,10 +22,9 @@
 //#include "debug.h" //- tmp
 
 
-extern void load_and_divide_png( const std::string &_path,
-                                const IntVec2 &_pixNum_per_frame,
-                                const IntVec2 &_frameNum,
-                                int            _totalFrameNum,
+extern IntVec2 load_and_divide_png( const std::string &_path,
+                          const IntVec2 &_frameNum,
+                          int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 /* ===========================================================
@@ -41,11 +40,10 @@ void ColliEntSetLoader::init(){
 
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector< std::vector<RGBA> > frame_data_ary {}; 
-    load_and_divide_png( tpr::path_combine( path_colliEntSet, lpath ),
-                        pixNum_per_frame,
-                        frameNum,
-                        totalFrameNum,
-                        frame_data_ary );
+    pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_colliEntSet, lpath ),
+                                            frameNum,
+                                            totalFrameNum,
+                                            frame_data_ary );
     
     //----------------------------//
     //   parse each frame data

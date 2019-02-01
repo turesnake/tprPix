@@ -25,13 +25,13 @@
  *                load_and_divide_png
  * -----------------------------------------------------------
  * -- param: _path   -- png文件的 绝对path
- * -- param: _pixNum_per_frame -- 每一图元帧 xy轴 像素个数
  * -- param: _frameNums -- xy轴 图元帧 个数
  * -- param: _totalFrameNums -- 总帧数 
  * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
+ * -- return:
+ *          pixNum_per_frame
  */
-void load_and_divide_png( const std::string &_path,
-                          const IntVec2 &_pixNum_per_frame,
+IntVec2 load_and_divide_png( const std::string &_path,
                           const IntVec2 &_frameNum,
                           int            _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary ){
@@ -70,13 +70,17 @@ void load_and_divide_png( const std::string &_path,
     RGBA *pixHeadPtr = (RGBA*)data;
     RGBA *pixPtr; //- tmp
 
+    assert( ((width%_frameNum.x)==0) && 
+            ((height%_frameNum.y)==0) );
+    IntVec2 pixNum_per_frame { width/_frameNum.x, height/_frameNum.y };
+
     //--- 遍历 png 中的 每一像素 ---
     for( int h=0; h<height; h++  ){
         for( int w=0; w<width; w++  ){
 
             //-- 计算 本像素 所属帧的容器 的迭代器 fit --
-            wf = w/_pixNum_per_frame.x;
-            hf = h/_pixNum_per_frame.y;
+            wf = w/pixNum_per_frame.x;
+            hf = h/pixNum_per_frame.y;
             hf = _frameNum.y - 1 - hf; 
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
@@ -93,5 +97,7 @@ void load_and_divide_png( const std::string &_path,
     }
     //-- png图片 原始数据已经没用了，释放掉 ---
     stbi_image_free( data );
+
+    return pixNum_per_frame;
 }
 

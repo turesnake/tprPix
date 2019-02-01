@@ -34,8 +34,8 @@ void load_animFrameSets(){
 
     animFrameSets.clear();
 
-    animFrameSets.insert( {"norman",         AnimFrameSet{ "/norman/norman.P.png",               IntVec2{24, 39}, IntVec2{6, 2}, 12 } } );
-    animFrameSets.insert( {"bigMan",         AnimFrameSet{ "/bigMan/bigMan.P.png",               IntVec2{22, 40}, IntVec2{6, 2}, 12 } } );
+    animFrameSets.insert( {"norman",  AnimFrameSet{ "/norman/norman.P.png", IntVec2{6, 2}, 12 } } );
+    animFrameSets.insert( {"bigMan",  AnimFrameSet{ "/bigMan/bigMan.P.png", IntVec2{6, 2}, 12 } } );
 
 
     //---------------------------------//
