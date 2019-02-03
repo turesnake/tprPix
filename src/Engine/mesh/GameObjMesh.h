@@ -132,10 +132,9 @@ public:
     }
 
 
-    
+    //======== vals ========//
     ChildMesh   picMesh    { true };
     ChildMesh   shadowMesh { false };
-
 
     glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）
@@ -146,6 +145,7 @@ public:
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
 
+    //======== flags ========//
     bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
     bool   isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
@@ -164,7 +164,6 @@ private:
     AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
-                               
 };
 
 

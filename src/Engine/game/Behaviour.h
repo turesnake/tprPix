@@ -52,12 +52,6 @@ public:
     }
 
 private:
-    std::vector<F_V_V> Awakes  {}; //- 在引擎运作之前
-    std::vector<F_V_V> Starts  {}; //- 在主循环开启之前
-    std::vector<F_V_V> Updates {}; //- 在主循环的每一回合中
-                                   //  这个 Updates 是每帧执行一次，还是 每n帧 执行一次
-                                   //  目前还没有想好 
-
     inline void call_funcs( const std::vector<F_V_V> &_funcs ){
         if( _funcs.size() == 0 ){
             return;
@@ -69,6 +63,12 @@ private:
         }
     }
 
+    //======== vals ========//
+    std::vector<F_V_V> Awakes  {}; //- 在引擎运作之前
+    std::vector<F_V_V> Starts  {}; //- 在主循环开启之前
+    std::vector<F_V_V> Updates {}; //- 在主循环的每一回合中
+                                   //  这个 Updates 是每帧执行一次，还是 每n帧 执行一次
+                                   //  目前还没有想好 
 };
 
 

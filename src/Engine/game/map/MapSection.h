@@ -40,7 +40,6 @@
  
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
 //-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
-
 struct Fst_diskMapSection{
     Fst_diskMapEnt data[ SECTION_W_ENTS * SECTION_H_ENTS ]; //- 512KB
 };
@@ -55,28 +54,39 @@ public:
 
     void init();
 
+    //----------- pos / key ------------    
+    //-- 参数 _mpos 是任意 mapent 的 mpos值。
+    inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
 
-    //----------- pos / key ------------
-    inline void set_by_mpos( const IntVec2 &_mpos ){
-        pos.set_by_mpos( _mpos );
-        sectionKey.init_by_mpos( pos.get_mpos() );
+        //- 获得 section 左下角mapent 的 mpos
+        IntVec2 mpos {  _mpos.x/SECTION_W_ENTS,
+                        _mpos.y/SECTION_H_ENTS };
+        //---
+        pos.set_by_mpos( mpos );
+        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
     }
 
+    //-- 以下两个函数存在问题，不要使用...
+    /*
     inline void set_by_ppos( const glm::vec2 &_ppos ){
         pos.set_by_ppos( (int)_ppos.x, (int)_ppos.y ); //- ?
-        sectionKey.init_by_mpos( pos.get_mpos() );
+        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
     }
-
     inline void set_by_ppos( const IntVec2 &_ppos ){
         pos.set_by_ppos( _ppos ); 
-        sectionKey.init_by_mpos( pos.get_mpos() );
+        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
     }
+    */
 
+    //--- get ---
     inline const glm::vec2 get_fpos() const {
         return pos.get_fpos(); //- return a tmp val
     }
     inline const IntVec2& get_mpos() const {
         return pos.get_mpos();
+    }
+    inline const MapCoord& get_mcpos() const {
+        return pos;
     }
 
     inline const u64 get_key() const {
@@ -86,12 +96,18 @@ public:
     //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
     void refresh_translate_auto();
 
+    
+    inline MemMapEnt* get_memMapEnt_by_lmpos( const IntVec2 &_lmpos ){
+        int idx = _lmpos.y*SECTION_W_ENTS + _lmpos.x;
+        return (MemMapEnt*)&(memMapEnts.at(idx));
+    }
 
+    //======== vals ========//
     //------- section 自己的 图形 ---
     MapTexture  mapTex {};
     Mesh        mesh   {}; 
 
-
+    //-- 也许要放到 private 中
     std::vector<MemMapEnt> memMapEnts; 
 
 private:

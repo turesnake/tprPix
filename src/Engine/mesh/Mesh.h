@@ -47,8 +47,6 @@ public:
     void init( GLuint _texName );
     void draw();
 
-    bool   isVisible  {false};
-
     //--------------------------//
     inline void set_shader_program( ShaderProgram *_sp ){
         shaderPtr = _sp;
@@ -73,9 +71,14 @@ public:
         return translate_val.z;
     }
 
-private:
-    GLuint  texName {0};
+    //======== flags ========//
+    bool   isVisible  {false};
 
+private:
+    void update_mat4_model(); //-- 重新计算 model矩阵
+
+    //======== vals ========//
+    GLuint         texName {0};
     ShaderProgram  *shaderPtr  {nullptr}; 
 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
@@ -86,10 +89,7 @@ private:
     glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
     bool isMat4Change {true}; //- 位移／旋转／缩放 是否被改写。
-                                //-  若被改写，就要重新计算 mat4_model
-
-    //--------- funcs ----------
-    void update_mat4_model(); //-- 重新计算 model矩阵
+                                //-  若被改写，就要重新计算 mat4_model   
 };
 
 

@@ -70,17 +70,17 @@ public:
                 bool _isStepEqual,
                 bool _isOrder );
 
-    //------ tmp ptr ------
+    //------- callback --------//  
+    //-- 为了提高运行效率，制作了两个版本
+    int update( AnimFrameIdxHandle *_ahPtr );
+
+    //======== vals ========//
     // 不能信赖，务必在每次 callback 时重新绑定
     AnimFrameIdxHandle  *ahPtr  {nullptr}; //- 
     Cycle_Binary  *bp     {nullptr}; //- 指向 ahPtr->binary
 
-    //------ static vals -------
+    //======== static ========//
     static u32  typeId;
-
-    //------- callback --------//  
-    //-- 为了提高运行效率，制作了两个版本
-    int update( AnimFrameIdxHandle *_ahPtr );
 };
 
 //=====< Cycle类 唯一的 保留实例 >=====

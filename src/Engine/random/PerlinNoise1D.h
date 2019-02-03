@@ -88,16 +88,6 @@ public:
     }
 
 private:
-    u32 seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
-    std::default_random_engine   eng; //- 随机数引擎，默认初始状态
-    std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
-
-    float freq; //- 频率
-    float ampl; //- 振幅
-
-    bool is_init; //- 检查 是否执行 init
-
-
     //-- 一个恒定不变的 伪随机数 序列 --
     //-  通过不同的 整形x
     //-  访问这个 序列上的 不同 y值 [ 0.0f, 1.0f ]
@@ -107,6 +97,17 @@ private:
         eng.discard( _intx ); 
         return di(eng);
     }
+
+    //======== vals ========//
+    u32 seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
+    std::default_random_engine   eng; //- 随机数引擎，默认初始状态
+    std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
+
+    float freq; //- 频率
+    float ampl; //- 振幅
+
+    bool is_init; //- 检查 是否执行 init
+
 };
 
 
@@ -137,7 +138,6 @@ public:
         x += pn_step.get_y( xstep );
         return pn_main.get_y( x );
     }
-
 
 private:
     PerlinNoise1D pn_step { 0.03f, 1.0f };

@@ -14,7 +14,7 @@
 
 using std::string;
 
-//#include "debug.h" //- tmp
+#include "debug.h" //- tmp
 
 
 //============== 类静态成员 ===============//
@@ -56,40 +56,48 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name ){
  *                       debug
  * -----------------------------------------------------------
  */
-/*
+
 void GameObj::debug(){
 
     cout << "------ GameObj: " << id << " --------" << endl;
 
+    cout<< "\nsizeof(GameObj): "      << sizeof(GameObj)
+        << "\nsizeof(GameObjPos): "   << sizeof(GameObjPos)
+        << "\nsizeof(Move): "         << sizeof(Move)
+        << "\nsizeof(GameObjMesh): "  << sizeof(GameObjMesh)
+        << "\nsizeof(ChildMesh): "    << sizeof(ChildMesh)
+        << "\nsizeof(ActionSwitch): " << sizeof(ActionSwitch)
+        << "\nsizeof(Collision): "    << sizeof(Collision)
+        << endl;
+
+    /*
     cout<< "\nAwake:        " << ( Awake==nullptr ? "nullptr" : "not nullptr" )
         << "\nStart:        " << ( Start==nullptr ? "nullptr" : "not nullptr" )
         << "\nRenderUpdate: " << ( RenderUpdate==nullptr ? "nullptr" : "not nullptr" )
         << "\nLogicUpdate:  " << ( LogicUpdate==nullptr ? "nullptr" : "not nullptr" )
         << "\nBeAffect:     " << ( BeAffect==nullptr ? "nullptr" : "not nullptr" )
-        << "\n"
-        << "\nspecies = " << species
-        << "\nis_top_go: " << ( is_top_go ? "true" : "false" )
-        << "\nid_parent = " << parentId
-        << "\nis_active: " << ( is_active ? "true" : "false" )
         << endl;
 
-    cout << "velocity: " << velocity.x
-        << ", " << velocity.y 
+    cout<< "\nspecies = " << species
+        << "\nid_parent = " << parentId
         << endl;
+
 
     cout << "weight = " << weight << endl;
 
-    cout << "is_dirty: " << ( is_dirty ? "true" : "false" )
+    cout<< "\nisTopGo: "           << ( isTopGo ? "true" : "false" )
+        << "\nisActive: "          << ( isActive ? "true" : "false" )
+        << "\nisDirty: "           << ( isDirty ? "true" : "false" )
+        << "\nisControlByPlayer: " << ( isControlByPlayer ? "true" : "false" )
+        << "\nisFlipOver: "        << ( isFlipOver ? "true" : "false" )
         << endl;
-
-    //cout << "goMeshs.size() = " << goMeshs.size()
-        //<< endl;
 
     cout << "binary.size() = " << binary.size()
         << endl;
 
     cout << "\n\n" << endl;
+    */
 }
-*/
+
 
 

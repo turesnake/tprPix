@@ -82,6 +82,9 @@ public:
 
     //--- IMPORTANT !!! ---//
     //  直接返回指定 adds/dels 子容器的 访问权（引用）
+    inline const std::set<MapCoord> &get_colliEnts() const {
+        return colliEnts;
+    }
     inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx _nbIdx ) const {
         return addEntOffss.at( (int)_nbIdx );
     }
@@ -89,11 +92,13 @@ public:
         return delEntOffss.at( (int)_nbIdx );
     }
 
-
     void debug();
 
 
 private:
+    void create_adds_dels_by_nineBox( NineBoxIdx _idx );
+
+    //======== vals ========//
     //-- 此处的 set，依赖 MapCoord类型的 "<" 运算符
     std::set<MapCoord>     colliEnts {};         //- mapEnt坐标( 基于 ces左下点 ) 
     std::vector<glm::vec2> colliEntMidFPoses {}; //- mapEnt中心（用于 fly）
@@ -107,14 +112,10 @@ private:
     std::vector< std::set<MapCoord> > addEntOffss {};
     std::vector< std::set<MapCoord> > delEntOffss {};
 
-
     IntVec2         centerPPos    {};    //- 碰撞区中心 ppos
     MapEntCompass   centerCompass {0,0}; //- center 在其 mapent 中的位置 
     float           radius        {};    //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
-                                         //- 以像素为单位
-
-    //----- funcs -------
-    void create_adds_dels_by_nineBox( NineBoxIdx _idx );
+                                         //- 以像素为单位    
 };
 
 

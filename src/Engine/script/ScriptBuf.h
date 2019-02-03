@@ -105,7 +105,7 @@ private:
     std::vector<u8> binary;
     std::string     str;
 
-    //-------- flag -------
+    //======== flags ========//
     bool   is_boolval_push {false};
     bool   is_i32val_push  {false};
     bool   is_u64val_push  {false};

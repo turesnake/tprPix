@@ -116,11 +116,8 @@ void Crawl::RenderUpdate(){
 
         currentNB = newNB;
         if( newNB.is_zero() ){
-                //cout << endl;
             return; //- end_frame of one_piece_input
         }
-
-                //cout << " +NODE+";
 
 
         //-- 此处需要检测 新 mapent 是否被 占有／预定 --
@@ -145,7 +142,6 @@ void Crawl::RenderUpdate(){
         speed = pair.second;
     }
     
-            //cout << endl;
 
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）

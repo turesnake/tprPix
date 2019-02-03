@@ -71,9 +71,11 @@ public:
     inline const glm::vec3 &get_translate_val() const {
         return translate_val;
     }
-
     
 private:
+    void update_mat4_model(); //-- 重新计算 model矩阵
+
+    //======== vals ========//
     GameObj      *goPtr       {nullptr};
     GameObjMesh  *goMeshPtr {nullptr};
 
@@ -87,10 +89,7 @@ private:
     //-- 位移／旋转／缩放 变化向量。
     glm::vec3 translate_val {};    
     float     rotate_z    {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
-
-    //--------- funcs ----------
-    void update_mat4_model(); //-- 重新计算 model矩阵
+    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）    
 };
 
 

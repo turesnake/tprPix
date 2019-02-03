@@ -46,9 +46,9 @@ void Norman::init( GameObj *_goPtr ){
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Norman::RenderUpdate, &norman, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Norman::LogicUpdate,  &norman, _1 );
-    goPtr->BeAffect     = std::bind( &Norman::BeAffect,     &norman, _1 ); 
+    goPtr->RenderUpdate = std::bind( &Norman::OnRenderUpdate, &norman, _1 );   
+    goPtr->LogicUpdate  = std::bind( &Norman::OnLogicUpdate,  &norman, _1 );
+    goPtr->BeAffect     = std::bind( &Norman::OnBeAffect,     &norman, _1 ); 
 
     
     //-------- actionSwitch ---------//
@@ -74,6 +74,9 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
+
+    goPtr->set_collision_isPass( false );
+    goPtr->set_collision_isSelfBePass( false );
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
@@ -131,10 +134,10 @@ void Norman::rebind( GameObj *_goPtr ){
 }
 
 /* ===========================================================
- *                      RenderUpdate
+ *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Norman::RenderUpdate( GameObj *_goPtr ){
+void Norman::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -182,10 +185,10 @@ void Norman::RenderUpdate( GameObj *_goPtr ){
 
 
 /* ===========================================================
- *                        LogicUpdate
+ *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Norman::LogicUpdate( GameObj *_goPtr ){
+void Norman::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -200,10 +203,24 @@ void Norman::LogicUpdate( GameObj *_goPtr ){
 
 
 /* ===========================================================
- *                       BeAffect
+ *                       OnBeAffect
  * -----------------------------------------------------------
+ * -- 可能会被整合到别处
  */
-void Norman::BeAffect( GameObj *_goPtr ){
+void Norman::OnBeAffect( GameObj *_goPtr ){
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    assert( _goPtr->species == Norman::specId );
+    //-- rebind ptr -----
+    goPtr = _goPtr;
+    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    //=====================================//
+
+    // 什么也没做...
+        cout << "Norman::BeAffect; goid = " << goPtr->id
+            << endl;
+
 }
 
 

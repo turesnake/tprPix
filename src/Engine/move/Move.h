@@ -53,7 +53,6 @@ public:
     }
 
     //---- set ----//
-
     inline void set_MoveType( bool _is_crawl ){
         is_crawl_ = _is_crawl;
     }

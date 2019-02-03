@@ -17,11 +17,14 @@
 
 
 //--- [mem] --//
-// 为了方便在 内存态使用，还是应该单独实现：mem/disk 两种数据结构
 class IntVec2{
 public:
-    int  x {0}; 
-    int  y {0};
+    //---- constructor -----//
+    IntVec2() = default;
+    IntVec2( int _x, int _y ):
+        x(_x),
+        y(_y)
+        {}
 
     //---- funcs ----//
     inline void clear_all(){
@@ -56,7 +59,11 @@ public:
                         (int)floor(fy) };
     }
 
+    //======== vals ========//
+    int  x {0}; 
+    int  y {0};
 };
+
 /* ===========================================================
  *                  operator  ==, !=
  * -----------------------------------------------------------

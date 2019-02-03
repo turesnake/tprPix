@@ -26,7 +26,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
-#include <utility> //- pair
+#include <unordered_map> 
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -36,6 +36,7 @@
 #include "GameObj.h" 
 #include "ID_Manager.h" 
 #include "AltiRange.h"
+#include "MapCoord.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -61,15 +62,14 @@ struct Fst_diskMapEnt{
 
     //--- 一级信息区 ---
     u8   fst_data {0}; //- 高4-bits -- [0,15] 地形高度/altitude
-                        //- 1-bit  -- is_covered. 本mapent 是否被 某 major_go 覆盖／踩住 （若有，可访问 二级信息）
-                        //            go_head. 如果被踩住，本单位是否是 那个 go 的 起始单位
+                        //- 1-bit  -- is_covered_go_head. 本mapent 是否被 某 major_go 覆盖／踩住 （若有，可访问 二级信息）
                         //            由于在 硬盘态，并不保留独立的 道具go，
                         //            所以，只要显示 is_covered（被一个 major go覆盖）
                         //            就意味着 这一格是 go head.
                         //           （一个 go 可能同时踩住数个 mapEnt, 但只有一块，是 起始单位）
-                        //           （起始单位 通常是 go 的投影单位集 中，左下角那一块）
+                        //           （起始单位 通常是 go.currentFPos 所在的 ces 的 左下角 mapent）
                         //           （以此来，精确定位 go 的摆放位置）
-                        //            一个 major_go 占据数个单位的 mapent，且只有一个 go head
+                        //            一个 major_go 占据数个单位的 mapent，但只有一个 go head
                         //
                         //[-余-3-bits-]...
 
@@ -139,16 +139,21 @@ struct Sec_diskMapEnt{
 //-  牺牲一定的 内存空间，换取访问便捷度
 class MemMapEnt{
 public:
+    //-- 临时测试用 
+    MemMapEnt() = default;
+
     explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         fst_d2m( _fdme );
     }
     
     //=============== data: 一级信息 ===============//
     bool is_land     {true}; //- 陆地／深渊
-    u8   mask_id     {0}; //- 3*3矩阵 渲染像素 mask
+    //u8   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
+                            //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
     u8   altitude    {0}; //- 海拔.(低4-bit 有效)
-    bool is_covered  {true};  //- 是否被某 go 覆盖／踩住
-    bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位
+    bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
+    //bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位
+                                    //- 暂时不考虑这个值
     u16  tex_id      {NULLID};   //- 地面材质类型texture
                     //  此处的 地面tex 只标记一种 “类型指定”， 
                     //  并不会真的对应到某张 具体的 png tex 上。
@@ -156,9 +161,9 @@ public:
                     //  这块地面上的 具体像素颜色，都可能发生变化。
                     //  就算是 深渊类型的地面，也会有材质信息。
     //--- 二级信息区 ---
-    u16  sec_data_id  {NULLID}; //- 二级信息 id号
+    //u16  sec_data_id  {NULLID}; //- 二级信息 id号
 
-    bool is_major_go_default   {true};
+    //bool is_major_go_default   {true};
                 //-- 现在开始拥有 多个 go实例，需要多个 default / dirty 检测
                 // 这个值暂时不MODIFY
                 // [待拓展...] 
@@ -176,13 +181,12 @@ public:
     //goid_t  major_go_id   {NULLID}; //- 主体go id. (实例)
     goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
     goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
-
-
-    std::vector<std::pair<goid_t, AltiRange>> major_gos {};  
-                //- 不仅要存储 每一个 goid
-                //  还要把这个 goid 在这个 mapent 的 altiRange 也存储下来
-                //  这样可以 快速实现 碰撞检测
-
+ 
+    std::unordered_map<goid_t, AltiRange> major_gos {};
+                //- 此处的 AltiRange值，仅仅是 go在 此mapent 上的 ces 的 altirange值
+                //  它是一个 静态相对值。
+                //- 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ces 当前 altirange值
+                
 
     //-- 二级信息： mem <--> disk --
     void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
@@ -191,9 +195,7 @@ public:
 
     //=============== data: oth ===============//
 
-
-    IntVec2  pos {}; //- 本 mapent 左下角像素的 坐标值 
-            // *** 过于古老，此值是否还有效，是否要换成 MapCoord  ***
+    MapCoord  mcpos {}; //- 本 mapent 世界坐标值 
 
 private:
 };

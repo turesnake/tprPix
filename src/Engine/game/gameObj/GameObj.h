@@ -93,8 +93,21 @@ public:
         isFlipOver = (direction==GODirection::Left);    
     }
 
+    inline void set_collision_isPass( bool _b ){
+        collision.isPass = _b;
+    }
+    inline void set_collision_isSelfBePass( bool _b ){
+        collision.isSelfBePass = _b;
+    }
 
-    //void debug(); //- 打印 本go实例 的所有信息
+    //- 获得 目标 ces 当前 绝对 altiRange
+    //- 参数 _ces_altiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
+    inline AltiRange get_currentAltiRange( const AltiRange &_ces_altiRange ){
+        return ( _ces_altiRange + goPos.get_alti() );
+    }
+
+
+    void debug(); //- 打印 本go实例 的所有信息
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
@@ -104,7 +117,7 @@ public:
     F_GO  RenderUpdate {nullptr}; //- 每1渲染帧，被引擎调用
     F_GO  LogicUpdate  {nullptr}; //- 每1逻辑帧，被主程序调用 （帧周期未定）
     F_GO  BeAffect     {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
-                                  //- 未来会添加一个 参数：“被施加技能的类型”
+                                  //- 未来可能会添加一个 参数：“被施加技能的类型”
 
     //----------------- self vals ---------------//
     goid_t         id       {NULLID};    
@@ -114,7 +127,7 @@ public:
     goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                              //- 如果没有，此项写 NULLID
     
-    float      weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+    float        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
     GODirection  direction {GODirection::Left};  //- 朝向
 
     //---- go 状态 ----//
@@ -141,7 +154,7 @@ public:
 
     ActionSwitch  actionSwitch {};
 
-    //--------- flags ------------//
+    //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
     bool    isActive  {false}; //- 是否进入激活圈. 未进入激活圈的go，不参与逻辑运算，不被渲染
     bool    isDirty   {false};  //- 是否为 默认go（是否被改写过）
@@ -163,8 +176,6 @@ private:
                             //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
-
-
 
 };
 

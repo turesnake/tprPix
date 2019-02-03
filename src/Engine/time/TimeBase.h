@@ -23,9 +23,7 @@
 //--- 最基础的时间类,singleton ---//
 class TimeBase{
 public:
-
-    explicit TimeBase() = default;
-
+    TimeBase() = default;
 
     //--- 在 每一主循环 中调用 ---//
     inline void update_time(){
@@ -76,7 +74,6 @@ public:
     }
 
 
-
 private:
     u64  frameNum {0}; //- 游戏运行后的 总帧数
 
@@ -88,7 +85,7 @@ private:
     //-- smoothDeltaTime --
     float smoothDeltaTime {0.0f}; //-- 平滑处理过的 dt值。专用于其他模块
     float step            {0.001f}; //- 平滑 步进值
-    
+
 };
 
 

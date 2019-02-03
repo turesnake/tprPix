@@ -63,6 +63,9 @@ public:
     //...
 
 private:
+    void calc_dir();
+
+    //======== vals ========//
     Move        *movePtr  {nullptr}; //- 每个 fly实例 都属于一个 move实例, 强关联
     GameObjPos  *goPosPtr {nullptr};                           
 
@@ -74,10 +77,6 @@ private:
     int  maskCount      {0}; //- val
 
     glm::vec2  translate {}; //- tmp,本帧位移向量
-
-    //--- funcs ----
-    void calc_dir();
-
 
 };
 

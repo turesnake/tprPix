@@ -29,8 +29,12 @@
 
 class MapEntCompass{
 public:
-    int x;  //- [0, 4]
-    int y;  //- [0, 4]
+    //---- constructor -----//
+    MapEntCompass() = default;
+    MapEntCompass( int _x, int _y ):
+        x(_x),
+        y(_y)
+        { assert( (x>=0) && (x<=4) && (y>=0) && (y<=4) ); }
 
     //---- funcs ----//
     inline void clear_all(){
@@ -47,6 +51,9 @@ public:
         return glm::vec2{ (float)x, (float)y };
     }
 
+    //======== vals ========//
+    int x;  //- [0, 4]
+    int y;  //- [0, 4]
 };
 
 /* ===========================================================

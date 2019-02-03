@@ -42,20 +42,16 @@ public:
     }
 
     inline void call_func( ActionSwitchType _type ){
-
         if( func == nullptr ){
             return;
         }
-
         //-- 如果本实例 没装载此 _type，也将安全返回 --
         if( check(_type) == false ){
             return;
         }
-
         //-- 正式call --
         func( goPtr, _type );
     }
-
 
     inline void clear_typeMap(){
         typeMap = 0;

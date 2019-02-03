@@ -46,9 +46,9 @@ void BigMan::init( GameObj *_goPtr ){
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &BigMan::RenderUpdate, &big_man, _1 );   
-    goPtr->LogicUpdate  = std::bind( &BigMan::LogicUpdate,  &big_man, _1 );
-    goPtr->BeAffect     = std::bind( &BigMan::BeAffect,     &big_man, _1 ); 
+    goPtr->RenderUpdate = std::bind( &BigMan::OnRenderUpdate, &big_man, _1 );   
+    goPtr->LogicUpdate  = std::bind( &BigMan::OnLogicUpdate,  &big_man, _1 );
+    goPtr->BeAffect     = std::bind( &BigMan::OnBeAffect,     &big_man, _1 ); 
 
     //-------- go self vals ---------//
     goPtr->species = BigMan::specId;
@@ -67,6 +67,9 @@ void BigMan::init( GameObj *_goPtr ){
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
+
+    goPtr->set_collision_isPass( false );
+    goPtr->set_collision_isSelfBePass( false );
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
@@ -124,10 +127,10 @@ void BigMan::rebind( GameObj *_goPtr ){
 }
 
 /* ===========================================================
- *                      RenderUpdate
+ *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void BigMan::RenderUpdate( GameObj *_goPtr ){
+void BigMan::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -175,10 +178,10 @@ void BigMan::RenderUpdate( GameObj *_goPtr ){
 
 
 /* ===========================================================
- *                        LogicUpdate
+ *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void BigMan::LogicUpdate( GameObj *_goPtr ){
+void BigMan::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -194,10 +197,23 @@ void BigMan::LogicUpdate( GameObj *_goPtr ){
 
 
 /* ===========================================================
- *                       BeAffect
+ *                       OnBeAffect
  * -----------------------------------------------------------
+ * -- 可能会被整合到别处
  */
-void BigMan::BeAffect( GameObj *_goPtr ){
+void BigMan::OnBeAffect( GameObj *_goPtr ){
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    assert( _goPtr->species == BigMan::specId );
+    //-- rebind ptr -----
+    goPtr = _goPtr;
+    bp = (BigMan_Binary*)goPtr->get_binaryHeadPtr();
+    //=====================================//
+
+    // 什么也没做...
+        cout << "BigMan::BeAffect; goid = " << goPtr->id
+            << endl;
 }
 
 

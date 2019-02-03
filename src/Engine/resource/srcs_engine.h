@@ -170,10 +170,11 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 //-------------------------//
 //-- 可能在 mem态，加载很多张 mapsection
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
+// key 为 mapSection.sectionKey.key;
 inline std::unordered_map<u64, MapSection> mapSections {};
 
 MapSection *insert_new_mapSection( const MapCoord &_sectionPos );
-MemMapEnt *get_memMapEnt( const MapCoord &_mc ); //- 临时放这 
+MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
 
 
 //-------------------------//

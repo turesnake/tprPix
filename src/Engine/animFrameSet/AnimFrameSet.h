@@ -84,8 +84,8 @@ public:
     void init();
 
     //void debug() const; //- 向终端输出 本 AnimFrameSet 的信息，用来 debug
-    //---------------------- vals -------------------------//
 
+    //======== vals ========//
     //-- 本动画动作 的name。 起到 id 的作用。
     //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
     std::string  name;

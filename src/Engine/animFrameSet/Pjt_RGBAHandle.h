@@ -32,8 +32,10 @@ namespace{//---------- namespace ---------//
     //--- A --- 
     u8    A_SOLID         = 255; 
     //--- R --- 
-    u8    R_rootColliEntHead = 100;  //- ces with rootAnchor 
-    u8    R_colliEntHead     = 200;  //- regular ces
+    u8    R_rootColliEntHead_CarryAffect = 50;   //- ces with rootAnchor (carry affect)
+    u8    R_colliEntHead_CarryAffect     = 150;  //- regular ces         (carry affect)
+    u8    R_rootColliEntHead_NoAffect    = 100;  //- ces with rootAnchor (no affect)
+    u8    R_colliEntHead_NoAffect        = 200;  //- regular ces         (no affect)
     
     //--- B --- 
     u8    B_rootAnchor    = 255;
@@ -49,7 +51,6 @@ namespace{//---------- namespace ---------//
 //  - Pjt_RGBAHandle jh { 5 };
 //  - jh.set_rgba( _pixColor );
 //  - XXX = jh.is_colliEntHead();
-//
 class Pjt_RGBAHandle{
 public:
     explicit Pjt_RGBAHandle( u8 _off=5 ):
@@ -75,20 +76,34 @@ public:
         isEmpty = false;
 
         //--- R --- 
-        //------- rootColliEntHead --------
-        int idx = rgba.r - R_rootColliEntHead;
-        if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
+        //------- rootColliEntHead_NoAffect --------
+        int cesNUm = 16; //- 目前只有 16种 ces预制件
+        if(       is_in_range(rgba.r, R_rootColliEntHead_CarryAffect, cesNUm) ){ //---
             isRootColliEntHead = true;
-            colliEntHead.colliEntSetIdx = idx;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
+            colliEntHead.colliEntSetIdx = rgba.r - R_rootColliEntHead_CarryAffect;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
+            colliEntHead.isCarryAffect = true;
             set_altiRange();
-        }
-        //------- colliEntHead --------
-        idx = rgba.r - R_colliEntHead;
-        if( (idx>=0) && (idx<16) ){  //- 目前只有 16种 ces预制件
+
+        }else if( is_in_range(rgba.r, R_rootColliEntHead_NoAffect, cesNUm) ){    //---
+            isRootColliEntHead = true;
+            colliEntHead.colliEntSetIdx = rgba.r - R_rootColliEntHead_NoAffect;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
+            colliEntHead.isCarryAffect = false;
+            set_altiRange();
+
+        }else if( is_in_range(rgba.r, R_colliEntHead_CarryAffect, cesNUm) ){     //---
             isColliEntHead = true;
-            colliEntHead.colliEntSetIdx = idx;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面要 "- rootAnchorOff"
+            colliEntHead.colliEntSetIdx = rgba.r - R_colliEntHead_CarryAffect;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
+            colliEntHead.isCarryAffect = true;
+            set_altiRange();
+
+        }else if( is_in_range(rgba.r, R_colliEntHead_NoAffect, cesNUm) ){        //---
+            isColliEntHead = true;
+            colliEntHead.colliEntSetIdx = rgba.r - R_colliEntHead_NoAffect;
+            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
+            colliEntHead.isCarryAffect = false;
             set_altiRange();
         }
         
@@ -119,17 +134,6 @@ public:
     }
 
 private:
-    RGBA          rgba         {}; //- 本模块处理的数据
-    //---
-    ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
-    //---
-    u8            off          {}; //- 颜色误差
-
-    bool isEmpty            {false}; //- when chanel_A==0;
-    bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起
-    bool isColliEntHead     {false};
-    bool isRootAnchor       {false};
-    bool isChildAnchor      {false}; 
 
     inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){
@@ -161,6 +165,23 @@ private:
         colliEntHead.lAltiRange.set( (char)rgba.g, (char)rgba.b );
     }
 
+    //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
+    inline bool is_in_range( u8 _beCheck, u8 _low, u8 _off ){
+        return ((_beCheck>=_low) && (_beCheck<(_low+_off)));
+    }
+
+    //======== vals ========//
+    RGBA          rgba         {}; //- 本模块处理的数据
+    //---
+    ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
+    //---
+    u8            off          {}; //- 颜色误差
+
+    bool isEmpty            {false}; //- when chanel_A==0;
+    bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起
+    bool isColliEntHead     {false};
+    bool isRootAnchor       {false};
+    bool isChildAnchor      {false}; 
 };
 
 #endif 

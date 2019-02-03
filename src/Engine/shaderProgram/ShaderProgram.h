@@ -65,6 +65,9 @@ public:
 
 
 private:
+    void compile( int _shaderObj, const std::string &_sbuf, const std::string &_sname );
+
+    //======== vals ========//
     GLuint program = 0; 
     std::string lpath_vs; //-- 指针，指向 vertexShader 文件 相对路径名 字符串
     std::string lpath_fs; //-- 指针，指向 fragmentShader 文件 相对路径名 字符串
@@ -72,13 +75,8 @@ private:
     //-- 着色器程序中的 uniform 变量们
     std::unordered_map<std::string, unsigned int> uniform_vals; 
                                             
-
-    //------ 静态数据成员 ------- 
+    //======== static ========//
     static GLuint shaderProgram_current; //-- 当前被使用的 shaderProgram
-
-
-    void compile( int _shaderObj, const std::string &_sbuf, const std::string &_sname );
-
 };
 
 

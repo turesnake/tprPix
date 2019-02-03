@@ -25,29 +25,27 @@
 //   但是 这组数据 过于复杂，制作一个 结构 来管理它。
 class AnchorPos{
 public:
-    IntVec2         pposOff     {};
-                        //-- 最原始的数据，从 图元帧左下角，到 rootAnchor点的 pposOff
-                        //-- *** 可以是任意 整形数，不用对齐于 mapEnt ***
-                        //-- 只有在以 图元帧左下角 思考问题时，此值才有意义。
-
-    MapEntCompass   compass   {};
-                        //-- 当对齐到 mapent坐标系后，rootAnchor 在其 mapEnt 中的位置 (基于左下角)
-
+    
     //---- funcs ----//
     inline void clear_all(){
         pposOff.clear_all();
         compass.clear_all();
     }
 
-
     //-- 调用者传入 图元帧左下角的 当前ppos，
     //   计算出 本anchor 所在的 mapent pos
     inline MapCoord calc_mapCoordPos( const IntVec2 &_left_bottom_ppos ){
-
         IntVec2 pixPPos = _left_bottom_ppos + pposOff - compass.to_IntVec2();
         return MapCoord { ppos_2_mpos(pixPPos) };
     } 
-    
+
+    //======== vals ========//
+    IntVec2         pposOff     {};
+                        //-- 最原始的数据，从 图元帧左下角，到 rootAnchor点的 pposOff
+                        //-- *** 可以是任意 整形数，不用对齐于 mapEnt ***
+                        //-- 只有在以 图元帧左下角 思考问题时，此值才有意义。
+    MapEntCompass   compass   {};
+                        //-- 当对齐到 mapent坐标系后，rootAnchor 在其 mapEnt 中的位置 (基于左下角)
 
 };
 

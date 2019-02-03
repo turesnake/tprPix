@@ -95,15 +95,7 @@ public:
     }
 
 private:
-    RGBA   rgba      {};  //- 本模块处理的数据
-    int    radius_10 {};  //- (半径 * 10) -- 从而维持 整型 
-
-    u8     off  {}; //- 颜色误差
     
-    bool isEmpty        {false}; //- when chanel_A==0, or {200,200,200,255}
-    bool isCenter       {false};
-    bool isColliEnt     {false};
- 
     inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
         switch( _ct ){
             case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
@@ -115,6 +107,16 @@ private:
                 return  false; //- never touch -
         }
     } 
+
+    //======== vals ========//
+    RGBA   rgba      {};  //- 本模块处理的数据
+    int    radius_10 {};  //- (半径 * 10) -- 从而维持 整型 
+
+    u8     off  {}; //- 颜色误差
+    
+    bool isEmpty        {false}; //- when chanel_A==0, or {200,200,200,255}
+    bool isCenter       {false};
+    bool isColliEnt     {false};
 };
 
 #endif 

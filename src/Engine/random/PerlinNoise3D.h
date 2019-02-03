@@ -23,8 +23,7 @@
 
 class PerlinNoise3D {
 public:
-	
-	explicit PerlinNoise3D() = default;
+	PerlinNoise3D() = default;
 
     //-- 推迟 init --
     void init(); //-- 使用自动生成的 seed 初始化 perlin --
@@ -33,16 +32,16 @@ public:
 	float noise(float x, float y, float z);
 
 private:
+    float fade(float t);
+	float lerp(float t, float a, float b);
+	float grad(int hash, float x, float y, float z);
+    
+    //======== vals ========//
     u32  seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
     std::default_random_engine  eng; //- 随机数引擎，默认初始状态
 
     std::vector<int> p;
-    bool is_init {false}; //- 检查 是否执行 init
-
-    //-----------------
-	float fade(float t);
-	float lerp(float t, float a, float b);
-	float grad(int hash, float x, float y, float z);
+    bool is_init {false}; //- 检查 是否执行 init	
 };
 
 #endif

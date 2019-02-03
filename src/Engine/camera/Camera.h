@@ -83,7 +83,6 @@ private:
 
     glm::vec3 worldUp { glm::vec3(0.0f, 1.0f, 0.0f) };     //-- 世界轴的 Up方向，和 cameraUp 有区别。
 
-
 };
 
 

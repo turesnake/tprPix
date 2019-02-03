@@ -43,27 +43,21 @@ public:
     void d2m( diskPlayer *_dp );
     diskPlayer m2d();
 
-    //------- vals --------//
-    goid_t   goid   {NULLID}; 
-    GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
-                        
-
     //-- 必须等 section 彻底加载到 mem态（相伴的go数据也实例化）之后 --
     //   才能调用本函数 
     void bind_goPtr();
 
-
+    //======== vals ========//
+    goid_t   goid   {NULLID}; 
+    GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
+                        
 private:
-
     void  onKeyDown_J();
     void  onKeyDown_K();
     void  onKeyDown_SPACE();
     void  onGameCross( NineBox _nb );
 
 };
-
-
-
 
 
 #endif

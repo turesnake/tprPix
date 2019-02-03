@@ -14,6 +14,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "config.h"
 #include "IntVec.h" 
 
 
@@ -31,6 +32,8 @@ public:
         mpos.y = *ptr;
     }
 
+    //-- 此函数不能用于 碰撞检测 --
+    /*
     inline void init_by_mpos( const IntVec2 &_mpos ){
         mpos = _mpos;
         //--------
@@ -39,6 +42,20 @@ public:
         ptr++;
         *ptr = mpos.y;
     }
+    */
+
+    //-- 使用此函数来 根据 “任意mapent mpos” 初始化其对应的 key
+    inline void init_by_mapEnt_mpos( const IntVec2 &_mpos ){
+
+        mpos.set(   _mpos.x/SECTION_W_ENTS,
+                    _mpos.y/SECTION_H_ENTS );
+        //--------
+        int *ptr = (int*)&key;
+        *ptr = mpos.x;
+        ptr++;
+        *ptr = mpos.y;     
+    }
+
 
     inline const u64 get_key() const {
         return key;

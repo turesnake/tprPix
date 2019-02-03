@@ -38,7 +38,6 @@ class MapCoord{
 public:
     //---- constructor -----//
     MapCoord() = default;
-
     //-- 只支持 mpos初始化，若想用 ppos来初始化，先用 ppos_2_mpos() 转换
     explicit MapCoord( const IntVec2 &_mpos ):
         mpos(_mpos),
@@ -49,7 +48,6 @@ public:
         ppos( mpos * PIXES_PER_MAPENT )
         {}
     
-
     //---- clear -----//
     inline void clear_all(){
         mpos.clear_all();
@@ -100,8 +98,6 @@ public:
         return glm::vec2{ (float)ppos.x, (float)ppos.y };
     }
 
-    //--- add ---
-
 private:
     IntVec2   mpos  {0, 0}; //- based on mapEnt
     IntVec2   ppos  {0, 0}; //- based on pixel
@@ -148,7 +144,6 @@ inline MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
  */
 inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
     assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
-    //return (_ppos/PIXES_PER_MAPENT);
     return floorDiv( _ppos, (float)PIXES_PER_MAPENT );
 }
 

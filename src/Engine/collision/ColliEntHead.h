@@ -22,6 +22,14 @@
 
 class ColliEntHead{
 public:
+
+    inline void clear_all(){
+        colliEntSetIdx = 0;
+        pposOff_fromRootAnchor.clear_all();
+        lAltiRange.clear_all();
+    }
+
+    //======== vals ========//
     int         colliEntSetIdx; 
                             //- ces预制件 idx号
 
@@ -34,12 +42,11 @@ public:
                             //- 和 colliEntHead 对应，记载每一个 ces实例 携带的 高度区间信息
                             //-- 仅仅是 相对高度区间 
 
-    //---- funcs ------//
-    inline void clear_all(){
-        colliEntSetIdx = 0;
-        pposOff_fromRootAnchor.clear_all();
-        lAltiRange.clear_all();
-    }
+    bool        isCarryAffect {false}; 
+                            //- 本 ceh 是否携带 affect／碰撞触发的主动技能
+                            // 挥刀动作中，刀部的 ceh，火球的ceh，都会携带 affect
+                            // 常规生物的 身体部分的 ceh，则不会携带 affect
+                            // 用于 碰撞检测
 };
 
 #endif 

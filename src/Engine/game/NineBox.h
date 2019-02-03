@@ -35,10 +35,13 @@
 // 一切大于0的 当作 1
 class NineBox{
 public:
-    int x;  //- [-1, 1]
-    int y;  //- [-1, 1]
+    //---- constructor -----//
+    NineBox() = default;
+    NineBox( int _x, int _y ):
+        x(_x),
+        y(_y)
+        { assert( (x>=-1) && (x<=1) && (y>=-1) && (y<=1) ); }
 
-    //---- funcs ----//
     inline void clear_all(){
         x = 0;
         y = 0;
@@ -70,6 +73,9 @@ public:
         return false;
     }
 
+    //======== vals ========//
+    int x {0};  //- [-1, 1]
+    int y {0};  //- [-1, 1]
 };
 
 /* ===========================================================
