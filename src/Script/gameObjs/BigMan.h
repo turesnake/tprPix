@@ -20,14 +20,20 @@
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
+#include "PubBinaryValType.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 //-- 定义了 go.binary 的数据格式 --
-struct BigMan_Binary{
-    int   HP;
+inline std::vector<PubBinaryValType> bigMan_pubBinaryValTypes {
+    PubBinaryValType::HP,
+    PubBinaryValType::MP
+};
+
+struct BigMan_PvtBinary{
+    int   tmp;
 };
 
 
@@ -47,19 +53,34 @@ public:
     void OnLogicUpdate( GameObj *_goPtr ); 
     void OnBeAffect( GameObj *_goPtr ); //- 可能会被整合到别处
 
+    //--  每次调用回调函数，都需要做的 指针重绑定 --
+    inline void rebind_ptr( GameObj *_goPtr ){
+        assert( _goPtr->species == specId );
+        //-- rebind ptr -----
+        goPtr = _goPtr;
+        pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr();
+    }
+
     //======== tmp vals ========//
     GameObj *goPtr {nullptr}; //- go实例指针，所有的操作都是为了 服务于它
                             //- 具象go类 被彻底 工厂化，它甚至不再存储 go实例。
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    BigMan_Binary  *bp {nullptr}; //- 指向 goPtr->binary 
+    BigMan_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
 
     //======== static ========//
     static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+
+private:
+
+    //--- callback ---//
+    void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
+
+
 };
 
 //---------- static ----------//

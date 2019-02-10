@@ -129,6 +129,50 @@ void realloc_inactive_goes(){
 }
 
 
+/* ===========================================================
+ *                 signUp_newGO_to_mapEnt
+ * -----------------------------------------------------------
+ * -- 
+ */
+void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
+
+    IntVec2   currentPPos = _goPtr->goPos.get_currentPPos();  //-- 直指 current rootAnchor 检测用
+    MapCoord  cesMCPos;      //- 每个 ces左下角的 mcpos （世界绝对pos）
+    //MapCoord  colliEntMCPos; //- adds/dels 中，每个ent 的 mcpos （世界绝对pos）
+    MemMapEnt *mapEntPtr;    //- 目标 mapent
+
+    //------------------------------//
+    //  遍历每个  go.goMesh
+    //  遍历每个  ces
+    //------------------------------//
+    auto ipair = _goPtr->goMeshs.begin();
+    for( ; ipair!=_goPtr->goMeshs.end(); ipair++ ){ //- each gomesh
+        GameObjMesh &meshRef = ipair->second;
+
+        //-- 未开启碰撞检测的 mesh 可以直接跳过 --
+        if( meshRef.isCollide == false ){
+            continue;
+        }
+
+        for( auto &ceh : meshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each ceh
+ 
+            cesMCPos.set_by_ppos( currentPPos + ceh.pposOff_fromRootAnchor );
+            ColliEntSet &cesRef = esrc::colliEntSets.at( ceh.colliEntSetIdx ); //- get ces ref
+
+            for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in target_ces
+
+                //colliEntMCPos = i + cesMCPos;
+                //-- 这就是 每一个 ces.collient 的 mcpos
+
+                mapEntPtr = esrc::get_memMapEnt( i + cesMCPos ); //- 目标 mapent 访问权 --
+
+                //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
+                mapEntPtr->major_gos.insert({ _goPtr->id, 
+                                              MajorGO_in_MapEnt{ ceh.lAltiRange, ceh.isCarryAffect } });
+            }
+        }
+    }
+}
 
 
 

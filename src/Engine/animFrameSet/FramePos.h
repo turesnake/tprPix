@@ -86,12 +86,11 @@ public:
     
 
 private:
-    //-- only one --
     AnchorPos   rootAnchorPos     {};
     int         rootColliEntHeadIdx  {0};
                                 //-- root ceh 在 colliEntHeads容器中的 idx
 
-    //-- 每个 图元帧 拥有一组  --
+    //-- 每个 图元帧 拥有一组 ceh  --
     std::vector<ColliEntHead>  colliEntHeads {};
                                 //-- 统一存储 所有 colliEntHead 信息
                                 //  包括 rootColliEntHeadOff

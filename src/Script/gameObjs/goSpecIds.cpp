@@ -44,7 +44,7 @@ void onGoSpecIds_SignUp(){
     //goSpecIds.insert(0); //--- 0号id 保留。
     //==================================//
     goSpec_alloc( 1, "norman" );  gameObjs::Norman::specId = 1;
-    goSpec_alloc( 1, "bigMan" );  gameObjs::BigMan::specId = 2;
+    goSpec_alloc( 2, "bigMan" );  gameObjs::BigMan::specId = 2;
 
     goSpec_alloc( 1000, "Tree_Pine" ); //- 松树
     goSpec_alloc( 1001, "Tree_Oak" ); //- 橡树

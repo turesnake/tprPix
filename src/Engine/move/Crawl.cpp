@@ -87,18 +87,7 @@ void Crawl::RenderUpdate(){
     }
 
     std::pair<int, float> pair;
-
-        /*
-        cout << std::left;
-        cout << count << ": "
-            << "FPos{ " <<  std::setw(5) << goPosPtr->get_currentFPos().x
-            << ", " <<      std::setw(5) << goPosPtr->get_currentFPos().y 
-            //<< "} mid{ " << std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().x
-            //<< ", " <<      std::setw(5) << goPosPtr->calc_rootAnchor_midFPos().y
-            //<< " } MC{ " << std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().x
-            //<< ", " <<      std::setw(5) << goPosPtr->get_currentMCPos().get_ppos().y
-            << " }";
-        */
+    bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
         
     //----------------------------//
     //     Node Frame ／ 节点
@@ -111,7 +100,6 @@ void Crawl::RenderUpdate(){
 
         }else if( (currentNB.is_zero()==false) && newNB.is_zero() ){
            goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
-
         }
 
         currentNB = newNB;
@@ -119,19 +107,9 @@ void Crawl::RenderUpdate(){
             return; //- end_frame of one_piece_input
         }
 
+        //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
+        isObstruct = collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
 
-        //-- 此处需要检测 新 mapent 是否被 占有／预定 --
-        // 根据 currentCS，确定 哪一个mapent 是 target
-        // 访问这个 mapent 的数据，确保其没有被 占有
-        //   -- 如果被占有了，查看此mapent上的 go，是否可“碰” 
-        //      不管是否 “可碰”，本次移动都将被终止。将 target 设置为当前占有的格子。
-        //      return， 结束本次函数调用
-        //   -- 如果未被占有，正式 占有 此mapent
-        //      然后执行下方的 操作
-        //...
-        collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
-
-            
         //-------- refresh speed / max -------//
         if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
             pair = get_speed_next( movePtr->get_speedLv() );
@@ -139,25 +117,29 @@ void Crawl::RenderUpdate(){
             pair = get_speed( movePtr->get_speedLv() );
         }
         max = pair.first;
-        speed = pair.second;
+
+        (isObstruct) ?
+            speed=0.0f :        //- 移动被遮挡，仅仅将速度写0.并不取消回合本身
+            speed=pair.second;  //- 移动未被遮挡，获得位移速度
     }
     
-
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）
     //  再实现真正的移动
     //---------------------------//
-    if( currentNB.x == -1 ){
-        goPosPtr->accum_currentFPos( -speed, 0.0f );    //- left -
-    }else if( currentNB.x == 1 ){
-        goPosPtr->accum_currentFPos( speed, 0.0f );     //- right -
+    if( speed!=0.0f ){
+        if( currentNB.x == -1 ){
+            goPosPtr->accum_currentFPos( -speed, 0.0f );    //- left -
+        }else if( currentNB.x == 1 ){
+            goPosPtr->accum_currentFPos( speed, 0.0f );     //- right -
+        }
+        if( currentNB.y == 1 ){
+            goPosPtr->accum_currentFPos( 0.0f, speed );     //- up -
+        }else if( currentNB.y == -1 ){
+            goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
+        }
     }
-    if( currentNB.y == 1 ){
-        goPosPtr->accum_currentFPos( 0.0f, speed );     //- up -
-    }else if( currentNB.y == -1 ){
-        goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
-    }
-
+    
     //---------------------------//
     //  累加计数器
     //  如果确认为回合结束点，务必校正 currentFPos 的值

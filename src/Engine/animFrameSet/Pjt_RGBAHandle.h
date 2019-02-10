@@ -152,17 +152,30 @@ private:
         u8 low  = rgba.g;
         u8 high = rgba.b;
         //-- item / surface --//
+        // 在未来，item/surface 设计 可能会被取消...
         if( low == high ){
             if( low == AltiRange::diskAlti_item ){
                 colliEntHead.lAltiRange = altiRange_item;
+                return;
             }else if( low == AltiRange::diskAlti_surface ){
                 colliEntHead.lAltiRange = altiRange_surface;
+                return;
             }else{
                 assert(0);
             }
         }
+        assert( low < high );
+        
+        //-- isBody --//
+        if( low > 100 ){
+            colliEntHead.isBody = false;
+            low  -= 100;
+            high -= 100;
+        }
+        colliEntHead.isBody = true;
+
         //--- major ---//
-        colliEntHead.lAltiRange.set( (char)rgba.g, (char)rgba.b );
+        colliEntHead.lAltiRange.set( (char)low, (char)high );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内

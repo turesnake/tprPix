@@ -53,8 +53,8 @@ void Norman::init( GameObj *_goPtr ){
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &Norman::OnActionSwitch, &norman, _1, _2 ) );
-    goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Idle );
-    goPtr->actionSwitch.sign_up( ActionSwitchType::Move_Move );
+    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Move );
 
 
     //-------- go self vals ---------//
@@ -75,8 +75,8 @@ void Norman::init( GameObj *_goPtr ){
 
     goPtr->goPos.set_alti( 0.0f );
 
-    goPtr->set_collision_isPass( false );
-    goPtr->set_collision_isSelfBePass( false );
+    goPtr->set_collision_isDoPass( false );
+    goPtr->set_collision_isBePass( false );
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
@@ -107,11 +107,14 @@ void Norman::init( GameObj *_goPtr ){
         goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
-    goPtr->resize_binary( sizeof(Norman_Binary) );
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr(); //- 绑定到本地指针
+    goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
+    pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-    bp->HP = 100;
+    
     //...
+
+    //-------- go.pubBinary ---------//
+    goPtr->pubBinary.init( norman_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -141,10 +144,7 @@ void Norman::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Norman::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
 
     //=====================================//
     //           test: AI
@@ -192,10 +192,7 @@ void Norman::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Norman::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
     //=====================================//
 
     // 什么也没做...
@@ -211,10 +208,7 @@ void Norman::OnBeAffect( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Norman::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
     //=====================================//
 
     // 什么也没做...
@@ -235,10 +229,7 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == Norman::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (Norman_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -264,7 +255,7 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
                                     6,                //- 起始图元帧序号
                                     11,                //- 结束图元帧序号
                                     6,               //- 入口图元帧序号
-                                    std::vector<int>{ 3, 6, 3, 3, 6, 3 }, //- steps
+                                    std::vector<int>{ 4, 4, 4, 4, 4, 4 }, //- steps
                                     false,            //- isStepEqual
                                     true              //- isOrder
                                     ); 

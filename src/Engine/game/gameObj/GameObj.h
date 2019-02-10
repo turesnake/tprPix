@@ -45,6 +45,8 @@
 #include "Collision.h"
 #include "GODirection.h"
 #include "ActionSwitch.h"
+#include "PubBinary.h"
+
 
 
 
@@ -61,7 +63,9 @@
 //  -- go类实例 负责存储实际的数据
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj{
-    using F_GO  = std::function<void(GameObj*)>;
+    using F_GO         = std::function<void(GameObj*)>;
+    using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
+    using F_AFFECT     = std::function<void(GameObj*,GameObj*)>;
 public:
     GameObj() = default;
 
@@ -72,12 +76,11 @@ public:
     diskGameObj m2d();
 
 
-    inline void resize_binary( size_t _size ){
-        binary.resize( _size );
+    inline void resize_pvtBinary( size_t _size ){
+        pvtBinary.resize( _size );
     }
-
-    inline u8 *get_binaryHeadPtr(){
-        return &(binary.at(0));
+    inline u8 *get_pvtBinaryPtr(){
+        return &(pvtBinary.at(0));
     }
 
     GameObjMesh &creat_new_goMesh( const std::string &_name ); 
@@ -93,11 +96,18 @@ public:
         isFlipOver = (direction==GODirection::Left);    
     }
 
-    inline void set_collision_isPass( bool _b ){
-        collision.isPass = _b;
+    //-- isPass 系列flag 也许不放在 collision 模块中...
+    inline void set_collision_isDoPass( bool _b ){
+        collision.isDoPass = _b;
     }
-    inline void set_collision_isSelfBePass( bool _b ){
-        collision.isSelfBePass = _b;
+    inline void set_collision_isBePass( bool _b ){
+        collision.isBePass = _b;
+    }
+    inline bool get_collision_isDoPass() const {
+        return collision.isDoPass;
+    }
+    inline bool get_collision_isBePass() const {
+        return collision.isBePass;
     }
 
     //- 获得 目标 ces 当前 绝对 altiRange
@@ -116,8 +126,17 @@ public:
 
     F_GO  RenderUpdate {nullptr}; //- 每1渲染帧，被引擎调用
     F_GO  LogicUpdate  {nullptr}; //- 每1逻辑帧，被主程序调用 （帧周期未定）
+
     F_GO  BeAffect     {nullptr}; //- 当 本go实例 被外部 施加技能／影响 时，调用的函数
                                   //- 未来可能会添加一个 参数：“被施加技能的类型”
+                                  // 这个 函数对象，可能会被整合到全新的 Affect 系统中...
+
+    //-- tmp,未来会被整理..
+    // 当某一个未绑定时，应将其设置为 nullptr,这样 碰撞检测系统会跳过它
+    F_AFFECT DoAffect_body {nullptr};
+    F_AFFECT DoAffect_virtual {nullptr};
+    F_AFFECT BeAffect_body {nullptr};   
+        // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
     //----------------- self vals ---------------//
     goid_t         id       {NULLID};    
@@ -146,13 +165,16 @@ public:
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
-                // *** 此容器 疑似引发了一个 史诗级BUG... ***
-                // 当在 具象类init() 中，调用 goMeshs.size() 等之类的语句时，程序就正常。
-                // 但如果不调用，程序无法显示图形
-                // 目前还没搞清原因
-                // --- 这个 bug 暂时消失了... ---
+            // *** 此容器 疑似引发了一个 史诗级BUG... ***
+            // 当在 具象类init() 中，调用 goMeshs.size() 等之类的语句时，程序就正常。
+            // 但如果不调用，程序无法显示图形
+            // 目前还没搞清原因
+            // --- 这个 bug 暂时消失了... ---
+            // 猜测的解法：cmake .. 将程序 彻底重编译一遍
 
-    ActionSwitch  actionSwitch {};
+    ActionSwitch    actionSwitch {};
+
+    PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
@@ -166,19 +188,16 @@ public:
                                 //- 注意，这个值不应该由 具象go类手动配置
                                 //  而应由 move／动画播放器 自动改写
     
-    //------------ static ----------//
+    //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
 private:
     //----------- binary chunk -------------//         
-    std::vector<u8>  binary; //- 具象go类 定义的 二进制数据块。真实存储地
-                            //- binary 本质是一个 C struct。 由 具象go类方法 使用。
-                            //- binary 可能会跟随 go实例 存储到 硬盘态。（未定...）
+    std::vector<u8>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
 
 };
-
 
 
 

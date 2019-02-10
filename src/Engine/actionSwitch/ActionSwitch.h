@@ -20,7 +20,7 @@
 
 //-------------------- Engine --------------------//
 #include "ActionSwitchType.h"
-
+#include "BoolBitMap.h"
 
 
 //--- need ---//
@@ -35,6 +35,7 @@ public:
 
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
+        bitMap.init(bitMapBytes);
     }
 
     inline void bind_func( const F_ACTION_SWITCH &_func ){
@@ -53,31 +54,38 @@ public:
         func( goPtr, _type );
     }
 
-    inline void clear_typeMap(){
-        typeMap = 0;
+    inline void clear_bitMap(){
+        bitMap.clear_all();
     }
 
     //-- 登记某个 actionSwitch --
-    inline void sign_up( ActionSwitchType _type ){
-        typeMap = typeMap | (1 << (int)_type);
+    inline void signUp( ActionSwitchType _type ){
+        bitMap.signUp( (u32)_type );
     }
 
     //-- 检查某个 actionSwitch 是否已登记 --
     inline bool check( ActionSwitchType _type ){
-        return  ( ((typeMap>>((int)_type)) & 1)==1 );
+        return  bitMap.check( (u32)_type );
     }
     
 
 private:
     GameObj *goPtr {nullptr};
 
-    u64  typeMap {0}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
-                      //- 暂定上限为 64 个
+    BoolBitMap  bitMap  {}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
+                            //- 暂定上限为 64-bit
     //--- functor ----//
     F_ACTION_SWITCH  func {nullptr};
+
+    //======== static ========//
+    static size_t bitMapBytes; //- bitMap容器 占用多少 字节
+                    //- 随着 ActionSwitchType 种类的增多，
+                    //  这个值将不断扩大  
 };
 
-
+//-------- static --------//
+//-- 在游戏运行期间，此值不会被改变
+inline size_t ActionSwitch::bitMapBytes {8};
 
 
 

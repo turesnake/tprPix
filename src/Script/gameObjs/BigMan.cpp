@@ -50,6 +50,12 @@ void BigMan::init( GameObj *_goPtr ){
     goPtr->LogicUpdate  = std::bind( &BigMan::OnLogicUpdate,  &big_man, _1 );
     goPtr->BeAffect     = std::bind( &BigMan::OnBeAffect,     &big_man, _1 ); 
 
+    //-------- actionSwitch ---------//
+    goPtr->actionSwitch.bind_func( std::bind( &BigMan::OnActionSwitch, &big_man, _1, _2 ) );
+    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Move );
+
+
     //-------- go self vals ---------//
     goPtr->species = BigMan::specId;
     goPtr->family = GameObjFamily::Major;
@@ -68,8 +74,8 @@ void BigMan::init( GameObj *_goPtr ){
 
     goPtr->goPos.set_alti( 0.0f );
 
-    goPtr->set_collision_isPass( false );
-    goPtr->set_collision_isSelfBePass( false );
+    goPtr->set_collision_isDoPass( false );
+    goPtr->set_collision_isBePass( false );
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
@@ -100,11 +106,14 @@ void BigMan::init( GameObj *_goPtr ){
         goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
-    goPtr->resize_binary( sizeof(BigMan_Binary) );
-    bp = (BigMan_Binary*)goPtr->get_binaryHeadPtr(); //- 绑定到本地指针
+    goPtr->resize_pvtBinary( sizeof(BigMan_PvtBinary) );
+    pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-    bp->HP = 100;
+
     //...
+
+    //-------- go.pubBinary ---------//
+    goPtr->pubBinary.init( bigMan_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -134,10 +143,7 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == BigMan::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (BigMan_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
 
     //=====================================//
     //           test: AI
@@ -185,10 +191,7 @@ void BigMan::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == BigMan::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (BigMan_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
     //=====================================//
 
     // 什么也没做...
@@ -205,15 +208,63 @@ void BigMan::OnBeAffect( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    assert( _goPtr->species == BigMan::specId );
-    //-- rebind ptr -----
-    goPtr = _goPtr;
-    bp = (BigMan_Binary*)goPtr->get_binaryHeadPtr();
+    rebind_ptr( _goPtr );
     //=====================================//
 
     // 什么也没做...
         cout << "BigMan::BeAffect; goid = " << goPtr->id
             << endl;
+}
+
+/* ===========================================================
+ *               OnActionSwitch
+ * -----------------------------------------------------------
+ * -- 
+ */
+void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    rebind_ptr( _goPtr );
+    //=====================================//
+
+    //-- 获得所有 goMesh 的访问权 --
+    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
+
+    //-- 处理不同的 actionSwitch 分支 --
+    switch( _type ){
+        case ActionSwitchType::Move_Idle:
+            //goMeshRef.bind_animFrameSet( "bigMan" );
+            animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    0,                //- 起始图元帧序号
+                                    5,                //- 结束图元帧序号
+                                    0,               //- 入口图元帧序号
+                                    std::vector<int>{ 10, 8, 8, 8, 8, 16 }, //- steps
+                                    false,            //- isStepEqual
+                                    true              //- isOrder
+                                    );
+            break;
+
+        case ActionSwitchType::Move_Move:
+            //goMeshRef.bind_animFrameSet( "bigMan" );
+            animFrameIdxHdle::cycle_obj.rebind( goMeshRef.get_animFrameIdxHandlePtr(), 
+                                    6,                //- 起始图元帧序号
+                                    11,                //- 结束图元帧序号
+                                    6,               //- 入口图元帧序号
+                                    std::vector<int>{ 3, 6, 3, 3, 6, 3 }, //- steps
+                                    false,            //- isStepEqual
+                                    true              //- isOrder
+                                    ); 
+            break;
+
+        default:
+            break;
+            //-- 并不报错，什么也不做...
+
+    }
+
+
 }
 
 

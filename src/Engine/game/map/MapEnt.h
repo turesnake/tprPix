@@ -135,6 +135,18 @@ struct Sec_diskMapEnt{
 };
 
 
+//-- 
+struct MajorGO_in_MapEnt{
+    AltiRange  lAltiRange    {};      
+                    // 本mapent 所在的 ceh 的相对高度区间
+                    // 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ceh 当前altirange值
+    bool       isCarryAffect {false}; 
+                    // 本mapent 所在的 ceh 是否携带affect
+    // 可拓展...
+    // 由于仅存在于mem态，不考虑 padding
+};
+
+
 //-- 投影地图单位的信息 [mem] --
 //-  牺牲一定的 内存空间，换取访问便捷度
 class MemMapEnt{
@@ -182,10 +194,8 @@ public:
     goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
     goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
  
-    std::unordered_map<goid_t, AltiRange> major_gos {};
-                //- 此处的 AltiRange值，仅仅是 go在 此mapent 上的 ces 的 altirange值
-                //  它是一个 静态相对值。
-                //- 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ces 当前 altirange值
+    std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
+                
                 
 
     //-- 二级信息： mem <--> disk --

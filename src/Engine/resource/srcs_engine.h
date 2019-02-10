@@ -111,6 +111,7 @@ void foreach_goids_inactive( F_GOID_GOPTR _fp );
 goid_t insert_new_gameObj();
 void realloc_active_goes();
 void realloc_inactive_goes();
+void signUp_newGO_to_mapEnt( GameObj *_goPtr );
 
 inline GameObj *find_memGameObjs( goid_t _goid ){
     return (GameObj*)&(memGameObjs.at(_goid));
