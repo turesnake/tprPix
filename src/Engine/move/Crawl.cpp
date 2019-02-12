@@ -22,9 +22,7 @@
 #include "GameObjPos.h"
 #include "MapCoord.h"
 #include "Collision.h"
-
-#include "GameObj.h" //- tmp
-
+#include "GameObj.h" 
 
 #include "debug.h" 
 #include <iomanip>
@@ -117,7 +115,6 @@ void Crawl::RenderUpdate(){
             pair = get_speed( movePtr->get_speedLv() );
         }
         max = pair.first;
-
         (isObstruct) ?
             speed=0.0f :        //- 移动被遮挡，仅仅将速度写0.并不取消回合本身
             speed=pair.second;  //- 移动未被遮挡，获得位移速度
@@ -162,7 +159,6 @@ void Crawl::RenderUpdate(){
  */
 void Crawl::set_newCrawlDir( const NineBox &_newNB ){
     newNB = _newNB;
-
 
     //-- 设置 go 方向 --
     if( newNB.x < 0 ){

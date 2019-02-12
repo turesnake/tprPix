@@ -34,8 +34,14 @@ void load_animFrameSets(){
 
     animFrameSets.clear();
 
-    animFrameSets.insert( {"norman",  AnimFrameSet{ "/norman/norman.P.png", IntVec2{6, 2}, 12 } } );
-    animFrameSets.insert( {"bigMan",  AnimFrameSet{ "/bigMan/bigMan.P.png", IntVec2{6, 2}, 12 } } );
+    animFrameSets.insert({"norman",  AnimFrameSet{ "/norman/norman.P.png", IntVec2{6, 2}, 12,
+                                                    std::vector<int>{12,8,8,12,8,8, 4,4,4,4,4,4} } });
+
+    animFrameSets.insert({"bigMan",  AnimFrameSet{ "/bigMan/bigMan.P.png", IntVec2{6, 2}, 12,
+                                                    std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
+
+    animFrameSets.insert({"grass_1", AnimFrameSet{ "/grass/grass_1.P.png", IntVec2{6, 2}, 12,
+                                                    std::vector<int>{8,8,8,8,8,8, 8,8,8,8,8,8} } });
 
 
     //---------------------------------//

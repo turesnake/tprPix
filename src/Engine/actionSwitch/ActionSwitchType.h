@@ -21,7 +21,10 @@ enum class ActionSwitchType : u32{
 
     //--- move ----//
     Move_Idle,
-    Move_Move
+    Move_Move,
+
+    BeCollide_From_Left,  //- 受到来自左侧的碰撞后，播放的动画
+    BeCollide_From_Right  //- 受到来自右侧的碰撞后，播放的动画
 
 
 };

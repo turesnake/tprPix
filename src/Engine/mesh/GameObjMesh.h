@@ -98,12 +98,10 @@ public:
         return animFrameIdxHandle.currentIdx;
     }
 
-    //--- IMPORTANT !!! ---
     inline const AnchorPos &get_rootAnchorPos() const {
         return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
 
-    //--- IMPORTANT !!! ---
     inline const FramePos &get_currentFramePos() const {
         return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx );
     }
@@ -123,12 +121,8 @@ public:
         return animFrameSetPtr->pixNum_per_frame;
     }
 
-    inline AnimFrameIdxHandle *get_animFrameIdxHandlePtr(){
-        return &animFrameIdxHandle;
-    }
-
-    inline AnimFrameIdxHandle::F_GENERAL &get_animFrameIdxHandle_func( const std::string &_funcName ){
-        return animFrameIdxHandle.funcs.at( _funcName );
+    inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
+        return animFrameSetPtr->timeSteps.at(_currentIdx);
     }
 
 
@@ -145,6 +139,10 @@ public:
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
 
+    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
+                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
+                                    //- 但是存在 类型验证的需求：通过 .typeId 
+
     //======== flags ========//
     bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
@@ -154,16 +152,12 @@ private:
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
 
     //------- AnimFrameSet -------
-    //  ... 临时设置为公共 ...
     // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据
     // 在单一时间，一个GameObjMesh实例 只能绑定 一个 animFrameSetPtr实例
     std::string     animFrameSetName;       //- 与下方的 animFrameSetPtr 强关联 --
     AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
                                     //- 通过 bind_animFrameSet() 来绑定
-    
-    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
-                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
-                                    //- 但是存在 类型验证的需求：通过 .typeId 
+
 };
 
 

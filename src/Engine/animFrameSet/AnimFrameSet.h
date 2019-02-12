@@ -36,6 +36,9 @@
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
+//-------------------- C --------------------//
+#include <cassert> //- assert
+
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -59,14 +62,6 @@ struct AnimFrameSetParams{
 };
 
 
-//-- 动画帧类型。以后有用处 ---
-//  -* 暂时无用 *-
-enum class AnimFrameSetType{
-    Null      = 1, //- 空
-    Walk_loop = 2  //- tmp
-};
-
-
 //-- 作为纯粹的 图像资源类，AnimFrameSet 应该被设计得尽可能简洁 --
 //   不负责其他任何数据 
 //   AnimFrameSet 没有 具象as类。
@@ -74,12 +69,17 @@ class AnimFrameSet{
 public:
     AnimFrameSet( const std::string &_lpath_pic, 
                 IntVec2  _frameNum,
-                int      _totalFrameNum 
+                int      _totalFrameNum,
+                const std::vector<int> &_timeSteps
                 ):
         lpath_pic(_lpath_pic),
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
-        {}
+        {
+            assert( _timeSteps.size() == totalFrameNum );
+            timeSteps.insert( timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
+        }
+
 
     void init();
 
@@ -90,14 +90,12 @@ public:
     //-- 是否使用字符串有待商榷，取决于，是否会跟随go数据存入硬盘中。
     std::string  name;
 
-    AnimFrameSetType   type {AnimFrameSetType::Null};  //- 类型，以后可能有用
-
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
     //- local path，based on path_animFrameSet_srcs
     std::string  lpath_pic;    //-- picture
     std::string  lpath_pjt;    //-- collients
-    std::string  lpath_shadow; //-- shadow
+    std::string  lpath_shadow; //-- shadow  (此文件也许可为空...)
 
 
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值
@@ -112,6 +110,9 @@ public:
 
     //-- each frame --
     std::vector<FramePos>  framePoses {};
+
+    //-- step time for each frame -- 
+    std::vector<int> timeSteps {};
 
 private:
     void handle_pjt();

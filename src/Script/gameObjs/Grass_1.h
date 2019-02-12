@@ -1,15 +1,15 @@
 /*
- * ========================= Norman.h ==========================
+ * ========================= Grass_1.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.02.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   诺曼人
+ *   草 test
  * 
  * ----------------------------
  */
-#ifndef _TPR_NORMAN_H_
-#define _TPR_NORMAN_H_
+#ifndef _TPR_GRASS_1_H_
+#define _TPR_GRASS_1_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -26,21 +26,19 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
 //-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> norman_pubBinaryValTypes {
+inline std::vector<PubBinaryValType> grass_1_pubBinaryValTypes {
     PubBinaryValType::HP,
     PubBinaryValType::MP
 };
 
-struct Norman_PvtBinary{
+struct Grass_1_PvtBinary{
     int   tmp;
 };
 
-
-class Norman{
+class Grass_1{
 public:
-    Norman() = default;
+    Grass_1() = default;
 
     //--- 延迟init ---//
     void init( GameObj *_goPtr );
@@ -59,7 +57,7 @@ public:
         assert( _goPtr->species == specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = (Grass_1_PvtBinary*)goPtr->get_pvtBinaryPtr();
     }
 
     //======== tmp vals ========//
@@ -68,7 +66,7 @@ public:
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    Norman_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
+    Grass_1_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
@@ -76,21 +74,19 @@ public:
     //======== static ========//
     static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
-
 private:
-
     //--- callback ---//
     void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
 };
 
-//---------- static ----------//
-inline u32  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< Norman类 唯一的 保留实例 >=====
-inline Norman  norman {};
+//---------- static ----------//
+inline u32  Grass_1::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+
+//=====< Grass_1类 唯一的 保留实例 >=====
+inline Grass_1  grass_1 {};
 
 
 
 }//------------- namespace gameObjs: end ----------------
 #endif 
-

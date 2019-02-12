@@ -51,7 +51,6 @@ public:
     //--- callback ---//
     void OnRenderUpdate( GameObj *_goPtr ); 
     void OnLogicUpdate( GameObj *_goPtr ); 
-    void OnBeAffect( GameObj *_goPtr ); //- 可能会被整合到别处
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){

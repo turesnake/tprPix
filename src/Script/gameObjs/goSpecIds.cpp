@@ -21,6 +21,7 @@
 
 #include "Script/gameObjs/Norman.h" 
 #include "Script/gameObjs/BigMan.h" 
+#include "Script/gameObjs/Grass_1.h" 
 
 
 using std::string;
@@ -45,6 +46,7 @@ void onGoSpecIds_SignUp(){
     //==================================//
     goSpec_alloc( 1, "norman" );  gameObjs::Norman::specId = 1;
     goSpec_alloc( 2, "bigMan" );  gameObjs::BigMan::specId = 2;
+    goSpec_alloc( 2, "grass_1" ); gameObjs::Grass_1::specId = 3;
 
     goSpec_alloc( 1000, "Tree_Pine" ); //- 松树
     goSpec_alloc( 1001, "Tree_Oak" ); //- 橡树
@@ -74,12 +76,6 @@ void goSpec_alloc( goSpecId_t _id, const string &_name ){
 }
 
 }//------------------------- namespace: end -------------------
-
-
-
-
-
-
 
 
 void onStart_test(){

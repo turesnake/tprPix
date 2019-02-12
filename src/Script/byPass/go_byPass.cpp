@@ -4,6 +4,7 @@
 
 #include "Script/gameObjs/Norman.h" 
 #include "Script/gameObjs/BigMan.h" 
+#include "Script/gameObjs/Grass_1.h" 
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -24,6 +25,7 @@ using std::string;
 
 void create_a_Norman( const IntVec2 &_ppos );
 void create_a_BigMan( const IntVec2 &_ppos );
+void create_a_Grass_1( const IntVec2 &_ppos );
 
 /* ===========================================================
  *                       go_byPass
@@ -43,6 +45,8 @@ void go_byPass(){
     create_a_BigMan( IntVec2{ 130, 145 } );
     create_a_BigMan( IntVec2{ 145, 155 } );
     create_a_BigMan( IntVec2{ 150, 130 } );
+
+    create_a_Grass_1( IntVec2{ 190, 130 } );
     
 
     /*
@@ -77,11 +81,6 @@ void create_a_Norman( const IntVec2 &_ppos ){
     gameObjs::norman.init( goPtr );
     goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
             //-- 这是一个严格检查，_ppos 必须对齐于 mapent
-
-    //-- 将自己 注册到 当前 mapent 上 --
-    //  临时性的，很简陋的实现...
-    //  遍历 go的每一个 collient，将它们对应的 每一个 mapent 都注册
-
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
 }
@@ -93,9 +92,17 @@ void create_a_BigMan( const IntVec2 &_ppos ){
     gameObjs::big_man.init( goPtr );
     goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
             //-- 这是一个严格检查，_ppos 必须对齐于 mapent
-
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
+}
 
+void create_a_Grass_1( const IntVec2 &_ppos ){
+    goid_t goid = esrc::insert_new_gameObj();
+    GameObj *goPtr = esrc::find_memGameObjs( goid ); //- 获取目标go指针
+    gameObjs::grass_1.init( goPtr );
+    goPtr->goPos.init_by_currentMCPos( MapCoord{ ppos_2_mpos(_ppos) } );
+            //-- 这是一个严格检查，_ppos 必须对齐于 mapent
+    //------------------------------//
+    esrc::signUp_newGO_to_mapEnt( goPtr );
 }
 
