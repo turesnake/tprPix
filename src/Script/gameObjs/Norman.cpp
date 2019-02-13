@@ -78,25 +78,25 @@ void Norman::init( GameObj *_goPtr ){
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root" );
-        goMeshRef.init( goPtr ); 
-        goMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
+        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root" );
+        rootGoMeshRef.init( goPtr ); 
+        rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
+        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         //-- bind animFrameSet / animFrameIdxHandle --
-        goMeshRef.bind_animFrameSet( "norman" );
-        goMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
+        rootGoMeshRef.bind_animFrameSet( "norman" );
+        rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
                                                 5,   //- 结束图元帧序号
                                                 0,   //- 入口图元帧序号  
                                                 true //- isOrder
                                                 );
 
-        goMeshRef.isVisible = true;
-        goMeshRef.isCollide = true;
-        goMeshRef.isFlipOver = false;
+        rootGoMeshRef.isVisible = true;
+        rootGoMeshRef.isCollide = true;
+        rootGoMeshRef.isFlipOver = false;
 
         //-- goMesh pos in go --
-        goMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
+        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
     //-------- go.binary ---------//
     goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
@@ -194,7 +194,7 @@ void Norman::OnLogicUpdate( GameObj *_goPtr ){
  *               OnActionSwitch
  * -----------------------------------------------------------
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
- * -- 
+ * -- 会被 动作状态机 取代...
  */
 void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
@@ -205,26 +205,26 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
+    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
-            //goMeshRef.bind_animFrameSet( "norman" );
-            goMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
-                                                    5,   //- 结束图元帧序号
-                                                    0,   //- 入口图元帧序号  
-                                                    true //- isOrder
-                                                    );
+            //rootGoMeshRef.bind_animFrameSet( "norman" );
+            rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
+                                                        5,   //- 结束图元帧序号
+                                                        0,   //- 入口图元帧序号  
+                                                        true //- isOrder
+                                                        );
             break;
 
         case ActionSwitchType::Move_Move:
-            //goMeshRef.bind_animFrameSet( "norman" );
-            goMeshRef.animFrameIdxHandle.bind_cycle(6,   //- 起始图元帧序号
-                                                    11,  //- 结束图元帧序号
-                                                    6,   //- 入口图元帧序号  
-                                                    true //- isOrder
-                                                    );
+            //rootGoMeshRef.bind_animFrameSet( "norman" );
+            rootGoMeshRef.animFrameIdxHandle.bind_cycle(6,   //- 起始图元帧序号
+                                                        11,  //- 结束图元帧序号
+                                                        6,   //- 入口图元帧序号  
+                                                        true //- isOrder
+                                                        );
             break;
 
         default:

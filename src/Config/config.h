@@ -8,7 +8,6 @@
  *   临时，后期会更换为 lua 来实现
  * ----------------------------
  */
-
 #ifndef _TPR_CONFIG_H_
 #define _TPR_CONFIG_H_
 
@@ -48,9 +47,3 @@ inline bool IS_FULL_SCREEN = false;
 
 
 #endif
-
-
-
-
-
-

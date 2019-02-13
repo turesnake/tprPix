@@ -46,7 +46,7 @@
 #include "GODirection.h"
 #include "ActionSwitch.h"
 #include "PubBinary.h"
-
+#include "InputINS.h"
 
 
 
@@ -175,6 +175,8 @@ public:
     ActionSwitch    actionSwitch {};
 
     PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
+
+    InputINS        inputINS  {}; //- gameKeys 指令组
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)

@@ -49,6 +49,9 @@ set ( VERSION_MINOR 1 )
 #-- 指定 依赖的 h文件所在 路径:
 include_directories (${PROJECT_SOURCE_DIR}/src)
 
+#-- Config --
+include_directories (${PROJECT_SOURCE_DIR}/src/Config)
+
 #-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
@@ -75,10 +78,6 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
 
 #-- Script 只 include 顶层目录 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
-#include_directories (${PROJECT_SOURCE_DIR}/src/Script/animFrameIdxHandle)
-#include_directories (${PROJECT_SOURCE_DIR}/src/Script/byPass)
-#include_directories (${PROJECT_SOURCE_DIR}/src/Script/gameObjs)
-#include_directories (${PROJECT_SOURCE_DIR}/src/Script/textureBuilder)
 
 
 include_directories (${PROJECT_SOURCE_DIR}/deps)
@@ -106,6 +105,8 @@ include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 #-- 包含 主进程需要的 cpp 文件
 FILE(GLOB PIXEL_FILES   src/*.cpp     
                         src/test/*.cpp
+
+                        src/Config/*.cpp
 
                         src/Engine/*.cpp
                         src/Engine/actionSwitch/*.cpp

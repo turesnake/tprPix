@@ -37,10 +37,20 @@ inline std::vector<RGBA> slicePic{
     CO, e_, e_, e_, CO,
     CO, CO, CO, CO, CO
 };
-//inline IntVec2 slicePicSize { 3, 3 };
 inline IntVec2 slicePicSize { 5, 5 };
-
 inline  GLuint  texName_slice {}; //- the only texName
+
+
+
+
+//-- 一个 2*2 的小亮点
+inline std::vector<RGBA> pointPic{
+    CO, CO, 
+    CO, CO
+};
+inline IntVec2  pointPicSize { 2, 2 };
+inline  GLuint  texName_pointPic {}; //- the only texName
+
 
 
 }//-------------------- namespace: debug end --------------//

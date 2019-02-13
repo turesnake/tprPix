@@ -9,18 +9,38 @@
  */
 #include "input.h" 
 
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec2
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
+#include <glm/gtc/matrix_transform.hpp>
+            //-- glm::translate
+            //-- glm::rotate
+            //-- glm::scale
+            //-- glm::perspective
+#include <glm/gtc/type_ptr.hpp> 
+            //-- glm::value_ptr
+
 //-------------------- C --------------------//
 #include <cassert>
+#include <math.h>
 
 //-------------------- CPP --------------------//
 //#include <string>
+#include <unordered_map>
 
 //-------------------- Engine --------------------//
+#include "config.h"
+#include "gameKeyTable.h"
 #include "IntVec.h" 
 #include "srcs_engine.h" //- 所有资源
+#include "KeyBoard.h"
+#include "GameKey.h"
 
 
-//#include "debug.h" //- tmp
+#include "debug.h" //- tmp
 
 
 namespace input{//------------- namespace input --------------------
@@ -28,25 +48,33 @@ namespace input{//------------- namespace input --------------------
 
 namespace{
 
-    inline F_V_V   keyDown_W      {nullptr};
-    inline F_V_V   keyDown_S      {nullptr};
-    inline F_V_V   keyDown_A      {nullptr};
-    inline F_V_V   keyDown_D      {nullptr};
+    inline F_INPUT_INS   inputINSFunc  {nullptr};
 
-    inline F_V_V   keyDown_J      {nullptr};
-    inline F_V_V   keyDown_K      {nullptr};
-    inline F_V_V   keyDown_SPACE  {nullptr};
-    
-    //--
-    inline F_CROSS_STATE   gameCross  {nullptr};
+    InputINS   inputINS {}; //- 记录玩家 鼠键输入。
+                            //  此值会以值传递的方式，复制给 player_go
+                            //  在未来，为了提高性能，它可能被改为一个 指针
 
-    NineBox   nb     {}; 
-    NineBox   lastNb {}; //- 上一次nb值...
+    glm::vec2 lastMousePos    {0.0f, 0.0f};    
+    glm::vec2 currentMousePos {0.0f, 0.0f}; 
+
     //---------
-    void onMoveLeft();
-    void onMoveRight();
-    void onMoveUp();
-    void onMoveDown();
+    void mousePos_2_dir();
+}
+
+
+/* ==========================================================
+ *                    init_input
+ *-----------------------------------------------------------
+ * 
+ */
+void init_input(){
+
+    //----
+    assert( gameKeyTable.size() == GameKeyNum );
+    assert( gameKeyTable.at(GameKey::LEFT)  != KeyBoard::NIL );
+    assert( gameKeyTable.at(GameKey::RIGHT) != KeyBoard::NIL );
+    assert( gameKeyTable.at(GameKey::UP)    != KeyBoard::NIL );
+    assert( gameKeyTable.at(GameKey::DOWN)  != KeyBoard::NIL );
 }
 
 
@@ -63,61 +91,26 @@ void processInput( GLFWwindow *_windowPtr ){
 	}
 
     //-- clear --
-    nb.clear_all(); //- (0,0)
+    inputINS.clear_allKeys(); //- 0
 
-    //-------------------------------------------------------//
-    //  each Key 
-    //--- W ---
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_W )==GLFW_PRESS) && (keyDown_W!=nullptr) ){
-        keyDown_W();
-    }
-    //--- S ---
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_S )==GLFW_PRESS) && (keyDown_S!=nullptr) ){
-        keyDown_S();
-    }
-    //--- A --- 
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_A )==GLFW_PRESS) && (keyDown_A!=nullptr) ){
-        keyDown_A();
-    }
-    //--- D --- 
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_D )==GLFW_PRESS) && (keyDown_D!=nullptr) ){
-        keyDown_D();
-    }
-    //--- J --- 
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_J )==GLFW_PRESS) && (keyDown_J!=nullptr) ){
-        keyDown_J();
-    }
-    //--- K --- 
-    if( (glfwGetKey( _windowPtr, GLFW_KEY_K )==GLFW_PRESS) && (keyDown_K!=nullptr) ){
-        keyDown_K();
-    }
-    //-- SPACE -- 
-    if( glfwGetKey( _windowPtr, GLFW_KEY_SPACE ) == GLFW_PRESS ){
-        keyDown_SPACE();
-    }
-    //-- TAB -- 
-    //if( glfwGetKey( _window, GLFW_KEY_TAB ) == GLFW_PRESS ){
-    //}
-    //-------------------------------------------------------//
+    mousePos_2_dir();
+            //-- 未来拓展：鼠标／右侧摇杆 都可以控制 方向dir值
 
-    //--- call gameCross() to handle the nineBox [-Each Render Frame-] --
-    assert( gameCross!=nullptr );
-    gameCross( nb );
-}
+    for( const auto &ipair : gameKeyTable ){ //-- each gameKey
+        //-- 跳过 未设置的 --
+        if( ipair.second == KeyBoard::NIL ){
+            continue;
+        }
+        //-- 跳过 没有被按下的 --
+        if( glfwGetKey(_windowPtr,(int)(ipair.second)) != GLFW_PRESS ){
+            continue;
+        }
+            
+        inputINS.set_key( ipair.first );
+    }
 
-
-
-
-/* ==========================================================
- *                 mouse_callback
- *-----------------------------------------------------------
- *  鼠标位移运动 回调函数，控制 摄像机 俯仰，偏航
- *    （double 类型是 回调函数 定死的，不能改。）
- */
-void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos){
-
-        //cout << "xpos = " << xpos << "ypos = " << ypos << endl; 
-    //camera_current()->mousePos_move( xpos, ypos );
+    //------
+    inputINSFunc( inputINS );
 }
 
 
@@ -129,24 +122,26 @@ void mouse_callback(GLFWwindow* _window, double _xpos, double _ypos){
  *       窗口左上角为 (0,0)
  *       光标初始值，就是 当前指针 与 窗口左上角的 offset
  *       光标初始值 是 “绝对值”模式
- *       当鼠标移动到 屏幕便捷后，鼠标坐标值不再增长
+ *       当鼠标移动到 屏幕边界后，鼠标坐标值不再增长
  *       当鼠标移动到 屏幕左下角时，会触发 屏保
- * -- 当鼠标制作 隐藏时：
+ * -- 当鼠标指针 隐藏时：
  *       窗口左上角为 (0,0)
- *            景观无法看见 鼠标光标位置，但光标确实在向 右下 移动时，显示出 x,y 轴的正值。
+ *            尽管无法看见 鼠标光标位置，但光标确实在向 右下 移动时，显示出 x,y 轴的正值。
  *       光标初始值 为 (0,0)
  *       这似乎是一种 类似 鼠标滚轮的 “相对值模式”，相对于 glfw 初始时光标坐标 的位移
  *       就算鼠标移出屏幕边界，坐标值仍会无限增长。
  *       这种模式时，并不适合 在 游戏初始化阶段，通过鼠标坐标值来 启动 随机数种子。 
  *       毕竟，此时的 鼠标坐标值，始终是 (0,0) 
+ * ----------
+ * 这个函数 目前仅用于 randow 种子生成
  */
 IntVec2 get_mouse_pos(){
-
     double x;
     double y;
     glfwGetCursorPos( esrc::windowPtr, &x, &y);
     return IntVec2{ (int)x, (int)y };
 }
+
 
 
 /* ==========================================================
@@ -157,88 +152,60 @@ IntVec2 get_mouse_pos(){
  */
 /*
 void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
-
         //cout << "xoffset = " << xoffset << "yoffset = " << yoffset << endl;
     //camera_current()->mouseFov_reset( xoffset, yoffset );
 }
 */
 
-/* ==========================================================
- *                bind_gameCross_key
- * -----------------------------------------------------------
- * -- 设置 哪些key 来实现 游戏十字键
- * -- 这些被选中的 key，原本绑定的 callback 会被 替代。
- */
-void bind_gameCross_key( DIRECTION _dir, input::KEY _key ){
-
-    switch( _dir ){
-        case DIRECTION::Left:  bind_key_callback( _key, std::bind( &onMoveLeft ) );
-            break;
-        case DIRECTION::Right: bind_key_callback( _key, std::bind( &onMoveRight ) );
-            break;
-        case DIRECTION::Up:    bind_key_callback( _key, std::bind( &onMoveUp ) );
-            break;
-        case DIRECTION::Down:  bind_key_callback( _key, std::bind( &onMoveDown ) );
-            break;
-        case DIRECTION::Idle:  //-- just do nothing...
-            break;
-        default:
-            assert(0);
-    }
-}
 
 /* ==========================================================
- *                 bind_key_callback
+ *               bind_inputINS_callback
  * -----------------------------------------------------------
- * -- 外部代码通过 此函数 来将一个 callback函数 绑定到 某个key上
+ * -- 
  */
-void bind_key_callback( input::KEY _key, F_V_V _fp ){
-
-    switch(_key){
-        case KEY::W:  keyDown_W = _fp;
-            break;
-        case KEY::A:  keyDown_A = _fp;
-            break;
-        case KEY::S:  keyDown_S = _fp;
-            break;
-        case KEY::D:  keyDown_D = _fp;
-            break;
-        case KEY::J:  keyDown_J = _fp;
-            break;
-        case KEY::K:  keyDown_K = _fp;
-            break;
-        case KEY::SPACE:  keyDown_SPACE = _fp;
-            break;
-        default:
-            assert(0);
-    }
+void bind_inputINS_callback( F_INPUT_INS _fp ){
+    inputINSFunc = _fp;
 }
 
-/* ==========================================================
- *                bind_gameCross_callback
- * -----------------------------------------------------------
- * -- 当发生 游戏十字键操作，最终调用的 callback
- * -- 会把 十字健的状态 回传出去。
- */
-void bind_gameCross_callback( F_CROSS_STATE _fp ){
-    gameCross = _fp;
-}
 
 
 namespace{ //------------------- namespace ----------------------//
 
-void onMoveLeft(){
-    nb.x = -1;
+/* ==========================================================
+ *                 mousePos_2_dir
+ *-----------------------------------------------------------
+ *  主动查询 mousePos值，通过它计算出 player_go 单位方向向量
+ * ---
+ *  临时性的写法...
+ */
+void mousePos_2_dir(){
+
+    double x;
+    double y;
+    glfwGetCursorPos( esrc::windowPtr, &x, &y);
+
+    currentMousePos.x = (float)x; 
+    currentMousePos.y = (float)y;
+
+    glm::vec2 off;
+    off.x = lastMousePos.x - currentMousePos.x; //- 此处是反的，别问为什么...
+    off.y = currentMousePos.y - lastMousePos.y;
+
+    //-- 过滤掉 微小抖动, 和彻底静止值 --
+    if( (abs(off.x)<0.001f) && (abs(off.y)<0.001f) ){
+        return;
+    }
+
+    //- 计算出 新的 dir
+    inputINS.dir = glm::normalize( inputINS.dir - 0.02f*off );
+
+    lastMousePos = currentMousePos;  //-- MUST --//
+
+            //-- 清空 debug: renderPool --
+            debug::clear_pointPics();
+            debug::insert_new_pointPic( inputINS.dir * 20.0f );
 }
-void onMoveRight(){
-    nb.x = 1;
-}
-void onMoveUp(){
-    nb.y = 1;
-}
-void onMoveDown(){
-    nb.y = -1;
-}
+
 
 }//------------------------ namespace: end --------------------//
 

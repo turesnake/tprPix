@@ -103,7 +103,6 @@ void glfw_window_creat(){
 
 	if(esrc::windowPtr == NULL){
 		glfwTerminate();
-        //cout << "glfw_window_creat: glfwCreateWindow: error. " << endl;
         assert(0);
 	}
     //-- 将这个 唯一的 window 设为 current context
@@ -119,7 +118,9 @@ void glfw_window_creat(){
  */
 void glfw_oth_set(){
     //-- 当本 window in forcus 后，隐藏鼠标
-    glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //  本游戏中，鼠标只影响 player_go 的方向，可以被 显示。
+    //  所以，本游戏 不用 隐藏鼠标 
+    //glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 
@@ -131,7 +132,7 @@ void glfw_oth_set(){
 void glfw_callback_set(){
 
     glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
-    glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
+    //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 
 }

@@ -36,6 +36,9 @@ void clear_mapEntSlices();
 void insert_new_mapEntSlice( const MapCoord &_mcpos );
 void draw_renderPool_mapEntSlices();
 
+void clear_pointPics();
+void insert_new_pointPic( const glm::vec2 &_fpos );
+void draw_renderPool_pointPics();
 
 
 }//-------------------- namespace: debug end --------------//

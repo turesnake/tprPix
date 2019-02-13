@@ -46,7 +46,7 @@ void AnimFrameIdxHandle::bind_cycle(int _begIdx,
     cycleData.updates = 0;
     cycleData.currentTimeStep = goMeshPtr->get_animFrameSet_currentTimeStep( _enterIdx );
     cycleData.isOrder = _isOrder;
-
+    //-------
     currentIdx = _enterIdx;
 }
 
@@ -63,8 +63,6 @@ void AnimFrameIdxHandle::bind_once(){
 
 
 
-
-
 /* ===========================================================
  *                   update_cycle
  * -----------------------------------------------------------
@@ -72,7 +70,6 @@ void AnimFrameIdxHandle::bind_once(){
 void AnimFrameIdxHandle::update_cycle(){
 
     cycleData.updates++;
-
     //----- node frame -----//
     if( cycleData.updates >= cycleData.currentTimeStep ){
         cycleData.updates = 0;

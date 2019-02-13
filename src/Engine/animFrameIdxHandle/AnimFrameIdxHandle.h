@@ -25,29 +25,26 @@
 //------------------- Engine --------------------//
 #include "ScriptBuf.h"
 
-
+//-- 支持的几种 子类型 --
 enum class AnimFrameIdxHandleType{
-    Cycle,
-    Once
+    Idle,  //- 从来不更换 动画帧
+    Cycle, //- 循环播放一段 动画帧
+    Once   //- 只播放一次，支持 逻辑节点帧，结束后自动跳转到预定的 新状态（未定）
 };
 
 
-struct Cycle_Data{
+struct CycleData{
     int  begIdx;      //- 循环起始帧序号. 这个值永不变
     int  endIdx;      //- 循环结束帧序号. 这个值永不变
     int  enterIdx;     //- 指定从那一帧开始播 （不一定是 begIdx）
-
     //----------------
     int  updates;    //- 每次帧切换后，用此值来记录 调用 update() 的次数
-
     int  currentTimeStep;  //- 当前帧的 timeStep, 
     bool isOrder;      //- 正序播放(true) ／ 倒序播放(false)
-    //------ padding -----
-    //u8   padding[3]; //- 无需对齐
 };
 
 
-struct Once_Data{
+struct OnceData{
     int  begIdx;      //- 循环起始帧序号. 这个值永不变, 同时也是 enterIdx
     int  endIdx;      //- 循环结束帧序号. 这个值永不变
     //----------------
@@ -66,6 +63,11 @@ public:
 
     void init( GameObjMesh *_goMeshPtr );
 
+    inline void bind_idle( int _idx ){
+        type = AnimFrameIdxHandleType::Idle;
+        currentIdx = _idx; //- never change
+    }
+
     void bind_cycle(int _begIdx,
                     int _endIdx,
                     int _enterIdx,
@@ -77,6 +79,9 @@ public:
 
     inline void update(){
         switch( type ){
+        case AnimFrameIdxHandleType::Idle:
+            //-- do nothing --
+            break;
         case AnimFrameIdxHandleType::Cycle:
             update_cycle();
             break;
@@ -90,13 +95,12 @@ public:
     }
 
     //----------- common vals -------------//
-    int  currentIdx; //- 当前指向的 画面帧序号（基于0）
-
+    int                     currentIdx; //- 当前指向的 画面帧序号（基于0）
     AnimFrameIdxHandleType  type { AnimFrameIdxHandleType::Cycle };
 
-
-    Cycle_Data   cycleData {};
-    Once_Data    onceData  {};
+    //-- child data --
+    CycleData   cycleData {};
+    OnceData    onceData  {};
 
 
 private:

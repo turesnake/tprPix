@@ -88,6 +88,7 @@ int main(){
         
 
     //++++++ init ++++++//
+    input::init_input();             //---- input -----
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
     esrc::camera.init();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
@@ -238,6 +239,7 @@ int main(){
         esrc::draw_renderPool_meshs(); 
         esrc::draw_renderPool_goMeshs_shadow();
         debug::draw_renderPool_mapEntSlices(); //-- 但是不在此文件中 clear
+        debug::draw_renderPool_pointPics(); //-- 但是不在此文件中 clear
         esrc::draw_renderPool_goMeshs_pic(); 
 
         

@@ -6,7 +6,6 @@
  * ----------------------------------------------------------
  *    存储所有 玩家 信息。
  *    ----------
- *    
  * ----------------------------
  */
 #ifndef _TPR_PLAYER_H_
@@ -19,6 +18,7 @@
 #include "IntVec.h" 
 #include "GameObj.h" 
 #include "NineBox.h" 
+#include "InputINS.h"
 
 
 //-- 玩家数据 [硬盘态] --
@@ -52,10 +52,7 @@ public:
     GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
                         
 private:
-    void  onKeyDown_J();
-    void  onKeyDown_K();
-    void  onKeyDown_SPACE();
-    void  onGameCross( NineBox _nb );
+    void  onInputINS( const InputINS &_inputINS );
 
 };
 
