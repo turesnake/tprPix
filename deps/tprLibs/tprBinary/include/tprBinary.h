@@ -31,17 +31,17 @@
 namespace tpr { //--------------- namespace: tpr -------------------//
 
 //------ tprbinary.cpp --------
-const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b );
-const std::vector<u8> sum( const u64 _a, const u64 _b );
+const std::vector<u8_t> sum( const std::vector<u8_t> &_a, const std::vector<u8_t> &_b );
+const std::vector<u8_t> sum( const u64_t _a, const u64_t _b );
 
-const u32 sum_wrapping( const u32 _a, const u32 _b );
-const u64 sum_wrapping( const u64 _a, const u64 _b );
+const u32_t sum_wrapping( const u32_t _a, const u32_t _b );
+const u64_t sum_wrapping( const u64_t _a, const u64_t _b );
 
-const std::string u8_2_hexStr( u8 _v, bool _is_cap );
+const std::string u8_2_hexStr( u8_t _v, bool _is_cap );
 
 size_t get_num_digit( size_t _num, bool _is_hex = false );
 
-const std::string memaddr_2_hexStr( u64 _memaddr, bool _is_cap = true );
+const std::string memaddr_2_hexStr( u64_t _memaddr, bool _is_cap = true );
 
 
 //------ binary_2_charStr.cpp --------

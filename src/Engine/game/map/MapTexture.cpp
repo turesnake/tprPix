@@ -18,7 +18,8 @@
 
 
 //----- static ------//
-MapTexture::F_MAP_BUILDER  MapTexture::mapBuilder  {nullptr};
+IntVec2 MapTexture::pixSize {   SECTION_W_ENTS*PIXES_PER_MAPENT,  
+                                SECTION_W_ENTS*PIXES_PER_MAPENT};
 
 
 /* ===========================================================
@@ -27,17 +28,14 @@ MapTexture::F_MAP_BUILDER  MapTexture::mapBuilder  {nullptr};
  * -- before calling init(). 
  * -- Please bind MapTexture::mapBuilder FIRST
  */
-void MapTexture::init(){
+void MapTexture::creat_texName(){
 
     //---------------------------------------//
     //            mapTex build
     //---------------------------------------//
-    texBuf.resize( pixSize.x * pixSize.y );
-    assert( MapTexture::mapBuilder != nullptr );
+    //texBuf.resize( pixSize.x * pixSize.y );
+    //assert( MapTexture::mapBuilder != nullptr );
     
-    MapTexture::mapBuilder( &(texBuf.at(0)),
-                            pixSize.x,
-                            pixSize.y );
     
     //---------------------------------------//
     //        gl --> texName
@@ -48,13 +46,5 @@ void MapTexture::init(){
     // 未定...
 }
 
-
-/* ===========================================================
- *                  bind_mapBuilder   [static]
- * -----------------------------------------------------------
- */
-void MapTexture::bind_mapBuilder( F_MAP_BUILDER _fp ){
-    mapBuilder = _fp;
-}
 
 

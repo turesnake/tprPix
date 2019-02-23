@@ -422,7 +422,7 @@ void tprDB::mk_checksum(){
 
     //--- 制作 原始数据 -----//
     size_t off = 0; //- tmp
-    u8 buf[ buf_len ]; 
+    u8_t buf[ buf_len ]; 
     memcpy( (void*)buf,
             (void*)path_dir_self.c_str(),
             path_len
@@ -580,7 +580,7 @@ int tprDB::erase( DB::eid_t _id ){
     }
 
     //-------- Regular --------//
-    std::vector<u8>  fix_data;
+    std::vector<u8_t>  fix_data;
     fix_data.resize( fixData_bytes );
 
     eid_t  str_id = 0;

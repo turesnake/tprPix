@@ -47,7 +47,7 @@ namespace{//------------ namespace --------------//
     //--- 全局状态 资源 ---
     struct diskGlobState{
         
-        u64  GameObj_max_id {}; //- GameObj 类静态成员 id_manager.max_id
+        u64_t  GameObj_max_id {}; //- GameObj 类静态成员 id_manager.max_id
         //...
 
     };

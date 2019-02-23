@@ -13,43 +13,43 @@
 #ifndef _TPR_U8_
     #define _TPR_U8_
     //typedef unsigned char u8;
-    using u8 = unsigned char;
+    using u8_t = unsigned char;
 #endif
 
 #ifndef _TPR_I16_
     #define _TPR_I16_
     //typedef short          i16;
-    using i16 = short;
+    using i16_t = short;
 #endif
 
 #ifndef _TPR_U16_
     #define _TPR_U16_
     //typedef unsigned short u16;
-    using u16 = unsigned short;
+    using u16_t = unsigned short;
 #endif
 
 #ifndef _TPR_I32_
     #define _TPR_I32_
     //typedef int           i32;
-    using i32 = int;
+    using i32_t = int;
 #endif
 
 #ifndef _TPR_U32_
     #define _TPR_U32_
     //typedef unsigned int  u32;
-    using u32 = unsigned int;
+    using u32_t = unsigned int;
 #endif
 
 #ifndef _TPR_I64_
     #define _TPR_I64_
     //typedef  long long    i64;
-    using i64 =  long long;
+    using i64_t =  long long;
 #endif
 
 #ifndef _TPR_U64_
     #define _TPR_U64_
     //typedef unsigned long long u64;
-    using u64 =  unsigned long long;
+    using u64_t =  unsigned long long;
 #endif
 
 //--------- bytes --------//

@@ -17,9 +17,9 @@
 #include "tprDataType.h"
 
 //-- 暂不关心 硬盘存储 -- 
-//  0 <= val <= 45:  major   -- (u8) [0, 45]
-//  val ==     -1:  item    -- (u8) 254
-//  val ==     -2:  surface -- (u8) 253 
+//  0 <= val <= 45:  major   -- (u8_t) [0, 45]
+//  val ==     -1:  item    -- (u8_t) 254
+//  val ==     -2:  surface -- (u8_t) 253 
 class AltiRange{
 public:
     //---- constructor -----//
@@ -43,9 +43,9 @@ public:
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
     inline void set_by_addAlti( const AltiRange &_a, float _addAlti ){
-        assert( (_addAlti<(float)jumpLimit) && (_a.low+(u8)_addAlti)<=jumpLimit );
-        low  =  _a.low  + (u8)_addAlti;
-        high =  _a.high + (u8)_addAlti;
+        assert( (_addAlti<(float)jumpLimit) && (_a.low+(u8_t)_addAlti)<=jumpLimit );
+        low  =  _a.low  + (u8_t)_addAlti;
+        high =  _a.high + (u8_t)_addAlti;
     }
 
     inline bool is_collide( const AltiRange& _a ){
@@ -63,8 +63,8 @@ public:
 
     //======== static ========//
     static char jumpLimit;       //- assert( low <= jumpLimit );
-    static u8  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
-    static u8  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
+    static u8_t  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
+    static u8_t  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
 
     //======== vals ========//
     char  low  {0}; //- low <= jumpLimit
@@ -73,8 +73,8 @@ public:
 
 //-- static --
 inline char AltiRange::jumpLimit = 45;
-inline u8 AltiRange::diskAlti_item    = 254;
-inline u8 AltiRange::diskAlti_surface = 253;
+inline u8_t AltiRange::diskAlti_item    = 254;
+inline u8_t AltiRange::diskAlti_surface = 253;
             //- 原本是 255/254; 但这样就会与 AnimFrameSet 中的 rootAnchor 信息冲突
             //- 故暂时下调1，改为 254/253
             //  在未来。随着 碰撞系统的不断完善。 surface_go/item_go 这组设计很可能会被取代...
@@ -99,9 +99,9 @@ inline AltiRange operator + ( const AltiRange &_a, const AltiRange &_b ){
 }
 
 inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
-    assert( (_addAlti<(float)AltiRange::jumpLimit) && (_a.low+(u8)_addAlti)<=AltiRange::jumpLimit );
-    return  AltiRange{  (char)(_a.low  + (u8)_addAlti),
-                        (char)(_a.high + (u8)_addAlti) };
+    assert( (_addAlti<(float)AltiRange::jumpLimit) && (_a.low+(u8_t)_addAlti)<=AltiRange::jumpLimit );
+    return  AltiRange{  (char)(_a.low  + (u8_t)_addAlti),
+                        (char)(_a.high + (u8_t)_addAlti) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 

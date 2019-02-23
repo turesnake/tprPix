@@ -62,7 +62,7 @@ ssize_t readn( int _fd, void *_buf, size_t _nbytes,
 
     size_t nleft; //-- 剩余未读 字节数 
     ssize_t nread; //-- 每次调用 read 读到的 字节数
-    u8 *ptr = (u8*)_buf; //-- 读指针( 以 二进制格式 )
+    u8_t *ptr = (u8_t*)_buf; //-- 读指针( 以 二进制格式 )
 
     *_is_EOF = 0; //-- 默认未读到 EOF
     *_fst_errno = 0;
@@ -117,7 +117,7 @@ ssize_t writen( int _fd, const void *_buf, size_t _nbytes,
 
     size_t nleft; //-- 剩余未写 字节数 
     ssize_t nwrite; //-- 每次调用 write 写入的 字节数
-    u8 *ptr = (u8*)_buf; //-- 读指针( 以 二进制格式 )
+    u8_t *ptr = (u8_t*)_buf; //-- 读指针( 以 二进制格式 )
 
     *_fst_errno = 0;
     errno = 0; //-- 系统调用前 清空 errno

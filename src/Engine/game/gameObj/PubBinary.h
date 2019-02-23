@@ -25,8 +25,8 @@
 
 //-- 维护一个 二进制块，可以动态存储 各种 pubBinary变量（一种一个）
 class PubBinary{
-    using idx_t = u32; //- pubBinaryValTyprIdx
-    using off_t = u32; //- byte_off in binary
+    using idx_t = u32_t; //- pubBinaryValTyprIdx
+    using off_t = u32_t; //- byte_off in binary
 public:
     PubBinary() = default;
 
@@ -58,7 +58,7 @@ public:
 private:
     std::unordered_map<idx_t, off_t>  valOffs {};
                     //- 记载 某个变量 是否被注册，以及它在 binary中的 地址偏移
-    std::vector<u8>  binary {}; //- 所有变量 真实存储区
+    std::vector<u8_t>  binary {}; //- 所有变量 真实存储区
 };
 
 

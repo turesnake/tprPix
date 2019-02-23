@@ -16,10 +16,6 @@
 #include "AnimFrameSet.h"
 #include "srcs_engine.h" //- 所有资源
 
-
-using std::string;
-
-
 //#include "debug.h" //- tmp
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//

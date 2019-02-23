@@ -36,7 +36,7 @@ namespace DB {//----- namespace: DB -----//
  * -----------------------------------------------------------
  * -- VAR 专用，所有 blk尺寸，都是 2^n, [2, 16384]
  */
-u8 Blk_bytes_2_idx( len_t _blk_bytes ){
+u8_t Blk_bytes_2_idx( len_t _blk_bytes ){
 
     switch( _blk_bytes ){
         case 2:     return 1;
@@ -64,7 +64,7 @@ u8 Blk_bytes_2_idx( len_t _blk_bytes ){
  * -----------------------------------------------------------
  * -- VAR 专用，所有 blk尺寸，都是 2^n, [2, 16384]
  */ 
-len_t idx_2_Blk_bytes( u8 _idx ){
+len_t idx_2_Blk_bytes( u8_t _idx ){
     switch( _idx ){
         case 1:    return 2;
         case 2:    return 4;
@@ -105,7 +105,7 @@ len_t Blk_bytes_2_aligns( len_t _blk_bytes ){
 len_t aligns_2_Blk_bytes( len_t _aligns ){
 
     //-- 缺环 还原后的 blk字节数 不超过 len_t 类型上限
-    u32 s = _aligns * 4;
+    u32_t s = _aligns * 4;
     //assert( s < 65536 );
 
     return ( _aligns * 4 );
@@ -143,7 +143,7 @@ len_t find_suited_Blk_bytes( len_t _size ){
  *               BlkState_2_idx  
  * -----------------------------------------------------------
  */
-u8 BlkState_2_idx( BlockState _bstate ){
+u8_t BlkState_2_idx( BlockState _bstate ){
     switch( _bstate ){
         case BlockState::Idle:  return 1;
         case BlockState::Busy:  return 2;
@@ -157,7 +157,7 @@ u8 BlkState_2_idx( BlockState _bstate ){
  *              idx_2_BlkState  
  * -----------------------------------------------------------
  */
-BlockState idx_2_BlkState( u8 _idx ){
+BlockState idx_2_BlkState( u8_t _idx ){
     BlockState bs;
     switch( _idx ){ 
         case 1:  bs = BlockState::Idle;  break;
@@ -172,7 +172,7 @@ BlockState idx_2_BlkState( u8 _idx ){
  *               idx_2_BlkStateStr  
  * -----------------------------------------------------------
  */
-std::string idx_2_BlkStateStr( u8 _idx ){
+std::string idx_2_BlkStateStr( u8_t _idx ){
 
     switch( _idx ){ 
         case 1:  return "Idle";
@@ -224,7 +224,7 @@ len_t find_suited_Blk_aliBytes( len_t _len ){
  */
 void varEntHead_f2m( const file_EntHead &_fhead, mem_Ent *_mEntp ){
 
-    u8 *p = (u8*)_fhead.binary; //- 用指针来访问 _fhead.binary
+    u8_t *p = (u8_t*)_fhead.binary; //- 用指针来访问 _fhead.binary
 
     //--- id ---//
     _mEntp->id = 0;
@@ -271,7 +271,7 @@ void varEntHead_f2m( const file_EntHead &_fhead, mem_Ent *_mEntp ){
 file_EntHead varEntHead_m2f( const mem_Ent &_mEnt ){
 
     file_EntHead head; //-- 返回值
-    u8 *p = (u8*)head.binary;
+    u8_t *p = (u8_t*)head.binary;
 
     //--- id ---//
     // ..高位被丢弃..
@@ -312,7 +312,7 @@ void fixEntHead_f2m( const file_EntHead &_fhead,
                     const file_FixOptions &_opt,
                     mem_Ent *_mEntp ){
 
-    u8 *p = (u8*)_fhead.binary; //- 用指针来访问 _fhead.binary
+    u8_t *p = (u8_t*)_fhead.binary; //- 用指针来访问 _fhead.binary
 
     //--- id ---//
     _mEntp->id = 0;
@@ -360,7 +360,7 @@ void fixEntHead_f2m( const file_EntHead &_fhead,
 file_EntHead fixEntHead_m2f( const mem_Ent &_mEnt ){
 
     file_EntHead head; //-- 返回值
-    u8 *p = (u8*)head.binary;
+    u8_t *p = (u8_t*)head.binary;
 
     //--- id ---//
     // ..高位被丢弃..
@@ -403,7 +403,7 @@ len_t DATA_T_2_bytes( DATA_T _dt ){
     //--- 此函数不可用于 HUGE_BINARY 类型 ---
     assert( _dt != DATA_T::HUGE_BINARY );
 
-    if( (u8)_dt <= 4 ){
+    if( (u8_t)_dt <= 4 ){
         return 4;
     }else{
         return 8;

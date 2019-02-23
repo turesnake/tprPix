@@ -94,7 +94,7 @@ namespace{//------ namespace [static] ----------//
 
 
     //-------- funcs -------//
-    std::string _memblk_2_str( DB::mem_Block _mb, u32 _step_1, u32 _step_2, u32 _step_3 );
+    std::string _memblk_2_str( DB::mem_Block _mb, u32_t _step_1, u32_t _step_2, u32_t _step_3 );
     std::string _bool_2_str( bool _b );
 
     void _build_ids( unordered_map<eid_t, DB::mem_Ent> *_hashp );
@@ -309,14 +309,14 @@ void _build_ids( unordered_map<eid_t, DB::mem_Ent> *_hashp ){
  * -----------------------------------------------------------
  * -- 陈列 memblk 的信息
  */
-string _memblk_2_str( DB::mem_Block _mb, u32 _step_1, u32 _step_2, u32 _step_3 ){
+string _memblk_2_str( DB::mem_Block _mb, u32_t _step_1, u32_t _step_2, u32_t _step_3 ){
 
     stringstream ss;
     //------
     ss << setw(_step_1) << _mb.base;
     ss << setw(_step_2) << _mb.blk_bytes; 
     
-    if( (u32)_mb.blk_state_idx == 1 ){
+    if( (u32_t)_mb.blk_state_idx == 1 ){
         ss << setw(_step_3) << "Idle";
     }else{
         ss << setw(_step_3) << "Busy";

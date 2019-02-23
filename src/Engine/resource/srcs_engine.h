@@ -36,6 +36,7 @@
 #include "MapSection.h" 
 #include "ColliEntSet.h"
 #include "MapCoord.h"
+#include "EcoSys.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -156,6 +157,13 @@ void init_player_srcs();
 void player_srcs_save();
 
 
+//-------------------------//
+//     ecosyses
+//-------------------------//
+inline std::unordered_map<std::string, EcoSys> ecoSyses {};
+//EcoSys *insert_new_ecoSys(const std::string &_name);
+void init_ecoSyses();
+
 
 //-------------------------//
 //     Behaviour
@@ -172,7 +180,7 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 //-- 可能在 mem态，加载很多张 mapsection
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
 // key 为 mapSection.sectionKey.key;
-inline std::unordered_map<u64, MapSection> mapSections {};
+inline std::unordered_map<u64_t, MapSection> mapSections {};
 
 MapSection *insert_new_mapSection( const MapCoord &_sectionPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 

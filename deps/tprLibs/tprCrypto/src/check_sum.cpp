@@ -32,16 +32,16 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 
 
 //------------------- 提供给外部的 函数 ----------------
-CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len );
-CheckSum64 mk_checksum64( u8 *_buf, size_t _len );
+CheckSum64 mk_checksum64_old( u8_t *_buf, size_t _len );
+CheckSum64 mk_checksum64( u8_t *_buf, size_t _len );
 const std::string checksum64_2_str( const CheckSum64 &_cs,
                                     bool _is_hex, bool _is_cap );
 bool cmp_checksum64( const CheckSum64 &_a, const CheckSum64 &_b );
 
 
 
-CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len );
-CheckSum128 mk_checksum128( u8 *_buf, size_t _len );
+CheckSum128 mk_checksum128_old( u8_t *_buf, size_t _len );
+CheckSum128 mk_checksum128( u8_t *_buf, size_t _len );
 const std::string checksum128_2_str( const CheckSum128 &_cs,
                                     bool _is_hex, bool _is_cap );
 bool cmp_checksum128( const CheckSum128 &_a, const CheckSum128 &_b );
@@ -53,8 +53,8 @@ namespace{
 
     //-- 以下 2 容器 只在 old版 mk_checksum 中被使用。
     //-- 新版 更改了实现策略，这两个容器不再被使用。
-    vector<u32> block32_ary; //-- 将数据切割成 无数个 block32，再合成一个 数组  [old]
-    vector<u64> block64_ary; //-- 将数据切割成 无数个 block64，再合成一个 数组  [old]
+    vector<u32_t> block32_ary; //-- 将数据切割成 无数个 block32，再合成一个 数组  [old]
+    vector<u64_t> block64_ary; //-- 将数据切割成 无数个 block64，再合成一个 数组  [old]
 
 }
 
@@ -71,15 +71,15 @@ namespace{
  * -- param: _buf -- 制作 checksum 的原始数据，以 二进制 看待它
  * -- param: _len -- 原始数据的 字节数
  */
-CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
+CheckSum64 mk_checksum64_old( u8_t *_buf, size_t _len ){
 
-    u8     *p  = _buf;
+    u8_t     *p  = _buf;
     ssize_t len = (ssize_t)_len; 
                 //-- size_t 的容量是 1844万亿亿 字节。 不存在文件能 到达这个值的一半（其负数域）。
                 //-- 所以，可以安全地将 size_t 转换为 ssize_t
 
-    u32    block32;                       //-- 临时变量, 块，一次存 32-bits 数据
-    size_t block32_len = sizeof( u32 ); //-- 单个 block32 的字节数(4字节)
+    u32_t    block32;                       //-- 临时变量, 块，一次存 32-bits 数据
+    size_t block32_len = sizeof( u32_t ); //-- 单个 block32 的字节数(4字节)
     //-------------------------------//
     // 将原始数据，分段 (4-bytes) 存入block32_ary
     //-------------------------------//
@@ -89,7 +89,7 @@ CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
         block32 = 0; //-- 清空
         if( len >= block32_len ){
             //-- 整取，一次取 4-bytes --
-            block32 = *((u32*)p);
+            block32 = *((u32_t*)p);
         }else{
             //-- 散取,最后一趟，小于 4-bytes--
             memcpy( (void*)&block32,
@@ -107,8 +107,8 @@ CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
     //-------------------------------//
     //        计算出 L 和 R
     //-------------------------------//
-    u32 L = 0; //-- checksum 高 32-bits
-    u32 R = 0; //-- checksum 低 32-bits
+    u32_t L = 0; //-- checksum 高 32-bits
+    u32_t R = 0; //-- checksum 低 32-bits
 
         //cout << "\nblock32_ary.size() = " << block32_ary.size() << endl;
 
@@ -143,18 +143,18 @@ CheckSum64 mk_checksum64_old( u8 *_buf, size_t _len ){
  * -- 而是 读取 1 block，处理 1 block。 减少了 I/O
  * -- 64-bits版的 生成速度，会比 128-bits版的 慢一倍。
  */
-CheckSum64 mk_checksum64( u8 *_buf, size_t _len ){
+CheckSum64 mk_checksum64( u8_t *_buf, size_t _len ){
 
-    u8     *p  = _buf;
+    u8_t     *p  = _buf;
     ssize_t len = (ssize_t)_len; //-- 必须要改为 有符号类型，不然判断语句会 出问题
                 //-- size_t 的容量是 1844万亿亿 字节。 不存在文件能 到达这个值的一半（其负数域）。
                 //-- 所以，可以安全地将 size_t 转换为 ssize_t
 
-    u32    block32;                     //-- 临时变量, 块，一次存 32-bits 数据
-    size_t block32_len = sizeof( u32 ); //-- 单个 block32 的字节数(4字节)
+    u32_t    block32;                     //-- 临时变量, 块，一次存 32-bits 数据
+    size_t block32_len = sizeof( u32_t ); //-- 单个 block32 的字节数(4字节)
 
-    u32 L = 0; //-- checksum 高 32-bits
-    u32 R = 0; //-- checksum 低 32-bits
+    u32_t L = 0; //-- checksum 高 32-bits
+    u32_t R = 0; //-- checksum 低 32-bits
 
     //-------------------------------//
     //   读取 1 block，处理 1 block
@@ -164,7 +164,7 @@ CheckSum64 mk_checksum64( u8 *_buf, size_t _len ){
         block32 = 0; //-- 清空
         if( len >= block32_len ){
             //-- 整取，一次取 4-bytes --
-            block32 = *((u32*)p);
+            block32 = *((u32_t*)p);
         }else{
             //-- 散取,最后一趟，小于 4-bytes--
             memcpy( (void*)&block32,
@@ -212,15 +212,15 @@ CheckSum64 mk_checksum64( u8 *_buf, size_t _len ){
  * -- param: _buf -- 制作 checksum 的原始数据，以 二进制 看待它
  * -- param: _len -- 原始数据的 字节数
  */
-CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
+CheckSum128 mk_checksum128_old( u8_t *_buf, size_t _len ){
 
-    u8     *p  = _buf;
+    u8_t     *p  = _buf;
     ssize_t len = (ssize_t)_len; 
                 //-- size_t 的容量是 1844万亿亿 字节。 不存在文件能 到达这个值的一半（其负数域）。
                 //-- 所以，可以安全地将 size_t 转换为 ssize_t
 
-    u64    block64;                       //-- 临时变量, 块，一次存 64-bits 数据
-    size_t block64_len = sizeof( u64 ); //-- 单个 block64 的字节数(8字节)
+    u64_t    block64;                       //-- 临时变量, 块，一次存 64-bits 数据
+    size_t block64_len = sizeof( u64_t ); //-- 单个 block64 的字节数(8字节)
     //-------------------------------//
     // 将原始数据，分段 (8-bytes) 存入block64_ary
     //-------------------------------//
@@ -230,7 +230,7 @@ CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
         block64 = 0; //-- 清空
         if( len >= block64_len ){
             //-- 整取，一次取 4-bytes --
-            block64 = *((u64*)p);
+            block64 = *((u64_t*)p);
         }else{
             //-- 散取,最后一趟，小于 4-bytes--
             memcpy( (void*)&block64,
@@ -248,8 +248,8 @@ CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
     //-------------------------------//
     //        计算出 L 和 R
     //-------------------------------//
-    u64 L = 0; //-- checksum 高 64-bits
-    u64 R = 0; //-- checksum 低 64-bits
+    u64_t L = 0; //-- checksum 高 64-bits
+    u64_t R = 0; //-- checksum 低 64-bits
 
         //cout << "\nblock64_ary.size() = " << block64_ary.size() << endl;
 
@@ -283,18 +283,18 @@ CheckSum128 mk_checksum128_old( u8 *_buf, size_t _len ){
  * -- 全新版本，不再将 buf 中所有数据 复制到本地。
  * -- 而是 读取 1 block，处理 1 block。 减少了 IO
  */
-CheckSum128 mk_checksum128( u8 *_buf, size_t _len ){
+CheckSum128 mk_checksum128( u8_t *_buf, size_t _len ){
 
-    u8     *p  = _buf;
+    u8_t     *p  = _buf;
     ssize_t len = (ssize_t)_len; //-- 必须要改为 有符号类型，不然判断语句会 出问题
                 //-- size_t 的容量是 1844万亿亿 字节。 不存在文件能 到达这个值的一半（其负数域）。
                 //-- 所以，可以安全地将 size_t 转换为 ssize_t
 
-    u64    block64;                       //-- 临时变量, 块，一次存 64-bits 数据
-    size_t block64_len = sizeof( u64 ); //-- 单个 block64 的字节数(8字节)
+    u64_t    block64;                       //-- 临时变量, 块，一次存 64-bits 数据
+    size_t block64_len = sizeof( u64_t ); //-- 单个 block64 的字节数(8字节)
 
-    u64 L = 0; //-- checksum 高 64-bits
-    u64 R = 0; //-- checksum 低 64-bits
+    u64_t L = 0; //-- checksum 高 64-bits
+    u64_t R = 0; //-- checksum 低 64-bits
 
     //-------------------------------//
     //   读取 1 block，处理 1 block
@@ -305,7 +305,7 @@ CheckSum128 mk_checksum128( u8 *_buf, size_t _len ){
         block64 = 0; //-- 清空
         if( len >= block64_len ){
             //-- 整取，一次取 4-bytes --
-            block64 = *((u64*)p);
+            block64 = *((u64_t*)p);
         }else{
             //-- 散取,最后一趟，小于 4-bytes--
             memcpy( (void*)&block64,

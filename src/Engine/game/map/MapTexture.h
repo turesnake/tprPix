@@ -31,10 +31,12 @@
 //-2- create MapTexture instance: mapTex
 //-3- call mapTex.init();
 class MapTexture{
-    using  F_MAP_BUILDER = std::function<void(RGBA*, int, int)>;
+    //using  F_MAP_BUILDER = std::function<void(RGBA*, int, int)>;
 public:
 
-    void init();
+    //void init();
+
+    void creat_texName();
 
     inline void set_pixSize( IntVec2 _newSize ){
         pixSize = _newSize;
@@ -44,9 +46,16 @@ public:
         return texName;
     }
 
+    inline RGBA *get_texBufHeadPtr() {
+        return (RGBA*)&(texBuf.at(0));
+    }
+
+    inline void resize_texBuf(){
+        texBuf.resize( pixSize.x * pixSize.y );
+    }
+
     //===== static =====//
-    static F_MAP_BUILDER  mapBuilder;
-    static void bind_mapBuilder( F_MAP_BUILDER _fp );
+    static  IntVec2  pixSize; //- mapTex 长宽像素值
 
 private:
     GLuint              texName {0}; //- texture textel_name
@@ -54,8 +63,6 @@ private:
                                     // 在生成 texName 之后，此数据可以被释放 
                                     // 若不选择释放，则存储在 本实例中，直到实例被销毁
 
-    IntVec2  pixSize  { SECTION_W_ENTS*PIXES_PER_MAPENT,  //- mapTex 长宽像素值
-                        SECTION_W_ENTS*PIXES_PER_MAPENT}; 
 };
 
 

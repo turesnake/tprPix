@@ -38,8 +38,8 @@
 namespace tpr { //-------------- namespace : tpr ------------//
 namespace MemAllor{ //------- namespace : MemAllor ----------//
 
-using eid_t = u32; //- 内存池ent id。 个数上限就是 ent_nums 个
-using len_t = u32;
+using eid_t = u32_t; //- 内存池ent id。 个数上限就是 ent_nums 个
+using len_t = u32_t;
 using ptr_t = void*;
 
 
@@ -81,7 +81,7 @@ public:
     void info(); //- 内存池状态打印
 
 private:
-    std::vector<u8> mem; //-- 真正分配到的 内存空间
+    std::vector<u8_t> mem; //-- 真正分配到的 内存空间
 
     std::unordered_map< MemAllor::eid_t, MemAllor::ptr_t > busy_hash; //- 在用池
     std::deque< MemAllor::MemEnt >                         idle_pool; //- 未用池（回收池）

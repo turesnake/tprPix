@@ -31,7 +31,7 @@ namespace tpr { //--------------- namespace: tpr -------------------//
  * return:
  *     若返回值 == _len, 表示 载入成功 (目前暂无 其他可能)
  */
-size_t BitMap::creat( size_t _len, u8 _bit ){
+size_t BitMap::creat( size_t _len, u8_t _bit ){
 
     bitmap.clear();      //- 清空所有元素
     bitmap.resize(_len, _bit); //- 扩容为 目标大小,顺带将所有元素 初始化
@@ -46,7 +46,7 @@ size_t BitMap::creat( size_t _len, u8 _bit ){
  * return:
  *     若返回值 == _len, 表示 载入成功 (目前暂无 其他可能)
  */
-size_t BitMap::load( u8 *_buf, size_t _len ){
+size_t BitMap::load( u8_t *_buf, size_t _len ){
 
     this->creat( _len, 0); 
     memcpy( (void*)&(bitmap[0]),
@@ -65,7 +65,7 @@ size_t BitMap::load( u8 *_buf, size_t _len ){
  * return:
  *     若返回 0, 表示 运行正确 （目前暂无错误）
  */
-int BitMap::save( u8 *_buf, size_t *_lenp ){
+int BitMap::save( u8_t *_buf, size_t *_lenp ){
 
     string err_info = "BitMap::save(): ";
 
@@ -94,7 +94,7 @@ int BitMap::save( u8 *_buf, size_t *_lenp ){
  * return:
  *     若返回 0, 表示 运行正确 （目前暂无错误）
  */
-int BitMap::setbit( size_t _idx, u8 _bit ){
+int BitMap::setbit( size_t _idx, u8_t _bit ){
 
     string err_info = "BitMap::setbit(): ";
 
@@ -122,7 +122,7 @@ int BitMap::setbit( size_t _idx, u8 _bit ){
  * return:
  *     若返回 0, 表示 运行正确 （目前暂无错误）
  */
-int BitMap::setbits( size_t _idx_fst, size_t _idx_lst, u8 _bit ){
+int BitMap::setbits( size_t _idx_fst, size_t _idx_lst, u8_t _bit ){
 
     string err_info = "BitMap::setbit(): ";
 
@@ -180,7 +180,7 @@ int BitMap::setbits( size_t _idx_fst, size_t _idx_lst, u8 _bit ){
  *     若 返回值 >= 0, 说明找到了 匹配单元，并返回了其 下标号／idx
  *     若 返回值 == -1，说明 没找到 匹配单元
  */
-size_t BitMap::next( ssize_t _idx_corrent, u8 _bitmask ){
+size_t BitMap::next( ssize_t _idx_corrent, u8_t _bitmask ){
 
     string err_info = "BitMap::next(): ";
 

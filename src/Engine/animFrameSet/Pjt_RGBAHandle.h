@@ -30,16 +30,16 @@
 
 namespace{//---------- namespace ---------//
     //--- A --- 
-    u8    A_SOLID         = 255; 
+    u8_t    A_SOLID         = 255; 
     //--- R --- 
-    u8    R_rootColliEntHead_CarryAffect = 50;   //- ces with rootAnchor (carry affect)
-    u8    R_colliEntHead_CarryAffect     = 150;  //- regular ces         (carry affect)
-    u8    R_rootColliEntHead_NoAffect    = 100;  //- ces with rootAnchor (no affect)
-    u8    R_colliEntHead_NoAffect        = 200;  //- regular ces         (no affect)
+    u8_t    R_rootColliEntHead_CarryAffect = 50;   //- ces with rootAnchor (carry affect)
+    u8_t    R_colliEntHead_CarryAffect     = 150;  //- regular ces         (carry affect)
+    u8_t    R_rootColliEntHead_NoAffect    = 100;  //- ces with rootAnchor (no affect)
+    u8_t    R_colliEntHead_NoAffect        = 200;  //- regular ces         (no affect)
     
     //--- B --- 
-    u8    B_rootAnchor    = 255;
-    u8    B_childAnchor   = 100; //- 子锚点应当 额外记录 z深度偏移。
+    u8_t    B_rootAnchor    = 255;
+    u8_t    B_childAnchor   = 100; //- 子锚点应当 额外记录 z深度偏移。
     //...more...                 //- 从而获得 3DPos 的 子锚点信息。
 
     RGBA  uselessColor_1  { 200, 200, 200, 255 };
@@ -53,7 +53,7 @@ namespace{//---------- namespace ---------//
 //  - XXX = jh.is_colliEntHead();
 class Pjt_RGBAHandle{
 public:
-    explicit Pjt_RGBAHandle( u8 _off=5 ):
+    explicit Pjt_RGBAHandle( u8_t _off=5 ):
         off(_off)
         {}    
 
@@ -135,7 +135,7 @@ public:
 
 private:
 
-    inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
+    inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
         switch( _ct ){
             case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
             case RGBA_ChannelType::G:  return (abs(rgba.g-_target) <= off);
@@ -149,8 +149,8 @@ private:
 
     //-- 将 rgba 态 高度信息，转换为 mem态 altiRange值 --
     inline void set_altiRange(){
-        u8 low  = rgba.g;
-        u8 high = rgba.b;
+        u8_t low  = rgba.g;
+        u8_t high = rgba.b;
         //-- item / surface --//
         // 在未来，item/surface 设计 可能会被取消...
         if( low == high ){
@@ -179,7 +179,7 @@ private:
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
-    inline bool is_in_range( u8 _beCheck, u8 _low, u8 _off ){
+    inline bool is_in_range( u8_t _beCheck, u8_t _low, u8_t _off ){
         return ((_beCheck>=_low) && (_beCheck<(_low+_off)));
     }
 
@@ -188,7 +188,7 @@ private:
     //---
     ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
     //---
-    u8            off          {}; //- 颜色误差
+    u8_t            off          {}; //- 颜色误差
 
     bool isEmpty            {false}; //- when chanel_A==0;
     bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起

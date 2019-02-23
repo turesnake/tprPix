@@ -40,7 +40,7 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 // bitmap 中，"1-bit／1个单元" 实为 1-byte,所以可以容纳 8位信息
 // 可以用 以下 宏 来 合成 bitMask, 并以此来 访问 单位 bit 的内容
 //
-//      u8 bitMask = (BIT_SEQ_1 | BIT_SEQ_7);
+//      u8_t bitMask = (BIT_SEQ_1 | BIT_SEQ_7);
 //       
 #define BIT_SEQ_0 0x01
 #define BIT_SEQ_1 0x02
@@ -80,14 +80,14 @@ public:
     }
 
 
-    size_t creat( size_t _len, u8 _bit );    //-- 新建 对象的 bitmap，每个 单元 都初始化为 _bit  
-    size_t load( u8 *_buf, size_t _len );    //-- 从外部读取一个 bitmap，存入本地 bitmap 中
-    int save( u8 *_buf, size_t *_lenp ); //-- 将本地 bitmap，存储到 外部 某 buf 中。
+    size_t creat( size_t _len, u8_t _bit );    //-- 新建 对象的 bitmap，每个 单元 都初始化为 _bit  
+    size_t load( u8_t *_buf, size_t _len );    //-- 从外部读取一个 bitmap，存入本地 bitmap 中
+    int save( u8_t *_buf, size_t *_lenp ); //-- 将本地 bitmap，存储到 外部 某 buf 中。
 
-    int setbit( size_t _idx, u8 _bit );   //-- 设置 下标_idx 对应的 bit 值为 _bit
-    int setbits( size_t _idx_fst, size_t _idx_lst, u8 _bit ); //-- 设置 下标 [fst, lst] 区间的 bits，值为 _bit
+    int setbit( size_t _idx, u8_t _bit );   //-- 设置 下标_idx 对应的 bit 值为 _bit
+    int setbits( size_t _idx_fst, size_t _idx_lst, u8_t _bit ); //-- 设置 下标 [fst, lst] 区间的 bits，值为 _bit
 
-    size_t next( ssize_t _idx_corrent, u8 _bitmask ); //-- 从 下标 _idx_corrent开始，向后查找 第一个 匹配 _bitmask 的单元
+    size_t next( ssize_t _idx_corrent, u8_t _bitmask ); //-- 从 下标 _idx_corrent开始，向后查找 第一个 匹配 _bitmask 的单元
                                                             
 
 
@@ -98,7 +98,7 @@ private:
     size_t block_size; //-- 位图颗粒度，位图中，一个单元 代表 数据中多少 字节的数据。
                        //-- 默认为 1024-字节
 
-    std::vector<u8> bitmap; //-- 目标位图的 本地缓存。
+    std::vector<u8_t> bitmap; //-- 目标位图的 本地缓存。
 
 
 

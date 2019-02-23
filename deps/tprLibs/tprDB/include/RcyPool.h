@@ -78,8 +78,8 @@ private:
 
     len_t fix_blk_bytes {0}; //-- fix pool 中，一个 blk 的字节数
 
-    u64   all_pool_bytes {0}; //-- 回收池中，所有 空置block 的 字节数总和
-    u64   pool_limit     {0}; //-- 回收池 字节数 上限，当超出此值，将 触发 文件整理
+    u64_t   all_pool_bytes {0}; //-- 回收池中，所有 空置block 的 字节数总和
+    u64_t   pool_limit     {0}; //-- 回收池 字节数 上限，当超出此值，将 触发 文件整理
     bool  is_pool_fixed; //-- true  --> 定长数据，blk 采用 4字节对齐
                          //-- false --> 变长数据，blk 采用 2^n 对齐
 };

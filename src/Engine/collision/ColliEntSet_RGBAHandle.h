@@ -22,12 +22,12 @@
 
 namespace{//---------- namespace ---------//
     //--- A --- 
-    u8    A_SOLID         = 255; 
+    u8_t    A_SOLID         = 255; 
     //--- R --- 
-    u8    R_colliEnt      = 100;
+    u8_t    R_colliEnt      = 100;
 
     //--- B --- 
-    u8    B_center        = 255;
+    u8_t    B_center        = 255;
     //...more...
 
     RGBA  uselessColor_1  { 200, 200, 200, 255 };
@@ -45,7 +45,7 @@ namespace{//---------- namespace ---------//
 //   - ...
 class ColliEntSet_RGBAHandle{
 public:
-    explicit ColliEntSet_RGBAHandle( u8 _off=5 ):
+    explicit ColliEntSet_RGBAHandle( u8_t _off=5 ):
         off(_off)
         {} 
 
@@ -96,7 +96,7 @@ public:
 
 private:
     
-    inline bool is_near_inner( RGBA_ChannelType _ct, u8 _target ){
+    inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
         switch( _ct ){
             case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
             case RGBA_ChannelType::G:  return (abs(rgba.g-_target) <= off);
@@ -112,7 +112,7 @@ private:
     RGBA   rgba      {};  //- 本模块处理的数据
     int    radius_10 {};  //- (半径 * 10) -- 从而维持 整型 
 
-    u8     off  {}; //- 颜色误差
+    u8_t     off  {}; //- 颜色误差
     
     bool isEmpty        {false}; //- when chanel_A==0, or {200,200,200,255}
     bool isCenter       {false};

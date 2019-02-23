@@ -44,9 +44,12 @@
 #include "GameObjPos.h"
 #include "Collision.h"
 #include "GODirection.h"
-#include "ActionSwitch.h"
+#include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary.h"
-#include "InputINS.h"
+//#include "InputINS.h"
+
+#include "ActionFSM.h"
+
 
 
 
@@ -79,7 +82,7 @@ public:
     inline void resize_pvtBinary( size_t _size ){
         pvtBinary.resize( _size );
     }
-    inline u8 *get_pvtBinaryPtr(){
+    inline u8_t *get_pvtBinaryPtr(){
         return &(pvtBinary.at(0));
     }
 
@@ -172,11 +175,13 @@ public:
             // --- 这个 bug 暂时消失了... ---
             // 猜测的解法：cmake .. 将程序 彻底重编译一遍
 
-    ActionSwitch    actionSwitch {};
+    ActionSwitch    actionSwitch {}; //-- 将被取代...
+
+    ActionFSM       actionFSM {};
 
     PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
 
-    InputINS        inputINS  {}; //- gameKeys 指令组
+    //InputINS        inputINS  {}; //- gameKeys 指令组
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
@@ -195,7 +200,7 @@ public:
 
 private:
     //----------- binary chunk -------------//         
-    std::vector<u8>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
+    std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
 

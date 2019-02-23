@@ -16,11 +16,20 @@
 #define _TPR_ACTION_FSM_H_
 
 
+//-------------------- CPP --------------------//
+#include <functional>
+#include <unordered_map>
+#include <string>
+
+
 //- 节点状态 --
 class ActionState{
+public:
+    using F_TMP = std::function<void()>;
+
+    F_TMP  enterFunc {nullptr}; //- 入口函数 
+    F_TMP  exitFunc  {nullptr}; //- 出口函数
     
-
-
 
 };
 
@@ -39,9 +48,23 @@ public:
     }
 
 
+    inline ActionState *insert_new_state( const std::string &_name ){
+        // ***| INSERT FIRST, INIT LATER  |***
+        ActionState state {};
+        states.insert({ _name, state }); //- copy
+        // init...
+        return (ActionState*)&(states.at(_name));
+    }
+
+
 
 private:
     GameObj *goPtr {nullptr};
+
+    std::unordered_map<std::string, ActionState> states {};
+                    //- 暂用 string 来索引，效率可能有点低...
+
+    
 
 
 };

@@ -31,7 +31,7 @@ MapSection *insert_new_mapSection( const MapCoord &_sectionPos ){
     // ***| INSERT FIRST, INIT LATER  |***
     MapSection section {};
     section.set_by_mapEnt_mpos( _sectionPos.get_mpos() );
-    u64 key = section.get_key();
+    u64_t key = section.get_key();
     esrc::mapSections.insert({ key, section }); //- copy
     //-----
     MapSection &sectionRef = esrc::mapSections.at(key);

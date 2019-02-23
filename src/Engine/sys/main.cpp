@@ -107,6 +107,8 @@ int main(){
     esrc::load_colliEntSets(); //-- colliEntSets --
         //esrc::debug_colliEntSets();
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
+
+    esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
     
     //...
         

@@ -17,7 +17,7 @@
 //-- 如果 元素数量超过 64个，就需要修改 相关内容
 //  千万不能 自定义 元素的值。应该让元素的值按照持续，被自动分配(从0开始增长)
 //  元素值将被转换为 idx，用来访问 bitMap
-enum class ActionSwitchType : u32{
+enum class ActionSwitchType : u32_t{
 
     //--- move ----//
     Move_Idle,

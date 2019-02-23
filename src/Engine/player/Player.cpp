@@ -70,7 +70,8 @@ diskPlayer Player::m2d(){
  */
 void Player::init(){
 
-    input::bind_inputINS_callback( std::bind( &Player::onInputINS, &esrc::player, _1 ) );
+    //-- nothing...
+    //input::bind_inputINS_callback( std::bind( &Player::onInputINS, &esrc::player, _1 ) );
 }
 
 
@@ -94,29 +95,32 @@ void Player::bind_goPtr(){
 
 
 /* ===========================================================
- *                  onInputINS
+ *                  handle_inputINS   
  * -----------------------------------------------------------
- * -- 每一渲染帧都会被调用，来处理 玩家 鼠键输入
+ *  玩家输入的鼠键 -> inputIns -> 游戏指令
+ *  本函数获得 inputIns，将其转换为 游戏指令，并传输给 player.go
+ * -------
+ *  每一渲染帧都会被调用
  */
-//void Player::onGameCross( NineBox _nb ){
-void Player::onInputINS( const InputINS &_inputINS ){
+void Player::handle_inputINS( const InputINS &_inputINS ){
 
     //-----------------//
     //      camera
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetPos( goPtr->goPos.get_currentFPos() ); //- 不应该放在此处。
+    esrc::camera.set_targetPos( goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
 
     //---------------------------//
-    //  just save the cs in goPtr->move 
+    //  
     //---------------------------//
 
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
-    goPtr->inputINS = _inputINS; //- copy 
+    //goPtr->inputINS = _inputINS; //- copy 
 
+    
     goPtr->move.set_newCrawlDir( NineBox{ (int)_inputINS.crossX, (int)_inputINS.crossY } );
 }
 

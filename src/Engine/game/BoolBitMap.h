@@ -37,27 +37,27 @@ public:
         }
     }
 
-    inline void signUp( u32 _idx ){
+    inline void signUp( u32_t _idx ){
         assert( (_idx/bitsPerByte) < bitMap.size() );
-        u8 &bitRef = bitMap.at( _idx/bitsPerByte );
+        u8_t &bitRef = bitMap.at( _idx/bitsPerByte );
         bitRef = bitRef | (1 << (_idx%bitsPerByte));
     }
 
-    inline bool check( u32 _idx ){
+    inline bool check( u32_t _idx ){
         assert( (_idx/bitsPerByte) < bitMap.size() );
-        const u8 &bitRef = bitMap.at( _idx/bitsPerByte ); 
+        const u8_t &bitRef = bitMap.at( _idx/bitsPerByte ); 
         return  ( ((bitRef>>(_idx%bitsPerByte)) & 1)==1 );
     }
 
 private:
-    std::vector<u8> bitMap {}; 
+    std::vector<u8_t> bitMap {}; 
 
     //======== static ========//
-    static u32 bitsPerByte;
+    static u32_t bitsPerByte;
 };
 
 //-------- static --------//
-inline u32 BoolBitMap::bitsPerByte {8};
+inline u32_t BoolBitMap::bitsPerByte {8};
 
 #endif 
 

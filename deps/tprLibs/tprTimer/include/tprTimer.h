@@ -32,10 +32,7 @@
 
 //------------ SELF -------------//
 
-
-
 namespace tpr {//--------------- namespace: tpr -------------------//
-
 
 
 class tprTimer{

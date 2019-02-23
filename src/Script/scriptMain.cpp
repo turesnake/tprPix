@@ -31,9 +31,6 @@ using namespace std::placeholders;
 extern void onGoSpecIds_SignUp();
 extern void onStart_test();
 
-extern void map_builder( RGBA *_texBuf, int _pixes_w, int _pixes_h );
-
-
 /* ===========================================================
  *                     scriptMain 
  * -----------------------------------------------------------
@@ -44,9 +41,6 @@ void scriptMain(){
 
     //------- Awakes -------//
     esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
-    MapTexture::bind_mapBuilder( std::bind( &map_builder, _1, _2, _3 ) );
-
-
 
     //------- Starts -------//
     esrc::behaviour.signUp_Starts( std::bind( &onStart_test ) );

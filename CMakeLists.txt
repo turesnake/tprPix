@@ -55,15 +55,19 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Config)
 #-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/mapSection)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/input)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/move)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
@@ -110,15 +114,19 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
 
                         src/Engine/*.cpp
                         src/Engine/actionSwitch/*.cpp
+                        src/Engine/actionFSM/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
+                        src/Engine/ecoSys/*.cpp
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
+                        src/Engine/game/map/mapSection/*.cpp 
                         src/Engine/gl/*.cpp 
+                        src/Engine/input/*.cpp 
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
                         src/Engine/player/*.cpp 

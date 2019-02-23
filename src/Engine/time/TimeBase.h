@@ -69,13 +69,13 @@ public:
     }
 
     //-- 获得 游戏 总帧数 --//
-    inline const u64 get_frameNum() const {
+    inline const u64_t get_frameNum() const {
         return frameNum;
     }
 
 
 private:
-    u64  frameNum {0}; //- 游戏运行后的 总帧数
+    u64_t  frameNum {0}; //- 游戏运行后的 总帧数
 
     //-- deltaTime --
     float currentTime {0.0f}; //-- 当前 时间值

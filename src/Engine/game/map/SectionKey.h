@@ -23,7 +23,7 @@ class SectionKey{
 public:
     SectionKey() = default;
 
-    inline void init_by_key( const u64 _key ){
+    inline void init_by_key( const u64_t _key ){
         key = _key;
         //-------
         int *ptr = (int*)&key;
@@ -57,7 +57,7 @@ public:
     }
 
 
-    inline const u64 get_key() const {
+    inline const u64_t get_key() const {
         return key;
     }
     inline const IntVec2& get_pos() const {
@@ -65,7 +65,7 @@ public:
     }
 
 private:
-    u64        key   {0};
+    u64_t        key   {0};
     IntVec2    mpos  {0,0};
 };
 

@@ -35,18 +35,18 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 
 
 //------------------- 提供给外部的 函数 ----------------
-const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b );
-const std::vector<u8> sum( const u64 _a, const u64 _b );
+const std::vector<u8_t> sum( const std::vector<u8_t> &_a, const std::vector<u8_t> &_b );
+const std::vector<u8_t> sum( const u64_t _a, const u64_t _b );
 
-const u32 sum_wrapping( const u32 _a, const u32 _b );
-const u64 sum_wrapping( const u64 _a, const u64 _b );
+const u32_t sum_wrapping( const u32_t _a, const u32_t _b );
+const u64_t sum_wrapping( const u64_t _a, const u64_t _b );
 
 
-const std::string u8_2_hexStr( u8 _v, bool _is_cap );
+const std::string u8_2_hexStr( u8_t _v, bool _is_cap );
 
 size_t get_num_digit( size_t _num, bool _is_hex );
 
-const std::string memaddr_2_hexStr( u64 _memaddr, bool _is_cap );
+const std::string memaddr_2_hexStr( u64_t _memaddr, bool _is_cap );
 
 
 
@@ -56,7 +56,7 @@ namespace{
 
 
     //------ funcs ------
-    char _get_hexChar( u8 _v, bool _is_cap );
+    char _get_hexChar( u8_t _v, bool _is_cap );
 
 }
 
@@ -68,10 +68,10 @@ namespace{
  * -- 支持 长度不同的 二进制数据 相加。
  * -- 返回 相加后的和，字节数 可能和 参数不一样（变长了）
  */
-const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b ){
+const std::vector<u8_t> sum( const std::vector<u8_t> &_a, const std::vector<u8_t> &_b ){
 
-    vector<u8> a = _a;
-    vector<u8> b = _b;
+    vector<u8_t> a = _a;
+    vector<u8_t> b = _b;
     int len; //-- 两参数中，长度 大的那个值
     int off = (int)(_a.size()) - (int)(_b.size());
 
@@ -91,19 +91,19 @@ const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b 
     }
 
 
-    u8  unit_carry = 0; //-- 单元求和 的 进位值
-    u8  unit_sum;   //-- 单位求和 的 单位和（已经把溢出值 割掉了）
-    u32 sum;        //-- 单元求和 的 真和（会溢出，所以要用大容器来装）
+    u8_t  unit_carry = 0; //-- 单元求和 的 进位值
+    u8_t  unit_sum;   //-- 单位求和 的 单位和（已经把溢出值 割掉了）
+    u32_t sum;        //-- 单元求和 的 真和（会溢出，所以要用大容器来装）
 
-    vector<u8> r; //-- 容纳 求和的返回值。
+    vector<u8_t> r; //-- 容纳 求和的返回值。
     r.reserve( len ); //-- 预分配空间扩容，一种优化习惯
 
     for( int i=0; i<len; i++ ){
         //-- 这个阶段，相加的两个原始值 都有数据 --
-        sum = (u32)_a[i] + (u32)_b[i] + (u32)unit_carry;
+        sum = (u32_t)_a[i] + (u32_t)_b[i] + (u32_t)unit_carry;
 
-        unit_carry = (u8)(sum / 256); //- 地板除
-        unit_sum =   (u8)(sum % 256); //- 取余
+        unit_carry = (u8_t)(sum / 256); //- 地板除
+        unit_sum =   (u8_t)(sum % 256); //- 取余
 
         r.push_back( unit_sum );
     }
@@ -119,17 +119,17 @@ const std::vector<u8> sum( const std::vector<u8> &_a, const std::vector<u8> &_b 
  *                        sum  [2]
  * -----------------------------------------------------------
  * -- 重载2，速度更快的， 64-bits 加法
- * -- 由于存在溢出，所以返回值 仍然是 vector<u8> 类型
+ * -- 由于存在溢出，所以返回值 仍然是 vector<u8_t> 类型
  * -- 实现原理：
  *       1.两个 64-bits 值相加，之和过大时，会自动溢出，而且不记录在 errno 中
  *       2.溢出值 一定比 两个 被加数 小。-- 以此来判断是否发生溢出。
  */
-const std::vector<u8> sum( const u64 _a, const u64 _b ){
+const std::vector<u8_t> sum( const u64_t _a, const u64_t _b ){
 
-    vector<u8> r;  //-- 容纳 求和的返回值。
-    r.resize( sizeof(u64) ); //-- 不然 memcpy 会出错
+    vector<u8_t> r;  //-- 容纳 求和的返回值。
+    r.resize( sizeof(u64_t) ); //-- 不然 memcpy 会出错
 
-    u64 half_sum = _a + _b; //-- 半加
+    u64_t half_sum = _a + _b; //-- 半加
 
     //-- 把 和 的低 8 字节复制到 容器中。
     memcpy( (void*)&(r[0]),
@@ -150,10 +150,10 @@ const std::vector<u8> sum( const u64 _a, const u64 _b ){
  * -- 伪 二进制反码 加法 , 32-bits
  * -- 当出现溢出时，高位的溢出值 会被 “绕回 累加” 到低位。
  */
-const u32 sum_wrapping( const u32 _a, const u32 _b ){
+const u32_t sum_wrapping( const u32_t _a, const u32_t _b ){
 
-    u32 r; //-- 返回值 
-    u32 half_sum = _a + _b; //-- 半加
+    u32_t r; //-- 返回值 
+    u32_t half_sum = _a + _b; //-- 半加
 
     r = half_sum;
     if( (half_sum < _a) || (half_sum < _b) ){ //-- 发生溢出
@@ -168,10 +168,10 @@ const u32 sum_wrapping( const u32 _a, const u32 _b ){
  * -----------------------------------------------------------
  * -- 重载2, 64-bits
  */
-const u64 sum_wrapping( const u64 _a, const u64 _b ){
+const u64_t sum_wrapping( const u64_t _a, const u64_t _b ){
 
-    u64 r; //-- 返回值 
-    u64 half_sum = _a + _b; //-- 半加
+    u64_t r; //-- 返回值 
+    u64_t half_sum = _a + _b; //-- 半加
 
     r = half_sum;
     if( (half_sum < _a) || (half_sum < _b) ){ //-- 发生溢出
@@ -189,10 +189,10 @@ const u64 sum_wrapping( const u64 _a, const u64 _b ){
  * -- 将 checksum 转换为 字符串
  * -- 参数 _is_cap 控制 大小写
  */
-const std::string u8_2_hexStr( u8 _v, bool _is_cap ){
+const std::string u8_2_hexStr( u8_t _v, bool _is_cap ){
 
-    u8 quot = _v / 16; //-- 商   高位
-    u8 mod  = _v % 16; //-- 余数 低位
+    u8_t quot = _v / 16; //-- 商   高位
+    u8_t mod  = _v % 16; //-- 余数 低位
 
     stringstream ss;
     ss << _get_hexChar(quot, _is_cap)
@@ -208,7 +208,7 @@ const std::string u8_2_hexStr( u8 _v, bool _is_cap ){
  * -- 参数 _is_cap 控制 大小写
  */
 namespace{
-char _get_hexChar( u8 _v, bool _is_cap ){
+char _get_hexChar( u8_t _v, bool _is_cap ){
 
     char r; //-- 返回值
     //----- 参数检测 -------//
@@ -274,16 +274,16 @@ size_t get_num_digit( size_t _num, bool _is_hex ){
  * -- 将内存地址，转换为 十六进制 字符串
  * -- 默认 字节序是 小端
  */
-const std::string memaddr_2_hexStr( u64 _memaddr, bool _is_cap ){
+const std::string memaddr_2_hexStr( u64_t _memaddr, bool _is_cap ){
 
     stringstream ss;
-    u8 *p = (u8*)&_memaddr;
-    vector<u8> bytes; //-- 存放 地址的 每个字节
-    bytes.reserve( sizeof(u64) ); //-- 预分配空间扩容，一种优化习惯
+    u8_t *p = (u8_t*)&_memaddr;
+    vector<u8_t> bytes; //-- 存放 地址的 每个字节
+    bytes.reserve( sizeof(u64_t) ); //-- 预分配空间扩容，一种优化习惯
 
     //-- 将 地址中 每个字节依次存入 容器
     //-- 在 小段字节序中，是倒着的，所以后面要 正过来
-    for( size_t i=0; i<sizeof(u64); i++ ){
+    for( size_t i=0; i<sizeof(u64_t); i++ ){
         bytes.push_back( *(p+i) );
     }
 

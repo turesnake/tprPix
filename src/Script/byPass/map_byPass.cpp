@@ -15,7 +15,10 @@ void map_byPass(){
     MapCoord  initPos { IntVec2{ 0,0 } }; //- 目标 mapSection 坐标
     MapSection *sectionPtr = esrc::insert_new_mapSection( initPos );
 
-    sectionPtr->mapTex.init(); //- 自动通过 mapBuilder 函数来实现 mapTex 合成
+
+    //----- 正式生成 section 数据 -----//
+        sectionPtr->build_new_section();
+
 
     //-- bind mapTex - mesh --
     sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );

@@ -28,8 +28,8 @@
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
 
 //-- 正反表 --
-inline std::unordered_map<u32, std::string> acionHdle_typeId_names;
-inline std::unordered_map<std::string, u32> acionHdle_name_typeIds;
+inline std::unordered_map<u32_t, std::string> acionHdle_typeId_names;
+inline std::unordered_map<std::string, u32_t> acionHdle_name_typeIds;
 
 //-- 正反表 --
 inline std::unordered_map<goSpecId_t, std::string> go_specId_names;

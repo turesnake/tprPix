@@ -37,6 +37,7 @@
 #include "ID_Manager.h" 
 #include "AltiRange.h"
 #include "MapCoord.h"
+#include "EcoSysType.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -44,7 +45,7 @@
 //-  -- 调整过字段排序 --
 struct Fst_diskMapEnt{
 
-    u16   tex_id {NULLID}; //- 地面材质类型texture
+    u16_t   tex_id {NULLID}; //- 地面材质类型texture
                       //  此处的 地面tex 只标记一种 “类型指定”， 
                       //  并不会真的对应到某张 具体的 png tex 上。
                       //  每一次，本 mapent 所在的 section 被加载并渲染时
@@ -52,16 +53,16 @@ struct Fst_diskMapEnt{
                       //  就算是 深渊类型的地面，也会有材质信息。
 
     //--- 二级信息区 ---
-    u16   sec_data_id {NULLID}; //- 二级信息 id号
+    u16_t   sec_data_id {NULLID}; //- 二级信息 id号
 
-    u8   sec_data_info {0}; //-- 二级信息 额外数据
+    u8_t   sec_data_info {0}; //-- 二级信息 额外数据
                     //- 1-bit -- is_major_go_default.
                     //           若为“常规”，surface_go 存储的是 species。
                     //           若不为常规，surface_go 存储的是 具体 go id号。                    
                     //[-余-7-bits-]...
 
     //--- 一级信息区 ---
-    u8   fst_data {0}; //- 高4-bits -- [0,15] 地形高度/altitude
+    u8_t   fst_data {0}; //- 高4-bits -- [0,15] 地形高度/altitude
                         //- 1-bit  -- is_covered_go_head. 本mapent 是否被 某 major_go 覆盖／踩住 （若有，可访问 二级信息）
                         //            由于在 硬盘态，并不保留独立的 道具go，
                         //            所以，只要显示 is_covered（被一个 major go覆盖）
@@ -73,7 +74,7 @@ struct Fst_diskMapEnt{
                         //
                         //[-余-3-bits-]...
 
-    u8    mask_id {0}; //- 高1-bit -- 陆地(1) 还是 深渊(0)
+    u8_t    mask_id {0}; //- 高1-bit -- 陆地(1) 还是 深渊(0)
                        //  低7-bit -- mask_id.记录 3*3点阵 的 mask 信息
                        //          一个边缘 mapent(陆地 或 深渊)，各有 4*4=16 种类型。
                        //          基础种类4种，乘以 4个方向。
@@ -81,7 +82,7 @@ struct Fst_diskMapEnt{
                        //          生成此 id时， 要配合 （陆地／深渊 标记位）来使用  
 
     //--- padding -----
-    u8   padding  {0};
+    u8_t   padding  {0};
 };
 
 
@@ -126,12 +127,12 @@ struct Sec_diskMapEnt{
     //        一旦被击毁，会把自己携带的 所有 道具go 都散布在地图上。
     //  --2-- 当 击败一名 major go 时，有一定记录 爆出 道具。
 
-    u32  surface_go_species {0}; //- 地面 go species (液体，火焰等)
+    u32_t  surface_go_species {0}; //- 地面 go species (液体，火焰等)
                               //- 一切 surface类 go实例，在硬盘存储时，都会被压缩为 species。
                               //- 每次都在 section 加载阶段，根据 species 临时创建 go实例。
 
     //---- padding -----//
-    u32  padding    {0};
+    u32_t  padding    {0};
 };
 
 
@@ -159,27 +160,31 @@ public:
     }
     
     //=============== data: 一级信息 ===============//
-    bool is_land     {true}; //- 陆地／深渊
-    //u8   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
+    bool isLand     {true}; //- 陆地／水域
+    //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
                             //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
-    u8   altitude    {0}; //- 海拔.(低4-bit 有效)
-    bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
+    u8_t   alti       {0}; //- 海拔.(低4-bit 有效)
+    //bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
+                               //- 此值暂时没有被用到
     //bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位
                                     //- 暂时不考虑这个值
-    u16  tex_id      {NULLID};   //- 地面材质类型texture
+    u16_t  tex_id      {NULLID};   //- 地面材质类型texture
                     //  此处的 地面tex 只标记一种 “类型指定”， 
                     //  并不会真的对应到某张 具体的 png tex 上。
                     //  每一次，本 mapent 所在的 section 被加载并渲染时
                     //  这块地面上的 具体像素颜色，都可能发生变化。
                     //  就算是 深渊类型的地面，也会有材质信息。
+                    //  ...这个值可能被取消...
+
+    EcoSysType  ecoSysType  {EcoSysType::Forst};
+
     //--- 二级信息区 ---
-    //u16  sec_data_id  {NULLID}; //- 二级信息 id号
+    //u16_t  sec_data_id  {NULLID}; //- 二级信息 id号
 
     //bool is_major_go_default   {true};
                 //-- 现在开始拥有 多个 go实例，需要多个 default / dirty 检测
                 // 这个值暂时不MODIFY
                 // [待拓展...] 
-
 
     //-- 一级信息： mem <--> disk --
     void           fst_d2m( Fst_diskMapEnt *_dme );

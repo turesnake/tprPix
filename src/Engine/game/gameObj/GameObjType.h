@@ -33,14 +33,14 @@
 
 
 
-using goid_t     = u64; //- gameObj id type
-using goSpecId_t = u32; //- gameObj species id type
+using goid_t     = u64_t; //- gameObj id type
+using goSpecId_t = u32_t; //- gameObj species id type
 
 
 //-- go 数据 [硬盘态] ---
 struct diskGameObj{
-    u64  id;
-    u32  type; //- GameObjType --> u32
+    u64_t  id;
+    u32_t  type; //- GameObjType --> u32_t
 };
 
 
@@ -77,7 +77,7 @@ enum class GameObjFamily{
 
 //-- go species -- 
 /*
-enum class GameObjSpecies : u32 {
+enum class GameObjSpecies : u32_t {
 
     NullSpecies = 0, //- 保留，表示 空类型 
 
@@ -93,7 +93,7 @@ enum class GameObjSpecies : u32 {
 
 
     //------- end ----------//
-    End = (u32)(-1) //- tmp, 不会被真的用到 
+    End = (u32_t)(-1) //- tmp, 不会被真的用到 
 };
 */
 

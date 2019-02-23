@@ -57,22 +57,22 @@ struct tprDB_File_Head{
 };
 
 
-using eid_t     = u64;   //-- id 的类型
-using base_t   = u64;   //-- 文件内 地址偏移 --
-using len_t    = u32;   //-- 数据长度类型，（ 4GB ）
+using eid_t     = u64_t;   //-- id 的类型
+using base_t   = u64_t;   //-- 文件内 地址偏移 --
+using len_t    = u32_t;   //-- 数据长度类型，（ 4GB ）
 
 
 //--- 当调用者 搭建 entry 的类型 ：一个 C风格的 struct 时，
 //-- 要求使用 以下别名 作为 struct 内 元素的 类型，而不是原生 类型
 //-- 在外部使用时，通过: tpr::T_I32 
-using T_BOOL   = i32;    //--4-- 0/1
-using T_I32    = i32;    //--4--
-using T_U32    = u32;    //--4--
+using T_BOOL   = i32_t;    //--4-- 0/1
+using T_I32    = i32_t;    //--4--
+using T_U32    = u32_t;    //--4--
 using T_FLOAT  = float;  //--4--
 
-using T_STRID  = u64;    //--8-- 字符串／变长二进制数据
-using T_I64    = i64;    //--8--
-using T_U64    = u64;    //--8--
+using T_STRID  = u64_t;    //--8-- 字符串／变长二进制数据
+using T_I64    = i64_t;    //--8--
+using T_U64    = u64_t;    //--8--
 using T_DOUBLE = double; //--8--
 
 //--- 当调用者 搭建 entry 的类型 ：一个 C风格的 struct 时，
@@ -81,7 +81,7 @@ using T_DOUBLE = double; //--8--
 //-   INT
 //-   FLOAT
 //-   STRID
-enum class DATA_T : u8{
+enum class DATA_T : u8_t{
 
     BOOL   = 1,  //-- 4-bytes --
     I32    = 2,  //-- 4-bytes --
@@ -105,7 +105,7 @@ struct Field_T{
     len_t    len {0};     //--4-bytes- 本字段 的 字节数
     DATA_T   data_type;   //--1-bytes- 本字段 的 类型
     //--- padding ---//
-    u8       padding[3] {0}; //--3-bytes- 
+    u8_t       padding[3] {0}; //--3-bytes- 
 };
 //---------------
 bool is_DATA_T_a_INT( DATA_T _dt );
@@ -115,7 +115,7 @@ bool is_DATA_T_a_STRID( DATA_T _dt );
 
 //--  block 的 字节数 : idx 映射关系 --- 
 /*
-enum class Block_T : u32{
+enum class Block_T : u32_t{
     //      -val-     -idx-    
     B_2     = 2,     //- 1
     B_4     = 4,     //- 2
@@ -138,14 +138,14 @@ inline constexpr len_t BLOCK_T_NUMS = 14;
 
 
 //-- 一条 strEnt 所处的 block 的 当前状态 -- 
-enum class BlockState : u32{
+enum class BlockState : u32_t{
     Idle = 1,  //-- 此块非空，读取其 字符串
     Busy = 2   //-- 此块为空，应该存入 回收池
 };
 //---------------
-u8 BlkState_2_idx( BlockState _bstate );
-BlockState idx_2_BlkState( u8 _idx );
-std::string idx_2_BlkStateStr( u8 _idx );
+u8_t BlkState_2_idx( BlockState _bstate );
+BlockState idx_2_BlkState( u8_t _idx );
+std::string idx_2_BlkStateStr( u8_t _idx );
 
 
 //==================== FILE FIX / VAR ======================//
@@ -162,7 +162,7 @@ struct file_EntHead{
     // blk_t_idx / [-pad-] -- 1-bytes: 
     // blk_state_idx       -- 1-bytes: 
     //---------------
-    u8 binary[16]{ 0 }; 
+    u8_t binary[16]{ 0 }; 
 };
 //-- VAR / FIX 通用的 file态，ent头部字节数 --
 inline constexpr len_t FILE_ENT_HEAD_LEN = sizeof(file_EntHead);
@@ -176,7 +176,7 @@ struct file_FixOptions{
     len_t   ent_len    = 0; //--4- 一个 ent 的有效数据是 多少字节
     len_t   blk_aligns = 0; //--4- 一个 blk 由多少个 "4字节" 组成
     //---- padding ----//
-    u8   padding[8] { 0 };  //--8-
+    u8_t   padding[8] { 0 };  //--8-
 };
 inline constexpr len_t FILE_FIXOPTION_LEN = sizeof(file_FixOptions);
 
@@ -191,7 +191,7 @@ file_FixOptions mk_options( len_t _len );
 struct mem_Block{
     base_t  base = 0;          //--8- 本 block 在 文件中的 地址偏移。（mem 特有）
     len_t   blk_bytes = 0;     //--4- blk 字节数 
-    u8      blk_state_idx = 0; //--1- blk 状态: 空置，使用...
+    u8_t      blk_state_idx = 0; //--1- blk 状态: 空置，使用...
 };
 
 //-- mem态，一条 Ent 的完整信息 --
@@ -201,20 +201,20 @@ struct mem_Ent{
     eid_t     id = 0;       //--8- 本条 ent 的 id
     len_t    len = 0;      //--4- 本条 ent data 的字节数（不包含 尾后0）
     //--- 读写次数 ----//
-    u32      rd_times = 0;  //--4- 被读取的次数
-    u32      wr_times = 0;  //--4- 被改写的次数
+    u32_t      rd_times = 0;  //--4- 被读取的次数
+    u32_t      wr_times = 0;  //--4- 被改写的次数
 
     mem_Block    memblk;
     bool    is_data_in_mem = false; //-- data本体 是否已存入 mem 中。 
     bool    is_dirty       = false; //-- 是否被改写。
 
-    std::vector<u8>  data { 0 };    //-- 数据本体
+    std::vector<u8_t>  data { 0 };    //-- 数据本体
 };
 
 
 //========================== DB TYPE ========================//
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||//
-enum class DB_TYPE : u8{
+enum class DB_TYPE : u8_t{
     Pure_Var = 1, //- 只有 varDB 子库
     Pure_Fix = 2, //- 只有 fixDB 子库
     Regular  = 3  //- 两个 子库 都有
@@ -227,8 +227,8 @@ len_t find_suited_Blk_bytes( len_t _size ); //- VAR
 len_t find_suited_Blk_aligns( len_t _len ); //- FIX
 len_t find_suited_Blk_aliBytes( len_t _len ); //- FIX
 
-u8 Blk_bytes_2_idx( len_t _blk_bytes ); //- VAR
-len_t  idx_2_Blk_bytes( u8 _idx );      //- VAR
+u8_t Blk_bytes_2_idx( len_t _blk_bytes ); //- VAR
+len_t  idx_2_Blk_bytes( u8_t _idx );      //- VAR
 
 len_t Blk_bytes_2_aligns( len_t _blk_bytes ); //- FIX
 len_t aligns_2_Blk_bytes( len_t _aligns );    //- FIX

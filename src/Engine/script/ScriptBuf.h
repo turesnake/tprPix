@@ -55,13 +55,13 @@ public:
         return i32val;
     }
 
-    //============== u64 ==============//
-    inline void push_u64( u64 _u ){
+    //============== u64_t ==============//
+    inline void push_u64( u64_t _u ){
         u64val = _u;
         is_u64val_push = true;
     }
 
-    inline u64 pop_u64(){
+    inline u64_t pop_u64(){
         assert( is_u64val_push == true );
         is_u64val_push = false;
         return u64val;
@@ -103,8 +103,8 @@ private:
     //------ val container ---
     bool   boolval {};
     int    i32val  {};
-    u64    u64val  {};
-    std::vector<u8> binary;
+    u64_t    u64val  {};
+    std::vector<u8_t> binary;
     std::string     str;
 
     //======== flags ========//

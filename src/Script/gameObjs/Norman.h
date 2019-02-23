@@ -74,7 +74,7 @@ public:
                             //  所以，这个指针也是临时的
 
     //======== static ========//
-    static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+    static  u32_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
 
 private:
@@ -84,7 +84,7 @@ private:
 };
 
 //---------- static ----------//
-inline u32  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+inline u32_t  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< Norman类 唯一的 保留实例 >=====
 inline Norman  norman {};

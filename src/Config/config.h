@@ -32,7 +32,7 @@ inline bool IS_FULL_SCREEN = false;
 
 
 //-- 一个 mapSection 占有 256*256 个 mapEnt
-#define SECTION_W_ENTS  256
+#define SECTION_W_ENTS 256
 #define SECTION_H_ENTS 256
 
 //-- 一个 mapent 占用 5*5像素

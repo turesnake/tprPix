@@ -30,7 +30,7 @@ struct msgDataHead_board{
 //-- 对应type: MSG_TYPE_SEND_FILE, MSG_TYPE_RECV_FILE
 //-- 
 struct msgDataHead_cp_file{
-    u64    seq_ack;  //-- 在 文件发送者 发出的 msg 中，此为 seq（序号）
+    u64_t    seq_ack;  //-- 在 文件发送者 发出的 msg 中，此为 seq（序号）
                         //      代表 本条msg中，数据首字节，在 文件中的 偏移字节数
                         //-- 在 文件接受者 发出的 msg 中，此为 ack（确认号）
                         //      代表 接受者 已接收的 最后一个字节号 + 1
@@ -39,7 +39,7 @@ struct msgDataHead_cp_file{
 
                         //-- 当值为 (u64)(-1) 时，表示此条msg 是一个 "路径确认msg"
 
-    u8     cmd;   //-- 指令。（应当首先检测 此字段）
+    u8_t     cmd;   //-- 指令。（应当首先检测 此字段）
                      //-- 具体选项参见下方
                      
 };

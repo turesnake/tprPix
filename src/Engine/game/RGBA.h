@@ -17,7 +17,7 @@
 #include "tprDataType.h"
 
 
-enum class RGBA_ChannelType : u8 {
+enum class RGBA_ChannelType : u8_t {
     R = 1,
     G,
     B,
@@ -30,14 +30,14 @@ class RGBA{
 public: 
     //---- constructor -----//
     RGBA() = default;
-    RGBA( u8 _r, u8 _g, u8 _b, u8 _a ):
+    RGBA( u8_t _r, u8_t _g, u8_t _b, u8_t _a ):
         r(_r),
         g(_g),
         b(_b),
         a(_a)
         {}
     
-    inline bool is_near( const RGBA &_a, u8 _off ){
+    inline bool is_near( const RGBA &_a, u8_t _off ){
         return (
         (abs(r-_a.r) <= _off) &&
         (abs(g-_a.g) <= _off) &&
@@ -47,15 +47,15 @@ public:
     }
 
     //======== vals ========//
-    u8 r {0};
-    u8 g {0};
-    u8 b {0};
-    u8 a {255};
+    u8_t r {0};
+    u8_t g {0};
+    u8_t b {0};
+    u8_t a {255};
 };
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 /*
-inline bool is_near( const RGBA &_a, const RGBA &_b, u8 _off ){
+inline bool is_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
     return (
        (abs(_a.r-_b.r) <= _off) &&
        (abs(_a.g-_b.g) <= _off) &&

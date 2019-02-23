@@ -31,10 +31,6 @@ void processInput( GLFWwindow *_windowPtr );
 void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
 IntVec2 get_mouse_pos();
 
-using F_INPUT_INS = std::function<void(const InputINS &)>;
-void bind_inputINS_callback( F_INPUT_INS _fp );
-
-
 
 }//----------------- namespace input: end -------------------
 #endif 

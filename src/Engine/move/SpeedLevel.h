@@ -15,7 +15,7 @@
 
 
 //-- go 可设置的 8档 速度 --
-enum class SpeedLevel : u8 {
+enum class SpeedLevel : u8_t {
     LV_1 = 1, //- 低速
     LV_2 = 2, 
     LV_3 = 3, 

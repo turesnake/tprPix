@@ -24,9 +24,9 @@
 //-- 玩家数据 [硬盘态] --
 //-  独一无二的存在，在硬盘中只有一份 
 struct diskPlayer{
-    u64      go_id {}; //- 玩家当前绑定的 go 的 id
-    i32      posx {}; //- 在地图中的 坐标。
-    i32      posy {}; //- 在地图中的 坐标。
+    u64_t      go_id {}; //- 玩家当前绑定的 go 的 id
+    i32_t      posx {}; //- 在地图中的 坐标。
+    i32_t      posy {}; //- 在地图中的 坐标。
 };
 
 
@@ -47,13 +47,14 @@ public:
     //   才能调用本函数 
     void bind_goPtr();
 
+    void handle_inputINS( const InputINS &_inputINS );
+
+
     //======== vals ========//
     goid_t   goid   {NULLID}; 
     GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
                         
 private:
-    void  onInputINS( const InputINS &_inputINS );
-
 };
 
 

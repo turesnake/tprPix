@@ -107,8 +107,8 @@ private:
     DB::base_t   next_base {}; //-- 当前数据库实例中，文件中最后一个 ent 所在 blk 的 尾后字节地址
                          //  （可能远大于文件尾后字节...）
     
-    u64      all_data_bytes {}; //-- 所有 entData 字节数 总和。（不在 mem 中的也算）
-    u64      all_blk_bytes  {}; //-- 所有 Ent 的 block 字节数 总和 (空置blk 不算)
+    u64_t      all_data_bytes {}; //-- 所有 entData 字节数 总和。（不在 mem 中的也算）
+    u64_t      all_blk_bytes  {}; //-- 所有 Ent 的 block 字节数 总和 (空置blk 不算)
 
     //------------------
     DB::mem_Ent *mem_hash_find( DB::eid_t _id ); //-- 从 mem_hash 中获得一个元素的迭代器
@@ -153,11 +153,11 @@ private:
     std::unordered_map<DB::eid_t, std::list<DB::eid_t>::iterator>  cache_history_iters;
                         //-- 存储所有 迭代器，用来快速访问 cache_history
 
-    u64   all_cache_bytes {}; //-- cache中，所有entData 的 字节数总和
-    u64   cache_limit;        //-- cache 字节数 上限。 当超出此值，将释放 cache 的旧元素
+    u64_t   all_cache_bytes {}; //-- cache中，所有entData 的 字节数总和
+    u64_t   cache_limit;        //-- cache 字节数 上限。 当超出此值，将释放 cache 的旧元素
     //------------------
     void cache_push( DB::eid_t _id, DB::len_t _len ); 
-    void cache_release( u64 _size );
+    void cache_release( u64_t _size );
     int del_cacheEnt( DB::eid_t _id ); //-- 彻底删除 一条 ent，不管它是否存在。erase函数中 调用
 
 

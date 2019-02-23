@@ -52,14 +52,14 @@ const std::string xxd( void *_buf, size_t _len,
 //---------------------- 局部 变量 ---------------------
 namespace{
     //------ vals -------
-    vector<u8> lines; //-- 容纳 一行数据。每一行都重新装载
+    vector<u8_t> lines; //-- 容纳 一行数据。每一行都重新装载
 
     //------ funcs ------
     const std::string mk_line_head( size_t _num, size_t _max );
     const std::string mk_line_hex( bool _is_cap );
-    const std::string mk_line_head( u64 _memaddr, bool _is_cap );
+    const std::string mk_line_head( u64_t _memaddr, bool _is_cap );
     const std::string mk_line_ascii();
-    u64 find_align_byte( u64 _memaddr, size_t _align_num );
+    u64_t find_align_byte( u64_t _memaddr, size_t _align_num );
 }
 
 
@@ -105,8 +105,8 @@ const std::string xxd( void *_buf, size_t _len,
     //---------------------
     stringstream ss; //-- 我们最终要的 字符串 的容器
 
-    u8  *p  = (u8*)_buf;  //- 每次指向 行首字节     
-    u8  byte;             //-- 遍历 行内字节用
+    u8_t  *p  = (u8_t*)_buf;  //- 每次指向 行首字节     
+    u8_t  byte;             //-- 遍历 行内字节用
     ssize_t len = (ssize_t)_len; //-- 必须要改为 有符号类型，不然判断语句会 出问题
                                  //-- 容量上完全足够，可放心使用
     bool   is_line_all_zero;        //-- 这一行的数据是不是都是 0
@@ -122,13 +122,13 @@ const std::string xxd( void *_buf, size_t _len,
     //----------------------------//
     size_t line_len_L; //-- 第一行的 左侧部分，全写0
     size_t line_len_R; //-- 第一行的 右侧部分，读取buf 中值
-    u64 addr_align;    //-- 对齐的 首字节地址 (等于buf，或buf之前的某字节)
+    u64_t addr_align;    //-- 对齐的 首字节地址 (等于buf，或buf之前的某字节)
     if( _is_memaddr == true ){
 
         //--- 找到 对齐的 首字节 ---
-        addr_align = find_align_byte( (u64)p, line_bytes );
+        addr_align = find_align_byte( (u64_t)p, line_bytes );
 
-        line_len_L = (u64)p - addr_align;
+        line_len_L = (u64_t)p - addr_align;
         line_len_R = line_bytes - line_len_L;
 
         //---- 制作／读取 第一行 ------//
@@ -192,9 +192,9 @@ const std::string xxd( void *_buf, size_t _len,
             }
             //----- 正式 制作 字符串 ----// 
             if( _is_memaddr == true ){
-                ss << mk_line_head( (u64)p, _is_cap );     //-- 地址版头部
+                ss << mk_line_head( (u64_t)p, _is_cap );     //-- 地址版头部
             }else{
-                ss << mk_line_head( (size_t)(p-(u8*)_buf), _len ); //-- 序号版头部
+                ss << mk_line_head( (size_t)(p-(u8_t*)_buf), _len ); //-- 序号版头部
             }
 
             ss << mk_line_hex( _is_cap );
@@ -240,7 +240,7 @@ const std::string mk_line_head( size_t _num, size_t _max ){
  * -- 制作 一行的头部  [内存地址版]
  * -- param: _memaddr -- 要在头部打印的数字，每一行首字节的 内存地址
  */
-const std::string mk_line_head( u64 _memaddr, bool _is_cap ){
+const std::string mk_line_head( u64_t _memaddr, bool _is_cap ){
 
     stringstream ss;
     //--------- 计算出 头部位数 ---------//
@@ -309,9 +309,9 @@ const std::string mk_line_ascii(){
  * -- param: _memaddr   -- 
  * -- param: _align_num --
  */
-u64 find_align_byte( u64 _memaddr, size_t _align_num ){
+u64_t find_align_byte( u64_t _memaddr, size_t _align_num ){
     
-    u64 addr = _memaddr;
+    u64_t addr = _memaddr;
 
     while( (addr%_align_num) != 0 ){
         addr--;

@@ -72,7 +72,7 @@ public:
                             //  所以，这个指针也是临时的
 
     //======== static ========//
-    static  u32  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+    static  u32_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
 private:
     //--- callback ---//
@@ -81,7 +81,7 @@ private:
 
 
 //---------- static ----------//
-inline u32  Grass_1::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+inline u32_t  Grass_1::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< Grass_1类 唯一的 保留实例 >=====
 inline Grass_1  grass_1 {};

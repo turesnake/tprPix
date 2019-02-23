@@ -886,7 +886,7 @@ void tprDB_Orig::cache_push( eid_t _id, len_t _len ){
  * -- 从 cache 中释放 至少 _size 字节 的空间
  * -- 从 cache_history 头部 一个一个地释放，直到 释放足够空间 
  */
-void tprDB_Orig::cache_release( u64 _size ){
+void tprDB_Orig::cache_release( u64_t _size ){
 
     string err_info = "tprDB_Orig::cache_release(): ";
 
@@ -896,7 +896,7 @@ void tprDB_Orig::cache_release( u64 _size ){
     //-----------------
     eid_t      id;        //- tmp
     mem_Ent   *mEntp;  //- tmp， 用指针 来访问 hash表元素的 seconds
-    u64  usable_bytes = cache_limit - all_cache_bytes;
+    u64_t  usable_bytes = cache_limit - all_cache_bytes;
                             //-- 当前 可用空间
 
     size_t cache_nums;

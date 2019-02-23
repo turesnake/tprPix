@@ -10,9 +10,14 @@
 #ifndef _TPR_RANDOM_H_
 #define _TPR_RANDOM_H_
 
+//------------------- CPP --------------------//
 #include <random>
 
+//------------------- Libs --------------------//
+#include "tprDataType.h" 
+
+
 std::default_random_engine &get_dRandEng();
-unsigned int get_new_seed();
+u32_t get_new_seed();
 
 #endif

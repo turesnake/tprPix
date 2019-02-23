@@ -68,7 +68,7 @@ public:
     }
 
     //-- 手动 更新 seed --
-    inline void set_seed( u32 _seed ){
+    inline void set_seed( u32_t _seed ){
         seed = _seed;
     }
 
@@ -99,7 +99,7 @@ private:
     }
 
     //======== vals ========//
-    u32 seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
+    u32_t seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
     std::default_random_engine   eng; //- 随机数引擎，默认初始状态
     std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
 

@@ -171,7 +171,7 @@ int MsgIO::read_msg_3( int fd ){
  *    若出错，一部分 直接 assert
  *           一部分 返回 -1. 此时调用者需要 检查 write_result 
  */
-int MsgIO::write_msg_3( int fd, u8 *_data, u32 _len, u32 _type, pid_t _pid ){
+int MsgIO::write_msg_3( int fd, u8_t *_data, u32_t _len, u32_t _type, pid_t _pid ){
 
     //-- 排查 参数 异常 --
     if( _len>0 && _data==NULL ){
@@ -193,7 +193,7 @@ int MsgIO::write_msg_3( int fd, u8 *_data, u32 _len, u32 _type, pid_t _pid ){
     //-------------------------------//
     msgHead_write.len        = _len;
     msgHead_write.type       = _type;
-    msgHead_write.pid_sender = (i32)_pid;
+    msgHead_write.pid_sender = (i32_t)_pid;
     checkSum_build( msgHead_write );
 
     //---------------------------------------------//
@@ -383,7 +383,7 @@ void MsgIO::log_record( const std::string &_head,
  * -----------------------------------------------------------
  * -- 确保 msgHead_read.type == _type. 否则报错
  */
-bool MsgIO::check_msgHead_read_type( u32 _type, std::string &err_info ){
+bool MsgIO::check_msgHead_read_type( u32_t _type, std::string &err_info ){
 
     if( msgHead_read.type != _type ){
         cout << "MsgIO::check_msgHead_read_type: ERROR. "

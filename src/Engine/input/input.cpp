@@ -39,7 +39,6 @@
 #include "KeyBoard.h"
 #include "GameKey.h"
 
-
 #include "debug.h" //- tmp
 
 
@@ -47,12 +46,7 @@ namespace input{//------------- namespace input --------------------
 
 
 namespace{
-
-    inline F_INPUT_INS   inputINSFunc  {nullptr};
-
     InputINS   inputINS {}; //- 记录玩家 鼠键输入。
-                            //  此值会以值传递的方式，复制给 player_go
-                            //  在未来，为了提高性能，它可能被改为一个 指针
 
     glm::vec2 lastMousePos    {0.0f, 0.0f};    
     glm::vec2 currentMousePos {0.0f, 0.0f}; 
@@ -85,32 +79,36 @@ void init_input(){
  */
 void processInput( GLFWwindow *_windowPtr ){
 
-    //-- ESC -- 
-	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE )==GLFW_PRESS ){
+    //-------------------------------//
+    //   快速退出（tmp，未来将被删除...）
+    //-------------------------------//
+	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE )==GLFW_PRESS ){ //- ESC -
 		glfwSetWindowShouldClose( _windowPtr, GL_TRUE );
 	}
 
-    //-- clear --
+    //------------------------//
+    //     将玩家鼠键输入，
+    //     装填到 inputINS 中
+    //------------------------//
     inputINS.clear_allKeys(); //- 0
-
-    mousePos_2_dir();
-            //-- 未来拓展：鼠标／右侧摇杆 都可以控制 方向dir值
-
+    mousePos_2_dir(); //-- 未来拓展：鼠标／右侧摇杆 都可以控制 方向dir值
     for( const auto &ipair : gameKeyTable ){ //-- each gameKey
-        //-- 跳过 未设置的 --
-        if( ipair.second == KeyBoard::NIL ){
+        //-- 跳过 1.未设置的; 2.没有被按下的 --
+        if( (ipair.second==KeyBoard::NIL) ||
+            (glfwGetKey(_windowPtr,(int)(ipair.second))!=GLFW_PRESS) ){
             continue;
-        }
-        //-- 跳过 没有被按下的 --
-        if( glfwGetKey(_windowPtr,(int)(ipair.second)) != GLFW_PRESS ){
-            continue;
-        }
-            
+        }            
         inputINS.set_key( ipair.first );
     }
 
-    //------
-    inputINSFunc( inputINS );
+    //------------------------//
+    //  处理 inputINS 中的数据
+    //------------------------//
+    // 工具箱／状态面板...
+    //...
+
+    //-- player --
+    esrc::player.handle_inputINS( inputINS );
 }
 
 
@@ -156,17 +154,6 @@ void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
     //camera_current()->mouseFov_reset( xoffset, yoffset );
 }
 */
-
-
-/* ==========================================================
- *               bind_inputINS_callback
- * -----------------------------------------------------------
- * -- 
- */
-void bind_inputINS_callback( F_INPUT_INS _fp ){
-    inputINSFunc = _fp;
-}
-
 
 
 namespace{ //------------------- namespace ----------------------//

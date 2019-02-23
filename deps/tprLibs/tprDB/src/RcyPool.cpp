@@ -77,7 +77,7 @@ bool RcyPool::is_empty( len_t _blk_bytes ){
 
     }else{
         //---- VAR ----//
-        u8 blk_t_idx = Blk_bytes_2_idx( _blk_bytes );
+        u8_t blk_t_idx = Blk_bytes_2_idx( _blk_bytes );
 
         deque<base_t> *deq;
         //--------------------------------
@@ -106,11 +106,11 @@ void RcyPool::push( base_t _base, len_t _blk_bytes ){
     if( is_pool_fixed == true ){
         //---- FIX ----//
         fixPool.push_back( _base );
-        all_pool_bytes += (u64)fix_blk_bytes;
+        all_pool_bytes += (u64_t)fix_blk_bytes;
 
     }else{
         //---- VAR ----//
-        u8 blk_t_idx = Blk_bytes_2_idx(_blk_bytes);
+        u8_t blk_t_idx = Blk_bytes_2_idx(_blk_bytes);
         assert( (blk_t_idx>=4) && (blk_t_idx<=14) );
 
         varPools[blk_t_idx].push_back( _base );
@@ -133,7 +133,7 @@ base_t RcyPool::pop( len_t _blk_bytes ){
         //-- 确保 目标 回收池 非空 --//
         assert( fixPool.empty() == false );
 
-        all_pool_bytes -= (u64)fix_blk_bytes;
+        all_pool_bytes -= (u64_t)fix_blk_bytes;
         //-------
         base = fixPool.front();
         fixPool.pop_front();
@@ -141,7 +141,7 @@ base_t RcyPool::pop( len_t _blk_bytes ){
 
     }else{
         //---- VAR ----//
-        u8 blk_t_idx = Blk_bytes_2_idx( _blk_bytes );
+        u8_t blk_t_idx = Blk_bytes_2_idx( _blk_bytes );
         assert( (blk_t_idx>=4) && (blk_t_idx<=14) );
 
         deque<base_t> *deq;
@@ -168,11 +168,11 @@ void RcyPool::info_var(){
     assert( is_pool_fixed == false );
 
     //-------- vals --------//
-    u32 step_1 = 4; //-- 列间距
-    u32 step_2 = 7; 
-    u32 step_3 = 8; 
-    u32 step_4 = 10; 
-    u32 step_5 = 12;
+    u32_t step_1 = 4; //-- 列间距
+    u32_t step_2 = 7; 
+    u32_t step_3 = 8; 
+    u32_t step_4 = 10; 
+    u32_t step_5 = 12;
 
         cout << "\n--------------------- varPool ------------------------\n";
 
@@ -247,11 +247,11 @@ void RcyPool::info_fix(){
     assert( is_pool_fixed == true );
 
     //-------- vals --------//
-    u32 step_1 = 4; //-- 列间距
-    u32 step_2 = 7; 
-    u32 step_3 = 8; 
-    u32 step_4 = 10; 
-    u32 step_5 = 12;
+    u32_t step_1 = 4; //-- 列间距
+    u32_t step_2 = 7; 
+    u32_t step_3 = 8; 
+    u32_t step_4 = 10; 
+    u32_t step_5 = 12;
 
         cout << "\n--------------------- fixPool ------------------------\n";
 

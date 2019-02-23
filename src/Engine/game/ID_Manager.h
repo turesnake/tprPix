@@ -23,7 +23,7 @@ inline constexpr int NULLID = 0;
 
 
 //-- id类型（取值范围）--
-enum class ID_TYPE : u8 {
+enum class ID_TYPE : u8_t {
     U8  = 1, //- [1,255]
     U16 = 2, //- [1,65535]
     U32 = 3, //- [1,4294967295]
@@ -36,49 +36,49 @@ enum class ID_TYPE : u8 {
 class ID_Manager{
 public:
     explicit ID_Manager(ID_TYPE _id_type=ID_TYPE::U64,
-                        u64     _max_id=1 ):
+                        u64_t   _max_id=1 ):
         id_scope(_id_type),
         max_id(_max_id)
         {
             switch( id_scope ){
-                case ID_TYPE::U8:  id_limit = (u8)(-1); break;
-                case ID_TYPE::U16: id_limit = (u16)(-1); break;
-                case ID_TYPE::U32: id_limit = (u32)(-1); break;
-                case ID_TYPE::U64: id_limit = (u64)(-1); break; //- 用不到
+                case ID_TYPE::U8:  id_limit = (u8_t)(-1); break;
+                case ID_TYPE::U16: id_limit = (u16_t)(-1); break;
+                case ID_TYPE::U32: id_limit = (u32_t)(-1); break;
+                case ID_TYPE::U64: id_limit = (u64_t)(-1); break; //- 用不到
                 default:
                     assert(0); //- 不会运行到此行
             }
         }
 
     //-- 申请分配一个 新 u8 id --
-    inline u8 apply_a_u8_id(){
+    inline u8_t apply_a_u8_id(){
         
         assert( id_scope == ID_TYPE::U8 );
         max_id++;
         assert( max_id <= id_limit );//-- 2^8 --
-        return (u8)max_id;
+        return (u8_t)max_id;
     }
 
     //-- 申请分配一个 新 u16 id --
-    inline u16 apply_a_u16_id(){
+    inline u16_t apply_a_u16_id(){
         
         assert( id_scope == ID_TYPE::U16 );
         max_id++;
         assert( max_id <= id_limit );//-- 2^16 --
-        return (u16)max_id;
+        return (u16_t)max_id;
     }
 
     //-- 申请分配一个 新 u32 id --
-    inline u32 apply_a_u32_id(){
+    inline u32_t apply_a_u32_id(){
         
         assert( id_scope == ID_TYPE::U32 );
         max_id++;
         assert( max_id <= id_limit );//-- 2^32 --
-        return (u32)max_id;
+        return (u32_t)max_id;
     }
 
     //-- 申请分配一个 新 u64 id --
-    inline u64 apply_a_u64_id(){
+    inline u64_t apply_a_u64_id(){
         
         assert( id_scope == ID_TYPE::U64 );
         max_id++;
@@ -86,18 +86,18 @@ public:
         return max_id;
     }
 
-    inline void set_max_id( u64 _max_id ){
+    inline void set_max_id( u64_t _max_id ){
         max_id = _max_id;
     }
 
-    inline u64 get_max_id() const {
+    inline u64_t get_max_id() const {
         return max_id;
     }
 
 private:
     ID_TYPE id_scope;  //- id类型
-    u64     max_id;    //- 当前 使用的 数值最大的 id号
-    u64     id_limit;  //- id号 上限
+    u64_t     max_id;    //- 当前 使用的 数值最大的 id号
+    u64_t     id_limit;  //- id号 上限
 };
 
 #endif

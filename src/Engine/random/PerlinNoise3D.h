@@ -27,7 +27,7 @@ public:
 
     //-- 推迟 init --
     void init(); //-- 使用自动生成的 seed 初始化 perlin --
-    void init( u32 seed ); //-- 使用 调用者提供的 seed 初始化 perlin --
+    void init( u32_t seed ); //-- 使用 调用者提供的 seed 初始化 perlin --
 
 	float noise(float x, float y, float z);
 
@@ -37,7 +37,7 @@ private:
 	float grad(int hash, float x, float y, float z);
     
     //======== vals ========//
-    u32  seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
+    u32_t  seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
     std::default_random_engine  eng; //- 随机数引擎，默认初始状态
 
     std::vector<int> p;

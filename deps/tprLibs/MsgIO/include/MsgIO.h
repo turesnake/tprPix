@@ -42,7 +42,7 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 
 //------------ pid --------------
 #define PID_NULL    0         //-- 表示 此pid 未设置
-#define PID_SERVER  (u32)(-1) //-- 用一个极大数来表达，此pid 发自 服务器
+#define PID_SERVER  (u32_t)(-1) //-- 用一个极大数来表达，此pid 发自 服务器
 
 //======================================================//
 //                       baseMsg
@@ -50,10 +50,10 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 //-- 从 fifo / tcp 中读取数据，要读取两次：
 //- 第一次读取 BASEMSG_HEAD_SIZE 字节，从中获得 len, type, pid_client, checkSum
 //- 第二次读取 msg.len 个字节，存入 msg.data 段
-#define BASEMSG_HEAD_SIZE ( sizeof(u32) * 3 + sizeof(i32) )
+#define BASEMSG_HEAD_SIZE ( sizeof(u32_t) * 3 + sizeof(i32_t) )
 
 //- pid_sender 在 二进制容器 中的 地址偏移量。
-#define BASEMSG_PID_OFFSET ( sizeof(u32) * 2 )
+#define BASEMSG_PID_OFFSET ( sizeof(u32_t) * 2 )
 
 //-- 阉割版 checkSum 的 固定值。值随意
 #define CHECK_SUM 7171
@@ -62,11 +62,11 @@ namespace tpr { //--------------- namespace: tpr -------------------//
 //     fifo / tcp 都遵循此格式
 //-------------------------------//
 struct baseMsgHead{
-    u32         len;        //-- 仅仅表示 data 段的 字节数
-    u32         type;       //-- msg 类型
-    i32       pid_sender;   //-- 发送者的 pid，只在部分场合有作用。
+    u32_t         len;        //-- 仅仅表示 data 段的 字节数
+    u32_t         type;       //-- msg 类型
+    i32_t       pid_sender;   //-- 发送者的 pid，只在部分场合有作用。
                             //   为了支持跨平台，将 pid_t 改为 msgi32
-    u32         checkSum;   //-- 检验和。 head段 验证用
+    u32_t         checkSum;   //-- 检验和。 head段 验证用
                             //-- 目前为阉割版，写入固定值 CHECK_SUM
 };
 
@@ -107,7 +107,7 @@ public:
     // 3 -- 将大部分错误 交给 调用者 去处理
     //     （这意味着，每个调用者，都要亲自实现 本套io函数的 包裹函数）
     int read_msg_3( int fd );
-    int write_msg_3( int fd, u8 *_data, u32 _len, u32 _type, pid_t _pid );
+    int write_msg_3( int fd, u8_t *_data, u32_t _len, u32_t _type, pid_t _pid );
     int send_msgBinary_read_3( int fd );
 
 
@@ -126,25 +126,25 @@ public:
     }
 
     //-- 访问 msgHead_read.type
-    inline u32 get_msgHead_read_type()
+    inline u32_t get_msgHead_read_type()
     {
         return msgHead_read.type;
     }
 
     //-- 获得 二进制容器 的 data段数据 访问权
     //-- 通过 参数 _lenp 返回 data段 字节数
-    inline u8* get_msgData_read( u32 *_lenp )
+    inline u8_t* get_msgData_read( u32_t *_lenp )
     {
         *_lenp = msgHead_read.len;
-        return (u8*)&(msgBinary_read[ BASEMSG_HEAD_SIZE ]);
+        return (u8_t*)&(msgBinary_read[ BASEMSG_HEAD_SIZE ]);
     }
 
     //-- 获得 二进制容器 的 data段数据 访问权
     //-- 通过 参数 _lenp 返回 data段 字节数
-    inline u8* get_msgData_write( u32 *_lenp )
+    inline u8_t* get_msgData_write( u32_t *_lenp )
     {
         *_lenp = msgHead_write.len;
-        return (u8*)&(msgBinary_write[ BASEMSG_HEAD_SIZE ]);
+        return (u8_t*)&(msgBinary_write[ BASEMSG_HEAD_SIZE ]);
     }
 
     //-- 通过此函数，专门修改 msg read 中的 pid，
@@ -152,10 +152,10 @@ public:
     inline void change_msg_read_pid( pid_t _pid )
     {
         //------- 修改 head ---------
-        msgHead_read.pid_sender = (i32)_pid;
+        msgHead_read.pid_sender = (i32_t)_pid;
         //------- 修改 二进制容器 ---------
-        i32* pidp = (i32*)&(msgBinary_read[ BASEMSG_PID_OFFSET ]);
-        *pidp = (i32)_pid;
+        i32_t* pidp = (i32_t*)&(msgBinary_read[ BASEMSG_PID_OFFSET ]);
+        *pidp = (i32_t)_pid;
     }
 
     //-- 获得 read_result
@@ -179,7 +179,7 @@ public:
 
 
     //-- 确保 msgHead_read.type == _type. 否则报错
-    bool check_msgHead_read_type( u32 _type, std::string &err_info );
+    bool check_msgHead_read_type( u32_t _type, std::string &err_info );
 
     //-- 将 result 变成 字符串string
     std::string read_result_2_str( const std::string &_err_info );
@@ -194,8 +194,8 @@ private:
     baseMsgHead msgHead_write; //-- 将要写入 fd 的 msg head
 
     //-- 整个 msg 的数据 被整合成一个 完整的 二进制数据包。
-    std::vector<u8> msgBinary_read;
-    std::vector<u8> msgBinary_write;
+    std::vector<u8_t> msgBinary_read;
+    std::vector<u8_t> msgBinary_write;
 
     //-- 记录 read ／ write 执行结果的 信息
     ReadResult read_result;

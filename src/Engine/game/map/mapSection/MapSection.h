@@ -54,6 +54,8 @@ public:
 
     void init();
 
+    void build_new_section(); //-- section生成器 tmp...
+
     //----------- pos / key ------------    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
@@ -89,7 +91,7 @@ public:
         return pos;
     }
 
-    inline const u64 get_key() const {
+    inline const u64_t get_key() const {
         return sectionKey.get_key();
     }
 
@@ -111,11 +113,25 @@ public:
     std::vector<MemMapEnt> memMapEnts; 
 
 private:
-    //---------- pos & key ------------//
+
+    //--- section 生成器系列函数 ---
+    void  build_landOrWaters();
+
+
+
+
+    //======== vals ========//
     //-- once init, never change.
     SectionKey  sectionKey {};
     //-- [left-bottom] --
-    MapCoord      pos  {}; //- mpos/ppos  
+    MapCoord      pos  {}; //- mpos/ppos 
+
+    //IntVec2       entsWH {}; //- 
+
+    //======== static vals ========//
+    // 仅仅便于 快速访问
+    static  IntVec2 entWH; //- how mush mapEnts
+    static  IntVec2 pixWH; //- how mush pixels
 
 };
 

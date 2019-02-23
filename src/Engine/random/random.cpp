@@ -40,13 +40,14 @@ namespace{//------------- namespace ----------------//
 /* ===========================================================
  *                      get_dRandEng
  * -----------------------------------------------------------
+ * -- 当需要生成一次性随机值时，推荐用此方法
  */
 std::default_random_engine &get_dRandEng(){
 
     //---------------------//
     //      生成 seed 
     //---------------------//
-    unsigned int seed = get_new_seed();
+    u32_t seed = get_new_seed();
     //-----------------------------//
     //   把种子喂给 引擎，打乱它的状态
     //-----------------------------//
@@ -59,15 +60,15 @@ std::default_random_engine &get_dRandEng(){
  * -----------------------------------------------------------
  * -- 根据 当前鼠标坐标，和 程序时间，生成一个 新种子
  */
-unsigned int get_new_seed(){
+u32_t get_new_seed(){
 
-    unsigned int seed; //- return;
+    u32_t seed; //- return;
 
     IntVec2 mousePos = input::get_mouse_pos();
     seed = mousePos.x + (mousePos.y*3);
 
     float tm = esrc::timer.get_currentTime();
-    seed += (unsigned int)(tm * 10000000);
+    seed += (u32_t)(tm * 10000000);
                     //-- glfw 时钟的精度就是这么多位
 
     return seed;
