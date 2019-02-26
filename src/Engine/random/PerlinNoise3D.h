@@ -25,7 +25,6 @@ class PerlinNoise3D {
 public:
 	PerlinNoise3D() = default;
 
-    //-- 推迟 init --
     void init(); //-- 使用自动生成的 seed 初始化 perlin --
     void init( u32_t seed ); //-- 使用 调用者提供的 seed 初始化 perlin --
 

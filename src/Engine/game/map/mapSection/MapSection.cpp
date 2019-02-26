@@ -14,12 +14,13 @@
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "srcs_engine.h"
+#include "sectionBuilderTools.h" //- tmp
 
 
 //======== static vals ========//
-IntVec2  MapSection::entWH { SECTION_W_ENTS, SECTION_H_ENTS };
-IntVec2  MapSection::pixWH { SECTION_W_ENTS*PIXES_PER_MAPENT, 
-                             SECTION_H_ENTS*PIXES_PER_MAPENT };
+IntVec2  MapSection::entWH { SECTION_SIDE_ENTS, SECTION_SIDE_ENTS };
+IntVec2  MapSection::pixWH { SECTION_SIDE_ENTS*PIXES_PER_MAPENT, 
+                             SECTION_SIDE_ENTS*PIXES_PER_MAPENT };
 
 
 namespace{//---------- namespace ---------------//
@@ -45,8 +46,8 @@ namespace{//---------- namespace ---------------//
 void MapSection::init(){
 
     //--- mesh.scale ---
-    mesh.set_scale(glm::vec3{   (float)(SECTION_W_ENTS * PIXES_PER_MAPENT),
-                                (float)(SECTION_H_ENTS * PIXES_PER_MAPENT),
+    mesh.set_scale(glm::vec3{   (float)(SECTION_SIDE_ENTS * PIXES_PER_MAPENT),
+                                (float)(SECTION_SIDE_ENTS * PIXES_PER_MAPENT),
                                 1.0f });
 
 }
@@ -75,64 +76,88 @@ void MapSection::refresh_translate_auto(){
  *  在最初版本，此函数不考虑性能
  * -----------
  * 生成器主要处理的两个对象：
- *  -- memMapEnts
- *  -- mapTex
+ *  -- memMapEnts （先逐个生成数据）
+ *  -- mapTex     （后一股脑制作）
  */ 
 void MapSection::build_new_section(){
 
-    //---------------------------//
-    //  为每一个 mapent，划分 ecoSysType
-    //---------------------------//
-    //...
 
+    mapTex.resize_texBuf();
+    pixBufHeadPtr = mapTex.get_texBufHeadPtr(); 
+
+    init_sectionBuilderTools( entWH, pixWH );
+
+    
 
     //---------------------------//
     //  为每一个 mapent，生成 alti
     //---------------------------//
 
 
+    
     //---------------------------//
-    //  为每一个 mapent，生成 isLand
+    //  为每一个 mapent，划分 ecoSysType
+    //  (确保晚于 alti 生成)
     //---------------------------//
+    //...
 
 
+    //---------------------------//
+    //  为每一个 mapent，生成 Land-waters
+    //  (确保晚于 生态群落)，因为不同的生态群落
+    //  其水域生成方式不同
+    //---------------------------//
+    build_landOrWaters();
+    
 
-
-    mapTex.resize_texBuf();
-
-    pixBufHeadPtr = mapTex.get_texBufHeadPtr(); 
+    
     //------
 
 
-
-    for( int h=0; h<pixWH.y; h++ ){
-        for( int w=0; w<pixWH.x; w++ ){
-
-            
-            
-
-
-
-
+    /*
+    for( int h=0; h<entWH.y; h++ ){
+        for( int w=0; w<entWH.x; w++ ){
         }
     }
-
-
-
-
-
-
-    /*
-    foreach_pix(
-        []( int w, int h ){
-            if( _is_black( w,h ) == true ){
-                pixBufHeadPtr[ pixWH.x*h + w ] = color1;
-            }else{
-                pixBufHeadPtr[ pixWH.x*h + w ] = color2;
-            }
-        }
-    );
     */
+
+
+    //---------------------------//
+    //    一股脑生成 mapTex 
+    //---------------------------//
+    //...
+
+    RGBA *pixPtr; //- texBuf 中每个像素点RGBA 的指针。
+
+    size_t   pixIdx;
+    size_t   entIdx;
+    IntVec2  pixPPos; //- 像素所在 ppos
+    IntVec2  pixMPos; //- 像素所在 entMPos 
+    u8_t singleColor;
+    //---
+    for( int h=0; h<pixWH.y; h++ ){ //-- each pixel in texure
+        for( int w=0; w<pixWH.x; w++ ){
+            
+            pixPPos.set( w, h );
+            pixMPos = floorDiv( pixPPos, PIXES_PER_MAPENT );
+            pixIdx = h*pixWH.x + w; 
+            entIdx = pixMPos.y*entWH.x + pixMPos.x;
+            //---
+            (pointMap.at(entIdx)==LAND) ?
+                singleColor = 160 :
+                singleColor = 50;
+            
+            //mapTex
+            pixPtr = pixBufHeadPtr + pixIdx;
+            pixPtr->set( singleColor,
+                         singleColor,
+                         singleColor,
+                         255 );
+        
+        }
+    }
+    
+
 
     //---------------------------//
     //   正式用 texture 生成 name

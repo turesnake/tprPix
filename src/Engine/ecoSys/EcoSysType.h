@@ -18,9 +18,10 @@
 enum class EcoSysType : u8_t{
 
     Forst,
+    DarkForst,
     Plain,  
-    Swamp
-
+    Swamp,
+    Desert
 
 };
 

@@ -91,6 +91,7 @@ int main(){
     input::init_input();             //---- input -----
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
     esrc::camera.init();             //---- camera 资源 ----
+    esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     //init_globState_srcs();         //---- globState 资源 ----
@@ -184,9 +185,13 @@ int main(){
 
             case 2:
                 //esrc::camera.print_pos();
-                
                 break;
             case 3:
+
+                //--- 定期 检查玩家所在section
+                //  并即时生成 周边 section
+                check_and_build_nearby_sections();
+
                 break;
             case 4:
                 break;

@@ -25,6 +25,9 @@
             //-- glm::value_ptr
 
 //-------------------- CPP --------------------//
+#include <cassert> //- tmp
+
+//-------------------- CPP --------------------//
 #include <vector>
 
 //-------------------- Engine --------------------//
@@ -41,7 +44,7 @@
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
 //-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
 struct Fst_diskMapSection{
-    Fst_diskMapEnt data[ SECTION_W_ENTS * SECTION_H_ENTS ]; //- 512KB
+    Fst_diskMapEnt data[ SECTION_SIDE_ENTS * SECTION_SIDE_ENTS ]; //- 512KB
 };
 
 
@@ -59,26 +62,14 @@ public:
     //----------- pos / key ------------    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
-
-        //- 获得 section 左下角mapent 的 mpos
-        IntVec2 mpos {  _mpos.x/SECTION_W_ENTS,
-                        _mpos.y/SECTION_H_ENTS };
+        //-- “地板除法，向低取节点值”, 在乘回 节点间距。
+        //   获得 所在section 左下ent mpos
+        IntVec2 mpos = get_section_mpos( _mpos );
         //---
         pos.set_by_mpos( mpos );
-        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
+        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() ); 
+                        //-- 这里的计算重复了，但问题不大。
     }
-
-    //-- 以下两个函数存在问题，不要使用...
-    /*
-    inline void set_by_ppos( const glm::vec2 &_ppos ){
-        pos.set_by_ppos( (int)_ppos.x, (int)_ppos.y ); //- ?
-        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
-    }
-    inline void set_by_ppos( const IntVec2 &_ppos ){
-        pos.set_by_ppos( _ppos ); 
-        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() );
-    }
-    */
 
     //--- get ---
     inline const glm::vec2 get_fpos() const {
@@ -95,14 +86,21 @@ public:
         return sectionKey.get_key();
     }
 
+    inline const std::vector<u64_t> &get_near_8_sectionKeys() const {
+        return sectionKey.get_near_8_sectionKeys();
+    }
+
     //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
     void refresh_translate_auto();
 
     
-    inline MemMapEnt* get_memMapEnt_by_lmpos( const IntVec2 &_lmpos ){
-        int idx = _lmpos.y*SECTION_W_ENTS + _lmpos.x;
+    //-- 确保 参数为 基于section左下ent 的 相对mpos
+    inline MemMapEnt* get_memMapEnt_by_lMPosOff( const IntVec2 &_lMPosOff ){
+        int idx = _lMPosOff.y*SECTION_SIDE_ENTS + _lMPosOff.x;
+            assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return (MemMapEnt*)&(memMapEnts.at(idx));
     }
+    
 
     //======== vals ========//
     //------- section 自己的 图形 ---
@@ -119,14 +117,11 @@ private:
 
 
 
-
     //======== vals ========//
     //-- once init, never change.
     SectionKey  sectionKey {};
     //-- [left-bottom] --
     MapCoord      pos  {}; //- mpos/ppos 
-
-    //IntVec2       entsWH {}; //- 
 
     //======== static vals ========//
     // 仅仅便于 快速访问
@@ -134,6 +129,12 @@ private:
     static  IntVec2 pixWH; //- how mush pixels
 
 };
+
+
+//--- 临时放这里 ---
+void build_first_section( const IntVec2 &_mpos );
+void build_nearby_sections( const IntVec2 &_mpos );
+void check_and_build_nearby_sections();
 
 
 

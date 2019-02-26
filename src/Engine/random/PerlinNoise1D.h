@@ -34,25 +34,32 @@
 
 
 //-- 一个 二维版的 perlin noise 曲线 --
+// 用法:
+//   PerlinNoise1D  perlin { _freq, _ampl };
+//   perlin.init( _seed );
+//   int y = perlin.get_y( _x ); //- 通过x获得对应的y值。
 class PerlinNoise1D{
 public:
-    explicit PerlinNoise1D( float _freq = 1.0f, 
-                          float _ampl = 1.0f ):
+    PerlinNoise1D(  float _freq = 1.0f, 
+                    float _ampl = 1.0f ):
         freq(_freq),
         ampl(_ampl),
-        is_init( false )
+        isInit( false )
         {}
 
-    //-- 将 init 分离 --
-    inline void init(){
+    inline void init(){ //- use auto seed
         seed = get_new_seed();
-        is_init = true;
+        isInit = true;
+    }
+    inline void init( u32_t _seed ){ //- use param seed
+        seed = _seed;
+        isInit = true;
     }
 
     //-- 主功能，传入 perlin曲线的 x值，获得对应的 y值 --
     inline float get_y( float _x ){
 
-        assert( is_init == true );//- 确保 调用者执行 init 函数
+        assert( isInit == true );//- 确保 调用者执行 init 函数
 
         _x *= freq;
         float i = glm::floor( _x ); //- 取 _x 的整数部分
@@ -91,23 +98,21 @@ private:
     //-- 一个恒定不变的 伪随机数 序列 --
     //-  通过不同的 整形x
     //-  访问这个 序列上的 不同 y值 [ 0.0f, 1.0f ]
-    inline float pseudo_rand( int _intx ){
-
-        eng.seed( seed );
-        eng.discard( _intx ); 
-        return di(eng);
+    inline float pseudo_rand( int _intX ){
+        engine.seed( seed );
+        engine.discard( _intX ); //- 前进n个状态
+        return di(engine);
     }
 
     //======== vals ========//
     u32_t seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
-    std::default_random_engine   eng; //- 随机数引擎，默认初始状态
+    std::default_random_engine   engine; //- 随机数引擎，默认初始状态
     std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
 
     float freq; //- 频率
     float ampl; //- 振幅
 
-    bool is_init; //- 检查 是否执行 init
-
+    bool isInit; //- 检查 是否执行 init
 };
 
 
@@ -117,14 +122,13 @@ private:
 //  并自动将 下一个位置的 x 对应的 y 返回给调用者。
 class PerlinNoise1DNext{
 public:
-    explicit PerlinNoise1DNext( float _freq, 
-                                float _ampl )
+    PerlinNoise1DNext(  float _freq, 
+                        float _ampl )
         {
             pn_main.set_freq( _freq );
             pn_main.set_ampl( _ampl );
         }
     
-    //-- 将 init 分离 --
     inline void init(){
         pn_step.init();
         pn_main.init();

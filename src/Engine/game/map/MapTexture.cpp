@@ -18,8 +18,8 @@
 
 
 //----- static ------//
-IntVec2 MapTexture::pixSize {   SECTION_W_ENTS*PIXES_PER_MAPENT,  
-                                SECTION_W_ENTS*PIXES_PER_MAPENT};
+IntVec2 MapTexture::pixSize {   SECTION_SIDE_ENTS*PIXES_PER_MAPENT,  
+                                SECTION_SIDE_ENTS*PIXES_PER_MAPENT};
 
 
 /* ===========================================================

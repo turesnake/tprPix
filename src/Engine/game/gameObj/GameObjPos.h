@@ -90,6 +90,9 @@ public:
     inline const MapCoord &get_currentMCPos() const {
         return currentMCPos;
     }
+    inline const IntVec2 &get_currentMPos() const {
+        return currentMCPos.get_mpos();
+    }
 
     //- 获得 rootAnchor 所在的 collient 的 midFPos 
     glm::vec2 calc_rootAnchor_midFPos();

@@ -37,6 +37,7 @@
 #include "ColliEntSet.h"
 #include "MapCoord.h"
 #include "EcoSys.h"
+#include "GameSeed.h" //- tmp
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -59,6 +60,12 @@ inline GLFWwindow  *windowPtr {};
 inline TimeBase   timer {}; //-- 全局时间
 inline TimeCircle logicTimeCircle { &timer, 5 }; //- 逻辑时间循环 实例（5帧1周期）
 
+
+//-------------------------//
+//       gameSeed 资源 
+//-------------------------//
+inline GameSeed  gameSeed {}; //- tmp, 游戏种子，
+                            //- 暂设为：只有一个种子，且每次运行都重置
 
 //-------------------------//
 //       Camera 资源 

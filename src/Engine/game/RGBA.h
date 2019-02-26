@@ -46,6 +46,13 @@ public:
         );
     }
 
+    inline void set( u8_t _r, u8_t _g, u8_t _b, u8_t _a  ){
+        r = _r;
+        g = _g; 
+        b = _b;
+        a = _a;
+    }
+
     //======== vals ========//
     u8_t r {0};
     u8_t g {0};

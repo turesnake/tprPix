@@ -23,32 +23,19 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
  *                insert_new_mapSection
  * -----------------------------------------------------------
  * -- 不是一个 完善的 mapSection 生成器。仅能用于 bypass 阶段
- * -- 不断 扩充 中。
- * -- 参数 _sectionPos “推荐”使用 section左下角 mcpos
+ * -- 注意： 返回的 section 是全空的 ！！！
+ * ------
+ * param: _sectionMCPos -- “推荐”使用 section左下角 mcpos
  */
-MapSection *insert_new_mapSection( const MapCoord &_sectionPos ){
+MapSection *insert_new_mapSection( const MapCoord &_sectionMCPos ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     MapSection section {};
-    section.set_by_mapEnt_mpos( _sectionPos.get_mpos() );
+    section.set_by_mapEnt_mpos( _sectionMCPos.get_mpos() );
     u64_t key = section.get_key();
     esrc::mapSections.insert({ key, section }); //- copy
     //-----
-    MapSection &sectionRef = esrc::mapSections.at(key);
-
-    //-- 填充满 mapSection.memMapEnts --
-    for( int h=0; h<SECTION_H_ENTS; h++ ){
-        for( int w=0; w<SECTION_W_ENTS; w++ ){
-
-            MemMapEnt mapEnt {};
-            mapEnt.mcpos = sectionRef.get_mcpos() + MapCoord{ w, h };
-            //...
-
-            sectionRef.memMapEnts.push_back( mapEnt ); //-copy
-        }
-    }
-
-    return (MapSection*)&sectionRef;
+    return (MapSection*)&(esrc::mapSections.at(key));
 }
 
 
@@ -58,27 +45,24 @@ MapSection *insert_new_mapSection( const MapCoord &_sectionPos ){
  * -- 根据参数 _mcpos, 找到其所在的 mapSection, 从 mapSection.memMapEnts
  * -- 找到对应的 mapEnt, 将其指针返回出去
  * -- 如果 目标 mapsection 不存在，就要：加载它／创建它
+ * ------
+ * param: _mcpos -- 任意mapent 的 mcpos
  */
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ){
 
     //-- 计算 目标 mapSection 的 key --
     const IntVec2 &mposRef = _mcpos.get_mpos();
-    SectionKey key;
-    key.init_by_mapEnt_mpos( mposRef );
+    SectionKey  sectionKey {};
+    sectionKey.init_by_mapEnt_mpos( mposRef );
 
     //-- 拿着key，到 全局容器 esrc::mapSections 中去找。--
     //-- 如果没有，加载／创建它。
-    //-- 目前假定只有一个 section。超出的直接报错 
-        assert( key.get_key() == 0 );
-    MapSection &sectionRef = esrc::mapSections.at(key.get_key());
+        assert( esrc::mapSections.find(sectionKey.get_key()) != esrc::mapSections.end() ); //- tmp
+    MapSection &sectionRef = esrc::mapSections.at(sectionKey.get_key());
 
     //-- 获得 目标 mapEnt 在 section内部的 相对mpos
-    IntVec2 lmpos { mposRef.x%SECTION_W_ENTS, 
-                    mposRef.y%SECTION_H_ENTS };
-    
-    //int idx = lmpos.y*SECTION_W_ENTS + lmpos.x;
-    //return (MemMapEnt*)&(sectionRef.memMapEnts.at(idx));
-    return sectionRef.get_memMapEnt_by_lmpos( lmpos );
+    IntVec2  lMPosOff = get_section_lMPosOff(mposRef);
+    return sectionRef.get_memMapEnt_by_lMPosOff( lMPosOff );
 }
 
 

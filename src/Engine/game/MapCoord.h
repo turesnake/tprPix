@@ -68,14 +68,12 @@ public:
     inline void set_by_ppos( const IntVec2 &_ppos ){
         assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         ppos = _ppos;
-        //mpos = ppos / PIXES_PER_MAPENT;
         mpos = ppos.floorDiv( (float)PIXES_PER_MAPENT );
     }
 
     inline void set_by_ppos( int _x, int _y ){
         assert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
         ppos.set( _x, _y );
-        //mpos = ppos / PIXES_PER_MAPENT;
         mpos = ppos.floorDiv( (float)PIXES_PER_MAPENT );
     }
 
@@ -89,7 +87,6 @@ public:
     }
 
     inline const glm::vec2 get_midFPos() const { //- ppos of the mid_box
-        //return ( ppos + IntVec2_1_1 );
         return glm::vec2{   (float)ppos.x + HALF_PIXES_PER_MAPENT,
                             (float)ppos.y + HALF_PIXES_PER_MAPENT };
     }

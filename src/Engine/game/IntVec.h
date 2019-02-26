@@ -48,6 +48,11 @@ public:
         y -= _a.y;
         return *this;
     }
+    inline IntVec2& operator *= ( int _m ){
+        x *= _m;
+        y *= _m;
+        return *this;
+    }
 
     //-- 地板除法，向低取节点值 --
     //  -1- float 除法

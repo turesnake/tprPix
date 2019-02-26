@@ -11,26 +11,10 @@
  */
 void map_byPass(){
 
-
-    MapCoord  initPos { IntVec2{ 0,0 } }; //- 目标 mapSection 坐标
-    MapSection *sectionPtr = esrc::insert_new_mapSection( initPos );
-
-
-    //----- 正式生成 section 数据 -----//
-        sectionPtr->build_new_section();
-
-
-    //-- bind mapTex - mesh --
-    sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );
-    sectionPtr->mesh.set_shader_program( &(esrc::rect_shader) );
-    sectionPtr->mesh.isVisible = true;
-
-    //- mapTex 直接坐标于 camera 的 远平面上
-    //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
-    sectionPtr->refresh_translate_auto();
-    
-    sectionPtr->init();
-
+    //--- 最简模式，仅仅生成 玩家所在的 section
+    IntVec2 entMPos { 0,0 };
+    build_first_section( entMPos );
+    build_nearby_sections( entMPos );
 }
 
 
