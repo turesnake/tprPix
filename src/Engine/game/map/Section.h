@@ -1,14 +1,14 @@
 /*
- * ====================== MapSection.h =======================
+ * ====================== Section.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2018.12.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    map section 一个地图区域。 左下坐标系
+ *    section 一个地图区域。 左下坐标系
  * ----------------------------
  */
-#ifndef _TPR_MAP_SECTION_H_
-#define _TPR_MAP_SECTION_H_
+#ifndef _TPR_SECTION_H_
+#define _TPR_SECTION_H_
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>
@@ -24,7 +24,7 @@
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
-//-------------------- CPP --------------------//
+//-------------------- C --------------------//
 #include <cassert> //- tmp
 
 //-------------------- CPP --------------------//
@@ -39,6 +39,7 @@
 #include "MapTexture.h" 
 #include "SectionKey.h"
 #include "MapCoord.h" 
+#include "SectionChunkSet.h"
 
  
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
@@ -51,43 +52,40 @@ struct Fst_diskMapSection{
 
 //-- 256*256 个 mapEnt, 组成一张 section  [mem] --
 //  section 作为一个整体被存储到硬盘，就像 mc 中的 chunk
-class MapSection{
+class Section{
 public:
-    MapSection() = default;
+    Section() = default;
 
     void init();
 
-    void build_new_section(); //-- section生成器 tmp...
-
-    //----------- pos / key ------------    
+    //----------- mcpos / key ------------    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
-        //-- “地板除法，向低取节点值”, 在乘回 节点间距。
+        //-- “地板除法，向低取节点值”, 再乘回 节点间距。
         //   获得 所在section 左下ent mpos
         IntVec2 mpos = get_section_mpos( _mpos );
-        //---
-        pos.set_by_mpos( mpos );
-        sectionKey.init_by_mapEnt_mpos( pos.get_mpos() ); 
+        mcpos.set_by_mpos( mpos );
+        sectionKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
                         //-- 这里的计算重复了，但问题不大。
     }
 
     //--- get ---
     inline const glm::vec2 get_fpos() const {
-        return pos.get_fpos(); //- return a tmp val
+        return mcpos.get_fpos(); //- return a tmp val
     }
     inline const IntVec2& get_mpos() const {
-        return pos.get_mpos();
+        return mcpos.get_mpos();
     }
     inline const MapCoord& get_mcpos() const {
-        return pos;
+        return mcpos;
     }
 
     inline const u64_t get_key() const {
         return sectionKey.get_key();
     }
 
-    inline const std::vector<u64_t> &get_near_8_sectionKeys() const {
-        return sectionKey.get_near_8_sectionKeys();
+    inline const std::vector<u64_t> &get_near_9_sectionKeys() const {
+        return sectionKey.get_near_9_sectionKeys();
     }
 
     //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
@@ -110,25 +108,24 @@ public:
     //-- 也许要放到 private 中
     std::vector<MemMapEnt> memMapEnts; 
 
-private:
-
-    //--- section 生成器系列函数 ---
-    void  build_landOrWaters();
-
-
-
-    //======== vals ========//
-    //-- once init, never change.
-    SectionKey  sectionKey {};
-    //-- [left-bottom] --
-    MapCoord      pos  {}; //- mpos/ppos 
+    SectionChunkSet  *chunkSetPtr  {nullptr}; 
+                        //- chunkSet 数据 往往先于 section 数据被创建。
 
     //======== static vals ========//
     // 仅仅便于 快速访问
-    static  IntVec2 entWH; //- how mush mapEnts
-    static  IntVec2 pixWH; //- how mush pixels
+    static  int entSideLen; //- 256*256 mapEnts  (只记录单边)
+    static  int pixSideLen; //- 1280*1280 pixels (只记录单边)
+ 
+private:
+
+    //======== vals ========//
+    //-- once init, never change.
+    SectionKey    sectionKey {};
+    //-- [left-bottom] --
+    MapCoord      mcpos  {}; //- mpos/ppos 
 
 };
+
 
 
 //--- 临时放这里 ---

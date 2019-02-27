@@ -25,6 +25,7 @@
 #include "srcs_engine.h" //- 所有资源
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
+#include "sectionBuild.h"
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
@@ -35,9 +36,6 @@ using std::string;
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
-
-
-void debug_();
 
 
 /* ===========================================================
@@ -103,6 +101,8 @@ int main(){
     //...
 
     debug::init_debug();             //---- debug 资源 ----
+
+    sectionBuild::init();            //----- sectionBuild 模块 --
 
     //++++++ load ++++++//
     esrc::load_colliEntSets(); //-- colliEntSets --
@@ -213,9 +213,9 @@ int main(){
         
 
         //------------------------//
-        //       mapSections
+        //       sections
         //------------------------//
-        for( auto& p : esrc::mapSections ){
+        for( auto& p : esrc::sections ){
             p.second.refresh_translate_auto(); //-- MUST !!!
             esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
                                                 (Mesh*)&p.second.mesh });
@@ -280,32 +280,4 @@ int main(){
     return(0);
 }
 
-
-
-/* ===========================================================
- *                        debug_
- * -----------------------------------------------------------
- * -- tmp...
- */
-inline int debugCount {0};
-void debug_(){
-    
-
-    //--------- only once -------------//
-    debugCount++;
-    if(debugCount != 5){
-        return;
-    }
-    //--------- only once -------------//
-
-    //cout << endl;
-    /*
-    auto it = esrc::memGameObjs.begin();
-    for( ; it!=esrc::memGameObjs.end(); it++ ){
-
-        it->second.debug();
-    }
-    */
-
-}
 

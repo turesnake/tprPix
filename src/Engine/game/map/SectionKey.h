@@ -24,6 +24,7 @@
 #include "IntVec.h" 
 #include "MapCoord.h"
 
+ 
 
 /* ===========================================================
  *                sectionKey_2_mcpos
@@ -107,8 +108,8 @@ public:
     }
 
 
-    //-- 获得本 section 周围 8个section 的 sectionKeys 集合 的访问权 --
-    inline const std::vector<u64_t> &get_near_8_sectionKeys() const {
+    //-- 获得本 section 周围 8个section (以及自己) 的 sectionKeys 集合 的访问权 --
+    inline const std::vector<u64_t> &get_near_9_sectionKeys() const {
         return nearbyKeys;
     }
 
@@ -123,26 +124,26 @@ public:
 private:
 
     //-- 填充 nearbyKeys --
+    //  共9个元素，与 NineBox 次序一致
     inline void build_nearbyKeys(){
         IntVec2 tmpMPos;
         u64_t   tmpKey;
         //-- 遍历九宫格 --
         for( int h=-1; h<=1; h++  ){
             for( int w=-1; w<=1; w++ ){
-
-                //-- 跳过 自己 section --
+                //-- 自己 section --
                 if( (h==0) && (w==0) ){
+                    nearbyKeys.push_back( key );
                     continue;
                 }
                 tmpMPos.x = mpos.x + w*SECTION_SIDE_ENTS;
                 tmpMPos.y = mpos.y + h*SECTION_SIDE_ENTS;
-                //---
                 tmpKey = sectionMPos_2_key( tmpMPos );
                 //---
                 nearbyKeys.push_back( tmpKey );//- copy
             }
         }
-        assert( nearbyKeys.size() == 8 );
+        assert( nearbyKeys.size() == 9 );
     }
 
 

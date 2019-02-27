@@ -8,7 +8,7 @@
  *    
  * ----------------------------
  */
-#include "MapSection.h"
+#include "Section.h"
 #include "srcs_engine.h"
 
 //-------------------- C --------------------//
@@ -16,6 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
+#include "sectionBuild.h"
 
 #include "debug.h"
 
@@ -59,11 +60,11 @@ void build_nearby_sections( const IntVec2 &_mpos ){
     //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
     u64_t key = just_creat_sectionKey_by_mpos( _mpos );
 
-        assert( esrc::mapSections.find(key) != esrc::mapSections.end() ); //- tmp
+        assert( esrc::sections.find(key) != esrc::sections.end() ); //- tmp
 
-    const auto &keys = esrc::mapSections.at(key).get_near_8_sectionKeys();
+    const auto &keys = esrc::sections.at(key).get_near_9_sectionKeys();
     for( const auto &ikey : keys ){
-        if( esrc::mapSections.find(ikey) == esrc::mapSections.end() ){
+        if( esrc::sections.find(ikey) == esrc::sections.end() ){
             //-- 创建 这个 section
             create_a_section( sectionKey_2_mcpos(ikey) );
         }
@@ -111,7 +112,7 @@ namespace{//----------- namespace ----------------//
  */
 void create_a_section( const MapCoord &_sectionMCPos ){
 
-    MapSection *sectionPtr = esrc::insert_new_mapSection( _sectionMCPos );
+    Section *sectionPtr = esrc::insert_new_section( _sectionMCPos );
 
     //---- 填充满 mapSection.memMapEnts ----
     for( int h=0; h<SECTION_SIDE_ENTS; h++ ){
@@ -123,7 +124,8 @@ void create_a_section( const MapCoord &_sectionMCPos ){
     }
 
     //----- 正式生成 section 数据 -----//
-    sectionPtr->build_new_section(); //- 此时目标 section 是空的
+    //sectionPtr->build_new_section(); //- 此时目标 section 是空的
+    sectionBuild::build( sectionPtr ); //- 此时目标 section 是空的
 
     //-- bind mapTex - mesh --
     sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );

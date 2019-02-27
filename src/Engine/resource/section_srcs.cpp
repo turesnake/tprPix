@@ -1,14 +1,13 @@
 /*
- * ========================= mapSection_srcs.cpp ==========================
+ * ========================= section_srcs.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2018.12.11
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *  资源管理: mapSection 
+ *  资源管理: Section 
  * ----------------------------
  */
 //-------------------- C ----------------------//
-//#include <string.h> //- memset, memcpy
 #include <cassert> //-- assert
 
 //-------------------- CPP --------------------//
@@ -22,7 +21,7 @@
 #include "srcs_engine.h" //- 所有资源
 #include "global.h"
 #include "GameObj.h" 
-#include "MapSection.h"
+#include "Section.h"
 
 using std::string;
 
@@ -31,28 +30,28 @@ using std::string;
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 //------------------- 提供给外部的函数 ----------------
-void mapSection_srcs_init();
-//void mapSection_srcs_save();
+void section_srcs_init();
+//void section_srcs_save();
 
 
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_var 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB  fstMapSection_db  { tpr::DB::DB_TYPE::Pure_Var, false };
+    tpr::tprDB  fstSection_db  { tpr::DB::DB_TYPE::Pure_Var, false };
 
     
 }//---------------- namespace end --------------//
 
 
 /* ===========================================================
- *               mapSection_srcs_init  
+ *               section_srcs_init  
  * -----------------------------------------------------------
  * -- 
  */
 void mapSection_srcs_init(){
 
-    fstMapSection_db.init_huge( path_data,
-                                "fstMapSection",
+    fstSection_db.init_huge( path_data,
+                                "fstSection",
                                 sizeof(Fst_diskMapSection)
                                 );
     //----------------------------------
@@ -60,8 +59,8 @@ void mapSection_srcs_init(){
     //     若有存档，读取之
     //     若无存档，创建之
     //----------------------------------
-    size_t fstMapSection_db_ents = fstMapSection_db.ent_nums();
-    if( fstMapSection_db_ents == 0 ){
+    size_t fstSection_db_ents = fstSection_db.ent_nums();
+    if( fstSection_db_ents == 0 ){
         //----- 没有存档，新建之 --------//
         
 

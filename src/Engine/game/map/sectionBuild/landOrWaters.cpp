@@ -8,7 +8,7 @@
  *    ----------
  * ----------------------------
  */
-#include "MapSection.h"
+#include "Section.h"
 
 //-------------------- CPP --------------------//
 
@@ -16,14 +16,17 @@
 #include "tprDataType.h" 
 
 //------------------- Engine --------------------//
-#include "sectionBuilderTools.h"
+#include "Section.h"
+#include "sectionBuild.h"
+#include "MapEntInBuild.h"
 
 
+namespace sectionBuild { //------- namespace: sectionBuild ----------//
 
 namespace{//----------- namespace ---------------//
 
     void poisson_distr();
-    void merge_ent( u8_t _colorA, u8_t _colorB, std::vector<u8_t> &_map );
+    void merge_ent( u8_t _valA, u8_t _valB );
 
     void independent_erase();
     void lonely_point_erase( int _w, int _h );
@@ -41,52 +44,56 @@ namespace{//----------- namespace ---------------//
  * 不同的生态，其水域分布存在区别。
  * 当前版本是最简模式，“无视生态差异”
  */
-void MapSection::build_landOrWaters(){
+void build_landOrWaters(){
 
     size_t idx;
-    //------
-    pointMap.clear();
-    pointMap.resize( SECTION_SIDE_ENTS*SECTION_SIDE_ENTS );
 
     //--------------------------//
     //  一，为每个像素随机分配 0/1
     //--------------------------//
-    
-    for( int h=0; h<entWH.y; h++ ){
-        for( int w=0; w<entWH.x; w++ ){
-            idx = h*entWH.x + w;
+
+
+    for( int h=0; h<entSideLen_; h++ ){
+        for( int w=0; w<entSideLen_; w++ ){
+            idx = h*entSideLen_ + w;
             //-- 靠边的一圈像素，统统设置为 LAND
             //   此处有误：
             //  靠边的一圈，应该继承相邻section 的边缘设置 
             //  只有在 相邻section 为空时，才 自行设置为 LAND 
             //  未实现... 
-            if( (h==0) || (h==entWH.y-1) || (w==0) || (w==entWH.x-1) ){
-                pointMap.at(idx) = LAND;
-            }else{
-                (uDistribution(randEngine)>landPercent) ?
-                    pointMap.at(idx) = LAND :
-                    pointMap.at(idx) = WATERS;
-            }
+
+            mapEnts.at(idx).isLand = LAND;
+            
+            /*
+            (uDistribution(randEngine)>landPercent) ?
+                    mapEnts.at(idx).isLand = LAND :
+                    mapEnts.at(idx).isLand = WATERS;
+            */
+
         }
     }
+
+
 
     //--------------------------//
     //    泊松分布 land-water点
     //--------------------------//
-    poisson_distr();
+    //poisson_distr();
 
 
     //---------------------------------------//
     //  二，       合并 land点 
     //---------------------------------------//
+    /*
     for( int i=0; i<numMergeLand; i++ ){
-        merge_ent( LAND, WATERS, pointMap );
+        merge_ent( LAND, WATERS );
     }
+    */
 
     //---------------------------------------//
     //     删除 孤立的 land点  [优化] 
     //---------------------------------------//
-    independent_erase();
+    //independent_erase();
 
 
     //---------------------------------------//
@@ -94,10 +101,10 @@ void MapSection::build_landOrWaters(){
     //   -1- mapents
     //   -2- mapTex  （不在此处...）
     //---------------------------------------//
-    for( size_t i=0; i<pointMap.size(); i++ ){
-        (pointMap.at(i)==LAND) ?
-                this->memMapEnts.at(i).isLand = true :
-                this->memMapEnts.at(i).isLand = false;
+    for( size_t i=0; i<mapEnts.size(); i++ ){
+        (mapEnts.at(i).isLand==LAND) ?
+                sectionPtr->memMapEnts.at(i).isLand = true :
+                sectionPtr->memMapEnts.at(i).isLand = false;
     }
 
     //--- end ---
@@ -123,8 +130,8 @@ void poisson_distr(){
     size_t idx;
 
     //-- 特别边缘的区域，不生成
-    std::uniform_int_distribution<int> di_w(  5, entWH.x-5  );
-    std::uniform_int_distribution<int> di_h(  5, entWH.y-5  );
+    std::uniform_int_distribution<int> di_w(  5, entSideLen_-5  );
+    std::uniform_int_distribution<int> di_h(  5, entSideLen_-5  );
 
     //----- 生成 n个 land 随机点 -----
     land_poisson_pts.clear();
@@ -142,9 +149,9 @@ void poisson_distr(){
         for( int i=0; i<times; i++ ){
             w = poisDi_w(randEngine);
             h = poisDi_h(randEngine);
-            idx = h*entWH.x + w;
-            if( (w>0) && (w<entWH.x-1) && (h>0) && (h<entWH.y-1)  ){
-                pointMap.at(idx) = LAND; 
+            idx = h*entSideLen_ + w;
+            if( (w>0) && (w<entSideLen_-1) && (h>0) && (h<entSideLen_-1)  ){
+                mapEnts.at(idx).isLand = LAND; 
             }
         }
     }
@@ -165,9 +172,9 @@ void poisson_distr(){
         for( int i=0; i<times; i++ ){
             w = poisDi_w(randEngine);
             h = poisDi_h(randEngine);
-            idx = h*entWH.x + w;
-            if( (w>0) && (w<entWH.x-1) && (h>0) && (h<entWH.y-1)  ){
-                pointMap.at(idx) = WATERS; 
+            idx = h*entSideLen_ + w;
+            if( (w>0) && (w<entSideLen_-1) && (h>0) && (h<entSideLen_-1)  ){
+                mapEnts.at(idx).isLand = WATERS; 
             }
         }
     }
@@ -179,14 +186,14 @@ void poisson_distr(){
 /* ===========================================================
  *                      merge_ent
  * -----------------------------------------------------------
- * -- 通用
+ * -- 仅用于 land-waters 数据
  * -- 对一张 随机像素图，合并 某个值的 区域。
  * -- 根据 九宫格策略，如果一个ent的周围 8格中，有4格为 目标值，则设置此ent为 目标值
- * -- param: _colorA -- 目标色，进行 merge
- * -- param: _colorB -- 对应色，不要进行merge 的ent 改成此值
+ * -- param: _valA -- 目标值，进行 merge
+ * -- param: _valB -- 对应值，不要进行merge 的ent 改成此值
  * -- param: _map  -- 要改写哪张 map
  */
-void merge_ent( u8_t _colorA, u8_t _colorB, std::vector<u8_t> &_map ){
+void merge_ent( u8_t _valA, u8_t _valB ){
 
     //---- 重排 map 全体单位的序号 顺序 --------
     //   速度会慢些，但可以接受
@@ -201,13 +208,13 @@ void merge_ent( u8_t _colorA, u8_t _colorB, std::vector<u8_t> &_map ){
         //-- 遍历 9宫格 --
         for( int h=(p.y-1); h<=(p.y+1); h++ ){
             for( int w=(p.x-1); w<=(p.x+1); w++ ){
-                idx = h*entWH.x + w;
+                idx = h*entSideLen_ + w;
                 //- 只处理周围 8 格 --
                 if( !((w==p.x)&&(h==p.y)) ){
                     //- 防止 边界外访问
-                    if( (w>=0) && (w<entWH.x) && (h>=0) && (h<entWH.y) ){
+                    if( (w>=0) && (w<entSideLen_) && (h>=0) && (h<entSideLen_) ){
                         //- 只记录 要求色
-                        if( _map.at(idx) == _colorA ){
+                        if( mapEnts.at(idx).isLand == _valA ){
                             count++;
                         }
                     }
@@ -215,10 +222,10 @@ void merge_ent( u8_t _colorA, u8_t _colorB, std::vector<u8_t> &_map ){
             }
         }
         //-- 改写 目标ent的颜色
-        idx = p.y*entWH.x + p.x;
+        idx = p.y*entSideLen_ + p.x;
         (count >= 4) ? 
-            _map.at(idx) = _colorA :
-            _map.at(idx) = _colorB;
+            mapEnts.at(idx).isLand = _valA :
+            mapEnts.at(idx).isLand = _valB;
     }
 }
 
@@ -229,8 +236,8 @@ void merge_ent( u8_t _colorA, u8_t _colorB, std::vector<u8_t> &_map ){
  * -- 删除 孤立的 黑白点
  */
 void independent_erase(){
-    for( int h=0; h<entWH.y; h++ ){
-        for( int w=0; w<entWH.x; w++ ){
+    for( int h=0; h<entSideLen_; h++ ){
+        for( int w=0; w<entSideLen_; w++ ){
             lonely_point_erase( w, h );
         }
     }
@@ -241,48 +248,45 @@ void independent_erase(){
 /* ===========================================================
  *                 lonely_point_erase
  * -----------------------------------------------------------
- * -- 消除 孤立的 黑白点。只消除一个 
+ * -- 消除 孤立的 land-waters点。只消除一个 
  * -- 当一个点的上下左右都 为异色，这个点就被同化
  */
 void lonely_point_erase( int _w, int _h ){
 
-    bool isLand_; //- 当前处理的点是 land or waters
-    int same; //- 同色
-    int anti; //- 异色
-    if( pointMap[_h*entWH.x + _w] == LAND ){
-        isLand_ = true;
+    u8_t same; //- 同色
+    u8_t anti; //- 异色
+    if( mapEnts.at(_h*entSideLen_ + _w).isLand == LAND ){
         same = LAND;
         anti = WATERS;
     }else{
-        isLand_ = false;
         same = WATERS;
         anti = LAND;
     }
 
     //-- 检查左边 --
-    if( (_w>0) && (pointMap[_h*entWH.x + (_w-1)] == same) ){
+    if( (_w>0) && (mapEnts.at(_h*entSideLen_ + (_w-1)).isLand == same) ){
         return;
     }
     //-- 检查右边 --
-    if( (_w<entWH.x-1) && (pointMap[_h*entWH.x + (_w+1)] == same) ){
+    if( (_w<entSideLen_-1) && (mapEnts.at(_h*entSideLen_ + (_w+1)).isLand == same) ){
         return;
     }
     //-- 检查下边 --
-    if( (_h>0) && (pointMap[(_h-1)*entWH.x + _w] == same) ){
+    if( (_h>0) && (mapEnts.at((_h-1)*entSideLen_ + _w).isLand == same) ){
         return;
     }
     //-- 检查上边 --
-    if( (_h<entWH.y-1) && (pointMap[(_h+1)*entWH.x + _w] == same) ){
+    if( (_h<entSideLen_-1) && (mapEnts.at((_h+1)*entSideLen_ + _w).isLand == same) ){
         return;
     }
 
     //-- 确定 目标像素被孤立，将其同化 --
-    pointMap[_h*entWH.x + _w] = anti;
+    mapEnts.at(_h*entSideLen_ + _w).isLand = anti;
 }
 
 
 
 
 }//-------------- namespace : end ---------------//
-
+}//-------------- namespace: sectionBuild: end -------------------//
 

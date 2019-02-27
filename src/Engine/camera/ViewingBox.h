@@ -24,7 +24,7 @@ public:
 
     //-- distance from zFar(to zNear) --
     //   camera.zFar 是个动态值，此处只能保存一个 相对偏移
-    static float  mapSections_zOff;
+    static float  sections_zOff;
     static float  goShadows_zOff;
     static float  mapEntSlices_zOff;
 };
@@ -33,7 +33,7 @@ inline float ViewingBox::x { (float)WORK_WIDTH };
 inline float ViewingBox::y { (float)WORK_HEIGHT };
 inline float ViewingBox::z { (float)VIEWING_BOX_Z_DEEP };
 
-inline float  ViewingBox::mapSections_zOff   { 10.0f };
+inline float  ViewingBox::sections_zOff      { 10.0f };
 inline float  ViewingBox::goShadows_zOff     { 20.0f };
 inline float  ViewingBox::mapEntSlices_zOff  { 30.0f };
 

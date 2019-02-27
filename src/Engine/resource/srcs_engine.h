@@ -33,11 +33,12 @@
 #include "ShaderProgram.h"
 #include "ChildMesh.h"
 #include "Behaviour.h" 
-#include "MapSection.h" 
+#include "Section.h" 
 #include "ColliEntSet.h"
 #include "MapCoord.h"
 #include "EcoSys.h"
 #include "GameSeed.h" //- tmp
+#include "SectionChunkSet.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -177,20 +178,25 @@ void init_ecoSyses();
 //-------------------------//
 inline Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
 
-
 void call_scriptMain(); //- 调用 脚本层 入口函数
 
 
 //-------------------------//
-//     MapSection 资源
+//     Section 资源
 //-------------------------//
-//-- 可能在 mem态，加载很多张 mapsection
+//-- 可能在 mem态，加载很多张 section
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
-// key 为 mapSection.sectionKey.key;
-inline std::unordered_map<u64_t, MapSection> mapSections {};
+// key 为 section.sectionKey.key;
+inline std::unordered_map<u64_t, Section> sections {};
 
-MapSection *insert_new_mapSection( const MapCoord &_sectionPos );
+Section *insert_new_section( const MapCoord &_sectionMCPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
+
+//-- chunk集数据 一定先于 sections 数据被创建 --
+//  这两个结构间 存在大量数据重复，未来可以优化之...
+inline std::unordered_map<u64_t, SectionChunkSet> sectionChunkSets {};
+
+SectionChunkSet *insert_new_sectionChunkSet( u64_t _sectionKeyVal );
 
 
 //-------------------------//
@@ -198,7 +204,7 @@ MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这
 //-------------------------//
 //-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中
 //-- 比如：
-//    - mapSection
+//    - Section
 //    - go脚下的阴影
 //    - UI图元等
 inline std::multimap<float, Mesh*> renderPool_meshs {};
