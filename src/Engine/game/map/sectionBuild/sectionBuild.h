@@ -23,17 +23,17 @@
 #include "IntVec.h"
 #include "EcoSysType.h"
 #include "NineBox.h"
-#include "Section.h"
+#include "Chunk.h"
 #include "MapEntInBuild.h"
-#include "NearbySectionKey.h"
-#include "SectionFieldSetInBuild.h"
+#include "NearbyChunkKey.h"
+#include "ChunkFieldSetInBuild.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
     
 
 //------------ ptrs ----------//
-inline Section                 *sectionPtr    {nullptr};
+inline Chunk                   *chunkPtr      {nullptr};
 inline MapTexture              *mapTexPtr     {nullptr};
 inline std::vector<MemMapEnt>  *memMapEntsPtr {nullptr};
 
@@ -44,7 +44,7 @@ inline u8_t LAND    {1};
 inline u8_t WATERS  {0};
 
 
-//--  等于 Section 中的几个值，放这里便于访问 --
+//--  等于 Chunk 中的几个值，放这里便于访问 --
 inline int  entSideLen_; //- how mush mapEnts (只记录单边)
 inline int  pixSideLen_; //- how mush pixels  (只记录单边)
 
@@ -57,17 +57,17 @@ inline int numMergeLand = 10;  //- 合并 land 函数，被反复执行几次
 inline std::vector<MapEntInBuild> mapEnts {}; //- 在section生成阶段，每个 mapent的信息
                                             //  和最终态的 mapent数据 不一样
 
-inline std::vector<NearbySectionKey> nearbySectionKeys {}; //- 周边9个section 的基础信息
+inline std::vector<NearbyChunkKey> nearbyChunkKeys {}; //- 周边9个 chunk 的基础信息
                                                      //- 使用 NineBoxType 来快速访问（根据方向）
 
-//----- 使用 NineBoxType 来快速访问 sectionKeys（根据方向）------
-inline const NearbySectionKey &get_nearbySectionKey( NineBoxIdx _idx ){
-    return nearbySectionKeys.at( (size_t)_idx );
+//----- 使用 NineBoxType 来快速访问 chunkKeys（根据方向）------
+inline const NearbyChunkKey &get_nearbyChunkKey( NineBoxIdx _idx ){
+    return nearbyChunkKeys.at( (size_t)_idx );
 }
 
 
-inline SectionFieldSetInBuild  sectionFieldSetInBuild {};
-                                    //-- 存储 当前build的 section 的 build态 Field数据。
+inline ChunkFieldSetInBuild  chunkFieldSetInBuild {};
+                                    //-- 存储 当前build的 chunk 的 build态 Field数据。
 
 
 //-- 通过调整 land-waters区 柏松分部的个数，可以让世界变得更整体，or更分裂。
@@ -82,7 +82,7 @@ inline std::vector<IntVec2> land_poisson_pts; //- 陆地 泊松点
 inline std::vector<IntVec2> waters_poisson_pts; //- 水域 泊松点
 
 
-inline std::vector<IntVec2> randWH; //- 每个元素 是 ent在 section 中的 坐标序号: (3,6)这种。
+inline std::vector<IntVec2> randWH; //- 每个元素 是 ent在 chunk 中的 坐标序号: (3,6)这种。
                                     //- 乱序存储
 
 
@@ -94,7 +94,8 @@ inline std::uniform_int_distribution<int> poisDistribution(1000,3000);
 
 
 void  init(); 
-void  build( Section *_sectionPtr ); //- section 生成器 主函数
+void  build( Chunk *_chunkPtr ); //- chunk 生成器 主函数
+                                 //- 未完
 
 void  build_landOrWaters();
 

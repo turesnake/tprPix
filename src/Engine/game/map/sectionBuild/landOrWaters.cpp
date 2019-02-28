@@ -8,7 +8,7 @@
  *    ----------
  * ----------------------------
  */
-#include "Section.h"
+#include "Chunk.h"
 
 //-------------------- CPP --------------------//
 
@@ -16,7 +16,6 @@
 #include "tprDataType.h" 
 
 //------------------- Engine --------------------//
-#include "Section.h"
 #include "sectionBuild.h"
 #include "MapEntInBuild.h"
 
@@ -56,11 +55,12 @@ void build_landOrWaters(){
     for( int h=0; h<entSideLen_; h++ ){
         for( int w=0; w<entSideLen_; w++ ){
             idx = h*entSideLen_ + w;
+
             //-- 靠边的一圈像素，统统设置为 LAND
             //   此处有误：
-            //  靠边的一圈，应该继承相邻section 的边缘设置 
-            //  只有在 相邻section 为空时，才 自行设置为 LAND 
-            //  未实现... 
+            //  靠边的一圈，应该继承相邻 chunk 的边缘设置 
+            //  只有在 相邻 chunk 为空时，才 自行设置为 LAND 
+            //  此处已被取代...
 
             mapEnts.at(idx).isLand = LAND;
             
@@ -97,14 +97,14 @@ void build_landOrWaters(){
 
 
     //---------------------------------------//
-    //     修改  section 数据:
+    //     修改 chunk 数据:
     //   -1- mapents
     //   -2- mapTex  （不在此处...）
     //---------------------------------------//
     for( size_t i=0; i<mapEnts.size(); i++ ){
         (mapEnts.at(i).isLand==LAND) ?
-                sectionPtr->memMapEnts.at(i).isLand = true :
-                sectionPtr->memMapEnts.at(i).isLand = false;
+                chunkPtr->memMapEnts.at(i).isLand = true :
+                chunkPtr->memMapEnts.at(i).isLand = false;
     }
 
     //--- end ---

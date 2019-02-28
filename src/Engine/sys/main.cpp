@@ -188,7 +188,7 @@ int main(){
                 break;
             case 3:
 
-                //--- 定期 检查玩家所在section
+                //--- 定期 检查玩家所在 section
                 //  并即时生成 周边 section
                 check_and_build_nearby_sections();
 
@@ -213,9 +213,9 @@ int main(){
         
 
         //------------------------//
-        //       sections
+        //       chunks
         //------------------------//
-        for( auto& p : esrc::sections ){
+        for( auto& p : esrc::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
             esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
                                                 (Mesh*)&p.second.mesh });

@@ -14,7 +14,7 @@
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h"
-#include "SectionKey.h"
+#include "ChunkKey.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -26,8 +26,8 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
  * -- 只在 游戏启动阶段 执行。
  */
 void init(){
-    entSideLen_ = Section::entSideLen;
-    pixSideLen_ = Section::pixSideLen;
+    entSideLen_ = Chunk::entSideLen;
+    pixSideLen_ = Chunk::pixSideLen;
     //--------------------------//
     //     初始化  randWH
     //--------------------------//
@@ -56,13 +56,13 @@ void init(){
  * -----------------------------------------------------------
  * -- section 生成器 主函数
  * 生成器主要处理的两个对象：
- *  -- sectionPtr->memMapEnts （先逐个生成数据）
- *  -- sectionPtr->mapTex     （后一股脑制作）
+ *  -- chunkPtr->memMapEnts （先逐个生成数据）
+ *  -- chunkPtr->mapTex     （后一股脑制作）
  */
-void build( Section *_sectionPtr ){
-    sectionPtr    = _sectionPtr;
-    mapTexPtr     = (MapTexture*)&(sectionPtr->mapTex);
-    memMapEntsPtr = (std::vector<MemMapEnt>*)&(sectionPtr->memMapEnts);
+void build( Chunk *_chunkPtr ){
+    chunkPtr    = _chunkPtr;
+    mapTexPtr     = (MapTexture*)&(chunkPtr->mapTex);
+    memMapEntsPtr = (std::vector<MemMapEnt>*)&(chunkPtr->memMapEnts);
     //--------
 
     size_t   pixIdx;
@@ -84,41 +84,41 @@ void build( Section *_sectionPtr ){
     }
 
     //--------------------------//
-    //   初始化  nearbySectionKeys
+    //   初始化  nearbyChunkKeys
     //--------------------------//
-    NearbySectionKey  nsKey;
+    NearbyChunkKey  nsKey;
     //---
-    nearbySectionKeys.clear();
-    for( const auto &ikey : sectionPtr->get_near_9_sectionKeys() ){
+    nearbyChunkKeys.clear();
+    for( const auto &ikey : chunkPtr->get_near_9_chunkKeys() ){
         nsKey.key = ikey;
-        (esrc::sections.find(ikey)==esrc::sections.end()) ?
+        (esrc::chunks.find(ikey)==esrc::chunks.end()) ?
                 nsKey.isExisted = true :
                 nsKey.isExisted = false;
-        nearbySectionKeys.push_back( nsKey ); //- copy
+        nearbyChunkKeys.push_back( nsKey ); //- copy
     }
 
     //---------------------------//
-    //  检测并生成 周边9section 的 field信息
-    //  esrc::sectionFieldSets
+    //  检测并生成 周边9chunk 的 field信息
+    //  esrc::chunkFieldSets
     //---------------------------//
-    for( const auto &nbkey : nearbySectionKeys ){
-        if( esrc::sectionFieldSets.find(nbkey.key) == esrc::sectionFieldSets.end() ){
-            esrc::insert_new_sectionFieldSet( nbkey.key );
+    for( const auto &nbkey : nearbyChunkKeys ){
+        if( esrc::chunkFieldSets.find(nbkey.key) == esrc::chunkFieldSets.end() ){
+            esrc::insert_new_chunkFieldSet( nbkey.key );
         }
     }
 
     //---------------------------//
-    //  生成本SectionFieldSet 的所有 MapField.nearby_nodePPoses
+    //  生成本 ChunkFieldSet 的所有 MapField.nearby_nodePPoses
     //---------------------------//
-        assert( esrc::sectionFieldSets.find(sectionPtr->get_key()) != esrc::sectionFieldSets.end() );//- tmp
-    sectionPtr->fieldSetPtr = (SectionFieldSet*)&(esrc::sectionFieldSets.at(sectionPtr->get_key()));
+        assert( esrc::chunkFieldSets.find(chunkPtr->get_key()) != esrc::chunkFieldSets.end() );//- tmp
+    chunkPtr->fieldSetPtr = (ChunkFieldSet*)&(esrc::chunkFieldSets.at(chunkPtr->get_key()));
     //---
     /*
     for( auto &fieldRef : fieldSetPtr->fields ){
         fieldRef.build_nearby_nodePPoses();
     }
     */
-    sectionFieldSetInBuild.init( sectionPtr->fieldSetPtr );
+    chunkFieldSetInBuild.init( chunkPtr->fieldSetPtr );
 
 
     //---------------------------//
@@ -187,8 +187,8 @@ void build( Section *_sectionPtr ){
 
     //-- tmp 显示 field 距离场点 [成功] ---
     
-    for( const auto &fieldRef : sectionPtr->fieldSetPtr->fields ){
-        pixIdx = fieldRef.lNodePPosOff.y*Section::pixSideLen + fieldRef.lNodePPosOff.x;
+    for( const auto &fieldRef : chunkPtr->fieldSetPtr->fields ){
+        pixIdx = fieldRef.lNodePPosOff.y*Chunk::pixSideLen + fieldRef.lNodePPosOff.x;
         pixPtr = pixBufHeadPtr + pixIdx;
         pixPtr->set( 255, 0, 0, 255 ); //- red
     }

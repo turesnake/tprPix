@@ -1,13 +1,13 @@
 
 //-------------------- Engine --------------------//
-#include "Section.h"
+#include "Chunk.h"
 #include "srcs_engine.h"
 
 
 /* ===========================================================
  *                       map_byPass
  * -----------------------------------------------------------
- * -- 临时性的 CREATE一个 mapSection 实例。
+ * -- 临时性的 CREATE一个 section 实例。
  */
 void map_byPass(){
 
@@ -16,14 +16,6 @@ void map_byPass(){
     build_first_section( entMPos );
     build_nearby_sections( entMPos );
 }
-
-
-
-
-
-
-
-
 
 
 

@@ -1,14 +1,14 @@
 /*
- * ====================== Section.h =======================
+ * ========================== Chunk.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2018.12.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    section 一个地图区域。 左下坐标系
+ *    Chunk  64*64_mapents, [left-bottom]
  * ----------------------------
  */
-#ifndef _TPR_SECTION_H_
-#define _TPR_SECTION_H_
+#ifndef _TPR_CHUNK_H_
+#define _TPR_CHUNK_H_
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>
@@ -37,24 +37,24 @@
 #include "config.h" 
 #include "Mesh.h"
 #include "MapTexture.h" 
-#include "SectionKey.h"
+#include "ChunkKey.h"
 #include "MapCoord.h" 
-#include "SectionFieldSet.h"
+#include "ChunkFieldSet.h"
 
  
-//-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
+//-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
 //-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
-struct Fst_diskMapSection{
-    Fst_diskMapEnt data[ SECTION_SIDE_ENTS * SECTION_SIDE_ENTS ]; //- 512KB
+struct Fst_diskChunk{
+    Fst_diskMapEnt data[ ENTS_PER_CHUNK * ENTS_PER_CHUNK ]; //- 512KB
 };
 
 
 
-//-- 256*256 个 mapEnt, 组成一张 section  [mem] --
-//  section 作为一个整体被存储到硬盘，就像 mc 中的 Field
-class Section{
+//-- 64*64 个 mapEnt, 组成一张 chunk  [mem] --
+//  chunk 作为一个整体被存储到硬盘，就像 mc 中的 Field
+class Chunk{
 public:
-    Section() = default;
+    Chunk() = default;
 
     void init();
 
@@ -62,10 +62,10 @@ public:
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
         //-- “地板除法，向低取节点值”, 再乘回 节点间距。
-        //   获得 所在section 左下ent mpos
-        IntVec2 mpos = get_section_mpos( _mpos );
+        //   获得 所在 chunk 左下ent mpos
+        IntVec2 mpos = get_chunk_mpos( _mpos );
         mcpos.set_by_mpos( mpos );
-        sectionKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
+        chunkKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
                         //-- 这里的计算重复了，但问题不大。
     }
 
@@ -81,46 +81,46 @@ public:
     }
 
     inline const u64_t get_key() const {
-        return sectionKey.get_key();
+        return chunkKey.get_key();
     }
 
-    inline const std::vector<u64_t> &get_near_9_sectionKeys() const {
-        return sectionKey.get_near_9_sectionKeys();
+    inline const std::vector<u64_t> &get_near_9_chunkKeys() const {
+        return chunkKey.get_near_9_chunkKeys();
     }
 
     //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
     void refresh_translate_auto();
 
     
-    //-- 确保 参数为 基于section左下ent 的 相对mpos
+    //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt* get_memMapEnt_by_lMPosOff( const IntVec2 &_lMPosOff ){
-        int idx = _lMPosOff.y*SECTION_SIDE_ENTS + _lMPosOff.x;
+        int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return (MemMapEnt*)&(memMapEnts.at(idx));
     }
     
 
     //======== vals ========//
-    //------- section 自己的 图形 ---
+    //------- chunk 自己的 图形 ---
     MapTexture  mapTex {};
     Mesh        mesh   {}; 
 
     //-- 也许要放到 private 中
     std::vector<MemMapEnt> memMapEnts; 
 
-    SectionFieldSet  *fieldSetPtr  {nullptr}; 
-                        //- fieldSet 数据 往往先于 section 数据被创建。
+    ChunkFieldSet  *fieldSetPtr  {nullptr}; 
+                        //- fieldSet 数据 往往先于 chunk 数据被创建。
 
     //======== static vals ========//
     // 仅仅便于 快速访问
-    static  int entSideLen; //- 256*256 mapEnts  (只记录单边)
-    static  int pixSideLen; //- 1280*1280 pixels (只记录单边)
+    static  int entSideLen; //- 64*64 mapEnts  (只记录单边)
+    static  int pixSideLen; //- 320*320 pixels (只记录单边)
  
 private:
 
     //======== vals ========//
     //-- once init, never change.
-    SectionKey    sectionKey {};
+    ChunkKey    chunkKey {};
     //-- [left-bottom] --
     MapCoord      mcpos  {}; //- mpos/ppos 
 

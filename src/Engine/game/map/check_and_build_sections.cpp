@@ -8,7 +8,7 @@
  *    
  * ----------------------------
  */
-#include "Section.h"
+#include "Chunk.h"
 #include "srcs_engine.h"
 
 //-------------------- C --------------------//
@@ -22,10 +22,10 @@
 
 namespace{//----------- namespace ----------------//
 
-    u64_t   lastSectionKey    {}; //- 上次检测时，记录的 玩家所在 section.key
-    u64_t   currentSectionKey {}; //- 此次检测时，玩家所在 section.key
+    u64_t   lastChunkKey    {}; //- 上次检测时，记录的 玩家所在 chunk.key
+    u64_t   currentChunkKey {}; //- 此次检测时，玩家所在 chunk.key
 
-    void create_a_section( const MapCoord &_sectionMCPos );
+    void create_a_section( const MapCoord &_chunkMCPos );
 
 }//-------------- namespace : end ----------------//
 
@@ -42,10 +42,10 @@ namespace{//----------- namespace ----------------//
  */
 void build_first_section( const IntVec2 &_mpos ){
 
-    //.. 二话不说直接创建 目标section
+    //.. 二话不说直接创建 目标 chunk
     //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
-    MapCoord sectionMCPos { get_section_mpos(_mpos) };
-    create_a_section( sectionMCPos );
+    MapCoord chunkMCPos { get_chunk_mpos(_mpos) };
+    create_a_section( chunkMCPos );
 }
 
 
@@ -56,17 +56,17 @@ void build_first_section( const IntVec2 &_mpos ){
  */
 void build_nearby_sections( const IntVec2 &_mpos ){
 
-    //.. 二话不说直接创建 目标section 周围8个 section
+    //.. 二话不说直接创建 目标 chunk 周围8个 chunk
     //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
-    u64_t key = just_creat_sectionKey_by_mpos( _mpos );
+    u64_t key = just_creat_chunkKey_by_mpos( _mpos );
 
-        assert( esrc::sections.find(key) != esrc::sections.end() ); //- tmp
+        assert( esrc::chunks.find(key) != esrc::chunks.end() ); //- tmp
 
-    const auto &keys = esrc::sections.at(key).get_near_9_sectionKeys();
+    const auto &keys = esrc::chunks.at(key).get_near_9_chunkKeys();
     for( const auto &ikey : keys ){
-        if( esrc::sections.find(ikey) == esrc::sections.end() ){
-            //-- 创建 这个 section
-            create_a_section( sectionKey_2_mcpos(ikey) );
+        if( esrc::chunks.find(ikey) == esrc::chunks.end() ){
+            //-- 创建 这个 chunk
+            create_a_section( chunkKey_2_mcpos(ikey) );
         }
     }
 }
@@ -85,16 +85,16 @@ void check_and_build_nearby_sections(){
 
     IntVec2 playerMPos = esrc::player.goPtr->goPos.get_currentMPos();
 
-    //-- 没有变更section时，直接终止检测 ---
-    currentSectionKey = just_creat_sectionKey_by_mpos( playerMPos );
-    if( currentSectionKey == lastSectionKey ){
+    //-- 没有变更 chunk 时，直接终止检测 ---
+    currentChunkKey = just_creat_chunkKey_by_mpos( playerMPos );
+    if( currentChunkKey == lastChunkKey ){
         return;
     }
-    lastSectionKey = currentSectionKey;
+    lastChunkKey = currentChunkKey;
 
     //-------------------------//
-    // 检测并 创建 周边 8 个 section
-    // 默认 自身所处section 已经创建了
+    // 检测并 创建 周边 8 个 chunk
+    // 默认 自身所处 chunk 已经创建了
     //-------------------------//
     build_nearby_sections( playerMPos );
 }
@@ -108,34 +108,33 @@ namespace{//----------- namespace ----------------//
  * -- tmp，快速制作一个 section
  * -- 有关 “创建一个section”，现在出现了 多层嵌套...
  * -------
- * param: _sectionMCPos -- section 左下角mapent mcpos （强制）
+ * param: _chunkMCPos -- chunk 左下角mapent mcpos （强制）
  */
-void create_a_section( const MapCoord &_sectionMCPos ){
+void create_a_section( const MapCoord &_chunkMCPos ){
 
-    Section *sectionPtr = esrc::insert_new_section( _sectionMCPos );
+    Chunk *chunkPtr = esrc::insert_new_chunk( _chunkMCPos );
 
-    //---- 填充满 mapSection.memMapEnts ----
-    for( int h=0; h<SECTION_SIDE_ENTS; h++ ){
-        for( int w=0; w<SECTION_SIDE_ENTS; w++ ){
+    //---- 填充满 mapChunk.memMapEnts ----
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             MemMapEnt mapEnt {};
-            mapEnt.mcpos = sectionPtr->get_mcpos() + MapCoord{ w, h };
-            sectionPtr->memMapEnts.push_back( mapEnt ); //-copy
+            mapEnt.mcpos = chunkPtr->get_mcpos() + MapCoord{ w, h };
+            chunkPtr->memMapEnts.push_back( mapEnt ); //-copy
         }
     }
 
-    //----- 正式生成 section 数据 -----//
-    //sectionPtr->build_new_section(); //- 此时目标 section 是空的
-    sectionBuild::build( sectionPtr ); //- 此时目标 section 是空的
+    //----- 正式生成 chunk 数据 -----//
+    sectionBuild::build( chunkPtr ); //- 此时目标 chunk 是空的
 
     //-- bind mapTex - mesh --
-    sectionPtr->mesh.init( sectionPtr->mapTex.get_texName() );
-    sectionPtr->mesh.set_shader_program( &(esrc::rect_shader) );
-    sectionPtr->mesh.isVisible = true;
+    chunkPtr->mesh.init( chunkPtr->mapTex.get_texName() );
+    chunkPtr->mesh.set_shader_program( &(esrc::rect_shader) );
+    chunkPtr->mesh.isVisible = true;
 
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
-    sectionPtr->refresh_translate_auto();
-    sectionPtr->init();
+    chunkPtr->refresh_translate_auto();
+    chunkPtr->init();
 
 }
 

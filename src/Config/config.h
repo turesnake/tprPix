@@ -37,12 +37,21 @@ inline bool IS_FULL_SCREEN = false;
 //-- 一个 mapSection 占有 256*256 个 mapEnt
 //  由于 section 始终是正方形，仅记录一条边的边长（包含多少个 mapents）
 //#define SECTION_SIDE_ENTS 256
-#define SECTION_SIDE_ENTS 64
+
+//-- 一个 chunk，占有 64*64 mapents
+#define ENTS_PER_CHUNK 64
+
+//-- 一个 section，占有 4*4 chunks
+#define CHUNKS_PER_SECTION 4
+
+//-- 一个 section，占有 256*256 mapEnts
+#define ENTS_PER_SECTION  (ENTS_PER_CHUNK*CHUNKS_PER_SECTION) 
+
 
 //-- 一个 mapent 占用 5*5像素
-//   CAN'T CHANGE !!! 
 #define PIXES_PER_MAPENT  5
 #define HALF_PIXES_PER_MAPENT 2.5
+
 
 //-- camera.viewingBox z_deep
 #define VIEWING_BOX_Z_DEEP  1000

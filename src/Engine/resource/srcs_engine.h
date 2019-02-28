@@ -33,12 +33,12 @@
 #include "ShaderProgram.h"
 #include "ChildMesh.h"
 #include "Behaviour.h" 
-#include "Section.h" 
+#include "Chunk.h" 
 #include "ColliEntSet.h"
 #include "MapCoord.h"
 #include "EcoSys.h"
 #include "GameSeed.h" //- tmp
-#include "SectionFieldSet.h"
+#include "ChunkFieldSet.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -182,21 +182,21 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 
 
 //-------------------------//
-//     Section 资源
+//     Chunk 资源
 //-------------------------//
-//-- 可能在 mem态，加载很多张 section
+//-- 可能在 mem态，加载很多张 chunk
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
-// key 为 section.sectionKey.key;
-inline std::unordered_map<u64_t, Section> sections {};
+// key 为 chunk.chunkKey.key;
+inline std::unordered_map<u64_t, Chunk> chunks {};
 
-Section *insert_new_section( const MapCoord &_sectionMCPos );
+Chunk *insert_new_chunk( const MapCoord &_chunkMCPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
 
-//-- field集数据 一定先于 sections 数据被创建 --
+//-- field集数据 一定先于 chunks 数据被创建 --
 //  这两个结构间 存在大量数据重复，未来可以优化之...
-inline std::unordered_map<u64_t, SectionFieldSet> sectionFieldSets {};
+inline std::unordered_map<u64_t, ChunkFieldSet> chunkFieldSets {};
 
-SectionFieldSet *insert_new_sectionFieldSet( u64_t _sectionKeyVal );
+ChunkFieldSet *insert_new_chunkFieldSet( u64_t _chunkKeyVal );
 
 
 //-------------------------//
@@ -204,7 +204,7 @@ SectionFieldSet *insert_new_sectionFieldSet( u64_t _sectionKeyVal );
 //-------------------------//
 //-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中
 //-- 比如：
-//    - Section
+//    - Chunk
 //    - go脚下的阴影
 //    - UI图元等
 inline std::multimap<float, Mesh*> renderPool_meshs {};

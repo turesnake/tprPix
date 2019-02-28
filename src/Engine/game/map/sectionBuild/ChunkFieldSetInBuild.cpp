@@ -1,13 +1,13 @@
 /*
- * ============= SectionFieldSetInBuild.cpp ===================
+ * ============= ChunkFieldSetInBuild.cpp ===================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.28
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   section "二级距离场"集 
+ *    
  * ----------------------------
  */
-#include "SectionFieldSetInBuild.h"
+#include "ChunkFieldSetInBuild.h"
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h" //- 所有资源
@@ -20,20 +20,20 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
  *                        init
  * -----------------------------------------------------------
  */
-void SectionFieldSetInBuild::init( SectionFieldSet *_sectionFieldSetPtr ){
+void ChunkFieldSetInBuild::init( ChunkFieldSet *_chunkFieldSetPtr ){
 
-    sectionFieldSetPtr = _sectionFieldSetPtr;
+    chunkFieldSetPtr = _chunkFieldSetPtr;
 
     //---------------------//
     //   fieldsInBuild
     //---------------------//
     IntVec2          nearbyFieldMPos {};
     IntVec2          fieldMPos_ {}; //- each Field
-    u64_t            key       {}; //- sectionKey.key
-    SectionFieldSet  *fieldSetPtr;
+    u64_t            key        {}; //- chunkKey.key
+    ChunkFieldSet  *fieldSetPtr;
     MapField         *fieldPtr;
 
-    for( const auto &fieldRef : sectionFieldSetPtr->fields ){
+    for( const auto &fieldRef : chunkFieldSetPtr->fields ){
         MapFieldInBuild  fieldInBuild {}; //- insert obj
         //--------
         //-- write fieldInBuild.nearby_nodePPoses ----//
@@ -48,9 +48,9 @@ void SectionFieldSetInBuild::init( SectionFieldSet *_sectionFieldSetPtr ){
                 fieldMPos_ = fieldRef.mcpos.get_mpos();
                 nearbyFieldMPos.set(fieldMPos_.x + w*MapField::entSideLen,
                                     fieldMPos_.y + h*MapField::entSideLen );
-                key = just_creat_sectionKey_by_mpos( nearbyFieldMPos );
-                    assert( esrc::sectionFieldSets.find(key) != esrc::sectionFieldSets.end() ); //- tmp
-                fieldSetPtr = (SectionFieldSet*)&(esrc::sectionFieldSets.at(key));
+                key = just_creat_chunkKey_by_mpos( nearbyFieldMPos );
+                    assert( esrc::chunkFieldSets.find(key) != esrc::chunkFieldSets.end() ); //- tmp
+                fieldSetPtr = (ChunkFieldSet*)&(esrc::chunkFieldSets.at(key));
                 fieldPtr = fieldSetPtr->get_mapFieldPtr_by_mpos( nearbyFieldMPos );
                 //----
                 fieldInBuild.nearby_nodePPoses.push_back( fieldPtr->nodePPos ); //- copy

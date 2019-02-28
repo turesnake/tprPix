@@ -1,13 +1,13 @@
 /*
- * =================== SectionFieldSet.cpp =======================
+ * =================== ChunkFieldSet.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.27
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   section "二级距离场"集 
+ *   chunk "二级距离场"集 
  * ----------------------------
  */
-#include "SectionFieldSet.h"
+#include "ChunkFieldSet.h"
 
 
 //-------------------- C --------------------//
@@ -34,25 +34,25 @@ namespace{//----------- namespace ---------------//
 /* ===========================================================
  *                  init
  * -----------------------------------------------------------
- * param: _mpos -- 这个 section 中的任意 mapent.mpos 
+ * param: _mpos -- 这个 chunk 中的任意 mapent.mpos 
  */
-void SectionFieldSet::init( const IntVec2 &_mpos ){
+void ChunkFieldSet::init( const IntVec2 &_mpos ){
 
     //-------------------------------//
-    // 每初始化一个 section，就重分配一个 seed
-    // 但这个 section内部。则使用这个 连续的 引擎
+    // 每初始化一个 chunk，就重分配一个 seed
+    // 但这个 chunk内部。则使用这个 连续的 引擎
     //       (临时简易方案...)
     //-------------------------------// 
     randEngine.seed(get_new_seed());
 
     //-------------------------------//
-    //          sectionKey
+    //          chunkKey
     //-------------------------------//
     //-- “地板除法，向低取节点值”, 再乘回 节点间距。
-    //   获得 所在section 左下ent mpos
-    IntVec2 mpos = get_section_mpos( _mpos );
+    //   获得 所在chunk 左下ent mpos
+    IntVec2 mpos = get_chunk_mpos( _mpos );
     mcpos.set_by_mpos( mpos );
-    sectionKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
+    chunkKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
                     //-- 这里的计算重复了，但问题不大。
 
     //-------------------------------//
@@ -84,10 +84,10 @@ void SectionFieldSet::init( const IntVec2 &_mpos ){
 /* ===========================================================
  *                get_mapFieldPtr_by_mpos
  * -----------------------------------------------------------
- * 传入本section中的任意一个 mpos，获得其对应的 MapField 的 访问权 
- * param: _mpos -- 这个 section 中的任意 mapent.mpos 
+ * 传入本chunk中的任意一个 mpos，获得其对应的 MapField 的 访问权 
+ * param: _mpos -- 这个 chunk 中的任意 mapent.mpos 
  */
-MapField *SectionFieldSet::get_mapFieldPtr_by_mpos( const IntVec2 &_mpos ){
+MapField *ChunkFieldSet::get_mapFieldPtr_by_mpos( const IntVec2 &_mpos ){
 
     IntVec2  lMPosOff = _mpos - mcpos.get_mpos(); 
     IntVec2  fieldWH_ = floorDiv( lMPosOff, (float)fieldSideLen );

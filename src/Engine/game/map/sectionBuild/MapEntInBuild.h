@@ -24,7 +24,7 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
 //- section-build 阶段的 mapent 数据结构
 class MapEntInBuild{
 public:
-    IntVec2     mpos {0,0}; //- 在 （256，256）tex 中的 坐标
+    IntVec2     mpos {0,0}; //- 在 （64，64）tex 中的 坐标
     u8_t        alti {0}; //- 高度 [0,15] 
     //u8_t      mask  {0};
     //u8_t      road  {0};
