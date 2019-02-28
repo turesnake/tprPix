@@ -98,27 +98,27 @@ void build( Section *_sectionPtr ){
     }
 
     //---------------------------//
-    //  检测并生成 周边9section 的 chunk信息
-    //  esrc::sectionChunkSets
+    //  检测并生成 周边9section 的 field信息
+    //  esrc::sectionFieldSets
     //---------------------------//
     for( const auto &nbkey : nearbySectionKeys ){
-        if( esrc::sectionChunkSets.find(nbkey.key) == esrc::sectionChunkSets.end() ){
-            esrc::insert_new_sectionChunkSet( nbkey.key );
+        if( esrc::sectionFieldSets.find(nbkey.key) == esrc::sectionFieldSets.end() ){
+            esrc::insert_new_sectionFieldSet( nbkey.key );
         }
     }
 
     //---------------------------//
-    //  生成本SectionChunkSet 的所有 MapChunk.nearby_nodePPoses
+    //  生成本SectionFieldSet 的所有 MapField.nearby_nodePPoses
     //---------------------------//
-        assert( esrc::sectionChunkSets.find(sectionPtr->get_key()) != esrc::sectionChunkSets.end() );//- tmp
-    sectionPtr->chunkSetPtr = (SectionChunkSet*)&(esrc::sectionChunkSets.at(sectionPtr->get_key()));
+        assert( esrc::sectionFieldSets.find(sectionPtr->get_key()) != esrc::sectionFieldSets.end() );//- tmp
+    sectionPtr->fieldSetPtr = (SectionFieldSet*)&(esrc::sectionFieldSets.at(sectionPtr->get_key()));
     //---
     /*
-    for( auto &chunkRef : chunkSetPtr->chunks ){
-        chunkRef.build_nearby_nodePPoses();
+    for( auto &fieldRef : fieldSetPtr->fields ){
+        fieldRef.build_nearby_nodePPoses();
     }
     */
-    sectionChunkSetInBuild.init( sectionPtr->chunkSetPtr );
+    sectionFieldSetInBuild.init( sectionPtr->fieldSetPtr );
 
 
     //---------------------------//
@@ -185,10 +185,10 @@ void build( Section *_sectionPtr ){
         }
     }
 
-    //-- tmp 显示 chunk 距离场点 [成功] ---
+    //-- tmp 显示 field 距离场点 [成功] ---
     
-    for( const auto &chunkRef : sectionPtr->chunkSetPtr->chunks ){
-        pixIdx = chunkRef.lNodePPosOff.y*Section::pixSideLen + chunkRef.lNodePPosOff.x;
+    for( const auto &fieldRef : sectionPtr->fieldSetPtr->fields ){
+        pixIdx = fieldRef.lNodePPosOff.y*Section::pixSideLen + fieldRef.lNodePPosOff.x;
         pixPtr = pixBufHeadPtr + pixIdx;
         pixPtr->set( 255, 0, 0, 255 ); //- red
     }

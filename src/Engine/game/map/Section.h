@@ -39,7 +39,7 @@
 #include "MapTexture.h" 
 #include "SectionKey.h"
 #include "MapCoord.h" 
-#include "SectionChunkSet.h"
+#include "SectionFieldSet.h"
 
  
 //-- 256*256 个 Fst_diskMapEnt 元素.[硬盘态] --
@@ -51,7 +51,7 @@ struct Fst_diskMapSection{
 
 
 //-- 256*256 个 mapEnt, 组成一张 section  [mem] --
-//  section 作为一个整体被存储到硬盘，就像 mc 中的 chunk
+//  section 作为一个整体被存储到硬盘，就像 mc 中的 Field
 class Section{
 public:
     Section() = default;
@@ -108,8 +108,8 @@ public:
     //-- 也许要放到 private 中
     std::vector<MemMapEnt> memMapEnts; 
 
-    SectionChunkSet  *chunkSetPtr  {nullptr}; 
-                        //- chunkSet 数据 往往先于 section 数据被创建。
+    SectionFieldSet  *fieldSetPtr  {nullptr}; 
+                        //- fieldSet 数据 往往先于 section 数据被创建。
 
     //======== static vals ========//
     // 仅仅便于 快速访问

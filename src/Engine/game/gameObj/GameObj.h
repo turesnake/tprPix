@@ -199,7 +199,7 @@ public:
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
 private:
-    //----------- binary chunk -------------//         
+    //----------- binary -------------//         
     std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联

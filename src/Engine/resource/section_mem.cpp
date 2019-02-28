@@ -68,19 +68,19 @@ MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ){
 
 
 /* ===========================================================
- *              insert_new_sectionChunkSet
+ *              insert_new_sectionFieldSet
  * -----------------------------------------------------------
  * param: _sectionMCPos -- 必须是 section左下角 mcpos
  */
-SectionChunkSet *insert_new_sectionChunkSet( u64_t _sectionKeyVal ){
+SectionFieldSet *insert_new_sectionFieldSet( u64_t _sectionKeyVal ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     MapCoord sectionMCPos = sectionKey_2_mcpos(_sectionKeyVal);
-    SectionChunkSet chunkSet {};
-    chunkSet.init( sectionMCPos.get_mpos() );
-    esrc::sectionChunkSets.insert({ _sectionKeyVal, chunkSet }); //- copy
+    SectionFieldSet fieldSet {};
+    fieldSet.init( sectionMCPos.get_mpos() );
+    esrc::sectionFieldSets.insert({ _sectionKeyVal, fieldSet }); //- copy
     //-----
-    return (SectionChunkSet*)&(esrc::sectionChunkSets.at(_sectionKeyVal));
+    return (SectionFieldSet*)&(esrc::sectionFieldSets.at(_sectionKeyVal));
 }
 
 

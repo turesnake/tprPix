@@ -1,5 +1,5 @@
 /*
- * =================== SectionChunkSet.cpp =======================
+ * =================== SectionFieldSet.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.27
  *                                        MODIFY -- 
@@ -7,7 +7,7 @@
  *   section "二级距离场"集 
  * ----------------------------
  */
-#include "SectionChunkSet.h"
+#include "SectionFieldSet.h"
 
 
 //-------------------- C --------------------//
@@ -15,6 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "random.h"
+#include "IntVec.h"
 
 
 namespace{//----------- namespace ---------------//
@@ -22,7 +23,7 @@ namespace{//----------- namespace ---------------//
 
     std::default_random_engine  randEngine; //-随机数引擎实例
     std::uniform_int_distribution<int> uDistribution(0,
-                                        MapChunk::pixSideLen-1); 
+                                        MapField::pixSideLen-1); 
                                         // [0,19] 
 
 }//-------------- namespace : end ---------------//
@@ -35,7 +36,7 @@ namespace{//----------- namespace ---------------//
  * -----------------------------------------------------------
  * param: _mpos -- 这个 section 中的任意 mapent.mpos 
  */
-void SectionChunkSet::init( const IntVec2 &_mpos ){
+void SectionFieldSet::init( const IntVec2 &_mpos ){
 
     //-------------------------------//
     // 每初始化一个 section，就重分配一个 seed
@@ -58,22 +59,22 @@ void SectionChunkSet::init( const IntVec2 &_mpos ){
     //  制作 64*64 个 距离场
     //  填入 fields 容器中
     //-------------------------------//
-    MapChunk   chunk  {};
+    MapField   field  {};
     IntVec2    lPPos  {}; 
-    for( int h=0; h<chunkSideLen; h++ ){  //- each chunk
-        for( int w=0; w<chunkSideLen; w++ ){
-            //--- chunk.mcpos ---
-            chunk.mcpos.set_by_mpos(mcpos.get_mpos().x + w*MapChunk::entSideLen,
-                                    mcpos.get_mpos().y + h*MapChunk::entSideLen);
-            //--- chunk.nodePPos ---
+    for( int h=0; h<fieldSideLen; h++ ){  //- each field
+        for( int w=0; w<fieldSideLen; w++ ){
+            //--- field.mcpos ---
+            field.mcpos.set_by_mpos(mcpos.get_mpos().x + w*MapField::entSideLen,
+                                    mcpos.get_mpos().y + h*MapField::entSideLen);
+            //--- field.nodePPos ---
             lPPos.set(  uDistribution(randEngine), 
                         uDistribution(randEngine) );
-            chunk.nodePPos = chunk.mcpos.get_ppos() + lPPos;
-            //--- chunk.lNodePPosOff ---
-            chunk.lNodePPosOff = chunk.nodePPos - this->mcpos.get_ppos();
-            //--- chunk.isLand      暂空置
-            //--- chunk.ecoSysType  暂空置
-            chunks.push_back( chunk ); //- copy
+            field.nodePPos = field.mcpos.get_ppos() + lPPos;
+            //--- field.lNodePPosOff ---
+            field.lNodePPosOff = field.nodePPos - this->mcpos.get_ppos();
+            //--- field.isLand      暂空置
+            //--- field.ecoSysType  暂空置
+            fields.push_back( field ); //- copy
         }
     }
 }
@@ -81,18 +82,18 @@ void SectionChunkSet::init( const IntVec2 &_mpos ){
 
 
 /* ===========================================================
- *                get_mapChunkPtr_by_mpos
+ *                get_mapFieldPtr_by_mpos
  * -----------------------------------------------------------
- * 传入本section中的任意一个 mpos，获得其对应的 MapChunk 的 访问权 
+ * 传入本section中的任意一个 mpos，获得其对应的 MapField 的 访问权 
  * param: _mpos -- 这个 section 中的任意 mapent.mpos 
  */
-MapChunk *SectionChunkSet::get_mapChunkPtr_by_mpos( const IntVec2 &_mpos ){
+MapField *SectionFieldSet::get_mapFieldPtr_by_mpos( const IntVec2 &_mpos ){
 
     IntVec2  lMPosOff = _mpos - mcpos.get_mpos(); 
-    IntVec2  chunkWH_ = floorDiv( lMPosOff, (float)chunkSideLen );
-    size_t idx = chunkWH_.y*chunkSideLen + chunkWH_.x;
-        assert( (idx>=0) && (idx<chunks.size()) ); //- tmp
-    return (MapChunk*)&(chunks.at(idx));
+    IntVec2  fieldWH_ = floorDiv( lMPosOff, (float)fieldSideLen );
+    size_t idx = fieldWH_.y*fieldSideLen + fieldWH_.x;
+        assert( (idx>=0) && (idx<fields.size()) ); //- tmp
+    return (MapField*)&(fields.at(idx));
 }
 
 

@@ -38,7 +38,7 @@
 #include "MapCoord.h"
 #include "EcoSys.h"
 #include "GameSeed.h" //- tmp
-#include "SectionChunkSet.h"
+#include "SectionFieldSet.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -192,11 +192,11 @@ inline std::unordered_map<u64_t, Section> sections {};
 Section *insert_new_section( const MapCoord &_sectionMCPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
 
-//-- chunk集数据 一定先于 sections 数据被创建 --
+//-- field集数据 一定先于 sections 数据被创建 --
 //  这两个结构间 存在大量数据重复，未来可以优化之...
-inline std::unordered_map<u64_t, SectionChunkSet> sectionChunkSets {};
+inline std::unordered_map<u64_t, SectionFieldSet> sectionFieldSets {};
 
-SectionChunkSet *insert_new_sectionChunkSet( u64_t _sectionKeyVal );
+SectionFieldSet *insert_new_sectionFieldSet( u64_t _sectionKeyVal );
 
 
 //-------------------------//

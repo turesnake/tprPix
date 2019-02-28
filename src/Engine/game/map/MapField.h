@@ -1,14 +1,14 @@
 /*
- * ===================== MapChunk.h =======================
+ * ===================== MapField.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.27
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   4*4mapent 构成一个 chunk
+ *   4*4mapent 构成一个 field
  * ----------------------------
  */
-#ifndef _TPR_MAP_CHUNK_H
-#define _TPR_MAP_CHUNK_H
+#ifndef _TPR_MAP_FIELD_H
+#define _TPR_MAP_FIELD_H
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -20,14 +20,14 @@
 #include "MapCoord.h"
 
 
-//-- 4*4mapent 构成一个 chunk -- [mem]
+//-- 4*4mapent 构成一个 field -- [mem]
 //  另一个身份是 “距离场” 
-//  每一个 section 都要存储 64*64个 MapChunk数据。
+//  每一个 section 都要存储 64*64个 MapField数据。
 //  而且每个 section的这组数据，都是在 section被正式生成前 就已经创建了
 // （由相邻的section）。这组数据会 始终存储在 mem/disk 。需要考虑其 空间开销
 //  ------
-//  为了节约空间，将一部分 build阶段需要处理的数据，存储在 MapChunkInBuild 中。
-class MapChunk{
+//  为了节约空间，将一部分 build阶段需要处理的数据，存储在 MapFieldInBuild 中。
+class MapField{
 public:
 
     //----- 第一阶段生成的数据 ------//
@@ -47,8 +47,8 @@ public:
     static  int  pixSideLen; //- 20*20 个 pixel  (只记录边长)
 };
 //====== static =======//
-inline int  MapChunk::entSideLen  { 4 };
-inline int  MapChunk::pixSideLen  { 4*PIXES_PER_MAPENT }; //- 20
+inline int  MapField::entSideLen  { 4 };
+inline int  MapField::pixSideLen  { 4*PIXES_PER_MAPENT }; //- 20
 
 
 #endif 

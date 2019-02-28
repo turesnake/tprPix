@@ -39,7 +39,8 @@ void go_byPass(){
     //--------------------------//
     
 
-    create_a_Norman( IntVec2{ 640, 640 } ); //- 初始section 中心位置
+    //create_a_Norman( IntVec2{ 640, 640 } ); //- 初始section 中心位置 (256*256)
+    create_a_Norman( IntVec2{ 160, 160 } ); //- 初始section 中心位置 (64*64)
 
     
     create_a_BigMan( IntVec2{ 130, 145 } );

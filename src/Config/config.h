@@ -36,7 +36,8 @@ inline bool IS_FULL_SCREEN = false;
 
 //-- 一个 mapSection 占有 256*256 个 mapEnt
 //  由于 section 始终是正方形，仅记录一条边的边长（包含多少个 mapents）
-#define SECTION_SIDE_ENTS 256
+//#define SECTION_SIDE_ENTS 256
+#define SECTION_SIDE_ENTS 64
 
 //-- 一个 mapent 占用 5*5像素
 //   CAN'T CHANGE !!! 

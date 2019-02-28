@@ -26,7 +26,7 @@
 #include "Section.h"
 #include "MapEntInBuild.h"
 #include "NearbySectionKey.h"
-#include "SectionChunkSetInBuild.h"
+#include "SectionFieldSetInBuild.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -66,8 +66,8 @@ inline const NearbySectionKey &get_nearbySectionKey( NineBoxIdx _idx ){
 }
 
 
-inline SectionChunkSetInBuild  sectionChunkSetInBuild {};
-                                    //-- 存储 当前build的 section 的 build态 chunk数据。
+inline SectionFieldSetInBuild  sectionFieldSetInBuild {};
+                                    //-- 存储 当前build的 section 的 build态 Field数据。
 
 
 //-- 通过调整 land-waters区 柏松分部的个数，可以让世界变得更整体，or更分裂。

@@ -17,9 +17,6 @@
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "srcs_engine.h"
-//#include "sectionBuild.h" //- tmp
-//#include "NineBox.h"
-//#include "SectionChunkSet.h"
 
 
 //======== static vals ========//
