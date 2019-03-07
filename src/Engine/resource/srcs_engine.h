@@ -14,6 +14,9 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
+//-------------------- C --------------------//
+#include <cassert>
+
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -39,6 +42,8 @@
 #include "EcoSys.h"
 #include "GameSeed.h" //- tmp
 #include "ChunkFieldSet.h"
+#include "EcoSysInMap.h"
+#include "Section.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -122,7 +127,8 @@ void realloc_active_goes();
 void realloc_inactive_goes();
 void signUp_newGO_to_mapEnt( GameObj *_goPtr );
 
-inline GameObj *find_memGameObjs( goid_t _goid ){
+inline GameObj *get_memGameObjs( goid_t _goid ){
+        assert( memGameObjs.find(_goid) != memGameObjs.end() );//- tmp
     return (GameObj*)&(memGameObjs.at(_goid));
 }
 
@@ -166,14 +172,6 @@ void player_srcs_save();
 
 
 //-------------------------//
-//     ecosyses
-//-------------------------//
-inline std::unordered_map<std::string, EcoSys> ecoSyses {};
-//EcoSys *insert_new_ecoSys(const std::string &_name);
-void init_ecoSyses();
-
-
-//-------------------------//
 //     Behaviour
 //-------------------------//
 inline Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
@@ -182,21 +180,69 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 
 
 //-------------------------//
+//     ecoSyses   
+//  [仅定义每种ecosys数据]
+//-------------------------//
+inline std::unordered_map<std::string, EcoSys> ecoSyses {};
+void init_ecoSyses();
+
+
+//-------------------------//
+//     ecoSysesInMap   
+//   [地图上每个 section端点，分布一个 ecoSysInMap实例]
+//-------------------------//
+inline std::unordered_map<sectionKey_t, EcoSysInMap> ecoSysesInMap {};
+EcoSysInMap *insert_new_ecoSysInMap( const IntVec2 &_sectionMPos );
+EcoSysInMap *insert_new_ecoSysInMap( sectionKey_t _sectionkey );
+
+inline EcoSysInMap *get_ecoSysInMapPtr( sectionKey_t _sectionkey ){
+        assert( ecoSysesInMap.find(_sectionkey) != ecoSysesInMap.end() );//- tmp
+    return (EcoSysInMap*)&(ecoSysesInMap.at(_sectionkey));
+}
+
+//-------------------------//
 //     Chunk 资源
 //-------------------------//
 //-- 可能在 mem态，加载很多张 chunk
 //-- 但每一渲染帧，只会有 1／2／4 张 map，被渲染。
 // key 为 chunk.chunkKey.key;
-inline std::unordered_map<u64_t, Chunk> chunks {};
+inline std::unordered_map<chunkKey_t, Chunk> chunks {};
 
-Chunk *insert_new_chunk( const MapCoord &_chunkMCPos );
+Chunk *insert_new_chunk( const IntVec2 &_anyMPos );
 MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
 
+inline Chunk *get_chunkPtr( chunkKey_t _key ){
+        assert( chunks.find(_key) != chunks.end() );//- must exist
+    return (Chunk*)&(chunks.at(_key));
+}
+
+//-------------------------//
+//   ChunkFieldSet 资源
+//-------------------------//
 //-- field集数据 一定先于 chunks 数据被创建 --
 //  这两个结构间 存在大量数据重复，未来可以优化之...
-inline std::unordered_map<u64_t, ChunkFieldSet> chunkFieldSets {};
+inline std::unordered_map<chunkKey_t, ChunkFieldSet> chunkFieldSets {};
 
-ChunkFieldSet *insert_new_chunkFieldSet( u64_t _chunkKeyVal );
+ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ); //- 可能被废弃
+ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos );
+
+inline ChunkFieldSet *get_chunkFieldSetPtr( chunkKey_t _chunkKey ){
+        assert( chunkFieldSets.find(_chunkKey) != chunkFieldSets.end() ); //- tmp
+    return (ChunkFieldSet*)&(chunkFieldSets.at(_chunkKey));
+}
+
+//-------------------------//
+//     Section 资源  [tmp]
+//  暂时没想好，section 存储问题
+//-------------------------//
+inline std::unordered_map<sectionKey_t, Section> sections {};
+Section *insert_new_section( const IntVec2 &_anyMPos );
+Section *insert_new_section( sectionKey_t _sectionkey );
+
+inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
+        assert( sections.find(_sectionkey) != sections.end() );//- tmp
+    return (Section*)&(sections.at(_sectionkey));
+}
 
 
 //-------------------------//

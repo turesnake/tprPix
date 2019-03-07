@@ -19,6 +19,7 @@
 
 //- singleton --
 // 一个存档只有一个 gameSeed 实例 --
+// 具体的 随机引擎和分布器，则由各模块自行包含 （tmp）
 class GameSeed{
 public:
 
@@ -28,6 +29,12 @@ public:
 
     //======== vals ========//
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
+
+
+
+
+
+
 
 
 

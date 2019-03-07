@@ -47,6 +47,7 @@ goid_t insert_new_gameObj(){
     GameObj  tmp_go {};
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
     tmp_go.id = goid; //-- MUST --
+        assert( esrc::memGameObjs.find(goid) == esrc::memGameObjs.end() );//- must not exist
     memGameObjs.insert({ goid, tmp_go }); //- copy
     memGameObjs.at(goid).init(); //- MUST --
     return goid;
@@ -72,7 +73,7 @@ void realloc_active_goes(){
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_active ){
 
-        goPtr = esrc::find_memGameObjs( id );
+        goPtr = esrc::get_memGameObjs( id );
 
         v = camera.get_camera2DPPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
@@ -110,7 +111,7 @@ void realloc_inactive_goes(){
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_inactive ){
 
-        goPtr = esrc::find_memGameObjs( id );
+        goPtr = esrc::get_memGameObjs( id );
         
         v = camera.get_camera2DPPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;

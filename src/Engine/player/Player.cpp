@@ -89,7 +89,7 @@ void Player::bind_goPtr(){
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
-    goPtr = esrc::find_memGameObjs( goid );
+    goPtr = esrc::get_memGameObjs( goid );
     goPtr->isControlByPlayer = true;
 }
 

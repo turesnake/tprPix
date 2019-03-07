@@ -14,7 +14,7 @@
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h"
-#include "ChunkKey.h"
+#include "chunkKey.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -26,15 +26,15 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
  * -- 只在 游戏启动阶段 执行。
  */
 void init(){
-    entSideLen_ = Chunk::entSideLen;
-    pixSideLen_ = Chunk::pixSideLen;
+    //entSideLen_ = Chunk::entSideLen;
+    //pixSideLen_ = Chunk::pixSideLen;
     //--------------------------//
     //     初始化  randWH
     //--------------------------//
     randWH.clear();
-    randWH.reserve( entSideLen_ * entSideLen_ );
-    for( int h=0; h<entSideLen_; h++ ){
-        for( int w=0; w<entSideLen_; w++ ){
+    randWH.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             randWH.push_back(  IntVec2{ w, h } );
         }
     }
@@ -52,14 +52,15 @@ void init(){
 
 
 /* ===========================================================
- *                     build
+ *                     build_data
  * -----------------------------------------------------------
  * -- section 生成器 主函数
  * 生成器主要处理的两个对象：
  *  -- chunkPtr->memMapEnts （先逐个生成数据）
  *  -- chunkPtr->mapTex     （后一股脑制作）
  */
-void build( Chunk *_chunkPtr ){
+/*
+void build_data( Chunk *_chunkPtr ){
     chunkPtr    = _chunkPtr;
     mapTexPtr     = (MapTexture*)&(chunkPtr->mapTex);
     memMapEntsPtr = (std::vector<MemMapEnt>*)&(chunkPtr->memMapEnts);
@@ -75,10 +76,10 @@ void build( Chunk *_chunkPtr ){
     //--------------------------//
     //   初始化 mapEnts
     //--------------------------//
-    mapEnts.resize( entSideLen_ * entSideLen_ );
-    for( int h=0; h<entSideLen_; h++ ){ //-- each mapent
-        for( int w=0; w<entSideLen_; w++ ){
-            entIdx = h*entSideLen_ + w;
+    mapEnts.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){ //-- each mapent
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
+            entIdx = h*ENTS_PER_CHUNK + w;
             mapEnts.at(entIdx).mpos.set( w, h );
         }
     }
@@ -113,11 +114,6 @@ void build( Chunk *_chunkPtr ){
         assert( esrc::chunkFieldSets.find(chunkPtr->get_key()) != esrc::chunkFieldSets.end() );//- tmp
     chunkPtr->fieldSetPtr = (ChunkFieldSet*)&(esrc::chunkFieldSets.at(chunkPtr->get_key()));
     //---
-    /*
-    for( auto &fieldRef : fieldSetPtr->fields ){
-        fieldRef.build_nearby_nodePPoses();
-    }
-    */
     chunkFieldSetInBuild.init( chunkPtr->fieldSetPtr );
 
 
@@ -144,16 +140,12 @@ void build( Chunk *_chunkPtr ){
     //------
 
 
-    /*
-    for( int h=0; h<entSideLen; h++ ){
-        for( int w=0; w<entSideLen; w++ ){
-        }
-    }
-    */
+    
 
     //---------------------------//
     //  遍历每一个像素 1280 * 1280 
     //    生成一张完整的 mapTex 
+    //    (一下部分 将被转移)
     //---------------------------//
     //...
 
@@ -163,13 +155,13 @@ void build( Chunk *_chunkPtr ){
     IntVec2  pixMPos; //- 像素所在 entMPos 
     u8_t singleColor;
     //---
-    for( int h=0; h<pixSideLen_; h++ ){ //-- each pixel in texure
-        for( int w=0; w<pixSideLen_; w++ ){
+    for( int h=0; h<PIXES_PER_CHUNK; h++ ){ //-- each pixel in texure
+        for( int w=0; w<PIXES_PER_CHUNK; w++ ){
             
             pixPPos.set( w, h );
             pixMPos = floorDiv( pixPPos, PIXES_PER_MAPENT );
-            pixIdx = h*pixSideLen_ + w; 
-            entIdx = pixMPos.y*entSideLen_ + pixMPos.x;
+            pixIdx = h*PIXES_PER_CHUNK + w; 
+            entIdx = pixMPos.y*ENTS_PER_CHUNK + pixMPos.x;
             //---
             (mapEnts.at(entIdx).isLand==LAND) ?
                 singleColor = 160 :
@@ -187,7 +179,8 @@ void build( Chunk *_chunkPtr ){
 
     //-- tmp 显示 field 距离场点 [成功] ---
     
-    for( const auto &fieldRef : chunkPtr->fieldSetPtr->fields ){
+    for( const auto &fieldPair : chunkPtr->fieldSetPtr->fields ){
+        const MapField &fieldRef = fieldPair.second;
         pixIdx = fieldRef.lNodePPosOff.y*Chunk::pixSideLen + fieldRef.lNodePPosOff.x;
         pixPtr = pixBufHeadPtr + pixIdx;
         pixPtr->set( 255, 0, 0, 255 ); //- red
@@ -200,6 +193,8 @@ void build( Chunk *_chunkPtr ){
     mapTexPtr->creat_texName();
 
 }
+*/
+
 
 
 }//----------------- namespace: sectionBuild: end -------------------//

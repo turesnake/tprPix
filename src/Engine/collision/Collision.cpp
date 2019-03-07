@@ -95,7 +95,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                 for( const auto &majorGoPair : mapEntPtr->major_gos ){ //- each major_go in target mapent
                     if(isObstruct) break;
                     const MajorGO_in_MapEnt &goDataRef = majorGoPair.second;
-                    beGoPtr = esrc::find_memGameObjs( majorGoPair.first ); //- 获取目标go指针
+                    beGoPtr = esrc::get_memGameObjs( majorGoPair.first ); //- 获取目标go指针
 
                     //-- 没撞到，检查下一个 --
                     if( currentAltiRange.is_collide( beGoPtr->get_currentAltiRange( goDataRef.lAltiRange ) )==false ){

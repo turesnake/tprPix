@@ -52,9 +52,9 @@ void build_landOrWaters(){
     //--------------------------//
 
 
-    for( int h=0; h<entSideLen_; h++ ){
-        for( int w=0; w<entSideLen_; w++ ){
-            idx = h*entSideLen_ + w;
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
+            idx = h*ENTS_PER_CHUNK + w;
 
             //-- 靠边的一圈像素，统统设置为 LAND
             //   此处有误：
@@ -130,8 +130,8 @@ void poisson_distr(){
     size_t idx;
 
     //-- 特别边缘的区域，不生成
-    std::uniform_int_distribution<int> di_w(  5, entSideLen_-5  );
-    std::uniform_int_distribution<int> di_h(  5, entSideLen_-5  );
+    std::uniform_int_distribution<int> di_w(  5, ENTS_PER_CHUNK-5  );
+    std::uniform_int_distribution<int> di_h(  5, ENTS_PER_CHUNK-5  );
 
     //----- 生成 n个 land 随机点 -----
     land_poisson_pts.clear();
@@ -149,8 +149,8 @@ void poisson_distr(){
         for( int i=0; i<times; i++ ){
             w = poisDi_w(randEngine);
             h = poisDi_h(randEngine);
-            idx = h*entSideLen_ + w;
-            if( (w>0) && (w<entSideLen_-1) && (h>0) && (h<entSideLen_-1)  ){
+            idx = h*ENTS_PER_CHUNK + w;
+            if( (w>0) && (w<ENTS_PER_CHUNK-1) && (h>0) && (h<ENTS_PER_CHUNK-1)  ){
                 mapEnts.at(idx).isLand = LAND; 
             }
         }
@@ -172,8 +172,8 @@ void poisson_distr(){
         for( int i=0; i<times; i++ ){
             w = poisDi_w(randEngine);
             h = poisDi_h(randEngine);
-            idx = h*entSideLen_ + w;
-            if( (w>0) && (w<entSideLen_-1) && (h>0) && (h<entSideLen_-1)  ){
+            idx = h*ENTS_PER_CHUNK + w;
+            if( (w>0) && (w<ENTS_PER_CHUNK-1) && (h>0) && (h<ENTS_PER_CHUNK-1)  ){
                 mapEnts.at(idx).isLand = WATERS; 
             }
         }
@@ -208,11 +208,11 @@ void merge_ent( u8_t _valA, u8_t _valB ){
         //-- 遍历 9宫格 --
         for( int h=(p.y-1); h<=(p.y+1); h++ ){
             for( int w=(p.x-1); w<=(p.x+1); w++ ){
-                idx = h*entSideLen_ + w;
+                idx = h*ENTS_PER_CHUNK + w;
                 //- 只处理周围 8 格 --
                 if( !((w==p.x)&&(h==p.y)) ){
                     //- 防止 边界外访问
-                    if( (w>=0) && (w<entSideLen_) && (h>=0) && (h<entSideLen_) ){
+                    if( (w>=0) && (w<ENTS_PER_CHUNK) && (h>=0) && (h<ENTS_PER_CHUNK) ){
                         //- 只记录 要求色
                         if( mapEnts.at(idx).isLand == _valA ){
                             count++;
@@ -222,7 +222,7 @@ void merge_ent( u8_t _valA, u8_t _valB ){
             }
         }
         //-- 改写 目标ent的颜色
-        idx = p.y*entSideLen_ + p.x;
+        idx = p.y*ENTS_PER_CHUNK + p.x;
         (count >= 4) ? 
             mapEnts.at(idx).isLand = _valA :
             mapEnts.at(idx).isLand = _valB;
@@ -236,8 +236,8 @@ void merge_ent( u8_t _valA, u8_t _valB ){
  * -- 删除 孤立的 黑白点
  */
 void independent_erase(){
-    for( int h=0; h<entSideLen_; h++ ){
-        for( int w=0; w<entSideLen_; w++ ){
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             lonely_point_erase( w, h );
         }
     }
@@ -255,7 +255,7 @@ void lonely_point_erase( int _w, int _h ){
 
     u8_t same; //- 同色
     u8_t anti; //- 异色
-    if( mapEnts.at(_h*entSideLen_ + _w).isLand == LAND ){
+    if( mapEnts.at(_h*ENTS_PER_CHUNK + _w).isLand == LAND ){
         same = LAND;
         anti = WATERS;
     }else{
@@ -264,24 +264,24 @@ void lonely_point_erase( int _w, int _h ){
     }
 
     //-- 检查左边 --
-    if( (_w>0) && (mapEnts.at(_h*entSideLen_ + (_w-1)).isLand == same) ){
+    if( (_w>0) && (mapEnts.at(_h*ENTS_PER_CHUNK + (_w-1)).isLand == same) ){
         return;
     }
     //-- 检查右边 --
-    if( (_w<entSideLen_-1) && (mapEnts.at(_h*entSideLen_ + (_w+1)).isLand == same) ){
+    if( (_w<ENTS_PER_CHUNK-1) && (mapEnts.at(_h*ENTS_PER_CHUNK + (_w+1)).isLand == same) ){
         return;
     }
     //-- 检查下边 --
-    if( (_h>0) && (mapEnts.at((_h-1)*entSideLen_ + _w).isLand == same) ){
+    if( (_h>0) && (mapEnts.at((_h-1)*ENTS_PER_CHUNK + _w).isLand == same) ){
         return;
     }
     //-- 检查上边 --
-    if( (_h<entSideLen_-1) && (mapEnts.at((_h+1)*entSideLen_ + _w).isLand == same) ){
+    if( (_h<ENTS_PER_CHUNK-1) && (mapEnts.at((_h+1)*ENTS_PER_CHUNK + _w).isLand == same) ){
         return;
     }
 
     //-- 确定 目标像素被孤立，将其同化 --
-    mapEnts.at(_h*entSideLen_ + _w).isLand = anti;
+    mapEnts.at(_h*ENTS_PER_CHUNK + _w).isLand = anti;
 }
 
 

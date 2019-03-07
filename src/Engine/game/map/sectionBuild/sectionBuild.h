@@ -26,13 +26,17 @@
 #include "Chunk.h"
 #include "MapEntInBuild.h"
 #include "NearbyChunkKey.h"
-#include "ChunkFieldSetInBuild.h"
+//#include "ChunkFieldSetInBuild.h"
+#include "sectionKey.h"
+#include "EcoSysInMap.h"
+#include "Section.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
     
 
 //------------ ptrs ----------//
+inline Section                 *sectionPtr    {nullptr};
 inline Chunk                   *chunkPtr      {nullptr};
 inline MapTexture              *mapTexPtr     {nullptr};
 inline std::vector<MemMapEnt>  *memMapEntsPtr {nullptr};
@@ -45,8 +49,8 @@ inline u8_t WATERS  {0};
 
 
 //--  等于 Chunk 中的几个值，放这里便于访问 --
-inline int  entSideLen_; //- how mush mapEnts (只记录单边)
-inline int  pixSideLen_; //- how mush pixels  (只记录单边)
+//inline int  entSideLen_; //- how mush mapEnts (只记录单边)
+//inline int  pixSideLen_; //- how mush pixels  (只记录单边)
 
 
 //----- 地图生成器参数 ----
@@ -66,8 +70,9 @@ inline const NearbyChunkKey &get_nearbyChunkKey( NineBoxIdx _idx ){
 }
 
 
-inline ChunkFieldSetInBuild  chunkFieldSetInBuild {};
+//inline ChunkFieldSetInBuild  chunkFieldSetInBuild {};
                                     //-- 存储 当前build的 chunk 的 build态 Field数据。
+                                    //   已被废弃 ...
 
 
 //-- 通过调整 land-waters区 柏松分部的个数，可以让世界变得更整体，or更分裂。
@@ -94,11 +99,17 @@ inline std::uniform_int_distribution<int> poisDistribution(1000,3000);
 
 
 void  init(); 
-void  build( Chunk *_chunkPtr ); //- chunk 生成器 主函数
+void  build_data( Chunk *_chunkPtr ); //- chunk 生成器 主函数
                                  //- 未完
 
 void  build_landOrWaters();
 
+
+
+
+void build_first_section( const IntVec2 &_mpos );
+//void build_nearby_sections( const IntVec2 &_mpos );
+//void check_and_build_nearby_sections();
 
 
 

@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "srcs_engine.h" //- 所有资源
 #include "config.h"
-#include "ChunkKey.h"
+#include "chunkKey.h"
 
 #include "debug.h"
 
@@ -22,20 +22,19 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 /* ===========================================================
  *                insert_new_chunk
  * -----------------------------------------------------------
- * -- 不是一个 完善的 chunk 生成器。仅能用于 bypass 阶段
- * -- 注意： 返回的 chunk 是全空的 ！！！
- * ------
- * param: _chunkMCPos -- “推荐”使用 chunk左下角 mcpos
+ * param: _anyMPos --  目标chunk 区域中的任何一个 mapent.mpos
+ * 初始化以下数据：
+ *  - chunkKey
+ *  - mcpos
  */
-Chunk *insert_new_chunk( const MapCoord &_chunkMCPos ){
+Chunk *insert_new_chunk( const IntVec2 &_anyMPos ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     Chunk chunk {};
-    chunk.set_by_mapEnt_mpos( _chunkMCPos.get_mpos() );
-    u64_t key = chunk.get_key();
+    chunk.set_by_anyMPos( _anyMPos );
+    chunkKey_t key = chunk.get_key();
+        assert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
     esrc::chunks.insert({ key, chunk }); //- copy
-
-        //cout << "chunks.size() = " << esrc::chunks.size() << endl;
     //-----
     return (Chunk*)&(esrc::chunks.at(key));
 }
@@ -54,12 +53,13 @@ MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ){
 
     //-- 计算 目标 chunk 的 key --
     const IntVec2 &mposRef = _mcpos.get_mpos();
-    ChunkKey  chunkKey {};
-    chunkKey.init_by_mapEnt_mpos( mposRef );
+    chunkKey_t   chunkKey {};
+    //chunkKey.init_by_anyMPos( mposRef );
+    chunkKey = anyMPos_2_chunkKey( mposRef );
 
     //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
-        assert( esrc::chunks.find(chunkKey.get_key()) != esrc::chunks.end() ); //- tmp
-    Chunk &chunkRef = esrc::chunks.at(chunkKey.get_key());
+        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+    Chunk &chunkRef = esrc::chunks.at(chunkKey);
 
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
@@ -68,19 +68,39 @@ MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ){
 
 
 /* ===========================================================
- *              insert_new_chunkFieldSet
+ *              insert_new_chunkFieldSet    [可能被废弃]
  * -----------------------------------------------------------
- * param: _chunkMCPos -- 必须是 chunk左下角 mcpos
+ * param: _chunkKey -- 必须是 chunkKey.key
+ * 已初始化 一阶数据 ...
  */
-ChunkFieldSet *insert_new_chunkFieldSet( u64_t _chunkKeyVal ){
+ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    MapCoord chunkMCPos = chunkKey_2_mcpos(_chunkKeyVal);
-    ChunkFieldSet fieldSet {};
-    fieldSet.init( chunkMCPos.get_mpos() );
-    esrc::chunkFieldSets.insert({ _chunkKeyVal, fieldSet }); //- copy
+    ChunkFieldSet chunkFieldSet {};
+    chunkFieldSet.init_firstOrderData( chunkKey_2_mpos(_chunkKey) );
+        assert( esrc::chunkFieldSets.find(_chunkKey) == esrc::chunkFieldSets.end() );//- must not exist
+    esrc::chunkFieldSets.insert({ _chunkKey, chunkFieldSet }); //- copy
     //-----
-    return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(_chunkKeyVal));
+    return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(_chunkKey));
+}
+
+
+/* ===========================================================
+ *              insert_new_chunkFieldSet
+ * -----------------------------------------------------------
+ * param: _anyMPos --  目标chunk 区域中的任何一个 mapent.mpos
+ * 已初始化 一阶数据 ...
+ */
+ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos ){
+
+    // ***| INSERT FIRST, INIT LATER  |***
+    ChunkFieldSet chunkFieldSet {};
+    chunkFieldSet.init_firstOrderData( _anyMPos );
+    chunkKey_t key = chunkFieldSet.chunkKey;
+        assert( esrc::chunkFieldSets.find(key) == esrc::chunkFieldSets.end() );//- must not exist
+    esrc::chunkFieldSets.insert({ key, chunkFieldSet }); //- copy
+    //-----
+    return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(key));
 }
 
 

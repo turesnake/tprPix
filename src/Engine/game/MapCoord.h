@@ -5,6 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *   mapEntPos / pixPos  2-axis
+ *  --------------------------
+ *  游戏中用到的 各种 pos:
+ *   FPos   - float   pos
+ *	 PPos   - pixel   pos
+ *	 MPos   - mapEnt  pos
+ *	 FDPos  - field   pos
+ *	 CPos   - chunk   pos 
+ *	 SPos   - section pos (未实现)
  * ----------------------------
  */
 #ifndef _TPR_MAP_COORD_H_
@@ -171,6 +179,28 @@ inline glm::vec2 mpos_2_fpos( const IntVec2 &_mpos ){
     return glm::vec2{   (float)(_mpos.x*PIXES_PER_MAPENT),
                         (float)(_mpos.y*PIXES_PER_MAPENT) };
 }
+
+/* ===========================================================
+ *                mpos_2_midPPos
+ * -----------------------------------------------------------
+ * -- 获得 mapent 中间pixel 的 ppos 
+ */
+inline IntVec2 mpos_2_midPPos( const IntVec2 &_mpos ){
+    return IntVec2{ _mpos.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
+                    _mpos.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

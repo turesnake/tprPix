@@ -37,9 +37,10 @@
 #include "config.h" 
 #include "Mesh.h"
 #include "MapTexture.h" 
-#include "ChunkKey.h"
+#include "chunkKey.h"
 #include "MapCoord.h" 
 #include "ChunkFieldSet.h"
+#include "sectionKey.h"
 
  
 //-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
@@ -58,15 +59,14 @@ public:
 
     void init();
 
-    //----------- mcpos / key ------------    
+    void init_memMapEnts();
+
+    void assign_mapEnts_2_field();
+   
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
-    inline void set_by_mapEnt_mpos( const IntVec2 &_mpos ){
-        //-- “地板除法，向低取节点值”, 再乘回 节点间距。
-        //   获得 所在 chunk 左下ent mpos
-        IntVec2 mpos = get_chunk_mpos( _mpos );
-        mcpos.set_by_mpos( mpos );
-        chunkKey.init_by_mapEnt_mpos( mcpos.get_mpos() ); 
-                        //-- 这里的计算重复了，但问题不大。
+    inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
+        this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
+        mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );             
     }
 
     //--- get ---
@@ -80,12 +80,8 @@ public:
         return mcpos;
     }
 
-    inline const u64_t get_key() const {
-        return chunkKey.get_key();
-    }
-
-    inline const std::vector<u64_t> &get_near_9_chunkKeys() const {
-        return chunkKey.get_near_9_chunkKeys();
+    inline const chunkKey_t get_key() const {
+        return chunkKey;
     }
 
     //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
@@ -105,33 +101,38 @@ public:
     MapTexture  mapTex {};
     Mesh        mesh   {}; 
 
-    //-- 也许要放到 private 中
-    std::vector<MemMapEnt> memMapEnts; 
+    chunkKey_t  chunkKey {};
+    MapCoord    mcpos    {}; //- [left-bottom]
+
+    IntVec2     nodePPos {}; //- 距离场点 ppos (320*320pix 中的一个点) （均匀距离场）
+                            //- 绝对 ppos 坐标。
+                            //  （此值在 section中已经提前生成好了，只需要搬运到此处）
+
 
     ChunkFieldSet  *fieldSetPtr  {nullptr}; 
                         //- fieldSet 数据 往往先于 chunk 数据被创建。
 
-    //======== static vals ========//
-    // 仅仅便于 快速访问
-    static  int entSideLen; //- 64*64 mapEnts  (只记录单边)
-    static  int pixSideLen; //- 320*320 pixels (只记录单边)
- 
+    sectionKey_t  ecoSysInMapKey {}; 
+
+
+    std::vector<MemMapEnt> memMapEnts; 
+
+    //======== flags ========//
+    //bool   is_ecoSysInMap_set  {false};
+
 private:
 
-    //======== vals ========//
-    //-- once init, never change.
-    ChunkKey    chunkKey {};
-    //-- [left-bottom] --
-    MapCoord      mcpos  {}; //- mpos/ppos 
+    size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
 
+   
 };
 
 
 
+
+
 //--- 临时放这里 ---
-void build_first_section( const IntVec2 &_mpos );
-void build_nearby_sections( const IntVec2 &_mpos );
-void check_and_build_nearby_sections();
+
 
 
 
