@@ -68,7 +68,11 @@ void Section::init(){
  *    共9个元素，与 NineBox 次序一致
  */
 void Section::init_nearbySectionKeys(){
-    IntVec2        mpos = mcpos.get_mpos();
+    if( this->is_nearbySectionKeys_set ){
+        return;
+    }
+    //-----
+    IntVec2        mpos = this->get_mpos();
     IntVec2        tmpMPos;
     sectionKey_t   tmpKey;
     //-- 遍历九宫格 --
@@ -82,12 +86,13 @@ void Section::init_nearbySectionKeys(){
             }
             tmpMPos.x = mpos.x + w*ENTS_PER_SECTION;
             tmpMPos.y = mpos.y + h*ENTS_PER_SECTION;
-            tmpKey = sectionMPos_2_key( tmpMPos );
+            tmpKey = anyMPos_2_sectionKey( tmpMPos );
             //---
             nearbySectionKeys.push_back( tmpKey );//- copy
         }
     }
     assert( nearbySectionKeys.size() == 9 );
+    this->is_nearbySectionKeys_set = true;
 }
 
 
@@ -99,19 +104,23 @@ void Section::init_nearbySectionKeys(){
  *    共4个元素
  */
 void Section::init_quadSectionKeys(){
-
-    IntVec2        mpos = mcpos.get_mpos();
+    if( this->is_quadSectionKeys_set ){
+        return;
+    }
+    //-----
+    IntVec2        mpos = this->get_mpos();
     IntVec2        tmpMPos;
     sectionKey_t   tmpKey;
     quadSectionKeys.clear();
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpMPos.x = mpos.x + whOff.x*ENTS_PER_SECTION;
         tmpMPos.y = mpos.y + whOff.y*ENTS_PER_SECTION;
-        tmpKey = sectionMPos_2_key( tmpMPos );
+        tmpKey = anyMPos_2_sectionKey( tmpMPos );
         //---
         quadSectionKeys.push_back( tmpKey );//- copy
     }
     assert( quadSectionKeys.size() == QUAD_NUM );
+    this->is_quadSectionKeys_set = true;
 }
 
 
@@ -121,24 +130,28 @@ void Section::init_quadSectionKeys(){
  * -- 随机分配 chunk node ppos
  */
 void Section::init_chunkNodePPoses(){
-
+    if( this->is_chunkNodePPoses_set ){
+        return;
+    }
+    //-----
     IntVec2  nodePPos;
     IntVec2  lNodePPosOff;
     IntVec2  tmpChunkMPos;
-    IntVec2  sectionMPos = this->mcpos.get_mpos();
-    chunkNodePPoses.clear();
+    IntVec2  sectionMPos = this->get_mpos();
+    this->chunkNodePPoses.clear();
     for( int h=0; h<CHUNKS_PER_SECTION; h++ ){
-        for( int w=0; w<CHUNKS_PER_SECTION; w++ ){
-
+        for( int w=0; w<CHUNKS_PER_SECTION; w++ ){ // each chunk in section
             lNodePPosOff.set(   uDistribution_chunkNodePPos(randEngine),
                                 uDistribution_chunkNodePPos(randEngine) );
             tmpChunkMPos.set(   sectionMPos.x + w*ENTS_PER_CHUNK,
                                 sectionMPos.y + h*ENTS_PER_CHUNK );
-            nodePPos = tmpChunkMPos + lNodePPosOff;
-            chunkNodePPoses.push_back( nodePPos ); //- copy
+            //nodePPos = tmpChunkMPos + lNodePPosOff;
+            nodePPos = mpos_2_ppos(tmpChunkMPos) + lNodePPosOff;
+            this->chunkNodePPoses.push_back( nodePPos ); //- copy
         }
     }
-    assert( chunkNodePPoses.size() == CHUNKS_PER_SECTION*CHUNKS_PER_SECTION );
+    assert( this->chunkNodePPoses.size() == CHUNKS_PER_SECTION*CHUNKS_PER_SECTION );
+    this->is_chunkNodePPoses_set = true;
 }
 
 
@@ -150,12 +163,18 @@ void Section::init_chunkNodePPoses(){
  *   调用之前，应确保 目标 ecosysInMap 实例 已经创建了
  */
 void Section::bind_ecoSysInMapPtrs(){
+    assert( this->is_quadSectionKeys_set );//- tmp
+    if( this->is_ecoSysInMapPtrs_set ){
+        return;
+    }
+    //---
     EcoSysInMap  *ecoSysInMapPtr;
     ecoSysInMapPtrs.clear();
     for( const auto &key : quadSectionKeys ){ //- each key val
         ecoSysInMapPtr = esrc::get_ecoSysInMapPtr(key);
         ecoSysInMapPtrs.push_back( ecoSysInMapPtr ); //- copy        
     }
+    this->is_ecoSysInMapPtrs_set = true;
 }
 
 

@@ -38,6 +38,7 @@
 #include "AltiRange.h"
 #include "MapCoord.h"
 #include "EcoSysType.h"
+#include "fieldKey.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -176,7 +177,11 @@ public:
                     //  就算是 深渊类型的地面，也会有材质信息。
                     //  ...这个值可能被取消...
 
+    fieldKey_t  fieldKey {0};
+
     EcoSysType  ecoSysType  {EcoSysType::Forst};
+
+
 
     //--- 二级信息区 ---
     //u16_t  sec_data_id  {NULLID}; //- 二级信息 id号
@@ -198,6 +203,7 @@ public:
     //goid_t  major_go_id   {NULLID}; //- 主体go id. (实例)
     goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
     goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
+                        //-- 在新版 设计中，已经几乎没有 major-item-surface 区分了 ...
  
     std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
                 

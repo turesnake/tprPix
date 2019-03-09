@@ -60,6 +60,7 @@ public:
     int   chunkTotalNum  {0}; //- 本 ecosys 总共包含几个chunk
     
     //======== flags ========//
+    bool       is_quadSectionKeys_set {false};
     QuadFlag   is_all_sections_done  {false};
                     //- 本 ecosys包含的 四个象限section 是否都生成完毕 
 

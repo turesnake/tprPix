@@ -27,14 +27,14 @@
  
 using sectionKey_t = u64_t;
 
-
+sectionKey_t sectionMPos_2_key( const IntVec2 &_sectionMPos );  //- 不推荐外部代码使用
 IntVec2 sectionKey_2_mpos( sectionKey_t _key );
 IntVec2 anyMPos_2_sectionMPos( const IntVec2 &_mpos );
 IntVec2 get_section_lMPosOff( const IntVec2 &_anyMPos );
 sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos );
 
 
-namespace{//-------- namespace: --------------//
+
 
 /* ===========================================================
  *                 sectionMPos_2_key
@@ -51,8 +51,6 @@ inline sectionKey_t sectionMPos_2_key( const IntVec2 &_sectionMPos ){
     //--------
     return key;
 }
-
-}//------------- namespace: end --------------//
 
 
 /* ===========================================================
@@ -101,8 +99,6 @@ inline IntVec2 get_section_lMPosOff( const IntVec2 &_anyMPos ){
  * param: _mpos -- 任意 mapent 的 mpos
  */
 inline sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos ){
-    //-- “地板除法，向低取节点值”, 再乘回 节点间距。
-    //   获得 所在chunk 左下ent mpos
     IntVec2 sectionMPos = anyMPos_2_sectionMPos( _anyMPos );
     return sectionMPos_2_key( sectionMPos );
 }

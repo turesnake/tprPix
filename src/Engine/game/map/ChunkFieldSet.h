@@ -27,7 +27,17 @@
 class ChunkFieldSet{
 public:
 
-    void init_firstOrderData( const IntVec2 &_anyMPos );
+    inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
+        this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
+        this->mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );
+    }
+    inline void set_by_chunkKey( chunkKey_t _key ){
+        this->chunkKey = _key;
+        this->mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );
+    }
+
+
+    void init_fields();
 
     void assign_fields_2_chunk();
 
@@ -38,22 +48,17 @@ public:
     //====== vals =======//
     std::unordered_map<fieldKey_t,MapField> fields {}; //- 16*16 个
     
-    //----- 一阶数据 / first order data ------//
     //-- 下面两个数据 和 Chunk 彻底重复了... --
     //  未来考虑 整合之 ...
     MapCoord      mcpos    {}; //- chunk.mcpos
     chunkKey_t    chunkKey {}; //- 存储了相邻8个chunk 的key数据
 
 
-    //----- 二阶数据 / second order data ------//
-    // 暂无数据...
+    //====== flags =======//
+    bool  is_fields_set                 {false};
+    bool  is_assign_fields_2_chunk_done {false};
 
-
-    //====== vals =======//
-    bool  is_firstOrderData_init {false};
-    bool  is_secondOrderData_init {false};
                         
-    
 private:
 
     void reset_nearby_chunk_datas();
@@ -61,9 +66,9 @@ private:
 };
 
 
-std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMPos );
-
 MapField *get_fieldPtr_by_key( fieldKey_t _key );
+
+
 
 
 #endif 

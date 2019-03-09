@@ -40,24 +40,26 @@ namespace{//----------- namespace ---------------//
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
 void MapField::init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chunkMPos ){
-
+    if( this->is_firstOrderData_set ){
+        return;
+    }
     //--- 初始化 随机引擎的 一个不好的方法 ---
     if( is_randEngine_init == false ){
         is_randEngine_init = true;
         randEngine.seed( get_new_seed() );//- tmp
     }
     //--- field.mcpos ---
-    mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
+    this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
     //--- field.nodePPos ---
     IntVec2 lPPos { uDistribution(randEngine), 
                     uDistribution(randEngine) };
-    nodePPos = mcpos.get_ppos() + lPPos;
+    this->nodePPos = mcpos.get_ppos() + lPPos;
     //--- field.lNodePPosOff ---
-    lNodePPosOff = nodePPos - _chunkMPos;
+    this->lNodePPosOff = nodePPos - _chunkMPos;
     //--- field.fieldKey ---
-    fieldKey = anyMPos_2_fieldKey( mcpos.get_mpos() );
+    this->fieldKey = anyMPos_2_fieldKey( mcpos.get_mpos() );
     //----
-    this->is_firstOrderData_init = true; //- MUST
+    this->is_firstOrderData_set = true; //- MUST
 }
 
 
@@ -69,18 +71,20 @@ void MapField::init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chu
  *  且要确保，9个 field 都已完成 一阶数据init
  */
 void MapField::init_secondOrderData(){
-
+    if( this->is_secondOrderData_set ){
+        return;
+    }
     IntVec2          fieldMPos = this->mcpos.get_mpos();
     IntVec2          nearbyFieldMPos {};
     chunkKey_t       chunkKey     {};
     ChunkFieldSet   *chunkFieldSetPtr;
     MapField        *tmpFieldPtr;
-
+    
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 field
             //-- self --//
             if( (h==0) && (w==0) ){
-                    assert( this->is_firstOrderData_init ); //- tmp
+                    assert( this->is_firstOrderData_set ); //- tmp
                 this->nearby_field_nodePPoses.insert({  this->fieldKey, 
                                                         this->nodePPos });
                 continue;
@@ -92,13 +96,13 @@ void MapField::init_secondOrderData(){
             chunkKey = anyMPos_2_chunkKey( nearbyFieldMPos );
             chunkFieldSetPtr = esrc::get_chunkFieldSetPtr(chunkKey);
             tmpFieldPtr = chunkFieldSetPtr->get_fieldPtr_by_mpos( nearbyFieldMPos );
-                assert( tmpFieldPtr->is_firstOrderData_init ); //- tmp
+                assert( tmpFieldPtr->is_firstOrderData_set ); //- tmp
             //----
             this->nearby_field_nodePPoses.insert({  tmpFieldPtr->fieldKey,
                                                     tmpFieldPtr->nodePPos });
         }
     }
-    this->is_secondOrderData_init = true; //- MUST
+    this->is_secondOrderData_set = true; //- MUST
 }
 
 

@@ -192,6 +192,16 @@ inline IntVec2 mpos_2_midPPos( const IntVec2 &_mpos ){
 
 
 
+/* ===========================================================
+ *                mpos_2_midPPos
+ * -----------------------------------------------------------
+ * 计算两个 ppos 的距离（快速版，不开根号）
+ */
+inline int calc_fast_ppos_distance( const IntVec2 &_aPPos, const IntVec2 &_bPPos ){
+    IntVec2 off = _aPPos - _bPPos;
+        //-- 没有做 溢出检测...
+    return (off.x*off.x + off.y*off.y);
+}
 
 
 

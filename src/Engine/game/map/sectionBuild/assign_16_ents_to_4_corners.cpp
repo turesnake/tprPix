@@ -130,31 +130,17 @@ namespace{//-------- namespace: --------------//
  */
 void Section::assign_chunks_to_ecoSysInMap(){
 
-        //return;
+    assert( this->is_quadSectionKeys_set );
+    assert( this->is_chunkEcoSysInMapKeys_set );
 
     //-----------------------------//
     //         perpare
     //-----------------------------//
     //-- 绑定 四个 ecosys 指针 --//
     fourEcoSysInMapPtrs.clear();
-    for( const auto &key : quadSectionKeys ){
+    for( const auto &key : this->quadSectionKeys ){
         fourEcoSysInMapPtrs.push_back( esrc::get_ecoSysInMapPtr(key) );
-
-                /*
-                EcoSysInMap *ptr = esrc::get_ecoSysInMapPtr(key);
-                cout << "++ mpos:" << ptr->mcpos.get_mpos().x
-                    << ", " << ptr->mcpos.get_mpos().y << "; \n"
-                    << "key = " << ptr->sectionKey.get_key() << "; \n"
-                    << "   " << ptr->is_all_sections_done.is_left_bottom
-                    << ", " << ptr->is_all_sections_done.is_right_bottom
-                    << ", " << ptr->is_all_sections_done.is_left_top
-                    << ", " << ptr->is_all_sections_done.is_right_top
-                    << endl;
-                */
     }
-
-
-        //cout << "-1- fourEcoSysInMapPtrs.size() = " << fourEcoSysInMapPtrs.size() << endl;
 
 
     //-----------------------------//
@@ -171,8 +157,8 @@ void Section::assign_chunks_to_ecoSysInMap(){
     for( int h=0; h<CHUNKS_PER_SECTION; h++ ){ //- each chunk
         for( int w=0; w<CHUNKS_PER_SECTION; w++ ){
             idx = h*CHUNKS_PER_SECTION + w;
-                assert( (idx>=0) && (idx<chunkEcoSysInMapKeys.size()) );
-            chunkEcoSysInMapKeys.at(idx) = get_quadSectionKey_by_quadType( ents.at(idx).type );
+                assert( (idx>=0) && (idx<this->chunkEcoSysInMapKeys.size()) );
+            this->chunkEcoSysInMapKeys.at(idx) = get_quadSectionKey_by_quadType( ents.at(idx).type );
         }
     }
 
@@ -311,15 +297,8 @@ void main_assign(){
         assert( entRef.is_set == true );
         tmpIdx = QuadType_2_Idx(entRef.type);
 
-            
-            //cout << "fourEcoSysInMapPtrs.size() = " << fourEcoSysInMapPtrs.size() << endl;
-            //if( (tmpIdx<0) || (tmpIdx>=fourEcoSysInMapPtrs.size()) ){
-            //    cout << "tmpIdx = " << tmpIdx << endl;
-            //}
-
             assert( (tmpIdx>=0) && (tmpIdx<fourEcoSysInMapPtrs.size()) );
             
-
         ecoSysPtr = fourEcoSysInMapPtrs.at( tmpIdx );
         ecoSysPtr->accum_chunkNum( entRef.type ); //- chunk 计数器 累加
     }

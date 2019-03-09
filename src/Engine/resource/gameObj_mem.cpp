@@ -165,7 +165,7 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
                 //colliEntMCPos = i + cesMCPos;
                 //-- 这就是 每一个 ces.collient 的 mcpos
 
-                mapEntPtr = esrc::get_memMapEnt( i + cesMCPos ); //- 目标 mapent 访问权 --
+                mapEntPtr = esrc::get_memMapEntPtr( i + cesMCPos ); //- 目标 mapent 访问权 --
 
                 //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
                 mapEntPtr->major_gos.insert({ _goPtr->id, 

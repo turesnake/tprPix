@@ -90,7 +90,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                         //-- 图形debug --
                         debug::insert_new_mapEntSlice( i+cesMCPos );
 
-                mapEntPtr = esrc::get_memMapEnt( i+cesMCPos );
+                mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos );
 
                 for( const auto &majorGoPair : mapEntPtr->major_gos ){ //- each major_go in target mapent
                     if(isObstruct) break;
@@ -165,7 +165,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
             //   登记所有 adds 
             //-----------------//
             for( const auto &i : doCesRef.get_addEntOffs(_nbIdx) ){ //- each add EntOff
-                mapEntPtr = esrc::get_memMapEnt( i+cesMCPos ); //- 目标 mapent
+                mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
                 mapEntPtr->major_gos.insert({ doGoPtr->id,
                                 MajorGO_in_MapEnt{ doCehRef.lAltiRange, doCehRef.isCarryAffect } });
             }//-- each add EntOff
@@ -174,7 +174,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
             //   注销所有 dels 
             //-----------------//
             for( const auto &i : doCesRef.get_delEntOffs(_nbIdx) ){ //- each del EntOff
-                mapEntPtr = esrc::get_memMapEnt( i+cesMCPos ); //- 目标 mapent
+                mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
                 assert( mapEntPtr->major_gos.erase(doGoPtr->id) == 1 );
                             //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
             }//-- each del EntOff

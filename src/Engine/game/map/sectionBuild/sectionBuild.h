@@ -36,7 +36,7 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
     
 
 //------------ ptrs ----------//
-inline Section                 *sectionPtr    {nullptr};
+inline Section                 *currentSectionPtr    {nullptr};
 inline Chunk                   *chunkPtr      {nullptr};
 inline MapTexture              *mapTexPtr     {nullptr};
 inline std::vector<MemMapEnt>  *memMapEntsPtr {nullptr};
@@ -106,8 +106,9 @@ void  build_landOrWaters();
 
 
 
-
-void build_first_section( const IntVec2 &_mpos );
+void build_9_chunks( const IntVec2 &_playerMPos );
+void build_new_chunk_in_update();
+//void build_one_chunk( const IntVec2 &_anyMPos );
 //void build_nearby_sections( const IntVec2 &_mpos );
 //void check_and_build_nearby_sections();
 

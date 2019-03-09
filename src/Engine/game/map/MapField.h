@@ -23,6 +23,7 @@
 //#include "EcoSysInMap.h"
 #include "sectionKey.h"
 #include "fieldKey.h"
+#include "RGBA.h"
 
 
 //-- 4*4mapent 构成一个 field -- [mem]
@@ -50,7 +51,6 @@ public:
 
     //----- 二阶数据 / second order data ------//
     // 周边 9个field 一阶数据都准备完毕时，才能开始生成 此数据
-    //std::vector<IntVec2> nearby_field_nodePPoses {};
     std::unordered_map<fieldKey_t,IntVec2> nearby_field_nodePPoses {}; //- 周边9个field 的 距离场点。
                                 // 仅用于 地图生成阶段，不可被存储到 disk
                                 
@@ -58,6 +58,7 @@ public:
     //----- 三阶数据 / third order data ------//
     u8_t          isLand      {1}; //- 1:land, 0:waters
 
+    RGBA          color {}; //- 临时颜色，tmp...
      
     chunkKey_t    chunkKey {}; 
     sectionKey_t  ecoSysInMapKey {};
@@ -65,13 +66,14 @@ public:
     //EcoSysType  ecoSysType  { EcoSysType::Forst }; 
 
     //====== flags =======//
-    bool  is_firstOrderData_init {false};
-    bool  is_secondOrderData_init {false};
-    bool  is_thirdOrderData_init {false};
+    bool  is_firstOrderData_set {false};
+    bool  is_secondOrderData_set {false};
 
     bool  is_fieldKey_set       {false};
     bool  is_chunkKey_set       {false};
     bool  is_ecoSysInMapKey_set {false};
+
+    bool  is_color_set  {false}; //- tmp
     
 };
 

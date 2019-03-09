@@ -28,12 +28,12 @@
 
 using fieldKey_t = u64_t;
 
+fieldKey_t fieldMPos_2_key( const IntVec2 &_fieldMPos ); //- 不推荐外部代码使用
 IntVec2 fieldKey_2_mpos( fieldKey_t _key );
 IntVec2 anyMPos_2_fieldMPos( const IntVec2 &_anyMPos );
 fieldKey_t anyMPos_2_fieldKey( const IntVec2 &_anyMPos );
 
 
-namespace{//-------- namespace: --------------//
 
 /* ===========================================================
  *                fieldMPos_2_key
@@ -51,7 +51,6 @@ inline fieldKey_t fieldMPos_2_key( const IntVec2 &_fieldMPos ){
     //--------
     return key;
 }
-}//------------- namespace: end --------------//
 
 
 /* ===========================================================

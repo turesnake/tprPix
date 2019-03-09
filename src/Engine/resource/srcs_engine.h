@@ -209,7 +209,8 @@ inline EcoSysInMap *get_ecoSysInMapPtr( sectionKey_t _sectionkey ){
 inline std::unordered_map<chunkKey_t, Chunk> chunks {};
 
 Chunk *insert_new_chunk( const IntVec2 &_anyMPos );
-MemMapEnt *get_memMapEnt( const MapCoord &_mcpos ); //- 临时放这 
+MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ); //- 临时放这 
+MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ); //- 临时放这 
 
 inline Chunk *get_chunkPtr( chunkKey_t _key ){
         assert( chunks.find(_key) != chunks.end() );//- must exist

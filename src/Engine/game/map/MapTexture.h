@@ -38,9 +38,6 @@ public:
 
     void creat_texName();
 
-    inline void set_pixSize( IntVec2 _newSize ){
-        pixSize = _newSize;
-    }
 
     inline GLuint get_texName() const {
         return texName;
@@ -51,11 +48,8 @@ public:
     }
 
     inline void resize_texBuf(){
-        texBuf.resize( pixSize.x * pixSize.y );
+        texBuf.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK );
     }
-
-    //===== static =====//
-    static  IntVec2  pixSize; //- mapTex 长宽像素值
 
 private:
     GLuint              texName {0}; //- texture textel_name

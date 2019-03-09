@@ -62,6 +62,8 @@ public:
     void init_memMapEnts();
 
     void assign_mapEnts_2_field();
+
+    void assign_pixels_2_mapent(); //- tmp
    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
@@ -89,7 +91,7 @@ public:
 
     
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt* get_memMapEnt_by_lMPosOff( const IntVec2 &_lMPosOff ){
+    inline MemMapEnt* get_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
         int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return (MemMapEnt*)&(memMapEnts.at(idx));
@@ -123,6 +125,7 @@ public:
 private:
 
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
+    size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
 
    
 };

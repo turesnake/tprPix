@@ -190,7 +190,7 @@ int main(){
 
                 //--- 定期 检查玩家所在 section
                 //  并即时生成 周边 section
-                //sectionBuild::check_and_build_nearby_sections();
+                sectionBuild::build_new_chunk_in_update();
                         // 更新中...
 
                 break;

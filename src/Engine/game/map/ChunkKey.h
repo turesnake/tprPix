@@ -27,7 +27,7 @@
 
 using chunkKey_t = u64_t;
  
-
+chunkKey_t chunkMPos_2_key( const IntVec2 &_chunkMPos ); //- 不推荐外部代码使用
 IntVec2 chunkKey_2_mpos( chunkKey_t _key );
 IntVec2 anyMPos_2_chunkMPos( const IntVec2 &_mpos );
 IntVec2 get_chunk_lMPosOff( const IntVec2 &_anyMPos );
@@ -35,7 +35,7 @@ chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos );
 size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos );
 
 
-namespace{//-------- namespace: --------------//
+
 
 /* ===========================================================
  *             chunkMPos_2_key      [内部使用]
@@ -52,7 +52,6 @@ inline chunkKey_t chunkMPos_2_key( const IntVec2 &_chunkMPos ){
     return key;
 }
 
-}//------------- namespace: end --------------//
 
 
 /* ===========================================================
@@ -111,8 +110,6 @@ inline IntVec2 get_chunk_lMPosOff( const IntVec2 &_anyMPos ){
  * param: _mpos -- 任意 mapent 的 mpos
  */
 inline chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos ){
-    //-- “地板除法，向低取节点值”, 再乘回 节点间距。
-    //   获得 所在chunk 左下ent mpos
     IntVec2 chunkMPos = anyMPos_2_chunkMPos( _anyMPos );
     return chunkMPos_2_key( chunkMPos );
 }

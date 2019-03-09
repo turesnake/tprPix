@@ -56,7 +56,10 @@ void EcoSysInMap::init(){
  * -- 填充 quadSectionKeys
  */
 void EcoSysInMap::init_quadSectionKeys(){
-
+    if( this->is_quadSectionKeys_set ){
+        return;
+    }
+    //-----
     IntVec2        mpos = mcpos.get_mpos();
     IntVec2        tmpMPos;
     sectionKey_t   tmpKey;
@@ -69,14 +72,15 @@ void EcoSysInMap::init_quadSectionKeys(){
         quadSectionKeys.push_back( tmpKey );//- copy
     }
     assert( quadSectionKeys.size() == 4 );
+    this->is_quadSectionKeys_set = true;
 }
 
 
 
 /* ===========================================================
- *                init_quadSectionKeys
+ *                       plan
  * -----------------------------------------------------------
- * -- 在 section 阶段的 准备性数据制作完毕后，调用此函数来 做 ecosys 规划
+ * -- 在 section 阶段的 准备性数据制作完毕后，调用此函数来 做 生态规划
  */
 void EcoSysInMap::plan(){
 
@@ -84,8 +88,8 @@ void EcoSysInMap::plan(){
     //---------------------------//
     //          check
     //---------------------------//
-    assert( is_all_sections_done.is_all_true() );
-
+    assert( this->is_quadSectionKeys_set );
+    assert( this->is_all_sections_done.is_all_true() );
 
 
     //---------------------------//
@@ -125,3 +129,4 @@ void EcoSysInMap::plan(){
 
 
 }
+

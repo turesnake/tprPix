@@ -11,6 +11,7 @@
 #define _TPR_RGBA_H_
 
 //------------------- C --------------------//
+#include <cassert>
 #include <math.h>
 
 //------------------- Libs --------------------//
@@ -83,6 +84,22 @@ inline bool operator!=( const RGBA &_a, const RGBA &_b  ){
     return ( (_a.r!=_b.r) || (_a.g!=_b.g) || (_a.b!=_b.b) || (_a.a!=_b.a) );
 }
 
+
+/* ===========================================================
+ *                   operator +
+ * -----------------------------------------------------------
+ */
+inline RGBA operator + ( const RGBA &_a, const RGBA &_b ){
+    int r = (int)(_a.r) + (int)(_b.r);
+    int g = (int)(_a.g) + (int)(_b.g);
+    int b = (int)(_a.b) + (int)(_b.b);
+    int a = (int)(_a.a) + (int)(_b.a);
+        assert( (r<256) && (g<256) && (b<256) && (a<256) );
+    return RGBA {   static_cast<u8_t>(_a.r+_b.r), 
+                    static_cast<u8_t>(_a.g+_b.g),
+                    static_cast<u8_t>(_a.b+_b.b),
+                    static_cast<u8_t>(_a.a+_b.a) };
+}
 
 
 

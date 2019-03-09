@@ -13,9 +13,7 @@
 void map_byPass(){
 
     //--- 最简模式，仅仅生成 玩家所在的 section
-    IntVec2 entMPos { 0,0 };
-    sectionBuild::build_first_section( entMPos );
-    //sectionBuild::build_nearby_sections( entMPos );
+    sectionBuild::build_9_chunks( IntVec2{ 0,0 } );
 }
 
 
