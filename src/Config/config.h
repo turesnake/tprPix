@@ -44,10 +44,11 @@ inline bool IS_FULL_SCREEN = false;
 #define CHUNKS_PER_SECTION 4
 
 //-- 一个 chunk，占有 16*16 fields
-#define FIELDS_PER_CHUNK  16
+#define FIELDS_PER_CHUNK  8
 
 //-- 一个 field，占有 4*4 mapents
-#define ENTS_PER_FIELD 4
+#define ENTS_PER_FIELD      8
+#define HALF_ENTS_PER_FIELD 4
 
 //-- 一个 mapent 占用 5*5像素
 #define PIXES_PER_MAPENT  5

@@ -24,9 +24,9 @@ namespace{//----------- namespace ---------------//
 
     bool   is_randEngine_init   {false};    //- tmp
     std::default_random_engine  randEngine; //-随机数引擎实例
-    std::uniform_int_distribution<int> uDistribution(0,
-                                        PIXES_PER_FIELD-1); 
-                                        // [0,19] 
+    std::uniform_int_distribution<int> uDistribution_fieldNodeMPos(0,
+                                                    ENTS_PER_FIELD-1); 
+                                                    // [0,3] 
 
 }//-------------- namespace : end ---------------//
 
@@ -50,12 +50,10 @@ void MapField::init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chu
     }
     //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
-    //--- field.nodePPos ---
-    IntVec2 lPPos { uDistribution(randEngine), 
-                    uDistribution(randEngine) };
-    this->nodePPos = mcpos.get_ppos() + lPPos;
-    //--- field.lNodePPosOff ---
-    this->lNodePPosOff = nodePPos - _chunkMPos;
+    //--- field.nodeMPos ---
+    IntVec2 lMPos { uDistribution_fieldNodeMPos(randEngine), 
+                    uDistribution_fieldNodeMPos(randEngine) };
+    this->nodeMPos = mcpos.get_mpos() + lMPos;
     //--- field.fieldKey ---
     this->fieldKey = anyMPos_2_fieldKey( mcpos.get_mpos() );
     //----
@@ -85,8 +83,8 @@ void MapField::init_secondOrderData(){
             //-- self --//
             if( (h==0) && (w==0) ){
                     assert( this->is_firstOrderData_set ); //- tmp
-                this->nearby_field_nodePPoses.insert({  this->fieldKey, 
-                                                        this->nodePPos });
+                this->nearby_field_nodeMPoses.insert({  this->fieldKey, 
+                                                        this->nodeMPos });
                 continue;
             }
             //---------
@@ -98,8 +96,8 @@ void MapField::init_secondOrderData(){
             tmpFieldPtr = chunkFieldSetPtr->get_fieldPtr_by_mpos( nearbyFieldMPos );
                 assert( tmpFieldPtr->is_firstOrderData_set ); //- tmp
             //----
-            this->nearby_field_nodePPoses.insert({  tmpFieldPtr->fieldKey,
-                                                    tmpFieldPtr->nodePPos });
+            this->nearby_field_nodeMPoses.insert({  tmpFieldPtr->fieldKey,
+                                                    tmpFieldPtr->nodeMPos });
         }
     }
     this->is_secondOrderData_set = true; //- MUST

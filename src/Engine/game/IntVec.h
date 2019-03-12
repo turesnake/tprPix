@@ -5,11 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    以像素为单位的 vec 向量。
- *    这个 类很可能会被 提炼为一个通用的 "整形向量类"
  * ----------------------------
  */
-#ifndef _TPR_PIX_VEC2_H_
-#define _TPR_PIX_VEC2_H_
+#ifndef _TPR_PIX_VEC_H_
+#define _TPR_PIX_VEC_H_
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -19,14 +18,12 @@
 //--- [mem] --//
 class IntVec2{
 public:
-    //---- constructor -----//
     IntVec2() = default;
     IntVec2( int _x, int _y ):
         x(_x),
         y(_y)
         {}
 
-    //---- funcs ----//
     inline void clear_all(){
         x = 0;
         y = 0;

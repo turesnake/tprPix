@@ -24,6 +24,7 @@
 #include "sectionKey.h"
 #include "fieldKey.h"
 #include "RGBA.h"
+#include "Altitude.h"
 
 
 //-- 4*4mapent 构成一个 field -- [mem]
@@ -41,9 +42,8 @@ public:
     void init_secondOrderData();
 
     //----- 一阶数据 / first order data ------//
-    IntVec2     nodePPos {};    //- 距离场点 ppos (20*20pix 中的一个点) （均匀距离场）
-                                //- 绝对 ppos 坐标。
-    IntVec2     lNodePPosOff {};//- 基于 本chunk 左下角 的 相对 ppos偏移
+    IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
+                                //- 绝对 mpos 坐标。
     MapCoord    mcpos    {};    //- field左下角mcpos
                                  // 这么存储很奢侈，也许会在未来被取消...
                                  // anyMPos_2_fieldMPos() 
@@ -51,7 +51,7 @@ public:
 
     //----- 二阶数据 / second order data ------//
     // 周边 9个field 一阶数据都准备完毕时，才能开始生成 此数据
-    std::unordered_map<fieldKey_t,IntVec2> nearby_field_nodePPoses {}; //- 周边9个field 的 距离场点。
+    std::unordered_map<fieldKey_t,IntVec2> nearby_field_nodeMPoses {}; //- 周边9个field 的 距离场点。
                                 // 仅用于 地图生成阶段，不可被存储到 disk
                                 
 
@@ -62,6 +62,10 @@ public:
      
     chunkKey_t    chunkKey {}; 
     sectionKey_t  ecoSysInMapKey {};
+
+    alti_t        alti  {0};
+
+
 
     //EcoSysType  ecoSysType  { EcoSysType::Forst }; 
 
@@ -74,6 +78,8 @@ public:
     bool  is_ecoSysInMapKey_set {false};
 
     bool  is_color_set  {false}; //- tmp
+
+    bool  is_alti_set  {false}; 
     
 };
 

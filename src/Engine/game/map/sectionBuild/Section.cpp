@@ -11,6 +11,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
+#include <math.h>
 
 
 //-------------------- Engine --------------------//
@@ -28,9 +29,9 @@ namespace{//-------- namespace: --------------//
     //- 随机数引擎实例，暂先用于 本模块的所有 随机数生成
     std::default_random_engine  randEngine; 
                                     
-    //-- 用于生成 chunk nodePPos [0,319]  ---
-    std::uniform_int_distribution<int> uDistribution_chunkNodePPos(0,
-                                        (ENTS_PER_CHUNK*PIXES_PER_MAPENT)-1); 
+    //-- 用于生成 chunk nodeMPos [0,319]  ---
+    std::uniform_int_distribution<int> uDistribution_chunkNodeMPos(0,
+                                                    ENTS_PER_CHUNK-1 ); 
                                         
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     std::vector<IntVec2> quadSectionKeyOffs {
@@ -56,7 +57,7 @@ void Section::init(){
     init_nearbySectionKeys();
     init_quadSectionKeys();
     init_chunkEcoSysInMapKeys();
-    init_chunkNodePPoses();
+    init_chunkNodeMPoses();
 }
 
 
@@ -125,33 +126,33 @@ void Section::init_quadSectionKeys(){
 
 
 /* ===========================================================
- *               init_chunkNodePPoses
+ *               init_chunkNodeMPoses
  * -----------------------------------------------------------
- * -- 随机分配 chunk node ppos
+ * -- 随机分配 chunk node mpos
  */
-void Section::init_chunkNodePPoses(){
-    if( this->is_chunkNodePPoses_set ){
+void Section::init_chunkNodeMPoses(){
+    if( this->is_chunkNodeMPoses_set ){
         return;
     }
     //-----
-    IntVec2  nodePPos;
-    IntVec2  lNodePPosOff;
+    IntVec2  nodeMPos;
+    IntVec2  lNodeMPosOff;
     IntVec2  tmpChunkMPos;
     IntVec2  sectionMPos = this->get_mpos();
-    this->chunkNodePPoses.clear();
+    this->chunkNodeMPoses.clear();
     for( int h=0; h<CHUNKS_PER_SECTION; h++ ){
         for( int w=0; w<CHUNKS_PER_SECTION; w++ ){ // each chunk in section
-            lNodePPosOff.set(   uDistribution_chunkNodePPos(randEngine),
-                                uDistribution_chunkNodePPos(randEngine) );
+            lNodeMPosOff.set(   uDistribution_chunkNodeMPos(randEngine),
+                                uDistribution_chunkNodeMPos(randEngine) );
             tmpChunkMPos.set(   sectionMPos.x + w*ENTS_PER_CHUNK,
                                 sectionMPos.y + h*ENTS_PER_CHUNK );
             //nodePPos = tmpChunkMPos + lNodePPosOff;
-            nodePPos = mpos_2_ppos(tmpChunkMPos) + lNodePPosOff;
-            this->chunkNodePPoses.push_back( nodePPos ); //- copy
+            nodeMPos = tmpChunkMPos + lNodeMPosOff;
+            this->chunkNodeMPoses.push_back( nodeMPos ); //- copy
         }
     }
-    assert( this->chunkNodePPoses.size() == CHUNKS_PER_SECTION*CHUNKS_PER_SECTION );
-    this->is_chunkNodePPoses_set = true;
+    assert( this->chunkNodeMPoses.size() == CHUNKS_PER_SECTION*CHUNKS_PER_SECTION );
+    this->is_chunkNodeMPoses_set = true;
 }
 
 
@@ -163,10 +164,10 @@ void Section::init_chunkNodePPoses(){
  *   调用之前，应确保 目标 ecosysInMap 实例 已经创建了
  */
 void Section::bind_ecoSysInMapPtrs(){
-    assert( this->is_quadSectionKeys_set );//- tmp
     if( this->is_ecoSysInMapPtrs_set ){
         return;
     }
+    assert( this->is_quadSectionKeys_set );//- tmp
     //---
     EcoSysInMap  *ecoSysInMapPtr;
     ecoSysInMapPtrs.clear();
@@ -179,4 +180,20 @@ void Section::bind_ecoSysInMapPtrs(){
 
 
 
+/* ===========================================================
+ *                bind_ecoSysInMapPtrs
+ * -----------------------------------------------------------
+ *   获得 目标chunk 在 本section 容器中的 序号 [0,15]
+ * param: _chunkMPos - 必须是 chunk mpos   [未做检测]
+ */
+size_t Section::get_chunk_idx( const IntVec2 &_chunkMPos ){
+    IntVec2 mposOff = anyMPos_2_chunkMPos(_chunkMPos) - this->get_mpos();
+        assert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
+    int w = abs(mposOff.x)/ENTS_PER_CHUNK;
+    int h = abs(mposOff.y)/ENTS_PER_CHUNK;
+        assert( (w>=0) && (w<CHUNKS_PER_SECTION) &&
+                (h>=0) && (h<CHUNKS_PER_SECTION) );
+    return (h*CHUNKS_PER_SECTION + w);
+}
+    
 

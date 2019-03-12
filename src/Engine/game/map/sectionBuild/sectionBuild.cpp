@@ -109,7 +109,7 @@ void build_data( Chunk *_chunkPtr ){
     }
 
     //---------------------------//
-    //  生成本 ChunkFieldSet 的所有 MapField.nearby_nodePPoses
+    //  生成本 ChunkFieldSet 的所有 MapField.nearby_nodeMPoses
     //---------------------------//
         assert( esrc::chunkFieldSets.find(chunkPtr->get_key()) != esrc::chunkFieldSets.end() );//- tmp
     chunkPtr->fieldSetPtr = (ChunkFieldSet*)&(esrc::chunkFieldSets.at(chunkPtr->get_key()));

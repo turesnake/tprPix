@@ -62,8 +62,7 @@ public:
 };
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
-/*
-inline bool is_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
+inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
     return (
        (abs(_a.r-_b.r) <= _off) &&
        (abs(_a.g-_b.g) <= _off) &&
@@ -71,7 +70,7 @@ inline bool is_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
        (abs(_a.a-_b.a) <= _off)
     );
 }
-*/
+
 
 /* ===========================================================
  *                  operator  ==, !=

@@ -183,7 +183,7 @@ void build_one_chunk( const IntVec2 &_anyMPos ){
     size_t  chunkIdx = currentSectionPtr->get_chunk_idx( currentChunkMPos ); //- 本chunk 在 主section 中的序号
     //------
     currentChunkPtr->init_memMapEnts(); //- 填满 chunk.memMapEnts
-    currentChunkPtr->nodePPos = currentSectionPtr->get_chunkNodePPos( chunkIdx ); //- copy nodePPos
+    currentChunkPtr->nodeMPos = currentSectionPtr->get_chunkNodeMPos( chunkIdx ); //- copy nodeMPos
     currentChunkPtr->ecoSysInMapKey = currentSectionPtr->get_chunkEcoSysInMapKey( chunkIdx ); //- copy ecoSysInMapKey
     //...
 
@@ -392,6 +392,8 @@ void sec_chunkFieldSet( chunkKey_t _chunkKey ){
     //  在当前测试版中，还为这些 field 分配了颜色
     //------------------------------//
     esrc::get_chunkFieldSetPtr(_chunkKey)->assign_fields_2_chunk();
+
+    esrc::get_chunkFieldSetPtr(_chunkKey)->assign_alti_in_field();
 
 }
 

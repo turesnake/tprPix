@@ -38,6 +38,7 @@ inline std::string path_textures {}; //-- .../textures/
 
 inline std::string path_animFrameSets {}; //-- .../textures/animFrameSets
 inline std::string path_colliEntSet   {}; //-- .../textures/colliEntSet
+inline std::string path_fieldBorderEntPixMaskSet  {}; //-- .../textures/fieldBorderEntPixMaskSet
 
 
 //----------------------------------------------------//

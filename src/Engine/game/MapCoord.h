@@ -193,9 +193,10 @@ inline IntVec2 mpos_2_midPPos( const IntVec2 &_mpos ){
 
 
 /* ===========================================================
- *                mpos_2_midPPos
+ *             calc_fast_ppos_distance
  * -----------------------------------------------------------
  * 计算两个 ppos 的距离（快速版，不开根号）
+ * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
  */
 inline int calc_fast_ppos_distance( const IntVec2 &_aPPos, const IntVec2 &_bPPos ){
     IntVec2 off = _aPPos - _bPPos;
@@ -203,7 +204,18 @@ inline int calc_fast_ppos_distance( const IntVec2 &_aPPos, const IntVec2 &_bPPos
     return (off.x*off.x + off.y*off.y);
 }
 
-
+/* ===========================================================
+ *               calc_fast_mpos_distance
+ * -----------------------------------------------------------
+ * 计算两个 ppos 的距离（快速版，不开根号）
+ * 和上一个函数并没有本质区别。
+ * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
+ */
+inline int calc_fast_mpos_distance( const IntVec2 &_aMPos, const IntVec2 &_bMPos ){
+    IntVec2 off = _aMPos - _bMPos;
+        //-- 没有做 溢出检测...
+    return (off.x*off.x + off.y*off.y);
+}
 
 
 

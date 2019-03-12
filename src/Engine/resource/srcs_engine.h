@@ -44,6 +44,7 @@
 #include "ChunkFieldSet.h"
 #include "EcoSysInMap.h"
 #include "Section.h"
+#include "FieldBorderEntPixMaskSet.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -85,6 +86,12 @@ inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 inline ShaderProgram rect_shader { "/shaders/base.vs", "/shaders/base.fs" };
 void init_shaders();
 
+
+//-------------------------//
+//     fieldBorderEntPixMaskSet 资源
+//-------------------------//
+inline FieldBorderEntPixMaskSet fieldBorderEntPixMaskSet {};
+void init_fieldBorderEntPixMaskSet();
 
 //-------------------------//
 //     colliEntSet 资源

@@ -39,6 +39,10 @@ public:
     void bind_ecoSysInMapPtrs();
     void assign_chunks_to_ecoSysInMap(); //- 核心函数
 
+    //- 获得 目标chunk 在 本section 容器中的 序号 [0,15]
+    //- param: _chunkMPos - 必须是 chunk mpos   [未做检测]
+    size_t get_chunk_idx( const IntVec2 &_chunkMPos );
+
     //-- param: _anyMPos - 本section 中的任意 mpos
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->sectionKey = anyMPos_2_sectionKey( _anyMPos );
@@ -68,19 +72,11 @@ public:
         return this->mcpos.get_mpos();
     }
 
-    //- 获得 目标chunk 在 本section 容器中的 序号 [0,8]
-    //- param: _chunkMPos - 必须是 chunk mpos   [未做检测]
-    inline size_t get_chunk_idx( const IntVec2 &_chunkMPos ){
-        IntVec2 mposOff = anyMPos_2_chunkMPos(_chunkMPos) - this->get_mpos();
-        int w = mposOff.x/ENTS_PER_CHUNK;
-        int h = mposOff.y/ENTS_PER_CHUNK;
-        return (h*CHUNKS_PER_SECTION + w);
-    }
-
-    inline const IntVec2 &get_chunkNodePPos( size_t _idx ) const {
-            assert( this->is_chunkNodePPoses_set ); //- tmp
-            assert( (_idx>=0) && (_idx<chunkNodePPoses.size()) ); //- tmp
-        return chunkNodePPoses.at(_idx);
+    
+    inline const IntVec2 &get_chunkNodeMPos( size_t _idx ) const {
+            assert( this->is_chunkNodeMPoses_set ); //- tmp
+            assert( (_idx>=0) && (_idx<chunkNodeMPoses.size()) ); //- tmp
+        return chunkNodeMPoses.at(_idx);
     }
     
     inline const sectionKey_t get_chunkEcoSysInMapKey( size_t _idx ) const {
@@ -102,7 +98,7 @@ public:
     std::vector<sectionKey_t>  chunkEcoSysInMapKeys {};  //- 每个 chunk，属于哪个 ecoSysInMap - 4*4
                                         //- 临时存储处，等 chunk正式被创建时，这份数据会被搬运过去。
 
-    std::vector<IntVec2>  chunkNodePPoses {}; //- 本section 含有的 每个 chunk 的 距离场点ppos - 4*4
+    std::vector<IntVec2>  chunkNodeMPoses {}; //- 本section 含有的 每个 chunk 的 距离场点 mpos - 4*4 个
                                         //- 临时存储处，等 chunk正式被创建时，这份数据会被搬运过去。
 
 
@@ -115,15 +111,17 @@ public:
     bool  is_nearbySectionKeys_set    {false};
     bool  is_quadSectionKeys_set      {false}; 
     bool  is_chunkEcoSysInMapKeys_set {false};
-    bool  is_chunkNodePPoses_set      {false};
+    bool  is_chunkNodeMPoses_set      {false};
     bool  is_ecoSysInMapPtrs_set      {false};
+
+    bool  is_assign_chunks_to_ecoSysInMap_done {false};
 
 
 private:
 
     void init_nearbySectionKeys();
     void init_quadSectionKeys();
-    void init_chunkNodePPoses();
+    void init_chunkNodeMPoses();
 
     inline void init_chunkEcoSysInMapKeys(){
         if( this->is_chunkEcoSysInMapKeys_set ){

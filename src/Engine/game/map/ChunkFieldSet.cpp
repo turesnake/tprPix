@@ -25,6 +25,7 @@
 #include "srcs_engine.h"
 #include "Section.h"
 #include "chunkKey.h"
+#include "PerlinNoise3D.h"
 
 #include "debug.h"
 
@@ -34,7 +35,13 @@ namespace{//----------- namespace ---------------//
     std::uniform_int_distribution<char> uDistribution_color(-3,3); // [-7,7] 
 
 
-    using chunkData_t = std::pair<sectionKey_t, IntVec2>; //- <EcoSysInMapKey, chunkNodePPos>
+    PerlinNoise3D pn_alti;      //- perlin，制作 alti数据
+    u32_t         pn_alti_seed; //- 临时存在在此，每次游戏重启，都随机生成
+    bool          is_pn_alti_init {false}; //- 临时flag
+
+
+
+    using chunkData_t = std::pair<sectionKey_t, IntVec2>; //- <EcoSysInMapKey, chunkNodeMPos>
     std::unordered_map<chunkKey_t, chunkData_t> nearby_chunk_datas {}; //- 周边 9个chunk 的 距离场点。
                                                     //- 被每个 chunk 反复使用
 
@@ -95,37 +102,43 @@ void ChunkFieldSet::assign_fields_2_chunk(){
     randEngine.seed( get_new_seed() ); //- tmp
 
     //-------------------------------//
-    //    收集 周边 9个chunk nodeppos
+    //    收集 周边 9个chunk nodeMPos
     //-------------------------------//
     this->reset_nearby_chunk_datas();
 
     //-------------------------------//
     //    目前这部分实现 有点低效 ...
     //-------------------------------//
-    int         off; //- field 与周边 各chunk.nodeppos 间距离（未开根号）
+    int         off; //- field 与周边 各chunk.nodeMPos 间距离（未开根号）
     //---
     sectionKey_t  minEcosysInMapKey;
     chunkKey_t    minChunkKey;
     int           minOff = 0; 
+    bool          is_first_set {true};
 
     RGBA          targetColor; //- tmp
     EcoSysInMap  *ecoSysInMapPtr; //- tmp
 
     IntVec2       tmpFieldMidMPos; //- field 中间位置的 mpos
-    IntVec2       midMPosOff  { 2, 2 }; //- field中点 mpos 到 fieldMPos 位移
+    IntVec2       midMPosOff  { HALF_ENTS_PER_FIELD, 
+                                HALF_ENTS_PER_FIELD }; //- field中点 mpos 到 fieldMPos 位移
 
     for( auto &fieldPair : this->fields ){ //- each field
         MapField &fieldRef = fieldPair.second;
         tmpFieldMidMPos = fieldRef.mcpos.get_mpos() + midMPosOff;
             assert( fieldRef.is_firstOrderData_set );
             
-        minOff = 0; //- reset
+        //--- reset ---
+        minOff       = 0; 
+        is_first_set = true;
+
         for( const auto &chunkPair : nearby_chunk_datas ){ //- each chunk
             const chunkData_t &chunkDataRef = chunkPair.second;
 
-            off = calc_fast_ppos_distance( mpos_2_ppos(tmpFieldMidMPos), chunkDataRef.second );
+            off = calc_fast_mpos_distance( tmpFieldMidMPos, chunkDataRef.second );
 
-            if( minOff == 0 ){
+            if( is_first_set ){
+                is_first_set = false;
                 minOff = off;
                 minChunkKey = chunkPair.first;
                 minEcosysInMapKey = chunkDataRef.first;
@@ -169,17 +182,85 @@ void ChunkFieldSet::assign_fields_2_chunk(){
                     break;
             }
 
-            fieldRef.color.set( targetColor.r + uDistribution_color(randEngine),
-                                targetColor.g + uDistribution_color(randEngine),
-                                targetColor.b + uDistribution_color(randEngine),
+            fieldRef.color.set( targetColor.r + (u8_t)(uDistribution_color(randEngine) * 2.2),
+                                targetColor.g + (u8_t)(uDistribution_color(randEngine) * 1.8),
+                                targetColor.b + (u8_t)(uDistribution_color(randEngine) * 0.6),
                                 targetColor.a );
-
 
             fieldRef.is_color_set = true;
 
     }//----- for each field -----
     this->is_assign_fields_2_chunk_done = true;
 }
+
+
+/* ===========================================================
+ *                assign_alti_in_field
+ * -----------------------------------------------------------
+ * 根据 perlin-noise，为每个 field 分配一个 alti
+ */
+void ChunkFieldSet::assign_alti_in_field(){
+    if( this->is_assign_alti_in_field_done ){
+        return;
+    }
+
+    //-------------------------------//
+    //    perlin-noise alti
+    //-------------------------------//
+    if( is_pn_alti_init == false ){
+        is_pn_alti_init = true;
+        pn_alti_seed = get_new_seed();
+        pn_alti.init( pn_alti_seed );  //- 只用初始化一次
+    }
+    
+
+    float   val;
+    int     ival;
+
+    float   w;
+    float   h;
+
+    float rad = 1.5; //- perlin-noise 图比例
+
+    for( auto &fieldPair : this->fields ){ //- each field
+        MapField &fieldRef = fieldPair.second;
+
+        w = (float)fieldRef.nodeMPos.x / (float)ENTS_PER_CHUNK;
+        h = (float)fieldRef.nodeMPos.y / (float)ENTS_PER_CHUNK;
+
+        //-- [0.0, 1.0]
+        val = pn_alti.noise( w*rad, h*rad, 0.1f );
+
+        //--- val 的常见区间在 [30.0,70.0],将其映射到 [0,15] ---
+        val *= 100.0;
+        ival = (int)floor((val-30)*0.375); 
+        if( ival < 0 ){
+            ival = 0;
+        }else if( ival > 15 ){
+            ival = 15;
+        }
+
+        fieldRef.alti = (alti_t)ival;
+
+            //-- 根据 alti，改动 颜色。
+            int off = (fieldRef.alti-8);
+
+            fieldRef.color.r -=   (u8_t)(off * 2.2 ); 
+            fieldRef.color.g -=   (u8_t)(off * 1.8 ); 
+            fieldRef.color.b -=   (u8_t)(off * 0.6 );  
+                        //--- 历史最好效果 -----
+                        // { 2.2 - 1.8 - 0.6 }
+
+
+    }
+
+        
+
+        
+
+
+    this->is_assign_alti_in_field_done = true;
+}   
 
 
 
@@ -203,16 +284,16 @@ MapField *ChunkFieldSet::get_fieldPtr_by_key( fieldKey_t _key ){
 /* ===========================================================
  *                reset_nearby_chunk_datas
  * -----------------------------------------------------------
- * - 收集 周边 9个chunk nodeppos
+ * - 收集 周边 9个chunk nodeMPos
  */
 void ChunkFieldSet::reset_nearby_chunk_datas(){
     nearby_chunk_datas.clear();
     //--------
-    IntVec2      currentChunkMPos = this->mcpos.get_mpos();
-    IntVec2      tmpChunkMPos;
-    size_t       tmpChunkIdx; //- chunk 在其所属section 中的 idx
-    Section     *tmpSectionPtr;
-    chunkData_t  tmpChunkData;
+    const IntVec2   currentChunkMPos = this->mcpos.get_mpos();
+    IntVec2         tmpChunkMPos;
+    size_t          tmpChunkIdx; //- chunk 在其所属section 中的 idx
+    Section         *tmpSectionPtr;
+    chunkData_t     tmpChunkData;
 
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
@@ -222,7 +303,7 @@ void ChunkFieldSet::reset_nearby_chunk_datas(){
             tmpSectionPtr = esrc::get_sectionPtr( anyMPos_2_sectionKey(tmpChunkMPos) );
             //------
             tmpChunkData.first = tmpSectionPtr->get_chunkEcoSysInMapKey( tmpChunkIdx );
-            tmpChunkData.second = tmpSectionPtr->get_chunkNodePPos(tmpChunkIdx); //- copy
+            tmpChunkData.second = tmpSectionPtr->get_chunkNodeMPos(tmpChunkIdx); //- copy
             nearby_chunk_datas.insert({ chunkMPos_2_key(tmpChunkMPos), tmpChunkData }); //- copy
         }
     }

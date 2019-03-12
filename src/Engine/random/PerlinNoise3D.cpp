@@ -43,7 +43,7 @@ void PerlinNoise3D::init() {
 	seed = get_new_seed();
     eng.seed(seed);
 
-    //-- 向 p 中填入 [0,255] 这串数 -- 
+    //-- 向 p 中填入 {0,1,2,3,4...255} 这串数 -- 
     p.resize(256);
 	std::iota(p.begin(), p.end(), 0);
 
@@ -65,7 +65,7 @@ void PerlinNoise3D::init( unsigned int _seed ) {
 	seed = _seed;
     eng.seed(seed);
 
-	//-- 向 p 中填入 [0,255] 这串数 -- 
+	//-- 向 p 中填入 {0,1,2,3,4...255} 这串数 -- 
     p.resize(256);
 	std::iota(p.begin(), p.end(), 0);
 

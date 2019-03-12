@@ -129,6 +129,9 @@ namespace{//-------- namespace: --------------//
  * -- 并不真的分配 chunk数据，而是分配 section 中的 暂存数据
  */
 void Section::assign_chunks_to_ecoSysInMap(){
+    if( this->is_assign_chunks_to_ecoSysInMap_done ){
+        return;
+    }
 
     assert( this->is_quadSectionKeys_set );
     assert( this->is_chunkEcoSysInMapKeys_set );
@@ -173,6 +176,8 @@ void Section::assign_chunks_to_ecoSysInMap(){
     fourEcoSysInMapPtrs.at(QuadType_2_Idx(QuadType::Right_Top))->is_all_sections_done.is_left_bottom = true;
 
     //...
+
+    this->is_assign_chunks_to_ecoSysInMap_done = true;
 }
 
 
@@ -363,6 +368,7 @@ void assign_mid_ent( const IntVec2 &_pos, QuadType _valA, QuadType _valB, QuadTy
     if( entRef.is_set == false ){
         entRef.is_set = true;
         randVal = uDistribution_four(randEngine);
+        /*
         if( randVal <= 1 ){
             entRef.type = _valA;  //- 50%
         }else if( randVal == 2 ){
@@ -370,6 +376,8 @@ void assign_mid_ent( const IntVec2 &_pos, QuadType _valA, QuadType _valB, QuadTy
         }else{
             entRef.type = _valC;  //- 25%
         }
+        */
+            entRef.type = _valA; //- 100% tmp
     }
 }
 

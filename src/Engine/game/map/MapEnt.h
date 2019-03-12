@@ -39,6 +39,8 @@
 #include "MapCoord.h"
 #include "EcoSysType.h"
 #include "fieldKey.h"
+#include "FieldBorderType.h"
+#include "Altitude.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -164,7 +166,7 @@ public:
     bool   isLand     {true}; //- 陆地／水域
     //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
                             //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
-    u8_t   alti       {0}; //- 海拔.(低4-bit 有效)
+    alti_t   alti     {0}; //- 海拔.(低4-bit 有效)
     //bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
                                //- 此值暂时没有被用到
     //bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位
@@ -177,9 +179,17 @@ public:
                     //  就算是 深渊类型的地面，也会有材质信息。
                     //  ...这个值可能被取消...
 
-    fieldKey_t  fieldKey {0};
+    fieldKey_t   fieldKey {0};
+    fieldKey_t   nearbyFieldKey {0}; //- tmp
+                        //- 如果 此mapent 是 field 的边缘ent，
+                        //- 则通过此变量 来记录 “第二近外部field” 是谁
 
     EcoSysType  ecoSysType  {EcoSysType::Forst};
+
+    //bool  is_fieldBorder {false};   //- true  - field 内部mapent
+                                    //- false - field 边界mapent
+
+    FieldBorderType  fieldBorderType {FieldBorderType::Inner};
 
 
 

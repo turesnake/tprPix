@@ -61,8 +61,9 @@ public:
     
     //======== flags ========//
     bool       is_quadSectionKeys_set {false};
-    QuadFlag   is_all_sections_done  {false};
-                    //- 本 ecosys包含的 四个象限section 是否都生成完毕 
+    QuadFlag   is_all_sections_done  {false}; //- 本 ecosys包含的 四个象限section 是否都生成完毕 
+                    
+    bool       is_plan_done  {false};
 
 
     void init_quadSectionKeys();

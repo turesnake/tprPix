@@ -62,7 +62,6 @@ public:
     void init_memMapEnts();
 
     void assign_mapEnts_2_field();
-
     void assign_pixels_2_mapent(); //- tmp
    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
@@ -106,8 +105,8 @@ public:
     chunkKey_t  chunkKey {};
     MapCoord    mcpos    {}; //- [left-bottom]
 
-    IntVec2     nodePPos {}; //- 距离场点 ppos (320*320pix 中的一个点) （均匀距离场）
-                            //- 绝对 ppos 坐标。
+    IntVec2     nodeMPos {}; //- 距离场点 mpos (64*64 mapent 中的一个点) （均匀距离场）
+                            //- 绝对 mpos 坐标。
                             //  （此值在 section中已经提前生成好了，只需要搬运到此处）
 
 
@@ -121,6 +120,9 @@ public:
 
     //======== flags ========//
     //bool   is_ecoSysInMap_set  {false};
+    bool     is_memMapEnts_set              {false};
+    bool     is_assign_mapEnts_2_field_done {false};
+    bool     is_assign_pixels_2_mapent_done {false};
 
 private:
 

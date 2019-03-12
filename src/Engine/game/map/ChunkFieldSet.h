@@ -10,7 +10,6 @@
 #ifndef _TPR_CHUNK_FIELD_SET_H
 #define _TPR_CHUNK_FIELD_SET_H
 
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <unordered_map>
@@ -38,12 +37,11 @@ public:
 
 
     void init_fields();
-
     void assign_fields_2_chunk();
+    void assign_alti_in_field();
 
     MapField *get_fieldPtr_by_mpos( const IntVec2 &_anyMPos );
     MapField *get_fieldPtr_by_key( fieldKey_t _key );
-
 
     //====== vals =======//
     std::unordered_map<fieldKey_t,MapField> fields {}; //- 16*16 个
@@ -53,14 +51,12 @@ public:
     MapCoord      mcpos    {}; //- chunk.mcpos
     chunkKey_t    chunkKey {}; //- 存储了相邻8个chunk 的key数据
 
-
     //====== flags =======//
     bool  is_fields_set                 {false};
     bool  is_assign_fields_2_chunk_done {false};
-
+    bool  is_assign_alti_in_field_done  {false};
                         
 private:
-
     void reset_nearby_chunk_datas();
 
 };

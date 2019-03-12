@@ -91,6 +91,7 @@ int main(){
     esrc::camera.init();             //---- camera 资源 ----
     esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
     esrc::init_shaders();            //---- shaders 资源 ----
+    esrc::init_fieldBorderEntPixMaskSet();  //---- fieldBorderEntPixMaskSet 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();

@@ -83,6 +83,9 @@ void EcoSysInMap::init_quadSectionKeys(){
  * -- 在 section 阶段的 准备性数据制作完毕后，调用此函数来 做 生态规划
  */
 void EcoSysInMap::plan(){
+    if( this->is_plan_done ){
+        return;
+    }
 
 
     //---------------------------//
@@ -125,8 +128,6 @@ void EcoSysInMap::plan(){
 
 
 
-
-
-
+    this->is_plan_done = true;
 }
 
