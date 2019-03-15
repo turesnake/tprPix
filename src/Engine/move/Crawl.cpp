@@ -35,14 +35,14 @@ namespace{//-------------- namespace ------------------//
     //  注意，3/6 两档无法整除。需要在每个 节点帧做修正...
     std::vector<std::pair<int, float>> speeds {
     //  max,   speed,                 speedLevel //
-        { 1,    5.0f   },   //- idx = 0,  LV_8
-        { 2,    2.5f   },   //- idx = 1,  LV_7
-        { 3,    1.667f },   //- idx = 2,  LV_6 : 非整除，1回合移动 5.001; 需要修正
-        { 4,    1.25f  },   //- idx = 3,  LV_5
-        { 5,    1.0f   },   //- idx = 4,  LV_4
-        { 6,    0.833f },   //- idx = 5,  LV_3 : 非整除，1回合移动 4.998; 需要修正
-        { 8,    0.625f },   //- idx = 6,  LV_2
-        { 10,   0.5f   }    //- idx = 7,  LV_1
+        { 1,    8.0f   },   //- idx = 0,  LV_8
+        { 2,    4.0f   },   //- idx = 1,  LV_7
+        { 3,    2.667f },   //- idx = 2,  LV_6 : 非整除，1回合移动 5.001; 需要修正
+        { 4,    2.0f  },    //- idx = 3,  LV_5
+        { 5,    1.6f   },   //- idx = 4,  LV_4
+        { 6,    1.333f },   //- idx = 5,  LV_3 : 非整除，1回合移动 4.998; 需要修正
+        { 8,    1.0f },     //- idx = 6,  LV_2
+        { 10,   0.8f   }    //- idx = 7,  LV_1
     };
     std::pair<int, float>& get_speed( SpeedLevel _lv );
     std::pair<int, float>& get_speed_next( SpeedLevel _lv );

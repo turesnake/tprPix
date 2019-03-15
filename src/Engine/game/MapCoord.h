@@ -40,6 +40,8 @@
 #include "IntVec.h" 
 #include "config.h" 
 
+//#include <iostream> //- tmp
+//#include <string> //- tmp
 
 //-- [left-bottom] --
 class MapCoord{
@@ -74,7 +76,19 @@ public:
     }
 
     inline void set_by_ppos( const IntVec2 &_ppos ){
-        assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
+        
+            /*
+            if( (_ppos.x%PIXES_PER_MAPENT!=0) || (_ppos.y%PIXES_PER_MAPENT!=0) ){
+                std::cout << "_ppos: " << _ppos.x
+                    << ", " << _ppos.y
+                    << std::endl;
+            }
+            */
+
+            assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
+
+
+
         ppos = _ppos;
         mpos = ppos.floorDiv( (float)PIXES_PER_MAPENT );
     }

@@ -148,11 +148,11 @@ void Chunk::assign_mapEnts_2_field(){
 
 
                 relatedDistance = abs(fst_near_distance-sec_near_distance);
-                if( relatedDistance < 6 ){
+                if( relatedDistance < 14 ){
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Nearest;
-                }else if( relatedDistance < 10 ){
+                }else if( relatedDistance < 18 ){
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Sec;
-                }else if( relatedDistance < 26 ){
+                }else if( relatedDistance < 32 ){
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Thd;
                 }else{
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Inner;

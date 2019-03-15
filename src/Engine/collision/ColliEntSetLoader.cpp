@@ -10,7 +10,7 @@
 #include "ColliEntSetLoader.h"
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprFileSys.h" 
@@ -41,21 +41,23 @@ void ColliEntSetLoader::init(){
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector< std::vector<RGBA> > frame_data_ary {}; 
     pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_colliEntSet, lpath ),
-                                            frameNum,
-                                            totalFrameNum,
+                                            this->frameNum,
+                                            this->totalFrameNum,
                                             frame_data_ary );
-    
+
+    assert( (pixNum_per_frame.x==5*PIXES_PER_MAPENT) && (pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
+        //cout << "frame_data_ary.size() = " << frame_data_ary.size();
+        
     //----------------------------//
     //   parse each frame data
     //----------------------------//
     int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
     ColliEntSet_RGBAHandle  ch {5};
-    collientSets.resize( totalFrameNum );
+    this->collientSets.resize( totalFrameNum );
+
+    IntVec2 pixPPos; //- tmp. pos for each rgba Pix
 
     for( int f=0; f<totalFrameNum; f++ ){ //- each frame
-
-        IntVec2 pixPPos; //- tmp. pos for each rgba Pix
-
         for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
             ch.set_rgba( frame_data_ary.at(f).at(p) );
@@ -67,17 +69,17 @@ void ColliEntSetLoader::init(){
                         p/pixNum_per_frame.x );
 
             if( ch.is_center() == true ){
-                collientSets.at(f).set_centerPPos( pixPPos );
-                collientSets.at(f).set_radius( ch.get_radius_10() );
+                this->collientSets.at(f).set_centerPPos( pixPPos );
+                this->collientSets.at(f).set_radius( ch.get_radius_10() );
             }
 
             if( ch.is_colliEnt() == true ){
-                collientSets.at(f).add_colliEnt( pixPPos );
+                this->collientSets.at(f).add_colliEnt( pixPPos );
             }
         }
 
         //-- 生成 crawl 的“新增集”／“减少集” --
-        collientSets.at(f).create_adds_dels();
+        this->collientSets.at(f).create_adds_dels();
     }
 }
 

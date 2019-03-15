@@ -19,7 +19,8 @@
 
 
 //-------------------- Engine --------------------//
-#include "config.h" // SCR_WIDTH, SCR_HEIGHT
+//#include "config.h" // SCR_WIDTH, SCR_HEIGHT
+#include "windowConfig.h"
 #include "srcs_engine.h" //- 所有资源
 
 using std::string;

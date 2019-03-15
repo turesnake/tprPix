@@ -84,7 +84,7 @@ int main(){
     //------------------------------------------//
     //               加载所有 资源
     //------------------------------------------//
-        
+        //return 0;
 
     //++++++ init ++++++//
     input::init_input();             //---- input -----
@@ -97,17 +97,26 @@ int main(){
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
 
+        //return 0;
+
     //init_player_srcs();            //----  player 资源 ----
         //esrc::player.init();
         player_byPass();
     //...
 
+        //return 0;
+
     debug::init_debug();             //---- debug 资源 ----
 
     sectionBuild::init();            //----- sectionBuild 模块 --
 
+        //return 0;
+
     //++++++ load ++++++//
     esrc::load_colliEntSets(); //-- colliEntSets --
+
+        //return 0; //- 此前且正确
+
         //esrc::debug_colliEntSets();
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 

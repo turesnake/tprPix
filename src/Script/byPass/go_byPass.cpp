@@ -4,7 +4,7 @@
 
 #include "Script/gameObjs/Norman.h" 
 #include "Script/gameObjs/BigMan.h" 
-#include "Script/gameObjs/Grass_1.h" 
+//#include "Script/gameObjs/Grass_1.h" 
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -25,7 +25,7 @@ using std::string;
 
 void create_a_Norman( const IntVec2 &_ppos );
 void create_a_BigMan( const IntVec2 &_ppos );
-void create_a_Grass_1( const IntVec2 &_ppos );
+//void create_a_Grass_1( const IntVec2 &_ppos );
 
 /* ===========================================================
  *                       go_byPass
@@ -42,14 +42,13 @@ void go_byPass(){
     //create_a_Norman( IntVec2{ 640, 640 } ); //- 初始section 中心位置 (256*256)
     //create_a_Norman( IntVec2{ 160, 160 } ); //- 初始section 中心位置 (64*64)
 
-    create_a_Norman( IntVec2{ 30, 30 } );
+    create_a_Norman( IntVec2{ 40, 40 } );
 
     
     //create_a_BigMan( IntVec2{ 130, 145 } );
     //create_a_BigMan( IntVec2{ 145, 155 } );
     //create_a_BigMan( IntVec2{ 150, 130 } );
 
-    //create_a_Grass_1( IntVec2{ 190, 130 } );
     
 
     /*
@@ -99,6 +98,7 @@ void create_a_BigMan( const IntVec2 &_ppos ){
     esrc::signUp_newGO_to_mapEnt( goPtr );
 }
 
+/*
 void create_a_Grass_1( const IntVec2 &_ppos ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjs( goid ); //- 获取目标go指针
@@ -108,4 +108,5 @@ void create_a_Grass_1( const IntVec2 &_ppos ){
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
 }
+*/
 

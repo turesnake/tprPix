@@ -11,7 +11,8 @@
 #define _TPR_VIEWING_BOX_H_
 
 //-------------------- Engine --------------------//
-#include "config.h" // SCR_WIDTH, SCR_HEIGHT
+#include "windowConfig.h"
+#include "config.h"
 
 
 //-- each camera have a viewingBox

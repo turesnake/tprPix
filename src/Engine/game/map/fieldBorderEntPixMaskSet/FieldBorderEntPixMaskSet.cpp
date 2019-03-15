@@ -112,16 +112,6 @@ void FieldBorderEntPixMaskSet::init(const std::string &_lpath,
             for( size_t w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in png-frame (mapent) 
                 pixIdx = h*PIXES_PER_MAPENT + w;
 
-                    /*
-                    const RGBA &rgbaRef = frameRef.at(pixIdx);
-                    cout << "  " << (int)rgbaRef.r
-                        << ", " << (int)rgbaRef.g
-                        << ", " << (int)rgbaRef.b
-                        << ", " << (int)rgbaRef.a
-                        << endl;
-                    */
-                    
-
                 if( is_rgba_near( frameRef.at(pixIdx), maskColor, 5 ) ){
                     frameMasks.push_back( IntVec2{ (int)w, (int)h } );
                 }
@@ -129,9 +119,9 @@ void FieldBorderEntPixMaskSet::init(const std::string &_lpath,
         }
 
         //--- 根据 点的数量，确定 主容器 ---//
-        if( frameMasks.size() <= 2 ){        //- _2_pix
+        if( frameMasks.size() <= 8 ){        //- _2_pix
             maskSetPtr = &(this->maskSets_2_pix);
-        }else if( frameMasks.size() <= 5 ){  //- _4_pix (暂时合并了5pix的) 
+        }else if( frameMasks.size() <= 17 ){  //- _4_pix
             maskSetPtr = &(this->maskSets_4_pix);
         }else{                               //- _7_pix
             maskSetPtr = &(this->maskSets_7_pix);
