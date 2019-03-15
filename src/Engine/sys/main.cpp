@@ -26,6 +26,7 @@
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
 #include "sectionBuild.h"
+#include "landWaterMask_Handle.h" //- tmp
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
@@ -111,6 +112,8 @@ int main(){
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
     esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
+
+    load_landWaterMasks();           //----- landWaterMasks 资源 -----
     
     //...
         

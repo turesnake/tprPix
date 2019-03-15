@@ -45,6 +45,9 @@
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "FieldBorderEntPixMaskSet.h"
+//#include "LandWaterMaskCorner.h"
+//#include "LandWaterMaskEdge.h"
+#include "landWaterMaskId_t.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -251,6 +254,15 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
         assert( sections.find(_sectionkey) != sections.end() );//- tmp
     return (Section*)&(sections.at(_sectionkey));
 }
+
+
+//-------------------------//
+//    LandWaterMaskIds 资源
+//  实际游戏地图中，每个section的 四端／侧边 记录 预制件id号。
+//  mem/disk 都存储
+//-------------------------//
+inline std::unordered_map<chunkKey_t,landWaterMaskEdgeId_t> landWaterMaskEdgeIds {};
+inline std::unordered_map<sectionKey_t,landWaterMaskCornerId_t> landWaterMaskCornerIds {};
 
 
 //-------------------------//

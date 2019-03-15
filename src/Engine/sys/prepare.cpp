@@ -187,6 +187,14 @@ void check_and_creat_important_dir(){
                         RWXR_XR_X,
                         err_info
                         );
+    //---------------------------------//
+    //          path_landWaterMaskSet
+    //---------------------------------//
+    path_landWaterMaskSet = tpr::mk_dir( path_textures.c_str(),
+                        "landWaterMaskSet/",
+                        RWXR_XR_X,
+                        err_info
+                        );
 }
 
 

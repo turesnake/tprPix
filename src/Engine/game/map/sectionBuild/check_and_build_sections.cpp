@@ -5,11 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *  - tmp 
- *    
  * ----------------------------
  */
-#include "Chunk.h"
-#include "srcs_engine.h"
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -21,7 +18,11 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
+#include "Chunk.h"
+#include "srcs_engine.h"
 #include "sectionBuild.h"
+#include "LandWaterMaskEdge.h"
+#include "LandWaterMaskCorner.h"
 
 
 #include "debug.h"
@@ -41,20 +42,49 @@ namespace{//----------- namespace ----------------//
     std::unordered_map<sectionKey_t,std::vector<Section*>> all_nineSectionPtrs {};
                                         //- 每个 “相关section” 占有一份，
                                         //  每一份，存储某 “相关section” 的 周边9个 section 指针
-
-    //std::unordered_map<sectionKey_t,std::vector<chunkKey_t>> all_nineSection_chunkKeys {};
-                                        //- 每个 “相关section” 占有一份，
-                                        //  每一份，存储某 “相关section” 的 周边 9*4*4 个 chunk key
                                         
     std::vector<ChunkFieldSet*> nearby_chunkFieldSetPtrs {}; //- 周边9个 ChunkFieldSet 实例指针
                                                     //- 被每个 chunk 反复使用
 
+    //--- landWater 数据部分 ---
+    class EdgeData{
+    public:
+        EdgeData( int _x, int _y, bool _is_leftRight ){
+            mposOff.set( _x, _y );
+            is_leftRight = _is_leftRight;
+        }
+        IntVec2 mposOff {};
+        bool    is_leftRight {true};
+    };
+
+    std::vector<IntVec2> allCornerMPosOffs_in_section{ //- section 4端点 mpos偏移
+        IntVec2{ 0, 0 },
+        IntVec2{ ENTS_PER_SECTION, 0 },
+        IntVec2{ 0, ENTS_PER_SECTION },
+        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
+    };
+
+    std::vector<EdgeData> allEdgeDatas_in_section{ //- section 侧边8节点 mpos 偏移
+        EdgeData{ 1*ENTS_PER_CHUNK, 0, false },
+        EdgeData{ 2*ENTS_PER_CHUNK, 0, false },
+        //-----
+        EdgeData{ 0, 1*ENTS_PER_CHUNK, true },
+        EdgeData{ 0, 2*ENTS_PER_CHUNK, true },
+        //-----
+        EdgeData{ 1*ENTS_PER_CHUNK, 3*ENTS_PER_CHUNK, false },
+        EdgeData{ 2*ENTS_PER_CHUNK, 3*ENTS_PER_CHUNK, false },
+        //-----
+        EdgeData{ 3*ENTS_PER_CHUNK, 1*ENTS_PER_CHUNK, true },
+        EdgeData{ 3*ENTS_PER_CHUNK, 2*ENTS_PER_CHUNK, true },
+    };
+
+    //======= funcs =======//
     void reset_nineChunkKeys( const IntVec2 &_currentChunkMPos );
     void reset_relatedSectionKeys();
     void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey );
     void sec_chunkFieldSet( chunkKey_t _chunkKey );
-
     std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMPos );
+    void build_landWaterDatas_for_each_section( const IntVec2 &_sectionMPos );
 
 }//-------------- namespace : end ----------------//
 
@@ -121,8 +151,6 @@ void build_new_chunk_in_update(){
 /* ===========================================================
  *                   build_one_chunk  [第二版]
  * -----------------------------------------------------------
- * 
- * -------
  * param: _anyMPos -- 目标chunk 中的 任何mpos
  */
 void build_one_chunk( const IntVec2 &_anyMPos ){
@@ -130,8 +158,6 @@ void build_one_chunk( const IntVec2 &_anyMPos ){
     //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
 
     all_nineSectionPtrs.clear();
-    //all_nineSection_chunkKeys.clear();
-
     
     IntVec2       currentChunkMPos   = anyMPos_2_chunkMPos(_anyMPos);
     IntVec2       currentSectionMPos = anyMPos_2_sectionMPos(_anyMPos);
@@ -280,6 +306,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     if( esrc::sections.find(_sectionKey) == esrc::sections.end() ){
         sectionPtr = esrc::insert_new_section( sectionMPos );
         sectionPtr->init();
+        build_landWaterDatas_for_each_section( sectionMPos );
     }else{
         sectionPtr = esrc::get_sectionPtr( _sectionKey );
     }
@@ -297,6 +324,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
         if(esrc::sections.find(key) == esrc::sections.end()){
             tmpSectionPtr = esrc::insert_new_section(key);
             tmpSectionPtr->init();
+            build_landWaterDatas_for_each_section( sectionMPos );
         }else{
             tmpSectionPtr = esrc::get_sectionPtr(key);
         }
@@ -398,8 +426,6 @@ void sec_chunkFieldSet( chunkKey_t _chunkKey ){
 }
 
 
-
-
 /* ===========================================================
  *                get_nearby_chunkFieldSetPtrs
  * -----------------------------------------------------------
@@ -424,6 +450,40 @@ std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMP
     //------
     return nearby_chunkFieldSetPtrs;
 }
+
+
+
+/* ===========================================================
+ *              build_landWaterDatas_for_each_section
+ * -----------------------------------------------------------
+ * - 检查目标 section 的4个corner 和 8个 edge节点，如果没有为其分配了 landWater 预制件id
+ *   分配之
+ */
+void build_landWaterDatas_for_each_section( const IntVec2 &_sectionMPos ){
+
+    sectionKey_t  tmpSectionKey;
+    chunkKey_t    tmpChunkKey;
+    landWaterMaskEdgeId_t   tmpEdgeId;
+    landWaterMaskCornerId_t tmpCornerId;
+ 
+    for( const auto &mposOff : allCornerMPosOffs_in_section ){ //- each corner mposOff
+        tmpSectionKey = anyMPos_2_sectionKey( _sectionMPos + mposOff );
+        if( esrc::landWaterMaskCornerIds.find(tmpSectionKey) == esrc::landWaterMaskCornerIds.end() ){
+            tmpCornerId = apply_a_rand_landWaterMaskCornerId();
+            esrc::landWaterMaskCornerIds.insert({ tmpSectionKey, tmpCornerId });
+        }
+    }
+
+    for( const auto &edgeDataRef : allEdgeDatas_in_section ){ //- each edge mposOff
+        tmpChunkKey = anyMPos_2_chunkKey( _sectionMPos + edgeDataRef.mposOff );
+        if( esrc::landWaterMaskEdgeIds.find(tmpChunkKey) == esrc::landWaterMaskEdgeIds.end() ){
+            tmpEdgeId = apply_a_rand_landWaterMaskEdgeId( edgeDataRef.is_leftRight );
+            esrc::landWaterMaskEdgeIds.insert({ tmpChunkKey, tmpEdgeId });
+        }
+    }
+}
+
+
 
 
 

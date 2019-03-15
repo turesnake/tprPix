@@ -70,6 +70,10 @@ inline bool IS_FULL_SCREEN = false;
 #define PIXES_PER_CHUNK (ENTS_PER_CHUNK*PIXES_PER_MAPENT)
 
 
+//-- 一个 landWaterMask 预制件，占有 128*128 mapents
+#define ENTS_PER_LANDWATERMASK (2*ENTS_PER_CHUNK)
+
+
 //-- camera.viewingBox z_deep
 #define VIEWING_BOX_Z_DEEP  1000
 

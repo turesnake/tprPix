@@ -20,6 +20,7 @@
 
 //-- id 默认从 1 开始增长。0号id 被保留，表示空id --
 inline constexpr int NULLID = 0;
+        //-- int 类型有麻烦...
 
 
 //-- id类型（取值范围）--
@@ -95,7 +96,7 @@ public:
     }
 
 private:
-    ID_TYPE id_scope;  //- id类型
+    ID_TYPE   id_scope;  //- id类型
     u64_t     max_id;    //- 当前 使用的 数值最大的 id号
     u64_t     id_limit;  //- id号 上限
 };

@@ -21,6 +21,8 @@
 #include "RGBA.h"
 #include "IntVec.h"
 
+#include "debug.h"
+
 /* ===========================================================
  *                load_and_divide_png
  * -----------------------------------------------------------
@@ -48,7 +50,10 @@ IntVec2 load_and_divide_png( const std::string &_path,
 
     stbi_set_flip_vertically_on_load( 1 ); //-- 防止 图片 y轴颠倒。
     data = stbi_load( _path.c_str(), &width, &height, &nrChannels, 0 );
-    assert( data != nullptr );
+        if(  data == nullptr ){
+            cout << _path << endl;
+            assert( data != nullptr );
+        }
 
     //------------------------------------//
     //   获得 每一帧的数据, 存入各自 帧容器中
