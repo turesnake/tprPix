@@ -248,7 +248,6 @@ void main_assign(){
             entRef.is_set = true;
         }
     }
-        //return;
 
     //-------------------------//
     //    处理剩下的 ents
@@ -290,8 +289,6 @@ void main_assign(){
                     QuadType::Right_Top,
                     QuadType::Left_Top,
                     QuadType::Right_Bottom );
-
-        //return;
 
     //-------------------------//
     //    检测，统计

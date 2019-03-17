@@ -188,10 +188,10 @@ void check_and_creat_important_dir(){
                         err_info
                         );
     //---------------------------------//
-    //          path_landWaterMaskSet
+    //          path_landWater
     //---------------------------------//
-    path_landWaterMaskSet = tpr::mk_dir( path_textures.c_str(),
-                        "landWaterMaskSet/",
+    path_landWater = tpr::mk_dir( path_textures.c_str(),
+                        "landWater/",
                         RWXR_XR_X,
                         err_info
                         );

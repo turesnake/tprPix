@@ -47,7 +47,8 @@
 #include "FieldBorderEntPixMaskSet.h"
 //#include "LandWaterMaskCorner.h"
 //#include "LandWaterMaskEdge.h"
-#include "landWaterMaskId_t.h"
+#include "landWaterPrefabId_t.h"
+#include "LandWaterEnt.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -257,12 +258,47 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
 
 
 //-------------------------//
-//    LandWaterMaskIds 资源
+//    LandWaterPrefabIds 资源  [mem-disk]
 //  实际游戏地图中，每个section的 四端／侧边 记录 预制件id号。
-//  mem/disk 都存储
 //-------------------------//
-inline std::unordered_map<chunkKey_t,landWaterMaskEdgeId_t> landWaterMaskEdgeIds {};
-inline std::unordered_map<sectionKey_t,landWaterMaskCornerId_t> landWaterMaskCornerIds {};
+inline std::unordered_map<chunkKey_t,landWaterPrefabEdgeId_t> landWaterPrefabEdgeIds {};
+inline std::unordered_map<sectionKey_t,landWaterPrefabCornerId_t> landWaterPrefabCornerIds {};
+
+inline landWaterPrefabEdgeId_t get_landWaterPrefabEdgeId( chunkKey_t _chunkKey ){
+    assert( landWaterPrefabEdgeIds.find(_chunkKey) != landWaterPrefabEdgeIds.end() );
+    return landWaterPrefabEdgeIds.at(_chunkKey);
+}
+
+inline landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey ){
+    assert( landWaterPrefabCornerIds.find(_sectionKey) != landWaterPrefabCornerIds.end() );
+    return landWaterPrefabCornerIds.at(_sectionKey);
+}
+
+
+//-------------------------//
+//    LandWater ent 资源  [mem-disk]
+//  伴随 section 而被创建，以 chunk 为单元存储于此，
+//  直到具体 chunk实例被创建，才从此取走（然后此容器中的对应数据，就要被删除）
+//-------------------------//
+inline std::unordered_map<chunkKey_t, std::vector<LandWaterEnt>> landWaterEntSets {};
+
+
+inline std::vector<LandWaterEnt> &insert_new_landWaterEntSet( chunkKey_t _key ){
+    assert( landWaterEntSets.find(_key) == landWaterEntSets.end() );
+    landWaterEntSets.insert({ _key, std::vector<LandWaterEnt>{} });
+    return landWaterEntSets.at(_key);
+}
+
+inline std::vector<LandWaterEnt> &get_landWaterEntSet( chunkKey_t _key ){
+    assert( landWaterEntSets.find(_key) != landWaterEntSets.end() );
+    return landWaterEntSets.at(_key);
+}
+
+inline void erase_landWaterEntSet( chunkKey_t _key ){
+    assert( landWaterEntSets.find(_key) != landWaterEntSets.end() );
+    assert( landWaterEntSets.erase(_key) == 1 );
+}
+
 
 
 //-------------------------//

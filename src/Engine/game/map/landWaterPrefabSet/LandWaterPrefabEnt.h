@@ -1,21 +1,21 @@
 /*
- * ==================== LandWaterMaskEnt.h =======================
+ * ==================== LandWaterPrefabEnt.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.13
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_LAND_WATER_MASK_ENT_H_
-#define _TPR_LAND_WATER_MASK_ENT_H_
+#ifndef _TPR_LAND_WATER_PREFAB_ENT_H_
+#define _TPR_LAND_WATER_PREFAB_ENT_H_
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 
 //-- 预制件中 单个像素／mapent 的信息 --
-class LandWaterMaskEnt{
+class LandWaterPrefabEnt{
 public:
-    LandWaterMaskEnt() = default;
-    LandWaterMaskEnt( int _x, int _y, bool _is_major ){
+    LandWaterPrefabEnt() = default;
+    LandWaterPrefabEnt( int _x, int _y, bool _is_major ){
         lMPosOff.x = _x;
         lMPosOff.y = _y;
         is_major = _is_major;

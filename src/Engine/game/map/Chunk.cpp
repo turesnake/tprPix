@@ -84,6 +84,32 @@ void Chunk::init_memMapEnts(){
 }
 
 
+/* ===========================================================
+ *                     init_memMapEnts
+ * -----------------------------------------------------------
+ * -- 从全局容器 esrc::landWaterEntSets 中，获得本 chunk 所对应的 有关 landwater 的数据
+ */
+void Chunk::acquire_landWaterEnts_from_esrc(){
+    if( this->is_acquire_landWaterEnts_from_esrc ){
+        return;
+    }
+    assert( this->is_memMapEnts_set );
+    //-------------
+
+    size_t idx;
+    std::vector<LandWaterEnt> &containerRef = esrc::get_landWaterEntSet( this->chunkKey );
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){ //- each ent in chunk
+            idx = h*ENTS_PER_CHUNK + w;
+            this->memMapEnts.at(idx).landWater = containerRef.at(idx);
+        }
+    }
+    //-- 及时删除 esrc::landWaterEntSets 中对应数据块 --
+    esrc::erase_landWaterEntSet( this->chunkKey );
+    this->is_acquire_landWaterEnts_from_esrc = true;
+}
+
+
 
 /* ===========================================================
  *               assign_mapEnts_2_field
@@ -148,11 +174,11 @@ void Chunk::assign_mapEnts_2_field(){
 
 
                 relatedDistance = abs(fst_near_distance-sec_near_distance);
-                if( relatedDistance < 14 ){
+                if( relatedDistance < 10 ){ //- 理想值 14
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Nearest;
-                }else if( relatedDistance < 18 ){
+                }else if( relatedDistance < 16 ){  //- 理想值 18
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Sec;
-                }else if( relatedDistance < 32 ){
+                }else if( relatedDistance < 28 ){  //- 理想值 32
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Thd;
                 }else{
                     tmpMapEntPtr->fieldBorderType = FieldBorderType::Inner;
@@ -191,6 +217,9 @@ void Chunk::assign_pixels_2_mapent(){
 
     size_t   maskIdx; 
 
+    RGBA     water_color     { 102, 104, 122, 255 };
+    RGBA     deepWater_color { 79, 81, 98, 255 };
+
 
     //------ 简易方案 -------//
     this->mapTex.resize_texBuf();
@@ -202,6 +231,26 @@ void Chunk::assign_pixels_2_mapent(){
 
         color = get_fieldPtr_by_key(mapEntRef.fieldKey)->color; //- 目标颜色
         nearColor = get_fieldPtr_by_key(mapEntRef.nearbyFieldKey)->color; //- 副色
+
+
+        //--- 如果本 mapent 是水域，直接涂水色 ---
+        if( mapEntRef.landWater.get_isLand() == false ){
+
+            for( int h=0; h<PIXES_PER_MAPENT; h++ ){
+                for( int w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in mapent
+
+                    tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ w, h };
+                    tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
+                    tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
+                    *tmpPixPtr = deepWater_color; //- 水色。
+                }
+            } //- for each pix in mapent end ---
+
+            // 还应该处理 border ent
+            //...
+    
+            continue;
+        }
 
 
         //--- 先整体涂一遍 主色 ---//

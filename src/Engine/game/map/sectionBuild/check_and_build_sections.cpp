@@ -11,18 +11,12 @@
 //-------------------- C --------------------//
 #include <cassert>
 
-
 //-------------------- CPP --------------------//
 #include <set>
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
-#include "IntVec.h" 
-#include "Chunk.h"
-#include "srcs_engine.h"
-#include "sectionBuild.h"
-#include "LandWaterMaskEdge.h"
-#include "LandWaterMaskCorner.h"
+#include "sectionBuild_innerDatas.h"
 
 
 #include "debug.h"
@@ -38,6 +32,7 @@ namespace{//----------- namespace ----------------//
 
     std::vector<chunkKey_t> nineChunkKeys      {}; //- 主chunk 周边9个 chunk key 容器
     std::set<sectionKey_t>  relatedSectionKeys {}; //- 主9chunks 相关的 所有 section key 
+                                                   //- 核心数据
 
     std::unordered_map<sectionKey_t,std::vector<Section*>> all_nineSectionPtrs {};
                                         //- 每个 “相关section” 占有一份，
@@ -46,37 +41,7 @@ namespace{//----------- namespace ----------------//
     std::vector<ChunkFieldSet*> nearby_chunkFieldSetPtrs {}; //- 周边9个 ChunkFieldSet 实例指针
                                                     //- 被每个 chunk 反复使用
 
-    //--- landWater 数据部分 ---
-    class EdgeData{
-    public:
-        EdgeData( int _x, int _y, bool _is_leftRight ){
-            mposOff.set( _x, _y );
-            is_leftRight = _is_leftRight;
-        }
-        IntVec2 mposOff {};
-        bool    is_leftRight {true};
-    };
-
-    std::vector<IntVec2> allCornerMPosOffs_in_section{ //- section 4端点 mpos偏移
-        IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_SECTION, 0 },
-        IntVec2{ 0, ENTS_PER_SECTION },
-        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
-    };
-
-    std::vector<EdgeData> allEdgeDatas_in_section{ //- section 侧边8节点 mpos 偏移
-        EdgeData{ 1*ENTS_PER_CHUNK, 0, false },
-        EdgeData{ 2*ENTS_PER_CHUNK, 0, false },
-        //-----
-        EdgeData{ 0, 1*ENTS_PER_CHUNK, true },
-        EdgeData{ 0, 2*ENTS_PER_CHUNK, true },
-        //-----
-        EdgeData{ 1*ENTS_PER_CHUNK, 3*ENTS_PER_CHUNK, false },
-        EdgeData{ 2*ENTS_PER_CHUNK, 3*ENTS_PER_CHUNK, false },
-        //-----
-        EdgeData{ 3*ENTS_PER_CHUNK, 1*ENTS_PER_CHUNK, true },
-        EdgeData{ 3*ENTS_PER_CHUNK, 2*ENTS_PER_CHUNK, true },
-    };
+    
 
     //======= funcs =======//
     void reset_nineChunkKeys( const IntVec2 &_currentChunkMPos );
@@ -84,7 +49,7 @@ namespace{//----------- namespace ----------------//
     void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey );
     void sec_chunkFieldSet( chunkKey_t _chunkKey );
     std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMPos );
-    void build_landWaterDatas_for_each_section( const IntVec2 &_sectionMPos );
+    void build_landWaterPrefabDatas_for_each_section( const IntVec2 &_sectionMPos );
 
 }//-------------- namespace : end ----------------//
 
@@ -203,12 +168,14 @@ void build_one_chunk( const IntVec2 &_anyMPos ){
 
 
     //------------------------------//
-    //  单独生成 主chunk 实例
+    //          第三阶段
+    //    单独生成 主chunk 实例
     //------------------------------//
-    Chunk  *currentChunkPtr = esrc::insert_new_chunk( currentChunkMPos );//- 一定不存在
+    currentChunkPtr = esrc::insert_new_chunk( currentChunkMPos );//- 一定不存在
     size_t  chunkIdx = currentSectionPtr->get_chunk_idx( currentChunkMPos ); //- 本chunk 在 主section 中的序号
     //------
     currentChunkPtr->init_memMapEnts(); //- 填满 chunk.memMapEnts
+    currentChunkPtr->acquire_landWaterEnts_from_esrc(); //- 获得 landWater 数据
     currentChunkPtr->nodeMPos = currentSectionPtr->get_chunkNodeMPos( chunkIdx ); //- copy nodeMPos
     currentChunkPtr->ecoSysInMapKey = currentSectionPtr->get_chunkEcoSysInMapKey( chunkIdx ); //- copy ecoSysInMapKey
     //...
@@ -283,8 +250,6 @@ void reset_relatedSectionKeys(){
         tmpSectionKey = anyMPos_2_sectionKey( tmpMpos );
         relatedSectionKeys.insert( tmpSectionKey ); //- 自动去除多余
     }
-        //cout << "relatedSectionKeys.size() = " << relatedSectionKeys.size() 
-        //    << endl;
 }
 
 
@@ -292,8 +257,7 @@ void reset_relatedSectionKeys(){
 /* ===========================================================
  *                  fst_sections_and_ecoSysInMaps
  * -----------------------------------------------------------
- * 第一阶段。
- * 
+ * 第一阶段
  */
 void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
 
@@ -306,7 +270,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     if( esrc::sections.find(_sectionKey) == esrc::sections.end() ){
         sectionPtr = esrc::insert_new_section( sectionMPos );
         sectionPtr->init();
-        build_landWaterDatas_for_each_section( sectionMPos );
+        build_landWaterPrefabDatas_for_each_section( sectionMPos );
     }else{
         sectionPtr = esrc::get_sectionPtr( _sectionKey );
     }
@@ -315,7 +279,6 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     // 检查 目标section 周边9个 section 实例，若没有，创建之
     // 检查 16 个 ecoSysInMap 实例，若没有，创建之
     //------------------------------//
-    //std::vector<Section*> tmpvec {};
     all_nineSectionPtrs.insert({ _sectionKey, std::vector<Section*>{} }); // ???
 
     Section     *tmpSectionPtr     {nullptr};
@@ -324,7 +287,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
         if(esrc::sections.find(key) == esrc::sections.end()){
             tmpSectionPtr = esrc::insert_new_section(key);
             tmpSectionPtr->init();
-            build_landWaterDatas_for_each_section( sectionMPos );
+            build_landWaterPrefabDatas_for_each_section( sectionMPos );
         }else{
             tmpSectionPtr = esrc::get_sectionPtr(key);
         }
@@ -359,6 +322,12 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
         ecoSysPtr->plan();
     }
 
+    //------------------------------//
+    // 单为 目标section 生成所有 landWaterEnts 数据
+    // 这些数据以 chunk 为单位，暂时存储在 全局容器中
+    //------------------------------//
+    build_landWaterEnts( _sectionKey );
+
 }
 
 
@@ -375,7 +344,6 @@ void sec_chunkFieldSet( chunkKey_t _chunkKey ){
     IntVec2      chunkMPos_ = chunkKey_2_mpos( _chunkKey );
     sectionKey_t sectionKey_ = anyMPos_2_sectionKey( chunkMPos_ );
 
-    //all_nineSection_chunkKeys.insert({ sectionKey_, std::vector<chunkKey_t>{} });
     //------------------------------//
     // 检查 目标chunk 周边 9个section的 所有 chunk (9*4*4) 的 ChunkFieldSet 实例
     // 若没有，创建之
@@ -390,17 +358,14 @@ void sec_chunkFieldSet( chunkKey_t _chunkKey ){
 
         for( int h=0; h<CHUNKS_PER_SECTION; h++ ){
             for( int w=0; w<CHUNKS_PER_SECTION; w++ ){ //- each chunk in section
-            tmpChunkMPos.set(   sectionMPosRef.x + w*ENTS_PER_CHUNK,
-                                sectionMPosRef.y + h*ENTS_PER_CHUNK );
-            tmpChunkKey = anyMPos_2_chunkKey( tmpChunkMPos );
-            //-----
-            if( esrc::chunkFieldSets.find(tmpChunkKey) == esrc::chunkFieldSets.end() ){
-                tmpChunkFieldSetPtr = esrc::insert_new_chunkFieldSet( tmpChunkMPos ); 
-                tmpChunkFieldSetPtr->init_fields();
-            }
-            //-----
-            //all_nineSection_chunkKeys.at(sectionKey_).push_back( tmpChunkKey );
-                        //- 顺带将 9*16 个chunk key 存储进临时容器， 方便下一次遍历。
+                tmpChunkMPos.set(   sectionMPosRef.x + w*ENTS_PER_CHUNK,
+                                    sectionMPosRef.y + h*ENTS_PER_CHUNK );
+                tmpChunkKey = anyMPos_2_chunkKey( tmpChunkMPos );
+                //-----
+                if( esrc::chunkFieldSets.find(tmpChunkKey) == esrc::chunkFieldSets.end() ){
+                    tmpChunkFieldSetPtr = esrc::insert_new_chunkFieldSet( tmpChunkMPos ); 
+                    tmpChunkFieldSetPtr->init_fields();
+                }
             }
         }
     }
@@ -454,31 +419,31 @@ std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMP
 
 
 /* ===========================================================
- *              build_landWaterDatas_for_each_section
+ *              build_landWaterPrefabDatas_for_each_section
  * -----------------------------------------------------------
  * - 检查目标 section 的4个corner 和 8个 edge节点，如果没有为其分配了 landWater 预制件id
  *   分配之
  */
-void build_landWaterDatas_for_each_section( const IntVec2 &_sectionMPos ){
+void build_landWaterPrefabDatas_for_each_section( const IntVec2 &_sectionMPos ){
 
     sectionKey_t  tmpSectionKey;
     chunkKey_t    tmpChunkKey;
-    landWaterMaskEdgeId_t   tmpEdgeId;
-    landWaterMaskCornerId_t tmpCornerId;
+    landWaterPrefabEdgeId_t   tmpEdgeId;
+    landWaterPrefabCornerId_t tmpCornerId;
  
-    for( const auto &mposOff : allCornerMPosOffs_in_section ){ //- each corner mposOff
-        tmpSectionKey = anyMPos_2_sectionKey( _sectionMPos + mposOff );
-        if( esrc::landWaterMaskCornerIds.find(tmpSectionKey) == esrc::landWaterMaskCornerIds.end() ){
-            tmpCornerId = apply_a_rand_landWaterMaskCornerId();
-            esrc::landWaterMaskCornerIds.insert({ tmpSectionKey, tmpCornerId });
+    for( const auto &cornerDataRef : allCornerDatas_in_section ){ //- each corner
+        tmpSectionKey = anyMPos_2_sectionKey( _sectionMPos + cornerDataRef.mposOff );
+        if( esrc::landWaterPrefabCornerIds.find(tmpSectionKey) == esrc::landWaterPrefabCornerIds.end() ){
+            tmpCornerId = apply_a_rand_landWaterPrefabCornerId();
+            esrc::landWaterPrefabCornerIds.insert({ tmpSectionKey, tmpCornerId });
         }
     }
 
-    for( const auto &edgeDataRef : allEdgeDatas_in_section ){ //- each edge mposOff
+    for( const auto &edgeDataRef : allEdgeDatas_in_section ){ //- each edge
         tmpChunkKey = anyMPos_2_chunkKey( _sectionMPos + edgeDataRef.mposOff );
-        if( esrc::landWaterMaskEdgeIds.find(tmpChunkKey) == esrc::landWaterMaskEdgeIds.end() ){
-            tmpEdgeId = apply_a_rand_landWaterMaskEdgeId( edgeDataRef.is_leftRight );
-            esrc::landWaterMaskEdgeIds.insert({ tmpChunkKey, tmpEdgeId });
+        if( esrc::landWaterPrefabEdgeIds.find(tmpChunkKey) == esrc::landWaterPrefabEdgeIds.end() ){
+            tmpEdgeId = apply_a_rand_landWaterPrefabEdgeId( edgeDataRef.is_leftRight );
+            esrc::landWaterPrefabEdgeIds.insert({ tmpChunkKey, tmpEdgeId });
         }
     }
 }

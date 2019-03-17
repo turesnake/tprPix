@@ -4,7 +4,6 @@
  *                                        CREATE -- 2019.03.02
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * ----------------------------
  */
 #ifndef _TPR_SECTION_H_
 #define _TPR_SECTION_H_
@@ -116,6 +115,10 @@ public:
 
     bool  is_assign_chunks_to_ecoSysInMap_done {false};
 
+    bool  is_landWaterEntSets_set   {false}; 
+                            //- 本 section 是否已经生成过 landWaterEntSet 数据
+                            //  这个数据 存储在另一个 全局容器中
+                            //  把 flag 放在这里 不全合理，对 section 的管理会造成问题。
 
 private:
 
@@ -130,7 +133,6 @@ private:
         chunkEcoSysInMapKeys.resize( CHUNKS_PER_SECTION * CHUNKS_PER_SECTION );
         this->is_chunkEcoSysInMapKeys_set = true;
     }
-    
 
 };
 

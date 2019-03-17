@@ -26,7 +26,7 @@
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
 #include "sectionBuild.h"
-#include "landWaterMask_Handle.h" //- tmp
+#include "landWaterPrefab_Handle.h" //- tmp
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
@@ -122,7 +122,7 @@ int main(){
 
     esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
 
-    load_landWaterMasks();           //----- landWaterMasks 资源 -----
+    load_landWaterPrefabs();           //----- landWaterMasks 资源 -----
     
     //...
         

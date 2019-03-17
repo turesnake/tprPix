@@ -38,12 +38,17 @@ public:
         a(_a)
         {}
     
-    inline bool is_near( const RGBA &_a, u8_t _off ){
+    inline bool is_near( const RGBA &_a, u8_t _off )const{
+
+        int rr = (int)r - (int)_a.r;
+        int gg = (int)g - (int)_a.g;
+        int bb = (int)b - (int)_a.b;
+        int aa = (int)a - (int)_a.a;
         return (
-        (abs(r-_a.r) <= _off) &&
-        (abs(g-_a.g) <= _off) &&
-        (abs(b-_a.b) <= _off) &&
-        (abs(a-_a.a) <= _off)
+        (abs(rr) <= _off) &&
+        (abs(gg) <= _off) &&
+        (abs(bb) <= _off) &&
+        (abs(aa) <= _off)
         );
     }
 
@@ -63,11 +68,16 @@ public:
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
+
+    int rr = (int)_a.r - (int)_b.r;
+    int gg = (int)_a.g - (int)_b.g;
+    int bb = (int)_a.b - (int)_b.b;
+    int aa = (int)_a.a - (int)_b.a;
     return (
-       (abs(_a.r-_b.r) <= _off) &&
-       (abs(_a.g-_b.g) <= _off) &&
-       (abs(_a.b-_b.b) <= _off) &&
-       (abs(_a.a-_b.a) <= _off)
+       (abs(rr) <= _off) &&
+       (abs(gg) <= _off) &&
+       (abs(bb) <= _off) &&
+       (abs(aa) <= _off)
     );
 }
 

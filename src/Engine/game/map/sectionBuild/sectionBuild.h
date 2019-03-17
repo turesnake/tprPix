@@ -4,9 +4,7 @@
  *                                        CREATE -- 2019.02.23
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   存放 section生成器的 通用工具
- * -----
- *   本文件 只可被内部文件包含。
+ *   section build api
  * ----------------------------
  */
 #ifndef _TPR_SECTION_BUILD_H
@@ -19,28 +17,17 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "random.h"
 #include "IntVec.h"
-#include "EcoSysType.h"
-#include "NineBox.h"
-#include "Chunk.h"
-#include "MapEntInBuild.h"
-#include "NearbyChunkKey.h"
-//#include "ChunkFieldSetInBuild.h"
-#include "sectionKey.h"
-#include "EcoSysInMap.h"
-#include "Section.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
     
 
 //------------ ptrs ----------//
-inline Section                 *currentSectionPtr    {nullptr};
+/*
 inline Chunk                   *chunkPtr      {nullptr};
 inline MapTexture              *mapTexPtr     {nullptr};
 inline std::vector<MemMapEnt>  *memMapEntsPtr {nullptr};
-
 inline RGBA  *pixBufHeadPtr  {nullptr};
 
 //----- 存储在 mapEnts.isLand 中的数据 -----//
@@ -101,16 +88,13 @@ inline std::uniform_int_distribution<int> poisDistribution(1000,3000);
 void  init(); 
 void  build_data( Chunk *_chunkPtr ); //- chunk 生成器 主函数
                                  //- 未完
-
 void  build_landOrWaters();
+*/
 
-
+void init();
 
 void build_9_chunks( const IntVec2 &_playerMPos );
 void build_new_chunk_in_update();
-//void build_one_chunk( const IntVec2 &_anyMPos );
-//void build_nearby_sections( const IntVec2 &_mpos );
-//void check_and_build_nearby_sections();
 
 
 

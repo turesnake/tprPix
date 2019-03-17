@@ -46,11 +46,12 @@ namespace{//----------- namespace ---------------//
                                                     //- 被每个 chunk 反复使用
 
 
-    //-- 临时颜色 --
+    //-- 不同 ecosys 的颜色 --
+    //   临时放在此处 
     RGBA color_forst { 130, 150, 109, 255 };
     RGBA color_darkForst { 106, 130, 113, 255 };
     RGBA color_plain { 155, 159, 134, 255 };
-    RGBA color_swamp { 142, 148, 149, 255 };
+    RGBA color_swamp { 138, 139, 124, 255 };
     RGBA color_desert { 176, 167, 140, 255 };
 
 }//-------------- namespace : end ---------------//

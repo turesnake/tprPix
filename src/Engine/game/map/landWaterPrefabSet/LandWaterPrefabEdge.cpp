@@ -1,13 +1,11 @@
 /*
- * ==================== LandWaterMaskEdge.cpp =======================
+ * ==================== LandWaterPrefabEdge.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.14
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *  
- * ----------------------------
  */
-#include "LandWaterMaskEdge.h"
+#include "LandWaterPrefabEdge.h"
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -24,36 +22,36 @@ namespace{//-------- namespace: --------------//
 
     //-- 几个 数据容器，被每个 实例使用 --//
     //- 原版数据 做xy轴翻转
-    std::vector<LandWaterMaskEnt> originData {};
-    std::vector<LandWaterMaskEnt> originData_Xflip {};
-    std::vector<LandWaterMaskEnt> originData_Yflip {};
-    std::vector<LandWaterMaskEnt> originData_XYflip {};
+    std::vector<LandWaterPrefabEnt> originData {};
+    std::vector<LandWaterPrefabEnt> originData_Xflip {};
+    std::vector<LandWaterPrefabEnt> originData_Yflip {};
+    std::vector<LandWaterPrefabEnt> originData_XYflip {};
 
     //- 原版数据 沿 "y=x" 轴线翻转后，再做xy轴翻转
-    std::vector<LandWaterMaskEnt> tiltData {}; 
-    std::vector<LandWaterMaskEnt> tiltData_Xflip {};
-    std::vector<LandWaterMaskEnt> tiltData_Yflip {};
-    std::vector<LandWaterMaskEnt> tiltData_XYflip {};
+    std::vector<LandWaterPrefabEnt> tiltData {}; 
+    std::vector<LandWaterPrefabEnt> tiltData_Xflip {};
+    std::vector<LandWaterPrefabEnt> tiltData_Yflip {};
+    std::vector<LandWaterPrefabEnt> tiltData_XYflip {};
 
 
     //-- 预制件 资源 ---
-    std::unordered_map<landWaterMaskEdgeId_t, LandWaterMaskEdge> landWaterMaskEdges {};
+    std::unordered_map<landWaterPrefabEdgeId_t, LandWaterPrefabEdge> landWaterPrefabEdges {};
 
     //-- 区分对待 左右／上下 两种数据，当随机抽取 id时，从两个容器中抽 --
-    std::vector<landWaterMaskEdgeId_t> leftRight_ids {};
-    std::vector<landWaterMaskEdgeId_t> topBottom_ids {};
+    std::vector<landWaterPrefabEdgeId_t> leftRight_ids {};
+    std::vector<landWaterPrefabEdgeId_t> topBottom_ids {};
 
     //====== funcs =======//
-    void handle_each_container( const std::vector<LandWaterMaskEnt> &_container, bool _is_leftRight );
+    void handle_each_container( const std::vector<LandWaterPrefabEnt> &_container, bool _is_leftRight );
 
 }//------------- namespace: end --------------//
 
 
 /* ===========================================================
- *             clear_for_LandWaterMaskEdge
+ *             clear_for_LandWaterPrefabEdge
  * -----------------------------------------------------------
  */
-void clear_for_LandWaterMaskEdge(){
+void clear_for_LandWaterPrefabEdge(){
     originData.clear();
     originData_Xflip.clear();
     originData_Yflip.clear();
@@ -65,22 +63,22 @@ void clear_for_LandWaterMaskEdge(){
 }
 
 /* ===========================================================
- *       push_back_originData_for_LandWaterMaskEdge
+ *       push_back_originData_for_LandWaterPrefabEdge
  * -----------------------------------------------------------
  * -- 将原版数据，暂存在 文件容器中
  */
-void push_back_originData_for_LandWaterMaskEdge( const LandWaterMaskEnt &_ent ){
+void push_back_originData_for_LandWaterPrefabEdge( const LandWaterPrefabEnt &_ent ){
     originData.push_back( _ent ); //- copy
 }
 
 
 
 /* ===========================================================
- *     build_all_mutant_datas_for_LandWaterMaskEdge
+ *     build_all_mutant_datas_for_LandWaterPrefabEdge
  * -----------------------------------------------------------
  * -- 根据原始数据，通过各种翻转，生成所有 变种 数据。
  */
-void build_all_mutant_datas_for_LandWaterMaskEdge(){
+void build_all_mutant_datas_for_LandWaterPrefabEdge(){
 
     if( is_first ){
         is_first = false;
@@ -94,23 +92,23 @@ void build_all_mutant_datas_for_LandWaterMaskEdge(){
     for( const auto &entRef : originData ){ //- each ent in frame
         const IntVec2 &originEntWH = entRef.lMPosOff;
 
-        XYflipEntWH.x = ENTS_PER_LANDWATERMASK - 1 - originEntWH.x;
-        XYflipEntWH.y = ENTS_PER_LANDWATERMASK - 1 - originEntWH.y;
+        XYflipEntWH.x = -originEntWH.x;
+        XYflipEntWH.y = -originEntWH.y;
 
         tiltEntWH.x = originEntWH.y;
         tiltEntWH.y = originEntWH.x;
 
-        tiltXYflipEntWH.x = ENTS_PER_LANDWATERMASK - 1 - tiltEntWH.x;
-        tiltXYflipEntWH.y = ENTS_PER_LANDWATERMASK - 1 - tiltEntWH.y;
+        tiltXYflipEntWH.x = -tiltEntWH.x;
+        tiltXYflipEntWH.y = -tiltEntWH.y;
 
-        originData_Xflip.push_back( LandWaterMaskEnt{ XYflipEntWH.x, originEntWH.y, entRef.is_major } ); //- copy
-        originData_Yflip.push_back( LandWaterMaskEnt{ originEntWH.x, XYflipEntWH.y, entRef.is_major } ); //- copy
-        originData_XYflip.push_back( LandWaterMaskEnt{ XYflipEntWH.x, XYflipEntWH.y, entRef.is_major } ); //- copy
+        originData_Xflip.push_back( LandWaterPrefabEnt{ XYflipEntWH.x, originEntWH.y, entRef.is_major } ); //- copy
+        originData_Yflip.push_back( LandWaterPrefabEnt{ originEntWH.x, XYflipEntWH.y, entRef.is_major } ); //- copy
+        originData_XYflip.push_back( LandWaterPrefabEnt{ XYflipEntWH.x, XYflipEntWH.y, entRef.is_major } ); //- copy
 
-        tiltData.push_back(       LandWaterMaskEnt{ tiltEntWH.x, tiltEntWH.y, entRef.is_major } ); //- copy
-        tiltData_Xflip.push_back( LandWaterMaskEnt{ tiltXYflipEntWH.x, tiltEntWH.y, entRef.is_major } ); //- copy
-        tiltData_Yflip.push_back( LandWaterMaskEnt{ tiltEntWH.x, tiltXYflipEntWH.y, entRef.is_major } ); //- copy
-        tiltData_XYflip.push_back( LandWaterMaskEnt{ tiltXYflipEntWH.x, tiltXYflipEntWH.y, entRef.is_major } ); //- copy
+        tiltData.push_back(       LandWaterPrefabEnt{ tiltEntWH.x, tiltEntWH.y, entRef.is_major } ); //- copy
+        tiltData_Xflip.push_back( LandWaterPrefabEnt{ tiltXYflipEntWH.x, tiltEntWH.y, entRef.is_major } ); //- copy
+        tiltData_Yflip.push_back( LandWaterPrefabEnt{ tiltEntWH.x, tiltXYflipEntWH.y, entRef.is_major } ); //- copy
+        tiltData_XYflip.push_back( LandWaterPrefabEnt{ tiltXYflipEntWH.x, tiltXYflipEntWH.y, entRef.is_major } ); //- copy
     }
 
     //-- 逐个处理8个容器，将每个容器的数据，拆分为 4份 --
@@ -128,11 +126,11 @@ void build_all_mutant_datas_for_LandWaterMaskEdge(){
 
 
 /* ===========================================================
- *           apply_a_rand_landWaterMaskEdgeId
+ *           apply_a_rand_landWaterPrefabEdgeId
  * -----------------------------------------------------------
  * -- 最简模式...
  */
-landWaterMaskEdgeId_t apply_a_rand_landWaterMaskEdgeId( bool _is_leftRight ){
+landWaterPrefabEdgeId_t apply_a_rand_landWaterPrefabEdgeId( bool _is_leftRight ){
     size_t idx;
     if( _is_leftRight ){
         idx = uDistribution(randEngine) % leftRight_ids.size();
@@ -145,13 +143,15 @@ landWaterMaskEdgeId_t apply_a_rand_landWaterMaskEdgeId( bool _is_leftRight ){
 
 
 /* ===========================================================
- *              get_landWaterMaskEdge
+ *              get_landWaterPrefabEdge
  * -----------------------------------------------------------
  * param: _quad -- 4个象限，分配对应的数据集.
+ * 
  */
-const std::vector<LandWaterMaskEnt> &get_landWaterMaskEdge( landWaterMaskEdgeId_t _id, QuadType _quad ){
-    assert( landWaterMaskEdges.find(_id) != landWaterMaskEdges.end() ); //- tmp
-    const LandWaterMaskEdge &edgeRef = landWaterMaskEdges.at(_id);
+const std::vector<LandWaterPrefabEnt> &get_landWaterPrefabEdge( landWaterPrefabEdgeId_t _id, QuadType _quad ){
+
+    assert( landWaterPrefabEdges.find(_id) != landWaterPrefabEdges.end() ); //- tmp
+    const LandWaterPrefabEdge &edgeRef = landWaterPrefabEdges.at(_id);
     if( edgeRef.is_leftRight ){ //- left-right
         if( (_quad==QuadType::Left_Bottom) || (_quad==QuadType::Left_Top) ){
             return edgeRef.left_or_tops;
@@ -179,15 +179,15 @@ namespace{//-------- namespace: --------------//
  * -----------------------------------------------------------
  * -- 将目标容器中的数据 正式存储到 全局容器中。
  */
-void handle_each_container( const std::vector<LandWaterMaskEnt> &_container, bool _is_leftRight ){
+void handle_each_container( const std::vector<LandWaterPrefabEnt> &_container, bool _is_leftRight ){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    LandWaterMaskEdge  lwme {};
-    landWaterMaskEdgeId_t id_ = LandWaterMaskEdge::id_manager.apply_a_u32_id();
+    LandWaterPrefabEdge  lwme {};
+    landWaterPrefabEdgeId_t id_ = LandWaterPrefabEdge::id_manager.apply_a_u32_id();
     lwme.id = id_;
-        assert( landWaterMaskEdges.find(id_) == landWaterMaskEdges.end() );//- must
-    landWaterMaskEdges.insert({id_, lwme}); //- copy
-    LandWaterMaskEdge &edgeRef = landWaterMaskEdges.at(id_);
+        assert( landWaterPrefabEdges.find(id_) == landWaterPrefabEdges.end() );//- must
+    landWaterPrefabEdges.insert({id_, lwme}); //- copy
+    LandWaterPrefabEdge &edgeRef = landWaterPrefabEdges.at(id_);
 
     //-------
     edgeRef.is_leftRight = _is_leftRight;

@@ -16,12 +16,12 @@
 //#define SCR_WIDTH  880 //- 早期版，游戏标配窗口大小
 //#define SCR_HEIGHT  660
 
-#define SCR_WIDTH  1600
-#define SCR_HEIGHT 1200
+//#define SCR_WIDTH  1600
+//#define SCR_HEIGHT 1200
 
 
-//#define SCR_WIDTH  1280  //- 为了配合生态建设 设置的窗口大小。
-//#define SCR_HEIGHT  1280
+#define SCR_WIDTH  1280  //- 为了配合生态建设 设置的窗口大小。
+#define SCR_HEIGHT  1280
 
 //-- 游戏工作尺寸（游戏像素）--
 //   由于是 pixel游戏，所以这个值会很小。
@@ -32,12 +32,12 @@
 //#define WORK_WIDTH  220 //- 早期版，游戏标配窗口大小
 //#define WORK_HEIGHT 165
 
-#define WORK_WIDTH  400
-#define WORK_HEIGHT 300
+//#define WORK_WIDTH  400
+//#define WORK_HEIGHT 300
 
 
-//#define WORK_WIDTH  1280  //- 在 1280*1280 尺寸下，能显示一张完整的 section(256,256)
-//#define WORK_HEIGHT 1280  //- 仅用在 生态群落 建设阶段
+#define WORK_WIDTH  1280  //- 在 1280*1280 尺寸下，能显示一张完整的 section(256,256)
+#define WORK_HEIGHT 1280  //- 仅用在 生态群落 建设阶段
 
 
 //-- 是否开启 全屏模式 --
