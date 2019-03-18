@@ -73,13 +73,13 @@ void load_landWaterPrefabs(){
     //  手动设置 png 数据... tmp...
     //-------------------------//
     lpath_corner = "/landWater_corner_a.png";
-    lpath_edge   = "/landWater_edge_a.png";
+    lpath_edge   = "/landWater_edge_2.png";
 
-    frameNum_corner.set( 2, 1 );
-    frameNum_edge.set( 2, 1 );
+    frameNum_corner.set( 4, 2 );
+    frameNum_edge.set( 4, 3 );
 
-    totalFrameNum_corner = 2*1;
-    totalFrameNum_edge = 2*1;
+    totalFrameNum_corner = frameNum_corner.x * frameNum_corner.y;
+    totalFrameNum_edge = frameNum_edge.x * frameNum_edge.y;
 
     //----------------------------//
     //     读取 png 原始数据

@@ -45,8 +45,6 @@
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "FieldBorderEntPixMaskSet.h"
-//#include "LandWaterMaskCorner.h"
-//#include "LandWaterMaskEdge.h"
 #include "landWaterPrefabId_t.h"
 #include "LandWaterEnt.h"
 
@@ -264,15 +262,8 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
 inline std::unordered_map<chunkKey_t,landWaterPrefabEdgeId_t> landWaterPrefabEdgeIds {};
 inline std::unordered_map<sectionKey_t,landWaterPrefabCornerId_t> landWaterPrefabCornerIds {};
 
-inline landWaterPrefabEdgeId_t get_landWaterPrefabEdgeId( chunkKey_t _chunkKey ){
-    assert( landWaterPrefabEdgeIds.find(_chunkKey) != landWaterPrefabEdgeIds.end() );
-    return landWaterPrefabEdgeIds.at(_chunkKey);
-}
-
-inline landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey ){
-    assert( landWaterPrefabCornerIds.find(_sectionKey) != landWaterPrefabCornerIds.end() );
-    return landWaterPrefabCornerIds.at(_sectionKey);
-}
+landWaterPrefabEdgeId_t get_landWaterPrefabEdgeId( chunkKey_t _chunkKey );
+landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey );
 
 
 //-------------------------//
@@ -282,22 +273,9 @@ inline landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sect
 //-------------------------//
 inline std::unordered_map<chunkKey_t, std::vector<LandWaterEnt>> landWaterEntSets {};
 
-
-inline std::vector<LandWaterEnt> &insert_new_landWaterEntSet( chunkKey_t _key ){
-    assert( landWaterEntSets.find(_key) == landWaterEntSets.end() );
-    landWaterEntSets.insert({ _key, std::vector<LandWaterEnt>{} });
-    return landWaterEntSets.at(_key);
-}
-
-inline std::vector<LandWaterEnt> &get_landWaterEntSet( chunkKey_t _key ){
-    assert( landWaterEntSets.find(_key) != landWaterEntSets.end() );
-    return landWaterEntSets.at(_key);
-}
-
-inline void erase_landWaterEntSet( chunkKey_t _key ){
-    assert( landWaterEntSets.find(_key) != landWaterEntSets.end() );
-    assert( landWaterEntSets.erase(_key) == 1 );
-}
+std::vector<LandWaterEnt> &insert_new_landWaterEntSet( chunkKey_t _key );
+std::vector<LandWaterEnt> &get_landWaterEntSet( chunkKey_t _key );
+void erase_landWaterEntSet( chunkKey_t _key );
 
 
 

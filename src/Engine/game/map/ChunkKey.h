@@ -27,22 +27,23 @@
 
 using chunkKey_t = u64_t;
  
-chunkKey_t chunkMPos_2_key( const IntVec2 &_chunkMPos ); //- 不推荐外部代码使用
+chunkKey_t chunkMPos_2_key_inn( const IntVec2 &_chunkMPos ); //- 不推荐外部代码使用
 IntVec2 chunkKey_2_mpos( chunkKey_t _key );
 IntVec2 anyMPos_2_chunkMPos( const IntVec2 &_mpos );
 IntVec2 get_chunk_lMPosOff( const IntVec2 &_anyMPos );
 chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos );
+chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos );
 size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos );
 
 
 
 
 /* ===========================================================
- *             chunkMPos_2_key      [内部使用]
+ *             chunkMPos_2_key_inn      [内部使用]
  * -----------------------------------------------------------
  * -- 传入 chunk左下角mpos，获得 chunk key（u64）
  */
-inline chunkKey_t chunkMPos_2_key( const IntVec2 &_chunkMPos ){
+inline chunkKey_t chunkMPos_2_key_inn( const IntVec2 &_chunkMPos ){
     chunkKey_t key;
     int *ptr = (int*)&key;
     *ptr = _chunkMPos.x;
@@ -106,12 +107,24 @@ inline IntVec2 get_chunk_lMPosOff( const IntVec2 &_anyMPos ){
  * -----------------------------------------------------------
  * -- 当需要通过 mpos 计算出它的 key，又不需要 正式制作一个 ChunkKey实例时，
  *    推荐使用本函数。
- * ------
- * param: _mpos -- 任意 mapent 的 mpos
+ * -- 这个函数会使得调用者代码 隐藏一些bug。
+ *    在明确自己传入的参数就是 chunkMPos 时，推荐使用 chunkMPos_2_chunkKey()
+ * param: _anyMPos -- 任意 mapent 的 mpos
  */
 inline chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos ){
     IntVec2 chunkMPos = anyMPos_2_chunkMPos( _anyMPos );
-    return chunkMPos_2_key( chunkMPos );
+    return chunkMPos_2_key_inn( chunkMPos );
+}
+
+/* ===========================================================
+ *             chunkMPos_2_chunkKey
+ * -----------------------------------------------------------
+ * -- 当使用者 确定自己传入的参数就是 chunkMPos, 使用此函数
+ *    如果参数不为 chunkMPos，直接报错。
+ */
+inline chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos ){
+        assert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
+    return chunkMPos_2_key_inn( _chunkMPos );
 }
 
 

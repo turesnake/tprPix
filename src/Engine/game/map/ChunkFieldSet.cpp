@@ -305,7 +305,7 @@ void ChunkFieldSet::reset_nearby_chunk_datas(){
             //------
             tmpChunkData.first = tmpSectionPtr->get_chunkEcoSysInMapKey( tmpChunkIdx );
             tmpChunkData.second = tmpSectionPtr->get_chunkNodeMPos(tmpChunkIdx); //- copy
-            nearby_chunk_datas.insert({ chunkMPos_2_key(tmpChunkMPos), tmpChunkData }); //- copy
+            nearby_chunk_datas.insert({ chunkMPos_2_chunkKey(tmpChunkMPos), tmpChunkData }); //- copy
         }
     }
 }

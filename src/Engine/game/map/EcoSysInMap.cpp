@@ -67,7 +67,7 @@ void EcoSysInMap::init_quadSectionKeys(){
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpMPos.x = mpos.x + whOff.x*ENTS_PER_SECTION;
         tmpMPos.y = mpos.y + whOff.y*ENTS_PER_SECTION;
-        tmpKey = sectionMPos_2_key( tmpMPos );
+        tmpKey = sectionMPos_2_sectionKey( tmpMPos );
         //---
         quadSectionKeys.push_back( tmpKey );//- copy
     }

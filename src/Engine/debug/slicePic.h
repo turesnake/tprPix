@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.05
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    
- * ----------------------------
  */
 #ifndef _TPR_SLICE_PIC_H_
 #define _TPR_SLICE_PIC_H_
@@ -31,13 +29,16 @@ namespace{//-------- namespace ----------//
 
 //-- mapEntSlice 使用的 “黄色边框” img
 inline std::vector<RGBA> slicePic{
-    CO, CO, CO, CO, CO,
-    CO, e_, e_, e_, CO,
-    CO, e_, e_, e_, CO,
-    CO, e_, e_, e_, CO,
-    CO, CO, CO, CO, CO
+    CO, CO, CO, CO, CO, CO, CO, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, e_, e_, e_, e_, e_, e_, CO,
+    CO, CO, CO, CO, CO, CO, CO, CO
 };
-inline IntVec2 slicePicSize { 5, 5 };
+inline IntVec2 slicePicSize { 8, 8 };
 inline  GLuint  texName_slice {}; //- the only texName
 
 

@@ -84,7 +84,7 @@ void Section::init_nearbySectionKeys(){
             }
             tmpMPos.x = mpos.x + w*ENTS_PER_SECTION;
             tmpMPos.y = mpos.y + h*ENTS_PER_SECTION;
-            tmpKey = anyMPos_2_sectionKey( tmpMPos );
+            tmpKey = sectionMPos_2_sectionKey( tmpMPos );
             //---
             nearbySectionKeys.push_back( tmpKey );//- copy
         }
@@ -113,7 +113,7 @@ void Section::init_quadSectionKeys(){
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpMPos.x = mpos.x + whOff.x*ENTS_PER_SECTION;
         tmpMPos.y = mpos.y + whOff.y*ENTS_PER_SECTION;
-        tmpKey = anyMPos_2_sectionKey( tmpMPos );
+        tmpKey = sectionMPos_2_sectionKey( tmpMPos );
         //---
         quadSectionKeys.push_back( tmpKey );//- copy
     }

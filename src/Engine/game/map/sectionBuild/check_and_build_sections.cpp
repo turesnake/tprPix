@@ -408,7 +408,7 @@ std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMP
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
             nearbyChunkMPos.set(currentChunkMPos.x + w*ENTS_PER_CHUNK,
                                 currentChunkMPos.y + h*ENTS_PER_CHUNK );
-            tmpChunkFieldSetPtr = esrc::get_chunkFieldSetPtr( chunkMPos_2_key(nearbyChunkMPos) );
+            tmpChunkFieldSetPtr = esrc::get_chunkFieldSetPtr( chunkMPos_2_chunkKey(nearbyChunkMPos) );
             nearby_chunkFieldSetPtrs.push_back( tmpChunkFieldSetPtr ); //- copy
         }
     }
