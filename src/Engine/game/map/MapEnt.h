@@ -41,7 +41,6 @@
 #include "fieldKey.h"
 #include "FieldBorderType.h"
 #include "Altitude.h"
-#include "LandWaterEnt.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -164,7 +163,7 @@ public:
     }
     
     //=============== data: 一级信息 ===============//
-    LandWaterEnt   landWater    {}; //- 陆地／水域
+    //LandWaterEnt   landWater    {}; //- 陆地／水域
     //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
                             //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
     alti_t   alti     {0}; //- 海拔.(低4-bit 有效)

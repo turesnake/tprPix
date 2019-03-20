@@ -45,8 +45,7 @@
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "FieldBorderEntPixMaskSet.h"
-#include "landWaterPrefabId_t.h"
-#include "LandWaterEnt.h"
+
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -259,11 +258,13 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
 //    LandWaterPrefabIds 资源  [mem-disk]
 //  实际游戏地图中，每个section的 四端／侧边 记录 预制件id号。
 //-------------------------//
+/*
 inline std::unordered_map<chunkKey_t,landWaterPrefabEdgeId_t> landWaterPrefabEdgeIds {};
 inline std::unordered_map<sectionKey_t,landWaterPrefabCornerId_t> landWaterPrefabCornerIds {};
 
 landWaterPrefabEdgeId_t get_landWaterPrefabEdgeId( chunkKey_t _chunkKey );
 landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey );
+*/
 
 
 //-------------------------//
@@ -271,11 +272,13 @@ landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey 
 //  伴随 section 而被创建，以 chunk 为单元存储于此，
 //  直到具体 chunk实例被创建，才从此取走（然后此容器中的对应数据，就要被删除）
 //-------------------------//
+/*
 inline std::unordered_map<chunkKey_t, std::vector<LandWaterEnt>> landWaterEntSets {};
 
 std::vector<LandWaterEnt> &insert_new_landWaterEntSet( chunkKey_t _key );
 std::vector<LandWaterEnt> &get_landWaterEntSet( chunkKey_t _key );
 void erase_landWaterEntSet( chunkKey_t _key );
+*/
 
 
 

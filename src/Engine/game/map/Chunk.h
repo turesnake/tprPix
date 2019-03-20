@@ -64,7 +64,6 @@ public:
     void assign_mapEnts_2_field();
     void assign_pixels_2_mapent(); //- tmp
 
-    void acquire_landWaterEnts_from_esrc();
    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
@@ -125,7 +124,6 @@ public:
     bool     is_memMapEnts_set              {false};
     bool     is_assign_mapEnts_2_field_done {false};
     bool     is_assign_pixels_2_mapent_done {false};
-    bool     is_acquire_landWaterEnts_from_esrc {false};
 
 private:
 

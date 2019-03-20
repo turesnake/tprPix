@@ -55,7 +55,7 @@ void MapField::init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chu
                     uDistribution_fieldNodeMPos(randEngine) };
     this->nodeMPos = mcpos.get_mpos() + lMPos;
     //--- field.fieldKey ---
-    this->fieldKey = anyMPos_2_fieldKey( mcpos.get_mpos() );
+    this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
     //----
     this->is_firstOrderData_set = true; //- MUST
 }

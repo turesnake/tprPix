@@ -79,7 +79,7 @@ void ChunkFieldSet::init_fields(){
             MapField   field  {};
             field.init_firstOrderData( fieldMPos, this->mcpos.get_mpos() ); 
                                                     //- 仅初始化 field 一阶数据
-            this->fields.insert({ anyMPos_2_fieldKey(fieldMPos), field }); //- copy
+            this->fields.insert({ fieldMPos_2_fieldKey(fieldMPos), field }); //- copy
         }
     }
     //----

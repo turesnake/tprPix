@@ -33,7 +33,7 @@ public:
 
     //-- param: _sectionMPos - 本ecoSysInMap.key 所在 section 的 左下角坐标。
     inline void set_by_sectionMPos( const IntVec2 &_sectionMPos ){
-        this->sectionKey = anyMPos_2_sectionKey( _sectionMPos );
+        this->sectionKey = sectionMPos_2_sectionKey( _sectionMPos );
         mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
     inline void set_by_sectionKey( sectionKey_t _sectionKey ){

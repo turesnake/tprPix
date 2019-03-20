@@ -84,32 +84,6 @@ void Chunk::init_memMapEnts(){
 }
 
 
-/* ===========================================================
- *                     init_memMapEnts
- * -----------------------------------------------------------
- * -- 从全局容器 esrc::landWaterEntSets 中，获得本 chunk 所对应的 有关 landwater 的数据
- */
-void Chunk::acquire_landWaterEnts_from_esrc(){
-    if( this->is_acquire_landWaterEnts_from_esrc ){
-        return;
-    }
-    assert( this->is_memMapEnts_set );
-    //-------------
-
-    size_t idx;
-    std::vector<LandWaterEnt> &containerRef = esrc::get_landWaterEntSet( this->chunkKey );
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){ //- each ent in chunk
-            idx = h*ENTS_PER_CHUNK + w;
-            this->memMapEnts.at(idx).landWater = containerRef.at(idx);
-        }
-    }
-    //-- 及时删除 esrc::landWaterEntSets 中对应数据块 --
-    esrc::erase_landWaterEntSet( this->chunkKey );
-    this->is_acquire_landWaterEnts_from_esrc = true;
-}
-
-
 
 /* ===========================================================
  *               assign_mapEnts_2_field
@@ -234,6 +208,7 @@ void Chunk::assign_pixels_2_mapent(){
 
 
         //--- 如果本 mapent 是水域，直接涂水色 ---
+        /*
         if( mapEntRef.landWater.get_isLand() == false ){
 
             for( int h=0; h<PIXES_PER_MAPENT; h++ ){
@@ -248,9 +223,9 @@ void Chunk::assign_pixels_2_mapent(){
 
             // 还应该处理 border ent
             //...
-    
             continue;
         }
+        */
 
 
         //--- 先整体涂一遍 主色 ---//

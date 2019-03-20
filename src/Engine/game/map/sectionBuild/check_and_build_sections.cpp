@@ -49,7 +49,6 @@ namespace{//----------- namespace ----------------//
     void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey );
     void sec_chunkFieldSet( chunkKey_t _chunkKey );
     std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMPos );
-    void build_landWaterPrefabDatas_for_each_section( const IntVec2 &_sectionMPos );
 
 }//-------------- namespace : end ----------------//
 
@@ -75,7 +74,7 @@ void build_9_chunks( const IntVec2 &_playerMPos ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
             tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
                                 playerChunkMPos.y + h*ENTS_PER_CHUNK );
-            if( esrc::chunks.find(anyMPos_2_chunkKey(tmpChunkMPos)) == esrc::chunks.end()  ){
+            if( esrc::chunks.find(chunkMPos_2_chunkKey(tmpChunkMPos)) == esrc::chunks.end()  ){
                 build_one_chunk( tmpChunkMPos );
             }
         }
@@ -126,7 +125,7 @@ void build_one_chunk( const IntVec2 &_anyMPos ){
     
     IntVec2       currentChunkMPos   = anyMPos_2_chunkMPos(_anyMPos);
     IntVec2       currentSectionMPos = anyMPos_2_sectionMPos(_anyMPos);
-    sectionKey_t  currentSectionKey = anyMPos_2_sectionKey(currentSectionMPos);
+    sectionKey_t  currentSectionKey = sectionMPos_2_sectionKey(currentSectionMPos);
 
     //------------------------------//
     // 检查 主section 实例, 若没有，创建之
@@ -175,7 +174,6 @@ void build_one_chunk( const IntVec2 &_anyMPos ){
     size_t  chunkIdx = currentSectionPtr->get_chunk_idx( currentChunkMPos ); //- 本chunk 在 主section 中的序号
     //------
     currentChunkPtr->init_memMapEnts(); //- 填满 chunk.memMapEnts
-    currentChunkPtr->acquire_landWaterEnts_from_esrc(); //- 获得 landWater 数据
     currentChunkPtr->nodeMPos = currentSectionPtr->get_chunkNodeMPos( chunkIdx ); //- copy nodeMPos
     currentChunkPtr->ecoSysInMapKey = currentSectionPtr->get_chunkEcoSysInMapKey( chunkIdx ); //- copy ecoSysInMapKey
     //...
@@ -228,7 +226,7 @@ void reset_nineChunkKeys( const IntVec2 &_currentChunkMPos ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
         tmpChunkMPos.set(   _currentChunkMPos.x + w*ENTS_PER_CHUNK,
                             _currentChunkMPos.y + h*ENTS_PER_CHUNK );
-        nineChunkKeys.push_back( anyMPos_2_chunkKey(tmpChunkMPos) );
+        nineChunkKeys.push_back( chunkMPos_2_chunkKey(tmpChunkMPos) );
         }
     }
     assert( nineChunkKeys.size() == 9 );
@@ -242,12 +240,12 @@ void reset_nineChunkKeys( const IntVec2 &_currentChunkMPos ){
  *  这些 section，就是 在第一阶段 要建设完备的 section
  */
 void reset_relatedSectionKeys(){
-    IntVec2        tmpMpos;
+    IntVec2        tmpChunkMpos;
     sectionKey_t   tmpSectionKey;
     relatedSectionKeys.clear();
     for( const auto &chunkKey : nineChunkKeys ){ //- each chunk key
-        tmpMpos = chunkKey_2_mpos( chunkKey );
-        tmpSectionKey = anyMPos_2_sectionKey( tmpMpos );
+        tmpChunkMpos = chunkKey_2_mpos( chunkKey );
+        tmpSectionKey = anyMPos_2_sectionKey( tmpChunkMpos );
         relatedSectionKeys.insert( tmpSectionKey ); //- 自动去除多余
     }
 }
@@ -255,7 +253,7 @@ void reset_relatedSectionKeys(){
 
 
 /* ===========================================================
- *                  fst_sections_and_ecoSysInMaps
+ *             fst_sections_and_ecoSysInMaps
  * -----------------------------------------------------------
  * 第一阶段
  */
@@ -270,7 +268,6 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     if( esrc::sections.find(_sectionKey) == esrc::sections.end() ){
         sectionPtr = esrc::insert_new_section( sectionMPos );
         sectionPtr->init();
-        build_landWaterPrefabDatas_for_each_section( sectionMPos );
     }else{
         sectionPtr = esrc::get_sectionPtr( _sectionKey );
     }
@@ -287,7 +284,6 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
         if(esrc::sections.find(key) == esrc::sections.end()){
             tmpSectionPtr = esrc::insert_new_section(key);
             tmpSectionPtr->init();
-            build_landWaterPrefabDatas_for_each_section( sectionMPos );
         }else{
             tmpSectionPtr = esrc::get_sectionPtr(key);
         }
@@ -326,7 +322,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     // 单为 目标section 生成所有 landWaterEnts 数据
     // 这些数据以 chunk 为单位，暂时存储在 全局容器中
     //------------------------------//
-    build_landWaterEnts( _sectionKey );
+    //build_landWaterEnts( _sectionKey );
 
 }
 
@@ -360,7 +356,7 @@ void sec_chunkFieldSet( chunkKey_t _chunkKey ){
             for( int w=0; w<CHUNKS_PER_SECTION; w++ ){ //- each chunk in section
                 tmpChunkMPos.set(   sectionMPosRef.x + w*ENTS_PER_CHUNK,
                                     sectionMPosRef.y + h*ENTS_PER_CHUNK );
-                tmpChunkKey = anyMPos_2_chunkKey( tmpChunkMPos );
+                tmpChunkKey = chunkMPos_2_chunkKey( tmpChunkMPos );
                 //-----
                 if( esrc::chunkFieldSets.find(tmpChunkKey) == esrc::chunkFieldSets.end() ){
                     tmpChunkFieldSetPtr = esrc::insert_new_chunkFieldSet( tmpChunkMPos ); 
@@ -416,37 +412,6 @@ std::vector<ChunkFieldSet*> &get_nearby_chunkFieldSetPtrs( const IntVec2 &_anyMP
     return nearby_chunkFieldSetPtrs;
 }
 
-
-
-/* ===========================================================
- *              build_landWaterPrefabDatas_for_each_section
- * -----------------------------------------------------------
- * - 检查目标 section 的4个corner 和 8个 edge节点，如果没有为其分配了 landWater 预制件id
- *   分配之
- */
-void build_landWaterPrefabDatas_for_each_section( const IntVec2 &_sectionMPos ){
-
-    sectionKey_t  tmpSectionKey;
-    chunkKey_t    tmpChunkKey;
-    landWaterPrefabEdgeId_t   tmpEdgeId;
-    landWaterPrefabCornerId_t tmpCornerId;
- 
-    for( const auto &cornerDataRef : allCornerDatas_in_section ){ //- each corner
-        tmpSectionKey = anyMPos_2_sectionKey( _sectionMPos + cornerDataRef.mposOff );
-        if( esrc::landWaterPrefabCornerIds.find(tmpSectionKey) == esrc::landWaterPrefabCornerIds.end() ){
-            tmpCornerId = apply_a_rand_landWaterPrefabCornerId();
-            esrc::landWaterPrefabCornerIds.insert({ tmpSectionKey, tmpCornerId });
-        }
-    }
-
-    for( const auto &edgeDataRef : allEdgeDatas_in_section ){ //- each edge
-        tmpChunkKey = anyMPos_2_chunkKey( _sectionMPos + edgeDataRef.mposOff );
-        if( esrc::landWaterPrefabEdgeIds.find(tmpChunkKey) == esrc::landWaterPrefabEdgeIds.end() ){
-            tmpEdgeId = apply_a_rand_landWaterPrefabEdgeId( edgeDataRef.is_leftRight );
-            esrc::landWaterPrefabEdgeIds.insert({ tmpChunkKey, tmpEdgeId });
-        }
-    }
-}
 
 
 

@@ -30,59 +30,13 @@
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "srcs_engine.h"
-#include "LandWaterEnt.h"
-#include "LandWaterPrefabEdge.h"
-#include "LandWaterPrefabCorner.h"
+
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
 
 
 //--- landWater 数据部分 ---
-
-
-
-class CornerData{
-public:
-    CornerData( int _x, int _y, QuadType _quadType){
-        mposOff.set( _x, _y );
-        quadType = _quadType;
-    }
-    IntVec2   mposOff      {};
-    QuadType  quadType     {}; //- 预制件在本section中的部分，在预制件体内，属于哪个扇区 
-};
-
-class EdgeData{
-public:
-    EdgeData( int _x, int _y, QuadType _quadType, bool _is_leftRight ){
-        mposOff.set( _x, _y );
-        quadType = _quadType;
-        is_leftRight = _is_leftRight;
-    }
-        
-    IntVec2   mposOff      {};
-    QuadType  quadType     {}; //- 预制件在本section中的部分，在预制件体内，属于哪个扇区 
-    bool      is_leftRight {true};
-};
-
-
-inline std::vector<CornerData> allCornerDatas_in_section{ //- section 4端点 mpos偏移
-    CornerData{ 0, 0, QuadType::Right_Top },
-    CornerData{ ENTS_PER_SECTION, 0, QuadType::Left_Top },
-    CornerData{ 0, ENTS_PER_SECTION, QuadType::Right_Bottom },
-    CornerData{ ENTS_PER_SECTION, ENTS_PER_SECTION, QuadType::Left_Bottom }
-};
-
-inline std::vector<EdgeData> allEdgeDatas_in_section{ //- section 侧边4节点 mpos 偏移
-    EdgeData{ 2*ENTS_PER_CHUNK, 0 , QuadType::Right_Top, false }, //- bottom
-    EdgeData{ 0, 2*ENTS_PER_CHUNK,  QuadType::Right_Top, true },  //- left
-    EdgeData{ 2*ENTS_PER_CHUNK, 4*ENTS_PER_CHUNK, QuadType::Right_Bottom, false }, //- top
-    EdgeData{ 4*ENTS_PER_CHUNK, 2*ENTS_PER_CHUNK, QuadType::Left_Bottom, true },  //- right
-};
-
-inline std::vector<LandWaterEnt> landWaterEnts_in_section {}; //- 一个section 拥有的全部 landwater数据
-                                                    // 暂时存储在此，最后以 chunk为单位，存储到 全局容器中
-
 
 
 inline Section  *currentSectionPtr    {nullptr};
@@ -109,8 +63,6 @@ inline std::uniform_int_distribution<size_t> uDistribution_landPoissonTimes(  4,
 inline std::uniform_int_distribution<size_t> uDistribution_waterPoissonTimes( 2, 2*6 ); //- 水域 泊松分部 个数（随地图增大而变多）
 
 
-inline std::vector<IntVec2> randWH; //- 元素为 ent在 section 中的 坐标序号: (3,6)这种。
-                                    //- 乱序存储，用来实现 merge_ent()
 
 
 //===== funcs =====//

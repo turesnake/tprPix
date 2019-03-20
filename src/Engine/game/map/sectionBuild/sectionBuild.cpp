@@ -23,14 +23,7 @@ void init(){
     randEngine.seed( get_new_seed() ); //- tmp
     
 
-    //-- 填上所有序号 --
-    randWH.clear();
-    randWH.reserve( ENTS_PER_SECTION * ENTS_PER_SECTION );
-    for( int h=0; h<ENTS_PER_SECTION; h++ ){
-        for( int w=0; w<ENTS_PER_SECTION; w++ ){
-            randWH.push_back(  IntVec2{ w, h } );
-        }
-    }
+
 
     //...
 
