@@ -10,30 +10,19 @@
 
 //-------------------- C --------------------//
 #include <cassert>
-
-//-------------------- C --------------------//
-//#include <set>
-//#include <algorithm>
+#include <math.h>
 
 //-------------------- Engine --------------------//
 #include "config.h"
+#include "random.h"
+#include "PerlinNoise3D.h" //- out 
+#include "srcs_engine.h"
 
-#include "debug.h"
-
-
-namespace{//-------- namespace: --------------//
-
-    //- 4个 section 坐标偏移（以 ENTS_PER_SECTION 为单位）
-    std::vector<IntVec2> quadSectionKeyOffs {
-        IntVec2{ -1, -1 },
-        IntVec2{  0, -1 },
-        IntVec2{ -1,  0 },
-        IntVec2{  0,  0 }
-    };
+//#include "debug.h"
 
 
-
-}//------------- namespace: end --------------//
+//namespace{//-------- namespace: --------------//
+//}//------------- namespace: end --------------//
 
 /* ===========================================================
  *                      init
@@ -42,37 +31,26 @@ namespace{//-------- namespace: --------------//
  */
 void EcoSysInMap::init(){
 
+    //------------------//
+    //     weight
+    //------------------//
+    // 4*4 个 ecosysinmap 组成一个 perlinEnt
+    float freq = 1.0 / 4.0; 
+    IntVec2 v = floorDiv(mcpos.get_mpos(), ENTS_PER_SECTION);
+    this->weight = esrc::gameSeed.pn_ecoSysInMap.noise( v.x * freq, 
+                                                        v.y * freq, 
+                                                        0.1) * 100.0; 
+                                                        //- [-100.0, 100.0]
+    //------------------//
+    //   occupyWeight
+    //------------------//
+    this->init_occupyWeight();
+
+
     //- 为每个 ecosys 随机分配一个 type (临时方案) --
-    ecoSysType = get_rand_EcoSysType();
+    this->ecoSysType = get_rand_EcoSysType();
     //...
-    init_quadSectionKeys();
-}
 
-
-
-/* ===========================================================
- *                init_quadSectionKeys
- * -----------------------------------------------------------
- * -- 填充 quadSectionKeys
- */
-void EcoSysInMap::init_quadSectionKeys(){
-    if( this->is_quadSectionKeys_set ){
-        return;
-    }
-    //-----
-    IntVec2        mpos = mcpos.get_mpos();
-    IntVec2        tmpMPos;
-    sectionKey_t   tmpKey;
-    quadSectionKeys.clear();
-    for( const auto &whOff : quadSectionKeyOffs ){
-        tmpMPos.x = mpos.x + whOff.x*ENTS_PER_SECTION;
-        tmpMPos.y = mpos.y + whOff.y*ENTS_PER_SECTION;
-        tmpKey = sectionMPos_2_sectionKey( tmpMPos );
-        //---
-        quadSectionKeys.push_back( tmpKey );//- copy
-    }
-    assert( quadSectionKeys.size() == 4 );
-    this->is_quadSectionKeys_set = true;
 }
 
 
@@ -87,13 +65,10 @@ void EcoSysInMap::plan(){
         return;
     }
 
-
     //---------------------------//
     //          check
     //---------------------------//
-    assert( this->is_quadSectionKeys_set );
-    assert( this->is_all_sections_done.is_all_true() );
-
+    //...
 
     //---------------------------//
     //          
@@ -101,6 +76,7 @@ void EcoSysInMap::plan(){
 
     //-- 计算 chunkTotalNum --
     //-- 找出 占有chunk数 最多的 quad --
+    /*
     int tmpNum;
     int mostQuadIdx = 0; //- 占有 chunk数最多的quad 的 idx。
     int mostQuadChunkNum = 0;
@@ -112,8 +88,7 @@ void EcoSysInMap::plan(){
             mostQuadIdx = i;
         }
     }
-    //...
-
+    */
 
     // -- 规划阶段完成的工作：--
     // 确定每个 chunk 在 本ecosys 中的 “等级-类型”
@@ -124,10 +99,41 @@ void EcoSysInMap::plan(){
     // 更进一步的 规划，甚至可以直接规定，目标 chunk 中将出现一个 XX预制物。
     //
     //
-    
-
-
 
     this->is_plan_done = true;
 }
+
+
+
+/* ===========================================================
+ *                 init_occupyWeight
+ * -----------------------------------------------------------
+ */
+void EcoSysInMap::init_occupyWeight(){
+
+    //- 以 section 为单位的 坐标 --
+    IntVec2 SPos = floorDiv( this->get_mpos(), ENTS_PER_SECTION );
+
+    //-- 本 ecosys mpos 在 世界坐标中的 奇偶性 --
+    // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
+    IntVec2 oddEven = floorMod( SPos, 2 );
+
+    //-- 相邻 ecosysinmap 间的 occupyWeight 没有关联性，就是 白噪音 --
+    float Fidx = esrc::gameSeed.pn_ecoSysInMap.noise(SPos.x, SPos.y, 0.2) * 50.0 + 100.0; //- [50.0, 150.0]
+    assert( Fidx > 0 );
+    size_t randIdx = (size_t)floor(Fidx); //- [50, 150]
+
+    this->occupyWeight = get_occupyWeight( oddEven, randIdx );
+}
+
+
+
+
+
+
+
+
+
+
+
 

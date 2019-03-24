@@ -36,11 +36,10 @@ public:
 
     void init();
     void bind_ecoSysInMapPtrs();
-    void assign_chunks_to_ecoSysInMap(); //- 核心函数
 
     //- 获得 目标chunk 在 本section 容器中的 序号 [0,15]
     //- param: _chunkMPos - 必须是 chunk mpos   [未做检测]
-    size_t get_chunk_idx( const IntVec2 &_chunkMPos );
+    //size_t get_chunk_idx( const IntVec2 &_chunkMPos );
 
     //-- param: _anyMPos - 本section 中的任意 mpos
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
@@ -53,11 +52,7 @@ public:
         mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
 
-    //-- get --
-    inline const std::vector<sectionKey_t> &get_nearbySectionKeys() const {
-        assert( this->is_nearbySectionKeys_set ); //- tmp
-        return nearbySectionKeys;
-    }
+    //-- get --    
     inline const std::vector<sectionKey_t> &get_quadSectionKeys() const {
         assert( this->is_quadSectionKeys_set ); //- tmp
         return quadSectionKeys;
@@ -72,68 +67,26 @@ public:
     }
 
     
-    inline const IntVec2 &get_chunkNodeMPos( size_t _idx ) const {
-            assert( this->is_chunkNodeMPoses_set ); //- tmp
-            assert( (_idx>=0) && (_idx<chunkNodeMPoses.size()) ); //- tmp
-        return chunkNodeMPoses.at(_idx);
-    }
-    
-    inline const sectionKey_t get_chunkEcoSysInMapKey( size_t _idx ) const {
-            assert( this->is_chunkEcoSysInMapKeys_set ); //- tmp
-            assert( (_idx>=0) && (_idx<chunkEcoSysInMapKeys.size()) ); //- tmp
-        return chunkEcoSysInMapKeys.at(_idx);
-    }
-
-    
     //======== vals ========//
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
 
     //----- 一阶数据 / first order data ------//
-    std::vector<sectionKey_t>  nearbySectionKeys {}; //- 周边 9个section 的 keys
-    std::vector<sectionKey_t>  quadSectionKeys {};   //- 本section四个端点的 keys
-
-    //-- 属于 chunk 的 planData --
-    std::vector<sectionKey_t>  chunkEcoSysInMapKeys {};  //- 每个 chunk，属于哪个 ecoSysInMap - 4*4
-                                        //- 临时存储处，等 chunk正式被创建时，这份数据会被搬运过去。
-
-    std::vector<IntVec2>  chunkNodeMPoses {}; //- 本section 含有的 每个 chunk 的 距离场点 mpos - 4*4 个
-                                        //- 临时存储处，等 chunk正式被创建时，这份数据会被搬运过去。
-
+    std::vector<sectionKey_t>  quadSectionKeys {}; //- 本section四个端点的 keys
 
     //----- 二阶数据 / second order data ------//
     std::vector<EcoSysInMap*>  ecoSysInMapPtrs {}; //- 4个端点的 ecosys 指针。
-                                    // 也许不需要...
+                                    
 
 
     //======== flags ========//
-    bool  is_nearbySectionKeys_set    {false};
     bool  is_quadSectionKeys_set      {false}; 
-    bool  is_chunkEcoSysInMapKeys_set {false};
-    bool  is_chunkNodeMPoses_set      {false};
     bool  is_ecoSysInMapPtrs_set      {false};
-
-    bool  is_assign_chunks_to_ecoSysInMap_done {false};
-
-    bool  is_landWaterEntSets_set   {false}; 
-                            //- 本 section 是否已经生成过 landWaterEntSet 数据
-                            //  这个数据 存储在另一个 全局容器中
-                            //  把 flag 放在这里 不全合理，对 section 的管理会造成问题。
 
 private:
 
-    void init_nearbySectionKeys();
+
     void init_quadSectionKeys();
-    void init_chunkNodeMPoses();
-
-    inline void init_chunkEcoSysInMapKeys(){
-        if( this->is_chunkEcoSysInMapKeys_set ){
-            return;
-        }
-        chunkEcoSysInMapKeys.resize( CHUNKS_PER_SECTION * CHUNKS_PER_SECTION );
-        this->is_chunkEcoSysInMapKeys_set = true;
-    }
-
 };
 
 

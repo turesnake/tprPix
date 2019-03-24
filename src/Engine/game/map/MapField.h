@@ -10,6 +10,13 @@
 #ifndef _TPR_MAP_FIELD_H
 #define _TPR_MAP_FIELD_H
 
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec2
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
+
 //-------------------- CPP --------------------//
 #include <vector>
 #include <unordered_map>
@@ -25,61 +32,71 @@
 #include "fieldKey.h"
 #include "RGBA.h"
 #include "Altitude.h"
+#include "occupyWeight.h"
+#include "fieldBorderSetId_t.h"
 
 
-//-- 4*4mapent 构成一个 field -- [mem]
+//-- 4*4mapent 构成一个 field -- [just mem]
 //  另一个身份是 “距离场” 
 //  每一个 chunk 都要存储 16*16个 MapField数据。
-//  而且每个 chunk的这组数据，都是在 chunk被正式生成前 就已经创建了
-// （由相邻的chunk）。这组数据会 始终存储在 mem/disk 。需要考虑其 空间开销
 //  ------
-//  整合版的 field，所有相关数据都在此，非常占容量。
-//  但是，最终存储到 disk 中的数据 很有限。 再次加载到mem时，都 "重新生成"
+//  
 class MapField{
 public:
 
-    void init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chunkMPos );
-    void init_secondOrderData();
+    void init( const IntVec2 &_anyMPos );
+
+    inline const IntVec2& get_mpos() const {
+        return this->mcpos.get_mpos();
+    }
+    inline const IntVec2& get_ppos() const {
+        return this->mcpos.get_ppos();
+    }
 
     //----- 一阶数据 / first order data ------//
-    IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
-                                //- 绝对 mpos 坐标。
     MapCoord    mcpos    {};    //- field左下角mcpos
                                  // 这么存储很奢侈，也许会在未来被取消...
                                  // anyMPos_2_fieldMPos() 
     fieldKey_t  fieldKey {}; 
 
-    //----- 二阶数据 / second order data ------//
-    // 周边 9个field 一阶数据都准备完毕时，才能开始生成 此数据
-    std::unordered_map<fieldKey_t,IntVec2> nearby_field_nodeMPoses {}; //- 周边9个field 的 距离场点。
-                                // 仅用于 地图生成阶段，不可被存储到 disk
-                                
+    IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
+                                //- 绝对 mpos 坐标。
 
-    //----- 三阶数据 / third order data ------//
-    u8_t          isLand      {1}; //- 1:land, 0:waters
-
-    RGBA          color {}; //- 临时颜色，tmp...
-     
-    chunkKey_t    chunkKey {}; 
     sectionKey_t  ecoSysInMapKey {};
 
-    alti_t        alti  {0};
+    int          lColorOff_r {}; //- 颜色偏移，[-10,10] 之间
+    int          lColorOff_g {}; 
+    int          lColorOff_b {};
 
+    float weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+                      // [just mem] 
 
+    occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
+                            //- 数值越高，此 ecosys 越强势，能占据更多fields
+                            //- [just mem] 
 
-    //EcoSysType  ecoSysType  { EcoSysType::Forst }; 
+    fieldBorderSetId_t  fieldBorderSetId {}; 
+
+    //----- 三阶数据 / third order data ------//
+
+    
 
     //====== flags =======//
-    bool  is_firstOrderData_set {false};
-    bool  is_secondOrderData_set {false};
 
-    bool  is_fieldKey_set       {false};
-    bool  is_chunkKey_set       {false};
-    bool  is_ecoSysInMapKey_set {false};
 
-    bool  is_color_set  {false}; //- tmp
+private:
 
-    bool  is_alti_set  {false}; 
+    glm::vec2  FDPos {}; //- field-mpos 除以 ENTS_PER_FIELD
+                            // 这个值常用来访问 perlin
+
+    float      originPerlin {}; //- perlin 原始值
+
+
+    void init_nodeMPos();
+    void init_lColorOff();
+    void init_occupyWeight();
+
+    void assign_field_to_4_ecoSysInMaps();
     
 };
 

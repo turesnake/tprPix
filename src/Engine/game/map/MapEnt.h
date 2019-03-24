@@ -166,7 +166,11 @@ public:
     //LandWaterEnt   landWater    {}; //- 陆地／水域
     //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
                             //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
-    alti_t   alti     {0}; //- 海拔.(低4-bit 有效)
+                            
+    Altitude   alti     {}; //- 
+
+
+
     //bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
                                //- 此值暂时没有被用到
     //bool is_cover_go_head {true}; //- 如果被踩住，本单位是否是 那个 go 的 起始单位

@@ -40,8 +40,9 @@
 #include "ColliEntSet.h"
 #include "MapCoord.h"
 #include "EcoSys.h"
+#include "EcoSysType.h"
 #include "GameSeed.h" //- tmp
-#include "ChunkFieldSet.h"
+//#include "ChunkFieldSet.h"
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "FieldBorderEntPixMaskSet.h"
@@ -191,9 +192,14 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 //     ecoSyses   
 //  [仅定义每种ecosys数据]
 //-------------------------//
-inline std::unordered_map<std::string, EcoSys> ecoSyses {};
+inline std::unordered_map<EcoSysType, EcoSys> ecoSyses {};
 void init_ecoSyses();
 
+
+inline EcoSys *get_ecoSysPtr( EcoSysType _type ){
+        assert( esrc::ecoSyses.find(_type) != esrc::ecoSyses.end() ); //- tmp
+    return (EcoSys*)&(esrc::ecoSyses.at(_type));
+}
 
 //-------------------------//
 //     ecoSysesInMap   
@@ -230,6 +236,7 @@ inline Chunk *get_chunkPtr( chunkKey_t _key ){
 //-------------------------//
 //-- field集数据 一定先于 chunks 数据被创建 --
 //  这两个结构间 存在大量数据重复，未来可以优化之...
+/*
 inline std::unordered_map<chunkKey_t, ChunkFieldSet> chunkFieldSets {};
 
 ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ); //- 可能被废弃
@@ -239,6 +246,27 @@ inline ChunkFieldSet *get_chunkFieldSetPtr( chunkKey_t _chunkKey ){
         assert( chunkFieldSets.find(_chunkKey) != chunkFieldSets.end() ); //- tmp
     return (ChunkFieldSet*)&(chunkFieldSets.at(_chunkKey));
 }
+*/
+
+
+//-------------------------//
+//       Field 资源  [just mem]
+//   所有 field实例，被直接存储在 全局容器
+//-------------------------//
+inline std::unordered_map<fieldKey_t,MapField> fields {};
+
+MapField *insert_new_field( fieldKey_t _fieldKey );
+MapField *insert_new_field( const IntVec2 &_anyMPos );
+
+MapField *find_or_insert_the_field( fieldKey_t _fieldKey );
+
+
+inline  MapField *get_fieldPtr( fieldKey_t _fieldKey ){
+        assert( esrc::fields.find(_fieldKey) != esrc::fields.end() );//- must exist
+    return (MapField*)&(esrc::fields.at(_fieldKey));
+}
+
+
 
 //-------------------------//
 //     Section 资源  [tmp]

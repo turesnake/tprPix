@@ -15,6 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "random.h"
+#include "PerlinNoise3D.h"
 
 
 //- singleton --
@@ -30,12 +31,29 @@ public:
     //======== vals ========//
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
 
+    u32_t  perlinSeed_ecoSysInMap {}; //- 与 ecoSysInMap 有关的 通用 perlin
+    u32_t  perlinSeed_fields_in_ecoSysInMap {}; //- 将每个 fields 分配给不同的 ecosys
+    u32_t  perlinSeed_pixes_in_field {}; //- 将每个 ent/pix 分配给不同的 field
+    u32_t  perlinSeed_field {};  //- 与 field 有关的 通用 perlin
+    u32_t  perlinSeed_alti {};
+    u32_t  perlinSeed_density {};
 
 
+    //======== perlins ========//
+    PerlinNoise3D  pn_field_in_ecoSysInMap; //- 将 field 分配给不同的 ecosys
+    PerlinNoise3D  pn_pixes_in_field;       //- 将 pixes 分配给不同的 field
+    PerlinNoise3D  pn_ecoSysInMap; //- 与 ecoSysInMap 有关的 通用 perlin
+    PerlinNoise3D  pn_field;       //- 与 field 有关的 通用 perlin
+    PerlinNoise3D  pn_alti;
+    PerlinNoise3D  pn_density;
 
 
+    //======== randEngine ========//
+    //std::default_random_engine  randEngine; //-通用 随机数引擎实例
 
 
+    //======== flags ========//
+    bool   is_all_seed_init {false};
 
 
 };

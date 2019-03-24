@@ -8,7 +8,7 @@
  * ----------------------------
  */
 #include "sectionBuild.h"
-#include "sectionBuild_innerDatas.h"
+#include "sectionBuild_inn.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -20,10 +20,8 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
  */
 void init(){
 
-    randEngine.seed( get_new_seed() ); //- tmp
-    
-
-
+    //randEngine.seed( get_new_seed() ); //- tmp
+    int i = 999;
 
     //...
 

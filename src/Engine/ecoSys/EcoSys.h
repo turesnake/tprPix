@@ -26,6 +26,18 @@ public:
     RGBA  color_mid  {}; //- alti: 8 -10 (3)
     RGBA  color_high {}; //- alti: 11-15 (5) 
 
+    RGBA  color_underWater {}; //- 水下的地面颜色(会在这个颜色上做 水色叠加)
+
+    //-- 用于计算 pix.alti --
+    //  注意，下面这些值 都不能 硬使用，而是一个 “变化趋向值”
+    float  altiPerlin_freqBig;
+    float  altiPerlin_freqSml;
+
+    float  seaLvl {0}; // [-100,100] 
+                        // 海平面高度，
+                        // 值越低，地图中 land 比例越大
+                        // 值越高，地图中 water 比例越大
+
 private:
 };
 

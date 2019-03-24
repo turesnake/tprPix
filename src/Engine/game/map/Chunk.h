@@ -39,8 +39,8 @@
 #include "MapTexture.h" 
 #include "chunkKey.h"
 #include "MapCoord.h" 
-#include "ChunkFieldSet.h"
 #include "sectionKey.h"
+#include "MapField.h"
 
  
 //-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
@@ -59,10 +59,9 @@ public:
 
     void init();
 
-    void init_memMapEnts();
+    void assign_pixels_2_mapent(); //- old
 
-    void assign_mapEnts_2_field();
-    void assign_pixels_2_mapent(); //- tmp
+    void assign_ents_and_pixes_to_field();
 
    
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
@@ -76,7 +75,7 @@ public:
         return mcpos.get_fpos(); //- return a tmp val
     }
     inline const IntVec2& get_mpos() const {
-        return mcpos.get_mpos();
+        return this->mcpos.get_mpos();
     }
     inline const MapCoord& get_mcpos() const {
         return this->mcpos;
@@ -106,30 +105,21 @@ public:
     chunkKey_t  chunkKey {};
     MapCoord    mcpos    {}; //- [left-bottom]
 
-    IntVec2     nodeMPos {}; //- 距离场点 mpos (64*64 mapent 中的一个点) （均匀距离场）
-                            //- 绝对 mpos 坐标。
-                            //  （此值在 section中已经提前生成好了，只需要搬运到此处）
-
-
-    ChunkFieldSet  *fieldSetPtr  {nullptr}; 
-                        //- fieldSet 数据 往往先于 chunk 数据被创建。
-
-    sectionKey_t  ecoSysInMapKey {}; 
-
-
-    std::vector<MemMapEnt> memMapEnts; 
+    std::vector<MemMapEnt> memMapEnts {}; 
 
     //======== flags ========//
-    //bool   is_ecoSysInMap_set  {false};
     bool     is_memMapEnts_set              {false};
-    bool     is_assign_mapEnts_2_field_done {false};
     bool     is_assign_pixels_2_mapent_done {false};
+    bool     is_assign_ents_and_pixes_to_field_done {false};
 
 private:
+
+    void init_memMapEnts();
 
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
 
+    void reset_fieldKeys();
    
 };
 

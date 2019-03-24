@@ -26,6 +26,7 @@
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
 #include "sectionBuild.h"
+#include "fieldBorderSet_Handle.h"
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
@@ -119,6 +120,8 @@ int main(){
         //esrc::debug_colliEntSets();
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
+    load_fieldBorderSets();          //----- fieldBorderSet ----
+
     esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
 
     
@@ -201,7 +204,7 @@ int main(){
 
                 //--- 定期 检查玩家所在 section
                 //  并即时生成 周边 section
-                sectionBuild::build_new_chunk_in_update();
+                sectionBuild::build_new_chunk_in_update_3();
                         // 更新中...
 
                 break;

@@ -16,6 +16,7 @@
 #include "sectionKey.h"
 #include "EcoSysType.h"
 #include "Quad.h"
+#include "occupyWeight.h"
 
 
 //- 一个在游戏地图上存在的 实实在在的区域。
@@ -41,10 +42,9 @@ public:
         mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
 
-    inline void accum_chunkNum( QuadType _type ){
-        chunkNums_per_quad.at(QuadType_2_Idx(_type))++;
+    inline const IntVec2& get_mpos() const {
+        return this->mcpos.get_mpos();
     }
-
 
     //======== vals ========//
     sectionKey_t  sectionKey {};
@@ -52,21 +52,22 @@ public:
 
     EcoSysType    ecoSysType  {EcoSysType::Forst};
 
-
-    std::vector<sectionKey_t>  quadSectionKeys; //- 本 ecosy 含有的四个 section的 keys
-
-
-    std::vector<int> chunkNums_per_quad { 0, 0, 0, 0, }; //- 每个象限含有的 chunk数量
     int   chunkTotalNum  {0}; //- 本 ecosys 总共包含几个chunk
+
+    float weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+                      // [just mem] 
+
+    occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
+                            //- 数值越高，此 ecosys 越强势，能占据更多fields
+                            //- [just mem] 
     
-    //======== flags ========//
-    bool       is_quadSectionKeys_set {false};
-    QuadFlag   is_all_sections_done  {false}; //- 本 ecosys包含的 四个象限section 是否都生成完毕 
-                    
+    //======== flags ========//                    
     bool       is_plan_done  {false};
 
 
-    void init_quadSectionKeys();
+private:
+
+    void init_occupyWeight();
 
 };
 

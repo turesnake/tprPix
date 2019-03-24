@@ -81,7 +81,8 @@ void PerlinNoise3D::init( unsigned int _seed ) {
  * -----------------------------------------------------------
  * -- 主函数，获取 noise 数据。 是3D版的。
  * -- 当用于 2D用途时，可将z值设为 任何值。比如 0
- * -- 参数 xyz 的有效 范围在 [0.n, 255.n] 允许存在小数部分
+ * -- 参数 xyz 的有效范围,任意浮点数。 允许存在小数部分
+ * -- return: [0.0, 1.0]
  */
 float PerlinNoise3D::noise(float _x, float _y, float _z) {
 

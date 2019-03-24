@@ -46,9 +46,15 @@
 //-- 一个 chunk，占有 256*256 pixel
 #define PIXES_PER_CHUNK (ENTS_PER_CHUNK*PIXES_PER_MAPENT)
 
+//-- 一个 section，占有 1024*1024 pixel
+#define PIXES_PER_SECTION (CHUNKS_PER_SECTION*PIXES_PER_CHUNK)
+
 
 //-- 一个 landWaterPrefab 预制件，占有 64*64 mapents
-#define ENTS_PER_LANDWATERPREFAB (2*ENTS_PER_CHUNK)
+//#define ENTS_PER_LANDWATERPREFAB (2*ENTS_PER_CHUNK)
+
+//-- 一个 fieldBorderSet 预制件，占有 64*64 pix
+#define PIXES_PER_FIELD_BORDER_SET (2*PIXES_PER_FIELD)
 
 
 //-- camera.viewingBox z_deep

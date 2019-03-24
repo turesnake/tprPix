@@ -23,14 +23,7 @@
 
 namespace{//-------- namespace: --------------//
 
-    
-    //- 随机数引擎实例，暂先用于 本模块的所有 随机数生成
-    std::default_random_engine  randEngine; 
-                                    
-    //-- 用于生成 chunk nodeMPos [0,319]  ---
-    std::uniform_int_distribution<int> uDistribution_chunkNodeMPos(0,
-                                                    ENTS_PER_CHUNK-1 ); 
-                                        
+                                            
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     std::vector<IntVec2> quadSectionKeyOffs {
         IntVec2{ 0, 0 },
@@ -49,48 +42,8 @@ namespace{//-------- namespace: --------------//
  */
 void Section::init(){
     
-    randEngine.seed( get_new_seed() ); //- tmp
 
-    init_nearbySectionKeys();
     init_quadSectionKeys();
-    init_chunkEcoSysInMapKeys();
-    init_chunkNodeMPoses();
-}
-
-
-
-/* ===========================================================
- *               init_nearbySectionKeys
- * -----------------------------------------------------------
- * -- 填充 nearbySectionKeys
- *    共9个元素，与 NineBox 次序一致
- */
-void Section::init_nearbySectionKeys(){
-    if( this->is_nearbySectionKeys_set ){
-        return;
-    }
-    //-----
-    IntVec2        mpos = this->get_mpos();
-    IntVec2        tmpMPos;
-    sectionKey_t   tmpKey;
-    //-- 遍历九宫格 --
-    nearbySectionKeys.clear();
-    for( int h=-1; h<=1; h++  ){
-        for( int w=-1; w<=1; w++ ){
-            //-- 若为 自己 section --
-            if( (h==0) && (w==0) ){
-                nearbySectionKeys.push_back( this->sectionKey );//- copy
-                continue;
-            }
-            tmpMPos.x = mpos.x + w*ENTS_PER_SECTION;
-            tmpMPos.y = mpos.y + h*ENTS_PER_SECTION;
-            tmpKey = sectionMPos_2_sectionKey( tmpMPos );
-            //---
-            nearbySectionKeys.push_back( tmpKey );//- copy
-        }
-    }
-    assert( nearbySectionKeys.size() == 9 );
-    this->is_nearbySectionKeys_set = true;
 }
 
 
@@ -122,37 +75,6 @@ void Section::init_quadSectionKeys(){
 }
 
 
-/* ===========================================================
- *               init_chunkNodeMPoses
- * -----------------------------------------------------------
- * -- 随机分配 chunk node mpos
- */
-void Section::init_chunkNodeMPoses(){
-    if( this->is_chunkNodeMPoses_set ){
-        return;
-    }
-    //-----
-    IntVec2  nodeMPos;
-    IntVec2  lNodeMPosOff;
-    IntVec2  tmpChunkMPos;
-    IntVec2  sectionMPos = this->get_mpos();
-    this->chunkNodeMPoses.clear();
-    for( int h=0; h<CHUNKS_PER_SECTION; h++ ){
-        for( int w=0; w<CHUNKS_PER_SECTION; w++ ){ // each chunk in section
-            lNodeMPosOff.set(   uDistribution_chunkNodeMPos(randEngine),
-                                uDistribution_chunkNodeMPos(randEngine) );
-            tmpChunkMPos.set(   sectionMPos.x + w*ENTS_PER_CHUNK,
-                                sectionMPos.y + h*ENTS_PER_CHUNK );
-            //nodePPos = tmpChunkMPos + lNodePPosOff;
-            nodeMPos = tmpChunkMPos + lNodeMPosOff;
-            this->chunkNodeMPoses.push_back( nodeMPos ); //- copy
-        }
-    }
-    assert( this->chunkNodeMPoses.size() == CHUNKS_PER_SECTION*CHUNKS_PER_SECTION );
-    this->is_chunkNodeMPoses_set = true;
-}
-
-
 
 /* ===========================================================
  *                bind_ecoSysInMapPtrs
@@ -178,11 +100,12 @@ void Section::bind_ecoSysInMapPtrs(){
 
 
 /* ===========================================================
- *                bind_ecoSysInMapPtrs
+ *                   get_chunk_idx
  * -----------------------------------------------------------
  *   获得 目标chunk 在 本section 容器中的 序号 [0,15]
  * param: _chunkMPos - 必须是 chunk mpos   [未做检测]
  */
+/*
 size_t Section::get_chunk_idx( const IntVec2 &_chunkMPos ){
     IntVec2 mposOff = anyMPos_2_chunkMPos(_chunkMPos) - this->get_mpos();
         assert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
@@ -192,5 +115,6 @@ size_t Section::get_chunk_idx( const IntVec2 &_chunkMPos ){
                 (h>=0) && (h<CHUNKS_PER_SECTION) );
     return (h*CHUNKS_PER_SECTION + w);
 }
+*/
     
 

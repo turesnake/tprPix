@@ -12,6 +12,9 @@
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
+//-------------------- C --------------------//
+#include <cassert>
+
 //-------------------- CPP --------------------//
 #include <vector>
 #include <functional>
@@ -31,24 +34,25 @@
 //-2- create MapTexture instance: mapTex
 //-3- call mapTex.init();
 class MapTexture{
-    //using  F_MAP_BUILDER = std::function<void(RGBA*, int, int)>;
 public:
 
-    //void init();
-
     void creat_texName();
-
 
     inline GLuint get_texName() const {
         return texName;
     }
 
     inline RGBA *get_texBufHeadPtr() {
+        assert( this->is_resize_done );
         return (RGBA*)&(texBuf.at(0));
     }
 
     inline void resize_texBuf(){
+        if( this->is_resize_done ){
+            return;
+        }
         texBuf.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK );
+        this->is_resize_done = true;
     }
 
 private:
@@ -56,6 +60,9 @@ private:
     std::vector<RGBA>   texBuf;      //- 本模块的重心，一张合成的 texture
                                     // 在生成 texName 之后，此数据可以被释放 
                                     // 若不选择释放，则存储在 本实例中，直到实例被销毁
+
+    //===== flags =====//
+    bool  is_resize_done {false};
 
 };
 

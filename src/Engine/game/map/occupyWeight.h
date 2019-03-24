@@ -1,0 +1,24 @@
+/*
+ * ========================== occupyWeight.h =======================
+ *                          -- tpr --
+ *                                        CREATE -- 2019.03.22
+ *                                        MODIFY -- 
+ * ----------------------------------------------------------
+ *   那些通过 "覆盖法／抢占法" 来对规划一个区域的 模块，
+ *   需要一种机制来区分 区域四顶点 的 “抢占强势程度”。
+ *   4顶点 的 occupyWeight 值不应该 出现相同。
+ * ------------------------
+ */
+#ifndef _TPR_OCCUPY_WEIGHT_H_
+#define _TPR_OCCUPY_WEIGHT_H_
+
+//-------------------- Engine --------------------//
+#include "IntVec.h"
+
+
+using occupyWeight_t = int;
+
+occupyWeight_t get_occupyWeight( const IntVec2 &_oddEven, size_t _idx );
+
+#endif
+

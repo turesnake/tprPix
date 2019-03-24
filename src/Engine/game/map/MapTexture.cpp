@@ -28,7 +28,6 @@ namespace{//----------- namespace ---------------//
  *                        init
  * -----------------------------------------------------------
  * -- before calling init(). 
- * -- Please bind MapTexture::mapBuilder FIRST
  */
 void MapTexture::creat_texName(){
 
@@ -36,8 +35,6 @@ void MapTexture::creat_texName(){
     //            mapTex build
     //---------------------------------------//
     //texBuf.resize( pixSize.x * pixSize.y );
-    //assert( MapTexture::mapBuilder != nullptr );
-    
     
     //---------------------------------------//
     //        gl --> texName

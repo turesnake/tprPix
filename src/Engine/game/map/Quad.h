@@ -45,6 +45,7 @@ inline QuadType QuadIdx_2_Type( int _idx ){
 
 
 //--- 统一管理 4个象限的 bool值 ---
+//   暂时未被使用
 class QuadFlag{
 public:
     explicit QuadFlag( bool _val=false ):

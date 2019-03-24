@@ -115,7 +115,7 @@ inline IntVec2 operator * ( int _m, const IntVec2 &_a ){
 /* ===========================================================
  *                     floorDiv
  * -----------------------------------------------------------
- * -- 地板除法，向低取节点值 --
+ * -- 地板除运算 [通过 "float地板除"，解决了负数bug] --
  *  -1- float 除法
  *  -2- math.floor()
  */
@@ -125,6 +125,24 @@ inline IntVec2 floorDiv(  const IntVec2 &_a, float _div ){
     return IntVec2{ (int)floor(fx),
                     (int)floor(fy) };
 }
+
+
+/* ===========================================================
+ *                       floorMod
+ * -----------------------------------------------------------
+ * -- 取模运算 [通过 "float地板除"， 解决了负数bug] --
+ *  -1- float 除法
+ *  -2- math.floor()
+ */
+inline IntVec2 floorMod( const IntVec2 &_v, float _mod ){
+    float fx = ((float)_v.x) / _mod;
+    float fy = ((float)_v.y) / _mod;
+    float floorX = floor(fx) * _mod;
+    float floorY = floor(fy) * _mod;
+    return IntVec2{ _v.x - (int)floorX,
+                    _v.y - (int)floorY };
+}
+
 
 
 //--- [mem] --//

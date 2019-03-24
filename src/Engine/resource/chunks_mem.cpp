@@ -1,5 +1,5 @@
 /*
- * ========================= chunk_mem.cpp ==========================
+ * ========================= chunks_mem.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.16
  *                                        MODIFY -- 
@@ -82,6 +82,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
  * param: _chunkKey -- 必须是 chunkKey.key
  * 已初始化 一阶数据 ...
  */
+/*
 ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ){
 
     // ***| INSERT FIRST, INIT LATER  |***
@@ -92,6 +93,7 @@ ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ){
     //-----
     return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(_chunkKey));
 }
+*/
 
 
 /* ===========================================================
@@ -99,6 +101,7 @@ ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  * param: _anyMPos --  目标chunk 区域中的任何一个 mapent.mpos
  */
+/*
 ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos ){
 
     // ***| INSERT FIRST, INIT LATER  |***
@@ -110,6 +113,7 @@ ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos ){
     //-----
     return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(key));
 }
+*/
 
 
 

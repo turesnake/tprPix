@@ -17,92 +17,213 @@
 #include "random.h"
 #include "IntVec.h"
 #include "srcs_engine.h" //- 所有资源
-#include "ChunkFieldSet.h"
+#include "EcoSysInMap.h"
+#include "FieldBorderSet.h"
 
 
 namespace{//----------- namespace ---------------//
 
-    bool   is_randEngine_init   {false};    //- tmp
-    std::default_random_engine  randEngine; //-随机数引擎实例
-    std::uniform_int_distribution<int> uDistribution_fieldNodeMPos(0,
-                                                    ENTS_PER_FIELD-1); 
-                                                    // [0,3] 
+    std::default_random_engine  randEngine; //-通用 随机数引擎实例
+    std::uniform_int_distribution<int> uDistribution_color(-2,2);
+    bool  is_rand_init {false}; //- tmp
+
+    std::map<occupyWeight_t,EcoSysInMap*> nearFour_ecoSysInMapPtrs {}; 
+                        // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
+
 
 }//-------------- namespace : end ---------------//
 
 
 
 /* ===========================================================
- *                    init_firstOrderData
+ *                    init
  * -----------------------------------------------------------
  *  仅 初始化 一阶数据
  * param: _mpos      -- 此 field 中的任意 mapent.mpos 
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
-void MapField::init_firstOrderData( const IntVec2 &_anyMPos, const IntVec2 &_chunkMPos ){
-    if( this->is_firstOrderData_set ){
-        return;
+void MapField::init( const IntVec2 &_anyMPos ){
+
+    
+    if( is_rand_init == false ){
+        is_rand_init = true;
+        randEngine.seed( get_new_seed() );
     }
-    //--- 初始化 随机引擎的 一个不好的方法 ---
-    if( is_randEngine_init == false ){
-        is_randEngine_init = true;
-        randEngine.seed( get_new_seed() );//- tmp
-    }
+    
+
     //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
-    //--- field.nodeMPos ---
-    IntVec2 lMPos { uDistribution_fieldNodeMPos(randEngine), 
-                    uDistribution_fieldNodeMPos(randEngine) };
-    this->nodeMPos = mcpos.get_mpos() + lMPos;
+
     //--- field.fieldKey ---
     this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
-    //----
-    this->is_firstOrderData_set = true; //- MUST
+
+
+    //--- fieldFPos ----
+    this->FDPos.x = (float)(this->get_mpos().x) / (float)ENTS_PER_FIELD;
+    this->FDPos.y = (float)(this->get_mpos().y) / (float)ENTS_PER_FIELD;
+
+    //--- field.nodeMPos ---
+    this->init_nodeMPos();
+
+    //--- assign_field_to_4_ecoSysInMaps ---
+    this->assign_field_to_4_ecoSysInMaps();
+
+    //--- lColorOff ---
+    this->init_lColorOff();
+
+    //--- originPerlin ---
+    // 4*4 个 field 组成一个 perlinEnt
+    float freq = 1.0 / 4.0; //- tmp
+    this->originPerlin = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
+                                                       this->FDPos.y * freq, 
+                                                       0.1);  //- [0.0, 1.0]
+
+    //--- weight ---
+    this->weight = this->originPerlin * 200.0 - 100.0; //- [-100.0, 100.0]
+
+    //--- fieldBorderSetId ---
+    size_t randIdx = (size_t)(this->originPerlin*997); //- 素数 [0,977]
+    this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
+
+
+    //--- occupyWeight ---
+    this->init_occupyWeight();
 }
 
 
 /* ===========================================================
- *                    init_secondOrderData
+ *                init_nodeMPos
  * -----------------------------------------------------------
- *  仅 初始化 二阶数据.
- *  将访问相邻 9个field 的 ChunkFieldSet / MapField 数据。
- *  且要确保，9个 field 都已完成 一阶数据init
  */
-void MapField::init_secondOrderData(){
-    if( this->is_secondOrderData_set ){
-        return;
-    }
-    IntVec2          fieldMPos = this->mcpos.get_mpos();
-    IntVec2          nearbyFieldMPos {};
-    chunkKey_t       chunkKey     {};
-    ChunkFieldSet   *chunkFieldSetPtr;
-    MapField        *tmpFieldPtr;
-    
-    for( int h=-1; h<=1; h++ ){
-        for( int w=-1; w<=1; w++ ){ //- 周边 9 个 field
-            //-- self --//
-            if( (h==0) && (w==0) ){
-                    assert( this->is_firstOrderData_set ); //- tmp
-                this->nearby_field_nodeMPoses.insert({  this->fieldKey, 
-                                                        this->nodeMPos });
-                continue;
-            }
-            //---------
-            nearbyFieldMPos.set(fieldMPos.x + w*ENTS_PER_FIELD,
-                                fieldMPos.y + h*ENTS_PER_FIELD );
-            
-            chunkKey = anyMPos_2_chunkKey( nearbyFieldMPos );
-            chunkFieldSetPtr = esrc::get_chunkFieldSetPtr(chunkKey);
-            tmpFieldPtr = chunkFieldSetPtr->get_fieldPtr_by_mpos( nearbyFieldMPos );
-                assert( tmpFieldPtr->is_firstOrderData_set ); //- tmp
-            //----
-            this->nearby_field_nodeMPoses.insert({  tmpFieldPtr->fieldKey,
-                                                    tmpFieldPtr->nodeMPos });
-        }
-    }
-    this->is_secondOrderData_set = true; //- MUST
+void MapField::init_nodeMPos(){
+
+    float    freq = 1.0;
+    float    pnX;
+    float    pnY;
+    size_t   idxX;
+    size_t   idxY;
+
+    pnX = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
+                                        this->FDPos.y * freq, 
+                                        0.3); //- [0.0, 1.0]
+    pnY = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
+                                        this->FDPos.y * freq, 
+                                        0.7); //- [0.0, 1.0]
+
+    pnX = pnX * 50 + 100; //- [50.0, 150.0]
+    pnY = pnY * 50 + 100; //- [50.0, 150.0]
+        assert( (pnX>0) && (pnY>0) );
+
+    idxX = (size_t)pnX % ENTS_PER_FIELD; //- mod
+    idxY = (size_t)pnY % ENTS_PER_FIELD; //- mod
+
+    this->nodeMPos = this->get_mpos() + IntVec2{ (int)idxX, (int)idxY };
 }
 
+/* ===========================================================
+ *                init_lColorOff
+ * -----------------------------------------------------------
+ */
+void MapField::init_lColorOff(){
+
+    /*
+    float vx = this->FDPos.x * 0.20;
+    float vy = this->FDPos.y * 0.20;
+
+    float r = esrc::gameSeed.pn_field.noise( vx, vy, 0.25 ); //- [0.0, 1.0]
+    float g = esrc::gameSeed.pn_field.noise( vx, vy, 0.55 );
+    float b = esrc::gameSeed.pn_field.noise( vx, vy, 0.85 );
+    
+    this->lColorOff_r = (int)floor(r*40-20); //- [-5, 5]
+    this->lColorOff_g = (int)floor(g*40-20); 
+    this->lColorOff_b = (int)floor(b*40-20); 
+    */
+
+    this->lColorOff_r = uDistribution_color(randEngine);
+    this->lColorOff_g = uDistribution_color(randEngine);
+    this->lColorOff_b = uDistribution_color(randEngine);
+
+
+}
+
+
+/* ===========================================================
+ *                init_occupyWeight
+ * -----------------------------------------------------------
+ */
+void MapField::init_occupyWeight(){
+
+    //-- 本 field 在 世界坐标中的 奇偶性 --
+    // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
+    IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_FIELD );
+    IntVec2 oddEven = floorMod( v, 2 );
+
+    //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
+    float Fidx = esrc::gameSeed.pn_field.noise( this->FDPos.x, 
+                                                this->FDPos.y, 
+                                                0.2) * 30.0 + 60.0; //- [30.0, 90.0]
+    assert( Fidx > 0 );
+    size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
+
+    this->occupyWeight = get_occupyWeight( oddEven, randIdx );
+}
+
+
+
+/* ===========================================================
+ *          assign_field_to_4_ecoSysInMaps
+ * -----------------------------------------------------------
+ */
+void MapField::assign_field_to_4_ecoSysInMaps(){
+
+    //--- reset nearFour_ecoSysInMapPtrs ---//
+    sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
+        assert( esrc::sections.find(sectionKey) != esrc::sections.end() ); //- must exist
+    nearFour_ecoSysInMapPtrs.clear();
+    for( const auto &ecoPtr : esrc::sections.at(sectionKey).ecoSysInMapPtrs ){
+        nearFour_ecoSysInMapPtrs.insert({ -(ecoPtr->occupyWeight), ecoPtr });
+                            //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
+    }
+
+    float vx;
+    float vy;
+
+    IntVec2  mposOff;
+    float    freq = 1.0;
+    float    pnVal;
+    float    off;
+    int      count;
+    EcoSysInMap*  tmpEcoPtr;
+
+    vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
+    vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
+
+    pnVal = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(vx * freq,
+                                                         vy * freq,
+                                                         0.1); // [0.0, 1.0]
+    pnVal = pnVal*ENTS_PER_SECTION - (0.5*ENTS_PER_SECTION); //- [-64.0, 64.0]
+    //-----
+
+    count = 0;
+    for( auto &ecoPair : nearFour_ecoSysInMapPtrs ){
+        count++;
+        tmpEcoPtr = ecoPair.second;
+
+        if( count != nearFour_ecoSysInMapPtrs.size()){ //- 前3个 eco
+
+            mposOff = this->get_mpos() - tmpEcoPtr->get_mpos();
+            off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y );
+            off += pnVal;
+
+            if( off < (0.5*ENTS_PER_SECTION + tmpEcoPtr->weight*0.2) ){ //- tmp
+                this->ecoSysInMapKey = tmpEcoPtr->sectionKey;
+                break;
+            }
+        }else{ //- 第四个 eco
+            this->ecoSysInMapKey = tmpEcoPtr->sectionKey;
+        }
+    }
+}
 
 
 
