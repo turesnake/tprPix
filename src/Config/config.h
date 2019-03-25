@@ -22,7 +22,10 @@
 #define CHUNKS_PER_SECTION 4
 
 //-- 一个 chunk，占有 8*8 fields
-#define FIELDS_PER_CHUNK  8
+#define FIELDS_PER_CHUNK  6
+
+//-- 一个 section，占有 32*32 fields
+//#define FIELDS_PER_SECTION  (FIELDS_PER_CHUNK*CHUNKS_PER_SECTION)
 
 //-- 一个 field，占有 4*4 mapents
 #define ENTS_PER_FIELD      4

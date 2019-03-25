@@ -92,7 +92,7 @@ int main(){
     esrc::camera.init();             //---- camera 资源 ----
     esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
     esrc::init_shaders();            //---- shaders 资源 ----
-    esrc::init_fieldBorderEntPixMaskSet();  //---- fieldBorderEntPixMaskSet 资源 ----
+    //esrc::init_fieldBorderEntPixMaskSet();  //---- fieldBorderEntPixMaskSet 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
@@ -187,6 +187,12 @@ int main(){
         switch( esrc::logicTimeCircle.current() ){
             case 0:
                 esrc::realloc_inactive_goes(); //- tmp
+
+                //--- 定期检查 全局容器 esrc::chunkDeque
+                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
+                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
+                sectionBuild::build_one_chunks_from_chunksDeque();
+                
                 break;
 
             case 1:
@@ -199,16 +205,27 @@ int main(){
 
             case 2:
                 //esrc::camera.print_pos();
+
+                //--- 定期检查 全局容器 esrc::chunkDeque
+                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
+                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
+                sectionBuild::build_one_chunks_from_chunksDeque();
+
                 break;
             case 3:
 
-                //--- 定期 检查玩家所在 section
-                //  并即时生成 周边 section
-                sectionBuild::build_new_chunk_in_update_3();
+                //--- 定期 检查玩家所在 chunk
+                //  并将需要新建的 chunks 收集到 队列中
+                sectionBuild::collect_chunks_need_to_be_build_in_update_3();
                         // 更新中...
 
                 break;
             case 4:
+                //--- 定期检查 全局容器 esrc::chunkDeque
+                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
+                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
+                sectionBuild::build_one_chunks_from_chunksDeque();
+
                 break;
             default:
                 assert(0);

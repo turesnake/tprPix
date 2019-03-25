@@ -39,7 +39,6 @@
 #include "MapCoord.h"
 #include "EcoSysType.h"
 #include "fieldKey.h"
-#include "FieldBorderType.h"
 #include "Altitude.h"
 
 
@@ -192,9 +191,6 @@ public:
 
     //bool  is_fieldBorder {false};   //- true  - field 内部mapent
                                     //- false - field 边界mapent
-
-    FieldBorderType  fieldBorderType {FieldBorderType::Inner};
-
 
 
     //--- 二级信息区 ---

@@ -16,13 +16,6 @@
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
 
 //-------------------- C --------------------//
 #include <cassert> //- tmp
@@ -59,11 +52,8 @@ public:
 
     void init();
 
-    void assign_pixels_2_mapent(); //- old
-
     void assign_ents_and_pixes_to_field();
 
-   
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
@@ -109,7 +99,6 @@ public:
 
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
-    bool     is_assign_pixels_2_mapent_done {false};
     bool     is_assign_ents_and_pixes_to_field_done {false};
 
 private:

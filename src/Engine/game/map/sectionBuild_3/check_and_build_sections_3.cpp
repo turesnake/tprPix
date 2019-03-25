@@ -48,11 +48,15 @@ namespace{//----------- namespace ----------------//
     void collect_nearFour_chunkKeys_and_sectionKeys();
     void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey );
 
+    void collect_chunks_need_to_be_build_to_chunksDeque( chunkKey_t _chunkKey );
+
 }//-------------- namespace : end ----------------//
 
 
 void build_one_chunk_3( const IntVec2 &_anyMPos );
 void build_new_chunk_in_update_3();
+
+
 
 
 
@@ -79,13 +83,13 @@ void build_9_chunks_3( const IntVec2 &_playerMPos ){
 
 
 /* ===========================================================
- *            build_new_chunk_in_update_3  [3th]
+ *    collect_chunks_need_to_be_build_in_update_3  [3th]
  * -----------------------------------------------------------
  * 在游戏运行时，定期检查 玩家位置。及时生成 新的 chunk
  * 确保，玩家周边 9个chunk 始终存在
  * -------
  */
-void build_new_chunk_in_update_3(){
+void collect_chunks_need_to_be_build_in_update_3(){
 
     IntVec2 playerMPos = esrc::player.goPtr->goPos.get_currentMPos();
 
@@ -97,8 +101,25 @@ void build_new_chunk_in_update_3(){
     }
     if( currentChunkKey != lastChunkKey ){
         lastChunkKey = currentChunkKey;
-        build_9_chunks_3( playerMPos );
+        //build_9_chunks_3( playerMPos );
+        collect_chunks_need_to_be_build_to_chunksDeque( currentChunkKey );
     }
+}
+
+
+/* ===========================================================
+ *    collect_chunks_need_to_be_build_in_update_3  [3th]
+ * -----------------------------------------------------------
+ * 从全局容器 esrc::chunksDeque 取出一个元素，并 创建这个 chunk
+ */
+void build_one_chunks_from_chunksDeque(){
+
+    if( esrc::is_chunksDeque_empty() == true ){
+        return;
+    }
+
+    chunkKey_t key = esrc::pop_from_chunksDeque();
+    build_one_chunk_3( chunkKey_2_mpos(key) );
 }
 
 
@@ -159,6 +180,30 @@ void build_one_chunk_3( const IntVec2 &_anyMPos ){
 
 
 namespace{//----------- namespace ----------------//
+
+
+
+/* ===========================================================
+ *    collect_chunks_need_to_be_build_to_chunksDeque
+ * -----------------------------------------------------------
+ *  检查目标 chunk 周边9个chunk，如果哪个chunk 尚未生成，就将它 push到 全局容器 
+ */
+void collect_chunks_need_to_be_build_to_chunksDeque( chunkKey_t _chunkKey ){
+
+    IntVec2      playerChunkMPos = chunkKey_2_mpos( _chunkKey );
+    IntVec2      tmpChunkMPos;
+    chunkKey_t   tmpChunkKey;
+    for( int h=-1; h<=1; h++ ){
+        for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
+            tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
+                                playerChunkMPos.y + h*ENTS_PER_CHUNK );
+            tmpChunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
+            if( esrc::chunks.find(tmpChunkKey) == esrc::chunks.end()  ){
+                esrc::push_to_chunksDeque( tmpChunkKey );
+            }
+        }
+    }
+}
 
 
 

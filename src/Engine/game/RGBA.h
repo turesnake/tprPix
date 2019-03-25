@@ -66,22 +66,6 @@ public:
     u8_t a {255};
 };
 
-//-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
-inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
-
-    int rr = (int)_a.r - (int)_b.r;
-    int gg = (int)_a.g - (int)_b.g;
-    int bb = (int)_a.b - (int)_b.b;
-    int aa = (int)_a.a - (int)_b.a;
-    return (
-       (abs(rr) <= _off) &&
-       (abs(gg) <= _off) &&
-       (abs(bb) <= _off) &&
-       (abs(aa) <= _off)
-    );
-}
-
-
 /* ===========================================================
  *                  operator  ==, !=
  * -----------------------------------------------------------
@@ -111,6 +95,78 @@ inline RGBA operator + ( const RGBA &_a, const RGBA &_b ){
 }
 
 
+namespace rgba {//-------- namespace: rgba --------------//
 
+//-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
+inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
+
+    int rr = (int)_a.r - (int)_b.r;
+    int gg = (int)_a.g - (int)_b.g;
+    int bb = (int)_a.b - (int)_b.b;
+    int aa = (int)_a.a - (int)_b.a;
+    return (
+       (abs(rr) <= _off) &&
+       (abs(gg) <= _off) &&
+       (abs(bb) <= _off) &&
+       (abs(aa) <= _off)
+    );
+}
+
+
+/* ===========================================================
+ *                   linear_blend
+ * -----------------------------------------------------------
+ * 将两个颜色 线性混合
+ * param: _aPercent -- 颜色 _a 占了多少百分比 [0.0, 1.0]
+ */
+inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
+
+    assert( (_aPercent>=0.0) && (_aPercent<=1.0) );
+
+    float bPercent = 1.0 - _aPercent;
+
+    float r = (float)(_a.r)*_aPercent + (float)(_b.r)*bPercent;
+    float g = (float)(_a.g)*_aPercent + (float)(_b.g)*bPercent;
+    float b = (float)(_a.b)*_aPercent + (float)(_b.b)*bPercent;
+    //-- 默认不处理 RGBA.a --
+
+    return RGBA {   static_cast<u8_t>(r), 
+                    static_cast<u8_t>(g),
+                    static_cast<u8_t>(b),
+                    255 };
+}
+
+
+/* ===========================================================
+ *                   multiply
+ * -----------------------------------------------------------
+ *  简易版 正片叠底
+ *  假设 _a.a 永远等于 255， 通过 参数 _bPercent，来调节 正片叠底 程度
+ * param: _bPercent -- 正片叠底 的 程度 [0.0, 1.0]
+ */
+inline RGBA multiply( const RGBA &_a, const RGBA &_b, float _bPercent ){
+
+    assert( (_bPercent>=0.0) && (_bPercent<=1.0) );
+
+    float r = (float)(_a.r) * (float)(_b.r) / 255.0;
+    float g = (float)(_a.g) * (float)(_b.g) / 255.0;
+    float b = (float)(_a.b) * (float)(_b.b) / 255.0;
+
+    return rgba::linear_blend(  _a,
+                                RGBA {   static_cast<u8_t>(r), 
+                                        static_cast<u8_t>(g),
+                                        static_cast<u8_t>(b),
+                                        255 },
+                                (1.0-_bPercent) );
+    /*
+    return RGBA {   static_cast<u8_t>(r), 
+                    static_cast<u8_t>(g),
+                    static_cast<u8_t>(b),
+                    255 };
+    */
+}
+
+
+}//------------- namespace: rgba end --------------//
 #endif
 

@@ -65,7 +65,6 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderEntPixMaskSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/sectionBuild_3)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
@@ -126,7 +125,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
-                        src/Engine/game/map/fieldBorderEntPixMaskSet/*.cpp 
                         src/Engine/game/map/fieldBorderSet/*.cpp 
                         src/Engine/game/map/sectionBuild_3/*.cpp 
                         src/Engine/gl/*.cpp 

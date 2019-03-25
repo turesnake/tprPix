@@ -94,7 +94,8 @@ void init_ecoSyses(){
     //       Desert
     //---------------------//
     ecoSysPtr = insert_new_ecoSys( EcoSysType::Desert );
-        ecoSysPtr->color_low  = RGBA{ 176, 167, 140, 255 };
+        //ecoSysPtr->color_low  = RGBA{ 176, 167, 140, 255 };
+        ecoSysPtr->color_low  = RGBA{ 210, 195, 142, 255 }; //- tmp
         ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;

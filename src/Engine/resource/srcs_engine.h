@@ -24,6 +24,7 @@
 #include <unordered_set> 
 #include <functional> 
 #include <map>
+#include <deque>
 
 //-------------------- Engine --------------------//
 //     不应该在 这个文件中 加载如此多的  Engine_h文件 
@@ -42,10 +43,8 @@
 #include "EcoSys.h"
 #include "EcoSysType.h"
 #include "GameSeed.h" //- tmp
-//#include "ChunkFieldSet.h"
 #include "EcoSysInMap.h"
 #include "Section.h"
-#include "FieldBorderEntPixMaskSet.h"
 
 
 
@@ -88,12 +87,6 @@ inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 inline ShaderProgram rect_shader { "/shaders/base.vs", "/shaders/base.fs" };
 void init_shaders();
 
-
-//-------------------------//
-//     fieldBorderEntPixMaskSet 资源
-//-------------------------//
-inline FieldBorderEntPixMaskSet fieldBorderEntPixMaskSet {};
-void init_fieldBorderEntPixMaskSet();
 
 //-------------------------//
 //     colliEntSet 资源
@@ -231,23 +224,6 @@ inline Chunk *get_chunkPtr( chunkKey_t _key ){
     return (Chunk*)&(chunks.at(_key));
 }
 
-//-------------------------//
-//   ChunkFieldSet 资源
-//-------------------------//
-//-- field集数据 一定先于 chunks 数据被创建 --
-//  这两个结构间 存在大量数据重复，未来可以优化之...
-/*
-inline std::unordered_map<chunkKey_t, ChunkFieldSet> chunkFieldSets {};
-
-ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ); //- 可能被废弃
-ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos );
-
-inline ChunkFieldSet *get_chunkFieldSetPtr( chunkKey_t _chunkKey ){
-        assert( chunkFieldSets.find(_chunkKey) != chunkFieldSets.end() ); //- tmp
-    return (ChunkFieldSet*)&(chunkFieldSets.at(_chunkKey));
-}
-*/
-
 
 //-------------------------//
 //       Field 资源  [just mem]
@@ -267,7 +243,6 @@ inline  MapField *get_fieldPtr( fieldKey_t _fieldKey ){
 }
 
 
-
 //-------------------------//
 //     Section 资源  [tmp]
 //  暂时没想好，section 存储问题
@@ -283,31 +258,25 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
 
 
 //-------------------------//
-//    LandWaterPrefabIds 资源  [mem-disk]
-//  实际游戏地图中，每个section的 四端／侧边 记录 预制件id号。
+//     chunk duque  [tmp]
+//  
 //-------------------------//
-/*
-inline std::unordered_map<chunkKey_t,landWaterPrefabEdgeId_t> landWaterPrefabEdgeIds {};
-inline std::unordered_map<sectionKey_t,landWaterPrefabCornerId_t> landWaterPrefabCornerIds {};
+inline std::deque<chunkKey_t> chunksDeque {};
 
-landWaterPrefabEdgeId_t get_landWaterPrefabEdgeId( chunkKey_t _chunkKey );
-landWaterPrefabCornerId_t get_landWaterPrefabCornerId( sectionKey_t _sectionKey );
-*/
+inline void push_to_chunksDeque( chunkKey_t _chunkKey ){
+    chunksDeque.push_back( _chunkKey );
+}
 
+inline bool is_chunksDeque_empty(){
+    return chunksDeque.empty();
+}
 
-//-------------------------//
-//    LandWater ent 资源  [mem-disk]
-//  伴随 section 而被创建，以 chunk 为单元存储于此，
-//  直到具体 chunk实例被创建，才从此取走（然后此容器中的对应数据，就要被删除）
-//-------------------------//
-/*
-inline std::unordered_map<chunkKey_t, std::vector<LandWaterEnt>> landWaterEntSets {};
-
-std::vector<LandWaterEnt> &insert_new_landWaterEntSet( chunkKey_t _key );
-std::vector<LandWaterEnt> &get_landWaterEntSet( chunkKey_t _key );
-void erase_landWaterEntSet( chunkKey_t _key );
-*/
-
+inline chunkKey_t pop_from_chunksDeque(){
+    assert( !chunksDeque.empty() );
+    chunkKey_t key = chunksDeque.at(0);
+    chunksDeque.pop_front();
+    return key;
+}
 
 
 //-------------------------//

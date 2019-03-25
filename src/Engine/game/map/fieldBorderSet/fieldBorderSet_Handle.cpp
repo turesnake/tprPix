@@ -102,7 +102,7 @@ void load_fieldBorderSets(){
             for( int w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){ //- each pix in png-frame (2*2chunk)
                 pixIdx = h * PIXES_PER_FIELD_BORDER_SET + w;
 
-                if( is_rgba_near(frameRef.at(pixIdx), pixColor, 5) ){ //- 主色点
+                if( rgba::is_rgba_near(frameRef.at(pixIdx), pixColor, 5) ){ //- 主色点
                     frameDatas.at(pixIdx) = 1;
                 }else{
                     frameDatas.at(pixIdx) = 0;

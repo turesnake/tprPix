@@ -50,6 +50,16 @@ namespace{//-------- namespace: --------------//
     RGBA color_sand  {210, 195, 142, 255};
     RGBA color_water { 97, 125, 142, 255 };
 
+    RGBA color_deepWater { 32, 60, 77, 255 };
+
+    RGBA color_water_lvl1 { 32, 80, 77, 255 }; //- 水下 -1 层叠加色
+    RGBA color_water_lvl2 { 32, 75, 77, 255 };
+    RGBA color_water_lvl3 { 32, 70, 77, 255 };
+    RGBA color_water_lvl4 { 32, 65, 77, 255 };
+    RGBA color_water_lvl5 { 32, 60, 77, 255 };
+
+    RGBA color_multi { 90, 110, 105, 255 }; //- 测试 正片叠底 用
+
 
 
     class FieldData{
@@ -169,131 +179,6 @@ void Chunk::init_memMapEnts(){
 }
 
 
-
-/* ===========================================================
- *               assign_pixels_2_mapent
- * -----------------------------------------------------------
- * -- 最简模式，每个 mapent 根据所属field.color, 来涂颜色
- *    已被取代...
- */
-void Chunk::assign_pixels_2_mapent(){
-    if( this->is_assign_pixels_2_mapent_done ){
-        return;
-    }
-
-    RGBA     color;
-    RGBA     nearColor;
-
-    RGBA    *pixBufHeadPtr;
-    RGBA    *tmpPixPtr;
-
-    IntVec2  tmpPixPPos;
-    size_t   tmpPixIdx;
-
-    size_t   maskIdx; 
-
-    RGBA     water_color     { 102, 104, 122, 255 };
-    RGBA     deepWater_color { 79, 81, 98, 255 };
-
-    //------ 简易方案 -------//
-    this->mapTex.resize_texBuf();
-    pixBufHeadPtr = this->mapTex.get_texBufHeadPtr();
-    
-    for( const auto &mapEntRef : this->memMapEnts ){ //- each mapent
-
-        //color = get_fieldPtr_by_key(mapEntRef.fieldKey)->color; //- 目标颜色
-        //nearColor = get_fieldPtr_by_key(mapEntRef.nearbyFieldKey)->color; //- 副色
-
-        //--- 如果本 mapent 是水域，直接涂水色 ---
-        /*
-        if( mapEntRef.landWater.get_isLand() == false ){
-
-            for( int h=0; h<PIXES_PER_MAPENT; h++ ){
-                for( int w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in mapent
-
-                    tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ w, h };
-                    tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
-                    tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
-                    *tmpPixPtr = deepWater_color; //- 水色。
-                }
-            } //- for each pix in mapent end ---
-
-            // 还应该处理 border ent
-            //...
-            continue;
-        }
-        */
-
-        //--- 先整体涂一遍 主色 ---//
-        for( int h=0; h<PIXES_PER_MAPENT; h++ ){
-            for( int w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in mapent
-
-                tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ w, h };
-                tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
-                tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
-                *tmpPixPtr = color;
-            }
-        } //- for each pix in mapent end ---
-
-        //--- 再涂 副色 ---//
-        for( const auto &pixWH : esrc::fieldBorderEntPixMaskSet.get_rand_maskSet( mapEntRef.fieldBorderType ) ){
-
-            tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ pixWH.x, pixWH.y };
-            tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
-            tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
-            *tmpPixPtr = nearColor;
-        }
-
-        //--- 若为 border mapEnt -----//
-        /*
-        if( mapEntRef.is_fieldBorder ){
-            color = get_fieldPtr_by_key(mapEntRef.fieldKey)->color; //- 目标颜色
-            nearColor = get_fieldPtr_by_key(mapEntRef.nearbyFieldKey)->color; //- 副色
-            maskIdx = apply_a_fieldBorderEntMask_idx();
-
-            for( int h=0; h<PIXES_PER_MAPENT; h++ ){
-                for( int w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in mapent
-
-                    tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ w, h };
-                    tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
-                    tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
-
-                    if( get_fieldBorderEntMask_val( maskIdx, w, h ) == true ){
-                        *tmpPixPtr = nearColor;
-                    }else{
-                        *tmpPixPtr = color;
-                    }
-                    
-                }
-            } //- for each pix in mapent end ---
-
-
-        //--- 若不是 border mapEnt -----//
-        }else{
-            color = get_fieldPtr_by_key(mapEntRef.fieldKey)->color; //- 目标颜色
-            for( int h=0; h<PIXES_PER_MAPENT; h++ ){
-                for( int w=0; w<PIXES_PER_MAPENT; w++ ){ //- each pix in mapent
-
-                    tmpPixPPos = mapEntRef.mcpos.get_ppos() + IntVec2{ w, h };
-                    tmpPixIdx = this->get_pixIdx_in_chunk( tmpPixPPos );
-                    tmpPixPtr = pixBufHeadPtr + tmpPixIdx;
-                    *tmpPixPtr = color;
-                }
-            } //- for each pix in mapent end ---
-        }
-        */
-    } //- for each mapent end --
-
-
-    //---------------------------//
-    //   正式用 texture 生成 name
-    //---------------------------//
-    this->mapTex.creat_texName();
-
-    this->is_assign_pixels_2_mapent_done = true;
-}
-
-
 /* ===========================================================
  *               get_mapEntIdx_in_chunk
  * -----------------------------------------------------------
@@ -353,6 +238,8 @@ void Chunk::assign_ents_and_pixes_to_field(){
     int    count;
 
     int    randVal;
+
+    float   waterStep = 0.06; //- 用于 water 颜色混合
 
     texBufHeadPtr = this->mapTex.get_texBufHeadPtr();
     //------------------------//
@@ -423,56 +310,87 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //    正式给 pix 上色
                         //--------------------------------//
 
-                        if( pixData.alti.lvl < -1 ){ //- underwater
+                        if( pixData.alti.isSand ){ //- tmp
 
-                            r = color_water.r - (-pixData.alti.lvl)*13;
-                            g = color_water.g - (-pixData.alti.lvl)*13;
-                            b = color_water.b - (-pixData.alti.lvl)*13;
+                            color.r = color_sand.r;
+                            color.g = color_sand.g;
+                            color.b = color_sand.b;
 
-                        }else if( pixData.alti.lvl == -1 ){ //- -1
-
-                            r = color_water.r;
-                            g = color_water.g;
-                            b = color_water.b;
-
-                        }else if( pixData.alti.lvl == 0 ){ //- 0
-                            //-- 此时的 alti.val 一定是个 刚刚大于0的值
-
+                        }else if( pixData.alti.lvl == -1 ){ //- underwater
                             /*
-                            if( pixData.alti.val == 0 ){
-                                randVal = 0;
-                            }else{
-                                randVal = uDistribution_regular(randEngine) % (pixData.alti.val*2);
-                            }
-
-                            if( randVal < 3 ){ //- 1/n 几率
-                                r = color_sand.r;
-                                g = color_sand.g;
-                                b = color_sand.b;
-
-                            }else{
-                                color = pixData.fieldDataPtr->ecoPtr->color_low;
-                                r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
-                                g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
-                                b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
-                            }
+                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_water_lvl1,
+                                                    waterStep * 6.0 );
                             */
 
-                            r = color_sand.r;
-                            g = color_sand.g;
-                            b = color_sand.b;
+                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_multi,
+                                                    0.6
+                                                    );
+                            
+                        }
 
+                        else if( pixData.alti.lvl == -2 ){ //- underwater
+                            /*
+                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_water_lvl2,
+                                                    waterStep * 4.6 );
+                            */
+                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_multi,
+                                                    0.7
+                                                    );
+                            
+                        }
 
-                        }else{ //- land
+                        else if( pixData.alti.lvl == -3 ){ //- underwater
+                            /*
+                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_water_lvl3,
+                                                    waterStep * 3.3 );
+                            */
+                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_multi,
+                                                    0.8
+                                                    );
+                            
+                        }
+
+                        else if( pixData.alti.lvl == -4 ){ //- underwater
+                            /*
+                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_water_lvl4,
+                                                    waterStep * 2 );
+                            */
+                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_multi,
+                                                    0.9
+                                                    );
+                           
+                        }
+
+                        else if( pixData.alti.lvl == -5 ){ //- underwater
+                            /*
+                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_water_lvl5,
+                                                    waterStep );
+                            */
+                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
+                                                    color_multi,
+                                                    0.95
+                                                    );
+                        }
+                        
+                        else{ //- land
                         
                             color = pixData.fieldDataPtr->ecoPtr->color_low;
-                            r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
-                            g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
-                            b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
+                            color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
+                            color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
+                            color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
 
                         }
                         
-                        *pixData.texPixPtr = RGBA{ r,g,b,255 };
+                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b,255 };
 
 
                     }

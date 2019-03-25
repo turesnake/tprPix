@@ -126,22 +126,24 @@ void MapField::init_nodeMPos(){
  */
 void MapField::init_lColorOff(){
 
-    /*
-    float vx = this->FDPos.x * 0.20;
-    float vy = this->FDPos.y * 0.20;
-
-    float r = esrc::gameSeed.pn_field.noise( vx, vy, 0.25 ); //- [0.0, 1.0]
-    float g = esrc::gameSeed.pn_field.noise( vx, vy, 0.55 );
-    float b = esrc::gameSeed.pn_field.noise( vx, vy, 0.85 );
     
-    this->lColorOff_r = (int)floor(r*40-20); //- [-5, 5]
-    this->lColorOff_g = (int)floor(g*40-20); 
-    this->lColorOff_b = (int)floor(b*40-20); 
-    */
+    float vx = this->FDPos.x * 3.20;
+    float vy = this->FDPos.y * 3.20;
 
+    float r = esrc::gameSeed.pn_field.noise( vx, vy, 50.25 ); //- [0.0, 1.0]
+    float g = esrc::gameSeed.pn_field.noise( vx, vy, 150.55 );
+    float b = esrc::gameSeed.pn_field.noise( vx, vy, 250.85 );
+    
+    this->lColorOff_r = (int)floor(r*20-10); //- [-5, 5]
+    this->lColorOff_g = (int)floor(g*20-10); 
+    this->lColorOff_b = (int)floor(b*20-10); 
+    
+
+    /*
     this->lColorOff_r = uDistribution_color(randEngine);
     this->lColorOff_g = uDistribution_color(randEngine);
     this->lColorOff_b = uDistribution_color(randEngine);
+    */
 
 
 }
@@ -189,19 +191,26 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     float vy;
 
     IntVec2  mposOff;
-    float    freq = 1.0;
-    float    pnVal;
+    float    freqBig = 1.0;
+    float    freqSml = 3.8;
+    float    pnVal; //- 围绕 0 波动的 随机值
     float    off;
     int      count;
     EcoSysInMap*  tmpEcoPtr;
 
+    float targetDistance = 0.48 * 1.4 * ENTS_PER_SECTION; //- 每个field 最终的 距离比较值。
+
     vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
     vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
 
-    pnVal = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(vx * freq,
-                                                         vy * freq,
-                                                         0.1); // [0.0, 1.0]
-    pnVal = pnVal*ENTS_PER_SECTION - (0.5*ENTS_PER_SECTION); //- [-64.0, 64.0]
+    float pnValBig = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(  vx * freqBig,
+                                                                    vy * freqBig,
+                                                                    0.15) * 2.0 - 1.0; // [-1.0, 1.0]
+    float pnValSml = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(  vx * freqSml,
+                                                                    vy * freqSml,
+                                                                    0.45) * 2.0 - 1.0; // [-1.0, 1.0]
+    pnVal = 0.5 * (pnValBig + pnValSml);    // [-1.0, 1.0]
+    pnVal = 0.5 * pnVal * ENTS_PER_SECTION; //- [-64.0, 64.0]
     //-----
 
     count = 0;
@@ -215,7 +224,7 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
             off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y );
             off += pnVal;
 
-            if( off < (0.5*ENTS_PER_SECTION + tmpEcoPtr->weight*0.2) ){ //- tmp
+            if( off < targetDistance ){ //- tmp
                 this->ecoSysInMapKey = tmpEcoPtr->sectionKey;
                 break;
             }
