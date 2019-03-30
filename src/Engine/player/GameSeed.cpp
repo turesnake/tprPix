@@ -36,6 +36,13 @@ void GameSeed::init(){
 
     //...
 
+    //-------- altiSeed --------//
+    u32_t altiV = get_new_seed() % 800000;
+    this->altiSeed = static_cast<float>(altiV) - 400000.0; // [-40万, 40万]
+
+
+    //...
+
 
     //------------------------//
     //       perlins

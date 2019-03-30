@@ -16,6 +16,12 @@
 //  SCR_HEIGHT
 //--- window 显示尺寸（像素）---
 //   拉升窗口将会改变这个值
+// ----- z注意 ------
+// 在 mac 这种 高分屏中， 实际分配的 window像素尺寸 可能和 这组值不同
+// 比如，是这组值的两倍。
+// 这在 改写 glViewport() 时会体现出来。
+// 一个推荐的做法是，先通过 glfwGetFramebufferSize(), 检查出当前的 真实视口尺寸
+// 再用这个 尺寸去 改写 glViewport()
 
 
 //  WORK_WIDTH

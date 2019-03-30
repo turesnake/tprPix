@@ -241,5 +241,6 @@ inline int calc_fast_mpos_distance( const IntVec2 &_aMPos, const IntVec2 &_bMPos
 
 
 
+
 #endif 
 

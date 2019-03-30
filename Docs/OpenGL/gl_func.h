@@ -23,7 +23,7 @@ using GLboolean  = unsigned char;
 //                       TEXTURE
 //----------------------------------------------------------
 
-//- 常规 png 图片 采用 左上坐标系
+//- 常规 png 图片 采用 左上坐标系 排列数据
 //- texture 采用 左下坐标系。
 //- 所以，在通过 stb_image.h 加载 png 图片时。
 //- 需要调用： stbi_set_flip_vertically_on_load( 1 ); 来上下颠倒图形
@@ -145,7 +145,7 @@ void glTexImage2D(	GLenum target, //- 目标 target 实例（唯一）
     //- 更简单的方法是：
     //- 在 用 level = 0 生成text之后，调用 glGenerateMipmap 函数来自动生成一张 mipmap
 
-    //- 可以向gl存入多少 tex资源，只首先于 显存大小。
+    //- 可以向gl存入多少 tex资源，只受限于 显存大小。
     //  当显存不够时，glTexImage2D 调用将会引发 error.
 
 

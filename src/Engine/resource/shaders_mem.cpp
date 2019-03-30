@@ -20,12 +20,12 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 void init_shaders(){
 
     //---- rect_sahder ----//
-    rect_shader.init(); 
+    rect_shader.init( "/base.vs", "/base.fs" ); 
     rect_shader.use_program();
-    rect_shader.get_uniform_location( "model" );
-    rect_shader.get_uniform_location( "view" );
-    rect_shader.get_uniform_location( "projection" );
-    rect_shader.get_uniform_location( "texture1" );
+    rect_shader.add_new_uniform( "model" );
+    rect_shader.add_new_uniform( "view" );
+    rect_shader.add_new_uniform( "projection" );
+    rect_shader.add_new_uniform( "texture1" );
     rect_shader.use_program();
 }
 

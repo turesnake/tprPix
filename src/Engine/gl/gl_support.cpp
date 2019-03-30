@@ -106,6 +106,12 @@ void glfw_window_creat(){
     //-- 将这个 唯一的 window 设为 current context
 	glfwMakeContextCurrent( esrc::windowPtr );
 
+
+    //------ 记录 “真实” 视口尺寸 ------//
+    glfwGetFramebufferSize( esrc::windowPtr, 
+                            &esrc::windowFrameBufferWH.x, 
+                            &esrc::windowFrameBufferWH.y );
+
 }
 
 

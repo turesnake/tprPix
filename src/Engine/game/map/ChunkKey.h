@@ -34,6 +34,7 @@ IntVec2 get_chunk_lMPosOff( const IntVec2 &_anyMPos );
 chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos );
 chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos );
 size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos );
+IntVec2 chunkMPos_2_chunkCPos( const IntVec2 &_chunkMPos );
 
 
 
@@ -125,6 +126,17 @@ inline chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos ){
 inline chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos ){
         assert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
     return chunkMPos_2_key_inn( _chunkMPos );
+}
+
+/* ===========================================================
+ *             chunkMPos_2_chunkCPos
+ * -----------------------------------------------------------
+ * -- 当使用者 确定自己传入的参数就是 chunkMPos, 使用此函数
+ *    如果参数不为 chunkMPos，直接报错。
+ */
+inline IntVec2 chunkMPos_2_chunkCPos( const IntVec2 &_chunkMPos ){
+        assert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
+    return floorDiv( _chunkMPos, ENTS_PER_CHUNK  );
 }
 
 

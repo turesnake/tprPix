@@ -45,6 +45,7 @@
 #include "GameSeed.h" //- tmp
 #include "EcoSysInMap.h"
 #include "Section.h"
+#include "GPGPU.h"
 
 
 
@@ -61,6 +62,23 @@ using FUNC_V_V = std::function<void()>;
 //-- window 数据结构的 具体内容由 glfw库管理。
 //-- 用户只需保存一个指针。用来访问这个 window。
 inline GLFWwindow  *windowPtr {};
+
+//-- 游戏窗口 视口实际尺寸（pix）
+// 在 mac 这种高分屏中，系统实际为程序分配的 窗口尺寸，可能不是 SCR_WIDTH,SCR_HEIGHT 这组值
+// 而是它的 2 倍。
+// 这组值在 glViewport() 中会被用到。
+// 推荐的做法：先通过 glfwGetFramebufferSize(), 检查出当前的 真实视口尺寸
+// 再用这个 尺寸去 改写 glViewport()
+inline IntVec2 windowFrameBufferWH {};
+
+
+//-------------------------//
+//       GPGPU 资源 
+//-------------------------//
+inline GPGPU  pixGpgpu {};
+
+void init_gpgpus();
+
 
 //-------------------------//
 //       time 资源 
@@ -84,7 +102,7 @@ inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 //-------------------------//
 //       Shader 资源 
 //-------------------------//
-inline ShaderProgram rect_shader { "/shaders/base.vs", "/shaders/base.fs" };
+inline ShaderProgram rect_shader {};
 void init_shaders();
 
 

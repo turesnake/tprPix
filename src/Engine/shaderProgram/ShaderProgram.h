@@ -26,6 +26,9 @@
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
+//-------------------- C --------------------//
+#include <cassert>
+
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -36,44 +39,70 @@
 
 
 class ShaderProgram : tpr::nocopyable {
-
 public:
-    explicit ShaderProgram( const std::string &_lpathVs, 
-                            const std::string &_lpathFs 
-                            )
-        :
-        lpath_vs( _lpathVs ),
-        lpath_fs( _lpathFs )
-        {}
-
-    ~ShaderProgram() = default;
+    ShaderProgram() = default;
 
     //--- init ---//
-    void init();
+    void init(  const std::string &_lpathVs, 
+                const std::string &_lpathFs );
 
     //-- 从 着色器程序中 获得 目标变量的 地址
-    void get_uniform_location( const std::string &name );
-    //-- 获得 目标变量的 地址值
-    GLuint uniform_location( const std::string &name );
+    inline void add_new_uniform( const std::string &_name ){
+        assert( this->uniforms.find(_name) == this->uniforms.end() );
+        assert( this->is_shaderProgram_set );
+        uniforms.insert({ _name, glGetUniformLocation(this->shaderProgram, _name.c_str()) });
+    }
 
-    void use_program(); //-- glUserProgram 的 包裹函数
+    inline GLuint get_uniform_location( const std::string &_name ){
+        assert( this->uniforms.find(_name) != this->uniforms.end() );
+        return this->uniforms.at(_name);
+    }
+
+    inline void use_program(){
+        if( this->shaderProgram == shaderProgram_current ){
+            return;
+        }
+        glUseProgram( this->shaderProgram );
+        shaderProgram_current = this->shaderProgram;
+    }
 
     //-- 将 3个矩阵 的值 传输到 着色器程序。
-    void send_mat4_model_2_shader( const glm::mat4 &m ); //-- 主要由 Model 调用
-    void send_mat4_view_2_shader( const glm::mat4 &v );
-    void send_mat4_projection_2_shader( const glm::mat4 &p );
+    inline void send_mat4_model_2_shader( const glm::mat4 &m ){
+        this->use_program();
+        glUniformMatrix4fv( this->get_uniform_location( "model" ),
+                            1, 
+                            GL_FALSE, 
+                            (const GLfloat*)(glm::value_ptr(m)) );
+    }
+
+    inline void send_mat4_view_2_shader( const glm::mat4 &v ){
+        this->use_program();
+        glUniformMatrix4fv( this->get_uniform_location( "view" ),
+                            1, 
+                            GL_FALSE, 
+                            (const GLfloat*)(glm::value_ptr(v)) );
+    }
+
+    inline void send_mat4_projection_2_shader( const glm::mat4 &p ){
+        this->use_program();
+        glUniformMatrix4fv( this->get_uniform_location( "projection" ),
+                            1, 
+                            GL_FALSE, 
+                            (const GLfloat*)(glm::value_ptr(p)) );
+    }
 
 
 private:
-    void compile( int _shaderObj, const std::string &_sbuf, const std::string &_sname );
+    void compile( GLuint _shaderObj, const std::string &_sbuf );
 
     //======== vals ========//
-    GLuint program = 0; 
-    std::string lpath_vs; //-- 指针，指向 vertexShader 文件 相对路径名 字符串
-    std::string lpath_fs; //-- 指针，指向 fragmentShader 文件 相对路径名 字符串
+    GLuint       shaderProgram  {0}; 
 
     //-- 着色器程序中的 uniform 变量们
-    std::unordered_map<std::string, unsigned int> uniform_vals; 
+    std::unordered_map<std::string, GLuint> uniforms {}; 
+
+    //======== flags ========//
+    bool  is_shaderProgram_set {false};
                                             
     //======== static ========//
     static GLuint shaderProgram_current; //-- 当前被使用的 shaderProgram

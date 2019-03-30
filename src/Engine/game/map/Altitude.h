@@ -27,7 +27,9 @@ public:
     Altitude() = default;
     
 
-    void set( const IntVec2 &_ppos, const EcoSys *_ecosysPtr );
+    void set_old( const IntVec2 &_ppos, const EcoSys *_ecosysPtr );
+
+    void set( float _altiVal_from_gpgpu );
 
 
     //===== vals =====//

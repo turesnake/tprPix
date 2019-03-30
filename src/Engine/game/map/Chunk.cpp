@@ -30,6 +30,7 @@
 #include "Quad.h"
 #include "FieldBorderSet.h"
 
+#include "debug.h"
 
 
 namespace{//-------- namespace: --------------//
@@ -242,6 +243,28 @@ void Chunk::assign_ents_and_pixes_to_field(){
     float   waterStep = 0.06; //- 用于 water 颜色混合
 
     texBufHeadPtr = this->mapTex.get_texBufHeadPtr();
+
+
+    //------------------------//
+    // 委托 GPGPU 计算 pix数据
+    //------------------------//
+    IntVec2 chunkCPos = chunkMPos_2_chunkCPos( this->mcpos.get_mpos() );
+
+    esrc::pixGpgpu.bind();
+    glUniform1i( esrc::pixGpgpu.get_uniform_location("chunkCPosX"), chunkCPos.x ); //- int
+    glUniform1i( esrc::pixGpgpu.get_uniform_location("chunkCPosY"), chunkCPos.y ); //- int
+    glUniform1f( esrc::pixGpgpu.get_uniform_location("altiSeed"), esrc::gameSeed.altiSeed ); //- float
+
+    //-- 目前这四个值 随便写写的 --
+    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_leftBottom"),  -1.0 ); //- float
+    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_rightBottom"), -1.0 ); //- float
+    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_leftTop"),     -1.0 ); //- float
+    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_rightTop"),    5.0 ); //- float
+
+    esrc::pixGpgpu.let_gpgpuFBO_work();
+    const std::vector<FRGB> &gpgpuDatas = esrc::pixGpgpu.get_texFBuf();
+    esrc::pixGpgpu.release();
+
     //------------------------//
     //   reset fieldPtrs
     //------------------------//
@@ -293,7 +316,8 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //--------------------------------//
                         //  计算 本pix  alti
                         //--------------------------------//
-                        pixData.alti.set( pixData.ppos, pixData.fieldDataPtr->ecoPtr );
+                        //pixData.alti.set( pixData.ppos, pixData.fieldDataPtr->ecoPtr );
+                        pixData.alti.set( gpgpuDatas.at(pixData.pixIdx_in_chunk).r );
 
 
                         //--------------------------------//
@@ -302,9 +326,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
 
                             //...
-
                         }
-
 
                         //--------------------------------//
                         //    正式给 pix 上色
@@ -317,68 +339,78 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             color.b = color_sand.b;
 
                         }else if( pixData.alti.lvl == -1 ){ //- underwater
-                            /*
+                            
                             color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_water_lvl1,
                                                     waterStep * 6.0 );
-                            */
-
+                            color.a = 100;
+                            
+                            /*
                             color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_multi,
                                                     0.6
                                                     );
+                            */
                             
                         }
 
                         else if( pixData.alti.lvl == -2 ){ //- underwater
-                            /*
+                            
                             color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_water_lvl2,
                                                     waterStep * 4.6 );
-                            */
+                            color.a = 100;
+                            /*
                             color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_multi,
                                                     0.7
                                                     );
+                            */
                             
                         }
 
                         else if( pixData.alti.lvl == -3 ){ //- underwater
-                            /*
+                            
                             color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_water_lvl3,
                                                     waterStep * 3.3 );
-                            */
+                            color.a = 100;
+                            /*
                             color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_multi,
                                                     0.8
                                                     );
+                            */
                             
                         }
 
                         else if( pixData.alti.lvl == -4 ){ //- underwater
-                            /*
+                            
                             color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_water_lvl4,
                                                     waterStep * 2 );
-                            */
+                            color.a = 100;
+                            /*
                             color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_multi,
                                                     0.9
                                                     );
+                            */
                            
                         }
 
                         else if( pixData.alti.lvl == -5 ){ //- underwater
-                            /*
+                            
                             color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_water_lvl5,
                                                     waterStep );
-                            */
+                            color.a = 100;
+                            /*
                             color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
                                                     color_multi,
                                                     0.95
                                                     );
+                            */
                         }
                         
                         else{ //- land
@@ -387,10 +419,11 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
                             color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
                             color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
+                            color.a = 255;
 
                         }
                         
-                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b,255 };
+                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b, 255 };
 
 
                     }

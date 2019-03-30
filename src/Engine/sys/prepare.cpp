@@ -156,6 +156,14 @@ void check_and_creat_important_dir(){
                         err_info
                         );
     //---------------------------------//
+    //           path_shaders
+    //---------------------------------//
+    path_shaders = tpr::mk_dir( path_cwd.c_str(),
+                        "shaders/",
+                        RWXR_XR_X,
+                        err_info
+                        );
+    //---------------------------------//
     //           path_textures
     //---------------------------------//
     path_textures = tpr::mk_dir( path_cwd.c_str(),

@@ -38,6 +38,8 @@ public:
     u32_t  perlinSeed_alti {};
     u32_t  perlinSeed_density {};
 
+    float  altiSeed {}; //- pixGpgpu, // [-40万, 40万]
+
 
     //======== perlins ========//
     PerlinNoise3D  pn_field_in_ecoSysInMap; //- 将 field 分配给不同的 ecosys

@@ -4,12 +4,11 @@
 out vec4 FragColor;
 
 //-- 从 顶点着色器 传来的 数据（名称和类型 都要相同）
-in vec2 TexCoord;
+in vec2 TexCoord;   //-- 每个pix 在 tecture 上的坐标 [-1.0,1.0]
 
 //-- sampler 系列 是 采样器数据类型。
-//-- 现在，我们创建了 2个 纹理采样器
+//-- 现在，我们创建了 1个 纹理采样器
 uniform sampler2D texture1;
-//uniform sampler2D texture2;
 
 
 void main()
@@ -24,6 +23,4 @@ void main()
     }
 
     FragColor = texColor;
-
-
 }

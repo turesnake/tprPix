@@ -67,7 +67,6 @@ int main(){
     //==========================================//
     //                  TEST
     //------------------------------------------//
-        
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
 
@@ -109,6 +108,9 @@ int main(){
     debug::init_debug();             //---- debug 资源 ----
 
     sectionBuild::init();            //----- sectionBuild 模块 --
+
+
+    esrc::init_gpgpus();             //---- gpgpu 资源 ----
 
         //return 0;
 
