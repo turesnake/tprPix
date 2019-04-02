@@ -64,8 +64,8 @@ public:
     void init( GameObjMesh *_goMeshPtr );
 
     inline void bind_idle( int _idx ){
-        type = AnimFrameIdxHandleType::Idle;
-        currentIdx = _idx; //- never change
+        this->type = AnimFrameIdxHandleType::Idle;
+        this->currentIdx = _idx; //- never change
     }
 
     void bind_cycle(int _begIdx,
@@ -73,12 +73,10 @@ public:
                     int _enterIdx,
                     bool _isOrder );
 
-
     void bind_once();
 
-
     inline void update(){
-        switch( type ){
+        switch( this->type ){
         case AnimFrameIdxHandleType::Idle:
             //-- do nothing --
             break;

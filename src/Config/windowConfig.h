@@ -50,7 +50,8 @@
 //-------
 #define WORK_WIDTH  480
 #define WORK_HEIGHT 300
-
+//#define WORK_WIDTH  960
+//#define WORK_HEIGHT 600
 
 
 //----------------- 大尺寸测试版 ----------------------//

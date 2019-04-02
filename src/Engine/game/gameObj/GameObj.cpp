@@ -26,10 +26,10 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    collision.init( (GameObj*)this );
-    goPos.init( (GameObj*)this ); //- MUST before move.init()
-    move.init( (GameObj*)this, &goPos, &collision );
-    actionSwitch.init( (GameObj*)this );
+    this->collision.init( (GameObj*)this );
+    this->goPos.init( (GameObj*)this ); //- MUST before move.init()
+    this->move.init( (GameObj*)this, &this->goPos, &this->collision );
+    this->actionSwitch.init( (GameObj*)this );
     //...
 }
 
@@ -44,8 +44,8 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObjMesh  goMesh; //- tmp 
-    goMeshs.insert({ _name, goMesh }); //- copy
-    return goMeshs.at(_name);
+    this->goMeshs.insert({ _name, goMesh }); //- copy
+    return this->goMeshs.at(_name);
 }
 
 

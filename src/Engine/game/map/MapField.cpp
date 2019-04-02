@@ -24,7 +24,7 @@
 namespace{//----------- namespace ---------------//
 
     std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    std::uniform_int_distribution<int> uDistribution_color(-2,2);
+    std::uniform_int_distribution<int> uDistribution_color(0,1);
     bool  is_rand_init {false}; //- tmp
 
     std::map<occupyWeight_t,EcoSysInMap*> nearFour_ecoSysInMapPtrs {}; 
@@ -134,10 +134,15 @@ void MapField::init_lColorOff(){
     float g = esrc::gameSeed.pn_field.noise( vx, vy, 150.55 );
     float b = esrc::gameSeed.pn_field.noise( vx, vy, 250.85 );
     
+    /*
     this->lColorOff_r = (int)floor(r*20-10); //- [-5, 5]
     this->lColorOff_g = (int)floor(g*20-10); 
     this->lColorOff_b = (int)floor(b*20-10); 
+    */
     
+    this->lColorOff_r = (int)floor(r*10-5);
+    this->lColorOff_g = (int)floor(g*10-5); 
+    this->lColorOff_b = (int)floor(b*10-5); 
 
     /*
     this->lColorOff_r = uDistribution_color(randEngine);

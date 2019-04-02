@@ -13,6 +13,17 @@
 #include "debug.h"
 
 
+namespace{//----------- namespace ----------------//
+
+    std::default_random_engine  randEngine; //-通用 随机数引擎实例
+    inline std::uniform_int_distribution<int> uDistribution_altiSeed(-1000,1000);
+
+
+
+
+}//-------------- namespace : end ----------------//
+
+
 /* ===========================================================
  *                        init 
  * -----------------------------------------------------------
@@ -20,6 +31,8 @@
 void GameSeed::init(){
     //-- 只可被初始化一次... --
     assert( this->is_all_seed_init == false );
+
+    randEngine.seed( get_new_seed() );
 
     //------------------------//
     //   初级版本，所有的 seed 都随机分配
@@ -37,9 +50,7 @@ void GameSeed::init(){
     //...
 
     //-------- altiSeed --------//
-    u32_t altiV = get_new_seed() % 800000;
-    this->altiSeed = static_cast<float>(altiV) - 400000.0; // [-40万, 40万]
-
+    this->init_altiSeed();
 
     //...
 
@@ -62,6 +73,24 @@ void GameSeed::init(){
 
 
     this->is_all_seed_init = true;
+}
+
+
+
+/* ===========================================================
+ *                  init_altiSeed
+ * -----------------------------------------------------------
+ */
+void GameSeed::init_altiSeed(){
+
+    this->altiSeed_pposOffSeaLvl = glm::vec2(static_cast<float>(uDistribution_altiSeed(randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
+    this->altiSeed_pposOffBig = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
+    this->altiSeed_pposOffMid = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
+    this->altiSeed_pposOffSml = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
 }
 
 

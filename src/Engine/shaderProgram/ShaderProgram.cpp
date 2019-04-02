@@ -19,6 +19,8 @@
 #include "global.h"
 
 //#include "debug.h" //- tmp
+#include <iostream>
+
 
 //======== static ========//
 GLuint ShaderProgram::shaderProgram_current {0};
@@ -88,6 +90,7 @@ void ShaderProgram::compile( GLuint _shaderObj, const std::string &_sbuf ){
     glGetShaderiv( _shaderObj, GL_COMPILE_STATUS, &success );
     if( !success ){
         glGetShaderInfoLog( _shaderObj, 512, NULL, infoLog );
+        std::cout << infoLog << std::endl;
         assert(0);
     }
 }

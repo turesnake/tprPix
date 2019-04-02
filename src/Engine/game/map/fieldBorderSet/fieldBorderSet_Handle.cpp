@@ -68,7 +68,7 @@ void load_fieldBorderSets(){
     //-------------------------//
     //  手动设置 png 数据... tmp...
     //-------------------------//
-    lpath = "/fieldBorderSet.png";
+    lpath = "/fieldBorderSet-4.png";
 
     frameNum.set( 4, 2 );
     totalFrameNum = frameNum.x * frameNum.y;

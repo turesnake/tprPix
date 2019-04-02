@@ -23,7 +23,7 @@
  * -----------------------------------------------------------
  */
 void AnimFrameIdxHandle::init( GameObjMesh *_goMeshPtr ){
-    goMeshPtr = _goMeshPtr;
+    this->goMeshPtr = _goMeshPtr;
     //....
 }
 
@@ -37,17 +37,17 @@ void AnimFrameIdxHandle::bind_cycle(int _begIdx,
                                     int _enterIdx,
                                     bool _isOrder ){
 
-    type = AnimFrameIdxHandleType::Cycle;
+    this->type = AnimFrameIdxHandleType::Cycle;
     //-------
     assert( (_enterIdx>=_begIdx) && (_enterIdx<=_endIdx) );
-    cycleData.begIdx = _begIdx;
-    cycleData.endIdx = _endIdx;
-    cycleData.enterIdx = _enterIdx;
-    cycleData.updates = 0;
-    cycleData.currentTimeStep = goMeshPtr->get_animFrameSet_currentTimeStep( _enterIdx );
-    cycleData.isOrder = _isOrder;
+    this->cycleData.begIdx = _begIdx;
+    this->cycleData.endIdx = _endIdx;
+    this->cycleData.enterIdx = _enterIdx;
+    this->cycleData.updates = 0;
+    this->cycleData.currentTimeStep = this->goMeshPtr->get_animFrameSet_currentTimeStep( _enterIdx );
+    this->cycleData.isOrder = _isOrder;
     //-------
-    currentIdx = _enterIdx;
+    this->currentIdx = _enterIdx;
 }
 
 
@@ -56,7 +56,7 @@ void AnimFrameIdxHandle::bind_cycle(int _begIdx,
  * -----------------------------------------------------------
  */
 void AnimFrameIdxHandle::bind_once(){
-    type = AnimFrameIdxHandleType::Once;
+    this->type = AnimFrameIdxHandleType::Once;
     //-------
     //...
 }
@@ -69,22 +69,24 @@ void AnimFrameIdxHandle::bind_once(){
  */
 void AnimFrameIdxHandle::update_cycle(){
 
-    cycleData.updates++;
+    this->cycleData.updates++;
     //----- node frame -----//
-    if( cycleData.updates >= cycleData.currentTimeStep ){
-        cycleData.updates = 0;
+    if( this->cycleData.updates >= this->cycleData.currentTimeStep ){
+        this->cycleData.updates = 0;
         
         //--- currentIdx ---
-        if( cycleData.isOrder == true ){
-            (currentIdx==cycleData.endIdx) ? currentIdx=cycleData.begIdx :
-                                             currentIdx++;
+        if( this->cycleData.isOrder == true ){
+            (this->currentIdx==this->cycleData.endIdx) ?  
+                    this->currentIdx=this->cycleData.begIdx :
+                    this->currentIdx++;
         }else{
-            (currentIdx==cycleData.begIdx) ? currentIdx=cycleData.endIdx :
-                                             currentIdx--;
+            (this->currentIdx==this->cycleData.begIdx) ?  
+                    this->currentIdx=this->cycleData.endIdx :
+                    this->currentIdx--;
         }
 
         //--- currentTimeStep ---
-        cycleData.currentTimeStep = goMeshPtr->get_animFrameSet_currentTimeStep( currentIdx );
+        this->cycleData.currentTimeStep = this->goMeshPtr->get_animFrameSet_currentTimeStep( this->currentIdx );
     }
 }
 

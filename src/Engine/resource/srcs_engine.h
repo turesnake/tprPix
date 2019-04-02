@@ -46,6 +46,7 @@
 #include "EcoSysInMap.h"
 #include "Section.h"
 #include "GPGPU.h"
+#include "Canvas.h"
 
 
 
@@ -79,6 +80,15 @@ inline GPGPU  pixGpgpu {};
 
 void init_gpgpus();
 
+//-------------------------//
+//       Canvas 资源 
+//-------------------------//
+inline Canvas  groundCanvas {};
+inline Canvas  waterAnimCanvas {};
+
+void init_canvases();
+void draw_groundCanvas();
+void draw_waterAnimCanvas();
 
 //-------------------------//
 //       time 资源 

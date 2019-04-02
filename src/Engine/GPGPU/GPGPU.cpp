@@ -28,6 +28,7 @@
 namespace{ //------------ namespace ------------//
 
     //  这组顶点数据 正好覆盖 整个 window [-1.0, 1.0] --
+    //  中心坐标系
     std::vector<float> gpgpuVertices {
         // 坐标 [-1.0, 1.0]  |  textuel [0.0, 1.0] 
         -1.0f,  -1.0f, 0.0f,   0.0f, 0.0f,
@@ -41,10 +42,6 @@ namespace{ //------------ namespace ------------//
 
 
 } //------------ namespace: end ------------//
-
-
-//======== static ========//
-GLuint GPGPU::currentShaderProgram {0};
 
 
 /* ===========================================================

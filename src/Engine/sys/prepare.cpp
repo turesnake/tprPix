@@ -190,11 +190,13 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     //          path_fieldBorderEntPixMaskSet
     //---------------------------------//
+    /*
     path_fieldBorderEntPixMaskSet = tpr::mk_dir( path_textures.c_str(),
                         "fieldBorderEntPixMaskSet/",
                         RWXR_XR_X,
                         err_info
                         );
+    */
     //---------------------------------//
     //          path_fieldBorderSet
     //---------------------------------//

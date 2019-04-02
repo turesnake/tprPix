@@ -61,7 +61,7 @@
 
 
 //-- camera.viewingBox z_deep
-#define VIEWING_BOX_Z_DEEP  1000
+#define VIEWING_BOX_Z_DEEP  2000
 
 
 

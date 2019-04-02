@@ -59,6 +59,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/canvas)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
@@ -120,6 +121,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
+                        src/Engine/canvas/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
                         src/Engine/ecoSys/*.cpp

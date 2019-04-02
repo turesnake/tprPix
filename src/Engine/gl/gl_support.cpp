@@ -135,7 +135,10 @@ void glfw_oth_set(){
  */
 void glfw_callback_set(){
 
-    glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
+    //-- 目前版本并未控制 “当window拉升” 后的渲染效果。暂时，请勿拉升画面 ！！！ ---
+    //...
+    
+    //glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
     //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 

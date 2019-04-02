@@ -49,26 +49,26 @@ public:
 
     //--------------------------//
     inline void set_shader_program( ShaderProgram *_sp ){
-        shaderPtr = _sp;
+        this->shaderPtr = _sp;
     }
 
     inline void set_texName( GLuint _texName ){
-        texName = _texName;
+        this->texName = _texName;
     }
 
     inline void set_translate( const glm::vec3 &_v ){
-        translate_val = _v;
-        isMat4Change = true;
+        this->translate_val = _v;
+        this->isMat4Change = true;
     }
 
     inline void set_scale( const glm::vec3 &_v ){
-        scale_val = _v;
-        isMat4Change = true;
+        this->scale_val = _v;
+        this->isMat4Change = true;
     }
 
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
     inline float get_render_z() const {
-        return translate_val.z;
+        return this->translate_val.z;
     }
 
     //======== flags ========//

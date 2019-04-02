@@ -105,6 +105,8 @@ private:
     IntVec2 texSize {};
 
     ShaderProgram  ShaderProgram {};
+            //- GPGPU 实例 往往是独一无二的，比如实现 landwater分布的。
+            //  这些实例，各自配有独立的 glsl 程序组。
 
     std::vector<FRGB> texFBuf; //- (4*float) 暂只支持这一种 tex数据类型
                                 // 从 gpu 读取到的数据，存储在此
@@ -113,10 +115,8 @@ private:
     bool  is_texBuf_NULL {true}; //- true:  向 gl 传输 空的 tex数据
                                  //- false: 向 gl 传输 用户自定义tex数据 
     bool  is_shaderProgram_set {false};
-    bool  is_binded {false};;            //- 统一 绑定／释放
+    bool  is_binded {false};;    //- 统一 绑定／释放
 
-    //======== static ========//
-    static GLuint currentShaderProgram; //-- 当前被使用的 shaderProgram
 };
 
 

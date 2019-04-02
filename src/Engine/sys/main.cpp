@@ -4,8 +4,6 @@
  *                                        CREATE -- 2018.11.21
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    main();
- * ----------------------------
  */
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
@@ -96,28 +94,21 @@ int main(){
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
 
-        //return 0;
-
     //init_player_srcs();            //----  player 资源 ----
         //esrc::player.init();
         player_byPass();
     //...
 
-        //return 0;
-
     debug::init_debug();             //---- debug 资源 ----
 
     sectionBuild::init();            //----- sectionBuild 模块 --
 
-
     esrc::init_gpgpus();             //---- gpgpu 资源 ----
 
-        //return 0;
+    esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//
     esrc::load_colliEntSets(); //-- colliEntSets --
-
-        //return 0; //- 此前且正确
 
         //esrc::debug_colliEntSets();
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
@@ -134,9 +125,7 @@ int main(){
     //...
         map_byPass(); //- 硬制作 一张 section map
 
-            //return 0;
         go_byPass();  //- 硬生产一组 Dog_A 实例
-            //return 0;
 
         esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
@@ -145,8 +134,6 @@ int main(){
     //        Behaviour.Starts
     //------------------------------------------//
     esrc::behaviour.call_Starts();
-
-        //return 0;
 
     //========================================================//
     //                 main render loop
@@ -276,7 +263,9 @@ int main(){
         //>>>>>>>>>>>>>>>>>>>>>>>>//
         //        draw call
         //>>>>>>>>>>>>>>>>>>>>>>>>//
-        // *** 注意次序 ***
+        // *** 注意次序,先渲染深处的 ***
+        esrc::draw_groundCanvas();
+        esrc::draw_waterAnimCanvas();
         esrc::draw_renderPool_meshs(); 
         esrc::draw_renderPool_goMeshs_shadow();
         debug::draw_renderPool_mapEntSlices(); //-- 但是不在此文件中 clear
@@ -302,6 +291,7 @@ int main(){
     //========================================================//
     //             save / delete everthing
     //--------------------------------------------------------//
+    // 测试阶段，删不删无所谓
     VAOVBO_del();           //------ 删除 全局唯一 VAO，VBO -----
     //...
 

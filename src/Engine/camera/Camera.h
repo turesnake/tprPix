@@ -46,20 +46,19 @@ public:
 
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
-    inline const glm::vec2 get_camera2DPPos() const { 
-        return  glm::vec2{ currentPPos.x, currentPPos.y };  
+    inline const glm::vec2 get_camera2DFPos() const { 
+        return  glm::vec2{ this->currentFPos.x, this->currentFPos.y };  
     }
 
     //--- used for render DEEP_Z --
     //-- 注意，此处的 zNear/zFar 是相对世界坐标的 绝对值
     inline const float get_zNear() const {
-        return currentPPos.z;
+        return this->currentFPos.z;
     }
     inline const float get_zFar() const {
-        return currentPPos.z - ViewingBox::z; 
+        return this->currentFPos.z - ViewingBox::z; 
     }
 
-    void print_pos();//-- debug --
 private:
     //------ 观察／投影 矩阵 -----
     glm::mat4 mat4_view;       //-- 观察矩阵，默认初始化为 单位矩阵
@@ -67,13 +66,11 @@ private:
 
     //------ 坐标向量 -------
     glm::vec2 targetPPos  {}; 
-    glm::vec3 currentPPos {}; 
+    glm::vec3 currentFPos {}; 
 
-                        
     bool   isMoving       {true}; //- 是否在移动
     float  approachPercent {0.08f};  //- camera运动的 “接近比率”
 
-    
     //------ 方向向量 -------
     //-- 以下3个向量 都是 单位向量
     //-- 二维游戏的 摄像机视角是固定的，不需要每帧运算 --

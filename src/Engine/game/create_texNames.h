@@ -103,6 +103,39 @@ inline int create_a_texName( const IntVec2 &_imgWH,
     return texName;
 }
 
+/* ===========================================================
+ *                    create_a_empty_texName
+ * -----------------------------------------------------------
+ * param: _imgWH     -- 目标texture 的 宽度长度
+ */
+inline int create_a_empty_texName( const IntVec2 &_imgWH ){
+    GLuint texName;
+    //-- 申请 _texNum个 tex实例，并获得其 names
+    glGenTextures( 1, &texName );
+    glBindTexture( GL_TEXTURE_2D, texName );
+    //-- 为 GL_TEXTURE_2D 设置环绕、过滤方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  //-- 设置 S轴的 环绕方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);  //-- 设置 T轴的 环绕方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // 缩小时 纹理过滤 的策略
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // 放大时 纹理过滤 的策略
+                                                        //-- GL_NEAREST 临近过滤，8-bit 专用
+                                                        //-- GL_LINEAR  线性过滤，
+    //-- 通过之前的 png图片数据，生成 一个 纹理。
+    glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
+                    0,                 //-- 多级渐远纹理的级别: 0: 基本级别
+                    GL_RGBA,           //-- 希望把纹理储存为何种格式
+                    _imgWH.x,         //-- 纹理的宽度
+                    _imgWH.y,         //-- 纹理的高度
+                    0,                 //-- 总是被设为0（历史遗留问题
+                    GL_RGBA,           //-- 源图的 格式
+                    GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
+                    NULL               //-- 图像数据, 为空
+                    );
+    //-- 本游戏不需要 多级渐远 --
+    //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成多级渐远纹理
+    return texName;
+}
+
 
 
 #endif 

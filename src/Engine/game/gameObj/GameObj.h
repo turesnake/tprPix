@@ -80,10 +80,10 @@ public:
 
 
     inline void resize_pvtBinary( size_t _size ){
-        pvtBinary.resize( _size );
+        this->pvtBinary.resize( _size );
     }
     inline u8_t *get_pvtBinaryPtr(){
-        return &(pvtBinary.at(0));
+        return &(this->pvtBinary.at(0));
     }
 
     GameObjMesh &creat_new_goMesh( const std::string &_name ); 
@@ -91,32 +91,32 @@ public:
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...
     inline const AnchorPos &get_rootAnchorPos() const {
-        return goMeshs.at("root").get_rootAnchorPos();
+        return this->goMeshs.at("root").get_rootAnchorPos();
     }
 
     //-- 根据 direction，自动改写 isFlipOver --
     inline void set_isFlipOver_auto(){
-        isFlipOver = (direction==GODirection::Left);    
+        this->isFlipOver = (this->direction==GODirection::Left);    
     }
 
     //-- isPass 系列flag 也许不放在 collision 模块中...
     inline void set_collision_isDoPass( bool _b ){
-        collision.isDoPass = _b;
+        this->collision.isDoPass = _b;
     }
     inline void set_collision_isBePass( bool _b ){
-        collision.isBePass = _b;
+        this->collision.isBePass = _b;
     }
     inline bool get_collision_isDoPass() const {
-        return collision.isDoPass;
+        return this->collision.isDoPass;
     }
     inline bool get_collision_isBePass() const {
-        return collision.isBePass;
+        return this->collision.isBePass;
     }
 
     //- 获得 目标 ces 当前 绝对 altiRange
     //- 参数 _ces_altiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
     inline AltiRange get_currentAltiRange( const AltiRange &_ces_altiRange ){
-        return ( _ces_altiRange + goPos.get_alti() );
+        return ( _ces_altiRange + this->goPos.get_alti() );
     }
 
 

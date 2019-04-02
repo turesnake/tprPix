@@ -41,15 +41,15 @@ public:
         {}
 
     inline void init( GameObj *_goPtr, GameObjMesh *_goMeshPtr ){
-        goPtr = _goPtr;
-        goMeshPtr = _goMeshPtr;
+        this->goPtr = _goPtr;
+        this->goMeshPtr = _goMeshPtr;
     }
 
     void draw();
 
-    inline void set_shader_program( ShaderProgram *_sp ) { shaderPtr=_sp; }
-    inline void set_rotate_z( float _z )                 { rotate_z=_z; }
-    inline void set_scale( const glm::vec3 &_v )         { scale_val=_v; }
+    inline void set_shader_program( ShaderProgram *_sp ) { this->shaderPtr=_sp; }
+    inline void set_rotate_z( float _z )                 { this->rotate_z=_z; }
+    inline void set_scale( const glm::vec3 &_v )         { this->scale_val=_v; }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
@@ -64,12 +64,12 @@ public:
 
     //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
     inline float get_render_z() const {
-        return translate_val.z;
+        return this->translate_val.z;
     }
 
     //-- 外部 debug 用
     inline const glm::vec3 &get_translate_val() const {
-        return translate_val;
+        return this->translate_val;
     }
     
 private:

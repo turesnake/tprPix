@@ -7,7 +7,6 @@
  *   摄像机 类
  * ----------------------------
  */
-
 #include "Camera.h"
 
 //-------------------- C --------------------//
@@ -17,14 +16,12 @@
 #include <cassert>
 #include <string>
 
-
 //-------------------- Engine --------------------//
 //#include "config.h" // SCR_WIDTH, SCR_HEIGHT
 #include "windowConfig.h"
 #include "srcs_engine.h" //- 所有资源
 
 using std::string;
-
 
 #include "debug.h" //- tmp
 
@@ -42,12 +39,11 @@ namespace{
  */
 void Camera::init(){
 
-    currentPPos = glm::vec3( 0.0f,
-                            0.0f,
-                            0.5f * ViewingBox::z   
-                            ); 
+    this->currentFPos = glm::vec3(  0.0f,
+                                    0.0f,
+                                    0.5f * ViewingBox::z ); 
 
-    targetPPos = glm::vec2( 0.0f, 0.0f );
+    this->targetPPos = glm::vec2( 0.0f, 0.0f );
 }
 
 
@@ -58,12 +54,12 @@ void Camera::init(){
  */
 void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
 
-    if( _tpos == targetPPos ){
+    if( _tpos == this->targetPPos ){
         return;
     }
-    targetPPos = _tpos;
-    isMoving = true;
-    approachPercent = _approachPercent;
+    this->targetPPos = _tpos;
+    this->isMoving = true;
+    this->approachPercent = _approachPercent;
 }
 
 
@@ -75,23 +71,26 @@ void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
  */
 void Camera::RenderUpdate(){
 
-    if( isMoving == false ){
+    if( this->isMoving == false ){
         return;
     }
 
-    glm::vec2 off { targetPPos.x-currentPPos.x, 
-                    targetPPos.y-currentPPos.y };
+    glm::vec2 off { this->targetPPos.x - this->currentFPos.x, 
+                    this->targetPPos.y - this->currentFPos.y };
     //-- 若非常接近，直接同步 --
-    if( (abs(off.x)<0.1f) && (abs(off.y)<0.1f) ){
-        targetPPos.x = currentPPos.x;
-        targetPPos.y = currentPPos.y;
-        isMoving = false;
+    float criticalVal = 2.0; 
+            //-- 适当提高临界值，会让 camera运动变的 “简练”
+            // 同时利于 waterAnimCanvas 中的运算
+    if( (abs(off.x)<=criticalVal) && (abs(off.y)<=criticalVal) ){
+        this->targetPPos.x = this->currentFPos.x;
+        this->targetPPos.y = this->currentFPos.y;
+        this->isMoving = false;
         return;
     }
 
-    currentPPos.x += approachPercent * off.x;
-    currentPPos.y += approachPercent * off.y;
-    currentPPos.z =  -currentPPos.y + (0.5f * ViewingBox::z); //-- IMPORTANT --
+    this->currentFPos.x += this->approachPercent * off.x;
+    this->currentFPos.y += this->approachPercent * off.y;
+    this->currentFPos.z =  -this->currentFPos.y + (0.5f * ViewingBox::z); //-- IMPORTANT --
 }
 
 
@@ -102,10 +101,10 @@ void Camera::RenderUpdate(){
  */
 glm::mat4 &Camera::update_mat4_view(){
 
-    mat4_view = glm::lookAt( currentPPos, 
-                             (currentPPos + cameraFront), 
-                             cameraUp );
-    return mat4_view;
+    this->mat4_view = glm::lookAt( this->currentFPos, 
+                                (this->currentFPos + cameraFront), 
+                                cameraUp );
+    return this->mat4_view;
 }
 
 
@@ -122,33 +121,20 @@ glm::mat4 &Camera::update_mat4_projection(){
     float oh = 0.5f * ViewingBox::y;  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
-    // 基于 currentPPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
-    // 基于 currentPPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
+    // 基于 currentFPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
+    // 基于 currentFPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
     float zNear_relative  = 0.0f;  //- 负数也接受
     float zFar_relative   = ViewingBox::z;
 
 
-    mat4_projection = glm::ortho( -ow,   //-- 左边界
-                                   ow,   //-- 右边界
-                                  -oh,   //-- 下边界
-                                   oh,   //-- 上边界
-                                   zNear_relative, //-- 近平面
-                                   zFar_relative  //-- 远平面
+    this->mat4_projection = glm::ortho( -ow,   //-- 左边界
+                                        ow,   //-- 右边界
+                                        -oh,   //-- 下边界
+                                        oh,   //-- 上边界
+                                        zNear_relative, //-- 近平面
+                                        zFar_relative  //-- 远平面
                                 );
-    return mat4_projection;
+    return this->mat4_projection;
 }
-
-
-/* ===========================================================
- *                print_pos    [debug]
- * -----------------------------------------------------------
- */
-void Camera::print_pos(){
-    cout << "cameraPos: " << currentPPos.x 
-        << ", " << currentPPos.y 
-        << ", " << currentPPos.z
-        << endl;
-}
-
 

@@ -33,8 +33,8 @@ namespace{//------------------ namespace ---------------------//
  * -----------------------------------------------------------
  */
 void Mesh::init( GLuint _texName ){
-    texName = _texName;
-    isMat4Change = true;
+    this->texName = _texName;
+    this->isMat4Change = true;
 }
 
 
@@ -50,21 +50,21 @@ void Mesh::draw(){
     }
 
     //---------- refresh mat4_model -------------
-    if( isMat4Change == true ){
-        isMat4Change = false;
+    if( this->isMat4Change == true ){
+        this->isMat4Change = false;
         update_mat4_model();
     }
     
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( shaderPtr != nullptr );
-    shaderPtr->send_mat4_model_2_shader( mat4_model );
+    assert( this->shaderPtr != nullptr );
+    this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本mesh实例 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
-    assert( texName != 0 ); 
-    glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
+    assert( this->texName != 0 ); 
+    glBindTexture(GL_TEXTURE_2D, this->texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------
     glBindVertexArray( VAO );
@@ -85,12 +85,12 @@ void Mesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    mat4_model = glm::translate( normal_mat4, translate_val );
+    this->mat4_model = glm::translate( normal_mat4, this->translate_val );
 
     //----- not support rotate yet ------
 
     //----- scale ------
-    mat4_model = glm::scale( mat4_model, scale_val );
+    this->mat4_model = glm::scale( this->mat4_model, this->scale_val );
 
     //----- translate: anchor／锚点 修正 ------
     //...

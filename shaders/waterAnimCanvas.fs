@@ -11,12 +11,18 @@ in vec2 u_resolution;  //-- 每个pix 在 window 上的坐标  [-1.0,1.0]
 
 //-- sampler 系列 是 采样器数据类型。
 //-- 现在，我们创建了 1个 纹理采样器
-uniform sampler2D texture1;
+uniform sampler2D texture1; //- 用不到
+
+uniform float u_time; //-- glfwGetTime(); 未做缩放。
+                      // 在一些 必须 [0.0, 1.0] 的使用场合中，
+                      // 通过 abs(sin(u_time)) 来转换
 
 //---- 用户定制 uniforms -----
-uniform vec2 chunkCFPos; //- 以 chunk 为单位的 cfpox
+uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
 
 //- 对于每个游戏存档，这组值是静态的，只需要传入一次...
+uniform float SCR_WIDTH;
+uniform float SCR_HEIGHT;
 uniform vec2  altiSeed_pposOffSeaLvl;
 uniform vec2  altiSeed_pposOffBig;
 uniform vec2  altiSeed_pposOffMid;
@@ -24,17 +30,23 @@ uniform vec2  altiSeed_pposOffSml;
 
 
 //============ vals ===========//
-vec2 lb; //- [left_bottom] [0,1]
-//vec2 lt; //- [left_top] [0,1] 和 鼠标同坐标系
+vec2 lb;      //- [0.0 ,1.0]-[left_bottom]
+vec2 lbAlign; //- 对齐过的 lb，首先，校准了 y值比例（毕竟window可能不是正方形）
+              //  其次，1个单位 lbAlign，等于 chunk-ppos 尺寸，而不是 canvas尺寸
+
+vec2 mid = vec2(0.4, 0.4); //- 和 lb 同体系，canvas中心坐标
 //-------
 
-float PIXES_PER_CHUNK = 256.0;
+vec3 color;
+
+float PIXES_PER_CHUNK = 256.0; //- tmp
 
 //- 在未来，freq 这组值也会收到 ecosys 影响 --
 float freqSeaLvl = 0.05;
 float freqBig = 0.4;
 float freqMid = 1.6;
 float freqSml = 4.0;
+float freqAnim = 5.0;
 
 float zOffBig = 0.2;
 float zOffMid = 7.5;
@@ -43,7 +55,6 @@ float zOffSml = 17.8;
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
                       
-
 
 //============ funcs ===========//
 //-- qualifer/限定符：
@@ -63,23 +74,33 @@ float simplex_noise3( float _x, float _y, float _z );
 void main()
 {
     prepare();
+    
+    //------------------//
+    //     time
+    //------------------//
+    float tm = u_time * 0.1;
+        //- 理想的 time 值是一个 在 [0.0, n.0] 之间来回运动的值。 
 
     //------------------//
     // pixCFPos: 以 chunk 为晶格的 fpos
-    vec2 pixCFPos = chunkCFPos + lb;
+    vec2 pixCFPos = canvasCFPos + lbAlign;
+
+    pixCFPos *= 240.0;
+    pixCFPos = floor(pixCFPos);
+    pixCFPos =  pixCFPos / 240.0;
     
+
     //------------------//
     //     seaLvl
     //------------------//
     float pixDistance = length( pixCFPos - 0 );//- 暂时假设，(0,0) 为世界中心
     pixDistance /= 10.0; //- 每10个chunk，递增一级
     //-------
-    seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 50.0; // [-100.0, 100.0]
+    seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 45.0; // [-100.0, 100.0]
     seaLvl += pixDistance;
     if( seaLvl < 0.0 ){ //- land
         seaLvl *= 0.15;  // [-15.0, 100.0]
     }
-
 
     //------------------//
     //    alti.val
@@ -89,8 +110,16 @@ void main()
     float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
     float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
 
+    float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim,
+                                        pixCFPos.y * freqAnim,
+                                        tm );
+    pnValAnim = (pnValAnim - 1.0) * 30.0;
 
     float altiVal = floor(pnValBig + pnValMid + pnValSml);
+
+    if( altiVal < 0.0 ){ //- only water anim
+        altiVal += pnValAnim;
+    }
 
     //------- 抹平头尾 -------//
     if( altiVal > 100.0 ){
@@ -100,11 +129,61 @@ void main()
     }
     // now, altiVal: [-100.0, 100.0]
 
+    //------------------//
+    //      lvl
+    //------------------//
+    float waterStep = 18.0; //- 水下梯度，tmp...
+    float landStep  = 14.0; //- 陆地梯度，tmp...
+    float altiLvl;
+    if( altiVal < 0.0 ){ //- under water
+        altiLvl = floor(altiVal / waterStep);
+        if( altiLvl < -6.0 ){
+            altiLvl = -6.0;
+        }
+    }else{ //- land
+        altiLvl = 1.0;
+    }
 
-        //....
+    //------------------//
+    //       color
+    //------------------//
+    if( altiLvl > -1.0 ){ //- land
+        //color = vec3( 0.24, 0.36, 0.44  );
+        //color = vec3( 0.07, 0.59, 0.8  );
+        color = vec3( 0.18, 0.32, 0.38  );
+    }else if( altiLvl == -1.0 ){
+        //color = vec3( 0.24, 0.36, 0.44  );
+        //color = vec3( 0.07, 0.59, 0.8  );
+        color = vec3( 0.18, 0.32, 0.38  );
+    }else if( altiLvl == -2.0 ){
+        color = vec3( 0.18, 0.32, 0.38  );
+        //color = vec3( 0.2, 0.4, 0.6  );
+    }else if( altiLvl == -3.0 ){
+        color = vec3( 0.16, 0.26, 0.34  );
+    }else if( altiLvl == -4.0 ){
+        color = vec3( 0.14, 0.22, 0.30  );
+    }else if( altiLvl == -5.0 ){
+        color = vec3( 0.12, 0.20, 0.26  );
+    }else{ 
+        color = vec3( 0.10, 0.18, 0.22  );
+    }
+
+    //------------------//
+    //   distance: lb -> mid
+    //------------------//
+    float distanceMid = length(lb - mid );
+    distanceMid *= distanceMid;
+
+    float alpha = 1.0 - 10.0*distanceMid;
+    if( alpha < 0.0 ){
+        alpha = 0.0;
+    }
 
 
-    FragColor = vec4( altiVal, 0.0, 0.0, 1.0 ); //- rgba.alpha MUST be 1.0 !!!
+    FragColor = vec4( color, 1.0 );
+    //FragColor = vec4( color, 0.0 );
+    //FragColor = vec4( color, alpha ); //- rgba.alpha MUST be 1.0 !!!
+    //FragColor = vec4( lb.xxy, 1.0 ); //- rgba.alpha MUST be 1.0 !!!
 }
 
 
@@ -121,9 +200,10 @@ void prepare(){
     //--------------------------//
     //-- 左下坐标系 [0,1]
     lb = TexCoord;
-    //-- 左上 坐标系 [0,1]
-    //lt.x = TexCoord.x; //-- [0,1]
-    //lt.y = 1.0 - TexCoord.y; //-- [0,1]
+    //---
+    lbAlign = lb;
+    lbAlign.y *= SCR_HEIGHT/SCR_WIDTH;
+    lbAlign *= SCR_WIDTH/PIXES_PER_CHUNK;
 }
 
 

@@ -28,14 +28,14 @@ public:
     
     //---- funcs ----//
     inline void clear_all(){
-        pposOff.clear_all();
-        compass.clear_all();
+        this->pposOff.clear_all();
+        this->compass.clear_all();
     }
 
     //-- 调用者传入 图元帧左下角的 当前ppos，
     //   计算出 本anchor 所在的 mapent pos
     inline MapCoord calc_mapCoordPos( const IntVec2 &_left_bottom_ppos ){
-        IntVec2 pixPPos = _left_bottom_ppos + pposOff - compass.to_IntVec2();
+        IntVec2 pixPPos = _left_bottom_ppos + this->pposOff - this->compass.to_IntVec2();
         return MapCoord { ppos_2_mpos(pixPPos) };
     } 
 
@@ -48,8 +48,6 @@ public:
                         //-- 当对齐到 mapent坐标系后，rootAnchor 在其 mapEnt 中的位置 (基于左下角)
 
 };
-
-
 
 
 #endif 

@@ -113,6 +113,9 @@ namespace{//-------- namespace: --------------//
         FieldInfo{ IntVec2{ ENTS_PER_FIELD, ENTS_PER_FIELD }, QuadType::Left_Bottom  }
     };
 
+    bool  is_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
+                                        // 这些值是固定的，每次游戏只需传入一次...
+
 
     //===== funcs =====//
     MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey );
@@ -248,22 +251,38 @@ void Chunk::assign_ents_and_pixes_to_field(){
     //------------------------//
     // 委托 GPGPU 计算 pix数据
     //------------------------//
+    esrc::pixGpgpu.bind(); //--- MUST !!! ---
+
     IntVec2 chunkCPos = chunkMPos_2_chunkCPos( this->mcpos.get_mpos() );
+    glUniform2f(esrc::pixGpgpu.get_uniform_location("chunkCFPos"), 
+                static_cast<float>(chunkCPos.x), 
+                static_cast<float>(chunkCPos.y) ); //- 2-float
 
-    esrc::pixGpgpu.bind();
-    glUniform1i( esrc::pixGpgpu.get_uniform_location("chunkCPosX"), chunkCPos.x ); //- int
-    glUniform1i( esrc::pixGpgpu.get_uniform_location("chunkCPosY"), chunkCPos.y ); //- int
-    glUniform1f( esrc::pixGpgpu.get_uniform_location("altiSeed"), esrc::gameSeed.altiSeed ); //- float
+    //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
+    if( is_baseUniforms_transmited == false ){
+        is_baseUniforms_transmited = true;
+        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffSeaLvl"), 
+                    esrc::gameSeed.altiSeed_pposOffSeaLvl.x,
+                    esrc::gameSeed.altiSeed_pposOffSeaLvl.y ); //- 2-float
+                    
+        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffBig"), 
+                    esrc::gameSeed.altiSeed_pposOffBig.x,
+                    esrc::gameSeed.altiSeed_pposOffBig.y ); //- 2-float
+        
+        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffMid"), 
+                    esrc::gameSeed.altiSeed_pposOffMid.x,
+                    esrc::gameSeed.altiSeed_pposOffMid.y ); //- 2-float
 
-    //-- 目前这四个值 随便写写的 --
-    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_leftBottom"),  -1.0 ); //- float
-    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_rightBottom"), -1.0 ); //- float
-    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_leftTop"),     -1.0 ); //- float
-    glUniform1f( esrc::pixGpgpu.get_uniform_location("seaLvl_rightTop"),    5.0 ); //- float
+        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffSml"), 
+                    esrc::gameSeed.altiSeed_pposOffSml.x,
+                    esrc::gameSeed.altiSeed_pposOffSml.y ); //- 2-float
+    }
+                    
 
     esrc::pixGpgpu.let_gpgpuFBO_work();
     const std::vector<FRGB> &gpgpuDatas = esrc::pixGpgpu.get_texFBuf();
-    esrc::pixGpgpu.release();
+    esrc::pixGpgpu.release(); //--- MUST !!! ---
+    
 
     //------------------------//
     //   reset fieldPtrs
@@ -316,7 +335,6 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //--------------------------------//
                         //  计算 本pix  alti
                         //--------------------------------//
-                        //pixData.alti.set( pixData.ppos, pixData.fieldDataPtr->ecoPtr );
                         pixData.alti.set( gpgpuDatas.at(pixData.pixIdx_in_chunk).r );
 
 
@@ -332,98 +350,28 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //    正式给 pix 上色
                         //--------------------------------//
 
-                        if( pixData.alti.isSand ){ //- tmp
+                        color = pixData.fieldDataPtr->ecoPtr->color_low;
+                        color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
+                        color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
+                        color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
 
-                            color.r = color_sand.r;
-                            color.g = color_sand.g;
-                            color.b = color_sand.b;
-
-                        }else if( pixData.alti.lvl == -1 ){ //- underwater
-                            
-                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_water_lvl1,
-                                                    waterStep * 6.0 );
-                            color.a = 100;
-                            
+                        if( pixData.alti.lvl < 0 ){
                             /*
-                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_multi,
-                                                    0.6
-                                                    );
+                            int off = 40 + pixData.alti.val*2;
+                            if( off < 0 ){
+                                color.a = 0;
+                            }else{
+                                color.a = static_cast<u8_t>(off);
+                            }
                             */
-                            
-                        }
-
-                        else if( pixData.alti.lvl == -2 ){ //- underwater
-                            
-                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_water_lvl2,
-                                                    waterStep * 4.6 );
-                            color.a = 100;
-                            /*
-                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_multi,
-                                                    0.7
-                                                    );
-                            */
-                            
-                        }
-
-                        else if( pixData.alti.lvl == -3 ){ //- underwater
-                            
-                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_water_lvl3,
-                                                    waterStep * 3.3 );
-                            color.a = 100;
-                            /*
-                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_multi,
-                                                    0.8
-                                                    );
-                            */
-                            
-                        }
-
-                        else if( pixData.alti.lvl == -4 ){ //- underwater
-                            
-                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_water_lvl4,
-                                                    waterStep * 2 );
-                            color.a = 100;
-                            /*
-                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_multi,
-                                                    0.9
-                                                    );
-                            */
-                           
-                        }
-
-                        else if( pixData.alti.lvl == -5 ){ //- underwater
-                            
-                            color = rgba::linear_blend(   pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_water_lvl5,
-                                                    waterStep );
-                            color.a = 100;
-                            /*
-                            color = rgba::multiply(  pixData.fieldDataPtr->ecoPtr->color_low,
-                                                    color_multi,
-                                                    0.95
-                                                    );
-                            */
-                        }
-                        
-                        else{ //- land
-                        
-                            color = pixData.fieldDataPtr->ecoPtr->color_low;
-                            color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
-                            color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
-                            color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
+                            color.a = 0;
+                        }else{
                             color.a = 255;
-
                         }
                         
-                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b, 255 };
+
+                        
+                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b, color.a };
 
 
                     }

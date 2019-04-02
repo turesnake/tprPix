@@ -39,15 +39,15 @@ namespace{//------------------ namespace ---------------------//
  *     但如果 AnimFrameSet 实例 并不更换，也没必要 每1视觉帧 都执行此函数
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = goMeshPtr->get_animFrameSet_pixNum_per_frame();
+    const IntVec2 &p = this->goMeshPtr->get_animFrameSet_pixNum_per_frame();
 
-    scale_val.x = (float)p.x;
-    scale_val.y = (float)p.y;
-    scale_val.z = 1.0f;
+    this->scale_val.x = (float)p.x;
+    this->scale_val.y = (float)p.y;
+    this->scale_val.z = 1.0f;
 
     //---- 亦或时 才左右翻转 ----//
-    if( goPtr->isFlipOver != goMeshPtr->isFlipOver ){
-        scale_val.x *= -1.0f;
+    if( this->goPtr->isFlipOver != this->goMeshPtr->isFlipOver ){
+        this->scale_val.x *= -1.0f;
     }
 }
 
@@ -60,32 +60,32 @@ void ChildMesh::refresh_scale_auto(){
  */
 void ChildMesh::refresh_translate(){
 
-    const glm::vec2 &goCurrentFPos = goPtr->goPos.get_currentFPos();
+    const glm::vec2 &goCurrentFPos = this->goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = goMeshPtr->get_currentRootAnchorPPosOff();
-    const glm::vec2 &pposOff = goMeshPtr->pposOff;
+    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPPosOff();
+    const glm::vec2 &pposOff = this->goMeshPtr->pposOff;
 
     //--- set translate_val ---//
-    translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
+    this->translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
     //---- 亦或时 才左右翻转 ----//
-    if( goPtr->isFlipOver != goMeshPtr->isFlipOver ){
-        translate_val.x += goMeshPtr->get_animFrameSet_pixNum_per_frame().x;
+    if( this->goPtr->isFlipOver != this->goMeshPtr->isFlipOver ){
+        this->translate_val.x += this->goMeshPtr->get_animFrameSet_pixNum_per_frame().x;
     }
 
-    if( isPic == true ){
-        translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
+    if( this->isPic == true ){
+        this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
                                     //-- 累加 高度alti
-        translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + goMeshPtr->off_z);
+        this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->off_z);
                                     //-- ** 注意！**  z值的计算有不同：
                                     // -1- 取负...
                                     // -2- 没有算入 vRef.y; 因为这个值只代表：
                                     //     图元 和 根锚点的 偏移
                                     //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
     }else{
-        translate_val.y = goCurrentFPos.y - (float)vRef.y;
+        this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
                                     //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
-        translate_val.z = esrc::camera.get_zFar() + ViewingBox::goShadows_zOff;
+        this->translate_val.z = esrc::camera.get_zFar() + ViewingBox::goShadows_zOff;
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }
@@ -107,22 +107,22 @@ void ChildMesh::refresh_translate(){
  */
 void ChildMesh::draw(){
 
-    if( goMeshPtr->isVisible == false ){
+    if( this->goMeshPtr->isVisible == false ){
         return;
     }
 
     //---------- refresh texName -------------
     GLuint texName;
-    (isPic) ? texName=goMeshPtr->get_currentTexName_pic() :
-              texName=goMeshPtr->get_currentTexName_shadow();
+    (this->isPic) ? texName=this->goMeshPtr->get_currentTexName_pic() :
+              texName=this->goMeshPtr->get_currentTexName_shadow();
 
 
     //---------- refresh mat4_model -------------
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( shaderPtr != nullptr );
-    shaderPtr->send_mat4_model_2_shader( mat4_model );
+    assert( this->shaderPtr != nullptr );
+    this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
@@ -149,16 +149,16 @@ void ChildMesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    mat4_model = glm::translate( normal_mat4, translate_val );
+    this->mat4_model = glm::translate( normal_mat4, this->translate_val );
 
     //----- rotate: only Z-axis ------
     //- pix游戏 只支持 z轴旋转
-    mat4_model = glm::rotate( mat4_model, 
-                            glm::radians(rotate_z),
+    this->mat4_model = glm::rotate( this->mat4_model, 
+                            glm::radians(this->rotate_z),
                             axis_z );
 
     //----- scale ------
-    mat4_model = glm::scale( mat4_model, scale_val );
+    this->mat4_model = glm::scale( this->mat4_model, this->scale_val );
 
     //----- translate: anchor／锚点 修正 ------
     //...
