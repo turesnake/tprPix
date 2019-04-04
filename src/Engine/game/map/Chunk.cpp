@@ -356,14 +356,6 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
 
                         if( pixData.alti.lvl < 0 ){
-                            /*
-                            int off = 40 + pixData.alti.val*2;
-                            if( off < 0 ){
-                                color.a = 0;
-                            }else{
-                                color.a = static_cast<u8_t>(off);
-                            }
-                            */
                             color.a = 0;
                         }else{
                             color.a = 255;

@@ -52,6 +52,9 @@ float zOffBig = 0.2;
 float zOffMid = 7.5;
 float zOffSml = 17.8;
 
+float XYScale = 0.9; //- 将 simplex-noise 压扁些
+                     // 这个值可能被丢弃...
+
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
                       
@@ -78,7 +81,7 @@ void main()
     //------------------//
     //     time
     //------------------//
-    float tm = u_time * 0.1;
+    float tm = u_time * 0.18;
         //- 理想的 time 值是一个 在 [0.0, n.0] 之间来回运动的值。 
 
     //------------------//
@@ -106,14 +109,25 @@ void main()
     //    alti.val
     //------------------//
     //--- 使用速度最快的 2D-simplex-noise ---
-    float pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
-    float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
-    float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+    vec2 tmpV2;
+    tmpV2 = (pixCFPos + altiSeed_pposOffBig) * freqBig;
+    tmpV2.x *= XYScale;
+    float pnValBig = simplex_noise2( tmpV2 ) * 100.0 - seaLvl; // [-100.0, 100.0]
 
-    float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim,
-                                        pixCFPos.y * freqAnim,
-                                        tm );
-    pnValAnim = (pnValAnim - 1.0) * 30.0;
+    tmpV2 = (pixCFPos + altiSeed_pposOffMid) * freqMid;
+    tmpV2.x *= XYScale;
+    float pnValMid = simplex_noise2( tmpV2 ) * 50.0  - seaLvl; // [-50.0, 50.0]
+
+    tmpV2 = (pixCFPos + altiSeed_pposOffSml) * freqSml;
+    tmpV2.x *= XYScale;
+    float pnValSml = simplex_noise2( tmpV2 ) * 20.0  - seaLvl; // [-20.0, 20.0]
+
+    tmpV2 =  pixCFPos * freqAnim;
+    tmpV2.x *= XYScale;
+    float pnValAnim = simplex_noise3( tmpV2.x, tmpV2.y, tm );
+    //-----------------
+
+    pnValAnim = (pnValAnim - 1.0) * 10.0 - 10.0; //- 只有负值
 
     float altiVal = floor(pnValBig + pnValMid + pnValSml);
 
@@ -132,11 +146,40 @@ void main()
     //------------------//
     //      lvl
     //------------------//
-    float waterStep = 18.0; //- 水下梯度，tmp...
-    float landStep  = 14.0; //- 陆地梯度，tmp...
     float altiLvl;
     if( altiVal < 0.0 ){ //- under water
-        altiLvl = floor(altiVal / waterStep);
+
+        //------ -1 -------
+        if( altiVal > -10.0 ){
+            altiLvl = -1.0;
+        }
+        //------ -2 -------
+        else if( altiVal > -30.0 ){
+            altiLvl = -2.0;
+        }
+
+        //------ -3 -------
+        else if( altiVal > -50.0 ){
+            altiLvl = -3.0;
+        }
+
+        //------ -4 -------
+        else if( altiVal > -60.0 ){
+            altiLvl = -4.0;
+        }
+
+        //------ -5 -------
+        else if( altiVal > -90.0 ){
+            altiLvl = -5.0;
+        }
+
+        //------ -6 -------
+        else{
+            altiLvl = -6.0;
+        }
+
+
+        //----------------
         if( altiLvl < -6.0 ){
             altiLvl = -6.0;
         }
@@ -160,8 +203,10 @@ void main()
         //color = vec3( 0.2, 0.4, 0.6  );
     }else if( altiLvl == -3.0 ){
         color = vec3( 0.16, 0.26, 0.34  );
+        //color = vec3( 0.50, 0.50, 0.50  );
     }else if( altiLvl == -4.0 ){
         color = vec3( 0.14, 0.22, 0.30  );
+        //color = vec3( 0.70, 0.70, 0.70  );
     }else if( altiLvl == -5.0 ){
         color = vec3( 0.12, 0.20, 0.26  );
     }else{ 
@@ -200,6 +245,7 @@ void prepare(){
     //--------------------------//
     //-- 左下坐标系 [0,1]
     lb = TexCoord;
+    //lb.y *= 0.5;
     //---
     lbAlign = lb;
     lbAlign.y *= SCR_HEIGHT/SCR_WIDTH;

@@ -126,7 +126,7 @@ void MapField::init_nodeMPos(){
  */
 void MapField::init_lColorOff(){
 
-    
+    /*
     float vx = this->FDPos.x * 3.20;
     float vy = this->FDPos.y * 3.20;
 
@@ -134,22 +134,14 @@ void MapField::init_lColorOff(){
     float g = esrc::gameSeed.pn_field.noise( vx, vy, 150.55 );
     float b = esrc::gameSeed.pn_field.noise( vx, vy, 250.85 );
     
-    /*
-    this->lColorOff_r = (int)floor(r*20-10); //- [-5, 5]
-    this->lColorOff_g = (int)floor(g*20-10); 
-    this->lColorOff_b = (int)floor(b*20-10); 
-    */
-    
-    this->lColorOff_r = (int)floor(r*10-5);
+    this->lColorOff_r = (int)floor(r*10-5); //- [-10, 10]
     this->lColorOff_g = (int)floor(g*10-5); 
     this->lColorOff_b = (int)floor(b*10-5); 
-
-    /*
-    this->lColorOff_r = uDistribution_color(randEngine);
-    this->lColorOff_g = uDistribution_color(randEngine);
-    this->lColorOff_b = uDistribution_color(randEngine);
     */
-
+    
+   this->lColorOff_r = 0;
+   this->lColorOff_g = 0;
+   this->lColorOff_b = 0;
 
 }
 
