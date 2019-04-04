@@ -10,7 +10,7 @@
 #include "ColliEntSet.h"
 
 
-#include "debug.h"
+//#include "debug.h"
 
 
 /* ===========================================================
@@ -22,8 +22,8 @@
 void ColliEntSet::create_adds_dels(){
 
     //-- 9个 子容器 --
-    addEntOffss.resize( NineBoxIdxSize );
-    delEntOffss.resize( NineBoxIdxSize );
+    this->addEntOffss.resize( NineBoxIdxSize );
+    this->delEntOffss.resize( NineBoxIdxSize );
 
     //- 填充每一个 子容器 --
     create_adds_dels_by_nineBox( NineBoxIdx::Left_Bottom );
@@ -54,7 +54,7 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
     }
 
     //-- adds/dels 子容器idx --
-    int idx = (int)_idx;
+    int idx = static_cast<int>(_idx);
     NineBox nb = NineBox_Idx_2_XY( _idx );
 
     //-- 每个 collient 需要的 位移向量 --
@@ -62,90 +62,25 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
 
     //-- 生成 位移后的 collient集 --
     std::set<MapCoord> neo {};
-    for( const auto &i : colliEnts ){
+    for( const auto &i : this->colliEnts ){
         neo.insert( i + mcOff ); //- copy
     }
 
     //-- 事先把 子容器 清空 --
-    addEntOffss.at(idx).clear();
-    delEntOffss.at(idx).clear();
+    this->addEntOffss.at(idx).clear();
+    this->delEntOffss.at(idx).clear();
     
     //-- 填充 addEntOffss 子容器 --
     for( const auto &i : neo ){
-        if( colliEnts.find(i) == colliEnts.end() ){
-            addEntOffss.at(idx).insert(i);
+        if( this->colliEnts.find(i) == this->colliEnts.end() ){
+            this->addEntOffss.at(idx).insert(i);
         }
     }
     //-- 填充 delEntOffss 子容器 --
-    for( const auto &i : colliEnts ){
+    for( const auto &i : this->colliEnts ){
         if( neo.find(i) == neo.end() ){
-            delEntOffss.at(idx).insert(i);
+            this->delEntOffss.at(idx).insert(i);
         }
     }
 }
-
-
-/* ===========================================================
- *                   debug
- * -----------------------------------------------------------
- */
-
-void ColliEntSet::debug(){
-
-    /*
-    cout << "centerPPos: " << centerPPos.x 
-        << ", " << centerPPos.y
-        << endl; //- check --
-    cout << "centerCompass: " << centerCompass.x
-        << ", " << centerCompass.y
-        << endl; //- check --
-    cout << "radius = " << radius 
-        << endl; //-- check --
-    */
-    
-
-    /*
-    cout << "colliEnts.size() = "           << colliEnts.size()
-         << "\ncolliEntMidFPoses.size() = " << colliEntMidFPoses.size()
-         << "\naddEntOffss.size() = "       << addEntOffss.size()
-         << "\ndelEntOffss.size() = "       << delEntOffss.size()
-         << endl; //-- check --
-    */
-
-    cout << "midFPos: " << endl;
-    for( auto &i : colliEntMidFPoses ){
-        
-        cout << "    " << i.x
-            << ", " << i.y 
-            << endl;
-    }
-    
-
-
-
-
-    /*
-    for( const auto &v : addEntOffss ){
-
-        cout << "  addEntOffs.size() = " << v.size()
-            << endl;
-    }
-
-    
-    for( int i=0; i<9; i++ ){
-        //cout << " adds.size() = " << addEntOffss.at(i).size() << endl;
-        //cout << " dels.size() = " << delEntOffss.at(i).size() << endl;
-        //cout << endl;
-        size_t a = addEntOffss.at(i).size();
-        size_t d = delEntOffss.at(i).size();
-        assert( a == d );
-    }
-    */
-    
-    
-
-}
-
-
-
 

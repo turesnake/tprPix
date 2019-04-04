@@ -51,57 +51,57 @@ public:
 
     inline void set_rgba( const RGBA &_rgba ){
         //-- reset --
-        rgba = _rgba;
-        radius_10 = 0;
+        this->rgba = _rgba;
+        this->radius_10 = 0;
 
-        isEmpty = true;
-        isCenter = false;
-        isColliEnt = false;
+        this->isEmpty = true;
+        this->isCenter = false;
+        this->isColliEnt = false;
 
         //-- empty --
         if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
-            (rgba.is_near( uselessColor_1, 5)==true) ||
-            (rgba.is_near( uselessColor_2, 5)==true) ||
-            (rgba.is_near( uselessColor_3, 5)==true) ){
+            (this->rgba.is_near( uselessColor_1, 5)==true) ||
+            (this->rgba.is_near( uselessColor_2, 5)==true) ||
+            (this->rgba.is_near( uselessColor_3, 5)==true) ){
             return;
         }
-        isEmpty = false;
+        this->isEmpty = false;
 
         //--- R --- 
         if( is_near_inner(RGBA_ChannelType::R, R_colliEnt) == true ){
-            isColliEnt     = true;
+            this->isColliEnt = true;
         }
 
         //--- B --- 
         if( is_near_inner(RGBA_ChannelType::B, B_center) == true ){
-            isCenter       = true;
-            assert( rgba.g > 0 );
-            radius_10 = (int)rgba.g;
+            this->isCenter       = true;
+            assert( this->rgba.g > 0 );
+            this->radius_10 = static_cast<int>(this->rgba.g);
         }
     }
 
     inline bool is_emply() const {
-        return  isEmpty;
+        return  this->isEmpty;
     }
     inline bool is_center() const {
-        return  isCenter;
+        return  this->isCenter;
     }
     inline bool is_colliEnt() const {
-        return  isColliEnt;
+        return  this->isColliEnt;
     }
 
     inline int get_radius_10() const {
-        return radius_10;
+        return this->radius_10;
     }
 
 private:
     
     inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
         switch( _ct ){
-            case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
-            case RGBA_ChannelType::G:  return (abs(rgba.g-_target) <= off);
-            case RGBA_ChannelType::B:  return (abs(rgba.b-_target) <= off);
-            case RGBA_ChannelType::A:  return (abs(rgba.a-_target) <= off);
+            case RGBA_ChannelType::R:  return (abs(this->rgba.r-_target) <= this->off);
+            case RGBA_ChannelType::G:  return (abs(this->rgba.g-_target) <= this->off);
+            case RGBA_ChannelType::B:  return (abs(this->rgba.b-_target) <= this->off);
+            case RGBA_ChannelType::A:  return (abs(this->rgba.a-_target) <= this->off);
             default:
                 assert(0);
                 return  false; //- never touch -

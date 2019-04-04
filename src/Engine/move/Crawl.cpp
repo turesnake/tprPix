@@ -58,15 +58,15 @@ void Crawl::init(   GameObj *_goPtr,
                     Move *_movePtr, 
                     GameObjPos *_goPosPtr, 
                     Collision *_collisionPtr  ){
-    goPtr = _goPtr; 
-    movePtr  = _movePtr;
-    goPosPtr = _goPosPtr;
-    collisionPtr = _collisionPtr;
+    this->goPtr = _goPtr; 
+    this->movePtr  = _movePtr;
+    this->goPosPtr = _goPosPtr;
+    this->collisionPtr = _collisionPtr;
     //-- 暂时设置为 3档速度， 在go正式运行时，这个值会被改回去 --
     std::pair<int, float> pair = get_speed( SpeedLevel::LV_3 );
-    max = pair.first;
-    speed = pair.second;
-    count = 0;
+    this->max = pair.first;
+    this->speed = pair.second;
+    this->count = 0;
     //---
 }
 
@@ -80,7 +80,7 @@ void Crawl::init(   GameObj *_goPtr,
 void Crawl::RenderUpdate(){
 
     //-- skip the time without "NineBox" input --
-    if( currentNB.is_zero() && newNB.is_zero() ){
+    if( this->currentNB.is_zero() && this->newNB.is_zero() ){
         return;
     }
 
@@ -90,50 +90,50 @@ void Crawl::RenderUpdate(){
     //----------------------------//
     //     Node Frame ／ 节点
     //----------------------------//
-    if( count == 0 ){
+    if( this->count == 0 ){
 
         //-- 在 move状态切换的 两个点 调用 OnMove() ／ OnIdle() --
-        if( currentNB.is_zero() && (newNB.is_zero()==false) ){
-            goPtr->actionSwitch.call_func( ActionSwitchType::Move_Move );
+        if( this->currentNB.is_zero() && (this->newNB.is_zero()==false) ){
+            this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Move );
 
-        }else if( (currentNB.is_zero()==false) && newNB.is_zero() ){
-           goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
+        }else if( (this->currentNB.is_zero()==false) && this->newNB.is_zero() ){
+           this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
         }
 
-        currentNB = newNB;
-        if( newNB.is_zero() ){
+        this->currentNB = this->newNB;
+        if( this->newNB.is_zero() ){
             return; //- end_frame of one_piece_input
         }
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        isObstruct = collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(currentNB) );
+        isObstruct = this->collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(this->currentNB) );
 
         //-------- refresh speed / max -------//
-        if( (currentNB.x!=0) && (currentNB.y!=0) ){ //- 斜向
-            pair = get_speed_next( movePtr->get_speedLv() );
+        if( (this->currentNB.x!=0) && (this->currentNB.y!=0) ){ //- 斜向
+            pair = get_speed_next( this->movePtr->get_speedLv() );
         }else{ //- 横移竖移
-            pair = get_speed( movePtr->get_speedLv() );
+            pair = get_speed( this->movePtr->get_speedLv() );
         }
-        max = pair.first;
+        this->max = pair.first;
         (isObstruct) ?
-            speed=0.0f :        //- 移动被遮挡，仅仅将速度写0.并不取消回合本身
-            speed=pair.second;  //- 移动未被遮挡，获得位移速度
+            this->speed=0.0f :        //- 移动被遮挡，仅仅将速度写0.并不取消回合本身
+            this->speed=pair.second;  //- 移动未被遮挡，获得位移速度
     }
     
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）
     //  再实现真正的移动
     //---------------------------//
-    if( speed!=0.0f ){
-        if( currentNB.x == -1 ){
-            goPosPtr->accum_currentFPos( -speed, 0.0f );    //- left -
-        }else if( currentNB.x == 1 ){
-            goPosPtr->accum_currentFPos( speed, 0.0f );     //- right -
+    if( this->speed!=0.0f ){
+        if( this->currentNB.x == -1 ){
+            this->goPosPtr->accum_currentFPos( -this->speed, 0.0f );    //- left -
+        }else if( this->currentNB.x == 1 ){
+            this->goPosPtr->accum_currentFPos( this->speed, 0.0f );     //- right -
         }
-        if( currentNB.y == 1 ){
-            goPosPtr->accum_currentFPos( 0.0f, speed );     //- up -
-        }else if( currentNB.y == -1 ){
-            goPosPtr->accum_currentFPos( 0.0f, -speed );    //- down -
+        if( this->currentNB.y == 1 ){
+            this->goPosPtr->accum_currentFPos( 0.0f, this->speed );     //- up -
+        }else if( this->currentNB.y == -1 ){
+            this->goPosPtr->accum_currentFPos( 0.0f, -this->speed );    //- down -
         }
     }
     
@@ -141,12 +141,12 @@ void Crawl::RenderUpdate(){
     //  累加计数器
     //  如果确认为回合结束点，务必校正 currentFPos 的值
     //---------------------------//
-    count++;
+    this->count++;
     //----------//
-    if( count == max ){
-        count = 0;
+    if( this->count == this->max ){
+        this->count = 0;
         //-- 将 goPos.currentFPos 对齐与 mapent坐标系（消除小数偏移）
-        goPosPtr->align_currentFPos_by_currentMCPos();
+        this->goPosPtr->align_currentFPos_by_currentMCPos();
     }
 
 }
@@ -158,16 +158,16 @@ void Crawl::RenderUpdate(){
  * -- 
  */
 void Crawl::set_newCrawlDir( const NineBox &_newNB ){
-    newNB = _newNB;
+    this->newNB = _newNB;
 
     //-- 设置 go 方向 --
-    if( newNB.x < 0 ){
-        goPtr->direction = GODirection::Left;
-        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+    if( this->newNB.x < 0 ){
+        this->goPtr->direction = GODirection::Left;
+        this->goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
 
-    }else if(newNB.x > 0){
-        goPtr->direction = GODirection::Right;
-        goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
+    }else if(this->newNB.x > 0){
+        this->goPtr->direction = GODirection::Right;
+        this->goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
 
     }
  
@@ -183,7 +183,7 @@ namespace{//-------------- namespace ------------------//
  */
 std::pair<int, float>& get_speed( SpeedLevel _lv ){
     
-    return speeds.at( speeds.size() - (int)_lv );
+    return speeds.at( speeds.size() - speedLevel_2_int(_lv) );
 }
 
 /* ===========================================================
@@ -197,7 +197,7 @@ std::pair<int, float>& get_speed_next( SpeedLevel _lv ){
     if( _lv == SpeedLevel::LV_1 ){
         return speeds.at(7);
     }else{
-        return speeds.at( speeds.size() - (int)_lv + 1 );
+        return speeds.at( speeds.size() - speedLevel_2_int(_lv) + 1 );
     }
 }
 

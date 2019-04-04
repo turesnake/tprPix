@@ -43,57 +43,54 @@ public:
 
     //---- set ----//
     inline void clear_all(){
-        colliEnts.clear();
-        colliEntMidFPoses.clear();
-        addEntOffss.clear();
-        delEntOffss.clear();
-        centerPPos.clear_all();
-        radius = 0;
+        this->colliEnts.clear();
+        this->colliEntMidFPoses.clear();
+        this->addEntOffss.clear();
+        this->delEntOffss.clear();
+        this->centerPPos.clear_all();
+        this->radius = 0;
     }
 
     inline void add_colliEnt( const IntVec2 &_ppos ){
         MapCoord pos;
         pos.set_by_ppos( _ppos );
-        colliEnts.insert( pos ); //- copy 
-        colliEntMidFPoses.push_back(glm::vec2{ ((float)_ppos.x + HALF_PIXES_PER_MAPENT),
-                                               ((float)_ppos.y + HALF_PIXES_PER_MAPENT) }); //- copy
+        this->colliEnts.insert( pos ); //- copy 
+        this->colliEntMidFPoses.push_back(glm::vec2{(static_cast<float>(_ppos.x) + HALF_PIXES_PER_MAPENT),
+                                                    (static_cast<float>(_ppos.y) + HALF_PIXES_PER_MAPENT) }); //- copy
     }
 
     inline void set_centerPPos( const IntVec2 &_ppos ){
-        centerPPos = _ppos;
-        centerCompass = calc_ppos_compass( centerPPos );
+        this->centerPPos = _ppos;
+        this->centerCompass = calc_ppos_compass( this->centerPPos );
     }
 
     //- 注意，传入的 _r 是 (radius * 10)
     inline void set_radius( int _r_10 ){
-        radius = (float)_r_10 * 0.1f;
+        this->radius = static_cast<float>(_r_10) * 0.1f;
     }
 
     void create_adds_dels();
     //---- get ----//    
     
     inline const IntVec2 &get_centerPPos() const {
-        return  centerPPos;
+        return  this->centerPPos;
     }
 
     inline const MapEntCompass &get_centerCompass() const {
-        return  centerCompass;
+        return  this->centerCompass;
     }
 
     //--- IMPORTANT !!! ---//
     //  直接返回指定 adds/dels 子容器的 访问权（引用）
     inline const std::set<MapCoord> &get_colliEnts() const {
-        return colliEnts;
+        return this->colliEnts;
     }
     inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx _nbIdx ) const {
-        return addEntOffss.at( (int)_nbIdx );
+        return this->addEntOffss.at( static_cast<int>(_nbIdx) );
     }
     inline const std::set<MapCoord> &get_delEntOffs( NineBoxIdx _nbIdx ) const {
-        return delEntOffss.at( (int)_nbIdx );
+        return this->delEntOffss.at( static_cast<int>(_nbIdx) );
     }
-
-    void debug();
-
 
 private:
     void create_adds_dels_by_nineBox( NineBoxIdx _idx );

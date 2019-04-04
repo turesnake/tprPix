@@ -76,14 +76,11 @@ public:
         frameNum(_frameNum),
         totalFrameNum(_totalFrameNum)
         {
-            assert( _timeSteps.size() == totalFrameNum );
-            timeSteps.insert( timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
+            assert( _timeSteps.size() == this->totalFrameNum );
+            this->timeSteps.insert( this->timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
         }
 
-
     void init();
-
-    //void debug() const; //- 向终端输出 本 AnimFrameSet 的信息，用来 debug
 
     //======== vals ========//
     //-- 本动画动作 的name。 起到 id 的作用。
@@ -117,7 +114,6 @@ public:
 private:
     void handle_pjt();
     void handle_shadow();
-
 };
 
 

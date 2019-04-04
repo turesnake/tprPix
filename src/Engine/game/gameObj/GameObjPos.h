@@ -41,10 +41,10 @@ class GameObjPos{
 public:
 
     inline void init( GameObj *_goPtr ){
-        goPtr = _goPtr;
+        this->goPtr = _goPtr;
         //---
-        currentFPos = glm::vec2{ 0.0f, 0.0f };
-        currentMCPos.clear_all();
+        this->currentFPos = glm::vec2{ 0.0f, 0.0f };
+        this->currentMCPos.clear_all();
     }
     
     //---- set ----//
@@ -54,51 +54,52 @@ public:
     //-- 直接改写 currentFPos 是很罕见的（也是不推荐的）
     //   为了确保 go 与 mapent坐标 的对齐。不要随意使用本函数 ！！！
     inline void set_by_currentFPos( const glm::vec2 &_fpos ){
-        currentFPos = _fpos;
-        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
+        this->currentFPos = _fpos;
+        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
 
     //-- 对 currentFPos 进行 累加累减 --
     inline void accum_currentFPos( const glm::vec2 &_fpos ){
-        currentFPos += _fpos;
-        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
+        this->currentFPos += _fpos;
+        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
     inline void accum_currentFPos( float _x, float _y ){
-        currentFPos.x += _x;
-        currentFPos.y += _y;
-        currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
+        this->currentFPos.x += _x;
+        this->currentFPos.y += _y;
+        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
 
     void align_currentFPos_by_currentMCPos();
 
     inline void set_alti( float _alti ){
-        alti = _alti;
+        this->alti = _alti;
     }
 
     //---- get ----//
     inline const glm::vec2 &get_currentFPos() const {
-        return currentFPos;
+        return this->currentFPos;
     }
 
     //-- 注意，这个函数返回的是 currentFPos 的整形值（将丢失小数）
     //  只可用于：明确知道 当前 rootAnchor所在 collient 已对齐于 mapent 时。
     //  比如在 crawl 节点帧
     inline const IntVec2 get_currentPPos() const {
-        return IntVec2{ (int)currentFPos.x, (int)currentFPos.y };
+        return IntVec2{ static_cast<int>(this->currentFPos.x), 
+                        static_cast<int>(this->currentFPos.y) };
     }
 
     inline const MapCoord &get_currentMCPos() const {
-        return currentMCPos;
+        return this->currentMCPos;
     }
     inline const IntVec2 &get_currentMPos() const {
-        return currentMCPos.get_mpos();
+        return this->currentMCPos.get_mpos();
     }
 
     //- 获得 rootAnchor 所在的 collient 的 midFPos 
     glm::vec2 calc_rootAnchor_midFPos();
 
     inline float get_alti() const {
-        return alti;
+        return this->alti;
     }
 
 
@@ -118,7 +119,6 @@ private:
                                 //- 此值的用途很多样，有待开发...
                                 //  目前版本中，主要用于 crawl 节点帧 对齐。
                                 //  用来记录 新回合的 最终 位移绝对地址
-
     
 };
 

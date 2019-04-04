@@ -36,52 +36,54 @@ public:
     inline void init(   GameObj *_goPtr, 
                         GameObjPos *_goPosPtr,
                         Collision *_collisionPtr ){ //-- MUST --
-        goPtr    = _goPtr;
-        goPosPtr = _goPosPtr;
+        this->goPtr    = _goPtr;
+        this->goPosPtr = _goPosPtr;
 
-        crawl.init( goPtr, 
-                    (Move*)this, 
-                    goPosPtr, 
-                    _collisionPtr ); 
+        this->crawl.init( this->goPtr, 
+                        (Move*)this, 
+                        this->goPosPtr, 
+                        _collisionPtr ); 
 
-        fly.init(   (Move*)this, 
-                    goPosPtr );
+        this->fly.init( (Move*)this, 
+                        goPosPtr );
     }
 
     inline void RenderUpdate(){
-        (is_crawl_==true) ? crawl.RenderUpdate() : fly.RenderUpdate();
+        (this->is_crawl_==true) ? 
+                this->crawl.RenderUpdate() : 
+                this->fly.RenderUpdate();
     }
 
     //---- set ----//
     inline void set_MoveType( bool _is_crawl ){
-        is_crawl_ = _is_crawl;
+        this->is_crawl_ = _is_crawl;
     }
 
     inline bool is_crawl() const {
-        return is_crawl_;
+        return this->is_crawl_;
     }
 
     inline void set_speedLv( SpeedLevel _lv ){
-        speedLv = _lv;
+        this->speedLv = _lv;
     }
 
     inline SpeedLevel get_speedLv(){
-        return speedLv;
+        return this->speedLv;
     }
 
     inline void set_newCrawlDir( const NineBox &_newNB ){
-        assert( is_crawl_ == true );
+        assert( this->is_crawl_ == true );
         crawl.set_newCrawlDir( _newNB );
     }
 
     inline void set_newflyIns( const FlyIns &_newFlyIns ){
-        assert( is_crawl_ == false );
-        fly.set_newflyIns( _newFlyIns );
+        assert( this->is_crawl_ == false );
+        this->fly.set_newflyIns( _newFlyIns );
     }
 
     inline void set_maskCountLimit( int _limit ){
-        assert( is_crawl_ == false );
-        fly.set_maskCountLimit( _limit );
+        assert( this->is_crawl_ == false );
+        this->fly.set_maskCountLimit( _limit );
     }
 
     //---- get ----//

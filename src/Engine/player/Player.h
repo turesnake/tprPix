@@ -49,11 +49,9 @@ public:
 
     void handle_inputINS( const InputINS &_inputINS );
 
-
     //======== vals ========//
-    goid_t   goid   {NULLID}; 
-    GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针
-                        
+    goid_t    goid   {NULLID}; 
+    GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针            
 private:
 };
 

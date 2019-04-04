@@ -51,9 +51,9 @@ private:
 
     NineBox  newNB     {0,0};  //- 本次渲染帧，新传入的 ci值（每一帧都被外部代码更新）
     NineBox  currentNB {0,0};  //- 当前正在处理的 ci值。（只在节点帧被改写）
-    int   count  {};  //- 计数器，达到 max 后清零
-    int   max    {};  //- count最大值， speeds[n].first
-    float speed  {};  //- 当前帧的 位移速度（单轴）
+    int      count  {};  //- 计数器，达到 max 后清零
+    int      max    {};  //- count最大值， speeds[n].first
+    float    speed  {};  //- 当前帧的 位移速度（单轴）
 };
 
 #endif

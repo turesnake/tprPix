@@ -52,12 +52,27 @@ float zOffBig = 0.2;
 float zOffMid = 7.5;
 float zOffSml = 17.8;
 
-float XYScale = 0.9; //- 将 simplex-noise 压扁些
-                     // 这个值可能被丢弃...
-
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
-                      
+
+
+//-- 水域 5阶颜色 --
+//--- 鲜艳版 ---
+/*
+vec3 color_sea_2 = vec3( 0.21, 0.41, 0.48 );
+vec3 color_sea_3 = vec3( 0.19, 0.32, 0.43 );
+vec3 color_sea_4 = vec3( 0.16, 0.27, 0.37 );
+vec3 color_sea_5 = vec3( 0.13, 0.24, 0.32 );
+vec3 color_sea_6 = vec3( 0.11, 0.21, 0.27 );
+*/
+
+//--- old ----
+vec3 color_sea_2 = vec3( 0.18, 0.32, 0.38 );
+vec3 color_sea_3 = vec3( 0.16, 0.26, 0.34 );
+vec3 color_sea_4 = vec3( 0.14, 0.22, 0.30 );
+vec3 color_sea_5 = vec3( 0.12, 0.20, 0.26 );
+vec3 color_sea_6 = vec3( 0.10, 0.18, 0.22 );
+
 
 //============ funcs ===========//
 //-- qualifer/限定符：
@@ -109,22 +124,13 @@ void main()
     //    alti.val
     //------------------//
     //--- 使用速度最快的 2D-simplex-noise ---
-    vec2 tmpV2;
-    tmpV2 = (pixCFPos + altiSeed_pposOffBig) * freqBig;
-    tmpV2.x *= XYScale;
-    float pnValBig = simplex_noise2( tmpV2 ) * 100.0 - seaLvl; // [-100.0, 100.0]
+    float pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
+    float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
+    float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
 
-    tmpV2 = (pixCFPos + altiSeed_pposOffMid) * freqMid;
-    tmpV2.x *= XYScale;
-    float pnValMid = simplex_noise2( tmpV2 ) * 50.0  - seaLvl; // [-50.0, 50.0]
-
-    tmpV2 = (pixCFPos + altiSeed_pposOffSml) * freqSml;
-    tmpV2.x *= XYScale;
-    float pnValSml = simplex_noise2( tmpV2 ) * 20.0  - seaLvl; // [-20.0, 20.0]
-
-    tmpV2 =  pixCFPos * freqAnim;
-    tmpV2.x *= XYScale;
-    float pnValAnim = simplex_noise3( tmpV2.x, tmpV2.y, tm );
+    float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim, 
+                                        pixCFPos.y * freqAnim, 
+                                        tm );
     //-----------------
 
     pnValAnim = (pnValAnim - 1.0) * 10.0 - 10.0; //- 只有负值
@@ -178,7 +184,6 @@ void main()
             altiLvl = -6.0;
         }
 
-
         //----------------
         if( altiLvl < -6.0 ){
             altiLvl = -6.0;
@@ -190,27 +195,16 @@ void main()
     //------------------//
     //       color
     //------------------//
-    if( altiLvl > -1.0 ){ //- land
-        //color = vec3( 0.24, 0.36, 0.44  );
-        //color = vec3( 0.07, 0.59, 0.8  );
-        color = vec3( 0.18, 0.32, 0.38  );
-    }else if( altiLvl == -1.0 ){
-        //color = vec3( 0.24, 0.36, 0.44  );
-        //color = vec3( 0.07, 0.59, 0.8  );
-        color = vec3( 0.18, 0.32, 0.38  );
-    }else if( altiLvl == -2.0 ){
-        color = vec3( 0.18, 0.32, 0.38  );
-        //color = vec3( 0.2, 0.4, 0.6  );
+    if( altiLvl >= -2.0 ){
+        color = color_sea_2;
     }else if( altiLvl == -3.0 ){
-        color = vec3( 0.16, 0.26, 0.34  );
-        //color = vec3( 0.50, 0.50, 0.50  );
+        color = color_sea_3;
     }else if( altiLvl == -4.0 ){
-        color = vec3( 0.14, 0.22, 0.30  );
-        //color = vec3( 0.70, 0.70, 0.70  );
+        color = color_sea_4;
     }else if( altiLvl == -5.0 ){
-        color = vec3( 0.12, 0.20, 0.26  );
+        color = color_sea_5;
     }else{ 
-        color = vec3( 0.10, 0.18, 0.22  );
+        color = color_sea_6;
     }
 
     //------------------//
@@ -245,7 +239,6 @@ void prepare(){
     //--------------------------//
     //-- 左下坐标系 [0,1]
     lb = TexCoord;
-    //lb.y *= 0.5;
     //---
     lbAlign = lb;
     lbAlign.y *= SCR_HEIGHT/SCR_WIDTH;

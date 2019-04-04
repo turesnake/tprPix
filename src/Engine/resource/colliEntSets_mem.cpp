@@ -103,7 +103,7 @@ void debug_colliEntSets(){
         cout << "-------- " << p->first 
              << " -------->"
              << endl;
-        p->second.debug();
+        //p->second.debug();
         cout << endl;
     }
     

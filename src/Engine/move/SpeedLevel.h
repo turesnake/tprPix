@@ -27,5 +27,11 @@ enum class SpeedLevel : u8_t {
 };
 
 
+
+inline int speedLevel_2_int( const SpeedLevel &_lvl ){
+    return static_cast<int>(_lvl);
+}
+
+
 #endif 
 

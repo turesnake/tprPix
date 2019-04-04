@@ -27,7 +27,7 @@
  * -- 
  */
 void Collision::init( GameObj *_goPtr ){
-    goPtr = _goPtr;
+    this->goPtr = _goPtr;
     //...
 }
 
@@ -56,11 +56,11 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     AltiRange currentAltiRange {};  //- each ceh abs AltiRange.
     MemMapEnt *mapEntPtr;           //- 目标 mapent
     GameObj   *beGoPtr;         //- 目标mapent 中存储的 major_go (被动go)
-    GameObj   *doGoPtr = goPtr; //- 碰撞检测 主动发起方
+    GameObj   *doGoPtr = this->goPtr; //- 碰撞检测 主动发起方
 
     // 当前处于 crawl 节点帧，
     // rootAnchor 所在的 collient 一定对齐于 mapent
-    IntVec2  currentPPos = goPtr->goPos.get_currentPPos();  //-- 直指 current rootAnchor 检测用
+    IntVec2  currentPPos = this->goPtr->goPos.get_currentPPos();  //-- 直指 current rootAnchor 检测用
 
     bool isObstruct {false}; //- 是否检测到 “无法穿过” 的碰撞。
                              //- 用于 跳出多层循环 

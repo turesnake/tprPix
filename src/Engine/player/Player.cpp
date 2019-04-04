@@ -40,7 +40,7 @@ namespace{//------------
 void Player::d2m( diskPlayer *_dp ){
 
     /*
-    goid = _dp->go_id;
+    this->goid = _dp->go_id;
     goptr->targetPos.x = _dp->posx;
     goptr->targetPos.y = _dp->posy;
     */
@@ -83,14 +83,14 @@ void Player::init(){
 void Player::bind_goPtr(){
 
     //-- 解绑旧go --//
-    if( goPtr!=nullptr ){
-        goPtr->isControlByPlayer = false;
+    if( this->goPtr!=nullptr ){
+        this->goPtr->isControlByPlayer = false;
     }
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
-    goPtr = esrc::get_memGameObjs( goid );
-    goPtr->isControlByPlayer = true;
+    this->goPtr = esrc::get_memGameObjs( this->goid );
+    this->goPtr->isControlByPlayer = true;
 }
 
 
@@ -109,7 +109,7 @@ void Player::handle_inputINS( const InputINS &_inputINS ){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetPos( goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
+    esrc::camera.set_targetPos( this->goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
 
     //---------------------------//
     //  
@@ -118,9 +118,9 @@ void Player::handle_inputINS( const InputINS &_inputINS ){
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
-    //goPtr->inputINS = _inputINS; //- copy 
+    //this->goPtr->inputINS = _inputINS; //- copy 
 
     
-    goPtr->move.set_newCrawlDir( NineBox{ (int)_inputINS.crossX, (int)_inputINS.crossY } );
+    this->goPtr->move.set_newCrawlDir( NineBox{ (int)_inputINS.crossX, (int)_inputINS.crossY } );
 }
 

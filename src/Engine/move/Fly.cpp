@@ -71,7 +71,8 @@ void Fly::RenderUpdate(){
 void Fly::calc_dir(){
 
     translate = glm::normalize( glm::vec2{ cos(currentFlyIns.rad), sin(currentFlyIns.rad) } );
-    float speed = (float)(int)movePtr->get_speedLv();
+    int intLvl = speedLevel_2_int(movePtr->get_speedLv());
+    float speed = static_cast<float>(intLvl);
     translate *= speed; //-- 乘以 位移距离
 }
 

@@ -78,51 +78,51 @@ public:
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
         //-----
-        picMesh.init(    goPtr, (GameObjMesh*)this );
-        shadowMesh.init( goPtr, (GameObjMesh*)this );
+        this->picMesh.init(    goPtr, (GameObjMesh*)this );
+        this->shadowMesh.init( goPtr, (GameObjMesh*)this );
     }
 
     //------ animFrameSet ------
     void bind_animFrameSet( const std::string &_name );
 
     inline const std::string &get_animFrameSetName() const {
-        return animFrameSetName;
+        return this->animFrameSetName;
     }
 
     inline int get_totalFrames() const {
-        return animFrameSetPtr->totalFrameNum;
+        return this->animFrameSetPtr->totalFrameNum;
     }
 
     //--- IMPORTANT !!! ---
     inline int get_currentAnimFrameIdx() const {
-        return animFrameIdxHandle.currentIdx;
+        return this->animFrameIdxHandle.currentIdx;
     }
 
     inline const AnchorPos &get_rootAnchorPos() const {
-        return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
+        return this->animFrameSetPtr->framePoses.at( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
 
     inline const FramePos &get_currentFramePos() const {
-        return animFrameSetPtr->framePoses.at( animFrameIdxHandle.currentIdx );
+        return this->animFrameSetPtr->framePoses.at( this->animFrameIdxHandle.currentIdx );
     }
 
     inline GLuint get_currentTexName_pic() const {
-        return animFrameSetPtr->texNames_pic.at(animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->texNames_pic.at(this->animFrameIdxHandle.currentIdx);
     }
     inline GLuint get_currentTexName_shadow() const {
-        return animFrameSetPtr->texNames_shadow.at(animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->texNames_shadow.at(this->animFrameIdxHandle.currentIdx);
     }
 
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return animFrameSetPtr->framePoses.at(animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
+        return this->animFrameSetPtr->framePoses.at(this->animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
     }
 
     inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
-        return animFrameSetPtr->pixNum_per_frame;
+        return this->animFrameSetPtr->pixNum_per_frame;
     }
 
     inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
-        return animFrameSetPtr->timeSteps.at(_currentIdx);
+        return this->animFrameSetPtr->timeSteps.at(_currentIdx);
     }
 
 

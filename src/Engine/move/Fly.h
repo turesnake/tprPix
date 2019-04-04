@@ -39,7 +39,7 @@ public:
     Fly() = default;
 
     inline void init( Move *_movePtr, GameObjPos *_goPosPtr ){
-        movePtr  = _movePtr;
+        this->movePtr  = _movePtr;
         goPosPtr = _goPosPtr;
     }
 

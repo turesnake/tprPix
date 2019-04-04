@@ -33,12 +33,12 @@ namespace{//-------- namespace -----------//
  * -- 此函数不需要什么性能，反正不会经常设置 go的 mcpos
  */
 void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
-    currentMCPos = _mcpos;
+    this->currentMCPos = _mcpos;
     //---
-    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
-    IntVec2 p = currentMCPos.get_ppos() + compassRef.to_IntVec2();
-    currentFPos.x = (float)p.x;
-    currentFPos.y = (float)p.y;
+    const MapEntCompass &compassRef = this->goPtr->get_rootAnchorPos().compass;
+    IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
+    this->currentFPos.x = static_cast<float>(p.x);
+    this->currentFPos.y = static_cast<float>(p.y);
 }
 
 
@@ -49,10 +49,10 @@ void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
  */
 void GameObjPos::align_currentFPos_by_currentMCPos(){
 
-    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
-    IntVec2 p = currentMCPos.get_ppos() + compassRef.to_IntVec2();
-    currentFPos.x = (float)p.x;
-    currentFPos.y = (float)p.y;
+    const MapEntCompass &compassRef = this->goPtr->get_rootAnchorPos().compass;
+    IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
+    this->currentFPos.x = static_cast<float>(p.x);
+    this->currentFPos.y = static_cast<float>(p.y);
 }
 
 
@@ -63,8 +63,8 @@ void GameObjPos::align_currentFPos_by_currentMCPos(){
  */
 glm::vec2 GameObjPos::calc_rootAnchor_midFPos(){
 
-    const MapEntCompass &compassRef = goPtr->get_rootAnchorPos().compass;
-    return ( currentFPos - compassRef.to_fpos() + halfMapEnt );
+    const MapEntCompass &compassRef = this->goPtr->get_rootAnchorPos().compass;
+    return ( this->currentFPos - compassRef.to_fpos() + halfMapEnt );
 }
 
 

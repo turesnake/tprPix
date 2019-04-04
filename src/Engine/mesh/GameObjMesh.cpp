@@ -19,8 +19,8 @@
  * -----------------------------------------------------------
  */
 void GameObjMesh::bind_animFrameSet( const std::string &_name ){
-    animFrameSetName = _name;
-    animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
-    animFrameIdxHandle.init( (GameObjMesh*)this );
+    this->animFrameSetName = _name;
+    this->animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
+    this->animFrameIdxHandle.init( (GameObjMesh*)this );
 }
 

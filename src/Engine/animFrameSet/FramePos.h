@@ -40,30 +40,30 @@ public:
     //---- set ----//
     // set 阶段 无需考虑性能
     inline void clear_all(){
-        rootAnchorPos.clear_all();
-        rootColliEntHeadIdx = 0;
-        is_rootAnchorPos_set       = false;
-        is_rootColliEntHeadIdx_set = false;
-        colliEntHeads.clear();
+        this->rootAnchorPos.clear_all();
+        this->rootColliEntHeadIdx = 0;
+        this->is_rootAnchorPos_set       = false;
+        this->is_rootColliEntHeadIdx_set = false;
+        this->colliEntHeads.clear();
     }
 
     //-- 统一设置 --
     inline void set_rootAnchorPos( const IntVec2 &_rootAnchor, const IntVec2 &_rootCEH ){
-        rootAnchorPos.pposOff = _rootAnchor;
-        rootAnchorPos.compass = calc_ppos_compass( _rootAnchor - _rootCEH );
-        is_rootAnchorPos_set  = true;
+        this->rootAnchorPos.pposOff = _rootAnchor;
+        this->rootAnchorPos.compass = calc_ppos_compass( _rootAnchor - _rootCEH );
+        this->is_rootAnchorPos_set  = true;
     }
 
     //-- regular ceh --
     inline void pushBack_new_colliEntHead( const ColliEntHead &_ceh ){
-        colliEntHeads.push_back( _ceh ); //- copy
+        this->colliEntHeads.push_back( _ceh ); //- copy
     }
 
     //-- root ceh --
     inline void pushBack_the_rootColliEntHead( const ColliEntHead &_ceh ){
-        rootColliEntHeadIdx = colliEntHeads.size();
-        colliEntHeads.push_back( _ceh ); //- copy
-        is_rootColliEntHeadIdx_set = true;
+        this->rootColliEntHeadIdx = this->colliEntHeads.size();
+        this->colliEntHeads.push_back( _ceh ); //- copy
+        this->is_rootColliEntHeadIdx_set = true;
     }
 
     //-- ceh.pposOff_fromRootAnchor 在 pjt_rgba解析器中，只计算到一半
@@ -76,12 +76,12 @@ public:
 
     //---- get ----//
     inline const AnchorPos &get_rootAnchorPos() const {
-        return rootAnchorPos;
+        return this->rootAnchorPos;
     }
 
     //-- IMPORTANT !!! --//
     inline const std::vector<ColliEntHead> &get_colliEntHeads() const {
-        return colliEntHeads;
+        return this->colliEntHeads;
     }
     
 

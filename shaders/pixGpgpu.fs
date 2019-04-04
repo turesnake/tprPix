@@ -39,9 +39,6 @@ float zOffBig = 0.2;
 float zOffMid = 7.5;
 float zOffSml = 17.8;
 
-float XYScale = 0.9; //- 将 simplex-noise 压扁些   
-                     // 这个值可能被丢弃...
-
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
                       
 
@@ -86,18 +83,9 @@ void main()
     //    alti.val
     //------------------//
     //--- 使用速度最快的 2D-simplex-noise ---
-    vec2 tmpV2;
-    tmpV2 = (pixCFPos + altiSeed_pposOffBig) * freqBig;
-    tmpV2.x *= XYScale;
-    float pnValBig = simplex_noise2( tmpV2 ) * 100.0 - seaLvl; // [-100.0, 100.0]
-
-    tmpV2 = (pixCFPos + altiSeed_pposOffMid) * freqMid;
-    tmpV2.x *= XYScale;
-    float pnValMid = simplex_noise2( tmpV2 ) * 50.0  - seaLvl; // [-50.0, 50.0]
-
-    tmpV2 = (pixCFPos + altiSeed_pposOffSml) * freqSml;
-    tmpV2.x *= XYScale;
-    float pnValSml = simplex_noise2( tmpV2 ) * 20.0  - seaLvl; // [-20.0, 20.0]
+    float pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
+    float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
+    float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
     //---------
 
     float altiVal = floor(pnValBig + pnValMid + pnValSml);

@@ -40,24 +40,26 @@ void ColliEntSetLoader::init(){
 
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector< std::vector<RGBA> > frame_data_ary {}; 
-    pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_colliEntSet, lpath ),
+    this->pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_colliEntSet, this->lpath ),
                                             this->frameNum,
                                             this->totalFrameNum,
                                             frame_data_ary );
 
-    assert( (pixNum_per_frame.x==5*PIXES_PER_MAPENT) && (pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
+    assert( (this->pixNum_per_frame.x==5*PIXES_PER_MAPENT) && 
+            (this->pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
         //cout << "frame_data_ary.size() = " << frame_data_ary.size();
         
     //----------------------------//
     //   parse each frame data
     //----------------------------//
-    int pixNum = pixNum_per_frame.x * pixNum_per_frame.y; //- 一帧有几个像素点
+    int pixNum = this->pixNum_per_frame.x * 
+                 this->pixNum_per_frame.y; //- 一帧有几个像素点
     ColliEntSet_RGBAHandle  ch {5};
-    this->collientSets.resize( totalFrameNum );
+    this->collientSets.resize( this->totalFrameNum );
 
     IntVec2 pixPPos; //- tmp. pos for each rgba Pix
 
-    for( int f=0; f<totalFrameNum; f++ ){ //- each frame
+    for( int f=0; f<this->totalFrameNum; f++ ){ //- each frame
         for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
             ch.set_rgba( frame_data_ary.at(f).at(p) );
@@ -65,8 +67,8 @@ void ColliEntSetLoader::init(){
                 continue; //- next frame.pix
             }
 
-            pixPPos.set( p%pixNum_per_frame.x,
-                        p/pixNum_per_frame.x );
+            pixPPos.set( p%this->pixNum_per_frame.x,
+                         p/this->pixNum_per_frame.x );
 
             if( ch.is_center() == true ){
                 this->collientSets.at(f).set_centerPPos( pixPPos );
