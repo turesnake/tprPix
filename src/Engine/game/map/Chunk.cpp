@@ -4,10 +4,6 @@
  *                                        CREATE -- 2018.12.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    map chunk 一个地图区域。 左下坐标系
- *    ----------
- *    
- * ----------------------------
  */
 #include "Chunk.h"
 
@@ -32,36 +28,33 @@
 
 #include "debug.h"
 
+//-------------------- Script --------------------//
+#include "Script/gameObjs/OakTree.h" 
+
 
 namespace{//-------- namespace: --------------//
 
-    std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    inline std::uniform_int_distribution<int> uDistribution_regular(0,1000); // [0,1000]
-    bool  is_rand_init {false}; //- tmp
+    std::uniform_int_distribution<int> uDistribution_regular(0,1000); // [0,1000]
     
     //--- 定值: chunk-mesh scale --
-    glm::vec3  mesh_scaleVal {  (float)(ENTS_PER_CHUNK * PIXES_PER_MAPENT),
-                                (float)(ENTS_PER_CHUNK * PIXES_PER_MAPENT),
+    glm::vec3  mesh_scaleVal {  static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
+                                static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
                                 1.0f };
 
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys
 
-
     //--- 临时 沙滩色，水色 ---
+    /*
     RGBA color_sand  {210, 195, 142, 255};
     RGBA color_water { 97, 125, 142, 255 };
-
     RGBA color_deepWater { 32, 60, 77, 255 };
-
     RGBA color_water_lvl1 { 32, 80, 77, 255 }; //- 水下 -1 层叠加色
     RGBA color_water_lvl2 { 32, 75, 77, 255 };
     RGBA color_water_lvl3 { 32, 70, 77, 255 };
     RGBA color_water_lvl4 { 32, 65, 77, 255 };
     RGBA color_water_lvl5 { 32, 60, 77, 255 };
-
     RGBA color_multi { 90, 110, 105, 255 }; //- 测试 正片叠底 用
-
-
+    */
 
     class FieldData{
     public:
@@ -87,14 +80,13 @@ namespace{//-------- namespace: --------------//
         }
         //====== vals ======//
         size_t     pixIdx_in_chunk    {};
+        size_t     pixIdx_in_chunkTex {}; //- chunk-texture 会多出来几排pix
         size_t     pixIdx_in_field    {};
         IntVec2    ppos      {};
         RGBA      *texPixPtr {nullptr};
         FieldData *fieldDataPtr {nullptr}; 
         Altitude   alti {};
     };
-
-
 
     std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
                                     // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
@@ -116,11 +108,14 @@ namespace{//-------- namespace: --------------//
     bool  is_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
                                         // 这些值是固定的，每次游戏只需传入一次...
 
+    //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
+    std::vector<float> zOffs{
+        0.1, 0.2, 0.3, 0.4
+    };
+
 
     //===== funcs =====//
     MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey );
-
-    
 
 
 }//------------- namespace: end --------------//
@@ -132,12 +127,6 @@ namespace{//-------- namespace: --------------//
  */
 void Chunk::init(){
     
-    if( is_rand_init == false ){
-        is_rand_init = true;
-        randEngine.seed( get_new_seed() );
-    }
-    
-
     //--- mesh.scale ---
     mesh.set_scale(mesh_scaleVal);
 
@@ -146,6 +135,16 @@ void Chunk::init(){
 
     //--- 填充 mapTex buf
     this->mapTex.resize_texBuf();
+
+
+    // 根据 本chunk 在 2*2 chunk 中的位置
+    // 来分配 zoff 值。 
+    //-- 本 chunk 在 世界坐标中的 奇偶性 --
+    // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
+    IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
+    IntVec2 oddEven = floorMod( v, 2 );
+    this->zOff = zOffs.at( oddEven.y * 2 + oddEven.x );
+        
 }
 
 
@@ -157,7 +156,8 @@ void Chunk::refresh_translate_auto(){
     const IntVec2 &ppos = mcpos.get_ppos();
     mesh.set_translate(glm::vec3{   (float)ppos.x,
                                     (float)ppos.y,
-                                    esrc::camera.get_zFar() + ViewingBox::chunks_zOff //-- MUST --
+                                    esrc::camera.get_zFar() + ViewingBox::chunks_zOff +
+                                        this->zOff  //-- MUST --
                                     });
 }
 
@@ -227,26 +227,16 @@ void Chunk::assign_ents_and_pixes_to_field(){
     RGBA      *texBufHeadPtr; //- mapTex
     RGBA       color;
 
-    u8_t r;
-    u8_t g;
-    u8_t b;
-
     IntVec2    tmpEntMPos;
     IntVec2    pposOff;   //- 通用偏移向量
-
-    float   off;
-    float   freq = 1.7;
+    IntVec2    mposOff;
 
     PixData   pixData;//- each pix
 
-    int    count;
-
-    int    randVal;
-
-    float   waterStep = 0.06; //- 用于 water 颜色混合
+    size_t    entIdx_in_chunk;
+    int       count;
 
     texBufHeadPtr = this->mapTex.get_texBufHeadPtr();
-
 
     //------------------------//
     // 委托 GPGPU 计算 pix数据
@@ -278,12 +268,10 @@ void Chunk::assign_ents_and_pixes_to_field(){
                     esrc::gameSeed.altiSeed_pposOffSml.y ); //- 2-float
     }
                     
-
     esrc::pixGpgpu.let_gpgpuFBO_work();
     const std::vector<FRGB> &gpgpuDatas = esrc::pixGpgpu.get_texFBuf();
     esrc::pixGpgpu.release(); //--- MUST !!! ---
     
-
     //------------------------//
     //   reset fieldPtrs
     //------------------------//
@@ -300,6 +288,9 @@ void Chunk::assign_ents_and_pixes_to_field(){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
                 tmpEntMPos = tmpFieldPtr->get_mpos() + IntVec2{ ew, eh };
+                mposOff = tmpEntMPos - this->get_mpos();
+                entIdx_in_chunk = mposOff.y * ENTS_PER_CHUNK + mposOff.x;
+                MemMapEnt &mapEntRef = this->memMapEnts.at(entIdx_in_chunk);
                 //...
 
                 for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
@@ -308,11 +299,12 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
                         pposOff = pixData.ppos - this->mcpos.get_ppos();
                         pixData.pixIdx_in_chunk = pposOff.y * PIXES_PER_CHUNK + pposOff.x;
-                        pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunk;
+
+                        pixData.pixIdx_in_chunkTex = pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x;
+                        pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunkTex;
 
                         pposOff = pixData.ppos - tmpFieldPtr->get_ppos();
                         pixData.pixIdx_in_field = pposOff.y * PIXES_PER_FIELD + pposOff.x;
-
 
                         //--------------------------------//
                         // 确定 pix 属于 周边4个field 中的哪一个
@@ -331,40 +323,37 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             }
                         } //--- 周边4个 field 信息 end ---
 
-
                         //--------------------------------//
                         //  计算 本pix  alti
                         //--------------------------------//
                         pixData.alti.set( gpgpuDatas.at(pixData.pixIdx_in_chunk).r );
 
-
                         //--------------------------------//
                         // 数据收集完毕，将部分数据 传递给 ent
                         //--------------------------------//
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
+                            mapEntRef.alti = pixData.alti;
 
+                            if( pixData.alti.val <= 0 ){ //- 此 ent 处于 water 中
+                                if( pixData.fieldDataPtr->fieldPtr->isAllLand != false ){
+                                    pixData.fieldDataPtr->fieldPtr->isAllLand = false;
+                                }
+                            }
                             //...
                         }
 
                         //--------------------------------//
                         //    正式给 pix 上色
                         //--------------------------------//
-
                         color = pixData.fieldDataPtr->ecoPtr->color_low;
                         color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
                         color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
                         color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
+                        color.a = 255;
+                            //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
 
-                        if( pixData.alti.lvl < 0 ){
-                            color.a = 0;
-                        }else{
-                            color.a = 255;
-                        }
-                        
 
-                        
-                        *pixData.texPixPtr = RGBA{ color.r, color.g, color.b, color.a };
-
+                        *pixData.texPixPtr = color;
 
                     }
                 } //- each pix in mapent end ---
@@ -373,8 +362,71 @@ void Chunk::assign_ents_and_pixes_to_field(){
         } //- each ent in field end --
 
 
+        //--------------------------------//
+        //    给 高密度 field，种上 橡树go 
+        //            tmp...
+        //--------------------------------//
+        
+        bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
+        int randV = uDistribution_regular(esrc::gameSeed.randEngine);
+        switch ( tmpFieldPtr->density.lvl ){
+            case 3:
+                if( (randV < 1000) &&  // [600/1000]
+                    (tmpFieldPtr->isAllLand) ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                3, isSingleTrunk );
+                }
+                break;
+            case 2:
+                if( (randV < 600) &&  // [400/1000]
+                    (tmpFieldPtr->isAllLand) ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                2, isSingleTrunk );
+                }
+                break;
+            case 1:
+                if( (randV < 300) &&  // [400/1000]
+                    (tmpFieldPtr->isAllLand) ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                1, isSingleTrunk );
+                }
+                break;
+            default:
+                break;
+        }
+        
+        
+        
+        
     } //-- each field key end --
 
+    //---------------------------//
+    //  为了解决游戏中 “chunk间白线” 问题
+    //  将 chunk.tex 上方／右方 两条 pix 颜色补齐
+    //  补齐方案很简单，直接复制 相邻pix 的颜色
+    //---------------------------//
+    RGBA    *pixPtr;
+    RGBA    *nearPixPtr;
+    //--- chunk 上方那条 额外 pix ---
+    for( int pw=0; pw<PIXES_PER_CHUNK_IN_TEXTURE; pw++ ){
+        nearPixPtr = texBufHeadPtr + 
+                    ((PIXES_PER_CHUNK_IN_TEXTURE-2) * PIXES_PER_CHUNK_IN_TEXTURE + pw);
+        pixPtr = texBufHeadPtr + 
+                    ((PIXES_PER_CHUNK_IN_TEXTURE-1) * PIXES_PER_CHUNK_IN_TEXTURE + pw);
+        //---
+        *pixPtr = *nearPixPtr;
+    }
+    //--- chunk 右侧那条 额外 pix ---
+    for( int ph=0; ph<PIXES_PER_CHUNK_IN_TEXTURE; ph++ ){
+        nearPixPtr = texBufHeadPtr + 
+                    (ph * PIXES_PER_CHUNK_IN_TEXTURE + (PIXES_PER_CHUNK_IN_TEXTURE-2));
+        pixPtr = texBufHeadPtr + 
+                    (ph * PIXES_PER_CHUNK_IN_TEXTURE + (PIXES_PER_CHUNK_IN_TEXTURE-1));
+        //---
+        *pixPtr = *nearPixPtr;
+    }
+    
+    
     //---------------------------//
     //   正式用 texture 生成 name
     //---------------------------//

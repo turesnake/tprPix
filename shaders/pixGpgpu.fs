@@ -75,9 +75,8 @@ void main()
     seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 50.0; // [-100.0, 100.0]
     seaLvl += pixDistance;
     if( seaLvl < 0.0 ){ //- land
-        seaLvl *= 0.15;  // [-15.0, 100.0]
+        seaLvl *= 0.3;  // [-15.0, 100.0]
     }
-
 
     //------------------//
     //    alti.val

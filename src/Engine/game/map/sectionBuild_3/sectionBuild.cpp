@@ -20,7 +20,6 @@ namespace sectionBuild { //------- namespace: sectionBuild ----------//
  */
 void init(){
 
-    //randEngine.seed( get_new_seed() ); //- tmp
     int i = 999;
 
     //...

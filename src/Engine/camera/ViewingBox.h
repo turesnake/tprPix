@@ -47,8 +47,8 @@ inline float ViewingBox::y { (float)WORK_HEIGHT };
 inline float ViewingBox::z { (float)VIEWING_BOX_Z_DEEP };
 
 inline float  ViewingBox::ground_zOff        { 10.0f };
-inline float  ViewingBox::waterAnim_zOff     { 20.0f };
-inline float  ViewingBox::chunks_zOff        { 30.0f };
+inline float  ViewingBox::waterAnim_zOff     { 30.0f };
+inline float  ViewingBox::chunks_zOff        { 20.0f };
 inline float  ViewingBox::goShadows_zOff     { 40.0f };
 inline float  ViewingBox::mapEntSlices_zOff  { 50.0f };
 

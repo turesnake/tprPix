@@ -19,13 +19,14 @@
 #include "srcs_engine.h" //- 所有资源
 #include "EcoSysInMap.h"
 #include "FieldBorderSet.h"
+#include "simplexNoise.h"
+
+
+//#include "debug.h"
 
 
 namespace{//----------- namespace ---------------//
 
-    std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    std::uniform_int_distribution<int> uDistribution_color(0,1);
-    bool  is_rand_init {false}; //- tmp
 
     std::map<occupyWeight_t,EcoSysInMap*> nearFour_ecoSysInMapPtrs {}; 
                         // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
@@ -44,12 +45,6 @@ namespace{//----------- namespace ---------------//
  */
 void MapField::init( const IntVec2 &_anyMPos ){
 
-    
-    if( is_rand_init == false ){
-        is_rand_init = true;
-        randEngine.seed( get_new_seed() );
-    }
-    
 
     //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
@@ -61,6 +56,7 @@ void MapField::init( const IntVec2 &_anyMPos ){
     //--- fieldFPos ----
     this->FDPos.x = (float)(this->get_mpos().x) / (float)ENTS_PER_FIELD;
     this->FDPos.y = (float)(this->get_mpos().y) / (float)ENTS_PER_FIELD;
+    this->FDPos += esrc::gameSeed.field_pposOff;
 
     //--- field.nodeMPos ---
     this->init_nodeMPos();
@@ -68,18 +64,15 @@ void MapField::init( const IntVec2 &_anyMPos ){
     //--- assign_field_to_4_ecoSysInMaps ---
     this->assign_field_to_4_ecoSysInMaps();
 
-    //--- lColorOff ---
-    this->init_lColorOff();
 
     //--- originPerlin ---
     // 4*4 个 field 组成一个 perlinEnt
     float freq = 1.0 / 4.0; //- tmp
-    this->originPerlin = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
-                                                       this->FDPos.y * freq, 
-                                                       0.1);  //- [0.0, 1.0]
+    this->originPerlin = simplex_noise2(    (this->FDPos.x + 91.9) * freq, 
+                                            (this->FDPos.y + 91.9) * freq );  //- [-1.0, 1.0]
 
     //--- weight ---
-    this->weight = this->originPerlin * 200.0 - 100.0; //- [-100.0, 100.0]
+    this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
 
     //--- fieldBorderSetId ---
     size_t randIdx = (size_t)(this->originPerlin*997); //- 素数 [0,977]
@@ -88,6 +81,13 @@ void MapField::init( const IntVec2 &_anyMPos ){
 
     //--- occupyWeight ---
     this->init_occupyWeight();
+
+    //--- density ---
+    this->density.set( this->get_mpos() );
+        //cout << this->density.lvl << endl;
+
+    //--- lColorOff ---
+    this->init_lColorOff();
 }
 
 
@@ -97,26 +97,25 @@ void MapField::init( const IntVec2 &_anyMPos ){
  */
 void MapField::init_nodeMPos(){
 
-    float    freq = 1.0;
+    float    freq = 13.0;
     float    pnX;
     float    pnY;
     size_t   idxX;
     size_t   idxY;
 
-    pnX = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
-                                        this->FDPos.y * freq, 
-                                        0.3); //- [0.0, 1.0]
-    pnY = esrc::gameSeed.pn_field.noise(this->FDPos.x * freq, 
-                                        this->FDPos.y * freq, 
-                                        0.7); //- [0.0, 1.0]
+    pnX = simplex_noise2(   this->FDPos.x * freq, 
+                            this->FDPos.y * freq ); //- [-1.0, 1.0]
 
-    pnX = pnX * 50 + 100; //- [50.0, 150.0]
-    pnY = pnY * 50 + 100; //- [50.0, 150.0]
+    pnY = simplex_noise2(   (this->FDPos.x + 70.7) * freq, 
+                            (this->FDPos.y + 70.7) * freq ); //- [-1.0, 1.0]
+
+
+    pnX = pnX * 71 + 100; //- [71.0, 171.0]
+    pnY = pnY * 71 + 100; //- [71.0, 171.0]
         assert( (pnX>0) && (pnY>0) );
 
-    idxX = (size_t)pnX % ENTS_PER_FIELD; //- mod
-    idxY = (size_t)pnY % ENTS_PER_FIELD; //- mod
-
+    idxX = static_cast<size_t>(pnX) % ENTS_PER_FIELD; //- mod
+    idxY = static_cast<size_t>(pnY) % ENTS_PER_FIELD; //- mod
     this->nodeMPos = this->get_mpos() + IntVec2{ (int)idxX, (int)idxY };
 }
 
@@ -126,23 +125,25 @@ void MapField::init_nodeMPos(){
  */
 void MapField::init_lColorOff(){
 
-    /*
-    float vx = this->FDPos.x * 3.20;
-    float vy = this->FDPos.y * 3.20;
-
-    float r = esrc::gameSeed.pn_field.noise( vx, vy, 50.25 ); //- [0.0, 1.0]
-    float g = esrc::gameSeed.pn_field.noise( vx, vy, 150.55 );
-    float b = esrc::gameSeed.pn_field.noise( vx, vy, 250.85 );
     
-    this->lColorOff_r = (int)floor(r*10-5); //- [-10, 10]
-    this->lColorOff_g = (int)floor(g*10-5); 
-    this->lColorOff_b = (int)floor(b*10-5); 
+    //-- 以此来显示 density 分布情况 --    
+    
+    if( this->density.lvl > 0 ){
+        this->lColorOff_r = this->density.lvl * -9;
+        this->lColorOff_g = this->density.lvl * -6;
+        this->lColorOff_b = this->density.lvl * -5;
+    }else{
+        this->lColorOff_r = 0;
+        this->lColorOff_g = 0;
+        this->lColorOff_b = 0;
+    }
+    
+    /*
+    this->lColorOff_r = 0;
+    this->lColorOff_g = 0;
+    this->lColorOff_b = 0;
     */
     
-   this->lColorOff_r = 0;
-   this->lColorOff_g = 0;
-   this->lColorOff_b = 0;
-
 }
 
 
@@ -158,9 +159,16 @@ void MapField::init_occupyWeight(){
     IntVec2 oddEven = floorMod( v, 2 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
+    /*
     float Fidx = esrc::gameSeed.pn_field.noise( this->FDPos.x, 
                                                 this->FDPos.y, 
                                                 0.2) * 30.0 + 60.0; //- [30.0, 90.0]
+    */
+
+    float Fidx = simplex_noise2(    (this->FDPos.x + 17.1), 
+                                    (this->FDPos.y + 17.1) ) * 30.0 + 60.0; //- [30.0, 90.0]
+
+
     assert( Fidx > 0 );
     size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
 
@@ -184,31 +192,35 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
                             //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
     }
 
-    float vx;
-    float vy;
-
-    IntVec2  mposOff;
-    float    freqBig = 1.0;
-    float    freqSml = 3.8;
-    float    pnVal; //- 围绕 0 波动的 随机值
-    float    off;
-    int      count;
+    float         vx;
+    float         vy;
+    IntVec2       mposOff;
+    float         freqBig = 0.9;
+    float         freqSml = 2.3;
+    float         pnVal; //- 围绕 0 波动的 随机值
+    float         off;
+    int           count;
     EcoSysInMap*  tmpEcoPtr;
 
-    float targetDistance = 0.48 * 1.4 * ENTS_PER_SECTION; //- 每个field 最终的 距离比较值。
+    float targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 
     vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
     vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
 
-    float pnValBig = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(  vx * freqBig,
-                                                                    vy * freqBig,
-                                                                    0.15) * 2.0 - 1.0; // [-1.0, 1.0]
-    float pnValSml = esrc::gameSeed.pn_field_in_ecoSysInMap.noise(  vx * freqSml,
-                                                                    vy * freqSml,
-                                                                    0.45) * 2.0 - 1.0; // [-1.0, 1.0]
-    pnVal = 0.5 * (pnValBig + pnValSml);    // [-1.0, 1.0]
-    pnVal = 0.5 * pnVal * ENTS_PER_SECTION; //- [-64.0, 64.0]
-    //-----
+    vx += esrc::gameSeed.field_pposOff.x;
+    vy += esrc::gameSeed.field_pposOff.y;
+    float pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
+                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
+    float pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
+                                        (vy + 144.41) * freqSml ) * 5; // [-x.0, x.0]
+    pnVal = pnValBig + pnValSml;
+    if( pnVal > 20.0 ){
+        pnVal = 20.0;
+    }
+    if( pnVal < -20.0 ){
+        pnVal = -20.0;
+    }
+    // now, pnVal: [-20.0, 20.0]
 
     count = 0;
     for( auto &ecoPair : nearFour_ecoSysInMapPtrs ){
@@ -218,8 +230,8 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
         if( count != nearFour_ecoSysInMapPtrs.size()){ //- 前3个 eco
 
             mposOff = this->get_mpos() - tmpEcoPtr->get_mpos();
-            off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y );
-            off += pnVal;
+            off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y ); // [ ~ 90.0 ~ ]
+            off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
                 this->ecoSysInMapKey = tmpEcoPtr->sectionKey;

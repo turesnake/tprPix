@@ -157,7 +157,7 @@ void realloc_active_goes();
 void realloc_inactive_goes();
 void signUp_newGO_to_mapEnt( GameObj *_goPtr );
 
-inline GameObj *get_memGameObjs( goid_t _goid ){
+inline GameObj *get_memGameObjPtr( goid_t _goid ){
         assert( memGameObjs.find(_goid) != memGameObjs.end() );//- tmp
     return (GameObj*)&(memGameObjs.at(_goid));
 }
@@ -251,6 +251,10 @@ inline Chunk *get_chunkPtr( chunkKey_t _key ){
         assert( chunks.find(_key) != chunks.end() );//- must exist
     return (Chunk*)&(chunks.at(_key));
 }
+inline Chunk &get_chunkRef( chunkKey_t _key ){
+        assert( chunks.find(_key) != chunks.end() );//- must exist
+    return chunks.at(_key);
+}
 
 
 //-------------------------//
@@ -287,7 +291,7 @@ inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
 
 //-------------------------//
 //     chunk duque  [tmp]
-//  
+// 将需要生成的 chunk 暂存入容器，逐个生成
 //-------------------------//
 inline std::deque<chunkKey_t> chunksDeque {};
 

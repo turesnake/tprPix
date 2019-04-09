@@ -27,12 +27,12 @@ class GameObjPos;
 class Collision;
 
 
-
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
 class Move{
 public:
     Move() = default;
 
+    //- 在 gameObj.init() 中被调用 --
     inline void init(   GameObj *_goPtr, 
                         GameObjPos *_goPosPtr,
                         Collision *_collisionPtr ){ //-- MUST --

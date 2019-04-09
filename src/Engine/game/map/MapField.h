@@ -27,13 +27,13 @@
 #include "EcoSysType.h"
 #include "MapCoord.h"
 #include "chunkKey.h"
-//#include "EcoSysInMap.h"
 #include "sectionKey.h"
 #include "fieldKey.h"
 #include "RGBA.h"
 #include "Altitude.h"
 #include "occupyWeight.h"
 #include "fieldBorderSetId_t.h"
+#include "Density.h"
 
 
 //-- 4*4mapent 构成一个 field -- [just mem]
@@ -55,8 +55,8 @@ public:
 
     //----- 一阶数据 / first order data ------//
     MapCoord    mcpos    {};    //- field左下角mcpos
-                                 // 这么存储很奢侈，也许会在未来被取消...
-                                 // anyMPos_2_fieldMPos() 
+                                // 这么存储很奢侈，也许会在未来被取消...
+                                // anyMPos_2_fieldMPos() 
     fieldKey_t  fieldKey {}; 
 
     IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
@@ -77,8 +77,15 @@ public:
 
     fieldBorderSetId_t  fieldBorderSetId {}; 
 
-    //----- 三阶数据 / third order data ------//
+    Density         density {};
 
+
+    //----- 三阶数据 / third order data ------//
+    //Altitude  alti {};  //- 目前来看，field 不需要 alti 值...
+
+
+    bool    isAllLand {true}; //- 只有本 field 所属的所有 mapent 都为 land，此值才为 true
+                         //- 只要有一个 mapent 为 water，此值即为 false。
     
 
     //====== flags =======//
@@ -86,10 +93,10 @@ public:
 
 private:
 
-    glm::vec2  FDPos {}; //- field-mpos 除以 ENTS_PER_FIELD
-                            // 这个值常用来访问 perlin
+    glm::vec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
+                            // 这个值仅用来 配合 simplex-noise 函数使用
 
-    float      originPerlin {}; //- perlin 原始值
+    float      originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
 
 
     void init_nodeMPos();

@@ -74,7 +74,8 @@ float dotV2( float _ax, float _ay, float _bx, float _by ){
 /* ===========================================================
  *                   simplex_noise2
  * -----------------------------------------------------------
- *  和 glsl 中 同名函数，内容完全一致
+ *  和 glsl 中 同名函数，内容完全一致 
+ *  return 【-1.0， 1.0】
  */
 float simplex_noise2( float _x, float _y ){
     return simplex_noise2( glm::vec2{_x, _y} );

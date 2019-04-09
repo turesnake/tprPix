@@ -166,6 +166,11 @@ inline IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
     return floorDiv( _ppos, (float)PIXES_PER_MAPENT );
 }
 
+
+inline IntVec2 anyPPos_2_mpos( const IntVec2 &_anyPPos ){
+    return floorDiv( _anyPPos, (float)PIXES_PER_MAPENT );
+}
+
 /* ===========================================================
  *                   ppos_2_mpos  [宽松]    IMPORTANT !!!
  * -----------------------------------------------------------

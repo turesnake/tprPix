@@ -11,6 +11,9 @@
 #ifndef _TPR_PLAYER_H_
 #define _TPR_PLAYER_H_
 
+//------------------- C --------------------//
+#include <cassert>
+
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
@@ -46,6 +49,12 @@ public:
     //-- 必须等 section 彻底加载到 mem态（相伴的go数据也实例化）之后 --
     //   才能调用本函数 
     void bind_goPtr();
+
+    inline void bind_goid( goid_t _goid ){
+        assert( _goid != NULLID );
+        this->goid = _goid;
+    }
+
 
     void handle_inputINS( const InputINS &_inputINS );
 

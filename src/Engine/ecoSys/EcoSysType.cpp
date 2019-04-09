@@ -14,12 +14,13 @@
 
 //-------------------- Engine --------------------//
 #include "random.h"
+#include "srcs_engine.h"
 
 
 namespace{//-------- namespace: --------------//
 
-    bool  is_randEngine_init {false};
-    std::default_random_engine  randEngine; //-随机数引擎实例
+    //bool  is_randEngine_init {false};
+    //std::default_random_engine  randEngine; //-随机数引擎实例
     std::uniform_int_distribution<int> uDistribution(   EcoSysType_MinIdx,
                                                         EcoSysType_MaxIdx); 
 
@@ -33,13 +34,15 @@ namespace{//-------- namespace: --------------//
  */
 EcoSysType get_rand_EcoSysType(){
 
+    /*
     if( is_randEngine_init == false ){
         is_randEngine_init = true;
         randEngine.seed( get_new_seed() );
     }
+    */
 
     //-- 一个临时性的方法 ------
-    int val = uDistribution( randEngine );
+    int val = uDistribution( esrc::gameSeed.randEngine );
     switch (val){
         case 1: return EcoSysType::Forst;
         case 2: return EcoSysType::DarkForst;

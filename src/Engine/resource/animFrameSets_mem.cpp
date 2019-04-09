@@ -36,8 +36,12 @@ void load_animFrameSets(){
     animFrameSets.insert({"bigMan",  AnimFrameSet{ "/bigMan/bigMan.P.png", IntVec2{6, 2}, 12,
                                                     std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
 
-    //animFrameSets.insert({"grass_1", AnimFrameSet{ "/grass/grass_1.P.png", IntVec2{6, 2}, 12,
-    //                                                std::vector<int>{8,8,8,8,8,8, 8,8,8,8,8,8} } });
+    
+    std::vector<int> oakTree_timeSteps;
+    oakTree_timeSteps.resize( 18, 6 );
+    animFrameSets.insert({"oakTree",  AnimFrameSet{ "/oakTree/oakTree_1.P.png", IntVec2{5, 4}, 18,
+                                                    oakTree_timeSteps } });
+
 
 
     //---------------------------------//

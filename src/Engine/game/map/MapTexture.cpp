@@ -19,7 +19,8 @@
 
 namespace{//----------- namespace ---------------//
 
-    IntVec2  pixWH { PIXES_PER_CHUNK, PIXES_PER_CHUNK };
+    IntVec2  pixWH {    PIXES_PER_CHUNK_IN_TEXTURE, 
+                        PIXES_PER_CHUNK_IN_TEXTURE };
 
 }//-------------- namespace : end ---------------//
 

@@ -91,13 +91,15 @@ IntVec2 load_and_divide_png( const std::string &_path,
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
             nrf = hf*_frameNum.x + wf;
             fit = _frame_data_ary.begin() + nrf;
-            assert( nrf < _totalFrameNum ); //- 避免迭代器越界
 
-            //-- 获得 本像素 的数据 --
-            pixPtr = pixHeadPtr + (h*width + w);
+            //-- 只处理 非空置的 frame ---
+            if( nrf < _totalFrameNum ){
+                //-- 获得 本像素 的数据 --
+                pixPtr = pixHeadPtr + (h*width + w);
 
-            //-- 将数据 压入 对应的 帧容器 中 --
-            fit->push_back( *pixPtr ); //-copy
+                //-- 将数据 压入 对应的 帧容器 中 --
+                fit->push_back( *pixPtr ); //-copy
+            }
         }
     }
     //-- png图片 原始数据已经没用了，释放掉 ---

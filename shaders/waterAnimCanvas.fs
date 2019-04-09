@@ -117,12 +117,13 @@ void main()
     seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 45.0; // [-100.0, 100.0]
     seaLvl += pixDistance;
     if( seaLvl < 0.0 ){ //- land
-        seaLvl *= 0.15;  // [-15.0, 100.0]
+        seaLvl *= 0.3;  // [-15.0, 100.0]
     }
 
     //------------------//
     //    alti.val
     //------------------//
+    float altiVal;
     //--- 使用速度最快的 2D-simplex-noise ---
     float pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
     float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
@@ -131,12 +132,15 @@ void main()
     float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim, 
                                         pixCFPos.y * freqAnim, 
                                         tm );
+
+    //-- -未叠加动态值 之前的 land区域，被挖空 ---
+    altiVal = floor(pnValBig + pnValMid + pnValSml);
+    if( altiVal > 0.0 ){
+        discard;
+    }
+
     //-----------------
-
     pnValAnim = (pnValAnim - 1.0) * 10.0 - 10.0; //- 只有负值
-
-    float altiVal = floor(pnValBig + pnValMid + pnValSml);
-
     if( altiVal < 0.0 ){ //- only water anim
         altiVal += pnValAnim;
     }
@@ -217,10 +221,11 @@ void main()
     if( alpha < 0.0 ){
         alpha = 0.0;
     }
-
+    
+    //discard;
 
     FragColor = vec4( color, 1.0 );
-    //FragColor = vec4( color, 0.0 );
+    //FragColor = vec4( 0.1, 0.1, 0.1, 0.0 );
     //FragColor = vec4( color, alpha ); //- rgba.alpha MUST be 1.0 !!!
     //FragColor = vec4( lb.xxy, 1.0 ); //- rgba.alpha MUST be 1.0 !!!
 }

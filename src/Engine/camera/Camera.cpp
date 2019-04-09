@@ -10,7 +10,7 @@
 #include "Camera.h"
 
 //-------------------- C --------------------//
-#include <math.h> //- abs
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <cassert>
@@ -88,8 +88,17 @@ void Camera::RenderUpdate(){
         return;
     }
 
-    this->currentFPos.x += this->approachPercent * off.x;
-    this->currentFPos.y += this->approachPercent * off.y;
+    //---------------------------//
+    //  为了解决游戏中 “chunk间白线” 问题
+    //  限制 camera 每帧位移，都取整于 0.01 
+    //---------------------------//    
+    float alignX = this->approachPercent * off.x;
+    float alignY = this->approachPercent * off.y;
+    alignX = floor(alignX*100.0) / 100.0;
+    alignY = floor(alignY*100.0) / 100.0;
+    //-----------
+    this->currentFPos.x += alignX;
+    this->currentFPos.y += alignY;
     this->currentFPos.z =  -this->currentFPos.y + (0.5f * ViewingBox::z); //-- IMPORTANT --
 }
 

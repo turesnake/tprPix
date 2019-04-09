@@ -22,6 +22,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <set>
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
@@ -97,6 +98,16 @@ public:
 
     std::vector<MemMapEnt> memMapEnts {}; 
 
+
+    std::set<goid_t>  goIds {}; //- 动态存储 本chunk 拥有的所有 go id。
+                                //  部分元素会与 edgeGoIds 重合
+                                //  添加和 释放工作要做干净。
+
+    std::set<goid_t>  edgeGoIds {}; //- "临界go"／“边缘go” 容器
+                                    // 有些 go 位于 chunk边缘，其 collients 可能在隔壁 chunk
+                                    // 这种go 在 创建／销毁 阶段往往很麻烦
+                                    // 使用一个容器来 动态保管它们。
+
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
     bool     is_assign_ents_and_pixes_to_field_done {false};
@@ -109,6 +120,9 @@ private:
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
 
     void reset_fieldKeys();
+
+    //======== vals ========//
+    float  zOff {}; //- chunk间存在前后层次，
    
 };
 

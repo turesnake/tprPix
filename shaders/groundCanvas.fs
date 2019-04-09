@@ -55,6 +55,7 @@ void main()
     
     prepare();
 
+    /*
     //------------------//
     // pixCFPos: 以 chunk 为晶格的 fpos
     vec2 pixCFPos = 0.08 * canvasCFPos + lbAlign;
@@ -84,13 +85,13 @@ void main()
         color = colorSky;
     }
 
-
     //FragColor = vec4( lb.xxy, 1.0 ); 
     FragColor = vec4( color, 1.0 ); 
+    */
     
 
 
-    //FragColor = vec4( 0.8, 0.8, 0.3, 1.0 );
+    FragColor = vec4( 0.4, 0.45, 0.2, 1.0 );
 }
 
 

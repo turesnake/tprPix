@@ -4,8 +4,7 @@
  *                                        CREATE -- 2019.01.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   ppos 在其所处的 mapent 中的 位置偏移 （左下角）
- *  仅适用于 表达 crawl 的 8方向， 
+ *   ppos 在其所处的 mapent 中的 位置偏移 （左下角） 
  * ----------------------------
  */
 #ifndef _TPR_MAP_ENT_COMPASS_H_
@@ -26,7 +25,6 @@
 #include "IntVec.h"
 
 
-
 class MapEntCompass{
 public:
     //---- constructor -----//
@@ -34,7 +32,8 @@ public:
     MapEntCompass( int _x, int _y ):
         x(_x),
         y(_y)
-        { assert( (x>=0) && (x<=4) && (y>=0) && (y<=4) ); }
+        { assert(   (x >= 0) && (x < PIXES_PER_MAPENT) && 
+                    (y >= 0) && (y < PIXES_PER_MAPENT) ); }
 
     //---- funcs ----//
     inline void clear_all(){
@@ -76,13 +75,6 @@ inline MapEntCompass calc_ppos_compass( const IntVec2 _ppos ){
     return MapEntCompass {  _ppos.x%PIXES_PER_MAPENT, 
                             _ppos.y%PIXES_PER_MAPENT };
 }
-
-
-
-
-
-
-
 
 
 #endif 

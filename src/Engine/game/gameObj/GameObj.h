@@ -28,6 +28,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
+#include <set>
 #include <functional>
 #include <unordered_map>
 
@@ -46,9 +47,10 @@
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary.h"
-//#include "InputINS.h"
 
 #include "ActionFSM.h"
+
+#include "chunkKey.h"
 
 
 
@@ -78,6 +80,8 @@ public:
     void        d2m( diskGameObj *_dgo );
     diskGameObj m2d();
 
+    void reset_chunkKeys();
+   
 
     inline void resize_pvtBinary( size_t _size ){
         this->pvtBinary.resize( _size );
@@ -90,6 +94,7 @@ public:
 
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...
+    //  rootAnchorPos 是静态数据，并不是 go当前 世界pos
     inline const AnchorPos &get_rootAnchorPos() const {
         return this->goMeshs.at("root").get_rootAnchorPos();
     }
@@ -117,6 +122,10 @@ public:
     //- 参数 _ces_altiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
     inline AltiRange get_currentAltiRange( const AltiRange &_ces_altiRange ){
         return ( _ces_altiRange + this->goPos.get_alti() );
+    }
+
+    inline const std::set<chunkKey_t> &get_chunkKeysRef(){
+        return this->chunkKeys;
     }
 
 
@@ -183,6 +192,10 @@ public:
 
     //InputINS        inputINS  {}; //- gameKeys 指令组
 
+    chunkKey_t      currentChunkKey {}; //- 本go 当前所在 chunk key
+                                        //  在 本go被创建，以及每次move时，被更新
+    
+
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
     bool    isActive  {false}; //- 是否进入激活圈. 未进入激活圈的go，不参与逻辑运算，不被渲染
@@ -199,6 +212,13 @@ public:
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
 private:
+
+    //====== vals =====//
+    std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
+                                        // 通过 reset_chunkKeys() 来更新。
+                                        // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
+                                        
+                                        
     //----------- binary -------------//         
     std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 

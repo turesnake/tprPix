@@ -10,9 +10,13 @@
 #include "GameObj.h" 
 
 //-------------------- CPP --------------------//
-#include <string>
+//#include <string>
 
-using std::string;
+
+//-------------------- Engine --------------------//
+#include "srcs_engine.h"
+
+
 
 #include "debug.h" //- tmp
 
@@ -48,6 +52,38 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name ){
     return this->goMeshs.at(_name);
 }
 
+
+/* ===========================================================
+ *                    reset_chunkKeys
+ * -----------------------------------------------------------
+ * -- 重装填
+ * 此函数 只是单纯记录 本go相关的所有 chunk key 信息。
+ * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
+ */
+void GameObj::reset_chunkKeys(){
+    MapCoord     cesMCPos; //- 每个 ces左下角的 mcpos （世界绝对pos）
+    MapCoord     tmpEntMCPos;
+    chunkKey_t   tmpChunkKey;
+    //-------
+    this->chunkKeys.clear();
+    //-------
+    for( const auto &goMeshPair : this->goMeshs  ){  //- each goMesh
+        const GameObjMesh &meshRef = goMeshPair.second;
+        if( meshRef.isCollide == false ) continue; //- 不参与碰撞检测的 gomesh 直接跳过
+
+        for( const auto &doCehRef : meshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each do_colliEntHead
+            cesMCPos.set_by_mpos(  anyPPos_2_mpos(  this->goPos.get_currentPPos() + 
+                                                    doCehRef.pposOff_fromRootAnchor ) );
+            const ColliEntSet &doCesRef = esrc::colliEntSets.at(doCehRef.colliEntSetIdx); //- get do_ces_ref
+
+            for( const auto &mcpos : doCesRef.get_colliEnts() ){ //- each collient mcpos
+                tmpEntMCPos = mcpos + cesMCPos;
+                tmpChunkKey = anyMPos_2_chunkKey( tmpEntMCPos.get_mpos() );
+                this->chunkKeys.insert( tmpChunkKey ); //- copy
+            } //- each collient mcpos end --
+        } //-- each do_colliEntHead end --
+    } //- each goMesh end ---
+}
 
 
 

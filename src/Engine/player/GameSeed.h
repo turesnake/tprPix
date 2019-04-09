@@ -37,10 +37,12 @@
 // 具体的 随机引擎和分布器，则由各模块自行包含 （tmp）
 class GameSeed{
 public:
+    GameSeed(){
+        this->randEngine.seed(0); //- 这一步仅为了应付 构造器。
+                                // 真正的初始化，还在 init 函数中
+    }
 
     void init();
-
-
 
     //======== vals ========//
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
@@ -59,19 +61,22 @@ public:
     glm::vec2  altiSeed_pposOffMid {};
     glm::vec2  altiSeed_pposOffSml {};
 
+    //- [-1000, 1000] 之间的 随机数
+    glm::vec2  densitySeed_pposOff {};
 
+    glm::vec2  field_pposOff {};
 
     //======== perlins ========//
-    PerlinNoise3D  pn_field_in_ecoSysInMap; //- 将 field 分配给不同的 ecosys
+    //PerlinNoise3D  pn_field_in_ecoSysInMap; //- 将 field 分配给不同的 ecosys
     PerlinNoise3D  pn_pixes_in_field;       //- 将 pixes 分配给不同的 field
     PerlinNoise3D  pn_ecoSysInMap; //- 与 ecoSysInMap 有关的 通用 perlin
-    PerlinNoise3D  pn_field;       //- 与 field 有关的 通用 perlin
+    //PerlinNoise3D  pn_field;       //- 与 field 有关的 通用 perlin
     PerlinNoise3D  pn_alti;
     PerlinNoise3D  pn_density;
 
 
     //======== randEngine ========//
-    //std::default_random_engine  randEngine; //-通用 随机数引擎实例
+    std::default_random_engine  randEngine; //-通用 随机数引擎实例
 
 
     //======== flags ========//
@@ -80,7 +85,7 @@ public:
 
 private:
 
-    void init_altiSeed();
+    void init_glm_vec2s();
 
 
 };

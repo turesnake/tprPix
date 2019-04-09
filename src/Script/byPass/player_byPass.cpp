@@ -12,7 +12,8 @@ void player_byPass(){
 
     esrc::player.init();
 
-    esrc::player.goid = 1; 
+    esrc::player.goid = NULLID; 
+        //-- 暂时不在此处指定，在后面手动指定...
 
     
 

@@ -15,7 +15,7 @@
 
 namespace{//----------- namespace ----------------//
 
-    std::default_random_engine  randEngine; //-通用 随机数引擎实例
+    //std::default_random_engine  randEngine; //-通用 随机数引擎实例
     inline std::uniform_int_distribution<int> uDistribution_altiSeed(-1000,1000);
 
 
@@ -32,7 +32,7 @@ void GameSeed::init(){
     //-- 只可被初始化一次... --
     assert( this->is_all_seed_init == false );
 
-    randEngine.seed( get_new_seed() );
+    this->randEngine.seed( get_new_seed() );
 
     //------------------------//
     //   初级版本，所有的 seed 都随机分配
@@ -50,7 +50,7 @@ void GameSeed::init(){
     //...
 
     //-------- altiSeed --------//
-    this->init_altiSeed();
+    this->init_glm_vec2s();
 
     //...
 
@@ -58,10 +58,10 @@ void GameSeed::init(){
     //------------------------//
     //       perlins
     //------------------------//
-    this->pn_field_in_ecoSysInMap.init( this->perlinSeed_fields_in_ecoSysInMap );
+    //this->pn_field_in_ecoSysInMap.init( this->perlinSeed_fields_in_ecoSysInMap );
     this->pn_pixes_in_field.init( this->perlinSeed_pixes_in_field );
     this->pn_ecoSysInMap.init( this->perlinSeed_ecoSysInMap );
-    this->pn_field.init( this->perlinSeed_field );
+    //this->pn_field.init( this->perlinSeed_field );
     this->pn_alti.init( this->perlinSeed_alti );
     this->pn_density.init( this->perlinSeed_density );
 
@@ -69,7 +69,7 @@ void GameSeed::init(){
     //------------------------//
     //       randEngine
     //------------------------//
-    //this->randEngine.seed( get_new_seed() );
+    this->randEngine.seed( get_new_seed() );
 
 
     this->is_all_seed_init = true;
@@ -78,19 +78,30 @@ void GameSeed::init(){
 
 
 /* ===========================================================
- *                  init_altiSeed
+ *                  init_glm_vec2s
  * -----------------------------------------------------------
  */
-void GameSeed::init_altiSeed(){
+void GameSeed::init_glm_vec2s(){
 
-    this->altiSeed_pposOffSeaLvl = glm::vec2(static_cast<float>(uDistribution_altiSeed(randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
-    this->altiSeed_pposOffBig = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
-    this->altiSeed_pposOffMid = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
-    this->altiSeed_pposOffSml = glm::vec2(  static_cast<float>(uDistribution_altiSeed(randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(randEngine)) );
+    //------ altiSeeds --------//
+    this->altiSeed_pposOffSeaLvl = glm::vec2(static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffBig = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffMid = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffSml = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+
+    //------ densitySeed --------//
+    this->densitySeed_pposOff = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+
+    //------ field --------//
+    this->field_pposOff =   glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
+                                        static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
 }
+
+
 
 

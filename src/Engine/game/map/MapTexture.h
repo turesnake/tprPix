@@ -51,7 +51,10 @@ public:
         if( this->is_resize_done ){
             return;
         }
-        texBuf.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK );
+        texBuf.resize(  PIXES_PER_CHUNK_IN_TEXTURE * PIXES_PER_CHUNK_IN_TEXTURE, 
+                        RGBA{ 0,0,0,0 } );
+                // 为了解决 当前游戏的 chunk 间 白线问题，需要让 chunk tex 变大1像素
+                // 以便让 chunk 相互覆盖
         this->is_resize_done = true;
     }
 

@@ -23,6 +23,7 @@
 #include "MapCoord.h"
 #include "Collision.h"
 #include "GameObj.h" 
+#include "srcs_engine.h"
 
 #include "debug.h" 
 #include <iomanip>
@@ -95,7 +96,6 @@ void Crawl::RenderUpdate(){
         //-- 在 move状态切换的 两个点 调用 OnMove() ／ OnIdle() --
         if( this->currentNB.is_zero() && (this->newNB.is_zero()==false) ){
             this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Move );
-
         }else if( (this->currentNB.is_zero()==false) && this->newNB.is_zero() ){
            this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
         }
@@ -119,7 +119,41 @@ void Crawl::RenderUpdate(){
             this->speed=0.0f :        //- 移动被遮挡，仅仅将速度写0.并不取消回合本身
             this->speed=pair.second;  //- 移动未被遮挡，获得位移速度
     }
-    
+
+    //---------------------------//
+    //  如果确认需要位移
+    //   -- 检查本go 的 新chunk，如果发生变化，释放旧chunk 中的 goids, edgeGoIds
+    //       登记到 新chunk 的 goids
+    //   -- 重新统计 本go 的 chunkKeys，如果确认为 临界go，  
+    //       登记到 主chunk 的 edgegoids 容器中
+    //---------------------------//
+    Chunk   *oldChunkPtr;
+    Chunk   *newChunkPtr;
+    goid_t   goid = this->goPtr->id;
+
+    chunkKey_t newChunkKey = anyMPos_2_chunkKey( anyPPos_2_mpos( this->goPosPtr->get_currentPPos() ) );
+    newChunkPtr = esrc::get_chunkPtr( newChunkKey );
+
+    if( newChunkKey!=goPtr->currentChunkKey ){
+        oldChunkPtr = esrc::get_chunkPtr( this->goPtr->currentChunkKey );
+        assert( oldChunkPtr->goIds.erase(goid) == 1 );
+        oldChunkPtr->edgeGoIds.erase(goid);
+        //---
+        goPtr->currentChunkKey = newChunkKey;
+        newChunkPtr->goIds.insert( goid );
+    }
+
+    this->goPtr->reset_chunkKeys();
+    size_t chunkKeysSize = this->goPtr->get_chunkKeysRef().size();
+    if( chunkKeysSize == 1 ){
+        newChunkPtr->edgeGoIds.erase( goid );
+    }else if( chunkKeysSize > 1 ){
+        newChunkPtr->edgeGoIds.insert( goid );
+    }else{
+        assert(0);
+    }
+
+
     //---------------------------//
     //  确保本回合移动成立后（未碰撞）
     //  再实现真正的移动

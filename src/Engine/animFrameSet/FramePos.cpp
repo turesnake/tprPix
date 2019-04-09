@@ -52,6 +52,7 @@ void FramePos::check(){
     //--
     const MapEntCompass &centerCompass = esrc::colliEntSets.at( rootCehRef.colliEntSetIdx ).get_centerCompass();
     assert( centerCompass == this->rootAnchorPos.compass ); //- 确保对齐 ！！！ --
+                // 这一对齐，将使的，所有 frame中，rootAnchorPos点 都必须正好位于 其 ces 指定的 center 点上...
 
     //-- 检测 regular ceh 是否与 root ceh 对齐 --//
     IntVec2 pposOff;

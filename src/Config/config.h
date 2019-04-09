@@ -49,16 +49,14 @@
 //-- 一个 chunk，占有 256*256 pixel
 #define PIXES_PER_CHUNK (ENTS_PER_CHUNK*PIXES_PER_MAPENT)
 
+//-- 为避免渲染时，chunk间出现白线，而做的 补偿措施 “每个chunk 多渲一排pix，相互叠加” --
+#define PIXES_PER_CHUNK_IN_TEXTURE (PIXES_PER_CHUNK + 1)
+
 //-- 一个 section，占有 1024*1024 pixel
 #define PIXES_PER_SECTION (CHUNKS_PER_SECTION*PIXES_PER_CHUNK)
 
-
-//-- 一个 landWaterPrefab 预制件，占有 64*64 mapents
-//#define ENTS_PER_LANDWATERPREFAB (2*ENTS_PER_CHUNK)
-
 //-- 一个 fieldBorderSet 预制件，占有 64*64 pix
 #define PIXES_PER_FIELD_BORDER_SET (2*PIXES_PER_FIELD)
-
 
 //-- camera.viewingBox z_deep
 #define VIEWING_BOX_Z_DEEP  2000

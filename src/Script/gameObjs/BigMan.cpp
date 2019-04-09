@@ -151,9 +151,8 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    auto ipair = goPtr->goMeshs.begin();
-    for( ; ipair!=goPtr->goMeshs.end(); ipair++ ){
-        GameObjMesh &goMeshRef = ipair->second;
+    for( auto &pairRef : goPtr->goMeshs ){
+        GameObjMesh &goMeshRef = pairRef.second;
 
         //-- 也许不该放在 这个位置 --
         if( goMeshRef.isVisible == false ){
@@ -170,7 +169,6 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
         esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.shadowMesh) });
         esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
     }
-
 }
 
 
@@ -235,6 +233,23 @@ void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
+/* ===========================================================
+ *                   create_a_BigMan
+ * -----------------------------------------------------------
+ * -- tmp 
+ */
+goid_t create_a_BigMan( const IntVec2 &_mpos ){
+    goid_t goid = esrc::insert_new_gameObj();
+    GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
+    gameObjs::big_man.init( goPtr );
+    goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
+    //------------------------------//
+    esrc::signUp_newGO_to_mapEnt( goPtr );
+
+        esrc::goids_active.insert( goid ); //- tmp
+
+    return goid;
+}
 
 
 }//------------- namespace gameObjs: end ----------------

@@ -89,6 +89,8 @@ inline u32_t  BigMan::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 inline BigMan  big_man {};
 
 
+goid_t create_a_BigMan( const IntVec2 &_mpos );
+
 
 }//------------- namespace gameObjs: end ----------------
 #endif 

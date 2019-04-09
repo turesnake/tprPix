@@ -1,14 +1,14 @@
 /*
- * ========================= Norman.h ==========================
+ * ========================= OakTree.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.04.05
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   诺曼人
+ *   橡树
  * ----------------------------
  */
-#ifndef _TPR_NORMAN_H_
-#define _TPR_NORMAN_H_
+#ifndef _TPR_OAK_TREE_H_
+#define _TPR_OAK_TREE_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -22,27 +22,45 @@
 #include "PubBinaryValType.h"
 
 
-
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 //-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> norman_pubBinaryValTypes {
+inline std::vector<PubBinaryValType> oakTree_pubBinaryValTypes {
     PubBinaryValType::HP,
     PubBinaryValType::MP
 };
 
-struct Norman_PvtBinary{
-    int   tmp;
+struct OakTree_PvtBinary{
+    
+    int   age {0}; 
+        //-- 树木年龄：
+        // 1 -- 树苗
+        // 2 -- 幼树
+        // 3 -- 成年树
+        // 4 -- 巨树（树精）
+    
+    int  oakId {0};
+        // 每颗树在 init 最初阶段，就根据 age，isSingleTRunk,
+        // 分配得到一个 具体的 树id。（一般对应 actionFrames图中某一帧）
+        // [0, 17]
+
+    bool  isSingleTRunk {true};
+        // true  -- 只有一个主树干
+        // false -- 有多个分叉树干
+
+
+    //===== padding =====//
+    u8_t padding[3]  {0};
 };
 
 
-class Norman{
+class OakTree{
 public:
-    Norman() = default;
+    OakTree() = default;
 
     //--- 延迟init ---//
-    void init( GameObj *_goPtr );
+    void init( GameObj *_goPtr, int _age, bool _isSingleTrunk );
     void bind( GameObj *_goPtr );
 
     //--- 从硬盘读取到 go实例数据后，重bind callback
@@ -58,7 +76,7 @@ public:
         assert( _goPtr->species == specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr();
     }
 
     //======== tmp vals ========//
@@ -67,7 +85,7 @@ public:
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    Norman_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
+    OakTree_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
@@ -83,13 +101,14 @@ private:
 };
 
 //---------- static ----------//
-inline u32_t  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+inline u32_t  OakTree::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< Norman类 唯一的 保留实例 >=====
-inline Norman  norman {};
+inline OakTree  oakTree {};
 
 
-goid_t create_a_Norman( const IntVec2 &_mpos );
+goid_t create_a_OakTree( const IntVec2 &_mpos, int _age, bool _isSingleTrunk );
+
 
 
 }//------------- namespace gameObjs: end ----------------
