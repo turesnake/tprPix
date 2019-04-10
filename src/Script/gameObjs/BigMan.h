@@ -54,7 +54,7 @@ public:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == specId );
+        assert( _goPtr->species == BigMan::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
         pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr();
@@ -87,10 +87,6 @@ inline u32_t  BigMan::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< BigMan类 唯一的 保留实例 >=====
 inline BigMan  big_man {};
-
-
-goid_t create_a_BigMan( const IntVec2 &_mpos );
-
 
 }//------------- namespace gameObjs: end ----------------
 #endif 

@@ -44,13 +44,74 @@ namespace{//----------------- namespace ------------------//
  * -----------------------------------------------------------
  */
 void AnimFrameSet::init(){
+    
+    //-------------------//
+    //  three lpath names
+    //-------------------//
+    this->build_three_lpaths();
+
+    //----------------------------------------//
+    //  load & divide png数据，存入每个 帧容器中
+    //----------------------------------------//
+    P_frame_data_ary.clear();
+    J_frame_data_ary.clear();
+    S_frame_data_ary.clear();
+
+    IntVec2 tmpv2; //-tmp
+
+    //-------------------//
+    //       Pic
+    //-------------------//
+    //-- 目前暂不支持 没有 pic数据的 AnimFrameSet 实例 ---
+    this->pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_pic ),
+                                            this->frameNum,
+                                            this->totalFrameNum,
+                                            P_frame_data_ary );
+    create_texNames( this->totalFrameNum,
+                     this->pixNum_per_frame,
+                     P_frame_data_ary,
+                     this->texNames_pic );
+
+    //-------------------//
+    //       Pjt
+    //-------------------//
+    tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_pjt ),
+                                this->frameNum,
+                                this->totalFrameNum,
+                                J_frame_data_ary );
+    assert( tmpv2 == this->pixNum_per_frame );
+    this->handle_pjt();
+    
+
+    //-------------------//
+    //      Shadow
+    //-------------------//
+    if( this->isHaveShadow ){
+        tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_shadow ),
+                                this->frameNum,
+                                this->totalFrameNum,
+                                S_frame_data_ary );
+        assert( tmpv2 == this->pixNum_per_frame );
+        this->handle_shadow();
+        create_texNames( this->totalFrameNum,
+                     this->pixNum_per_frame,
+                     S_frame_data_ary,
+                     this->texNames_shadow );
+    }
+}
+
+
+/* ===========================================================
+ *                 build_three_lpaths
+ * -----------------------------------------------------------
+ */
+void AnimFrameSet::build_three_lpaths(){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
-    //-- tmp --
     std::string lst; //- tmp, 尾部字符串，不停地被截断
 
     //--------------------//
-    //      生成 name
+    //     生成 name
     //--------------------//
     auto lst_slash_idx = this->lpath_pic.rfind( '/' ); //- 指向最后一个 '/'
     assert( lst_slash_idx != std::string::npos ); 
@@ -75,50 +136,9 @@ void AnimFrameSet::init(){
     //- lpath_shadow 暂时等于 "/animal/dog_ack_01"
     this->lpath_shadow.assign( this->lpath_pic.begin(), (this->lpath_pic.begin()+point_idx) );
     this->lpath_shadow += ".S.png";
-
-
-    //----------------------------------------//
-    //  load & divide png数据，存入每个 帧容器中
-    //----------------------------------------//
-    P_frame_data_ary.clear();
-    J_frame_data_ary.clear();
-    S_frame_data_ary.clear();
-
-    IntVec2 tmpv2; //-tmp
-    this->pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_pic ),
-                                            this->frameNum,
-                                            this->totalFrameNum,
-                                            P_frame_data_ary );
-
-    tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_pjt ),
-                                this->frameNum,
-                                this->totalFrameNum,
-                                J_frame_data_ary );
-    assert( tmpv2 == this->pixNum_per_frame );
-    
-    tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, this->lpath_shadow ),
-                                this->frameNum,
-                                this->totalFrameNum,
-                                S_frame_data_ary );
-    assert( tmpv2 == this->pixNum_per_frame );
-
-    //---------------------------------//
-    handle_pjt();
-    handle_shadow();
-    
-    //---------------------------------//
-    //       create GL.texNames
-    //---------------------------------//
-    create_texNames( this->totalFrameNum,
-                     this->pixNum_per_frame,
-                     P_frame_data_ary,
-                     this->texNames_pic );
-    
-    create_texNames( this->totalFrameNum,
-                     this->pixNum_per_frame,
-                     S_frame_data_ary,
-                     this->texNames_shadow );
 }
+
+
 
 
 /* ===========================================================
@@ -194,7 +214,10 @@ void AnimFrameSet::handle_shadow(){
         }
         
         //-- 将 shadow pix 改为需要的颜色 --//
-        //  （一个临时的简陋的方案）
+
+            // 一个临时的简陋的方案...
+            // 在推荐方案中，为 shadow 专门配备一个 fs着色器，具体颜色在 着色器程序中调整
+
         rgbaRef.r = 0;
         rgbaRef.g = 5;
         rgbaRef.b = 10;

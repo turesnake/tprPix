@@ -25,8 +25,23 @@
 class Altitude{
 public:
     Altitude() = default;
+
+    explicit Altitude( float _val ){
+        this->set( _val );
+    }
     
     void set( float _altiVal_from_gpgpu );
+
+    //-- 仅表达是否为land，很可能为 临水区域 --
+    inline bool is_land() const {
+        return (this->val >= 0);
+    }
+
+    //-- 是否为内陆，排除掉了 领水陆地 --
+    inline bool is_inland() const {
+        return (this->val >= 15);
+    }
+
 
     //===== vals =====//
     int  val {0}; //- [-100,100]
@@ -43,6 +58,20 @@ public:
                     // 1: “次临水区” 一个过渡区
                     // 2: 彻底的陆地
 };
+
+
+/* ===========================================================
+ *                   operator <
+ * -----------------------------------------------------------
+ * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
+ */
+inline bool operator < ( const Altitude &_a, const Altitude &_b ){
+    return ( _a.val < _b.val );
+}
+
+inline bool operator > ( const Altitude &_a, const Altitude &_b ){
+    return ( _a.val > _b.val );
+}
 
 
 

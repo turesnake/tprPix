@@ -81,12 +81,12 @@ public:
 
 
     //----- 三阶数据 / third order data ------//
-    //Altitude  alti {};  //- 目前来看，field 不需要 alti 值...
-
-
-    bool    isAllLand {true}; //- 只有本 field 所属的所有 mapent 都为 land，此值才为 true
-                         //- 只要有一个 mapent 为 water，此值即为 false。
     
+    Altitude  minAlti { 100.0 };  
+    Altitude  maxAlti { -100.0 }; //- field 拥有的所有 mapent 的 中点pix 的，alti最低值，最大值
+                                  //- 默认初始值 需要反向设置
+                                  //  通过这组值，来表达 field 的 alti 信息
+
 
     //====== flags =======//
 

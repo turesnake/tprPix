@@ -231,6 +231,7 @@ int main(){
         esrc::renderPool_meshs.clear();
         esrc::renderPool_goMeshs_pic.clear();
         esrc::renderPool_goMeshs_shadow.clear();
+        esrc::renderPool_mapSurfaces.clear();
         
 
         //------------------------//
@@ -265,11 +266,12 @@ int main(){
         //>>>>>>>>>>>>>>>>>>>>>>>>//
         // *** 注意次序,先渲染深处的 ***
         esrc::draw_groundCanvas();
+        esrc::draw_renderPool_meshs(); //- chunks
         esrc::draw_waterAnimCanvas();
-        esrc::draw_renderPool_meshs(); 
+        esrc::draw_renderPool_mapSurfaces();
         esrc::draw_renderPool_goMeshs_shadow();
-        debug::draw_renderPool_mapEntSlices(); //-- 但是不在此文件中 clear
-        debug::draw_renderPool_pointPics(); //-- 但是不在此文件中 clear
+        debug::draw_renderPool_mapEntSlices();  //-- debug 但是不在此文件中 clear
+        debug::draw_renderPool_pointPics();     //-- debug 但是不在此文件中 clear
         esrc::draw_renderPool_goMeshs_pic(); 
 
         

@@ -151,21 +151,28 @@ private:
     inline void set_altiRange(){
         u8_t low  = rgba.g;
         u8_t high = rgba.b;
-        //-- item / surface --//
-        // 在未来，item/surface 设计 可能会被取消...
-        if( low == high ){
-            if( low == AltiRange::diskAlti_item ){
-                colliEntHead.lAltiRange = altiRange_item;
-                return;
-            }else if( low == AltiRange::diskAlti_surface ){
-                colliEntHead.lAltiRange = altiRange_surface;
-                return;
-            }else{
-                assert(0);
+
+
+            //-- item / surface --//
+            // 在未来，item/surface 设计 可能会被取消...
+            /*
+            if( low == high ){
+                if( low == AltiRange::diskAlti_item ){
+                    colliEntHead.lAltiRange = altiRange_item;
+                    return;
+                }else if( low == AltiRange::diskAlti_surface ){
+                    colliEntHead.lAltiRange = altiRange_surface;
+                    return;
+                }else{
+                    assert(0);
+                }
             }
-        }
+            */
+
+        //-- 暂时无视 item / surface 这组概念
+        //   但，高度区间是一定要有的，不然怎么实现碰撞检测 ？？？
         assert( low < high );
-        
+            
         //-- isBody --//
         if( low > 100 ){
             colliEntHead.isBody = false;

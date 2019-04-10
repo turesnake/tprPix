@@ -77,12 +77,12 @@ void Norman::init( GameObj *_goPtr ){
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root" );
+        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "norman" );
         rootGoMeshRef.init( goPtr ); 
+        rootGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
+        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.bind_animFrameSet( "norman" );
         rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
                                                 5,   //- 结束图元帧序号
                                                 0,   //- 入口图元帧序号  
@@ -97,7 +97,7 @@ void Norman::init( GameObj *_goPtr ){
         rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
         rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
-    //-------- go.binary ---------//
+    //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
     pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
@@ -160,13 +160,16 @@ void Norman::OnRenderUpdate( GameObj *_goPtr ){
 
         goMeshRef.animFrameIdxHandle.update();
 
-        goMeshRef.shadowMesh.refresh_translate();
-        goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
+        
         goMeshRef.picMesh.refresh_translate();
         goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
+        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
 
-        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.shadowMesh) });
-        esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
+        if( goMeshRef.isHaveShadow ){
+            goMeshRef.shadowMesh.refresh_translate();
+            goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
+            esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.shadowMesh) );
+        }
     }
 }
 
@@ -232,30 +235,6 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
 
 }
-
-
-
-
-/* ===========================================================
- *                  create_a_Norman 
- * -----------------------------------------------------------
- * -- tmp 
- */
-goid_t create_a_Norman( const IntVec2 &_mpos ){
-    goid_t goid = esrc::insert_new_gameObj();
-    GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::norman.init( goPtr );
-    goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
-    //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goPtr );
-
-        esrc::goids_active.insert( goid ); //- tmp
-
-    return  goid;
-}
-
-
-
 
 }//------------- namespace gameObjs: end ----------------
 

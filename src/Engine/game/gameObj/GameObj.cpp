@@ -44,12 +44,17 @@ void GameObj::init(){
  * -- 在 goMeshs 容器中添加一个 新GoMesh实例，
  * -- 再返回这个 GoMesh实例的 指针
  */
-GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name ){
+GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
+                                        const std::string &_animFrameSetName){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObjMesh  goMesh; //- tmp 
     this->goMeshs.insert({ _name, goMesh }); //- copy
-    return this->goMeshs.at(_name);
+    GameObjMesh &gmesh = this->goMeshs.at(_name);
+    //-----
+    gmesh.bind_animFrameSet( _animFrameSetName );
+    //-----
+    return gmesh;
 }
 
 

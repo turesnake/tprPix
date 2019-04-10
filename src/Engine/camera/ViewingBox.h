@@ -28,12 +28,16 @@ public:
     static float  ground_zOff;
         // 整个游戏最 “深” 的图层，a canvas，往往涂上一个单一的底色
 
-    static float  waterAnim_zOff;
-        // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染
-
     static float  chunks_zOff;
         // 游戏地图 图层。 由无数块 chunk 拼接而成。
         // 其中 water区域是半透明的，可以看到下层的 waterAnimCanvas 效果
+
+    static float  waterAnim_zOff;
+        // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染
+
+    static float  mapSurface_zOff;
+        // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
+        // 在未来，也许会放到 waterAnim 下方...
         
     static float  goShadows_zOff;
         // go阴影 图层。
@@ -47,10 +51,11 @@ inline float ViewingBox::y { (float)WORK_HEIGHT };
 inline float ViewingBox::z { (float)VIEWING_BOX_Z_DEEP };
 
 inline float  ViewingBox::ground_zOff        { 10.0f };
-inline float  ViewingBox::waterAnim_zOff     { 30.0f };
 inline float  ViewingBox::chunks_zOff        { 20.0f };
-inline float  ViewingBox::goShadows_zOff     { 40.0f };
-inline float  ViewingBox::mapEntSlices_zOff  { 50.0f };
+inline float  ViewingBox::waterAnim_zOff     { 30.0f };
+inline float  ViewingBox::mapSurface_zOff    { 40.0f };
+inline float  ViewingBox::goShadows_zOff     { 50.0f };
+inline float  ViewingBox::mapEntSlices_zOff  { 60.0f };
 
 
 #endif

@@ -2,10 +2,7 @@
 
 
 
-#include "Script/gameObjs/Norman.h" 
-#include "Script/gameObjs/BigMan.h" 
-#include "Script/gameObjs/OakTree.h" 
-
+#include "Script/gameObjs/create_goes.h" 
 
 //-------------------- C --------------------//
 #include <cassert>

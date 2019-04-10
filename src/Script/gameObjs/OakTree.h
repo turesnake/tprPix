@@ -60,7 +60,10 @@ public:
     OakTree() = default;
 
     //--- 延迟init ---//
-    void init( GameObj *_goPtr, int _age, bool _isSingleTrunk );
+    void init(  GameObj *_goPtr, 
+                int _age, 
+                bool _isSingleTrunk,
+                bool _isFlipOver );
     void bind( GameObj *_goPtr );
 
     //--- 从硬盘读取到 go实例数据后，重bind callback
@@ -73,7 +76,7 @@ public:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == specId );
+        assert( _goPtr->species == OakTree::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
         pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr();
@@ -105,10 +108,6 @@ inline u32_t  OakTree::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< Norman类 唯一的 保留实例 >=====
 inline OakTree  oakTree {};
-
-
-goid_t create_a_OakTree( const IntVec2 &_mpos, int _age, bool _isSingleTrunk );
-
 
 
 }//------------- namespace gameObjs: end ----------------

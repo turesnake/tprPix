@@ -90,7 +90,8 @@ public:
         return &(this->pvtBinary.at(0));
     }
 
-    GameObjMesh &creat_new_goMesh( const std::string &_name ); 
+    GameObjMesh &creat_new_goMesh(  const std::string &_name,
+                                    const std::string &_animFrameSetName ); 
 
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...

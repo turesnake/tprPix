@@ -68,19 +68,67 @@ struct AnimFrameSetParams{
 class AnimFrameSet{
 public:
     AnimFrameSet( const std::string &_lpath_pic, 
-                IntVec2  _frameNum,
-                int      _totalFrameNum,
+                IntVec2             _frameNum,
+                int                 _totalFrameNum,
+                bool                _isHaveShadow,
+                bool                _isTimeStepsManualSet, //- 若为 false，参数 _timeSteps 可为空容器
                 const std::vector<int> &_timeSteps
                 ):
         lpath_pic(_lpath_pic),
         frameNum(_frameNum),
-        totalFrameNum(_totalFrameNum)
+        totalFrameNum(_totalFrameNum),
+        isHaveShadow(_isHaveShadow),
+        isTimeStepsManualSet(_isTimeStepsManualSet)
         {
-            assert( _timeSteps.size() == this->totalFrameNum );
-            this->timeSteps.insert( this->timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
+            if( this->isTimeStepsManualSet ){
+                assert( _timeSteps.size() == this->totalFrameNum );
+                this->timeSteps.insert( this->timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
+            }else{
+                this->timeSteps.resize( this->totalFrameNum, 6 ); //- 默认值，统统为6
+            } 
         }
 
     void init();
+
+    inline const IntVec2 &get_pixNum_per_frame() const {
+        return this->pixNum_per_frame;
+    }
+
+    inline const IntVec2 &get_frameNum() const {
+        return this->frameNum;
+    }
+
+    inline int get_totalFrameNum() const {
+        return this->totalFrameNum;
+    }
+
+    inline const std::vector<FramePos> &get_framePoses() const {
+        return this->framePoses;
+    }
+
+    inline const std::vector<int> &get_timeSteps() const {
+        return this->timeSteps;
+    }
+
+    inline const std::vector<GLuint> &get_texNames_pic() const {
+        return this->texNames_pic;
+    }
+
+    inline const std::vector<GLuint> &get_texNames_shadow() const {
+        assert( this->isHaveShadow );
+        return this->texNames_shadow;
+    }
+
+
+    //======== flags ========//
+    //-- 一个 AnimFrameSet 实例，必须有 P/J 两张图，但不一定要有 S 图。
+    bool  isHaveShadow  {};
+    bool  isTimeStepsManualSet {}; //- 若为 false，则使用默认 timeSteps值 (每一帧都为6)
+
+private:
+    void build_three_lpaths();
+    void handle_pjt();
+    void handle_shadow();
 
     //======== vals ========//
     //-- 本动画动作 的name。 起到 id 的作用。
@@ -102,8 +150,8 @@ public:
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
     //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
-    std::vector<GLuint> texNames_pic; 
-    std::vector<GLuint> texNames_shadow; 
+    std::vector<GLuint> texNames_pic    {}; 
+    std::vector<GLuint> texNames_shadow {}; 
 
     //-- each frame --
     std::vector<FramePos>  framePoses {};
@@ -111,9 +159,6 @@ public:
     //-- step time for each frame -- 
     std::vector<int> timeSteps {};
 
-private:
-    void handle_pjt();
-    void handle_shadow();
 };
 
 

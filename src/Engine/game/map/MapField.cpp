@@ -129,9 +129,9 @@ void MapField::init_lColorOff(){
     //-- 以此来显示 density 分布情况 --    
     
     if( this->density.lvl > 0 ){
-        this->lColorOff_r = this->density.lvl * -9;
-        this->lColorOff_g = this->density.lvl * -6;
-        this->lColorOff_b = this->density.lvl * -5;
+        this->lColorOff_r = this->density.lvl * -11;
+        this->lColorOff_g = this->density.lvl * -8;
+        this->lColorOff_b = this->density.lvl * -7;
     }else{
         this->lColorOff_r = 0;
         this->lColorOff_g = 0;

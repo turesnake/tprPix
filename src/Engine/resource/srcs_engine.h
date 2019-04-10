@@ -176,10 +176,14 @@ inline std::multimap<float, ChildMesh*> renderPool_goMeshs_pic {};
             //- 有的 go.pos.z 值可能相同，所以要使用 multimap !
 inline std::vector<ChildMesh*> renderPool_goMeshs_shadow {};
             //- 所有 shadow 拥有相同的 z-deep. 对渲染次序 无要求
+
+//-----
+inline std::vector<ChildMesh*> renderPool_mapSurfaces {};
+            //- 地表go，没有 shadow，只需要渲染 pic
             
 void draw_renderPool_goMeshs_pic();
 void draw_renderPool_goMeshs_shadow();
-
+void draw_renderPool_mapSurfaces();
 
 
 //-------------------------//

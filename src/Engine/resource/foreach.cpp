@@ -63,52 +63,5 @@ void foreach_goids_inactive( F_GOID_GOPTR _fp ){
 }
 
 
-/* ===========================================================
- *                draw_renderPool_goMeshs_pic
- * -----------------------------------------------------------
- * -- 
- */
-void draw_renderPool_goMeshs_pic(){
-
-    auto ipair = esrc::renderPool_goMeshs_pic.begin();
-    for( ; ipair!=esrc::renderPool_goMeshs_pic.end(); ipair++ ){
-        //-- 渲染持续，pos.z值小的 先渲染 --
-        ipair->second->draw();
-    }
-}
-
-/* ===========================================================
- *                draw_renderPool_goMeshs_shaodw
- * -----------------------------------------------------------
- * -- 
- */
-void draw_renderPool_goMeshs_shadow(){
-    
-    for( auto &ptr : esrc::renderPool_goMeshs_shadow ){
-        ptr->draw();
-    }
-}
-
-
-/* ===========================================================
- *                draw_renderPool_meshs
- * -----------------------------------------------------------
- * -- 
- */
-void draw_renderPool_meshs(){
-
-    auto ipair = esrc::renderPool_meshs.begin();
-    for( ; ipair!=esrc::renderPool_meshs.end(); ipair++ ){
-        ipair->second->draw();
-    }
-}
-
-
-
-
-
-
-
-
 }//---------------------- namespace: esrc -------------------------//
 

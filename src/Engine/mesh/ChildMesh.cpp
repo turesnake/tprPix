@@ -75,12 +75,17 @@ void ChildMesh::refresh_translate(){
     if( this->isPic == true ){
         this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
                                     //-- 累加 高度alti
-        this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->off_z);
-                                    //-- ** 注意！**  z值的计算有不同：
-                                    // -1- 取负...
-                                    // -2- 没有算入 vRef.y; 因为这个值只代表：
-                                    //     图元 和 根锚点的 偏移
-                                    //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
+        if( this->isPicFixedZOff ){
+            this->translate_val.z = esrc::camera.get_zFar() + this->picFixedZOff;
+        }else{
+            this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->off_z);
+                                        //-- ** 注意！**  z值的计算有不同：
+                                        // -1- 取负...
+                                        // -2- 没有算入 vRef.y; 因为这个值只代表：
+                                        //     图元 和 根锚点的 偏移
+                                        //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
+        }
+        
     }else{
         this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
@@ -113,8 +118,16 @@ void ChildMesh::draw(){
 
     //---------- refresh texName -------------
     GLuint texName;
-    (this->isPic) ? texName=this->goMeshPtr->get_currentTexName_pic() :
-              texName=this->goMeshPtr->get_currentTexName_shadow();
+    if( this->isPic ){
+        texName=this->goMeshPtr->get_currentTexName_pic();
+    }else{
+        //--- 若没有 shadow，直接跳过本次 draw-call --- IMPORTANT !!!!!
+        if( this->goMeshPtr->isHaveShadow == false ){
+            return;
+        }
+        //------
+        texName=this->goMeshPtr->get_currentTexName_shadow();
+    }
 
 
     //---------- refresh mat4_model -------------

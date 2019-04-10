@@ -4,7 +4,6 @@
  *                                        CREATE -- 2019.01.22
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *  
  * ----------------------------
  */
 #ifndef _TPR_CHILD_MESH_H_
@@ -51,6 +50,12 @@ public:
     inline void set_rotate_z( float _z )                 { this->rotate_z=_z; }
     inline void set_scale( const glm::vec3 &_v )         { this->scale_val=_v; }
 
+    //-- 参数 _picFixedZOff 必须是 ViewingBox:: 中的某个值 ---
+    inline void set_pic_zOff( bool _isPicFixedZOff, float _picFixedZOff ){
+        this->isPicFixedZOff = _isPicFixedZOff;
+        this->picFixedZOff = _picFixedZOff;
+    }
+
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
     void refresh_translate();
@@ -89,7 +94,13 @@ private:
     //-- 位移／旋转／缩放 变化向量。
     glm::vec3 translate_val {};    
     float     rotate_z    {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）    
+    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
+
+    float     picFixedZOff {};   
+
+    //======== flags ========//  
+    bool  isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
+                                // 仅作用于 pic
 };
 
 

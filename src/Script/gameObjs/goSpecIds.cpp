@@ -22,6 +22,7 @@
 #include "Script/gameObjs/Norman.h" 
 #include "Script/gameObjs/BigMan.h" 
 #include "Script/gameObjs/OakTree.h" 
+#include "Script/gameObjs/mapSurfaces/Lichen.h"
 
 
 using std::string;
@@ -47,12 +48,12 @@ void onGoSpecIds_SignUp(){
     goSpec_alloc( 1, "norman" );  gameObjs::Norman::specId = 1;
     goSpec_alloc( 2, "bigMan" );  gameObjs::BigMan::specId = 2;
 
-    
+    //----- tree -----
     goSpec_alloc( 1001, "OakTree" ); gameObjs::OakTree::specId = 1001; //- 橡树
     //goSpec_alloc( 1000, "Tree_Pine" ); //- 松树
 
-
-    //goSpec_alloc( 2000, "Dog_A" );
+    //----- mapSurface -----
+    goSpec_alloc( 2001, "lichen" ); gameObjs::Lichen::specId = 2001; //- 地衣
 
 
     //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 

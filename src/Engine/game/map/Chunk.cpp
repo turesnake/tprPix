@@ -29,7 +29,8 @@
 #include "debug.h"
 
 //-------------------- Script --------------------//
-#include "Script/gameObjs/OakTree.h" 
+#include "Script/gameObjs/create_goes.h"
+
 
 
 namespace{//-------- namespace: --------------//
@@ -283,7 +284,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
         // 如果相关 field 不存在，就地创建之
         tmpFieldPtr = colloect_and_creat_nearFour_fieldDatas( fieldKey );
 
-
+        
         for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
@@ -334,11 +335,17 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
                             mapEntRef.alti = pixData.alti;
 
-                            if( pixData.alti.val <= 0 ){ //- 此 ent 处于 water 中
-                                if( pixData.fieldDataPtr->fieldPtr->isAllLand != false ){
-                                    pixData.fieldDataPtr->fieldPtr->isAllLand = false;
-                                }
+                            //----- 记录 alti min/max ----//
+                            if( pixData.alti < pixData.fieldDataPtr->fieldPtr->minAlti ){ 
+                                pixData.fieldDataPtr->fieldPtr->minAlti = pixData.alti;
                             }
+                            if( pixData.alti > pixData.fieldDataPtr->fieldPtr->maxAlti ){ 
+                                pixData.fieldDataPtr->fieldPtr->maxAlti = pixData.alti;
+                            }
+                                            // 目前这个实现并不精确。对于 chunk 边缘的 field。它们的 min/max alti 
+                                            // 要等到 隔壁 chunk 也生成后，才能补全。
+                                            // 所以，现在还是会出现 “树木长在河里” 的现象
+
                             //...
                         }
 
@@ -352,52 +359,12 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         color.a = 255;
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
 
-
                         *pixData.texPixPtr = color;
 
                     }
                 } //- each pix in mapent end ---
-
             }
-        } //- each ent in field end --
-
-
-        //--------------------------------//
-        //    给 高密度 field，种上 橡树go 
-        //            tmp...
-        //--------------------------------//
-        
-        bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
-        int randV = uDistribution_regular(esrc::gameSeed.randEngine);
-        switch ( tmpFieldPtr->density.lvl ){
-            case 3:
-                if( (randV < 1000) &&  // [600/1000]
-                    (tmpFieldPtr->isAllLand) ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                3, isSingleTrunk );
-                }
-                break;
-            case 2:
-                if( (randV < 600) &&  // [400/1000]
-                    (tmpFieldPtr->isAllLand) ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                2, isSingleTrunk );
-                }
-                break;
-            case 1:
-                if( (randV < 300) &&  // [400/1000]
-                    (tmpFieldPtr->isAllLand) ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                1, isSingleTrunk );
-                }
-                break;
-            default:
-                break;
-        }
-        
-        
-        
-        
+        } //- each ent in field end --        
     } //-- each field key end --
 
     //---------------------------//
@@ -425,6 +392,62 @@ void Chunk::assign_ents_and_pixes_to_field(){
         //---
         *pixPtr = *nearPixPtr;
     }
+
+
+    //--------------------------------//
+    //          go 生成器  [tmp]
+    //    给 高密度 field，种上 橡树go 
+    //--------------------------------//
+    for( const auto &fieldKey : fieldKeys ){ //- each field key
+
+        //-- 收集 目标field 周边4个 field 实例指针  --
+        // 如果相关 field 不存在，就地创建之
+        tmpFieldPtr = colloect_and_creat_nearFour_fieldDatas( fieldKey );
+
+
+        //--- 优先计算，是否种植 地衣 ---
+        if( (uDistribution_regular(esrc::gameSeed.randEngine)<400) && 
+            (tmpFieldPtr->minAlti.val > 30) &&   //- 海拔
+            (tmpFieldPtr->density.lvl<3) && (tmpFieldPtr->density.lvl>-2) ){  //- 密度
+
+            gameObjs::create_a_Lichen(  tmpFieldPtr->nodeMPos, 
+                                        tmpFieldPtr->weight );
+            continue;
+        }
+
+        //-- 没有分配到 地衣时，才会种树 ---
+        bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
+        bool isFlipOver = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
+        int randV = uDistribution_regular(esrc::gameSeed.randEngine);
+        switch ( tmpFieldPtr->density.lvl ){
+            case 3:
+                if( (randV < 1000) &&  // [600/1000]
+                    tmpFieldPtr->minAlti.is_inland() ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                3, isSingleTrunk, isFlipOver );
+                }
+                break;
+            case 2:
+                if( (randV < 800) &&  // [400/1000]
+                    tmpFieldPtr->minAlti.is_inland() ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                2, isSingleTrunk, isFlipOver );
+                }
+                break;
+            case 1:
+                if( (randV < 200) &&  // [400/1000]
+                    tmpFieldPtr->minAlti.is_inland() ){ 
+                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
+                                                1, isSingleTrunk, isFlipOver );
+                }
+                break;
+            default:
+                break;
+        }
+    } //-- each field key end --
+
+
+
     
     
     //---------------------------//

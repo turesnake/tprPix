@@ -28,30 +28,45 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
  */
 void load_animFrameSets(){
 
-    animFrameSets.clear();
+    esrc::animFrameSets.clear();
 
-    animFrameSets.insert({"norman",  AnimFrameSet{ "/norman/norman.P.png", IntVec2{6, 2}, 12,
-                                                    std::vector<int>{12,8,8,12,8,8, 4,4,4,4,4,4} } });
+    esrc::animFrameSets.insert({"norman",  
+                                AnimFrameSet{   "/norman/norman.P.png", 
+                                                IntVec2{6, 2}, 12,
+                                                true,
+                                                true, std::vector<int>{12,8,8,12,8,8, 4,4,4,4,4,4} } });
 
-    animFrameSets.insert({"bigMan",  AnimFrameSet{ "/bigMan/bigMan.P.png", IntVec2{6, 2}, 12,
-                                                    std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
+    esrc::animFrameSets.insert({"bigMan",  
+                                AnimFrameSet{   "/bigMan/bigMan.P.png", 
+                                                IntVec2{6, 2}, 12,
+                                                true,
+                                                true, std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
 
-    
-    std::vector<int> oakTree_timeSteps;
-    oakTree_timeSteps.resize( 18, 6 );
-    animFrameSets.insert({"oakTree",  AnimFrameSet{ "/oakTree/oakTree_1.P.png", IntVec2{5, 4}, 18,
-                                                    oakTree_timeSteps } });
+    esrc::animFrameSets.insert({"oakTree",  
+                                AnimFrameSet{   "/oakTree/oakTree_2.P.png", 
+                                                IntVec2{5, 4}, 17,
+                                                true,
+                                                false, std::vector<int>{} } });
+
+
+    esrc::animFrameSets.insert({"lichen",  
+                                AnimFrameSet{   "/lichen/lichen.P.png", 
+                                                IntVec2{4, 2}, 8,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });
 
 
 
     //---------------------------------//
-    //        init all animFrameSets
+    //     init all animFrameSets
     //---------------------------------//
-    auto it = animFrameSets.begin();
-    for( ; it!=animFrameSets.end(); it++ ){
-        it->second.init();
-        //it->second.debug();
+    for( auto &pairRef : esrc::animFrameSets ){
+        pairRef.second.init();
+        //pairRef.second.debug();
     }
+
+
+
 }
 
 

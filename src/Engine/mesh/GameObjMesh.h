@@ -70,6 +70,7 @@ class GameObj;
 //  -1- animFrameSetPtr.  实例本体 存储在 全局容器 animFrameSets 中。
 //  -2- animFrameIdxHandle. 实例（独占）
 //  -3- 2 个 子mesh实例，分别对应 pic/shadow 两份图形数据。
+//      有些 gmesh 仅拥有 pic，没有 shadow
 //
 class GameObjMesh{
 public:
@@ -79,18 +80,25 @@ public:
         goPtr = _goPtr;
         //-----
         this->picMesh.init(    goPtr, (GameObjMesh*)this );
-        this->shadowMesh.init( goPtr, (GameObjMesh*)this );
+        this->shadowMesh.init( goPtr, (GameObjMesh*)this ); //- 就算没有 shadow，也会执行 init
+    }
+
+    //-- 参数 _picFixedZOff 必须是 ViewingBox:: 中的某个值 ---
+    inline void set_pic_zOff( bool _isPicFixedZOff, float _picFixedZOff ){
+        this->picMesh.set_pic_zOff( _isPicFixedZOff, _picFixedZOff );
     }
 
     //------ animFrameSet ------
+    //  目前，此函数仅用于 go.creat_new_goMesh() 中
     void bind_animFrameSet( const std::string &_name );
+
 
     inline const std::string &get_animFrameSetName() const {
         return this->animFrameSetName;
     }
 
     inline int get_totalFrames() const {
-        return this->animFrameSetPtr->totalFrameNum;
+        return this->animFrameSetPtr->get_totalFrameNum();
     }
 
     //--- IMPORTANT !!! ---
@@ -99,30 +107,30 @@ public:
     }
 
     inline const AnchorPos &get_rootAnchorPos() const {
-        return this->animFrameSetPtr->framePoses.at( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
+        return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
 
     inline const FramePos &get_currentFramePos() const {
-        return this->animFrameSetPtr->framePoses.at( this->animFrameIdxHandle.currentIdx );
+        return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx );
     }
 
     inline GLuint get_currentTexName_pic() const {
-        return this->animFrameSetPtr->texNames_pic.at(this->animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->get_texNames_pic().at(this->animFrameIdxHandle.currentIdx);
     }
     inline GLuint get_currentTexName_shadow() const {
-        return this->animFrameSetPtr->texNames_shadow.at(this->animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->get_texNames_shadow().at(this->animFrameIdxHandle.currentIdx);
     }
 
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return this->animFrameSetPtr->framePoses.at(this->animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
+        return this->animFrameSetPtr->get_framePoses().at(this->animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
     }
 
     inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
-        return this->animFrameSetPtr->pixNum_per_frame;
+        return this->animFrameSetPtr->get_pixNum_per_frame();
     }
 
     inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
-        return this->animFrameSetPtr->timeSteps.at(_currentIdx);
+        return this->animFrameSetPtr->get_timeSteps().at(_currentIdx);
     }
 
 
@@ -144,11 +152,17 @@ public:
                                     //- 但是存在 类型验证的需求：通过 .typeId 
 
     //======== flags ========//
+    bool   isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
+                            //- 在 this->init() 之前，此值就被确认了
     bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
     bool   isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+    
 
 private:
+    
+
+    //======== vals ========//
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
 
     //------- AnimFrameSet -------
