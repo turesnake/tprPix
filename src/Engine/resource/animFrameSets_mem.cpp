@@ -50,8 +50,20 @@ void load_animFrameSets(){
 
 
     esrc::animFrameSets.insert({"lichen",  
-                                AnimFrameSet{   "/lichen/lichen.P.png", 
-                                                IntVec2{4, 2}, 8,
+                                AnimFrameSet{   "/lichen/lichen_2.P.png", 
+                                                IntVec2{8, 4}, 32,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });
+
+
+    esrc::animFrameSets.insert({"wheat_Front",  
+                                AnimFrameSet{   "/wheat/wheat_Front.P.png", 
+                                                IntVec2{4, 1}, 4,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });
+    esrc::animFrameSets.insert({"wheat_Back",  
+                                AnimFrameSet{   "/wheat/wheat_Back.P.png", 
+                                                IntVec2{4, 1}, 4,
                                                 false, //- 没有 shadow 数据
                                                 false, std::vector<int>{} } });
 

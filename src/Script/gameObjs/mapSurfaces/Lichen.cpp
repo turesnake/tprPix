@@ -96,13 +96,8 @@ void Lichen::init( GameObj *_goPtr,
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
         //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_cycle(pvtBp->lichenId,   //- 起始图元帧序号
-                                                pvtBp->lichenId,   //- 结束图元帧序号
-                                                pvtBp->lichenId,   //- 入口图元帧序号  
-                                                true //- isOrder
-                                                );
-                        //-- 在未来，要制作一种 静态 动画类型
-                        //...
+        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->lichenId );
+                    
 
         rootGoMeshRef.isVisible = true;
         rootGoMeshRef.isCollide = true;
@@ -218,11 +213,7 @@ void Lichen::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_cycle(pvtBp->lichenId,   //- 起始图元帧序号
-                                                        pvtBp->lichenId,   //- 结束图元帧序号
-                                                        pvtBp->lichenId,   //- 入口图元帧序号  
-                                                        true //- isOrder
-                                                        );
+            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->lichenId );
             break;
 
 
@@ -249,14 +240,14 @@ namespace{//-------------- namespace ------------------//
 int apply_a_lichenId( float _fieldWeight ){
 
     int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 977;
-    return randV % 8; //- 目前 只有 8个 frame...
+    return randV % 32; //- 目前 只有 32个 frame...
                       //  未来需要更规范的写法...
 }
 
 
 bool apply_isFlipOver( float _fieldWeight ){
     int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 911;
-    return ((randV%2)==0);
+    return ((randV%10)<5);
 }
 
 

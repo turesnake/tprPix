@@ -53,6 +53,14 @@ public:
         return this->mcpos.get_ppos();
     }
 
+    inline bool is_inland() const {
+        return (this->minAlti.is_inland() &&
+                this->nodeAlti.is_land() );
+                    //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
+                    //  地图上种植的树木个数会大幅度减少
+                    //  未修改...
+    }
+
     //----- 一阶数据 / first order data ------//
     MapCoord    mcpos    {};    //- field左下角mcpos
                                 // 这么存储很奢侈，也许会在未来被取消...
@@ -86,6 +94,11 @@ public:
     Altitude  maxAlti { -100.0 }; //- field 拥有的所有 mapent 的 中点pix 的，alti最低值，最大值
                                   //- 默认初始值 需要反向设置
                                   //  通过这组值，来表达 field 的 alti 信息
+                                  //  ---------
+                                  //  但在实际使用中，这组值并不完善，chunk边缘field 的 这组alti值往往无法被填完
+                                  //  就要开始 种go。此时很容易把 go 种到水里。
+    
+    Altitude  nodeAlti {}; //- nodeMPos 点的 alti 值
 
 
     //====== flags =======//

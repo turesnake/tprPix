@@ -18,6 +18,7 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
+#include "fieldKey.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -29,6 +30,9 @@ void build_9_chunks_3( const IntVec2 &_playerMPos );
 void collect_chunks_need_to_be_build_in_update_3();
 
 void build_one_chunks_from_chunksDeque();
+
+
+void create_a_go_in_field( fieldKey_t _fieldKey ); //- tmp
 
 
 

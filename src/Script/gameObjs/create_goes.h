@@ -25,7 +25,8 @@ goid_t create_a_OakTree( const IntVec2 &_mpos,
                         bool _isFlipOver );
 goid_t create_a_Lichen( const IntVec2 &_mpos,
                         float _fieldWeight );
-
+goid_t create_a_Wheat( const IntVec2 &_mpos,
+                        float _fieldWeight );
 
 
 

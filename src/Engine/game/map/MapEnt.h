@@ -160,6 +160,10 @@ public:
     explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         fst_d2m( _fdme );
     }
+
+    inline const IntVec2 &get_mpos() const {
+        return this->mcpos.get_mpos();
+    }
     
     //=============== data: 一级信息 ===============//
     //LandWaterEnt   landWater    {}; //- 陆地／水域

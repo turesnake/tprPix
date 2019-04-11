@@ -1,14 +1,15 @@
 /*
- * ========================= OakTree.cpp ==========================
+ * ========================= Wheat.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.05
+ *                                        CREATE -- 2019.04.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/OakTree.h"
+#include "Script/gameObjs/bush/Wheat.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -27,29 +28,12 @@ using namespace std::placeholders;
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
+
 namespace{//-------------- namespace ------------------//
 
-
-    std::uniform_int_distribution<int> uDistribution_bool(0,1);
-    std::uniform_int_distribution<int> uDistribution_oakId(0,100);
-
-    //--- 将所有 oakId 分类，方便分配 ---
-    std::vector<int> multiBranch_age1   { 0 };
-    std::vector<int> singleTrunk_age1   { 1, 2 };
-    //---
-    std::vector<int> multiBranch_age2   { 3, 4 };
-    std::vector<int> singleTrunk_age2   { 5, 6 };
-    //---
-    std::vector<int> multiBranch_age3   { 7, 8, 9, 10, 11 };
-    std::vector<int> singleTrunk_age3   { 12, 13, 14, 15, 16 };
-    //---
-    std::vector<int> multiBranch_age4   { 16 }; //- 暂无
-    std::vector<int> singleTrunk_age4   { 16 }; //- 暂无
-
-
     //===== funcs =====//
-    int apply_a_oakId( int _age, bool _isSingleTrunk );
-
+    int apply_a_wheatId( float _fieldWeight );
+    bool apply_isFlipOver( float _fieldWeight );
 
 }//------------------ namespace: end ------------------//
 
@@ -58,48 +42,44 @@ namespace{//-------------- namespace ------------------//
  *                         init
  * -----------------------------------------------------------
  */
-void OakTree::init( GameObj *_goPtr, 
-                    int _age,
-                    bool _isSingleTrunk,
-                    bool _isFlipOver ){
+void Wheat::init( GameObj *_goPtr,
+                    float _fieldWeight ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
-    //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(OakTree_PvtBinary) );
-    pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-        pvtBp->age = _age;
-        pvtBp->isSingleTRunk = _isSingleTrunk;
-        pvtBp->oakId = apply_a_oakId( _age, _isSingleTrunk );
-        //...
-        
+    //-------- go.pvtBinary ---------//
+    goPtr->resize_pvtBinary( sizeof(Wheat_PvtBinary) );
+    pvtBp = (Wheat_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+
+        pvtBp->wheatId = apply_a_wheatId( _fieldWeight );
+
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &OakTree::OnRenderUpdate, &oakTree, _1 );   
-    goPtr->LogicUpdate  = std::bind( &OakTree::OnLogicUpdate,  &oakTree, _1 );
+    goPtr->RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _1 );   
+    goPtr->LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _1 );
     
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.bind_func( std::bind( &OakTree::OnActionSwitch, &oakTree, _1, _2 ) );
+    goPtr->actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
     goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
-                //- 当前树木只有一种动画，就是永久待机...
+            //- 当前 wheat 只有一种动画，就是永久待机...
 
     //-------- go self vals ---------//
-    goPtr->species = OakTree::specId;
+    goPtr->species = Wheat::specId;
     goPtr->family = GameObjFamily::Major;
     goPtr->parentId = NULLID;
     goPtr->state = GameObjState::Waked;
     goPtr->moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goPtr->weight = 50.0f;
+    goPtr->weight = 1.0f;
 
     goPtr->isTopGo = true;
     goPtr->isActive = true;
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- 树木一律无法移动
+    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- wheat一律无法移动
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
@@ -109,29 +89,47 @@ void OakTree::init( GameObj *_goPtr,
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
-        //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "oakTree" );
+        //------- 制作 mesh 实例: "root" -------
+        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "wheat_Front" );
         rootGoMeshRef.init( goPtr ); 
         rootGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
+        //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->oakId );
-
+        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+                    
         rootGoMeshRef.isVisible = true;
         rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = _isFlipOver;
+        rootGoMeshRef.isFlipOver = apply_isFlipOver( _fieldWeight ); //- tmp
 
         //-- goMesh pos in go --
-        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, -7.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
         rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
+
+
+        //------- 制作 mesh 实例: "back" -------
+        GameObjMesh &backGoMeshRef = goPtr->creat_new_goMesh( "back", "wheat_Back" );
+        backGoMeshRef.init( goPtr ); 
+        backGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
+        backGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
+        //backGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
+        //-- bind animFrameSet / animFrameIdxHandle --
+        backGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+                    
+        backGoMeshRef.isVisible = true;
+        backGoMeshRef.isCollide = false; //- 不参加碰撞检测，也不会写到 mapent上
+        backGoMeshRef.isFlipOver = apply_isFlipOver( _fieldWeight ); //- tmp
+
+        //-- goMesh pos in go --
+        backGoMeshRef.pposOff = glm::vec2{ 0.0f, 7.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        backGoMeshRef.off_z = 0.0f;  
+
 
     //...
 
     //-------- go.pubBinary ---------//
-    goPtr->pubBinary.init( oakTree_pubBinaryValTypes );
+    goPtr->pubBinary.init( wheat_pubBinaryValTypes );
 }
-
 
 /* ===========================================================
  *                       bind
@@ -139,7 +137,7 @@ void OakTree::init( GameObj *_goPtr,
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void OakTree::bind( GameObj *_goPtr ){
+void Wheat::bind( GameObj *_goPtr ){
 }
 
 
@@ -149,15 +147,14 @@ void OakTree::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void OakTree::rebind( GameObj *_goPtr ){
+void Wheat::rebind( GameObj *_goPtr ){
 }
-
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void OakTree::OnRenderUpdate( GameObj *_goPtr ){
+void Wheat::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -186,17 +183,12 @@ void OakTree::OnRenderUpdate( GameObj *_goPtr ){
         }
 
         goMeshRef.animFrameIdxHandle.update();
-
+        
         goMeshRef.picMesh.refresh_translate();
         goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
+        esrc::renderPool_mapSurfaces.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
 
-        
-        if( goMeshRef.isHaveShadow ){
-            goMeshRef.shadowMesh.refresh_translate();
-            goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
-            esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.shadowMesh) );
-        }
+        // mapSurface gos 一律没有 shadow
     }
 }
 
@@ -205,7 +197,7 @@ void OakTree::OnRenderUpdate( GameObj *_goPtr ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void OakTree::OnLogicUpdate( GameObj *_goPtr ){
+void Wheat::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -216,16 +208,14 @@ void OakTree::OnLogicUpdate( GameObj *_goPtr ){
 }
 
 
+
 /* ===========================================================
  *               OnActionSwitch
  * -----------------------------------------------------------
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
-void OakTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
-
-    cout << "OakTree::OnActionSwitch()"
-        << endl;
+void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
     //=====================================//
     //            ptr rebind
@@ -240,15 +230,17 @@ void OakTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->oakId );
-                                    
+            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
             break;
+
 
         default:
             break;
             //-- 并不报错，什么也不做...
 
     }
+
+
 }
 
 
@@ -257,34 +249,25 @@ namespace{//-------------- namespace ------------------//
 
 
 /* ===========================================================
- *                     apply_a_oakId
+ *                     apply_a_oakId   tmp
  * -----------------------------------------------------------
+ * 这组方法很临时。不够好...
+ * param: _fieldWeight -- [-100.0, 100.0]
  */
-int apply_a_oakId( int _age, bool _isSingleTrunk ){
-    size_t  idx;
-    int     randV = uDistribution_oakId(esrc::gameSeed.randEngine);
-    if( _isSingleTrunk ){ //- 单树干
-        switch( _age ){
-            case 1: idx = randV % singleTrunk_age1.size();  return singleTrunk_age1.at(idx);
-            case 2: idx = randV % singleTrunk_age2.size();  return singleTrunk_age2.at(idx);
-            case 3: idx = randV % singleTrunk_age3.size();  return singleTrunk_age3.at(idx);
-            case 4: idx = randV % singleTrunk_age4.size();  return singleTrunk_age4.at(idx);
-            default:
-                assert(0);
-                return 0; //- never touch
-        }
-    }else{ //- 多树枝
-        switch( _age ){
-            case 1: idx = randV % multiBranch_age1.size();  return multiBranch_age1.at(idx);
-            case 2: idx = randV % multiBranch_age2.size();  return multiBranch_age2.at(idx);
-            case 3: idx = randV % multiBranch_age3.size();  return multiBranch_age3.at(idx);
-            case 4: idx = randV % multiBranch_age4.size();  return multiBranch_age4.at(idx);
-            default:
-                assert(0);
-                return 0; //- never touch
-        }
-    }
+int apply_a_wheatId( float _fieldWeight ){
+
+    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 977;
+    return randV % 4; //- 目前 只有 4个 frame...
+                      //  未来需要更规范的写法...
 }
+
+
+bool apply_isFlipOver( float _fieldWeight ){
+    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 911;
+    return ((randV%10)<5);
+}
+
+
 
 
 

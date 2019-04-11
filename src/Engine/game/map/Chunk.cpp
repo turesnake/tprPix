@@ -25,6 +25,7 @@
 #include "Altitude.h"
 #include "Quad.h"
 #include "FieldBorderSet.h"
+#include "sectionBuild.h" //- tmp
 
 #include "debug.h"
 
@@ -345,6 +346,11 @@ void Chunk::assign_ents_and_pixes_to_field(){
                                             // 目前这个实现并不精确。对于 chunk 边缘的 field。它们的 min/max alti 
                                             // 要等到 隔壁 chunk 也生成后，才能补全。
                                             // 所以，现在还是会出现 “树木长在河里” 的现象
+                            
+                            //----- 记录 field.nodeAlti ----//
+                            if( mapEntRef.get_mpos() == pixData.fieldDataPtr->fieldPtr->nodeMPos ){
+                                pixData.fieldDataPtr->fieldPtr->nodeAlti = pixData.alti;
+                            }
 
                             //...
                         }
@@ -358,6 +364,8 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
                         color.a = 255;
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
+
+                        
 
                         *pixData.texPixPtr = color;
 
@@ -399,56 +407,9 @@ void Chunk::assign_ents_and_pixes_to_field(){
     //    给 高密度 field，种上 橡树go 
     //--------------------------------//
     for( const auto &fieldKey : fieldKeys ){ //- each field key
-
-        //-- 收集 目标field 周边4个 field 实例指针  --
-        // 如果相关 field 不存在，就地创建之
-        tmpFieldPtr = colloect_and_creat_nearFour_fieldDatas( fieldKey );
-
-
-        //--- 优先计算，是否种植 地衣 ---
-        if( (uDistribution_regular(esrc::gameSeed.randEngine)<400) && 
-            (tmpFieldPtr->minAlti.val > 30) &&   //- 海拔
-            (tmpFieldPtr->density.lvl<3) && (tmpFieldPtr->density.lvl>-2) ){  //- 密度
-
-            gameObjs::create_a_Lichen(  tmpFieldPtr->nodeMPos, 
-                                        tmpFieldPtr->weight );
-            continue;
-        }
-
-        //-- 没有分配到 地衣时，才会种树 ---
-        bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
-        bool isFlipOver = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
-        int randV = uDistribution_regular(esrc::gameSeed.randEngine);
-        switch ( tmpFieldPtr->density.lvl ){
-            case 3:
-                if( (randV < 1000) &&  // [600/1000]
-                    tmpFieldPtr->minAlti.is_inland() ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                3, isSingleTrunk, isFlipOver );
-                }
-                break;
-            case 2:
-                if( (randV < 800) &&  // [400/1000]
-                    tmpFieldPtr->minAlti.is_inland() ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                2, isSingleTrunk, isFlipOver );
-                }
-                break;
-            case 1:
-                if( (randV < 200) &&  // [400/1000]
-                    tmpFieldPtr->minAlti.is_inland() ){ 
-                    gameObjs::create_a_OakTree( tmpFieldPtr->nodeMPos, 
-                                                1, isSingleTrunk, isFlipOver );
-                }
-                break;
-            default:
-                break;
-        }
+        sectionBuild::create_a_go_in_field( fieldKey );
     } //-- each field key end --
 
-
-
-    
     
     //---------------------------//
     //   正式用 texture 生成 name
