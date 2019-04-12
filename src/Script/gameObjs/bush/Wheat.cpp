@@ -20,6 +20,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
+#include "Script/gameObjs/create_go_oth.h"
 
 using namespace std::placeholders;
 
@@ -29,13 +30,8 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-namespace{//-------------- namespace ------------------//
-
-    //===== funcs =====//
-    int apply_a_wheatId( float _fieldWeight );
-    bool apply_isFlipOver( float _fieldWeight );
-
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 
 
 /* ===========================================================
@@ -48,12 +44,11 @@ void Wheat::init( GameObj *_goPtr,
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
-
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Wheat_PvtBinary) );
     pvtBp = (Wheat_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-        pvtBp->wheatId = apply_a_wheatId( _fieldWeight );
+        pvtBp->wheatId = gameObjs::apply_a_simpleId( _fieldWeight, 4 );
 
 
     //-------- bind callback funcs ---------//
@@ -92,7 +87,7 @@ void Wheat::init( GameObj *_goPtr,
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "wheat_Front" );
         rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
+        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
         //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
@@ -100,7 +95,7 @@ void Wheat::init( GameObj *_goPtr,
                     
         rootGoMeshRef.isVisible = true;
         rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = apply_isFlipOver( _fieldWeight ); //- tmp
+        rootGoMeshRef.isFlipOver = gameObjs::apply_isFlipOver( _fieldWeight ); //- tmp
 
         //-- goMesh pos in go --
         rootGoMeshRef.pposOff = glm::vec2{ 0.0f, -7.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
@@ -110,7 +105,7 @@ void Wheat::init( GameObj *_goPtr,
         //------- 制作 mesh 实例: "back" -------
         GameObjMesh &backGoMeshRef = goPtr->creat_new_goMesh( "back", "wheat_Back" );
         backGoMeshRef.init( goPtr ); 
-        backGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
+        backGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
         backGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
         //backGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
@@ -118,7 +113,7 @@ void Wheat::init( GameObj *_goPtr,
                     
         backGoMeshRef.isVisible = true;
         backGoMeshRef.isCollide = false; //- 不参加碰撞检测，也不会写到 mapent上
-        backGoMeshRef.isFlipOver = apply_isFlipOver( _fieldWeight ); //- tmp
+        backGoMeshRef.isFlipOver = gameObjs::apply_isFlipOver( _fieldWeight ); //- tmp
 
         //-- goMesh pos in go --
         backGoMeshRef.pposOff = glm::vec2{ 0.0f, 7.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
@@ -186,7 +181,7 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
         
         goMeshRef.picMesh.refresh_translate();
         goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-        esrc::renderPool_mapSurfaces.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
+        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
 
         // mapSurface gos 一律没有 shadow
     }
@@ -233,44 +228,14 @@ void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
             rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
             break;
 
-
         default:
             break;
             //-- 并不报错，什么也不做...
-
     }
 
-
 }
 
-
-namespace{//-------------- namespace ------------------//
-
-
-
-/* ===========================================================
- *                     apply_a_oakId   tmp
- * -----------------------------------------------------------
- * 这组方法很临时。不够好...
- * param: _fieldWeight -- [-100.0, 100.0]
- */
-int apply_a_wheatId( float _fieldWeight ){
-
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 977;
-    return randV % 4; //- 目前 只有 4个 frame...
-                      //  未来需要更规范的写法...
-}
-
-
-bool apply_isFlipOver( float _fieldWeight ){
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 911;
-    return ((randV%10)<5);
-}
-
-
-
-
-
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

@@ -19,6 +19,8 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
+#include "Script/gameObjs/create_go_oth.h"
+
 
 using namespace std::placeholders;
 
@@ -112,7 +114,7 @@ void OakTree::init( GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "oakTree" );
         rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_zOff( false, 0 ); //- 不设置 固定zOff值
+        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
         rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
         //-- bind animFrameSet / animFrameIdxHandle --

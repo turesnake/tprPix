@@ -1,16 +1,15 @@
 /*
- * ========================= BigMan.cpp ==========================
+ * ================== SingleStone_Desert.cpp ==================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.04.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
- * ----------------------------
  */
-#include "Script/gameObjs/BigMan.h"
+#include "Script/gameObjs/bush/SingleStone_Desert.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -21,6 +20,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
+#include "Script/gameObjs/create_go_oth.h"
 
 using namespace std::placeholders;
 
@@ -30,44 +30,52 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-namespace{//-------------- namespace ------------------//
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 
 
 /* ===========================================================
  *                         init
  * -----------------------------------------------------------
  */
-void BigMan::init( GameObj *_goPtr ){
+void SingleStone_Desert::init( GameObj *_goPtr,
+                    float _fieldWeight ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
+
+    //-------- go.pvtBinary ---------//
+    goPtr->resize_pvtBinary( sizeof(SingleStone_Desert_PvtBinary) );
+    pvtBp = (SingleStone_Desert_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+
+        pvtBp->singleStone_DesertId = gameObjs::apply_a_simpleId( _fieldWeight, 8 );
+
+
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &BigMan::OnRenderUpdate, &big_man, _1 );   
-    goPtr->LogicUpdate  = std::bind( &BigMan::OnLogicUpdate,  &big_man, _1 );
-
+    goPtr->RenderUpdate = std::bind( &SingleStone_Desert::OnRenderUpdate, &singleStone_Desert, _1 );   
+    goPtr->LogicUpdate  = std::bind( &SingleStone_Desert::OnLogicUpdate,  &singleStone_Desert, _1 );
+    
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.bind_func( std::bind( &BigMan::OnActionSwitch, &big_man, _1, _2 ) );
+    goPtr->actionSwitch.bind_func( std::bind( &SingleStone_Desert::OnActionSwitch, &singleStone_Desert, _1, _2 ) );
     goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
-    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Move );
-
+            //- 当前 singleStone_Desert 只有一种动画，就是永久待机...
 
     //-------- go self vals ---------//
-    goPtr->species = BigMan::specId;
+    goPtr->species = SingleStone_Desert::specId;
     goPtr->family = GameObjFamily::Major;
     goPtr->parentId = NULLID;
     goPtr->state = GameObjState::Waked;
-    goPtr->moveState = GameObjMoveState::Movable;
-    goPtr->weight = 5.0f;
+    goPtr->moveState = GameObjMoveState::AbsFixed; //- 无法移动
+    goPtr->weight = 1.0f;
 
     goPtr->isTopGo = true;
     goPtr->isActive = true;
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_3 );
+    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- singleStone_Desert一律无法移动
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->goPos.set_alti( 0.0f );
@@ -77,36 +85,28 @@ void BigMan::init( GameObj *_goPtr ){
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
-        //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &goMeshRef = goPtr->creat_new_goMesh( "root", "bigMan" );
-        goMeshRef.init( goPtr ); 
-        goMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
-        goMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        goMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
+        //------- 制作 mesh 实例: "root" -------
+        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "singleStone_Desert" );
+        rootGoMeshRef.init( goPtr ); 
+        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
+        rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
+        //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
-        goMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
-                                                5,   //- 结束图元帧序号
-                                                0,   //- 入口图元帧序号  
-                                                true //- isOrder
-                                                );
-        
-        goMeshRef.isVisible = true;
-        goMeshRef.isCollide = true;
-        goMeshRef.isFlipOver = false;
+        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->singleStone_DesertId );
+                    
+        rootGoMeshRef.isVisible = true;
+        rootGoMeshRef.isCollide = true;
+        rootGoMeshRef.isFlipOver = gameObjs::apply_isFlipOver( _fieldWeight ); //- tmp
 
         //-- goMesh pos in go --
-        goMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        goMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
-
-    //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(BigMan_PvtBinary) );
-    pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
+        rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
 
 
     //...
 
     //-------- go.pubBinary ---------//
-    goPtr->pubBinary.init( bigMan_pubBinaryValTypes );
+    goPtr->pubBinary.init( singleStone_Desert_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -115,7 +115,7 @@ void BigMan::init( GameObj *_goPtr ){
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void BigMan::bind( GameObj *_goPtr ){
+void SingleStone_Desert::bind( GameObj *_goPtr ){
 }
 
 
@@ -125,14 +125,14 @@ void BigMan::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void BigMan::rebind( GameObj *_goPtr ){
+void SingleStone_Desert::rebind( GameObj *_goPtr ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void BigMan::OnRenderUpdate( GameObj *_goPtr ){
+void SingleStone_Desert::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -146,7 +146,8 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goPtr->move.RenderUpdate();
+    //goPtr->move.RenderUpdate();
+            // 目前来看，永远也不会 移动...
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -160,16 +161,13 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
         }
 
         goMeshRef.animFrameIdxHandle.update();
-
+        
         goMeshRef.picMesh.refresh_translate();
         goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
+        //esrc::renderPool_mapSurfaces.push_back( (ChildMesh*)&(goMeshRef.picMesh) );
         esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
 
-        if( goMeshRef.isHaveShadow ){
-            goMeshRef.shadowMesh.refresh_translate();
-            goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
-            esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.shadowMesh) );
-        }
+        // mapSurface gos 一律没有 shadow
     }
 }
 
@@ -178,7 +176,7 @@ void BigMan::OnRenderUpdate( GameObj *_goPtr ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void BigMan::OnLogicUpdate( GameObj *_goPtr ){
+void SingleStone_Desert::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -189,12 +187,14 @@ void BigMan::OnLogicUpdate( GameObj *_goPtr ){
 }
 
 
+
 /* ===========================================================
  *               OnActionSwitch
  * -----------------------------------------------------------
- * -- 
+ * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
+ * -- 会被 动作状态机 取代...
  */
-void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+void SingleStone_Desert::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
     //=====================================//
     //            ptr rebind
@@ -203,27 +203,15 @@ void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goPtr->goMeshs.at("root");
+    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
-            //goMeshRef.bind_animFrameSet( "bigMan" );
-            goMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
-                                                    5,   //- 结束图元帧序号
-                                                    0,   //- 入口图元帧序号  
-                                                    true //- isOrder
-                                                    );
+            //rootGoMeshRef.bind_animFrameSet( "norman" );
+            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->singleStone_DesertId );
             break;
 
-        case ActionSwitchType::Move_Move:
-            //goMeshRef.bind_animFrameSet( "bigMan" );
-            goMeshRef.animFrameIdxHandle.bind_cycle(6,   //- 起始图元帧序号
-                                                    11,  //- 结束图元帧序号
-                                                    6,   //- 入口图元帧序号  
-                                                    true //- isOrder
-                                                    );
-            break;
 
         default:
             break;
@@ -235,5 +223,7 @@ void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

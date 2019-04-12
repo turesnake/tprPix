@@ -83,13 +83,13 @@ public:
         this->shadowMesh.init( goPtr, (GameObjMesh*)this ); //- 就算没有 shadow，也会执行 init
     }
 
-    //-- 参数 _picFixedZOff 必须是 ViewingBox:: 中的某个值 ---
-    inline void set_pic_zOff( bool _isPicFixedZOff, float _picFixedZOff ){
-        this->picMesh.set_pic_zOff( _isPicFixedZOff, _picFixedZOff );
+    inline void set_pic_renderLayer( RenderLayerType _layerType ){
+        this->picMesh.set_pic_renderLayer( _layerType );
     }
 
     //------ animFrameSet ------
     //  目前，此函数仅用于 go.creat_new_goMesh() 中
+    //  以及 切换动画时
     void bind_animFrameSet( const std::string &_name );
 
 
@@ -157,6 +157,9 @@ public:
     bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
     bool   isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+                                // -- gmesh.isFlipOver 决定了 此图元的 静态方向
+                                // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
+                                
     
 
 private:

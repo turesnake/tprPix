@@ -18,6 +18,7 @@
 #include "Script/gameObjs/OakTree.h"
 #include "Script/gameObjs/mapSurfaces/Lichen.h"
 #include "Script/gameObjs/bush/Wheat.h"
+#include "Script/gameObjs/bush/SingleStone_Desert.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -136,6 +137,29 @@ goid_t create_a_Wheat( const IntVec2 &_mpos,
     return  goid;
 }
 
+
+
+/* ===========================================================
+ *                  create_a_SingleStone_Desert
+ * -----------------------------------------------------------
+ * -- tmp 
+ */
+goid_t create_a_SingleStone_Desert( const IntVec2 &_mpos,
+                                    float _fieldWeight ){
+    goid_t goid = esrc::insert_new_gameObj();
+    GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
+    gameObjs::singleStone_Desert.init( goPtr, _fieldWeight );
+    goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
+    //------------------------------//
+    esrc::signUp_newGO_to_mapEnt( goPtr );
+        //-- 如果不想让 singleStone_Desert 参与碰撞，可以将此行去掉
+
+        esrc::goids_active.insert( goid ); //- tmp
+
+    goPtr->set_collision_isBePass(true); //- 可以被穿越 tmp...
+
+    return  goid;
+}
 
 
 

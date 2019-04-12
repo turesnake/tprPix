@@ -24,6 +24,7 @@
 #include "Script/gameObjs/OakTree.h" 
 #include "Script/gameObjs/mapSurfaces/Lichen.h"
 #include "Script/gameObjs/bush/Wheat.h"
+#include "Script/gameObjs/bush/SingleStone_Desert.h"
 
 
 using std::string;
@@ -44,21 +45,31 @@ namespace{//------------------- namespace ---------------------
  */
 void onGoSpecIds_SignUp(){
 
+    u32_t   id;
+
     //goSpecIds.insert(0); //--- 0号id 保留。
     //==================================//
-    goSpec_alloc( 1, "norman" );  gameObjs::Norman::specId = 1;
-    goSpec_alloc( 2, "bigMan" );  gameObjs::BigMan::specId = 2;
+    id = 1; goSpec_alloc( id, "norman" );  gameObjs::Norman::specId = id;
+    id = 2; goSpec_alloc( id, "bigMan" );  gameObjs::BigMan::specId = id;
 
-    //----- tree -----
-    goSpec_alloc( 1001, "oakTree" ); gameObjs::OakTree::specId = 1001; //- 橡树
-    //goSpec_alloc( 1000, "Tree_Pine" ); //- 松树
+    //-------------------//
+    //        tree
+    //-------------------//
+    id = 1001; goSpec_alloc( id, "oakTree" ); gameObjs::OakTree::specId = id; //- 橡树
 
 
-    //----- bush -----
-    goSpec_alloc( 2001, "wheat" ); gameObjs::Wheat::specId = 2001; //- 小麦
 
-    //----- mapSurface -----
-    goSpec_alloc( 3001, "lichen" ); gameObjs::Lichen::specId = 3001; //- 地衣
+    //-------------------//
+    //        bush
+    //-------------------//
+    id = 2001; goSpec_alloc( id, "wheat" );              gameObjs::Wheat::specId = id; //- 小麦
+    id = 2002; goSpec_alloc( id, "singleStone_Desert" ); gameObjs::SingleStone_Desert::specId = id; //- 沙漠中的 单块石头
+
+
+    //-------------------//
+    //    mapSurface
+    //-------------------//
+    id = 3001; goSpec_alloc( id, "lichen" ); gameObjs::Lichen::specId = id; //- 地衣
 
 
     //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 

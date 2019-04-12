@@ -113,7 +113,7 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
     meshRef.set_shader_program( &esrc::rect_shader );
     meshRef.set_translate(glm::vec3{ _mcpos.get_fpos().x,
                                      _mcpos.get_fpos().y,
-                                    esrc::camera.get_zFar()+ViewingBox::mapEntSlices_zOff
+                                    esrc::camera.get_zFar()+ViewingBox::debug_zOff
                                         });
     meshRef.set_scale(glm::vec3{ (float)PIXES_PER_MAPENT, 
                                 (float)PIXES_PER_MAPENT, 
@@ -140,7 +140,7 @@ void insert_new_pointPic( const glm::vec2 &_fpos ){
     meshRef.set_shader_program( &esrc::rect_shader );
     meshRef.set_translate(glm::vec3{ _fpos.x,
                                      _fpos.y,
-                                    esrc::camera.get_zFar()+ViewingBox::mapEntSlices_zOff
+                                    esrc::camera.get_zFar()+ViewingBox::debug_zOff
                                         });
     meshRef.set_scale(glm::vec3{ (float)(pointPicSize.x), 
                                 (float)(pointPicSize.y), 

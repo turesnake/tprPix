@@ -52,7 +52,14 @@ void create_a_go_in_field( fieldKey_t _fieldKey ){
         (fieldPtr->density.lvl<3) && (fieldPtr->density.lvl>-2) ){  //- 密度
 
         if( ecoSysInMapPtr->ecoSysType == EcoSysType::Desert ){
-            gameObjs::create_a_Wheat(  fieldPtr->nodeMPos, fieldPtr->weight );
+
+            //- 80% 小麦，20% 石头 --
+            if( uDistribution_regular(esrc::gameSeed.randEngine) < 800 ){
+                gameObjs::create_a_Wheat(  fieldPtr->nodeMPos, fieldPtr->weight );
+            }else{
+                gameObjs::create_a_SingleStone_Desert(  fieldPtr->nodeMPos, fieldPtr->weight );
+            }
+            
         }else{
             gameObjs::create_a_Lichen(  fieldPtr->nodeMPos, fieldPtr->weight );
         }

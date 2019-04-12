@@ -121,7 +121,7 @@ public:
 
 
     //======== flags ========//
-    //-- 一个 AnimFrameSet 实例，必须有 P/J 两张图，但不一定要有 S 图。
+    //-- 一个 AnimFrameSet 实例，必须有 P/J 两张图，但不一定要有 Shadow 图。
     bool  isHaveShadow  {};
     bool  isTimeStepsManualSet {}; //- 若为 false，则使用默认 timeSteps值 (每一帧都为6)
 
@@ -148,10 +148,10 @@ private:
     int      totalFrameNum {};   //- 总 图元帧 个数
 
     //- 动画中的每一帧图都会被 存储为 一个 texture实例。
-    //- 具体数据存储在 gl状态机内。 此处存储其 textel names 
+    //- 具体数据存储在 gl内。 此处存储其 textel names 
     //- 帧排序 符合 左上坐标系（也就是我们排列动画帧的坐标系） --
     std::vector<GLuint> texNames_pic    {}; 
-    std::vector<GLuint> texNames_shadow {}; 
+    std::vector<GLuint> texNames_shadow {}; //- 不一定有 shadow
 
     //-- each frame --
     std::vector<FramePos>  framePoses {};

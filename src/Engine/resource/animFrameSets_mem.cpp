@@ -30,6 +30,9 @@ void load_animFrameSets(){
 
     esrc::animFrameSets.clear();
 
+    //---------------------------------------//
+    //               GO: Major
+    //---------------------------------------//
     esrc::animFrameSets.insert({"norman",  
                                 AnimFrameSet{   "/norman/norman.P.png", 
                                                 IntVec2{6, 2}, 12,
@@ -42,6 +45,10 @@ void load_animFrameSets(){
                                                 true,
                                                 true, std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
 
+
+    //---------------------------------------//
+    //               GO: Tree
+    //---------------------------------------//
     esrc::animFrameSets.insert({"oakTree",  
                                 AnimFrameSet{   "/oakTree/oakTree_2.P.png", 
                                                 IntVec2{5, 4}, 17,
@@ -49,13 +56,9 @@ void load_animFrameSets(){
                                                 false, std::vector<int>{} } });
 
 
-    esrc::animFrameSets.insert({"lichen",  
-                                AnimFrameSet{   "/lichen/lichen_2.P.png", 
-                                                IntVec2{8, 4}, 32,
-                                                false, //- 没有 shadow 数据
-                                                false, std::vector<int>{} } });
-
-
+    //---------------------------------------//
+    //               GO: Bush
+    //---------------------------------------//
     esrc::animFrameSets.insert({"wheat_Front",  
                                 AnimFrameSet{   "/wheat/wheat_Front.P.png", 
                                                 IntVec2{4, 1}, 4,
@@ -66,6 +69,25 @@ void load_animFrameSets(){
                                                 IntVec2{4, 1}, 4,
                                                 false, //- 没有 shadow 数据
                                                 false, std::vector<int>{} } });
+
+
+    esrc::animFrameSets.insert({"singleStone_Desert",  
+                                AnimFrameSet{   "/singleStone_Desert/singleStone_Desert.P.png", 
+                                                IntVec2{4, 2}, 8,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });                                  
+
+
+    //---------------------------------------//
+    //               GO: MapSurface
+    //---------------------------------------//
+    esrc::animFrameSets.insert({"lichen",  
+                                AnimFrameSet{   "/lichen/lichen_2.P.png", 
+                                                IntVec2{8, 4}, 32,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });
+
+    
 
 
 

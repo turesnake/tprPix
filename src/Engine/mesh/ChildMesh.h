@@ -26,6 +26,7 @@
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader
+#include "ViewingBox.h"
 
 //--- need ---//
 class GameObjMesh;
@@ -50,10 +51,15 @@ public:
     inline void set_rotate_z( float _z )                 { this->rotate_z=_z; }
     inline void set_scale( const glm::vec3 &_v )         { this->scale_val=_v; }
 
-    //-- 参数 _picFixedZOff 必须是 ViewingBox:: 中的某个值 ---
-    inline void set_pic_zOff( bool _isPicFixedZOff, float _picFixedZOff ){
-        this->isPicFixedZOff = _isPicFixedZOff;
-        this->picFixedZOff = _picFixedZOff;
+
+    inline void set_pic_renderLayer( RenderLayerType _layerType ){
+        if( _layerType == RenderLayerType::MajorGoes ){
+            this->isPicFixedZOff = false;
+            this->picFixedZOff = 0.0; //- null
+        }else{
+            this->isPicFixedZOff = true;
+            this->picFixedZOff = ViewingBox::get_renderLayerZOff(_layerType);
+        }
     }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
@@ -84,8 +90,7 @@ private:
     GameObj      *goPtr       {nullptr};
     GameObjMesh  *goMeshPtr {nullptr};
 
-    bool     isPic {true}; //-- pic / shadow
-
+    
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
@@ -93,13 +98,14 @@ private:
 
     //-- 位移／旋转／缩放 变化向量。
     glm::vec3 translate_val {};    
-    float     rotate_z    {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val  {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
+    float     rotate_z      {0.0f};  //- 只有 z轴旋转角度
+    glm::vec3 scale_val     {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
     float     picFixedZOff {};   
 
     //======== flags ========//  
-    bool  isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
+    bool    isPic {true}; //-- pic / shadow
+    bool    isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
                                 // 仅作用于 pic
 };
 

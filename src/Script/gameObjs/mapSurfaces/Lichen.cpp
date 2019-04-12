@@ -20,6 +20,8 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
+#include "Script/gameObjs/create_go_oth.h"
+
 
 using namespace std::placeholders;
 
@@ -29,13 +31,8 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-namespace{//-------------- namespace ------------------//
-
-    //===== funcs =====//
-    int apply_a_lichenId( float _fieldWeight );
-    bool apply_isFlipOver( float _fieldWeight );
-
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 
 
 /* ===========================================================
@@ -53,7 +50,7 @@ void Lichen::init( GameObj *_goPtr,
     goPtr->resize_pvtBinary( sizeof(Lichen_PvtBinary) );
     pvtBp = (Lichen_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-        pvtBp->lichenId = apply_a_lichenId( _fieldWeight );
+        pvtBp->lichenId = gameObjs::apply_a_simpleId( _fieldWeight, 32 );
 
 
     //-------- bind callback funcs ---------//
@@ -92,7 +89,7 @@ void Lichen::init( GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "lichen" );
         rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_zOff( true, ViewingBox::mapSurface_zOff ); //- 设置 固定zOff值
+        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MapSurfaces ); //- 设置 固定zOff值
         rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
         //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
         //-- bind animFrameSet / animFrameIdxHandle --
@@ -101,7 +98,7 @@ void Lichen::init( GameObj *_goPtr,
 
         rootGoMeshRef.isVisible = true;
         rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = apply_isFlipOver( _fieldWeight ); //- tmp
+        rootGoMeshRef.isFlipOver = gameObjs::apply_isFlipOver( _fieldWeight ); //- tmp
 
         //-- goMesh pos in go --
         rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
@@ -165,7 +162,6 @@ void Lichen::OnRenderUpdate( GameObj *_goPtr ){
         }
 
         goMeshRef.animFrameIdxHandle.update();
-
         
         goMeshRef.picMesh.refresh_translate();
         goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
@@ -216,44 +212,15 @@ void Lichen::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
             rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->lichenId );
             break;
 
-
         default:
             break;
             //-- 并不报错，什么也不做...
 
     }
-
-
 }
 
 
-namespace{//-------------- namespace ------------------//
-
-
-
-/* ===========================================================
- *                     apply_a_oakId   tmp
- * -----------------------------------------------------------
- * 这组方法很临时。不够好...
- * param: _fieldWeight -- [-100.0, 100.0]
- */
-int apply_a_lichenId( float _fieldWeight ){
-
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 977;
-    return randV % 32; //- 目前 只有 32个 frame...
-                      //  未来需要更规范的写法...
-}
-
-
-bool apply_isFlipOver( float _fieldWeight ){
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 911;
-    return ((randV%10)<5);
-}
-
-
-
-
-
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

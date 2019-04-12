@@ -23,10 +23,15 @@ goid_t create_a_OakTree( const IntVec2 &_mpos,
                         int _age, 
                         bool _isSingleTrunk,
                         bool _isFlipOver );
+                        
 goid_t create_a_Lichen( const IntVec2 &_mpos,
                         float _fieldWeight );
+
 goid_t create_a_Wheat( const IntVec2 &_mpos,
                         float _fieldWeight );
+
+goid_t create_a_SingleStone_Desert( const IntVec2 &_mpos,
+                                    float _fieldWeight );
 
 
 

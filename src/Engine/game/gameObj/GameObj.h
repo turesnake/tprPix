@@ -208,6 +208,8 @@ public:
     bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 //- 注意，这个值不应该由 具象go类手动配置
                                 //  而应由 move／动画播放器 自动改写
+                                // -- gmesh.isFlipOver 决定了 此图元的 静态方向
+                                // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
     
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
