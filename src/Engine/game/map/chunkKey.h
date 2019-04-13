@@ -46,7 +46,7 @@ IntVec2 chunkMPos_2_chunkCPos( const IntVec2 &_chunkMPos );
  */
 inline chunkKey_t chunkMPos_2_key_inn( const IntVec2 &_chunkMPos ){
     chunkKey_t key;
-    int *ptr = (int*)&key;
+    int *ptr = (int*)(&key); //- 此处不能使用 static_casts
     *ptr = _chunkMPos.x;
     ptr++;
     *ptr = _chunkMPos.y; 

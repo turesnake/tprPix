@@ -39,7 +39,7 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
     auto it = esrc::goids_active.begin();
     for( ; it!=esrc::goids_active.end(); it++ ){
 
-        goPtr = (GameObj*)&(esrc::memGameObjs.at(*it));
+        goPtr = static_cast<GameObj*>( &(esrc::memGameObjs.at(*it)) );
         _fp( *it, goPtr );
     }
 }
@@ -57,7 +57,7 @@ void foreach_goids_inactive( F_GOID_GOPTR _fp ){
     auto it = esrc::goids_inactive.begin();
     for( ; it!=esrc::goids_inactive.end(); it++ ){
 
-        goPtr = (GameObj*)&(esrc::memGameObjs.at(*it));
+        goPtr = static_cast<GameObj*>( &(esrc::memGameObjs.at(*it)) );
         _fp( *it, goPtr );
     }
 }

@@ -58,7 +58,7 @@ void AnimFrameIdxHandle::bind_cycle(int _begIdx,
 void AnimFrameIdxHandle::bind_once(){
     this->type = AnimFrameIdxHandleType::Once;
     //-------
-    //...
+    //... 尚未实现 ...
 }
 
 
@@ -97,7 +97,6 @@ void AnimFrameIdxHandle::update_cycle(){
  */
 void AnimFrameIdxHandle::update_once(){
 
-
-
+    //... 尚未实现 ...
 }
 

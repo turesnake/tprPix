@@ -23,7 +23,7 @@
 
 namespace{//-------- namespace: --------------//
 
-                                            
+                                          
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     std::vector<IntVec2> quadSectionKeyOffs {
         IntVec2{ 0, 0 },
@@ -42,10 +42,8 @@ namespace{//-------- namespace: --------------//
  */
 void Section::init(){
     
-
     init_quadSectionKeys();
 }
-
 
 
 /* ===========================================================
@@ -96,25 +94,4 @@ void Section::bind_ecoSysInMapPtrs(){
     }
     this->is_ecoSysInMapPtrs_set = true;
 }
-
-
-
-/* ===========================================================
- *                   get_chunk_idx
- * -----------------------------------------------------------
- *   获得 目标chunk 在 本section 容器中的 序号 [0,15]
- * param: _chunkMPos - 必须是 chunk mpos   [未做检测]
- */
-/*
-size_t Section::get_chunk_idx( const IntVec2 &_chunkMPos ){
-    IntVec2 mposOff = anyMPos_2_chunkMPos(_chunkMPos) - this->get_mpos();
-        assert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
-    int w = abs(mposOff.x)/ENTS_PER_CHUNK;
-    int h = abs(mposOff.y)/ENTS_PER_CHUNK;
-        assert( (w>=0) && (w<CHUNKS_PER_SECTION) &&
-                (h>=0) && (h<CHUNKS_PER_SECTION) );
-    return (h*CHUNKS_PER_SECTION + w);
-}
-*/
-    
 

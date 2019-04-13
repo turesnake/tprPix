@@ -74,6 +74,8 @@ public:
 
     void bind_once();
 
+    //- return: 此帧 currentIdx 是否发生切换
+    //  如果没切换，gomesh.renderupdate 中可以省掉很多操作 
     inline void update(){
         switch( this->type ){
         case AnimFrameIdxHandleType::Idle:
@@ -87,7 +89,6 @@ public:
             break;
         default:
             assert(0);
-            break; //- never touch
         }
     }
 

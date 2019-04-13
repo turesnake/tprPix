@@ -41,27 +41,27 @@ namespace{//-------- namespace: --------------//
  */
 void create_a_go_in_field( fieldKey_t _fieldKey ){
 
-    MapField  *fieldPtr = esrc::find_or_insert_the_field( _fieldKey );
-    EcoSysInMap *ecoSysInMapPtr = esrc::get_ecoSysInMapPtr( fieldPtr->ecoSysInMapKey );
+    MapField  &fieldRef         = esrc::find_or_insert_the_field_ref( _fieldKey );
+    EcoSysInMap &ecoSysInMapRef = esrc::get_ecoSysInMapRef( fieldRef.ecoSysInMapKey );
 
 
     //--- 优先计算，是否种植 mapSurface/bush 层 goes ---
     if( (uDistribution_regular(esrc::gameSeed.randEngine)<400) && 
-        fieldPtr->is_inland() &&
-        (fieldPtr->minAlti.val > 30) &&   //- 海拔
-        (fieldPtr->density.lvl<3) && (fieldPtr->density.lvl>-2) ){  //- 密度
+        fieldRef.is_inland() &&
+        (fieldRef.minAlti.val > 30) &&   //- 海拔
+        (fieldRef.density.lvl<3) && (fieldRef.density.lvl>-2) ){  //- 密度
 
-        if( ecoSysInMapPtr->ecoSysType == EcoSysType::Desert ){
+        if( ecoSysInMapRef.ecoSysType == EcoSysType::Desert ){
 
             //- 80% 小麦，20% 石头 --
             if( uDistribution_regular(esrc::gameSeed.randEngine) < 800 ){
-                gameObjs::create_a_Wheat(  fieldPtr->nodeMPos, fieldPtr->weight );
+                gameObjs::create_a_Wheat(  fieldRef.nodeMPos, fieldRef.weight );
             }else{
-                gameObjs::create_a_SingleStone_Desert(  fieldPtr->nodeMPos, fieldPtr->weight );
+                gameObjs::create_a_SingleStone_Desert(  fieldRef.nodeMPos, fieldRef.weight );
             }
             
         }else{
-            gameObjs::create_a_Lichen(  fieldPtr->nodeMPos, fieldPtr->weight );
+            gameObjs::create_a_Lichen(  fieldRef.nodeMPos, fieldRef.weight );
         }
         return;
     }
@@ -71,25 +71,25 @@ void create_a_go_in_field( fieldKey_t _fieldKey ){
     bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
     bool isFlipOver = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
     int randV = uDistribution_regular(esrc::gameSeed.randEngine);
-    switch ( fieldPtr->density.lvl ){
+    switch ( fieldRef.density.lvl ){
         case 3:
             if( (randV < 900) &&  // [600/1000]
-                fieldPtr->is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldPtr->nodeMPos, 
+                fieldRef.is_inland() ){ 
+                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
                                             3, isSingleTrunk, isFlipOver );
             }
             break;
         case 2:
             if( (randV < 800) &&  // [400/1000]
-                fieldPtr->is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldPtr->nodeMPos, 
+                fieldRef.is_inland() ){ 
+                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
                                             2, isSingleTrunk, isFlipOver );
             }
             break;
         case 1:
             if( (randV < 200) &&  // [400/1000]
-                fieldPtr->is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldPtr->nodeMPos, 
+                fieldRef.is_inland() ){ 
+                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
                                             1, isSingleTrunk, isFlipOver );
             }
             break;

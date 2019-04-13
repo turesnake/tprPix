@@ -32,13 +32,13 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 goid_t create_a_Norman( const IntVec2 &_mpos ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::norman.init( goPtr );
+
+        gameObjs::norman.init( goPtr );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-
         esrc::goids_active.insert( goid ); //- tmp
-
     return  goid;
 }
 
@@ -52,13 +52,13 @@ goid_t create_a_Norman( const IntVec2 &_mpos ){
 goid_t create_a_BigMan( const IntVec2 &_mpos ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::big_man.init( goPtr );
+
+        gameObjs::big_man.init( goPtr );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-
         esrc::goids_active.insert( goid ); //- tmp
-
     return goid;
 }
 
@@ -74,18 +74,13 @@ goid_t create_a_OakTree( const IntVec2 &_mpos,
                         bool _isFlipOver ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::oakTree.init( goPtr, _age, _isSingleTrunk, _isFlipOver );
+
+        gameObjs::oakTree.init( goPtr, _age, _isSingleTrunk, _isFlipOver );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-
         esrc::goids_active.insert( goid ); //- tmp
-
-    //- 小树 可以被穿越 tmp...--
-    if( _age <= 2 ){
-        goPtr->set_collision_isBePass(true);
-    }
-
     return goid;
 }
 
@@ -100,16 +95,13 @@ goid_t create_a_Lichen( const IntVec2 &_mpos,
                         float _fieldWeight ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::lichen.init( goPtr, _fieldWeight );
+
+        gameObjs::lichen.init( goPtr, _fieldWeight );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-        //-- 如果不想让 lichen 参与碰撞，可以将此行去掉
-
         esrc::goids_active.insert( goid ); //- tmp
-
-    goPtr->set_collision_isBePass(true); //- 可以被穿越 tmp...
-
     return  goid;
 }
 
@@ -124,16 +116,13 @@ goid_t create_a_Wheat( const IntVec2 &_mpos,
                         float _fieldWeight ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::wheat.init( goPtr, _fieldWeight );
+
+        gameObjs::wheat.init( goPtr, _fieldWeight );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-        //-- 如果不想让 wheat 参与碰撞，可以将此行去掉
-
         esrc::goids_active.insert( goid ); //- tmp
-
-    goPtr->set_collision_isBePass(true); //- 可以被穿越 tmp...
-
     return  goid;
 }
 
@@ -148,16 +137,13 @@ goid_t create_a_SingleStone_Desert( const IntVec2 &_mpos,
                                     float _fieldWeight ){
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
-    gameObjs::singleStone_Desert.init( goPtr, _fieldWeight );
+
+        gameObjs::singleStone_Desert.init( goPtr, _fieldWeight );
+
     goPtr->goPos.init_by_currentMCPos( MapCoord{_mpos} );
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
-        //-- 如果不想让 singleStone_Desert 参与碰撞，可以将此行去掉
-
         esrc::goids_active.insert( goid ); //- tmp
-
-    goPtr->set_collision_isBePass(true); //- 可以被穿越 tmp...
-
     return  goid;
 }
 

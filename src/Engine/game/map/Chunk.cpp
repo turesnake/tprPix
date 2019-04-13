@@ -64,7 +64,7 @@ namespace{//-------- namespace: --------------//
             this->fieldPtr = _fieldPtr;
             this->ecoInMapPtr = esrc::get_ecoSysInMapPtr( this->fieldPtr->ecoSysInMapKey );
             this->ecoPtr = esrc::get_ecoSysPtr( this->ecoInMapPtr->ecoSysType );
-            this->quadContainerPtr = (FieldBorderSet::quadContainer_t*)&get_fieldBorderSet( this->fieldPtr->fieldBorderSetId, _quadType );
+            this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( &get_fieldBorderSet(this->fieldPtr->fieldBorderSetId, _quadType) );
         }
         //====== vals ======//
         MapField     *fieldPtr    {};
@@ -196,7 +196,7 @@ size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos ){
     int h = mposOff.y;
         assert( (w>=0) && (w<ENTS_PER_CHUNK) &&
                 (h>=0) && (h<ENTS_PER_CHUNK) ); //- tmp
-    return (size_t)(h*ENTS_PER_CHUNK + w);
+    return static_cast<size_t>(h*ENTS_PER_CHUNK + w);
 }
 
 
@@ -211,7 +211,7 @@ size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &_anyPPos ){
     int h = pposOff.y;
         assert( (w>=0) && (w<PIXES_PER_CHUNK) &&
                 (h>=0) && (h<PIXES_PER_CHUNK) ); //- tmp
-    return (size_t)( h*PIXES_PER_CHUNK + w );
+    return static_cast<size_t>( h*PIXES_PER_CHUNK + w );
 }
 
 
@@ -317,11 +317,11 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             const FieldData &fieldDataRef = fieldPair.second;
                             if( count != nearFour_fieldDatas.size() ){   //- 前3个 field
                                 if( fieldDataRef.quadContainerPtr->at(pixData.pixIdx_in_field) == 1 ){
-                                    pixData.fieldDataPtr = (FieldData*)&fieldDataRef;
+                                    pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
                                     break;
                                 }
                             }else{     //- 第4个 field
-                                pixData.fieldDataPtr = (FieldData*)&fieldDataRef;
+                                pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
                             }
                         } //--- 周边4个 field 信息 end ---
 
@@ -365,10 +365,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         color.a = 255;
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
 
-                        
-
                         *pixData.texPixPtr = color;
-
                     }
                 } //- each pix in mapent end ---
             }
@@ -454,7 +451,7 @@ namespace{//-------- namespace: --------------//
  */
 MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey ){
 
-    MapField     *targetFieldPtr = esrc::find_or_insert_the_field( _fieldKey );
+    MapField     *targetFieldPtr = esrc::find_or_insert_the_field_ptr( _fieldKey );
     MapField     *tmpFieldPtr;
     IntVec2       tmpFieldMPos;
     int           count = 0;
@@ -466,20 +463,15 @@ MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey ){
             tmpFieldPtr = targetFieldPtr;
         }else{
             tmpFieldMPos = targetFieldPtr->get_mpos() + fieldInfo.mposOff;
-            tmpFieldPtr = esrc::find_or_insert_the_field( fieldMPos_2_fieldKey(tmpFieldMPos) );
+            tmpFieldPtr = esrc::find_or_insert_the_field_ptr( fieldMPos_2_fieldKey(tmpFieldMPos) );
         }
 
         nearFour_fieldDatas.insert({ -(tmpFieldPtr->occupyWeight), FieldData{tmpFieldPtr,fieldInfo.quad} }); //- copy
                         //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
         count++;
     }
-
     return targetFieldPtr;
 }
-
-
-
-
 
 
 }//------------- namespace: end --------------//

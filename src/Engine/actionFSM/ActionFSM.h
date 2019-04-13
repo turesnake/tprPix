@@ -53,7 +53,7 @@ public:
         ActionState state {};
         states.insert({ _name, state }); //- copy
         // init...
-        return (ActionState*)&(states.at(_name));
+        return static_cast<ActionState*>( &(states.at(_name)) );
     }
 
 
@@ -63,9 +63,6 @@ private:
 
     std::unordered_map<std::string, ActionState> states {};
                     //- 暂用 string 来索引，效率可能有点低...
-
-    
-
 
 };
 

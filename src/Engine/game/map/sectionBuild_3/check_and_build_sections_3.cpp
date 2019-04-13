@@ -57,9 +57,6 @@ void build_one_chunk_3( const IntVec2 &_anyMPos );
 void build_new_chunk_in_update_3();
 
 
-
-
-
 /* ===========================================================
  *                 build_9_chunks_3  [3th]
  * -----------------------------------------------------------
@@ -268,7 +265,6 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     // 为 目标section 绑定 周边 4个 ecosysinmap 实例指针
     //------------------------------//
     tmpSectionPtr->bind_ecoSysInMapPtrs();
-
 
 }
 

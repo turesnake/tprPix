@@ -37,10 +37,6 @@ public:
     void init();
     void bind_ecoSysInMapPtrs();
 
-    //- 获得 目标chunk 在 本section 容器中的 序号 [0,15]
-    //- param: _chunkMPos - 必须是 chunk mpos   [未做检测]
-    //size_t get_chunk_idx( const IntVec2 &_chunkMPos );
-
     //-- param: _anyMPos - 本section 中的任意 mpos
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->sectionKey = anyMPos_2_sectionKey( _anyMPos );
@@ -77,19 +73,14 @@ public:
     //----- 二阶数据 / second order data ------//
     std::vector<EcoSysInMap*>  ecoSysInMapPtrs {}; //- 4个端点的 ecosys 指针。
                                     
-
-
     //======== flags ========//
     bool  is_quadSectionKeys_set      {false}; 
     bool  is_ecoSysInMapPtrs_set      {false};
 
 private:
 
-
     void init_quadSectionKeys();
 };
-
-
 
 
 #endif 

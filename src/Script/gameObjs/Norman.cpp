@@ -138,7 +138,7 @@ void Norman::OnRenderUpdate( GameObj *_goPtr ){
     rebind_ptr( _goPtr );
 
     //=====================================//
-    //           test: AI
+    //            AI
     //-------------------------------------//
     //...
 
@@ -151,25 +151,7 @@ void Norman::OnRenderUpdate( GameObj *_goPtr ){
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
     for( auto &pairRef : goPtr->goMeshs ){
-        GameObjMesh &goMeshRef = pairRef.second;
-
-        //-- 也许不该放在 这个位置 --
-        if( goMeshRef.isVisible == false ){
-            continue;
-        }
-
-        goMeshRef.animFrameIdxHandle.update();
-
-        
-        goMeshRef.picMesh.refresh_translate();
-        goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
-
-        if( goMeshRef.isHaveShadow ){
-            goMeshRef.shadowMesh.refresh_translate();
-            goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
-            esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.shadowMesh) );
-        }
+        pairRef.second.RenderUpdate();
     }
 }
 

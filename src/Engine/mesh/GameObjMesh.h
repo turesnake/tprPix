@@ -69,8 +69,8 @@ class GameObj;
 // GameObjMesh实例拥有：
 //  -1- animFrameSetPtr.  实例本体 存储在 全局容器 animFrameSets 中。
 //  -2- animFrameIdxHandle. 实例（独占）
-//  -3- 2 个 子mesh实例，分别对应 pic/shadow 两份图形数据。
-//      有些 gmesh 仅拥有 pic，没有 shadow
+//  -3- 2 个 子mesh实例， pic / shadow
+//      有些 gomesh 可能没有 shadow，此时为空置   
 //
 class GameObjMesh{
 public:
@@ -83,8 +83,17 @@ public:
         this->shadowMesh.init( goPtr, (GameObjMesh*)this ); //- 就算没有 shadow，也会执行 init
     }
 
+    void RenderUpdate();
+
     inline void set_pic_renderLayer( RenderLayerType _layerType ){
-        this->picMesh.set_pic_renderLayer( _layerType );
+        this->picRenderLayerType = _layerType;
+        if( _layerType == RenderLayerType::MajorGoes ){
+            this->isPicFixedZOff = false;
+            this->picFixedZOff = 0.0; //- null
+        }else{
+            this->isPicFixedZOff = true;
+            this->picFixedZOff = ViewingBox::get_renderLayerZOff(_layerType);
+        }
     }
 
     //------ animFrameSet ------
@@ -133,10 +142,9 @@ public:
         return this->animFrameSetPtr->get_timeSteps().at(_currentIdx);
     }
 
-
     //======== vals ========//
     ChildMesh   picMesh    { true };
-    ChildMesh   shadowMesh { false };
+    ChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
 
     glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）
@@ -151,22 +159,26 @@ public:
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
 
+    float            picFixedZOff {}; //- 方便快速访问
+    RenderLayerType  picRenderLayerType;
+
     //======== flags ========//
-    bool   isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
+    bool    isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
                             //- 在 this->init() 之前，此值就被确认了
-    bool   isVisible  {true};  //- 是否可见 ( go and shadow )    
-    bool   isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
-    bool   isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+    bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
+    bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
+    bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
+    bool    isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
+                                // 仅作用于 pic
                                 
     
-
 private:
     
-
     //======== vals ========//
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
+
 
     //------- AnimFrameSet -------
     // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据

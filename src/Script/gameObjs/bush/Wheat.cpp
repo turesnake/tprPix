@@ -80,7 +80,7 @@ void Wheat::init( GameObj *_goPtr,
     goPtr->goPos.set_alti( 0.0f );
 
     goPtr->set_collision_isDoPass( false );
-    goPtr->set_collision_isBePass( false );
+    goPtr->set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
@@ -156,7 +156,7 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
     rebind_ptr( _goPtr );
 
     //=====================================//
-    //           test: AI
+    //            AI
     //-------------------------------------//
     //...
 
@@ -170,20 +170,7 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
     for( auto &pairRef : goPtr->goMeshs ){
-        GameObjMesh &goMeshRef = pairRef.second;
-
-        //-- 也许不该放在 这个位置 --
-        if( goMeshRef.isVisible == false ){
-            continue;
-        }
-
-        goMeshRef.animFrameIdxHandle.update();
-        
-        goMeshRef.picMesh.refresh_translate();
-        goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
-
-        // mapSurface gos 一律没有 shadow
+        pairRef.second.RenderUpdate();
     }
 }
 

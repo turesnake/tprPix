@@ -84,7 +84,7 @@ public:
     inline MemMapEnt* get_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
         int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
-        return (MemMapEnt*)&(memMapEnts.at(idx));
+        return static_cast<MemMapEnt*>( &(memMapEnts.at(idx)) );
     }
     
 

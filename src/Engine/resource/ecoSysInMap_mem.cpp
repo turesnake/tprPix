@@ -37,7 +37,7 @@ EcoSysInMap *insert_new_ecoSysInMap( const IntVec2 &_sectionMPos ){
         assert( esrc::ecoSysesInMap.find(key) == esrc::ecoSysesInMap.end() );//- must not exist
     esrc::ecoSysesInMap.insert({ key, ecoSysInMap }); //- copy
     //----
-    return (EcoSysInMap*)&(esrc::ecoSysesInMap.at(key));
+    return static_cast<EcoSysInMap*>( &(esrc::ecoSysesInMap.at(key)) );
 }
 
 
@@ -57,7 +57,7 @@ EcoSysInMap *insert_new_ecoSysInMap( sectionKey_t _sectionkey ){
         assert( esrc::ecoSysesInMap.find(_sectionkey) == esrc::ecoSysesInMap.end() );//- must not exist
     esrc::ecoSysesInMap.insert({ _sectionkey, ecoSysInMap }); //- copy
     //----
-    return (EcoSysInMap*)&(esrc::ecoSysesInMap.at(_sectionkey));
+    return static_cast<EcoSysInMap*>( &(esrc::ecoSysesInMap.at(_sectionkey)) );
 }
 
 

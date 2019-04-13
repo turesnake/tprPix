@@ -30,7 +30,18 @@ MapField *insert_new_field( fieldKey_t _fieldKey ){
         assert( esrc::fields.find(_fieldKey) == esrc::fields.end() ); //- must not exist
     esrc::fields.insert({ _fieldKey, field }); //- copy
     //-----
-    return (MapField*)&(esrc::fields.at(_fieldKey));
+    return static_cast<MapField*>( &(esrc::fields.at(_fieldKey)) );
+}
+
+MapField &insert_new_field_ref( fieldKey_t _fieldKey ){
+
+    // ***| INSERT FIRST, INIT LATER  |***
+    MapField  field {};
+    field.init( fieldKey_2_mpos(_fieldKey) );
+        assert( esrc::fields.find(_fieldKey) == esrc::fields.end() ); //- must not exist
+    esrc::fields.insert({ _fieldKey, field }); //- copy
+    //-----
+    return esrc::fields.at(_fieldKey);
 }
 
 /* ===========================================================
@@ -46,21 +57,30 @@ MapField *insert_new_field( const IntVec2 &_anyMPos ){
         assert( esrc::fields.find(fieldKey) == esrc::fields.end() ); //- must not exist
     esrc::fields.insert({ fieldKey, field }); //- copy
     //-----
-    return (MapField*)&(esrc::fields.at(fieldKey));
+    return static_cast<MapField*>( &(esrc::fields.at(fieldKey)) );
 }
 
 
 /* ===========================================================
- *                find_or_insert_the_field
+ *                find_or_insert_the_field [2]
  * -----------------------------------------------------------
  * 若存在，取之，若不存在，生成之
  */
-MapField *find_or_insert_the_field( fieldKey_t _fieldKey ){
+MapField *find_or_insert_the_field_ptr( fieldKey_t _fieldKey ){
 
     if( esrc::fields.find(_fieldKey) == esrc::fields.end() ){
         return esrc::insert_new_field( _fieldKey );
     }else{
-        return (MapField*)&(esrc::fields.at(_fieldKey));
+        return static_cast<MapField*>( &(esrc::fields.at(_fieldKey)) );
+    }
+}
+
+MapField &find_or_insert_the_field_ref( fieldKey_t _fieldKey ){
+
+    if( esrc::fields.find(_fieldKey) == esrc::fields.end() ){
+        return esrc::insert_new_field_ref( _fieldKey );
+    }else{
+        return esrc::fields.at(_fieldKey);
     }
 }
 

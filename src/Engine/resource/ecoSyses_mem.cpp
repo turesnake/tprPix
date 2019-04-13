@@ -30,7 +30,7 @@ EcoSys *insert_new_ecoSys( EcoSysType _type ){
     // ***| INSERT FIRST, INIT LATER  |***
     EcoSys  ecoSys {};
     esrc::ecoSyses.insert({ _type, ecoSys }); //- copy
-    return (EcoSys*)&(ecoSyses.at(_type)); 
+    return static_cast<EcoSys*>( &(ecoSyses.at(_type)) ); 
 }
 
 

@@ -20,7 +20,7 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
+//#include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
 
@@ -34,6 +34,7 @@ class GameObj;
 
 
 //-- pic/shadow 共用一套结构 --//
+//   这个 class 应尽可能地 轻量化，让公共数据，放到 GoMesh 中
 class ChildMesh{
 public:
     explicit ChildMesh( bool _isPic ):
@@ -51,17 +52,6 @@ public:
     inline void set_rotate_z( float _z )                 { this->rotate_z=_z; }
     inline void set_scale( const glm::vec3 &_v )         { this->scale_val=_v; }
 
-
-    inline void set_pic_renderLayer( RenderLayerType _layerType ){
-        if( _layerType == RenderLayerType::MajorGoes ){
-            this->isPicFixedZOff = false;
-            this->picFixedZOff = 0.0; //- null
-        }else{
-            this->isPicFixedZOff = true;
-            this->picFixedZOff = ViewingBox::get_renderLayerZOff(_layerType);
-        }
-    }
-
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
     void refresh_translate();
@@ -71,6 +61,11 @@ public:
     //  这个函数很常用
     //  但如果 AnimFrameSet实例 并不更换，也没必要 每1视觉帧 都执行此函数
     void refresh_scale_auto();
+
+
+    inline ChildMesh *get_ChildMeshPtr(){
+        return  static_cast<ChildMesh*>(this);
+    }
 
 
     //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
@@ -90,7 +85,6 @@ private:
     GameObj      *goPtr       {nullptr};
     GameObjMesh  *goMeshPtr {nullptr};
 
-    
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
@@ -101,12 +95,8 @@ private:
     float     rotate_z      {0.0f};  //- 只有 z轴旋转角度
     glm::vec3 scale_val     {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
-    float     picFixedZOff {};   
-
     //======== flags ========//  
     bool    isPic {true}; //-- pic / shadow
-    bool    isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
-                                // 仅作用于 pic
 };
 
 

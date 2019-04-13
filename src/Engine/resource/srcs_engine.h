@@ -159,7 +159,7 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr );
 
 inline GameObj *get_memGameObjPtr( goid_t _goid ){
         assert( memGameObjs.find(_goid) != memGameObjs.end() );//- tmp
-    return (GameObj*)&(memGameObjs.at(_goid));
+    return  static_cast<GameObj*>( &(memGameObjs.at(_goid)) );
 }
 
 
@@ -223,7 +223,7 @@ void init_ecoSyses();
 
 inline EcoSys *get_ecoSysPtr( EcoSysType _type ){
         assert( esrc::ecoSyses.find(_type) != esrc::ecoSyses.end() ); //- tmp
-    return (EcoSys*)&(esrc::ecoSyses.at(_type));
+    return static_cast<EcoSys*>( &(esrc::ecoSyses.at(_type)) );
 }
 
 //-------------------------//
@@ -236,7 +236,12 @@ EcoSysInMap *insert_new_ecoSysInMap( sectionKey_t _sectionkey );
 
 inline EcoSysInMap *get_ecoSysInMapPtr( sectionKey_t _sectionkey ){
         assert( ecoSysesInMap.find(_sectionkey) != ecoSysesInMap.end() );//- tmp
-    return (EcoSysInMap*)&(ecoSysesInMap.at(_sectionkey));
+    return  static_cast<EcoSysInMap*>( &(ecoSysesInMap.at(_sectionkey)) );
+}
+
+inline EcoSysInMap &get_ecoSysInMapRef( sectionKey_t _sectionkey ){
+        assert( ecoSysesInMap.find(_sectionkey) != ecoSysesInMap.end() );//- tmp
+    return ecoSysesInMap.at(_sectionkey);
 }
 
 //-------------------------//
@@ -253,7 +258,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ); //- 临时放这
 
 inline Chunk *get_chunkPtr( chunkKey_t _key ){
         assert( chunks.find(_key) != chunks.end() );//- must exist
-    return (Chunk*)&(chunks.at(_key));
+    return static_cast<Chunk*>( &(chunks.at(_key)) );
 }
 inline Chunk &get_chunkRef( chunkKey_t _key ){
         assert( chunks.find(_key) != chunks.end() );//- must exist
@@ -269,13 +274,15 @@ inline std::unordered_map<fieldKey_t,MapField> fields {};
 
 MapField *insert_new_field( fieldKey_t _fieldKey );
 MapField *insert_new_field( const IntVec2 &_anyMPos );
+MapField &insert_new_field_ref( fieldKey_t _fieldKey );
 
-MapField *find_or_insert_the_field( fieldKey_t _fieldKey );
+MapField *find_or_insert_the_field_ptr( fieldKey_t _fieldKey );
+MapField &find_or_insert_the_field_ref( fieldKey_t _fieldKey );
 
 
 inline  MapField *get_fieldPtr( fieldKey_t _fieldKey ){
         assert( esrc::fields.find(_fieldKey) != esrc::fields.end() );//- must exist
-    return (MapField*)&(esrc::fields.at(_fieldKey));
+    return static_cast<MapField*>( &(esrc::fields.at(_fieldKey)) );
 }
 
 
@@ -289,7 +296,7 @@ Section *insert_new_section( sectionKey_t _sectionkey );
 
 inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
         assert( sections.find(_sectionkey) != sections.end() );//- tmp
-    return (Section*)&(sections.at(_sectionkey));
+    return static_cast<Section*>( &(sections.at(_sectionkey)) );
 }
 
 

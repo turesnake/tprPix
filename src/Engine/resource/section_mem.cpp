@@ -36,7 +36,7 @@ Section *insert_new_section( const IntVec2 &_anyMPos ){
         assert( esrc::sections.find(key) == esrc::sections.end() );//- must not exist
     esrc::sections.insert({ key, section }); //- copy
     //-----
-    return (Section*)&(esrc::sections.at(key));
+    return static_cast<Section*>( &(esrc::sections.at(key)) );
 }
 
 
@@ -56,7 +56,7 @@ Section *insert_new_section( sectionKey_t _sectionkey ){
         assert( esrc::sections.find(_sectionkey) == esrc::sections.end() );//- must not exist
     esrc::sections.insert({ _sectionkey, section }); //- copy
     //-----
-    return (Section*)&(esrc::sections.at(_sectionkey));
+    return static_cast<Section*>( &(esrc::sections.at(_sectionkey)) );
 }
 
 

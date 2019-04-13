@@ -34,9 +34,7 @@ namespace{//------------------ namespace ---------------------//
  *                refresh_scale_auto
  * -----------------------------------------------------------
  * 大部分 具象go实例 的 GameObjMesh图元 长宽值 与 AnimFrameSet 数据 强关联 --
- *     所以可以直接从 AnimFrameSet 中获取数据
- *     这个函数很常用
- *     但如果 AnimFrameSet 实例 并不更换，也没必要 每1视觉帧 都执行此函数
+ * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void ChildMesh::refresh_scale_auto(){
     const IntVec2 &p = this->goMeshPtr->get_animFrameSet_pixNum_per_frame();
@@ -75,8 +73,8 @@ void ChildMesh::refresh_translate(){
     if( this->isPic == true ){
         this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
                                     //-- 累加 高度alti
-        if( this->isPicFixedZOff ){
-            this->translate_val.z = esrc::camera.get_zFar() + this->picFixedZOff;
+        if( goMeshPtr->isPicFixedZOff ){
+            this->translate_val.z = esrc::camera.get_zFar() + goMeshPtr->picFixedZOff;
         }else{
             this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->off_z);
                                         //-- ** 注意！**  z值的计算有不同：

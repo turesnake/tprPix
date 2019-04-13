@@ -240,7 +240,7 @@ int main(){
         for( auto& p : esrc::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
             esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
-                                                (Mesh*)&p.second.mesh });
+                                                static_cast<Mesh*>(&p.second.mesh) });
         }
 
         //------------------------//

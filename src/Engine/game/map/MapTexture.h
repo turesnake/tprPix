@@ -44,7 +44,7 @@ public:
 
     inline RGBA *get_texBufHeadPtr() {
         assert( this->is_resize_done );
-        return (RGBA*)&(texBuf.at(0));
+        return static_cast<RGBA*>( &(texBuf.at(0)) );
     }
 
     inline void resize_texBuf(){

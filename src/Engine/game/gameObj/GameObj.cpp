@@ -30,10 +30,10 @@ ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    this->collision.init( (GameObj*)this );
-    this->goPos.init( (GameObj*)this ); //- MUST before move.init()
-    this->move.init( (GameObj*)this, &this->goPos, &this->collision );
-    this->actionSwitch.init( (GameObj*)this );
+    this->collision.init( static_cast<GameObj*>(this) );
+    this->goPos.init( static_cast<GameObj*>(this) ); //- MUST before move.init()
+    this->move.init( static_cast<GameObj*>(this), &this->goPos, &this->collision );
+    this->actionSwitch.init( static_cast<GameObj*>(this) );
     //...
 }
 

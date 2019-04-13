@@ -107,7 +107,13 @@ void OakTree::init( GameObj *_goPtr,
     goPtr->goPos.set_alti( 0.0f );
 
     goPtr->set_collision_isDoPass( false );
-    goPtr->set_collision_isBePass( false );
+    //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
+    if( pvtBp->age <= 2 ){
+        goPtr->set_collision_isBePass( true );
+    }else{
+        goPtr->set_collision_isBePass( false );
+    }
+    
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 

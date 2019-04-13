@@ -36,7 +36,7 @@ Chunk *insert_new_chunk( const IntVec2 &_anyMPos ){
         assert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
     esrc::chunks.insert({ key, chunk }); //- copy
     //-----
-    return (Chunk*)&(esrc::chunks.at(key));
+    return static_cast<Chunk*>( &(esrc::chunks.at(key)) );
 }
 
 
@@ -76,47 +76,6 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
     IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
     return esrc::chunks.at(chunkKey).get_mapEntPtr_by_lMPosOff( lMPosOff );
 }
-
-
-/* ===========================================================
- *              insert_new_chunkFieldSet    [可能被废弃]
- * -----------------------------------------------------------
- * param: _chunkKey -- 必须是 chunkKey.key
- * 已初始化 一阶数据 ...
- */
-/*
-ChunkFieldSet *insert_new_chunkFieldSet( chunkKey_t _chunkKey ){
-
-    // ***| INSERT FIRST, INIT LATER  |***
-    ChunkFieldSet chunkFieldSet {};
-    chunkFieldSet.set_by_chunkKey( _chunkKey );
-        assert( esrc::chunkFieldSets.find(_chunkKey) == esrc::chunkFieldSets.end() );//- must not exist
-    esrc::chunkFieldSets.insert({ _chunkKey, chunkFieldSet }); //- copy
-    //-----
-    return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(_chunkKey));
-}
-*/
-
-
-/* ===========================================================
- *              insert_new_chunkFieldSet
- * -----------------------------------------------------------
- * param: _anyMPos --  目标chunk 区域中的任何一个 mapent.mpos
- */
-/*
-ChunkFieldSet *insert_new_chunkFieldSet( const IntVec2 &_anyMPos ){
-
-    // ***| INSERT FIRST, INIT LATER  |***
-    ChunkFieldSet chunkFieldSet {};
-    chunkFieldSet.set_by_anyMPos( _anyMPos );
-    chunkKey_t key = chunkFieldSet.chunkKey;
-        assert( esrc::chunkFieldSets.find(key) == esrc::chunkFieldSets.end() );//- must not exist
-    esrc::chunkFieldSets.insert({ key, chunkFieldSet }); //- copy
-    //-----
-    return (ChunkFieldSet*)&(esrc::chunkFieldSets.at(key));
-}
-*/
-
 
 
 }//---------------------- namespace: esrc -------------------------//

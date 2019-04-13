@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.02.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   
- * ----------------------------
  */
 #ifndef _TPR_PUB_BINARY_H_
 #define _TPR_PUB_BINARY_H_
@@ -52,7 +50,8 @@ public:
     //  使用前 应主动调用 check() 
     inline void *get_valPtr( PubBinaryValType _type ) const {
         const off_t &off = valOffs.at((idx_t)_type);
-        return (void*)&(binary.at(off));
+        return (void*)&(binary.at(off)); 
+                        //- 此处不能使用 static_cast
     }
 
 private:
