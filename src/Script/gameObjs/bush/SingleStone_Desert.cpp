@@ -35,11 +35,14 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 /* ===========================================================
- *                         init
+ *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void SingleStone_Desert::init( GameObj *_goPtr,
-                    float _fieldWeight ){
+void SingleStone_Desert::init_in_autoMod(   GameObj *_goPtr,
+                                const IntVec2 &_mpos,
+					            float _fieldWeight,
+					            const Altitude &_alti,
+					            const Density &_density ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
@@ -78,30 +81,31 @@ void SingleStone_Desert::init( GameObj *_goPtr,
     goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- singleStone_Desert一律无法移动
     goPtr->move.set_MoveType( true ); //- tmp
 
-    goPtr->goPos.set_alti( 0.0f );
-
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //------- 制作 mesh 实例: "root" -------
-        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "singleStone_Desert" );
-        rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
-        rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        //rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
+        GameObjMesh &rootGoMeshRef = 
+                goPtr->creat_new_goMesh("root", //- gmesh-name
+                                        "singleStone_Desert", //- animFrameSet-Name
+                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        &esrc::rect_shader,  
+                                        &esrc::rect_shader, //- 其实没有 shadow
+                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                        0.0,  //- off_z
+                                        true, //- isVisible
+                                        true, //- isCollide
+                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
+                                        );
+
         //-- bind animFrameSet / animFrameIdxHandle --
         rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->singleStone_DesertId );
-                    
-        rootGoMeshRef.isVisible = true;
-        rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = gameObjs::apply_isFlipOver( _fieldWeight ); //- tmp
 
-        //-- goMesh pos in go --
-        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
-
+    //-- 务必在 mesh:"root" 之后 ---
+    goPtr->goPos.set_alti( 0.0f );
+    goPtr->goPos.init_by_currentMPos( _mpos );
 
     //...
 

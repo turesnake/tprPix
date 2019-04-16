@@ -1,11 +1,11 @@
 /*
- * ========================= Wheat.cpp ==========================
+ * ========================= Lichen_Forest.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/bush/Wheat.h"
+#include "Script/gameObjs/mapSurfaces/Lichen_Forest.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -22,6 +22,7 @@
 #include "Script/resource/srcs_script.h" 
 #include "Script/gameObjs/create_go_oth.h"
 
+
 using namespace std::placeholders;
 
 #include "debug.h" 
@@ -35,10 +36,10 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 /* ===========================================================
- *                   init_in_autoMod
+ *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(   GameObj *_goPtr,
+void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
                                 const IntVec2 &_mpos,
 					            float _fieldWeight,
 					            const Altitude &_alti,
@@ -47,25 +48,26 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
 
-    //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(Wheat_PvtBinary) );
-    pvtBp = (Wheat_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-        pvtBp->wheatId = gameObjs::apply_a_simpleId( _fieldWeight, 4 );
+    //-------- go.pvtBinary ---------//
+    goPtr->resize_pvtBinary( sizeof(Lichen_Forest_PvtBinary) );
+    pvtBp = (Lichen_Forest_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+
+        pvtBp->lichen_ForestId = gameObjs::apply_a_simpleId( _fieldWeight, 32 );
 
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _1 );
+    goPtr->RenderUpdate = std::bind( &Lichen_Forest::OnRenderUpdate, &lichen_Forest, _1 );   
+    goPtr->LogicUpdate  = std::bind( &Lichen_Forest::OnLogicUpdate,  &lichen_Forest, _1 );
     
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
+    goPtr->actionSwitch.bind_func( std::bind( &Lichen_Forest::OnActionSwitch, &lichen_Forest, _1, _2 ) );
     goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 wheat 只有一种动画，就是永久待机...
+            //- 当前 lichen_Forest 只有一种动画，就是永久待机...
 
     //-------- go self vals ---------//
-    goPtr->species = Wheat::specId;
+    goPtr->species = Lichen_Forest::specId;
     goPtr->family = GameObjFamily::Major;
     goPtr->parentId = NULLID;
     goPtr->state = GameObjState::Waked;
@@ -77,7 +79,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- wheat一律无法移动
+    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- lichen_Forest一律无法移动
     goPtr->move.set_MoveType( true ); //- tmp
 
     goPtr->set_collision_isDoPass( false );
@@ -85,41 +87,22 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
-        //------- 制作 mesh 实例: "root" -------
+        //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "wheat_Front", //- animFrameSet-Name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        "lichen_Forest", //- animFrameSet-Name
+                                        RenderLayerType::MapSurfaces, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
-                                        glm::vec2{ 0.0f, -7.0f }, //- pposoff
+                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                         0.0,  //- off_z
                                         true, //- isVisible
                                         true, //- isCollide
-                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
+                                        gameObjs::apply_isFlipOver(_fieldWeight) //- isFlipOver
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
-                    
-
-        //------- 制作 mesh 实例: "back" -------
-        GameObjMesh &backGoMeshRef = 
-                goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "wheat_Back", //- animFrameSet-Name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::rect_shader,  
-                                        &esrc::rect_shader, //- 其实没有 shadow
-                                        glm::vec2{ 0.0f, 7.0f }, //- pposoff
-                                        0.0,  //- off_z
-                                        true, //- isVisible
-                                        false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
-                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
-                                        );
-
-        //-- bind animFrameSet / animFrameIdxHandle --
-        backGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
-                     
+        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->lichen_ForestId );
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -127,7 +110,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
     //...
 
     //-------- go.pubBinary ---------//
-    goPtr->pubBinary.init( wheat_pubBinaryValTypes );
+    goPtr->pubBinary.init( lichen_Forest_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -136,7 +119,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Wheat::bind( GameObj *_goPtr ){
+void Lichen_Forest::bind( GameObj *_goPtr ){
 }
 
 
@@ -146,21 +129,21 @@ void Wheat::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Wheat::rebind( GameObj *_goPtr ){
+void Lichen_Forest::rebind( GameObj *_goPtr ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnRenderUpdate( GameObj *_goPtr ){
+void Lichen_Forest::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     rebind_ptr( _goPtr );
 
     //=====================================//
-    //            AI
+    //              AI
     //-------------------------------------//
     //...
 
@@ -183,7 +166,7 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnLogicUpdate( GameObj *_goPtr ){
+void Lichen_Forest::OnLogicUpdate( GameObj *_goPtr ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -201,7 +184,7 @@ void Wheat::OnLogicUpdate( GameObj *_goPtr ){
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
-void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+void Lichen_Forest::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
     //=====================================//
     //            ptr rebind
@@ -216,15 +199,16 @@ void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->lichen_ForestId );
             break;
 
         default:
             break;
             //-- 并不报错，什么也不做...
-    }
 
+    }
 }
+
 
 //namespace{//-------------- namespace ------------------//
 //}//------------------ namespace: end ------------------//

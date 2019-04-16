@@ -81,16 +81,17 @@ int main(){
     //------------------------------------------//
     //               加载所有 资源
     //------------------------------------------//
-        //return 0;
+
+    //++++++ pure init (不依赖任何外部代码) ++++++//
+    input::init_input();             //---- input -----
+    esrc::camera.init();             //---- camera 资源 ----
+    esrc::init_shaders();            //---- shaders 资源 ----
+    esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
+    sectionBuild::init();            //----- sectionBuild 模块 --  暂时为空
 
     //++++++ init ++++++//
-    input::init_input();             //---- input -----
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
-    esrc::camera.init();             //---- camera 资源 ----
     esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
-    esrc::init_shaders();            //---- shaders 资源 ----
-    //esrc::init_fieldBorderEntPixMaskSet();  //---- fieldBorderEntPixMaskSet 资源 ----
-    esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
 
@@ -101,23 +102,18 @@ int main(){
 
     debug::init_debug();             //---- debug 资源 ----
 
-    sectionBuild::init();            //----- sectionBuild 模块 --
-
     esrc::init_gpgpus();             //---- gpgpu 资源 ----
-
     esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//
     esrc::load_colliEntSets(); //-- colliEntSets --
 
-        //esrc::debug_colliEntSets();
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
 
     esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
 
-    
     //...
         
 
@@ -125,7 +121,8 @@ int main(){
     //...
         map_byPass(); //- 硬制作 一张 section map
 
-        go_byPass();  //- 硬生产一组 Dog_A 实例
+        go_byPass();  //- 硬生产一组 Norman 实例
+
 
         esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 

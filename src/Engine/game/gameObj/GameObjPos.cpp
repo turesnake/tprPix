@@ -24,16 +24,15 @@ namespace{//-------- namespace -----------//
 }//------------ namespace: end -----------//
 
 
-
 /* ===========================================================
- *                 init_by_currentMCPos
+ *                 init_by_currentMPos
  * -----------------------------------------------------------
- * -- 将 go.goPos.currentFPos 放到 参数 _pos 指定的 mapCoordPos 上
+ * -- 将 go.goPos.currentFPos 放到 参数 _pos 指定的 mpos 上
  * -- 在调用此函数之前，应先确保 潜在碰撞区的 干净
  * -- 此函数不需要什么性能，反正不会经常设置 go的 mcpos
  */
-void GameObjPos::init_by_currentMCPos( const MapCoord &_mcpos ){
-    this->currentMCPos = _mcpos;
+void GameObjPos::init_by_currentMPos( const IntVec2 &_mpos ){
+    this->currentMCPos.set_by_mpos( _mpos );
     //---
     const MapEntCompass &compassRef = this->goPtr->get_rootAnchorPos().compass;
     IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();

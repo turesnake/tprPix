@@ -36,13 +36,13 @@ void load_animFrameSets(){
     esrc::animFrameSets.insert({"norman",  
                                 AnimFrameSet{   "/norman/norman.P.png", 
                                                 IntVec2{6, 2}, 12,
-                                                true,
+                                                true, //- 有 shadow 数据
                                                 true, std::vector<int>{12,8,8,12,8,8, 4,4,4,4,4,4} } });
 
     esrc::animFrameSets.insert({"bigMan",  
                                 AnimFrameSet{   "/bigMan/bigMan.P.png", 
                                                 IntVec2{6, 2}, 12,
-                                                true,
+                                                true, //- 有 shadow 数据
                                                 true, std::vector<int>{10,8,8,8,8,16, 3,6,3,3,6,3} } });
 
 
@@ -52,7 +52,13 @@ void load_animFrameSets(){
     esrc::animFrameSets.insert({"oakTree",  
                                 AnimFrameSet{   "/oakTree/oakTree_2.P.png", 
                                                 IntVec2{5, 4}, 17,
-                                                true,
+                                                true, //- 有 shadow 数据
+                                                false, std::vector<int>{} } });
+
+    esrc::animFrameSets.insert({"pineTree",  
+                                AnimFrameSet{   "/pineTree/pineTree.P.png", 
+                                                IntVec2{4, 2}, 8,
+                                                true, //- 有 shadow 数据
                                                 false, std::vector<int>{} } });
 
 
@@ -75,19 +81,30 @@ void load_animFrameSets(){
                                 AnimFrameSet{   "/singleStone_Desert/singleStone_Desert.P.png", 
                                                 IntVec2{4, 2}, 8,
                                                 false, //- 没有 shadow 数据
-                                                false, std::vector<int>{} } });                                  
+                                                false, std::vector<int>{} } });     
+
+    esrc::animFrameSets.insert({"leaf_DForest",  
+                                AnimFrameSet{   "/leaf_DForest/leaf_DForest.P.png", 
+                                                IntVec2{4, 2}, 8,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });                              
 
 
     //---------------------------------------//
     //               GO: MapSurface
     //---------------------------------------//
-    esrc::animFrameSets.insert({"lichen",  
-                                AnimFrameSet{   "/lichen/lichen_2.P.png", 
+    esrc::animFrameSets.insert({"lichen_Forest",  
+                                AnimFrameSet{   "/lichen_Forest/lichen_Forest.P.png", 
                                                 IntVec2{8, 4}, 32,
                                                 false, //- 没有 shadow 数据
                                                 false, std::vector<int>{} } });
 
     
+    esrc::animFrameSets.insert({"lichen_DForest",  
+                                AnimFrameSet{   "/lichen_DForest/lichen_DForest.P.png", 
+                                                IntVec2{8, 3}, 24,
+                                                false, //- 没有 shadow 数据
+                                                false, std::vector<int>{} } });
 
 
 

@@ -401,7 +401,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
 
     //--------------------------------//
     //          go 生成器  [tmp]
-    //    给 高密度 field，种上 橡树go 
+    //   为每个 field，分配一个 go实例
     //--------------------------------//
     for( const auto &fieldKey : fieldKeys ){ //- each field key
         sectionBuild::create_a_go_in_field( fieldKey );

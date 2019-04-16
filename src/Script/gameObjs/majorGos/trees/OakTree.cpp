@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/OakTree.h"
+#include "Script/gameObjs/majorGos/trees/OakTree.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -31,10 +31,6 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 namespace{//-------------- namespace ------------------//
 
-
-    std::uniform_int_distribution<int> uDistribution_bool(0,1);
-    std::uniform_int_distribution<int> uDistribution_oakId(0,100);
-
     //--- 将所有 oakId 分类，方便分配 ---
     std::vector<int> multiBranch_age1   { 0 };
     std::vector<int> singleTrunk_age1   { 1, 2 };
@@ -50,20 +46,21 @@ namespace{//-------------- namespace ------------------//
 
 
     //===== funcs =====//
-    int apply_a_oakId( int _age, bool _isSingleTrunk );
+    int apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk );
 
 
 }//------------------ namespace: end ------------------//
 
 
 /* ===========================================================
- *                         init
+ *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void OakTree::init( GameObj *_goPtr, 
-                    int _age,
-                    bool _isSingleTrunk,
-                    bool _isFlipOver ){
+void OakTree::init_in_autoMod(  GameObj *_goPtr,
+                                const IntVec2 &_mpos,
+					            float _fieldWeight,
+					            const Altitude &_alti,
+					            const Density &_density ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
@@ -72,9 +69,9 @@ void OakTree::init( GameObj *_goPtr,
     goPtr->resize_pvtBinary( sizeof(OakTree_PvtBinary) );
     pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
-        pvtBp->age = _age;
-        pvtBp->isSingleTRunk = _isSingleTrunk;
-        pvtBp->oakId = apply_a_oakId( _age, _isSingleTrunk );
+        pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
+        pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( _fieldWeight );
+        pvtBp->oakId = apply_a_oakId( pvtBp->age, _fieldWeight, pvtBp->isSingleTRunk );
         //...
         
 
@@ -104,8 +101,6 @@ void OakTree::init( GameObj *_goPtr,
     goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- 树木一律无法移动
     goPtr->move.set_MoveType( true ); //- tmp
 
-    goPtr->goPos.set_alti( 0.0f );
-
     goPtr->set_collision_isDoPass( false );
     //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
     if( pvtBp->age <= 2 ){
@@ -114,26 +109,28 @@ void OakTree::init( GameObj *_goPtr,
         goPtr->set_collision_isBePass( false );
     }
     
-
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "oakTree" );
-        rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
-        rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader );
+        GameObjMesh &rootGoMeshRef = 
+                goPtr->creat_new_goMesh("root", //- gmesh-name
+                                        "oakTree", //- animFrameSet-Name
+                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        &esrc::rect_shader,  
+                                        &esrc::rect_shader,
+                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                        0.0,  //- off_z
+                                        true, //- isVisible
+                                        true, //- isCollide
+                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
+                                        );
+
         //-- bind animFrameSet / animFrameIdxHandle --
         rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->oakId );
 
-        rootGoMeshRef.isVisible = true;
-        rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = _isFlipOver;
-
-        //-- goMesh pos in go --
-        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
-
+    //-- 务必在 mesh:"root" 之后 ---
+    goPtr->goPos.set_alti( 0.0f );
+    goPtr->goPos.init_by_currentMPos( _mpos );
     //...
 
     //-------- go.pubBinary ---------//
@@ -186,25 +183,7 @@ void OakTree::OnRenderUpdate( GameObj *_goPtr ){
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
     for( auto &pairRef : goPtr->goMeshs ){
-        GameObjMesh &goMeshRef = pairRef.second;
-
-        //-- 也许不该放在 这个位置 --
-        if( goMeshRef.isVisible == false ){
-            continue;
-        }
-
-        goMeshRef.animFrameIdxHandle.update();
-
-        goMeshRef.picMesh.refresh_translate();
-        goMeshRef.picMesh.refresh_scale_auto(); //- 没必要每帧都执行
-        esrc::renderPool_goMeshs_pic.insert({ goMeshRef.shadowMesh.get_render_z(), (ChildMesh*)&(goMeshRef.picMesh) });
-
-        
-        if( goMeshRef.isHaveShadow ){
-            goMeshRef.shadowMesh.refresh_translate();
-            goMeshRef.shadowMesh.refresh_scale_auto(); //- 没必要每帧都执行
-            esrc::renderPool_goMeshs_shadow.push_back( (ChildMesh*)&(goMeshRef.shadowMesh) );
-        }
+        pairRef.second.RenderUpdate();
     }
 }
 
@@ -268,9 +247,10 @@ namespace{//-------------- namespace ------------------//
  *                     apply_a_oakId
  * -----------------------------------------------------------
  */
-int apply_a_oakId( int _age, bool _isSingleTrunk ){
+int apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk ){
     size_t  idx;
-    int     randV = uDistribution_oakId(esrc::gameSeed.randEngine);
+    int     randV = gameObjs::apply_a_simpleId( _fieldWeight, 83 );
+
     if( _isSingleTrunk ){ //- 单树干
         switch( _age ){
             case 1: idx = randV % singleTrunk_age1.size();  return singleTrunk_age1.at(idx);

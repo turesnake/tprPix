@@ -91,7 +91,15 @@ public:
     }
 
     GameObjMesh &creat_new_goMesh(  const std::string &_name,
-                                    const std::string &_animFrameSetName ); 
+                                    const std::string &_animFrameSetName,
+                                    RenderLayerType    _layerType,
+                                    ShaderProgram     *_pixShaderPtr,
+                                    ShaderProgram     *_shadowShaderPtr,
+                                    const glm::vec2   _pposOff,
+                                    float             _off_z,
+                                    bool              _isVisible,
+                                    bool              _isCollide,
+                                    bool              _isFlipOver );
 
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...

@@ -26,23 +26,23 @@ namespace{//-------- namespace: --------------//
 
 
 /* ===========================================================
- *                  get_rand_EcoSysType
+ *                  get_rand_EcoSysType    tmp
  * -----------------------------------------------------------
- * -- 及其临时性的实现。 随机分配一个 EcoSysType
+ * -- 极其临时性的实现。 随机分配一个 EcoSysType
  */
 EcoSysType get_rand_EcoSysType(){
 
     //-- 一个临时性的方法 ------
     int val = uDistribution( esrc::gameSeed.randEngine );
     switch (val){
-        case 1: return EcoSysType::Forst;
-        case 2: return EcoSysType::DarkForst;
+        case 1: return EcoSysType::Forest;
+        case 2: return EcoSysType::DarkForest;
         case 3: return EcoSysType::Plain;
         case 4: return EcoSysType::Swamp;
         case 5: return EcoSysType::Desert;
         default:
             assert(0);
-            return EcoSysType::Forst; //- never touch
+            return EcoSysType::Forest; //- never touch
     }
 }
 

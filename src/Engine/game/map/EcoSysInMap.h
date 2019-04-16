@@ -50,11 +50,11 @@ public:
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
 
-    EcoSysType    ecoSysType  {EcoSysType::Forst};
+    EcoSysType    ecoSysType  {EcoSysType::Forest};
 
     int   chunkTotalNum  {0}; //- 本 ecosys 总共包含几个chunk
 
-    float weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+    float weight {};  //- 根据 simplexNoise 生成的 权重值。[-100.0, 100.0]
                       // [just mem] 
 
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]

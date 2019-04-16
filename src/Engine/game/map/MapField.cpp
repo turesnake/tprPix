@@ -159,12 +159,6 @@ void MapField::init_occupyWeight(){
     IntVec2 oddEven = floorMod( v, 2 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
-    /*
-    float Fidx = esrc::gameSeed.pn_field.noise( this->FDPos.x, 
-                                                this->FDPos.y, 
-                                                0.2) * 30.0 + 60.0; //- [30.0, 90.0]
-    */
-
     float Fidx = simplex_noise2(    (this->FDPos.x + 17.1), 
                                     (this->FDPos.y + 17.1) ) * 30.0 + 60.0; //- [30.0, 90.0]
 
@@ -185,7 +179,7 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
 
     //--- reset nearFour_ecoSysInMapPtrs ---//
     sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
-        assert( esrc::sections.find(sectionKey) != esrc::sections.end() ); //- must exist
+        assert( esrc::find_from_sections(sectionKey) ); //- must exist
     nearFour_ecoSysInMapPtrs.clear();
     for( const auto &ecoPtr : esrc::sections.at(sectionKey).ecoSysInMapPtrs ){
         nearFour_ecoSysInMapPtrs.insert({ -(ecoPtr->occupyWeight), ecoPtr });

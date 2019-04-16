@@ -12,29 +12,18 @@
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 #include "GameObjType.h"
+#include "Altitude.h"
+#include "Density.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-goid_t create_a_Norman( const IntVec2 &_mpos );
-goid_t create_a_BigMan( const IntVec2 &_mpos );
-goid_t create_a_OakTree( const IntVec2 &_mpos, 
-                        int _age, 
-                        bool _isSingleTrunk,
-                        bool _isFlipOver );
-                        
-goid_t create_a_Lichen( const IntVec2 &_mpos,
-                        float _fieldWeight );
-
-goid_t create_a_Wheat( const IntVec2 &_mpos,
-                        float _fieldWeight );
-
-goid_t create_a_SingleStone_Desert( const IntVec2 &_mpos,
-                                    float _fieldWeight );
-
-
-
+goid_t create_a_Go( goSpecId_t _goSpecId,
+                    const IntVec2 &_mpos,
+					float _fieldWeight,
+					const Altitude &_alti,
+					const Density &_density );
 
 
 }//------------- namespace gameObjs: end ----------------

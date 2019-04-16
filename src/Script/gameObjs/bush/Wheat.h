@@ -20,6 +20,8 @@
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
 #include "PubBinaryValType.h"
+#include "Altitude.h"
+#include "Density.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -44,8 +46,12 @@ public:
     Wheat() = default;
 
     //--- 延迟init ---//
-    void init(  GameObj *_goPtr,
-                float _fieldWeight );
+    void init_in_autoMod(   GameObj *_goPtr,
+                            const IntVec2 &_mpos,
+					        float _fieldWeight,
+					        const Altitude &_alti,
+					        const Density &_density );
+                            
     void bind( GameObj *_goPtr );
 
     //--- 从硬盘读取到 go实例数据后，重bind callback

@@ -149,6 +149,8 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
                         src/Script/gameObjs/bush/*.cpp
+                        src/Script/gameObjs/majorGos/*.cpp
+                        src/Script/gameObjs/majorGos/trees/*.cpp
                         src/Script/gameObjs/mapSurfaces/*.cpp
                         src/Script/map/*.cpp
                         src/Script/resource/*.cpp

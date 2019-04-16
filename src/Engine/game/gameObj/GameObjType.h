@@ -11,6 +11,7 @@
 #define _TPR_GAME_OBJ_TYPE_H_
 
 //--- glm - 0.9.8 ---
+/*
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -23,6 +24,7 @@
             //-- glm::perspective
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
+*/
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -35,7 +37,6 @@
 
 using goid_t     = u64_t; //- gameObj id type
 using goSpecId_t = u32_t; //- gameObj species id type
-
 
 //-- go 数据 [硬盘态] ---
 struct diskGameObj{
@@ -68,41 +69,12 @@ enum class GameObjState{
 };
 
 //- 三大 go 类群 --
+//  这套系统使用使用，暂未确定
 enum class GameObjFamily{
     Major   = 1, //- 主go： 活体，树，建筑...
     Item    = 2, //- 道具go： 武器，药剂
-    surface = 3  //- 表面go： 液体，火焰...
+    Surface = 3  //- 表面go： 液体，火焰...
 };
-
-
-//-- go species -- 
-/*
-enum class GameObjSpecies : u32_t {
-
-    NullSpecies = 0, //- 保留，表示 空类型 
-
-    //-------  ----------//
-    
-
-
-    //------- tree ----------//
-    Tree_Pine = 1000,  //- 松树
-    Tree_Oak  = 1001,  //- 橡树
-
-
-
-
-    //------- end ----------//
-    End = (u32_t)(-1) //- tmp, 不会被真的用到 
-};
-*/
-
-
-
-
-
-
-
 
 #endif
 

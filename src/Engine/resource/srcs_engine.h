@@ -231,8 +231,13 @@ inline EcoSys *get_ecoSysPtr( EcoSysType _type ){
 //   [地图上每个 section端点，分布一个 ecoSysInMap实例]
 //-------------------------//
 inline std::unordered_map<sectionKey_t, EcoSysInMap> ecoSysesInMap {};
+
 EcoSysInMap *insert_new_ecoSysInMap( const IntVec2 &_sectionMPos );
 EcoSysInMap *insert_new_ecoSysInMap( sectionKey_t _sectionkey );
+
+inline bool find_from_ecoSysesInMap( sectionKey_t _sectionKey ){
+    return (esrc::ecoSysesInMap.find(_sectionKey) != esrc::ecoSysesInMap.end());
+}
 
 inline EcoSysInMap *get_ecoSysInMapPtr( sectionKey_t _sectionkey ){
         assert( ecoSysesInMap.find(_sectionkey) != ecoSysesInMap.end() );//- tmp
@@ -255,6 +260,10 @@ inline std::unordered_map<chunkKey_t, Chunk> chunks {};
 Chunk *insert_new_chunk( const IntVec2 &_anyMPos );
 MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ); //- 临时放这 
 MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ); //- 临时放这 
+
+inline bool find_from_chunks( chunkKey_t _chunkKey ){
+    return (esrc::chunks.find(_chunkKey) != esrc::chunks.end());
+}
 
 inline Chunk *get_chunkPtr( chunkKey_t _key ){
         assert( chunks.find(_key) != chunks.end() );//- must exist
@@ -291,8 +300,14 @@ inline  MapField *get_fieldPtr( fieldKey_t _fieldKey ){
 //  暂时没想好，section 存储问题
 //-------------------------//
 inline std::unordered_map<sectionKey_t, Section> sections {};
+
 Section *insert_new_section( const IntVec2 &_anyMPos );
 Section *insert_new_section( sectionKey_t _sectionkey );
+
+
+inline bool find_from_sections( sectionKey_t _sectionKey ){
+    return (esrc::sections.find(_sectionKey) != esrc::sections.end());
+}
 
 inline Section *get_sectionPtr( sectionKey_t _sectionkey ){
         assert( sections.find(_sectionkey) != sections.end() );//- tmp

@@ -32,8 +32,6 @@ void GameObjMesh::bind_animFrameSet( const std::string &_name ){
     this->isHaveShadow = this->animFrameSetPtr->isHaveShadow;
 }
 
-
-
 /* ===========================================================
  *                  RenderUpdate
  * -----------------------------------------------------------
@@ -72,3 +70,4 @@ void GameObjMesh::RenderUpdate(){
         esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.get_ChildMeshPtr() );
     }
 }
+

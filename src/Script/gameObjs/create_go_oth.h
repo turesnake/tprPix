@@ -14,6 +14,7 @@
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 #include "GameObjType.h"
+#include "Density.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -33,6 +34,18 @@ inline bool apply_isFlipOver( float _fieldWeight ){
 
 
 /* ===========================================================
+ *                   apply_isSingleTRunk
+ * -----------------------------------------------------------
+ * 树，主干是否分叉
+ * param: _fieldWeight -- [-100.0, 100.0]
+ */
+inline bool apply_isSingleTRunk( float _fieldWeight ){
+    int randV = static_cast<int>(floor(_fieldWeight)) + 701;
+    return ((randV%10)<5);
+}
+
+
+/* ===========================================================
  *                     apply_a_oakId   tmp
  * -----------------------------------------------------------
  * 这组方法很临时。不够好...
@@ -44,7 +57,20 @@ inline int apply_a_simpleId( float _fieldWeight, int _totalNum ){
 }
 
 
-
+/* ===========================================================
+ *             apply_treeAge_by_density  tmp
+ * -----------------------------------------------------------
+ */
+inline int apply_treeAge_by_density( const Density &_density ){
+    switch( _density.lvl ){
+        case 1: return 1;
+        case 2: return 2;
+        case 3: return 3;
+        default:
+            assert(0);
+            return 3; //- never reach
+    }
+}
 
 
 

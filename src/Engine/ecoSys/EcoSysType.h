@@ -20,8 +20,8 @@ enum class EcoSysType : u8_t{
     BegIdx = 0, //- 通过此值来计算 第一个 typeIdx 是多少。
     
     //-- 确保所有 type 连续存放 --
-    Forst,
-    DarkForst,
+    Forest,
+    DarkForest,
     Plain,  
     Swamp,
     Desert,

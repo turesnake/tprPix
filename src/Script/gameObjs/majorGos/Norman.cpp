@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/Norman.h"
+#include "Script/gameObjs/majorGos/Norman.h"
 
 //-------------------- C --------------------//
 #include <cassert> //- assert
@@ -16,6 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h" 
+
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
@@ -33,13 +34,22 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 /* ===========================================================
- *                         init
+ *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void Norman::init( GameObj *_goPtr ){
+void Norman::init_in_autoMod(   GameObj *_goPtr,
+                                const IntVec2 &_mpos,
+					            float _fieldWeight,
+					            const Altitude &_alti,
+					            const Density &_density ){
 
     assert( _goPtr != nullptr );
     goPtr = _goPtr;
+
+    //-------- go.pvtBinary ---------//
+    goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
+    pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -66,10 +76,8 @@ void Norman::init( GameObj *_goPtr ){
     goPtr->isControlByPlayer = false;
 
     //goPtr->move.set_speedLv( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
-    goPtr->move.set_speedLv( SpeedLevel::LV_8 );   //- tmp，用来快速检索地图
+    goPtr->move.set_speedLv( SpeedLevel::LV_6 );   //- tmp，用来快速检索地图
     goPtr->move.set_MoveType( true ); //- tmp
-
-    goPtr->goPos.set_alti( 0.0f );
 
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( false );
@@ -77,11 +85,19 @@ void Norman::init( GameObj *_goPtr ){
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &rootGoMeshRef = goPtr->creat_new_goMesh( "root", "norman" );
-        rootGoMeshRef.init( goPtr ); 
-        rootGoMeshRef.set_pic_renderLayer( RenderLayerType::MajorGoes ); //- 不设置 固定zOff值
-        rootGoMeshRef.picMesh.set_shader_program( &esrc::rect_shader );
-        rootGoMeshRef.shadowMesh.set_shader_program( &esrc::rect_shader ); //- 没有 shadow 时不用设置
+        GameObjMesh &rootGoMeshRef = 
+                goPtr->creat_new_goMesh("root", //- gmesh-name
+                                        "norman", //- animFrameSet-Name
+                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        &esrc::rect_shader,  
+                                        &esrc::rect_shader,
+                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                        0.0,  //- off_z
+                                        true, //- isVisible
+                                        true, //- isCollide
+                                        false //- isFlipOver
+                                        );
+
         //-- bind animFrameSet / animFrameIdxHandle --
         rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
                                                 5,   //- 结束图元帧序号
@@ -89,19 +105,10 @@ void Norman::init( GameObj *_goPtr ){
                                                 true //- isOrder
                                                 );
 
-        rootGoMeshRef.isVisible = true;
-        rootGoMeshRef.isCollide = true;
-        rootGoMeshRef.isFlipOver = false;
+    //-- 务必在 mesh:"root" 之后 ---
+    goPtr->goPos.set_alti( 0.0f );
+    goPtr->goPos.init_by_currentMPos( _mpos );
 
-        //-- goMesh pos in go --
-        rootGoMeshRef.pposOff = glm::vec2{ 0.0f, 0.0f }; //- 此 goMesh 在 go 中的 坐标偏移 
-        rootGoMeshRef.off_z = 0.0f;  //- 作为 0号goMesh,此值必须为0
-
-    //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
-    pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
-
-    
     //...
 
     //-------- go.pubBinary ---------//

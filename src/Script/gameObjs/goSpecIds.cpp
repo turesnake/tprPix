@@ -18,14 +18,9 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
+#include "Script/gameObjs/allGoes.h"
 
-#include "Script/gameObjs/Norman.h" 
-#include "Script/gameObjs/BigMan.h" 
-#include "Script/gameObjs/OakTree.h" 
-#include "Script/gameObjs/mapSurfaces/Lichen.h"
-#include "Script/gameObjs/bush/Wheat.h"
-#include "Script/gameObjs/bush/SingleStone_Desert.h"
-
+using namespace std::placeholders;
 
 using std::string;
 
@@ -37,7 +32,6 @@ namespace{//------------------- namespace ---------------------
 }//------------------------- namespace: end -------------------
 
 
-
 /* ===========================================================
  *                   onGoSpecIds_SignUp   
  * -----------------------------------------------------------
@@ -45,31 +39,81 @@ namespace{//------------------- namespace ---------------------
  */
 void onGoSpecIds_SignUp(){
 
-    u32_t   id;
+    goSpecId_t   id;
+
+    ssrc::goInit_funcs.clear();
+    ssrc::go_specId_names.clear();
+    ssrc::go_name_specIds.clear();
+    
 
     //goSpecIds.insert(0); //--- 0号id 保留。
     //==================================//
-    id = 1; goSpec_alloc( id, "norman" );  gameObjs::Norman::specId = id;
-    id = 2; goSpec_alloc( id, "bigMan" );  gameObjs::BigMan::specId = id;
+    id = 1; 
+        goSpec_alloc( id, "norman" );  
+        gameObjs::Norman::specId = id; 
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Norman::init_in_autoMod, &gameObjs::norman, _1, _2, _3, _4, _5 );
+
+    id = 2; 
+        goSpec_alloc( id, "bigMan" );  
+        gameObjs::BigMan::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::BigMan::init_in_autoMod, &gameObjs::big_man, _1, _2, _3, _4, _5 );
 
     //-------------------//
     //        tree
     //-------------------//
-    id = 1001; goSpec_alloc( id, "oakTree" ); gameObjs::OakTree::specId = id; //- 橡树
+    id = 1001;   //- 橡树
+        goSpec_alloc( id, "oakTree" );  
+        gameObjs::OakTree::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::OakTree::init_in_autoMod, &gameObjs::oakTree, _1, _2, _3, _4, _5 );
+
+    id = 1002;  //- 橡树
+        goSpec_alloc( id, "pineTree" ); 
+        gameObjs::PineTree::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::PineTree::init_in_autoMod, &gameObjs::pineTree, _1, _2, _3, _4, _5 );
 
 
 
     //-------------------//
     //        bush
     //-------------------//
-    id = 2001; goSpec_alloc( id, "wheat" );              gameObjs::Wheat::specId = id; //- 小麦
-    id = 2002; goSpec_alloc( id, "singleStone_Desert" ); gameObjs::SingleStone_Desert::specId = id; //- 沙漠中的 单块石头
+    id = 2001;  //- 小麦
+        goSpec_alloc( id, "wheat" );              
+        gameObjs::Wheat::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Wheat::init_in_autoMod, &gameObjs::wheat, _1, _2, _3, _4, _5 );
+
+    id = 2002;  //- 沙漠中的 单块石头
+        goSpec_alloc( id, "singleStone_Desert" ); 
+        gameObjs::SingleStone_Desert::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::SingleStone_Desert::init_in_autoMod, &gameObjs::singleStone_Desert, _1, _2, _3, _4, _5 );
+
+    id = 2003;  //- 黑森林中的 竖状叶片
+        goSpec_alloc( id, "leaf_DForest" );       
+        gameObjs::Leaf_DForest::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Leaf_DForest::init_in_autoMod, &gameObjs::leaf_DForest, _1, _2, _3, _4, _5 );
 
 
     //-------------------//
     //    mapSurface
     //-------------------//
-    id = 3001; goSpec_alloc( id, "lichen" ); gameObjs::Lichen::specId = id; //- 地衣
+    id = 3001;   //- 地衣
+        goSpec_alloc( id, "lichen_Forest" ); 
+        gameObjs::Lichen_Forest::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Lichen_Forest::init_in_autoMod, &gameObjs::lichen_Forest, _1, _2, _3, _4, _5 );
+
+
+    id = 3002;   //- 地衣
+        goSpec_alloc( id, "lichen_DForest" ); 
+        gameObjs::Lichen_DForest::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Lichen_DForest::init_in_autoMod, &gameObjs::lichen_DForest, _1, _2, _3, _4, _5 );
 
 
     //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 

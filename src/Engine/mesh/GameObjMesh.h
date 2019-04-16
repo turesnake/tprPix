@@ -79,8 +79,8 @@ public:
     inline void init( GameObj *_goPtr ){
         goPtr = _goPtr;
         //-----
-        this->picMesh.init(    goPtr, (GameObjMesh*)this );
-        this->shadowMesh.init( goPtr, (GameObjMesh*)this ); //- 就算没有 shadow，也会执行 init
+        this->picMesh.init(    goPtr, const_cast<GameObjMesh*>(this) );
+        this->shadowMesh.init( goPtr, const_cast<GameObjMesh*>(this) ); //- 就算没有 shadow，也会执行 init
     }
 
     void RenderUpdate();
@@ -164,15 +164,14 @@ public:
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
-                            //- 在 this->init() 之前，此值就被确认了
+                            //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
     bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
-    bool    isPicFixedZOff {false};  //- 是否使用 用户设置的 固定 zOff 值
-                                // 仅作用于 pic
-                                
+    bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
+                                    // 仅作用于 pic, [被 ChildMesh 使用]
     
 private:
     
@@ -186,6 +185,7 @@ private:
     std::string     animFrameSetName;       //- 与下方的 animFrameSetPtr 强关联 --
     AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
                                     //- 通过 bind_animFrameSet() 来绑定
+
 
 };
 

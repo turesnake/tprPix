@@ -41,18 +41,41 @@ void GameObj::init(){
 /* ===========================================================
  *                     creat_new_goMesh
  * -----------------------------------------------------------
- * -- 在 goMeshs 容器中添加一个 新GoMesh实例，
- * -- 再返回这个 GoMesh实例的 指针
+ * -- 通过一组参数来实现 gomesh 的初始化。
+ * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.animFrameIdxHandle.bind_xxx()
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
-                                        const std::string &_animFrameSetName){
+                                        const std::string &_animFrameSetName,
+                                        RenderLayerType    _layerType,
+                                        ShaderProgram     *_pixShaderPtr,
+                                        ShaderProgram     *_shadowShaderPtr,
+                                        const glm::vec2   _pposOff,
+                                        float             _off_z,
+                                        bool              _isVisible,
+                                        bool              _isCollide,
+                                        bool              _isFlipOver ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObjMesh  goMesh; //- tmp 
     this->goMeshs.insert({ _name, goMesh }); //- copy
     GameObjMesh &gmesh = this->goMeshs.at(_name);
-    //-----
+
+    //----- init -----//
     gmesh.bind_animFrameSet( _animFrameSetName );
+    gmesh.init( const_cast<GameObj*>(this) );
+    gmesh.set_pic_renderLayer( _layerType ); 
+    gmesh.picMesh.set_shader_program( _pixShaderPtr );
+    gmesh.shadowMesh.set_shader_program( _shadowShaderPtr );
+
+    //-- goMesh pos in go --
+    gmesh.pposOff = _pposOff;
+    gmesh.off_z = _off_z;
+
+    //-- flags --//
+    gmesh.isVisible = _isVisible;
+    gmesh.isCollide = _isCollide;
+    gmesh.isFlipOver = _isFlipOver;
+
     //-----
     return gmesh;
 }

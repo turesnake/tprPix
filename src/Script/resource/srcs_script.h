@@ -23,6 +23,8 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h" //- goSpecId_t
+#include "Altitude.h"
+#include "Density.h"
 
 
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
@@ -34,6 +36,28 @@ inline std::unordered_map<std::string, u32_t> acionHdle_name_typeIds;
 //-- 正反表 --
 inline std::unordered_map<goSpecId_t, std::string> go_specId_names;
 inline std::unordered_map<std::string, goSpecId_t> go_name_specIds;
+
+
+inline goSpecId_t get_goSpecId( const std::string &_name ){
+        assert( ssrc::go_name_specIds.find(_name) != ssrc::go_name_specIds.end() );
+    return ssrc::go_name_specIds.at(_name);
+}
+
+
+
+//-- 自动生成器 使用的函数 ---
+using F_GO_INIT = std::function<void( GameObj*,
+                                        const IntVec2 &,
+					                    float _fieldWeight,
+					                    const Altitude &,
+					                    const Density & )>;
+
+inline std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs; 
+
+
+inline bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
+    return (ssrc::goInit_funcs.find(_goSpecId) != ssrc::goInit_funcs.end());
+}
 
 
 

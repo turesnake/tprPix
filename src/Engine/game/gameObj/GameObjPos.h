@@ -49,7 +49,7 @@ public:
     
     //---- set ----//
     //-- 若要在map上“放置”go实例，请用本函数 
-    void init_by_currentMCPos( const MapCoord &_mcpos );
+    void init_by_currentMPos( const IntVec2 &_mpos );
 
     //-- 直接改写 currentFPos 是很罕见的（也是不推荐的）
     //   为了确保 go 与 mapent坐标 的对齐。不要随意使用本函数 ！！！

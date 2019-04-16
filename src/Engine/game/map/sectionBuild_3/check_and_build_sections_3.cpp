@@ -71,7 +71,7 @@ void build_9_chunks_3( const IntVec2 &_playerMPos ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
             tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
                                 playerChunkMPos.y + h*ENTS_PER_CHUNK );
-            if( esrc::chunks.find(chunkMPos_2_chunkKey(tmpChunkMPos)) == esrc::chunks.end()  ){
+            if( !esrc::find_from_chunks( chunkMPos_2_chunkKey(tmpChunkMPos) ) ){
                 build_one_chunk_3( tmpChunkMPos );
             }
         }
@@ -111,7 +111,7 @@ void collect_chunks_need_to_be_build_in_update_3(){
  */
 void build_one_chunks_from_chunksDeque(){
 
-    if( esrc::is_chunksDeque_empty() == true ){
+    if( esrc::is_chunksDeque_empty() ){
         return;
     }
 
@@ -195,7 +195,7 @@ void collect_chunks_need_to_be_build_to_chunksDeque( chunkKey_t _chunkKey ){
             tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
                                 playerChunkMPos.y + h*ENTS_PER_CHUNK );
             tmpChunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
-            if( esrc::chunks.find(tmpChunkKey) == esrc::chunks.end()  ){
+            if( !esrc::find_from_chunks(tmpChunkKey) ){
                 esrc::push_to_chunksDeque( tmpChunkKey );
             }
         }
@@ -246,7 +246,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     // 检查 目标section 实例, 若没有，创建之
     // 检查 周边4个 ecosysinmap 实例，若没有，创建之
     //------------------------------//
-    if( esrc::sections.find(_sectionKey) == esrc::sections.end() ){
+    if( !esrc::find_from_sections(_sectionKey) ){
         tmpSectionPtr = esrc::insert_new_section( sectionMPos );
         tmpSectionPtr->init();
     }else{
@@ -254,7 +254,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     }
 
     for( const auto &key : tmpSectionPtr->get_quadSectionKeys() ){ //- each quad sectionkey
-        if(esrc::ecoSysesInMap.find(key) == esrc::ecoSysesInMap.end()){
+        if( !esrc::find_from_ecoSysesInMap(key) ){
             tmpEcoSysInMapPtr = esrc::insert_new_ecoSysInMap(key);
             tmpEcoSysInMapPtr->init();
             tmpEcoSysInMapPtr->plan();

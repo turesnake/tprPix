@@ -1,14 +1,15 @@
 /*
- * ========================= SingleStone_Desert.h ==========================
+ * ========================= BigMan.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.11
+ *                                        CREATE -- 2019.01.30
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   小麦
+ *   诺曼人
+ * 
  * ----------------------------
  */
-#ifndef _TPR_SINGLE_STONE_DESERT_H_
-#define _TPR_SINGLE_STONE_DESERT_H_
+#ifndef _TPR_BIG_MAN_H_
+#define _TPR_BIG_MAN_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -28,22 +29,19 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 //-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> singleStone_Desert_pubBinaryValTypes {
+inline std::vector<PubBinaryValType> bigMan_pubBinaryValTypes {
     PubBinaryValType::HP,
     PubBinaryValType::MP
 };
 
-struct SingleStone_Desert_PvtBinary{
-    int   singleStone_DesertId {0};
-            //- 简单的从 几种款式中，随机挑选一款 [0,7]
-    //===== padding =====//
-    //...
+struct BigMan_PvtBinary{
+    int   tmp;
 };
 
 
-class SingleStone_Desert{
+class BigMan{
 public:
-    SingleStone_Desert() = default;
+    BigMan() = default;
 
     //--- 延迟init ---//
     void init_in_autoMod(   GameObj *_goPtr,
@@ -61,13 +59,12 @@ public:
     void OnRenderUpdate( GameObj *_goPtr ); 
     void OnLogicUpdate( GameObj *_goPtr ); 
 
-
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == SingleStone_Desert::specId );
+        assert( _goPtr->species == BigMan::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (SingleStone_Desert_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr();
     }
 
     //======== tmp vals ========//
@@ -76,7 +73,7 @@ public:
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    SingleStone_Desert_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
+    BigMan_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
@@ -84,21 +81,20 @@ public:
     //======== static ========//
     static  u32_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
-
 private:
+
     //--- callback ---//
     void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
+
 
 };
 
 //---------- static ----------//
-inline u32_t  SingleStone_Desert::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+inline u32_t  BigMan::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< SingleStone_Desert类 唯一的 保留实例 >=====
-inline SingleStone_Desert  singleStone_Desert {};
-
+//=====< BigMan类 唯一的 保留实例 >=====
+inline BigMan  big_man {};
 
 }//------------- namespace gameObjs: end ----------------
 #endif 
-
 

@@ -19,6 +19,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/create_goes.h"
+#include "Script/resource/srcs_script.h" //- tmp
 
 
 #include "debug.h"
@@ -38,6 +39,7 @@ namespace{//-------- namespace: --------------//
 /* ===========================================================
  *             create_Goes_in_field
  * -----------------------------------------------------------
+ * -- 一种临时性的写法，在未来，会用更工整的 ecosys规划法来 实现分配
  */
 void create_a_go_in_field( fieldKey_t _fieldKey ){
 
@@ -55,42 +57,110 @@ void create_a_go_in_field( fieldKey_t _fieldKey ){
 
             //- 80% 小麦，20% 石头 --
             if( uDistribution_regular(esrc::gameSeed.randEngine) < 800 ){
-                gameObjs::create_a_Wheat(  fieldRef.nodeMPos, fieldRef.weight );
+                //gameObjs::create_a_Wheat(  fieldRef.nodeMPos, fieldRef.weight );
+                gameObjs::create_a_Go(   ssrc::get_goSpecId( "wheat" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
+                    
+                     //fieldRef.nodeMPos, fieldRef.weight );
             }else{
-                gameObjs::create_a_SingleStone_Desert(  fieldRef.nodeMPos, fieldRef.weight );
+                //gameObjs::create_a_SingleStone_Desert(  fieldRef.nodeMPos, fieldRef.weight );
+                gameObjs::create_a_Go(   ssrc::get_goSpecId( "singleStone_Desert" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
             }
             
+        }else if( ecoSysInMapRef.ecoSysType == EcoSysType::DarkForest ){
+
+            //- 80% lichen_DForest，20% leaf --
+            /*
+            if( uDistribution_regular(esrc::gameSeed.randEngine) < 800 ){
+                gameObjs::create_a_Lichen_DForest(  fieldRef.nodeMPos, fieldRef.weight );
+                        //- 这个lichen的效果很一般, ...
+            }else{
+                gameObjs::create_a_Leaf_DForest(  fieldRef.nodeMPos, fieldRef.weight );
+                        //- 这个叶子的效果很一般, ...
+            }
+            */
+
+            //gameObjs::create_a_Lichen_Forest(  fieldRef.nodeMPos, fieldRef.weight );
+            gameObjs::create_a_Go(   ssrc::get_goSpecId( "lichen_Forest" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
+            
+        
         }else{
-            gameObjs::create_a_Lichen(  fieldRef.nodeMPos, fieldRef.weight );
+            //gameObjs::create_a_Lichen_Forest(  fieldRef.nodeMPos, fieldRef.weight );
+            gameObjs::create_a_Go(   ssrc::get_goSpecId( "lichen_Forest" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
         }
         return;
     }
 
 
     //-- 没有分配到 地衣时，才会种树 ---
-    bool isSingleTrunk = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
-    bool isFlipOver = (uDistribution_regular(esrc::gameSeed.randEngine) < 500);
     int randV = uDistribution_regular(esrc::gameSeed.randEngine);
     switch ( fieldRef.density.lvl ){
         case 3:
             if( (randV < 900) &&  // [600/1000]
                 fieldRef.is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
-                                            3, isSingleTrunk, isFlipOver );
+
+                (ecoSysInMapRef.ecoSysType == EcoSysType::DarkForest) ?
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "pineTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density ) :
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "oakTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
+
             }
             break;
         case 2:
             if( (randV < 800) &&  // [400/1000]
                 fieldRef.is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
-                                            2, isSingleTrunk, isFlipOver );
+
+                (ecoSysInMapRef.ecoSysType == EcoSysType::DarkForest) ?
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "pineTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density ) :
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "oakTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
+
             }
             break;
         case 1:
             if( (randV < 200) &&  // [400/1000]
                 fieldRef.is_inland() ){ 
-                gameObjs::create_a_OakTree( fieldRef.nodeMPos, 
-                                            1, isSingleTrunk, isFlipOver );
+
+                (ecoSysInMapRef.ecoSysType == EcoSysType::DarkForest) ?
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "pineTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density ) :
+                    gameObjs::create_a_Go(   ssrc::get_goSpecId( "oakTree" ),
+                                                fieldRef.nodeMPos,
+                                                fieldRef.weight,
+                                                fieldRef.nodeAlti, //- tmp 有问题
+                                                fieldRef.density );
             }
             break;
         default:

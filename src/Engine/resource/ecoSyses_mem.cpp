@@ -5,11 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *  资源管理:  ecoSyses
- * -----
- *   这部分代码，应该放到 script层 中去
  * ----------------------------
  */
-//-------------------- CPP --------------------//
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h" //- 所有资源
@@ -49,20 +46,20 @@ void init_ecoSyses(){
     //---------------------//
     //      Forest
     //---------------------//
-    ecoSysPtr = insert_new_ecoSys( EcoSysType::Forst );
+    ecoSysPtr = insert_new_ecoSys( EcoSysType::Forest );
         ecoSysPtr->color_low  = RGBA{ 130, 150,  109, 255 };
-        ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
+        //ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;
         ecoSysPtr->altiPerlin_freqBig = 4.0;
 
 
     //---------------------//
-    //      DarkForst
+    //      DarkForest
     //---------------------//
-    ecoSysPtr = insert_new_ecoSys( EcoSysType::DarkForst );
+    ecoSysPtr = insert_new_ecoSys( EcoSysType::DarkForest );
         ecoSysPtr->color_low  = RGBA{ 106, 130,  113, 255 };
-        ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
+        //ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;
         ecoSysPtr->altiPerlin_freqBig = 4.0;
@@ -73,7 +70,7 @@ void init_ecoSyses(){
     //---------------------//
     ecoSysPtr = insert_new_ecoSys( EcoSysType::Plain );
         ecoSysPtr->color_low  = RGBA{ 155, 159, 134, 255 };
-        ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
+        //ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;
         ecoSysPtr->altiPerlin_freqBig = 4.0;
@@ -84,7 +81,8 @@ void init_ecoSyses(){
     //---------------------//
     ecoSysPtr = insert_new_ecoSys( EcoSysType::Swamp );
         ecoSysPtr->color_low  = RGBA{ 138, 139,  124, 255 };
-        ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
+        //ecoSysPtr->color_low  = RGBA{ 133, 133,  122, 255 };
+        //ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;
         ecoSysPtr->altiPerlin_freqBig = 4.0;
@@ -96,7 +94,7 @@ void init_ecoSyses(){
     ecoSysPtr = insert_new_ecoSys( EcoSysType::Desert );
         //ecoSysPtr->color_low  = RGBA{ 176, 167, 140, 255 };
         ecoSysPtr->color_low  = RGBA{ 210, 195, 142, 255 }; //- tmp
-        ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
+        //ecoSysPtr->color_underWater  = RGBA{ 180, 160, 120, 255 };
 
         ecoSysPtr->altiPerlin_freqBig = 0.5;
         ecoSysPtr->altiPerlin_freqBig = 4.0;
