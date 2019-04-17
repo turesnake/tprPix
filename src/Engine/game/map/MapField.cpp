@@ -86,8 +86,6 @@ void MapField::init( const IntVec2 &_anyMPos ){
     this->density.set( this->get_mpos() );
         //cout << this->density.lvl << endl;
 
-    //--- lColorOff ---
-    this->init_lColorOff();
 }
 
 
@@ -117,33 +115,6 @@ void MapField::init_nodeMPos(){
     idxX = static_cast<size_t>(pnX) % ENTS_PER_FIELD; //- mod
     idxY = static_cast<size_t>(pnY) % ENTS_PER_FIELD; //- mod
     this->nodeMPos = this->get_mpos() + IntVec2{ (int)idxX, (int)idxY };
-}
-
-/* ===========================================================
- *                init_lColorOff
- * -----------------------------------------------------------
- */
-void MapField::init_lColorOff(){
-
-    
-    //-- 以此来显示 density 分布情况 --    
-    
-    if( this->density.lvl > 0 ){
-        this->lColorOff_r = this->density.lvl * -11;
-        this->lColorOff_g = this->density.lvl * -8;
-        this->lColorOff_b = this->density.lvl * -7;
-    }else{
-        this->lColorOff_r = 0;
-        this->lColorOff_g = 0;
-        this->lColorOff_b = 0;
-    }
-    
-    /*
-    this->lColorOff_r = 0;
-    this->lColorOff_g = 0;
-    this->lColorOff_b = 0;
-    */
-    
 }
 
 

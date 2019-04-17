@@ -52,6 +52,7 @@
 
 #include "chunkKey.h"
 
+#include "debug.h"
 
 
 
@@ -82,7 +83,6 @@ public:
 
     void reset_chunkKeys();
    
-
     inline void resize_pvtBinary( size_t _size ){
         this->pvtBinary.resize( _size );
     }
@@ -104,6 +104,7 @@ public:
     //-- 代表整个go实例 的 rootAnchorPos --
     //  放得非常深，通过多层调用才实现...
     //  rootAnchorPos 是静态数据，并不是 go当前 世界pos
+    //  此函数在 go每次移动时，都会被调用
     inline const AnchorPos &get_rootAnchorPos() const {
         return this->goMeshs.at("root").get_rootAnchorPos();
     }
@@ -195,7 +196,7 @@ public:
 
     ActionSwitch    actionSwitch {}; //-- 将被取代...
 
-    ActionFSM       actionFSM {};
+    ActionFSM       actionFSM {}; //- 尚未完工...
 
     PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
 
@@ -230,7 +231,7 @@ private:
                                         // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
                                         
                                         
-    //----------- binary -------------//         
+    //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联

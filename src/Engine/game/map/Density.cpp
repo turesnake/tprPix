@@ -15,6 +15,11 @@
 #include "srcs_engine.h"
 
 
+//---------- static ----------//
+int Density::minVal {-3};
+int Density::maxVal {3};
+
+
 /* ===========================================================
  *                         set
  * -----------------------------------------------------------
@@ -42,11 +47,11 @@ void Density::set( const IntVec2 &_fieldMPos ){
     this->lvl = static_cast<int>(floor(pnVal / 25.0));
 
     // [-3, 3]
-    if( this->lvl > 3 ){
-        this->lvl = 3;
+    if( this->lvl > Density::maxVal ){
+        this->lvl = Density::maxVal;
     }
-    if( this->lvl < -3 ){
-        this->lvl = -3;
+    if( this->lvl < Density::minVal ){
+        this->lvl = Density::minVal;
     }
 }
 

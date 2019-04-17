@@ -45,31 +45,16 @@ namespace{//-------- namespace: --------------//
 
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys
 
-    //--- 临时 沙滩色，水色 ---
-    /*
-    RGBA color_sand  {210, 195, 142, 255};
-    RGBA color_water { 97, 125, 142, 255 };
-    RGBA color_deepWater { 32, 60, 77, 255 };
-    RGBA color_water_lvl1 { 32, 80, 77, 255 }; //- 水下 -1 层叠加色
-    RGBA color_water_lvl2 { 32, 75, 77, 255 };
-    RGBA color_water_lvl3 { 32, 70, 77, 255 };
-    RGBA color_water_lvl4 { 32, 65, 77, 255 };
-    RGBA color_water_lvl5 { 32, 60, 77, 255 };
-    RGBA color_multi { 90, 110, 105, 255 }; //- 测试 正片叠底 用
-    */
-
     class FieldData{
     public:
         explicit FieldData( MapField *_fieldPtr, QuadType _quadType ){
             this->fieldPtr = _fieldPtr;
             this->ecoInMapPtr = esrc::get_ecoSysInMapPtr( this->fieldPtr->ecoSysInMapKey );
-            this->ecoPtr = esrc::get_ecoSysPtr( this->ecoInMapPtr->ecoSysType );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( &get_fieldBorderSet(this->fieldPtr->fieldBorderSetId, _quadType) );
         }
         //====== vals ======//
         MapField     *fieldPtr    {};
         EcoSysInMap  *ecoInMapPtr {};
-        EcoSys       *ecoPtr      {};
         FieldBorderSet::quadContainer_t  *quadContainerPtr; //-- fieldBorderSet 子扇区容器 --
         //...
     };
@@ -358,11 +343,9 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //--------------------------------//
                         //    正式给 pix 上色
                         //--------------------------------//
-                        color = pixData.fieldDataPtr->ecoPtr->color_low;
-                        color.r = (u8_t)(color.r + pixData.fieldDataPtr->fieldPtr->lColorOff_r);
-                        color.g = (u8_t)(color.g + pixData.fieldDataPtr->fieldPtr->lColorOff_g);
-                        color.b = (u8_t)(color.b + pixData.fieldDataPtr->fieldPtr->lColorOff_b);
+                        color = pixData.fieldDataPtr->ecoInMapPtr->get_landColor( pixData.fieldDataPtr->fieldPtr->density );
                         color.a = 255;
+
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
 
                         *pixData.texPixPtr = color;

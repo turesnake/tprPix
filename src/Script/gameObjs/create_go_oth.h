@@ -28,7 +28,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * param: _fieldWeight -- [-100.0, 100.0]
  */
 inline bool apply_isFlipOver( float _fieldWeight ){
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 911;
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.1 + 911.3 ));
     return ((randV%10)<5);
 }
 
@@ -40,7 +40,7 @@ inline bool apply_isFlipOver( float _fieldWeight ){
  * param: _fieldWeight -- [-100.0, 100.0]
  */
 inline bool apply_isSingleTRunk( float _fieldWeight ){
-    int randV = static_cast<int>(floor(_fieldWeight)) + 701;
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.7 + 701.7 ));
     return ((randV%10)<5);
 }
 
@@ -52,7 +52,7 @@ inline bool apply_isSingleTRunk( float _fieldWeight ){
  * param: _fieldWeight -- [-100.0, 100.0]
  */
 inline int apply_a_simpleId( float _fieldWeight, int _totalNum ){
-    int randV = static_cast<int>(floor(_fieldWeight)) * 3 + 977;
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 5.3 + 977.1 ));
     return randV % _totalNum;
 }
 
@@ -62,7 +62,11 @@ inline int apply_a_simpleId( float _fieldWeight, int _totalNum ){
  * -----------------------------------------------------------
  */
 inline int apply_treeAge_by_density( const Density &_density ){
-    switch( _density.lvl ){
+    switch( _density.get_lvl() ){
+        case -3: return 3; //- tmp
+        case -2: return 2; //- tmp
+        case -1: return 1; //- tmp
+
         case 1: return 1;
         case 2: return 2;
         case 3: return 3;

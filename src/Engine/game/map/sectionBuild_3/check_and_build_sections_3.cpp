@@ -254,11 +254,17 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     }
 
     for( const auto &key : tmpSectionPtr->get_quadSectionKeys() ){ //- each quad sectionkey
+        /*
         if( !esrc::find_from_ecoSysesInMap(key) ){
             tmpEcoSysInMapPtr = esrc::insert_new_ecoSysInMap(key);
             tmpEcoSysInMapPtr->init();
             tmpEcoSysInMapPtr->plan();
+
+                    //-- 这部分将被新方案替代 
         }
+        */
+        EcoSysInMap::find_or_create_the_ecoSysInMap( key );
+    
     }
 
     //------------------------------//

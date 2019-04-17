@@ -69,12 +69,11 @@ void onGoSpecIds_SignUp(){
         ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
         ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::OakTree::init_in_autoMod, &gameObjs::oakTree, _1, _2, _3, _4, _5 );
 
-    id = 1002;  //- 橡树
+    id = 1002;  //- 松树
         goSpec_alloc( id, "pineTree" ); 
         gameObjs::PineTree::specId = id;
         ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
         ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::PineTree::init_in_autoMod, &gameObjs::pineTree, _1, _2, _3, _4, _5 );
-
 
 
     //-------------------//
@@ -139,6 +138,7 @@ void goSpec_alloc( goSpecId_t _id, const string &_name ){
 }//------------------------- namespace: end -------------------
 
 
+//-- 仅用于流程测试 
 void onStart_test(){
     //cout << "--- onStart_test(). DONE. ---" << endl;
 }

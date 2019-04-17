@@ -215,16 +215,28 @@ void call_scriptMain(); //- 调用 脚本层 入口函数
 
 //-------------------------//
 //     ecoSyses   
-//  [仅定义每种ecosys数据]
+//  [仅定义每种ecosys数据] [only mem]
 //-------------------------//
-inline std::unordered_map<EcoSysType, EcoSys> ecoSyses {};
+inline std::unordered_map<ecoSysId_t, EcoSys> ecoSyses {};
+
 void init_ecoSyses();
 
-
-inline EcoSys *get_ecoSysPtr( EcoSysType _type ){
-        assert( esrc::ecoSyses.find(_type) != esrc::ecoSyses.end() ); //- tmp
-    return static_cast<EcoSys*>( &(esrc::ecoSyses.at(_type)) );
+inline EcoSys *get_ecoSysPtr( ecoSysId_t _ecoId ){
+        assert( esrc::ecoSyses.find(_ecoId) != esrc::ecoSyses.end() ); //- tmp
+    return static_cast<EcoSys*>( &(esrc::ecoSyses.at(_ecoId)) );
 }
+
+//-- 一种type，一个子容器，容纳此type 的所有变种 --
+inline std::vector<std::vector<ecoSysId_t>> ecoSysIds_in_type {};
+
+ecoSysId_t apply_a_ecoSysId_by_type( EcoSysType _type, float _ecoSysInMapWeight );
+
+//-- 仅记录所有 ecoId 值 --
+inline std::vector<ecoSysId_t> ecoSysIds {};
+
+ecoSysId_t apply_a_rand_ecoSysId( float _ecoSysInMapWeight );
+
+
 
 //-------------------------//
 //     ecoSysesInMap   

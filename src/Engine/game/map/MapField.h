@@ -61,6 +61,12 @@ public:
                     //  未修改...
     }
 
+    /*
+    inline const RGBA &get_landColor() const {
+        return this->
+    }
+    */
+
     //----- 一阶数据 / first order data ------//
     MapCoord    mcpos    {};    //- field左下角mcpos
                                 // 这么存储很奢侈，也许会在未来被取消...
@@ -71,10 +77,6 @@ public:
                                 //- 绝对 mpos 坐标。
 
     sectionKey_t  ecoSysInMapKey {};
-
-    int          lColorOff_r {}; //- 颜色偏移，[-10,10] 之间
-    int          lColorOff_g {}; 
-    int          lColorOff_b {};
 
     float weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
                       // [just mem] 
@@ -105,18 +107,17 @@ public:
 
 
 private:
+    void init_nodeMPos();
+    void init_occupyWeight();
 
+    void assign_field_to_4_ecoSysInMaps();
+
+
+    //====== vals =======//
     glm::vec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
     float      originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
-
-
-    void init_nodeMPos();
-    void init_lColorOff();
-    void init_occupyWeight();
-
-    void assign_field_to_4_ecoSysInMaps();
     
 };
 

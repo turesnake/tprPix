@@ -57,7 +57,6 @@ public:
     }
 
 
-
 private:
     GameObj *goPtr {nullptr};
 

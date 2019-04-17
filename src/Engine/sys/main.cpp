@@ -112,7 +112,7 @@ int main(){
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
 
-    esrc::init_ecoSyses();           //----- ecoSyses 资源 -----
+    esrc::init_ecoSyses();           //----- ecoSyses 资源 ----- MUST after esrc::behaviour.call_Awakes()
 
     //...
         

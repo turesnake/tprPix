@@ -38,7 +38,6 @@ goid_t create_a_Go( goSpecId_t _goSpecId,
 					const Altitude &_alti,
 					const Density &_density ){
 
-
     goid_t goid = esrc::insert_new_gameObj();
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
 

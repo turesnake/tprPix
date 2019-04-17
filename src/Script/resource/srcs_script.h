@@ -44,8 +44,9 @@ inline goSpecId_t get_goSpecId( const std::string &_name ){
 }
 
 
+//--- 下面这部分 放的很乱... ---
 
-//-- 自动生成器 使用的函数 ---
+//-- map自动生成器 使用的 goInit函数 ---
 using F_GO_INIT = std::function<void( GameObj*,
                                         const IntVec2 &,
 					                    float _fieldWeight,
@@ -53,7 +54,6 @@ using F_GO_INIT = std::function<void( GameObj*,
 					                    const Density & )>;
 
 inline std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs; 
-
 
 inline bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
     return (ssrc::goInit_funcs.find(_goSpecId) != ssrc::goInit_funcs.end());

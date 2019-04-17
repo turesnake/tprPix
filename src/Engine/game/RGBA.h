@@ -39,11 +39,10 @@ public:
         {}
     
     inline bool is_near( const RGBA &_a, u8_t _off )const{
-
-        int rr = (int)r - (int)_a.r;
-        int gg = (int)g - (int)_a.g;
-        int bb = (int)b - (int)_a.b;
-        int aa = (int)a - (int)_a.a;
+        int rr = static_cast<int>(this->r) - static_cast<int>(_a.r);
+        int gg = static_cast<int>(this->g) - static_cast<int>(_a.g);
+        int bb = static_cast<int>(this->b) - static_cast<int>(_a.b);
+        int aa = static_cast<int>(this->a) - static_cast<int>(_a.a);
         return (
         (abs(rr) <= _off) &&
         (abs(gg) <= _off) &&
@@ -53,11 +52,27 @@ public:
     }
 
     inline void set( u8_t _r, u8_t _g, u8_t _b, u8_t _a  ){
-        r = _r;
-        g = _g; 
-        b = _b;
-        a = _a;
+        this->r = _r;
+        this->g = _g; 
+        this->b = _b;
+        this->a = _a;
     }
+
+    //-- 支持更复杂的数据 累加 --
+    inline RGBA add( int _r, int _g, int _b, int _a ) const {
+        int rr = static_cast<int>(this->r) + static_cast<int>(_r);
+        int gg = static_cast<int>(this->g) + static_cast<int>(_g);
+        int bb = static_cast<int>(this->b) + static_cast<int>(_b);
+        int aa = static_cast<int>(this->a) + static_cast<int>(_a);
+        assert( (rr>=0) && (rr<256) &&
+                (gg>=0) && (gg<256) &&
+                (bb>=0) && (bb<256) );
+        return RGBA {   static_cast<u8_t>(rr), 
+                        static_cast<u8_t>(gg), 
+                        static_cast<u8_t>(bb), 
+                        static_cast<u8_t>(aa) };
+    }
+
 
     //======== vals ========//
     u8_t r {0};
@@ -83,15 +98,15 @@ inline bool operator!=( const RGBA &_a, const RGBA &_b  ){
  * -----------------------------------------------------------
  */
 inline RGBA operator + ( const RGBA &_a, const RGBA &_b ){
-    int r = (int)(_a.r) + (int)(_b.r);
-    int g = (int)(_a.g) + (int)(_b.g);
-    int b = (int)(_a.b) + (int)(_b.b);
-    int a = (int)(_a.a) + (int)(_b.a);
-        assert( (r<256) && (g<256) && (b<256) && (a<256) );
-    return RGBA {   static_cast<u8_t>(_a.r+_b.r), 
-                    static_cast<u8_t>(_a.g+_b.g),
-                    static_cast<u8_t>(_a.b+_b.b),
-                    static_cast<u8_t>(_a.a+_b.a) };
+    int rr = static_cast<int>(_a.r) + static_cast<int>(_b.r);
+    int gg = static_cast<int>(_a.g) + static_cast<int>(_b.g);
+    int bb = static_cast<int>(_a.b) + static_cast<int>(_b.b);
+    int aa = static_cast<int>(_a.a) + static_cast<int>(_b.a);
+        assert( (rr<256) && (gg<256) && (bb<256) && (aa<256) );
+    return RGBA {   static_cast<u8_t>(rr), 
+                    static_cast<u8_t>(gg),
+                    static_cast<u8_t>(bb),
+                    static_cast<u8_t>(aa) };
 }
 
 
@@ -100,10 +115,10 @@ namespace rgba {//-------- namespace: rgba --------------//
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
 
-    int rr = (int)_a.r - (int)_b.r;
-    int gg = (int)_a.g - (int)_b.g;
-    int bb = (int)_a.b - (int)_b.b;
-    int aa = (int)_a.a - (int)_b.a;
+    int rr = static_cast<int>(_a.r) - static_cast<int>(_b.r);
+    int gg = static_cast<int>(_a.g) - static_cast<int>(_b.g);
+    int bb = static_cast<int>(_a.b) - static_cast<int>(_b.b);
+    int aa = static_cast<int>(_a.a) - static_cast<int>(_b.a);
     return (
        (abs(rr) <= _off) &&
        (abs(gg) <= _off) &&
@@ -125,9 +140,9 @@ inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
 
     float bPercent = 1.0 - _aPercent;
 
-    float r = (float)(_a.r)*_aPercent + (float)(_b.r)*bPercent;
-    float g = (float)(_a.g)*_aPercent + (float)(_b.g)*bPercent;
-    float b = (float)(_a.b)*_aPercent + (float)(_b.b)*bPercent;
+    float r = static_cast<float>(_a.r)*_aPercent + static_cast<float>(_b.r)*bPercent;
+    float g = static_cast<float>(_a.g)*_aPercent + static_cast<float>(_b.g)*bPercent;
+    float b = static_cast<float>(_a.b)*_aPercent + static_cast<float>(_b.b)*bPercent;
     //-- 默认不处理 RGBA.a --
 
     return RGBA {   static_cast<u8_t>(r), 
@@ -148,12 +163,12 @@ inline RGBA multiply( const RGBA &_a, const RGBA &_b, float _bPercent ){
 
     assert( (_bPercent>=0.0) && (_bPercent<=1.0) );
 
-    float r = (float)(_a.r) * (float)(_b.r) / 255.0;
-    float g = (float)(_a.g) * (float)(_b.g) / 255.0;
-    float b = (float)(_a.b) * (float)(_b.b) / 255.0;
+    float r = static_cast<float>(_a.r) * static_cast<float>(_b.r) / 255.0;
+    float g = static_cast<float>(_a.g) * static_cast<float>(_b.g) / 255.0;
+    float b = static_cast<float>(_a.b) * static_cast<float>(_b.b) / 255.0;
 
     return rgba::linear_blend(  _a,
-                                RGBA {   static_cast<u8_t>(r), 
+                                RGBA {  static_cast<u8_t>(r), 
                                         static_cast<u8_t>(g),
                                         static_cast<u8_t>(b),
                                         255 },

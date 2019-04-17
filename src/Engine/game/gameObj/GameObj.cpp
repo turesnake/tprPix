@@ -21,7 +21,7 @@
 #include "debug.h" //- tmp
 
 
-//============== 类静态成员 ===============//
+//============== static ===============//
 ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
 
 

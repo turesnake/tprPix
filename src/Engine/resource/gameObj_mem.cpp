@@ -48,8 +48,8 @@ goid_t insert_new_gameObj(){
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
     tmp_go.id = goid; //-- MUST --
         assert( esrc::memGameObjs.find(goid) == esrc::memGameObjs.end() );//- must not exist
-    memGameObjs.insert({ goid, tmp_go }); //- copy
-    memGameObjs.at(goid).init(); //- MUST --
+    esrc::memGameObjs.insert({ goid, tmp_go }); //- copy
+    esrc::memGameObjs.at(goid).init(); //- MUST --
     return goid;
 }
 
