@@ -24,8 +24,6 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -51,23 +49,20 @@ public:
     inline void set_shader_program( ShaderProgram *_sp ){
         this->shaderPtr = _sp;
     }
-
     inline void set_texName( GLuint _texName ){
         this->texName = _texName;
     }
-
     inline void set_translate( const glm::vec3 &_v ){
         this->translate_val = _v;
         this->isMat4Change = true;
     }
-
     inline void set_scale( const glm::vec3 &_v ){
         this->scale_val = _v;
         this->isMat4Change = true;
     }
-
+    //------- get -------//
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
-    inline float get_render_z() const {
+    inline const float &get_render_z() const {
         return this->translate_val.z;
     }
 

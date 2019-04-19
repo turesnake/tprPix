@@ -100,7 +100,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
                     
 
         //------- 制作 mesh 实例: "back" -------
@@ -118,7 +118,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        backGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+        backGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
                      
 
     //-- 务必在 mesh:"root" 之后 ---
@@ -216,7 +216,7 @@ void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->wheatId );
+            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
             break;
 
         default:

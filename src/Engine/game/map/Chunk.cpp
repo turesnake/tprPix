@@ -228,7 +228,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
     size_t    entIdx_in_chunk;
     int       count;
 
-    texBufHeadPtr = this->mapTex.get_texBufHeadPtr();
+    texBufHeadPtr = this->mapTex.getnc_texBufHeadPtr();
 
     //------------------------//
     // 委托 GPGPU 计算 pix数据

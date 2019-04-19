@@ -76,13 +76,11 @@ public:
     inline const AnchorPos &get_rootAnchorPos() const {
         return this->rootAnchorPos;
     }
-
     //-- IMPORTANT !!! --//
     inline const std::vector<ColliEntHead> &get_colliEntHeads() const {
         return this->colliEntHeads;
     }
     
-
 private:
     AnchorPos   rootAnchorPos     {};
     int         rootColliEntHeadIdx  {0};
@@ -96,7 +94,6 @@ private:
     //-- 在未来，下方部分 flag 可能会被改成 计数器。
     bool is_rootAnchorPos_set       {false};
     bool is_rootColliEntHeadIdx_set {false};
-    
 };
 
 

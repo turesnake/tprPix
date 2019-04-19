@@ -165,9 +165,9 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
     Chunk &currentChunkRef = esrc::get_chunkRef( _goPtr->currentChunkKey );
     _goPtr->reset_chunkKeys();
     if( _goPtr->get_chunkKeysRef().size() > 1 ){
-        currentChunkRef.edgeGoIds.insert( _goPtr->id );
+        currentChunkRef.insert_2_edgeGoIds( _goPtr->id );
     }
-    currentChunkRef.goIds.insert( _goPtr->id );
+    currentChunkRef.insert_2_goIds( _goPtr->id );
 
 
     //------------------------------//

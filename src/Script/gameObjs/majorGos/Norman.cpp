@@ -99,7 +99,7 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
+        rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
                                                 5,   //- 结束图元帧序号
                                                 0,   //- 入口图元帧序号  
                                                 true //- isOrder
@@ -200,7 +200,7 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_cycle(0,   //- 起始图元帧序号
+            rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
                                                         5,   //- 结束图元帧序号
                                                         0,   //- 入口图元帧序号  
                                                         true //- isOrder
@@ -209,7 +209,7 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 
         case ActionSwitchType::Move_Move:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_cycle(6,   //- 起始图元帧序号
+            rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(6,   //- 起始图元帧序号
                                                         11,  //- 结束图元帧序号
                                                         6,   //- 入口图元帧序号  
                                                         true //- isOrder

@@ -170,9 +170,7 @@ void build_one_chunk_3( const IntVec2 &_anyMPos ){
     //  主chunk mesh 初始化
     //------------------------------//
     //-- bind mapTex - mesh --
-    targetChunkPtr->mesh.init( targetChunkPtr->mapTex.get_texName() );
-    targetChunkPtr->mesh.set_shader_program( &(esrc::rect_shader) );
-    targetChunkPtr->mesh.isVisible = true;
+    targetChunkPtr->init_mesh( &(esrc::rect_shader), true );
 
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值

@@ -26,9 +26,7 @@
 #include "GameObj.h" 
 #include "esrc_chunk.h"
 
-#include "debug.h" 
-
-
+//#include "debug.h" 
 
 namespace{//-------------- namespace ------------------//
 
@@ -137,19 +135,19 @@ void Crawl::RenderUpdate(){
 
     if( newChunkKey!=goPtr->currentChunkKey ){
         oldChunkPtr = esrc::get_chunkPtr( this->goPtr->currentChunkKey );
-        assert( oldChunkPtr->goIds.erase(goid) == 1 );
-        oldChunkPtr->edgeGoIds.erase(goid);
+        assert( oldChunkPtr->erase_from_goIds(goid) == 1 );
+        oldChunkPtr->erase_from_edgeGoIds(goid);
         //---
         goPtr->currentChunkKey = newChunkKey;
-        newChunkPtr->goIds.insert( goid );
+        newChunkPtr->insert_2_goIds(goid);
     }
 
     this->goPtr->reset_chunkKeys();
     size_t chunkKeysSize = this->goPtr->get_chunkKeysRef().size();
     if( chunkKeysSize == 1 ){
-        newChunkPtr->edgeGoIds.erase( goid );
+        newChunkPtr->erase_from_edgeGoIds(goid);
     }else if( chunkKeysSize > 1 ){
-        newChunkPtr->edgeGoIds.insert( goid );
+        newChunkPtr->insert_2_edgeGoIds(goid);
     }else{
         assert(0);
     }

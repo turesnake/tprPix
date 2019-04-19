@@ -20,8 +20,6 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-//#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
 
 
 //-------------------- Engine --------------------//
@@ -62,14 +60,11 @@ public:
     //  但如果 AnimFrameSet实例 并不更换，也没必要 每1视觉帧 都执行此函数
     void refresh_scale_auto();
 
-
-    inline ChildMesh *get_ChildMeshPtr(){
+    inline ChildMesh *getnc_ChildMeshPtr(){
         return  static_cast<ChildMesh*>(this);
     }
-
-
     //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
-    inline float get_render_z() const {
+    inline const float &get_render_z() const {
         return this->translate_val.z;
     }
 

@@ -26,7 +26,6 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
-//#include "GameObj.h" 
 #include "MapEnt.h"
 #include "config.h" 
 #include "Mesh.h"
@@ -36,13 +35,11 @@
 #include "sectionKey.h"
 
 
- 
 //-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
 //-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
 struct Fst_diskChunk{
     Fst_diskMapEnt data[ ENTS_PER_CHUNK * ENTS_PER_CHUNK ]; //- 512KB
 };
-
 
 
 //-- 64*64 个 mapEnt, 组成一张 chunk  [mem] --
@@ -53,40 +50,70 @@ public:
 
     void init();
 
+    inline void init_mesh(  ShaderProgram *_sp,
+                            bool _isVisible ){
+        this->mesh.init( mapTex.get_texName() ); //- auto
+        this->mesh.set_shader_program( _sp );
+        this->mesh.isVisible = _isVisible;
+    }
+
     void assign_ents_and_pixes_to_field();
 
+    //-- 每1渲染帧，都要根据 camera，重设 mesh.translate
+    void refresh_translate_auto();
+
+    inline void insert_2_goIds( const goid_t &_id ){
+        this->goIds.insert(_id);
+    }
+    inline size_t erase_from_goIds( const goid_t &_id ){
+        return this->goIds.erase(_id);
+    }
+    inline void insert_2_edgeGoIds( const goid_t &_id ){
+        this->edgeGoIds.insert(_id);
+    }
+    inline size_t erase_from_edgeGoIds( const goid_t &_id ){
+        return this->edgeGoIds.erase(_id);
+    }
+
+    //------- set -------//
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
         mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );             
     }
 
-    //--- get ---
+    //------- get -------//
     inline const glm::vec2 get_fpos() const {
-        return mcpos.get_fpos(); //- return a tmp val
+        return mcpos.get_fpos();
     }
-    inline const IntVec2& get_mpos() const {
+    inline const IntVec2 &get_mpos() const {
         return this->mcpos.get_mpos();
     }
-    inline const MapCoord& get_mcpos() const {
+    inline const MapCoord &get_mcpos() const {
         return this->mcpos;
     }
-
-    inline const chunkKey_t get_key() const {
+    inline const chunkKey_t &get_key() const {
         return this->chunkKey;
     }
-
-    //-- 每1渲染帧，都要根据 camera，从设 mesh.translate
-    void refresh_translate_auto();
-
-    
+    inline const Mesh &get_mesh() const {
+        return this->mesh;
+    }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt* get_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
+    inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
         int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return static_cast<MemMapEnt*>( &(memMapEnts.at(idx)) );
     }
     
+    //======== flags ========//
+    bool     is_memMapEnts_set              {false};
+    bool     is_assign_ents_and_pixes_to_field_done {false};
+
+private:
+    void init_memMapEnts();
+    size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
+    size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
+    void reset_fieldKeys();
 
     //======== vals ========//
     //------- chunk 自己的 图形 ---
@@ -98,7 +125,6 @@ public:
 
     std::vector<MemMapEnt> memMapEnts {}; 
 
-
     std::set<goid_t>  goIds {}; //- 动态存储 本chunk 拥有的所有 go id。
                                 //  部分元素会与 edgeGoIds 重合
                                 //  添加和 释放工作要做干净。
@@ -108,22 +134,7 @@ public:
                                     // 这种go 在 创建／销毁 阶段往往很麻烦
                                     // 使用一个容器来 动态保管它们。
 
-    //======== flags ========//
-    bool     is_memMapEnts_set              {false};
-    bool     is_assign_ents_and_pixes_to_field_done {false};
-
-private:
-
-    void init_memMapEnts();
-
-    size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
-    size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
-
-    void reset_fieldKeys();
-
-    //======== vals ========//
     float  zOff {}; //- chunk间存在前后层次，
-   
 };
 
 

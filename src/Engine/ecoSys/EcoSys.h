@@ -56,8 +56,6 @@ public:
                                     bool  is_goDeep_high,
                                     bool  is_goDeep_low );
 
-
-
     void init_goSpecIdPools_and_applyPercents();
 
     void init_densityDatas( float _densitySeaLvlOff, const std::vector<float> &_datas );
@@ -67,14 +65,12 @@ public:
                 const std::vector<EcoEnt> &_ecoEnts );
     void shuffle_goSpecIdPools();
 
-
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end(){
         assert( (this->is_goSpecIdPools_init) && 
                 (this->is_applyPercents_init) &&
                 (this->is_densityDivideVals_init) );
     }
-
     
     inline const ecoSysId_t &get_id() const {
         return this->id;
@@ -113,7 +109,6 @@ private:
     EcoSysType      type    {EcoSysType::Forest};
     float           densitySeaLvlOff  {0.0}; 
 
-
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
@@ -122,7 +117,6 @@ private:
     std::vector<float> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
     
-
     //===== flags =====//
     bool   is_goSpecIdPools_init     {false};
     bool   is_applyPercents_init     {false};
@@ -131,7 +125,6 @@ private:
 };
 //============== static ===============//
 inline ID_Manager  EcoSys::id_manager { ID_TYPE::U32, 1};
-
 
 #endif 
 

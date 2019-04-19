@@ -28,13 +28,6 @@
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -85,6 +78,14 @@ public:
 
     void RenderUpdate();
 
+    
+
+    //------ animFrameSet ------
+    //  目前，此函数仅用于 go.creat_new_goMesh() 中
+    //  以及 切换动画时
+    void bind_animFrameSet( const std::string &_name );
+
+    //------------- set -------------//
     inline void set_pic_renderLayer( RenderLayerType _layerType ){
         this->picRenderLayerType = _layerType;
         if( _layerType == RenderLayerType::MajorGoes ){
@@ -95,72 +96,62 @@ public:
             this->picFixedZOff = ViewingBox::get_renderLayerZOff(_layerType);
         }
     }
+    inline void set_pposOff( const glm::vec2 &_pposOff ){
+        this->pposOff = _pposOff;
+    }
+    inline void set_off_z( float _off_z ){
+        this->off_z = _off_z;
+    }
+    inline void set_pic_shader_program( ShaderProgram *_sp ){
+        this->picMesh.set_shader_program( _sp );
+    }
+    inline void set_shadow_shader_program( ShaderProgram *_sp ){
+        this->shadowMesh.set_shader_program( _sp );
+    }
 
-    //------ animFrameSet ------
-    //  目前，此函数仅用于 go.creat_new_goMesh() 中
-    //  以及 切换动画时
-    void bind_animFrameSet( const std::string &_name );
-
-
+    //------------- get -------------//
     inline const std::string &get_animFrameSetName() const {
         return this->animFrameSetName;
     }
-
-    inline int get_totalFrames() const {
+    inline const int &get_totalFrames() const {
         return this->animFrameSetPtr->get_totalFrameNum();
     }
-
-    //--- IMPORTANT !!! ---
-    inline int get_currentAnimFrameIdx() const {
+    inline const int &get_currentAnimFrameIdx() const { //--- IMPORTANT !!! ---
         return this->animFrameIdxHandle.currentIdx;
     }
-
     inline const AnchorPos &get_rootAnchorPos() const {
         return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
-
     inline const FramePos &get_currentFramePos() const {
         return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx );
     }
-
-    inline GLuint get_currentTexName_pic() const {
+    inline const GLuint &get_currentTexName_pic() const {
         return this->animFrameSetPtr->get_texNames_pic().at(this->animFrameIdxHandle.currentIdx);
     }
-    inline GLuint get_currentTexName_shadow() const {
+    inline const GLuint &get_currentTexName_shadow() const {
         return this->animFrameSetPtr->get_texNames_shadow().at(this->animFrameIdxHandle.currentIdx);
     }
-
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
         return this->animFrameSetPtr->get_framePoses().at(this->animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
     }
-
     inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
         return this->animFrameSetPtr->get_pixNum_per_frame();
     }
-
     inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
         return this->animFrameSetPtr->get_timeSteps().at(_currentIdx);
     }
-
-    //======== vals ========//
-    ChildMesh   picMesh    { true };
-    ChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
-
-    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
-                    //  用来记录，本GameObjMesh 在 go中的 位置（图形）
-                    //-- 大部分情况下（尤其是只有一个 GameObjMesh的 go实例），此值为 0
-                    //   若本 GameObjMesh实例 是 root GameObjMesh。此值必须为0
-    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
-                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1f
-                    //- 这个值 多数由 具象go类 填入的。
-                    // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
-
-    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
-                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
-                                    //- 但是存在 类型验证的需求：通过 .typeId 
-
-    float            picFixedZOff {}; //- 方便快速访问
-    RenderLayerType  picRenderLayerType;
+    inline const glm::vec2 &get_pposOff() const {
+        return this->pposOff;
+    }
+    inline const float &get_off_z() const {
+        return this->off_z;
+    }
+    inline AnimFrameIdxHandle &getnc_animFrameIdxHandle(){
+        return this->animFrameIdxHandle;
+    }
+    inline const float &get_picFixedZOff() const {
+        return this->picFixedZOff;
+    }
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
@@ -172,12 +163,29 @@ public:
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
     bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
                                     // 仅作用于 pic, [被 ChildMesh 使用]
-    
 private:
-    
     //======== vals ========//
     GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
 
+    ChildMesh   picMesh    { true };
+    ChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
+
+    glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
+                    //  用来记录，本GameObjMesh 在 go中的 位置（图形）
+                    //-- 大部分情况下（尤其是只有一个 GameObjMesh的 go实例），此值为 0
+                    //   若本 GameObjMesh实例 是 root GameObjMesh。此值必须为0
+
+    float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
+                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1f
+                    //- 这个值 多数由 具象go类 填入的。
+                    // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
+
+    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
+                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
+                                    //- 但是存在 类型验证的需求：通过 .typeId 
+
+    float            picFixedZOff {}; //- 方便快速访问
+    RenderLayerType  picRenderLayerType;
 
     //------- AnimFrameSet -------
     // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据

@@ -35,8 +35,6 @@
 #include "fieldBorderSetId_t.h"
 #include "Density.h"
 
-
-
 //-- 4*4mapent 构成一个 field -- [just mem]
 //  另一个身份是 “距离场” 
 //  每一个 chunk 都要存储 16*16个 MapField数据。
@@ -48,6 +46,15 @@ public:
 
     void init( const IntVec2 &_anyMPos );
 
+    inline bool is_land() const {
+        return (this->minAlti.is_land() &&
+                this->nodeAlti.is_land() );
+                    //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
+                    //  地图上种植的树木个数会大幅度减少
+                    //  未修改...
+    }
+
+    //------- set -------//
     inline void set_minAlti( const Altitude &_alti ){
         this->minAlti = _alti;
     }
@@ -58,14 +65,7 @@ public:
         this->nodeAlti = _alti;
     }
 
-    inline bool is_land() const {
-        return (this->minAlti.is_land() &&
-                this->nodeAlti.is_land() );
-                    //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
-                    //  地图上种植的树木个数会大幅度减少
-                    //  未修改...
-    }
-
+    //------- set -------//
     inline const IntVec2& get_mpos() const {
         return this->mcpos.get_mpos();
     }
@@ -100,14 +100,11 @@ public:
         return this->weight;
     }
 
-    
 
 private:
     void init_nodeMPos();
     void init_occupyWeight();
-
     void assign_field_to_4_ecoSysInMaps();
-
 
     //====== vals =======//
     //----- 一阶数据 / first order data ------//
@@ -146,7 +143,6 @@ private:
                                   //  就要开始 种go。此时很容易把 go 种到水里。
     
     Altitude  nodeAlti {}; //- nodeMPos 点的 alti 值
-
 };
 
 

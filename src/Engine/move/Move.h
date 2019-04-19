@@ -13,7 +13,6 @@
 //-------------------- CPP --------------------//
 #include <functional>
 
-
 //-------------------- Engine --------------------//
 #include "Crawl.h"
 #include "Fly.h"
@@ -49,44 +48,40 @@ public:
     }
 
     inline void RenderUpdate(){
-        (this->is_crawl_==true) ? 
+        (this->isCrawl==true) ? 
                 this->crawl.RenderUpdate() : 
                 this->fly.RenderUpdate();
     }
 
-    //---- set ----//
-    inline void set_MoveType( bool _is_crawl ){
-        this->is_crawl_ = _is_crawl;
-    }
-
+    //------- flags -------//
     inline bool is_crawl() const {
-        return this->is_crawl_;
+        return this->isCrawl;
     }
 
+    //------- set -------//
+    inline void set_MoveType( bool _is_crawl ){
+        this->isCrawl = _is_crawl;
+    }
     inline void set_speedLv( SpeedLevel _lv ){
         this->speedLv = _lv;
     }
-
-    inline SpeedLevel get_speedLv(){
-        return this->speedLv;
-    }
-
     inline void set_newCrawlDir( const NineBox &_newNB ){
-        assert( this->is_crawl_ == true );
+        assert( this->isCrawl == true );
         crawl.set_newCrawlDir( _newNB );
     }
-
     inline void set_newflyIns( const FlyIns &_newFlyIns ){
-        assert( this->is_crawl_ == false );
+        assert( this->isCrawl == false );
         this->fly.set_newflyIns( _newFlyIns );
     }
-
     inline void set_maskCountLimit( int _limit ){
-        assert( this->is_crawl_ == false );
+        assert( this->isCrawl == false );
         this->fly.set_maskCountLimit( _limit );
     }
 
-    //---- get ----//
+    //------- get -------//
+    inline const SpeedLevel &get_speedLv() const {
+        return this->speedLv;
+    }
 
 private:
     GameObj     *goPtr    {nullptr}; //- 每个 fly实例 都属于一个 go实例, 强关联
@@ -94,11 +89,11 @@ private:
 
     Crawl   crawl   {}; //- 未来可能被拓展为 一组 crawl实例
     Fly     fly     {}; //- 未来可能被拓展为 一组 fly实例
-    bool    is_crawl_  {true};
-
 
     SpeedLevel   speedLv  { SpeedLevel::LV_3 }; //- 未来可能被拓展为 一组 speedLv数据集
 
+    //===== flags =====//
+    bool    isCrawl  {true};
 };
 
 

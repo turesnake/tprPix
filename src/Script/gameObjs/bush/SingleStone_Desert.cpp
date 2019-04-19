@@ -101,7 +101,7 @@ void SingleStone_Desert::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->singleStone_DesertId );
+        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->singleStone_DesertId );
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -199,7 +199,7 @@ void SingleStone_Desert::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.animFrameIdxHandle.bind_idle( pvtBp->singleStone_DesertId );
+            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->singleStone_DesertId );
             break;
 
 

@@ -61,7 +61,7 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
         assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
-    return esrc::chunks.at(chunkKey).get_mapEntPtr_by_lMPosOff( lMPosOff );
+    return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
@@ -74,7 +74,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
         assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
-    return esrc::chunks.at(chunkKey).get_mapEntPtr_by_lMPosOff( lMPosOff );
+    return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 

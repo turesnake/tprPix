@@ -61,7 +61,7 @@ void ChildMesh::refresh_translate(){
     const glm::vec2 &goCurrentFPos = this->goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
     const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPPosOff();
-    const glm::vec2 &pposOff = this->goMeshPtr->pposOff;
+    const glm::vec2 &pposOff = this->goMeshPtr->get_pposOff();
 
     //--- set translate_val ---//
     this->translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
@@ -74,9 +74,9 @@ void ChildMesh::refresh_translate(){
         this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goPtr->goPos.get_alti();
                                     //-- 累加 高度alti
         if( goMeshPtr->isPicFixedZOff ){
-            this->translate_val.z = esrc::camera.get_zFar() + goMeshPtr->picFixedZOff;
+            this->translate_val.z = esrc::camera.get_zFar() + goMeshPtr->get_picFixedZOff();
         }else{
-            this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->off_z);
+            this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->get_off_z());
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负...
                                         // -2- 没有算入 vRef.y; 因为这个值只代表：
@@ -92,7 +92,6 @@ void ChildMesh::refresh_translate(){
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }
-    
     
             //-- 未来拓展：
             //  应当为 每个go 设置一个随机的 z深度 base值

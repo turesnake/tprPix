@@ -33,7 +33,7 @@ Section *insert_new_section( const IntVec2 &_anyMPos ){
     // ***| INSERT FIRST, INIT LATER  |***
     Section  section {};
     section.set_by_anyMPos( _anyMPos ); 
-    sectionKey_t key = section.sectionKey;
+    sectionKey_t key = section.get_sectionKey();
         assert( esrc::sections.find(key) == esrc::sections.end() );//- must not exist
     esrc::sections.insert({ key, section }); //- copy
     //-----

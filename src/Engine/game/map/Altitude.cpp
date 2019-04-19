@@ -44,7 +44,3 @@ void Altitude::set( float _altiVal_from_gpgpu ){
     this->lvl = tmpLvl;
 
 }
-
-
-
-

@@ -46,5 +46,3 @@ void MapTexture::creat_texName(){
     // 未定...
 }
 
-
-

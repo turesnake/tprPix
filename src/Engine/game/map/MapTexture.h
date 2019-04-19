@@ -38,11 +38,10 @@ public:
 
     void creat_texName();
 
-    inline GLuint get_texName() const {
+    inline const GLuint &get_texName() const {
         return texName;
     }
-
-    inline RGBA *get_texBufHeadPtr() {
+    inline RGBA *getnc_texBufHeadPtr() {
         assert( this->is_resize_done );
         return static_cast<RGBA*>( &(texBuf.at(0)) );
     }
@@ -66,7 +65,6 @@ private:
 
     //===== flags =====//
     bool  is_resize_done {false};
-
 };
 
 

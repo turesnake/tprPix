@@ -53,10 +53,10 @@ void GameObjMesh::RenderUpdate(){
     this->picMesh.refresh_scale_auto();
     switch (this->picRenderLayerType){
         case RenderLayerType::MajorGoes:
-            esrc::renderPool_goMeshs_pic.insert({ this->picMesh.get_render_z(), this->picMesh.get_ChildMeshPtr() });
+            esrc::renderPool_goMeshs_pic.insert({ this->picMesh.get_render_z(), this->picMesh.getnc_ChildMeshPtr() });
             break;
         case RenderLayerType::MapSurfaces:
-            esrc::renderPool_mapSurfaces.push_back( this->picMesh.get_ChildMeshPtr() );
+            esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
             break;
         default:
             assert(0);
@@ -68,7 +68,7 @@ void GameObjMesh::RenderUpdate(){
     if( this->isHaveShadow ){
         this->shadowMesh.refresh_translate();
         this->shadowMesh.refresh_scale_auto();
-        esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.get_ChildMeshPtr() );
+        esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_ChildMeshPtr() );
     }
 }
 

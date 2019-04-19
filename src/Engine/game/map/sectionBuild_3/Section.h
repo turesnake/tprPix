@@ -37,32 +37,38 @@ public:
     void init();
     void bind_ecoSysInMapPtrs();
 
-    //-- param: _anyMPos - 本section 中的任意 mpos
+    //------ set -------//
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->sectionKey = anyMPos_2_sectionKey( _anyMPos );
         this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
-
     inline void set_by_sectionKey( sectionKey_t _sectionKey ){
         this->sectionKey = _sectionKey;
         mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
 
-    //-- get --    
+    //------ get -------//
     inline const std::vector<sectionKey_t> &get_quadSectionKeys() const {
         assert( this->is_quadSectionKeys_set ); //- tmp
-        return quadSectionKeys;
+        return this->quadSectionKeys;
     }
-    inline sectionKey_t get_quadSectionKey_by_quadType( QuadType _type ) const {
+    inline const sectionKey_t &get_quadSectionKey_by_quadType( QuadType _type ) const {
         assert( this->is_quadSectionKeys_set ); //- tmp
-        int quadIdx = QuadType_2_Idx( _type );
-        return quadSectionKeys.at( quadIdx );
+        return this->quadSectionKeys.at( QuadType_2_Idx(_type) );
     }
     inline const IntVec2 &get_mpos() const {
         return this->mcpos.get_mpos();
     }
+    inline const std::vector<EcoSysInMap*> &get_ecoSysInMapPtrs() const {
+        return this->ecoSysInMapPtrs;
+    }
+    inline const sectionKey_t &get_sectionKey() const {
+        return this->sectionKey;
+    }
+ 
+private:
+    void init_quadSectionKeys();
 
-    
     //======== vals ========//
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
@@ -72,14 +78,10 @@ public:
 
     //----- 二阶数据 / second order data ------//
     std::vector<EcoSysInMap*>  ecoSysInMapPtrs {}; //- 4个端点的 ecosys 指针。
-                                    
+
     //======== flags ========//
     bool  is_quadSectionKeys_set      {false}; 
     bool  is_ecoSysInMapPtrs_set      {false};
-
-private:
-
-    void init_quadSectionKeys();
 };
 
 

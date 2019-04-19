@@ -24,8 +24,7 @@
 #include "VAOVBO.h" 
 #include "sectionBuild.h"
 #include "fieldBorderSet_Handle.h"
- //- 所有资源
-#include "esrc_all.h"
+#include "esrc_all.h" //- 所有资源
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp
@@ -236,8 +235,8 @@ int main(){
         //------------------------//
         for( auto& p : esrc::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
-            esrc::renderPool_meshs.insert({ p.second.mesh.get_render_z(),
-                                                static_cast<Mesh*>(&p.second.mesh) });
+            esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
+                                                const_cast<Mesh*>(&p.second.get_mesh()) });
         }
 
         //------------------------//

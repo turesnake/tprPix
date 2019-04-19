@@ -98,7 +98,7 @@ public:
         return this->frameNum;
     }
 
-    inline int get_totalFrameNum() const {
+    inline const int &get_totalFrameNum() const {
         return this->totalFrameNum;
     }
 
