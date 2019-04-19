@@ -11,8 +11,8 @@
 #include <cmath>
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h"
 #include "Density.h"
+#include "esrc_gameSeed.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 

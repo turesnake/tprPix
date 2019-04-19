@@ -18,7 +18,11 @@
 //-------------------- Engine --------------------//
 #include "Chunk.h"
 #include "sectionKey.h"
-#include "srcs_engine.h"
+#include "esrc_chunk.h"
+#include "esrc_player.h"
+#include "esrc_shader.h"
+#include "esrc_section.h"
+#include "esrc_ecoSysInMap.h"
 
 //#include "debug.h"
 

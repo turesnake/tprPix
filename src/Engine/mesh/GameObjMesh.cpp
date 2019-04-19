@@ -14,7 +14,8 @@
 #include <cassert>
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h"
+#include "esrc_animFrameSet.h"
+#include "esrc_renderPool.h"
 
 //#include "debug.h"
 

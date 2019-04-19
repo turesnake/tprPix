@@ -14,9 +14,11 @@
 #include "GameObjMesh.h"
 #include "GameObj.h"
 #include "FramePos.h"
-#include "srcs_engine.h"
 #include "MapCoord.h"
 #include "MapEnt.h"
+#include "esrc_colliEntSet.h"
+#include "esrc_chunk.h"
+#include "esrc_gameObj.h"
 
 //#include "debug.h"
 

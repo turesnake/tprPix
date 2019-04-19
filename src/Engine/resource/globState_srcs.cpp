@@ -22,7 +22,8 @@
 #include "tprDB.h"
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_globState.h"
+
 #include "global.h"
 #include "GameObj.h" 
 

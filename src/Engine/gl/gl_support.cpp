@@ -19,11 +19,11 @@
 
 //-------------------- Engine --------------------//
 #include "input.h" 
-#include "srcs_engine.h" 
 #include "global.h"
-#include "config.h" //-- SCR_WIDTH
+#include "windowConfig.h" //-- SCR_WIDTH
 #include "callback.h" 
 #include "gl_funcs.h" 
+#include "esrc_window.h" 
 
 using std::string;
 

@@ -9,7 +9,8 @@
  */
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_ecoSysInMap.h"
+
 #include "config.h"
 #include "sectionKey.h"
 

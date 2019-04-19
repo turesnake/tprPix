@@ -20,11 +20,12 @@
 #include "global.h"
 #include "gl_funcs.h"
 #include "input.h" 
-#include "srcs_engine.h" //- 所有资源
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
 #include "sectionBuild.h"
 #include "fieldBorderSet_Handle.h"
+ //- 所有资源
+#include "esrc_all.h"
 
 //------------------- Script --------------------//
 #include "Script/byPass/byPass.h" //- tmp

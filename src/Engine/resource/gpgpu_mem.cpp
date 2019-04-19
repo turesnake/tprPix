@@ -7,7 +7,8 @@
  */
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_GPGPU.h"
+
 #include "config.h"
 #include "GPGPU.h"
 

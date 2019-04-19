@@ -16,10 +16,11 @@
 
 //-------------------- Engine --------------------//
 #include "input.h" 
-#include "srcs_engine.h" 
 #include "GODirection.h"
-
 #include "GameKey.h"
+#include "esrc_camera.h" 
+#include "esrc_gameObj.h" 
+
 
 using namespace std::placeholders;
 

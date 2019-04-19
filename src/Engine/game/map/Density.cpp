@@ -13,7 +13,8 @@
 
 //------------------- Engine --------------------//
 #include "simplexNoise.h"
-#include "srcs_engine.h"
+#include "esrc_gameSeed.h"
+#include "esrc_ecoSysInMap.h"
 
 //#include "debug.h"
 

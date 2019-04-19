@@ -11,7 +11,6 @@
 #include <cassert>
 
 //------------------- Engine --------------------//
-#include "srcs_engine.h"
 #include "config.h"
 
 

@@ -8,8 +8,7 @@
  * ----------------------------
  */
 //-------------------- C ----------------------//
-//#include <string.h> //- memset, memcpy
-#include <cassert> //-- assert
+#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -20,7 +19,8 @@
 #include "tprDB.h"
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_player.h"
+
 #include "global.h"
 #include "GameObj.h" 
 

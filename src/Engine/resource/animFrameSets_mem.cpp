@@ -13,8 +13,8 @@
 #include <string>
 
 //-------------------- Engine --------------------//
-#include "AnimFrameSet.h"
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_animFrameSet.h"
+
 
 //#include "debug.h" //- tmp
 

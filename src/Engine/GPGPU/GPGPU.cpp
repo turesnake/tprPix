@@ -20,9 +20,8 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine ----------------------//
-//#include "global.h"
-#include "srcs_engine.h"
 #include "FRGB.h"
+#include "esrc_window.h"
 
 
 namespace{ //------------ namespace ------------//

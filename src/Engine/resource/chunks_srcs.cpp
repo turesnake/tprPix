@@ -18,10 +18,11 @@
 #include "tprDB.h"
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_chunk.h" //- 所有资源
+
 #include "global.h"
 #include "GameObj.h" 
-#include "Chunk.h"
+
 
 using std::string;
 

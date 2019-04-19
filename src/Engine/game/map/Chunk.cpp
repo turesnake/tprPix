@@ -16,17 +16,19 @@
 
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
-#include "srcs_engine.h"
-//#include "MapEnt.h"
 #include "EcoSysInMap.h"
 #include "random.h"
 #include "occupyWeight.h"
-//#include "EcoSys.h"
 #include "Altitude.h"
 #include "Quad.h"
 #include "FieldBorderSet.h"
 #include "sectionBuild.h" //- tmp
 #include "MapField.h"
+#include "esrc_ecoSysInMap.h"
+#include "esrc_camera.h"
+#include "esrc_GPGPU.h"
+#include "esrc_field.h"
+#include "esrc_gameSeed.h"
 
 //#include "debug.h"
 

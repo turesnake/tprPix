@@ -15,11 +15,8 @@
 
 //-------------------- Engine --------------------//
 #include "windowConfig.h"
-#include "srcs_engine.h" //- 所有资源
-
 
 //#include "debug.h" //- tmp
-
 
 //---------------------- 局部 变量 ---------------------
 namespace{

@@ -9,7 +9,8 @@
  */
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_ecoSys.h"
+#include "esrc_gameSeed.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 

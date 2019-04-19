@@ -27,8 +27,9 @@
 #include "slicePic.h"
 #include "create_texNames.h"
 #include "IntVec.h"
-#include "srcs_engine.h"
 #include "ViewingBox.h"
+#include "esrc_shader.h"
+#include "esrc_camera.h"
 
 
 namespace debug {//---------- namespace: debug --------------//

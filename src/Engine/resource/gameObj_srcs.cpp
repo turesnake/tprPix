@@ -8,20 +8,20 @@
  * ----------------------------
  */
 //-------------------- C ----------------------//
-//#include <string.h> //- memset, memcpy
-#include <cassert> //-- assert
+#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
-
 
 //------------------- Libs --------------------//
 #include "tprDB.h"
 
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_gameObj.h"
+#include "esrc_player.h"
+
 #include "global.h"
 #include "GameObj.h" 
 
@@ -49,16 +49,15 @@ namespace{//------------ namespace --------------//
  */
 void gameObj_srcs_init(){
 
+    
     gameObj_db.init( path_data,
                     "gameObj",
                     { 
                         tpr::DB::DATA_T::U64
                         
                     },
-                    sizeof(diskPlayer)
+                    sizeof(diskPlayer) //- 这是什么？
                     );
-
-
 
 }
 

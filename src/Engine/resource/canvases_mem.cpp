@@ -11,7 +11,11 @@
 //#include <string>
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_canvas.h"
+#include "esrc_window.h"
+#include "esrc_camera.h"
+#include "esrc_gameSeed.h"
+
 
 //#include "debug.h" //- tmp
 

@@ -21,9 +21,11 @@
 #include "config.h"
 #include "random.h"
 #include "PerlinNoise3D.h" //- out 
-#include "srcs_engine.h"
 #include "Density.h"
 #include "simplexNoise.h"
+#include "esrc_gameSeed.h"
+#include "esrc_ecoSys.h"
+#include "esrc_ecoSysInMap.h"
 
 #include "debug.h"
 

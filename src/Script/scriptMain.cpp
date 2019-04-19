@@ -18,8 +18,8 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" //- 所有资源
 #include "MapTexture.h" 
+#include "esrc_behaviour.h" 
 
 //-------------------- Script --------------------//
 

@@ -14,13 +14,17 @@
 #include <cassert>
 #include <cmath>
 
+//-------------------- CPP --------------------//
+#include <map>
+
 //-------------------- Engine --------------------//
 #include "random.h"
 #include "IntVec.h"
-#include "srcs_engine.h" //- 所有资源
 #include "EcoSysInMap.h"
 #include "FieldBorderSet.h"
 #include "simplexNoise.h"
+#include "esrc_gameSeed.h"
+#include "esrc_section.h"
 
 //#include "debug.h"
 

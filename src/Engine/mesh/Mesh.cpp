@@ -14,11 +14,10 @@
 #include <cassert> //-- assert
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h"
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
 
-#include "debug.h" 
+//#include "debug.h" 
 
 namespace{//------------------ namespace ---------------------//
 
@@ -71,8 +70,6 @@ void Mesh::draw(){
 
     //----------- 正式绘制 ----------
     glDrawArrays( GL_TRIANGLES, 0, 6 ); //-- 绘制 图元(rect). 不依赖 EBO 的写法
-
-    //cout << "Mesh::draw()" << endl;
 }
 
 

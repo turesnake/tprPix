@@ -7,19 +7,22 @@
  *  GameObj 在 内存中的 管理
  * ----------------------------
  */
-#include "srcs_engine.h" //- 所有资源
+#include "esrc_gameObj.h"
+#include "esrc_camera.h"
+#include "esrc_chunk.h"
+#include "esrc_colliEntSet.h"
 
 //--- glm - 0.9.8 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
             //-- glm::translate
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
+//#include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
 

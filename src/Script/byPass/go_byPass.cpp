@@ -11,10 +11,10 @@
 #include <string>
 
 //-------------------- Engine --------------------//
-#include "srcs_engine.h" 
 #include "GameObj.h" 
 #include "MapCoord.h"
 #include "IntVec.h"
+#include "esrc_player.h" 
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h"

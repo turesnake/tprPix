@@ -35,9 +35,10 @@
 #include "config.h"
 #include "gameKeyTable.h"
 #include "IntVec.h" 
-#include "srcs_engine.h" //- 所有资源
 #include "KeyBoard.h"
 #include "GameKey.h"
+#include "esrc_player.h"
+#include "esrc_window.h"
 
 #include "debug.h" //- tmp
 
