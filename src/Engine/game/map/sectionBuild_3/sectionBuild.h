@@ -24,8 +24,6 @@
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
     
 
-void init();
-
 void build_9_chunks_3( const IntVec2 &_playerMPos );
 void collect_chunks_need_to_be_build_in_update_3();
 

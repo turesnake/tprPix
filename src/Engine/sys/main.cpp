@@ -87,7 +87,6 @@ int main(){
     esrc::camera.init();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
-    sectionBuild::init();            //----- sectionBuild 模块 --  暂时为空
 
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----

@@ -18,8 +18,7 @@
 #include "MapCoord.h"
 #include "MapEnt.h"
 
-#include "debug.h"
-
+//#include "debug.h"
 
 /* ===========================================================
  *                       init

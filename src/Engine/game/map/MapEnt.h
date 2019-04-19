@@ -33,7 +33,7 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
-#include "GameObj.h" 
+#include "GameObjType.h" 
 #include "ID_Manager.h" 
 #include "AltiRange.h"
 #include "MapCoord.h"

@@ -13,7 +13,7 @@
 #include "GameObj.h"
 #include "MapEntCompass.h"
 
-#include "debug.h"
+//#include "debug.h"
 
 
 namespace{//-------- namespace -----------//

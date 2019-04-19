@@ -47,6 +47,7 @@
 #include "Section.h"
 #include "GPGPU.h"
 #include "Canvas.h"
+#include "MapField.h"
 
 
 
@@ -253,7 +254,7 @@ inline bool find_from_ecoSysesInMap( sectionKey_t _sectionKey ){
 
 inline EcoSysInMap *get_ecoSysInMapPtr( sectionKey_t _sectionkey ){
         assert( ecoSysesInMap.find(_sectionkey) != ecoSysesInMap.end() );//- tmp
-    return  static_cast<EcoSysInMap*>( &(ecoSysesInMap.at(_sectionkey)) );
+    return  &(ecoSysesInMap.at(_sectionkey));
 }
 
 inline EcoSysInMap &get_ecoSysInMapRef( sectionKey_t _sectionkey ){

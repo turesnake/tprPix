@@ -23,11 +23,6 @@
 class GameObjINS{
 public:
 
-
-
-
-
-
     //======== vals ========//
     //  确保对齐，提高传输效率
     //  尽可能缩小尺寸。确保 值传递也能高效
@@ -35,10 +30,7 @@ public:
     
     char      crossX   {0};    //- 十字键 [-1,0,1]
     char      crossY   {0};
-
 };
-
-
 
 
 #endif 

@@ -12,6 +12,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
+#include <cmath>
 
 //-------------------- Engine --------------------//
 #include "random.h"
@@ -20,7 +21,6 @@
 #include "EcoSysInMap.h"
 #include "FieldBorderSet.h"
 #include "simplexNoise.h"
-
 
 //#include "debug.h"
 
@@ -54,38 +54,35 @@ void MapField::init( const IntVec2 &_anyMPos ){
 
 
     //--- fieldFPos ----
-    this->FDPos.x = (float)(this->get_mpos().x) / (float)ENTS_PER_FIELD;
-    this->FDPos.y = (float)(this->get_mpos().y) / (float)ENTS_PER_FIELD;
+    this->FDPos = this->mcpos.get_fpos();
+    this->FDPos /= ENTS_PER_FIELD;
     this->FDPos += esrc::gameSeed.field_pposOff;
 
     //--- field.nodeMPos ---
     this->init_nodeMPos();
 
     //--- assign_field_to_4_ecoSysInMaps ---
+    //  顺带把 this->density 也初始化了
     this->assign_field_to_4_ecoSysInMaps();
 
-
     //--- originPerlin ---
-    // 4*4 个 field 组成一个 perlinEnt
-    float freq = 1.0 / 4.0; //- tmp
-    this->originPerlin = simplex_noise2(    (this->FDPos.x + 91.9) * freq, 
-                                            (this->FDPos.y + 91.9) * freq );  //- [-1.0, 1.0]
+    // 3*3 个 field 组成一个 pn晶格
+    float freq = 1.0 / 3.0; //- tmp
+    this->originPerlin = simplex_noise2(    this->FDPos.x * freq, 
+                                            this->FDPos.y * freq );  //- [-1.0, 1.0]
 
     //--- weight ---
     this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
 
     //--- fieldBorderSetId ---
-    size_t randIdx = (size_t)(this->originPerlin*997); //- 素数 [0,977]
+    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1)*997));
     this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
-
 
     //--- occupyWeight ---
     this->init_occupyWeight();
 
     //--- density ---
-    this->density.set( this->get_mpos() );
-        //cout << this->density.lvl << endl;
-
+    // 已在 this->assign_field_to_4_ecoSysInMaps(); 中被初始化
 }
 
 
@@ -137,7 +134,7 @@ void MapField::init_occupyWeight(){
     assert( Fidx > 0 );
     size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
 
-    this->occupyWeight = get_occupyWeight( oddEven, randIdx );
+    this->occupyWeight = calc_occupyWeight( oddEven, randIdx );
 }
 
 
@@ -165,7 +162,7 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     float         pnVal; //- 围绕 0 波动的 随机值
     float         off;
     int           count;
-    EcoSysInMap*  tmpEcoPtr;
+    EcoSysInMap*  tmpEcoInMapPtr;
 
     float targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 
@@ -190,20 +187,23 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     count = 0;
     for( auto &ecoPair : nearFour_ecoSysInMapPtrs ){
         count++;
-        tmpEcoPtr = ecoPair.second;
+        tmpEcoInMapPtr = ecoPair.second;
 
         if( count != nearFour_ecoSysInMapPtrs.size()){ //- 前3个 eco
 
-            mposOff = this->get_mpos() - tmpEcoPtr->get_mpos();
+            mposOff = this->get_mpos() - tmpEcoInMapPtr->get_mpos();
             off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y ); // [ ~ 90.0 ~ ]
             off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
-                this->ecoSysInMapKey = tmpEcoPtr->sectionKey;
+                this->ecoSysInMapKey = tmpEcoInMapPtr->sectionKey;
+                this->density.set( this->get_mpos(), *tmpEcoInMapPtr );
+
                 break;
             }
         }else{ //- 第四个 eco
-            this->ecoSysInMapKey = tmpEcoPtr->sectionKey;
+            this->ecoSysInMapKey = tmpEcoInMapPtr->sectionKey;
+            this->density.set( this->get_mpos(), *tmpEcoInMapPtr );
         }
     }
 }

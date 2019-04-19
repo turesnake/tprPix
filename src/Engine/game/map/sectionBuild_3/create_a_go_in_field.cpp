@@ -9,12 +9,9 @@
 //-------------------- C --------------------//
 #include <cassert>
 
-//-------------------- CPP --------------------//
-//#include <set>
-//#include <unordered_map>
-
 //-------------------- Engine --------------------//
-#include "sectionBuild_inn.h"
+#include "MapField.h"
+#include "srcs_engine.h"
 
 
 //-------------------- Script --------------------//
@@ -22,37 +19,35 @@
 #include "Script/resource/srcs_script.h" //- tmp
 
 
-#include "debug.h"
+//#include "debug.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
 
-//namespace{//-------- namespace: --------------//
-//}//------------- namespace: end --------------//
 
 /* ===========================================================
  *             create_Goes_in_field
  * -----------------------------------------------------------
- * -- 一种临时性的写法，在未来，会用更工整的 ecosys规划法来 实现分配
+ * -- 已使用正式的 规划法来分配
  */
 void create_a_go_in_field( fieldKey_t _fieldKey ){
 
     MapField    &fieldRef       = esrc::find_or_insert_the_field_ref( _fieldKey );
-    EcoSysInMap &ecoSysInMapRef = esrc::get_ecoSysInMapRef( fieldRef.ecoSysInMapKey );
+    EcoSysInMap &ecoSysInMapRef = esrc::get_ecoSysInMapRef( fieldRef.get_ecoSysInMapKey() );
     goSpecId_t  goSpecId;
 
-    float randV = (fieldRef.weight * 0.35 + 313.17); //- 确保大于0
+    float randV = (fieldRef.get_weight() * 0.35 + 313.17); //- 确保大于0
     float fract = randV - floor(randV); //- 小数部分
     assert( (fract>=0.0) && (fract<=1.0) );
 
-    if( fieldRef.is_inland() ){
-        goSpecId = ecoSysInMapRef.apply_a_rand_goSpecId( fieldRef.density.get_idx(), fieldRef.weight );
-        if( fract <= ecoSysInMapRef.get_applyPercent(fieldRef.density) ){
+    if( fieldRef.is_land() ){
+        goSpecId = ecoSysInMapRef.apply_a_rand_goSpecId( fieldRef.get_density().get_idx(), fieldRef.get_weight() );
+        if( fract <= ecoSysInMapRef.get_applyPercent(fieldRef.get_density()) ){
         gameObjs::create_a_Go(  goSpecId,
-                                fieldRef.nodeMPos,
-                                fieldRef.weight,
-                                fieldRef.nodeAlti, //- tmp 有问题
-                                fieldRef.density );
+                                fieldRef.get_nodeMPos(),
+                                fieldRef.get_weight(),
+                                fieldRef.get_nodeAlti(), //- tmp 有问题
+                                fieldRef.get_density() );
         }
     }
 }

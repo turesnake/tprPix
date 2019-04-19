@@ -20,7 +20,7 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
+//#include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
 //------------------- Libs --------------------//
@@ -47,14 +47,6 @@ public:
     //======== vals ========//
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
 
-    u32_t  perlinSeed_ecoSysInMap {}; //- 与 ecoSysInMap 有关的 通用 perlin
-    u32_t  perlinSeed_fields_in_ecoSysInMap {}; //- 将每个 fields 分配给不同的 ecosys
-    u32_t  perlinSeed_pixes_in_field {}; //- 将每个 ent/pix 分配给不同的 field
-    u32_t  perlinSeed_field {};  //- 与 field 有关的 通用 perlin
-    u32_t  perlinSeed_alti {};
-    u32_t  perlinSeed_density {};
-
-
     //- [-1000, 1000] 之间的 随机数
     glm::vec2  altiSeed_pposOffSeaLvl {};
     glm::vec2  altiSeed_pposOffBig {};
@@ -63,17 +55,8 @@ public:
 
     //- [-1000, 1000] 之间的 随机数
     glm::vec2  densitySeed_pposOff {};
-
     glm::vec2  field_pposOff {};
-
-    //======== perlins ========//
-    //PerlinNoise3D  pn_field_in_ecoSysInMap; //- 将 field 分配给不同的 ecosys
-    PerlinNoise3D  pn_pixes_in_field;       //- 将 pixes 分配给不同的 field
-    PerlinNoise3D  pn_ecoSysInMap; //- 与 ecoSysInMap 有关的 通用 perlin
-    //PerlinNoise3D  pn_field;       //- 与 field 有关的 通用 perlin
-    PerlinNoise3D  pn_alti;
-    PerlinNoise3D  pn_density;
-
+    glm::vec2  ecoSysInMapWeight_pposOff {};
 
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 随机数引擎实例

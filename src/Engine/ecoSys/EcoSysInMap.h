@@ -25,6 +25,7 @@
 #include "GameObjType.h"
 #include "Density.h"
 
+class EcoSys;
 
 //- 一个在游戏地图上存在的 实实在在的区域。
 //- 在游戏世界中，每个 section左下角，都放置一个 EcoSys数据集 
@@ -69,19 +70,23 @@ public:
         return pool.at( randV % pool.size() );
     }
 
-    inline ecoSysId_t get_ecoSysId() const {
+    inline const ecoSysId_t &get_ecoSysId() const {
         return this->ecoSysId;
     }
     inline const EcoSysType &get_ecoSysType() const {
         return this->ecoSysType;
     }
-
+    inline const float &get_applyPercent( const Density &_density ) const {
+        return this->applyPercents.at(_density.get_idx());
+    }
+    inline const float &get_densitySeaLvlOff() const {
+        return this->densitySeaLvlOff;
+    }
     inline const RGBA &get_landColor( const Density &_density ) const {
         return this->landColors.at(_density.get_idx());
     }
-
-    inline float get_applyPercent( const Density &_density ) const {
-        return this->applyPercents.at(_density.get_idx());
+    inline const std::vector<float> &get_densityDivideVals() const {
+        return this->densityDivideVals;
     }
 
 
@@ -111,14 +116,10 @@ public:
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields
                             //- [just mem] 
-    
-    //======== flags ========//  
-                 
+                     
 private:
+    void copy_datas_from_ecosys( EcoSys *_targetEcoPtr );
     
-
-    //======== static funcs ========//  
-
     //======== vals ========//
     ecoSysId_t  ecoSysId {};
     EcoSysType  ecoSysType  {EcoSysType::Forest};
@@ -128,13 +129,21 @@ private:
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2  oddEven {}; 
 
+    
 
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
     std::vector<RGBA>  landColors {};
     std::vector<float> applyPercents {}; //- each entry: [0.0, 1.0]
+    std::vector<float> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
+
+    float           densitySeaLvlOff  {0.0}; 
+
+            //- 这里的部分数据，有望成为 一个指针，指向 EcoSys 实例中数据即可
+            //- 节省 内存空间
+
 
 
 };

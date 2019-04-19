@@ -16,10 +16,11 @@
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
-#include "sectionBuild_inn.h"
+#include "Chunk.h"
+#include "sectionKey.h"
+#include "srcs_engine.h"
 
-
-#include "debug.h"
+//#include "debug.h"
 
 
 namespace sectionBuild { //------- namespace: sectionBuild ----------//
@@ -157,6 +158,7 @@ void build_one_chunk_3( const IntVec2 &_anyMPos ){
 
     //------------------------------//
     //  为chunk中 每个 mapent/pix 分配对应的 field
+    //  顺带生成这些 field 实例
     //------------------------------//
     targetChunkPtr->assign_ents_and_pixes_to_field();
 
@@ -254,17 +256,7 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     }
 
     for( const auto &key : tmpSectionPtr->get_quadSectionKeys() ){ //- each quad sectionkey
-        /*
-        if( !esrc::find_from_ecoSysesInMap(key) ){
-            tmpEcoSysInMapPtr = esrc::insert_new_ecoSysInMap(key);
-            tmpEcoSysInMapPtr->init();
-            tmpEcoSysInMapPtr->plan();
-
-                    //-- 这部分将被新方案替代 
-        }
-        */
         EcoSysInMap::find_or_create_the_ecoSysInMap( key );
-    
     }
 
     //------------------------------//

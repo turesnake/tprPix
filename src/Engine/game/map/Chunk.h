@@ -26,7 +26,7 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
-#include "GameObj.h" 
+//#include "GameObj.h" 
 #include "MapEnt.h"
 #include "config.h" 
 #include "Mesh.h"
@@ -34,7 +34,7 @@
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
-#include "MapField.h"
+
 
  
 //-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --

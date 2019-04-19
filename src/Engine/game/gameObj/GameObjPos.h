@@ -16,12 +16,12 @@
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
             //-- glm::translate
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
+//#include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptrs
 
 //-------------------- Engine --------------------//
@@ -29,8 +29,6 @@
 #include "IntVec.h"
 #include "MapCoord.h"
 #include "MapEntCompass.h"
-//#include "NineBox.h"
-
 
 //--- need ---//
 class GameObj;

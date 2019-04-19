@@ -4,25 +4,15 @@
  *                                        CREATE -- 2018.11.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   
- * ----------------------------
  */
 #include "GameObj.h" 
-
-//-------------------- CPP --------------------//
-//#include <string>
 
 
 //-------------------- Engine --------------------//
 #include "srcs_engine.h"
 
 
-
-#include "debug.h" //- tmp
-
-
-//============== static ===============//
-ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
+//#include "debug.h" //- tmp
 
 
 /* ===========================================================
@@ -120,7 +110,7 @@ void GameObj::reset_chunkKeys(){
  *                       debug
  * -----------------------------------------------------------
  */
-
+/*
 void GameObj::debug(){
 
     cout << "------ GameObj: " << id << " --------" << endl;
@@ -134,7 +124,7 @@ void GameObj::debug(){
         << "\nsizeof(Collision): "    << sizeof(Collision)
         << endl;
 
-    /*
+    
     cout<< "\nAwake:        " << ( Awake==nullptr ? "nullptr" : "not nullptr" )
         << "\nStart:        " << ( Start==nullptr ? "nullptr" : "not nullptr" )
         << "\nRenderUpdate: " << ( RenderUpdate==nullptr ? "nullptr" : "not nullptr" )
@@ -160,8 +150,9 @@ void GameObj::debug(){
         << endl;
 
     cout << "\n\n" << endl;
-    */
+    
 }
+*/
 
 
 

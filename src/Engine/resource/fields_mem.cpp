@@ -68,20 +68,16 @@ MapField *insert_new_field( const IntVec2 &_anyMPos ){
  */
 MapField *find_or_insert_the_field_ptr( fieldKey_t _fieldKey ){
 
-    if( esrc::fields.find(_fieldKey) == esrc::fields.end() ){
-        return esrc::insert_new_field( _fieldKey );
-    }else{
-        return static_cast<MapField*>( &(esrc::fields.at(_fieldKey)) );
-    }
+    return (esrc::fields.find(_fieldKey) == esrc::fields.end()) ?
+                esrc::insert_new_field(_fieldKey) :
+                &(esrc::fields.at(_fieldKey));
 }
 
 MapField &find_or_insert_the_field_ref( fieldKey_t _fieldKey ){
 
-    if( esrc::fields.find(_fieldKey) == esrc::fields.end() ){
-        return esrc::insert_new_field_ref( _fieldKey );
-    }else{
-        return esrc::fields.at(_fieldKey);
-    }
+    return (esrc::fields.find(_fieldKey) == esrc::fields.end()) ?
+                esrc::insert_new_field_ref(_fieldKey) :
+                esrc::fields.at(_fieldKey);
 }
 
 

@@ -19,11 +19,10 @@
 #include "Quad.h"
 
 
-#include "debug.h"
+//#include "debug.h"
 
 namespace{//-------- namespace: --------------//
 
-                                          
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     std::vector<IntVec2> quadSectionKeyOffs {
         IntVec2{ 0, 0 },

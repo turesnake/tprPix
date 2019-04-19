@@ -26,10 +26,8 @@
 #include "MapCoord.h"
 #include "AltiRange.h"
 #include "ColliEntHead.h"
-//#include "NineBox.h"
 #include "MapEntCompass.h"
 #include "AnchorPos.h"
-
 
 
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//

@@ -15,10 +15,11 @@
 //------------------- C --------------------//
 #include <cassert>
 
-
 //------------------- Engine --------------------//
 #include "IntVec.h" 
 
+
+class EcoSysInMap;
 
 //--- [mem] ---
 class Density{
@@ -29,10 +30,10 @@ public:
     explicit Density( int _lvl ):
         lvl(_lvl)
         {
-            assert( (_lvl>=Density::minVal) && (_lvl<=Density::maxVal) );
+            assert( (_lvl>=Density::minLvl) && (_lvl<=Density::maxLvl) );
         }
 
-    void set( const IntVec2 &_fieldMPos );
+    void set( const IntVec2 &_fieldMPos, const EcoSysInMap &_ecoSysInMap );
 
     inline int get_lvl() const {
         return this->lvl;
@@ -58,11 +59,11 @@ public:
         return 7; //- 一共7档
     }
 
-    static int get_minVal(){
-        return Density::minVal;
+    static int get_minLvl(){
+        return Density::minLvl;
     }
-    static int get_maxVal(){
-        return Density::maxVal;
+    static int get_maxLvl(){
+        return Density::maxLvl;
     }
 
     static int lvl_2_idx( int _lvl ){
@@ -86,8 +87,8 @@ private:
     int lvl {0}; // [-3, 3] 共7档
 
     //===== static =====//
-    static int  minVal;  // -3
-    static int  maxVal;  //  3
+    static int  minLvl;  // -3
+    static int  maxLvl;  //  3
 };
 
 

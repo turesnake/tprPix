@@ -11,19 +11,14 @@
 
 //-------------------- C --------------------//
 #include <cmath>
-
-//-------------------- CPP --------------------//
 #include <cassert>
-#include <string>
 
 //-------------------- Engine --------------------//
-//#include "config.h" // SCR_WIDTH, SCR_HEIGHT
 #include "windowConfig.h"
 #include "srcs_engine.h" //- 所有资源
 
-using std::string;
 
-#include "debug.h" //- tmp
+//#include "debug.h" //- tmp
 
 
 //---------------------- 局部 变量 ---------------------

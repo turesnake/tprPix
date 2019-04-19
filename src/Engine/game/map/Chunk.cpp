@@ -17,17 +17,18 @@
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "srcs_engine.h"
-#include "MapEnt.h"
+//#include "MapEnt.h"
 #include "EcoSysInMap.h"
 #include "random.h"
 #include "occupyWeight.h"
-#include "EcoSys.h"
+//#include "EcoSys.h"
 #include "Altitude.h"
 #include "Quad.h"
 #include "FieldBorderSet.h"
 #include "sectionBuild.h" //- tmp
+#include "MapField.h"
 
-#include "debug.h"
+//#include "debug.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/create_goes.h"
@@ -49,8 +50,10 @@ namespace{//-------- namespace: --------------//
     public:
         explicit FieldData( MapField *_fieldPtr, QuadType _quadType ){
             this->fieldPtr = _fieldPtr;
-            this->ecoInMapPtr = esrc::get_ecoSysInMapPtr( this->fieldPtr->ecoSysInMapKey );
-            this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( &get_fieldBorderSet(this->fieldPtr->fieldBorderSetId, _quadType) );
+            this->ecoInMapPtr = esrc::get_ecoSysInMapPtr( this->fieldPtr->get_ecoSysInMapKey() );
+            this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
+                                                &get_fieldBorderSet(this->fieldPtr->get_fieldBorderSetId(), 
+                                                _quadType) );
         }
         //====== vals ======//
         MapField     *fieldPtr    {};
@@ -228,6 +231,10 @@ void Chunk::assign_ents_and_pixes_to_field(){
     //------------------------//
     // 委托 GPGPU 计算 pix数据
     //------------------------//
+
+        //-- 在未来，这部分运算可能还是要交给 cpu 去做（多线程）
+        //-- GPGPU 实际效果有点卡
+
     esrc::pixGpgpu.bind(); //--- MUST !!! ---
 
     IntVec2 chunkCPos = chunkMPos_2_chunkCPos( this->mcpos.get_mpos() );
@@ -322,19 +329,19 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             mapEntRef.alti = pixData.alti;
 
                             //----- 记录 alti min/max ----//
-                            if( pixData.alti < pixData.fieldDataPtr->fieldPtr->minAlti ){ 
-                                pixData.fieldDataPtr->fieldPtr->minAlti = pixData.alti;
+                            if( pixData.alti < pixData.fieldDataPtr->fieldPtr->get_minAlti() ){ 
+                                pixData.fieldDataPtr->fieldPtr->set_minAlti(pixData.alti);
                             }
-                            if( pixData.alti > pixData.fieldDataPtr->fieldPtr->maxAlti ){ 
-                                pixData.fieldDataPtr->fieldPtr->maxAlti = pixData.alti;
+                            if( pixData.alti > pixData.fieldDataPtr->fieldPtr->get_maxAlti() ){ 
+                                pixData.fieldDataPtr->fieldPtr->set_maxAlti(pixData.alti);
                             }
                                             // 目前这个实现并不精确。对于 chunk 边缘的 field。它们的 min/max alti 
                                             // 要等到 隔壁 chunk 也生成后，才能补全。
                                             // 所以，现在还是会出现 “树木长在河里” 的现象
                             
                             //----- 记录 field.nodeAlti ----//
-                            if( mapEntRef.get_mpos() == pixData.fieldDataPtr->fieldPtr->nodeMPos ){
-                                pixData.fieldDataPtr->fieldPtr->nodeAlti = pixData.alti;
+                            if( mapEntRef.get_mpos() == pixData.fieldDataPtr->fieldPtr->get_nodeMPos() ){
+                                pixData.fieldDataPtr->fieldPtr->set_nodeAlti(pixData.alti);
                             }
 
                             //...
@@ -343,7 +350,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //--------------------------------//
                         //    正式给 pix 上色
                         //--------------------------------//
-                        color = pixData.fieldDataPtr->ecoInMapPtr->get_landColor( pixData.fieldDataPtr->fieldPtr->density );
+                        color = pixData.fieldDataPtr->ecoInMapPtr->get_landColor( pixData.fieldDataPtr->fieldPtr->get_density() );
                         color.a = 255;
 
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
@@ -449,7 +456,7 @@ MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey ){
             tmpFieldPtr = esrc::find_or_insert_the_field_ptr( fieldMPos_2_fieldKey(tmpFieldMPos) );
         }
 
-        nearFour_fieldDatas.insert({ -(tmpFieldPtr->occupyWeight), FieldData{tmpFieldPtr,fieldInfo.quad} }); //- copy
+        nearFour_fieldDatas.insert({ -(tmpFieldPtr->get_occupyWeight()), FieldData{tmpFieldPtr,fieldInfo.quad} }); //- copy
                         //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
         count++;
     }

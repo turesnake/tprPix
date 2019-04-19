@@ -139,7 +139,7 @@ public:
     }
 
 
-    void debug(); //- 打印 本go实例 的所有信息
+    //void debug(); //- 打印 本go实例 的所有信息
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
@@ -237,6 +237,9 @@ private:
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
 
 };
+
+//============== static ===============//
+inline ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
 
 
 

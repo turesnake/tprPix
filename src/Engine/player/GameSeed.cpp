@@ -9,16 +9,13 @@
  */
 #include "GameSeed.h"
 
-
 #include "debug.h"
 
 
 namespace{//----------- namespace ----------------//
 
-    //std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    inline std::uniform_int_distribution<int> uDistribution_altiSeed(-1000,1000);
-
-
+    inline std::uniform_int_distribution<int>   uDistribution_altiSeed(-1000, 1000);
+    inline std::uniform_int_distribution<float> uDistribution_float(-1000.0, 1000.0);
 
 
 }//-------------- namespace : end ----------------//
@@ -41,12 +38,6 @@ void GameSeed::init(){
     //------------------------//
     this->baseSeed = get_new_seed();
    
-    this->perlinSeed_ecoSysInMap = get_new_seed();
-    this->perlinSeed_fields_in_ecoSysInMap = get_new_seed();
-    this->perlinSeed_pixes_in_field = get_new_seed();
-    this->perlinSeed_field = get_new_seed();
-    this->perlinSeed_alti = get_new_seed();
-    this->perlinSeed_density = get_new_seed();
 
     //...
 
@@ -54,18 +45,6 @@ void GameSeed::init(){
     this->init_glm_vec2s();
 
     //...
-
-
-    //------------------------//
-    //       perlins
-    //------------------------//
-    //this->pn_field_in_ecoSysInMap.init( this->perlinSeed_fields_in_ecoSysInMap );
-    this->pn_pixes_in_field.init( this->perlinSeed_pixes_in_field );
-    this->pn_ecoSysInMap.init( this->perlinSeed_ecoSysInMap );
-    //this->pn_field.init( this->perlinSeed_field );
-    this->pn_alti.init( this->perlinSeed_alti );
-    this->pn_density.init( this->perlinSeed_density );
-
 
     //------------------------//
     //       randEngine
@@ -97,10 +76,12 @@ void GameSeed::init_glm_vec2s(){
     //------ densitySeed --------//
     this->densitySeed_pposOff = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
                                             static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
-
     //------ field --------//
-    this->field_pposOff =   glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                        static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->field_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
+                                        static_cast<float>(uDistribution_float(this->randEngine)) );
+    //------ ecoSysInMap --------//
+    this->ecoSysInMapWeight_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
+                                                    static_cast<float>(uDistribution_float(this->randEngine)) );
 }
 
 

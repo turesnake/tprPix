@@ -31,12 +31,12 @@ namespace{//-------- namespace: --------------//
 
 
 /* ===========================================================
- *                  get_occupyWeight
+ *                  calc_occupyWeight
  * -----------------------------------------------------------
  * param: _oddEven -- 目标点在map 中的 坐标奇偶性，必须是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
  * param: _randIdx -- 从 occupyWeights 子容器中 选择具体值。
  */
-occupyWeight_t get_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
+occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
 
     assert( (_oddEven.x>=0) && (_oddEven.x<=1) && 
             (_oddEven.y>=0) && (_oddEven.y<=1) );

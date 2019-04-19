@@ -8,6 +8,12 @@
  */
 #include "EcoSysInMap.h"
 
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
+
 //-------------------- C --------------------//
 #include <math.h>
 
@@ -17,8 +23,9 @@
 #include "PerlinNoise3D.h" //- out 
 #include "srcs_engine.h"
 #include "Density.h"
+#include "simplexNoise.h"
 
-//#include "debug.h"
+#include "debug.h"
 
 
 namespace{//-------- namespace: --------------//
@@ -63,24 +70,27 @@ void EcoSysInMap::init_fstOrder(){
     //------------------//
     //     weight
     //------------------//
-    // 4*4 个 ecosysinmap 组成一个 perlinEnt
-    float freq = 1.0 / 4.0; 
-    IntVec2 v = floorDiv(mcpos.get_mpos(), ENTS_PER_SECTION);
-    this->weight = esrc::gameSeed.pn_ecoSysInMap.noise( v.x * freq, 
-                                                        v.y * freq, 
-                                                        0.1) * 100.0; 
-                                                        //- [-100.0, 100.0]
+    // 3*3 个 ecosysinmap 组成一个 pn晶格
+    float freq = 1.0 / 3.0; 
+    glm::vec2 fv = this->mcpos.get_fpos();
+    fv /= ENTS_PER_SECTION;
+    fv += esrc::gameSeed.ecoSysInMapWeight_pposOff;
+
+    this->weight = simplex_noise2(  fv.x * freq,
+                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
+
     //------------------//
     //   occupyWeight
     //------------------//
     size_t randV = static_cast<size_t>(floor( this->weight * 3 + 757 ));
-    this->occupyWeight = get_occupyWeight( this->oddEven, randV );
+    this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
 
     //------------------------------//
     //  landColors / goSpecIdPools
     //------------------------------//
     this->landColors.clear();
     this->applyPercents.clear();
+    this->densityDivideVals.clear();
     this->goSpecIdPools.clear();
     this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
 
@@ -175,33 +185,10 @@ void EcoSysInMap::init_for_node_ecoSysInMap(){
     assert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
     EcoSys *ecoSysPtr = esrc::get_ecoSysPtr( esrc::apply_a_rand_ecoSysId(this->weight) );
 
-    this->ecoSysId = ecoSysPtr->get_id();
-    this->ecoSysType = ecoSysPtr->get_type();
-
-    //----------------------------//
-    //   完整的复制 landColors / applyPercent 数据
-    //----------------------------//
-    this->landColors.insert(this->landColors.end(),
-                            ecoSysPtr->get_landColors().begin(),
-                            ecoSysPtr->get_landColors().end() );
-
-    this->applyPercents.insert( this->applyPercents.end(),
-                                ecoSysPtr->get_applyPercents().begin(),
-                                ecoSysPtr->get_applyPercents().end() );
-
-    //----------------------------//
-    //      goSpecIdPools 数据
-    //----------------------------//
-    randEngine.seed( static_cast<size_t>(this->weight) ); //- 实现了伪随机
-    goSpecId_t  tmpGoSpecId;
-
-    for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
-        //-- 每个 子pool，分配 8 个 goSpecId --
-        for( int ci=0; ci<8; ci++ ){
-            tmpGoSpecId = ecoSysPtr->apply_a_rand_goSpecId( i, uDistribution_f(randEngine) );
-            this->goSpecIdPools.at(i).push_back( tmpGoSpecId );
-        }
-    }
+    //------------------------//
+    //  确定 targetEcoPtr 后, 正式 分配数据
+    //------------------------//
+    this->copy_datas_from_ecosys( ecoSysPtr );
 }
 
 
@@ -269,25 +256,43 @@ void EcoSysInMap::init_for_no_node_ecoSysInMap(){
     }
 
     //------------------------//
-    //  确定 targetEcoPtr 后
-    //     正式 分配数据
+    //  确定 targetEcoPtr 后, 正式 分配数据
     //------------------------//
-    this->ecoSysId = targetEcoPtr->get_id();
-    this->ecoSysType = targetEcoPtr->get_type();
+    this->copy_datas_from_ecosys( targetEcoPtr );
+}
+
+
+/* ===========================================================
+ *               copy_datas_from_ecosys
+ * -----------------------------------------------------------
+ * -- 
+ */
+void EcoSysInMap::copy_datas_from_ecosys( EcoSys *_targetEcoPtr ){
+
+    randEngine.seed( static_cast<size_t>(this->weight) ); //- 实现了伪随机
+
+    this->ecoSysId = _targetEcoPtr->get_id();
+    this->ecoSysType = _targetEcoPtr->get_type();
+    this->densitySeaLvlOff = _targetEcoPtr->get_densitySeaLvlOff();
     //--- 完整的复制 landColors 数据 ---
     this->landColors.insert(this->landColors.end(),
-                            targetEcoPtr->get_landColors().begin(),
-                            targetEcoPtr->get_landColors().end() );
+                            _targetEcoPtr->get_landColors().begin(),
+                            _targetEcoPtr->get_landColors().end() );
 
     this->applyPercents.insert( this->applyPercents.end(),
-                                targetEcoPtr->get_applyPercents().begin(),
-                                targetEcoPtr->get_applyPercents().end() );
+                                _targetEcoPtr->get_applyPercents().begin(),
+                                _targetEcoPtr->get_applyPercents().end() );
+
+    this->densityDivideVals.insert( this->densityDivideVals.end(),
+                                    _targetEcoPtr->get_densityDivideVals().begin(),
+                                    _targetEcoPtr->get_densityDivideVals().end() );
 
     //---- goSpecIdPools 数据 ----
+    goSpecId_t  tmpGoSpecId;
     for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
         //--- 取 8 个元素 ---
         for( int ci=0; ci<8; ci++ ){ 
-            tmpGoSpecId = targetEcoPtr->apply_a_rand_goSpecId( i, uDistribution_f(randEngine) );
+            tmpGoSpecId = _targetEcoPtr->apply_a_rand_goSpecId( i, uDistribution_f(randEngine) );
             this->goSpecIdPools.at(i).push_back( tmpGoSpecId );
         }
     }

@@ -47,7 +47,6 @@ void ColliEntSetLoader::init(){
 
     assert( (this->pixNum_per_frame.x==5*PIXES_PER_MAPENT) && 
             (this->pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
-        //cout << "frame_data_ary.size() = " << frame_data_ary.size();
         
     //----------------------------//
     //   parse each frame data

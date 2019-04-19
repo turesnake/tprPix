@@ -11,19 +11,13 @@
 #define _TPR_COLLISION_H_
 
 //-------------------- CPP --------------------//
-//#include <vector>
 #include <string>
 
 //-------------------- Engine --------------------//
 #include "NineBox.h"
 
-
-
-
-
 //--- need ---//
 class GameObj;
-//class GameObjMesh;
 
 
 //-- 和 Mesh 一样，也是一个 “整合类”

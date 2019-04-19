@@ -9,9 +9,7 @@
  */
 #include "ColliEntSet.h"
 
-
 //#include "debug.h"
-
 
 /* ===========================================================
  *             create_adds_dels_by_nineBox

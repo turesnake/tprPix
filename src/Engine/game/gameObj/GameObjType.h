@@ -10,29 +10,12 @@
 #ifndef _TPR_GAME_OBJ_TYPE_H_
 #define _TPR_GAME_OBJ_TYPE_H_
 
-//--- glm - 0.9.8 ---
-/*
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
-*/
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
-
 
 
 using goid_t     = u64_t; //- gameObj id type
