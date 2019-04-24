@@ -73,6 +73,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/GPGPU)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/input)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/move)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/multiThread)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
@@ -135,6 +136,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/input/*.cpp 
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
+                        src/Engine/multiThread/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/resource/*.cpp 

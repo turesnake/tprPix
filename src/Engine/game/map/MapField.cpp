@@ -151,9 +151,9 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
 
     //--- reset nearFour_ecoSysInMapPtrs ---//
     sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
-        assert( esrc::find_from_sections(sectionKey) ); //- must exist
+        assert( esrc::atom_find_from_sections(sectionKey) ); //- must exist
     nearFour_ecoSysInMapPtrs.clear();
-    for( const auto &ecoPtr : esrc::sections.at(sectionKey).get_ecoSysInMapPtrs() ){
+    for( const auto &ecoPtr : esrc::atom_get_sectionPtr(sectionKey)->get_ecoSysInMapPtrs() ){
         nearFour_ecoSysInMapPtrs.insert({ -(ecoPtr->occupyWeight), ecoPtr });
                             //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
     }

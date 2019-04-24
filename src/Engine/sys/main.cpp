@@ -15,6 +15,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
+//#include <thread>
 
 //-------------------- Engine --------------------//
 #include "global.h"
@@ -79,15 +80,25 @@ int main(){
     esrc::behaviour.call_Awakes();
 
     //------------------------------------------//
-    //               加载所有 资源
+    //           不依赖任何外部代码的资源
     //------------------------------------------//
-
-    //++++++ pure init (不依赖任何外部代码) ++++++//
     input::init_input();             //---- input -----
     esrc::camera.init();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
+
+
+
+    //------------------------------------------//
+    //            启动 job线程组
+    //------------------------------------------//
+    esrc::start_jobThreads();
+
+
+    //------------------------------------------//
+    //                更多 资源
+    //------------------------------------------//
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
     esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
@@ -233,11 +244,7 @@ int main(){
         //------------------------//
         //       chunks
         //------------------------//
-        for( auto& p : esrc::chunks ){
-            p.second.refresh_translate_auto(); //-- MUST !!!
-            esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
-                                                const_cast<Mesh*>(&p.second.get_mesh()) });
-        }
+        esrc::render_chunks();
 
         //------------------------//
         //     mapEntSlices
@@ -270,7 +277,6 @@ int main(){
         debug::draw_renderPool_pointPics();     //-- debug 但是不在此文件中 clear
         esrc::draw_renderPool_goMeshs_pic(); 
 
-        
         //--------------------------------//
         //   check and call events
         //     swap the buffers               
@@ -284,6 +290,13 @@ int main(){
 
 
     }//------------ while render loop end --------------------//
+
+
+    //------------------------------------------//
+    //            等待关闭 job线程组
+    //   全局 唯一的 thread.join() 系列指令 添加处
+    //------------------------------------------//
+    esrc::join_jobThreads();
 
 
     //========================================================//

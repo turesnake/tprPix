@@ -110,8 +110,8 @@ EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionK
     //------------------------------------//
     //    若目标实例 已存在，直接返回其指针
     //------------------------------------//
-    if( esrc::find_from_ecoSysesInMap(_sectionKey) ){
-        return esrc::get_ecoSysInMapPtr(_sectionKey);
+    if( esrc::atom_find_from_ecoSysesInMap(_sectionKey) ){
+        return esrc::atom_get_ecoSysInMapPtr(_sectionKey);
     }
 
         //   若不存在，就新建一个 
@@ -138,7 +138,7 @@ EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionK
     }
 
     //--- 若不是，说明自己是 “杂合实例”，开始创建自己 ---
-    EcoSysInMap *selfPtr = esrc::insert_new_ecoSysInMap( ecosysInMapMPos );
+    EcoSysInMap *selfPtr = esrc::atom_insert_new_ecoSysInMap( ecosysInMapMPos );
     selfPtr->init_fstOrder();
     selfPtr->init_for_no_node_ecoSysInMap();
 
@@ -161,14 +161,14 @@ EcoSysInMap *EcoSysInMap::find_or_create_target_node_ecoSysInMap( const IntVec2 
     //    若目标实例 已存在，直接返回其指针
     //------------------------------------//
     sectionKey_t sectionKey = sectionMPos_2_sectionKey( _ecosysInMapMPos );
-    if( esrc::find_from_ecoSysesInMap(sectionKey) ){
-        return esrc::get_ecoSysInMapPtr(sectionKey);
+    if( esrc::atom_find_from_ecoSysesInMap(sectionKey) ){
+        return esrc::atom_get_ecoSysInMapPtr(sectionKey);
     }
 
     //------------------------------------//
     //         若不存在，就新建一个 
     //------------------------------------//
-    EcoSysInMap *ecoSysInMapPtr = esrc::insert_new_ecoSysInMap( _ecosysInMapMPos );
+    EcoSysInMap *ecoSysInMapPtr = esrc::atom_insert_new_ecoSysInMap( _ecosysInMapMPos );
     ecoSysInMapPtr->init_fstOrder();
     ecoSysInMapPtr->init_for_node_ecoSysInMap();
 

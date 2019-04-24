@@ -37,9 +37,8 @@
 
 //-- 4*4mapent 构成一个 field -- [just mem]
 //  另一个身份是 “距离场” 
-//  每一个 chunk 都要存储 16*16个 MapField数据。
+//  每一个 chunk 都要存储 8*8 个 MapField数据。
 //  ------
-//  
 class MapField{
 public:
     MapField() = default;

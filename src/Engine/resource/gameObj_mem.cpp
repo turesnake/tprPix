@@ -145,6 +145,8 @@ void realloc_inactive_goes(){
  *      --- 统计自己的 chunkeys,
  *      --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
  *      --- 将 本goid，记录到 主chunk goids 容器中
+ * 
+ *  ----- 存在的问题 -----
  */
 void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
 
@@ -162,12 +164,12 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
     _goPtr->currentChunkKey = anyMPos_2_chunkKey( anyPPos_2_mpos(currentPPos) );
-    Chunk &currentChunkRef = esrc::get_chunkRef( _goPtr->currentChunkKey );
+    Chunk *currentChunkPtr = esrc::get_chunkPtr( _goPtr->currentChunkKey );
     _goPtr->reset_chunkKeys();
     if( _goPtr->get_chunkKeysRef().size() > 1 ){
-        currentChunkRef.insert_2_edgeGoIds( _goPtr->id );
+        currentChunkPtr->insert_2_edgeGoIds( _goPtr->id );
     }
-    currentChunkRef.insert_2_goIds( _goPtr->id );
+    currentChunkPtr->insert_2_goIds( _goPtr->id );
 
 
     //------------------------------//
@@ -194,7 +196,7 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
                 //-- 如果 collient所在 chunk 尚未创建，表明此 go 为 “临界go”。
                 // 此时显然不能去调用 esrc::get_memMapEntPtr(), 会出错。
                 // 将会忽略掉这个 collient 的登记工作，
-                if( esrc::chunks.find(tmpChunkKey) == esrc::chunks.end() ){
+                if( !esrc::find_from_chunks(tmpChunkKey) ){
                     continue;
                 }
 

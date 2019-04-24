@@ -25,12 +25,15 @@
 #include "esrc_gameSeed.h"
 #include "esrc_globState.h"
 #include "esrc_GPGPU.h"
+#include "esrc_jobQue.h"
 #include "esrc_player.h"
 #include "esrc_renderPool.h"
 #include "esrc_section.h"
 #include "esrc_shader.h"
+#include "esrc_thread.h"
 #include "esrc_time.h"
 #include "esrc_window.h"
+
 
 #endif
 

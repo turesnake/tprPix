@@ -49,18 +49,10 @@ public:
     Chunk() = default;
 
     void init();
-
-    inline void init_mesh(  ShaderProgram *_sp,
-                            bool _isVisible ){
-        this->mesh.init( mapTex.get_texName() ); //- auto
-        this->mesh.set_shader_program( _sp );
-        this->mesh.isVisible = _isVisible;
-    }
-
-    void assign_ents_and_pixes_to_field();
-
+    
     //-- 每1渲染帧，都要根据 camera，重设 mesh.translate
     void refresh_translate_auto();
+
 
     inline void insert_2_goIds( const goid_t &_id ){
         this->goIds.insert(_id);
@@ -80,6 +72,12 @@ public:
     inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
         this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
         mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );             
+    }
+    inline void set_mesh_shader_program( ShaderProgram *_sp ){
+        this->mesh.set_shader_program( _sp );
+    }
+    inline void set_mesh_isVisible( bool _isVisible ){
+        this->mesh.isVisible = _isVisible;
     }
 
     //------- get -------//
@@ -104,6 +102,8 @@ public:
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return static_cast<MemMapEnt*>( &(memMapEnts.at(idx)) );
     }
+
+    const std::vector<fieldKey_t> &get_reseted_fieldKeys() const;
     
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
@@ -113,7 +113,9 @@ private:
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
-    void reset_fieldKeys();
+    void reset_fieldKeys() const;
+
+    void assign_ents_and_pixes_to_field();
 
     //======== vals ========//
     //------- chunk 自己的 图形 ---

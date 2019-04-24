@@ -52,7 +52,7 @@ namespace{//-------- namespace: --------------//
     public:
         explicit FieldData( MapField *_fieldPtr, QuadType _quadType ){
             this->fieldPtr = _fieldPtr;
-            this->ecoInMapPtr = esrc::get_ecoSysInMapPtr( this->fieldPtr->get_ecoSysInMapKey() );
+            this->ecoInMapPtr = esrc::atom_get_ecoSysInMapPtr( this->fieldPtr->get_ecoSysInMapKey() );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
                                                 &get_fieldBorderSet(this->fieldPtr->get_fieldBorderSetId(), 
                                                 _quadType) );
@@ -107,7 +107,7 @@ namespace{//-------- namespace: --------------//
 
 
     //===== funcs =====//
-    MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey );
+    MapField *colloect_nearFour_fieldDatas( fieldKey_t _fieldKey );
 
 
 }//------------- namespace: end --------------//
@@ -128,7 +128,6 @@ void Chunk::init(){
     //--- 填充 mapTex buf
     this->mapTex.resize_texBuf();
 
-
     // 根据 本chunk 在 2*2 chunk 中的位置
     // 来分配 zoff 值。 
     //-- 本 chunk 在 世界坐标中的 奇偶性 --
@@ -136,7 +135,19 @@ void Chunk::init(){
     IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
     IntVec2 oddEven = floorMod( v, 2 );
     this->zOff = zOffs.at( oddEven.y * 2 + oddEven.x );
-        
+
+    //------------------------------//
+    //  为chunk中 每个 mapent/pix 分配对应的 field
+    //  顺带生成这些 field 实例
+    //------------------------------//
+    this->assign_ents_and_pixes_to_field();
+
+    this->mesh.init( mapTex.get_texName() ); //- auto
+    this->mesh.isVisible = true;  //- 一定可见
+
+    //- mapTex 直接坐标于 camera 的 远平面上
+    //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
+    this->refresh_translate_auto();
 }
 
 
@@ -219,10 +230,13 @@ void Chunk::assign_ents_and_pixes_to_field(){
     RGBA      *texBufHeadPtr; //- mapTex
     RGBA       color;
 
+    IntVec2    tmpFieldMPos;
+    IntVec2    tmpFieldPPos;
+
     IntVec2    tmpEntMPos;
     IntVec2    pposOff;   //- 通用偏移向量
     IntVec2    mposOff;
-
+    
     PixData   pixData;//- each pix
 
     size_t    entIdx_in_chunk;
@@ -269,21 +283,19 @@ void Chunk::assign_ents_and_pixes_to_field(){
     esrc::pixGpgpu.release(); //--- MUST !!! ---
     
     //------------------------//
-    //   reset fieldPtrs
-    //------------------------//
     this->reset_fieldKeys();
 
     for( const auto &fieldKey : fieldKeys ){ //- each field key
 
         //-- 收集 目标field 周边4个 field 实例指针  --
-        // 如果相关 field 不存在，就地创建之
-        tmpFieldPtr = colloect_and_creat_nearFour_fieldDatas( fieldKey );
-
+        tmpFieldPtr = colloect_nearFour_fieldDatas( fieldKey );
+        tmpFieldMPos = tmpFieldPtr->get_mpos();
+        tmpFieldPPos = tmpFieldPtr->get_ppos();
         
         for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
-                tmpEntMPos = tmpFieldPtr->get_mpos() + IntVec2{ ew, eh };
+                tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
                 mposOff = tmpEntMPos - this->get_mpos();
                 entIdx_in_chunk = mposOff.y * ENTS_PER_CHUNK + mposOff.x;
                 MemMapEnt &mapEntRef = this->memMapEnts.at(entIdx_in_chunk);
@@ -299,7 +311,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         pixData.pixIdx_in_chunkTex = pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x;
                         pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunkTex;
 
-                        pposOff = pixData.ppos - tmpFieldPtr->get_ppos();
+                        pposOff = pixData.ppos - tmpFieldPPos;
                         pixData.pixIdx_in_field = pposOff.y * PIXES_PER_FIELD + pposOff.x;
 
                         //--------------------------------//
@@ -389,22 +401,11 @@ void Chunk::assign_ents_and_pixes_to_field(){
         //---
         *pixPtr = *nearPixPtr;
     }
-
-
-    //--------------------------------//
-    //          go 生成器  [tmp]
-    //   为每个 field，分配一个 go实例
-    //--------------------------------//
-    for( const auto &fieldKey : fieldKeys ){ //- each field key
-        sectionBuild::create_a_go_in_field( fieldKey );
-    } //-- each field key end --
-
     
     //---------------------------//
     //   正式用 texture 生成 name
     //---------------------------//
     this->mapTex.creat_texName();
-
     this->is_assign_ents_and_pixes_to_field_done = true;
 }
 
@@ -415,7 +416,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
  * -----------------------------------------------------------
  * -- fieldKeys 是个 局部公用容器，每次使用前，都要重装填
  */
-void Chunk::reset_fieldKeys(){
+void Chunk::reset_fieldKeys() const {
 
     IntVec2    tmpFieldMpos;
     fieldKeys.clear();
@@ -429,21 +430,30 @@ void Chunk::reset_fieldKeys(){
     }
 }
 
+/* ===========================================================
+ *                get_reseted_fieldKeys
+ * -----------------------------------------------------------
+ * -- 仅用于 为本chunk 分配／种植 goes 时
+ *    返回的 fieldKeys 应当被集中使用
+ */
+const std::vector<fieldKey_t> &Chunk::get_reseted_fieldKeys() const {
+    this->reset_fieldKeys();
+    return fieldKeys;
+}
+
+
 
 namespace{//-------- namespace: --------------//
 
-
-
 /* ===========================================================
- *              colloect_and_creat_nearFour_fieldDatas
+ *              colloect_nearFour_fieldDatas
  * -----------------------------------------------------------
  * -- 收集 目标field 周边4个 field 数据
- *    如果相关 field 不存在，就地创建之
  * -- 返回 目标 field 指针
  */
-MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey ){
+MapField *colloect_nearFour_fieldDatas( fieldKey_t _fieldKey ){
 
-    MapField     *targetFieldPtr = esrc::find_or_insert_the_field_ptr( _fieldKey );
+    MapField     *targetFieldPtr = esrc::atom_get_fieldPtr( _fieldKey );
     MapField     *tmpFieldPtr;
     IntVec2       tmpFieldMPos;
     int           count = 0;
@@ -455,7 +465,7 @@ MapField *colloect_and_creat_nearFour_fieldDatas( fieldKey_t _fieldKey ){
             tmpFieldPtr = targetFieldPtr;
         }else{
             tmpFieldMPos = targetFieldPtr->get_mpos() + fieldInfo.mposOff;
-            tmpFieldPtr = esrc::find_or_insert_the_field_ptr( fieldMPos_2_fieldKey(tmpFieldMPos) );
+            tmpFieldPtr = esrc::atom_get_fieldPtr( fieldMPos_2_fieldKey(tmpFieldMPos) );
         }
 
         nearFour_fieldDatas.insert({ -(tmpFieldPtr->get_occupyWeight()), FieldData{tmpFieldPtr,fieldInfo.quad} }); //- copy

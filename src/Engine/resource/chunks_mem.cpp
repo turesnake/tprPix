@@ -4,12 +4,17 @@
  *                                        CREATE -- 2019.01.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   chunk 内存态
- * ----------------------------
  */
+//-------------------- C --------------------//
+#include <cassert>
+
+//-------------------- CPP --------------------//
+#include <unordered_map>
+//#include <mutex>
 
 //-------------------- Engine --------------------//
-#include "esrc_chunk.h" //- 所有资源
+#include "esrc_chunk.h"
+#include "esrc_renderPool.h"
 #include "config.h"
 
 
@@ -19,24 +24,38 @@
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
+namespace{//------------ namespace --------------//
+
+    //-- chunks 不跨线程，仅被 主线程访问 --
+    std::unordered_map<chunkKey_t, Chunk> chunks {};
+
+
+}//---------------- namespace end --------------//
+
+
+
 /* ===========================================================
- *                insert_new_chunk
+ *             insert_and_init_new_chunk
  * -----------------------------------------------------------
- * param: _anyMPos --  目标chunk 区域中的任何一个 mapent.mpos
- * 初始化以下数据：
- *  - chunkKey
- *  - mcpos
+ * 创建 chunk实例，放入 全局容器，且初始化它
  */
-Chunk *insert_new_chunk( const IntVec2 &_anyMPos ){
+Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
+                                ShaderProgram *_sp ){
+
+            //-- ShaderProgram 是固定的，可以在游戏初期就绑定。
+            //   不需要每次 创建chunk 时都指定。
 
     // ***| INSERT FIRST, INIT LATER  |***
-    Chunk chunk {};
+    Chunk *chunkPtr;
+    Chunk  chunk {};
     chunk.set_by_anyMPos( _anyMPos );
     chunkKey_t key = chunk.get_key();
         assert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
     esrc::chunks.insert({ key, chunk }); //- copy
-    //-----
-    return static_cast<Chunk*>( &(esrc::chunks.at(key)) );
+    chunkPtr = &(esrc::chunks.at(key));
+    chunkPtr->set_mesh_shader_program( _sp );
+    chunkPtr->init();
+    return chunkPtr;
 }
 
 
@@ -55,26 +74,53 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
 
     //-- 计算 目标 chunk 的 key --
     const IntVec2 &mposRef = _anyMCpos.get_mpos();
-    chunkKey_t   chunkKey {};
-    chunkKey = anyMPos_2_chunkKey( mposRef );
-    //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
-        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+    chunkKey_t     chunkKey = anyMPos_2_chunkKey( mposRef );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
-    IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
+    IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
+        //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
+        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
 
     //-- 计算 目标 chunk 的 key --
-    const IntVec2 &mposRef = _anyMPos;
-    chunkKey_t   chunkKey {};
-    chunkKey = anyMPos_2_chunkKey( mposRef );
-    //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
-        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+    chunkKey_t    chunkKey = anyMPos_2_chunkKey( _anyMPos );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
-    IntVec2  lMPosOff = get_chunk_lMPosOff(mposRef);
+    IntVec2  lMPosOff = get_chunk_lMPosOff( _anyMPos );
+        //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
+        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
+}
+
+/* ===========================================================
+ *                find_from_chunks
+ * -----------------------------------------------------------
+ */
+bool find_from_chunks( chunkKey_t _chunkKey ){
+    return (esrc::chunks.find(_chunkKey) != esrc::chunks.end());
+}
+
+/* ===========================================================
+ *                 get_chunkPtr
+ * -----------------------------------------------------------
+ */
+Chunk *get_chunkPtr( chunkKey_t _key ){
+        assert( esrc::chunks.find(_key) != esrc::chunks.end() );//- must exist
+    return &(esrc::chunks.at(_key));
+}
+
+
+/* ===========================================================
+ *                 render_chunks
+ * -----------------------------------------------------------
+ */
+void render_chunks(){
+    for( auto& p : esrc::chunks ){
+            p.second.refresh_translate_auto(); //-- MUST !!!
+            esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
+                                                const_cast<Mesh*>(&p.second.get_mesh()) });
+    }
 }
 
 

@@ -124,13 +124,10 @@ private:
     ecoSysId_t  ecoSysId {};
     EcoSysType  ecoSysType  {EcoSysType::Forest};
 
-
     //-- 本 ecosysInMap mpos 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2  oddEven {}; 
-
     
-
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
@@ -143,9 +140,6 @@ private:
 
             //- 这里的部分数据，有望成为 一个指针，指向 EcoSys 实例中数据即可
             //- 节省 内存空间
-
-
-
 };
 
 

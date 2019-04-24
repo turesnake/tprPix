@@ -41,7 +41,8 @@ namespace{//-------- namespace: --------------//
  */
 void Section::init(){
     
-    init_quadSectionKeys();
+    this->init_quadSectionKeys();
+    //this->bind_ecoSysInMapPtrs();
 }
 
 
@@ -85,11 +86,9 @@ void Section::bind_ecoSysInMapPtrs(){
     }
     assert( this->is_quadSectionKeys_set );//- tmp
     //---
-    EcoSysInMap  *ecoSysInMapPtr;
     ecoSysInMapPtrs.clear();
     for( const auto &key : quadSectionKeys ){ //- each key val
-        ecoSysInMapPtr = esrc::get_ecoSysInMapPtr(key);
-        ecoSysInMapPtrs.push_back( ecoSysInMapPtr ); //- copy        
+        ecoSysInMapPtrs.push_back( esrc::atom_get_ecoSysInMapPtr(key) ); //- copy        
     }
     this->is_ecoSysInMapPtrs_set = true;
 }

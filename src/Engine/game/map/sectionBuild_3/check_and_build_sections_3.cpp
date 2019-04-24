@@ -18,11 +18,14 @@
 //-------------------- Engine --------------------//
 #include "Chunk.h"
 #include "sectionKey.h"
+#include "esrc_field.h"
 #include "esrc_chunk.h"
 #include "esrc_player.h"
 #include "esrc_shader.h"
 #include "esrc_section.h"
 #include "esrc_ecoSysInMap.h"
+
+#include "sectionBuild.h"
 
 //#include "debug.h"
 
@@ -36,23 +39,8 @@ namespace{//----------- namespace ----------------//
     chunkKey_t   currentChunkKey {}; //- 此次检测时，玩家所在 chunk.key
     bool         is_first_check  {true}; 
 
-    //-- 要生成的那个 chunk --
-    IntVec2       targetChunkMPos;
-    IntVec2       targetSectionMPos;
-    chunkKey_t    targetChunkKey;
-    sectionKey_t  targetSectionKey;
-    Chunk        *targetChunkPtr;
-
-
-
-    std::vector<chunkKey_t> nearFour_chunkKeys   {}; //- 主chunk 周边4个 chunk key 容器
-    std::set<sectionKey_t>  nearFour_sectionKeys {}; //- 主4chunks 相关的 所有 section key [1,4]
-                                                     //- 核心数据
-
     //----- funcs -----//
-    void collect_nearFour_chunkKeys_and_sectionKeys();
     void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey );
-
     void collect_chunks_need_to_be_build_to_chunksDeque( chunkKey_t _chunkKey );
 
 }//-------------- namespace : end ----------------//
@@ -133,55 +121,57 @@ void build_one_chunks_from_chunksDeque(){
  */
 void build_one_chunk_3( const IntVec2 &_anyMPos ){
 
-    //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
+            //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
 
-    targetChunkMPos   = anyMPos_2_chunkMPos(_anyMPos);
-    targetSectionMPos = anyMPos_2_sectionMPos(_anyMPos);
-    targetChunkKey   = chunkMPos_2_chunkKey(targetChunkMPos);
-    targetSectionKey = sectionMPos_2_sectionKey(targetSectionMPos);
+    IntVec2 targetChunkMPos = anyMPos_2_chunkMPos(_anyMPos);
 
     //------------------------------//
-    // 收集 周边4chunk，以及这些chunk所属的 section信息 到临时容器中
-    // 检查这些相关 section，若没有，创建之。
+    //           [1]
+    // 收集 周边 4个 sectionKey
+    // 创建它们的 第一阶段数据 ( section / ecoSysInMap )
     //------------------------------//
-    collect_nearFour_chunkKeys_and_sectionKeys();
-
-    //------------------------------//
-    // 遍历 每一个 “相关section”，创建它们的 第一阶段数据
-    //------------------------------//
-    for( const auto &sectionKey : nearFour_sectionKeys ){ //- each key
-        fst_sections_and_ecoSysInMaps( sectionKey );
+    IntVec2  tmpChunkMPos;
+    for( size_t h=0; h<=1; h++ ){
+        for( size_t w=0; w<=1; w++ ){ //- 周边 4 个chunk
+            tmpChunkMPos.set(   targetChunkMPos.x + w*ENTS_PER_CHUNK,
+                                targetChunkMPos.y + h*ENTS_PER_CHUNK );
+            fst_sections_and_ecoSysInMaps( anyMPos_2_sectionKey(tmpChunkMPos) );
+        }
     }
 
     //------------------------------//
-    //          第2阶段
+    //            [2]
+    //  集中生成 周边 4chunk 的 所有 fields
+    //------------------------------//
+    IntVec2  tmpFieldMPos;
+    for( size_t h=0; h<FIELDS_PER_CHUNK*2; h++ ){
+        for( size_t w=0; w<FIELDS_PER_CHUNK*2; w++ ){ //- each field in 2*2chunks
+
+            tmpFieldMPos.set(   targetChunkMPos.x + w*ENTS_PER_FIELD,
+                                targetChunkMPos.y + h*ENTS_PER_FIELD );
+            esrc::atom_try_to_insert_and_init_the_field_ptr( tmpFieldMPos );
+        }
+    }
+
+    //------------------------------//
+    //            [3]
     //    单独生成 主chunk 实例
     //------------------------------//
-    targetChunkPtr = esrc::insert_new_chunk( targetChunkMPos );//- 一定不存在
-    targetChunkPtr->init();
+    Chunk *chunkPtr = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::rect_shader) );//- 一定不存在
 
     //------------------------------//
-    //  为chunk中 每个 mapent/pix 分配对应的 field
-    //  顺带生成这些 field 实例
+    //            [4]
+    //  为 chunk 中的 8*8 个 field，分配 goes
     //------------------------------//
-    targetChunkPtr->assign_ents_and_pixes_to_field();
-
-    //------------------------------//
-    //  主chunk mesh 初始化
-    //------------------------------//
-    //-- bind mapTex - mesh --
-    targetChunkPtr->init_mesh( &(esrc::rect_shader), true );
-
-    //- mapTex 直接坐标于 camera 的 远平面上
-    //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
-    targetChunkPtr->refresh_translate_auto();
+    for( const auto &fieldKey : chunkPtr->get_reseted_fieldKeys() ){ //- each field key
+        sectionBuild::create_a_go_in_field( fieldKey );
+    } //-- each field key end --
 
 }
 
 
 
 namespace{//----------- namespace ----------------//
-
 
 
 /* ===========================================================
@@ -209,54 +199,26 @@ void collect_chunks_need_to_be_build_to_chunksDeque( chunkKey_t _chunkKey ){
 
 
 /* ===========================================================
- *       collect_nearFour_chunkKeys_and_sectionKeys
- * -----------------------------------------------------------
- */
-void collect_nearFour_chunkKeys_and_sectionKeys(){
-
-    IntVec2       tmpChunkMPos;
-    chunkKey_t    tmpChunkKey;
-    sectionKey_t  tmpSectionKey;
-
-    nearFour_chunkKeys.clear();
-    nearFour_sectionKeys.clear();
-
-    for( int h=0; h<=1; h++ ){
-        for( int w=0; w<=1; w++ ){ //- 周边 4 个chunk
-            tmpChunkMPos.set(   targetChunkMPos.x + w*ENTS_PER_CHUNK,
-                                targetChunkMPos.y + h*ENTS_PER_CHUNK );
-            tmpChunkKey = chunkMPos_2_chunkKey( tmpChunkMPos );
-            nearFour_chunkKeys.push_back( tmpChunkKey );
-            //--------
-            tmpSectionKey = anyMPos_2_sectionKey( tmpChunkMPos );
-            nearFour_sectionKeys.insert( tmpSectionKey );
-        }
-    }
-}
-
-
-/* ===========================================================
  *             fst_sections_and_ecoSysInMaps
  * -----------------------------------------------------------
  * 第一阶段
  */
 void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
 
-    IntVec2      sectionMPos = sectionKey_2_mpos( _sectionKey );
     Section     *tmpSectionPtr;
-    EcoSysInMap *tmpEcoSysInMapPtr;
-
+    bool         isNew {false};
     //------------------------------//
     // 检查 目标section 实例, 若没有，创建之
     // 检查 周边4个 ecosysinmap 实例，若没有，创建之
     //------------------------------//
-    if( !esrc::find_from_sections(_sectionKey) ){
-        tmpSectionPtr = esrc::insert_new_section( sectionMPos );
-        tmpSectionPtr->init();
+    
+    if( !esrc::atom_find_from_sections(_sectionKey) ){
+        tmpSectionPtr = esrc::atom_insert_and_init_new_section( _sectionKey );
+        isNew = true;
     }else{
-        tmpSectionPtr = esrc::get_sectionPtr( _sectionKey );
+        tmpSectionPtr = esrc::atom_get_sectionPtr( _sectionKey );
     }
-
+    
     for( const auto &key : tmpSectionPtr->get_quadSectionKeys() ){ //- each quad sectionkey
         EcoSysInMap::find_or_create_the_ecoSysInMap( key );
     }
@@ -264,8 +226,9 @@ void fst_sections_and_ecoSysInMaps( sectionKey_t _sectionKey ){
     //------------------------------//
     // 为 目标section 绑定 周边 4个 ecosysinmap 实例指针
     //------------------------------//
-    tmpSectionPtr->bind_ecoSysInMapPtrs();
-
+    if( isNew ){
+        tmpSectionPtr->bind_ecoSysInMapPtrs();
+    }
 }
 
 
