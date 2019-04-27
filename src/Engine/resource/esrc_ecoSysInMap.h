@@ -21,10 +21,8 @@
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
-//-- 只能在 主线程 创建 ecoSysInMap 实例 --
-EcoSysInMap *atom_insert_new_ecoSysInMap( const IntVec2 &_sectionMPos );
-EcoSysInMap *atom_find_and_return_ecoSysesInMapPtr( sectionKey_t _sectionKey );
 
+void atom_try_to_inert_and_init_a_ecoSysInMap( sectionKey_t _ecoSysInMapKey );
 
 //-- 更加精细的 元素数据 只读访问 接口 [值传递] --
 const std::pair<occupyWeight_t, EcoSysInMap_ReadOnly> atom_get_ecoSysInMap_readOnly( sectionKey_t _sectionkey );

@@ -16,7 +16,7 @@
 #include "esrc_chunk.h"
 #include "esrc_renderPool.h"
 #include "config.h"
-#include "sectionBuild.h"
+#include "chunkBuild.h"
 
 
 #include "debug.h"
@@ -90,7 +90,7 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
                 if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
-                    sectionBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
+                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
                 assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
@@ -111,7 +111,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
                 if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
-                    sectionBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
+                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
                 assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp

@@ -9,8 +9,9 @@
 #define _TPR_MAP_FIELD_DATA_IN_CHUNK_BUILD_H
 
 //-------------------- Engine --------------------//
-#include "MapField.h"
-
+#include "fieldKey.h"
+#include "sectionKey.h"
+#include "fieldBorderSetId_t.h"
 
 
 //-- 仅用于 atom 只读数据传输 --

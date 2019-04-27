@@ -108,14 +108,13 @@ public:
     
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
-    bool     is_assign_ents_and_pixes_to_field_done {false};
 
 private:
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
 
-    void assign_ents_and_pixes_to_field();
+    void copy_mapEntAltis();
 
     //======== vals ========//
     //------- chunk 自己的 图形 ---

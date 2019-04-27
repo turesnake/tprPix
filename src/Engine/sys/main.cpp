@@ -23,7 +23,7 @@
 #include "input.h" 
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
-#include "sectionBuild.h"
+#include "chunkBuild.h"
 #include "fieldBorderSet_Handle.h"
 #include "esrc_all.h" //- 所有资源
 
@@ -132,7 +132,7 @@ int main(){
 
         //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
         //   在未来，会被 完善的 游戏存档系统 所取代
-        sectionBuild::build_9_chunks( IntVec2{ 1,1 } );
+        chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
 
 
         go_byPass();  //- 硬生产一组 Norman 实例
@@ -207,7 +207,7 @@ int main(){
 
                 //--- 定期 检查玩家所在 chunk
                 //  并将需要新建的 chunks 收集到 队列中
-                sectionBuild::collect_chunks_need_to_be_build_in_update();
+                chunkBuild::collect_chunks_need_to_be_build_in_update();
                         // 更新中...
 
                 break;
@@ -221,7 +221,7 @@ int main(){
         //--------------------------------//
         //  每一帧，最多装配生成一个 chunk 实例
         //--------------------------------//
-        sectionBuild::chunkBuild_3_receive_data_and_build_one_chunk();
+        chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
 
 
         //====================================//

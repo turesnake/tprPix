@@ -46,76 +46,58 @@ namespace{//-------- namespace: --------------//
         IntVec2{ ENTS_PER_SECTION*2, ENTS_PER_SECTION*2 }
     };
 
-    //-- 放置实际的 section mpos 
-    std::vector<IntVec2> nearFour_node_ecoSysInMap_sectionMPos {};
-    std::vector<EcoSysInMap*> nearFour_node_ecoSysInMapPtrs {};
-
-    //===== funcs =====//
-    void reset_nearFour_node_ecoSysInMap_sectionMPos( const IntVec2 &_ecosysInMapMPos );
-
-
-
 }//------------- namespace: end --------------//
 
 
 /* ===========================================================
- *        find_or_create_the_ecoSysInMap    [static] 
+ *          calc_nearFour_node_ecoSysInMapKey   [static] 
  * -----------------------------------------------------------
- * -- 外部代码 通过此接口，一站式 获得 目标实例
- * -- 优先寻找，没有时 才创建 
+ * 生成 目标ecoSysInMapKey 周边 4个 node key 的值，写入 参数容器中
+ * -- 将被 atom_try_to_inert_and_init_a_ecoSysInMap() 调用
  */
-EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionKey ){
+void EcoSysInMap::calc_nearFour_node_ecoSysInMapKey(sectionKey_t _targetKey,
+                                                    std::vector<sectionKey_t> &_container ){
+    //-- 获得 (2*2 section) 单元 左下角 mpos --
+    float sideLen = 2*ENTS_PER_SECTION;
+    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(_targetKey), sideLen ) * sideLen;
 
-    //------------------------------------//
-    //    若目标实例 已存在，直接返回其指针
-    //------------------------------------//
-    /*
-    if( esrc::atom_find_from_ecoSysesInMap(_sectionKey) ){
-        return esrc::atom_get_ecoSysInMapPtr(_sectionKey); 
+    _container.clear();
+    for( const auto &off :  nearFour_node_ecoSysInMap_mposOffs ){ //- each off mpos
+        _container.push_back( sectionMPos_2_sectionKey(baseMPos + off) );
     }
-    */
-
-    EcoSysInMap *ecoSysInMapPtr = esrc::atom_find_and_return_ecoSysesInMapPtr(_sectionKey);
-    if( ecoSysInMapPtr != nullptr ){
-        return ecoSysInMapPtr;
-    }
-
-                    //--- 这一步存在 异步漏洞
-                    //  find 和 get 要 原子化
-
-
-
-        //   若不存在，就新建一个 
-
-    IntVec2 ecosysInMapMPos = sectionKey_2_mpos(_sectionKey);
-    //----------------------------//
-    //  一股脑，生成周边 4个 node ecoSysInMap 实例
-    //----------------------------//
-    reset_nearFour_node_ecoSysInMap_sectionMPos( ecosysInMapMPos );
-    nearFour_node_ecoSysInMapPtrs.clear();
-    EcoSysInMap *tmpEcoSysInMapPtr; 
-    for( const auto &nodeMPos : nearFour_node_ecoSysInMap_sectionMPos ){ //- each node mpos
-        tmpEcoSysInMapPtr = EcoSysInMap::find_or_create_target_node_ecoSysInMap( nodeMPos );
-        nearFour_node_ecoSysInMapPtrs.push_back( tmpEcoSysInMapPtr );
-    }
-
-    //----------------------------//
-    //  此时还不确定 本实例是否存在，
-    //  先生成临时的 oddeven 数据
-    IntVec2 tmpOddEven = EcoSysInMap::calc_oddEven( ecosysInMapMPos );
-    //-- 若确认自己就是 node 实例，直接返回其指针 
-    if( (tmpOddEven.x==0) && (tmpOddEven.y==0) ){
-        return nearFour_node_ecoSysInMapPtrs.at(0);
-    }
-
-    //--- 若不是，说明自己是 “杂合实例”，开始创建自己 ---
-    EcoSysInMap *selfPtr = esrc::atom_insert_new_ecoSysInMap( ecosysInMapMPos );
-    selfPtr->init_fstOrder();
-    selfPtr->init_for_no_node_ecoSysInMap();
-
-    return selfPtr;
 }
 
+
+
+
+/* ===========================================================
+ *                    init_for_node
+ * -----------------------------------------------------------
+ */
+void EcoSysInMap::init_for_node( sectionKey_t _sectionKey ){
+
+    this->init_fstOrder( _sectionKey );
+
+    assert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
+    EcoSys *ecoSysPtr = esrc::get_ecoSysPtr( esrc::apply_a_rand_ecoSysId(this->weight) );
+    //------------------------//
+    //  确定 targetEcoPtr 后, 正式 分配数据
+    //------------------------//
+    this->copy_datas_from_ecosys( ecoSysPtr );
+}
+
+
+
+/* ===========================================================
+ *                   init_for_regular
+ * -----------------------------------------------------------
+ */
+void EcoSysInMap::init_for_regular( sectionKey_t _sectionKey,
+                                    const std::vector<sectionKey_t> &_nearby_four_ecoSysIds ){
+
+    this->init_fstOrder( _sectionKey );
+    this->init_for_no_node_ecoSysInMap( _nearby_four_ecoSysIds );
+}
 
 
 
@@ -124,12 +106,18 @@ EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionK
  * -----------------------------------------------------------
  * -- 仅初始化几个 最简单的数据
  */
-void EcoSysInMap::init_fstOrder(){
+void EcoSysInMap::init_fstOrder( sectionKey_t _sectionKey ){
+
+    //------------------//
+    //    key / mpos
+    //------------------//
+    this->sectionKey = _sectionKey;
+    this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );
     //------------------//
     //     oddEven
     //------------------//
-    this->oddEven = EcoSysInMap::calc_oddEven( this->get_mpos() );
-
+    IntVec2 SPos = floorDiv( this->get_mpos(), ENTS_PER_SECTION );
+    this->oddEven = floorMod( SPos, 2 );
     //------------------//
     //     weight
     //------------------//
@@ -141,13 +129,11 @@ void EcoSysInMap::init_fstOrder(){
 
     this->weight = simplex_noise2(  fv.x * freq,
                                     fv.y * freq ) * 100.0; //- [-100.0, 100.0]
-
     //------------------//
     //   occupyWeight
     //------------------//
     size_t randV = static_cast<size_t>(floor( this->weight * 3 + 757 ));
     this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
-
     //------------------------------//
     //  landColors / goSpecIdPools
     //------------------------------//
@@ -156,75 +142,12 @@ void EcoSysInMap::init_fstOrder(){
 }
 
 
-
-
-
-
-/* ===========================================================
- *           find_or_create_target_node_ecoSysInMap    [static] 
- * -----------------------------------------------------------
- * -- 优先从 esrc::ecoSysesInMap 中寻找 目标 ecoSysInMap 实例
- *    如果不存在，则创建值
- * -- 目标必须是  “纯”／“节点” ecoSysInMap 实例
- * -- 还负责把它 塞进全局容器中
- */
-EcoSysInMap *EcoSysInMap::find_or_create_target_node_ecoSysInMap( const IntVec2 &_ecosysInMapMPos ){
-
-    //------------------------------------//
-    //    若目标实例 已存在，直接返回其指针
-    //------------------------------------//
-    sectionKey_t sectionKey = sectionMPos_2_sectionKey( _ecosysInMapMPos );
-    /*
-    if( esrc::atom_find_from_ecoSysesInMap(sectionKey) ){
-        return esrc::atom_get_ecoSysInMapPtr(sectionKey);
-    }
-    */
-
-    EcoSysInMap *ecoSysInMapPtr = esrc::atom_find_and_return_ecoSysesInMapPtr(sectionKey);
-    if( ecoSysInMapPtr != nullptr ){
-        return ecoSysInMapPtr;
-    }
-
-                    //--- 这一步存在 异步漏洞
-                    //  find 和 get 要 原子化
-
-
-    //------------------------------------//
-    //         若不存在，就新建一个 
-    //------------------------------------//
-    ecoSysInMapPtr = esrc::atom_insert_new_ecoSysInMap( _ecosysInMapMPos );
-    ecoSysInMapPtr->init_fstOrder();
-    ecoSysInMapPtr->init_for_node_ecoSysInMap();
-
-    return ecoSysInMapPtr;
-}
-
-
-
-/* ===========================================================
- *         init_for_node_ecoSysInMap   
- * -----------------------------------------------------------
- * -- 完成后半段初始化 仅用于 node 实例
- */
-void EcoSysInMap::init_for_node_ecoSysInMap(){
-
-    assert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
-    EcoSys *ecoSysPtr = esrc::get_ecoSysPtr( esrc::apply_a_rand_ecoSysId(this->weight) );
-
-    //------------------------//
-    //  确定 targetEcoPtr 后, 正式 分配数据
-    //------------------------//
-    this->copy_datas_from_ecosys( ecoSysPtr );
-}
-
-
-
 /* ===========================================================
  *                init_for_no_node_ecoSysInMap
  * -----------------------------------------------------------
  * -- 完成后半段初始化。 仅用于 非 node 实例
  */
-void EcoSysInMap::init_for_no_node_ecoSysInMap(){
+void EcoSysInMap::init_for_no_node_ecoSysInMap( const std::vector<sectionKey_t> &_nearby_four_ecoSysIds ){
 
     EcoSys *node_1_Ptr;
     EcoSys *node_2_Ptr;
@@ -241,8 +164,8 @@ void EcoSysInMap::init_for_no_node_ecoSysInMap(){
     //          右下
     //------------------------//
     if( (oddEven.x==1) && (oddEven.y==0) ){
-        node_1_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(0)->get_ecoSysId() );
-        node_2_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(1)->get_ecoSysId() );
+        node_1_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(0) );
+        node_2_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(1) );
 
         (uDistribution_2(randEngine)==0) ?
                 ecoType = node_1_Ptr->get_type() :
@@ -253,8 +176,8 @@ void EcoSysInMap::init_for_no_node_ecoSysInMap(){
     //          左上
     //------------------------//
     else if( (oddEven.x==0) && (oddEven.y==1) ){
-        node_1_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(0)->get_ecoSysId() );
-        node_2_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(2)->get_ecoSysId() );
+        node_1_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(0) );
+        node_2_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(2) );
 
         (uDistribution_2(randEngine)==0) ?
                 ecoType = node_1_Ptr->get_type() :
@@ -265,10 +188,10 @@ void EcoSysInMap::init_for_no_node_ecoSysInMap(){
     //          右上
     //------------------------//
     else{
-        node_1_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(0)->get_ecoSysId() );
-        node_2_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(1)->get_ecoSysId() );
-        node_3_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(2)->get_ecoSysId() );
-        node_4_Ptr = esrc::get_ecoSysPtr( nearFour_node_ecoSysInMapPtrs.at(3)->get_ecoSysId() );
+        node_1_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(0) );
+        node_2_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(1) );
+        node_3_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(2) );
+        node_4_Ptr = esrc::get_ecoSysPtr( _nearby_four_ecoSysIds.at(3) );
 
         switch( uDistribution_4(randEngine) ){
             case 0: ecoType = node_1_Ptr->get_type(); break;
@@ -316,27 +239,4 @@ void EcoSysInMap::copy_datas_from_ecosys( EcoSys *_targetEcoPtr ){
         }
     }
 }
-
-
-
-namespace{//-------- namespace: --------------//
-
-
-/* ===========================================================
- *       reset_nearFour_node_ecoSysInMap_sectionMPos
- * -----------------------------------------------------------
- */
-void reset_nearFour_node_ecoSysInMap_sectionMPos( const IntVec2 &_ecosysInMapMPos ){
-    //-- 获得 (2*2 section) 单元 左下角 mpos --
-    float sideLen = 2*ENTS_PER_SECTION;
-    IntVec2 baseMPos = floorDiv( _ecosysInMapMPos, sideLen ) * sideLen;
-    //-----
-    nearFour_node_ecoSysInMap_sectionMPos.clear();
-    for( const auto &off :  nearFour_node_ecoSysInMap_mposOffs ){ //- each off mpos
-        nearFour_node_ecoSysInMap_sectionMPos.push_back( off+baseMPos );
-    }
-}
-
-
-}//------------- namespace: end --------------//
 

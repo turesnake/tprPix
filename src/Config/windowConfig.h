@@ -44,12 +44,13 @@
 */
 
 //----------------- 1920 * 1200 ----------------------//
-
+/*
 #define SCR_WIDTH  1920
 #define SCR_HEIGHT 1200
 //-------
 #define WORK_WIDTH  480
 #define WORK_HEIGHT 300
+*/
 
 //#define WORK_WIDTH  960
 //#define WORK_HEIGHT 600
@@ -58,13 +59,13 @@
 //----------------- 大尺寸测试版 ----------------------//
 //- 在 1280*1280 尺寸下，能显示一张完整的 section(256,256)
 //- 仅用在 生态群落 建设阶段
-/*
+
 #define SCR_WIDTH  1280
 #define SCR_HEIGHT 1280
 //-------
 #define WORK_WIDTH  1280
 #define WORK_HEIGHT 1280
-*/
+
 
 
 

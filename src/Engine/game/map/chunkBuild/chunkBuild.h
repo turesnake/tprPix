@@ -1,14 +1,14 @@
 /*
- * =================== sectionBuild.h =======================
+ * =================== chunkBuild.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.23
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   section build api  [3th]
+ *   chunk build api
  * ----------------------------
  */
-#ifndef _TPR_SECTION_BUILD_H
-#define _TPR_SECTION_BUILD_H
+#ifndef _TPR_CHUNK_BUILD_H
+#define _TPR_CHUNK_BUILD_H
 
 //------------------- CPP --------------------//
 #include <vector>
@@ -22,7 +22,7 @@
 #include "chunkKey.h"
 
 
-namespace sectionBuild { //------- namespace: sectionBuild ----------//
+namespace chunkBuild { //------- namespace: chunkBuild ----------//
     
 
 void build_9_chunks( const IntVec2 &_playerMPos );
@@ -36,6 +36,6 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey );
 
 
 
-}//----------------- namespace: sectionBuild: end -------------------//
+}//----------------- namespace: chunkBuild: end -------------------//
 #endif
 

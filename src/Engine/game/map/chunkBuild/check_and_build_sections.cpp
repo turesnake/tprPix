@@ -1,5 +1,5 @@
 /*
- * ============= check_and_build_sections.cpp =================
+ * ============= check_and_build_chunks.cpp =================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.20
  *                                        MODIFY -- 
@@ -30,17 +30,16 @@
 #include "jobs_all.h"
 #include "Job.h"
 
-#include "sectionBuild.h"
+#include "chunkBuild.h"
 
 
 #include "debug.h"
 
 
-namespace sectionBuild { //------- namespace: sectionBuild ----------//
+namespace chunkBuild { //------- namespace: chunkBuild ----------//
 
 
 namespace{//----------- namespace ----------------//
-
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     // 此数据 和 MapField.cpp 中存在重复
@@ -85,6 +84,7 @@ void build_9_chunks( const IntVec2 &_playerMPos ){
     IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( _playerMPos );
     IntVec2     tmpChunkMPos;
     chunkKey_t  chunkKey;
+
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
             tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
@@ -248,7 +248,6 @@ void build_one_chunk( chunkKey_t _chunkKey ){
 }
 
 
-
 /* ===========================================================
  *              chunkBuild_1_push_job
  * -----------------------------------------------------------
@@ -273,7 +272,6 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
             fst_ecoSysInMaps( anyMPos_2_sectionMPos(tmpChunkMPos) );
         }
     }
-
 
     //--------------------------//
     //       push job
@@ -308,8 +306,10 @@ void fst_ecoSysInMaps( const IntVec2 &_sectionMPos ){
     sectionKey_t  tmpSectionKey;
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpSectionKey = sectionMPos_2_sectionKey( _sectionMPos + whOff );
-                EcoSysInMap::find_or_create_the_ecoSysInMap( tmpSectionKey );
+                //EcoSysInMap::find_or_create_the_ecoSysInMap( tmpSectionKey );
                 //-- 这个函数 应该内置到 esrc 原子函数内
+
+        esrc::atom_try_to_inert_and_init_a_ecoSysInMap( tmpSectionKey );
     }
 }
 
@@ -318,7 +318,7 @@ void fst_ecoSysInMaps( const IntVec2 &_sectionMPos ){
 /* ===========================================================
  *            chunkQueBuilding funcs
  * -----------------------------------------------------------
- * 
+ *  building 表。由于只在 主线程存在，所以不用 加锁
  */
 bool find_from_chunkQueBuilding( chunkKey_t _chunkKey ){
     return (chunkQueBuilding.find(_chunkKey) != chunkQueBuilding.end());
@@ -334,4 +334,4 @@ void erase_from_chunkQueBuilding( chunkKey_t _chunkKey ){
 
 
 }//-------------- namespace : end ----------------//
-}//----------------- namespace: sectionBuild: end -------------------//
+}//----------------- namespace: chunkBuild: end -------------------//

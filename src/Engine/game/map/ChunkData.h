@@ -18,29 +18,48 @@
 
 //-------------------- Engine --------------------//
 #include "config.h"
+#include "MapTexture.h"
+#include "Altitude.h"
 
 
 class ChunkData{
 public:
     ChunkData() = default;
 
-    const std::vector<float> &get_pixAltis() const {
-        return this->pixAltis;
+    inline void resize_texBuf(){
+        this->texBuf.resize(  PIXES_PER_CHUNK_IN_TEXTURE * PIXES_PER_CHUNK_IN_TEXTURE, 
+                            RGBA{ 0,0,0,0 } );
     }
 
-    void resize_pixAltis(){
-        this->pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 );
+    inline void set_mapEntAlti( size_t _idx, const Altitude &_alti ){
+        assert( _idx < this->mapEntAltis.size() );
+        this->mapEntAltis.at(_idx) = _alti;
     }
 
-    void set_ent_in_pixAltis( size_t _idx, float _val ){
-        assert( _idx < this->pixAltis.size() ); //- tmp
-        this->pixAltis.at(_idx) = _val;
+    inline RGBA *getnc_texBufHeadPtr(){
+        return static_cast<RGBA*>( &(this->texBuf.at(0)) );
     }
 
+    inline void init_mapEntAltis(){
+        this->mapEntAltis.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
+    }
+
+    inline const std::vector<RGBA> &get_texBuf() const {
+        return this->texBuf;
+    }
+
+    inline Altitude &get_mapEntAltiRef( size_t _idx ){
+        assert( _idx < this->mapEntAltis.size() );
+        return this->mapEntAltis.at(_idx);
+    }
+
+    inline const std::vector<Altitude> &get_mapEntAltis() const {
+        return this->mapEntAltis;
+    }
 
 private:
-    std::vector<float> pixAltis {};
-
+    std::vector<RGBA>      texBuf;
+    std::vector<Altitude>  mapEntAltis {};
 };
 
 

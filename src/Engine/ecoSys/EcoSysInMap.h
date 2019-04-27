@@ -36,25 +36,11 @@ class EcoSysInMap{
 public:
     EcoSysInMap() = default;
 
+    void init_for_node( sectionKey_t _sectionKey );
+    void init_for_regular(  sectionKey_t _sectionKey,
+                            const std::vector<sectionKey_t> &_nearby_four_ecoSysIds );
 
-    void init_fstOrder();
-
-    //-- 只能被 node 实例调用 --
-    void init_for_node_ecoSysInMap();
-
-    //--- 只能被 非node 实例调用 --
-    void init_for_no_node_ecoSysInMap();
-    
-    //-- param: _sectionMPos - 本ecoSysInMap.key 所在 section 的 左下角坐标。
-    //  仅被 esrc::insert_new_ecoSysInMap() 两函数使用
-    inline void set_by_sectionMPos( const IntVec2 &_sectionMPos ){
-        this->sectionKey = sectionMPos_2_sectionKey( _sectionMPos );
-        this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
-    }
-    inline void set_by_sectionKey( sectionKey_t _sectionKey ){
-        this->sectionKey = _sectionKey;
-        this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
-    }
+    void init_fstOrder( sectionKey_t _sectionKey );
 
     inline const IntVec2& get_mpos() const {
         return this->mcpos.get_mpos();
@@ -64,7 +50,7 @@ public:
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecosysinmap实例，也会调用此函数
     // param: _randV -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ){
+    inline const goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ) const {
         size_t randV = static_cast<size_t>(floor( _randV * 5.1 + 971.3 ));
         auto &pool = this->goSpecIdPools.at( _densityIdx );
         return pool.at( randV % pool.size() );
@@ -98,23 +84,15 @@ public:
         return this->occupyWeight;
     }
 
-
     //======== static funcs ========// 
-    static IntVec2 calc_oddEven( const IntVec2 &_anyMPos ){
-        //- 以 section 为单位的 坐标 --
-        IntVec2 SPos = floorDiv( _anyMPos, ENTS_PER_SECTION );
-        return floorMod( SPos, 2 );
-    }
-
-    //-- 核心函数
-    static EcoSysInMap *find_or_create_the_ecoSysInMap( sectionKey_t _sectionKey );
-
-    //-- 不该被外部调用
-    static EcoSysInMap *find_or_create_target_node_ecoSysInMap( const IntVec2 &_ecosysInMapMPos );
-    
-                     
+    static void calc_nearFour_node_ecoSysInMapKey(  sectionKey_t _targetKey, 
+                                                    std::vector<sectionKey_t> &_container );
+               
 private:
     void copy_datas_from_ecosys( EcoSys *_targetEcoPtr );
+
+    //--- 只能被 非node 实例调用 --
+    void init_for_no_node_ecoSysInMap( const std::vector<sectionKey_t> &_nearby_four_ecoSysIds );
     
     //======== vals ========//
     sectionKey_t  sectionKey {};
