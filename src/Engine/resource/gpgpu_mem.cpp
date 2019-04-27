@@ -21,12 +21,16 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 /* ===========================================================
  *                init_gpgpus
  * -----------------------------------------------------------
+ * -- 目前没有 使用的 gpgpu实例 
+ *    所有运算都转由 job线程来实现...
  */
+/*
 void init_gpgpus(){
 
     //------------------//
     //     pixGpgpu
     //------------------//
+    
     esrc::pixGpgpu.init( IntVec2{ PIXES_PER_CHUNK, PIXES_PER_CHUNK },
                         "/pixGpgpu.vs",
                         "/pixGpgpu.fs" );
@@ -38,10 +42,10 @@ void init_gpgpus(){
     esrc::pixGpgpu.add_new_uniform( "altiSeed_pposOffMid" );  //- 2-float
     esrc::pixGpgpu.add_new_uniform( "altiSeed_pposOffSml" );  //- 2-float
 
-
-    //...
     esrc::pixGpgpu.release();
+
 }
+*/
 
 
 

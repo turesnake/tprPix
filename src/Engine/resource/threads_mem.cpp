@@ -29,9 +29,8 @@ namespace{//------------ namespace --------------//
 
     //-- 一组 thread 空实例 [1~4]个 --
     std::thread jobThread_1;
-    //std::thread jobThread_2;
-    //std::thread jobThread_3;
-    //std::thread jobThread_4;
+    std::thread jobThread_2;
+    std::thread jobThread_3;
 
 
 
@@ -47,7 +46,8 @@ namespace{//------------ namespace --------------//
 void start_jobThreads(){
     //-- 创建一个 临时thread实例，并隐式 move 其所有权 到 空实例中 
     jobThread_1 = std::thread( jobThread_main );
-    //...
+    jobThread_2 = std::thread( jobThread_main );
+    jobThread_3 = std::thread( jobThread_main );
 
 }
 
@@ -62,6 +62,8 @@ void join_jobThreads(){
 
     //-- 等待 jobThreads exit --
     jobThread_1.join();
+    jobThread_2.join();
+    jobThread_3.join();
 }
 
 

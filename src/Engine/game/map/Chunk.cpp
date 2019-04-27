@@ -29,8 +29,9 @@
 #include "esrc_GPGPU.h"
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
+#include "esrc_chunkData.h"
 
-//#include "debug.h"
+#include "debug.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/create_goes.h"
@@ -42,26 +43,30 @@ namespace{//-------- namespace: --------------//
     std::uniform_int_distribution<int> uDistribution_regular(0,1000); // [0,1000]
     
     //--- 定值: chunk-mesh scale --
-    glm::vec3  mesh_scaleVal {  static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
+    const glm::vec3  mesh_scaleVal {  static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
                                 static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
                                 1.0f };
 
-    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys
-
     class FieldData{
     public:
-        explicit FieldData( MapField *_fieldPtr, QuadType _quadType ){
-            this->fieldPtr = _fieldPtr;
-            this->ecoInMapPtr = esrc::atom_get_ecoSysInMapPtr( this->fieldPtr->get_ecoSysInMapKey() );
+        explicit FieldData( const MapFieldData_In_ChunkBuild &_data,
+                            QuadType _quadType ){
+
+            this->fieldKey = _data.fieldKey;
+            this->landColorsPtr = esrc::atom_get_ecoSysInMap_landColorsPtr( _data.ecoSysInMapKey );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
-                                                &get_fieldBorderSet(this->fieldPtr->get_fieldBorderSetId(), 
-                                                _quadType) );
+                                                &get_fieldBorderSet( _data.fieldBorderSetId, _quadType) );
+            this->densityIdx = _data.densityIdx;
+
+        }
+        inline const RGBA &clac_pixColor() const {
+            return this->landColorsPtr->at( this->densityIdx );
         }
         //====== vals ======//
-        MapField     *fieldPtr    {};
-        EcoSysInMap  *ecoInMapPtr {};
+        fieldKey_t               fieldKey {};
+        size_t                   densityIdx {};
+        const std::vector<RGBA> *landColorsPtr {};
         FieldBorderSet::quadContainer_t  *quadContainerPtr; //-- fieldBorderSet 子扇区容器 --
-        //...
     };
 
 
@@ -80,8 +85,6 @@ namespace{//-------- namespace: --------------//
         Altitude   alti {};
     };
 
-    std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
-                                    // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
 
     class FieldInfo{
     public:
@@ -90,24 +93,23 @@ namespace{//-------- namespace: --------------//
     };
 
     //- 周边4个field 指示数据 --
-    std::vector<FieldInfo> nearFour_fieldInfos {
+    const std::vector<FieldInfo> nearFour_fieldInfos {
         FieldInfo{ IntVec2{ 0, 0 },                           QuadType::Right_Top },
         FieldInfo{ IntVec2{ ENTS_PER_FIELD, 0 },              QuadType::Left_Top  },
         FieldInfo{ IntVec2{ 0, ENTS_PER_FIELD },              QuadType::Right_Bottom  },
         FieldInfo{ IntVec2{ ENTS_PER_FIELD, ENTS_PER_FIELD }, QuadType::Left_Bottom  }
     };
 
-    bool  is_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
-                                        // 这些值是固定的，每次游戏只需传入一次...
 
     //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
-    std::vector<float> zOffs{
+    const std::vector<float> zOffs{
         0.1, 0.2, 0.3, 0.4
     };
 
 
     //===== funcs =====//
-    MapField *colloect_nearFour_fieldDatas( fieldKey_t _fieldKey );
+    const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
+                                            fieldKey_t _fieldKey );
 
 
 }//------------- namespace: end --------------//
@@ -135,6 +137,19 @@ void Chunk::init(){
     IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
     IntVec2 oddEven = floorMod( v, 2 );
     this->zOff = zOffs.at( oddEven.y * 2 + oddEven.x );
+
+    //------------------------//
+    //      fieldKeys
+    //------------------------//
+    IntVec2    tmpFieldMpos;
+    this->fieldKeys.clear();
+    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
+            tmpFieldMpos = this->get_mpos() + IntVec2{  w*ENTS_PER_FIELD,
+                                                        h*ENTS_PER_FIELD };
+            this->fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
+        }
+    }
 
     //------------------------------//
     //  为chunk中 每个 mapent/pix 分配对应的 field
@@ -226,7 +241,6 @@ void Chunk::assign_ents_and_pixes_to_field(){
         return;
     }
 
-    MapField  *tmpFieldPtr;
     RGBA      *texBufHeadPtr; //- mapTex
     RGBA       color;
 
@@ -242,55 +256,21 @@ void Chunk::assign_ents_and_pixes_to_field(){
     size_t    entIdx_in_chunk;
     int       count;
 
+    std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
+                                    // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
+
     texBufHeadPtr = this->mapTex.getnc_texBufHeadPtr();
 
     //------------------------//
-    // 委托 GPGPU 计算 pix数据
-    //------------------------//
+    // job线程 为我们生成的  chunkData
+    const auto &chunkData_pixAltis = esrc::atom_get_chunkData_pixAltis( chunkKey );
 
-        //-- 在未来，这部分运算可能还是要交给 cpu 去做（多线程）
-        //-- GPGPU 实际效果有点卡
-
-    esrc::pixGpgpu.bind(); //--- MUST !!! ---
-
-    IntVec2 chunkCPos = chunkMPos_2_chunkCPos( this->mcpos.get_mpos() );
-    glUniform2f(esrc::pixGpgpu.get_uniform_location("chunkCFPos"), 
-                static_cast<float>(chunkCPos.x), 
-                static_cast<float>(chunkCPos.y) ); //- 2-float
-
-    //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
-    if( is_baseUniforms_transmited == false ){
-        is_baseUniforms_transmited = true;
-        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffSeaLvl"), 
-                    esrc::gameSeed.altiSeed_pposOffSeaLvl.x,
-                    esrc::gameSeed.altiSeed_pposOffSeaLvl.y ); //- 2-float
-                    
-        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffBig"), 
-                    esrc::gameSeed.altiSeed_pposOffBig.x,
-                    esrc::gameSeed.altiSeed_pposOffBig.y ); //- 2-float
-        
-        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffMid"), 
-                    esrc::gameSeed.altiSeed_pposOffMid.x,
-                    esrc::gameSeed.altiSeed_pposOffMid.y ); //- 2-float
-
-        glUniform2f(esrc::pixGpgpu.get_uniform_location("altiSeed_pposOffSml"), 
-                    esrc::gameSeed.altiSeed_pposOffSml.x,
-                    esrc::gameSeed.altiSeed_pposOffSml.y ); //- 2-float
-    }
-                    
-    esrc::pixGpgpu.let_gpgpuFBO_work();
-    const std::vector<FRGB> &gpgpuDatas = esrc::pixGpgpu.get_texFBuf();
-    esrc::pixGpgpu.release(); //--- MUST !!! ---
-    
-    //------------------------//
-    this->reset_fieldKeys();
-
-    for( const auto &fieldKey : fieldKeys ){ //- each field key
+    for( const auto &fieldKey : this->fieldKeys ){ //- each field key
 
         //-- 收集 目标field 周边4个 field 实例指针  --
-        tmpFieldPtr = colloect_nearFour_fieldDatas( fieldKey );
-        tmpFieldMPos = tmpFieldPtr->get_mpos();
-        tmpFieldPPos = tmpFieldPtr->get_ppos();
+        tmpFieldMPos = colloect_nearFour_fieldDatas( nearFour_fieldDatas, fieldKey );
+        tmpFieldPPos = mpos_2_ppos( tmpFieldMPos );
+        
         
         for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
@@ -334,7 +314,7 @@ void Chunk::assign_ents_and_pixes_to_field(){
                         //--------------------------------//
                         //  计算 本pix  alti
                         //--------------------------------//
-                        pixData.alti.set( gpgpuDatas.at(pixData.pixIdx_in_chunk).r );
+                        pixData.alti.set( chunkData_pixAltis.at(pixData.pixIdx_in_chunk) );
 
                         //--------------------------------//
                         // 数据收集完毕，将部分数据 传递给 ent
@@ -343,28 +323,17 @@ void Chunk::assign_ents_and_pixes_to_field(){
                             mapEntRef.alti = pixData.alti;
 
                             //----- 记录 alti min/max ----//
-                            if( pixData.alti < pixData.fieldDataPtr->fieldPtr->get_minAlti() ){ 
-                                pixData.fieldDataPtr->fieldPtr->set_minAlti(pixData.alti);
-                            }
-                            if( pixData.alti > pixData.fieldDataPtr->fieldPtr->get_maxAlti() ){ 
-                                pixData.fieldDataPtr->fieldPtr->set_maxAlti(pixData.alti);
-                            }
-                                            // 目前这个实现并不精确。对于 chunk 边缘的 field。它们的 min/max alti 
-                                            // 要等到 隔壁 chunk 也生成后，才能补全。
-                                            // 所以，现在还是会出现 “树木长在河里” 的现象
-                            
-                            //----- 记录 field.nodeAlti ----//
-                            if( mapEntRef.get_mpos() == pixData.fieldDataPtr->fieldPtr->get_nodeMPos() ){
-                                pixData.fieldDataPtr->fieldPtr->set_nodeAlti(pixData.alti);
-                            }
-
+                            esrc::atom_field_reflesh_altis( pixData.fieldDataPtr->fieldKey,
+                                                            pixData.alti,
+                                                            mapEntRef.get_mpos() );
+  
                             //...
                         }
 
                         //--------------------------------//
                         //    正式给 pix 上色
                         //--------------------------------//
-                        color = pixData.fieldDataPtr->ecoInMapPtr->get_landColor( pixData.fieldDataPtr->fieldPtr->get_density() );
+                        color = pixData.fieldDataPtr->clac_pixColor();
                         color.a = 255;
 
                             //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
@@ -373,7 +342,8 @@ void Chunk::assign_ents_and_pixes_to_field(){
                     }
                 } //- each pix in mapent end ---
             }
-        } //- each ent in field end --        
+        } //- each ent in field end --  
+
     } //-- each field key end --
 
     //---------------------------//
@@ -411,68 +381,34 @@ void Chunk::assign_ents_and_pixes_to_field(){
 
 
 
-/* ===========================================================
- *                   reset_fieldKeys
- * -----------------------------------------------------------
- * -- fieldKeys 是个 局部公用容器，每次使用前，都要重装填
- */
-void Chunk::reset_fieldKeys() const {
-
-    IntVec2    tmpFieldMpos;
-    fieldKeys.clear();
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field
-
-            tmpFieldMpos = this->get_mpos() + IntVec2{  w*ENTS_PER_FIELD,
-                                                        h*ENTS_PER_FIELD };
-            fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
-        }
-    }
-}
-
-/* ===========================================================
- *                get_reseted_fieldKeys
- * -----------------------------------------------------------
- * -- 仅用于 为本chunk 分配／种植 goes 时
- *    返回的 fieldKeys 应当被集中使用
- */
-const std::vector<fieldKey_t> &Chunk::get_reseted_fieldKeys() const {
-    this->reset_fieldKeys();
-    return fieldKeys;
-}
-
-
-
 namespace{//-------- namespace: --------------//
 
 /* ===========================================================
  *              colloect_nearFour_fieldDatas
  * -----------------------------------------------------------
  * -- 收集 目标field 周边4个 field 数据
- * -- 返回 目标 field 指针
+ * -- 返回 目标 field mpos
  */
-MapField *colloect_nearFour_fieldDatas( fieldKey_t _fieldKey ){
+const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
+                                        fieldKey_t _fieldKey ){
 
-    MapField     *targetFieldPtr = esrc::atom_get_fieldPtr( _fieldKey );
-    MapField     *tmpFieldPtr;
-    IntVec2       tmpFieldMPos;
-    int           count = 0;
+    IntVec2     targetFieldMPos = fieldKey_2_mpos( _fieldKey );
+    fieldKey_t  tmpFieldKey;
+    int         count = 0;
     //---
-    nearFour_fieldDatas.clear();
+    _container.clear();
     for( const auto &fieldInfo : nearFour_fieldInfos ){
 
-        if( count == 0 ){
-            tmpFieldPtr = targetFieldPtr;
-        }else{
-            tmpFieldMPos = targetFieldPtr->get_mpos() + fieldInfo.mposOff;
-            tmpFieldPtr = esrc::atom_get_fieldPtr( fieldMPos_2_fieldKey(tmpFieldMPos) );
-        }
+        tmpFieldKey = fieldMPos_2_fieldKey( targetFieldMPos + fieldInfo.mposOff );
+        //-- 这个数据 仅临时存在一下
+        std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> tmpPair = 
+                    esrc::atom_get_mapFieldData_in_chunkBuild( tmpFieldKey );
 
-        nearFour_fieldDatas.insert({ -(tmpFieldPtr->get_occupyWeight()), FieldData{tmpFieldPtr,fieldInfo.quad} }); //- copy
-                        //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
+        _container.insert({ -tmpPair.first, 
+                            FieldData{ tmpPair.second, fieldInfo.quad } }); //- copy
         count++;
     }
-    return targetFieldPtr;
+    return targetFieldMPos;
 }
 
 

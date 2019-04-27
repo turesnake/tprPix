@@ -49,11 +49,11 @@ public:
     //  仅被 esrc::insert_new_ecoSysInMap() 两函数使用
     inline void set_by_sectionMPos( const IntVec2 &_sectionMPos ){
         this->sectionKey = sectionMPos_2_sectionKey( _sectionMPos );
-        mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
+        this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
     inline void set_by_sectionKey( sectionKey_t _sectionKey ){
         this->sectionKey = _sectionKey;
-        mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
+        this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );        
     }
 
     inline const IntVec2& get_mpos() const {
@@ -77,22 +77,29 @@ public:
         return this->ecoSysType;
     }
     inline const float &get_applyPercent( const Density &_density ) const {
-        return this->applyPercents.at(_density.get_idx());
+        return this->applyPercentsPtr->at(_density.get_idx());
     }
     inline const float &get_densitySeaLvlOff() const {
         return this->densitySeaLvlOff;
     }
-    inline const RGBA &get_landColor( const Density &_density ) const {
-        return this->landColors.at(_density.get_idx());
+   inline const std::vector<RGBA> *get_landColorsPtr() const {
+       return this->landColorsPtr;
+   }
+    inline const std::vector<float> *get_densityDivideValsPtr() const {
+        return this->densityDivideValsPtr;
     }
-    inline const std::vector<float> &get_densityDivideVals() const {
-        return this->densityDivideVals;
+    inline const sectionKey_t &get_sectionKey() const {
+        return this->sectionKey;
     }
-
+    inline const float &get_weight() const {
+        return this->weight;
+    }
+    inline const occupyWeight_t &get_occupyWeight() const {
+        return this->occupyWeight;
+    }
 
 
     //======== static funcs ========// 
-    
     static IntVec2 calc_oddEven( const IntVec2 &_anyMPos ){
         //- 以 section 为单位的 坐标 --
         IntVec2 SPos = floorDiv( _anyMPos, ENTS_PER_SECTION );
@@ -104,8 +111,11 @@ public:
 
     //-- 不该被外部调用
     static EcoSysInMap *find_or_create_target_node_ecoSysInMap( const IntVec2 &_ecosysInMapMPos );
-
-
+    
+                     
+private:
+    void copy_datas_from_ecosys( EcoSys *_targetEcoPtr );
+    
     //======== vals ========//
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
@@ -116,11 +126,7 @@ public:
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields
                             //- [just mem] 
-                     
-private:
-    void copy_datas_from_ecosys( EcoSys *_targetEcoPtr );
-    
-    //======== vals ========//
+
     ecoSysId_t  ecoSysId {};
     EcoSysType  ecoSysType  {EcoSysType::Forest};
 
@@ -131,15 +137,16 @@ private:
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
-    std::vector<RGBA>  landColors {};
-    std::vector<float> applyPercents {}; //- each entry: [0.0, 1.0]
-    std::vector<float> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
+    //  实际数据 存储在 ecosys 实例中，此处仅保存 只读指针 --
+    const std::vector<RGBA>   *landColorsPtr {};
+    const std::vector<float>  *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
+    const std::vector<float>  *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
+                        
+    //-- 独立数据 --
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
 
     float           densitySeaLvlOff  {0.0}; 
 
-            //- 这里的部分数据，有望成为 一个指针，指向 EcoSys 实例中数据即可
-            //- 节省 内存空间
 };
 
 

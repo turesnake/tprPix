@@ -10,27 +10,38 @@
 #ifndef _TPR_CHUNK_DATA_H_
 #define _TPR_CHUNK_DATA_H_
 
+//-------------------- C --------------------//
+#include <cassert>
+
 //-------------------- CPP --------------------//
 #include <vector>
 
-//-------------------- Libs --------------------//
-#include "tprDataType.h"
-
+//-------------------- Engine --------------------//
+#include "config.h"
 
 
 class ChunkData{
 public:
     ChunkData() = default;
 
+    const std::vector<float> &get_pixAltis() const {
+        return this->pixAltis;
+    }
 
-    std::vector<u8_t> pixAltis {};
+    void resize_pixAltis(){
+        this->pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 );
+    }
+
+    void set_ent_in_pixAltis( size_t _idx, float _val ){
+        assert( _idx < this->pixAltis.size() ); //- tmp
+        this->pixAltis.at(_idx) = _val;
+    }
 
 
+private:
+    std::vector<float> pixAltis {};
 
 };
-
-
-
 
 
 #endif 

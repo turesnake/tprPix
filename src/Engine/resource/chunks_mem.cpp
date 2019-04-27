@@ -16,9 +16,10 @@
 #include "esrc_chunk.h"
 #include "esrc_renderPool.h"
 #include "config.h"
+#include "sectionBuild.h"
 
 
-//#include "debug.h"
+#include "debug.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -38,6 +39,8 @@ namespace{//------------ namespace --------------//
  *             insert_and_init_new_chunk
  * -----------------------------------------------------------
  * 创建 chunk实例，放入 全局容器，且初始化它
+ * ---
+ * 仅被 check_and_build_sections.cpp -> build_one_chunk() 调用
  */
 Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
                                 ShaderProgram *_sp ){
@@ -68,7 +71,11 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
  * -----------------
  * 这组函数存在缺陷：
  *   如果 mapent 所在的 chunk 并不存在，将直接出错。
- *   所以只能适用于少数场合
+ *   尤其是 collision 模块中
+ *   ----
+ *   目前的做法是，当发现目标 chunk 不存在时，调用一个 特殊的函数，阻塞主线程，直到目标chunk制作好
+ *   这个方法是防止程序崩溃的最后办法，临时的
+ *   未来希望更好的办法...
  */
 MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
 
@@ -77,8 +84,18 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
     chunkKey_t     chunkKey = anyMPos_2_chunkKey( mposRef );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
-        //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
-        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+
+
+                //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
+                if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
+                        cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
+                            << endl;
+                    sectionBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
+                }
+                //-- 再次检测
+                assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+
+
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
@@ -88,8 +105,18 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
     chunkKey_t    chunkKey = anyMPos_2_chunkKey( _anyMPos );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( _anyMPos );
-        //-- 拿着key，到 全局容器 esrc::chunks 中去找。--
-        assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+
+
+                //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
+                if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
+                        cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
+                            << endl;
+                    sectionBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
+                }
+                //-- 再次检测
+                assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+
+
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 

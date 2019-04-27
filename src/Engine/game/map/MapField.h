@@ -35,6 +35,8 @@
 #include "fieldBorderSetId_t.h"
 #include "Density.h"
 
+#include "debug.h"
+
 //-- 4*4mapent 构成一个 field -- [just mem]
 //  另一个身份是 “距离场” 
 //  每一个 chunk 都要存储 8*8 个 MapField数据。
@@ -53,20 +55,26 @@ public:
                     //  未修改...
     }
 
-    //------- set -------//
-    inline void set_minAlti( const Altitude &_alti ){
-        this->minAlti = _alti;
-    }
-    inline void set_maxAlti( const Altitude &_alti ){
-        this->maxAlti = _alti;
-    }
-    inline void set_nodeAlti( const Altitude &_alti ){
-        this->nodeAlti = _alti;
+    //------- set -------//    
+    //-- 一体化的 altis 设置函数 
+    inline void reflesh_altis( const Altitude &_alti, const IntVec2 &_pixMPos ){
+        if( _alti < this->minAlti ){
+            this->minAlti = _alti;
+        }
+        if( _alti > this->maxAlti ){
+            this->maxAlti = _alti;
+        }
+        if( IntVec2::is_closeEnough( _pixMPos, this->get_mpos(), 5 ) ){
+            this->nodeAlti = _alti;
+        }
     }
 
-    //------- set -------//
+    //------- get -------//
     inline const IntVec2& get_mpos() const {
         return this->mcpos.get_mpos();
+    }
+    inline const fieldKey_t &get_fieldKey() const {
+        return this->fieldKey;
     }
     inline const IntVec2& get_ppos() const {
         return this->mcpos.get_ppos();
@@ -142,6 +150,9 @@ private:
                                   //  就要开始 种go。此时很容易把 go 种到水里。
     
     Altitude  nodeAlti {}; //- nodeMPos 点的 alti 值
+
+    //===== flags =====//
+
 };
 
 

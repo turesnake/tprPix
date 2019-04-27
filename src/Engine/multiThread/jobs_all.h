@@ -10,8 +10,13 @@
 
 //-------------------- Engine --------------------//
 #include "Job.h"
+#include "chunkKey.h"
 
 
+//-- job.argBinary --
+struct ArgBinary_Build_ChunkData{
+    chunkKey_t  chunkKey {};
+};
 
 void build_chunkData_main( const Job &_job );
 

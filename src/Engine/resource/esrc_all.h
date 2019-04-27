@@ -28,7 +28,6 @@
 #include "esrc_jobQue.h"
 #include "esrc_player.h"
 #include "esrc_renderPool.h"
-#include "esrc_section.h"
 #include "esrc_shader.h"
 #include "esrc_thread.h"
 #include "esrc_time.h"

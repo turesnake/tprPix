@@ -35,21 +35,22 @@
 
 
 //----------------- 1920 * 1080 -----------------------//
-
+/*
 #define SCR_WIDTH  1920
 #define SCR_HEIGHT 1080
 //-------
 #define WORK_WIDTH  480
 #define WORK_HEIGHT 270
+*/
 
 //----------------- 1920 * 1200 ----------------------//
-/*
+
 #define SCR_WIDTH  1920
 #define SCR_HEIGHT 1200
 //-------
 #define WORK_WIDTH  480
 #define WORK_HEIGHT 300
-*/
+
 //#define WORK_WIDTH  960
 //#define WORK_HEIGHT 600
 

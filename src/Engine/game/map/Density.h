@@ -15,6 +15,9 @@
 //------------------- C --------------------//
 #include <cassert>
 
+//------------------- CPP --------------------//
+#include <vector>
+
 //------------------- Engine --------------------//
 #include "IntVec.h" 
 
@@ -33,7 +36,9 @@ public:
             assert( (_lvl>=Density::minLvl) && (_lvl<=Density::maxLvl) );
         }
 
-    void set( const IntVec2 &_fieldMPos, const EcoSysInMap &_ecoSysInMap );
+    void set(   const IntVec2 &_fieldMPos, 
+                const float &_ecoSysInMap_densitySeaLvlOff,
+                const std::vector<float> *_ecoSysInMap_densityDivideValsPtr );
 
     inline int get_lvl() const {
         return this->lvl;

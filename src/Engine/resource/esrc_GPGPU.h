@@ -14,9 +14,9 @@
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
-inline GPGPU  pixGpgpu {};
+//inline GPGPU  pixGpgpu {};
 
-void init_gpgpus();
+//void init_gpgpus();
 
 
 }//---------------------- namespace: esrc -------------------------//

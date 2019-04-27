@@ -96,14 +96,15 @@ public:
     inline const Mesh &get_mesh() const {
         return this->mesh;
     }
+    const std::vector<fieldKey_t> &get_fieldKeys() const {
+        return this->fieldKeys;
+    }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
         int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
             assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return static_cast<MemMapEnt*>( &(memMapEnts.at(idx)) );
     }
-
-    const std::vector<fieldKey_t> &get_reseted_fieldKeys() const;
     
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
@@ -113,7 +114,6 @@ private:
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
-    void reset_fieldKeys() const;
 
     void assign_ents_and_pixes_to_field();
 
@@ -135,6 +135,9 @@ private:
                                     // 有些 go 位于 chunk边缘，其 collients 可能在隔壁 chunk
                                     // 这种go 在 创建／销毁 阶段往往很麻烦
                                     // 使用一个容器来 动态保管它们。
+
+    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys
+                                          
 
     float  zOff {}; //- chunk间存在前后层次，
 };

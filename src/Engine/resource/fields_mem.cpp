@@ -11,91 +11,182 @@
 //-------------------- CPP --------------------//
 #include <unordered_map>
 #include <mutex>
+#include <set>
+#include <shared_mutex> //- c++17 读写锁
 
 //-------------------- Engine --------------------//
 #include "esrc_field.h"
 #include "config.h"
 #include "chunkKey.h"
 
-//#include "debug.h"
+#include "esrc_ecoSysInMap.h"
+#include "esrc_gameObj.h" 
+#include "esrc_chunk.h" 
 
+
+//-------------------- Script --------------------//
+#include "Script/resource/srcs_script.h"
+#include "Script/gameObjs/create_goes.h"
+
+
+//#include "debug.h"
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 namespace{//------------ namespace --------------//
 
     std::unordered_map<fieldKey_t,MapField> fields {};
+    std::shared_mutex  fieldsSharedMutex; //- 读写锁
 
-    std::mutex  fieldsMutex;
+    //-- 正在创建的 field 表 --
+    std::set<fieldKey_t> fieldsBuilding {};
+    std::mutex  fieldsBuildingMutex;
 
     //===== funcs =====//
-    MapField *insert_and_init_new_field( fieldKey_t _fieldKey );
+    void insert_2_fieldsBuilding( fieldKey_t _fieldKey );
+    bool is_in_fieldsBuilding( fieldKey_t _fieldKey );
+    void erase_from_fieldsBuilding( fieldKey_t _fieldKey );
+
 
 }//---------------- namespace end --------------//
 
 
 /* ===========================================================
- *            atom_try_to_insert_and_init_the_field_ptr
+ *      atom_try_to_insert_and_init_the_field_ptr   读写锁（写）
  * -----------------------------------------------------------
- * 检测是否存在，若不存在，生成之
+ * 检测是否存在，若不存在，生成之。
+ * ----
+ * 展示了如何使用 unique_lock 来实现 实例init。
  * ----
  * 目前被 check_and_build_sections_3.cpp -> build_one_chunk_3() 调用
  */
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
 
     fieldKey_t fieldKey = fieldMPos_2_fieldKey( _fieldMPos );
-    {//--- atom ---//
-        std::lock_guard<std::mutex> lg(fieldsMutex);
-        if( esrc::fields.find(fieldKey) == esrc::fields.end() ){
-            insert_and_init_new_field(fieldKey);
-        }
-    }//----- 这段时间看起来有点长，毕竟包含了 field.init() 
+    //--- lock---//
+    std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
+    if( (esrc::fields.find(fieldKey) != esrc::fields.end()) ||
+        ( is_in_fieldsBuilding(fieldKey) ) ){
+        return;
+    }
+    insert_2_fieldsBuilding( fieldKey );
+    ul.unlock();
+
+    //--- unlock ---//
+
+        // ***| INIT FIRST, INSERT LATER  |***
+        MapField  field {};
+        field.init( _fieldMPos ); 
+                //-- 这里耗时有点长, 所以在 解锁状态运行
+                //   这样就不会耽误 其他线程 对 全局容器的 访问
+
+    //--- lock ---//
+    ul.lock();
+        assert( esrc::fields.find(fieldKey) == esrc::fields.end() );
+    esrc::fields.insert({ fieldKey, field }); //- copy
+    erase_from_fieldsBuilding( fieldKey );    
 }
 
+
+/* ===========================================================
+ *           atom_field_reflesh_altis     读写锁（写）
+ * -----------------------------------------------------------
+ */
+void atom_field_reflesh_altis(fieldKey_t _fieldKey, const Altitude &_alti, const IntVec2 &_pixMPos ){
+    //--- atom ---//
+    std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
+        assert( esrc::fields.find(_fieldKey) != esrc::fields.end() );//- must exist
+    esrc::fields.at(_fieldKey).reflesh_altis( _alti, _pixMPos );
+}
+
+
+/* ===========================================================
+ *       atom_get_mapFieldData_in_chunkBuild   读写锁（读）
+ * -----------------------------------------------------------
+ */
+const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t _fieldKey ){
+    std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> pair {};
+    {//--- atom ---//
+        std::shared_lock<std::shared_mutex> sl( fieldsSharedMutex ); //- read -
+            assert( esrc::fields.find(_fieldKey) != esrc::fields.end() );//- must exist
+        const auto &field = esrc::fields.at( _fieldKey );
+        pair.first = field.get_occupyWeight();
+        //---
+        pair.second.fieldKey = field.get_fieldKey();
+        pair.second.ecoSysInMapKey = field.get_ecoSysInMapKey();
+        pair.second.densityIdx = field.get_density().get_idx();
+        pair.second.fieldBorderSetId = field.get_fieldBorderSetId();
+    }
+    return pair;
+}
 
 
 
 /* ===========================================================
- *                 atom_get_fieldPtr
+ *           atom_create_a_go_in_field    读写锁（读）
  * -----------------------------------------------------------
- * ---
- * 目前被：
- *     create_a_go_in_field.cpp -> create_a_go_in_field()
- *     Chunk.cpp -> colloect_nearFour_fieldDatas() 
- *     使用
  */
-MapField *atom_get_fieldPtr( fieldKey_t _fieldKey ){
-    MapField *ptr;
-    {//--- atom ---//
-        std::lock_guard<std::mutex> lg(fieldsMutex);
+void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( fieldsSharedMutex ); //- read -
         assert( esrc::fields.find(_fieldKey) != esrc::fields.end() );//- must exist
-    ptr = &(esrc::fields.at(_fieldKey));
+    const MapField &fieldRef = esrc::fields.at( _fieldKey );
+
+    sectionKey_t   ecoInMapKey = fieldRef.get_ecoSysInMapKey();
+    goSpecId_t     goSpecId;
+
+    float randV = (fieldRef.get_weight() * 0.35 + 313.17); //- 确保大于0
+    float fract = randV - floor(randV); //- 小数部分
+    assert( (fract>=0.0) && (fract<=1.0) );
+
+    if( fieldRef.is_land() ){
+        goSpecId = esrc::atom_ecoSysInMap_apply_a_rand_goSpecId(ecoInMapKey,
+                                                                fieldRef.get_density().get_idx(),
+                                                                fieldRef.get_weight() );
+
+        if( fract <= esrc::atom_ecoSysInMap_get_applyPercent( ecoInMapKey, fieldRef.get_density()) ){
+            gameObjs::create_a_Go(  goSpecId,
+                                    fieldRef.get_nodeMPos(),
+                                    fieldRef.get_weight(),
+                                    fieldRef.get_nodeAlti(), //- tmp 有问题
+                                    fieldRef.get_density() );
+        }
     }
-    return ptr;
 }
+
 
 
 
 namespace{//------------ namespace --------------//
 
+
 /* ===========================================================
- *                  insert_and_init_new_field   [1]
+ *              fieldsBuilding funcs
  * -----------------------------------------------------------
  */
-MapField *insert_and_init_new_field( fieldKey_t _fieldKey ){
-
-    // ***| INSERT FIRST, INIT LATER  |***
-    MapField  field {};
-    field.init( fieldKey_2_mpos(_fieldKey) );
-        assert( esrc::fields.find(_fieldKey) == esrc::fields.end() ); //- must not exist
-    esrc::fields.insert({ _fieldKey, field }); //- copy
-    //-----
-    return static_cast<MapField*>( &(esrc::fields.at(_fieldKey)) );
+void insert_2_fieldsBuilding( fieldKey_t _fieldKey ){
+    //--- atom ---//
+    std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
+        assert( fieldsBuilding.find(_fieldKey) == fieldsBuilding.end() );
+    fieldsBuilding.insert( _fieldKey );
+}
+bool is_in_fieldsBuilding( fieldKey_t _fieldKey ){
+    bool ret;
+    {//--- atom ---//
+        std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
+        ret = fieldsBuilding.find(_fieldKey) != fieldsBuilding.end();
+    }
+    return ret;
+}
+void erase_from_fieldsBuilding( fieldKey_t _fieldKey ){
+    //--- atom ---//
+    std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
+    assert( fieldsBuilding.erase( _fieldKey ) == 1 );
 }
 
+
+
+
 }//---------------- namespace end --------------//
-
-
-
 }//---------------------- namespace: esrc -------------------------//
 

@@ -29,11 +29,13 @@ int Density::maxLvl {3};
  * -----------------------------------------------------------
  * 根据 ecosysInMap 预设的方案 来配置 density.lvl
  */
-void Density::set( const IntVec2 &_fieldMPos, const EcoSysInMap &_ecoSysInMap ){
+void Density::set( const IntVec2 &_fieldMPos, 
+                    const float &_ecoSysInMap_densitySeaLvlOff,
+                    const std::vector<float> *_ecoSysInMap_densityDivideValsPtr ){
     //-----------//
     //   seaLvl
     //-----------//
-    float seaLvlOff = _ecoSysInMap.get_densitySeaLvlOff(); //- [-20.0, 20.0]
+    float seaLvlOff = _ecoSysInMap_densitySeaLvlOff; //- [-20.0, 20.0]
     float freqSeaLvl = 0.003125 * 0.5; //- 10*10 个 chunk，构成一个 perlin 晶格
     float pnValSeaLvl = simplex_noise2( _fieldMPos.x * freqSeaLvl, 
                                         _fieldMPos.y * freqSeaLvl ) * 15.0 + seaLvlOff; // [-20.0, 20.0]
@@ -56,10 +58,11 @@ void Density::set( const IntVec2 &_fieldMPos, const EcoSysInMap &_ecoSysInMap ){
     //-----------//
     //   lvl
     //-----------//
-    const auto &divideVals = _ecoSysInMap.get_densityDivideVals();
+    //const auto &divideVals = _ecoSysInMap.get_densityDivideVals();
     int tmpLvl = Density::minLvl;
     bool  is_find {false};
-    for( auto f=divideVals.cbegin(); f!=divideVals.cend(); f++ ){
+    for( auto f=_ecoSysInMap_densityDivideValsPtr->cbegin(); 
+        f!=_ecoSysInMap_densityDivideValsPtr->cend(); f++ ){
         if( pnVal < *f ){
             is_find = true;
             this->lvl = tmpLvl;

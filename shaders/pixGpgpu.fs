@@ -72,7 +72,7 @@ void main()
     float pixDistance = length( pixCFPos - 0 );//- 暂时假设，(0,0) 为世界中心
     pixDistance /= 10.0; //- 每10个chunk，递增一级
     //-------
-    seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 50.0; // [-100.0, 100.0]
+    seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
     seaLvl += pixDistance;
     if( seaLvl < 0.0 ){ //- land
         seaLvl *= 0.3;  // [-15.0, 100.0]
@@ -86,7 +86,6 @@ void main()
     float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
     float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
     //---------
-
     float altiVal = floor(pnValBig + pnValMid + pnValSml);
 
     //------- 抹平头尾 -------//

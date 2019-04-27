@@ -39,7 +39,7 @@ namespace{//-------- namespace: --------------//
 
 
     //-- 周边4个 node 实例 mpos off 值 --
-    std::vector<IntVec2> nearFour_node_ecoSysInMap_mposOffs {
+    const std::vector<IntVec2> nearFour_node_ecoSysInMap_mposOffs {
         IntVec2{ 0, 0 },
         IntVec2{ ENTS_PER_SECTION*2, 0 },
         IntVec2{ 0, ENTS_PER_SECTION*2 },
@@ -57,47 +57,6 @@ namespace{//-------- namespace: --------------//
 
 }//------------- namespace: end --------------//
 
-/* ===========================================================
- *                      init_fstOrder
- * -----------------------------------------------------------
- * -- 仅初始化几个 最简单的数据
- */
-void EcoSysInMap::init_fstOrder(){
-
-    //------------------//
-    //     oddEven
-    //------------------//
-    this->oddEven = EcoSysInMap::calc_oddEven( this->get_mpos() );
-
-    //------------------//
-    //     weight
-    //------------------//
-    // 3*3 个 ecosysinmap 组成一个 pn晶格
-    float freq = 1.0 / 3.0; 
-    glm::vec2 fv = this->mcpos.get_fpos();
-    fv /= ENTS_PER_SECTION;
-    fv += esrc::gameSeed.ecoSysInMapWeight_pposOff;
-
-    this->weight = simplex_noise2(  fv.x * freq,
-                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
-
-    //------------------//
-    //   occupyWeight
-    //------------------//
-    size_t randV = static_cast<size_t>(floor( this->weight * 3 + 757 ));
-    this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
-
-    //------------------------------//
-    //  landColors / goSpecIdPools
-    //------------------------------//
-    this->landColors.clear();
-    this->applyPercents.clear();
-    this->densityDivideVals.clear();
-    this->goSpecIdPools.clear();
-    this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
-
-}
-
 
 /* ===========================================================
  *        find_or_create_the_ecoSysInMap    [static] 
@@ -110,13 +69,25 @@ EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionK
     //------------------------------------//
     //    若目标实例 已存在，直接返回其指针
     //------------------------------------//
+    /*
     if( esrc::atom_find_from_ecoSysesInMap(_sectionKey) ){
-        return esrc::atom_get_ecoSysInMapPtr(_sectionKey);
+        return esrc::atom_get_ecoSysInMapPtr(_sectionKey); 
+    }
+    */
+
+    EcoSysInMap *ecoSysInMapPtr = esrc::atom_find_and_return_ecoSysesInMapPtr(_sectionKey);
+    if( ecoSysInMapPtr != nullptr ){
+        return ecoSysInMapPtr;
     }
 
-        //   若不存在，就新建一个 
-    IntVec2 ecosysInMapMPos = sectionKey_2_mpos(_sectionKey);
+                    //--- 这一步存在 异步漏洞
+                    //  find 和 get 要 原子化
 
+
+
+        //   若不存在，就新建一个 
+
+    IntVec2 ecosysInMapMPos = sectionKey_2_mpos(_sectionKey);
     //----------------------------//
     //  一股脑，生成周边 4个 node ecoSysInMap 实例
     //----------------------------//
@@ -147,6 +118,48 @@ EcoSysInMap *EcoSysInMap::find_or_create_the_ecoSysInMap( sectionKey_t _sectionK
 
 
 
+
+/* ===========================================================
+ *                      init_fstOrder
+ * -----------------------------------------------------------
+ * -- 仅初始化几个 最简单的数据
+ */
+void EcoSysInMap::init_fstOrder(){
+    //------------------//
+    //     oddEven
+    //------------------//
+    this->oddEven = EcoSysInMap::calc_oddEven( this->get_mpos() );
+
+    //------------------//
+    //     weight
+    //------------------//
+    // 3*3 个 ecosysinmap 组成一个 pn晶格
+    float freq = 1.0 / 3.0; 
+    glm::vec2 fv = this->mcpos.get_fpos();
+    fv /= ENTS_PER_SECTION;
+    fv += esrc::gameSeed.ecoSysInMapWeight_pposOff;
+
+    this->weight = simplex_noise2(  fv.x * freq,
+                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
+
+    //------------------//
+    //   occupyWeight
+    //------------------//
+    size_t randV = static_cast<size_t>(floor( this->weight * 3 + 757 ));
+    this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
+
+    //------------------------------//
+    //  landColors / goSpecIdPools
+    //------------------------------//
+    this->goSpecIdPools.clear();
+    this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
+}
+
+
+
+
+
+
 /* ===========================================================
  *           find_or_create_target_node_ecoSysInMap    [static] 
  * -----------------------------------------------------------
@@ -161,14 +174,25 @@ EcoSysInMap *EcoSysInMap::find_or_create_target_node_ecoSysInMap( const IntVec2 
     //    若目标实例 已存在，直接返回其指针
     //------------------------------------//
     sectionKey_t sectionKey = sectionMPos_2_sectionKey( _ecosysInMapMPos );
+    /*
     if( esrc::atom_find_from_ecoSysesInMap(sectionKey) ){
         return esrc::atom_get_ecoSysInMapPtr(sectionKey);
     }
+    */
+
+    EcoSysInMap *ecoSysInMapPtr = esrc::atom_find_and_return_ecoSysesInMapPtr(sectionKey);
+    if( ecoSysInMapPtr != nullptr ){
+        return ecoSysInMapPtr;
+    }
+
+                    //--- 这一步存在 异步漏洞
+                    //  find 和 get 要 原子化
+
 
     //------------------------------------//
     //         若不存在，就新建一个 
     //------------------------------------//
-    EcoSysInMap *ecoSysInMapPtr = esrc::atom_insert_new_ecoSysInMap( _ecosysInMapMPos );
+    ecoSysInMapPtr = esrc::atom_insert_new_ecoSysInMap( _ecosysInMapMPos );
     ecoSysInMapPtr->init_fstOrder();
     ecoSysInMapPtr->init_for_node_ecoSysInMap();
 
@@ -276,18 +300,11 @@ void EcoSysInMap::copy_datas_from_ecosys( EcoSys *_targetEcoPtr ){
     this->ecoSysId = _targetEcoPtr->get_id();
     this->ecoSysType = _targetEcoPtr->get_type();
     this->densitySeaLvlOff = _targetEcoPtr->get_densitySeaLvlOff();
-    //--- 完整的复制 landColors 数据 ---
-    this->landColors.insert(this->landColors.end(),
-                            _targetEcoPtr->get_landColors().begin(),
-                            _targetEcoPtr->get_landColors().end() );
 
-    this->applyPercents.insert( this->applyPercents.end(),
-                                _targetEcoPtr->get_applyPercents().begin(),
-                                _targetEcoPtr->get_applyPercents().end() );
-
-    this->densityDivideVals.insert( this->densityDivideVals.end(),
-                                    _targetEcoPtr->get_densityDivideVals().begin(),
-                                    _targetEcoPtr->get_densityDivideVals().end() );
+    //--- 仅 获得 只读指针 ---
+    this->landColorsPtr = _targetEcoPtr->get_landColorsPtr();
+    this->applyPercentsPtr = _targetEcoPtr->get_applyPercentsPtr();
+    this->densityDivideValsPtr = _targetEcoPtr->get_densityDivideValsPtr();
 
     //---- goSpecIdPools 数据 ----
     goSpecId_t  tmpGoSpecId;

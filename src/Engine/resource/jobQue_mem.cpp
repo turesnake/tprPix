@@ -65,7 +65,7 @@ void atom_push_back_2_jobQue( const Job &_job ){
 
     {//--- atom ---//
         std::lock_guard<std::mutex> lg(jobQueMutex);
-        esrc::jobQue.push_back( _job );
+        esrc::jobQue.push_back( _job ); //- copy
     }
     //-- 解除 消费者线程 的阻塞
     //  注意，此句 不需要处于 上文的 lock作用域中
@@ -100,11 +100,11 @@ Job atom_pop_from_jobQue(){
     Job job;
     {//--- atom ---//
         std::unique_lock<std::mutex> ul(jobQueMutex);
-        jobQueCondVar.wait_for( ul, std::chrono::milliseconds(1000), []{ return !esrc::jobQue.empty(); } );
+        jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), []{ return !esrc::jobQue.empty(); } );
                 //- 阻塞，直到 生产者调用 notify_xxx() 函数
                 //  通过 参数3 用来防止 假醒
                 //- 参数3 判断式 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的
-                //- 通过 参数2 来限制 wait时间（1秒）时间到了自己苏醒。
+                //- 通过 参数2 来限制 wait时间（0.5秒）时间到了自己苏醒。
 
         //- 此句 jobQue.empty() 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的
         if( esrc::jobQue.empty() ){

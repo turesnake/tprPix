@@ -61,6 +61,9 @@ public:
                         (int)floor(fy) };
     }
 
+    //======== static ========//
+    static bool is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, size_t _off );
+
     //======== vals ========//
     int  x {0}; 
     int  y {0};
@@ -113,6 +116,20 @@ inline IntVec2 operator * ( int _m, const IntVec2 &_a ){
 
 
 /* ===========================================================
+ *                  is_closeEnough
+ * -----------------------------------------------------------
+ * x/y 差值均小于 _off 时，返回 true
+ */
+inline bool IntVec2::is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, size_t _off ){
+    size_t off_x = abs( _v1.x - _v2.x );
+    size_t off_y = abs( _v1.y - _v2.y );
+    return ( (off_x<_off) && (off_y<_off) );
+}
+
+
+
+
+/* ===========================================================
  *                     floorDiv
  * -----------------------------------------------------------
  * -- 地板除运算 [通过 "float地板除"，解决了负数bug] --
@@ -142,6 +159,9 @@ inline IntVec2 floorMod( const IntVec2 &_v, float _mod ){
     return IntVec2{ _v.x - (int)floorX,
                     _v.y - (int)floorY };
 }
+
+
+
 
 
 

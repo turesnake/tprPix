@@ -9,7 +9,6 @@
  */
 #include "MapField.h"
 
-
 //-------------------- C --------------------//
 #include <cassert>
 #include <cmath>
@@ -24,7 +23,7 @@
 #include "FieldBorderSet.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"
-#include "esrc_section.h"
+#include "esrc_ecoSysInMap.h"
 
 //#include "debug.h"
 
@@ -32,9 +31,13 @@
 namespace{//----------- namespace ---------------//
 
 
-    std::map<occupyWeight_t,EcoSysInMap*> nearFour_ecoSysInMapPtrs {}; 
-                        // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
-
+    //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
+    const std::vector<IntVec2> quadSectionKeyOffs {
+        IntVec2{ 0, 0 },
+        IntVec2{ ENTS_PER_SECTION, 0 },
+        IntVec2{ 0, ENTS_PER_SECTION },
+        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
+    };
 
 }//-------------- namespace : end ---------------//
 
@@ -48,7 +51,6 @@ namespace{//----------- namespace ---------------//
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
 void MapField::init( const IntVec2 &_anyMPos ){
-
 
     //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
@@ -151,11 +153,16 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
 
     //--- reset nearFour_ecoSysInMapPtrs ---//
     sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
-        assert( esrc::atom_find_from_sections(sectionKey) ); //- must exist
-    nearFour_ecoSysInMapPtrs.clear();
-    for( const auto &ecoPtr : esrc::atom_get_sectionPtr(sectionKey)->get_ecoSysInMapPtrs() ){
-        nearFour_ecoSysInMapPtrs.insert({ -(ecoPtr->occupyWeight), ecoPtr });
-                            //- 通过负数，来实现 倒叙排列，occupyWeight 值大的排前面
+    IntVec2      sectionMPos = sectionKey_2_mpos( sectionKey );
+    
+    // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
+    std::map<occupyWeight_t,EcoSysInMap_ReadOnly> nearFour_ecoSysInMapDatas {}; 
+
+    EcoSysInMap   *tmpEcoSysInMapPtr;
+    sectionKey_t   tmpKey;
+    for( const auto &whOff : quadSectionKeyOffs ){
+        tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
+        nearFour_ecoSysInMapDatas.insert( esrc::atom_get_ecoSysInMap_readOnly( tmpKey ) );
     }
 
     float         vx;
@@ -189,25 +196,28 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     // now, pnVal: [-20.0, 20.0]
 
     count = 0;
-    for( auto &ecoPair : nearFour_ecoSysInMapPtrs ){
+    for( auto &ecoDataPair : nearFour_ecoSysInMapDatas ){
         count++;
-        tmpEcoInMapPtr = ecoPair.second;
+        const auto &ecoReadOnly = ecoDataPair.second;
 
-        if( count != nearFour_ecoSysInMapPtrs.size()){ //- 前3个 eco
+        if( count != nearFour_ecoSysInMapDatas.size()){ //- 前3个 eco
 
-            mposOff = this->get_mpos() - tmpEcoInMapPtr->get_mpos();
+            mposOff = this->get_mpos() - sectionKey_2_mpos( ecoReadOnly.sectionKey );
             off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y ); // [ ~ 90.0 ~ ]
             off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
-                this->ecoSysInMapKey = tmpEcoInMapPtr->sectionKey;
-                this->density.set( this->get_mpos(), *tmpEcoInMapPtr );
-
+                this->ecoSysInMapKey = ecoReadOnly.sectionKey;
+                this->density.set( this->get_mpos(), 
+                                    ecoReadOnly.densitySeaLvlOff,
+                                    ecoReadOnly.densityDivideValsPtr );
                 break;
             }
         }else{ //- 第四个 eco
-            this->ecoSysInMapKey = tmpEcoInMapPtr->sectionKey;
-            this->density.set( this->get_mpos(), *tmpEcoInMapPtr );
+            this->ecoSysInMapKey = ecoReadOnly.sectionKey;
+            this->density.set( this->get_mpos(), 
+                                    ecoReadOnly.densitySeaLvlOff,
+                                    ecoReadOnly.densityDivideValsPtr );
         }
     }
 }

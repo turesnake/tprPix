@@ -20,7 +20,7 @@ namespace{//-------- namespace: --------------//
     //  首先根据 顶点在 地图上的 奇偶性， 将每个 顶点 划分为 4种类型。
     //  然后在 对应的类型中，取随机值。
     //  通过 "之"字 来排列 取值分布
-    std::vector<std::vector<occupyWeight_t>> occupyWeights{
+    const std::vector<std::vector<occupyWeight_t>> occupyWeights{
         std::vector<occupyWeight_t>{ 0, 6, 10, 15 }, //- {0,0}
         std::vector<occupyWeight_t>{ 1, 7,  9, 12 }, //- {0,1}
         std::vector<occupyWeight_t>{ 2, 4, 11, 14 }, //- {1,0}

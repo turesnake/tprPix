@@ -14,7 +14,6 @@
 void globState_byPass();
 void player_byPass();
 void go_byPass();
-void map_byPass();
 
 
 #endif

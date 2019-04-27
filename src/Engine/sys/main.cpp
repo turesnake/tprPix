@@ -112,7 +112,7 @@ int main(){
 
     debug::init_debug();             //---- debug 资源 ----
 
-    esrc::init_gpgpus();             //---- gpgpu 资源 ----
+    //esrc::init_gpgpus();             //---- gpgpu 资源 ----
     esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//
@@ -129,7 +129,11 @@ int main(){
 
     //---- 加载 map 数据 ----
     //...
-        map_byPass(); //- 硬制作 一张 section map
+
+        //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
+        //   在未来，会被 完善的 游戏存档系统 所取代
+        sectionBuild::build_9_chunks( IntVec2{ 1,1 } );
+
 
         go_byPass();  //- 硬生产一组 Norman 实例
 
@@ -183,11 +187,6 @@ int main(){
         switch( esrc::logicTimeCircle.current() ){
             case 0:
                 esrc::realloc_inactive_goes(); //- tmp
-
-                //--- 定期检查 全局容器 esrc::chunkDeque
-                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
-                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
-                sectionBuild::build_one_chunks_from_chunksDeque();
                 
                 break;
 
@@ -202,30 +201,27 @@ int main(){
             case 2:
                 //esrc::camera.print_pos();
 
-                //--- 定期检查 全局容器 esrc::chunkDeque
-                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
-                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
-                sectionBuild::build_one_chunks_from_chunksDeque();
 
                 break;
             case 3:
 
                 //--- 定期 检查玩家所在 chunk
                 //  并将需要新建的 chunks 收集到 队列中
-                sectionBuild::collect_chunks_need_to_be_build_in_update_3();
+                sectionBuild::collect_chunks_need_to_be_build_in_update();
                         // 更新中...
 
                 break;
             case 4:
-                //--- 定期检查 全局容器 esrc::chunkDeque
-                // 如果存在需要 新建的 chunk，就新建一个（一次仅一个）
-                // 如果5帧只创建一次，在go移动速度过快时，容易跟不上。所以多次调用
-                sectionBuild::build_one_chunks_from_chunksDeque();
 
                 break;
             default:
                 assert(0);
         }
+
+        //--------------------------------//
+        //  每一帧，最多装配生成一个 chunk 实例
+        //--------------------------------//
+        sectionBuild::chunkBuild_3_receive_data_and_build_one_chunk();
 
 
         //====================================//

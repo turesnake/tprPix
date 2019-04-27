@@ -43,6 +43,6 @@
 #  float glm::fract( float _f );
     取 一个 float数 的小数部分
 
-
-
+#  float glm::distance( const glm::vec2 &_v1, const glm::vec2 &_v2 );
+    计算两个 向量的 距离，很方便
 

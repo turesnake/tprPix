@@ -19,7 +19,6 @@
 
 //-------------------- Engine --------------------//
 #include "RGBA.h" 
-//#include "Density.h"
 #include "GameObjType.h"
 #include "ID_Manager.h" 
 #include "EcoSysType.h"
@@ -82,14 +81,14 @@ public:
         return this->densitySeaLvlOff;
     }
     //-- 主要用来 复制给 ecoSysInMap 实例 --
-    inline const std::vector<RGBA> &get_landColors() const {
-        return this->landColors;
+    inline const std::vector<RGBA> *get_landColorsPtr() const {
+        return &(this->landColors);
     }
-    inline const std::vector<float> &get_applyPercents() const {
-        return this->applyPercents;
+    inline const std::vector<float> *get_applyPercentsPtr() const {
+        return &(this->applyPercents);
     }
-    inline const std::vector<float> &get_densityDivideVals() const {
-        return this->densityDivideVals;
+    inline const std::vector<float> *get_densityDivideValsPtr() const {
+        return &(this->densityDivideVals);
     }
 
     //-- 核心函数，ecoSysInMap 通过此函数，分配组成自己的 idPools --
