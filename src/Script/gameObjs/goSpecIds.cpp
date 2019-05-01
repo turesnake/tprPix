@@ -14,7 +14,8 @@
 
 
 //-------------------- Engine --------------------//
-#include "GameObj.h" //- goSpecId_t
+//#include "GameObj.h" //- goSpecId_t
+#include "GameObjType.h" //- goSpecId_t
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
@@ -115,6 +116,9 @@ void onGoSpecIds_SignUp(){
         ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Lichen_DForest::init_in_autoMod, &gameObjs::lichen_DForest, _1, _2, _3, _4, _5 );
 
 
+
+
+
     //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 
 }
 
@@ -130,7 +134,6 @@ namespace{//------------------- namespace ---------------------
  * -- 拼装 正反表
  */
 void goSpec_alloc( goSpecId_t _id, const string &_name ){
-
     ssrc::go_specId_names.insert({ _id, _name });
     ssrc::go_name_specIds.insert({ _name, _id });
 }

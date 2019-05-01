@@ -217,9 +217,9 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
     IntVec2      chunkPPos = mpos_2_ppos(_chunkMPos);
     glm::vec2    pixCFPos; //- 以 chunk 为晶格的 fpos
 
-    glm::vec2  altiSeed_pposOffBig = esrc::gameSeed.altiSeed_pposOffBig;
-    glm::vec2  altiSeed_pposOffMid = esrc::gameSeed.altiSeed_pposOffMid;
-    glm::vec2  altiSeed_pposOffSml = esrc::gameSeed.altiSeed_pposOffSml;
+    glm::vec2  altiSeed_pposOffBig = esrc::gameSeed.get_altiSeed_pposOffBig();
+    glm::vec2  altiSeed_pposOffMid = esrc::gameSeed.get_altiSeed_pposOffMid();
+    glm::vec2  altiSeed_pposOffSml = esrc::gameSeed.get_altiSeed_pposOffSml();
                             //-- 此处有问题，从 job线程 访问 gameSeed，不够安全...
 
     float      pixDistance; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
@@ -435,9 +435,6 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
         *pixPtr = *nearPixPtr;
     }
 }
-
-
-
 
 
 /* ===========================================================

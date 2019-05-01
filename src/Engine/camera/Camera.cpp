@@ -27,7 +27,7 @@ namespace{
 /* ===========================================================
  *                        init    [pure]
  * -----------------------------------------------------------
- * --  真正的初始化函数
+ *  在未来版本中，应该设为 player pos 
  */
 void Camera::init(){
 
@@ -35,23 +35,7 @@ void Camera::init(){
                                     0.0f,
                                     0.5f * ViewingBox::z ); 
 
-    this->targetPPos = glm::vec2( 0.0f, 0.0f );
-}
-
-
-/* ===========================================================
- *                  set_targetPos
- * -----------------------------------------------------------
- * -- 外部代码控制 camera运动 的唯一方式
- */
-void Camera::set_targetPos( glm::vec2 _tpos, float _approachPercent ){
-
-    if( _tpos == this->targetPPos ){
-        return;
-    }
-    this->targetPPos = _tpos;
-    this->isMoving = true;
-    this->approachPercent = _approachPercent;
+    this->targetFPos = glm::vec2( 0.0f, 0.0f );
 }
 
 
@@ -67,15 +51,16 @@ void Camera::RenderUpdate(){
         return;
     }
 
-    glm::vec2 off { this->targetPPos.x - this->currentFPos.x, 
-                    this->targetPPos.y - this->currentFPos.y };
+    glm::vec2 off { this->targetFPos.x - this->currentFPos.x, 
+                    this->targetFPos.y - this->currentFPos.y };
     //-- 若非常接近，直接同步 --
     float criticalVal = 2.0; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
     if( (abs(off.x)<=criticalVal) && (abs(off.y)<=criticalVal) ){
-        this->targetPPos.x = this->currentFPos.x;
-        this->targetPPos.y = this->currentFPos.y;
+        this->targetFPos.x = this->currentFPos.x;
+        this->targetFPos.y = this->currentFPos.y;
+                            //- 注意 此2句 写法：在足够靠近时，camera放弃继续靠近，但此时并未对齐
         this->isMoving = false;
         return;
     }

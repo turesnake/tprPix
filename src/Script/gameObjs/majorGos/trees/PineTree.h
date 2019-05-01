@@ -105,7 +105,7 @@ private:
 //---------- static ----------//
 inline u32_t  PineTree::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< PineTree类 唯一的 保留实例 >=====
+//=====< 本类 唯一的 保留实例 >=====
 inline PineTree  pineTree {};
 
 

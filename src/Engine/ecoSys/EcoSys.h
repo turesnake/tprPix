@@ -62,7 +62,7 @@ public:
     void insert(const Density &_density, 
                 float _applyPercent,
                 const std::vector<EcoEnt> &_ecoEnts );
-    void shuffle_goSpecIdPools();
+    void shuffle_goSpecIdPools( u32_t _seed );
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end(){

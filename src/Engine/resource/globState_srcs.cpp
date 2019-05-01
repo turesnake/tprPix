@@ -19,7 +19,7 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "tprDB.h"
+//#include "tprDB.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_globState.h"
@@ -42,7 +42,7 @@ void save_globState_srcs();
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_var 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB globState_db{ tpr::DB::DB_TYPE::Pure_Var, true };
+    //tpr::tprDB globState_db{ tpr::DB::DB_TYPE::Pure_Var, true };
 
     //--- 全局状态 资源 ---
     struct diskGlobState{
@@ -62,6 +62,7 @@ namespace{//------------ namespace --------------//
  */
 void init_globState_srcs(){
 
+    /*
     globState_db.init( path_data,
                     "globState",
                     { tpr::DB::DATA_T::STRID },
@@ -104,9 +105,9 @@ void init_globState_srcs(){
         //-- 由于 数据库为空，所以此处使用 insert
         globState_db.insert( false, &dgs, sizeof(dgs) );
     }
+    */
 
-        //cout << "globState_db.ent_nums() = " << globState_db.ent_nums()
-            //<< endl;
+
 
 }
 
@@ -118,6 +119,7 @@ void init_globState_srcs(){
  */
 void save_globState_srcs(){
 
+    /*
     //---- 制作 diskGlobState 实例 ----
     diskGlobState  dgs;
     dgs.GameObj_max_id = GameObj::id_manager.get_max_id();
@@ -128,6 +130,7 @@ void save_globState_srcs(){
 
     //---- 正式存入 数据库 ----
     globState_db.write( false, id, &dgs, sizeof(dgs) );
+    */
 }
 
 

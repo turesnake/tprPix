@@ -19,12 +19,12 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
+#include "esrc_funcTypes.h"
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
-using FUNC_V_V = std::function<void()>;
-using F_GOID_GOPTR = std::function<void(goid_t,GameObj*)>;
+
 
 //--- mem ---//
 inline std::unordered_map<goid_t, GameObj> memGameObjs {}; //- 所有载入内存的 go实例 实际存储区。

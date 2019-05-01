@@ -80,7 +80,7 @@ void Lichen_DForest::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- lichen_DForest一律无法移动
-    goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过

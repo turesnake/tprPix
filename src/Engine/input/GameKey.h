@@ -10,11 +10,15 @@
 #ifndef _TPR_GAME_KEY_H_
 #define _TPR_GAME_KEY_H_
 
+//-------------------- Libs --------------------//
+#include "tprDataType.h"
+
+
 //-- 游戏可识别的按键，数量有限，
 //   对应存储在 InputINS 实例中 
-enum class GameKey{
+enum class GameKey : u32_t {
     //----
-    KEY_0,  // Jump
+    KEY_0 = 0,  // Jump
     KEY_1,  // JoyStick_A
     KEY_2,  // JoyStick_B
     KEY_3,  // JoyStick_X

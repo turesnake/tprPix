@@ -62,7 +62,7 @@ void MapField::init( const IntVec2 &_anyMPos ){
     //--- fieldFPos ----
     this->FDPos = this->mcpos.get_fpos();
     this->FDPos /= ENTS_PER_FIELD;
-    this->FDPos += esrc::gameSeed.field_pposOff;
+    this->FDPos += esrc::gameSeed.get_field_pposOff();
 
     //--- field.nodeMPos ---
     this->init_nodeMPos();
@@ -180,8 +180,9 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
     vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
 
-    vx += esrc::gameSeed.field_pposOff.x;
-    vy += esrc::gameSeed.field_pposOff.y;
+    const glm::vec2 &field_pposOff = esrc::gameSeed.get_field_pposOff();
+    vx += field_pposOff.x;
+    vy += field_pposOff.y;
     float pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
                                         (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
     float pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,

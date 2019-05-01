@@ -125,7 +125,7 @@ void EcoSysInMap::init_fstOrder( sectionKey_t _sectionKey ){
     float freq = 1.0 / 3.0; 
     glm::vec2 fv = this->mcpos.get_fpos();
     fv /= ENTS_PER_SECTION;
-    fv += esrc::gameSeed.ecoSysInMapWeight_pposOff;
+    fv += esrc::gameSeed.get_ecoSysInMapWeight_pposOff();
 
     this->weight = simplex_noise2(  fv.x * freq,
                                     fv.y * freq ) * 100.0; //- [-100.0, 100.0]

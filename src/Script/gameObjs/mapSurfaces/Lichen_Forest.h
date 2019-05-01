@@ -94,7 +94,7 @@ private:
 //---------- static ----------//
 inline u32_t  Lichen_Forest::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< Lichen类 唯一的 保留实例 >=====
+//=====< 本类 唯一的 保留实例 >=====
 inline Lichen_Forest  lichen_Forest {};
 
 

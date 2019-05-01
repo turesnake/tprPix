@@ -25,6 +25,13 @@
 namespace input{//------------- namespace input --------------------
 
 
+using F_InputINS_Handle = std::function< void(const InputINS&) >;
+
+
+//-- 外部通过这个函数，来绑定需要的 inputINS 处理函数 --
+void bind_inputINS_handleFunc( const F_InputINS_Handle &_func );
+
+
 void init_input();
 
 void processInput( GLFWwindow *_windowPtr );

@@ -51,6 +51,7 @@ goid_t create_a_Go( goSpecId_t _goSpecId,
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goPtr );
         esrc::goids_active.insert( goid ); //- tmp
+    
     return  goid;
 }
 

@@ -33,6 +33,11 @@ namespace ssrc{ //------------------ namespace: ssrc -------------------------//
 inline std::unordered_map<u32_t, std::string> acionHdle_typeId_names;
 inline std::unordered_map<std::string, u32_t> acionHdle_name_typeIds;
 
+
+//-------------------------------//
+//             go
+//-------------------------------//
+
 //-- 正反表 --
 inline std::unordered_map<goSpecId_t, std::string> go_specId_names;
 inline std::unordered_map<std::string, goSpecId_t> go_name_specIds;
@@ -58,6 +63,35 @@ inline std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs;
 inline bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
     return (ssrc::goInit_funcs.find(_goSpecId) != ssrc::goInit_funcs.end());
 }
+
+
+//-------------------------------//
+//             ui
+//-------------------------------//
+//-- 正反表 --
+inline std::unordered_map<goSpecId_t, std::string> ui_specId_names;
+inline std::unordered_map<std::string, goSpecId_t> ui_name_specIds;
+
+
+inline goSpecId_t get_uiSpecId( const std::string &_name ){
+        assert( ssrc::ui_name_specIds.find(_name) != ssrc::ui_name_specIds.end() );
+    return ssrc::ui_name_specIds.at(_name);
+}
+
+//--- 下面这部分 放的很乱... ---
+//-- map自动生成器 使用的 uiInit函数 ---
+using F_UI_INIT = std::function<void(   GameObj*,
+                                        const IntVec2 & )>;
+
+inline std::unordered_map<goSpecId_t, F_UI_INIT> uiInit_funcs; 
+
+inline bool find_from_uiInit_funcs( goSpecId_t _uiSpecId ){
+    return (ssrc::uiInit_funcs.find(_uiSpecId) != ssrc::uiInit_funcs.end());
+}
+
+
+
+
 
 
 

@@ -12,7 +12,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "esrc_gameSeed.h"
+#include "random.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
@@ -176,13 +176,16 @@ void EcoSys::insert(const Density &_density,
 /* ===========================================================
  *               shuffle_goSpecIdPools
  * -----------------------------------------------------------
+ * -- 需要调用者 提供 seed
+ *    通过这种方式，来实现真正的 伪随机
  */
-void EcoSys::shuffle_goSpecIdPools(){
+void EcoSys::shuffle_goSpecIdPools( u32_t _seed ){
+
+    std::default_random_engine  randEngine; 
+    randEngine.seed( _seed );
     for( auto &poolRef : this->goSpecIdPools ){
-        std::shuffle( poolRef.begin(), poolRef.end(), esrc::gameSeed.randEngine );
-                            //-- 目前，这一步并不符合 “伪随机”...
+        std::shuffle( poolRef.begin(), poolRef.end(), randEngine );
     }
 }
-
 
 

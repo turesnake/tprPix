@@ -50,12 +50,22 @@ public:
         }
     }
 
-    inline bool check_keyBit( const GameKey &_key ) const {
-        int idx = (int)_key;
-        assert( (idx>=0) && (idx<=16) );
-        return (((keys>>idx) & 1)==1);
+    inline bool check_key( const GameKey &_key ) const {
+        size_t idx = (size_t)_key;
+        if(  idx < 16 ){
+            return (((keys>>idx) & 1)==1);
+        }else{
+            switch( _key ){
+                case GameKey::LEFT:  return (crossX == -1);
+                case GameKey::RIGHT: return (crossX == 1);
+                case GameKey::UP:    return (crossY == 1);
+                case GameKey::DOWN:  return (crossY == -1);
+                default:
+                    assert(0);
+                    return false;
+            }
+        }
     }
-
 
     //======== vals ========//
     //  确保对齐，提高传输效率

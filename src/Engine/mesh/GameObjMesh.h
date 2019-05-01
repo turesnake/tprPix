@@ -70,15 +70,13 @@ public:
     GameObjMesh() = default;
 
     inline void init( GameObj *_goPtr ){
-        goPtr = _goPtr;
+        this->goPtr = _goPtr;
         //-----
-        this->picMesh.init(    goPtr, const_cast<GameObjMesh*>(this) );
-        this->shadowMesh.init( goPtr, const_cast<GameObjMesh*>(this) ); //- 就算没有 shadow，也会执行 init
+        this->picMesh.init(    this->goPtr, const_cast<GameObjMesh*>(this) );
+        this->shadowMesh.init( this->goPtr, const_cast<GameObjMesh*>(this) ); //- 就算没有 shadow，也会执行 init
     }
 
     void RenderUpdate();
-
-    
 
     //------ animFrameSet ------
     //  目前，此函数仅用于 go.creat_new_goMesh() 中
@@ -120,25 +118,25 @@ public:
         return this->animFrameIdxHandle.currentIdx;
     }
     inline const AnchorPos &get_rootAnchorPos() const {
-        return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
+        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
     }
     inline const FramePos &get_currentFramePos() const {
-        return this->animFrameSetPtr->get_framePoses().at( this->animFrameIdxHandle.currentIdx );
+        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx );
     }
     inline const GLuint &get_currentTexName_pic() const {
-        return this->animFrameSetPtr->get_texNames_pic().at(this->animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->get_texName_pic( this->animFrameIdxHandle.currentIdx );
     }
     inline const GLuint &get_currentTexName_shadow() const {
-        return this->animFrameSetPtr->get_texNames_shadow().at(this->animFrameIdxHandle.currentIdx);
+        return this->animFrameSetPtr->get_texName_shadow( this->animFrameIdxHandle.currentIdx );
     }
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return this->animFrameSetPtr->get_framePoses().at(this->animFrameIdxHandle.currentIdx).get_rootAnchorPos().pposOff;
+        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos().pposOff;
     }
     inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
         return this->animFrameSetPtr->get_pixNum_per_frame();
     }
     inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
-        return this->animFrameSetPtr->get_timeSteps().at(_currentIdx);
+        return this->animFrameSetPtr->get_timeStep( _currentIdx );
     }
     inline const glm::vec2 &get_pposOff() const {
         return this->pposOff;
@@ -193,8 +191,6 @@ private:
     std::string     animFrameSetName;       //- 与下方的 animFrameSetPtr 强关联 --
     AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
                                     //- 通过 bind_animFrameSet() 来绑定
-
-
 };
 
 

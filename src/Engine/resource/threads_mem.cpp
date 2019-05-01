@@ -10,16 +10,12 @@
 
 //-------------------- CPP --------------------//
 #include <thread>
-#include <mutex>
 
 
 //-------------------- Engine --------------------//
 #include "esrc_thread.h"
 #include "esrc_jobQue.h"
-//#include "config.h"
 #include "jobThread.h"
-
-
 
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
@@ -31,8 +27,6 @@ namespace{//------------ namespace --------------//
     std::thread jobThread_1;
     std::thread jobThread_2;
     std::thread jobThread_3;
-
-
 
 }//---------------- namespace end --------------//
 

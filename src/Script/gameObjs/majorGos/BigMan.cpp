@@ -77,7 +77,7 @@ void BigMan::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_3 );
-    goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( false );

@@ -33,10 +33,18 @@ inline std::vector<ChildMesh*> renderPool_goMeshs_shadow {};
 //-----
 inline std::vector<ChildMesh*> renderPool_mapSurfaces {};
             //- 地表go，没有 shadow，只需要渲染 pic
+
+
+inline std::multimap<float, ChildMesh*> renderPool_uiMeshs_pic {}; 
+            //- 暂时只需要渲染 ui.gomesh.pic
+            //  在未来，ui 图元 也可能会准备 shadow
+
+
             
 void draw_renderPool_goMeshs_pic();
 void draw_renderPool_goMeshs_shadow();
 void draw_renderPool_mapSurfaces();
+void draw_renderPool_uiMeshs_pic();
 
 
 //-- 一切以 Mesh为标准的 图元，都可以丢进这个 容器中

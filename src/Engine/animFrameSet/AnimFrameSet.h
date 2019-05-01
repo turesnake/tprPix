@@ -93,32 +93,25 @@ public:
     inline const IntVec2 &get_pixNum_per_frame() const {
         return this->pixNum_per_frame;
     }
-
     inline const IntVec2 &get_frameNum() const {
         return this->frameNum;
     }
-
     inline const int &get_totalFrameNum() const {
         return this->totalFrameNum;
     }
-
-    inline const std::vector<FramePos> &get_framePoses() const {
-        return this->framePoses;
+    inline const FramePos &get_framePos( size_t _idx ) const {
+        return this->framePoses.at(_idx);
     }
-
-    inline const std::vector<int> &get_timeSteps() const {
-        return this->timeSteps;
+    inline const int &get_timeStep( size_t _idx ) const {
+        return this->timeSteps.at(_idx);
     }
-
-    inline const std::vector<GLuint> &get_texNames_pic() const {
-        return this->texNames_pic;
+    inline const GLuint &get_texName_pic( size_t _idx ) const {
+        return this->texNames_pic.at(_idx);
     }
-
-    inline const std::vector<GLuint> &get_texNames_shadow() const {
+    inline const GLuint &get_texName_shadow( size_t _idx ) const {
         assert( this->isHaveShadow );
-        return this->texNames_shadow;
+        return this->texNames_shadow.at(_idx);
     }
-
 
     //======== flags ========//
     //-- 一个 AnimFrameSet 实例，必须有 P/J 两张图，但不一定要有 Shadow 图。
@@ -141,7 +134,6 @@ private:
     std::string  lpath_pic;    //-- picture
     std::string  lpath_pjt;    //-- collients
     std::string  lpath_shadow; //-- shadow  (此文件也许可为空...)
-
 
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值
     IntVec2  frameNum {};        //- 画面中，横排可分为几帧，纵向可分为几帧

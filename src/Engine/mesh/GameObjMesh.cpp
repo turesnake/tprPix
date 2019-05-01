@@ -53,10 +53,15 @@ void GameObjMesh::RenderUpdate(){
     this->picMesh.refresh_scale_auto();
     switch (this->picRenderLayerType){
         case RenderLayerType::MajorGoes:
-            esrc::renderPool_goMeshs_pic.insert({ this->picMesh.get_render_z(), this->picMesh.getnc_ChildMeshPtr() });
+            esrc::renderPool_goMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z , 
+                                                    this->picMesh.getnc_ChildMeshPtr() });
             break;
         case RenderLayerType::MapSurfaces:
             esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
+            break;
+        case RenderLayerType::UIs:
+            esrc::renderPool_uiMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z, 
+                                                    this->picMesh.getnc_ChildMeshPtr() });
             break;
         default:
             assert(0);

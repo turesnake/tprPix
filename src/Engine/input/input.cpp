@@ -28,7 +28,6 @@
 #include <math.h>
 
 //-------------------- CPP --------------------//
-//#include <string>
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
@@ -49,6 +48,9 @@ namespace input{//------------- namespace input --------------------
 
 namespace{
     InputINS   inputINS {}; //- 记录玩家 鼠键输入。
+
+    
+    F_InputINS_Handle inputINS_handleFunc  {nullptr}; 
 
     glm::vec2 lastMousePos    {0.0f, 0.0f};    
     glm::vec2 currentMousePos {0.0f, 0.0f}; 
@@ -72,6 +74,17 @@ void init_input(){
     assert( gameKeyTable.at(GameKey::UP)    != KeyBoard::NIL );
     assert( gameKeyTable.at(GameKey::DOWN)  != KeyBoard::NIL );
 }
+
+
+
+/* ==========================================================
+ *                 bind_inputINS_handleFunc
+ *-----------------------------------------------------------
+ */
+void bind_inputINS_handleFunc( const F_InputINS_Handle &_func ){
+    inputINS_handleFunc = _func;
+}
+
 
 
 /* ==========================================================
@@ -110,11 +123,13 @@ void processInput( GLFWwindow *_windowPtr ){
     //------------------------//
     //  处理 inputINS 中的数据
     //------------------------//
-    // 工具箱／状态面板...
-    //...
+    
+    inputINS_handleFunc( inputINS );
 
     //-- player --
-    esrc::player.handle_inputINS( inputINS );
+    //esrc::player.handle_inputINS( inputINS );
+
+            //-- 不是直接 传给 player，而是传给一个 functor
 }
 
 

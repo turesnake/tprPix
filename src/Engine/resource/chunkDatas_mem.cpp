@@ -10,7 +10,7 @@
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
-//#include <mutex>    //- no need
+#include <mutex>
 #include <shared_mutex>
 #include <deque>
 
@@ -81,9 +81,10 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
  * 通常由 主线程 调用
  */
 void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
-    //--- atom ---//
-    std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
-    assert( esrc::chunkDatas.erase(_chunkKey) == 1 );
+    {//--- atom ---//
+        std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
+        assert( esrc::chunkDatas.erase(_chunkKey) == 1 );
+    }
 }
 
 
@@ -93,10 +94,11 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
  * 通常由 主线程 调用
  */
 const std::vector<RGBA> &atom_get_chunkData_texBuf( chunkKey_t _chunkKey ){
-    //--- atom ---//
-    std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
-        assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-    return esrc::chunkDatas.at(_chunkKey).get_texBuf();
+    {//--- atom ---//
+        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
+            assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
+        return esrc::chunkDatas.at(_chunkKey).get_texBuf();
+    }
 }
 
 
@@ -106,10 +108,11 @@ const std::vector<RGBA> &atom_get_chunkData_texBuf( chunkKey_t _chunkKey ){
  * 通常由 主线程 调用
  */
 const std::vector<Altitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey ){
-    //--- atom ---//
-    std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
-        assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-    return esrc::chunkDatas.at(_chunkKey).get_mapEntAltis();
+    {//--- atom ---//
+        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
+            assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
+        return esrc::chunkDatas.at(_chunkKey).get_mapEntAltis();
+    }
 }
 
 
@@ -135,9 +138,10 @@ bool atom_is_chunkDataFlags_empty(){
  * -- 通常由 job线程 调用
  */
 void atom_push_back_2_chunkDataFlags( chunkKey_t _chunkKey ){
-    //--- atom ---//
-    std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
-    esrc::chunkDataFlags.push_back( _chunkKey );
+    {//--- atom ---//
+        std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
+        esrc::chunkDataFlags.push_back( _chunkKey );
+    }
 }
 
 /* ===========================================================

@@ -77,7 +77,7 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
 
     //goPtr->move.set_speedLv( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
     goPtr->move.set_speedLv( SpeedLevel::LV_8 );   //- tmp，用来快速检索地图
-    goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( false );

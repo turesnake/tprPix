@@ -11,8 +11,9 @@
 //-------------------- CPP --------------------//
 #include <unordered_map>
 #include <mutex>
-#include <set>
 #include <shared_mutex> //- c++17 读写锁
+#include <set>
+
 
 //-------------------- Engine --------------------//
 #include "esrc_field.h"
@@ -98,10 +99,11 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
  * -----------------------------------------------------------
  */
 void atom_field_reflesh_altis(fieldKey_t _fieldKey, const Altitude &_alti, const IntVec2 &_pixMPos ){
-    //--- atom ---//
-    std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
+    {//--- atom ---//
+        std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
         assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-    esrc::fields.at(_fieldKey).reflesh_altis( _alti, _pixMPos );
+        esrc::fields.at(_fieldKey).reflesh_altis( _alti, _pixMPos );
+    }
 }
 
 
@@ -170,10 +172,11 @@ namespace{//------------ namespace --------------//
  * -----------------------------------------------------------
  */
 void insert_2_fieldsBuilding( fieldKey_t _fieldKey ){
-    //--- atom ---//
-    std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-        assert( fieldsBuilding.find(_fieldKey) == fieldsBuilding.end() );
-    fieldsBuilding.insert( _fieldKey );
+    {//--- atom ---//
+        std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
+            assert( fieldsBuilding.find(_fieldKey) == fieldsBuilding.end() );
+        fieldsBuilding.insert( _fieldKey );
+    }
 }
 bool is_in_fieldsBuilding( fieldKey_t _fieldKey ){
     bool ret;
@@ -184,9 +187,10 @@ bool is_in_fieldsBuilding( fieldKey_t _fieldKey ){
     return ret;
 }
 void erase_from_fieldsBuilding( fieldKey_t _fieldKey ){
-    //--- atom ---//
-    std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-    assert( fieldsBuilding.erase( _fieldKey ) == 1 );
+    {//--- atom ---//
+        std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
+        assert( fieldsBuilding.erase( _fieldKey ) == 1 );
+    }
 }
 
 

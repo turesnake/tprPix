@@ -30,6 +30,17 @@ void load_animFrameSets(){
 
     esrc::animFrameSets.clear();
 
+
+    //---------------------------------------//
+    //                Button
+    //---------------------------------------//
+    esrc::animFrameSets.insert({"button_beginScene",  
+                                AnimFrameSet{   "/button/beginScene/button_beginScene.P.png", 
+                                                IntVec2{1, 3}, 3,
+                                                false, //- 无 shadow 数据
+                                                false, std::vector<int>{} } });
+
+
     //---------------------------------------//
     //               GO: Major
     //---------------------------------------//

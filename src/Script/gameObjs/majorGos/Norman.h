@@ -92,7 +92,7 @@ private:
 //---------- static ----------//
 inline goSpecId_t  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< Norman类 唯一的 保留实例 >=====
+//=====< 本类 唯一的 保留实例 >=====
 inline Norman  norman {};
 
 }//------------- namespace gameObjs: end ----------------

@@ -35,7 +35,14 @@ public:
     glm::mat4 &update_mat4_projection();
 
     //- 外部代码控制 camera运动 的唯一方式
-    void set_targetPos( glm::vec2 _tpos, float _approachPercent=0.08f ); 
+    inline void set_targetFPos( glm::vec2 _tpos, float _approachPercent=0.08f ){
+        if( _tpos == this->targetFPos ){
+            return;
+        }
+        this->targetFPos = _tpos;
+        this->isMoving = true;
+        this->approachPercent = _approachPercent;
+    }
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
     inline const glm::vec2 get_camera2DFPos() const { 
@@ -57,11 +64,10 @@ private:
     glm::mat4 mat4_projection; //-- 投影矩阵，默认初始化为 单位矩阵
 
     //------ 坐标向量 -------
-    glm::vec2 targetPPos  {}; 
+    glm::vec2 targetFPos  {}; 
     glm::vec3 currentFPos {}; 
 
-    bool   isMoving       {true}; //- 是否在移动
-    float  approachPercent {0.08f};  //- camera运动的 “接近比率”
+    float  approachPercent {0.08};  //- camera运动的 “接近比率”
 
     //------ 方向向量 -------
     //-- 以下3个向量 都是 单位向量
@@ -71,6 +77,9 @@ private:
     glm::vec3 cameraUp    { glm::vec3(0.0f, 1.0f, 0.0f) }; //-- 摄像机 头顶向上 指向的方向。
 
     glm::vec3 worldUp { glm::vec3(0.0f, 1.0f, 0.0f) };     //-- 世界轴的 Up方向，和 cameraUp 有区别。
+
+    //===== flags =====//
+    bool   isMoving       {true}; //- 是否在移动
 
 };
 

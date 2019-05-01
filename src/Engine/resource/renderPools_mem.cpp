@@ -22,7 +22,18 @@ void draw_renderPool_goMeshs_pic(){
         //-- 渲染持续，pos.z值小的 先渲染 --
         pairRef.second->draw();
     }
+}
 
+/* ===========================================================
+ *                draw_renderPool_uiMeshs_pic
+ * -----------------------------------------------------------
+ */
+void draw_renderPool_uiMeshs_pic(){
+
+    for( auto &pairRef : esrc::renderPool_uiMeshs_pic ){
+        //-- 渲染持续，pos.z值小的 先渲染 --
+        pairRef.second->draw();
+    }
 }
 
 

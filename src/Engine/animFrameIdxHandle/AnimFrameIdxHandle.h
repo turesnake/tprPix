@@ -104,6 +104,10 @@ public:
 private:
     GameObjMesh *goMeshPtr {nullptr};
 
+                //-- 这个指针应当被 去掉....
+                //   它会限制 AnimFrameIdxHandle 的通用性。
+                
+
     void update_cycle();
     void update_once();
 

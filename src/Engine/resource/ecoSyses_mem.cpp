@@ -9,8 +9,10 @@
  */
 
 //-------------------- Engine --------------------//
+#include "random.h"
 #include "esrc_ecoSys.h"
-#include "esrc_gameSeed.h"
+//#include "esrc_gameSeed.h"
+
 
 //-------------------- Script --------------------//
 #include "Script/resource/srcs_script.h" 
@@ -22,7 +24,7 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 namespace{//-------- namespace: --------------//
-
+                                            
     Density  density_m3 {-3};
     Density  density_m2 {-2};
     Density  density_m1 {-1};
@@ -134,10 +136,11 @@ void init_ecoSyses(){
     //---------------------//
     //   shuffle ecoSysIds
     //---------------------//
+    std::default_random_engine randEngine; 
+    randEngine.seed(431); //- 提供固定seed
     std::shuffle(   esrc::ecoSysIds.begin(), 
                     esrc::ecoSysIds.end(),
-                    esrc::gameSeed.randEngine );
-        //-- 目前这么实现还不够 “伪随机”...
+                    randEngine );
 }
 
 namespace{//-------- namespace: --------------//
@@ -193,7 +196,7 @@ void init_Forest_1(){
                                 EcoEnt{ "pineTree",  1 }
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 43 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -253,7 +256,7 @@ void init_Forest_2(){
                                 EcoEnt{ "pineTree",  1 }
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 79 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -308,7 +311,7 @@ void init_DarkForest_1(){
                                 EcoEnt{ "pineTree", 9 }
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 241 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -364,7 +367,7 @@ void init_Plain_1(){
                                 EcoEnt{ "pineTree",  1 } 
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 349 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -419,7 +422,7 @@ void init_Swamp_1(){
                                 EcoEnt{ "pineTree",  1 }
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 31 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -478,7 +481,7 @@ void init_Desert_1(){
                                 EcoEnt{ "oakTree",      9 } 
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 37 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }
@@ -543,7 +546,7 @@ void init_Desert_2(){
                                 EcoEnt{ "oakTree",      9 } 
                             });
     // shuffle
-    ecoSysPtr->shuffle_goSpecIdPools();
+    ecoSysPtr->shuffle_goSpecIdPools( 83 ); //- 提供固定seed
     //------ end -------
     ecoSysPtr->chueck_end();
 }

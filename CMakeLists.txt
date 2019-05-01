@@ -30,6 +30,10 @@ endif( APPLE )
 set (CMAKE_CXX_STANDARD 17)
 
 
+#-- 单独设置 c++ 的编译选项 的方式:
+#add_definitions ( -DXXX_XXX=1 )
+
+
 #---------------------------------------------------#
 #                project name
 #---------------------------------------------------#
@@ -59,8 +63,8 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/canvas)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/dataBase)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
@@ -77,10 +81,12 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/multiThread)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/scene)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/shaderProgram)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/UI)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
 
 
@@ -93,6 +99,7 @@ include_directories (${PROJECT_SOURCE_DIR}/deps)
 include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/glfw/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/lodepng/include)
+include_directories (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBase/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDataType)
@@ -100,7 +107,6 @@ include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileModeT)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/MsgIO/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/wrapFuncs/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBitMap/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDB/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileSys/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary/include)
@@ -122,9 +128,9 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
-                        src/Engine/canvas/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
+                        src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
@@ -140,10 +146,12 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/resource/*.cpp 
+                        src/Engine/scene/*.cpp 
                         src/Engine/script/*.cpp 
                         src/Engine/shaderProgram/*.cpp 
                         src/Engine/sys/*.cpp
                         src/Engine/time/*.cpp 
+                        src/Engine/UI/*.cpp 
                         src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
@@ -157,6 +165,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/map/*.cpp
                         src/Script/resource/*.cpp
                         src/Script/textureBuilder/*.cpp 
+                        src/Script/UIs/*.cpp 
                         )
 
 #---------------------------------------------------#
@@ -190,9 +199,9 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBitMap)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileSys)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDB)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor)
+add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 
 
 #---------------------------------------------------#
@@ -201,6 +210,7 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor)
 if ( APPLE )
     target_link_libraries( tprpix 
         glfw
+        SQLite
         ${GLFW_LIBRARIES}
         MsgIO
         wrapFuncs
@@ -208,7 +218,6 @@ if ( APPLE )
         tprFileSys
         tprCrypto
         tprBinary
-        tprDB
         tprTimer
         tprMemAllor
         )
@@ -216,6 +225,7 @@ if ( APPLE )
 elseif( UNIX AND NOT APPLE )
     target_link_libraries( tprpix 
         glfw
+        SQLite
         ${GLFW_LIBRARIES}
         MsgIO
         wrapFuncs
@@ -223,7 +233,6 @@ elseif( UNIX AND NOT APPLE )
         tprFileSys
         tprCrypto
         tprBinary
-        tprDB
         tprTimer
         tprMemAllor
         )

@@ -21,8 +21,11 @@ enum class RenderLayerType{
     MapSurfaces,
     GoShadows,
     Debug,
-    MajorGoes
+    MajorGoes,
     //....
+
+
+    UIs
 };
 
 

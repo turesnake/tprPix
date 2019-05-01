@@ -15,7 +15,7 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "tprDB.h"
+//#include "tprDB.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_chunk.h" //- 所有资源
@@ -38,7 +38,7 @@ void chunk_srcs_init();
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_var 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB  fstChunk_db  { tpr::DB::DB_TYPE::Pure_Var, false };
+    //tpr::tprDB  fstChunk_db  { tpr::DB::DB_TYPE::Pure_Var, false };
 
     
 }//---------------- namespace end --------------//
@@ -51,6 +51,7 @@ namespace{//------------ namespace --------------//
  */
 void chunk_srcs_init(){
 
+    /*
     fstChunk_db.init_huge( path_data,
                                 "fstChunk",
                                 sizeof(Fst_diskChunk)
@@ -63,17 +64,11 @@ void chunk_srcs_init(){
     size_t fstChunk_db_ents = fstChunk_db.ent_nums();
     if( fstChunk_db_ents == 0 ){
         //----- 没有存档，新建之 --------//
-        
-
-
-
     }else{
         //----- 有现成存档，读取之 --------//
         //...
-
-
-
     }
+    */
 
 
 

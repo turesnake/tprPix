@@ -33,7 +33,7 @@ inline std::unordered_map<GameKey, KeyBoard> gameKeyTable {
     { GameKey::KEY_7,   KeyBoard::NIL },
     { GameKey::KEY_8,   KeyBoard::NIL },
     { GameKey::KEY_9,   KeyBoard::NIL },
-    { GameKey::KEY_10,  KeyBoard::NIL },
+    { GameKey::KEY_10,  KeyBoard::ENTER }, //- enter 
     { GameKey::KEY_11,  KeyBoard::NIL },
     { GameKey::KEY_12,  KeyBoard::NIL },
     { GameKey::KEY_13,  KeyBoard::NIL },

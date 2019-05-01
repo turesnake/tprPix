@@ -94,7 +94,7 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- 树木一律无法移动
-    goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
     //--- 小树，中树 可以被其它go 穿过，成年树不行 ---

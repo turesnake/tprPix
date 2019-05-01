@@ -89,10 +89,10 @@ void init_VAOVBO(){
 
 
 /* ===========================================================
- *                     VAOVBO_del
+ *                     delete_VAOVBO
  * -----------------------------------------------------------
  */
-void VAOVBO_del(){
+void delete_VAOVBO(){
     glDeleteVertexArrays( 1, &VAO );
     glDeleteBuffers(      1, &VBO );
 }

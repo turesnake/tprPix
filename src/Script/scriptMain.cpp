@@ -29,6 +29,7 @@ using namespace std::placeholders;
 
 //----------- 需要注册到 engine 的函数 ---------------//
 extern void onGoSpecIds_SignUp();
+extern void onUISpecIds_SignUp();
 extern void onStart_test();
 
 /* ===========================================================
@@ -41,6 +42,7 @@ void scriptMain(){
 
     //------- Awakes -------//
     esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
+    esrc::behaviour.signUp_Awakes( std::bind( &onUISpecIds_SignUp ) );
 
     //------- Starts -------//
     esrc::behaviour.signUp_Starts( std::bind( &onStart_test ) );

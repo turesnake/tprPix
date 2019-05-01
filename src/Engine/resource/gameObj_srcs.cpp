@@ -15,7 +15,7 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "tprDB.h"
+//#include "tprDB.h"
 
 
 //-------------------- Engine --------------------//
@@ -38,7 +38,7 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 namespace{//------------ namespace --------------//
 
     //-- 一个 regular 数据库实例。存储 所有 go --
-    tpr::tprDB gameObj_db { tpr::DB::DB_TYPE::Regular, false };
+    //tpr::tprDB gameObj_db { tpr::DB::DB_TYPE::Regular, false };
     
 }//---------------- namespace end --------------//
 
@@ -49,15 +49,15 @@ namespace{//------------ namespace --------------//
  */
 void gameObj_srcs_init(){
 
-    
+    /*
     gameObj_db.init( path_data,
                     "gameObj",
                     { 
                         tpr::DB::DATA_T::U64
-                        
                     },
                     sizeof(diskPlayer) //- 这是什么？
                     );
+    */
 
 }
 

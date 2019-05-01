@@ -132,26 +132,31 @@ void draw_waterAnimCanvas(){
 
     
     //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
+    const glm::vec2 &altiSeed_pposOffSeaLvl = esrc::gameSeed.get_altiSeed_pposOffSeaLvl();
+    const glm::vec2 &altiSeed_pposOffBig = esrc::gameSeed.get_altiSeed_pposOffBig();
+    const glm::vec2 &altiSeed_pposOffMid = esrc::gameSeed.get_altiSeed_pposOffMid();
+    const glm::vec2 &altiSeed_pposOffSml = esrc::gameSeed.get_altiSeed_pposOffSml();
+
     if( is_waterAnim_baseUniforms_transmited == false ){
         is_waterAnim_baseUniforms_transmited = true;
         glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), SCR_WIDTH ); //- 1-float
         glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), SCR_HEIGHT ); //- 1-float
 
         glUniform2f(esrc::waterAnimCanvas.get_uniform_location("altiSeed_pposOffSeaLvl"), 
-                    esrc::gameSeed.altiSeed_pposOffSeaLvl.x,
-                    esrc::gameSeed.altiSeed_pposOffSeaLvl.y ); //- 2-float
+                    altiSeed_pposOffSeaLvl.x,
+                    altiSeed_pposOffSeaLvl.y ); //- 2-float
         
         glUniform2f(esrc::waterAnimCanvas.get_uniform_location("altiSeed_pposOffBig"), 
-                    esrc::gameSeed.altiSeed_pposOffBig.x,
-                    esrc::gameSeed.altiSeed_pposOffBig.y ); //- 2-float
+                    altiSeed_pposOffBig.x,
+                    altiSeed_pposOffBig.y ); //- 2-float
         
         glUniform2f(esrc::waterAnimCanvas.get_uniform_location("altiSeed_pposOffMid"), 
-                    esrc::gameSeed.altiSeed_pposOffMid.x,
-                    esrc::gameSeed.altiSeed_pposOffMid.y ); //- 2-float
+                    altiSeed_pposOffMid.x,
+                    altiSeed_pposOffMid.y ); //- 2-float
 
         glUniform2f(esrc::waterAnimCanvas.get_uniform_location("altiSeed_pposOffSml"), 
-                    esrc::gameSeed.altiSeed_pposOffSml.x,
-                    esrc::gameSeed.altiSeed_pposOffSml.y ); //- 2-float
+                    altiSeed_pposOffSml.x,
+                    altiSeed_pposOffSml.y ); //- 2-float
     }
 
     esrc::waterAnimCanvas.draw();

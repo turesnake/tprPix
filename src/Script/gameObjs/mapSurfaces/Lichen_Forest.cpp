@@ -80,7 +80,7 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isControlByPlayer = false;
 
     goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- lichen_Forest一律无法移动
-    goPtr->move.set_MoveType( true ); //- tmp
+    goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
     goPtr->set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
@@ -91,7 +91,7 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
                                         "lichen_Forest", //- animFrameSet-Name
-                                        RenderLayerType::MapSurfaces, //- 不设置 固定zOff值
+                                        RenderLayerType::MapSurfaces,
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
                                         glm::vec2{ 0.0f, 0.0f }, //- pposoff

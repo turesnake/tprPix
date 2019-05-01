@@ -92,7 +92,7 @@ private:
 //---------- static ----------//
 inline u32_t  BigMan::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
-//=====< BigMan类 唯一的 保留实例 >=====
+//=====< 本类 唯一的 保留实例 >=====
 inline BigMan  big_man {};
 
 }//------------- namespace gameObjs: end ----------------

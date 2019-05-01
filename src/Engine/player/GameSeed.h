@@ -15,13 +15,6 @@
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-//#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-//#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -42,8 +35,40 @@ public:
                                 // 真正的初始化，还在 init 函数中
     }
 
-    void init();
+    
 
+    void init( u32_t _baseSeed );
+
+
+    inline const glm::vec2 &get_altiSeed_pposOffSeaLvl() const {
+        return this->altiSeed_pposOffSeaLvl;
+    }
+    inline const glm::vec2 &get_altiSeed_pposOffBig() const {
+        return this->altiSeed_pposOffBig;
+    }
+    inline const glm::vec2 &get_altiSeed_pposOffMid() const {
+        return this->altiSeed_pposOffMid;
+    }
+    inline const glm::vec2 &get_altiSeed_pposOffSml() const {
+        return this->altiSeed_pposOffSml;
+    }
+
+    inline const glm::vec2 &get_densitySeed_pposOff() const {
+        return this->densitySeed_pposOff;
+    }
+    inline const glm::vec2 &get_field_pposOff() const {
+        return this->field_pposOff;
+    }
+    inline const glm::vec2 &get_ecoSysInMapWeight_pposOff() const {
+        return this->ecoSysInMapWeight_pposOff;
+    }
+
+    //======== static ========//
+    static u32_t apply_new_baseSeed(){
+        return get_new_seed();
+    }
+
+private:
     //======== vals ========//
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
 
@@ -61,16 +86,10 @@ public:
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 随机数引擎实例
 
-
     //======== flags ========//
     bool   is_all_seed_init {false};
 
-
-private:
-
     void init_glm_vec2s();
-
-
 };
 
 

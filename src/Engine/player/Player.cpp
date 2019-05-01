@@ -110,7 +110,7 @@ void Player::handle_inputINS( const InputINS &_inputINS ){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetPos( this->goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
+    esrc::camera.set_targetFPos( this->goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
 
     //---------------------------//
     //  

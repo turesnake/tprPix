@@ -15,7 +15,6 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
-//#include <thread>
 
 //-------------------- Engine --------------------//
 #include "global.h"
@@ -25,6 +24,8 @@
 #include "VAOVBO.h" 
 #include "chunkBuild.h"
 #include "fieldBorderSet_Handle.h"
+#include "dataBase.h"
+#include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
 //------------------- Script --------------------//
@@ -32,7 +33,7 @@
  
 using std::string;
 
-#include "debug.h" //- tmp
+//#include "debug.h" //- tmp
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
 extern void prepare();
@@ -87,7 +88,8 @@ int main(){
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
-
+    db::init_dataBase();                //---- dataBase 资源 ----
+            //-- tmp...
 
 
     //------------------------------------------//
@@ -99,9 +101,11 @@ int main(){
     //------------------------------------------//
     //                更多 资源
     //------------------------------------------//
+
+                //-- 这里的很多资源，会被推迟到 不同的 场景 中...
+
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
-    esrc::gameSeed.init();           //---- gameSeed 资源 ---- tmp
     //init_globState_srcs();         //---- globState 资源 ----
         globState_byPass();
 
@@ -112,11 +116,11 @@ int main(){
 
     debug::init_debug();             //---- debug 资源 ----
 
-    //esrc::init_gpgpus();             //---- gpgpu 资源 ----
+    //esrc::init_gpgpus();           //---- gpgpu 资源 ----
     esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//
-    esrc::load_colliEntSets(); //-- colliEntSets --
+    esrc::load_colliEntSets();       //-- colliEntSets --
 
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
@@ -130,21 +134,27 @@ int main(){
     //---- 加载 map 数据 ----
     //...
 
+        /*
         //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
         //   在未来，会被 完善的 游戏存档系统 所取代
         chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
 
-
         go_byPass();  //- 硬生产一组 Norman 实例
 
-
         esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
+        */
 
     
     //------------------------------------------//
     //        Behaviour.Starts
     //------------------------------------------//
     esrc::behaviour.call_Starts();
+
+
+    //------------------------------------------//
+    //           bind first scene
+    //------------------------------------------//
+    prepare_for_sceneBegin();
 
     //========================================================//
     //                 main render loop
@@ -169,109 +179,11 @@ int main(){
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
                     //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
 
-        //--------------------------------//
-        //    camera:: RenderUpdate()
-        //    camera --> shader: view, projection
-        //--------------------------------//
-        esrc::camera.RenderUpdate();
-        //--- 
-        esrc::rect_shader.use_program();
-        esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
-        esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
-
-        //--------------------------------//
-        //           logic
-        //--------------------------------//
-
-        //-- 依据 逻辑时间循环，调用不同的 函数 --// 
-        switch( esrc::logicTimeCircle.current() ){
-            case 0:
-                esrc::realloc_inactive_goes(); //- tmp
-                
-                break;
-
-            case 1:
-                esrc::foreach_goids_active(
-                    []( goid_t _goid, GameObj *_goPtr ){
-                        _goPtr->LogicUpdate( _goPtr );
-                    }
-                );
-                break;
-
-            case 2:
-                //esrc::camera.print_pos();
-
-
-                break;
-            case 3:
-
-                //--- 定期 检查玩家所在 chunk
-                //  并将需要新建的 chunks 收集到 队列中
-                chunkBuild::collect_chunks_need_to_be_build_in_update();
-                        // 更新中...
-
-                break;
-            case 4:
-
-                break;
-            default:
-                assert(0);
-        }
-
-        //--------------------------------//
-        //  每一帧，最多装配生成一个 chunk 实例
-        //--------------------------------//
-        chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
-
-
-        //====================================//
-        //          -- RENDER --
-        //    Z-Deep 深的 mesh 必须先渲染
-        //====================================//
-
-        //--- clear RenderPools:
-        // *** 注意次序 ***
-        esrc::renderPool_meshs.clear();
-        esrc::renderPool_goMeshs_pic.clear();
-        esrc::renderPool_goMeshs_shadow.clear();
-        esrc::renderPool_mapSurfaces.clear();
-        
-
-        //------------------------//
-        //       chunks
-        //------------------------//
-        esrc::render_chunks();
-
-        //------------------------//
-        //     mapEntSlices
-        //------------------------//
-        //...
-
-
-        //------------------------//
-        //     - shadowMeshs
-        //     - picMeshs
-        //------------------------//
-        esrc::foreach_goids_active(
-            []( goid_t _goid, GameObj *_goPtr ){
-                assert( _goPtr->RenderUpdate != nullptr );
-                _goPtr->RenderUpdate( _goPtr ); 
-            }
-        );
-
-
-        //>>>>>>>>>>>>>>>>>>>>>>>>//
-        //        draw call
-        //>>>>>>>>>>>>>>>>>>>>>>>>//
-        // *** 注意次序,先渲染深处的 ***
-        esrc::draw_groundCanvas();
-        esrc::draw_renderPool_meshs(); //- chunks
-        esrc::draw_waterAnimCanvas();
-        esrc::draw_renderPool_mapSurfaces();
-        esrc::draw_renderPool_goMeshs_shadow();
-        debug::draw_renderPool_mapEntSlices();  //-- debug 但是不在此文件中 clear
-        debug::draw_renderPool_pointPics();     //-- debug 但是不在此文件中 clear
-        esrc::draw_renderPool_goMeshs_pic(); 
+        //================================//
+        //       scene main loop      
+        //       -- IMPORTANT --   
+        //================================//
+        sceneLoopFunc();
 
         //--------------------------------//
         //   check and call events
@@ -299,7 +211,11 @@ int main(){
     //             save / delete everthing
     //--------------------------------------------------------//
     // 测试阶段，删不删无所谓
-    VAOVBO_del();           //------ 删除 全局唯一 VAO，VBO -----
+    db::close_dataBase();          //------ 关闭 sqlite db -----
+    delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
+    
+
+    
     //...
 
 

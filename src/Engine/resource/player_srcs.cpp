@@ -16,7 +16,7 @@
 
 
 //------------------- Libs --------------------//
-#include "tprDB.h"
+//#include "tprDB.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_player.h"
@@ -40,7 +40,7 @@ void player_srcs_save();
 namespace{//------------ namespace --------------//
 
     //-- 一个 pure_fix 数据库实例。存储 唯一一个 dbent --
-    tpr::tprDB player_db { tpr::DB::DB_TYPE::Pure_Fix, true };
+    //tpr::tprDB player_db { tpr::DB::DB_TYPE::Pure_Fix, true };
     
 }//---------------- namespace end --------------//
 
@@ -51,6 +51,7 @@ namespace{//------------ namespace --------------//
  */
 void init_player_srcs(){
 
+    /*
     player_db.init( path_data,
                     "player",
                     { 
@@ -96,12 +97,10 @@ void init_player_srcs(){
         //---- 添加到 数据库 ----
         //-- 由于 数据库为空，所以此处使用 insert
         player_db.insert( true, &dp, sizeof(dp) );
-
-
     }
+    */
 
-    //cout << "player_db.ent_nums() = " << player_db.ent_nums()
-        //<< endl;
+
 }
 
 
@@ -111,6 +110,7 @@ void init_player_srcs(){
  */
 void player_srcs_save(){
 
+    /*
     diskPlayer dp = player.m2d();
 
     //-- 获得 dbent id --
@@ -118,6 +118,7 @@ void player_srcs_save(){
 
     //---- 正式存入 数据库 ----
     player_db.write(true, id, &dp, sizeof(dp) );
+    */
 
 }
 

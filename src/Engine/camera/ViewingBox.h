@@ -30,6 +30,7 @@ public:
             case RenderLayerType::MapSurfaces: return mapSurfaces_zOff;
             case RenderLayerType::GoShadows:   return goShadows_zOff;
             case RenderLayerType::Debug:       return debug_zOff;
+            case RenderLayerType::UIs:         return UIs_zOff;
             case RenderLayerType::MajorGoes: 
                 assert(0);
                 return 0.0; //- never reach
@@ -66,6 +67,13 @@ public:
         
     static float  debug_zOff;
         // debug 专用 图层
+
+    
+    //...
+
+
+    static float  UIs_zOff;
+        // UIs 专用 图层
 };
 
 inline float ViewingBox::x { (float)WORK_WIDTH };
@@ -79,6 +87,9 @@ inline float  ViewingBox::mapSurfaces_zOff   { 40.0f };
 inline float  ViewingBox::goShadows_zOff     { 50.0f };
 inline float  ViewingBox::debug_zOff         { 60.0f };
 
+//...
+
+inline float  ViewingBox::UIs_zOff         { 1900.0f };
 
 
 #endif
