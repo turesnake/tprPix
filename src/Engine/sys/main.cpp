@@ -88,7 +88,7 @@ int main(){
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
-    db::init_dataBase();                //---- dataBase 资源 ----
+    db::atom_init_dataBase();                //---- dataBase 资源 ----
             //-- tmp...
 
 
@@ -106,13 +106,13 @@ int main(){
 
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
-    //init_globState_srcs();         //---- globState 资源 ----
-        globState_byPass();
 
-    //init_player_srcs();            //----  player 资源 ----
-        //esrc::player.init();
-        player_byPass();
-    //...
+    GameObj::id_manager.set_max_id( 0 );
+
+        //player_byPass();        //----  player 资源 ----
+        esrc::player.init();
+        esrc::player.goid = NULLID; 
+    //... 
 
     debug::init_debug();             //---- debug 资源 ----
 
@@ -121,29 +121,13 @@ int main(){
 
     //++++++ load ++++++//
     esrc::load_colliEntSets();       //-- colliEntSets --
-
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
-
     esrc::init_ecoSyses();           //----- ecoSyses 资源 ----- MUST after esrc::behaviour.call_Awakes()
 
     //...
         
-
-    //---- 加载 map 数据 ----
-    //...
-
-        /*
-        //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
-        //   在未来，会被 完善的 游戏存档系统 所取代
-        chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
-
-        go_byPass();  //- 硬生产一组 Norman 实例
-
-        esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
-        */
-
     
     //------------------------------------------//
     //        Behaviour.Starts
@@ -199,6 +183,10 @@ int main(){
 
     }//------------ while render loop end --------------------//
 
+    db::atom_writeBack_to_table_gameArchive();
+
+                    //-- 测试版位置，最终也许不放在这里
+
 
     //------------------------------------------//
     //            等待关闭 job线程组
@@ -211,7 +199,7 @@ int main(){
     //             save / delete everthing
     //--------------------------------------------------------//
     // 测试阶段，删不删无所谓
-    db::close_dataBase();          //------ 关闭 sqlite db -----
+    db::atom_close_dataBase();          //------ 关闭 sqlite db -----
     delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
     
 

@@ -29,10 +29,12 @@
 #include "GameArchive.h"
 #include "GameSeed.h"
 #include "esrc_gameSeed.h"
+#include "esrc_gameArchive.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/create_UIs.h"
-#include "Script/resource/srcs_script.h"
+#include "Script/resource/ssrc.h"
+#include "Script/gameObjs/create_goes.h"
 
 
 using namespace std::placeholders;
@@ -44,9 +46,9 @@ namespace{//-------------- namespace ------------------//
 
     //-- 三个按钮的 位置 --
     const std::vector<IntVec2> buttonMPoses {
-        IntVec2 {0, 7},  //- 0
+        IntVec2 {0, 6},  //- 0
         IntVec2 {0, 0},  //- 1
-        IntVec2 {0, -7}  //- 2
+        IntVec2 {0, -6}  //- 2
     };
 
     int targetIdx {0}; //- 用来指向 buttonMPoses : 0,1,2
@@ -102,7 +104,7 @@ void prepare_for_sceneBegin(){
     //----------------------------//
 
     //-- 从 数据库读取 所有 gameArchives 的数据 --
-    db::select_all_from_table_gameArchive( gameArchives );
+    db::atom_select_all_from_table_gameArchive( gameArchives );
         assert( gameArchives.size() <= 3 );
     
     for( const auto &pair : gameArchives ){
@@ -173,7 +175,6 @@ void sceneLoop_begin(){
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_renderPool_uiMeshs_pic(); 
 
-
 }
 
 namespace{//-------------- namespace ------------------//
@@ -182,6 +183,7 @@ namespace{//-------------- namespace ------------------//
 /* ===========================================================
  *              inputINS_handle_in_sceneBegin
  * -----------------------------------------------------------
+ * -- 目前未实现对 ESC 健的处理...
  */
 void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 
@@ -196,8 +198,10 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
         }
     }
 
-
-    if( _inputINS.check_key(GameKey::KEY_10) ){ //- Key: ENTER
+    //-----------------------//
+    //      Key: ENTER
+    //-----------------------//
+    if( _inputINS.check_key(GameKey::KEY_10) ){
         is_input_open = false;
         cout << "enter" << endl;
 
@@ -207,19 +211,74 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 
         gameArchiveId_t archiveId = targetIdx+1;
 
-        u32_t  target_baseSeed;
-
         if( gameArchives.find(archiveId) == gameArchives.end() ){
             //-- 玩家选中的 存档为 空 --
-            target_baseSeed = GameSeed::apply_new_baseSeed();
-            //-- 将新存档，写入 数据库 --
-            db::insert_or_replace_to_table_gameArchive( GameArchive{ archiveId, target_baseSeed } );
+            u32_t target_baseSeed = GameSeed::apply_new_baseSeed();
+            esrc::gameSeed.init( target_baseSeed );
+
+            //-- max goid --
+            // 必须在 chunks／goes 生成之前
+            u64_t   maxGoId = 1;
+            GameObj::id_manager.set_max_id(maxGoId);
+
+                //-- 随便定个 mpos 
+                IntVec2    newGoMPos { 8,0 };
+                //--- 先 生成 chunks 基础数据 --
+                chunkBuild::build_9_chunks( newGoMPos );
+                        //-- 在未来，需要读取 db::table_chunks 的数据，来辅助生成 chunks
+                        //   这部分，应该写进 chunk build 流程中 ...
+
+                //-- db::table_goes --
+                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
+                goid_t newGoId = gameObjs::create_a_Go(   newGoSpecId,
+                                                            newGoMPos,
+                                                            0.0,
+                                                            MapAltitude {},
+                                                            Density {} );
+                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos } );
+                //-- db::table_gameArchive --
+                
+                
+                esrc::gameArchive = GameArchive {   archiveId, 
+                                                    target_baseSeed,
+                                                    newGoId,
+                                                    newGoMPos,
+                                                    GameObj::id_manager.get_max_id() //- chunk 生成后，maxId 变了
+                                                    };
+                db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
+
+                //-- player --
+                esrc::player.bind_go( newGoId ); //-- 务必在 go数据实例化后 再调用 --
+
         }else{
             //-- 玩家选中的 存档 已经存在 --
-            target_baseSeed = gameArchives.at(archiveId).baseSeed;
+            esrc::gameArchive = gameArchives.at(archiveId); //- copy
+
+            esrc::gameSeed.init( esrc::gameArchive.baseSeed );
+            GameObj::id_manager.set_max_id( esrc::gameArchive.maxGoId );
+
+                cout << "id_manager.get_max_id() = " << GameObj::id_manager.get_max_id() << endl;
+
+            //-- db::table_goes --
+            DiskGameObj diskGo {};
+            db::atom_select_one_from_table_goes( esrc::gameArchive.playerGoId, diskGo );
+
+
+                assert( diskGo.mpos == esrc::gameArchive.playerGoMPos ); //- tmp
+            
+            //--- 先生成 chunks --
+            chunkBuild::build_9_chunks( esrc::gameArchive.playerGoMPos );
+            
+                //... 根据 读取的数据，将其转换为 mem go 实例 ...
+            gameObjs::rebind_a_disk_Go( diskGo,
+                                        0.0,
+                                        MapAltitude {},
+                                        Density {} );
+
+            //-- player --
+            esrc::player.bind_go( esrc::gameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --
         }
 
-        esrc::gameSeed.init( target_baseSeed );
 
         // 准备进入 sceneWorld ...
         prepare_for_sceneWorld();

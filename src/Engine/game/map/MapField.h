@@ -30,7 +30,7 @@
 #include "sectionKey.h"
 #include "fieldKey.h"
 #include "RGBA.h"
-#include "Altitude.h"
+#include "MapAltitude.h"
 #include "occupyWeight.h"
 #include "fieldBorderSetId_t.h"
 #include "Density.h"
@@ -48,8 +48,8 @@ public:
     void init( const IntVec2 &_anyMPos );
 
     inline bool is_land() const {
-        return (this->minAlti.is_land() &&
-                this->nodeAlti.is_land() );
+        return (this->minMapAlti.is_land() &&
+                this->nodeMapAlti.is_land() );
                     //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
                     //  地图上种植的树木个数会大幅度减少
                     //  未修改...
@@ -57,15 +57,15 @@ public:
 
     //------- set -------//    
     //-- 一体化的 altis 设置函数 
-    inline void reflesh_altis( const Altitude &_alti, const IntVec2 &_pixMPos ){
-        if( _alti < this->minAlti ){
-            this->minAlti = _alti;
+    inline void reflesh_altis( const MapAltitude &_mapAlti, const IntVec2 &_pixMPos ){
+        if( _mapAlti < this->minMapAlti ){
+            this->minMapAlti = _mapAlti;
         }
-        if( _alti > this->maxAlti ){
-            this->maxAlti = _alti;
+        if( _mapAlti > this->maxMapAlti ){
+            this->maxMapAlti = _mapAlti;
         }
         if( IntVec2::is_closeEnough( _pixMPos, this->get_mpos(), 5 ) ){
-            this->nodeAlti = _alti;
+            this->nodeMapAlti = _mapAlti;
         }
     }
 
@@ -88,14 +88,14 @@ public:
     inline const fieldBorderSetId_t &get_fieldBorderSetId() const {
         return this->fieldBorderSetId;
     }
-    inline const Altitude &get_minAlti() const {
-        return this->minAlti;
+    inline const MapAltitude &get_minMapAlti() const {
+        return this->minMapAlti;
     }
-    inline const Altitude &get_maxAlti() const {
-        return this->maxAlti;
+    inline const MapAltitude &get_maxMapAlti() const {
+        return this->maxMapAlti;
     }
-    inline const Altitude &get_nodeAlti() const {
-        return this->nodeAlti;
+    inline const MapAltitude &get_nodeMapAlti() const {
+        return this->nodeMapAlti;
     }
     inline const IntVec2 &get_nodeMPos() const {
         return this->nodeMPos;
@@ -141,15 +141,15 @@ private:
     Density             density {};
     
     //----- 三阶数据 / third order data ------//
-    Altitude  minAlti { 100.0 };  
-    Altitude  maxAlti { -100.0 }; //- field 拥有的所有 mapent 的 中点pix 的，alti最低值，最大值
+    MapAltitude  minMapAlti { 100.0 };  
+    MapAltitude  maxMapAlti { -100.0 }; //- field 拥有的所有 mapent 的 中点pix 的，alti最低值，最大值
                                   //- 默认初始值 需要反向设置
                                   //  通过这组值，来表达 field 的 alti 信息
                                   //  ---------
                                   //  但在实际使用中，这组值并不完善，chunk边缘field 的 这组alti值往往无法被填完
                                   //  就要开始 种go。此时很容易把 go 种到水里。
     
-    Altitude  nodeAlti {}; //- nodeMPos 点的 alti 值
+    MapAltitude  nodeMapAlti {}; //- nodeMPos 点的 alti 值
 
     //===== flags =====//
 

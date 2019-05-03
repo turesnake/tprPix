@@ -17,8 +17,8 @@
 #include "esrc_player.h" 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h"
-#include "Altitude.h"
+#include "Script/resource/ssrc.h"
+#include "MapAltitude.h"
 #include "Density.h"
 
 using std::string;
@@ -36,11 +36,11 @@ void go_byPass(){
     //-------------------------//
     //  手动CREATE 若干个 go/Dog_A 实例
     //--------------------------//
-
+    /*
     goid_t majorGoId = gameObjs::create_a_Go(   ssrc::get_goSpecId( "norman" ),
                                                 IntVec2{ 5, 0 },
                                                 0.0,
-                                                Altitude {},
+                                                MapAltitude {},
                                                 Density {} );
     esrc::player.bind_goid( majorGoId );
 
@@ -48,8 +48,9 @@ void go_byPass(){
     gameObjs::create_a_Go(  ssrc::get_goSpecId( "bigMan" ),
                             IntVec2{ 0, 0 },
                             0.0,
-                            Altitude {},
+                            MapAltitude {},
                             Density {} );
+    */
     
 
 }

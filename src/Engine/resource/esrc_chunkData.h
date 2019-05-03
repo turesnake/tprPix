@@ -20,7 +20,7 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey );
 
 
 const std::vector<RGBA> &atom_get_chunkData_texBuf( chunkKey_t _chunkKey );
-const std::vector<Altitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey );
+const std::vector<MapAltitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey );
 
 
 bool atom_is_chunkDataFlags_empty();

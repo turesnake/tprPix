@@ -23,7 +23,6 @@
 #include "esrc_field.h"
 #include "esrc_gameObj.h"
 #include "esrc_gameSeed.h"
-#include "esrc_globState.h"
 #include "esrc_GPGPU.h"
 #include "esrc_jobQue.h"
 #include "esrc_player.h"
@@ -33,6 +32,7 @@
 #include "esrc_time.h"
 #include "esrc_ui.h"
 #include "esrc_window.h"
+#include "esrc_gameArchive.h"
 
 
 #endif

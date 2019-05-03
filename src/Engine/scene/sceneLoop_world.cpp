@@ -41,20 +41,26 @@ namespace{//-------------- namespace ------------------//
  */
 void prepare_for_sceneWorld(){
 
+
+    //-- 合理的流程应该是：
+    //  先 读取 player 数据，还有更多 全局性数据
+    //  然后根据这些数据，来 build chunks
+    //
+    //
     
         //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
         //   在未来，会被 完善的 游戏存档系统 所取代
-        chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
+        //chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
 
-        go_byPass();  //- 硬生产一组 Norman 实例
+        //go_byPass();  //- 硬生产一组 Norman 实例
 
-        esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
+        //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
 
 
 
     
-
+    esrc::camera.set_allFPos( esrc::player.goPtr->goPos.get_currentFPos() );
     input::bind_inputINS_handleFunc( std::bind( &inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -174,6 +180,14 @@ namespace{//-------------- namespace ------------------//
  * -----------------------------------------------------------
  */
 void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
+
+    //-----------------//
+    //      camera
+    //-----------------//
+    //-- 让 camera 对其上1渲染帧 --
+    //- 这会造成 camera 的延迟，但不要紧
+    esrc::camera.set_targetFPos( esrc::player.goPtr->goPos.get_currentFPos() );
+
 
     //... 暂时没有 处理 剩余功能键的 代码 
 

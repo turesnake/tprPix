@@ -16,9 +16,6 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 //--- mem ---//
 inline Player  player {}; //- 全游戏唯一 Player 实例  
 
-//--- db ---//
-void init_player_srcs();
-void player_srcs_save();
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

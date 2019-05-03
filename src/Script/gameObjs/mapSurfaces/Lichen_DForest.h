@@ -20,7 +20,7 @@
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
 #include "PubBinaryValType.h"
-#include "Altitude.h"
+#include "MapAltitude.h"
 #include "Density.h"
 
 
@@ -49,7 +49,7 @@ public:
     void init_in_autoMod(   GameObj *_goPtr,
                             const IntVec2 &_mpos,
 					        float _fieldWeight,
-					        const Altitude &_alti,
+					        const MapAltitude &_alti,
 					        const Density &_density );
 
     void bind( GameObj *_goPtr );

@@ -19,7 +19,7 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 
 using namespace std::placeholders;
 
@@ -36,11 +36,12 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 /* ===========================================================
  *                  init_in_autoMod
  * -----------------------------------------------------------
+ * -- 最后三个参数 并未用上
  */
 void Norman::init_in_autoMod(   GameObj *_goPtr,
                                 const IntVec2 &_mpos,
 					            float _fieldWeight,
-					            const Altitude &_alti,
+					            const MapAltitude &_alti,
 					            const Density &_density ){
 
     assert( _goPtr != nullptr );
@@ -132,6 +133,21 @@ void Norman::bind( GameObj *_goPtr ){
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void Norman::rebind( GameObj *_goPtr ){
+
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    rebind_ptr( _goPtr );
+
+
+
+
+
+
+
+
+
+
 }
 
 /* ===========================================================

@@ -18,7 +18,7 @@
 #include "GameObjType.h" //- goSpecId_t
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/allUIs.h"
 
 using namespace std::placeholders;

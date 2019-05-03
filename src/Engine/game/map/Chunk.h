@@ -135,7 +135,7 @@ private:
                                     // 这种go 在 创建／销毁 阶段往往很麻烦
                                     // 使用一个容器来 动态保管它们。
 
-    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys
+    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys,仅用来辅助 chunk创建
                                           
 
     float  zOff {}; //- chunk间存在前后层次，

@@ -1,5 +1,5 @@
 /*
- * ========================= srcs_script.h ==========================
+ * ========================= ssrc.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2018.12.10
  *                                        MODIFY -- 
@@ -23,7 +23,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h" //- goSpecId_t
-#include "Altitude.h"
+#include "MapAltitude.h"
 #include "Density.h"
 
 
@@ -55,7 +55,7 @@ inline goSpecId_t get_goSpecId( const std::string &_name ){
 using F_GO_INIT = std::function<void( GameObj*,
                                         const IntVec2 &,
 					                    float _fieldWeight,
-					                    const Altitude &,
+					                    const MapAltitude &,
 					                    const Density & )>;
 
 inline std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs; 

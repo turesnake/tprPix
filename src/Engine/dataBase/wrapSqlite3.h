@@ -212,7 +212,12 @@ inline void w_sqlite3_bind_zeroblob( sqlite3 *_db, sqlite3_stmt *_pStmt, int _id
  */
 inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *_pStmt, const char *_zName){
     int retIdx = sqlite3_bind_parameter_index( _pStmt, _zName);
-    assert( retIdx != 0 );
+    //assert( retIdx != 0 );
+    if( retIdx == 0 ){
+        std::cout << "cant find parameter: " << _zName
+            << std::endl;
+        assert(0);
+    }
     return retIdx;
 }
 

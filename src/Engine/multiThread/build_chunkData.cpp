@@ -100,7 +100,7 @@ namespace{//----------- namespace ----------------//
         IntVec2    ppos      {};
         RGBA      *texPixPtr {nullptr};
         FieldData *fieldDataPtr {nullptr}; 
-        Altitude   alti {};
+        MapAltitude   alti {};
     };
 
 

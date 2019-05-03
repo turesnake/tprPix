@@ -107,7 +107,7 @@ const std::vector<RGBA> &atom_get_chunkData_texBuf( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  * 通常由 主线程 调用
  */
-const std::vector<Altitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey ){
+const std::vector<MapAltitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
             assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST

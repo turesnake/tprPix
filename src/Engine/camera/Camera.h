@@ -34,8 +34,19 @@ public:
     glm::mat4 &update_mat4_view();
     glm::mat4 &update_mat4_projection();
 
+
+    //-- 瞬移到 某位置 --
+    //   目前仅用于 sceneWorld 的 perpare 阶段
+    inline void set_allFPos( const glm::vec2 &_tpos ){
+        this->currentFPos.x = _tpos.x; 
+        this->currentFPos.y = _tpos.y + 25.0; //- 不是完全对齐，而是留了段小距离来运动
+        this->targetFPos  = _tpos;
+        this->isMoving = true;
+    }
+
+
     //- 外部代码控制 camera运动 的唯一方式
-    inline void set_targetFPos( glm::vec2 _tpos, float _approachPercent=0.08f ){
+    inline void set_targetFPos( const glm::vec2 &_tpos, float _approachPercent=0.08f ){
         if( _tpos == this->targetFPos ){
             return;
         }

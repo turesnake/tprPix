@@ -20,7 +20,7 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos );
-void atom_field_reflesh_altis(fieldKey_t _fieldKey, const Altitude &_alti, const IntVec2 &_pixMPos );
+void atom_field_reflesh_altis(fieldKey_t _fieldKey, const MapAltitude &_alti, const IntVec2 &_pixMPos );
 
 
 const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t _fieldKey );

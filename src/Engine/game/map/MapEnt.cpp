@@ -15,9 +15,9 @@
  * -- 从 Fst_diskMapEnt 实例中 解析数据，转存到 MemMapEnt 实例中
  * -- *** 当前阶段 不考虑 mem-disk 转存问题 *** --
  */
+/*
 void MemMapEnt::fst_d2m( Fst_diskMapEnt *_dme ){
     
-    /*
     //---------- mask_id ----------------
     mask_id = _dme->mask_id & 0x7F; //- 抹掉高位 1-bit
     
@@ -42,8 +42,8 @@ void MemMapEnt::fst_d2m( Fst_diskMapEnt *_dme ){
 
     //--------- is_XXX_go_default -------
     is_major_go_default   = ((((_dme->sec_data_info)>>7) & 1) == 1);
-    */
 }
+*/
 
 
 /* ===========================================================
@@ -52,11 +52,12 @@ void MemMapEnt::fst_d2m( Fst_diskMapEnt *_dme ){
  * -- 从 MemMapEnt 实例中 解析数据，转存到 Fst_diskMapEnt 实例中
  * -- *** 当前阶段 不考虑 mem-disk 转存问题 *** --
  */
+/*
 Fst_diskMapEnt MemMapEnt::fst_m2d(){
 
     Fst_diskMapEnt me; //- return
 
-    /*
+    
     //--------- is_land -----------------
     (is_land == true) ? me.mask_id = 0x80 : me.mask_id = 0;
 
@@ -79,9 +80,10 @@ Fst_diskMapEnt MemMapEnt::fst_m2d(){
 
     //--------- is_XXX_go_default -------
     if( is_major_go_default == true )  { me.sec_data_info += 1<<7; }
-    */
+    
 
     return me;
 }
+*/
 
 

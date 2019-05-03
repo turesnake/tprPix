@@ -28,43 +28,6 @@ using namespace std::placeholders;
 #include "debug.h" //- tmp
 
 
-namespace{//------------
-}//---------------------
-
-
-
-/* ===========================================================
- *                    d2m    
- * -----------------------------------------------------------
- * -- 通过一个 diskPlayer 来改写 自己的各字段
- */
-void Player::d2m( diskPlayer *_dp ){
-
-    /*
-    this->goid = _dp->go_id;
-    goptr->targetPos.x = _dp->posx;
-    goptr->targetPos.y = _dp->posy;
-    */
-}
-
-
-/* ===========================================================
- *                      m2d  
- * -----------------------------------------------------------
- */
-diskPlayer Player::m2d(){
-
-    diskPlayer dp; //- return
-
-    /*
-    dp.go_id = goptr->id;
-    dp.posx = goptr->targetPos.x;
-    dp.posy = goptr->targetPos.y;
-    */
-    return dp;
-}
-
-
 /* ===========================================================
  *                      init
  * -----------------------------------------------------------
@@ -72,21 +35,24 @@ diskPlayer Player::m2d(){
 void Player::init(){
 
     //-- nothing...
-    //input::bind_inputINS_callback( std::bind( &Player::onInputINS, &esrc::player, _1 ) );
 }
 
 
 /* ===========================================================
- *                   bind_goPtr
+ *                   bind_go
  * -----------------------------------------------------------
  * -- 这个函数有漏洞
  */
-void Player::bind_goPtr(){
+void Player::bind_go( goid_t _goid ){
 
     //-- 解绑旧go --//
     if( this->goPtr!=nullptr ){
         this->goPtr->isControlByPlayer = false;
     }
+
+
+    assert( _goid != NULLID );
+    this->goid = _goid;
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
@@ -105,22 +71,11 @@ void Player::bind_goPtr(){
  */
 void Player::handle_inputINS( const InputINS &_inputINS ){
 
-    //-----------------//
-    //      camera
-    //-----------------//
-    //-- 让 camera 对其上1渲染帧 --
-    //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetFPos( this->goPtr->goPos.get_currentFPos() ); //- 不应该放在此处...
-
-    //---------------------------//
-    //  
-    //---------------------------//
 
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
     //this->goPtr->inputINS = _inputINS; //- copy 
-
     
     this->goPtr->move.set_newCrawlDir( NineBox{ (int)_inputINS.crossX, (int)_inputINS.crossY } );
 }

@@ -19,7 +19,7 @@
 #include "EcoSysInMap.h"
 #include "random.h"
 #include "occupyWeight.h"
-#include "Altitude.h"
+#include "MapAltitude.h"
 #include "Quad.h"
 #include "FieldBorderSet.h"
 #include "MapField.h"
@@ -117,7 +117,7 @@ void Chunk::copy_mapEntAltis(){
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
             entIdx = h * ENTS_PER_CHUNK + w;
-            this->memMapEnts.at(entIdx).alti = mapEntAltis.at(entIdx);
+            this->memMapEnts.at(entIdx).mapAlti = mapEntAltis.at(entIdx);
         }
     }
 }

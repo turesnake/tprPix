@@ -19,7 +19,7 @@
 //-------------------- Engine --------------------//
 #include "config.h"
 #include "MapTexture.h"
-#include "Altitude.h"
+#include "MapAltitude.h"
 
 
 class ChunkData{
@@ -31,7 +31,7 @@ public:
                             RGBA{ 0,0,0,0 } );
     }
 
-    inline void set_mapEntAlti( size_t _idx, const Altitude &_alti ){
+    inline void set_mapEntAlti( size_t _idx, const MapAltitude &_alti ){
         assert( _idx < this->mapEntAltis.size() );
         this->mapEntAltis.at(_idx) = _alti;
     }
@@ -48,18 +48,18 @@ public:
         return this->texBuf;
     }
 
-    inline Altitude &get_mapEntAltiRef( size_t _idx ){
+    inline MapAltitude &get_mapEntAltiRef( size_t _idx ){
         assert( _idx < this->mapEntAltis.size() );
         return this->mapEntAltis.at(_idx);
     }
 
-    inline const std::vector<Altitude> &get_mapEntAltis() const {
+    inline const std::vector<MapAltitude> &get_mapEntAltis() const {
         return this->mapEntAltis;
     }
 
 private:
     std::vector<RGBA>      texBuf;
-    std::vector<Altitude>  mapEntAltis {};
+    std::vector<MapAltitude>  mapEntAltis {};
 };
 
 

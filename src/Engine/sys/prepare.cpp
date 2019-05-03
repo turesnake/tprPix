@@ -146,15 +146,6 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_home = tpr::Getenv( "HOME", err_info );
 
-
-    //---------------------------------//
-    //           path_data
-    //---------------------------------//
-    path_data = tpr::mk_dir( path_cwd.c_str(),
-                        "data/",
-                        RWXR_XR_X,
-                        err_info
-                        );
     //---------------------------------//
     //           path_data
     //---------------------------------//

@@ -16,6 +16,9 @@
 #include "tprFileSys.h" 
 
 //-------------------- Engine --------------------//
+#include "esrc_gameArchive.h"
+#include "esrc_player.h"
+#include "GameObj.h"
 
 
 #include <iostream>
@@ -26,16 +29,15 @@ using std::endl;
 namespace db{//---------------- namespace: db ----------------------//
 
 
-//namespace{//-------- namespace ----------//
-//}//-------------- namespace: end --------//
-
 
 /* ===========================================================
- *                    init_dataBase
+ *                    atom_init_dataBase
  * -----------------------------------------------------------
  */
-void init_dataBase(){
+void atom_init_dataBase(){
 
+    //--- atom ---//
+    std::lock_guard<std::mutex> lg( dbMutex );
 
     //-- 返回 0，说明为 单线程 模式 --
     //   已在 编译阶段设置
@@ -45,9 +47,8 @@ void init_dataBase(){
     //------------------//
     //       open
     //------------------//
-    //w_sqlite3_open( "db/koko_1.db", &db );
     w_sqlite3_open( tpr::path_combine( path_dataBase, "tpr" ).c_str(), 
-                    &db );
+                    &dbConnect );
 
 
     //---------------//
@@ -56,52 +57,107 @@ void init_dataBase(){
     //- 传入 sqlite3_exec() callback 的参数。
     //  可用来 提示本次 callback 的功能 （仅 debug 时有效）
     std::string data { "Callback function called:" };
-    w_sqlite3_exec( db, 
+    w_sqlite3_exec( dbConnect, 
                     sql_create_table_gameArchive.c_str(), 
                     callback_1, 
                     (void*)(data.c_str()), 
                     &zErrMsg);
 
-    //---------------//
+    w_sqlite3_exec( dbConnect, 
+                    sql_create_table_chunks.c_str(), 
+                    callback_1, 
+                    (void*)(data.c_str()), 
+                    &zErrMsg);
+
+    w_sqlite3_exec( dbConnect, 
+                    sql_create_table_goes.c_str(), 
+                    callback_1, 
+                    (void*)(data.c_str()), 
+                    &zErrMsg);
+
+
+
+    //--------------------//
     //  prepare all stmt
-    //---------------//
-    w_sqlite3_prepare_v2(   db, 
-                            sql_select_all_from_table_gameArchive.c_str(), 
-                            sql_select_all_from_table_gameArchive.size()+1,
-                            &stmt_select_all_from_table_gameArchive,
-                            NULL );
+    //--------------------//
+    //-- table_gameArchive --    
+    sqlite3_prepare_v2_inn_( sql_select_all_from_table_gameArchive,
+                            &stmt_select_all_from_table_gameArchive );
+    
+    sqlite3_prepare_v2_inn_( sql_insert_or_replace_to_table_gameArchive,
+                            &stmt_insert_or_replace_to_table_gameArchive );
+    
 
-    w_sqlite3_prepare_v2(   db, 
-                            sql_insert_or_replace_to_table_gameArchive.c_str(), 
-                            sql_insert_or_replace_to_table_gameArchive.size()+1,
-                            &stmt_insert_or_replace_to_table_gameArchive,
-                            NULL );
+    //-- table_goes --    
+    sqlite3_prepare_v2_inn_( sql_select_one_from_table_goes,
+                            &stmt_select_one_from_table_goes );
 
-
+    sqlite3_prepare_v2_inn_( sql_insert_or_replace_to_table_goes,
+                            &stmt_insert_or_replace_to_table_goes );
     
 }
 
 
+
 /* ===========================================================
- *                    close_dataBase
+ *                 atom_writeBack_to_table_gameArchive
  * -----------------------------------------------------------
+ * -- 潦草测试版
  */
-void close_dataBase(){
+void atom_writeBack_to_table_gameArchive(){
 
-    //w_sqlite3_finalize( db, stmt_insert_or_replace );
-    //w_sqlite3_finalize( db, stmt_select_to_read );
+    //--- atom ---//
+    //此处不该上锁，下面调用了 atom 函数，会引发 递归锁
 
-    sqlite3_close( db );
-    cout << "== DATABASE ALL SUCCESS; ==" << endl;
+    goid_t goid = esrc::player.goPtr->id;
+    IntVec2 mpos = esrc::player.goPtr->goPos.get_currentMPos();
+
+
+    //-- 将新数据 写回 db --
+    esrc::gameArchive.playerGoId = goid;
+    esrc::gameArchive.playerGoMPos = mpos;
+    esrc::gameArchive.maxGoId = GameObj::id_manager.get_max_id();
+    //...
+
+        cout << "esrc::gameArchive.maxGoId = " << esrc::gameArchive.maxGoId << endl;
+
+    db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
+
+
+    DiskGameObj diskGo {};
+    diskGo.goid = goid;
+    diskGo.goSpecId = esrc::player.goPtr->species;
+    diskGo.mpos = mpos;
+    db::atom_insert_or_replace_to_table_goes( diskGo );
+
 }
 
 
+/* ===========================================================
+ *                    atom_close_dataBase
+ * -----------------------------------------------------------
+ */
+void atom_close_dataBase(){
+
+    //--- atom ---//
+    std::lock_guard<std::mutex> lg( dbMutex );
 
 
+    //--------------------//
+    //    finalize stmts
+    //--------------------//
+    //-- table_gameArchive --
+    w_sqlite3_finalize( dbConnect, stmt_select_all_from_table_gameArchive );
+    w_sqlite3_finalize( dbConnect, stmt_insert_or_replace_to_table_gameArchive );
 
+    //-- table_goes --
+    w_sqlite3_finalize( dbConnect, stmt_select_one_from_table_goes );
+    w_sqlite3_finalize( dbConnect, stmt_insert_or_replace_to_table_goes );
 
-
-
+    //-- close --
+    sqlite3_close( dbConnect );
+    cout << "== DATABASE ALL SUCCESS; ==" << endl;
+}
 
 
 

@@ -21,21 +21,6 @@
 using goid_t     = u64_t; //- gameObj id type
 using goSpecId_t = u32_t; //- gameObj species id type
 
-//-- go 数据 [硬盘态] ---
-struct diskGameObj{
-    u64_t  id;
-    u32_t  type; //- GameObjType --> u32_t
-};
-
-
-//-- 一种 go 需要的全部参数 ---
-struct GameObjParams{
-	std::string  type; //- go type_name
-    //std::string  path;
-    //...
-
-}; 
-
 
 //-- go move state／运动状态 --
 enum class GameObjMoveState{

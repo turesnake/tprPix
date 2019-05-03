@@ -39,7 +39,7 @@
 #include "MapCoord.h"
 #include "EcoSysType.h"
 #include "fieldKey.h"
-#include "Altitude.h"
+#include "MapAltitude.h"
 
 
 //-- 投影地图单位的 一级信息 [disk] --//
@@ -158,7 +158,7 @@ public:
     MemMapEnt() = default;
 
     explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
-        fst_d2m( _fdme );
+        //fst_d2m( _fdme );
     }
 
     inline const IntVec2 &get_mpos() const {
@@ -170,7 +170,7 @@ public:
     //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
                             //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
                             
-    Altitude   alti     {}; //- 
+    MapAltitude   mapAlti     {}; //- 
 
 
 
@@ -206,8 +206,8 @@ public:
                 // [待拓展...] 
 
     //-- 一级信息： mem <--> disk --
-    void           fst_d2m( Fst_diskMapEnt *_dme );
-    Fst_diskMapEnt fst_m2d();
+    //void           fst_d2m( Fst_diskMapEnt *_dme );
+    //Fst_diskMapEnt fst_m2d();
 
     
     //=============== data: 二级信息 ===============//

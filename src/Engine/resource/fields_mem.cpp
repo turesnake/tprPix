@@ -26,7 +26,7 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h"
+#include "Script/resource/ssrc.h"
 #include "Script/gameObjs/create_goes.h"
 
 
@@ -98,7 +98,7 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
  *           atom_field_reflesh_altis     [-WRITE-]
  * -----------------------------------------------------------
  */
-void atom_field_reflesh_altis(fieldKey_t _fieldKey, const Altitude &_alti, const IntVec2 &_pixMPos ){
+void atom_field_reflesh_altis(fieldKey_t _fieldKey, const MapAltitude &_alti, const IntVec2 &_pixMPos ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
         assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
@@ -155,7 +155,7 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
             gameObjs::create_a_Go(  goSpecId,
                                     fieldRef.get_nodeMPos(),
                                     fieldRef.get_weight(),
-                                    fieldRef.get_nodeAlti(), //- tmp 有问题
+                                    fieldRef.get_nodeMapAlti(), //- tmp 有问题
                                     fieldRef.get_density() );
         }
     }

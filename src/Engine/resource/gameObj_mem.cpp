@@ -45,7 +45,6 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
  *     新实例的 id 号
  */
 goid_t insert_new_gameObj(){
-
     // ***| INSERT FIRST, INIT LATER  |***
     GameObj  tmp_go {};
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
@@ -55,6 +54,26 @@ goid_t insert_new_gameObj(){
     esrc::memGameObjs.at(goid).init(); //- MUST --
     return goid;
 }
+
+
+/* ===========================================================
+ *                  insert_a_disk_gameObj
+ * -----------------------------------------------------------
+ * -- 从 db 中读取一个 go数据，根据此数据，来重建一个 mem态 go 实例
+ * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
+ */
+void insert_a_disk_gameObj( goid_t _goid ){
+    // ***| INSERT FIRST, INIT LATER  |***
+    GameObj  tmp_go {};
+    tmp_go.id = _goid; //-- MUST --
+        assert( esrc::memGameObjs.find(_goid) == esrc::memGameObjs.end() );//- must not exist
+    esrc::memGameObjs.insert({ _goid, tmp_go }); //- copy
+    esrc::memGameObjs.at(_goid).init(); //- MUST --
+}
+
+
+
+
 
 
 /* ===========================================================
@@ -155,7 +174,6 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
     MapCoord   colliEntMCPos; //- 每个 collient 的 mcpos （世界绝对pos）
     MemMapEnt  *mapEntPtr;    //- 目标 mapent
     chunkKey_t  tmpChunkKey;  //- 每个 collient 当前所在的 chunk key
-
 
     //------------------------------//
     // --- 记录 go.currentChunkKey

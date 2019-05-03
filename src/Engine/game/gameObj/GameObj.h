@@ -77,10 +77,6 @@ public:
 
     void init();//-- MUST --
 
-    //-- disl <-> mem --//
-    void        d2m( diskGameObj *_dgo );
-    diskGameObj m2d();
-
     void reset_chunkKeys();
    
     inline void resize_pvtBinary( size_t _size ){

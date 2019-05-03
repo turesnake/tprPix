@@ -19,7 +19,7 @@
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/create_go_oth.h"
 
 using namespace std::placeholders;

@@ -19,7 +19,7 @@
 //--------------- Script ------------------//
 //#include "Script/gameObjs/allGoes.h"
 #include "Script/gameObjs/allUIs.h"
-#include "Script/resource/srcs_script.h"
+#include "Script/resource/ssrc.h"
 
 
 #include "debug.h"

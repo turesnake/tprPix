@@ -1,11 +1,11 @@
 /*
- * ====================== Altitude.cpp =======================
+ * ====================== MapAltitude.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.11
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Altitude.h"
+#include "MapAltitude.h"
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -18,7 +18,7 @@
  *                         set    [2]
  * -----------------------------------------------------------
  */
-void Altitude::set( float _altiVal_from_gpgpu ){
+void MapAltitude::set( float _altiVal_from_gpgpu ){
 
     assert( (_altiVal_from_gpgpu>=-100.0) && (_altiVal_from_gpgpu<=100.0) );
     this->val = static_cast<int>(_altiVal_from_gpgpu);

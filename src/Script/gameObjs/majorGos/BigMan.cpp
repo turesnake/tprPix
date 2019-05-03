@@ -20,7 +20,7 @@
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 
 using namespace std::placeholders;
 
@@ -41,7 +41,7 @@ namespace{//-------------- namespace ------------------//
 void BigMan::init_in_autoMod(  GameObj *_goPtr,
                                 const IntVec2 &_mpos,
 					            float _fieldWeight,
-					            const Altitude &_alti,
+					            const MapAltitude &_alti,
 					            const Density &_density ){
 
     assert( _goPtr != nullptr );

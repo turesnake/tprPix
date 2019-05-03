@@ -39,6 +39,7 @@ void foreach_goids_active( F_GOID_GOPTR _fp );
 void foreach_goids_inactive( F_GOID_GOPTR _fp );
 
 goid_t insert_new_gameObj();
+void insert_a_disk_gameObj( goid_t _goid );
 void realloc_active_goes();
 void realloc_inactive_goes();
 void signUp_newGO_to_mapEnt( GameObj *_goPtr );

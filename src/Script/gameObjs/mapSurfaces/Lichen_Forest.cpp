@@ -19,7 +19,7 @@
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/create_go_oth.h"
 
 
@@ -42,7 +42,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
                                 const IntVec2 &_mpos,
 					            float _fieldWeight,
-					            const Altitude &_alti,
+					            const MapAltitude &_alti,
 					            const Density &_density ){
 
     assert( _goPtr != nullptr );

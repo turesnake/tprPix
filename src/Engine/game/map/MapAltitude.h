@@ -1,30 +1,25 @@
 /*
- * ====================== Altitude.h =======================
+ * ====================== MapAltitude.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.11
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *   每个 pix / mapEnt／field 都拥有自身的 高度信息。
- *  
  * ----------------------------
  */
-#ifndef _TPR_ALTITUDE_H_
-#define _TPR_ALTITUDE_H_
-
-
-//------------------- Libs --------------------//
-//#include "tprDataType.h" 
+#ifndef _TPR_MAP_ALTITUDE_H_
+#define _TPR_MAP_ALTITUDE_H_
 
 //------------------- Engine --------------------//
 #include "IntVec.h" 
 
 
 //-- [mem]
-class Altitude{
+class MapAltitude{
 public:
-    Altitude() = default;
+    MapAltitude() = default;
 
-    explicit Altitude( float _val ){
+    explicit MapAltitude( float _val ){
         this->set( _val );
     }
     
@@ -39,7 +34,6 @@ public:
     inline bool is_inland() const {
         return (this->val >= 15);
     }
-
 
     //===== vals =====//
     int  val {0}; //- [-100,100]
@@ -63,15 +57,13 @@ public:
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
  */
-inline bool operator < ( const Altitude &_a, const Altitude &_b ){
+inline bool operator < ( const MapAltitude &_a, const MapAltitude &_b ){
     return ( _a.val < _b.val );
 }
 
-inline bool operator > ( const Altitude &_a, const Altitude &_b ){
+inline bool operator > ( const MapAltitude &_a, const MapAltitude &_b ){
     return ( _a.val > _b.val );
 }
-
-
 
 
 #endif 

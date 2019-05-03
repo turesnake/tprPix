@@ -11,11 +11,9 @@
 //-------------------- Engine --------------------//
 #include "random.h"
 #include "esrc_ecoSys.h"
-//#include "esrc_gameSeed.h"
-
 
 //-------------------- Script --------------------//
-#include "Script/resource/srcs_script.h" 
+#include "Script/resource/ssrc.h" 
 
 //#include "debug.h" //- tmp
 
