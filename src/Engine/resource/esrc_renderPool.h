@@ -17,6 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "ChildMesh.h"
+#include "UIChildMesh.h"
 #include "Mesh.h"
 
 
@@ -35,10 +36,9 @@ inline std::vector<ChildMesh*> renderPool_mapSurfaces {};
             //- 地表go，没有 shadow，只需要渲染 pic
 
 
-inline std::multimap<float, ChildMesh*> renderPool_uiMeshs_pic {}; 
+inline std::multimap<float, UIChildMesh*> renderPool_uiMeshs_pic {}; 
             //- 暂时只需要渲染 ui.gomesh.pic
             //  在未来，ui 图元 也可能会准备 shadow
-
 
             
 void draw_renderPool_goMeshs_pic();

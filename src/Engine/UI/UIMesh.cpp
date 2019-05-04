@@ -1,14 +1,11 @@
 /*
- * ========================= GameObjMesh.cpp ==========================
+ * ========================= UIMesh.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2018.11.24
+ *                                        CREATE -- 2019.05.04
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   GameObjMesh 类, 可以看作 图元类。
- *   一个 GameObjMesh，负责管理 一张 矩形图元
- * ----------------------------
  */
-#include "GameObjMesh.h" 
+#include "UIMesh.h" 
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -31,13 +28,11 @@ using namespace std::placeholders;
  * -- 目前版本中，此函数 在 go.creat_new_goMesh() 中就被调用了
  *    所以，其执行时间，要早于 this->init()
  */
-void GameObjMesh::bind_animFrameSet( const std::string &_name ){
+void UIMesh::bind_animFrameSet( const std::string &_name ){
     this->animFrameSetName = _name;
     this->animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
-
     this->animFrameIdxHandle.bind_get_animFrameSet_currentTimeStep_func(
-        std::bind( &GameObjMesh::get_animFrameSet_currentTimeStep, this, _1 ) );
-
+        std::bind( &UIMesh::get_animFrameSet_currentTimeStep, this, _1 ) );
     this->isHaveShadow = this->animFrameSetPtr->isHaveShadow;
 }
 
@@ -47,7 +42,7 @@ void GameObjMesh::bind_animFrameSet( const std::string &_name ){
  * -- 针对本实例包含的 pic/shadow mesh, 执行必要的 update
  * -- 然后把它们 压入 对应的 renderpool 中
  */
-void GameObjMesh::RenderUpdate(){
+void UIMesh::RenderUpdate(){
 
     if( this->isVisible == false ){
         return;
@@ -59,25 +54,21 @@ void GameObjMesh::RenderUpdate(){
     //---------------//
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
-    switch (this->picRenderLayerType){
-        case RenderLayerType::MajorGoes:
-            esrc::renderPool_goMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z , 
-                                                    this->picMesh.getnc_ChildMeshPtr() });
-            break;
-        case RenderLayerType::MapSurfaces:
-            esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
-            break;
-        default:
-            assert(0);
-    }
+
+    esrc::renderPool_uiMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z, 
+                                            this->picMesh.getnc_UIChildMeshPtr() });
+
 
     //---------------//
     //   shadow
     //---------------//
+    // 在未来实现 shadow
+    /*
     if( this->isHaveShadow ){
         this->shadowMesh.refresh_translate();
         this->shadowMesh.refresh_scale_auto();
-        esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_ChildMeshPtr() );
+        esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_UIChildMeshPtr() );
     }
+    */
 }
 

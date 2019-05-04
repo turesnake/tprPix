@@ -22,6 +22,9 @@ public:
     goSpecId_t     goSpecId {}; //- u32
     IntVec2        mpos     {}; //- int, int
     //...
+
+
+    
 };
 
 

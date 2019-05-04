@@ -31,7 +31,7 @@ void foreach_memGameObjs( F_GOID_GOPTR _fp ){
  *                     foreach_memUIs
  * -----------------------------------------------------------
  */
-void foreach_memUIs( F_GOID_GOPTR _fp ){
+void foreach_memUIs( F_UIObjId_GOPTR _fp ){
     auto ipair = esrc::memUIs.begin();
     for( ; ipair!=esrc::memUIs.end(); ipair++ ){
         _fp( ipair->first, &(ipair->second) );
@@ -60,14 +60,13 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
  * -----------------------------------------------------------
  * -- 
  */
-void foreach_uiIds_active( F_GOID_GOPTR _fp ){
+void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
 
-    GameObj *goPtr;
+    UIObj *uiGoPtr;
     auto it = esrc::uiIds_active.begin();
     for( ; it!=esrc::uiIds_active.end(); it++ ){
-
-        goPtr = static_cast<GameObj*>( &(esrc::memUIs.at(*it)) );
-        _fp( *it, goPtr );
+        uiGoPtr = static_cast<UIObj*>( &(esrc::memUIs.at(*it)) );
+        _fp( *it, uiGoPtr );
     }
 }
 

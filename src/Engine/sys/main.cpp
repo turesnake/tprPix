@@ -116,7 +116,6 @@ int main(){
 
     debug::init_debug();             //---- debug 资源 ----
 
-    //esrc::init_gpgpus();           //---- gpgpu 资源 ----
     esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//

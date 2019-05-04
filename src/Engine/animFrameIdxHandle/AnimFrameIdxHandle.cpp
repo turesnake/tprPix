@@ -16,16 +16,8 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjMesh.h"
+#include "UIMesh.h"
 
-
-/* ===========================================================
- *                     init
- * -----------------------------------------------------------
- */
-void AnimFrameIdxHandle::init( GameObjMesh *_goMeshPtr ){
-    this->goMeshPtr = _goMeshPtr;
-    //....
-}
 
 
 /* ===========================================================
@@ -44,10 +36,11 @@ void AnimFrameIdxHandle::bind_cycle(int _begIdx,
     this->cycleData.endIdx = _endIdx;
     this->cycleData.enterIdx = _enterIdx;
     this->cycleData.updates = 0;
-    this->cycleData.currentTimeStep = this->goMeshPtr->get_animFrameSet_currentTimeStep( _enterIdx );
     this->cycleData.isOrder = _isOrder;
     //-------
     this->currentIdx = _enterIdx;
+
+   this->cycleData.currentTimeStep = this->get_animFrameSet_currentTimeStep_func( _enterIdx );
 }
 
 
@@ -85,8 +78,7 @@ void AnimFrameIdxHandle::update_cycle(){
                     this->currentIdx--;
         }
 
-        //--- currentTimeStep ---
-        this->cycleData.currentTimeStep = this->goMeshPtr->get_animFrameSet_currentTimeStep( this->currentIdx );
+        this->cycleData.currentTimeStep = this->get_animFrameSet_currentTimeStep_func( this->currentIdx );
     }
 }
 

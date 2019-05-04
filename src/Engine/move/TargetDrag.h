@@ -44,32 +44,19 @@ public:
     }
 
 
-
     void RenderUpdate(); 
 
 
-
 private:
-    //GameObj     *goPtr    {nullptr}; //- 此值可能用不上
     Move        *movePtr  {nullptr}; //- 每个 crawl实例 都属于一个 move实例, 强关联
     GameObjPos  *goPosPtr {nullptr}; 
 
 
     glm::vec2 targetFPos  {}; 
 
-
     //===== flags =====//
     bool   isMoving       {true}; //- 是否在移动
-
-
-
 };
-
-
-
-
-
-
 
 
 #endif 

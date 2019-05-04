@@ -26,19 +26,6 @@
 namespace db{//---------------- namespace: db ----------------------//
 
 
-
-//-- 常用的 调用者端数据类型 （不是 sqlite 自己的数据类型）--
-/*
-enum class SqliteUserType : int{
-    Int,
-    U32,
-    I64,
-    U64
-};
-*/
-
-
-
 //-- 全游戏唯一的 db connect 实例 --
 inline sqlite3 *dbConnect;
 inline char    *zErrMsg {nullptr};
@@ -51,8 +38,6 @@ inline std::mutex dbMutex;
 int callback_1(void *_data, int _argc, char **_argv, char **_azColNames);
 
 
-
-
 //-- prepare_v2 --
 //-- 注意，参数 _ppStmt 必须为 pp，
 inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt **_ppStmt ){
@@ -62,7 +47,6 @@ inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt *
                             _ppStmt,
                             NULL );
 }
-
 
 
 //---- bind vals ----
@@ -101,10 +85,14 @@ inline const std::string sql_create_table_gameArchive  {
     "CREATE TABLE IF NOT EXISTS table_gameArchive("  \
     "id               INT     PRIMARY KEY     NOT NULL," \
     "baseSeed         INT     NOT NULL, " \
+    /* player */
     "playerGoId       INTEGER  NOT NULL, " \
     "playerGoMPosX    INT         NOT NULL,  " \
     "playerGoMPosY    INT         NOT NULL,  " \
-    "maxGoId          INTEGER     NOT NULL  " \
+    /* GameObj */
+    "maxGoId          INTEGER     NOT NULL,  " \
+    /* time */
+    "gameTime         DOUBLE     NOT NULL  " \
     ");" \
 
     "PRAGMA journal_mode=WAL;" 
@@ -121,7 +109,8 @@ inline const std::string sql_select_all_from_table_gameArchive  {
         "playerGoId,   "\
         "playerGoMPosX, "\
         "playerGoMPosY,  "\
-        "maxGoId  "\
+        "maxGoId,  "\
+        "gameTime  "\
         "FROM table_gameArchive;" 
     };
 inline sqlite3_stmt *stmt_select_all_from_table_gameArchive {nullptr};
@@ -129,8 +118,8 @@ inline sqlite3_stmt *stmt_select_all_from_table_gameArchive {nullptr};
 
 
 inline const std::string sql_insert_or_replace_to_table_gameArchive  {
-    "INSERT OR REPLACE INTO table_gameArchive (id, baseSeed, playerGoId, playerGoMPosX, playerGoMPosY, maxGoId ) " \
-    "VALUES ( :id, :baseSeed, :playerGoId, :playerGoMPosX, :playerGoMPosY, :maxGoId );" 
+    "INSERT OR REPLACE INTO table_gameArchive (id, baseSeed, playerGoId, playerGoMPosX, playerGoMPosY, maxGoId, gameTime ) " \
+    "VALUES ( :id, :baseSeed, :playerGoId, :playerGoMPosX, :playerGoMPosY, :maxGoId, :gameTime );" 
     };
 inline sqlite3_stmt *stmt_insert_or_replace_to_table_gameArchive {nullptr};
 
@@ -145,8 +134,6 @@ inline const std::string sql_create_table_chunks  {
     "chunkKey       INTEGER     PRIMARY KEY     NOT NULL," \
     "padding        INT         NOT NULL " \
     ");" 
-    //"PRAGMA journal_mode=WAL;" 
-    //"SELECT * FROM table_chunks" 
     };
 
 
@@ -167,8 +154,6 @@ inline const std::string sql_create_table_goes  {
     "mposX          INT         NOT NULL,  " \
     "mposY          INT         NOT NULL  " \
     ");" 
-    //"PRAGMA journal_mode=WAL;" 
-    //"SELECT * FROM table_goes" 
     };
 
 inline const std::string sql_select_one_from_table_goes  {
@@ -187,27 +172,6 @@ inline const std::string sql_insert_or_replace_to_table_goes  {
     };
 inline sqlite3_stmt *stmt_insert_or_replace_to_table_goes {nullptr};
 
-
-
-
-
-//--- old test --
-/*
-inline const std::string sql_select_all  {
-    "SELECT * FROM table_test" 
-    };
-
-
-inline const std::string sql_insert_or_replace  {
-    "INSERT OR REPLACE INTO table_test (ID, AGE, SALARY, NAME, BINARY) " \
-    "VALUES ( :ID, :AGE, :SALARY, :NAME, :BINARY );" 
-    };
-
-
-inline const std::string sql_select_to_read  {
-    "SELECT AGE, SALARY, NAME, BINARY FROM table_test WHERE ID = ?;" 
-    };
-*/
 
 
 

@@ -17,8 +17,8 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
-#include "GameObj.h"
-#include "GameObjMesh.h"
+#include "UIObj.h"
+#include "UIMesh.h"
 #include "AnimFrameSet.h"
 
 
@@ -31,44 +31,36 @@ public:
     Button_SceneBegin_Pointer() = default;
 
     //--- 延迟init ---//
-    void init_in_autoMod(   GameObj *_goPtr,
-                            const IntVec2 &_mpos );
+    void init_in_autoMod(   UIObj  *_uiObjPtr,
+                            const glm::vec2 &_fpos );
 
-    void bind( GameObj *_goPtr );
 
-    //--- 从硬盘读取到 go实例数据后，重bind callback
-    void rebind( GameObj *_goPtr );
 
     //--- callback ---//
-    void OnRenderUpdate( GameObj *_goPtr ); 
-    void OnLogicUpdate( GameObj *_goPtr ); 
+    void OnRenderUpdate( UIObj *_uiObjPtr ); 
 
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == Button_SceneBegin_Pointer::specId );
+    inline void rebind_ptr( UIObj *_uiObjPtr ){
+        assert( _uiObjPtr->uiObjSpecId == Button_SceneBegin_Pointer::specId );
         //-- rebind ptr -----
-        goPtr = _goPtr;
+        this->uiObjPtr = _uiObjPtr;
     }
 
     //======== tmp vals ========//
-    GameObj *goPtr {nullptr}; //- go实例指针，所有的操作都是为了 服务于它
-                            //- 具象go类 被彻底 工厂化，它甚至不再存储 go实例。
-                            //- 这大幅度降低了 具象go类实例 创建的成本
-                            //（多数时间作为 临时对象，创建在一个 函数内）
+    UIObj *uiObjPtr {nullptr}; 
 
     //======== static ========//
-    static  goSpecId_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+    static  uiObjSpecId_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
 
 private:
 
-    //--- callback ---//
-    void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
+    
 };
 
 //---------- static ----------//
-inline goSpecId_t  Button_SceneBegin_Pointer::specId {0}; //- 具体值在 uiSpecIds.cpp 中分配
+inline uiObjSpecId_t  Button_SceneBegin_Pointer::specId {0}; //- 具体值在 uiSpecIds.cpp 中分配
 
 //=====< 本类 唯一的 保留实例 >=====
 inline Button_SceneBegin_Pointer  button_sceneBegin_pointer {};

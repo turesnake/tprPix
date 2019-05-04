@@ -28,8 +28,12 @@ public:
     //- player.go -
     goid_t         playerGoId     {}; //- u64   
     IntVec2        playerGoMPos   {}; //- int, int
-
+    //- GameObj -
     goid_t         maxGoId        {}; //- u64
+
+
+    double         gameTime       {}; //- double
+
 
 
     //======== static ========//

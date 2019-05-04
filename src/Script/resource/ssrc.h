@@ -10,6 +10,13 @@
 #ifndef _TPR_SRC_SCRIPT_H_
 #define _TPR_SRC_SCRIPT_H_
 
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec2
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
+
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -22,9 +29,15 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "GameObj.h" //- goSpecId_t
+#include "GameObjType.h"
+#include "UIObjType.h"
+
+
 #include "MapAltitude.h"
 #include "Density.h"
+
+class GameObj;
+class UIObj;
 
 
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
@@ -69,29 +82,25 @@ inline bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
 //             ui
 //-------------------------------//
 //-- 正反表 --
-inline std::unordered_map<goSpecId_t, std::string> ui_specId_names;
-inline std::unordered_map<std::string, goSpecId_t> ui_name_specIds;
+inline std::unordered_map<uiObjSpecId_t, std::string> ui_specId_names;
+inline std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds;
 
 
-inline goSpecId_t get_uiSpecId( const std::string &_name ){
+inline uiObjSpecId_t get_uiSpecId( const std::string &_name ){
         assert( ssrc::ui_name_specIds.find(_name) != ssrc::ui_name_specIds.end() );
     return ssrc::ui_name_specIds.at(_name);
 }
 
 //--- 下面这部分 放的很乱... ---
 //-- map自动生成器 使用的 uiInit函数 ---
-using F_UI_INIT = std::function<void(   GameObj*,
-                                        const IntVec2 & )>;
+using F_UI_INIT = std::function<void(   UIObj*,
+                                        const glm::vec2 & )>;
 
-inline std::unordered_map<goSpecId_t, F_UI_INIT> uiInit_funcs; 
+inline std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs; 
 
-inline bool find_from_uiInit_funcs( goSpecId_t _uiSpecId ){
+inline bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId ){
     return (ssrc::uiInit_funcs.find(_uiSpecId) != ssrc::uiInit_funcs.end());
 }
-
-
-
-
 
 
 

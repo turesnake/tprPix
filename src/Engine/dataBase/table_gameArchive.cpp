@@ -9,9 +9,7 @@
 #include "dataBase_inn.h"
 
 
-
 namespace db{//---------------- namespace: db ----------------------//
-
 
 
 /* ===========================================================
@@ -37,6 +35,7 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
         archive.playerGoMPos.x =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 3);
         archive.playerGoMPos.y =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 4);
         archive.maxGoId        =  static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
+        archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 6);
         //---
         _container.insert({ archive.id, archive }); //- copy
     }
@@ -77,7 +76,8 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &_archive ){
     sqlite3_bind_int64_inn_( ":maxGoId", 
                             static_cast<i64_t>(_archive.maxGoId) );
     
-
+    sqlite3_bind_double_inn_( ":gameTime", 
+                            _archive.gameTime );
 
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_gameArchive, SQLITE_DONE );

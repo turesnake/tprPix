@@ -56,9 +56,6 @@ void prepare_for_sceneWorld(){
 
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
-
-
-
     
     esrc::camera.set_allFPos( esrc::player.goPtr->goPos.get_currentFPos() );
     input::bind_inputINS_handleFunc( std::bind( &inputINS_handle_in_sceneWorld, _1 ) );
@@ -150,6 +147,7 @@ void sceneLoop_world(){
         []( goid_t _goid, GameObj *_goPtr ){
             assert( _goPtr->RenderUpdate != nullptr );
             _goPtr->RenderUpdate( _goPtr ); 
+                     //-- 在未来，这个接口应该被改良...
         }
     );
 
@@ -165,7 +163,6 @@ void sceneLoop_world(){
     debug::draw_renderPool_mapEntSlices();  //-- debug 但是不在此文件中 clear
     debug::draw_renderPool_pointPics();     //-- debug 但是不在此文件中 clear
     esrc::draw_renderPool_goMeshs_pic(); 
-
 
 }
 

@@ -36,7 +36,7 @@ public:
     ActionSwitch() = default;
 
     inline void init( GameObj *_goPtr ){
-        goPtr = _goPtr;
+        this->goPtr = _goPtr;
         bitMap.init(bitMapBytes);
     }
 
@@ -53,7 +53,7 @@ public:
             return;
         }
         //-- 正式call --
-        func( goPtr, _type );
+        func( this->goPtr, _type );
     }
 
     inline void clear_bitMap(){

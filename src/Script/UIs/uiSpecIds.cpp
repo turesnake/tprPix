@@ -14,12 +14,11 @@
 
 
 //-------------------- Engine --------------------//
-//#include "GameObj.h" //- goSpecId_t
-#include "GameObjType.h" //- goSpecId_t
+#include "UIObjType.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
-#include "Script/gameObjs/allUIs.h"
+#include "Script/UIs/allUIs.h"
 
 using namespace std::placeholders;
 
@@ -29,7 +28,7 @@ using std::string;
 
 
 namespace{//------------------- namespace ---------------------
-    void uiSpec_alloc( goSpecId_t _id, const string &_name );
+    void uiSpec_alloc( uiObjSpecId_t _id, const string &_name );
 }//------------------------- namespace: end -------------------
 
 
@@ -40,7 +39,7 @@ namespace{//------------------- namespace ---------------------
  */
 void onUISpecIds_SignUp(){
 
-    goSpecId_t   id;
+    uiObjSpecId_t   id;
 
     ssrc::uiInit_funcs.clear();
     ssrc::ui_specId_names.clear();
@@ -77,7 +76,7 @@ namespace{//------------------- namespace ---------------------
  * -----------------------------------------------------------
  * -- 拼装 正反表
  */
-void uiSpec_alloc( goSpecId_t _id, const string &_name ){
+void uiSpec_alloc( uiObjSpecId_t _id, const string &_name ){
     ssrc::ui_specId_names.insert({ _id, _name });
     ssrc::ui_name_specIds.insert({ _name, _id });
 }

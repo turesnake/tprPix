@@ -16,9 +16,11 @@
 #include "tprFileSys.h" 
 
 //-------------------- Engine --------------------//
+#include "GameObj.h"
 #include "esrc_gameArchive.h"
 #include "esrc_player.h"
-#include "GameObj.h"
+#include "esrc_time.h"
+
 
 
 #include <iostream>
@@ -117,9 +119,11 @@ void atom_writeBack_to_table_gameArchive(){
     esrc::gameArchive.playerGoId = goid;
     esrc::gameArchive.playerGoMPos = mpos;
     esrc::gameArchive.maxGoId = GameObj::id_manager.get_max_id();
+    esrc::gameArchive.gameTime = esrc::timer.get_gameTime();
     //...
 
-        cout << "esrc::gameArchive.maxGoId = " << esrc::gameArchive.maxGoId << endl;
+        //cout << "esrc::gameArchive.maxGoId = " << esrc::gameArchive.maxGoId << endl << endl;
+        //cout << "gameTime = " << esrc::gameArchive.gameTime << endl;
 
     db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
 

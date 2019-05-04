@@ -105,6 +105,8 @@ void processInput( GLFWwindow *_windowPtr ){
                     //   thread.join() 系列指令 应当添加在那个位置
 	}
 
+                //... 在未来，ESC 键 将被屏蔽。改为 游戏内置的 退出键 ...
+
     //------------------------//
     //     将玩家鼠键输入，
     //     装填到 inputINS 中
@@ -123,13 +125,7 @@ void processInput( GLFWwindow *_windowPtr ){
     //------------------------//
     //  处理 inputINS 中的数据
     //------------------------//
-    
     inputINS_handleFunc( inputINS );
-
-    //-- player --
-    //esrc::player.handle_inputINS( inputINS );
-
-            //-- 不是直接 传给 player，而是传给一个 functor
 }
 
 

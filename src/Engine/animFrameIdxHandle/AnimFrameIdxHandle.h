@@ -51,16 +51,20 @@ struct OnceData{
 };
 
 
-
 //-- need --//
 class GameObjMesh;
+class UIMesh;
 
 //-- 
 class AnimFrameIdxHandle{
+    using F_1 = std::function<const int&(int)>;
 public:
     AnimFrameIdxHandle() = default;
 
-    void init( GameObjMesh *_goMeshPtr );
+    inline void bind_get_animFrameSet_currentTimeStep_func( const F_1 &_func ){
+        this->get_animFrameSet_currentTimeStep_func = _func;
+    }
+
 
     inline void bind_idle( int _idx ){
         this->type = AnimFrameIdxHandleType::Idle;
@@ -102,15 +106,14 @@ public:
 
 
 private:
-    GameObjMesh *goMeshPtr {nullptr};
-
-                //-- 这个指针应当被 去掉....
-                //   它会限制 AnimFrameIdxHandle 的通用性。
-                
-
     void update_cycle();
     void update_once();
 
+    //===== vals =====//
+    F_1  get_animFrameSet_currentTimeStep_func {nullptr};
+            //-- 通过这个 functor，使得本模块，可以兼容 goMesh, uiMesh
+            //-- 这是一个很好的策略。
+                
 };
 
 

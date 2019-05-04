@@ -129,11 +129,9 @@ public:
     inline AltiRange get_currentAltiRange( const AltiRange &_ces_altiRange ){
         return ( _ces_altiRange + this->goPos.get_alti() );
     }
-
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
         return this->chunkKeys;
     }
-
 
     //void debug(); //- 打印 本go实例 的所有信息
 
@@ -225,8 +223,7 @@ private:
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
                                         // 通过 reset_chunkKeys() 来更新。
                                         // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
-                                        
-                                        
+                                          
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 

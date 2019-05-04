@@ -18,7 +18,7 @@
 
 
 //-------------------- Engine --------------------//
-#include "GameObj.h"
+#include "UIObj.h"
 #include "esrc_funcTypes.h"
 
 
@@ -26,24 +26,25 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 
 
 //--- mem ---//
-inline std::unordered_map<goid_t, GameObj> memUIs {}; //- 所有 ui实例 实际存储区。
+inline std::unordered_map<uiObjId_t, UIObj> memUIs {}; //- 所有 ui实例 实际存储区。
 
                                     
-inline std::unordered_set<goid_t> uiIds_active   {}; //- 激活组 (身处 激活圈 之内)
+inline std::unordered_set<uiObjId_t> uiIds_active   {}; 
+                //-- 这个 好像没有被用到 ？？？
 
 
 
-void foreach_memUIs( F_GOID_GOPTR _fp );
-void foreach_uiIds_active( F_GOID_GOPTR _fp );
+void foreach_memUIs( F_UIObjId_GOPTR _fp );
+void foreach_uiIds_active( F_UIObjId_GOPTR _fp );
 
 
-goid_t insert_new_ui();
+uiObjId_t insert_new_ui();
 
 
 
-inline GameObj *get_memUIPtr( goid_t _goid ){
-        assert( memUIs.find(_goid) != memUIs.end() );//- tmp
-    return  static_cast<GameObj*>( &(memUIs.at(_goid)) );
+inline UIObj *get_memUIPtr( uiObjId_t _uiObjid ){
+        assert( memUIs.find(_uiObjid) != memUIs.end() );//- tmp
+    return  static_cast<UIObj*>( &(memUIs.at(_uiObjid)) );
 }
 
 

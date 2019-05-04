@@ -137,7 +137,6 @@ private:
     SpeedLevel   speedLv  { SpeedLevel::LV_3 }; //- 未来可能被拓展为 一组 speedLv数据集
 
     MoveType   moveType {MoveType::Crawl};
-
 };
 
 

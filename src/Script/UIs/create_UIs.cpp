@@ -5,24 +5,22 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/create_UIs.h"
+#include "Script/UIs/create_UIs.h"
 
 
 //-------------------- C --------------------//
 #include <cassert>
 
 //-------------------- Engine --------------------//
-//#include "esrc_gameObj.h" 
 #include "esrc_ui.h" 
 
 
 //--------------- Script ------------------//
-//#include "Script/gameObjs/allGoes.h"
-#include "Script/gameObjs/allUIs.h"
+#include "Script/UIs/allUIs.h"
 #include "Script/resource/ssrc.h"
 
 
-#include "debug.h"
+//#include "debug.h"
 
 
 namespace uis{//------------- namespace uis ----------------
@@ -34,20 +32,20 @@ namespace uis{//------------- namespace uis ----------------
  * -----------------------------------------------------------
  * -- tmp 
  */
-goid_t create_a_ui( goSpecId_t _uiSpecId,
-                    const IntVec2 &_mpos ){
+uiObjId_t create_a_ui( uiObjSpecId_t _uiObjSpecId,
+                    const glm::vec2 &_fpos  ){
 
-    goid_t goid = esrc::insert_new_ui();
-    GameObj *goPtr = esrc::get_memUIPtr( goid ); //- 获取目标go指针
+    uiObjId_t uiObjId = esrc::insert_new_ui();
 
-        assert( ssrc::find_from_uiInit_funcs(_uiSpecId) );
-        ssrc::uiInit_funcs.at(_uiSpecId)(   goPtr,
-                                            _mpos );
+    UIObj *uiObjPtr = esrc::get_memUIPtr( uiObjId ); //- 获取目标go指针
+
+        assert( ssrc::find_from_uiInit_funcs(_uiObjSpecId) );
+        ssrc::uiInit_funcs.at(_uiObjSpecId)(  uiObjPtr,
+                                            _fpos );
 
     //------------------------------//
-    //esrc::signUp_newGO_to_mapEnt( goPtr );
-        esrc::uiIds_active.insert( goid ); //- tmp
-    return  goid;
+        esrc::uiIds_active.insert( uiObjId ); //- tmp
+    return  uiObjId;
 }
 
 

@@ -11,11 +11,9 @@
 #define _TPR_ALL_UIS_H_
 
 
-
-
 //---------- Script : gameObjs : majorGos -------------//
-#include "Script/UIs/Button_SceneBegin_Archive.h"
-#include "Script/UIs/Button_SceneBegin_Pointer.h"
+#include "Script/UIs/buttons/Button_SceneBegin_Archive.h"
+#include "Script/UIs/buttons/Button_SceneBegin_Pointer.h"
 
 
 

@@ -44,7 +44,7 @@ public:
     ActionFSM() = default;
 
     inline void init( GameObj *_goPtr ){
-        goPtr = _goPtr;
+        this->goPtr = _goPtr;
     }
 
 

@@ -201,9 +201,7 @@ void Crawl::set_newCrawlDir( const NineBox &_newNB ){
     }else if(this->newNB.x > 0){
         this->goPtr->direction = GODirection::Right;
         this->goPtr->set_isFlipOver_auto();  //-- 也许不该放在此处...
-
     }
- 
 }
 
 

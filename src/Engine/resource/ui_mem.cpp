@@ -15,14 +15,6 @@
             //-- glm::vec3
             //-- glm::vec4
             //-- glm::mat4
-//#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-//#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
-
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -37,27 +29,21 @@ namespace esrc{ //------------------ namespace: esrc -------------------------//
 /* ===========================================================
  *                  insert_new_ui
  * -----------------------------------------------------------
- * -- 创建1个 go实例，并为其分配新 goid. 然后存入 ui 容器中
- * -- 不能用在 从 硬盘读出的 go数据上
+ * -- 创建1个 uiObj实例，并为其分配新 uiObjId. 然后存入 ui 容器中
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_ui(){
+uiObjId_t insert_new_ui(){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    GameObj  tmp_go {};
-    goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    tmp_go.id = goid; //-- MUST --
-        assert( esrc::memUIs.find(goid) == esrc::memUIs.end() );//- must not exist
-    esrc::memUIs.insert({ goid, tmp_go }); //- copy
-    esrc::memUIs.at(goid).init(); //- MUST --
-    return goid;
+    UIObj  uiObj {};
+    uiObjId_t uiGoId = UIObj::id_manager.apply_a_u32_id();
+    uiObj.uiObjId = uiGoId; //-- MUST --
+        assert( esrc::memUIs.find(uiGoId) == esrc::memUIs.end() );//- must not exist
+    esrc::memUIs.insert({ uiGoId, uiObj }); //- copy
+    esrc::memUIs.at(uiGoId).init(); //- MUST --
+    return uiGoId;
 }
-
-
-
-
-
 
 
 }//---------------------- namespace: esrc -------------------------//
