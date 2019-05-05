@@ -16,7 +16,7 @@
 #ifndef _TPR_PJT_RGBA_HANDLE_H_
 #define _TPR_PJT_RGBA_HANDLE_H_
 //------------------- C --------------------//
-#include <math.h>
+#include <cmath>
 #include <cassert>
 
 //------------------- Libs --------------------//

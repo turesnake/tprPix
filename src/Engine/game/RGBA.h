@@ -12,7 +12,7 @@
 
 //------------------- C --------------------//
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"

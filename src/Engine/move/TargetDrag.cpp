@@ -11,7 +11,6 @@
 #include <cmath>
 #include <cassert>
 
-
 //-------------------- Engine --------------------//
 #include "GameObj.h" 
 #include "GameObjPos.h"

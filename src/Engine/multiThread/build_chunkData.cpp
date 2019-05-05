@@ -34,7 +34,7 @@
 #include "esrc_chunkData.h"
 #include "esrc_gameSeed.h"
 #include "esrc_field.h"
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoObj.h"
 
 /*
 #include <iostream>
@@ -69,7 +69,7 @@ namespace{//----------- namespace ----------------//
         explicit FieldData( const MapFieldData_In_ChunkBuild &_data,
                                 QuadType _quadType ){
             this->fieldKey = _data.fieldKey;
-            this->landColorsPtr = esrc::atom_get_ecoSysInMap_landColorsPtr( _data.ecoSysInMapKey );
+            this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( _data.ecoObjKey );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
                                                     &get_fieldBorderSet( _data.fieldBorderSetId, _quadType) );
             this->densityIdx = _data.densityIdx;
@@ -159,10 +159,10 @@ void build_chunkData_main( const Job &_job ){
     //------------------------------//
     //           [1]
     // 收集 周边 4个 sectionKey
-    // 创建它们的 第一阶段数据 ( section / ecoSysInMap )
+    // 创建它们的 第一阶段数据 ( section / ecoObj )
     //------------------------------//
     // 已经在 主线程 chunkBuild_1_push_job() 中 提前完成
-    // 反正再糟糕也不过是，1帧内创建 5 个 ecosysinmap 实例
+    // 反正再糟糕也不过是，1帧内创建 5 个 ecoObj 实例
 
     //------------------------------//
     //            [2]
@@ -334,7 +334,7 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     texBufHeadPtr = _chunkDataPtr->getnc_texBufHeadPtr();
 
     std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
-                                    // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
+                                    // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
 
     for( const auto &fieldKey : fieldKeys ){ //- each field key
 

@@ -14,7 +14,7 @@
 #include<GLFW/glfw3.h>
 
 //------------------- C --------------------// 
-#include <math.h> //- abs
+#include <cmath> //- abs
 
 //------------------- Libs --------------------// 
 #include "tprDataType.h"

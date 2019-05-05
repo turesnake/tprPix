@@ -12,9 +12,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 
-
 //-------------------- Engine --------------------//
-//#include "GameObj.h" //- goSpecId_t
 #include "GameObjType.h" //- goSpecId_t
 
 //-------------------- Script --------------------//
@@ -23,13 +21,11 @@
 
 using namespace std::placeholders;
 
-using std::string;
-
 //#include "debug.h" //- tmp
 
 
 namespace{//------------------- namespace ---------------------
-    void goSpec_alloc( goSpecId_t _id, const string &_name );
+    void goSpec_alloc( goSpecId_t _id, const std::string &_name );
 }//------------------------- namespace: end -------------------
 
 
@@ -133,7 +129,7 @@ namespace{//------------------- namespace ---------------------
  * -----------------------------------------------------------
  * -- 拼装 正反表
  */
-void goSpec_alloc( goSpecId_t _id, const string &_name ){
+void goSpec_alloc( goSpecId_t _id, const std::string &_name ){
     ssrc::go_specId_names.insert({ _id, _name });
     ssrc::go_name_specIds.insert({ _name, _id });
 }

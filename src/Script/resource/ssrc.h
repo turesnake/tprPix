@@ -42,6 +42,8 @@ class UIObj;
 
 namespace ssrc{ //------------------ namespace: ssrc -------------------------//
 
+        //  和 esrc 一样，这里的很多数据，应该放到 .cpp 中去 
+
 //-- 正反表 --
 inline std::unordered_map<u32_t, std::string> acionHdle_typeId_names;
 inline std::unordered_map<std::string, u32_t> acionHdle_name_typeIds;

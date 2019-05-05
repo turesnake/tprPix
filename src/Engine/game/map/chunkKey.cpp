@@ -9,10 +9,9 @@
  */
 #include "chunkKey.h"
 
-
 //-------------------- C --------------------//
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 //-------------------- Engine --------------------//
 #include "sectionKey.h"

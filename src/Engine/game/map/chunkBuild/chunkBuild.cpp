@@ -23,7 +23,7 @@
 #include "esrc_chunk.h"
 #include "esrc_player.h"
 #include "esrc_shader.h"
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoObj.h"
 #include "esrc_jobQue.h"
 #include "esrc_chunkData.h"
 
@@ -59,7 +59,7 @@ namespace{//----------- namespace ----------------//
     std::set<chunkKey_t> chunkQueBuilding {};
 
     //===== funcs =====//
-    void fst_ecoSysInMaps( const IntVec2 &_sectionMPos );
+    void fst_ecoObjs( const IntVec2 &_sectionMPos );
     void chunkBuild_1_push_job( chunkKey_t _chunkKey );
     void build_one_chunk( chunkKey_t _chunkKey );
 
@@ -219,7 +219,7 @@ void build_one_chunk( chunkKey_t _chunkKey ){
 
     //------------------------------//
     //           [1]
-    // 创建 周边 4个 ecoSysInMap 实例
+    // 创建 周边 4个 ecoObj 实例
     //------------------------------//
     //-- 已被移到 chunkBuild_1_push_job() 中
     
@@ -258,10 +258,10 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
 
     //------------------------------//
     //           [1]
-    // 创建 周边 4个 ecoSysInMap 实例
+    // 创建 周边 4个 ecoObj 实例
     //------------------------------//
-    //  在最坏的情况下，这部分会一口气 创建 5个 ecosysinmap 实例（1个渲染帧内）
-    //  而且是在 主线程上计算。如果 ecosysinmap 实例 创建成本不高，
+    //  在最坏的情况下，这部分会一口气 创建 5个 ecoObj 实例（1个渲染帧内）
+    //  而且是在 主线程上计算。如果 ecoObj 实例 创建成本不高，
     //  那么还可以接受
     IntVec2 targetChunkMPos = chunkKey_2_mpos( _chunkKey );
     IntVec2  tmpChunkMPos;
@@ -269,7 +269,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
         for( size_t w=0; w<=1; w++ ){ //- 周边 4 个chunk
             tmpChunkMPos.set(   targetChunkMPos.x + w*ENTS_PER_CHUNK,
                                 targetChunkMPos.y + h*ENTS_PER_CHUNK );
-            fst_ecoSysInMaps( anyMPos_2_sectionMPos(tmpChunkMPos) );
+            fst_ecoObjs( anyMPos_2_sectionMPos(tmpChunkMPos) );
         }
     }
 
@@ -297,19 +297,19 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
 
 
 /* ===========================================================
- *             fst_ecoSysInMaps
+ *             fst_ecoObjs
  * -----------------------------------------------------------
  * 第一阶段
  */
-void fst_ecoSysInMaps( const IntVec2 &_sectionMPos ){
+void fst_ecoObjs( const IntVec2 &_sectionMPos ){
 
     sectionKey_t  tmpSectionKey;
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpSectionKey = sectionMPos_2_sectionKey( _sectionMPos + whOff );
-                //EcoSysInMap::find_or_create_the_ecoSysInMap( tmpSectionKey );
+                //ecoObj::find_or_create_the_ecoObj( tmpSectionKey );
                 //-- 这个函数 应该内置到 esrc 原子函数内
 
-        esrc::atom_try_to_inert_and_init_a_ecoSysInMap( tmpSectionKey );
+        esrc::atom_try_to_inert_and_init_a_ecoObj( tmpSectionKey );
     }
 }
 

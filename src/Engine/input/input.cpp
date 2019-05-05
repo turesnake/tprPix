@@ -25,7 +25,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
@@ -74,7 +74,6 @@ void init_input(){
     assert( gameKeyTable.at(GameKey::UP)    != KeyBoard::NIL );
     assert( gameKeyTable.at(GameKey::DOWN)  != KeyBoard::NIL );
 }
-
 
 
 /* ==========================================================

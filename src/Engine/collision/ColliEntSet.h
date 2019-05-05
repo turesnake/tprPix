@@ -68,7 +68,6 @@ public:
     inline const IntVec2 &get_centerPPos() const {
         return  this->centerPPos;
     }
-
     inline const MapEntCompass &get_centerCompass() const {
         return  this->centerCompass;
     }

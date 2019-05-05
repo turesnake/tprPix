@@ -159,8 +159,9 @@ void sceneLoop_begin(){
     //------------------------//
     esrc::foreach_uiIds_active(
         []( uiObjId_t _uiObjId, UIObj *_uiObjPtr ){
-            assert( _uiObjPtr->RenderUpdate != nullptr );
-            _uiObjPtr->RenderUpdate( _uiObjPtr ); 
+            //assert( _uiObjPtr->RenderUpdate != nullptr );
+            //_uiObjPtr->RenderUpdate( _uiObjPtr ); 
+            _uiObjPtr->renderUpdate();
         }
     );
 

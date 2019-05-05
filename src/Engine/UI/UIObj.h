@@ -4,8 +4,6 @@
  *                                        创建 -- 2019.05.04
  *                                        修改 -- 
  * ----------------------------------------------------------
- *  
- * ----------------------------
  */
 #ifndef _TPR_UI_OBJ_H_
 #define _TPR_UI_OBJ_H_
@@ -24,13 +22,12 @@
 
 
 class UIObj{
-    using F_UIObj   = std::function<void(UIObj*)>;
 public:
     UIObj() = default;
 
     void init();//-- MUST --
 
-    void renderUpdate_move();
+    void renderUpdate();
 
     UIMesh &creat_new_uiMesh(   const std::string &_animFrameSetName,
                                     ShaderProgram     *_pixShaderPtr,
@@ -38,10 +35,6 @@ public:
                                     float             _off_z,
                                     bool              _isVisible,
                                     bool              _isFlipOver );
-
-    inline void uiMesh_renderUpdate(){
-        this->uiMesh.RenderUpdate();
-    }
 
     //===== set =====//
     //-- 将一个 uiObj 跳置到一个 fpos
@@ -70,22 +63,17 @@ public:
         return this->uiMesh;
     }
 
-
-    //===== callBack =====//
-    F_UIObj  RenderUpdate {nullptr};
-
-
+    //===== vals =====//
     uiObjId_t     uiObjId      {NULLID};
     uiObjSpecId_t uiObjSpecId  {0};
-
     UIMesh        uiMesh  {};
     
-
-
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 
 private:
+
+    void renderUpdate_move();
 
 
     glm::vec2    currentFPos  {}; //-- 目前就是普通的 世界坐标，
@@ -100,8 +88,6 @@ private:
 
 //============== static ===============//
 inline ID_Manager  UIObj::id_manager { ID_TYPE::U32, 1};
-
-
 
 
 #endif 

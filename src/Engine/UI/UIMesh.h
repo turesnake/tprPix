@@ -4,6 +4,7 @@
  *                                        CREATE -- 2019.05.04
  *                                        MODIFY -- 
  * ----------------------------------------------------------
+ *  UIObj 专用 Mesh， 类似 GO 的 GoMesh
  * ----------------------------
  */
 #ifndef _TPR_UI_MESH_H_
@@ -49,13 +50,11 @@ public:
     void RenderUpdate();
 
     //------ animFrameSet ------
-    //  目前，此函数仅用于 go.creat_new_goMesh() 中
+    //  目前，此函数仅用于 ui.creat_new_uiMesh() 中
     //  以及 切换动画时
     void bind_animFrameSet( const std::string &_name );
 
     //------------- set -------------//
-
-
     inline void set_off_z( float _off_z ){
         this->off_z = _off_z;
     }
@@ -97,14 +96,12 @@ public:
     inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
         return this->animFrameSetPtr->get_timeStep( _currentIdx );
     }
-
     inline const float &get_off_z() const {
         return this->off_z;
     }
     inline AnimFrameIdxHandle &getnc_animFrameIdxHandle(){
         return this->animFrameIdxHandle;
     }
-
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
@@ -121,8 +118,6 @@ private:
     UIChildMesh   picMesh    { true };
     UIChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
 
-
-
     float      off_z {0.0f};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
                     //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1f
                     //- 这个值 多数由 具象go类 填入的。
@@ -131,7 +126,6 @@ private:
     AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
                                     //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
                                     //- 但是存在 类型验证的需求：通过 .typeId 
-
 
     //------- AnimFrameSet -------
     // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据

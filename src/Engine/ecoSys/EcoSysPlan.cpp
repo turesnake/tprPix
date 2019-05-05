@@ -1,11 +1,11 @@
 /*
- * ========================= EcoSys.cpp =======================
+ * ========================= EcoSysPlan.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "EcoSys.h"
+#include "EcoSysPlan.h"
 
 //-------------------- C --------------------//
 #include <cmath>
@@ -26,7 +26,6 @@ namespace{//-------- namespace: --------------//
     int off_g = -8;
     int off_b = -7;
 
-
 }//------------- namespace: end --------------//
 
 /* ===========================================================
@@ -36,7 +35,7 @@ namespace{//-------- namespace: --------------//
  *    让 density.lvl: 1，2，3 颜色逐渐加深。
  *    其余区域 保持原色 
  */
-void EcoSys::init_landColor_onlyHighLand( const RGBA &_baseColor ){
+void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &_baseColor ){
 
     this->landColors.resize( Density::get_idxNum() );
     //---
@@ -56,7 +55,7 @@ void EcoSys::init_landColor_onlyHighLand( const RGBA &_baseColor ){
  *    让 density.lvl: -1，-2，-3 颜色逐渐加深。
  * 适合 密林，仅留下小路通行
  */
-void EcoSys::init_landColor_doubleDeep( const RGBA &_baseColor ){
+void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
 
     int absI;
     this->landColors.resize( Density::get_idxNum() );
@@ -76,7 +75,7 @@ void EcoSys::init_landColor_doubleDeep( const RGBA &_baseColor ){
  *    剩下区域 走 _color_2。
  * 
  */
-void EcoSys::init_landColor_twoPattern( const Density &_density_high,
+void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
                                     const RGBA &_color_high,
                                     const RGBA &_color_low,
                                     bool  is_goDeep_high,
@@ -104,7 +103,7 @@ void EcoSys::init_landColor_twoPattern( const Density &_density_high,
  *             init_densityDatas
  * -----------------------------------------------------------
  */
-void EcoSys::init_densityDatas( float _densitySeaLvlOff, 
+void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff, 
                                 const std::vector<float> &_datas ){
 
     assert( !this->is_densityDivideVals_init );
@@ -142,7 +141,7 @@ void EcoSys::init_densityDatas( float _densitySeaLvlOff,
  *        init_goSpecIdPools_and_applyPercents
  * -----------------------------------------------------------
  */
-void EcoSys::init_goSpecIdPools_and_applyPercents(){
+void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
     assert( (this->is_goSpecIdPools_init==false) && 
             (this->is_applyPercents_init==false) );
     this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
@@ -156,7 +155,7 @@ void EcoSys::init_goSpecIdPools_and_applyPercents(){
  *              insert
  * -----------------------------------------------------------
  */
-void EcoSys::insert(const Density &_density, 
+void EcoSysPlan::insert(const Density &_density, 
                     float _applyPercent,
                     const std::vector<EcoEnt> &_ecoEnts ){
 
@@ -179,7 +178,7 @@ void EcoSys::insert(const Density &_density,
  * -- 需要调用者 提供 seed
  *    通过这种方式，来实现真正的 伪随机
  */
-void EcoSys::shuffle_goSpecIdPools( u32_t _seed ){
+void EcoSysPlan::shuffle_goSpecIdPools( u32_t _seed ){
 
     std::default_random_engine  randEngine; 
     randEngine.seed( _seed );

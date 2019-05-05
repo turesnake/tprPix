@@ -9,13 +9,9 @@
  */
 
 //-------------------- C ----------------------//
-#include <stdio.h>    //-- printf, fdopen, calloc
-#include <stdlib.h>  //- getenv
-#include <unistd.h>
+#include <unistd.h>  //- fchdir
 #include <fcntl.h>    //-- open，openat, AT_FDCWD
-#include <string.h>   //-- strlen
-
-#include <cassert>     //-- assert。
+#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string> 
@@ -30,8 +26,6 @@
 //-------------------- Engine --------------------//
 #include "global.h"
 
-
-using std::string;
 
 //#include "debug.h" //- tmp
 
@@ -135,7 +129,7 @@ void build_path_cwd(){
  */
 void check_and_creat_important_dir(){
 
-    string err_info = "check_and_creat_important_dir(): ";
+    std::string err_info = "check_and_creat_important_dir(): ";
 
     //----------------------------//
     //  已经确认的 目录：
@@ -187,16 +181,6 @@ void check_and_creat_important_dir(){
                         err_info
                         );
     //---------------------------------//
-    //          path_fieldBorderEntPixMaskSet
-    //---------------------------------//
-    /*
-    path_fieldBorderEntPixMaskSet = tpr::mk_dir( path_textures.c_str(),
-                        "fieldBorderEntPixMaskSet/",
-                        RWXR_XR_X,
-                        err_info
-                        );
-    */
-    //---------------------------------//
     //          path_fieldBorderSet
     //---------------------------------//
     path_fieldBorderSet = tpr::mk_dir( path_textures.c_str(),
@@ -215,7 +199,6 @@ void check_and_creat_important_dir(){
 void data_type_confirm(){
 
     int len; //-- 临时变量。
-
     //------- short ------//
     len = sizeof(short);
     if( len != 2 ){
@@ -330,7 +313,7 @@ void check_OS(){
 void check_fst_run(){
 
     //-- 合成 already_run 文件 绝对路径名 
-    string path = tpr::path_combine( path_cwd, "/build/already_run.flag" );
+    std::string path = tpr::path_combine( path_cwd, "/build/already_run.flag" );
 
     //-- 查看 already_run 文件 是否存在，若存在，open return -1， 若不存在，创建它。
     if( open(path.c_str(),(O_RDONLY | O_CREAT | O_EXCL),RWXR_XR_X) >= 0 ){
@@ -344,8 +327,6 @@ void check_fst_run(){
         is_fst_run = false;
     }
 }
-
-
 
 
 }//------------- namespace ----------------//

@@ -44,7 +44,7 @@ uiObjId_t insert_new_ui();
 
 inline UIObj *get_memUIPtr( uiObjId_t _uiObjid ){
         assert( memUIs.find(_uiObjid) != memUIs.end() );//- tmp
-    return  static_cast<UIObj*>( &(memUIs.at(_uiObjid)) );
+    return  &(memUIs.at(_uiObjid));
 }
 
 

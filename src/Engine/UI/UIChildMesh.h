@@ -4,6 +4,7 @@
  *                                        CREATE -- 2019.05.04
  *                                        MODIFY -- 
  * ----------------------------------------------------------
+ * 类似 GO 的 ChildMesh 
  * ----------------------------
  */
 #ifndef _TPR_UI_CHILD_MESH_H_
@@ -20,7 +21,6 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader
@@ -61,13 +61,12 @@ public:
     void refresh_scale_auto();
 
     inline UIChildMesh *getnc_UIChildMeshPtr(){
-        return  static_cast<UIChildMesh*>(this);
+        return  const_cast<UIChildMesh*>(this);
     }
     //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
     inline const float &get_render_z() const {
         return this->translate_val.z;
     }
-
     //-- 外部 debug 用
     inline const glm::vec3 &get_translate_val() const {
         return this->translate_val;

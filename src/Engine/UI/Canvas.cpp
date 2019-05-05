@@ -58,7 +58,6 @@ void Canvas::draw(){
     this->ShaderProgram.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
     this->ShaderProgram.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
 
-
     this->mesh.draw();
     this->is_binded = false;
 }

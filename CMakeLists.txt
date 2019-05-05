@@ -164,7 +164,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/gameObjs/mapSurfaces/*.cpp
                         src/Script/map/*.cpp
                         src/Script/resource/*.cpp
-                        src/Script/textureBuilder/*.cpp 
                         src/Script/UIs/*.cpp 
                         src/Script/UIs/buttons/*.cpp 
                         )

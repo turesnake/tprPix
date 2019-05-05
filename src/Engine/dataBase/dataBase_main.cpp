@@ -21,15 +21,12 @@
 #include "esrc_player.h"
 #include "esrc_time.h"
 
-
-
 #include <iostream>
 using std::cout;
 using std::endl;
 
 
 namespace db{//---------------- namespace: db ----------------------//
-
 
 
 /* ===========================================================
@@ -45,13 +42,11 @@ void atom_init_dataBase(){
     //   已在 编译阶段设置
     cout << "sqlite3_threadsafe(): " << sqlite3_threadsafe() << endl;
 
-
     //------------------//
     //       open
     //------------------//
     w_sqlite3_open( tpr::path_combine( path_dataBase, "tpr" ).c_str(), 
                     &dbConnect );
-
 
     //---------------//
     //     exec
@@ -77,8 +72,6 @@ void atom_init_dataBase(){
                     (void*)(data.c_str()), 
                     &zErrMsg);
 
-
-
     //--------------------//
     //  prepare all stmt
     //--------------------//
@@ -88,7 +81,6 @@ void atom_init_dataBase(){
     
     sqlite3_prepare_v2_inn_( sql_insert_or_replace_to_table_gameArchive,
                             &stmt_insert_or_replace_to_table_gameArchive );
-    
 
     //-- table_goes --    
     sqlite3_prepare_v2_inn_( sql_select_one_from_table_goes,
@@ -122,11 +114,7 @@ void atom_writeBack_to_table_gameArchive(){
     esrc::gameArchive.gameTime = esrc::timer.get_gameTime();
     //...
 
-        //cout << "esrc::gameArchive.maxGoId = " << esrc::gameArchive.maxGoId << endl << endl;
-        //cout << "gameTime = " << esrc::gameArchive.gameTime << endl;
-
     db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
-
 
     DiskGameObj diskGo {};
     diskGo.goid = goid;
@@ -145,7 +133,6 @@ void atom_close_dataBase(){
 
     //--- atom ---//
     std::lock_guard<std::mutex> lg( dbMutex );
-
 
     //--------------------//
     //    finalize stmts

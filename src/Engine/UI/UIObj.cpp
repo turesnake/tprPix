@@ -4,11 +4,8 @@
  *                                        创建 -- 2019.05.04
  *                                        修改 -- 
  * ----------------------------------------------------------
- *  
- * ----------------------------
  */
 #include "UIObj.h"
-
 
 
 /* ===========================================================
@@ -57,14 +54,24 @@ UIMesh &UIObj::creat_new_uiMesh(   const std::string &_animFrameSetName,
 
 
 /* ===========================================================
- *                   renderUpdate_ove
+ *                   renderUpdate
+ * -----------------------------------------------------------
+ * -- 暂时不向 具象UIObj 类 提供 自定义的 renderUpdate
+ */
+void UIObj::renderUpdate(){
+
+    this->renderUpdate_move();
+    this->uiMesh.RenderUpdate();
+}
+
+
+
+/* ===========================================================
+ *                   renderUpdate_move
  * -----------------------------------------------------------
  */
 void UIObj::renderUpdate_move(){
 
-    //----------------//
-    //      move
-    //----------------//
     if( this->isMoving == false ){
         return;
     }
@@ -72,7 +79,6 @@ void UIObj::renderUpdate_move(){
     float criticalVal = 1.0;  //- 临界值
     float  approachPercent = 0.28; //- go运动的 “接近比率”
                                    // 在未来，会根据 move.speedLvl 来修改
-
     glm::vec2 off = this->targetFPos - this->currentFPos;
     //-- 若非常接近，直接同步 --
     if( (abs(off.x)<=criticalVal) && (abs(off.y)<=criticalVal) ){
@@ -83,5 +89,4 @@ void UIObj::renderUpdate_move(){
         //- 并不设置 z 轴值
     }
 }
-
 

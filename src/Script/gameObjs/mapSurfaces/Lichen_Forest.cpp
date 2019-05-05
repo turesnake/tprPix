@@ -8,7 +8,7 @@
 #include "Script/gameObjs/mapSurfaces/Lichen_Forest.h"
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//

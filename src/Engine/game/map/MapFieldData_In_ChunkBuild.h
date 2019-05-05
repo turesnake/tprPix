@@ -18,7 +18,7 @@
 class MapFieldData_In_ChunkBuild{
 public:
     fieldKey_t      fieldKey {};
-    sectionKey_t    ecoSysInMapKey {};
+    sectionKey_t    ecoObjKey {};
     size_t          densityIdx {};
     fieldBorderSetId_t  fieldBorderSetId {};
 };

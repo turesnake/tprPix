@@ -11,7 +11,7 @@
 #include "Mesh.h" 
 
 //-------------------- C --------------------//
-#include <cassert> //-- assert
+#include <cassert>
 
 //-------------------- Engine --------------------//
 #include "VAOVBO.h" 

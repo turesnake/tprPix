@@ -74,9 +74,9 @@ void GameSeed::init_glm_vec2s(){
     //------ field --------//
     this->field_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
                                         static_cast<float>(uDistribution_float(this->randEngine)) );
-    //------ ecoSysInMap --------//
-    this->ecoSysInMapWeight_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
-                                                    static_cast<float>(uDistribution_float(this->randEngine)) );
+    //------ ecoObj --------//
+    this->ecoObjWeight_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
+                                                static_cast<float>(uDistribution_float(this->randEngine)) );
 }
 
 

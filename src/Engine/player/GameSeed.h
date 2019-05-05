@@ -59,8 +59,8 @@ public:
     inline const glm::vec2 &get_field_pposOff() const {
         return this->field_pposOff;
     }
-    inline const glm::vec2 &get_ecoSysInMapWeight_pposOff() const {
-        return this->ecoSysInMapWeight_pposOff;
+    inline const glm::vec2 &get_ecoObjWeight_pposOff() const {
+        return this->ecoObjWeight_pposOff;
     }
 
     //======== static ========//
@@ -81,7 +81,7 @@ private:
     //- [-1000, 1000] 之间的 随机数
     glm::vec2  densitySeed_pposOff {};
     glm::vec2  field_pposOff {};
-    glm::vec2  ecoSysInMapWeight_pposOff {};
+    glm::vec2  ecoObjWeight_pposOff {};
 
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 随机数引擎实例

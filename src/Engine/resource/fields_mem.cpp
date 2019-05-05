@@ -20,7 +20,7 @@
 #include "config.h"
 #include "chunkKey.h"
 
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoObj.h"
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
 
@@ -120,7 +120,7 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
         pair.first = field.get_occupyWeight();
         //---
         pair.second.fieldKey = field.get_fieldKey();
-        pair.second.ecoSysInMapKey = field.get_ecoSysInMapKey();
+        pair.second.ecoObjKey = field.get_ecoObjKey();
         pair.second.densityIdx = field.get_density().get_idx();
         pair.second.fieldBorderSetId = field.get_fieldBorderSetId();
     }
@@ -139,7 +139,7 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
         assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
     const MapField &fieldRef = esrc::fields.at( _fieldKey );
 
-    sectionKey_t   ecoInMapKey = fieldRef.get_ecoSysInMapKey();
+    sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
     goSpecId_t     goSpecId;
 
     float randV = (fieldRef.get_weight() * 0.35 + 313.17); //- 确保大于0
@@ -147,11 +147,11 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     assert( (fract>=0.0) && (fract<=1.0) );
 
     if( fieldRef.is_land() ){
-        goSpecId = esrc::atom_ecoSysInMap_apply_a_rand_goSpecId(ecoInMapKey,
+        goSpecId = esrc::atom_ecoObj_apply_a_rand_goSpecId(ecoObjKey,
                                                                 fieldRef.get_density().get_idx(),
                                                                 fieldRef.get_weight() );
 
-        if( fract <= esrc::atom_ecoSysInMap_get_applyPercent( ecoInMapKey, fieldRef.get_density()) ){
+        if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
             gameObjs::create_a_Go(  goSpecId,
                                     fieldRef.get_nodeMPos(),
                                     fieldRef.get_weight(),

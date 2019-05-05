@@ -37,7 +37,7 @@
 #include "ID_Manager.h" 
 #include "AltiRange.h"
 #include "MapCoord.h"
-#include "EcoSysType.h"
+#include "EcoSysPlanType.h"
 #include "fieldKey.h"
 #include "MapAltitude.h"
 
@@ -191,7 +191,7 @@ public:
                         //- 如果 此mapent 是 field 的边缘ent，
                         //- 则通过此变量 来记录 “第二近外部field” 是谁
 
-    EcoSysType  ecoSysType  {EcoSysType::Forest};
+    EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
 
     //bool  is_fieldBorder {false};   //- true  - field 内部mapent
                                     //- false - field 边界mapent

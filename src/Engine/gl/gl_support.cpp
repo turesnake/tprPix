@@ -12,7 +12,7 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-#include <cassert> //-- assert。
+#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>

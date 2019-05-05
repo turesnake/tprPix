@@ -46,7 +46,7 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr );
 
 inline GameObj *get_memGameObjPtr( goid_t _goid ){
         assert( memGameObjs.find(_goid) != memGameObjs.end() );//- tmp
-    return  static_cast<GameObj*>( &(memGameObjs.at(_goid)) );
+    return  &(memGameObjs.at(_goid));
 }
 
 

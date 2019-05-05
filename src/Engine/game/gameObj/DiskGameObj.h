@@ -15,7 +15,6 @@
 #include "GameObjType.h"
 
 
-
 class DiskGameObj{
 public:
     goid_t         goid     {}; //- u64   
@@ -23,11 +22,7 @@ public:
     IntVec2        mpos     {}; //- int, int
     //...
 
-
-    
 };
-
-
 
 
 #endif 

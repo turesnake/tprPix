@@ -77,12 +77,6 @@ inline int apply_treeAge_by_density( const Density &_density ){
 }
 
 
-
-
-
-
-
-
 }//------------- namespace gameObjs: end ----------------
 #endif 
 

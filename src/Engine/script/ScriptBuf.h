@@ -13,7 +13,7 @@
 #define _TPR_SCRIPT_BUF_H_
 
 //-------------------- C --------------------//
-#include <string.h> //- memcpy
+#include <cstring> //- memcpy
 #include <cassert> //- assert
 
 //-------------------- CPP --------------------//

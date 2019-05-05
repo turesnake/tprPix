@@ -47,13 +47,11 @@
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary.h"
-
 #include "ActionFSM.h"
-
 #include "chunkKey.h"
 
-#include "debug.h"
 
+#include "debug.h"
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//

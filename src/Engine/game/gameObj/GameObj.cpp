@@ -7,10 +7,11 @@
  */
 #include "GameObj.h" 
 
+//-------------------- CPP --------------------//
+#include <functional>
 
 //-------------------- Engine --------------------//
 #include "esrc_colliEntSet.h"
-
 
 //#include "debug.h" //- tmp
 
@@ -20,10 +21,10 @@
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    this->collision.init( static_cast<GameObj*>(this) );
-    this->goPos.init( static_cast<GameObj*>(this) ); //- MUST before move.init()
-    this->move.init( static_cast<GameObj*>(this), &this->goPos, &this->collision );
-    this->actionSwitch.init( static_cast<GameObj*>(this) );
+    this->collision.init( const_cast<GameObj*>(this) );
+    this->goPos.init( std::bind( &GameObj::get_rootAnchorPos, this ) );
+    this->move.init( const_cast<GameObj*>(this), &this->goPos, &this->collision );
+    this->actionSwitch.init( const_cast<GameObj*>(this) );
     //...
 }
 

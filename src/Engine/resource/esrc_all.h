@@ -17,10 +17,12 @@
 #include "esrc_camera.h"
 #include "esrc_canvas.h"
 #include "esrc_chunk.h"
+#include "esrc_chunkData.h"
 #include "esrc_colliEntSet.h"
-#include "esrc_ecoSys.h"
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoSysPlan.h"
+#include "esrc_ecoObj.h"
 #include "esrc_field.h"
+#include "esrc_gameArchive.h"
 #include "esrc_gameObj.h"
 #include "esrc_gameSeed.h"
 #include "esrc_GPGPU.h"
@@ -32,7 +34,6 @@
 #include "esrc_time.h"
 #include "esrc_ui.h"
 #include "esrc_window.h"
-#include "esrc_gameArchive.h"
 
 
 #endif

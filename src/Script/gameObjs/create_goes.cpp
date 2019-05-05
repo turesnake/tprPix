@@ -7,7 +7,6 @@
  */
 #include "Script/gameObjs/create_goes.h"
 
-
 //-------------------- C --------------------//
 #include <cassert>
 

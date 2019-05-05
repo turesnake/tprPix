@@ -53,7 +53,7 @@ public:
         ActionState state {};
         states.insert({ _name, state }); //- copy
         // init...
-        return static_cast<ActionState*>( &(states.at(_name)) );
+        return &(states.at(_name));
     }
 
 

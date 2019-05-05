@@ -61,7 +61,7 @@ public:
     void refresh_scale_auto();
 
     inline ChildMesh *getnc_ChildMeshPtr(){
-        return  static_cast<ChildMesh*>(this);
+        return  const_cast<ChildMesh*>(this);
     }
     //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
     inline const float &get_render_z() const {

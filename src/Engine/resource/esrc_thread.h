@@ -8,8 +8,6 @@
 #ifndef _TPR_ESRC_THREAD_H_
 #define _TPR_ESRC_THREAD_H_
 
-//-------------------- Engine --------------------//
-
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 

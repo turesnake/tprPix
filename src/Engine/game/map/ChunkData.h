@@ -37,7 +37,7 @@ public:
     }
 
     inline RGBA *getnc_texBufHeadPtr(){
-        return static_cast<RGBA*>( &(this->texBuf.at(0)) );
+        return &(this->texBuf.at(0));
     }
 
     inline void init_mapEntAltis(){

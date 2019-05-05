@@ -1,14 +1,14 @@
 /*
- * ========================= EcoSys.h =======================
+ * ========================= EcoSysPlan.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.22
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    ecosystem 
+ *    ecosystem plan
  * ----------------------------
  */
-#ifndef _TPR_ECOSYS_H_
-#define _TPR_ECOSYS_H_
+#ifndef _TPR_ECOSYS_PLAN_H_
+#define _TPR_ECOSYS_PLAN_H_
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -21,7 +21,7 @@
 #include "RGBA.h" 
 #include "GameObjType.h"
 #include "ID_Manager.h" 
-#include "EcoSysType.h"
+#include "EcoSysPlanType.h"
 
 class Density;
 
@@ -35,14 +35,14 @@ struct EcoEnt{
 //-- 一种 生态群落 --
 //  简易版，容纳最基础的数据
 //  在未来一点点丰富细节
-class EcoSys{
+class EcoSysPlan{
 public:
-    EcoSys() = default;
+    EcoSysPlan() = default;
 
-    inline void set_id( ecoSysId_t _id ){
+    inline void set_id( ecoSysPlanId_t _id ){
         this->id = _id;
     }
-    inline void set_type( EcoSysType _type ){
+    inline void set_type( EcoSysPlanType _type ){
         this->type = _type;
     }
 
@@ -71,16 +71,16 @@ public:
                 (this->is_densityDivideVals_init) );
     }
     
-    inline const ecoSysId_t &get_id() const {
+    inline const ecoSysPlanId_t &get_id() const {
         return this->id;
     }
-    inline const EcoSysType &get_type() const {
+    inline const EcoSysPlanType &get_type() const {
         return this->type;
     }
     inline const float &get_densitySeaLvlOff() const {
         return this->densitySeaLvlOff;
     }
-    //-- 主要用来 复制给 ecoSysInMap 实例 --
+    //-- 主要用来 复制给 ecoObj 实例 --
     inline const std::vector<RGBA> *get_landColorsPtr() const {
         return &(this->landColors);
     }
@@ -91,7 +91,7 @@ public:
         return &(this->densityDivideVals);
     }
 
-    //-- 核心函数，ecoSysInMap 通过此函数，分配组成自己的 idPools --
+    //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
     // param: _randV -- [-100.0, 100.0]
     inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ){
         size_t randV = static_cast<size_t>(floor( _randV * 1.9 + 701.7 ));
@@ -100,13 +100,13 @@ public:
     }
 
     //======== static ========//
-    static ID_Manager  id_manager; //- 负责生产 ecoSysId ( 在.cpp文件中初始化 )
+    static ID_Manager  id_manager; //- 负责生产 ecoSysPlanId ( 在.cpp文件中初始化 )
     
 private:
     //======== vals ========//
-    ecoSysId_t      id      {};
-    EcoSysType      type    {EcoSysType::Forest};
-    float           densitySeaLvlOff  {0.0}; 
+    ecoSysPlanId_t      id      {};
+    EcoSysPlanType      type    {EcoSysPlanType::Forest};
+    float               densitySeaLvlOff  {0.0}; 
 
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
@@ -123,7 +123,7 @@ private:
 
 };
 //============== static ===============//
-inline ID_Manager  EcoSys::id_manager { ID_TYPE::U32, 1};
+inline ID_Manager  EcoSysPlan::id_manager { ID_TYPE::U32, 1};
 
 #endif 
 

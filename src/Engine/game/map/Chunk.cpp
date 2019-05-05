@@ -9,14 +9,14 @@
 
 //-------------------- C --------------------//
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <map>
 
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
-#include "EcoSysInMap.h"
+#include "EcoObj.h"
 #include "random.h"
 #include "occupyWeight.h"
 #include "MapAltitude.h"
@@ -24,7 +24,7 @@
 #include "FieldBorderSet.h"
 #include "MapField.h"
 
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoObj.h"
 #include "esrc_camera.h"
 #include "esrc_GPGPU.h"
 #include "esrc_field.h"
@@ -41,9 +41,9 @@
 namespace{//-------- namespace: --------------//
     
     //--- 定值: chunk-mesh scale --
-    const glm::vec3  mesh_scaleVal {  static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
-                                static_cast<float>(PIXES_PER_CHUNK_IN_TEXTURE),
-                                1.0f };
+    const glm::vec3  mesh_scaleVal {PIXES_PER_CHUNK_IN_TEXTURE,
+                                    PIXES_PER_CHUNK_IN_TEXTURE,
+                                    1.0f };
 
     //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
     const std::vector<float> zOffs{

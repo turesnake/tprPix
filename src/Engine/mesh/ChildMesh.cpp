@@ -10,7 +10,7 @@
 #include "ChildMesh.h"
 
 //-------------------- C --------------------//
-#include <cassert> //-- asserts
+#include <cassert>
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"

@@ -50,20 +50,17 @@ public:
         this->is_binded = true;
         this->ShaderProgram.use_program();
     }
-
     inline void add_new_uniform( const std::string &_name ){
         assert( this->is_binded );
         this->ShaderProgram.add_new_uniform( _name );
     }
-
-    inline GLuint get_uniform_location( const std::string &_name ){
-        assert( this->is_binded );
-        return this->ShaderProgram.get_uniform_location( _name );
-    }
-
     inline void set_translate( float _x, float _y, float _z ){
         assert( this->is_binded );
         this->mesh.set_translate( glm::vec3{ _x, _y, _z } );
+    }
+    inline GLuint get_uniform_location( const std::string &_name ){
+        assert( this->is_binded );
+        return this->ShaderProgram.get_uniform_location( _name );
     }
 
 private:
@@ -79,12 +76,6 @@ private:
     bool  is_binded {false};;    //- 统一 绑定／释放
 
 };
-
-
-
-
-
-
 
 
 #endif 

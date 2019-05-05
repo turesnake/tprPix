@@ -34,7 +34,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
-#include <math.h>
+#include <cmath>
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 

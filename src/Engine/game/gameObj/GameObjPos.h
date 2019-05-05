@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.20
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    
- * ----------------------------
  */
 #ifndef _TPR_GAME_OBJ_POS_H_
 #define _TPR_GAME_OBJ_POS_H_
@@ -17,25 +15,24 @@
             //-- glm::vec4
             //-- glm::mat4
 
+//-------------------- CPP --------------------//
+#include <functional>
+
 //-------------------- Engine --------------------//
 #include "config.h" 
 #include "IntVec.h"
 #include "MapCoord.h"
-#include "MapEntCompass.h"
-
-//--- need ---//
-class GameObj;
+#include "AnchorPos.h"
 
 
 //-- based on go.rootAnchor 
 class GameObjPos{
 public:
+    using F_Get_RootAnchorPos = std::function<const AnchorPos &()>;
+
     GameObjPos() = default;
-    inline void init( GameObj *_goPtr ){
-        this->goPtr = _goPtr;
-        //---
-        this->currentFPos = glm::vec2{ 0.0f, 0.0f };
-        this->currentMCPos.clear_all();
+    inline void init( const F_Get_RootAnchorPos &_func ){
+        this->get_rootAnchorPos_functor = _func;
     }
 
     //-- 若要在map上“放置”go实例，请用本函数 
@@ -89,8 +86,6 @@ public:
     }
 
 private:
-    GameObj     *goPtr    {nullptr}; 
-    //---
     glm::vec2   currentFPos  {};  //- 基于 go.rootAnchor 的， 当前 fpos，无需对齐与mapent
     MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent
                                   //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置
@@ -101,6 +96,10 @@ private:
                                 //- 此值的用途很多样，有待开发...
                                 //  目前版本中，主要用于 crawl 节点帧 对齐。
                                 //  用来记录 新回合的 最终 位移绝对地址
+
+    F_Get_RootAnchorPos  get_rootAnchorPos_functor {nullptr};
+                                //  通过 functor 来 取代 Go指针。
+                                //  扩大本class 的适用范围。
 };
 
 

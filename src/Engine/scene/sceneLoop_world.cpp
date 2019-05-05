@@ -16,9 +16,6 @@
 #include "esrc_all.h" //- 所有资源
 
 
-//------------------- Script --------------------//
-#include "Script/byPass/byPass.h" //- tmp
-
 using namespace std::placeholders;
 
 

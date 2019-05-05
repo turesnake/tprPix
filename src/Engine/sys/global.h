@@ -4,18 +4,12 @@
  *                                        CREATE -- 2018.11.21
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   全局变量， 
- * 
+ *   全局变量
  *   使用 cpp 特有的 inline 关键词来 一步到位地 声明+初始化
- * 
  * ----------------------------
  */
 #ifndef _TPR_GLOBAL_H_
 #define _TPR_GLOBAL_H_
-
-//-------------------- C ----------------------//
-#include <unistd.h> //- pid_t fork
-#include <sys/stat.h> //- st_mode 
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -39,7 +33,6 @@ inline std::string path_textures {}; //-- .../textures/
 
 inline std::string path_animFrameSets {}; //-- .../textures/animFrameSets
 inline std::string path_colliEntSet   {}; //-- .../textures/colliEntSet
-//inline std::string path_fieldBorderEntPixMaskSet  {}; //-- .../textures/fieldBorderEntPixMaskSet
 inline std::string path_fieldBorderSet {}; //-- .../textures/fieldBorderSet
 
 

@@ -8,7 +8,7 @@
 #include "Script/UIs/buttons/Button_SceneBegin_Pointer.h"
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -39,10 +39,7 @@ void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
     this->uiObjPtr = _uiObjPtr;
 
     //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    this->uiObjPtr->RenderUpdate = std::bind( &Button_SceneBegin_Pointer::OnRenderUpdate, &button_sceneBegin_pointer, _1 );   
-
-    
+    // 暂无...
     //-------- actionSwitch ---------//
     // 暂无...
 
@@ -65,31 +62,6 @@ void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
         //-- bind animFrameSet / animFrameIdxHandle --
         uiMeshRef.getnc_animFrameIdxHandle().bind_idle( 0 ); //- "pointer"
 }
-
-
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
-void Button_SceneBegin_Pointer::OnRenderUpdate( UIObj *_uiObjPtr ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    rebind_ptr( _uiObjPtr );
-
-    //=====================================//
-    //         更新 位移系统
-    //-------------------------------------//
-    this->uiObjPtr->renderUpdate_move();
-
-    //=====================================//
-    //  将 确认要渲染的 goMeshs，添加到 renderPool         
-    //-------------------------------------//
-    this->uiObjPtr->uiMesh_renderUpdate();
-}
-
-
-
 
 
 }//------------- namespace uis: end ----------------

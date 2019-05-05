@@ -7,7 +7,6 @@
  *   着色器程序 类
  * ----------------------------
  */
-
 #ifndef _TPR_SHADER_PROGRAM_H_
 #define _TPR_SHADER_PROGRAM_H_
 //=== *** glad FIRST, glfw SECEND *** ===
@@ -90,7 +89,6 @@ public:
                             GL_FALSE, 
                             (const GLfloat*)(glm::value_ptr(p)) );
     }
-
 
 private:
     void compile( GLuint _shaderObj, const std::string &_sbuf );

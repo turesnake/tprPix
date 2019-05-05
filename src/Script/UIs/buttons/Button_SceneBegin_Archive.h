@@ -34,9 +34,8 @@ public:
                             const glm::vec2 &_fpos );
 
     //--- callback ---//
-    void OnRenderUpdate( UIObj *_goPtr ); 
-
-
+    // 暂无...
+    
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( UIObj *_uiObjPtr ){
         assert( _uiObjPtr->uiObjSpecId == Button_SceneBegin_Archive::specId );
@@ -50,10 +49,7 @@ public:
     //======== static ========//
     static  uiObjSpecId_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
-
 private:
-
-
 };
 
 //---------- static ----------//

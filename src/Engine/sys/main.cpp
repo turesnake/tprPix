@@ -28,11 +28,7 @@
 #include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
-//------------------- Script --------------------//
-#include "Script/byPass/byPass.h" //- tmp
  
-using std::string;
-
 //#include "debug.h" //- tmp
 
 //------------------- 从外部获得的 函数 [tmp] ----------------
@@ -102,15 +98,14 @@ int main(){
     //                更多 资源
     //------------------------------------------//
 
-                //-- 这里的很多资源，会被推迟到 不同的 场景 中...
+                //-- 这里的一些资源，会被推迟到 不同的 scene 中...
 
     //++++++ init ++++++//
     init_VAOVBO();                   //---- VAO,VBO 资源 ----
 
     GameObj::id_manager.set_max_id( 0 );
 
-        //player_byPass();        //----  player 资源 ----
-        esrc::player.init();
+        esrc::player.init();         //----  player 资源 ----
         esrc::player.goid = NULLID; 
     //... 
 
@@ -123,8 +118,7 @@ int main(){
     esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
-    esrc::init_ecoSyses();           //----- ecoSyses 资源 ----- MUST after esrc::behaviour.call_Awakes()
-
+    esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()
     //...
         
     
@@ -201,10 +195,7 @@ int main(){
     db::atom_close_dataBase();          //------ 关闭 sqlite db -----
     delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
     
-
-    
     //...
-
 
     //---------------------------------------------//
     //                glfw Terminate

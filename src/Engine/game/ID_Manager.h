@@ -12,7 +12,7 @@
 #define _TPR_ID_MANAGER_H_
 
 //-------------------- C ----------------------//
-#include <cassert> //-- assert
+#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

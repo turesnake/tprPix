@@ -24,7 +24,7 @@
 //-------------------- Engine --------------------//
 #include "config.h"
 #include "IntVec.h"
-#include "EcoSysType.h"
+#include "EcoSysPlanType.h"
 #include "MapCoord.h"
 #include "chunkKey.h"
 #include "sectionKey.h"
@@ -82,8 +82,8 @@ public:
     inline const Density &get_density() const {
         return this->density;
     }
-    inline const sectionKey_t &get_ecoSysInMapKey() const {
-        return this->ecoSysInMapKey;
+    inline const sectionKey_t &get_ecoObjKey() const {
+        return this->ecoObjKey;
     }
     inline const fieldBorderSetId_t &get_fieldBorderSetId() const {
         return this->fieldBorderSetId;
@@ -111,7 +111,7 @@ public:
 private:
     void init_nodeMPos();
     void init_occupyWeight();
-    void assign_field_to_4_ecoSysInMaps();
+    void assign_field_to_4_ecoObjs();
 
     //====== vals =======//
     //----- 一阶数据 / first order data ------//
@@ -136,7 +136,7 @@ private:
 
     fieldBorderSetId_t  fieldBorderSetId {}; 
 
-    sectionKey_t        ecoSysInMapKey {};
+    sectionKey_t        ecoObjKey {};
 
     Density             density {};
     

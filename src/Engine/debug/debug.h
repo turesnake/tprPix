@@ -27,9 +27,7 @@ using std::string;
 
 namespace debug {//---------- namespace: debug --------------//
 
-
 void init_debug();
-
 
 //-- mapEntSlices --//
 void clear_mapEntSlices();

@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.13
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    
- * ----------------------------
  */
 #include "ColliEntSetLoader.h"
 
@@ -83,6 +81,5 @@ void ColliEntSetLoader::init(){
         this->collientSets.at(f).create_adds_dels();
     }
 }
-
 
 

@@ -22,7 +22,7 @@
 #include "IntVec.h" 
 
 
-class EcoSysInMap;
+class EcoObj;
 
 //--- [mem] ---
 class Density{
@@ -37,8 +37,8 @@ public:
         }
 
     void set(   const IntVec2 &_fieldMPos, 
-                const float &_ecoSysInMap_densitySeaLvlOff,
-                const std::vector<float> *_ecoSysInMap_densityDivideValsPtr );
+                const float &_ecoObj_densitySeaLvlOff,
+                const std::vector<float> *_ecoObj_densityDivideValsPtr );
 
     inline int get_lvl() const {
         return this->lvl;

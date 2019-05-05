@@ -25,7 +25,7 @@ using namespace std::placeholders;
 /* ===========================================================
  *                 bind_animFrameSet
  * -----------------------------------------------------------
- * -- 目前版本中，此函数 在 go.creat_new_goMesh() 中就被调用了
+ * -- 目前版本中，此函数 在 ui.creat_new_uiMesh() 中就被调用了
  *    所以，其执行时间，要早于 this->init()
  */
 void UIMesh::bind_animFrameSet( const std::string &_name ){
@@ -57,7 +57,6 @@ void UIMesh::RenderUpdate(){
 
     esrc::renderPool_uiMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z, 
                                             this->picMesh.getnc_UIChildMeshPtr() });
-
 
     //---------------//
     //   shadow

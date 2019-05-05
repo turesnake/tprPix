@@ -19,11 +19,11 @@
 //-------------------- Engine --------------------//
 #include "random.h"
 #include "IntVec.h"
-#include "EcoSysInMap.h"
+#include "EcoObj.h"
 #include "FieldBorderSet.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"
-#include "esrc_ecoSysInMap.h"
+#include "esrc_ecoObj.h"
 
 //#include "debug.h"
 
@@ -67,9 +67,9 @@ void MapField::init( const IntVec2 &_anyMPos ){
     //--- field.nodeMPos ---
     this->init_nodeMPos();
 
-    //--- assign_field_to_4_ecoSysInMaps ---
+    //--- assign_field_to_4_ecoObjs ---
     //  顺带把 this->density 也初始化了
-    this->assign_field_to_4_ecoSysInMaps();
+    this->assign_field_to_4_ecoObjs();
 
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
@@ -88,7 +88,7 @@ void MapField::init( const IntVec2 &_anyMPos ){
     this->init_occupyWeight();
 
     //--- density ---
-    // 已在 this->assign_field_to_4_ecoSysInMaps(); 中被初始化
+    // 已在 this->assign_field_to_4_ecoObjs(); 中被初始化
 }
 
 
@@ -146,23 +146,23 @@ void MapField::init_occupyWeight(){
 
 
 /* ===========================================================
- *          assign_field_to_4_ecoSysInMaps
+ *          assign_field_to_4_ecoObjs
  * -----------------------------------------------------------
  */
-void MapField::assign_field_to_4_ecoSysInMaps(){
+void MapField::assign_field_to_4_ecoObjs(){
 
-    //--- reset nearFour_ecoSysInMapPtrs ---//
+    //--- reset nearFour_ecoObjPtrs ---//
     sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
     IntVec2      sectionMPos = sectionKey_2_mpos( sectionKey );
     
-    // 按照 ecoSysInMap.occupyWeight 倒叙排列（值大的在前面）
-    std::map<occupyWeight_t,EcoSysInMap_ReadOnly> nearFour_ecoSysInMapDatas {}; 
+    // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
+    std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {}; 
 
-    EcoSysInMap   *tmpEcoSysInMapPtr;
+    EcoObj   *tmpEcoObjPtr;
     sectionKey_t   tmpKey;
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
-        nearFour_ecoSysInMapDatas.insert( esrc::atom_get_ecoSysInMap_readOnly( tmpKey ) );
+        nearFour_ecoObjDatas.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
     }
 
     float         vx;
@@ -173,7 +173,7 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     float         pnVal; //- 围绕 0 波动的 随机值
     float         off;
     int           count;
-    EcoSysInMap*  tmpEcoInMapPtr;
+    //EcoObj*  tmpEcoInMapPtr;
 
     float targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 
@@ -197,25 +197,25 @@ void MapField::assign_field_to_4_ecoSysInMaps(){
     // now, pnVal: [-20.0, 20.0]
 
     count = 0;
-    for( auto &ecoDataPair : nearFour_ecoSysInMapDatas ){
+    for( auto &ecoDataPair : nearFour_ecoObjDatas ){
         count++;
         const auto &ecoReadOnly = ecoDataPair.second;
 
-        if( count != nearFour_ecoSysInMapDatas.size()){ //- 前3个 eco
+        if( count != nearFour_ecoObjDatas.size()){ //- 前3个 eco
 
             mposOff = this->get_mpos() - sectionKey_2_mpos( ecoReadOnly.sectionKey );
             off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y ); // [ ~ 90.0 ~ ]
             off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
-                this->ecoSysInMapKey = ecoReadOnly.sectionKey;
+                this->ecoObjKey = ecoReadOnly.sectionKey;
                 this->density.set( this->get_mpos(), 
                                     ecoReadOnly.densitySeaLvlOff,
                                     ecoReadOnly.densityDivideValsPtr );
                 break;
             }
         }else{ //- 第四个 eco
-            this->ecoSysInMapKey = ecoReadOnly.sectionKey;
+            this->ecoObjKey = ecoReadOnly.sectionKey;
             this->density.set( this->get_mpos(), 
                                     ecoReadOnly.densitySeaLvlOff,
                                     ecoReadOnly.densityDivideValsPtr );

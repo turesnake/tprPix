@@ -50,7 +50,7 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
     auto it = esrc::goids_active.begin();
     for( ; it!=esrc::goids_active.end(); it++ ){
 
-        goPtr = static_cast<GameObj*>( &(esrc::memGameObjs.at(*it)) );
+        goPtr = &(esrc::memGameObjs.at(*it));
         _fp( *it, goPtr );
     }
 }
@@ -65,7 +65,7 @@ void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
     UIObj *uiGoPtr;
     auto it = esrc::uiIds_active.begin();
     for( ; it!=esrc::uiIds_active.end(); it++ ){
-        uiGoPtr = static_cast<UIObj*>( &(esrc::memUIs.at(*it)) );
+        uiGoPtr = &(esrc::memUIs.at(*it));
         _fp( *it, uiGoPtr );
     }
 }
@@ -83,7 +83,7 @@ void foreach_goids_inactive( F_GOID_GOPTR _fp ){
     auto it = esrc::goids_inactive.begin();
     for( ; it!=esrc::goids_inactive.end(); it++ ){
 
-        goPtr = static_cast<GameObj*>( &(esrc::memGameObjs.at(*it)) );
+        goPtr = &(esrc::memGameObjs.at(*it));
         _fp( *it, goPtr );
     }
 }

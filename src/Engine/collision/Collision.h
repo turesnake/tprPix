@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.08
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   碰撞模块
- * ----------------------------
  */
 #ifndef _TPR_COLLISION_H_
 #define _TPR_COLLISION_H_
@@ -46,7 +44,6 @@ private:
     //======== vals ========//
     GameObj  *goPtr       {nullptr};
 };
-
 
 
 #endif 
