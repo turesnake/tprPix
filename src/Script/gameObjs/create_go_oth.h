@@ -10,6 +10,8 @@
 #ifndef _TPR_CREATE_GO_OTH_H_
 #define _TPR_CREATE_GO_OTH_H_
 
+//-------------------- CPP --------------------//
+#include <string>
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
@@ -18,7 +20,6 @@
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
-
 
 
 /* ===========================================================

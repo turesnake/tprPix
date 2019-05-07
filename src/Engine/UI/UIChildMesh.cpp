@@ -35,7 +35,7 @@ namespace{//------------------ namespace ---------------------//
  * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void UIChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = this->uiMeshPtr->get_animFrameSet_pixNum_per_frame();
+    const IntVec2 &p = this->uiMeshPtr->get_animAction_pixNum_per_frame();
 
     this->scale_val.x = (float)p.x;
     this->scale_val.y = (float)p.y;
@@ -61,7 +61,7 @@ void UIChildMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = this->uiGoPtr->get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = this->uiMeshPtr->get_currentRootAnchorPPosOff();
+    const IntVec2 &vRef = this->uiMeshPtr->get_currentRootAnchorPos().pposOff;
 
 
     //--- set translate_val ---//

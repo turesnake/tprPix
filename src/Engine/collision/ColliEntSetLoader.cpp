@@ -16,14 +16,10 @@
 //------------------- Engine --------------------//
 #include "global.h"
 #include "ColliEntSet_RGBAHandle.h"
+#include "load_and_divide_png.h"
 
 //#include "debug.h" //- tmp
 
-
-extern IntVec2 load_and_divide_png( const std::string &_path,
-                          const IntVec2 &_frameNum,
-                          int            _totalFrameNum,
-        std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 /* ===========================================================
  *                       init

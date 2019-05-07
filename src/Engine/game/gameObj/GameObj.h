@@ -85,7 +85,7 @@ public:
     }
 
     GameObjMesh &creat_new_goMesh(  const std::string &_name,
-                                    const std::string &_animFrameSetName,
+                                    //const std::string &_animFrameSetName,
                                     RenderLayerType    _layerType,
                                     ShaderProgram     *_pixShaderPtr,
                                     ShaderProgram     *_shadowShaderPtr,
@@ -99,8 +99,8 @@ public:
     //  放得非常深，通过多层调用才实现...
     //  rootAnchorPos 是静态数据，并不是 go当前 世界pos
     //  此函数在 go每次移动时，都会被调用
-    inline const AnchorPos &get_rootAnchorPos() const {
-        return this->goMeshs.at("root").get_rootAnchorPos();
+    inline const AnchorPos &get_currentRootAnchorPos() const {
+        return this->goMeshs.at("root").get_currentRootAnchorPos();
     }
 
     //-- 根据 direction，自动改写 isFlipOver --

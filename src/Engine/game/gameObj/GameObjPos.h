@@ -28,11 +28,11 @@
 //-- based on go.rootAnchor 
 class GameObjPos{
 public:
-    using F_Get_RootAnchorPos = std::function<const AnchorPos &()>;
+    using F_Get_CurrentRootAnchorPos = std::function<const AnchorPos &()>;
 
     GameObjPos() = default;
-    inline void init( const F_Get_RootAnchorPos &_func ){
-        this->get_rootAnchorPos_functor = _func;
+    inline void init( const F_Get_CurrentRootAnchorPos &_func ){
+        this->get_currentRootAnchorPos_functor = _func;
     }
 
     //-- 若要在map上“放置”go实例，请用本函数 
@@ -97,7 +97,7 @@ private:
                                 //  目前版本中，主要用于 crawl 节点帧 对齐。
                                 //  用来记录 新回合的 最终 位移绝对地址
 
-    F_Get_RootAnchorPos  get_rootAnchorPos_functor {nullptr};
+    F_Get_CurrentRootAnchorPos  get_currentRootAnchorPos_functor {nullptr};
                                 //  通过 functor 来 取代 Go指针。
                                 //  扩大本class 的适用范围。
 };

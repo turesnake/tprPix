@@ -26,20 +26,18 @@ using namespace std::placeholders;
 
 
 /* ===========================================================
- *                 bind_animFrameSet
+ *                 bind_animAction
  * -----------------------------------------------------------
- * -- 目前版本中，此函数 在 go.creat_new_goMesh() 中就被调用了
- *    所以，其执行时间，要早于 this->init()
  */
-void GameObjMesh::bind_animFrameSet( const std::string &_name ){
-    this->animFrameSetName = _name;
-    this->animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
+void GameObjMesh::bind_animAction(   const std::string &_animFrameSetName,
+                        const std::string &_actionName  ){
 
-    this->animFrameIdxHandle.bind_get_animFrameSet_currentTimeStep_func(
-        std::bind( &GameObjMesh::get_animFrameSet_currentTimeStep, this, _1 ) );
+    this->animActionPtr = esrc::getnc_animActionPtr( _animFrameSetName, _actionName );
+    this->animActionPtr->reset_pvtData( this->animActionPvtData );
 
-    this->isHaveShadow = this->animFrameSetPtr->isHaveShadow;
+    this->isHaveShadow = this->animActionPtr->get_isHaveShadow();
 }
+
 
 /* ===========================================================
  *                  RenderUpdate
@@ -53,7 +51,8 @@ void GameObjMesh::RenderUpdate(){
         return;
     }
 
-    this->animFrameIdxHandle.update();
+    this->animActionPtr->update( this->animActionPvtData );
+
     //---------------//
     //      pic
     //---------------//
@@ -70,6 +69,7 @@ void GameObjMesh::RenderUpdate(){
         default:
             assert(0);
     }
+
 
     //---------------//
     //   shadow

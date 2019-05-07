@@ -37,7 +37,8 @@ vec2 lbAlign; //- 对齐过的 lb，首先，校准了 y值比例（毕竟window
 vec2 mid = vec2(0.4, 0.4); //- 和 lb 同体系，canvas中心坐标
 //-------
 
-vec3 color;
+vec3  color;
+float alpha;
 
 float PIXES_PER_CHUNK = 256.0; //- tmp
 
@@ -201,14 +202,19 @@ void main()
     //------------------//
     if( altiLvl >= -2.0 ){
         color = color_sea_2;
+        alpha = 0.88; //-- 一定程度的 半透明
     }else if( altiLvl == -3.0 ){
         color = color_sea_3;
+        alpha = 0.94; //-- 一定程度的 半透明
     }else if( altiLvl == -4.0 ){
         color = color_sea_4;
+        alpha = 1.0;
     }else if( altiLvl == -5.0 ){
         color = color_sea_5;
+        alpha = 1.0;
     }else{ 
         color = color_sea_6;
+        alpha = 1.0;
     }
 
     //------------------//
@@ -216,15 +222,10 @@ void main()
     //------------------//
     float distanceMid = length(lb - mid );
     distanceMid *= distanceMid;
-
-    float alpha = 1.0 - 10.0*distanceMid;
-    if( alpha < 0.0 ){
-        alpha = 0.0;
-    }
     
     //discard;
 
-    FragColor = vec4( color, 1.0 );
+    FragColor = vec4( color, alpha );
     //FragColor = vec4( 0.1, 0.1, 0.1, 0.0 );
     //FragColor = vec4( color, alpha ); //- rgba.alpha MUST be 1.0 !!!
     //FragColor = vec4( lb.xxy, 1.0 ); //- rgba.alpha MUST be 1.0 !!!

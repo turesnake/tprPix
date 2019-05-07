@@ -15,6 +15,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -88,7 +91,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "wheat_Front", //- animFrameSet-Name
+                                        //"wheat_Front", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -100,13 +103,16 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+        //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+
+        rootGoMeshRef.bind_animAction( "wheat", 
+                                        tpr::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
                     
 
         //------- 制作 mesh 实例: "back" -------
         GameObjMesh &backGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "wheat_Back", //- animFrameSet-Name
+                                        //"wheat_Back", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -118,7 +124,10 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        backGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+        //backGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+
+        rootGoMeshRef.bind_animAction( "wheat", 
+                                        tpr::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
                      
 
     //-- 务必在 mesh:"root" 之后 ---
@@ -210,13 +219,13 @@ void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    //GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
             break;
 
         default:

@@ -26,16 +26,15 @@ void UIObj::init(){
  * -- 通过一组参数来实现 gomesh 的初始化。
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.animFrameIdxHandle.bind_xxx()
  */
-UIMesh &UIObj::creat_new_uiMesh(   const std::string &_animFrameSetName,
+UIMesh &UIObj::creat_new_uiMesh(   //const std::string &_animFrameSetName,
                                 ShaderProgram     *_pixShaderPtr,
                                 ShaderProgram     *_shadowShaderPtr,
                                 float             _off_z,
                                 bool              _isVisible,
                                 bool              _isFlipOver ){
 
-
     //----- init -----//
-    this->uiMesh.bind_animFrameSet( _animFrameSetName );
+    //this->uiMesh.bind_animFrameSet( _animFrameSetName );
     this->uiMesh.init( const_cast<UIObj*>(this) );
     this->uiMesh.set_pic_shader_program( _pixShaderPtr );
     this->uiMesh.set_shadow_shader_program( _shadowShaderPtr );

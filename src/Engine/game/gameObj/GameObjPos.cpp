@@ -30,7 +30,7 @@ namespace{//-------- namespace -----------//
 void GameObjPos::init_by_currentMPos( const IntVec2 &_mpos ){
     this->currentMCPos.set_by_mpos( _mpos );
     //---
-    const MapEntCompass &compassRef = this->get_rootAnchorPos_functor().compass;
+    const MapEntCompass &compassRef = this->get_currentRootAnchorPos_functor().compass;
     IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
     this->currentFPos.x = static_cast<float>(p.x);
     this->currentFPos.y = static_cast<float>(p.y);
@@ -44,7 +44,7 @@ void GameObjPos::init_by_currentMPos( const IntVec2 &_mpos ){
  */
 void GameObjPos::align_currentFPos_by_currentMCPos(){
 
-    const MapEntCompass &compassRef = this->get_rootAnchorPos_functor().compass;
+    const MapEntCompass &compassRef = this->get_currentRootAnchorPos_functor().compass;
     IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
     this->currentFPos.x = static_cast<float>(p.x);
     this->currentFPos.y = static_cast<float>(p.y);
@@ -58,7 +58,7 @@ void GameObjPos::align_currentFPos_by_currentMCPos(){
  */
 glm::vec2 GameObjPos::calc_rootAnchor_midFPos(){
 
-    const MapEntCompass &compassRef = this->get_rootAnchorPos_functor().compass;
+    const MapEntCompass &compassRef = this->get_currentRootAnchorPos_functor().compass;
     return ( this->currentFPos - compassRef.to_fpos() + halfMapEnt );
 }
 

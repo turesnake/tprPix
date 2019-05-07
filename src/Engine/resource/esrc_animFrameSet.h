@@ -17,8 +17,14 @@
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
-inline std::unordered_map<std::string, AnimFrameSet> animFrameSets {};
+
 void load_animFrameSets();
+
+
+AnimAction *getnc_animActionPtr(const std::string &_animFrameSetName,
+                                const std::string &_actionName );
+
+
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -14,6 +14,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -88,7 +91,6 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "norman", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader,
@@ -99,12 +101,8 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
                                         false //- isFlipOver
                                         );
 
-        //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
-                                                5,   //- 结束图元帧序号
-                                                0,   //- 入口图元帧序号  
-                                                true //- isOrder
-                                                );
+        rootGoMeshRef.bind_animAction( "norman", "move_idle" );
+
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -207,21 +205,32 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
-            //rootGoMeshRef.bind_animFrameSet( "norman" );
+            //rootGoMeshRef.bind_animFrameSet( "norman" ); //- 新方案中 不再需要
+            /*
             rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
                                                         5,   //- 结束图元帧序号
                                                         0,   //- 入口图元帧序号  
                                                         true //- isOrder
                                                         );
+            */
+
+            rootGoMeshRef.bind_animAction( "norman", "move_idle" );
+
+
             break;
 
         case ActionSwitchType::Move_Move:
-            //rootGoMeshRef.bind_animFrameSet( "norman" );
+            //rootGoMeshRef.bind_animFrameSet( "norman" ); //- 新方案中 不再需要
+            /*
             rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(6,   //- 起始图元帧序号
                                                         11,  //- 结束图元帧序号
                                                         6,   //- 入口图元帧序号  
                                                         true //- isOrder
                                                         );
+            */
+
+            rootGoMeshRef.bind_animAction( "norman", "move_walk" );
+
             break;
 
         default:

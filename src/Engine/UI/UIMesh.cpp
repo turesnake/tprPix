@@ -23,18 +23,18 @@ using namespace std::placeholders;
 
 
 /* ===========================================================
- *                 bind_animFrameSet
+ *                 bind_animAction
  * -----------------------------------------------------------
- * -- 目前版本中，此函数 在 ui.creat_new_uiMesh() 中就被调用了
- *    所以，其执行时间，要早于 this->init()
  */
-void UIMesh::bind_animFrameSet( const std::string &_name ){
-    this->animFrameSetName = _name;
-    this->animFrameSetPtr  = &(esrc::animFrameSets.at(_name));
-    this->animFrameIdxHandle.bind_get_animFrameSet_currentTimeStep_func(
-        std::bind( &UIMesh::get_animFrameSet_currentTimeStep, this, _1 ) );
-    this->isHaveShadow = this->animFrameSetPtr->isHaveShadow;
+void UIMesh::bind_animAction(   const std::string &_animFrameSetName,
+                                const std::string &_actionName  ){
+
+    this->animActionPtr = esrc::getnc_animActionPtr( _animFrameSetName, _actionName );
+    this->animActionPtr->reset_pvtData( this->animActionPvtData );
+
+    this->isHaveShadow = this->animActionPtr->get_isHaveShadow();
 }
+
 
 /* ===========================================================
  *                  RenderUpdate
@@ -48,7 +48,8 @@ void UIMesh::RenderUpdate(){
         return;
     }
 
-    this->animFrameIdxHandle.update();
+    this->animActionPtr->update( this->animActionPvtData );
+
     //---------------//
     //      pic
     //---------------//

@@ -4,7 +4,6 @@
  *                                        CREATE -- 2019.01.22
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * ----------------------------
  */
 #ifndef _TPR_CHILD_MESH_H_
 #define _TPR_CHILD_MESH_H_
@@ -20,7 +19,6 @@
             //-- glm::rotate
             //-- glm::scale
             //-- glm::perspective
-
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader

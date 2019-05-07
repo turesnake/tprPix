@@ -15,6 +15,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -51,7 +54,6 @@ void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
 
         //-- 制作唯一的 mesh 实例: "root" --
         UIMesh &uiMeshRef = this->uiObjPtr->creat_new_uiMesh(
-                                        "button_beginScene", //- animFrameSet-Name
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
                                         1.1,  //- off_z  通过此值来确保，archive 在 pointer 后方
@@ -59,8 +61,8 @@ void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
                                         false //- isFlipOver
                                         );
 
-        //-- bind animFrameSet / animFrameIdxHandle --
-        uiMeshRef.getnc_animFrameIdxHandle().bind_idle( 0 ); //- "pointer"
+        uiMeshRef.bind_animAction(  "button_beginScene", "pointer" );
+
 }
 
 

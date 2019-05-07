@@ -45,6 +45,10 @@ void mk_dir( int _fd, const char * _name, mode_t _mode,
 const std::string path_combine( const std::string &_pa, const std::string &_pb );
 const std::string path_combine( const char *_pa, const char *_pb );
 
+const std::string nameString_combine(   const std::string &_prefix,
+                                        size_t _idx,
+                                        const std::string &_suffix );
+
 bool is_path_not_too_long( const std::string &_path );
 void Is_path_not_too_long( const std::string &_path,
                             const std::string &_err_info );

@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.22
  *                                        MODIFY --
  * ----------------------------------------------------------
- *  
- * ----------------------------
  */
 #include "ChildMesh.h"
 
@@ -37,7 +35,7 @@ namespace{//------------------ namespace ---------------------//
  * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = this->goMeshPtr->get_animFrameSet_pixNum_per_frame();
+    const IntVec2 &p = this->goMeshPtr->get_animAction_pixNum_per_frame();
 
     this->scale_val.x = (float)p.x;
     this->scale_val.y = (float)p.y;
@@ -60,14 +58,14 @@ void ChildMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = this->goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPPosOff();
+    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPos().pposOff;
     const glm::vec2 &pposOff = this->goMeshPtr->get_pposOff();
 
     //--- set translate_val ---//
     this->translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
     //---- 亦或时 才左右翻转 ----//
     if( this->goPtr->isFlipOver != this->goMeshPtr->isFlipOver ){
-        this->translate_val.x += this->goMeshPtr->get_animFrameSet_pixNum_per_frame().x;
+        this->translate_val.x += this->goMeshPtr->get_animAction_pixNum_per_frame().x;
     }
 
     if( this->isPic == true ){
@@ -97,7 +95,6 @@ void ChildMesh::refresh_translate(){
             //  应当为 每个go 设置一个随机的 z深度 base值
             //  在此 z_base 基础上，再做 深度加减
             //  从而避免同一 z深度的 图元 在渲染时 碰撞
-
 }
 
 

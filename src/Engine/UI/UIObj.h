@@ -29,7 +29,7 @@ public:
 
     void renderUpdate();
 
-    UIMesh &creat_new_uiMesh(   const std::string &_animFrameSetName,
+    UIMesh &creat_new_uiMesh(   //const std::string &_animFrameSetName,
                                     ShaderProgram     *_pixShaderPtr,
                                     ShaderProgram     *_shadowShaderPtr,
                                     float             _off_z,

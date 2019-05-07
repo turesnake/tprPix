@@ -14,6 +14,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -31,7 +34,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 namespace{//-------------- namespace ------------------//
 
-    //--- 将所有 oakId 分类，方便分配 ---
+    //--- 将所有 pineId 分类，方便分配 ---
     std::vector<int> ids_age1   { 0, 1 };
     //---
     std::vector<int> ids_age2   { 2, 3 };
@@ -66,7 +69,7 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
     pvtBp = (PineTree_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
-        pvtBp->oakId = apply_a_oakId( pvtBp->age, _fieldWeight );
+        pvtBp->pineId = apply_a_oakId( pvtBp->age, _fieldWeight );
         //...
         
 
@@ -109,7 +112,6 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "pineTree", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader,
@@ -120,8 +122,8 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
 
-        //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
+        rootGoMeshRef.bind_animAction( "pineTree", 
+                                        tpr::nameString_combine( "", pvtBp->pineId, "_idle" ) );
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -217,13 +219,13 @@ void PineTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    //GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
+            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
                                     
             break;
 

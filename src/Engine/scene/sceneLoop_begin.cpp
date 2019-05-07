@@ -111,9 +111,9 @@ void prepare_for_sceneBegin(){
         //-- 如果哪个 存档已经有数据了，修改其图标（显示"data"）
         //   简单粗暴的实现，临时...
         switch( pair.first ){
-            case 1:  button_archive_1_Ptr->get_uiMesh().getnc_animFrameIdxHandle().bind_idle( 2 ); break;
-            case 2:  button_archive_2_Ptr->get_uiMesh().getnc_animFrameIdxHandle().bind_idle( 2 ); break;
-            case 3:  button_archive_3_Ptr->get_uiMesh().getnc_animFrameIdxHandle().bind_idle( 2 ); break;
+            case 1:  button_archive_1_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 2:  button_archive_2_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 3:  button_archive_3_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
             default:
                 assert(0);
         }
@@ -143,7 +143,6 @@ void sceneLoop_begin(){
     esrc::rect_shader.use_program();
     esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
     esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
-    
 
     //====================================//
     //          -- RENDER --

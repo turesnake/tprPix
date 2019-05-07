@@ -16,6 +16,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -87,7 +90,6 @@ void BigMan::init_in_autoMod(  GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "bigMan", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader,
@@ -97,13 +99,8 @@ void BigMan::init_in_autoMod(  GameObj *_goPtr,
                                         true, //- isCollide
                                         false //- isFlipOver
                                         );
-
-        //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
-                                                5,   //- 结束图元帧序号
-                                                0,   //- 入口图元帧序号  
-                                                true //- isOrder
-                                                );
+        
+        rootGoMeshRef.bind_animAction( "bigMan", "move_idle" );
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -198,20 +195,26 @@ void BigMan::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //goMeshRef.bind_animFrameSet( "bigMan" );
+            /*
             goMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
                                                     5,   //- 结束图元帧序号
                                                     0,   //- 入口图元帧序号  
                                                     true //- isOrder
                                                     );
+            */
+            goMeshRef.bind_animAction( "bigMan", "move_idle" );
             break;
 
         case ActionSwitchType::Move_Move:
             //goMeshRef.bind_animFrameSet( "bigMan" );
+            /*
             goMeshRef.getnc_animFrameIdxHandle().bind_cycle(6,   //- 起始图元帧序号
                                                     11,  //- 结束图元帧序号
                                                     6,   //- 入口图元帧序号  
                                                     true //- isOrder
                                                     );
+            */
+            goMeshRef.bind_animAction( "bigMan", "move_walk" );
             break;
 
         default:

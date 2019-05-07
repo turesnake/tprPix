@@ -15,6 +15,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -90,7 +93,6 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "lichen_Forest", //- animFrameSet-Name
                                         RenderLayerType::MapSurfaces,
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -101,8 +103,8 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver(_fieldWeight) //- isFlipOver
                                         );
 
-        //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->lichen_ForestId );
+        rootGoMeshRef.bind_animAction( "lichen_Forest", 
+                                        tpr::nameString_combine( "", pvtBp->lichen_ForestId, "_idle" ) );
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -193,13 +195,13 @@ void Lichen_Forest::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    //GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->lichen_ForestId );
+            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->lichen_ForestId );
             break;
 
         default:

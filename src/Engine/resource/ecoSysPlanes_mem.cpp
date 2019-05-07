@@ -117,17 +117,16 @@ void init_ecoSysPlanes(){
     esrc::ecoSysPlanIds.clear();
     //---------------------//
 
-    //init_Forest_1();
-    //init_Forest_2();
     /*
+    init_Forest_1();
+    init_Forest_2();
     init_DarkForest_1();
     init_Plain_1();
     init_Swamp_1();
     init_Desert_1();
     */
-
-    init_Desert_2();
     
+    init_Desert_2();
     
     //---------------------//
     //   shuffle ecoSysPlanIds

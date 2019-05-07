@@ -26,6 +26,7 @@
 //-------------------- CPP --------------------//
 #include <iostream> //-- cout
 #include <string>
+#include <sstream>
 
 //-------------------- SELF --------------------// 
 #include "wrapFuncs.h"
@@ -82,6 +83,10 @@ off_t get_file_size( const char *_path, const std::string &_err_info );
 
 //------------------- 局部 函数 ----------------
 namespace{
+
+    std::stringstream ss;
+
+    //===== funcs =====//
     bool _is_path_valid_result_check( int _r, int _fd, const char *_path );
     int  _is_path_a_dir_result_check( int _r, int _fd, const char *_path );
 
@@ -651,6 +656,20 @@ const std::string path_combine( const char *_pa, const char *_pb ){
     string a = _pa;
     string b = _pb;
     return path_combine( a, b );
+}
+
+
+/* ===========================================================
+ *                  nameString_combine
+ * -----------------------------------------------------------
+ * -- 拼接一种特殊的 string，类似 "dog_2_jump" 这种
+ */
+const std::string nameString_combine(   const std::string &_prefix,
+                                        size_t _idx,
+                                        const std::string &_suffix ){
+    ss.str("");
+    ss << _idx;
+    return (_prefix + ss.str() + _suffix);
 }
 
 

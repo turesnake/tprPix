@@ -14,6 +14,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -114,7 +117,6 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "oakTree", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader,
@@ -125,8 +127,11 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
 
-        //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
+        rootGoMeshRef.bind_animAction( "oakTree", 
+                                        tpr::nameString_combine( "", pvtBp->oakId, "_idle" ) );
+
+
+
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -221,13 +226,13 @@ void OakTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    //GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
+            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->oakId );
                                     
             break;
 

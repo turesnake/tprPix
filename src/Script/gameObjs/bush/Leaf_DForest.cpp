@@ -15,6 +15,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprFileSys.h"
+
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
 
@@ -89,7 +92,7 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        "leaf_DForest", //- animFrameSet-Name
+                                        //"leaf_DForest", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -101,8 +104,13 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         //-- bind animFrameSet / animFrameIdxHandle --
-        rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
-        
+        //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
+
+        //rootGoMeshRef.bind_animAction( "norman", "move_idle" );
+        rootGoMeshRef.bind_animAction( "leaf_DForest", 
+                                        tpr::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
+
+
                     
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );
@@ -200,8 +208,13 @@ void Leaf_DForest::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     switch( _type ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
+            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
+
+            rootGoMeshRef.bind_animAction( "leaf_DForest", 
+                                        tpr::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
+
             break;
+
 
 
         default:

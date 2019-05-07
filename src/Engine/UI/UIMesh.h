@@ -27,13 +27,14 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "AnimFrameIdxHandle.h"
-#include "AnimFrameSet.h" 
 #include "AnchorPos.h"
 #include "UIChildMesh.h"
+#include "AnimAction.h"
 
 //--- need ---//
 class UIObj;
+
+class AnimFrameSet;
 
 
 class UIMesh{
@@ -49,10 +50,9 @@ public:
 
     void RenderUpdate();
 
-    //------ animFrameSet ------
-    //  目前，此函数仅用于 ui.creat_new_uiMesh() 中
-    //  以及 切换动画时
-    void bind_animFrameSet( const std::string &_name );
+    void bind_animAction(   const std::string &_animFrameSetName,
+                            const std::string &_actionName  );
+
 
     //------------- set -------------//
     inline void set_off_z( float _off_z ){
@@ -66,41 +66,27 @@ public:
     }
 
     //------------- get -------------//
-    inline const std::string &get_animFrameSetName() const {
-        return this->animFrameSetName;
-    }
-    inline const int &get_totalFrames() const {
-        return this->animFrameSetPtr->get_totalFrameNum();
-    }
-    inline const int &get_currentAnimFrameIdx() const { //--- IMPORTANT !!! ---
-        return this->animFrameIdxHandle.currentIdx;
-    }
-    inline const AnchorPos &get_rootAnchorPos() const {
-        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos();
+    inline const AnchorPos &get_currentRootAnchorPos() const {
+        return this->animActionPtr->get_currentRootAnchorPos( this->animActionPvtData );
     }
     inline const FramePos &get_currentFramePos() const {
-        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx );
+        return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
+
     }
     inline const GLuint &get_currentTexName_pic() const {
-        return this->animFrameSetPtr->get_texName_pic( this->animFrameIdxHandle.currentIdx );
+        return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
     inline const GLuint &get_currentTexName_shadow() const {
-        return this->animFrameSetPtr->get_texName_shadow( this->animFrameIdxHandle.currentIdx );
+        assert( this->isHaveShadow );
+        return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return this->animFrameSetPtr->get_framePos( this->animFrameIdxHandle.currentIdx ).get_rootAnchorPos().pposOff;
-    }
-    inline const IntVec2 &get_animFrameSet_pixNum_per_frame() const {
-        return this->animFrameSetPtr->get_pixNum_per_frame();
-    }
-    inline const int &get_animFrameSet_currentTimeStep( int _currentIdx ) const {
-        return this->animFrameSetPtr->get_timeStep( _currentIdx );
+    
+    inline const IntVec2 &get_animAction_pixNum_per_frame() const {
+        return this->animActionPtr->get_pixNum_per_frame();
+                        //-- 这个函数会在每帧被调用。最好的措施是，每次 切换 animaction 时，将这个数据，暂存到 gomesh 中。
     }
     inline const float &get_off_z() const {
         return this->off_z;
-    }
-    inline AnimFrameIdxHandle &getnc_animFrameIdxHandle(){
-        return this->animFrameIdxHandle;
     }
 
     //======== flags ========//
@@ -122,17 +108,10 @@ private:
                     //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1f
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
+    
+    AnimAction  *animActionPtr {nullptr};
 
-    AnimFrameIdxHandle  animFrameIdxHandle {}; //- 一个 GameObjMesh拥有一个 ah实例
-                                    //- 由于 ah实例 只存在于mem态，所以几乎很少存在 反射的需求。
-                                    //- 但是存在 类型验证的需求：通过 .typeId 
-
-    //------- AnimFrameSet -------
-    // 具象go类代码 通过 name／id 来 设置／改写 AnimFrameSet 数据
-    // 在单一时间，一个GameObjMesh实例 只能绑定 一个 animFrameSetPtr实例
-    std::string     animFrameSetName;       //- 与下方的 animFrameSetPtr 强关联 --
-    AnimFrameSet   *animFrameSetPtr {nullptr}; //- 指向 esrc::animFrameSets 中的某个 AnimFrameSet 实例
-                                    //- 通过 bind_animFrameSet() 来绑定
+    AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 };
 
 

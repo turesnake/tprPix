@@ -1,5 +1,5 @@
 /*
- * =================== load_and_divide_png.h =================
+ * =================== load_and_divide_png.cpp =================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.13
  *                                        MODIFY -- 
@@ -13,13 +13,10 @@
 #endif
 #include "stb_image.h" //-- 加载图片数据用
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <string>
 
 //------------------- Engine --------------------//
-#include "RGBA.h"
-#include "IntVec.h"
+#include "load_and_divide_png.h"
+
 
 #include "debug.h"
 

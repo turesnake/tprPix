@@ -61,7 +61,6 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameIdxHandle)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/dataBase)
@@ -126,7 +125,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/actionSwitch/*.cpp
                         src/Engine/actionFSM/*.cpp
                         src/Engine/animFrameSet/*.cpp 
-                        src/Engine/animFrameIdxHandle/*.cpp
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/debug/*.cpp 
@@ -155,14 +153,11 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
-                        src/Script/animFrameIdxHandle/*.cpp 
-                        src/Script/byPass/*.cpp 
                         src/Script/gameObjs/*.cpp
                         src/Script/gameObjs/bush/*.cpp
                         src/Script/gameObjs/majorGos/*.cpp
                         src/Script/gameObjs/majorGos/trees/*.cpp
                         src/Script/gameObjs/mapSurfaces/*.cpp
-                        src/Script/map/*.cpp
                         src/Script/resource/*.cpp
                         src/Script/UIs/*.cpp 
                         src/Script/UIs/buttons/*.cpp 

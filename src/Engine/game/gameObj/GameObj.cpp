@@ -22,7 +22,7 @@
  */
 void GameObj::init(){
     this->collision.init( const_cast<GameObj*>(this) );
-    this->goPos.init( std::bind( &GameObj::get_rootAnchorPos, this ) );
+    this->goPos.init( std::bind( &GameObj::get_currentRootAnchorPos, this ) );
     this->move.init( const_cast<GameObj*>(this), &this->goPos, &this->collision );
     this->actionSwitch.init( const_cast<GameObj*>(this) );
     //...
@@ -36,7 +36,7 @@ void GameObj::init(){
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.animFrameIdxHandle.bind_xxx()
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
-                                        const std::string &_animFrameSetName,
+                                        //const std::string &_animFrameSetName,
                                         RenderLayerType    _layerType,
                                         ShaderProgram     *_pixShaderPtr,
                                         ShaderProgram     *_shadowShaderPtr,
@@ -52,7 +52,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
     GameObjMesh &gmesh = this->goMeshs.at(_name);
 
     //----- init -----//
-    gmesh.bind_animFrameSet( _animFrameSetName );
+    //gmesh.bind_animFrameSet( _animFrameSetName );
     gmesh.init( const_cast<GameObj*>(this) );
     gmesh.set_pic_renderLayer( _layerType ); 
     gmesh.set_pic_shader_program( _pixShaderPtr );
