@@ -60,8 +60,8 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Leaf_DForest::OnRenderUpdate, &leaf_DForest, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Leaf_DForest::OnLogicUpdate,  &leaf_DForest, _1 );
+    goPtr->RenderUpdate = std::bind( &Leaf_DForest::OnRenderUpdate, &leaf_DForest, _goPtr );   
+    goPtr->LogicUpdate  = std::bind( &Leaf_DForest::OnLogicUpdate,  &leaf_DForest, _goPtr );
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &Leaf_DForest::OnActionSwitch, &leaf_DForest, _1, _2 ) );
@@ -81,7 +81,7 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- leaf_DForest一律无法移动
+    goPtr->move.set_speedLvl( SpeedLevel::LV_0 );
     goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
@@ -92,7 +92,6 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        //"leaf_DForest", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -102,13 +101,10 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
                                         true, //- isCollide
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
-
-        //-- bind animFrameSet / animFrameIdxHandle --
-        //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
-
-        //rootGoMeshRef.bind_animAction( "norman", "move_idle" );
         rootGoMeshRef.bind_animAction( "leaf_DForest", 
                                         tpr::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
+
+        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
                     

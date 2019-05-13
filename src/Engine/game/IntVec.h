@@ -54,11 +54,11 @@ public:
     //-- 地板除法，向低取节点值 --
     //  -1- float 除法
     //  -2- math.floor()
-    inline IntVec2 floorDiv( float _div ){
+    inline IntVec2 floorDiv( float _div ) const {
         float fx = ((float)x) / _div;
         float fy = ((float)y) / _div;
-        return IntVec2{ (int)floor(fx),
-                        (int)floor(fy) };
+        return IntVec2{ static_cast<int>(floor(fx)),
+                        static_cast<int>(floor(fy)) };
     }
 
     //======== static ========//
@@ -139,8 +139,8 @@ inline bool IntVec2::is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, siz
 inline IntVec2 floorDiv(  const IntVec2 &_a, float _div ){
     float fx = ((float)_a.x) / _div;
     float fy = ((float)_a.y) / _div;
-    return IntVec2{ (int)floor(fx),
-                    (int)floor(fy) };
+    return IntVec2{ static_cast<int>(floor(fx)),
+                    static_cast<int>(floor(fy)) };
 }
 
 
@@ -156,13 +156,9 @@ inline IntVec2 floorMod( const IntVec2 &_v, float _mod ){
     float fy = ((float)_v.y) / _mod;
     float floorX = floor(fx) * _mod;
     float floorY = floor(fy) * _mod;
-    return IntVec2{ _v.x - (int)floorX,
-                    _v.y - (int)floorY };
+    return IntVec2{ _v.x - static_cast<int>(floor(floorX)),
+                    _v.y - static_cast<int>(floor(floorY)) };
 }
-
-
-
-
 
 
 //--- [mem] --//

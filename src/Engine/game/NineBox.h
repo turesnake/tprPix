@@ -5,7 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *      九宫格
- *  仅适用于 表达 crawl 的 8方向， 
+ *  仅适用于 表达 8方向，
+ *  是 crawl.collision 唯一接受的 方向参数
+ *  但不再是 crawl 的 方向参数
+ *  新版本的 crawl，支持 17个 运动方向 ( CrawlCompass ) 
  * ----------------------------
  */
 #ifndef _TPR_NINE_BOX_H_
@@ -35,7 +38,6 @@
 // 一切大于0的 当作 1
 class NineBox{
 public:
-    //---- constructor -----//
     NineBox() = default;
     NineBox( int _x, int _y ):
         x(_x),

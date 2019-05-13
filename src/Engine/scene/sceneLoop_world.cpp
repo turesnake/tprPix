@@ -15,12 +15,18 @@
 #include "chunkBuild.h"
 #include "esrc_all.h" //- 所有资源
 
+#include "debug.h"
+
 
 using namespace std::placeholders;
 
 
 namespace{//-------------- namespace ------------------//
 
+
+    //-- 临时数据 --
+    bool  isOld_A_press {false}; //- 上一帧，A键是否按下
+    bool  isOld_B_press {false}; //- 上一帧，B键是否按下
 
 
     //===== funcs =====//
@@ -89,7 +95,10 @@ void sceneLoop_world(){
         case 1:
             esrc::foreach_goids_active(
                 []( goid_t _goid, GameObj *_goPtr ){
-                    _goPtr->LogicUpdate( _goPtr );
+                    _goPtr->LogicUpdate();
+                            //-- 这么设计还是会造成 拥塞问题
+                            //   大量的 go在同一帧 更新自己的 logic。
+                            //   最好的办法是，分摊到 不同的帧中去...
                 }
             );
             break;
@@ -143,8 +152,7 @@ void sceneLoop_world(){
     esrc::foreach_goids_active(
         []( goid_t _goid, GameObj *_goPtr ){
             assert( _goPtr->RenderUpdate != nullptr );
-            _goPtr->RenderUpdate( _goPtr ); 
-                     //-- 在未来，这个接口应该被改良...
+            _goPtr->RenderUpdate(); 
         }
     );
 
@@ -187,6 +195,40 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 
     //-- 直接传递给 player
     esrc::player.handle_inputINS( _inputINS );
+
+
+    //-----------------//
+    //      tmp
+    // 用 A 键 来增加 playerGo speed
+    // 用 B 键 减速
+    //-----------------//
+    bool  isNew_A_press = false;
+    bool  isNew_B_press = false;
+    if( _inputINS.check_key(GameKey::KEY_A) ){
+        isNew_A_press = true;
+    }
+    if( _inputINS.check_key(GameKey::KEY_B) ){
+        isNew_B_press = true;
+    }
+
+    SpeedLevel lvl = esrc::player.goPtr->move.get_speedLvl();
+    //-- 有效的 节点帧 --
+    if( (isOld_A_press==false) && (isNew_A_press) ){
+        SpeedLevel newLvl = calc_higher_speedLvl(lvl);
+        esrc::player.goPtr->move.set_speedLvl( newLvl );
+            cout << " + " << static_cast<int>(newLvl) 
+                << ", " << SpeedLevel_2_val(newLvl)
+                << endl; 
+    }
+    if( (isOld_B_press==false) && (isNew_B_press) ){
+        SpeedLevel newLvl = calc_lower_speedLvl(lvl);
+        esrc::player.goPtr->move.set_speedLvl( newLvl );
+            cout << " - " << static_cast<int>(newLvl) 
+                << ", " << SpeedLevel_2_val(newLvl)
+                << endl;
+    }
+    isOld_A_press = isNew_A_press;
+    isOld_B_press = isNew_B_press;
 
 }
 

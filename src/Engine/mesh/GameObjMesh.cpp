@@ -4,9 +4,6 @@
  *                                        CREATE -- 2018.11.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   GameObjMesh 类, 可以看作 图元类。
- *   一个 GameObjMesh，负责管理 一张 矩形图元
- * ----------------------------
  */
 #include "GameObjMesh.h" 
 
@@ -28,6 +25,7 @@ using namespace std::placeholders;
 /* ===========================================================
  *                 bind_animAction
  * -----------------------------------------------------------
+ * -- 切换动作时的 核心函数
  */
 void GameObjMesh::bind_animAction(   const std::string &_animFrameSetName,
                         const std::string &_actionName  ){
@@ -47,15 +45,19 @@ void GameObjMesh::bind_animAction(   const std::string &_animFrameSetName,
  */
 void GameObjMesh::RenderUpdate(){
 
+    //---------------//
+    //  animAction
+    //---------------//
+    this->animActionPtr->update( this->animActionPvtData );
+
+    
+    //---------------//
+    //      pic
+    //---------------//
     if( this->isVisible == false ){
         return;
     }
 
-    this->animActionPtr->update( this->animActionPvtData );
-
-    //---------------//
-    //      pic
-    //---------------//
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
     switch (this->picRenderLayerType){
@@ -69,7 +71,6 @@ void GameObjMesh::RenderUpdate(){
         default:
             assert(0);
     }
-
 
     //---------------//
     //   shadow

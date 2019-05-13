@@ -57,8 +57,8 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Norman::OnRenderUpdate, &norman, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Norman::OnLogicUpdate,  &norman, _1 );
+    goPtr->RenderUpdate = std::bind( &Norman::OnRenderUpdate, &norman, _goPtr );   
+    goPtr->LogicUpdate  = std::bind( &Norman::OnLogicUpdate,  &norman, _goPtr );
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &Norman::OnActionSwitch, &norman, _1, _2 ) );
@@ -79,8 +79,8 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    //goPtr->move.set_speedLv( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
-    goPtr->move.set_speedLv( SpeedLevel::LV_8 );   //- tmp，用来快速检索地图
+    //goPtr->move.set_speedLvl( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
+    goPtr->move.set_speedLvl( SpeedLevel::LV_6 );   //- tmp，用来快速检索地图
     goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
@@ -102,6 +102,8 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
                                         );
 
         rootGoMeshRef.bind_animAction( "norman", "move_idle" );
+
+        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
     //-- 务必在 mesh:"root" 之后 ---
@@ -205,30 +207,12 @@ void Norman::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( _type ){
         case ActionSwitchType::Move_Idle:
-            //rootGoMeshRef.bind_animFrameSet( "norman" ); //- 新方案中 不再需要
-            /*
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(0,   //- 起始图元帧序号
-                                                        5,   //- 结束图元帧序号
-                                                        0,   //- 入口图元帧序号  
-                                                        true //- isOrder
-                                                        );
-            */
-
             rootGoMeshRef.bind_animAction( "norman", "move_idle" );
 
 
             break;
 
         case ActionSwitchType::Move_Move:
-            //rootGoMeshRef.bind_animFrameSet( "norman" ); //- 新方案中 不再需要
-            /*
-            rootGoMeshRef.getnc_animFrameIdxHandle().bind_cycle(6,   //- 起始图元帧序号
-                                                        11,  //- 结束图元帧序号
-                                                        6,   //- 入口图元帧序号  
-                                                        true //- isOrder
-                                                        );
-            */
-
             rootGoMeshRef.bind_animAction( "norman", "move_walk" );
 
             break;

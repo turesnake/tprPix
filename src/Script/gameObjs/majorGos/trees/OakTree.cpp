@@ -80,8 +80,8 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &OakTree::OnRenderUpdate, &oakTree, _1 );   
-    goPtr->LogicUpdate  = std::bind( &OakTree::OnLogicUpdate,  &oakTree, _1 );
+    goPtr->RenderUpdate = std::bind( &OakTree::OnRenderUpdate, &oakTree, _goPtr );   
+    goPtr->LogicUpdate  = std::bind( &OakTree::OnLogicUpdate,  &oakTree, _goPtr );
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &OakTree::OnActionSwitch, &oakTree, _1, _2 ) );
@@ -101,7 +101,7 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- 树木一律无法移动
+    goPtr->move.set_speedLvl( SpeedLevel::LV_0 );
     goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
@@ -130,6 +130,7 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
         rootGoMeshRef.bind_animAction( "oakTree", 
                                         tpr::nameString_combine( "", pvtBp->oakId, "_idle" ) );
 
+        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
 

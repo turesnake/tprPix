@@ -61,8 +61,8 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Lichen_Forest::OnRenderUpdate, &lichen_Forest, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Lichen_Forest::OnLogicUpdate,  &lichen_Forest, _1 );
+    goPtr->RenderUpdate = std::bind( &Lichen_Forest::OnRenderUpdate, &lichen_Forest, _goPtr );   
+    goPtr->LogicUpdate  = std::bind( &Lichen_Forest::OnLogicUpdate,  &lichen_Forest, _goPtr );
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &Lichen_Forest::OnActionSwitch, &lichen_Forest, _1, _2 ) );
@@ -82,7 +82,7 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- lichen_Forest一律无法移动
+    goPtr->move.set_speedLvl( SpeedLevel::LV_0 );
     goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
@@ -105,6 +105,8 @@ void Lichen_Forest::init_in_autoMod(  GameObj *_goPtr,
 
         rootGoMeshRef.bind_animAction( "lichen_Forest", 
                                         tpr::nameString_combine( "", pvtBp->lichen_ForestId, "_idle" ) );
+
+        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
     //-- 务必在 mesh:"root" 之后 ---
     goPtr->goPos.set_alti( 0.0f );

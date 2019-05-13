@@ -28,17 +28,13 @@
 namespace{//----------------- namespace ------------------//
 
     //-- 每次 insert png数据时，以下这些数据都会被复用 --
-
     size_t headIdx; //- 本次 png数据insert，起始idx
                     //- 在此之前，容器中以及有数据了。
-
 
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector<std::vector<RGBA>> P_frame_data_ary {}; 
     std::vector<std::vector<RGBA>> J_frame_data_ary {}; 
     std::vector<std::vector<RGBA>> S_frame_data_ary {};
-
-
 
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
@@ -47,16 +43,12 @@ namespace{//----------------- namespace ------------------//
     std::string  lpath_pjt;    //-- collients
     std::string  lpath_shadow; //-- shadow  (此文件也许可为空...)
 
-
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值 （会被存到 animAction 实例中）
     IntVec2  frameNum {};          //- 画面中，横排可分为几帧，纵向可分为几帧
     int      totalFrameNum {};     //- 目标png文件中，总 图元帧 个数
 
-
-
     bool  isPJTSingleFrame    {};  //- pjt 每帧数据都是一样的，png也只记录了一帧
     bool  isShadowSingleFrame {};  //- shadow 每帧数据都是一样的，png也只记录了一帧
-
 
     std::vector<GLuint> tmpTexNames; //- 用于 create_texNames()
 
@@ -86,7 +78,6 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     isPJTSingleFrame = _isPjtSingleFrame;
     isShadowSingleFrame = _isShadowSingleFrame;
     
-
     //-------------------//
     //
     //-------------------//
@@ -95,7 +86,6 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     assert( this->texNames_pic.size() == lastNums );
     assert( this->texNames_shadow.size() == lastNums );
     headIdx = lastNums;
-
 
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
@@ -140,7 +130,6 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     assert( tmpv2 == pixNum_per_frame );
     this->handle_pjt();
 
-    
     //-------------------//
     //      Shadow
     //-------------------//
@@ -186,7 +175,6 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
                         pixNum_per_frame,
                         headIdx,
                         _isHaveShadow );
-
     }
 }
 
@@ -211,7 +199,6 @@ void AnimFrameSet::handle_pjt(){
     size_t   idx_framePoses;
 
     for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
-
 
         idx_framePoses = headIdx + f;
         assert( this->framePoses.size() > idx_framePoses );
@@ -241,18 +228,18 @@ void AnimFrameSet::handle_pjt(){
                 //-- 暂时什么也不做...
             //}
 
+            //- 新版中，一个 mesh 只有一个 ces／ceh
             if( jh.is_rootColliEntHead() == true ){
                 rootColliEntHeadOff = pixPPos;
-                this->framePoses.at(idx_framePoses).pushBack_the_rootColliEntHead( jh.get_colliEntHead() );
+                this->framePoses.at(idx_framePoses).set_colliEntHead( jh.get_colliEntHead() );
             }
-            if( jh.is_colliEntHead() == true ){
-                this->framePoses.at(idx_framePoses).pushBack_new_colliEntHead( jh.get_colliEntHead() );
-            }
+
         }//------ each frame.pix ------
 
         //-- 注意，顺序不能错!!! --//
-        this->framePoses.at(idx_framePoses).set_rootAnchorPos( rootAnchorOff, rootColliEntHeadOff );
-        this->framePoses.at(idx_framePoses).calc_ceh_pposOff_fromRootAnchor();
+        this->framePoses.at(idx_framePoses).set_rootAnchorPPosOff( rootAnchorOff );
+        this->framePoses.at(idx_framePoses).calc_ceh_mposOff_from_cesLB_2_centerMPos();
+        this->framePoses.at(idx_framePoses).calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid();
         this->framePoses.at(idx_framePoses).check();                 //-- MUST --//
 
     }//-------- each frame -------
@@ -328,8 +315,5 @@ void build_three_lpaths( const std::string &_lpath_pic ){
     lpath_shadow.assign( lpath_pic.begin(), (lpath_pic.begin()+point_idx) );
     lpath_shadow += ".S.png";
 }
-
-
-
 
 }//-------------------- namespace: end ------------------//

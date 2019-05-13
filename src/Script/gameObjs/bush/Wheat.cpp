@@ -59,8 +59,8 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _1 );   
-    goPtr->LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _1 );
+    goPtr->RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _goPtr );   
+    goPtr->LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _goPtr );
     
     //-------- actionSwitch ---------//
     goPtr->actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
@@ -80,7 +80,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
     goPtr->isDirty = false;
     goPtr->isControlByPlayer = false;
 
-    goPtr->move.set_speedLv( SpeedLevel::LV_1 );   //- wheat一律无法移动
+    goPtr->move.set_speedLvl( SpeedLevel::LV_0 );
     goPtr->move.set_MoveType( MoveType::Crawl );
 
     goPtr->set_collision_isDoPass( false );
@@ -91,7 +91,6 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        //"wheat_Front", //- animFrameSet-Name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -101,18 +100,15 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         true, //- isCollide
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
-
-        //-- bind animFrameSet / animFrameIdxHandle --
-        //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
-
         rootGoMeshRef.bind_animAction( "wheat", 
                                         tpr::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
+
+        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
                     
 
         //------- 制作 mesh 实例: "back" -------
         GameObjMesh &backGoMeshRef = 
-                goPtr->creat_new_goMesh("root", //- gmesh-name
-                                        //"wheat_Back", //- animFrameSet-Name
+                goPtr->creat_new_goMesh("back", //- gmesh-name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::rect_shader,  
                                         &esrc::rect_shader, //- 其实没有 shadow
@@ -122,11 +118,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
-
-        //-- bind animFrameSet / animFrameIdxHandle --
-        //backGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
-
-        rootGoMeshRef.bind_animAction( "wheat", 
+        backGoMeshRef.bind_animAction( "wheat", 
                                         tpr::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
                      
 

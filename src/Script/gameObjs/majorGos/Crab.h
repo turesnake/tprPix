@@ -1,14 +1,14 @@
 /*
- * ========================= Norman.h ==========================
+ * ========================= Crab.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.05.08
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   诺曼人
- * ----------------------------
+ *   螃蟹
+ * -----------------------
  */
-#ifndef _TPR_NORMAN_H_
-#define _TPR_NORMAN_H_
+#ifndef _TPR_CRAB_H_
+#define _TPR_CRAB_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -23,23 +23,27 @@
 #include "MapAltitude.h"
 #include "Density.h"
 
+#include "AI_Crab.h"
+
+
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 //-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> norman_pubBinaryValTypes {
+inline std::vector<PubBinaryValType> crab_pubBinaryValTypes {
     PubBinaryValType::HP,
     PubBinaryValType::MP
 };
 
-struct Norman_PvtBinary{
-    int   tmp;
+struct Crab_PvtBinary{
+    int      tmpVal;
+    AI_Crab  ai_crab {};
 };
 
 
-class Norman{
+class Crab{
 public:
-    Norman() = default;
+    Crab() = default;
 
     //--- 延迟init ---//
     void init_in_autoMod(   GameObj *_goPtr,
@@ -60,10 +64,10 @@ public:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == Norman::specId );
+        assert( _goPtr->species == Crab::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = (Crab_PvtBinary*)goPtr->get_pvtBinaryPtr();
     }
 
     //======== tmp vals ========//
@@ -72,7 +76,7 @@ public:
                             //- 这大幅度降低了 具象go类实例 创建的成本
                             //（多数时间作为 临时对象，创建在一个 函数内）
 
-    Norman_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
+    Crab_PvtBinary  *pvtBp {nullptr}; //- 指向 goPtr->binary 
                             //- 通过这个指针来 简化调用
                             //  由于 具象go类实例的 生命周期很短（通常活不过一个函数）
                             //  所以，这个指针也是临时的
@@ -85,13 +89,15 @@ private:
 
     //--- callback ---//
     void OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type );
+
+
 };
 
 //---------- static ----------//
-inline goSpecId_t  Norman::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
+inline goSpecId_t  Crab::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
 
 //=====< 本类 唯一的 保留实例 >=====
-inline Norman  norman {};
+inline Crab  crab {};
 
 }//------------- namespace gameObjs: end ----------------
 #endif 

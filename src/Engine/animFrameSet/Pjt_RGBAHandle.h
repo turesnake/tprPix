@@ -33,9 +33,9 @@ namespace{//---------- namespace ---------//
     u8_t    A_SOLID         = 255; 
     //--- R --- 
     u8_t    R_rootColliEntHead_CarryAffect = 50;   //- ces with rootAnchor (carry affect)
-    u8_t    R_colliEntHead_CarryAffect     = 150;  //- regular ces         (carry affect)
     u8_t    R_rootColliEntHead_NoAffect    = 100;  //- ces with rootAnchor (no affect)
-    u8_t    R_colliEntHead_NoAffect        = 200;  //- regular ces         (no affect)
+                //- 新版本中，一个mesh 只有一个 ces/ceh
+                //  也就是这里的 rootCEH
     
     //--- B --- 
     u8_t    B_rootAnchor    = 255;
@@ -64,7 +64,6 @@ public:
 
         isEmpty        = true;
         isRootColliEntHead = false;
-        isColliEntHead     = false;
         isRootAnchor       = false;
         isChildAnchor      = false;
 
@@ -81,28 +80,12 @@ public:
         if(       is_in_range(rgba.r, R_rootColliEntHead_CarryAffect, cesNUm) ){ //---
             isRootColliEntHead = true;
             colliEntHead.colliEntSetIdx = rgba.r - R_rootColliEntHead_CarryAffect;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
             colliEntHead.isCarryAffect = true;
             set_altiRange();
-
-        }else if( is_in_range(rgba.r, R_rootColliEntHead_NoAffect, cesNUm) ){    //---
+        }
+        else if( is_in_range(rgba.r, R_rootColliEntHead_NoAffect, cesNUm) ){    //---
             isRootColliEntHead = true;
             colliEntHead.colliEntSetIdx = rgba.r - R_rootColliEntHead_NoAffect;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
-            colliEntHead.isCarryAffect = false;
-            set_altiRange();
-
-        }else if( is_in_range(rgba.r, R_colliEntHead_CarryAffect, cesNUm) ){     //---
-            isColliEntHead = true;
-            colliEntHead.colliEntSetIdx = rgba.r - R_colliEntHead_CarryAffect;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
-            colliEntHead.isCarryAffect = true;
-            set_altiRange();
-
-        }else if( is_in_range(rgba.r, R_colliEntHead_NoAffect, cesNUm) ){        //---
-            isColliEntHead = true;
-            colliEntHead.colliEntSetIdx = rgba.r - R_colliEntHead_NoAffect;
-            colliEntHead.pposOff_fromRootAnchor = _pixPos; //-未完，后面还需要 "- rootAnchorOff"
             colliEntHead.isCarryAffect = false;
             set_altiRange();
         }
@@ -118,9 +101,6 @@ public:
     }
     inline bool is_rootColliEntHead() const {
         return  isRootColliEntHead;
-    }
-    inline bool is_colliEntHead() const {
-        return  isColliEntHead;
     }
     inline bool is_rootAnchor() const {
         return  isRootAnchor;
@@ -199,7 +179,6 @@ private:
 
     bool isEmpty            {false}; //- when chanel_A==0;
     bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起
-    bool isColliEntHead     {false};
     bool isRootAnchor       {false};
     bool isChildAnchor      {false}; 
 };

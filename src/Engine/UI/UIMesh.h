@@ -27,7 +27,6 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
-#include "AnchorPos.h"
 #include "UIChildMesh.h"
 #include "AnimAction.h"
 
@@ -53,7 +52,6 @@ public:
     void bind_animAction(   const std::string &_animFrameSetName,
                             const std::string &_actionName  );
 
-
     //------------- set -------------//
     inline void set_off_z( float _off_z ){
         this->off_z = _off_z;
@@ -66,8 +64,8 @@ public:
     }
 
     //------------- get -------------//
-    inline const AnchorPos &get_currentRootAnchorPos() const {
-        return this->animActionPtr->get_currentRootAnchorPos( this->animActionPvtData );
+    inline const IntVec2 &get_currentRootAnchorPPosOff() const {
+        return this->animActionPtr->get_currentRootAnchorPPosOff( this->animActionPvtData );
     }
     inline const FramePos &get_currentFramePos() const {
         return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
@@ -80,7 +78,6 @@ public:
         assert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    
     inline const IntVec2 &get_animAction_pixNum_per_frame() const {
         return this->animActionPtr->get_pixNum_per_frame();
                         //-- 这个函数会在每帧被调用。最好的措施是，每次 切换 animaction 时，将这个数据，暂存到 gomesh 中。
@@ -109,8 +106,7 @@ private:
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
     
-    AnimAction  *animActionPtr {nullptr};
-
+    AnimAction        *animActionPtr {nullptr};
     AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 };
 

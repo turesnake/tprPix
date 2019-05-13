@@ -44,15 +44,19 @@ void UIMesh::bind_animAction(   const std::string &_animFrameSetName,
  */
 void UIMesh::RenderUpdate(){
 
-    if( this->isVisible == false ){
-        return;
-    }
-
+    
+    //---------------//
+    //   animAction
+    //---------------//
     this->animActionPtr->update( this->animActionPvtData );
 
     //---------------//
     //      pic
     //---------------//
+    if( this->isVisible == false ){
+        return;
+    }
+
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
 

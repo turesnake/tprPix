@@ -58,8 +58,10 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Config)
 
 #-- Engine 中的所有目录 都会被 include 到 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/affect)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/AI)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
@@ -122,8 +124,10 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Config/*.cpp
 
                         src/Engine/*.cpp
-                        src/Engine/actionSwitch/*.cpp
                         src/Engine/actionFSM/*.cpp
+                        src/Engine/actionSwitch/*.cpp
+                        src/Engine/affect/*.cpp
+                        src/Engine/AI/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 

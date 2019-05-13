@@ -1201,6 +1201,27 @@ GLFWdropfun glfwSetDropCallback(GLFWwindow* window, GLFWdropfun cbfun);
 
 
 
+/* ==========================================================
+ *                    Joystick
+ *-----------------------------------------------------------
+ * glfw 最多支持 16 个 joystick。
+ * 包含： 
+ *     GLFW_JOYSTICK_1  (=0)
+ *     GLFW_JOYSTICK_2
+ *     ...
+ *     GLFW_JOYSTICK_16    (=15)
+ *     GLFW_JOYSTICK_LAST  (=15)
+ * ------
+ *  glfw 初始化之后，被查明的 joysticks 将被添加到一个 列表中 
+ *  每个 joystick 将保持自己的 id号不变，直到它的链接终止，或者 glfw结束
+ * ------
+ *  如果想要在程序中实时获得 joystick 的 连接和断开信息，使用：
+ *     joystick_callback() 
+ *  官网有详细教程。
+ * 
+ * 
+ */
+
 
 //-- 检测 目标joystick 是否存在。
 int glfwJoystickPresent(int joy);
@@ -1224,6 +1245,9 @@ const float* glfwGetJoystickAxes(int joy, int* count);
 
     //-- 返回值 由 glfw 分配和释放内存，用户不应手动释放。
     //-- 此值将持续有效，直到 目标joystick 被 取消连接。或者 此函数被再次调用，或者 glfw 库 terminated。
+    
+    //---------------------------------------
+    //   实践证明，这组函数需要在每1帧访问前，都调用
 
     //-- 只能在 主线程／main thread 被调用。
 
@@ -1244,12 +1268,39 @@ const unsigned char* glfwGetJoystickButtons(int joy, int* count);
     //-- 返回值 由 glfw 分配和释放内存，用户不应手动释放。
     //-- 此值将持续有效，直到 目标joystick 被 取消连接。或者 此函数被再次调用，或者 glfw 库 terminated。
 
+    //---------------------------------------
+    //   实践证明，这组函数需要在每1帧访问前，都调用
+
+
     //-- 只能在 主线程／main thread 被调用。
 
     //-- return：
     //-- 若成功，返回一个数组，元素是 各个 button states。值为 `GLFW_PRESS` or `GLFW_RELEASE`
     //-- 若出错，返回 NULL
 
+
+//-- 一个 hat 就是 传统手柄上的的 十字键 
+const unsigned char* glfwGetJoystickHats( int jid, int *count ); // [3.3]
+    //-- 用法和 glfwGetJoystickButtons 基本一致。
+
+    //---------------------------------------
+    //   实践证明，这组函数需要在每1帧访问前，都调用
+
+    // --------
+    //  name:               value:
+    // GLFW_HAT_CENTERED	0
+    // GLFW_HAT_UP	        1
+    // GLFW_HAT_RIGHT	    2
+    // GLFW_HAT_DOWN	    4
+    // GLFW_HAT_LEFT	    8
+    // GLFW_HAT_RIGHT_UP	GLFW_HAT_RIGHT | GLFW_HAT_UP
+    // GLFW_HAT_RIGHT_DOWN	GLFW_HAT_RIGHT | GLFW_HAT_DOWN
+    // GLFW_HAT_LEFT_UP	    GLFW_HAT_LEFT | GLFW_HAT_UP
+    // GLFW_HAT_LEFT_DOWN	GLFW_HAT_LEFT | GLFW_HAT_DOWN
+    // --------
+    // 可以看出，这是使用 一个 u8_t 来存储 整个 hat 数据
+
+    // 这个函数 可以一次取出全部的 hats 数据，（不止一个）
 
 
 
@@ -1263,6 +1314,13 @@ const char* glfwGetJoystickName(int joy);
     //-- return：
     //-- 若成功，返回 name 
     //-- 若 目标joystick 不存在，返回 NULL
+
+
+
+//-- 暂时没看出来，这组函数有什么用 --
+void glfwSetJoystickUserPointer( int jid, void *pointer );
+void* glfwGetJoystickUserPointer( int jid );
+
 
 
 

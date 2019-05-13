@@ -37,7 +37,7 @@ namespace debug {//---------- namespace: debug --------------//
 namespace{//-------- namespace ----------//
 
     //-- 简易开关，用来快速关闭 mes显示功能
-    bool  is_mapEntSlice_show  {false}; 
+    bool  is_mapEntSlice_show  {true}; 
     bool  is_pointPic_show     {false};
 
     std::vector<Mesh> renderPool_mapEntSlices {};

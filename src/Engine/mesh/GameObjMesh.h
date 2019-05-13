@@ -4,7 +4,7 @@
  *                                        CREATE -- 2018.11.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   A Mesh class bind to GameObj & AnimFrameSet.
+ *   A Mesh class bind to GameObj & AnimAction.
  *  ----------
  * GameObjMesh 和 AnimFrameSet 的区别：
  *	  GameObjMesh 需要 图片资源，
@@ -13,8 +13,6 @@
  *   一个 GameObjMesh 实例 拥有：
  *     一个 根锚点 ／ root anchor   -- 代表 GameObjMesh 本身
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 GameObjMeshes
- *  ----------
- *   和 go类一样，GameObjMesh 只记录数据，具体的使用方式，由最终的 具象go类 区定义
  * ----------------------------
  */
 #ifndef _TPR_GAME_MESH_H_
@@ -38,7 +36,6 @@
 
 //-------------------- Engine --------------------//
 #include "Collision.h" 
-#include "AnchorPos.h"
 #include "ChildMesh.h"
 #include "AnimAction.h"
 
@@ -49,22 +46,10 @@ class GameObj;
 //-- GameObjMesh 是个 "整合类"，不存在进一步的 具象类 --
 // GameObjMesh 被轻量化了：
 //  -- 不再单独管理自己的 VAO，VBO （改为使用全局唯一的 VAO，VBO）
-//  -- texName 存储在 AnimFrameSet 数据中。GameObjMesh 通过一个指针 调用它们
-//    （调用方式由 具象go类 定义）
-// --------
-// 每个 具象go类实例 所拥有的 GameObjMesh实例，都将被单独存储 在 mem态。（比如存储在 具象go实例 内）
-// GameObjMesh实例 不会被存入 硬盘态。
-// 而是在每次 加载section中 具象go实例时，临时生成。
+//  -- texName 存储在 AnimFrameSet 数据中。GameObjMesh 通过 AnimAction 提供的接口访问它们
 // --------
 //  当切换 action 时，GameObjMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
-// --------
-// GameObjMesh实例拥有：
-//  -1- animFrameSetPtr.  实例本体 存储在 全局容器 animFrameSets 中。
-//  -2- animFrameIdxHandle. 实例（独占）
-//  -3- 2 个 子mesh实例， pic / shadow
-//      有些 gomesh 可能没有 shadow，此时为空置   
-//
 class GameObjMesh{
 public:
     GameObjMesh() = default;
@@ -80,7 +65,6 @@ public:
 
     void bind_animAction(   const std::string &_animFrameSetName,
                             const std::string &_actionName  );
-
 
     //------------- set -------------//
     inline void set_pic_renderLayer( RenderLayerType _layerType ){
@@ -107,7 +91,6 @@ public:
     }
 
 
-
     //------------- get -------------//    
     inline const FramePos &get_currentFramePos() const {
         return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
@@ -119,15 +102,12 @@ public:
         assert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    inline const AnchorPos &get_currentRootAnchorPos() const {
-        return this->animActionPtr->get_currentRootAnchorPos( this->animActionPvtData );
-    }   
+    inline const IntVec2 &get_currentRootAnchorPPosOff() const {
+        return this->animActionPtr->get_currentRootAnchorPPosOff( this->animActionPvtData );
+    }
    inline const IntVec2 &get_animAction_pixNum_per_frame() const {
         return this->animActionPtr->get_pixNum_per_frame();
-                        //-- 这个函数会在每帧被调用。最好的措施是，每次 切换 animaction 时，将这个数据，暂存到 gomesh 中。
     }
-    
-
     inline const glm::vec2 &get_pposOff() const {
         return this->pposOff;
     }
@@ -138,8 +118,14 @@ public:
         return this->picFixedZOff;
     }
 
+    //-- 当播放 once 类型动作时，外部代码，通过此函数，来判断，是否播放到最后一帧 --
+    inline bool get_isLastFrame() const {
+        return this->animActionPvtData.isLastFrame;
+    }
+
+
     //======== flags ========//
-    bool    isHaveShadow {}; //- 是否拥有 shadow 数据，在 bind_animFrameSet() 中配置.
+    bool    isHaveShadow {}; //- 是否拥有 shadow 数据
                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
@@ -150,7 +136,7 @@ public:
                                     // 仅作用于 pic, [被 ChildMesh 使用]
 private:
     //======== vals ========//
-    GameObj  *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
+    GameObj    *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
 
     ChildMesh   picMesh    { true };
     ChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
@@ -165,14 +151,11 @@ private:
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
 
-
     float            picFixedZOff {}; //- 方便快速访问
     RenderLayerType  picRenderLayerType;
 
-    AnimAction  *animActionPtr {nullptr};
-
+    AnimAction        *animActionPtr {nullptr};
     AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
-
 };
 
 

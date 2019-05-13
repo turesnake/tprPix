@@ -57,6 +57,12 @@ void onGoSpecIds_SignUp(){
         ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
         ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::BigMan::init_in_autoMod, &gameObjs::big_man, _1, _2, _3, _4, _5 );
 
+    id = 3; 
+        goSpec_alloc( id, "crab" );  
+        gameObjs::Crab::specId = id;
+        ssrc::goInit_funcs.insert({ id, ssrc::F_GO_INIT {} });
+        ssrc::goInit_funcs.at(id) = std::bind( &gameObjs::Crab::init_in_autoMod, &gameObjs::crab, _1, _2, _3, _4, _5 );
+
     //-------------------//
     //        tree
     //-------------------//

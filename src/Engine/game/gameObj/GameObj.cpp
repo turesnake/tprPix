@@ -22,7 +22,9 @@
  */
 void GameObj::init(){
     this->collision.init( const_cast<GameObj*>(this) );
-    this->goPos.init( std::bind( &GameObj::get_currentRootAnchorPos, this ) );
+    this->goPos.init( std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
+                      std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
+
     this->move.init( const_cast<GameObj*>(this), &this->goPos, &this->collision );
     this->actionSwitch.init( const_cast<GameObj*>(this) );
     //...
@@ -33,10 +35,9 @@ void GameObj::init(){
  *                     creat_new_goMesh
  * -----------------------------------------------------------
  * -- 通过一组参数来实现 gomesh 的初始化。
- * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.animFrameIdxHandle.bind_xxx()
+ * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
-                                        //const std::string &_animFrameSetName,
                                         RenderLayerType    _layerType,
                                         ShaderProgram     *_pixShaderPtr,
                                         ShaderProgram     *_shadowShaderPtr,
@@ -52,7 +53,6 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
     GameObjMesh &gmesh = this->goMeshs.at(_name);
 
     //----- init -----//
-    //gmesh.bind_animFrameSet( _animFrameSetName );
     gmesh.init( const_cast<GameObj*>(this) );
     gmesh.set_pic_renderLayer( _layerType ); 
     gmesh.set_pic_shader_program( _pixShaderPtr );
@@ -86,22 +86,22 @@ void GameObj::reset_chunkKeys(){
     //-------
     this->chunkKeys.clear();
     //-------
-    for( const auto &goMeshPair : this->goMeshs  ){  //- each goMesh
-        const GameObjMesh &meshRef = goMeshPair.second;
-        if( meshRef.isCollide == false ) continue; //- 不参与碰撞检测的 gomesh 直接跳过
+    
+    //- 只有 rootGoMesh 参与 mapent 登记
+    if( this->goMeshs.at("root").isCollide == false ){ //- 不参与碰撞检测的 gomesh 直接跳过
+        return;
+    }
 
-        for( const auto &doCehRef : meshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each do_colliEntHead
-            cesMCPos.set_by_mpos(  anyPPos_2_mpos(  this->goPos.get_currentPPos() + 
-                                                    doCehRef.pposOff_fromRootAnchor ) );
-            const ColliEntSet &doCesRef = esrc::colliEntSets.at(doCehRef.colliEntSetIdx); //- get do_ces_ref
+    cesMCPos.set_by_mpos( this->goPos.get_currentMPos() -
+                          this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos );
 
-            for( const auto &mcpos : doCesRef.get_colliEnts() ){ //- each collient mcpos
-                tmpEntMCPos = mcpos + cesMCPos;
-                tmpChunkKey = anyMPos_2_chunkKey( tmpEntMCPos.get_mpos() );
-                this->chunkKeys.insert( tmpChunkKey ); //- copy
-            } //- each collient mcpos end --
-        } //-- each do_colliEntHead end --
-    } //- each goMesh end ---
+    const ColliEntSet &doCesRef = esrc::get_colliEntSetRef(this->rootColliEntHeadPtr->colliEntSetIdx); //- get do_ces_ref
+
+    for( const auto &mcpos : doCesRef.get_colliEnts() ){ //- each collient mcpos
+        tmpEntMCPos = mcpos + cesMCPos;
+        tmpChunkKey = anyMPos_2_chunkKey( tmpEntMCPos.get_mpos() );
+        this->chunkKeys.insert( tmpChunkKey ); //- copy
+    } //- each collient mcpos end --
 }
 
 

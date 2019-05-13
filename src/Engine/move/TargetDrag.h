@@ -22,7 +22,7 @@ class Move;
 class GameObjPos;
 
 
-
+/*
 class TargetDrag{
 public:
     TargetDrag() = default;
@@ -57,6 +57,7 @@ private:
     //===== flags =====//
     bool   isMoving       {true}; //- 是否在移动
 };
+*/
 
 
 #endif 

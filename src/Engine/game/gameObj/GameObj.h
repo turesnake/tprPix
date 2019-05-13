@@ -67,7 +67,7 @@
 //  -- go类实例 负责存储实际的数据
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj{
-    using F_GO         = std::function<void(GameObj*)>;
+    using F_GO         = std::function<void()>;
     using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
     using F_AFFECT     = std::function<void(GameObj*,GameObj*)>;
 public:
@@ -85,7 +85,6 @@ public:
     }
 
     GameObjMesh &creat_new_goMesh(  const std::string &_name,
-                                    //const std::string &_animFrameSetName,
                                     RenderLayerType    _layerType,
                                     ShaderProgram     *_pixShaderPtr,
                                     ShaderProgram     *_shadowShaderPtr,
@@ -95,17 +94,16 @@ public:
                                     bool              _isCollide,
                                     bool              _isFlipOver );
 
-    //-- 代表整个go实例 的 rootAnchorPos --
-    //  放得非常深，通过多层调用才实现...
-    //  rootAnchorPos 是静态数据，并不是 go当前 世界pos
-    //  此函数在 go每次移动时，都会被调用
-    inline const AnchorPos &get_currentRootAnchorPos() const {
-        return this->goMeshs.at("root").get_currentRootAnchorPos();
+
+    //-- 目前被 Crawl 使用 --
+    inline void set_direction_and_isFlipOver( const GODirection &_dir ){
+        this->direction = _dir;
+        this->isFlipOver = (this->direction==GODirection::Left); 
     }
 
-    //-- 根据 direction，自动改写 isFlipOver --
-    inline void set_isFlipOver_auto(){
-        this->isFlipOver = (this->direction==GODirection::Left);    
+    //- 只有在 1.go实例init阶段  2.go发生变形时 ，才能调用次函数
+    inline void set_rootColliEntHeadPtr( const ColliEntHead *_ptr ){
+        this->rootColliEntHeadPtr = _ptr;
     }
 
     //-- isPass 系列flag 也许不放在 collision 模块中...
@@ -120,6 +118,9 @@ public:
     }
     inline bool get_collision_isBePass() const {
         return this->collision.isBePass;
+    }
+    inline const ColliEntHead *get_rootColliEntHeadPtr() const {
+        return this->rootColliEntHeadPtr;
     }
 
     //- 获得 目标 ces 当前 绝对 altiRange
@@ -179,13 +180,6 @@ public:
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
-            // *** 此容器 疑似引发了一个 史诗级BUG... ***
-            // 当在 具象类init() 中，调用 goMeshs.size() 等之类的语句时，程序就正常。
-            // 但如果不调用，程序无法显示图形
-            // 目前还没搞清原因
-            // --- 这个 bug 暂时消失了... ---
-            // 猜测的解法：cmake .. 将程序 彻底重编译一遍
-
     ActionSwitch    actionSwitch {}; //-- 将被取代...
 
     ActionFSM       actionFSM {}; //- 尚未完工...
@@ -226,6 +220,14 @@ private:
     std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
+
+
+    const ColliEntHead  *rootColliEntHeadPtr {nullptr}; //- 重要的简化措施
+                            // 除非 go实例 “变形”，否则不轻易修改自己的 rootCES.
+                            // rootCES 不再通过 rootGoMesh 动态读取，而是存储于此
+                            // ------
+                            // 就算要修改它，也需要通过特定的 函数
+                            // 通常会在 go实例 创建阶段，被赋值
 
 };
 

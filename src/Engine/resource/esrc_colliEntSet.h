@@ -17,9 +17,14 @@
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
-inline std::unordered_map<int, ColliEntSet> colliEntSets {};
+
 void load_colliEntSets();
 void debug_colliEntSets(); //- debug
+
+const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx );
+
+
+
 
 //-- 正反表 --
 inline std::unordered_map<std::string, int> colliEntSet_name_idx {};

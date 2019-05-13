@@ -34,6 +34,7 @@ enum class AnimActionType{
 };
 
 
+
 //-- gomesh 自己保存的 有关 animAction 的动态数据。
 class AnimActionPvtData{
 public:
@@ -43,6 +44,8 @@ public:
     size_t   currentTimeStep {};  //- 当前帧的 timeStep, （不应被外部访问）
     //---
     size_t   updates {};     //- 切换一次帧后，记录 调用 update() 的次数
+    //-- flags --//
+    bool     isLastFrame {false}; //- 仅用于 Once 模式
 };
 
 
@@ -127,13 +130,16 @@ public:
 
     F_UPDATE  update {nullptr};
 
+
     //- 当 gomesh 切换 animAction 时
     //  通过此函数，来重置自己的 pvtdata 值 --
     inline void reset_pvtData( AnimActionPvtData &_pvtData ){
         _pvtData.currentIdx_for_frameIdxs = 0;
         _pvtData.currentFrameIdx = this->frameIdxs.at(0);
         _pvtData.currentTimeStep = this->timeSteps.at(0);
+        _pvtData.isLastFrame = false;
     }
+
 
     //----- get -----//
     inline bool get_isHaveShadow() const {
@@ -142,9 +148,8 @@ public:
     inline const IntVec2 &get_pixNum_per_frame() const {
         return this->pixNum_per_frame;
     }
-
-    inline const AnchorPos &get_currentRootAnchorPos( const AnimActionPvtData &_pvtData ) const {
-        return this->framePosesPtr->at(_pvtData.currentFrameIdx).get_rootAnchorPos();
+    inline const IntVec2 &get_currentRootAnchorPPosOff( const AnimActionPvtData &_pvtData ) const {
+        return this->framePosesPtr->at(_pvtData.currentFrameIdx).get_rootAnchorPPosOff();
     }
     inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &_pvtData ) const {
         return this->texNames_pic_ptr->at(_pvtData.currentFrameIdx);
@@ -156,15 +161,11 @@ public:
         return this->framePosesPtr->at(_pvtData.currentFrameIdx);
     }
 
-
 private:
 
-    inline void update_idle( AnimActionPvtData &_pvtData ) {}
-    inline void update_once( AnimActionPvtData &_pvtData ){
-        //... 尚未实现 ...
-    }
+    inline void update_idle( AnimActionPvtData &_pvtData ){}
+    void update_once( AnimActionPvtData &_pvtData );
     void update_cycle( AnimActionPvtData &_pvtData );
-
 
     //===== vals =====//
 
@@ -185,7 +186,6 @@ private:
 
     //===== flags =====//
     bool   isHaveShadow;
-    bool   isOrder;   //- 正序播放(true) ／ 倒序播放(false)
 
 };
 

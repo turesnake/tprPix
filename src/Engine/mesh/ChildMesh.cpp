@@ -58,7 +58,7 @@ void ChildMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = this->goPtr->goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPos().pposOff;
+    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPPosOff();
     const glm::vec2 &pposOff = this->goMeshPtr->get_pposOff();
 
     //--- set translate_val ---//
@@ -122,7 +122,6 @@ void ChildMesh::draw(){
         //------
         texName=this->goMeshPtr->get_currentTexName_shadow();
     }
-
 
     //---------- refresh mat4_model -------------
     update_mat4_model();

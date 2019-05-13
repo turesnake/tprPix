@@ -61,7 +61,7 @@ void UIChildMesh::refresh_translate(){
 
     const glm::vec2 &goCurrentFPos = this->uiGoPtr->get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = this->uiMeshPtr->get_currentRootAnchorPos().pposOff;
+    const IntVec2 &vRef = this->uiMeshPtr->get_currentRootAnchorPPosOff();
 
 
     //--- set translate_val ---//

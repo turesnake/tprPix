@@ -65,7 +65,6 @@ void ColliEntSetLoader::init(){
 
             if( ch.is_center() == true ){
                 this->collientSets.at(f).set_centerPPos( pixPPos );
-                this->collientSets.at(f).set_radius( ch.get_radius_10() );
             }
 
             if( ch.is_colliEnt() == true ){

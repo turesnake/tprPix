@@ -1,13 +1,11 @@
 /*
- * ========================= Crawl.cpp ==========================
+ * ========================= Move.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.05
+ *                                        CREATE -- 2019.05.13
  *                                        MODIFY --
  * ----------------------------------------------------------
- *    专门管理 GameObj实例 的 位移运动
- * ----------------------------
  */
-#include "Crawl.h" 
+#include "Move.h"
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -18,7 +16,6 @@
 #include <iomanip>
 
 //-------------------- Engine --------------------//
-#include "Move.h" 
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
 #include "MapCoord.h"
@@ -33,7 +30,7 @@
 
 #include "debug.h" 
 
-/*
+
 namespace{//-------------- namespace ------------------//
 
     //--- 以下数据 被每一次 Crawl::RenderUpdate_2() 调用 共用 ---//
@@ -44,6 +41,8 @@ namespace{//-------------- namespace ------------------//
     glm::vec2 oldMidFPos {}; //- rootAnchor 所在 mapent 的中点 的 fpos
     glm::vec2 newMidFPos {};
 
+    glm::vec2 fposOff {}; //- 仅用于 drag 模式...
+
     MapCoord oldMCPos {};  //- rootAnchor 所在 mapent 的中点 的 mcpos
     MapCoord newMCPos {};
 
@@ -51,33 +50,37 @@ namespace{//-------------- namespace ------------------//
     NineBox  nb {};
 
 }//------------------ namespace: end ------------------//
-*/
+
 
 
 /* ===========================================================
- *                        init
+ *               set_newCrawlDirAxes
  * -----------------------------------------------------------
  */
-/*
-void Crawl::init(   GameObj *_goPtr, 
-                    Move *_movePtr, 
-                    GameObjPos *_goPosPtr, 
-                    Collision *_collisionPtr  ){
-    this->goPtr = _goPtr; 
-    this->movePtr  = _movePtr;
-    this->goPosPtr = _goPosPtr;
-    this->collisionPtr = _collisionPtr;
+void Move::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
+    assert( this->moveType == MoveType::Crawl );
+    //-----------//
+    //  isMoving
+    //-----------//
+    newDirAxes.is_zero() ?
+        this->isMoving = false :
+        this->isMoving = true;
+
+    //-- 设置 go 方向 --
+    this->newDirAxes = _newDirAxes;
+    if( this->newDirAxes.get_x() < -DirAxes::threshold ){
+        this->goPtr->set_direction_and_isFlipOver( GODirection::Left );
+    }else if(this->newDirAxes.get_x() > DirAxes::threshold ){
+        this->goPtr->set_direction_and_isFlipOver( GODirection::Right );
+    }
 }
-*/
 
 
 /* ===========================================================
- *                   RenderUpdate_2
+ *              crawl_renderUpdate
  * -----------------------------------------------------------
- * -- 新版 crawl 位移系统。测试...
  */
-/*
-void Crawl::RenderUpdate_2(){
+void Move::crawl_renderUpdate(){
 
     //----------------------------//
     //  currentDirAxes & newDirAxes
@@ -100,20 +103,74 @@ void Crawl::RenderUpdate_2(){
         return; //- end_frame of one_piece_input
     }
 
-    //----------------------------//
-    // 
-    //----------------------------//
+    //----------------//
+    //  计算 speedV
+    //----------------//
+    speedV = this->currentDirAxes.to_fmpos();
+    speedV *= SpeedLevel_2_val(this->speedLvl) *
+              60 * esrc::timer.get_smoothDeltaTime();
+    //---- crawl -----//
+    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+}
+
+
+
+/* ===========================================================
+ *              drag_renderUpdate
+ * -----------------------------------------------------------
+ */
+void Move::drag_renderUpdate(){
+
+    if( this->isMoving == false ){
+        return;
+    }
+
+    //----------------//
+    //  计算 speedV
+    //----------------//
+    // fposOff -- 当前fpos 到 目标fpod 的实际便宜 （fpos）
+    // speedV  -- 沿着方向能行走的 标准距离向量
+    // -------
+    // 在 drag 的最后一帧，fposOff 往往会小于 speedV。
+    // 此时，应该手动 校准 speedV。
+    // 从而让 go 走到指定的位置（而不是走过头）
+    fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
+    speedV = glm::normalize( fposOff ); //- 等效于 DirAxes 的计算。
+    speedV *=   SpeedLevel_2_val(this->speedLvl) *
+                60 * esrc::timer.get_smoothDeltaTime();
+
+    bool isLastFrame = false;
+    if( (abs(speedV.x) > abs(fposOff.x)) ||
+        (abs(speedV.y) > abs(fposOff.y)) ){
+        isLastFrame = true;
+        speedV = fposOff;
+    }
+
+    //---- crawl -----//
+    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+    
+    if( isLastFrame ){
+        this->isMoving = false;
+                //- 放在这里 不够严谨，毕竟本帧还是 移动的。
+    }
+}
+
+
+/* ===========================================================
+ *               crawl_renderUpdate_inn
+ * -----------------------------------------------------------
+ * -- 通用
+ */
+void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
+                                    const glm::vec2 &_speedV ){
+
+
     isObstruct = false; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
     isCross    = false; //- currentMidFPos 是否进入新的 mapent
 
-    //--- 计算 本帧速度 ---//
-    speedV = this->currentDirAxes.to_fmpos();
-    speedV *= SpeedLevel_2_val(movePtr->get_speedLv()) *
-              60 * esrc::timer.get_smoothDeltaTime();
-                    //-- 此处计算 速度的 部分，在未来，应该被 包装起来 --
 
     oldMidFPos = this->goPosPtr->calc_rootAnchor_midFPos();
-    newMidFPos = oldMidFPos + speedV;
+    newMidFPos = oldMidFPos + _speedV;
 
     //-- 这里计算的是 rootAnchorMidFPos 的 mcpos --
     oldMCPos = fpos_2_mcpos( oldMidFPos );
@@ -132,7 +189,7 @@ void Crawl::RenderUpdate_2(){
     }
 
     if( isObstruct == false ){
-        this->goPosPtr->accum_currentFPos_2( speedV );
+        this->goPosPtr->accum_currentFPos_2( _speedV );
         if( isCross ){
             this->goPosPtr->accum_currentMCPos_2(nb);
                         //-- 使用 NineBox 来传递参数，
@@ -191,30 +248,9 @@ void Crawl::RenderUpdate_2(){
                 debug::insert_new_mapEntSlice( i+cesMCPos );
             }
         }
+
 }
-*/
 
 
 
-/* ===========================================================
- *                   set_newCrawlDirAxes
- * -----------------------------------------------------------
- */
-/*
-void Crawl::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
-    this->newDirAxes = _newDirAxes;
-
-    //-- 设置 go 方向 --
-    if( this->newDirAxes.get_x() < -DirAxes::threshold ){
-        this->goPtr->set_direction_and_isFlipOver( GODirection::Left );
-
-    }else if(this->newDirAxes.get_x() > DirAxes::threshold ){
-        this->goPtr->set_direction_and_isFlipOver( GODirection::Right );
-    }
-}
-*/
-
-
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
 

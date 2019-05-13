@@ -192,9 +192,11 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
     }
 
     //-----------------------//
+    //      Key: H 
     //      Key: ENTER
     //-----------------------//
-    if( _inputINS.check_key(GameKey::KEY_10) ){
+    if( _inputINS.check_key(GameKey::KEY_A) ||
+        _inputINS.check_key(GameKey::KEY_ENTER) ){
         is_input_open = false;
         cout << "enter" << endl;
 
@@ -229,6 +231,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 
                 //-- db::table_goes --
                 goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
+                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
                 goid_t newGoId = gameObjs::create_a_Go(   newGoSpecId,
                                                             newGoMPos,
                                                             0.0,

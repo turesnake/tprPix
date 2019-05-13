@@ -161,7 +161,7 @@ void realloc_inactive_goes(){
  */
 void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
 
-    IntVec2    currentPPos = _goPtr->goPos.get_currentPPos();  //-- 直指 current rootAnchor 检测用
+    IntVec2    currentMPos = _goPtr->goPos.get_currentMPos();
     MapCoord   cesMCPos;      //- 每个 ces左下角的 mcpos （世界绝对pos）
     MapCoord   colliEntMCPos; //- 每个 collient 的 mcpos （世界绝对pos）
     MemMapEnt  *mapEntPtr;    //- 目标 mapent
@@ -173,7 +173,7 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
     // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
-    _goPtr->currentChunkKey = anyMPos_2_chunkKey( anyPPos_2_mpos(currentPPos) );
+    _goPtr->currentChunkKey = anyMPos_2_chunkKey( currentMPos );
     Chunk *currentChunkPtr = esrc::get_chunkPtr( _goPtr->currentChunkKey );
     _goPtr->reset_chunkKeys();
     if( _goPtr->get_chunkKeysRef().size() > 1 ){
@@ -183,41 +183,37 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
 
 
     //------------------------------//
-    //  遍历每个  go.goMesh
-    //  遍历每个  ces
+    //  只有 rootGoMesh 会被记录到 mapent 上
+    //  遍历其每个 ces
     //------------------------------//
-    for( auto &pairRef : _goPtr->goMeshs ){ //- each gomesh
-        GameObjMesh &meshRef = pairRef.second;
+    if( _goPtr->goMeshs.at("root").isCollide == false ){
+        return;
+    }
 
-        //-- 未开启碰撞检测的 mesh 可以直接跳过 --
-        if( meshRef.isCollide == false ){
+    const ColliEntHead *cehPtr = _goPtr->get_rootColliEntHeadPtr();
+
+    cesMCPos.set_by_mpos( currentMPos - cehPtr->mposOff_from_cesLB_2_centerMPos );
+
+    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehPtr->colliEntSetIdx ); //- get ces ref
+
+    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in target_ces
+
+        colliEntMCPos = i + cesMCPos; //-- 这就是 每一个 ces.collient 的 mcpos
+        tmpChunkKey = anyMPos_2_chunkKey( colliEntMCPos.get_mpos() );
+
+        //-- 如果 collient所在 chunk 尚未创建，表明此 go 为 “临界go”。
+        // 此时显然不能去调用 esrc::get_memMapEntPtr(), 会出错。
+        // 将会忽略掉这个 collient 的登记工作，
+        if( !esrc::find_from_chunks(tmpChunkKey) ){
             continue;
         }
 
-        for( auto &ceh : meshRef.get_currentFramePos().get_colliEntHeads() ){ //-- each ceh
-            cesMCPos.set_by_ppos( currentPPos + ceh.pposOff_fromRootAnchor );
-            ColliEntSet &cesRef = esrc::colliEntSets.at( ceh.colliEntSetIdx ); //- get ces ref
-
-            for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in target_ces
-
-                colliEntMCPos = i + cesMCPos; //-- 这就是 每一个 ces.collient 的 mcpos
-                tmpChunkKey = anyMPos_2_chunkKey( colliEntMCPos.get_mpos() );
-
-                //-- 如果 collient所在 chunk 尚未创建，表明此 go 为 “临界go”。
-                // 此时显然不能去调用 esrc::get_memMapEntPtr(), 会出错。
-                // 将会忽略掉这个 collient 的登记工作，
-                if( !esrc::find_from_chunks(tmpChunkKey) ){
-                    continue;
-                }
-
-                //---- 正式注册 collient 到 mapents 上 -----
-                mapEntPtr = esrc::get_memMapEntPtr( colliEntMCPos ); //- 目标 mapent 访问权 --
-                //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
-                mapEntPtr->major_gos.insert({ _goPtr->id, 
-                                              MajorGO_in_MapEnt{ ceh.lAltiRange, ceh.isCarryAffect } });
-            }
-        }
-    } //- each gomesh end --
+        //---- 正式注册 collient 到 mapents 上 -----
+        mapEntPtr = esrc::get_memMapEntPtr( colliEntMCPos ); //- 目标 mapent 访问权 --
+        //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
+        mapEntPtr->major_gos.insert({   _goPtr->id, 
+                                        MajorGO_in_MapEnt{ cehPtr->lAltiRange, cehPtr->isCarryAffect } });
+    }
 }
 
 

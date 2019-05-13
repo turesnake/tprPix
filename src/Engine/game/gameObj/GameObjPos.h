@@ -22,47 +22,61 @@
 #include "config.h" 
 #include "IntVec.h"
 #include "MapCoord.h"
-#include "AnchorPos.h"
+#include "MapEntCompass.h"
+#include "NineBox.h"
 
 
 //-- based on go.rootAnchor 
 class GameObjPos{
 public:
-    using F_Get_CurrentRootAnchorPos = std::function<const AnchorPos &()>;
+    using F_Get_RootAnchorCompass = std::function<const MapEntCompass &()>;
+    using F_Get_Off_From_RootAnchor_2_MapEntMid = std::function<const glm::vec2 &()>;
 
     GameObjPos() = default;
-    inline void init( const F_Get_CurrentRootAnchorPos &_func ){
-        this->get_currentRootAnchorPos_functor = _func;
+
+    inline void init( const F_Get_RootAnchorCompass &_func_1,
+                      const F_Get_Off_From_RootAnchor_2_MapEntMid &_func_2 ){
+        this->get_rootAnchorCompass_functor = _func_1;
+        this->get_off_from_rootAnchor_2_mapEntMid_functor = _func_2;
     }
 
-    //-- 若要在map上“放置”go实例，请用本函数 
-    void init_by_currentMPos( const IntVec2 &_mpos );
+    //-- 将 go.goPos.currentFPos 放到 参数 _pos 指定的 mpos 上
+    //   在调用此函数之前，应先确保 潜在碰撞区的 干净
+    //   此函数不需要什么性能，反正不会经常设置 go的 mcpos
+    inline void init_by_currentMPos( const IntVec2 &_mpos ){
+        this->currentMCPos.set_by_mpos( _mpos );
+        //---
+        const MapEntCompass &compassRef = this->get_rootAnchorCompass_functor();
+        IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
+        this->currentFPos.x = static_cast<float>(p.x);
+        this->currentFPos.y = static_cast<float>(p.y);
+    }
 
-    //- 获得 rootAnchor 所在的 collient 的 midFPos 
-    glm::vec2 calc_rootAnchor_midFPos();
 
-    void align_currentFPos_by_currentMCPos();
+    //- 计算 go.rootAnchor 当前所在的 collient 的 midFPos
+    //  也就是，currentFPos 在 ces 中所处的 mapent，的中点 fpos
+    //  由于 currentFPos 不一定处于 ces 的 mapent 的正中心，不适合用来表示 当前go是否 跨mapent
+    //  而这里的 midFPos 就非常适合。
+    inline const glm::vec2 calc_rootAnchor_midFPos(){
+        return ( this->currentFPos + this->get_off_from_rootAnchor_2_mapEntMid_functor() );
+    }
     
+
     //------- set -------//
     inline void set_alti( float _alti ){
         this->alti = _alti;
     }
-    //-- 直接改写 currentFPos 是很罕见的（也是不推荐的）
-    //   为了确保 go 与 mapent坐标 的对齐。不要随意使用本函数 ！！！
-    inline void set_by_currentFPos( const glm::vec2 &_fpos ){
-        this->currentFPos = _fpos;
-        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
-    }
-    //-- 对 currentFPos 进行 累加累减 --
-    inline void accum_currentFPos( const glm::vec2 &_fpos ){
+
+
+    //---- 临时函数，有问题.... ----
+    //  仅用于 crawl
+    inline void accum_currentFPos_2( const glm::vec2 &_fpos ){
         this->currentFPos += _fpos;
-        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
     }
-    inline void accum_currentFPos( float _x, float _y ){
-        this->currentFPos.x += _x;
-        this->currentFPos.y += _y;
-        this->currentMCPos = fpos_2_mcpos( calc_rootAnchor_midFPos() );
+    inline void accum_currentMCPos_2( const NineBox &_nbOff ){
+        this->currentMCPos.accum_mpos( _nbOff.to_mpos() );
     }
+
 
     //------- get -------//
     inline const glm::vec2 &get_currentFPos() const {
@@ -77,6 +91,17 @@ public:
     inline const IntVec2 &get_currentMPos() const {
         return this->currentMCPos.get_mpos();
     }
+
+
+
+    //-- 一个为了验证功能，临时实现的函数， 在未来，被优化取代 .......................
+    inline const IntVec2 get_rootAnchorCompassPPos() const {
+        const auto &compass = this->get_rootAnchorCompass_functor();
+        return IntVec2{ compass.x, compass.y};
+    }                           
+
+
+
     //-- 注意，这个函数返回的是 currentFPos 的整形值（将丢失小数）
     //  只可用于：明确知道 当前 rootAnchor所在 collient 已对齐于 mapent 时。
     //  比如在 crawl 节点帧
@@ -86,6 +111,8 @@ public:
     }
 
 private:
+
+
     glm::vec2   currentFPos  {};  //- 基于 go.rootAnchor 的， 当前 fpos，无需对齐与mapent
     MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent
                                   //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置
@@ -97,10 +124,12 @@ private:
                                 //  目前版本中，主要用于 crawl 节点帧 对齐。
                                 //  用来记录 新回合的 最终 位移绝对地址
 
-    F_Get_CurrentRootAnchorPos  get_currentRootAnchorPos_functor {nullptr};
-                                //  通过 functor 来 取代 Go指针。
-                                //  扩大本class 的适用范围。
+    F_Get_RootAnchorCompass                get_rootAnchorCompass_functor {nullptr};
+    F_Get_Off_From_RootAnchor_2_MapEntMid  get_off_from_rootAnchor_2_mapEntMid_functor {nullptr};
+
 };
+
+
 
 
 #endif 

@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.02.13
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   键盘按键 enum类型
- * ----------------------------
  */
 #ifndef _TPR_KEYBOARD_H_
 #define _TPR_KEYBOARD_H_
@@ -13,7 +11,7 @@
 //-- 键盘上的所有 按键 --
 // 排列次序，几乎参照 glfw3.h 中的顺序.
 // 元素值 也与 glfw3 一致，可以直接在 glfw3 函数中使用
-enum class KeyBoard{
+enum class KeyBoard : int{
     NIL = 0, //- null
     //--------
     SPACE      = 32,
@@ -83,6 +81,7 @@ enum class KeyBoard{
     MOUSE_BUTTON_7,
     MOUSE_BUTTON_8,
     //--------
+    //  joystick.button 记录在别的结构中...
     JOYSTICK_1,
     JOYSTICK_2,
     JOYSTICK_3,

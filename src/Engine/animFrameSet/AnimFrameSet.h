@@ -8,10 +8,8 @@
  *   存储一个 动画动作 的所有 帧text names
  *   以及每一帧 的 投影单位集
  *   本游戏只支持 png 图片格式。
- * 
  *   -----------------
- *   一个完整的 动画动作, 会被存储为 3 张 png 图片。
- *   一张 存储 画面，一张 存储 投影区域
+ *   一个完整的 动画动作, 会被存储为 3 种 png 图片。
  *   图片名字格式为： 
  *       dog_ack_01.P.png  (画面)
  *       dog_ack_01.J.png  (投影)
@@ -19,7 +17,6 @@
  *    格式拆分如下：
  *      dog_ack_01 --- 真正的名字，记录到 name 中
  *      P / J / S  --- P==画面， J==投影, S==阴影
- *   
  *   -----------------
  *   texture 管理：
  *   gl中，texture资源的唯一限制在于 显存大小。
@@ -43,7 +40,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-//#include <utility> //- pair
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"

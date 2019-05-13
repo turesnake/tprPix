@@ -22,11 +22,13 @@
  *                        init
  * -----------------------------------------------------------
  */
+/*
 void TargetDrag::init(  Move *_movePtr, 
                         GameObjPos *_goPosPtr ){
     this->movePtr  = _movePtr;
     this->goPosPtr = _goPosPtr;
 }
+*/
 
 
 
@@ -34,11 +36,14 @@ void TargetDrag::init(  Move *_movePtr,
  *                     RenderUpdate
  * -----------------------------------------------------------
  */
+/*
 void TargetDrag::RenderUpdate(){
 
+    
     if( this->isMoving == false ){
         return;
     }
+    
 
     float criticalVal = 1.0;  //- 临界值
     float  approachPercent = 0.28; //- go运动的 “接近比率”
@@ -56,8 +61,10 @@ void TargetDrag::RenderUpdate(){
 
     this->goPosPtr->accum_currentFPos( off * approachPercent );
     //- 并不设置 z 轴值
-}
+    
 
+}
+*/
 
 
 

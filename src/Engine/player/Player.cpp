@@ -77,6 +77,6 @@ void Player::handle_inputINS( const InputINS &_inputINS ){
 
     //this->goPtr->inputINS = _inputINS; //- copy 
     
-    this->goPtr->move.set_newCrawlDir( NineBox{ (int)_inputINS.crossX, (int)_inputINS.crossY } );
+    this->goPtr->move.set_newCrawlDirAxes( _inputINS.get_dirAxes() );
 }
 

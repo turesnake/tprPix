@@ -109,12 +109,8 @@ private:
     double  begPoint_of_gameTime  {0.0}; //- 当玩家选中一个存档时，会记下此时的 currentTime
                                          //- 作为 本局游戏的 gameTime 起始值
 
-
 };
 
 
-
-
-
-
 #endif
+

@@ -36,6 +36,7 @@
 #include "IntVec.h" 
 #include "KeyBoard.h"
 #include "GameKey.h"
+#include "JoyStickButton.h"
 #include "esrc_player.h"
 #include "esrc_window.h"
 #include "esrc_thread.h"
@@ -47,16 +48,37 @@ namespace input{//------------- namespace input --------------------
 
 
 namespace{
-    InputINS   inputINS {}; //- 记录玩家 鼠键输入。
 
+    InputINS   inputINS {}; //- 记录玩家 鼠键输入。
     
     F_InputINS_Handle inputINS_handleFunc  {nullptr}; 
 
-    glm::vec2 lastMousePos    {0.0f, 0.0f};    
-    glm::vec2 currentMousePos {0.0f, 0.0f}; 
+    //--- mouse ---//
+    //glm::vec2 lastMousePos    {0.0f, 0.0f};    
+    //glm::vec2 currentMousePos {0.0f, 0.0f};
+
+
+    //-- 清除 NIL元素。制作 运行时检测表 --
+    //   减少每帧 不必要的检测
+    std::unordered_map<GameKey, KeyBoard>        keyboardTable_runtime {};
+    std::unordered_map<GameKey, JoyStickButton>  joyButtonTable_runtime {};
+
+
+    //-- joystick --//
+    bool isFindJoystick;
+    int  joystickId;
+    
+    int  joystickAxesCount;
+    int  joystickButtonsCount;
+
+    const float* joystickAxesPtr;
+    const unsigned char* joystickButtonsPtr;
+
 
     //---------
     void mousePos_2_dir();
+
+    void joystick_update();
 }
 
 
@@ -67,12 +89,42 @@ namespace{
  */
 void init_input(){
 
-    //----
-    assert( gameKeyTable.size() == GameKeyNum );
-    assert( gameKeyTable.at(GameKey::LEFT)  != KeyBoard::NIL );
-    assert( gameKeyTable.at(GameKey::RIGHT) != KeyBoard::NIL );
-    assert( gameKeyTable.at(GameKey::UP)    != KeyBoard::NIL );
-    assert( gameKeyTable.at(GameKey::DOWN)  != KeyBoard::NIL );
+    //----------------------//
+    // keyboardTable_runtime
+    //----------------------//
+    assert( keyboardTable.size() == GameKeyNum );
+    assert( keyboardTable.at(GameKey::LEFT)  != KeyBoard::NIL );
+    assert( keyboardTable.at(GameKey::RIGHT) != KeyBoard::NIL );
+    assert( keyboardTable.at(GameKey::UP)    != KeyBoard::NIL );
+    assert( keyboardTable.at(GameKey::DOWN)  != KeyBoard::NIL );
+
+    keyboardTable_runtime.clear();
+    for( const auto &pair : keyboardTable ){
+        if( pair.second != KeyBoard::NIL ){
+            keyboardTable_runtime.insert(pair); //- copy
+        }
+    }
+
+    joyButtonTable_runtime.clear();
+    for( const auto &pair : joyButtonTable ){
+        if( pair.second != JoyStickButton::NIL ){
+            joyButtonTable_runtime.insert(pair); //- copy
+        }
+    }
+
+    //----------------------//
+    //       joystick
+    //----------------------//
+    //-- 简单版，找到第一个 joystick 就停手 --
+    isFindJoystick = false;
+    for( int i=0; i<10; i++ ){
+        if( glfwJoystickPresent(i)==GL_TRUE ){
+            isFindJoystick = true;
+            joystickId = i;
+            break;
+        }
+    }
+
 }
 
 
@@ -103,23 +155,34 @@ void processInput( GLFWwindow *_windowPtr ){
                     //   while 大循环 之后的代码还将被调用
                     //   thread.join() 系列指令 应当添加在那个位置
 	}
-
                 //... 在未来，ESC 键 将被屏蔽。改为 游戏内置的 退出键 ...
 
+    
     //------------------------//
-    //     将玩家鼠键输入，
-    //     装填到 inputINS 中
+    //     1. 读取鼠键输入
     //------------------------//
     inputINS.clear_allKeys(); //- 0
-    mousePos_2_dir(); //-- 未来拓展：鼠标／右侧摇杆 都可以控制 方向dir值
-    for( const auto &ipair : gameKeyTable ){ //-- each gameKey
-        //-- 跳过 1.未设置的; 2.没有被按下的 --
-        if( (ipair.second==KeyBoard::NIL) ||
-            (glfwGetKey(_windowPtr,(int)(ipair.second))!=GLFW_PRESS) ){
-            continue;
+
+    //mousePos_2_dir(); //-- 目前暂时不识别 mouse 输入...
+
+    for( const auto &ipair : keyboardTable_runtime ){ //-- each gameKey
+        //-- 跳过 没有被按下的 --
+        if( glfwGetKey(_windowPtr, static_cast<int>(ipair.second)) == GLFW_PRESS ){
+            inputINS.set_key_from_keyboard( ipair.first );
         }            
-        inputINS.set_key( ipair.first );
     }
+
+    //------------------------//
+    //  2. 读取 joystick 输入
+    // (可能会覆盖之前的 鼠键数据)
+    //------------------------//
+    joystick_update();
+
+    //------------------------//
+    //  3. 修正 inputINS.dirAxes 
+    //------------------------//
+    inputINS.limit_dirAxes();
+
 
     //------------------------//
     //  处理 inputINS 中的数据
@@ -183,6 +246,7 @@ namespace{ //------------------- namespace ----------------------//
  */
 void mousePos_2_dir(){
 
+    /*
     double x;
     double y;
     glfwGetCursorPos( esrc::windowPtr, &x, &y);
@@ -207,12 +271,66 @@ void mousePos_2_dir(){
             //-- 清空 debug: renderPool --
             debug::clear_pointPics();
             debug::insert_new_pointPic( inputINS.dir * 20.0f );
+    */
 }
 
 
+
+/* ==========================================================
+ *                 joystick_update
+ *-----------------------------------------------------------
+ */
+void joystick_update(){
+    if( isFindJoystick == false ){
+        return;
+    }
+
+    //--------------//
+    //     Axes
+    //--------------//
+    joystickAxesPtr = glfwGetJoystickAxes(joystickId, &joystickAxesCount);
+    //-- 目前，只读取 joystick 头两个 axes 数据 --
+    if( joystickAxesCount >= 2 ){
+        float x =  *(joystickAxesPtr+0);
+        float y = -*(joystickAxesPtr+1); //- 注意，要取反
+
+        //-- 只有在 确认有效时，才改写 inputINS --
+        //   这个行为会覆盖之前 输入的 鼠键数据
+        if( DirAxes::is_effectVal(x,y) ){
+            inputINS.set_dirAxes_from_joystick( x, y );
+        }
+    }
+
+
+    //--------------//
+    //    Buttons
+    //--------------//
+    //-- 暂时不处理 手柄 按键 ---
+    
+    joystickButtonsPtr = glfwGetJoystickButtons(joystickId, &joystickButtonsCount);    
+
+    /*
+    for( int i=0; i<joystickButtonsCount; i++ ){
+        button = *(joystickButtonsPtr+i);
+        if( button == GLFW_PRESS ){
+        }
+    }
+    */
+
+    for( const auto &pair : joyButtonTable_runtime ){
+        if( *(joystickButtonsPtr + static_cast<int>(pair.second)) == GLFW_PRESS ){
+            inputINS.set_key_from_joystick( pair.first );
+        }
+    }
+
+}
+
+
+
+
+
+
+
 }//------------------------ namespace: end --------------------//
-
-
-
 }//----------------- namespace input: end -------------------
 

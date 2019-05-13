@@ -37,29 +37,22 @@ public:
     //---- set ----//
     inline void clear_all(){
         this->colliEnts.clear();
-        this->colliEntMidFPoses.clear();
         this->addEntOffss.clear();
         this->delEntOffss.clear();
         this->centerPPos.clear_all();
-        this->radius = 0;
+        this->centerMPos.clear_all();
     }
 
     inline void add_colliEnt( const IntVec2 &_ppos ){
         MapCoord pos;
-        pos.set_by_ppos( _ppos );
+        pos.set_by_ppos_( _ppos ); //-- 必须使用严谨版
         this->colliEnts.insert( pos ); //- copy 
-        this->colliEntMidFPoses.push_back(glm::vec2{(static_cast<float>(_ppos.x) + HALF_PIXES_PER_MAPENT),
-                                                    (static_cast<float>(_ppos.y) + HALF_PIXES_PER_MAPENT) }); //- copy
     }
 
     inline void set_centerPPos( const IntVec2 &_ppos ){
         this->centerPPos = _ppos;
+        this->centerMPos = anyPPos_2_mpos( _ppos );
         this->centerCompass = calc_ppos_compass( this->centerPPos );
-    }
-
-    //- 注意，传入的 _r 是 (radius * 10)
-    inline void set_radius( int _r_10 ){
-        this->radius = static_cast<float>(_r_10) * 0.1f;
     }
 
     void create_adds_dels();
@@ -67,6 +60,11 @@ public:
     
     inline const IntVec2 &get_centerPPos() const {
         return  this->centerPPos;
+    }
+    //-- 主用于 碰撞检测，暂存于 ceh 中
+    //  用它 可以快速计算 ces 左下角 mpos
+    inline const IntVec2 &get_centerMPos() const {
+        return  this->centerMPos;
     }
     inline const MapEntCompass &get_centerCompass() const {
         return  this->centerCompass;
@@ -90,9 +88,6 @@ private:
     //======== vals ========//
     //-- 此处的 set，依赖 MapCoord类型的 "<" 运算符
     std::set<MapCoord>     colliEnts {};         //- mapEnt坐标( 基于 ces左下点 ) 
-    std::vector<glm::vec2> colliEntMidFPoses {}; //- mapEnt中心（用于 fly）
-                                    //-- glm::vec2 暂时无法放入 set 容器
-                                    //-- 先存储在 vector 中
 
     //-- 在 crawl 模式中，朝8个方向移动时，固定的 新增集／减少集 --
     // set -- 类内自动生成
@@ -102,9 +97,11 @@ private:
     std::vector< std::set<MapCoord> > delEntOffss {};
 
     IntVec2         centerPPos    {};    //- 碰撞区中心 ppos
+    IntVec2         centerMPos    {};    //- centerPPos 所在 mapent 的mpos
+                                         //  主要用于 碰撞检测
+                                         //  用它 可以快速计算 ces 左下角 mpos
     MapEntCompass   centerCompass {0,0}; //- center 在其 mapent 中的位置 
-    float           radius        {};    //- 半径（通常是个手动设置的 粗略值，多用于 fly移动 ）
-                                         //- 以像素为单位    
+
 };
 
 

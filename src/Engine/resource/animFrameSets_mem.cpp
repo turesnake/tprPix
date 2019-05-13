@@ -80,7 +80,6 @@ void load_animFrameSets(){
             false, //- 无 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
             std::vector<AnimActionParam>{      
-
                 AnimActionParam{    "pointer", 0 },
                 AnimActionParam{    "new",     1 }, 
                 AnimActionParam{    "data",    2 }
@@ -149,12 +148,47 @@ void load_animFrameSets(){
             true, //- 有 shadow 数据
             true, false, //- J,S 数据是否只有 1 帧
             std::vector<AnimActionParam>{
-                                        
+
+                AnimActionParam{    "move_idle", 0 },                     
+                
+                AnimActionParam{    "move_walk", 
+                                    AnimActionType::Cycle,
+                                    true,  //- isOrder
+                                    std::vector<size_t>{ 0,  4,  5,  6 },
+                                    std::vector<size_t>{ 4,  4,  4,  4 } },
+
                 AnimActionParam{    "panic", 
                                     AnimActionType::Once,
                                     true,  //- isOrder
                                     std::vector<size_t>{ 0,  1, 2,  3 },
                                     std::vector<size_t>{ 8,  4, 4,  8 } },
+
+                AnimActionParam{    "appear", 
+                                    AnimActionType::Once,
+                                    false,  //- isOrder
+                                    std::vector<size_t>{ 7,8,9,10,11,12,13,14, 15,16,17,18 },
+                                    std::vector<size_t>{ 4,4,4, 4, 4, 4, 4, 4, 20, 4, 4, 4 } },
+
+                AnimActionParam{    "disappear", 
+                                    AnimActionType::Once,
+                                    true,  //- isOrder
+                                    std::vector<size_t>{ 7,8,9,10,  11,12,13,14,15,16,17,18 },
+                                    std::vector<size_t>{ 4,4,4, 4,  16, 4, 4, 4, 6, 4, 4, 4 } },
+
+                AnimActionParam{    "half_appear", 
+                                    AnimActionType::Once,
+                                    false,  //- isOrder
+                                    std::vector<size_t>{ 7,8,9,10 },
+                                    std::vector<size_t>{ 4,4,4, 4 } },
+
+                AnimActionParam{    "half_disappear", 
+                                    AnimActionType::Once,
+                                    true,  //- isOrder
+                                    std::vector<size_t>{ 7,8,9,10 },
+                                    std::vector<size_t>{ 4,4,4, 4 } },
+
+
+
 
                 //... 未完 ...
 

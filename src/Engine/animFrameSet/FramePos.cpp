@@ -4,10 +4,15 @@
  *                                        CREATE -- 2019.01.15
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    
- * ----------------------------
  */
 #include "FramePos.h"
+
+//--- glm - 0.9.8 ---
+#include <glm/glm.hpp>
+            //-- glm::vec2
+            //-- glm::vec3
+            //-- glm::vec4
+            //-- glm::mat4
 
 //-------------------- C --------------------//
 #include <cassert>
@@ -16,20 +21,31 @@
 #include "config.h" 
 #include "esrc_colliEntSet.h"
 
-
 //#include "debug.h" 
 
 
-
 /* ===========================================================
- *             calc_ceh_pposOff_fromRootAnchor
+ *          calc_ceh_mposOff_from_cesLB_2_centerMPos
  * -----------------------------------------------------------
  */
-void FramePos::calc_ceh_pposOff_fromRootAnchor(){
+void FramePos::calc_ceh_mposOff_from_cesLB_2_centerMPos(){
     assert( this->is_rootAnchorPos_set == true );
-    for( auto &i : this->colliEntHeads ){
-        i.pposOff_fromRootAnchor -= this->rootAnchorPos.pposOff;
-    }
+    this->colliEntHead.mposOff_from_cesLB_2_centerMPos = 
+            esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerMPos();
+}
+
+
+/* ===========================================================
+ *        calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid
+ * -----------------------------------------------------------
+ */
+void FramePos::calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid(){
+
+    const MapEntCompass &compass = esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerCompass();
+    this->colliEntHead.rootAnchorCompass = compass;
+    this->colliEntHead.off_from_rootAnchor_2_mapEntMid = glm::vec2{
+                static_cast<float>(HALF_PIXES_PER_MAPENT - compass.x),
+                static_cast<float>(HALF_PIXES_PER_MAPENT - compass.y) };
 }
 
 
@@ -41,26 +57,14 @@ void FramePos::check(){
 
     //--- 确保关键数据已载入 ---//
     assert( this->is_rootAnchorPos_set &&
-            this->is_rootColliEntHeadIdx_set &&
-            (!this->colliEntHeads.empty()) );
+            this->is_colliEntHead_set );
+
+    //   目前什么都没做 ...
     
-    //-- 检测 animFrameSet.rootAnchor 与 root ceh 是否对齐 --//
-    ColliEntHead &rootCehRef = this->colliEntHeads.at(this->rootColliEntHeadIdx);
-    //--
-    const MapEntCompass &centerCompass = esrc::colliEntSets.at( rootCehRef.colliEntSetIdx ).get_centerCompass();
-    assert( centerCompass == this->rootAnchorPos.compass ); //- 确保对齐 ！！！ --
+    //-- 检测 animFrameSet.rootAnchor 与 ceh 是否对齐 --//
+    //const MapEntCompass &centerCompass = esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerCompass();
+    //assert( centerCompass == this->rootAnchorPos.compass ); //- 确保对齐 ！！！ --
                 // 这一对齐，将使的，所有 frame中，rootAnchorPos点 都必须正好位于 其 ces 指定的 center 点上...
 
-    //-- 检测 regular ceh 是否与 root ceh 对齐 --//
-    IntVec2 pposOff;
-    for( size_t i=0; i<this->colliEntHeads.size(); i++ ){
-
-        if( i == this->rootColliEntHeadIdx ){
-            continue;
-        }
-
-        pposOff = this->colliEntHeads.at(i).pposOff_fromRootAnchor - rootCehRef.pposOff_fromRootAnchor;
-        assert( (pposOff.x%PIXES_PER_MAPENT==0) && (pposOff.y%PIXES_PER_MAPENT==0) );
-    }
 }
 

@@ -21,6 +21,14 @@
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
+namespace{//------------ namespace --------------//
+
+    //-- key: colliEntSetIdx
+    std::unordered_map<int, ColliEntSet> colliEntSets {};
+
+
+}//---------------- namespace end --------------//
+
 
 /* ===========================================================
  *                 init_colliEntSet_tables     [pure]
@@ -93,7 +101,6 @@ void load_colliEntSets(){
 /* ===========================================================
  *                  debug_colliEntSets
  * -----------------------------------------------------------
- * -- 
  */
 void debug_colliEntSets(){
     
@@ -106,7 +113,17 @@ void debug_colliEntSets(){
         //p->second.debug();
         cout << endl;
     }
-    
+}
+
+
+
+/* ===========================================================
+ *                  get_colliEntSetRef
+ * -----------------------------------------------------------
+ */
+const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx ){
+        assert( esrc::colliEntSets.find(_colliEntSetIdx) != esrc::colliEntSets.end() );
+    return esrc::colliEntSets.at( _colliEntSetIdx );
 }
 
 

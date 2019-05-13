@@ -16,6 +16,7 @@
 //---------- Script : gameObjs : majorGos -------------//
 #include "Script/gameObjs/majorGos/Norman.h"
 #include "Script/gameObjs/majorGos/BigMan.h"
+#include "Script/gameObjs/majorGos/Crab.h"
 
 //---------- Script : gameObjs : majorGos : trees -------------//
 #include "Script/gameObjs/majorGos/trees/OakTree.h"
