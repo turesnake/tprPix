@@ -22,10 +22,12 @@
 #include "EcoObj.h"
 #include "FieldBorderSet.h"
 #include "simplexNoise.h"
+#include "MapEnt.h"
+
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
 
-//#include "debug.h"
+#include "debug.h"
 
 
 namespace{//----------- namespace ---------------//
@@ -92,6 +94,24 @@ void MapField::init( const IntVec2 &_anyMPos ){
 }
 
 
+
+/* ===========================================================
+ *                   set_nodeAlti_2
+ * -----------------------------------------------------------
+ */
+void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
+
+    assert( this->isNodeMapAltiSet == false );
+    this->isNodeMapAltiSet = true;
+
+    IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
+    size_t  idx = off.y * ENTS_PER_CHUNK + off.x;
+
+    assert( idx < _chunkMapEnts.size() );
+    this->nodeMapAlti = _chunkMapEnts.at(idx).mapAlti;
+}
+
+
 /* ===========================================================
  *                init_nodeMPos
  * -----------------------------------------------------------
@@ -117,6 +137,7 @@ void MapField::init_nodeMPos(){
 
     idxX = static_cast<size_t>(pnX) % ENTS_PER_FIELD; //- mod
     idxY = static_cast<size_t>(pnY) % ENTS_PER_FIELD; //- mod
+
     this->nodeMPos = this->get_mpos() + IntVec2{ (int)idxX, (int)idxY };
 }
 
@@ -173,7 +194,6 @@ void MapField::assign_field_to_4_ecoObjs(){
     float         pnVal; //- 围绕 0 波动的 随机值
     float         off;
     int           count;
-    //EcoObj*  tmpEcoInMapPtr;
 
     float targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 

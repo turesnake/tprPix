@@ -10,13 +10,14 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-#include <cassert> //-- assert
+#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
 
 //-------------------- Engine --------------------//
+#include "prepare.h"
 #include "global.h"
 #include "gl_funcs.h"
 #include "input.h" 
@@ -31,8 +32,6 @@
  
 //#include "debug.h" //- tmp
 
-//------------------- 从外部获得的 函数 [tmp] ----------------
-extern void prepare();
 
 
 /* ===========================================================
@@ -84,7 +83,7 @@ int main(){
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
-    db::atom_init_dataBase();                //---- dataBase 资源 ----
+    db::atom_init_dataBase();        //---- dataBase 资源 ----
             //-- tmp...
 
 
@@ -154,7 +153,6 @@ int main(){
         //--------------------------------//
         glClearColor( 0.25f, 0.24f, 0.25f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-                    //-- 在每一帧的新绘制之前，清除上一帧的 颜色缓冲 和 深度缓冲
 
         //================================//
         //       scene main loop      
@@ -175,9 +173,7 @@ int main(){
 
 
     }//------------ while render loop end --------------------//
-
     db::atom_writeBack_to_table_gameArchive();
-
                     //-- 测试版位置，最终也许不放在这里
 
 

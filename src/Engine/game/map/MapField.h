@@ -37,6 +37,10 @@
 
 #include "debug.h"
 
+
+class MemMapEnt;
+
+
 //-- 4*4mapent 构成一个 field -- [just mem]
 //  另一个身份是 “距离场” 
 //  每一个 chunk 都要存储 8*8 个 MapField数据。
@@ -48,26 +52,26 @@ public:
     void init( const IntVec2 &_anyMPos );
 
     inline bool is_land() const {
-        return (this->minMapAlti.is_land() &&
-                this->nodeMapAlti.is_land() );
+        //return (this->minMapAlti.is_land() &&
+        //        this->nodeMapAlti.is_land() );
                     //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
                     //  地图上种植的树木个数会大幅度减少
                     //  未修改...
+        return ( this->nodeMapAlti.is_inland_2() );
+                    //- 尝试解决 水域中央生成树 的bug
     }
 
     //------- set -------//    
-    //-- 一体化的 altis 设置函数 
-    inline void reflesh_altis( const MapAltitude &_mapAlti, const IntVec2 &_pixMPos ){
+    inline void reflesh_min_and_max_altis( const MapAltitude &_mapAlti ){
         if( _mapAlti < this->minMapAlti ){
             this->minMapAlti = _mapAlti;
         }
         if( _mapAlti > this->maxMapAlti ){
             this->maxMapAlti = _mapAlti;
         }
-        if( IntVec2::is_closeEnough( _pixMPos, this->get_mpos(), 5 ) ){
-            this->nodeMapAlti = _mapAlti;
-        }
     }
+
+    void set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts );
 
     //------- get -------//
     inline const IntVec2& get_mpos() const {
@@ -106,7 +110,6 @@ public:
     inline const float &get_weight() const {
         return this->weight;
     }
-
 
 private:
     void init_nodeMPos();
@@ -152,6 +155,7 @@ private:
     MapAltitude  nodeMapAlti {}; //- nodeMPos 点的 alti 值
 
     //===== flags =====//
+    bool  isNodeMapAltiSet {false}; // tmp 只能被设置一次
 
 };
 

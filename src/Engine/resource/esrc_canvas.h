@@ -12,7 +12,7 @@
 #include "Canvas.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc{//------------------ namespace: esrc -------------------------//
 
 
 inline Canvas  groundCanvas {};

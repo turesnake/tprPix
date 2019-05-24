@@ -86,6 +86,10 @@ inline IntVec2 anyMPos_2_fieldMPos( const IntVec2 &_anyMPos ){
  * -- 这个函数会使得调用者代码 隐藏一些bug。
  *    在明确自己传入的参数就是 fieldMPos 时，推荐使用 fieldMPos_2_sectionKey()
  * param: _anyMPos -- 任意 mapent 的 mpos
+ * 
+ *  在目前版本中，mapent 通过此函数，简单地被分配到各个 field...
+ *  这个办法并不完美，但迫不得已...
+ * 
  */
 inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &_anyMPos ){
     IntVec2 fieldMPos = anyMPos_2_fieldMPos( _anyMPos );

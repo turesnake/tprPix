@@ -237,13 +237,24 @@ void build_one_chunk( chunkKey_t _chunkKey ){
     //------------------------------//
     Chunk *chunkPtr = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::rect_shader) );//- 一定不存在
 
+
     //------------------------------//
     //            [4]
     //  为 chunk 中的 8*8 个 field，分配 goes
     //------------------------------//
     for( const auto &fieldKey : chunkPtr->get_fieldKeys() ){ //- each field key
+
         esrc::atom_create_a_go_in_field( fieldKey );
     } //-- each field key end --
+
+
+    //------------------------------//
+    //            [5]
+    //  生成 刷怪笼（基于field）
+    //          tmp...
+    //------------------------------//
+
+
 
 }
 

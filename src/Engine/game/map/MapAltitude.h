@@ -31,8 +31,15 @@ public:
     }
 
     //-- 是否为内陆，排除掉了 领水陆地 --
+    /*
     inline bool is_inland() const {
         return (this->val >= 15);
+    }
+    */
+
+    //-- tmp 测试用
+    inline bool is_inland_2() const {
+        return (this->val >= 10);
     }
 
     //===== vals =====//

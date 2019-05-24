@@ -9,6 +9,10 @@
  */
 #include "callback.h" 
 
+#include "ViewingBox.h"
+
+#include "debug.h"
+
 /* ==========================================================
  *               framebuffer_size_callback
  * -----------------------------------------------------------
@@ -17,7 +21,17 @@
  */
 void framebuffer_size_callback( GLFWwindow *_windowPtr, int _width, int _height ){
 	glViewport( 0, 0, _width, _height );
-                //-- 此处的 参数 width, height 时 glfw 库 写入的，
+                //-- 目前并未解决 拉伸问题
+
+        cout << "framebuffer_size_callback: " << _width
+            << ", " << _height
+            << endl;
+
+    
+    ViewingBox::reset( _width/2, _height/2 );
+
+    
+
 }
 
 

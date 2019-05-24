@@ -141,7 +141,6 @@ void bind_inputINS_handleFunc( const F_InputINS_Handle &_func ){
 /* ==========================================================
  *                 processInput
  *-----------------------------------------------------------
- * input 处理函数。 每一视觉帧 都调用
  */
 void processInput( GLFWwindow *_windowPtr ){
 

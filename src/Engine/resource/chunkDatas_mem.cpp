@@ -88,30 +88,17 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
 }
 
 
-/* ===========================================================
- *              atom_get_chunkData_texBuf      [-READ-]
- * -----------------------------------------------------------
- * 通常由 主线程 调用
- */
-const std::vector<RGBA> &atom_get_chunkData_texBuf( chunkKey_t _chunkKey ){
-    {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
-            assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-        return esrc::chunkDatas.at(_chunkKey).get_texBuf();
-    }
-}
-
 
 /* ===========================================================
  *              atom_get_chunkData_mapEntAltis      [-READ-]
  * -----------------------------------------------------------
- * 通常由 主线程 调用
+ * 只能由 主线程 调用
  */
-const std::vector<MapAltitude> &atom_get_chunkData_mapEntAltis( chunkKey_t _chunkKey ){
+const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
             assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-        return esrc::chunkDatas.at(_chunkKey).get_mapEntAltis();
+        return &(esrc::chunkDatas.at(_chunkKey));
     }
 }
 

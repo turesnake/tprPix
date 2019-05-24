@@ -24,13 +24,12 @@
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
 
-
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
 #include "Script/gameObjs/create_goes.h"
 
 
-//#include "debug.h"
+#include "debug.h"
 
 namespace esrc{ //------------------ namespace: esrc -------------------------//
 
@@ -48,11 +47,9 @@ namespace{//------------ namespace --------------//
     bool is_in_fieldsBuilding( fieldKey_t _fieldKey );
     void erase_from_fieldsBuilding( fieldKey_t _fieldKey );
 
-
     bool is_find_in_fields_( fieldKey_t _key ){
         return (esrc::fields.find(_key) != esrc::fields.end());
     }
-
 
 }//---------------- namespace end --------------//
 
@@ -77,7 +74,6 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
     }
     insert_2_fieldsBuilding( fieldKey );
     
-
         //--- unlock ---//
         ul.unlock();
         // ***| INIT FIRST, INSERT LATER  |***
@@ -95,14 +91,30 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
 
 
 /* ===========================================================
- *           atom_field_reflesh_altis     [-WRITE-]
+ *           atom_field_reflesh_min_and_max_altis     [-WRITE-]
  * -----------------------------------------------------------
  */
-void atom_field_reflesh_altis(fieldKey_t _fieldKey, const MapAltitude &_alti, const IntVec2 &_pixMPos ){
+void atom_field_reflesh_min_and_max_altis(fieldKey_t _fieldKey, const MapAltitude &_alti ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
         assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-        esrc::fields.at(_fieldKey).reflesh_altis( _alti, _pixMPos );
+        esrc::fields.at(_fieldKey).reflesh_min_and_max_altis( _alti );
+    }
+}
+
+
+
+/* ===========================================================
+ *           atom_field_set_nodeAlti_2     [-WRITE-]
+ * -----------------------------------------------------------
+ * -- 仅被 Chunk::init() 使用
+ */
+void atom_field_set_nodeAlti_2( fieldKey_t _fieldKey, 
+                                const std::vector<MemMapEnt> &_chunkMapEnts ){
+    {//--- atom ---//
+        std::unique_lock<std::shared_mutex> ul( fieldsSharedMutex ); //- write -
+        assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
+        esrc::fields.at(_fieldKey).set_nodeAlti_2( _chunkMapEnts );
     }
 }
 
@@ -123,6 +135,7 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
         pair.second.ecoObjKey = field.get_ecoObjKey();
         pair.second.densityIdx = field.get_density().get_idx();
         pair.second.fieldBorderSetId = field.get_fieldBorderSetId();
+        pair.second.nodeMPos = field.get_nodeMPos();
     }
     return pair;
 }
@@ -132,6 +145,9 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
 /* ===========================================================
  *           atom_create_a_go_in_field       [-READ-]
  * -----------------------------------------------------------
+ * -1- 根据 field 信息，确定将要生成的 go 类型
+ * -2- 计算生成概率
+ * -3- 正式执行生成
  */
 void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     //--- atom ---//
@@ -146,10 +162,11 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     float fract = randV - floor(randV); //- 小数部分
     assert( (fract>=0.0) && (fract<=1.0) );
 
+    //-- 暂时只生成 陆地 go --
     if( fieldRef.is_land() ){
-        goSpecId = esrc::atom_ecoObj_apply_a_rand_goSpecId(ecoObjKey,
-                                                                fieldRef.get_density().get_idx(),
-                                                                fieldRef.get_weight() );
+        goSpecId = esrc::atom_ecoObj_apply_a_rand_goSpecId( ecoObjKey,
+                                                            fieldRef.get_density().get_idx(),
+                                                            fieldRef.get_weight() );
 
         if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
             gameObjs::create_a_Go(  goSpecId,
@@ -159,6 +176,19 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
                                     fieldRef.get_density() );
         }
     }
+}
+
+
+/* ===========================================================    tmp.......
+ *              atom_get_field     [-READ-]
+ * -----------------------------------------------------------
+ *     debug 用.....
+ */
+const MapField &atom_get_field( fieldKey_t _fieldKey ){
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( fieldsSharedMutex ); //- read -
+        assert( is_find_in_fields_(_fieldKey) ); //- MUST EXIST
+    return esrc::fields.at( _fieldKey );
 }
 
 

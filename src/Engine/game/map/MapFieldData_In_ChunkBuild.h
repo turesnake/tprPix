@@ -12,6 +12,7 @@
 #include "fieldKey.h"
 #include "sectionKey.h"
 #include "fieldBorderSetId_t.h"
+#include "IntVec.h"
 
 
 //-- 仅用于 atom 只读数据传输 --
@@ -21,6 +22,7 @@ public:
     sectionKey_t    ecoObjKey {};
     size_t          densityIdx {};
     fieldBorderSetId_t  fieldBorderSetId {};
+    IntVec2         nodeMPos {};
 };
 
 

@@ -17,11 +17,11 @@
  *                      init
  * -----------------------------------------------------------
  */
-void Canvas::init(  const IntVec2 &_texSize,
+void Canvas::init(  IntVec2 *_texSizePtr,
                     const std::string &_lpath_vs,
                     const std::string &_lpath_fs ){
 
-    this->texSize = _texSize;
+    this->texSizePtr = _texSizePtr;
 
     //-------- shaderProgram ---------
     this->ShaderProgram.init( _lpath_vs, _lpath_fs );
@@ -33,11 +33,11 @@ void Canvas::init(  const IntVec2 &_texSize,
         // 其它的 uniform 需要在此函数之后，由用户程序 添加
 
     //-------- mesh ---------
-    this->mesh.init( create_a_empty_texName(texSize) );
+    this->mesh.init( create_a_empty_texName( *this->texSizePtr ) );
     this->mesh.isVisible = true;
     this->mesh.set_shader_program( &this->ShaderProgram );
-    this->mesh.set_scale(glm::vec3{ (float)(this->texSize.x), 
-                                    (float)(this->texSize.y), 
+    this->mesh.set_scale(glm::vec3{ (float)(this->texSizePtr->x), 
+                                    (float)(this->texSizePtr->y), 
                                     1.0f });
     this->is_binded = true;
 }
@@ -54,6 +54,12 @@ void Canvas::init(  const IntVec2 &_texSize,
  */
 void Canvas::draw(){
     assert( this->is_binded );
+
+    //-- 每一帧都要 重设置，从而能让 canvas 跟随 被拉伸过的 window size --
+    this->mesh.set_scale(glm::vec3{ (float)(this->texSizePtr->x), 
+                                    (float)(this->texSizePtr->y), 
+                                    1.0f });
+
 
     this->ShaderProgram.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
     this->ShaderProgram.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );

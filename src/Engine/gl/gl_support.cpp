@@ -1,5 +1,5 @@
 /*
- * ========================= main_support.cpp ==========================
+ * ========================= gl_support.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2018.11.21
  *                                        MODIFY -- 
@@ -23,6 +23,7 @@
 #include "windowConfig.h" //-- SCR_WIDTH
 #include "callback.h" 
 #include "gl_funcs.h" 
+#include "ViewingBox.h"
 #include "esrc_window.h" 
 
 using std::string;
@@ -77,7 +78,7 @@ void glfw_window_creat(){
     assert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
     if( IS_FULL_SCREEN == true){
         //------ 全屏模式 ------//
-        // 未完工...
+        // 未完工... 禁止使用 
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -86,17 +87,34 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        esrc::windowPtr = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        /*
+        esrc::windowPtr = glfwCreateWindow( _SCR_WIDTH, _SCR_HEIGHT, 
                                     "tprcraft", 
                                     monitor, 
                                     NULL );
+        */
+        esrc::windowPtr = glfwCreateWindow( ViewingBox::screenSZ.x,
+                                            ViewingBox::screenSZ.y,
+                                            "tprcraft", 
+                                            monitor, 
+                                            NULL );
+
+
     }else{
         //------ 窗口模式 ------//
-        // 暂不知 如何设置 帧率...
-        esrc::windowPtr = glfwCreateWindow( SCR_WIDTH, SCR_HEIGHT, 
+        /*
+        esrc::windowPtr = glfwCreateWindow( _SCR_WIDTH, _SCR_HEIGHT, 
                                     "tprcraft", 
                                     NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                     NULL );
+        */
+
+        esrc::windowPtr = glfwCreateWindow( ViewingBox::screenSZ.x,
+                                            ViewingBox::screenSZ.y,
+                                            "tprcraft", 
+                                            NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
+                                            NULL );
+
     }
 
 	if(esrc::windowPtr == NULL){
@@ -138,7 +156,7 @@ void glfw_callback_set(){
     //-- 目前版本并未控制 “当window拉升” 后的渲染效果。暂时，请勿拉升画面 ！！！ ---
     //...
     
-    //glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
+    glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
     //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 

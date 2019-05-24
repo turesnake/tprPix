@@ -44,12 +44,13 @@
 */
 
 //----------------- 1920 * 1200 ----------------------//
-
-#define SCR_WIDTH  1920
-#define SCR_HEIGHT 1200
+/*
+#define _SCR_WIDTH  1920
+#define _SCR_HEIGHT 1200
 //-------
-#define WORK_WIDTH  480
-#define WORK_HEIGHT 300
+#define WORK_WIDTH_  480 //- 这组值仅被 ViewingBox.h 使用
+#define WORK_HEIGHT_ 300
+*/
 
 
 //#define WORK_WIDTH  960
@@ -69,9 +70,21 @@
 
 
 
+//------- 屏幕长宽 --------//
+// 在高分屏中，比如 mac的，这个值可能是 屏幕像素的 1/2...
+//#define SCR_WIDTH_  1920
+//#define SCR_HEIGHT_ 1200
+#define SCR_WIDTH_  900
+#define SCR_HEIGHT_ 600
+
+
+//-- 一个 "游戏像素" ，占用 n*n 个 显示屏像素 --
+#define PIXES_PER_GAMEPIX  3
+
 
 
 //-- 是否开启 全屏模式 --
+//  尚未完工，严谨开启 full sreen
 inline bool IS_FULL_SCREEN = false; 
 
 

@@ -72,8 +72,7 @@ void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
  * -----------------------------------------------------------
  * -- landColor 上色方案：
  *    所有 密度大于等于 _density.lvl 的走 _color_1。
- *    剩下区域 走 _color_2。
- * 
+ *    剩下区域 走 _color_2
  */
 void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
                                     const RGBA &_color_high,

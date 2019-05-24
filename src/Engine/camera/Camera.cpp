@@ -4,8 +4,6 @@
  *                                        CREATE -- 2018.11.24
  *                                        MODIFY --
  * ----------------------------------------------------------
- *   摄像机 类
- * ----------------------------
  */
 #include "Camera.h"
 
@@ -103,14 +101,14 @@ glm::mat4 &Camera::update_mat4_projection(){
 
     //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
     //   所以不推荐，将 ow/oh 写成定值
-    float ow = 0.5f * ViewingBox::x;  //- 横向边界半径（像素）
-    float oh = 0.5f * ViewingBox::y;  //- 纵向边界半径（像素）
+    float ow = 0.5 * ViewingBox::gameSZ.x;  //- 横向边界半径（像素）
+    float oh = 0.5 * ViewingBox::gameSZ.y;  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
-    float zNear_relative  = 0.0f;  //- 负数也接受
+    float zNear_relative  = 0.0;  //- 负数也接受
     float zFar_relative   = ViewingBox::z;
 
 

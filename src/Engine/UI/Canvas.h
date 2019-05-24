@@ -39,12 +39,11 @@ class Canvas{
 public:
     Canvas() = default;
 
-    void init(  const IntVec2 &_texSize,
+    void init(  IntVec2 *_texSizePtr,
                 const std::string &_lpath_vs,
                 const std::string &_lpath_fs );
 
     void draw();
-
 
     inline void use_shaderProgram(){
         this->is_binded = true;
@@ -66,8 +65,12 @@ public:
 private:
 
     //===== vals =====//
-    IntVec2        texSize {}; //- 常为 window 尺寸
+    //IntVec2        texSize {}; //- = ViewingBox::screenSZ,
+                                // 当窗口被拉升时，这个值需要被修改
+    IntVec2   *texSizePtr {}; //- = ViewingBox::screenSZ,
+
     Mesh           mesh {};
+
     ShaderProgram  ShaderProgram {};
             //- Canvas 实例 往往是独一无二的，比如实现 水域动画的。
             //  这些实例，各自配有独立的 glsl 程序组。

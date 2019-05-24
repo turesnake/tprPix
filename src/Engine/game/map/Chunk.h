@@ -114,8 +114,6 @@ private:
     size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
     size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
 
-    void copy_mapEntAltis();
-
     //======== vals ========//
     //------- chunk 自己的 图形 ---
     MapTexture  mapTex {};

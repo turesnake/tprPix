@@ -35,11 +35,12 @@ public:
                                 // 真正的初始化，还在 init 函数中
     }
 
-    
-
     void init( u32_t _baseSeed );
 
 
+    inline std::default_random_engine &getnc_realRandEngine(){
+        return this->realRandEngine;
+    }
     inline const glm::vec2 &get_altiSeed_pposOffSeaLvl() const {
         return this->altiSeed_pposOffSeaLvl;
     }
@@ -84,7 +85,12 @@ private:
     glm::vec2  ecoObjWeight_pposOff {};
 
     //======== randEngine ========//
-    std::default_random_engine  randEngine; //-通用 随机数引擎实例
+    std::default_random_engine  randEngine; //-通用 伪随机数引擎实例
+
+    std::default_random_engine  realRandEngine; //-通用 真随机数引擎实例
+                        //- 主用于 “无关静态世界” 的随机事件。比如 螃蟹刷怪笼 的分布。
+                        //  每次生成都可以不一样
+                        //  这个引擎会被外部 以任何次序和方式调用，所以它的值是彻底混乱的
 
     //======== flags ========//
     bool   is_all_seed_init {false};

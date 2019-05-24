@@ -67,16 +67,22 @@ namespace{//----------- namespace ----------------//
     class FieldData{
     public:
         explicit FieldData( const MapFieldData_In_ChunkBuild &_data,
-                                QuadType _quadType ){
+                            QuadType       _quadType ){
             this->fieldKey = _data.fieldKey;
             this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( _data.ecoObjKey );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
                                                     &get_fieldBorderSet( _data.fieldBorderSetId, _quadType) );
             this->densityIdx = _data.densityIdx;
+            this->nodeMPos = _data.nodeMPos;
         }
         inline const RGBA &clac_pixColor() const {
             return this->landColorsPtr->at( this->densityIdx );
         }
+
+        inline bool is_equal_2_nodeMPos( const IntVec2 &_mpos ) const {
+            return (this->nodeMPos == _mpos);
+        }
+
         //====== vals ======//
         fieldKey_t               fieldKey {};
         const std::vector<RGBA> *landColorsPtr {};
@@ -84,6 +90,7 @@ namespace{//----------- namespace ----------------//
     private:
         //====== vals ======//
         size_t                   densityIdx {};
+        IntVec2                  nodeMPos {}; //- 从 field 复制来的，只读
     };
 
 
@@ -386,16 +393,13 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
                         pixData.alti.set( _pixAltis.at(pixData.pixIdx_in_chunk) );
 
                         //--------------------------------//
-                        // 数据收集完毕，将部分数据 传递给 ent
+                        // 每个 mapent.mapAlti 被设置为其 中点pix 的 alti
                         //--------------------------------//
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
                             _chunkDataPtr->set_mapEntAlti( entIdx_in_chunk, pixData.alti );
-                            //----- 记录 alti min/max ----//
-                            esrc::atom_field_reflesh_altis( pixData.fieldDataPtr->fieldKey,
-                                                            pixData.alti,
-                                                            mapEntMPoses.at(entIdx_in_chunk) );
+                            esrc::atom_field_reflesh_min_and_max_altis( fieldKey, pixData.alti );
                         }
-
+                        
                         //--------------------------------//
                         //    正式给 pix 上色
                         //--------------------------------//
@@ -459,7 +463,8 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
                     esrc::atom_get_mapFieldData_in_chunkBuild( tmpFieldKey );
 
         _container.insert({ -tmpPair.first, 
-                            FieldData{ tmpPair.second, fieldInfo.quad } }); //- copy
+                            FieldData{  tmpPair.second, 
+                                        fieldInfo.quad } }); //- copy
         count++;
     }
     return targetFieldMPos;

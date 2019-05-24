@@ -41,6 +41,9 @@
 #include "fieldKey.h"
 #include "MapAltitude.h"
 
+//--- need ---//
+//class MapField;
+
 
 //-- 投影地图单位的 一级信息 [disk] --//
 //-  优先查看此信息，如有需要，再通过 id 查找 二级信息。
@@ -166,13 +169,8 @@ public:
     }
     
     //=============== data: 一级信息 ===============//
-    //LandWaterEnt   landWater    {}; //- 陆地／水域
-    //u8_t   mask_id     {0}; //- 5*5矩阵 渲染像素 mask
-                            //- 原有的 3*3 mask 系统已经不管用了，暂时先不处理...
                             
-    MapAltitude   mapAlti     {}; //- 
-
-
+    MapAltitude   mapAlti     {}; //- 本 mapent 中点pix 的 alti
 
     //bool is_covered  {false};  //- 是否被某 go 覆盖／踩住
                                //- 此值暂时没有被用到
@@ -186,15 +184,7 @@ public:
                     //  就算是 深渊类型的地面，也会有材质信息。
                     //  ...这个值可能被取消...
 
-    fieldKey_t   fieldKey {0};
-    fieldKey_t   nearbyFieldKey {0}; //- tmp
-                        //- 如果 此mapent 是 field 的边缘ent，
-                        //- 则通过此变量 来记录 “第二近外部field” 是谁
-
     EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
-
-    //bool  is_fieldBorder {false};   //- true  - field 内部mapent
-                                    //- false - field 边界mapent
 
 
     //--- 二级信息区 ---
@@ -215,8 +205,8 @@ public:
     //   altiRange 体系崛起。
     //   现在，支持 一个 mapent 容纳多个 go实例 
     //goid_t  major_go_id   {NULLID}; //- 主体go id. (实例)
-    goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
-    goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
+    //goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
+    //goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
                         //-- 在新版 设计中，已经几乎没有 major-item-surface 区分了 ...
  
     std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
@@ -224,8 +214,8 @@ public:
                 
 
     //-- 二级信息： mem <--> disk --
-    void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
-    Sec_diskMapEnt sec_m2d(); //-- unfinish...
+    //void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
+    //Sec_diskMapEnt sec_m2d(); //-- unfinish...
 
 
     //=============== data: oth ===============//

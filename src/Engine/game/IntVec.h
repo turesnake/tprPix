@@ -25,29 +25,29 @@ public:
         {}
 
     inline void clear_all(){
-        x = 0;
-        y = 0;
+        this->x = 0;
+        this->y = 0;
     }
 
     inline void set( int _x, int _y ){
-        x = _x;
-        y = _y;
+        this->x = _x;
+        this->y = _y;
     }
 
     //--------
     inline IntVec2& operator += ( const IntVec2 &_a ){
-        x += _a.x;
-        y += _a.y;
+        this->x += _a.x;
+        this->y += _a.y;
         return *this;
     }
     inline IntVec2& operator -= ( const IntVec2 &_a ){
-        x -= _a.x;
-        y -= _a.y;
+        this->x -= _a.x;
+        this->y -= _a.y;
         return *this;
     }
     inline IntVec2& operator *= ( int _m ){
-        x *= _m;
-        y *= _m;
+        this->x *= _m;
+        this->y *= _m;
         return *this;
     }
 
@@ -55,8 +55,8 @@ public:
     //  -1- float 除法
     //  -2- math.floor()
     inline IntVec2 floorDiv( float _div ) const {
-        float fx = ((float)x) / _div;
-        float fy = ((float)y) / _div;
+        float fx = ( static_cast<float>(this->x) ) / _div;
+        float fy = ( static_cast<float>(this->y) ) / _div;
         return IntVec2{ static_cast<int>(floor(fx)),
                         static_cast<int>(floor(fy)) };
     }
@@ -121,8 +121,8 @@ inline IntVec2 operator * ( int _m, const IntVec2 &_a ){
  * x/y 差值均小于 _off 时，返回 true
  */
 inline bool IntVec2::is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, size_t _off ){
-    size_t off_x = abs( _v1.x - _v2.x );
-    size_t off_y = abs( _v1.y - _v2.y );
+    size_t off_x = static_cast<size_t>( abs( _v1.x - _v2.x ) );
+    size_t off_y = static_cast<size_t>( abs( _v1.y - _v2.y ) );
     return ( (off_x<_off) && (off_y<_off) );
 }
 
@@ -137,8 +137,8 @@ inline bool IntVec2::is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, siz
  *  -2- math.floor()
  */
 inline IntVec2 floorDiv(  const IntVec2 &_a, float _div ){
-    float fx = ((float)_a.x) / _div;
-    float fy = ((float)_a.y) / _div;
+    float fx = ( static_cast<float>(_a.x) ) / _div;
+    float fy = ( static_cast<float>(_a.y) ) / _div;
     return IntVec2{ static_cast<int>(floor(fx)),
                     static_cast<int>(floor(fy)) };
 }
@@ -152,8 +152,8 @@ inline IntVec2 floorDiv(  const IntVec2 &_a, float _div ){
  *  -2- math.floor()
  */
 inline IntVec2 floorMod( const IntVec2 &_v, float _mod ){
-    float fx = ((float)_v.x) / _mod;
-    float fy = ((float)_v.y) / _mod;
+    float fx = ( static_cast<float>(_v.x) ) / _mod;
+    float fy = ( static_cast<float>(_v.y) ) / _mod;
     float floorX = floor(fx) * _mod;
     float floorY = floor(fy) * _mod;
     return IntVec2{ _v.x - static_cast<int>(floor(floorX)),

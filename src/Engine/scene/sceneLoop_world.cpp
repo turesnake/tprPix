@@ -27,6 +27,14 @@ namespace{//-------------- namespace ------------------//
     //-- 临时数据 --
     bool  isOld_A_press {false}; //- 上一帧，A键是否按下
     bool  isOld_B_press {false}; //- 上一帧，B键是否按下
+    bool  isOld_X_press {false}; //- 上一帧，X键是否按下
+    bool  isOld_Y_press {false}; //- 上一帧，Y键是否按下
+
+
+    bool  isNew_A_press {false};
+    bool  isNew_B_press {false};
+    bool  isNew_X_press {false};
+    bool  isNew_Y_press {false};
 
 
     //===== funcs =====//
@@ -202,14 +210,26 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
     // 用 A 键 来增加 playerGo speed
     // 用 B 键 减速
     //-----------------//
-    bool  isNew_A_press = false;
-    bool  isNew_B_press = false;
+    isNew_A_press = false;
+    isNew_B_press = false;
+    isNew_X_press = false;
+    isNew_Y_press = false;
+
     if( _inputINS.check_key(GameKey::KEY_A) ){
         isNew_A_press = true;
     }
     if( _inputINS.check_key(GameKey::KEY_B) ){
         isNew_B_press = true;
     }
+    if( _inputINS.check_key(GameKey::KEY_X) ){
+        isNew_X_press = true;
+    }
+    if( _inputINS.check_key(GameKey::KEY_Y) ){
+        isNew_Y_press = true;
+    }
+
+
+
 
     SpeedLevel lvl = esrc::player.goPtr->move.get_speedLvl();
     //-- 有效的 节点帧 --
@@ -227,9 +247,42 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl;
     }
+    if( (isOld_X_press==false) && (isNew_X_press) ){
+
+        bool is_same_fieldKey;
+
+        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( esrc::player.goPtr->goPos.get_currentMPos() );
+
+        const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntPtr->get_mpos()) );
+
+
+        IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos();
+
+        cout << "mapAlti.val = " << mapEntPtr->mapAlti.val
+            //<< ";   fieldKey = " << mapEntPtr->fieldKey
+            << ";   nodeFieldAltiVal = " << field.get_nodeMapAlti().val
+            << ";   minAltiVal = " << field.get_minMapAlti().val
+            << ";   maxAltiVal = " << field.get_maxMapAlti().val
+            //<< ";   nodeMPosOff = " << nodeMPosOff.x
+            //<< "," << nodeMPosOff.y
+            << endl;
+
+
+    }
+    if( (isOld_Y_press==false) && (isNew_Y_press) ){
+
+        //-- 暂时什么都不做 ...
+        
+    }
+
+
+
+
+    //---------------
     isOld_A_press = isNew_A_press;
     isOld_B_press = isNew_B_press;
-
+    isOld_X_press = isNew_X_press;
+    isOld_Y_press = isNew_Y_press;
 }
 
 

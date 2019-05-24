@@ -23,6 +23,7 @@
 #include "Quad.h"
 #include "FieldBorderSet.h"
 #include "MapField.h"
+#include "ChunkData.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_camera.h"
@@ -50,7 +51,6 @@ namespace{//-------- namespace: --------------//
         0.1, 0.2, 0.3, 0.4
     };
 
-
 }//------------- namespace: end --------------//
 
 
@@ -74,27 +74,47 @@ void Chunk::init(){
     IntVec2 oddEven = floorMod( v, 2 );
     this->zOff = zOffs.at( oddEven.y * 2 + oddEven.x );
 
+    
+    //------------------------------//
+    //  从 chunkData 中 copy: 
+    //  mapEntAltis / fieldKeys
+    //------------------------------//
+    const ChunkData *chunkDataPtr = esrc::atom_get_chunkDataPtr( this->chunkKey );
+    {//-- 用作用域 来取代 函数 --
+        const auto &mapEntAltis = chunkDataPtr->get_mapEntAltis();
+            assert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
+        size_t entIdx;
+        for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+            for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
+                entIdx = h * ENTS_PER_CHUNK + w;
+                this->memMapEnts.at(entIdx).mapAlti = mapEntAltis.at(entIdx);
+            }
+        }
+    }
+
     //------------------------//
     //      fieldKeys
+    //  设置 field.nodeMapAlti
     //------------------------//
-    IntVec2    tmpFieldMpos;
+    IntVec2       tmpFieldMpos;
+    fieldKey_t    tmpFieldKey;
     this->fieldKeys.clear();
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
             tmpFieldMpos = this->get_mpos() + IntVec2{  w*ENTS_PER_FIELD,
                                                         h*ENTS_PER_FIELD };
-            this->fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
+            tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMpos);
+            this->fieldKeys.push_back( tmpFieldKey );
+            //----
+            esrc::atom_field_set_nodeAlti_2( tmpFieldKey, this->memMapEnts );
         }
     }
-    //------------------------------//
-    //  从 chunkData 中 copy mapEntAltis
-    //------------------------------//
-    this->copy_mapEntAltis();
+
 
     //------------------------------//
     //        mapTex, mesh
     //------------------------------//
-    this->mapTex.copy_texBuf_from( esrc::atom_get_chunkData_texBuf( this->chunkKey ) );
+    this->mapTex.copy_texBuf_from( chunkDataPtr->get_texBuf() );
     this->mapTex.creat_texName();
     this->mesh.init( mapTex.get_texName() ); //- auto
     this->mesh.isVisible = true;  //- 一定可见
@@ -102,25 +122,9 @@ void Chunk::init(){
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
     this->refresh_translate_auto();
+
 }
 
-
-/* ===========================================================
- *           copy_mapEntAltis
- * -----------------------------------------------------------
- */
-void Chunk::copy_mapEntAltis(){
-
-    const auto &mapEntAltis = esrc::atom_get_chunkData_mapEntAltis( this->chunkKey );
-        assert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
-    size_t entIdx;
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
-            entIdx = h * ENTS_PER_CHUNK + w;
-            this->memMapEnts.at(entIdx).mapAlti = mapEntAltis.at(entIdx);
-        }
-    }
-}
 
 
 /* ===========================================================

@@ -42,9 +42,9 @@ void GameSeed::init(  u32_t _baseSeed ){
     //...
 
     //------------------------//
-    //       randEngine
+    //       realRandEngine
     //------------------------//
-    this->randEngine.seed( get_new_seed() );
+    this->realRandEngine.seed( get_new_seed() );
 
 
     this->is_all_seed_init = true;
