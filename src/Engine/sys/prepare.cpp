@@ -25,7 +25,7 @@
 #include "global.h"
 
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 
 namespace {//------------ namespace ------------//
@@ -73,7 +73,7 @@ void prepare(){
     return;
 }
 
-namespace { //------------ namespace ------------//
+namespace {//------------ namespace ------------//
 
 
 /* ===========================================================
@@ -130,7 +130,7 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     //           path_home
     //---------------------------------//
-    path_home = tpr::Getenv( "HOME", err_info );
+    //path_home = tpr::Getenv( "HOME", err_info );
 
     //---------------------------------//
     //           path_data

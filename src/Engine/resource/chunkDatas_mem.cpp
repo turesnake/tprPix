@@ -19,7 +19,7 @@
 #include "config.h"
 
 
-//#include "debug.h"
+//#include "tprDebug.h"
 
 /*
 #include <iostream>
@@ -30,7 +30,7 @@ using std::endl;
 
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 namespace{//------------ namespace --------------//

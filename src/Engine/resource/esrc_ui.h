@@ -22,7 +22,7 @@
 #include "esrc_funcTypes.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 //--- mem ---//

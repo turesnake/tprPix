@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "GameArchive.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 //-- 在游戏开始阶段，从 db中读取。 

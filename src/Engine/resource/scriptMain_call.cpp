@@ -10,7 +10,7 @@
  */
 extern void scriptMain();
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void call_scriptMain(){
     scriptMain();

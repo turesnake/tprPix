@@ -4,11 +4,10 @@
  *                                        CREATE -- 2019.03.02
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * ----------------------------
  */
 #include "EcoObj.h"
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -27,13 +26,13 @@
 #include "esrc_ecoSysPlan.h"
 #include "esrc_ecoObj.h"
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 namespace{//-------- namespace: --------------//
 
     std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    inline std::uniform_int_distribution<float> uDistribution_f(-100.0,100.0);
+    inline std::uniform_real_distribution<float> uDistribution_f(-100.0,100.0);
     inline std::uniform_int_distribution<int> uDistribution_2(0,1);
     inline std::uniform_int_distribution<int> uDistribution_4(0,3);
 

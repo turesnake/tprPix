@@ -16,7 +16,7 @@
 #include "fieldKey.h"
 #include "MapFieldData_In_ChunkBuild.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos );

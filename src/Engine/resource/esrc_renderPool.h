@@ -21,7 +21,7 @@
 #include "Mesh.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 //--- goMesh ---//
 inline std::multimap<float, ChildMesh*> renderPool_goMeshs_pic {}; 

@@ -18,10 +18,10 @@
 #include "config.h"
 #include "sectionKey.h"
 
-//#include "debug.h"
+//#include "tprDebug.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace{//------------ namespace --------------//
 

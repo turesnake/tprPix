@@ -25,7 +25,7 @@
 #include "esrc_gameArchive.h"
 #include "esrc_gameObj.h"
 #include "esrc_gameSeed.h"
-#include "esrc_GPGPU.h"
+//#include "esrc_GPGPU.h"
 #include "esrc_jobQue.h"
 #include "esrc_player.h"
 #include "esrc_renderPool.h"

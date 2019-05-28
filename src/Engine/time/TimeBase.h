@@ -14,7 +14,7 @@
 #include<GLFW/glfw3.h>
 
 //------------------- C --------------------// 
-#include <cmath> //- abs
+#include <cmath>
 
 //------------------- Libs --------------------// 
 #include "tprDataType.h"
@@ -41,7 +41,7 @@ public:
 
         //-- 游戏正常后，开始 平滑 dt值 --
         double off = this->deltaTime - this->smoothDeltaTime;
-        if( abs(off) <= this->step ){
+        if( std::abs(off) <= this->step ){
             //-- 波动不大，直接对齐 --
             this->smoothDeltaTime = this->deltaTime;
         }else{

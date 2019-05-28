@@ -61,7 +61,7 @@ void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
-        absI = abs(i);
+        absI = std::abs(i);
         this->landColors.at( Density::lvl_2_idx(i) ) = _baseColor.add( absI*off_r, absI*off_g, absI*off_b, 0 );
     }
 }
@@ -84,7 +84,7 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
-        absI = abs(i);
+        absI = std::abs(i);
         if( i >= _density_high.get_lvl() ){ //- high
             is_goDeep_high ?
                 this->landColors.at( Density::lvl_2_idx(i) ) = _color_high.add( absI*off_r, absI*off_g, absI*off_b, 0 ) :

@@ -17,9 +17,9 @@
 #include "esrc_colliEntSet.h" //- 所有资源
 
 
-#include "debug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace{//------------ namespace --------------//
 

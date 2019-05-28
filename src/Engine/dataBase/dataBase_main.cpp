@@ -52,7 +52,7 @@ void atom_init_dataBase(){
     //     exec
     //---------------//
     //- 传入 sqlite3_exec() callback 的参数。
-    //  可用来 提示本次 callback 的功能 （仅 debug 时有效）
+    //  可用来 提示本次 callback 的功能 （仅 tprDebug 时有效）
     std::string data { "Callback function called:" };
     w_sqlite3_exec( dbConnect, 
                     sql_create_table_gameArchive.c_str(), 

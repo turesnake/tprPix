@@ -18,7 +18,7 @@
 #include "esrc_gameSeed.h"
 
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 namespace esrc{//------------------ namespace: esrc -------------------------//
 
@@ -47,7 +47,7 @@ void init_canvases(){
                             "/groundCanvas.fs" );
     */
 
-    esrc::groundCanvas.init( &(ViewingBox::screenSZ),
+    esrc::groundCanvas.init( &(ViewingBox::windowSZ),
                             "/groundCanvas.vs",
                             "/groundCanvas.fs" );
 
@@ -70,7 +70,7 @@ void init_canvases(){
                             "/waterAnimCanvas.fs" );
     */
 
-    esrc::waterAnimCanvas.init( &(ViewingBox::screenSZ),
+    esrc::waterAnimCanvas.init( &(ViewingBox::windowSZ),
                             "/waterAnimCanvas.vs",
                             "/waterAnimCanvas.fs" );
 
@@ -106,13 +106,13 @@ void draw_groundCanvas(){
     const glm::vec2 cameraFPos = esrc::camera.get_camera2DFPos();
 
 
-    float screenSZ_fx = static_cast<float>(ViewingBox::screenSZ.x);
-    float screenSZ_fy = static_cast<float>(ViewingBox::screenSZ.y);
+    float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
+    float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
 
 
     //glm::vec2 canvasFPos = cameraFPos - glm::vec2{ 0.5*_SCR_WIDTH, 0.5*_SCR_HEIGHT};
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * screenSZ_fx , 
-                                                    0.5 * screenSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * windowSZ_fx , 
+                                                    0.5 * windowSZ_fy };
 
     esrc::groundCanvas.set_translate( canvasFPos.x,
                                       canvasFPos.y,
@@ -126,12 +126,12 @@ void draw_groundCanvas(){
     /*
     if( is_ground_baseUniforms_transmited == false ){
         is_ground_baseUniforms_transmited = true;
-        glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_WIDTH"), screenSZ_fx ); //- 1-float
-        glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_HEIGHT"), screenSZ_fy ); //- 1-float
+        glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+        glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
     }
     */
-    glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_WIDTH"), screenSZ_fx ); //- 1-float
-    glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_HEIGHT"), screenSZ_fy ); //- 1-float
+    glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+    glUniform1f(esrc::groundCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
 
     esrc::groundCanvas.draw();
 }
@@ -150,12 +150,12 @@ void draw_waterAnimCanvas(){
 
     const glm::vec2 cameraFPos = esrc::camera.get_camera2DFPos();
 
-    float screenSZ_fx = static_cast<float>(ViewingBox::screenSZ.x);
-    float screenSZ_fy = static_cast<float>(ViewingBox::screenSZ.y);
+    float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
+    float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
 
     //glm::vec2 canvasFPos = cameraFPos - glm::vec2{ 0.5*_SCR_WIDTH, 0.5*_SCR_HEIGHT};
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * screenSZ_fx , 
-                                                    0.5 * screenSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * windowSZ_fx , 
+                                                    0.5 * windowSZ_fy };
 
     esrc::waterAnimCanvas.set_translate(canvasFPos.x,
                                         canvasFPos.y,
@@ -174,13 +174,13 @@ void draw_waterAnimCanvas(){
     const glm::vec2 &altiSeed_pposOffMid = esrc::gameSeed.get_altiSeed_pposOffMid();
     const glm::vec2 &altiSeed_pposOffSml = esrc::gameSeed.get_altiSeed_pposOffSml();
 
-    glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), screenSZ_fx ); //- 1-float
-    glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), screenSZ_fy ); //- 1-float
+    glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+    glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
 
     if( is_waterAnim_baseUniforms_transmited == false ){
         is_waterAnim_baseUniforms_transmited = true;
-        //glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), screenSZ_fx ); //- 1-float
-        //glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), screenSZ_fx ); //- 1-float
+        //glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+        //glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fx ); //- 1-float
 
         glUniform2f(esrc::waterAnimCanvas.get_uniform_location("altiSeed_pposOffSeaLvl"), 
                     altiSeed_pposOffSeaLvl.x,

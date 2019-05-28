@@ -18,9 +18,9 @@
 #include "esrc_animFrameSet.h"
 
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 namespace{//--------------- namespace -----------------//
@@ -206,7 +206,7 @@ void load_animFrameSets(){
     animFrameSetPtr = insert_new_animFrameSet( "oakTree" );
     build_animActionParams( "", "_idle", 17 );
     animFrameSetPtr->insert_a_png(  
-            "/oakTree/oakTree_2.P.png",
+            "/oakTree/OakTree_2.P.png",
             IntVec2{5, 4}, 17,
             true, //- 无 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧

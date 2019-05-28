@@ -15,7 +15,7 @@
 #include "chunkBuild.h"
 #include "esrc_all.h" //- 所有资源
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 using namespace std::placeholders;
@@ -173,8 +173,8 @@ void sceneLoop_world(){
     esrc::draw_waterAnimCanvas();
     esrc::draw_renderPool_mapSurfaces();
     esrc::draw_renderPool_goMeshs_shadow();
-    debug::draw_renderPool_mapEntSlices();  //-- debug 但是不在此文件中 clear
-    debug::draw_renderPool_pointPics();     //-- debug 但是不在此文件中 clear
+    tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
+    tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
     esrc::draw_renderPool_goMeshs_pic(); 
 
 }

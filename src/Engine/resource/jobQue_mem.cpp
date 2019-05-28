@@ -21,9 +21,9 @@ using std::cout;
 using std::endl;
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     //-- 提醒所有 job thread：jobs处理完毕后即可 自动 exit 了 --
     std::atomic<bool> exitJobThreadsFlag(false);

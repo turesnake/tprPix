@@ -18,7 +18,7 @@
 #include "load_and_divide_png.h"
 
 
-#include "debug.h"
+#include "tprDebug.h"
 
 /* ===========================================================
  *                load_and_divide_png

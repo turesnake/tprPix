@@ -13,6 +13,7 @@
 
 //-------------------- C ----------------------//
 #include <cassert>
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -21,14 +22,14 @@
 #include "input.h" 
 #include "global.h"
 #include "windowConfig.h" //-- SCR_WIDTH
-#include "callback.h" 
 #include "gl_funcs.h" 
 #include "ViewingBox.h"
+#include "IntVec.h"
 #include "esrc_window.h" 
 
 using std::string;
 
-//#include "debug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
 
 //------------------- 提供给全局的 函数 ----------------
@@ -79,6 +80,7 @@ void glfw_window_creat(){
     if( IS_FULL_SCREEN == true){
         //------ 全屏模式 ------//
         // 未完工... 禁止使用 
+            assert(0);
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -87,30 +89,18 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
-        /*
-        esrc::windowPtr = glfwCreateWindow( _SCR_WIDTH, _SCR_HEIGHT, 
-                                    "tprcraft", 
-                                    monitor, 
-                                    NULL );
-        */
-        esrc::windowPtr = glfwCreateWindow( ViewingBox::screenSZ.x,
-                                            ViewingBox::screenSZ.y,
+        esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
+                                            ViewingBox::windowSZ.y,
                                             "tprcraft", 
                                             monitor, 
                                             NULL );
 
-
     }else{
         //------ 窗口模式 ------//
-        /*
-        esrc::windowPtr = glfwCreateWindow( _SCR_WIDTH, _SCR_HEIGHT, 
-                                    "tprcraft", 
-                                    NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
-                                    NULL );
-        */
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); //- 阻止玩家在程序运行后，修改 window 尺寸
 
-        esrc::windowPtr = glfwCreateWindow( ViewingBox::screenSZ.x,
-                                            ViewingBox::screenSZ.y,
+        esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
+                                            ViewingBox::windowSZ.y,
                                             "tprcraft", 
                                             NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                             NULL );
@@ -125,11 +115,6 @@ void glfw_window_creat(){
 	glfwMakeContextCurrent( esrc::windowPtr );
 
 
-    //------ 记录 “真实” 视口尺寸 ------//
-    glfwGetFramebufferSize( esrc::windowPtr, 
-                            &esrc::windowFrameBufferWH.x, 
-                            &esrc::windowFrameBufferWH.y );
-
 }
 
 
@@ -143,6 +128,10 @@ void glfw_oth_set(){
     //  本游戏中，鼠标只影响 player_go 的方向，可以被 显示。
     //  所以，本游戏 不用 隐藏鼠标 
     //glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+
+
+
 }
 
 
@@ -153,10 +142,8 @@ void glfw_oth_set(){
  */
 void glfw_callback_set(){
 
-    //-- 目前版本并未控制 “当window拉升” 后的渲染效果。暂时，请勿拉升画面 ！！！ ---
-    //...
-    
-    glfwSetFramebufferSizeCallback( esrc::windowPtr, framebuffer_size_callback ); //-- 用户 更改 窗口尺寸。
+     //-- 窗口模式中，不再允许用户更改 窗口尺寸
+              
     //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
 

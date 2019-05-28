@@ -11,7 +11,7 @@
 #ifndef _TPR_GAME_OBJ_H_
 #define _TPR_GAME_OBJ_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -51,7 +51,7 @@
 #include "chunkKey.h"
 
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//

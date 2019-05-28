@@ -29,6 +29,9 @@ endif( APPLE )
 #-- 当低于此版本时，.h文件中的 inline 关键词将失效
 set (CMAKE_CXX_STANDARD 17)
 
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_CXX_EXTENSIONS OFF)
+
 
 #-- 单独设置 c++ 的编译选项 的方式:
 #add_definitions ( -DXXX_XXX=1 )
@@ -66,7 +69,7 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/dataBase)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/debug)
+include_directories (${PROJECT_SOURCE_DIR}/src/Engine/tprDebug)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
@@ -74,7 +77,6 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/chunkBuild)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/GPGPU)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/input)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
 include_directories (${PROJECT_SOURCE_DIR}/src/Engine/move)
@@ -99,20 +101,12 @@ include_directories (${PROJECT_SOURCE_DIR}/deps)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/glfw/include)
+include_directories (${PROJECT_SOURCE_DIR}/deps/glm.9.9.5)
 include_directories (${PROJECT_SOURCE_DIR}/deps/lodepng/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
+include_directories (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28/src)
 
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBase/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprDataType)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileModeT)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/MsgIO/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/wrapFuncs/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBitMap/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileSys/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor/include)
+
+include_directories (${PROJECT_SOURCE_DIR}/deps/tprInUnix/include)
 
 include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 
@@ -131,7 +125,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
-                        src/Engine/debug/*.cpp 
+                        src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
                         src/Engine/game/*.cpp 
@@ -140,7 +134,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/map/fieldBorderSet/*.cpp 
                         src/Engine/game/map/chunkBuild/*.cpp 
                         src/Engine/gl/*.cpp 
-                        src/Engine/GPGPU/*.cpp 
                         src/Engine/input/*.cpp 
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
@@ -177,7 +170,7 @@ set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
         
 
 #---------------------------------------------------#
-#                       doit
+#                      tprpix 
 #---------------------------------------------------#
 add_executable(
     tprpix
@@ -192,15 +185,7 @@ add_executable(
 #-- 子 CMakeLists.txt 执行的 中间产物，将分别放在 
 #      build/src  build/libhello  目录中。
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glfw)
-
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/MsgIO)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/wrapFuncs)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBitMap)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprFileSys)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprCrypto)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprBinary)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprTimer)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprLibs/tprMemAllor)
+add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 
 
@@ -212,14 +197,7 @@ if ( APPLE )
         glfw
         SQLite
         ${GLFW_LIBRARIES}
-        MsgIO
-        wrapFuncs
-        tprBitMap
-        tprFileSys
-        tprCrypto
-        tprBinary
-        tprTimer
-        tprMemAllor
+        tprInUnix
         )
 
 elseif( UNIX AND NOT APPLE )
@@ -227,14 +205,7 @@ elseif( UNIX AND NOT APPLE )
         glfw
         SQLite
         ${GLFW_LIBRARIES}
-        MsgIO
-        wrapFuncs
-        tprBitMap
-        tprFileSys
-        tprCrypto
-        tprBinary
-        tprTimer
-        tprMemAllor
+        tprInUnix
         )
 
 endif( APPLE )

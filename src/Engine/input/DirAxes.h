@@ -14,7 +14,7 @@
 #ifndef _TPR_DIR_AXES_H_
 #define _TPR_DIR_AXES_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -104,7 +104,7 @@ public:
             return;
         }
         glm::vec2 normal = glm::normalize( glm::vec2{ this->x, this->y } );
-        if( (abs(normal.x) < abs(this->x)) || (abs(normal.y) < abs(this->y))  ){
+        if( (std::abs(normal.x) < std::abs(this->x)) || (std::abs(normal.y) < std::abs(this->y))  ){
             this->x = normal.x;
             this->y = normal.y;
         }

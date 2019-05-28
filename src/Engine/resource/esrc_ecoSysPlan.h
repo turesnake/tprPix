@@ -18,7 +18,7 @@
 #include "EcoSysPlan.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 inline std::unordered_map<ecoSysPlanId_t, EcoSysPlan> ecoSysPlanes {};
 

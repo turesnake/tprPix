@@ -27,12 +27,12 @@
 
 #include "esrc_ecoObj.h"
 #include "esrc_camera.h"
-#include "esrc_GPGPU.h"
+//#include "esrc_GPGPU.h"
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
 
-#include "debug.h"
+#include "tprDebug.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/create_goes.h"

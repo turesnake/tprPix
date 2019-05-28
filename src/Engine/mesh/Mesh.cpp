@@ -17,7 +17,7 @@
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
 
-//#include "debug.h" 
+//#include "tprDebug.h" 
 
 namespace{//------------------ namespace ---------------------//
 

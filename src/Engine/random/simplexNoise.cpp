@@ -126,9 +126,9 @@ float simplex_noise2( const glm::vec2 &v ){
     x.y = 2.0 * x.y - 1.0;
     x.z = 2.0 * x.z - 1.0;
 
-    glm::vec3 h {   abs(x.x) -0.5,
-                    abs(x.y) -0.5,
-                    abs(x.z) -0.5 };
+    glm::vec3 h {   std::abs(x.x) -0.5,
+                    std::abs(x.y) -0.5,
+                    std::abs(x.z) -0.5 };
 
     glm::vec3 ox {  floor( x.x + 0.5 ),
                     floor( x.y + 0.5 ),

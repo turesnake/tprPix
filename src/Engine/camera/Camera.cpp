@@ -14,7 +14,7 @@
 //-------------------- Engine --------------------//
 #include "windowConfig.h"
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 //---------------------- 局部 变量 ---------------------
 namespace{
@@ -55,7 +55,7 @@ void Camera::RenderUpdate(){
     float criticalVal = 2.0; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
-    if( (abs(off.x)<=criticalVal) && (abs(off.y)<=criticalVal) ){
+    if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
         this->targetFPos.x = this->currentFPos.x;
         this->targetFPos.y = this->currentFPos.y;
                             //- 注意 此2句 写法：在足够靠近时，camera放弃继续靠近，但此时并未对齐

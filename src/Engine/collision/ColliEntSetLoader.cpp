@@ -18,7 +18,7 @@
 #include "ColliEntSet_RGBAHandle.h"
 #include "load_and_divide_png.h"
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 
 /* ===========================================================

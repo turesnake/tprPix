@@ -11,7 +11,7 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//--- glm - 0.9.8 ---
+//--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -69,8 +69,8 @@ public:
 
 private:
     //------ 观察／投影 矩阵 -----
-    glm::mat4 mat4_view;       //-- 观察矩阵，默认初始化为 单位矩阵
-    glm::mat4 mat4_projection; //-- 投影矩阵，默认初始化为 单位矩阵
+    glm::mat4 mat4_view       = glm::mat4(1.0);       //-- 观察矩阵，默认初始化为 单位矩阵
+    glm::mat4 mat4_projection = glm::mat4(1.0); //-- 投影矩阵，默认初始化为 单位矩阵
 
     //------ 坐标向量 -------
     glm::vec2 targetFPos  {}; 

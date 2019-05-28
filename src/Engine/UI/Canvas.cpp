@@ -24,18 +24,18 @@ void Canvas::init(  IntVec2 *_texSizePtr,
     this->texSizePtr = _texSizePtr;
 
     //-------- shaderProgram ---------
-    this->ShaderProgram.init( _lpath_vs, _lpath_fs );
-    this->ShaderProgram.use_program();
-    this->ShaderProgram.add_new_uniform( "model" );
-    this->ShaderProgram.add_new_uniform( "view" );
-    this->ShaderProgram.add_new_uniform( "projection" );
-    this->ShaderProgram.add_new_uniform( "texture1" );
+    this->shaderProgram.init( _lpath_vs, _lpath_fs );
+    this->shaderProgram.use_program();
+    this->shaderProgram.add_new_uniform( "model" );
+    this->shaderProgram.add_new_uniform( "view" );
+    this->shaderProgram.add_new_uniform( "projection" );
+    this->shaderProgram.add_new_uniform( "texture1" );
         // 其它的 uniform 需要在此函数之后，由用户程序 添加
 
     //-------- mesh ---------
     this->mesh.init( create_a_empty_texName( *this->texSizePtr ) );
     this->mesh.isVisible = true;
-    this->mesh.set_shader_program( &this->ShaderProgram );
+    this->mesh.set_shader_program( &this->shaderProgram );
     this->mesh.set_scale(glm::vec3{ (float)(this->texSizePtr->x), 
                                     (float)(this->texSizePtr->y), 
                                     1.0f });
@@ -61,8 +61,8 @@ void Canvas::draw(){
                                     1.0f });
 
 
-    this->ShaderProgram.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
-    this->ShaderProgram.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
+    this->shaderProgram.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
+    this->shaderProgram.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
 
     this->mesh.draw();
     this->is_binded = false;

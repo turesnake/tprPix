@@ -9,13 +9,13 @@
  */
 #include "GameSeed.h"
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 namespace{//----------- namespace ----------------//
 
     inline std::uniform_int_distribution<int>   uDistribution_altiSeed(-1000, 1000);
-    inline std::uniform_int_distribution<float> uDistribution_float(-1000.0, 1000.0);
+    inline std::uniform_real_distribution<float> uDistribution_float(-1000.0, 1000.0);
 
 
 }//-------------- namespace : end ----------------//

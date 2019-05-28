@@ -20,7 +20,7 @@
 #include "esrc_chunk.h"
 #include "esrc_gameObj.h"
 
-//#include "debug.h"
+//#include "tprDebug.h"
 
 /* ===========================================================
  *                       init

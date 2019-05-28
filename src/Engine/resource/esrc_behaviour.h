@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "Behaviour.h" 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 inline Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
 void call_scriptMain(); //- 调用 脚本层 入口函数

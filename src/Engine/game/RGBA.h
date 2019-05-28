@@ -44,10 +44,10 @@ public:
         int bb = static_cast<int>(this->b) - static_cast<int>(_a.b);
         int aa = static_cast<int>(this->a) - static_cast<int>(_a.a);
         return (
-        (abs(rr) <= _off) &&
-        (abs(gg) <= _off) &&
-        (abs(bb) <= _off) &&
-        (abs(aa) <= _off)
+        (abs(rr) <= static_cast<int>(_off)) &&
+        (abs(gg) <= static_cast<int>(_off)) &&
+        (abs(bb) <= static_cast<int>(_off)) &&
+        (abs(aa) <= static_cast<int>(_off))
         );
     }
 
@@ -120,10 +120,10 @@ inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
     int bb = static_cast<int>(_a.b) - static_cast<int>(_b.b);
     int aa = static_cast<int>(_a.a) - static_cast<int>(_b.a);
     return (
-       (abs(rr) <= _off) &&
-       (abs(gg) <= _off) &&
-       (abs(bb) <= _off) &&
-       (abs(aa) <= _off)
+       (std::abs(rr) <= static_cast<int>(_off)) &&
+       (std::abs(gg) <= static_cast<int>(_off)) &&
+       (std::abs(bb) <= static_cast<int>(_off)) &&
+       (std::abs(aa) <= static_cast<int>(_off))
     );
 }
 

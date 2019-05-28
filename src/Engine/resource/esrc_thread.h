@@ -9,7 +9,7 @@
 #define _TPR_ESRC_THREAD_H_
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void start_jobThreads();
 void join_jobThreads();

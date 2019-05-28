@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 inline ShaderProgram rect_shader {};
 void init_shaders();

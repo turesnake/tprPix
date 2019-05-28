@@ -13,7 +13,7 @@
 #include "chunkKey.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey );
 void atom_erase_from_chunkDatas( chunkKey_t _chunkKey );

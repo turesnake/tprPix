@@ -11,7 +11,7 @@
 #define _TPR_VECTOR_MATRIX_H_
 
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -30,7 +30,7 @@
 //-- 提供一个 单位矩阵。
 //-- 此矩阵 永远不会被改写。专供 中间计算
 //-- 默认初始化为 单位矩阵。
-inline glm::mat4 normal_mat4 {}; 
+inline glm::mat4 normal_mat4 = glm::mat4(1.0); 
 
 //-- 提供一个 零向量。
 //-- 此向量 永远不会被改写。专供 中间计算

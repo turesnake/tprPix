@@ -9,6 +9,7 @@
 
 //-------------------- C --------------------//
 #include <cassert>
+#include <cmath>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -28,7 +29,7 @@
 #include "esrc_colliEntSet.h" //- tmp
 
 
-#include "debug.h" 
+#include "tprDebug.h" 
 
 
 namespace{//-------------- namespace ------------------//
@@ -140,8 +141,8 @@ void Move::drag_renderUpdate(){
                 60 * esrc::timer.get_smoothDeltaTime();
 
     bool isLastFrame = false;
-    if( (abs(speedV.x) > abs(fposOff.x)) ||
-        (abs(speedV.y) > abs(fposOff.y)) ){
+    if( (std::abs(speedV.x) > std::abs(fposOff.x)) ||
+        (std::abs(speedV.y) > std::abs(fposOff.y)) ){
         isLastFrame = true;
         speedV = fposOff;
     }
@@ -243,9 +244,9 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
             const ColliEntSet &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
             MapCoord cesMCPos;
             cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
-            debug::clear_mapEntSlices();
+            tprDebug::clear_mapEntSlices();
             for( const auto &i : doCesRef.get_colliEnts() ){
-                debug::insert_new_mapEntSlice( i+cesMCPos );
+                tprDebug::insert_new_mapEntSlice( i+cesMCPos );
             }
         }
 

@@ -12,7 +12,7 @@
 #define _TPR_PERLIN_NOISE_1D_H_
 #include "random.h"
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4

@@ -10,7 +10,7 @@
 #ifndef _TPR_SIMPLEX_NOISE_H_
 #define _TPR_SIMPLEX_NOISE_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4

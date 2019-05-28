@@ -19,7 +19,7 @@
 #include "EcoObj_ReadOnly.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey );

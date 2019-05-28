@@ -27,7 +27,7 @@
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 namespace{//----------- namespace ---------------//

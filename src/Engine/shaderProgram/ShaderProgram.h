@@ -12,7 +12,7 @@
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -34,10 +34,10 @@
 #include <unordered_map>
 
 //------------------- Libs --------------------//
-#include "nocopyable.h" 
+//#include "nocopyable.h" 
 
 
-class ShaderProgram : tpr::nocopyable {
+class ShaderProgram{
 public:
     ShaderProgram() = default;
 

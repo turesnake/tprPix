@@ -15,7 +15,7 @@
 //-------------------- Engine --------------------//
 #include "AnimFrameSet.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void load_animFrameSets();

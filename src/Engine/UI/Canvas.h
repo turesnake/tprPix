@@ -47,11 +47,11 @@ public:
 
     inline void use_shaderProgram(){
         this->is_binded = true;
-        this->ShaderProgram.use_program();
+        this->shaderProgram.use_program();
     }
     inline void add_new_uniform( const std::string &_name ){
         assert( this->is_binded );
-        this->ShaderProgram.add_new_uniform( _name );
+        this->shaderProgram.add_new_uniform( _name );
     }
     inline void set_translate( float _x, float _y, float _z ){
         assert( this->is_binded );
@@ -59,7 +59,7 @@ public:
     }
     inline GLuint get_uniform_location( const std::string &_name ){
         assert( this->is_binded );
-        return this->ShaderProgram.get_uniform_location( _name );
+        return this->shaderProgram.get_uniform_location( _name );
     }
 
 private:
@@ -71,7 +71,7 @@ private:
 
     Mesh           mesh {};
 
-    ShaderProgram  ShaderProgram {};
+    ShaderProgram  shaderProgram {};
             //- Canvas 实例 往往是独一无二的，比如实现 水域动画的。
             //  这些实例，各自配有独立的 glsl 程序组。
 

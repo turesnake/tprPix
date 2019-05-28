@@ -19,7 +19,7 @@
 #include "Script/resource/ssrc.h"
 
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

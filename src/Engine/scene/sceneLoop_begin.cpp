@@ -13,7 +13,7 @@
  */
 #include "sceneLoop.h"
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -44,7 +44,7 @@
 
 using namespace std::placeholders;
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 namespace{//-------------- namespace ------------------//

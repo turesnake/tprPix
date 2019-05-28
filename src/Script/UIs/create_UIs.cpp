@@ -18,7 +18,7 @@
 #include "Script/UIs/allUIs.h"
 #include "Script/resource/ssrc.h"
 
-//#include "debug.h"
+//#include "tprDebug.h"
 
 namespace uis{//------------- namespace uis ----------------
 

@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "Camera.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 inline Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 

@@ -10,9 +10,9 @@
 #include "esrc_gameObj.h"
 #include "esrc_ui.h"
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================

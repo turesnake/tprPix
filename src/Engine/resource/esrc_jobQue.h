@@ -13,7 +13,7 @@
 #include "Job.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void atom_exitJobThreadsFlag_store( bool _val );

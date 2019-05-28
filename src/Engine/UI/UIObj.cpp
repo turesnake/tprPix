@@ -7,6 +7,8 @@
  */
 #include "UIObj.h"
 
+#include <cmath>
+
 
 /* ===========================================================
  *                         init
@@ -80,7 +82,7 @@ void UIObj::renderUpdate_move(){
                                    // 在未来，会根据 move.speedLvl 来修改
     glm::vec2 off = this->targetFPos - this->currentFPos;
     //-- 若非常接近，直接同步 --
-    if( (abs(off.x)<=criticalVal) && (abs(off.y)<=criticalVal) ){
+    if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
         this->currentFPos = this->targetFPos;
         this->isMoving = false;
     }else{

@@ -9,7 +9,7 @@
  */
 #include "input.h" 
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -41,7 +41,7 @@
 #include "esrc_window.h"
 #include "esrc_thread.h"
 
-#include "debug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
 
 namespace input{//------------- namespace input --------------------
@@ -258,7 +258,7 @@ void mousePos_2_dir(){
     off.y = currentMousePos.y - lastMousePos.y;
 
     //-- 过滤掉 微小抖动, 和彻底静止值 --
-    if( (abs(off.x)<0.001f) && (abs(off.y)<0.001f) ){
+    if( (std::abs(off.x)<0.001f) && (std::abs(off.y)<0.001f) ){
         return;
     }
 
@@ -267,9 +267,9 @@ void mousePos_2_dir(){
 
     lastMousePos = currentMousePos;  //-- MUST --//
 
-            //-- 清空 debug: renderPool --
-            debug::clear_pointPics();
-            debug::insert_new_pointPic( inputINS.dir * 20.0f );
+            //-- 清空 tprDebug: renderPool --
+            tprDebug::clear_pointPics();
+            tprDebug::insert_new_pointPic( inputINS.dir * 20.0f );
     */
 }
 

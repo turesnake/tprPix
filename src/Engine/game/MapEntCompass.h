@@ -10,7 +10,7 @@
 #ifndef _TPR_MAP_ENT_COMPASS_H_
 #define _TPR_MAP_ENT_COMPASS_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3

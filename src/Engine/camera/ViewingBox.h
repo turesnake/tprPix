@@ -10,7 +10,7 @@
 #ifndef _TPR_VIEWING_BOX_H_
 #define _TPR_VIEWING_BOX_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -47,19 +47,19 @@ public:
         }
     }
 
-    static void reset( const int _screenSZ_x,
-                       const int _screenSZ_y ){
-        screenSZ.x = _screenSZ_x;
-        screenSZ.y = _screenSZ_y;
-        gameSZ.x = static_cast<float>(_screenSZ_x) / static_cast<float>(PIXES_PER_GAMEPIX);
-        gameSZ.y = static_cast<float>(_screenSZ_y) / static_cast<float>(PIXES_PER_GAMEPIX);
+    static void reset( const int _windowSZ_x,
+                       const int _windowSZ_y ){
+        windowSZ.x = _windowSZ_x;
+        windowSZ.y = _windowSZ_y;
+        gameSZ.x = static_cast<float>(_windowSZ_x) / static_cast<float>(PIXES_PER_GAMEPIX);
+        gameSZ.y = static_cast<float>(_windowSZ_y) / static_cast<float>(PIXES_PER_GAMEPIX);
     }
 
 
     //======= statix =======//
-    static IntVec2    screenSZ; //- 屏幕尺寸（像素） （在高分屏上似乎有问题）
+    static IntVec2    windowSZ; //- 屏幕尺寸（像素） （在高分屏上似乎有问题）
     static glm::vec2  gameSZ;   //- 游戏像素尺寸
-    //static float y_;
+
 
     static float z;
 
@@ -85,7 +85,7 @@ public:
         // go阴影 图层。
         
     static float  debug_zOff;
-        // debug 专用 图层
+        // tprDebug 专用 图层
 
     
     //...
@@ -96,14 +96,11 @@ public:
 };
 
 
-inline IntVec2  ViewingBox::screenSZ {  SCR_WIDTH_, SCR_HEIGHT_ };
+inline IntVec2  ViewingBox::windowSZ {  SCR_WIDTH_, SCR_HEIGHT_ };
 
 inline glm::vec2 ViewingBox::gameSZ {   static_cast<float>(SCR_WIDTH_)  / static_cast<float>(PIXES_PER_GAMEPIX),
                                         static_cast<float>(SCR_HEIGHT_) / static_cast<float>(PIXES_PER_GAMEPIX) };
 
-
-//inline float ViewingBox::x_ { static_cast<float>(WORK_WIDTH_) /static_cast<float>(PIXES_PER_GAMEPIX) };
-//inline float ViewingBox::y_ { (float)WORK_HEIGHT_ };
 inline float ViewingBox::z { (float)VIEWING_BOX_Z_DEEP };
 
 inline float  ViewingBox::ground_zOff        { 10.0f };

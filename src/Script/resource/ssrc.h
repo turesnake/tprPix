@@ -10,7 +10,7 @@
 #ifndef _TPR_SRC_SCRIPT_H_
 #define _TPR_SRC_SCRIPT_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -40,7 +40,7 @@ class GameObj;
 class UIObj;
 
 
-namespace ssrc{ //------------------ namespace: ssrc -------------------------//
+namespace ssrc {//------------------ namespace: ssrc -------------------------//
 
         //  和 esrc 一样，这里的很多数据，应该放到 .cpp 中去 
 

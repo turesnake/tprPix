@@ -8,7 +8,7 @@
 #ifndef _TPR_CHILD_MESH_H_
 #define _TPR_CHILD_MESH_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -80,7 +80,7 @@ private:
 
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
-    glm::mat4 mat4_model {}; //-- 每个 物体obj 都私有一个 模型矩阵
+    glm::mat4 mat4_model = glm::mat4(1.0); //-- 每个 物体obj 都私有一个 模型矩阵
                           //-- 自动初始化为 标准矩阵
 
     //-- 位移／旋转／缩放 变化向量。

@@ -53,7 +53,7 @@ namespace{//---------- namespace ---------//
 //  - XXX = jh.is_colliEntHead();
 class Pjt_RGBAHandle{
 public:
-    explicit Pjt_RGBAHandle( u8_t _off=5 ):
+    explicit Pjt_RGBAHandle( int _off=5 ):
         off(_off)
         {}    
 
@@ -117,10 +117,10 @@ private:
 
     inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
         switch( _ct ){
-            case RGBA_ChannelType::R:  return (abs(rgba.r-_target) <= off);
-            case RGBA_ChannelType::G:  return (abs(rgba.g-_target) <= off);
-            case RGBA_ChannelType::B:  return (abs(rgba.b-_target) <= off);
-            case RGBA_ChannelType::A:  return (abs(rgba.a-_target) <= off);
+            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(rgba.r-_target)) <= off);
+            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(rgba.g-_target)) <= off);
+            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(rgba.b-_target)) <= off);
+            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(rgba.a-_target)) <= off);
             default:
                 assert(0);
                 return  false; //- never touch -
@@ -175,7 +175,7 @@ private:
     //---
     ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
     //---
-    u8_t            off          {}; //- 颜色误差
+    int            off          {}; //- 颜色误差. 为了照顾 std::abs(), 改用 int 类型
 
     bool isEmpty            {false}; //- when chanel_A==0;
     bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起

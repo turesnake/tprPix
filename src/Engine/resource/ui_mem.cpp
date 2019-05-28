@@ -10,7 +10,7 @@
 #include "esrc_ui.h"
 #include "esrc_camera.h"
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec3
             //-- glm::vec4
@@ -23,7 +23,7 @@
 using std::vector;
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================

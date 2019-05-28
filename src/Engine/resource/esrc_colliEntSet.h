@@ -15,7 +15,7 @@
 //-------------------- Engine --------------------//
 #include "ColliEntSet.h"
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void load_colliEntSets();

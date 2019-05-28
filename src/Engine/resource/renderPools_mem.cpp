@@ -7,9 +7,9 @@
  */
 #include "esrc_renderPool.h"
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================

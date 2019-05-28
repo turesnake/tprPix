@@ -12,7 +12,7 @@
 #include "TimeBase.h" 
 #include "TimeCircle.h" 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 inline TimeBase   timer {}; //-- 全局时间

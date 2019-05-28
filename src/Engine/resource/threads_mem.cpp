@@ -17,10 +17,10 @@
 #include "jobThread.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
     
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     //-- 一组 thread 空实例 [1~4]个 --
     std::thread jobThread_1;

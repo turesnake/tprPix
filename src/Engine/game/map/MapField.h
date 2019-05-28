@@ -10,7 +10,7 @@
 #ifndef _TPR_MAP_FIELD_H
 #define _TPR_MAP_FIELD_H
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -35,7 +35,7 @@
 #include "fieldBorderSetId_t.h"
 #include "Density.h"
 
-#include "debug.h"
+#include "tprDebug.h"
 
 
 class MemMapEnt;

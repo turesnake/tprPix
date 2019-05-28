@@ -46,7 +46,7 @@ namespace{//---------- namespace ---------//
 //   - ...
 class ColliEntSet_RGBAHandle{
 public:
-    explicit ColliEntSet_RGBAHandle( u8_t _off=5 ):
+    explicit ColliEntSet_RGBAHandle( int _off=5 ):
         off(_off)
         {} 
 
@@ -93,10 +93,10 @@ private:
     
     inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
         switch( _ct ){
-            case RGBA_ChannelType::R:  return (abs(this->rgba.r-_target) <= this->off);
-            case RGBA_ChannelType::G:  return (abs(this->rgba.g-_target) <= this->off);
-            case RGBA_ChannelType::B:  return (abs(this->rgba.b-_target) <= this->off);
-            case RGBA_ChannelType::A:  return (abs(this->rgba.a-_target) <= this->off);
+            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-_target)) <= this->off);
+            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-_target)) <= this->off);
+            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-_target)) <= this->off);
+            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-_target)) <= this->off);
             default:
                 assert(0);
                 return  false; //- never touch -
@@ -106,7 +106,7 @@ private:
     //======== vals ========//
     RGBA   rgba      {};  //- 本模块处理的数据
 
-    u8_t     off  {}; //- 颜色误差
+    int     off  {}; //- 颜色误差. 为了照顾 std::abs(), 改用 int 类型
     
     bool isEmpty        {false}; //- when chanel_A==0, or {200,200,200,255}
     bool isCenter       {false};

@@ -18,7 +18,7 @@
 #ifndef _TPR_MAP_COORD_H_
 #define _TPR_MAP_COORD_H_
 
-//--- glm - 0.9.8 ---
+//--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
             //-- glm::vec2
             //-- glm::vec3
@@ -146,8 +146,8 @@ public:
     //-- 仅用于 crawl --
     //   mpos 值是否在 [-1,1] 之间
     inline bool is_match_with_nineBox() const {
-        return (    (abs(this->mpos.x) <= 1) && (abs(this->mpos.x) >= -1) &&
-                    (abs(this->mpos.y) <= 1) && (abs(this->mpos.y) >= -1) );
+        return (    (std::abs(this->mpos.x) <= 1) && (std::abs(this->mpos.x) >= -1) &&
+                    (std::abs(this->mpos.y) <= 1) && (std::abs(this->mpos.y) >= -1) );
     }
 
 

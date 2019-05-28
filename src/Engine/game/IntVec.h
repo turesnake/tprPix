@@ -121,8 +121,8 @@ inline IntVec2 operator * ( int _m, const IntVec2 &_a ){
  * x/y 差值均小于 _off 时，返回 true
  */
 inline bool IntVec2::is_closeEnough( const IntVec2 &_v1, const IntVec2 &_v2, size_t _off ){
-    size_t off_x = static_cast<size_t>( abs( _v1.x - _v2.x ) );
-    size_t off_y = static_cast<size_t>( abs( _v1.y - _v2.y ) );
+    size_t off_x = static_cast<size_t>( std::abs( static_cast<double>(_v1.x-_v2.x) ) );
+    size_t off_y = static_cast<size_t>( std::abs( static_cast<double>(_v1.y-_v2.y) ) );
     return ( (off_x<_off) && (off_y<_off) );
 }
 

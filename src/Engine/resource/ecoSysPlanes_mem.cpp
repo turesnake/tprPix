@@ -15,13 +15,13 @@
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
 
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
                                             
     Density  density_m3 {-3};
     Density  density_m2 {-2};

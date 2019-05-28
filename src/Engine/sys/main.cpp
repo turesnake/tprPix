@@ -13,8 +13,8 @@
 #include <cassert>
 
 //-------------------- CPP --------------------//
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 
 //-------------------- Engine --------------------//
 #include "prepare.h"
@@ -30,7 +30,7 @@
 #include "esrc_all.h" //- 所有资源
 
  
-//#include "debug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 
 
@@ -108,7 +108,7 @@ int main(){
         esrc::player.goid = NULLID; 
     //... 
 
-    debug::init_debug();             //---- debug 资源 ----
+    tprDebug::init_debug();             //---- tprDebug 资源 ----
 
     esrc::init_canvases();           //---- canvas 资源 ----
 

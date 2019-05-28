@@ -20,7 +20,7 @@
 #include "IntVec.h"
 
 
-namespace esrc{ //------------------ namespace: esrc -------------------------//
+namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos, ShaderProgram *_sp );
