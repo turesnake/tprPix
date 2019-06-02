@@ -7,18 +7,21 @@
 #-- cmake 最小 版本号
 cmake_minimum_required(VERSION 3.1)
 
-#---------------------------------------------------#
-#                    gcc
-#---------------------------------------------------#
-#-- 根据不同 OS系统，做不同设置
+
+
 if( APPLE )
     option( _TPR_OS_APPLE_ " APPLE " ON )
+    message( STATUS "___APPLE___" )
 
 elseif( UNIX AND NOT APPLE )
     option( _TPR_OS_UNIX_ " UNIX " ON )
+    message( STATUS "___UNIX___" )
 
+#-- 当使用 Virsual Studio 编译 cmake项目时，可用 WIN32
+#   如果出错，尝试改用 MSVC
 elseif( WIN32 )
     option( _TPR_OS_WIN32_ " WIN32 " ON )
+    message( STATUS "___WIN32___" )
 
 endif( APPLE )
 #-- 此段 务必 在 设置 project 之前
@@ -48,6 +51,19 @@ project ( tprPixel )
 set ( VERSION_MAJOR 0 )
 set ( VERSION_MINOR 1 )
 
+#---------------------------------------------------#
+#                     SySconfig
+#---------------------------------------------------#
+#-- 配置 一个 h文件，用来 从 cmake 传递一些 变量 到 源文件 中。
+#-- 我们需要手动编写 .h.in 文件。
+#-- 然后，cmake调用会 帮我们自动生成对应的 h文件。
+#-- 最后，正式 make编译时。源文件 就能 include 这些生成的 h文件。
+option( SWITCH_1
+    " option test: switch 1 " ON )
+configure_file(
+    "${PROJECT_SOURCE_DIR}/sysconfig/SysConfig.h.in"
+    "${PROJECT_BINARY_DIR}/sysconfig/SysConfig.h"
+)
 
 
 #---------------------------------------------------#
@@ -100,15 +116,27 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Script)
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/glfw/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/glm.9.9.5)
-include_directories (${PROJECT_SOURCE_DIR}/deps/lodepng/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28/src)
 
-
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprInUnix/include)
-
 include_directories (${PROJECT_BINARY_DIR}/sysconfig)
+
+#-- tprLibs
+include_directories (${PROJECT_SOURCE_DIR}/deps/tprGeneral)
+if( UNIX )
+    include_directories (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
+else()
+    include_directories (${PROJECT_SOURCE_DIR}/deps/tprInWin)
+endif( UNIX )
+
+#-- glfw --
+#-- 这两个目录中的文件 好像是 一样的 --
+if( UNIX )
+    include_directories (${PROJECT_SOURCE_DIR}/deps/glfw_unix/include)
+else()
+    include_directories (${PROJECT_SOURCE_DIR}/deps/glfw_win/include)
+endif( UNIX )
+
 
 #-- 创建变量 PIXEL_FILES （是个 list）
 #-- 包含 主进程需要的 cpp 文件
@@ -184,29 +212,45 @@ add_executable(
 #---------------------------------------------------#
 #-- 子 CMakeLists.txt 执行的 中间产物，将分别放在 
 #      build/src  build/libhello  目录中。
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glfw)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
+if( UNIX )
+    #-- 官网推荐，避免编译 test --
+    # 需要在 add_subdirectory 语句之前
+    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glfw_unix)
+    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
+else()
+    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInWin)
+endif( UNIX )
+
+add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprGeneral)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 
 
 #---------------------------------------------------#
 #             target_link_libraries
 #---------------------------------------------------#
-if ( APPLE )
+if ( UNIX )
     target_link_libraries( tprpix 
         glfw
-        SQLite
         ${GLFW_LIBRARIES}
+        tprGeneral
         tprInUnix
+        SQLite
         )
-
-elseif( UNIX AND NOT APPLE )
+else()
     target_link_libraries( tprpix 
-        glfw
+        ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
+        tprGeneral
+        tprInWin
         SQLite
-        ${GLFW_LIBRARIES}
-        tprInUnix
         )
 
-endif( APPLE )
+endif( UNIX )
+
+
+
+
+
 

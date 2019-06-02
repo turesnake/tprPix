@@ -239,7 +239,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
         //   此时的结果最准确
         {//-- 打印 当前帧的 ces 区域 --- 
             IntVec2 currentMPos = this->goPtr->goPos.get_currentMPos();
-            const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos();
+            //const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos(); // 未被使用...
             const ColliEntHead &doCehRef = *(this->goPtr->get_rootColliEntHeadPtr());
             const ColliEntSet &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
             MapCoord cesMCPos;

@@ -32,7 +32,7 @@
 namespace{//-------- namespace: --------------//
 
     std::default_random_engine  randEngine; //-通用 随机数引擎实例
-    inline std::uniform_real_distribution<float> uDistribution_f(-100.0,100.0);
+    inline std::uniform_real_distribution<float> uDistribution_f(-100.0f,100.0f);
     inline std::uniform_int_distribution<int> uDistribution_2(0,1);
     inline std::uniform_int_distribution<int> uDistribution_4(0,3);
 
@@ -57,8 +57,8 @@ namespace{//-------- namespace: --------------//
 void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t _targetKey,
                                                     std::vector<sectionKey_t> &_container ){
     //-- 获得 (2*2 section) 单元 左下角 mpos --
-    float sideLen = 2*ENTS_PER_SECTION;
-    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(_targetKey), sideLen ) * sideLen;
+    int sideLen = 2*ENTS_PER_SECTION;
+    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(_targetKey), static_cast<float>(sideLen) ) * sideLen;
 
     _container.clear();
     for( const auto &off :  nearFour_node_ecoObj_mposOffs ){ //- each off mpos
@@ -121,13 +121,13 @@ void EcoObj::init_fstOrder( sectionKey_t _sectionKey ){
     //     weight
     //------------------//
     // 3*3 个 ecoObj 组成一个 pn晶格
-    float freq = 1.0 / 3.0; 
+    float freq = 1.0f / 3.0f; 
     glm::vec2 fv = this->mcpos.get_fpos();
     fv /= ENTS_PER_SECTION;
     fv += esrc::gameSeed.get_ecoObjWeight_pposOff();
 
     this->weight = simplex_noise2(  fv.x * freq,
-                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
+                                    fv.y * freq ) * 100.0f; //- [-100.0, 100.0]
     //------------------//
     //   occupyWeight
     //------------------//
@@ -157,40 +157,39 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
     EcoSysPlanType   ecoPlanType;
 
     randEngine.seed( static_cast<size_t>(this->weight) ); //- 实现了伪随机
-    goSpecId_t  tmpGoSpecId;
 
     //------------------------//
     //          右下
     //------------------------//
     if( (oddEven.x==1) && (oddEven.y==0) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(0) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(1) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(1)) );
 
         (uDistribution_2(randEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
     }
     //------------------------//
     //          左上
     //------------------------//
     else if( (oddEven.x==0) && (oddEven.y==1) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(0) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(2) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
 
         (uDistribution_2(randEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
     }
     //------------------------//
     //          右上
     //------------------------//
     else{
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(0) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(1) );
-        node_3_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(2) );
-        node_4_Ptr = esrc::get_ecoSysPlanPtr( _nearby_four_ecoSysPlanIds.at(3) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(1)) );
+        node_3_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
+        node_4_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(3)) );
 
         switch( uDistribution_4(randEngine) ){
             case 0: ecoPlanType = node_1_Ptr->get_type(); break;
@@ -199,8 +198,9 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
             case 3: ecoPlanType = node_4_Ptr->get_type(); break;
             default:
                 assert(0);
+                ecoPlanType = node_1_Ptr->get_type(); // never reach
         }
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
     }
 
     //------------------------//

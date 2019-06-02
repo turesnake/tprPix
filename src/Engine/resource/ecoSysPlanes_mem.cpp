@@ -40,10 +40,10 @@ namespace {//-------- namespace: --------------//
 
     //--- densityDivideVals ---
     std::vector<float> densityDivideVals_default 
-        { -65.0, -40.0, -15.0, 15.0, 40.0, 65.0 }; //- 较为均匀的分布
+        { -65.0f, -40.0f, -15.0f, 15.0f, 40.0f, 65.0f }; //- 较为均匀的分布
 
     std::vector<float> densityDivideVals_50_20_50
-        { -50.0, -30.0, -10.0, 10.0, 30.0, 50.0 }; //- 两极各占:50，中间lvl各占:20
+        { -50.0f, -30.0f, -10.0f, 10.0f, 30.0f, 50.0f }; //- 两极各占:50，中间lvl各占:20
     
 
     //===== funcs =====//
@@ -85,7 +85,7 @@ EcoSysPlan *insert_new_ecoSysPlan( EcoSysPlanType _type ){
  * -- 指定了 type，在此基础上，分配一个 变种id
  */
 ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObjWeight ){
-    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 2.7 + 907.9 ));
+    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 2.7f + 907.9f ));
     auto &container = esrc::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(_type));    
     return container.at( randV % container.size() );
 }
@@ -96,7 +96,7 @@ ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObj
  * -----------------------------------------------------------
  */
 ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float _ecoObjWeight ){
-    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 7.1 + 977.3 ));
+    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 7.1f + 977.3f ));
     size_t idx = randV % esrc::ecoSysPlanIds.size();
     return esrc::ecoSysPlanIds.at(idx);
 }
@@ -147,43 +147,43 @@ void init_Forest_1(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::Forest );
         ecoPlanPtr->init_landColor_onlyHighLand( color_Forest );
 
-        ecoPlanPtr->init_densityDatas( 15.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( 15.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.0, 
+        ecoPlanPtr->insert(  density_m3, 0.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.1, 
+        ecoPlanPtr->insert(  density_m2, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.1, 
+        ecoPlanPtr->insert(  density_m1, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.2, 
+        ecoPlanPtr->insert(  density_0, 0.2f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.4, 
+        ecoPlanPtr->insert(  density_1, 0.4f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 },
                                 EcoEnt{ "oakTree",       3 }
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.6, 
+        ecoPlanPtr->insert(  density_2, 0.6f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 3 },
                                 EcoEnt{ "oakTree",       5 }
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.95, 
+        ecoPlanPtr->insert(  density_3, 0.95f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",   9 },
                                 EcoEnt{ "pineTree",  1 }
@@ -205,45 +205,45 @@ void init_Forest_2(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::Forest );
         ecoPlanPtr->init_landColor_doubleDeep( color_Forest );
 
-        ecoPlanPtr->init_densityDatas( -15.0, densityDivideVals_50_20_50 );
+        ecoPlanPtr->init_densityDatas( -15.0f, densityDivideVals_50_20_50 );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.98, 
+        ecoPlanPtr->insert(  density_m3, 0.98f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",   8 },
                                 EcoEnt{ "pineTree",  2 }
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.95, 
+        ecoPlanPtr->insert(  density_m2, 0.95f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 2 },
                                 EcoEnt{ "oakTree",       8 }
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.6, 
+        ecoPlanPtr->insert(  density_m1, 0.6f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.0, 
+        ecoPlanPtr->insert(  density_0, 0.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.6, 
+        ecoPlanPtr->insert(  density_1, 0.6f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 },
                                 EcoEnt{ "oakTree",       3 }
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.95, 
+        ecoPlanPtr->insert(  density_2, 0.95f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 3 },
                                 EcoEnt{ "oakTree",       7 }
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.98, 
+        ecoPlanPtr->insert(  density_3, 0.98f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",   9 },
                                 EcoEnt{ "pineTree",  1 }
@@ -263,43 +263,43 @@ void init_DarkForest_1(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::DarkForest );
         ecoPlanPtr->init_landColor_onlyHighLand( color_DarkForest );
 
-        ecoPlanPtr->init_densityDatas( -5.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( -5.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.0, 
+        ecoPlanPtr->insert(  density_m3, 0.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.1, 
+        ecoPlanPtr->insert(  density_m2, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.2, 
+        ecoPlanPtr->insert(  density_m1, 0.2f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.3, 
+        ecoPlanPtr->insert(  density_0, 0.3f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.5, 
+        ecoPlanPtr->insert(  density_1, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 },
                                 EcoEnt{ "pineTree",      3 }
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.7, 
+        ecoPlanPtr->insert(  density_2, 0.7f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 3 },
                                 EcoEnt{ "pineTree",      5 }
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.95, 
+        ecoPlanPtr->insert(  density_3, 0.95f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "pineTree", 9 }
                             });
@@ -318,43 +318,43 @@ void init_Plain_1(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::Plain );
         ecoPlanPtr->init_landColor_onlyHighLand( color_Plain );
 
-        ecoPlanPtr->init_densityDatas( -5.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( -5.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.5, 
+        ecoPlanPtr->insert(  density_m3, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.3, 
+        ecoPlanPtr->insert(  density_m2, 0.3f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.1, 
+        ecoPlanPtr->insert(  density_m1, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.2, 
+        ecoPlanPtr->insert(  density_0, 0.2f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.3, 
+        ecoPlanPtr->insert(  density_1, 0.3f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 },
                                 EcoEnt{ "oakTree",       3 } 
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.4, 
+        ecoPlanPtr->insert(  density_2, 0.4f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 3 },
                                 EcoEnt{ "oakTree",       5 } 
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.6, 
+        ecoPlanPtr->insert(  density_3, 0.6f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",   9 },
                                 EcoEnt{ "pineTree",  1 } 
@@ -373,43 +373,43 @@ void init_Swamp_1(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::Swamp );
         ecoPlanPtr->init_landColor_onlyHighLand( color_Swamp );
 
-        ecoPlanPtr->init_densityDatas( -5.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( -5.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.5, 
+        ecoPlanPtr->insert(  density_m3, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.3, 
+        ecoPlanPtr->insert(  density_m2, 0.3f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.1, 
+        ecoPlanPtr->insert(  density_m1, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.2, 
+        ecoPlanPtr->insert(  density_0, 0.2f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.4, 
+        ecoPlanPtr->insert(  density_1, 0.4f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 5 }, 
                                 EcoEnt{ "oakTree",       3 }
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.6, 
+        ecoPlanPtr->insert(  density_2, 0.6f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest", 3 }, 
                                 EcoEnt{ "oakTree",       5 }
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.85, 
+        ecoPlanPtr->insert(  density_3, 0.85f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",   9 }, 
                                 EcoEnt{ "pineTree",  1 }
@@ -429,47 +429,47 @@ void init_Desert_1(){
     EcoSysPlan *ecoPlanPtr = insert_new_ecoSysPlan( EcoSysPlanType::Desert );
         ecoPlanPtr->init_landColor_onlyHighLand( color_Desert );
 
-        ecoPlanPtr->init_densityDatas( -5.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( -5.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.0, 
+        ecoPlanPtr->insert(  density_m3, 0.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.1, 
+        ecoPlanPtr->insert(  density_m2, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              5 }, 
                                 EcoEnt{ "singleStone_Desert", 3 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.2, 
+        ecoPlanPtr->insert(  density_m1, 0.2f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              6 }, 
                                 EcoEnt{ "singleStone_Desert", 2 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.3, 
+        ecoPlanPtr->insert(  density_0, 0.3f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              6 }, 
                                 EcoEnt{ "singleStone_Desert", 2 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.5, 
+        ecoPlanPtr->insert(  density_1, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              5 }, 
                                 EcoEnt{ "singleStone_Desert", 3 },
                                 EcoEnt{ "oakTree",            3 } 
                             });
         //  2
-        ecoPlanPtr->insert(  density_2, 0.7, 
+        ecoPlanPtr->insert(  density_2, 0.7f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              3 }, 
                                 EcoEnt{ "oakTree",            5 } 
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.85, 
+        ecoPlanPtr->insert(  density_3, 0.85f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",      9 } 
                             });
@@ -493,48 +493,48 @@ void init_Desert_2(){
                                                 true,
                                                 true );
 
-        ecoPlanPtr->init_densityDatas( 5.0, densityDivideVals_default );
+        ecoPlanPtr->init_densityDatas( 5.0f, densityDivideVals_default );
 
         ecoPlanPtr->init_goSpecIdPools_and_applyPercents();
         // -3
-        ecoPlanPtr->insert(  density_m3, 0.5, 
+        ecoPlanPtr->insert(  density_m3, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat", 5 } 
                             });
         // -2
-        ecoPlanPtr->insert(  density_m2, 0.1, 
+        ecoPlanPtr->insert(  density_m2, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              7 },
                                 EcoEnt{ "singleStone_Desert", 3 } 
                             });
         // -1
-        ecoPlanPtr->insert(  density_m1, 0.0, 
+        ecoPlanPtr->insert(  density_m1, 0.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              6 }, 
                                 EcoEnt{ "singleStone_Desert", 2 } 
                             });
         //  0
-        ecoPlanPtr->insert(  density_0, 0.1, 
+        ecoPlanPtr->insert(  density_0, 0.1f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              6 }, 
                                 EcoEnt{ "singleStone_Desert", 2 } 
                             });
         //  1
-        ecoPlanPtr->insert(  density_1, 0.5, 
+        ecoPlanPtr->insert(  density_1, 0.5f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "wheat",              6 }, 
                                 EcoEnt{ "singleStone_Desert", 2 }
                             });
 
         //  2 ------ forest: 
-        ecoPlanPtr->insert(  density_2, 1.0, 
+        ecoPlanPtr->insert(  density_2, 1.0f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "lichen_Forest",      5 }, 
                                 EcoEnt{ "singleStone_Desert", 1 },
                                 EcoEnt{ "oakTree",            8 }
                             });
         //  3
-        ecoPlanPtr->insert(  density_3, 0.9, 
+        ecoPlanPtr->insert(  density_3, 0.9f, 
                             std::vector<EcoEnt>{
                                 EcoEnt{ "oakTree",      9 } 
                             });

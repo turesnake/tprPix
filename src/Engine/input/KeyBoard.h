@@ -43,7 +43,7 @@ enum class KeyBoard : int{
     TAB,
     BACKSPACE,
     INSERT,
-    DELETE,
+    DELETE_, //- DELETE 是关键词，有冲突
     RIGHT,
     LEFT,
     DOWN,
@@ -69,7 +69,7 @@ enum class KeyBoard : int{
     RIGHT_CONTROL,
     RIGHT_ALT,
     RIGHT_SUPER,
-    MENU,
+    MENU
     //--------
     /*
     MOUSE_BUTTON_1,

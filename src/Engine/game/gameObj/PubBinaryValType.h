@@ -30,8 +30,8 @@ enum class PubBinaryValType : u32_t{
 
 //- 记载了每一种元素的 字节数（类型）--
 inline std::map<u32_t, u32_t> PubBinaryValSizes {
-    { (u32_t)(PubBinaryValType::HP), sizeof(int) },
-    { (u32_t)(PubBinaryValType::MP), sizeof(int) }
+    { static_cast<u32_t>(PubBinaryValType::HP), static_cast<u32_t>(sizeof(int)) },
+    { static_cast<u32_t>(PubBinaryValType::MP), static_cast<u32_t>(sizeof(int)) }
     //...
 };
 

@@ -76,7 +76,7 @@ namespace{
 
 
     //---------
-    void mousePos_2_dir();
+    //void mousePos_2_dir();
 
     void joystick_update();
 }
@@ -243,9 +243,10 @@ namespace{ //------------------- namespace ----------------------//
  * ---
  *  临时性的写法...
  */
+/*
 void mousePos_2_dir(){
 
-    /*
+    
     double x;
     double y;
     glfwGetCursorPos( esrc::windowPtr, &x, &y);
@@ -270,8 +271,8 @@ void mousePos_2_dir(){
             //-- 清空 tprDebug: renderPool --
             tprDebug::clear_pointPics();
             tprDebug::insert_new_pointPic( inputINS.dir * 20.0f );
-    */
 }
+*/
 
 
 

@@ -49,16 +49,17 @@ namespace{//----------- namespace ----------------//
 
     //----------- 用于 calc_pixAltis ------------//
     //- 在未来，freq 这组值也会收到 ecosys 影响 --
-    const float freqSeaLvl { 0.05 };
-    const float freqBig    { 0.4 };
-    const float freqMid    { 1.6 };
-    const float freqSml    { 4.0 };
+    const float freqSeaLvl { 0.05f };
+    const float freqBig    { 0.4f };
+    const float freqMid    { 1.6f };
+    const float freqSml    { 4.0f };
 
-    const float zOffBig  { 0.2 };
-    const float zOffMid  { 7.5 };
-    const float zOffSml  { 17.8 };
+    // 暂未被使用...
+    //const float zOffBig  { 0.2f };
+    //const float zOffMid  { 7.5f };
+    //const float zOffSml  { 17.8f };
 
-    const glm::vec2  worldCenter { 0.0, 0.0 };
+    const glm::vec2  worldCenter { 0.0f, 0.0f };
 
 
 
@@ -178,8 +179,8 @@ void build_chunkData_main( const Job &_job ){
     IntVec2  tmpFieldMPos;
     for( size_t h=0; h<FIELDS_PER_CHUNK*2; h++ ){
         for( size_t w=0; w<FIELDS_PER_CHUNK*2; w++ ){ //- each field in 2*2chunks
-            tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD,
-                                chunkMPos.y + h*ENTS_PER_FIELD );
+            tmpFieldMPos.set(   chunkMPos.x + static_cast<int>(w*ENTS_PER_FIELD),
+                                chunkMPos.y + static_cast<int>(h*ENTS_PER_FIELD) );
             esrc::atom_try_to_insert_and_init_the_field_ptr( tmpFieldMPos );
         }
     } //- each field in 2*2chunks
@@ -239,7 +240,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
 
     size_t   pixIdx;
 
-    _pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 );
+    _pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0f );
     for( int h=0; h<PIXES_PER_CHUNK; h++ ){
         for( int w=0; w<PIXES_PER_CHUNK; w++ ){//- each pix in chunk
 
@@ -249,28 +250,28 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
             //     seaLvl
             //------------------//
             pixDistance = glm::distance( pixCFPos, worldCenter );
-            pixDistance /= 10.0;
+            pixDistance /= 10.0f;
             //--------
-            seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
+            seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0f; // [-50.0, 50.0]
             seaLvl += pixDistance;
-            if( seaLvl < 0.0 ){ //- land
-                seaLvl *= 0.3;  // [-15.0, 50.0]
+            if( seaLvl < 0.0f ){ //- land
+                seaLvl *= 0.3f;  // [-15.0, 50.0]
             }
             //------------------//
             //    alti.val
             //------------------//
             //--- 使用速度最快的 2D-simplex-noise ---
-            pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
-            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
-            pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+            pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0f - seaLvl; // [-100.0, 100.0]
+            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0f  - seaLvl; // [-50.0, 50.0]
+            pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0f  - seaLvl; // [-20.0, 20.0]
             //---------
             altiVal = floor(pnValBig + pnValMid + pnValSml);
 
             //------- 抹平头尾 -------//
-            if( altiVal > 100.0 ){
-                altiVal = 100.0;
-            }else if( altiVal < -100.0 ){
-                altiVal = -100.0;
+            if( altiVal > 100.0f ){
+                altiVal = 100.0f;
+            }else if( altiVal < -100.0f ){
+                altiVal = -100.0f;
             }
             // now, altiVal: [-100.0, 100.0]
             //------------------//

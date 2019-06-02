@@ -48,7 +48,7 @@ namespace{//-------- namespace: --------------//
 
     //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
     const std::vector<float> zOffs{
-        0.1, 0.2, 0.3, 0.4
+        0.1f, 0.2f, 0.3f, 0.4f
     };
 
 }//------------- namespace: end --------------//

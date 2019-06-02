@@ -14,7 +14,8 @@
 #include <algorithm> //- find
 
 //------------------- Libs --------------------//
-#include "tprFileSys.h" 
+//#include "tprFileSys.h"
+#include "tprGeneral.h" 
 
 //------------------- Engine --------------------//
 #include "global.h"
@@ -100,7 +101,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //       Pic
     //-------------------//
     //-- 目前暂不支持 没有 pic数据的 AnimFrameSet 实例 ---
-    pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pic ),
+    pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pic ),
                                             frameNum,
                                             totalFrameNum,
                                             P_frame_data_ary );
@@ -117,12 +118,12 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //-------------------//
     if( isPJTSingleFrame ){
         //--- J.png 只有一帧 --//
-        tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pjt ),
+        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pjt ),
                                     IntVec2{1,1},
                                     1,
                                     J_frame_data_ary );
     }else{
-        tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_pjt ),
+        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pjt ),
                                     frameNum,
                                     totalFrameNum,
                                     J_frame_data_ary );
@@ -136,12 +137,12 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     if( _isHaveShadow ){
         if( isShadowSingleFrame ){
             //--- S.png 只有一帧 --//
-            tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_shadow ),
+            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_shadow ),
                                         IntVec2{1,1},
                                         1,
                                         S_frame_data_ary );
         }else{
-            tmpv2 = load_and_divide_png( tpr::path_combine( path_animFrameSets, lpath_shadow ),
+            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_shadow ),
                                         frameNum,
                                         totalFrameNum,
                                         S_frame_data_ary );
@@ -198,7 +199,7 @@ void AnimFrameSet::handle_pjt(){
     size_t   idx_for_J_frame_data_ary;
     size_t   idx_framePoses;
 
-    for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
+    for( size_t f=0; f<static_cast<size_t>(totalFrameNum); f++ ){ //--- each frame ---
 
         idx_framePoses = headIdx + f;
         assert( this->framePoses.size() > idx_framePoses );

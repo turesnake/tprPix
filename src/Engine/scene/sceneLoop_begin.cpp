@@ -299,7 +299,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
         //---
         targetIdx--;
         if( targetIdx < 0 ){
-            targetIdx = buttonFPoses.size() - 1;
+            targetIdx = static_cast<int>(buttonFPoses.size() - 1);
         }
         button_pointer_Ptr->drag_to_fpos( buttonFPoses.at(targetIdx) );
 

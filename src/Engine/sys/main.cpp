@@ -12,10 +12,6 @@
 //-------------------- C ----------------------//
 #include <cassert>
 
-//-------------------- CPP --------------------//
-//#include <string>
-//#include <vector>
-
 //-------------------- Engine --------------------//
 #include "prepare.h"
 #include "global.h"

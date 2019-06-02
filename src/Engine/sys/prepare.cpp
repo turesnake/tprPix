@@ -5,10 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+//---------------- from cmake ------------------//
+#include "SysConfig.h" // MUST BEFORE _TPR_OS_WIN32_ !!!
 
 //-------------------- C ----------------------//
-#include <unistd.h>  //- fchdir
-#include <fcntl.h>    //-- open，openat, AT_FDCWD
+#ifdef _TPR_OS_WIN32_
+	#include <windows.h>
+#else
+	#include <unistd.h>  //- fchdir
+	#include <fcntl.h>    //-- open，openat, AT_FDCWD
+#endif
+
 #include <cassert>
 
 //-------------------- CPP --------------------//
@@ -17,22 +24,33 @@
 #include <sstream>   //-- stringstream
 
 //------------------- Libs --------------------//
-#include "wrapFuncs.h"
-#include "tprFileModeT.h"
-#include "tprFileSys.h" 
+#include "tprGeneral.h"
+
+
+#ifdef _TPR_OS_WIN32_
+    #include "tprFileSys_win.h" 
+#else
+    #include "wrapUnix.h"
+    #include "tprFileModeT.h"
+    #include "tprFileSys_unix.h" 
+#endif
 
 //-------------------- Engine --------------------//
 #include "global.h"
 
 
-//#include "tprDebug.h" //- tmp
+
+#include <iostream>
+using std::cout;
+using std::endl;
+
 
 
 namespace {//------------ namespace ------------//
     void build_path_cwd();
     void data_type_confirm();
     void check_OS();
-    void check_fst_run();
+    //void check_fst_run();
     void check_and_creat_important_dir();
 }//------------ namespace: end ------------//
 
@@ -68,7 +86,7 @@ void prepare(){
     //----------------------------//
     //  检测 是否为 本程序的 首次运行
     //----------------------------//
-    check_fst_run();
+    //check_fst_run();
 
     return;
 }
@@ -82,16 +100,27 @@ namespace {//------------ namespace ------------//
  */
 void build_path_cwd(){
 
+
+#ifdef _TPR_OS_WIN32_
+
+	char buf[MAX_PATH];
+	GetModuleFileName( NULL, buf, MAX_PATH );
+	// 当前 buf数据 为 ".../xx.exe"
+	// 需要将 最后一段 截掉
+	std::string::size_type pos = std::string(buf).find_last_of( "\\/" );
+	path_cwd = std::string(buf).substr( 0, pos );
+
+#else
     //----------------------------//
     //       MODIFY 当前工作目录
     //----------------------------//
+    //    这个 fd_cwd 好想 从未被 用过...
     //-- 始终将 项目根目录 设置为 当前工作目录。
     if( (fd_cwd = openat( AT_FDCWD, "..", (O_RDONLY | O_DIRECTORY) )) == -1 ){
         //cout << "prepare: openat: ERROR. fd_cwd.\n" 
         //    << endl;
         assert(0);
     }
-
     if( fchdir( fd_cwd ) == -1 ){ //-- 将 system目录的 父目录 设为 当前工作目录
         //cout << "prepare: fchdir: ERROR. \n"
         //    << endl;
@@ -111,7 +140,9 @@ void build_path_cwd(){
     //---  通过临时 string 对象，将 字符串 转存到 string对象：path_cwd 中。
     std::string s( cpath_cwd );
     path_cwd = s;
-    //std::cout << "path_cwd = " << path_cwd << std::endl;
+    
+#endif
+
 }
 
 
@@ -127,59 +158,96 @@ void check_and_creat_important_dir(){
     //  已经确认的 目录：
     //      path_cwd
 
-    //---------------------------------//
-    //           path_home
-    //---------------------------------//
-    //path_home = tpr::Getenv( "HOME", err_info );
+
+#ifdef _TPR_OS_WIN32_
 
     //---------------------------------//
     //           path_data
     //---------------------------------//
-    path_dataBase = tpr::mk_dir( path_cwd.c_str(),
-                        "dataBase/",
-                        RWXR_XR_X,
-                        err_info
-                        );
+    path_dataBase = tprWin::mk_dir( path_cwd,
+                                "dataBase/",
+                                err_info );
     //---------------------------------//
     //           path_shaders
     //---------------------------------//
-    path_shaders = tpr::mk_dir( path_cwd.c_str(),
-                        "shaders/",
-                        RWXR_XR_X,
-                        err_info
-                        );
+    path_shaders = tprWin::mk_dir( path_cwd,
+                                "shaders/",
+                                err_info );
     //---------------------------------//
     //           path_textures
     //---------------------------------//
-    path_textures = tpr::mk_dir( path_cwd.c_str(),
-                        "textures/",
-                        RWXR_XR_X,
-                        err_info
-                        );
+    path_textures = tprWin::mk_dir( path_cwd,
+                                "textures/",
+                                err_info );
     //---------------------------------//
     //          path_animFrameSets
     //---------------------------------//
-    path_animFrameSets = tpr::mk_dir( path_textures.c_str(),
-                        "animFrameSets/",
-                        RWXR_XR_X,
-                        err_info
-                        );
+    path_animFrameSets = tprWin::mk_dir( path_textures,
+                                    "animFrameSets/",
+                                    err_info );
     //---------------------------------//
     //          path_colliEntSet
     //---------------------------------//
-    path_colliEntSet = tpr::mk_dir( path_textures.c_str(),
-                        "colliEntSet/",
-                        RWXR_XR_X,
-                        err_info
-                        );
+    path_colliEntSet = tprWin::mk_dir( path_textures,
+                                    "colliEntSet/",
+                                    err_info );
     //---------------------------------//
     //          path_fieldBorderSet
     //---------------------------------//
-    path_fieldBorderSet = tpr::mk_dir( path_textures.c_str(),
+    path_fieldBorderSet = tprWin::mk_dir( path_textures,
+                                        "fieldBorderSet/",
+                                        err_info );
+
+#else
+    //---------------------------------//
+    //           path_home
+    //---------------------------------//
+    //   从未被使用...
+    path_home = tprUnix::Getenv( "HOME", err_info );
+
+    //---------------------------------//
+    //           path_data
+    //---------------------------------//
+    path_dataBase = tprUnix::mk_dir( path_cwd,
+                        "dataBase/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //           path_shaders
+    //---------------------------------//
+    path_shaders = tprUnix::mk_dir( path_cwd,
+                        "shaders/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //           path_textures
+    //---------------------------------//
+    path_textures = tprUnix::mk_dir( path_cwd,
+                        "textures/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //          path_animFrameSets
+    //---------------------------------//
+    path_animFrameSets = tprUnix::mk_dir( path_textures,
+                        "animFrameSets/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //          path_colliEntSet
+    //---------------------------------//
+    path_colliEntSet = tprUnix::mk_dir( path_textures,
+                        "colliEntSet/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //          path_fieldBorderSet
+    //---------------------------------//
+    path_fieldBorderSet = tprUnix::mk_dir( path_textures,
                         "fieldBorderSet/",
                         RWXR_XR_X,
-                        err_info
-                        );
+                        err_info );
+#endif
 }
 
 
@@ -264,6 +332,7 @@ void data_type_confirm(){
     }
 
     //------- off_t ------//
+    /*
     len = sizeof(off_t);
     if( len != 8 ){
         //cout << "data_type_confirm: ERROR."
@@ -271,6 +340,9 @@ void data_type_confirm(){
         //    << endl;
         assert(0);
     }
+    */
+         //-- unix 中为 8， win 中为 4
+         //   暂不处理...
 }
 
 
@@ -281,19 +353,26 @@ void data_type_confirm(){
  */
 void check_OS(){
 
+    cout << SYSTEM_NAME << endl;
+
     current_OS = OS_NULL; //-- 先设置为 未找到状态
 
     #ifdef _TPR_OS_APPLE_
         current_OS = OS_APPLE;
+        cout << "_TPR_OS_APPLE_" << endl;
     #endif 
 
     #ifdef _TPR_OS_UNIX_
         current_OS = OS_UNIX;
+        cout << "_TPR_OS_UNIX_" << endl;
     #endif 
 
     #ifdef _TPR_OS_WIN32_
         current_OS = OS_WIN32;
+        cout << "_TPR_OS_WIN32_" << endl;
     #endif 
+    
+
 }
 
 
@@ -302,6 +381,7 @@ void check_OS(){
  * -----------------------------------------------------------
  * -- 检查本程序 是否为 编译后 首次运行，如果是，需要执行一些 初始化工作
  */
+/*
 void check_fst_run(){
 
     //-- 合成 already_run 文件 绝对路径名 
@@ -319,6 +399,7 @@ void check_fst_run(){
         is_fst_run = false;
     }
 }
+*/
 
 
 }//------------- namespace ----------------//

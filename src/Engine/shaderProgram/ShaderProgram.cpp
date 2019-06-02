@@ -13,7 +13,18 @@
 #include <cassert>
 
 //------------------- Libs --------------------//
-#include "tprFileSys.h" 
+#include "tprGeneral.h"
+
+#include "SysConfig.h" // MUST BEFORE _TPR_OS_WIN32_ !!!
+#ifdef _TPR_OS_WIN32_ 
+    #include "tprFileSys_win.h"
+#else
+    #include "tprFileSys_unix.h"
+#endif
+
+
+
+
 
 //-------------------- Engine --------------------//
 #include "global.h"
@@ -41,8 +52,14 @@ void ShaderProgram::init(   const std::string &_lpathVs,
     std::string fsbuf;
 
     //-- 读取文件，获得 数据
-    tpr::file_load( tpr::path_combine(path_shaders, _lpathVs).c_str(), vsbuf );
-    tpr::file_load( tpr::path_combine(path_shaders, _lpathFs).c_str(), fsbuf );
+#ifdef _TPR_OS_WIN32_
+    tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
+    tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
+#else
+    tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
+    tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
+#endif
+
     //-------------------
     GLuint v_shader = glCreateShader( GL_VERTEX_SHADER );
     GLuint f_shader = glCreateShader( GL_FRAGMENT_SHADER );

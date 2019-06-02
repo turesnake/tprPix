@@ -249,14 +249,12 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        bool is_same_fieldKey;
-
         const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( esrc::player.goPtr->goPos.get_currentMPos() );
 
         const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntPtr->get_mpos()) );
 
 
-        IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos();
+        //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...
 
         cout << "mapAlti.val = " << mapEntPtr->mapAlti.val
             //<< ";   fieldKey = " << mapEntPtr->fieldKey

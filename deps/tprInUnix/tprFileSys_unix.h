@@ -1,22 +1,18 @@
 /*
- * ========================= tprFileSys.h ==========================
+ * ========================= tprFileSys_unix.h ==========================
  *                          -- tpr --
- *                                        创建 -- 2018.10.14
- *                                        修改 -- 2018.10.14
+ *                                        CREATE -- 2018.10.14
+ *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    专门存放 文件系统 相关的 函数
  * ----------------------------
- *    依赖的其它库：
- *         wrapFuncs
- * ----------------------------
  */
-
-#ifndef _TPR_FILESYS_H_
-#define _TPR_FILESYS_H_
+#ifndef _TPR_FILESYS_UNIX_H_
+#define _TPR_FILESYS_UNIX_H_
 
 #include <string>
 
-namespace tpr { //--------------- namespace: tpr -------------------//
+namespace tprUnix {//--------------- namespace: tprUnix -------------------//
 
 
 int check_st_mode( mode_t _mode );
@@ -37,17 +33,23 @@ void Is_path_a_dir( int _fd, const std::string &_err_info );
 
 void mk_dir( const char *_path, mode_t _mode,
             const std::string &_err_info );
-const std::string mk_dir( const char *_path_dir, const char * _name, mode_t _mode,
-            const std::string &_err_info );
+const std::string mk_dir(   const std::string &_path_dir, 
+                            const std::string &_name, 
+                            mode_t _mode,
+                            const std::string &_err_info );
 void mk_dir( int _fd, const char * _name, mode_t _mode,
             const std::string &_err_info );
-            
+
+/*      
 const std::string path_combine( const std::string &_pa, const std::string &_pb );
 const std::string path_combine( const char *_pa, const char *_pb );
+*/
 
+/*
 const std::string nameString_combine(   const std::string &_prefix,
                                         size_t _idx,
                                         const std::string &_suffix );
+*/
 
 bool is_path_not_too_long( const std::string &_path );
 void Is_path_not_too_long( const std::string &_path,
@@ -57,11 +59,10 @@ off_t get_file_size( int _fd, const std::string &_err_info );
 //off_t get_file_size( FILE *_fp, const std::string &_err_info );
 off_t get_file_size( const char *_path, const std::string &_err_info );
 
-void file_load( const char *_pathp, std::string &_buf );
+void file_load( const std::string &_path, std::string &_buf );
 
 
 
-}//------------------- namespace: tpr ------------------------//
-
+}//------------------- namespace: tprUnix ------------------------//
 #endif
 

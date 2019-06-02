@@ -1,15 +1,15 @@
 /*
- * ========================= wrapFuncs.h ==========================
+ * ========================= wrapUnix.h ==========================
  *                          -- tpr --
- *                                        创建 -- 2018.09.11
- *                                        修改 -- 2018.10.14
+ *                                        CREATE -- 2018.09.11
+ *                                        MODIFY -- 
  * ----------------------------------------------------------
  *      包裹函数 
  * ----------------------------
  */
 
-#ifndef _TPR_WRAPFUNCS_H_
-#define _TPR_WRAPFUNCS_H_
+#ifndef _TPR_WRAP_UNIX_H_
+#define _TPR_WRAP_UNIX_H_
 
 //#include <sys/socket.h> //- socklen_t, sockaddr
 //#include <netinet/in.h> //- sockaddr_in
@@ -18,7 +18,7 @@
 
 #include <string>
 
-namespace tpr {//--------------- namespace: tpr -------------------//
+namespace tprUnix {//--------------- namespace: tprUnix -------------------//
 
 
 //========================== wrap_unix.cpp ===============================//
@@ -66,6 +66,6 @@ void Shutdown( int _sockfd, int _howto, const std::string &_err_info );
 
 
 
-}//------------------- namespace: tpr ------------------------//
+}//------------------- namespace: tprUnix ------------------------//
 
 #endif

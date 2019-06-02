@@ -138,7 +138,7 @@ inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
 
     assert( (_aPercent>=0.0) && (_aPercent<=1.0) );
 
-    float bPercent = 1.0 - _aPercent;
+    float bPercent = 1.0f - _aPercent;
 
     float r = static_cast<float>(_a.r)*_aPercent + static_cast<float>(_b.r)*bPercent;
     float g = static_cast<float>(_a.g)*_aPercent + static_cast<float>(_b.g)*bPercent;
@@ -163,16 +163,16 @@ inline RGBA multiply( const RGBA &_a, const RGBA &_b, float _bPercent ){
 
     assert( (_bPercent>=0.0) && (_bPercent<=1.0) );
 
-    float r = static_cast<float>(_a.r) * static_cast<float>(_b.r) / 255.0;
-    float g = static_cast<float>(_a.g) * static_cast<float>(_b.g) / 255.0;
-    float b = static_cast<float>(_a.b) * static_cast<float>(_b.b) / 255.0;
+    float r = static_cast<float>(_a.r) * static_cast<float>(_b.r) / 255.0f;
+    float g = static_cast<float>(_a.g) * static_cast<float>(_b.g) / 255.0f;
+    float b = static_cast<float>(_a.b) * static_cast<float>(_b.b) / 255.0f;
 
     return rgba::linear_blend(  _a,
                                 RGBA {  static_cast<u8_t>(r), 
                                         static_cast<u8_t>(g),
                                         static_cast<u8_t>(b),
                                         255 },
-                                (1.0-_bPercent) );
+                                (1.0f-_bPercent) );
     /*
     return RGBA {   static_cast<u8_t>(r), 
                     static_cast<u8_t>(g),

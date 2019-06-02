@@ -15,7 +15,8 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -128,7 +129,7 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
                                         );
 
         rootGoMeshRef.bind_animAction( "oakTree", 
-                                        tpr::nameString_combine( "", pvtBp->oakId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "", pvtBp->oakId, "_idle" ) );
 
         goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 

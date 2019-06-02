@@ -23,20 +23,20 @@
 
 //-- 维护一个 二进制块，可以动态存储 各种 pubBinary变量（一种一个）
 class PubBinary{
-    using idx_t = u32_t; //- pubBinaryValTyprIdx
-    using off_t = u32_t; //- byte_off in binary
+    using idx_t     = u32_t; //- pubBinaryValTyprIdx
+    using byteoff_t = u32_t; //- byte_off in binary
 public:
     PubBinary() = default;
 
     //- 通过一个 变量类型表，一次性注册所有变量
     inline void init( const std::vector<PubBinaryValType> &_types ){
-        idx_t  idx; //- tmp
-        off_t  off = 0; 
+        idx_t      idx; //- tmp
+        byteoff_t  off = 0; 
         for( const auto &i : _types ){
             idx = (idx_t)i;
             assert( valOffs.find(idx)==valOffs.end() ); //- no duplicate
             valOffs.insert({ idx, off });
-            off += (off_t)(PubBinaryValSizes.at(idx));
+            off += (byteoff_t)(PubBinaryValSizes.at(idx));
         }
         binary.resize( off );
     }
@@ -49,13 +49,13 @@ public:
     //  此指针同时提供 读写权限
     //  使用前 应主动调用 check() 
     inline void *get_valPtr( PubBinaryValType _type ) const {
-        const off_t &off = valOffs.at((idx_t)_type);
+        const byteoff_t &off = valOffs.at((idx_t)_type);
         return (void*)&(binary.at(off)); 
                         //- 此处不能使用 static_cast
     }
 
 private:
-    std::unordered_map<idx_t, off_t>  valOffs {};
+    std::unordered_map<idx_t, byteoff_t>  valOffs {};
                     //- 记载 某个变量 是否被注册，以及它在 binary中的 地址偏移
     std::vector<u8_t>  binary {}; //- 所有变量 真实存储区
 };

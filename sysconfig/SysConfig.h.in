@@ -1,0 +1,27 @@
+// 注释行 格式
+
+#ifndef _TPR_SYS_CONFIG_TPR_H_
+#define _TPR_SYS_CONFIG_TPR_H_
+
+//-- 获得 项目版本号，设置为 宏，以便 源码 中使用。
+#define VERSION_MAJOR @VERSION_MAJOR@
+#define VERSION_MINOR @VERSION_MINOR@
+
+//-- SWITCH_1 是个 option，需要 cmake 动态生成
+#cmakedefine SWITCH_1
+
+//-- 标明自己所处 OS
+#cmakedefine  _TPR_OS_APPLE_
+#cmakedefine  _TPR_OS_UNIX_
+#cmakedefine  _TPR_OS_WIN32_
+
+
+
+//-- CMAKE_SYSTEM_NAME 表示 当前系统名，比如 Linux，Darwin
+//-- 使用 @...@ 提取后，再用 "..." 将其设置为 字符串宏
+//-- 以便 源码 中使用。
+#define SYSTEM_NAME "@CMAKE_SYSTEM_NAME@"
+
+
+
+#endif

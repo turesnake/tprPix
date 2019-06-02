@@ -33,8 +33,6 @@
 #include <vector>
 #include <unordered_map>
 
-//------------------- Libs --------------------//
-//#include "nocopyable.h" 
 
 
 class ShaderProgram{

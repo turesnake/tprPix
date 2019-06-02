@@ -12,7 +12,6 @@
 
 
 //-------------------- CPP --------------------//
-//#include <string>
 #include <vector>
 #include <functional>
 
@@ -34,7 +33,7 @@ public:
     }
 
 
-    void logicUpdate();
+    //void logicUpdate();
 
 
     inline void bind_get_tmpVal_functor( const F_1 &_functor ){
@@ -46,12 +45,8 @@ public:
 private:
 
     GameObj *goPtr {nullptr};
-
-
     F_1 get_tmpVal_functor {nullptr};
-
-
-    int tmpCount {0};
+    //int tmpCount {0}; 未被使用...
 
 
 };

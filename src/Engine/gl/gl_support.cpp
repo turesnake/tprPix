@@ -91,7 +91,7 @@ void glfw_window_creat(){
 
         esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
-                                            "tprcraft", 
+                                            "tprpix", 
                                             monitor, 
                                             NULL );
 
@@ -101,7 +101,7 @@ void glfw_window_creat(){
 
         esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
-                                            "tprcraft", 
+                                            "tprpix", 
                                             NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                             NULL );
 

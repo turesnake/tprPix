@@ -62,7 +62,7 @@ public:
     }
 
     //======== static ========//
-    static char jumpLimit;       //- assert( low <= jumpLimit );
+    static char  jumpLimit;       //- assert( low <= jumpLimit );
     static u8_t  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
     static u8_t  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
 

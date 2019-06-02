@@ -15,7 +15,7 @@
 #include <string>
 
 
-inline bool is_fst_run {}; //-- 本次运行，是否为 本进程编译后的 首次运行
+//inline bool is_fst_run {}; //-- 本次运行，是否为 本进程编译后的 首次运行
                             //-- 每次运行时，由函数 check_fst_run() 设置
                             //-- 若为 true，  是 首次运行
                             //-- 若为 false， 不是 首次运行

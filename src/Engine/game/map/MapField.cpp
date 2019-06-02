@@ -75,15 +75,15 @@ void MapField::init( const IntVec2 &_anyMPos ){
 
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
-    float freq = 1.0 / 3.0; //- tmp
+    float freq = 1.0f / 3.0f; //- tmp
     this->originPerlin = simplex_noise2(    this->FDPos.x * freq, 
                                             this->FDPos.y * freq );  //- [-1.0, 1.0]
 
     //--- weight ---
-    this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
+    this->weight = this->originPerlin * 100.0f; //- [-100.0, 100.0]
 
     //--- fieldBorderSetId ---
-    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1)*997));
+    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1f)*997));
     this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
 
     //--- occupyWeight ---
@@ -118,7 +118,7 @@ void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
  */
 void MapField::init_nodeMPos(){
 
-    float    freq = 13.0;
+    float    freq = 13.0f;
     float    pnX;
     float    pnY;
     size_t   idxX;
@@ -127,8 +127,8 @@ void MapField::init_nodeMPos(){
     pnX = simplex_noise2(   this->FDPos.x * freq, 
                             this->FDPos.y * freq ); //- [-1.0, 1.0]
 
-    pnY = simplex_noise2(   (this->FDPos.x + 70.7) * freq, 
-                            (this->FDPos.y + 70.7) * freq ); //- [-1.0, 1.0]
+    pnY = simplex_noise2(   (this->FDPos.x + 70.7f) * freq, 
+                            (this->FDPos.y + 70.7f) * freq ); //- [-1.0, 1.0]
 
 
     pnX = pnX * 71 + 100; //- [71.0, 171.0]
@@ -154,8 +154,8 @@ void MapField::init_occupyWeight(){
     IntVec2 oddEven = floorMod( v, 2 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
-    float Fidx = simplex_noise2(    (this->FDPos.x + 17.1), 
-                                    (this->FDPos.y + 17.1) ) * 30.0 + 60.0; //- [30.0, 90.0]
+    float Fidx = simplex_noise2(    (this->FDPos.x + 17.1f), 
+                                    (this->FDPos.y + 17.1f) ) * 30.0f + 60.0f; //- [30.0, 90.0]
 
 
     assert( Fidx > 0 );
@@ -179,7 +179,6 @@ void MapField::assign_field_to_4_ecoObjs(){
     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
     std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {}; 
 
-    EcoObj   *tmpEcoObjPtr;
     sectionKey_t   tmpKey;
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
@@ -189,13 +188,13 @@ void MapField::assign_field_to_4_ecoObjs(){
     float         vx;
     float         vy;
     IntVec2       mposOff;
-    float         freqBig = 0.9;
-    float         freqSml = 2.3;
+    float         freqBig = 0.9f;
+    float         freqSml = 2.3f;
     float         pnVal; //- 围绕 0 波动的 随机值
     float         off;
     int           count;
 
-    float targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
+    float targetDistance = 1.4f * (0.5f * ENTS_PER_SECTION) * 1.04f; //- 每个field 最终的 距离比较值。
 
     vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
     vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
@@ -203,16 +202,16 @@ void MapField::assign_field_to_4_ecoObjs(){
     const glm::vec2 &field_pposOff = esrc::gameSeed.get_field_pposOff();
     vx += field_pposOff.x;
     vy += field_pposOff.y;
-    float pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
-    float pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
-                                        (vy + 144.41) * freqSml ) * 5; // [-x.0, x.0]
+    float pnValBig = simplex_noise2(    (vx + 51.15f) * freqBig,
+                                        (vy + 151.15f) * freqBig ) * 17; // [-x.0, x.0]
+    float pnValSml = simplex_noise2(    (vx + 244.41f) * freqSml,
+                                        (vy + 144.41f) * freqSml ) * 5; // [-x.0, x.0]
     pnVal = pnValBig + pnValSml;
-    if( pnVal > 20.0 ){
-        pnVal = 20.0;
+    if( pnVal > 20.0f ){
+        pnVal = 20.0f;
     }
-    if( pnVal < -20.0 ){
-        pnVal = -20.0;
+    if( pnVal < -20.0f ){
+        pnVal = -20.0f;
     }
     // now, pnVal: [-20.0, 20.0]
 
@@ -224,8 +223,8 @@ void MapField::assign_field_to_4_ecoObjs(){
         if( count != nearFour_ecoObjDatas.size()){ //- 前3个 eco
 
             mposOff = this->get_mpos() - sectionKey_2_mpos( ecoReadOnly.sectionKey );
-            off = sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y ); // [ ~ 90.0 ~ ]
-            off += pnVal * 0.7; // [-x.0, x.0] + 90.0
+            off = static_cast<float>(sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y )); // [ ~ 90.0 ~ ]
+            off += pnVal * 0.7f; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
                 this->ecoObjKey = ecoReadOnly.sectionKey;

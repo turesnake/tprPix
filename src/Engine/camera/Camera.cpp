@@ -17,9 +17,9 @@
 //#include "tprDebug.h" //- tmp
 
 //---------------------- 局部 变量 ---------------------
-namespace{
-    Camera *camera_p_current = nullptr; //-- 当前摄像机 指针
-}
+//namespace {
+//    Camera *camera_p_current = nullptr; //-- 当前摄像机 指针 未被使用...
+//}
 
 
 /* ===========================================================
@@ -52,7 +52,7 @@ void Camera::RenderUpdate(){
     glm::vec2 off { this->targetFPos.x - this->currentFPos.x, 
                     this->targetFPos.y - this->currentFPos.y };
     //-- 若非常接近，直接同步 --
-    float criticalVal = 2.0; 
+    float criticalVal = 2.0f; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
     if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
@@ -69,8 +69,8 @@ void Camera::RenderUpdate(){
     //---------------------------//    
     float alignX = this->approachPercent * off.x;
     float alignY = this->approachPercent * off.y;
-    alignX = floor(alignX*100.0) / 100.0;
-    alignY = floor(alignY*100.0) / 100.0;
+    alignX = floor(alignX*100.0f) / 100.0f;
+    alignY = floor(alignY*100.0f) / 100.0f;
     //-----------
     this->currentFPos.x += alignX;
     this->currentFPos.y += alignY;
@@ -101,14 +101,14 @@ glm::mat4 &Camera::update_mat4_projection(){
 
     //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
     //   所以不推荐，将 ow/oh 写成定值
-    float ow = 0.5 * ViewingBox::gameSZ.x;  //- 横向边界半径（像素）
-    float oh = 0.5 * ViewingBox::gameSZ.y;  //- 纵向边界半径（像素）
+    float ow = 0.5f * ViewingBox::gameSZ.x;  //- 横向边界半径（像素）
+    float oh = 0.5f * ViewingBox::gameSZ.y;  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
-    float zNear_relative  = 0.0;  //- 负数也接受
+    float zNear_relative  = 0.0f;  //- 负数也接受
     float zFar_relative   = ViewingBox::z;
 
 

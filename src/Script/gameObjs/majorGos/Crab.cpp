@@ -15,7 +15,7 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -187,7 +187,7 @@ void Crab::OnLogicUpdate( GameObj *_goPtr ){
     rebind_ptr( _goPtr );
     //=====================================//
 
-    this->pvtBp->ai_crab.logicUpdate();
+    //this->pvtBp->ai_crab.logicUpdate();
 
     // 什么也没做...
 }

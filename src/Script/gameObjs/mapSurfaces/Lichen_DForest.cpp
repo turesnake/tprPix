@@ -16,7 +16,8 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -104,7 +105,7 @@ void Lichen_DForest::init_in_autoMod(  GameObj *_goPtr,
                                         );
 
         rootGoMeshRef.bind_animAction( "lichen_DForest", 
-                                        tpr::nameString_combine( "", pvtBp->lichen_DForestId, "_idle" ) ); 
+                                        tprGeneral::nameString_combine( "", pvtBp->lichen_DForestId, "_idle" ) ); 
 
         goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...         
 

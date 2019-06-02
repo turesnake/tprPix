@@ -19,7 +19,8 @@
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
-#include "tprFileSys.h" 
+//#include "tprFileSys.h" 
+#include "tprGeneral.h"
 
 
 //-------------------- Engine --------------------//
@@ -78,7 +79,7 @@ void load_fieldBorderSets(){
     //----------------------------//
     frame_data_ary.clear();
 
-    pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_fieldBorderSet, lpath ),
+    pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_fieldBorderSet, lpath ),
                                                 frameNum,
                                                 totalFrameNum,
                                                 frame_data_ary );

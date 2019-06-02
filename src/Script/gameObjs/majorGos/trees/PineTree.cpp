@@ -15,7 +15,8 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -123,7 +124,7 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
                                         );
 
         rootGoMeshRef.bind_animAction( "pineTree", 
-                                        tpr::nameString_combine( "", pvtBp->pineId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "", pvtBp->pineId, "_idle" ) );
 
         goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 

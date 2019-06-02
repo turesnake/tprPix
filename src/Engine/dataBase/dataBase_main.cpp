@@ -13,7 +13,8 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-#include "tprFileSys.h" 
+//#include "tprFileSys.h" 
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
@@ -45,7 +46,7 @@ void atom_init_dataBase(){
     //------------------//
     //       open
     //------------------//
-    w_sqlite3_open( tpr::path_combine( path_dataBase, "tpr" ).c_str(), 
+    w_sqlite3_open( tprGeneral::path_combine( path_dataBase, "tpr" ).c_str(), 
                     &dbConnect );
 
     //---------------//

@@ -158,9 +158,9 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
     goSpecId_t     goSpecId;
 
-    float randV = (fieldRef.get_weight() * 0.35 + 313.17); //- 确保大于0
+    float randV = (fieldRef.get_weight() * 0.35f + 313.17f); //- 确保大于0
     float fract = randV - floor(randV); //- 小数部分
-    assert( (fract>=0.0) && (fract<=1.0) );
+    assert( (fract>=0.0f) && (fract<=1.0f) );
 
     //-- 暂时只生成 陆地 go --
     if( fieldRef.is_land() ){

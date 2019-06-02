@@ -11,7 +11,8 @@
 #include <cassert>
 
 //------------------- Libs --------------------//
-#include "tprFileSys.h" 
+//#include "tprFileSys.h" 
+#include "tprGeneral.h"
 
 //------------------- Engine --------------------//
 #include "global.h"
@@ -34,7 +35,7 @@ void ColliEntSetLoader::init(){
 
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector< std::vector<RGBA> > frame_data_ary {}; 
-    this->pixNum_per_frame = load_and_divide_png( tpr::path_combine( path_colliEntSet, this->lpath ),
+    this->pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_colliEntSet, this->lpath ),
                                             this->frameNum,
                                             this->totalFrameNum,
                                             frame_data_ary );

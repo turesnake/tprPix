@@ -66,7 +66,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
 
     //----------------------
     IntVec2 currentMPos = this->goPtr->goPos.get_currentMPos();
-    const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos();
+    //const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos(); //- 未被使用
         
     const ColliEntHead &doCehRef = *(doGoPtr->get_rootColliEntHeadPtr());
     const ColliEntSet  &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref

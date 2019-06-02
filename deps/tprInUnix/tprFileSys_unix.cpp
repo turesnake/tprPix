@@ -1,23 +1,19 @@
 /*
- * ========================= tprFileSys.cpp ==========================
+ * =================== tprFileSys_unix.cpp ==========================
  *                          -- tpr --
- *                                        创建 -- 2018.10.14
- *                                        修改 -- 2018.10.14
+ *                                        CREATE -- 2018.10.14
+ *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    专门存放 文件系统 相关的 函数
  * ----------------------------
- *    依赖的其它库：
- *         wrapFuncs
- * ----------------------------
  */
-
+#include "tprFileSys_unix.h"
 
 //-------------------- C --------------------//
 #include <cerrno> //- errno.h
 #include <cstring> //- strerror
 #include <unistd.h> //- size_t, PATH_MAX, _PC_PATH_MAX
 
-//#include <stdio.h> //- perror, FILE
 #include <cstdio> 
 
 #include <sys/stat.h> //- stat
@@ -30,63 +26,21 @@
 #include <sstream>
 
 //-------------------- SELF --------------------// 
-#include "wrapFuncs.h"
+#include "wrapUnix.h"
+
+
+#include "tprGeneral.h"
 
 
 using std::cout;
 using std::endl;
-using std::string;
 
-namespace tpr {//--------------- namespace: tpr -------------------//
-
-
-//------------------- 提供给外部的 函数 ----------------
-int check_st_mode( mode_t _mode );
-
-int check_path_st_mode( const char *_path );
-int check_path_st_mode( int _fd );
-int check_path_st_mode( int _fd, const char *_path );
-
-bool is_path_valid( const char *_path );
-bool is_path_valid( int _fd );
-bool is_path_valid( int _fd, const char *_path );
-
-void Is_path_valid( const char *_path, const std::string &_err_info );
-void Is_path_valid( int _fd, const std::string &_err_info );
-void Is_path_valid( int _fd, const char *_path, const std::string &_err_info );
-
-int is_path_a_dir( const char *_path );
-int is_path_a_dir( int _fd );
-int is_path_a_dir( int _fd, const char *_path );
-
-void Is_path_a_dir( const char *_path, const std::string &_err_info );
-void Is_path_a_dir( int _fd, const std::string &_err_info );
-void Is_path_a_dir( int _fd, const char *_path, const std::string &_err_info );
-
-void mk_dir( const char *_path, mode_t _mode,
-            const std::string &_err_info );
-const std::string mk_dir( const char *_path_dir, const char * _name, mode_t _mode,
-            const std::string &_err_info );
-void mk_dir( int _fd, const char * _name, mode_t _mode,
-            const std::string &_err_info );
-
-const std::string path_combine( const std::string &_pa, const std::string &_pb );
-const std::string path_combine( const char *_pa, const char *_pb );
-
-bool is_path_not_too_long( const std::string &_path );
-void Is_path_not_too_long( const std::string &_path,
-                            const std::string &_err_info );
-
-off_t get_file_size( int _fd, const std::string &_err_info );
-off_t get_file_size( FILE *_fp, const std::string &_err_info );
-off_t get_file_size( const char *_path, const std::string &_err_info );
+namespace tprUnix {//--------------- namespace: tprUnix -------------------//
 
 
-//------------------- 局部 函数 ----------------
-namespace{
+namespace {
 
-    std::stringstream ss;
-
+    //std::stringstream ss;
     //===== funcs =====//
     bool _is_path_valid_result_check( int _r, int _fd, const char *_path );
     int  _is_path_a_dir_result_check( int _r, int _fd, const char *_path );
@@ -483,7 +437,7 @@ void Is_path_a_dir( int _fd, const char *_path, const std::string &_err_info ){
 void mk_dir( const char *_path, mode_t _mode,
             const std::string &_err_info ){
     
-    string err_info = _err_info + "mk_dir(): ";
+    std::string err_info = _err_info + "mk_dir(): ";
     //--------------------------
     int r;
     r = is_path_a_dir( _path );
@@ -519,24 +473,26 @@ void mk_dir( const char *_path, mode_t _mode,
  * -- param: _path_dir  -- 父目录，在此目录下 创建新目录
  * -- param: _name      -- 新目录的 名字（不是路径名）
  */
-const std::string mk_dir( const char *_path_dir, const char * _name, mode_t _mode,
-            const std::string &_err_info ){
+const std::string mk_dir(   const std::string &_path_dir, 
+                            const std::string &_name,  
+                            mode_t _mode,
+                            const std::string &_err_info ){
     
-    string err_info = _err_info + "mk_dir(): ";
-    string err_dir = err_info + "the parent dir is error. ";
+    std::string err_info = _err_info + "mk_dir(): ";
+    std::string err_dir = err_info + "the parent dir is error. ";
 
     //--------------------------//
     //  确保 _path_dir 是有效的目录
     //--------------------------//
-    Is_path_a_dir( _path_dir, err_dir );
+    Is_path_a_dir( _path_dir.c_str(), err_dir );
 
     //--------------------------//
     //  合成 新目录的 绝对路径名 
     //--------------------------//
-    string path; //-- 新目录的 绝对路径名
-    string dir = _path_dir;
-    string name = _name;
-    path = path_combine( dir, name );
+    std::string path; //-- 新目录的 绝对路径名
+    std::string dir = _path_dir;
+    std::string name = _name;
+    path = tprGeneral::path_combine( dir, name );
     //--------------------------//
     //  检测 新的目录 是否已存在 
     //--------------------------//
@@ -553,8 +509,8 @@ const std::string mk_dir( const char *_path_dir, const char * _name, mode_t _mod
 void mk_dir( int _fd, const char * _name, mode_t _mode,
             const std::string &_err_info ){
 
-    string err_info = _err_info + "mk_dir(): ";
-    string err_dir = err_info + "the parent dir is error. ";
+    std::string err_info = _err_info + "mk_dir(): ";
+    std::string err_dir = err_info + "the parent dir is error. ";
 
     //--------------------------//
     //  确保 _path_dir 是有效的目录
@@ -601,15 +557,14 @@ void mk_dir( int _fd, const char * _name, mode_t _mode,
 
 
 
-
-
-
 /* ===========================================================
  *                       path_combine [1]
  * -----------------------------------------------------------
  * -- 将 _pa，_pb 合成一个 合法的 路径名。（主要是 处理中间的 '/' 问题）
  * -- 目前，不管调用者在 _pa，_pb 间写没写 '/', 都能正确合成。 
+ *    '/' 在 win 中也可使用，所以，这个函数算是 跨平台的
  */
+/*
 const std::string path_combine( const std::string &_pa, const std::string &_pb ){
 
     string err_info = "path_combine(): ";
@@ -645,6 +600,7 @@ const std::string path_combine( const std::string &_pa, const std::string &_pb )
 
     return path;
 }
+*/
 
 
 /* ===========================================================
@@ -652,12 +608,14 @@ const std::string path_combine( const std::string &_pa, const std::string &_pb )
  * -----------------------------------------------------------
  * -- 重载版本，参数有变，不推荐使用此版 
  */
+/*
 const std::string path_combine( const char *_pa, const char *_pb ){
 
     string a = _pa;
     string b = _pb;
     return path_combine( a, b );
 }
+*/
 
 
 /* ===========================================================
@@ -665,6 +623,7 @@ const std::string path_combine( const char *_pa, const char *_pb ){
  * -----------------------------------------------------------
  * -- 拼接一种特殊的 string，类似 "dog_2_jump" 这种
  */
+/*
 const std::string nameString_combine(   const std::string &_prefix,
                                         size_t _idx,
                                         const std::string &_suffix ){
@@ -672,6 +631,7 @@ const std::string nameString_combine(   const std::string &_prefix,
     ss << _idx;
     return (_prefix + ss.str() + _suffix);
 }
+*/
 
 
 
@@ -717,7 +677,7 @@ void Is_path_not_too_long( const std::string &_path,
  */
 off_t get_file_size( int _fd, const std::string &_err_info ){
 
-    string err_info = _err_info + "get_file_size(1): ";
+    std::string err_info = _err_info + "get_file_size(1): ";
     //-----------------------------
     //-- 暂存 旧的 “当前文件偏移量／current file offset”
     off_t cfo = Lseek( _fd, 0, SEEK_CUR, err_info );
@@ -755,7 +715,7 @@ off_t get_file_size( FILE *_fp, const std::string &_err_info ){
  */
 off_t get_file_size( const char *_path, const std::string &_err_info ){
 
-    string err_info = _err_info + "get_file_size(3): ";
+    std::string err_info = _err_info + "get_file_size(3): ";
     //-----------------------------
     Is_path_valid( _path, err_info ); //-- 确保 _path 指向 已存在文件
     int fd = Open( _path, O_RDONLY, 0, err_info ); //-- 获得 fd
@@ -774,17 +734,17 @@ off_t get_file_size( const char *_path, const std::string &_err_info ){
  * -- param: _buf   -- 获得的文件数据 存入buf. (此buf的原数据将被丢弃)
  *
  */
-void file_load( const char *_pathp, std::string &_buf ){
+void file_load( const std::string &_path, std::string &_buf ){
 
-    string err_info = "file_load(): ";
+    std::string err_info = "file_load(): ";
     //-------
     int fd;
     off_t flen;   //- 文件 字节数
     ssize_t rlen; //- 实际读取 字节数
     
-    flen = get_file_size( _pathp, err_info );
+    flen = get_file_size( _path.c_str(), err_info );
     _buf.resize( flen );
-    fd = Open( _pathp, O_RDONLY, 0, err_info );
+    fd = Open( _path.c_str(), O_RDONLY, 0, err_info );
     rlen = Read( fd, (void*)_buf.c_str(), flen, err_info );
     assert( rlen == (ssize_t)flen );
 
@@ -795,4 +755,4 @@ void file_load( const char *_pathp, std::string &_buf ){
 
 
 
-}//------------------- namespace: tpr ------------------------//
+}//------------------- namespace: tprUnix ------------------------//

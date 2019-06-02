@@ -4,11 +4,12 @@
 #-- 将 tprInUnix 包装成 静态库。 进一步 模块化
 
 #-- 指定 依赖的 h文件所在 路径:
-include_directories ( include/ )
+include_directories ( ./ )
+include_directories ( ../tprGeneral/ )
 
 
 #-- 定义一个列表，放置所有 cpp 文件 --
-FILE(GLOB TPR_IN_UNIX_SRC  src/*.cpp )
+FILE(GLOB TPR_IN_UNIX_SRC  *.cpp )
 
 #-- 建立 目标 库对象 -- 
 #-- 在 主CMakeLists.txt 文件中，以此名来调用 本库

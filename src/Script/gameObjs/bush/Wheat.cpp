@@ -16,7 +16,8 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -101,7 +102,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
         rootGoMeshRef.bind_animAction( "wheat", 
-                                        tpr::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
 
         goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
                     
@@ -119,7 +120,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
         backGoMeshRef.bind_animAction( "wheat", 
-                                        tpr::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
                      
 
     //-- 务必在 mesh:"root" 之后 ---

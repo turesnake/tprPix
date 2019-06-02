@@ -33,20 +33,20 @@ public:
         x(_x),
         y(_y)
         {
-            assert( (_x>=-1.0) && (_x<=1.0) &&
-                    (_y>=-1.0) && (_y<=1.0) );
+            assert( (_x>=-1.0f) && (_x<=1.0f) &&
+                    (_y>=-1.0f) && (_y<=1.0f) );
             this->consider_threshold_x();
             this->consider_threshold_y();
         }
 
     inline void clear_all(){
-        this->x = 0.0;
-        this->y = 0.0;
+        this->x = 0.0f;
+        this->y = 0.0f;
     }
 
     inline void set( float _x, float _y ){
-        assert( (_x>=-1.0) && (_x<=1.0) &&
-                (_y>=-1.0) && (_y<=1.0) );
+        assert( (_x>=-1.0f) && (_x<=1.0f) &&
+                (_y>=-1.0f) && (_y<=1.0f) );
         this->x = _x;
         this->y = _y;
         this->consider_threshold_x();
@@ -55,12 +55,12 @@ public:
 
     //-- 仅用于 InputINS --
     inline void set_x( float _x ){
-        assert( (_x>=-1.0) && (_x<=1.0) );
+        assert( (_x>=-1.0f) && (_x<=1.0f) );
         this->x = _x;
         this->consider_threshold_x();
     }
     inline void set_y( float _y ){
-        assert( (_y>=-1.0) && (_y<=1.0) );
+        assert( (_y>=-1.0f) && (_y<=1.0f) );
         this->y = _y;
         this->consider_threshold_y();
     }
@@ -79,15 +79,15 @@ public:
 
 
     inline bool is_zero() const {
-        return ( (this->x==0.0) && (this->y==0.0) );
+        return ( (this->x==0.0f) && (this->y==0.0f) );
     }
 
 
     //- 目标参数 是否符合 数值范围要求 --
     static bool is_effectVal( float _x, float _y ){
         bool ret = false;
-        if( (_x>=-1.0) && (_x<=1.0) && 
-            (_y>=-1.0) && (_y<=1.0) ){
+        if( (_x>=-1.0f) && (_x<=1.0f) && 
+            (_y>=-1.0f) && (_y<=1.0f) ){
             if( ((_x >= DirAxes::threshold) || (_x <= -DirAxes::threshold)) ||
                 ((_y >= DirAxes::threshold) || (_y <= -DirAxes::threshold)) ){
                 ret = true;
@@ -113,7 +113,7 @@ public:
 
 
     //===== static =====//
-    static constexpr float threshold = 0.005; //- 阈值，[-0.01, 0.01] 区间的信号不识别
+    static constexpr float threshold = 0.005f; //- 阈值，[-0.01, 0.01] 区间的信号不识别
 
 private:
 
@@ -132,8 +132,8 @@ private:
     }
 
     //===== vals =====//
-    float x {0.0}; //- [-1.0, 1.0]
-    float y {0.0}; //- [-1.0, 1.0]
+    float x {0.0f}; //- [-1.0, 1.0]
+    float y {0.0f}; //- [-1.0, 1.0]
 };
 
 

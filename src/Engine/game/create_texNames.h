@@ -38,7 +38,6 @@ inline void create_texNames( int  _texNum,
     //-- 申请 _texNum个 tex实例，并获得其 names
     glGenTextures( _texNum, &_texNamesBuf.at(0) );
 
-    GLvoid *dptr;
     for( int i=0; i<_texNum; i++ ){
 
         glBindTexture( GL_TEXTURE_2D, _texNamesBuf.at(i) );

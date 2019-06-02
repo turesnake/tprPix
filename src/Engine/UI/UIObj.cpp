@@ -77,8 +77,8 @@ void UIObj::renderUpdate_move(){
         return;
     }
 
-    float criticalVal = 1.0;  //- 临界值
-    float  approachPercent = 0.28; //- go运动的 “接近比率”
+    float criticalVal = 1.0f;  //- 临界值
+    float  approachPercent = 0.28f; //- go运动的 “接近比率”
                                    // 在未来，会根据 move.speedLvl 来修改
     glm::vec2 off = this->targetFPos - this->currentFPos;
     //-- 若非常接近，直接同步 --

@@ -19,10 +19,10 @@
 
 //#include "tprDebug.h" 
 
-namespace{//------------------ namespace ---------------------//
+namespace {//------------------ namespace ---------------------//
 
     //-- z轴常量，用在 glm::rotate 函数中。
-    const glm::vec3 axle_z( 0.0f, 0.0f, 1.0f );
+    //const glm::vec3 axle_z( 0.0f, 0.0f, 1.0f ); //- 未被使用...
 
 }//--------------------- namespace end ------------------------//
 

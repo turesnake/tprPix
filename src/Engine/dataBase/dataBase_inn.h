@@ -43,7 +43,7 @@ int callback_1(void *_data, int _argc, char **_argv, char **_azColNames);
 inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt **_ppStmt ){
     w_sqlite3_prepare_v2(   dbConnect, 
                             _sql_str.c_str(), 
-                            _sql_str.size()+1,
+                            static_cast<int>(_sql_str.size()+1),
                             _ppStmt,
                             NULL );
 }

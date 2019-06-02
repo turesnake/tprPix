@@ -66,7 +66,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
 
     int wf; //-- 以帧为单位，目标像素在横排中 的序号
     int hf; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
-    int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的)
+    //int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的) 未使用...
     int nrf; //-- 像素 属于的 帧序号
 
     RGBA *pixHeadPtr = (RGBA*)data;
@@ -87,7 +87,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
             nrf = hf*_frameNum.x + wf;
-            fit = _frame_data_ary.begin() + nrf;
+            //fit = _frame_data_ary.begin() + nrf;
 
             //-- 只处理 非空置的 frame ---
             if( nrf < _totalFrameNum ){
@@ -95,6 +95,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
                 pixPtr = pixHeadPtr + (h*width + w);
 
                 //-- 将数据 压入 对应的 帧容器 中 --
+                fit = _frame_data_ary.begin() + nrf; //-- 这样写 很不安全
                 fit->push_back( *pixPtr ); //-copy
             }
         }

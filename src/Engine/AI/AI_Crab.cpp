@@ -7,23 +7,24 @@
  *   螃蟹式 AI 
  * -----------------------
  */
-#include "AI_Crab.h"
+//#include "AI_Crab.h"
 
 
 
 //-------------------- Engine --------------------//
 
 
-#include "tprDebug.h"
+//#include "tprDebug.h"
 
 
 /* ===========================================================
  *                     logicUpdate
  * -----------------------------------------------------------
  */
+/*
 void AI_Crab::logicUpdate(){
 
-    /*
+    
     this->tmpCount++;
 
     const int targetVal = 10;
@@ -37,8 +38,10 @@ void AI_Crab::logicUpdate(){
         cout << ";  tmpVal = " << this->get_tmpVal_functor()
             << endl;
     }
-    */
+    
 
 
 
 }
+*/
+

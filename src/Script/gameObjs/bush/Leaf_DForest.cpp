@@ -16,7 +16,8 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h" 
@@ -102,7 +103,7 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
                                         gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
                                         );
         rootGoMeshRef.bind_animAction( "leaf_DForest", 
-                                        tpr::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
 
         goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
@@ -207,7 +208,7 @@ void Leaf_DForest::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
             //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->leaf_DForestId );
 
             rootGoMeshRef.bind_animAction( "leaf_DForest", 
-                                        tpr::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
+                                        tprGeneral::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
 
             break;
 

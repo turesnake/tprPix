@@ -12,7 +12,8 @@
 #include <sstream>
 
 //-------------------- tpr --------------------//
-#include "tprFileSys.h"
+//#include "tprFileSys.h"
+#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_animFrameSet.h"
@@ -208,7 +209,7 @@ void load_animFrameSets(){
     animFrameSetPtr->insert_a_png(  
             "/oakTree/OakTree_2.P.png",
             IntVec2{5, 4}, 17,
-            true, //- 无 shadow 数据
+            true, //- 有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
             animActionParams );
 
@@ -336,7 +337,7 @@ void build_animActionParams(const std::string &_prefix,
                             size_t _size ){
     animActionParams.clear();
     for( size_t i=0; i<_size; i++ ){
-        animActionParams.push_back( AnimActionParam{ tpr::nameString_combine( _prefix, i, _suffix ), i } );
+        animActionParams.push_back( AnimActionParam{ tprGeneral::nameString_combine( _prefix, i, _suffix ), i } );
     }
 }
 

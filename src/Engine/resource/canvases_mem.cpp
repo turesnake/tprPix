@@ -25,7 +25,7 @@ namespace esrc{//------------------ namespace: esrc -------------------------//
 
 namespace {//-------- namespace: --------------//
 
-    bool  is_ground_baseUniforms_transmited {false};
+    //bool  is_ground_baseUniforms_transmited {false}; // 未被使用...
     bool  is_waterAnim_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
                                         // 这些值是固定的，每次游戏只需传入一次...
 

@@ -278,8 +278,8 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     IntVec2  tmpChunkMPos;
     for( size_t h=0; h<=1; h++ ){
         for( size_t w=0; w<=1; w++ ){ //- 周边 4 个chunk
-            tmpChunkMPos.set(   targetChunkMPos.x + w*ENTS_PER_CHUNK,
-                                targetChunkMPos.y + h*ENTS_PER_CHUNK );
+            tmpChunkMPos.set(   targetChunkMPos.x + static_cast<int>(w*ENTS_PER_CHUNK),
+                                targetChunkMPos.y + static_cast<int>(h*ENTS_PER_CHUNK) );
             fst_ecoObjs( anyMPos_2_sectionMPos(tmpChunkMPos) );
         }
     }
