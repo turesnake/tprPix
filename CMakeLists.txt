@@ -10,17 +10,17 @@ cmake_minimum_required(VERSION 3.1)
 
 
 if( APPLE )
-    option( _TPR_OS_APPLE_ " APPLE " ON )
+    option( TPR_OS_APPLE_ " APPLE " ON )
     message( STATUS "___APPLE___" )
 
 elseif( UNIX AND NOT APPLE )
-    option( _TPR_OS_UNIX_ " UNIX " ON )
+    option( TPR_OS_UNIX_ " UNIX " ON )
     message( STATUS "___UNIX___" )
 
 #-- 当使用 Virsual Studio 编译 cmake项目时，可用 WIN32
 #   如果出错，尝试改用 MSVC
 elseif( WIN32 )
-    option( _TPR_OS_WIN32_ " WIN32 " ON )
+    option( TPR_OS_WIN32_ " WIN32 " ON )
     message( STATUS "___WIN32___" )
 
 endif( APPLE )
@@ -34,6 +34,10 @@ set (CMAKE_CXX_STANDARD 17)
 
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
+
+#-- 测试用
+#set ( CMAKE_CXX_COMPILER            "clang++"  )
+#set ( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall" ) 
 
 
 #-- 单独设置 c++ 的编译选项 的方式:
@@ -112,22 +116,13 @@ include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
 #-- Script 只 include 顶层目录 --
 include_directories (${PROJECT_SOURCE_DIR}/src/Script)
 
-
 include_directories (${PROJECT_SOURCE_DIR}/deps)
 
 include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)
 include_directories (${PROJECT_SOURCE_DIR}/deps/glm.9.9.5)
-include_directories (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28/src)
 
 include_directories (${PROJECT_BINARY_DIR}/sysconfig)
 
-#-- tprLibs
-include_directories (${PROJECT_SOURCE_DIR}/deps/tprGeneral)
-if( UNIX )
-    include_directories (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
-else()
-    include_directories (${PROJECT_SOURCE_DIR}/deps/tprInWin)
-endif( UNIX )
 
 #-- glfw --
 #-- 这两个目录中的文件 好像是 一样的 --
@@ -250,6 +245,9 @@ else()
 endif( UNIX )
 
 
+
+
+target_compile_options( tprpix PRIVATE -Wall )
 
 
 

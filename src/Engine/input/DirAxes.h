@@ -11,8 +11,8 @@
  *      值被设置为 (-1.0, 0.0, 1.0) 三种之一
  * ----------------------------
  */
-#ifndef _TPR_DIR_AXES_H_
-#define _TPR_DIR_AXES_H_
+#ifndef TPR_DIR_AXES_H_
+#define TPR_DIR_AXES_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -22,8 +22,11 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
+
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 class DirAxes{
@@ -33,7 +36,7 @@ public:
         x(_x),
         y(_y)
         {
-            assert( (_x>=-1.0f) && (_x<=1.0f) &&
+            tprAssert( (_x>=-1.0f) && (_x<=1.0f) &&
                     (_y>=-1.0f) && (_y<=1.0f) );
             this->consider_threshold_x();
             this->consider_threshold_y();
@@ -45,7 +48,7 @@ public:
     }
 
     inline void set( float _x, float _y ){
-        assert( (_x>=-1.0f) && (_x<=1.0f) &&
+        tprAssert( (_x>=-1.0f) && (_x<=1.0f) &&
                 (_y>=-1.0f) && (_y<=1.0f) );
         this->x = _x;
         this->y = _y;
@@ -55,12 +58,12 @@ public:
 
     //-- 仅用于 InputINS --
     inline void set_x( float _x ){
-        assert( (_x>=-1.0f) && (_x<=1.0f) );
+        tprAssert( (_x>=-1.0f) && (_x<=1.0f) );
         this->x = _x;
         this->consider_threshold_x();
     }
     inline void set_y( float _y ){
-        assert( (_y>=-1.0f) && (_y<=1.0f) );
+        tprAssert( (_y>=-1.0f) && (_y<=1.0f) );
         this->y = _y;
         this->consider_threshold_y();
     }

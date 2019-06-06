@@ -8,8 +8,8 @@
  * ----------------------------
  */
 
-#ifndef _TPR_WRAP_UNIX_H_
-#define _TPR_WRAP_UNIX_H_
+#ifndef TPR_WRAP_UNIX_H_
+#define TPR_WRAP_UNIX_H_
 
 //#include <sys/socket.h> //- socklen_t, sockaddr
 //#include <netinet/in.h> //- sockaddr_in

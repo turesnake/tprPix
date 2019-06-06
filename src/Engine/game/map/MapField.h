@@ -7,8 +7,8 @@
  *   4*4mapent 构成一个 field   [第二版]
  * ----------------------------
  */
-#ifndef _TPR_MAP_FIELD_H
-#define _TPR_MAP_FIELD_H
+#ifndef TPR_MAP_FIELD_H
+#define TPR_MAP_FIELD_H
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

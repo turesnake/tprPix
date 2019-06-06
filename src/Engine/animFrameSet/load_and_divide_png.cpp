@@ -14,7 +14,12 @@
 #include "stb_image.h" //-- 加载图片数据用
 
 
+//------------------- CPP --------------------//
+#include <iterator>
+
+
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "load_and_divide_png.h"
 
 
@@ -49,7 +54,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
     data = stbi_load( _path.c_str(), &width, &height, &nrChannels, 0 );
         if(  data == nullptr ){
             cout << _path << endl;
-            assert( data != nullptr );
+            tprAssert( data != nullptr );
         }
 
     //------------------------------------//
@@ -72,7 +77,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
     RGBA *pixHeadPtr = (RGBA*)data;
     RGBA *pixPtr; //- tmp
 
-    assert( ((width%_frameNum.x)==0) && 
+    tprAssert( ((width%_frameNum.x)==0) && 
             ((height%_frameNum.y)==0) );
     IntVec2 pixNum_per_frame { width/_frameNum.x, height/_frameNum.y };
 
@@ -87,7 +92,6 @@ IntVec2 load_and_divide_png( const std::string &_path,
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
             nrf = hf*_frameNum.x + wf;
-            //fit = _frame_data_ary.begin() + nrf;
 
             //-- 只处理 非空置的 frame ---
             if( nrf < _totalFrameNum ){
@@ -95,7 +99,8 @@ IntVec2 load_and_divide_png( const std::string &_path,
                 pixPtr = pixHeadPtr + (h*width + w);
 
                 //-- 将数据 压入 对应的 帧容器 中 --
-                fit = _frame_data_ary.begin() + nrf; //-- 这样写 很不安全
+                fit = _frame_data_ary.begin();
+                std::advance( fit, nrf ); //-- 事实上，std::advance 并不检测是否越界...
                 fit->push_back( *pixPtr ); //-copy
             }
         }

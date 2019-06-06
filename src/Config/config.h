@@ -8,8 +8,8 @@
  *   临时，后期会更换为 lua 来实现
  * ----------------------------
  */
-#ifndef _TPR_CONFIG_H_
-#define _TPR_CONFIG_H_
+#ifndef TPR_CONFIG_H_
+#define TPR_CONFIG_H_
 
 
 //-- 一个 mapSection 占有 256*256 个 mapEnt

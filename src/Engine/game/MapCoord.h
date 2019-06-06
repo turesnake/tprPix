@@ -15,8 +15,8 @@
  *	 SPos   - section pos (未实现)
  * ----------------------------
  */
-#ifndef _TPR_MAP_COORD_H_
-#define _TPR_MAP_COORD_H_
+#ifndef TPR_MAP_COORD_H_
+#define TPR_MAP_COORD_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -33,10 +33,11 @@
             //-- glm::value_ptr
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 #include "config.h" 
 
@@ -95,12 +96,12 @@ public:
     //   -------
     //   还是需要使用 这个 严谨版
     inline void set_by_ppos_( const IntVec2 &_ppos ){
-            assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
+            tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         this->ppos = _ppos;
         this->mpos = floorDiv( this->ppos, (float)PIXES_PER_MAPENT );
     }
     inline void set_by_ppos_( int _x, int _y ){
-            assert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
+            tprAssert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
         this->ppos.set( _x, _y );
         this->mpos = floorDiv( this->ppos, (float)PIXES_PER_MAPENT );
     }
@@ -196,7 +197,7 @@ inline const MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
  * -- 参数 _ppos 必须对齐于 mapent坐标系
  */
 inline const IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
-    assert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
+    tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
     return floorDiv( _ppos, (float)PIXES_PER_MAPENT );
 }
 

@@ -11,6 +11,7 @@
 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "input.h"
 #include "chunkBuild.h"
 #include "esrc_all.h" //- 所有资源
@@ -68,7 +69,7 @@ void prepare_for_sceneWorld(){
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
-    esrc::camera.set_allFPos( esrc::player.goPtr->goPos.get_currentFPos() );
+    esrc::get_camera().set_allFPos( esrc::get_player().goPtr->goPos.get_currentFPos() );
     input::bind_inputINS_handleFunc( std::bind( &inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -85,17 +86,18 @@ void sceneLoop_world(){
     //    camera:: RenderUpdate()
     //    camera --> shader: view, projection
     //--------------------------------//
-    esrc::camera.RenderUpdate();
+    esrc::get_camera().RenderUpdate();
     //--- 
-    esrc::rect_shader.use_program();
-    esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
-    esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
+    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
+    rect_shaderRef.use_program();
+    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //--------------------------------//
     //           logic
     //--------------------------------//
     //-- 依据 逻辑时间循环，调用不同的 函数 --// 
-    switch( esrc::logicTimeCircle.current() ){
+    switch( esrc::get_logicTimeCircle().current() ){
         case 0:
             esrc::realloc_inactive_goes(); //- tmp
             break;
@@ -122,7 +124,7 @@ void sceneLoop_world(){
         case 4:
             break;
         default:
-            assert(0);
+            tprAssert(0);
     }
 
     //--------------------------------//
@@ -138,10 +140,17 @@ void sceneLoop_world(){
 
     //--- clear RenderPools:
     // *** 注意次序 ***
+    /*
     esrc::renderPool_meshs.clear();
     esrc::renderPool_goMeshs_pic.clear();
     esrc::renderPool_goMeshs_shadow.clear();
     esrc::renderPool_mapSurfaces.clear();
+    */
+
+    esrc::clear_renderPool_meshs();
+    esrc::clear_renderPool_goMeshs_pic();
+    esrc::clear_renderPool_goMeshs_shadow();
+    esrc::clear_renderPool_mapSurfaces();
 
     //------------------------//
     //       chunks
@@ -159,7 +168,7 @@ void sceneLoop_world(){
     //------------------------//
     esrc::foreach_goids_active(
         []( goid_t _goid, GameObj *_goPtr ){
-            assert( _goPtr->RenderUpdate != nullptr );
+            tprAssert( _goPtr->RenderUpdate != nullptr );
             _goPtr->RenderUpdate(); 
         }
     );
@@ -191,18 +200,19 @@ namespace{//-------------- namespace ------------------//
  */
 void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 
+    Player &playerRef = esrc::get_player();
     //-----------------//
     //      camera
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::camera.set_targetFPos( esrc::player.goPtr->goPos.get_currentFPos() );
+    esrc::get_camera().set_targetFPos( playerRef.goPtr->goPos.get_currentFPos() );
 
 
     //... 暂时没有 处理 剩余功能键的 代码 
 
     //-- 直接传递给 player
-    esrc::player.handle_inputINS( _inputINS );
+    playerRef.handle_inputINS( _inputINS );
 
 
     //-----------------//
@@ -231,25 +241,25 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 
 
 
-    SpeedLevel lvl = esrc::player.goPtr->move.get_speedLvl();
+    SpeedLevel lvl = playerRef.goPtr->move.get_speedLvl();
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
         SpeedLevel newLvl = calc_higher_speedLvl(lvl);
-        esrc::player.goPtr->move.set_speedLvl( newLvl );
+        playerRef.goPtr->move.set_speedLvl( newLvl );
             cout << " + " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl; 
     }
     if( (isOld_B_press==false) && (isNew_B_press) ){
         SpeedLevel newLvl = calc_lower_speedLvl(lvl);
-        esrc::player.goPtr->move.set_speedLvl( newLvl );
+        playerRef.goPtr->move.set_speedLvl( newLvl );
             cout << " - " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl;
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( esrc::player.goPtr->goPos.get_currentMPos() );
+        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( playerRef.goPtr->goPos.get_currentMPos() );
 
         const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntPtr->get_mpos()) );
 
@@ -272,9 +282,6 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
         //-- 暂时什么都不做 ...
         
     }
-
-
-
 
     //---------------
     isOld_A_press = isNew_A_press;

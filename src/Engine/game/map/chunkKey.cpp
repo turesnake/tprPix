@@ -10,10 +10,11 @@
 #include "chunkKey.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "sectionKey.h"
 
 
@@ -30,10 +31,10 @@
 size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos ){
 
     IntVec2 mposOff = anyMPos_2_chunkMPos(_anyMPos) - anyMPos_2_sectionMPos(_anyMPos);
-        assert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
+        tprAssert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
     int w = std::abs(mposOff.x)/ENTS_PER_CHUNK;
     int h = std::abs(mposOff.y)/ENTS_PER_CHUNK;
-        assert( (w>=0) && (w<CHUNKS_PER_SECTION) &&
+        tprAssert( (w>=0) && (w<CHUNKS_PER_SECTION) &&
                 (h>=0) && (h<CHUNKS_PER_SECTION) ); //- tmp
     return (size_t)(h*CHUNKS_PER_SECTION + w);
 }

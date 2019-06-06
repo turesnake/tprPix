@@ -7,8 +7,8 @@
  *   每个 pix / mapEnt／field 都拥有自身的 高度信息。
  * ----------------------------
  */
-#ifndef _TPR_MAP_ALTITUDE_H_
-#define _TPR_MAP_ALTITUDE_H_
+#ifndef TPR_MAP_ALTITUDE_H_
+#define TPR_MAP_ALTITUDE_H_
 
 //------------------- Engine --------------------//
 #include "IntVec.h" 

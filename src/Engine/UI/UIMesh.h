@@ -7,8 +7,8 @@
  *  UIObj 专用 Mesh， 类似 GO 的 GoMesh
  * ----------------------------
  */
-#ifndef _TPR_UI_MESH_H_
-#define _TPR_UI_MESH_H_
+#ifndef TPR_UI_MESH_H_
+#define TPR_UI_MESH_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 
@@ -27,6 +27,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "UIChildMesh.h"
 #include "AnimAction.h"
 
@@ -75,7 +76,7 @@ public:
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
     inline const GLuint &get_currentTexName_shadow() const {
-        assert( this->isHaveShadow );
+        tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
     inline const IntVec2 &get_animAction_pixNum_per_frame() const {

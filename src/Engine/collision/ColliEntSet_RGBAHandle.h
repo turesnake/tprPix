@@ -7,17 +7,18 @@
  *    ColliEntSet 每个 像素点RGBA值 解析
  * ----------------------------
  */
-#ifndef _TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
-#define _TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
+#ifndef TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
+#define TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
 
 //------------------- C --------------------//
 #include <cmath>
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "RGBA.h"
 
 
@@ -75,7 +76,7 @@ public:
         //--- B --- 
         if( is_near_inner(RGBA_ChannelType::B, B_center) == true ){
             this->isCenter       = true;
-            assert( this->rgba.g > 0 );
+            tprAssert( this->rgba.g > 0 );
         }
     }
 
@@ -98,7 +99,7 @@ private:
             case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-_target)) <= this->off);
             case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-_target)) <= this->off);
             default:
-                assert(0);
+                tprAssert(0);
                 return  false; //- never touch -
         }
     } 

@@ -8,14 +8,17 @@
  * 
  * ----------------------------
  */
-#ifndef _TPR_ID_MANAGER_H_
-#define _TPR_ID_MANAGER_H_
+#ifndef TPR_ID_MANAGER_H_
+#define TPR_ID_MANAGER_H_
 
 //-------------------- C ----------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 //-- id 默认从 1 开始增长。0号id 被保留，表示空id --
@@ -47,41 +50,41 @@ public:
                 case ID_TYPE::U32: id_limit = (u32_t)(-1); break;
                 case ID_TYPE::U64: id_limit = (u64_t)(-1); break; //- 用不到
                 default:
-                    assert(0); //- 不会运行到此行
+                    tprAssert(0); //- 不会运行到此行
             }
         }
 
     //-- 申请分配一个 新 u8 id --
     inline u8_t apply_a_u8_id(){
         
-        assert( id_scope == ID_TYPE::U8 );
+        tprAssert( id_scope == ID_TYPE::U8 );
         max_id++;
-        assert( max_id <= id_limit );//-- 2^8 --
+        tprAssert( max_id <= id_limit );//-- 2^8 --
         return (u8_t)max_id;
     }
 
     //-- 申请分配一个 新 u16 id --
     inline u16_t apply_a_u16_id(){
         
-        assert( id_scope == ID_TYPE::U16 );
+        tprAssert( id_scope == ID_TYPE::U16 );
         max_id++;
-        assert( max_id <= id_limit );//-- 2^16 --
+        tprAssert( max_id <= id_limit );//-- 2^16 --
         return (u16_t)max_id;
     }
 
     //-- 申请分配一个 新 u32 id --
     inline u32_t apply_a_u32_id(){
         
-        assert( id_scope == ID_TYPE::U32 );
+        tprAssert( id_scope == ID_TYPE::U32 );
         max_id++;
-        assert( max_id <= id_limit );//-- 2^32 --
+        tprAssert( max_id <= id_limit );//-- 2^32 --
         return (u32_t)max_id;
     }
 
     //-- 申请分配一个 新 u64 id --
     inline u64_t apply_a_u64_id(){
         
-        assert( id_scope == ID_TYPE::U64 );
+        tprAssert( id_scope == ID_TYPE::U64 );
         max_id++;
         //-- 2^64 个id，永远也用不完。
         return max_id;

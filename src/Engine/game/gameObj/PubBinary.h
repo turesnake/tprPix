@@ -5,11 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_PUB_BINARY_H_
-#define _TPR_PUB_BINARY_H_
+#ifndef TPR_PUB_BINARY_H_
+#define TPR_PUB_BINARY_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -19,6 +19,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "PubBinaryValType.h"
 
 //-- 维护一个 二进制块，可以动态存储 各种 pubBinary变量（一种一个）
@@ -34,9 +35,9 @@ public:
         byteoff_t  off = 0; 
         for( const auto &i : _types ){
             idx = (idx_t)i;
-            assert( valOffs.find(idx)==valOffs.end() ); //- no duplicate
+            tprAssert( valOffs.find(idx)==valOffs.end() ); //- no duplicate
             valOffs.insert({ idx, off });
-            off += (byteoff_t)(PubBinaryValSizes.at(idx));
+            off += (byteoff_t)(get_PubBinaryValSizes().at(idx));
         }
         binary.resize( off );
     }

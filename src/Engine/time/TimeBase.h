@@ -7,8 +7,8 @@
  *   基础时间类
  * ----------------------------
  */
-#ifndef _TPR_TIME_BASE_H_
-#define _TPR_TIME_BASE_H_
+#ifndef TPR_TIME_BASE_H_
+#define TPR_TIME_BASE_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

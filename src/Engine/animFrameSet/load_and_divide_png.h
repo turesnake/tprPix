@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_LOAD_AND_DIVIDE_PNG_H_
-#define _TPR_LOAD_AND_DIVIDE_PNG_H_
+#ifndef TPR_LOAD_AND_DIVIDE_PNG_H_
+#define TPR_LOAD_AND_DIVIDE_PNG_H_
 
 //-------------------- CPP --------------------//
 #include <vector>

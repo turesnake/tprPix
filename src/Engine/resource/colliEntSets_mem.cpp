@@ -13,6 +13,7 @@
 #include <vector>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "ColliEntSetLoader.h"
 #include "esrc_colliEntSet.h" //- 所有资源
 
@@ -21,7 +22,10 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
+
+    std::unordered_map<std::string, int> colliEntSet_name_idx {};
+    std::unordered_map<int, std::string> colliEntSet_idx_name {};
 
     //-- key: colliEntSetIdx
     std::unordered_map<int, ColliEntSet> colliEntSets {};
@@ -122,7 +126,7 @@ void debug_colliEntSets(){
  * -----------------------------------------------------------
  */
 const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx ){
-        assert( esrc::colliEntSets.find(_colliEntSetIdx) != esrc::colliEntSets.end() );
+        tprAssert( esrc::colliEntSets.find(_colliEntSetIdx) != esrc::colliEntSets.end() );
     return esrc::colliEntSets.at( _colliEntSetIdx );
 }
 

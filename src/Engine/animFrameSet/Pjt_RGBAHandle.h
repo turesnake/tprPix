@@ -13,16 +13,17 @@
  *  需要拓展 ...
  * ----------------------------
  */
-#ifndef _TPR_PJT_RGBA_HANDLE_H_
-#define _TPR_PJT_RGBA_HANDLE_H_
+#ifndef TPR_PJT_RGBA_HANDLE_H_
+#define TPR_PJT_RGBA_HANDLE_H_
 //------------------- C --------------------//
 #include <cmath>
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "RGBA.h"
 #include "AltiRange.h" 
 #include "ColliEntHead.h"
@@ -122,7 +123,7 @@ private:
             case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(rgba.b-_target)) <= off);
             case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(rgba.a-_target)) <= off);
             default:
-                assert(0);
+                tprAssert(0);
                 return  false; //- never touch -
         }
     } 
@@ -144,14 +145,14 @@ private:
                     colliEntHead.lAltiRange = altiRange_surface;
                     return;
                 }else{
-                    assert(0);
+                    tprAssert(0);
                 }
             }
             */
 
         //-- 暂时无视 item / surface 这组概念
         //   但，高度区间是一定要有的，不然怎么实现碰撞检测 ？？？
-        assert( low < high );
+        tprAssert( low < high );
             
         //-- isBody --//
         if( low > 100 ){

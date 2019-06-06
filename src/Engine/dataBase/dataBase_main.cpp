@@ -104,22 +104,24 @@ void atom_writeBack_to_table_gameArchive(){
     //--- atom ---//
     //此处不该上锁，下面调用了 atom 函数，会引发 递归锁
 
-    goid_t goid = esrc::player.goPtr->id;
-    IntVec2 mpos = esrc::player.goPtr->goPos.get_currentMPos();
+    Player &playerRef = esrc::get_player();
+
+    goid_t goid = playerRef.goPtr->id;
+    IntVec2 mpos = playerRef.goPtr->goPos.get_currentMPos();
 
 
     //-- 将新数据 写回 db --
-    esrc::gameArchive.playerGoId = goid;
-    esrc::gameArchive.playerGoMPos = mpos;
-    esrc::gameArchive.maxGoId = GameObj::id_manager.get_max_id();
-    esrc::gameArchive.gameTime = esrc::timer.get_gameTime();
+    esrc::get_gameArchive().playerGoId = goid;
+    esrc::get_gameArchive().playerGoMPos = mpos;
+    esrc::get_gameArchive().maxGoId = GameObj::id_manager.get_max_id();
+    esrc::get_gameArchive().gameTime = esrc::get_timer().get_gameTime();
     //...
 
-    db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
+    db::atom_insert_or_replace_to_table_gameArchive( esrc::get_gameArchive() );
 
     DiskGameObj diskGo {};
     diskGo.goid = goid;
-    diskGo.goSpecId = esrc::player.goPtr->species;
+    diskGo.goSpecId = playerRef.goPtr->species;
     diskGo.mpos = mpos;
     db::atom_insert_or_replace_to_table_goes( diskGo );
 

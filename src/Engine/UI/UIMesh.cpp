@@ -8,7 +8,7 @@
 #include "UIMesh.h" 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -60,8 +60,10 @@ void UIMesh::RenderUpdate(){
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
 
-    esrc::renderPool_uiMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z, 
-                                            this->picMesh.getnc_UIChildMeshPtr() });
+    //esrc::renderPool_uiMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z, 
+    //                                        this->picMesh.getnc_UIChildMeshPtr() });
+    esrc::insert_2_renderPool_uiMeshs_pic(  this->picMesh.get_render_z() + this->off_z, 
+                                            this->picMesh.getnc_UIChildMeshPtr() );
 
     //---------------//
     //   shadow

@@ -7,8 +7,8 @@
  *    专门存放 文件系统 相关的 函数
  * ----------------------------
  */
-#ifndef _TPR_FILESYS_UNIX_H_
-#define _TPR_FILESYS_UNIX_H_
+#ifndef TPR_FILESYS_UNIX_H_
+#define TPR_FILESYS_UNIX_H_
 
 #include <string>
 

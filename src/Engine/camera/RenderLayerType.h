@@ -7,8 +7,8 @@
  *   render layer
  * ----------------------------
  */
-#ifndef _TPR_RENDER_LAYER_H_
-#define _TPR_RENDER_LAYER_H_
+#ifndef TPR_RENDER_LAYER_H_
+#define TPR_RENDER_LAYER_H_
 
 
 

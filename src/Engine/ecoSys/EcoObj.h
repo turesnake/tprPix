@@ -5,16 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ECO_OBJ_H_
-#define _TPR_ECO_OBJ_H_
+#ifndef TPR_ECO_OBJ_H_
+#define TPR_ECO_OBJ_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "sectionKey.h"
 #include "EcoSysPlanType.h"
 #include "Quad.h"

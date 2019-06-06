@@ -7,11 +7,11 @@
  *    section "id":  (int)w + (int)h
  * ----------------------------
  */
-#ifndef _TPR_SECTION_KEY_H_
-#define _TPR_SECTION_KEY_H_
+#ifndef TPR_SECTION_KEY_H_
+#define TPR_SECTION_KEY_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -20,6 +20,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "IntVec.h" 
 #include "MapCoord.h"
@@ -112,7 +113,7 @@ inline sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos ){
  *    如果参数不为 sectionMPos，直接报错。
  */
 inline sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &_sectionMPos ){
-        assert( anyMPos_2_sectionMPos(_sectionMPos) == _sectionMPos ); //- tmp
+        tprAssert( anyMPos_2_sectionMPos(_sectionMPos) == _sectionMPos ); //- tmp
     return sectionMPos_2_key_inn( _sectionMPos );
 }
 

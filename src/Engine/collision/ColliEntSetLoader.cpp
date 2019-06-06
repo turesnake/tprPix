@@ -8,13 +8,14 @@
 #include "ColliEntSetLoader.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 //#include "tprFileSys.h" 
 #include "tprGeneral.h"
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "global.h"
 #include "ColliEntSet_RGBAHandle.h"
 #include "load_and_divide_png.h"
@@ -40,7 +41,7 @@ void ColliEntSetLoader::init(){
                                             this->totalFrameNum,
                                             frame_data_ary );
 
-    assert( (this->pixNum_per_frame.x==5*PIXES_PER_MAPENT) && 
+    tprAssert( (this->pixNum_per_frame.x==5*PIXES_PER_MAPENT) && 
             (this->pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
         
     //----------------------------//

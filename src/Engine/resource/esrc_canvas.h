@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_CANVAS_H_
-#define _TPR_ESRC_CANVAS_H_
+#ifndef TPR_ESRC_CANVAS_H_
+#define TPR_ESRC_CANVAS_H_
 
 //-------------------- Engine --------------------//
 #include "Canvas.h"
@@ -15,8 +15,8 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-inline Canvas  groundCanvas {};
-inline Canvas  waterAnimCanvas {};
+//inline Canvas  groundCanvas {};
+//inline Canvas  waterAnimCanvas {};
 
 void init_canvases();
 void draw_groundCanvas();

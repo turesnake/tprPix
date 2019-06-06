@@ -7,8 +7,8 @@
  *   ppos 在其所处的 mapent 中的 位置偏移 （左下角） 
  * ----------------------------
  */
-#ifndef _TPR_MAP_ENT_COMPASS_H_
-#define _TPR_MAP_ENT_COMPASS_H_
+#ifndef TPR_MAP_ENT_COMPASS_H_
+#define TPR_MAP_ENT_COMPASS_H_
 
 //--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -18,9 +18,10 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "IntVec.h"
 
@@ -32,7 +33,7 @@ public:
     MapEntCompass( int _x, int _y ):
         x(_x),
         y(_y)
-        { assert(   (x >= 0) && (x < PIXES_PER_MAPENT) && 
+        { tprAssert(   (x >= 0) && (x < PIXES_PER_MAPENT) && 
                     (y >= 0) && (y < PIXES_PER_MAPENT) ); }
 
     //---- funcs ----//

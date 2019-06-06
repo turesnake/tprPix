@@ -7,8 +7,8 @@
  *   游戏中全体 go 具象类 h文件 include
  * ----------------------------
  */
-#ifndef _TPR_ALL_GOES_H_
-#define _TPR_ALL_GOES_H_
+#ifndef TPR_ALL_GOES_H_
+#define TPR_ALL_GOES_H_
 
 
 

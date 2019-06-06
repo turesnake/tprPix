@@ -24,13 +24,14 @@
             //-- glm::value_ptr
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "gameKeyTable.h"
 #include "IntVec.h" 
@@ -92,11 +93,11 @@ void init_input(){
     //----------------------//
     // keyboardTable_runtime
     //----------------------//
-    assert( keyboardTable.size() == GameKeyNum );
-    assert( keyboardTable.at(GameKey::LEFT)  != KeyBoard::NIL );
-    assert( keyboardTable.at(GameKey::RIGHT) != KeyBoard::NIL );
-    assert( keyboardTable.at(GameKey::UP)    != KeyBoard::NIL );
-    assert( keyboardTable.at(GameKey::DOWN)  != KeyBoard::NIL );
+    tprAssert( keyboardTable.size() == GameKeyNum );
+    tprAssert( keyboardTable.at(GameKey::LEFT)  != KeyBoard::NIL );
+    tprAssert( keyboardTable.at(GameKey::RIGHT) != KeyBoard::NIL );
+    tprAssert( keyboardTable.at(GameKey::UP)    != KeyBoard::NIL );
+    tprAssert( keyboardTable.at(GameKey::DOWN)  != KeyBoard::NIL );
 
     keyboardTable_runtime.clear();
     for( const auto &pair : keyboardTable ){
@@ -214,7 +215,7 @@ void processInput( GLFWwindow *_windowPtr ){
 IntVec2 get_mouse_pos(){
     double x;
     double y;
-    glfwGetCursorPos( esrc::windowPtr, &x, &y);
+    glfwGetCursorPos( esrc::get_windowPtr(), &x, &y);
     return IntVec2{ (int)x, (int)y };
 }
 

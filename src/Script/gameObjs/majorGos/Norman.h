@@ -7,8 +7,8 @@
  *   诺曼人
  * ----------------------------
  */
-#ifndef _TPR_NORMAN_H_
-#define _TPR_NORMAN_H_
+#ifndef TPR_NORMAN_H_
+#define TPR_NORMAN_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -16,6 +16,7 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
@@ -60,7 +61,7 @@ public:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == Norman::specId );
+        tprAssert( _goPtr->species == Norman::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
         pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr();

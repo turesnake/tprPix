@@ -7,8 +7,8 @@
  *   camera.viewingBox
  * ----------------------------
  */
-#ifndef _TPR_VIEWING_BOX_H_
-#define _TPR_VIEWING_BOX_H_
+#ifndef TPR_VIEWING_BOX_H_
+#define TPR_VIEWING_BOX_H_
 
 //--- glm - - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -17,9 +17,10 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "windowConfig.h"
 #include "config.h"
 #include "RenderLayerType.h"
@@ -39,10 +40,10 @@ public:
             case RenderLayerType::Debug:       return debug_zOff;
             case RenderLayerType::UIs:         return UIs_zOff;
             case RenderLayerType::MajorGoes: 
-                assert(0);
+                tprAssert(0);
                 return 0.0; //- never reach
             default:
-                assert(0);
+                tprAssert(0);
                 return 0.0; //- never reach
         }
     }

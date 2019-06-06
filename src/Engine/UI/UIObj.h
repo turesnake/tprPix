@@ -5,8 +5,8 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_UI_OBJ_H_
-#define _TPR_UI_OBJ_H_
+#ifndef TPR_UI_OBJ_H_
+#define TPR_UI_OBJ_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

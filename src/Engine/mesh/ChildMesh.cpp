@@ -8,9 +8,10 @@
 #include "ChildMesh.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "VAOVBO.h" 
@@ -72,7 +73,7 @@ void ChildMesh::refresh_translate(){
         this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + this->goPtr->goPos.get_alti();
                                     //-- 累加 高度alti
         if( goMeshPtr->isPicFixedZOff ){
-            this->translate_val.z = esrc::camera.get_zFar() + goMeshPtr->get_picFixedZOff();
+            this->translate_val.z = esrc::get_camera().get_zFar() + goMeshPtr->get_picFixedZOff();
         }else{
             this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->get_off_z());
                                         //-- ** 注意！**  z值的计算有不同：
@@ -86,7 +87,7 @@ void ChildMesh::refresh_translate(){
         this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
                                     //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
-        this->translate_val.z = esrc::camera.get_zFar() + ViewingBox::goShadows_zOff;
+        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff;
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }
@@ -127,14 +128,14 @@ void ChildMesh::draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( this->shaderPtr != nullptr );
+    tprAssert( this->shaderPtr != nullptr );
     this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
-    assert( texName != 0 ); 
+    tprAssert( texName != 0 ); 
     glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------

@@ -8,7 +8,7 @@
 #include "AnimFrameSet.h"
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <algorithm> //- find
@@ -18,6 +18,7 @@
 #include "tprGeneral.h" 
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "global.h"
 #include "Pjt_RGBAHandle.h"
 #include "create_texNames.h"
@@ -84,8 +85,8 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //-------------------//
     //-- 获得本次 insert 的 起始idx
     size_t lastNums = this->framePoses.size();
-    assert( this->texNames_pic.size() == lastNums );
-    assert( this->texNames_shadow.size() == lastNums );
+    tprAssert( this->texNames_pic.size() == lastNums );
+    tprAssert( this->texNames_shadow.size() == lastNums );
     headIdx = lastNums;
 
     //----------------------------------------//
@@ -128,7 +129,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
                                     totalFrameNum,
                                     J_frame_data_ary );
     }
-    assert( tmpv2 == pixNum_per_frame );
+    tprAssert( tmpv2 == pixNum_per_frame );
     this->handle_pjt();
 
     //-------------------//
@@ -148,7 +149,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
                                         S_frame_data_ary );
         }
 
-        assert( tmpv2 == pixNum_per_frame );
+        tprAssert( tmpv2 == pixNum_per_frame );
         this->handle_shadow();
         tmpTexNames.clear();
         create_texNames( totalFrameNum,
@@ -202,7 +203,7 @@ void AnimFrameSet::handle_pjt(){
     for( size_t f=0; f<static_cast<size_t>(totalFrameNum); f++ ){ //--- each frame ---
 
         idx_framePoses = headIdx + f;
-        assert( this->framePoses.size() > idx_framePoses );
+        tprAssert( this->framePoses.size() > idx_framePoses );
 
         for( int p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 

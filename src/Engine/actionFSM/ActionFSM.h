@@ -12,8 +12,8 @@
  *  
  * ----------------------------
  */
-#ifndef _TPR_ACTION_FSM_H_
-#define _TPR_ACTION_FSM_H_
+#ifndef TPR_ACTION_FSM_H_
+#define TPR_ACTION_FSM_H_
 
 
 //-------------------- CPP --------------------//

@@ -7,8 +7,8 @@
  *   键盘，鼠标，joystick 等输入设备 管理文件
  * ----------------------------
  */
-#ifndef _TPR_INPUT_H_
-#define _TPR_INPUT_H_
+#ifndef TPR_INPUT_H_
+#define TPR_INPUT_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

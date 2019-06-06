@@ -9,8 +9,8 @@
  *  物理鼠键 -> inputINS -> GameObjINS
  * ----------------------------
  */
-#ifndef _TPR_INPUT_INS_H_
-#define _TPR_INPUT_INS_H_
+#ifndef TPR_INPUT_INS_H_
+#define TPR_INPUT_INS_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -20,6 +20,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "GameKey.h"
 #include "DirAxes.h"
 
@@ -52,10 +53,10 @@ public:
     inline void set_key_from_joystick( const GameKey &_key ){
         switch( _key ){
             //-- 暂时不允许 设置 方向键 button 
-            case GameKey::LEFT:   assert(0);
-            case GameKey::RIGHT:  assert(0);
-            case GameKey::UP:     assert(0);
-            case GameKey::DOWN:   assert(0);
+            case GameKey::LEFT:   tprAssert(0);
+            case GameKey::RIGHT:  tprAssert(0);
+            case GameKey::UP:     tprAssert(0);
+            case GameKey::DOWN:   tprAssert(0);
             default: //- oth keys
                 keys = keys | (1<<(int)_key);
                 break;
@@ -83,7 +84,7 @@ public:
                 case GameKey::UP:    return (dirAxes.get_y() >  0.0);
                 case GameKey::DOWN:  return (dirAxes.get_y() < -0.0);
                 default:
-                    assert(0);
+                    tprAssert(0);
                     return false;
             }
         }

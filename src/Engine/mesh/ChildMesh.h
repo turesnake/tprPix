@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_CHILD_MESH_H_
-#define _TPR_CHILD_MESH_H_
+#ifndef TPR_CHILD_MESH_H_
+#define TPR_CHILD_MESH_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

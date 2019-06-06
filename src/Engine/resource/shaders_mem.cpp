@@ -12,6 +12,20 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+
+namespace {//-------- namespace: --------------//
+
+    ShaderProgram rect_shader {}; 
+
+}//------------- namespace: end --------------//
+
+
+ShaderProgram &get_rect_shader(){
+    return rect_shader;
+}
+
+
+
 /* ===========================================================
  *                    init_shaders     [pure]
  * -----------------------------------------------------------

@@ -25,6 +25,9 @@ namespace esrc{//------------------ namespace: esrc -------------------------//
 
 namespace {//-------- namespace: --------------//
 
+    Canvas  groundCanvas {};
+    Canvas  waterAnimCanvas {};
+
     //bool  is_ground_baseUniforms_transmited {false}; // 未被使用...
     bool  is_waterAnim_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
                                         // 这些值是固定的，每次游戏只需传入一次...
@@ -103,7 +106,7 @@ void draw_groundCanvas(){
     glUniform1f(esrc::groundCanvas.get_uniform_location("u_time"), 
                     (float)glfwGetTime() ); //- 1-float
 
-    const glm::vec2 cameraFPos = esrc::camera.get_camera2DFPos();
+    const glm::vec2 cameraFPos = esrc::get_camera().get_camera2DFPos();
 
 
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
@@ -116,7 +119,7 @@ void draw_groundCanvas(){
 
     esrc::groundCanvas.set_translate( canvasFPos.x,
                                       canvasFPos.y,
-                                      esrc::camera.get_zFar() + ViewingBox::ground_zOff );
+                                      esrc::get_camera().get_zFar() + ViewingBox::ground_zOff );
     
     glUniform2f(esrc::groundCanvas.get_uniform_location("canvasCFPos"), 
                     canvasFPos.x / PIXES_PER_CHUNK,
@@ -148,7 +151,7 @@ void draw_waterAnimCanvas(){
     glUniform1f(esrc::waterAnimCanvas.get_uniform_location("u_time"), 
                     (float)glfwGetTime() ); //- 1-float
 
-    const glm::vec2 cameraFPos = esrc::camera.get_camera2DFPos();
+    const glm::vec2 cameraFPos = esrc::get_camera().get_camera2DFPos();
 
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
     float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
@@ -159,7 +162,7 @@ void draw_waterAnimCanvas(){
 
     esrc::waterAnimCanvas.set_translate(canvasFPos.x,
                                         canvasFPos.y,
-                                        esrc::camera.get_zFar() + ViewingBox::waterAnim_zOff );
+                                        esrc::get_camera().get_zFar() + ViewingBox::waterAnim_zOff );
                                         //- 这一步是正确的，canvas 与 window 成功对齐，
                                         //  进而可知，SCR_WIDTH，SCR_HEIGHT 的使用也是正确的
 
@@ -169,10 +172,11 @@ void draw_waterAnimCanvas(){
 
     
     //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
-    const glm::vec2 &altiSeed_pposOffSeaLvl = esrc::gameSeed.get_altiSeed_pposOffSeaLvl();
-    const glm::vec2 &altiSeed_pposOffBig = esrc::gameSeed.get_altiSeed_pposOffBig();
-    const glm::vec2 &altiSeed_pposOffMid = esrc::gameSeed.get_altiSeed_pposOffMid();
-    const glm::vec2 &altiSeed_pposOffSml = esrc::gameSeed.get_altiSeed_pposOffSml();
+    GameSeed &gameSeedRef = esrc::get_gameSeed();
+    const glm::vec2 &altiSeed_pposOffSeaLvl = gameSeedRef.get_altiSeed_pposOffSeaLvl();
+    const glm::vec2 &altiSeed_pposOffBig    = gameSeedRef.get_altiSeed_pposOffBig();
+    const glm::vec2 &altiSeed_pposOffMid    = gameSeedRef.get_altiSeed_pposOffMid();
+    const glm::vec2 &altiSeed_pposOffSml    = gameSeedRef.get_altiSeed_pposOffSml();
 
     glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
     glUniform1f(esrc::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float

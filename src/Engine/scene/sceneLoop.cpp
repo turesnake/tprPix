@@ -7,9 +7,10 @@
  */
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "sceneLoop.h"
 #include "sceneLoopInn.h"
 
@@ -30,7 +31,7 @@ void switch_sceneLoop( const SceneLoopType &_type ){
         break;
     
     default:
-        assert(0);
+        tprAssert(0);
         break;
     }
 

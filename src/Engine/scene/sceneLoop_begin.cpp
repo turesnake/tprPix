@@ -21,12 +21,13 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "input.h"
 #include "IntVec.h"
 #include "chunkBuild.h"
@@ -105,7 +106,7 @@ void prepare_for_sceneBegin(){
     //----------------------------//
     //-- 从 数据库读取 所有 gameArchives 的数据 --
     db::atom_select_all_from_table_gameArchive( gameArchives );
-        assert( gameArchives.size() <= 3 );
+        tprAssert( gameArchives.size() <= 3 );
     
     for( const auto &pair : gameArchives ){
         //-- 如果哪个 存档已经有数据了，修改其图标（显示"data"）
@@ -115,7 +116,7 @@ void prepare_for_sceneBegin(){
             case 2:  button_archive_2_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
             case 3:  button_archive_3_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
             default:
-                assert(0);
+                tprAssert(0);
         }
     }
     
@@ -138,11 +139,12 @@ void sceneLoop_begin(){
     //    camera --> shader: view, projection
     //--------------------------------//
     //-- 此时 方向键 并不影响 camera 位移
-    esrc::camera.RenderUpdate();
+    esrc::get_camera().RenderUpdate();
     //--- 
-    esrc::rect_shader.use_program();
-    esrc::rect_shader.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
-    esrc::rect_shader.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
+    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
+    rect_shaderRef.use_program();
+    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //====================================//
     //          -- RENDER --
@@ -150,7 +152,8 @@ void sceneLoop_begin(){
     //====================================//
     //--- clear RenderPools:
     // *** 注意次序 ***
-    esrc::renderPool_uiMeshs_pic.clear();
+    //esrc::renderPool_uiMeshs_pic.clear();
+    esrc::clear_renderPool_uiMeshs_pic();
 
     //------------------------//
     //     - shadowMeshs
@@ -158,7 +161,7 @@ void sceneLoop_begin(){
     //------------------------//
     esrc::foreach_uiIds_active(
         []( uiObjId_t _uiObjId, UIObj *_uiObjPtr ){
-            //assert( _uiObjPtr->RenderUpdate != nullptr );
+            //tprAssert( _uiObjPtr->RenderUpdate != nullptr );
             //_uiObjPtr->RenderUpdate( _uiObjPtr ); 
             _uiObjPtr->renderUpdate();
         }
@@ -211,11 +214,11 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
             //   玩家选中的 存档为 空 
             //-----------------------//
             u32_t target_baseSeed = GameSeed::apply_new_baseSeed();
-            esrc::gameSeed.init( target_baseSeed );
+            esrc::get_gameSeed().init( target_baseSeed );
 
             //-- gameTime --
             double newGameTime = 0.0;
-            esrc::timer.start_record_gameTime( newGameTime );
+            esrc::get_timer().start_record_gameTime( newGameTime );
 
             //-- max goid --
             // 必须在 chunks／goes 生成之前
@@ -240,41 +243,43 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos } );
                 //-- db::table_gameArchive --
                 
-                esrc::gameArchive = GameArchive {   archiveId, 
+                esrc::get_gameArchive() = GameArchive {   archiveId, 
                                                     target_baseSeed,
                                                     newGoId,
                                                     newGoMPos,
                                                     GameObj::id_manager.get_max_id(), //- chunk 生成后，maxId 变了
                                                     newGameTime  
                                                     };
-                db::atom_insert_or_replace_to_table_gameArchive( esrc::gameArchive );
+                db::atom_insert_or_replace_to_table_gameArchive( esrc::get_gameArchive() );
 
                 //-- player --
-                esrc::player.bind_go( newGoId ); //-- 务必在 go数据实例化后 再调用 --
+                esrc::get_player().bind_go( newGoId ); //-- 务必在 go数据实例化后 再调用 --
 
         }else{
             //-----------------------//
             //  玩家选中的 存档 已经存在 
             //-----------------------//
-            esrc::gameArchive = gameArchives.at(archiveId); //- copy
+            GameArchive &targetGameArchive = esrc::get_gameArchive();
 
-            esrc::gameSeed.init( esrc::gameArchive.baseSeed );
-            GameObj::id_manager.set_max_id( esrc::gameArchive.maxGoId );
+            targetGameArchive = gameArchives.at(archiveId); //- copy
+
+            esrc::get_gameSeed().init( targetGameArchive.baseSeed );
+            GameObj::id_manager.set_max_id( targetGameArchive.maxGoId );
 
                 cout << "maxGoId_from_db = " << GameObj::id_manager.get_max_id() << endl;
 
             //-- gameTime --
-            esrc::timer.start_record_gameTime( esrc::gameArchive.gameTime );
+            esrc::get_timer().start_record_gameTime( targetGameArchive.gameTime );
 
-                cout << "gameTime_from_db = " << esrc::gameArchive.gameTime << endl;
+                cout << "gameTime_from_db = " << targetGameArchive.gameTime << endl;
 
             //-- db::table_goes --
             DiskGameObj diskGo {};
-            db::atom_select_one_from_table_goes( esrc::gameArchive.playerGoId, diskGo );
-                assert( diskGo.mpos == esrc::gameArchive.playerGoMPos ); //- tmp
+            db::atom_select_one_from_table_goes( targetGameArchive.playerGoId, diskGo );
+                tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
             
             //--- 先生成 chunks --
-            chunkBuild::build_9_chunks( esrc::gameArchive.playerGoMPos );
+            chunkBuild::build_9_chunks( targetGameArchive.playerGoMPos );
             
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...
@@ -284,7 +289,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
                                         Density {} );
 
             //-- player --
-            esrc::player.bind_go( esrc::gameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --
+            esrc::get_player().bind_go( targetGameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --
         }
 
         // 准备进入 sceneWorld ...

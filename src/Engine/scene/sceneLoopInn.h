@@ -7,8 +7,8 @@
  *    
  * ----------------------------
  */
-#ifndef _TPR_SCENE_LOOP_INN_H_
-#define _TPR_SCENE_LOOP_INN_H_
+#ifndef TPR_SCENE_LOOP_INN_H_
+#define TPR_SCENE_LOOP_INN_H_
 
 
 void sceneLoop_begin();

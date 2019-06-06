@@ -15,9 +15,10 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h" 
 #include "esrc_colliEntSet.h"
 
@@ -29,7 +30,7 @@
  * -----------------------------------------------------------
  */
 void FramePos::calc_ceh_mposOff_from_cesLB_2_centerMPos(){
-    assert( this->is_rootAnchorPos_set == true );
+    tprAssert( this->is_rootAnchorPos_set == true );
     this->colliEntHead.mposOff_from_cesLB_2_centerMPos = 
             esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerMPos();
 }
@@ -56,14 +57,14 @@ void FramePos::calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid(){
 void FramePos::check(){
 
     //--- 确保关键数据已载入 ---//
-    assert( this->is_rootAnchorPos_set &&
+    tprAssert( this->is_rootAnchorPos_set &&
             this->is_colliEntHead_set );
 
     //   目前什么都没做 ...
     
     //-- 检测 animFrameSet.rootAnchor 与 ceh 是否对齐 --//
     //const MapEntCompass &centerCompass = esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerCompass();
-    //assert( centerCompass == this->rootAnchorPos.compass ); //- 确保对齐 ！！！ --
+    //tprAssert( centerCompass == this->rootAnchorPos.compass ); //- 确保对齐 ！！！ --
                 // 这一对齐，将使的，所有 frame中，rootAnchorPos点 都必须正好位于 其 ces 指定的 center 点上...
 
 }

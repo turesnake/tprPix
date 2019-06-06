@@ -5,14 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ANIM_ACTION_H_
-#define _TPR_ANIM_ACTION_H_
+#ifndef TPR_ANIM_ACTION_H_
+#define TPR_ANIM_ACTION_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -21,6 +21,7 @@
 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
 #include "FramePos.h"

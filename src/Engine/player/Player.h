@@ -8,11 +8,11 @@
  *    ----------
  * ----------------------------
  */
-#ifndef _TPR_PLAYER_H_
-#define _TPR_PLAYER_H_
+#ifndef TPR_PLAYER_H_
+#define TPR_PLAYER_H_
 
 //------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

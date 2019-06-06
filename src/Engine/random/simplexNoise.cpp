@@ -10,7 +10,7 @@
 #include "simplexNoise.h"
 
 //-------------------- C ----------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 

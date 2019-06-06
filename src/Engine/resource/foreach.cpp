@@ -20,10 +20,17 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
  * -----------------------------------------------------------
  */
 void foreach_memGameObjs( F_GOID_GOPTR _fp ){
-    auto ipair = esrc::memGameObjs.begin();
-    for( ; ipair!=esrc::memGameObjs.end(); ipair++ ){
+    
+    auto ipair = esrc::get_memGameObjs().begin();
+    for( ; ipair!=esrc::get_memGameObjs().end(); ipair++ ){
         _fp( ipair->first, &(ipair->second) );
     }
+    
+    /*
+    for( auto &pair : esrc::get_memGameObjs() ){
+        _fp( pair.first, &(pair.second) );
+    }
+    */
 }
 
 
@@ -32,8 +39,8 @@ void foreach_memGameObjs( F_GOID_GOPTR _fp ){
  * -----------------------------------------------------------
  */
 void foreach_memUIs( F_UIObjId_GOPTR _fp ){
-    auto ipair = esrc::memUIs.begin();
-    for( ; ipair!=esrc::memUIs.end(); ipair++ ){
+    auto ipair = esrc::get_memUIs().begin();
+    for( ; ipair!=esrc::get_memUIs().end(); ipair++ ){
         _fp( ipair->first, &(ipair->second) );
     }
 }
@@ -47,10 +54,10 @@ void foreach_memUIs( F_UIObjId_GOPTR _fp ){
 void foreach_goids_active( F_GOID_GOPTR _fp ){
 
     GameObj *goPtr;
-    auto it = esrc::goids_active.begin();
-    for( ; it!=esrc::goids_active.end(); it++ ){
+    auto it = esrc::get_goids_active().begin();
+    for( ; it!=esrc::get_goids_active().end(); it++ ){
 
-        goPtr = &(esrc::memGameObjs.at(*it));
+        goPtr = &(esrc::get_memGameObjs().at(*it));
         _fp( *it, goPtr );
     }
 }
@@ -63,9 +70,9 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
 void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
 
     UIObj *uiGoPtr;
-    auto it = esrc::uiIds_active.begin();
-    for( ; it!=esrc::uiIds_active.end(); it++ ){
-        uiGoPtr = &(esrc::memUIs.at(*it));
+    auto it = esrc::get_uiIds_active().begin();
+    for( ; it!=esrc::get_uiIds_active().end(); it++ ){
+        uiGoPtr = &(esrc::get_memUIs().at(*it));
         _fp( *it, uiGoPtr );
     }
 }
@@ -80,10 +87,10 @@ void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
 void foreach_goids_inactive( F_GOID_GOPTR _fp ){
 
     GameObj *goPtr;
-    auto it = esrc::goids_inactive.begin();
-    for( ; it!=esrc::goids_inactive.end(); it++ ){
+    auto it = esrc::get_goids_inactive().begin();
+    for( ; it!=esrc::get_goids_inactive().end(); it++ ){
 
-        goPtr = &(esrc::memGameObjs.at(*it));
+        goPtr = &(esrc::get_memGameObjs().at(*it));
         _fp( *it, goPtr );
     }
 }

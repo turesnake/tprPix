@@ -5,11 +5,11 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_CHUNK_H_
-#define _TPR_ESRC_CHUNK_H_
+#ifndef TPR_ESRC_CHUNK_H_
+#define TPR_ESRC_CHUNK_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 //#include <set>

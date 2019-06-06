@@ -7,11 +7,11 @@
  *    以像素为单位的 vec 向量。
  * ----------------------------
  */
-#ifndef _TPR_PIX_VEC_H_
-#define _TPR_PIX_VEC_H_
+#ifndef TPR_PIX_VEC_H_
+#define TPR_PIX_VEC_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 

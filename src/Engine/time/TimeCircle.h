@@ -7,8 +7,8 @@
  *   定义一种 时间循环
  * ----------------------------
  */
-#ifndef _TPR_TIME_CIRCLE_H_
-#define _TPR_TIME_CIRCLE_H_
+#ifndef TPR_TIME_CIRCLE_H_
+#define TPR_TIME_CIRCLE_H_
 
 #include "TimeBase.h"
 

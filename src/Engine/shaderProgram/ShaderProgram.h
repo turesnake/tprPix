@@ -7,8 +7,8 @@
  *   着色器程序 类
  * ----------------------------
  */
-#ifndef _TPR_SHADER_PROGRAM_H_
-#define _TPR_SHADER_PROGRAM_H_
+#ifndef TPR_SHADER_PROGRAM_H_
+#define TPR_SHADER_PROGRAM_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 
@@ -26,12 +26,15 @@
             //-- glm::value_ptr
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 
@@ -45,13 +48,13 @@ public:
 
     //-- 从 着色器程序中 获得 目标变量的 地址
     inline void add_new_uniform( const std::string &_name ){
-        assert( this->uniforms.find(_name) == this->uniforms.end() );
-        assert( this->is_shaderProgram_set );
+        tprAssert( this->uniforms.find(_name) == this->uniforms.end() );
+        tprAssert( this->is_shaderProgram_set );
         uniforms.insert({ _name, glGetUniformLocation(this->shaderProgram, _name.c_str()) });
     }
 
     inline GLuint get_uniform_location( const std::string &_name ){
-        assert( this->uniforms.find(_name) != this->uniforms.end() );
+        tprAssert( this->uniforms.find(_name) != this->uniforms.end() );
         return this->uniforms.at(_name);
     }
 

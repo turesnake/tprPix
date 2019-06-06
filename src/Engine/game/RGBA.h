@@ -7,15 +7,18 @@
  *   png pix color: RGBA
  * ----------------------------
  */
-#ifndef _TPR_RGBA_H_
-#define _TPR_RGBA_H_
+#ifndef TPR_RGBA_H_
+#define TPR_RGBA_H_
 
 //------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 enum class RGBA_ChannelType : u8_t {
@@ -64,7 +67,7 @@ public:
         int gg = static_cast<int>(this->g) + static_cast<int>(_g);
         int bb = static_cast<int>(this->b) + static_cast<int>(_b);
         int aa = static_cast<int>(this->a) + static_cast<int>(_a);
-        assert( (rr>=0) && (rr<256) &&
+        tprAssert( (rr>=0) && (rr<256) &&
                 (gg>=0) && (gg<256) &&
                 (bb>=0) && (bb<256) );
         return RGBA {   static_cast<u8_t>(rr), 
@@ -102,7 +105,7 @@ inline RGBA operator + ( const RGBA &_a, const RGBA &_b ){
     int gg = static_cast<int>(_a.g) + static_cast<int>(_b.g);
     int bb = static_cast<int>(_a.b) + static_cast<int>(_b.b);
     int aa = static_cast<int>(_a.a) + static_cast<int>(_b.a);
-        assert( (rr<256) && (gg<256) && (bb<256) && (aa<256) );
+        tprAssert( (rr<256) && (gg<256) && (bb<256) && (aa<256) );
     return RGBA {   static_cast<u8_t>(rr), 
                     static_cast<u8_t>(gg),
                     static_cast<u8_t>(bb),
@@ -136,7 +139,7 @@ inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
  */
 inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
 
-    assert( (_aPercent>=0.0) && (_aPercent<=1.0) );
+    tprAssert( (_aPercent>=0.0) && (_aPercent<=1.0) );
 
     float bPercent = 1.0f - _aPercent;
 
@@ -161,7 +164,7 @@ inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
  */
 inline RGBA multiply( const RGBA &_a, const RGBA &_b, float _bPercent ){
 
-    assert( (_bPercent>=0.0) && (_bPercent<=1.0) );
+    tprAssert( (_bPercent>=0.0) && (_bPercent<=1.0) );
 
     float r = static_cast<float>(_a.r) * static_cast<float>(_b.r) / 255.0f;
     float g = static_cast<float>(_a.g) * static_cast<float>(_b.g) / 255.0f;

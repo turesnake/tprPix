@@ -7,8 +7,8 @@
  *   chunk build api
  * ----------------------------
  */
-#ifndef _TPR_CHUNK_BUILD_H
-#define _TPR_CHUNK_BUILD_H
+#ifndef TPR_CHUNK_BUILD_H
+#define TPR_CHUNK_BUILD_H
 
 //------------------- CPP --------------------//
 #include <vector>

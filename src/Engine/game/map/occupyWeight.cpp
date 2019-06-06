@@ -8,10 +8,13 @@
 #include "occupyWeight.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
+
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 namespace{//-------- namespace: --------------//
@@ -38,11 +41,11 @@ namespace{//-------- namespace: --------------//
  */
 occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
 
-    assert( (_oddEven.x>=0) && (_oddEven.x<=1) && 
+    tprAssert( (_oddEven.x>=0) && (_oddEven.x<=1) && 
             (_oddEven.y>=0) && (_oddEven.y<=1) );
 
     size_t containerIdx = _oddEven.y * 2 + _oddEven.x;
-        //assert( containerIdx < occupyWeights.size() ); //- tmp
+        //tprAssert( containerIdx < occupyWeights.size() ); //- tmp
     const std::vector<occupyWeight_t> &container = occupyWeights.at(containerIdx);
 
     size_t idx = _randIdx % container.size(); //- mod

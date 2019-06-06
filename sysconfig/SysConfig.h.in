@@ -1,7 +1,7 @@
 // 注释行 格式
 
-#ifndef _TPR_SYS_CONFIG_TPR_H_
-#define _TPR_SYS_CONFIG_TPR_H_
+#ifndef TPR_SYS_CONFIG_TPR_H_
+#define TPR_SYS_CONFIG_TPR_H_
 
 //-- 获得 项目版本号，设置为 宏，以便 源码 中使用。
 #define VERSION_MAJOR @VERSION_MAJOR@
@@ -11,9 +11,9 @@
 #cmakedefine SWITCH_1
 
 //-- 标明自己所处 OS
-#cmakedefine  _TPR_OS_APPLE_
-#cmakedefine  _TPR_OS_UNIX_
-#cmakedefine  _TPR_OS_WIN32_
+#cmakedefine  TPR_OS_APPLE_
+#cmakedefine  TPR_OS_UNIX_
+#cmakedefine  TPR_OS_WIN32_
 
 
 

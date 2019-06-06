@@ -8,12 +8,13 @@
  * ----------------------------
  */
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <shared_mutex> //- c++17 读写锁
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_ecoObj.h"
 #include "config.h"
 #include "sectionKey.h"
@@ -82,7 +83,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
     }
     
     //=== still locked ===//
-    assert( nearby_four_ecoSysIds.size() == 4 );
+    tprAssert( nearby_four_ecoSysIds.size() == 4 );
     //-- 若 目标 ecoObj 实例 就是 node
     //   则此时会直接返回
     if( is_find_in_ecoObjs_(_ecoObjKey) ){
@@ -112,7 +113,7 @@ const std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( secti
     std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            assert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
+            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
         const auto &ecoObjRef = esrc::ecoObjs.at(_sectionkey);
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
@@ -137,7 +138,7 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
     const std::vector<RGBA> *ptr;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            assert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
+            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
         ptr = esrc::ecoObjs.at(_sectionkey).get_landColorsPtr();
     }
     return ptr;
@@ -151,7 +152,7 @@ const goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, siz
     goSpecId_t id;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            assert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
+            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
         id = esrc::ecoObjs.at(_sectionkey).apply_a_rand_goSpecId( _densityIdx, _randV  );
     }
     return id;
@@ -166,7 +167,7 @@ const float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Densit
     float val;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            assert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
+            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
         val = esrc::ecoObjs.at(_sectionkey).get_applyPercent( _density );
     }
     return val;

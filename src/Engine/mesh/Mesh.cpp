@@ -11,9 +11,10 @@
 #include "Mesh.h" 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "VAOVBO.h" 
 #include "vector_matrix.h"
 
@@ -55,14 +56,14 @@ void Mesh::draw(){
     }
     
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( this->shaderPtr != nullptr );
+    tprAssert( this->shaderPtr != nullptr );
     this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本mesh实例 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
-    assert( this->texName != 0 ); 
+    tprAssert( this->texName != 0 ); 
     glBindTexture(GL_TEXTURE_2D, this->texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------

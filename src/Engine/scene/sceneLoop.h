@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_SCENE_LOOP_H_
-#define _TPR_SCENE_LOOP_H_
+#ifndef TPR_SCENE_LOOP_H_
+#define TPR_SCENE_LOOP_H_
 
 
 //-------------------- CPP --------------------//

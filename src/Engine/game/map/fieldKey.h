@@ -7,12 +7,12 @@
  *    MapField "id":  (int)w + (int)h
  * ----------------------------
  */
-#ifndef _TPR_FIELD_KEY_H_
-#define _TPR_FIELD_KEY_H_
+#ifndef TPR_FIELD_KEY_H_
+#define TPR_FIELD_KEY_H_
 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -21,6 +21,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "IntVec.h" 
 #include "MapCoord.h"
@@ -104,7 +105,7 @@ inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &_anyMPos ){
  *    如果参数不为 fieldMPos，直接报错。
  */
 inline fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &_fieldMPos ){
-        assert( anyMPos_2_fieldMPos(_fieldMPos) == _fieldMPos );
+        tprAssert( anyMPos_2_fieldMPos(_fieldMPos) == _fieldMPos );
     return fieldMPos_2_key_inn( _fieldMPos );
 }
 

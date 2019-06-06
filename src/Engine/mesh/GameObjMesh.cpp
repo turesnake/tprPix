@@ -8,12 +8,13 @@
 #include "GameObjMesh.h" 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_animFrameSet.h"
 #include "esrc_renderPool.h"
 
@@ -62,14 +63,17 @@ void GameObjMesh::RenderUpdate(){
     this->picMesh.refresh_scale_auto();
     switch (this->picRenderLayerType){
         case RenderLayerType::MajorGoes:
-            esrc::renderPool_goMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z , 
-                                                    this->picMesh.getnc_ChildMeshPtr() });
+            //esrc::renderPool_goMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z , 
+            //                                        this->picMesh.getnc_ChildMeshPtr() });
+            esrc::insert_2_renderPool_goMeshs_pic(  this->picMesh.get_render_z() + this->off_z , 
+                                                    this->picMesh.getnc_ChildMeshPtr() );
             break;
         case RenderLayerType::MapSurfaces:
-            esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
+            //esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
+            esrc::pushback_2_renderPool_mapSurfaces( this->picMesh.getnc_ChildMeshPtr() );
             break;
         default:
-            assert(0);
+            tprAssert(0);
     }
 
     //---------------//
@@ -78,7 +82,8 @@ void GameObjMesh::RenderUpdate(){
     if( this->isHaveShadow ){
         this->shadowMesh.refresh_translate();
         this->shadowMesh.refresh_scale_auto();
-        esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_ChildMeshPtr() );
+        //esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_ChildMeshPtr() );
+        esrc::pushback_2_renderPool_goMeshs_shadow( this->shadowMesh.getnc_ChildMeshPtr() );
     }
 }
 

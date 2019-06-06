@@ -8,8 +8,8 @@
  *    Perlin Noise Next 
  * ----------------------------
  */
-#ifndef _TPR_PERLIN_NOISE_1D_H_
-#define _TPR_PERLIN_NOISE_1D_H_
+#ifndef TPR_PERLIN_NOISE_1D_H_
+#define TPR_PERLIN_NOISE_1D_H_
 #include "random.h"
 
 //--- glm - 0.9.9.5 ---
@@ -26,10 +26,13 @@
             //-- glm::value_ptr
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 
@@ -59,7 +62,7 @@ public:
     //-- 主功能，传入 perlin曲线的 x值，获得对应的 y值 --
     inline float get_y( float _x ){
 
-        assert( isInit == true );//- 确保 调用者执行 init 函数
+        tprAssert( isInit == true );//- 确保 调用者执行 init 函数
 
         _x *= freq;
         float i = glm::floor( _x ); //- 取 _x 的整数部分

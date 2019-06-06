@@ -15,6 +15,7 @@
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "input.h" 
 #include "GODirection.h"
 #include "GameKey.h"
@@ -51,7 +52,7 @@ void Player::bind_go( goid_t _goid ){
     }
 
 
-    assert( _goid != NULLID );
+    tprAssert( _goid != NULLID );
     this->goid = _goid;
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//

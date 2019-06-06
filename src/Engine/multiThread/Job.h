@@ -7,8 +7,8 @@
  *  将任务封装成不同的 job，发送给 job线程
  * ----------------------------
  */
-#ifndef _TPR_JOB_H_
-#define _TPR_JOB_H_
+#ifndef TPR_JOB_H_
+#define TPR_JOB_H_
 
 //-------------------- CPP --------------------//
 #include <vector>

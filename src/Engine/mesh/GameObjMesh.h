@@ -15,8 +15,8 @@
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 GameObjMeshes
  * ----------------------------
  */
-#ifndef _TPR_GAME_MESH_H_
-#define _TPR_GAME_MESH_H_
+#ifndef TPR_GAME_MESH_H_
+#define TPR_GAME_MESH_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 
@@ -35,6 +35,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "Collision.h" 
 #include "ChildMesh.h"
 #include "AnimAction.h"
@@ -99,7 +100,7 @@ public:
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
     inline const GLuint &get_currentTexName_shadow() const {
-        assert( this->isHaveShadow );
+        tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
     inline const IntVec2 &get_currentRootAnchorPPosOff() const {

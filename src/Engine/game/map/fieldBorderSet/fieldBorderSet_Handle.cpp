@@ -9,7 +9,7 @@
 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 
 //-------------------- CPP --------------------//
@@ -24,6 +24,7 @@
 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "RGBA.h"
 #include "global.h"
 #include "config.h"
@@ -84,7 +85,7 @@ void load_fieldBorderSets(){
                                                 totalFrameNum,
                                                 frame_data_ary );
     
-    assert( (pixNum_per_frame.x==PIXES_PER_FIELD_BORDER_SET ) &&
+    tprAssert( (pixNum_per_frame.x==PIXES_PER_FIELD_BORDER_SET ) &&
             (pixNum_per_frame.y==PIXES_PER_FIELD_BORDER_SET) );
 
     //----------------------------//

@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_JOBS_ALL_H_
-#define _TPR_JOBS_ALL_H_
+#ifndef TPR_JOBS_ALL_H_
+#define TPR_JOBS_ALL_H_
 
 //-------------------- Engine --------------------//
 #include "Job.h"

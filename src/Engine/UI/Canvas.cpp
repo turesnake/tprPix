@@ -8,6 +8,7 @@
 #include "Canvas.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "create_texNames.h"
 #include "windowConfig.h"
 #include "esrc_camera.h"
@@ -53,7 +54,7 @@ void Canvas::init(  IntVec2 *_texSizePtr,
  *   canvas.draw();
  */
 void Canvas::draw(){
-    assert( this->is_binded );
+    tprAssert( this->is_binded );
 
     //-- 每一帧都要 重设置，从而能让 canvas 跟随 被拉伸过的 window size --
     this->mesh.set_scale(glm::vec3{ (float)(this->texSizePtr->x), 
@@ -61,8 +62,8 @@ void Canvas::draw(){
                                     1.0f });
 
 
-    this->shaderProgram.send_mat4_view_2_shader( esrc::camera.update_mat4_view() );
-    this->shaderProgram.send_mat4_projection_2_shader( esrc::camera.update_mat4_projection() );
+    this->shaderProgram.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    this->shaderProgram.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     this->mesh.draw();
     this->is_binded = false;

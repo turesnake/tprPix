@@ -7,8 +7,8 @@
  *    随机数 模块
  * ----------------------------
  */
-#ifndef _TPR_PERLIN_NOISE_3D_H
-#define _TPR_PERLIN_NOISE_3D_H
+#ifndef TPR_PERLIN_NOISE_3D_H
+#define TPR_PERLIN_NOISE_3D_H
 
 
 //-------------------- CPP --------------------//

@@ -7,8 +7,8 @@
  *   
  * ----------------------------
  */
-#ifndef _TPR_PUB_BINARY_VAL_TYPE_H_
-#define _TPR_PUB_BINARY_VAL_TYPE_H_
+#ifndef TPR_PUB_BINARY_VAL_TYPE_H_
+#define TPR_PUB_BINARY_VAL_TYPE_H_
 
 //-------------------- CPP --------------------//
 #include <map>
@@ -29,11 +29,16 @@ enum class PubBinaryValType : u32_t{
 
 
 //- 记载了每一种元素的 字节数（类型）--
+/*
 inline std::map<u32_t, u32_t> PubBinaryValSizes {
     { static_cast<u32_t>(PubBinaryValType::HP), static_cast<u32_t>(sizeof(int)) },
     { static_cast<u32_t>(PubBinaryValType::MP), static_cast<u32_t>(sizeof(int)) }
     //...
 };
+*/
+
+std::map<u32_t, u32_t> &get_PubBinaryValSizes();
+
 
 
 

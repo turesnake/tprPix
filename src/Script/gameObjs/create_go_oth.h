@@ -7,13 +7,14 @@
  *  通用的 辅助函数
  * ---------------
  */
-#ifndef _TPR_CREATE_GO_OTH_H_
-#define _TPR_CREATE_GO_OTH_H_
+#ifndef TPR_CREATE_GO_OTH_H_
+#define TPR_CREATE_GO_OTH_H_
 
 //-------------------- CPP --------------------//
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h"
 #include "GameObjType.h"
 #include "Density.h"
@@ -72,7 +73,7 @@ inline int apply_treeAge_by_density( const Density &_density ){
         case 2: return 2;
         case 3: return 3;
         default:
-            assert(0);
+            tprAssert(0);
             return 3; //- never reach
     }
 }

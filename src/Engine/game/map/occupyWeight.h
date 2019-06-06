@@ -9,8 +9,8 @@
  *   4顶点 的 occupyWeight 值不应该 出现相同。
  * ------------------------
  */
-#ifndef _TPR_OCCUPY_WEIGHT_H_
-#define _TPR_OCCUPY_WEIGHT_H_
+#ifndef TPR_OCCUPY_WEIGHT_H_
+#define TPR_OCCUPY_WEIGHT_H_
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"

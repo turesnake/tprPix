@@ -7,7 +7,7 @@
  */
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cstring>
 
 //-------------------- CPP --------------------//
@@ -17,6 +17,7 @@
 #include <chrono>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "Chunk.h"
 #include "sectionKey.h"
 #include "esrc_field.h"
@@ -110,7 +111,7 @@ void build_9_chunks( const IntVec2 &_playerMPos ){
  */
 void collect_chunks_need_to_be_build_in_update(){
 
-    IntVec2 playerMPos = esrc::player.goPtr->goPos.get_currentMPos();
+    IntVec2 playerMPos = esrc::get_player().goPtr->goPos.get_currentMPos();
 
     currentChunkKey = anyMPos_2_chunkKey( playerMPos );
     if( is_first_check ){
@@ -196,7 +197,7 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
             continue;
         }
         tmpChunkKey = chunkBuild_3_receive_data_and_build_one_chunk();
-        assert( tmpChunkKey != 1 );
+        tprAssert( tmpChunkKey != 1 );
         if( tmpChunkKey == _chunkKey ){
             return;
         }
@@ -235,7 +236,7 @@ void build_one_chunk( chunkKey_t _chunkKey ){
     //            [3]
     //    单独生成 主chunk 实例
     //------------------------------//
-    Chunk *chunkPtr = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::rect_shader) );//- 一定不存在
+    Chunk *chunkPtr = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::get_rect_shader()) );//- 一定不存在
 
 
     //------------------------------//
@@ -335,11 +336,11 @@ bool find_from_chunkQueBuilding( chunkKey_t _chunkKey ){
     return (chunkQueBuilding.find(_chunkKey) != chunkQueBuilding.end());
 }
 void insert_2_chunkQueBuilding( chunkKey_t _chunkKey ){
-        assert( chunkQueBuilding.find(_chunkKey) == chunkQueBuilding.end() );
+        tprAssert( chunkQueBuilding.find(_chunkKey) == chunkQueBuilding.end() );
     chunkQueBuilding.insert(_chunkKey );
 }
 void erase_from_chunkQueBuilding( chunkKey_t _chunkKey ){
-    assert( chunkQueBuilding.erase(_chunkKey) == 1 );
+    tprAssert( chunkQueBuilding.erase(_chunkKey) == 1 );
 }
 
 

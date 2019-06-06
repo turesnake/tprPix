@@ -11,7 +11,7 @@
 #include "VAOVBO.h"
 
 //-------------------- C --------------------//
-#include <cassert> //-- assert
+//#include <cassert> //-- assert
 //-------------------- CPP --------------------//
 #include <vector>
 

@@ -8,9 +8,10 @@
 #include "AnimAction.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "AnimFrameSet.h"
 
 
@@ -55,7 +56,7 @@ void AnimAction::init(  const AnimFrameSet *_animFrameSetPtr,
     //-----------------//
     this->timeSteps.clear();
     if( _param.isTimeStepsManualSet ){
-        assert( _param.timeSteps.size() == _param.lFrameIdxs.size() );
+        tprAssert( _param.timeSteps.size() == _param.lFrameIdxs.size() );
         (_param.isOrder) ?
             this->timeSteps.insert( this->timeSteps.end(), _param.timeSteps.begin(), _param.timeSteps.end() ) :
             this->timeSteps.insert( this->timeSteps.end(), _param.timeSteps.rbegin(), _param.timeSteps.rend() );
@@ -77,7 +78,7 @@ void AnimAction::init(  const AnimFrameSet *_animFrameSetPtr,
             this->update = std::bind( &AnimAction::update_cycle, this, _1 );
             break;
         default:
-            assert(0);
+            tprAssert(0);
     }
 }
 

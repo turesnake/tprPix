@@ -7,13 +7,13 @@
  *    texture for map sys
  * ----------------------------
  */
-#ifndef _TPR_MAP_TEXTURE_H_
-#define _TPR_MAP_TEXTURE_H_
+#ifndef TPR_MAP_TEXTURE_H_
+#define TPR_MAP_TEXTURE_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>

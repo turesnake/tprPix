@@ -11,8 +11,8 @@
  *  新版本的 crawl，支持 17个 运动方向 ( CrawlCompass ) 
  * ----------------------------
  */
-#ifndef _TPR_NINE_BOX_H_
-#define _TPR_NINE_BOX_H_
+#ifndef TPR_NINE_BOX_H_
+#define TPR_NINE_BOX_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -22,9 +22,10 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "IntVec.h"
 
@@ -42,7 +43,7 @@ public:
     NineBox( int _x, int _y ):
         x(_x),
         y(_y)
-        { assert( (x>=-1) && (x<=1) && (y>=-1) && (y<=1) ); }
+        { tprAssert( (x>=-1) && (x<=1) && (y>=-1) && (y<=1) ); }
 
     inline void clear_all(){
         x = 0;
@@ -50,7 +51,7 @@ public:
     }
 
     inline void set( int _x, int _y ){
-        assert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) );
+        tprAssert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) );
         x = _x;
         y = _y;
     }

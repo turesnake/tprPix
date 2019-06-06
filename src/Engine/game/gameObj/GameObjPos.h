@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_GAME_OBJ_POS_H_
-#define _TPR_GAME_OBJ_POS_H_
+#ifndef TPR_GAME_OBJ_POS_H_
+#define TPR_GAME_OBJ_POS_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

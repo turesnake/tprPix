@@ -11,6 +11,7 @@
 #include <cmath>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "Density.h"
 #include "random.h"
 
@@ -105,14 +106,14 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
 void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff, 
                                 const std::vector<float> &_datas ){
 
-    assert( !this->is_densityDivideVals_init );
+    tprAssert( !this->is_densityDivideVals_init );
     this->densitySeaLvlOff = _densitySeaLvlOff;
 
     //-- 确认个数不出错 --
-    assert( _datas.size() == Density::get_idxNum()-1 );
+    tprAssert( _datas.size() == Density::get_idxNum()-1 );
     //-- 确认 每个元素值 不越界 --
     for( const auto &i : _datas ){
-        assert( (i>=-100.0) && (i<=100.0) );
+        tprAssert( (i>=-100.0) && (i<=100.0) );
     }
     //-- 确认 每个元素值 递增 --
     float old {0.0};
@@ -122,7 +123,7 @@ void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff,
             old = *i;
         }else{
             neo = *i;
-            assert( old < neo );
+            tprAssert( old < neo );
             old = neo;
         }
     }
@@ -141,7 +142,7 @@ void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff,
  * -----------------------------------------------------------
  */
 void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
-    assert( (this->is_goSpecIdPools_init==false) && 
+    tprAssert( (this->is_goSpecIdPools_init==false) && 
             (this->is_applyPercents_init==false) );
     this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
     this->applyPercents.resize( Density::get_idxNum(), 0.0 );
@@ -158,12 +159,12 @@ void EcoSysPlan::insert(const Density &_density,
                     float _applyPercent,
                     const std::vector<EcoEnt> &_ecoEnts ){
 
-    assert( this->is_applyPercents_init ); //- MUST
+    tprAssert( this->is_applyPercents_init ); //- MUST
     this->applyPercents.at(_density.get_idx()) = _applyPercent;
 
     goSpecId_t  id;
     for( const auto &ent : _ecoEnts ){
-        assert( this->is_goSpecIdPools_init ); //- MUST
+        tprAssert( this->is_goSpecIdPools_init ); //- MUST
         auto &poolRef = this->goSpecIdPools.at(_density.get_idx());
         id = ssrc::get_goSpecId(ent.specName);
         poolRef.insert( poolRef.begin(), ent.idNum, id );

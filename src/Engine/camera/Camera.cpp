@@ -9,9 +9,10 @@
 
 //-------------------- C --------------------//
 #include <cmath>
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "windowConfig.h"
 
 //#include "tprDebug.h" //- tmp

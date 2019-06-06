@@ -8,8 +8,8 @@
  * 
  * ----------------------------
  */
-#ifndef _TPR_BIG_MAN_H_
-#define _TPR_BIG_MAN_H_
+#ifndef TPR_BIG_MAN_H_
+#define TPR_BIG_MAN_H_
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -17,6 +17,7 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
@@ -61,7 +62,7 @@ public:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( GameObj *_goPtr ){
-        assert( _goPtr->species == BigMan::specId );
+        tprAssert( _goPtr->species == BigMan::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
         pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr();

@@ -14,7 +14,7 @@
 #include <numeric>
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 
 //--- glm - 0.9.9.5 ---
@@ -29,6 +29,9 @@
             //-- glm::perspective
 #include <glm/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 /* ===========================================================
@@ -86,7 +89,7 @@ void PerlinNoise3D::init( unsigned int _seed ) {
  */
 float PerlinNoise3D::noise(float _x, float _y, float _z) {
 
-    assert( is_init == true );//- 确保 调用者执行 init 函数
+    tprAssert( is_init == true );//- 确保 调用者执行 init 函数
 
 	// Find the unit cube that contains the point
     // 通过 x & 255 这个运算，取 x 的 低8-bit 。有点类似 取余 的功能

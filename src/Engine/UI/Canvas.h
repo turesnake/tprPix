@@ -9,8 +9,8 @@
  *  通过控制其唯一的 texture，来实现复杂的 动画效果
  * ----------------------------
  */
-#ifndef _TPR_CANVAS_H_
-#define _TPR_CANVAS_H_
+#ifndef TPR_CANVAS_H_
+#define TPR_CANVAS_H_
 /* -- 确保 glad GLFW 两个库 的引用顺序 ---
  * --    glad.h 包含了正确的OpenGL头文件（如GL/gl.h），
  * --    所以需要在其它依赖于OpenGL的头文件之前 包含 glad.h
@@ -18,7 +18,7 @@
 #include<glad/glad.h>  
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -29,6 +29,7 @@
 #include "tprDataType.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h"
 #include "ShaderProgram.h"
 #include "Mesh.h"
@@ -50,15 +51,15 @@ public:
         this->shaderProgram.use_program();
     }
     inline void add_new_uniform( const std::string &_name ){
-        assert( this->is_binded );
+        tprAssert( this->is_binded );
         this->shaderProgram.add_new_uniform( _name );
     }
     inline void set_translate( float _x, float _y, float _z ){
-        assert( this->is_binded );
+        tprAssert( this->is_binded );
         this->mesh.set_translate( glm::vec3{ _x, _y, _z } );
     }
     inline GLuint get_uniform_location( const std::string &_name ){
-        assert( this->is_binded );
+        tprAssert( this->is_binded );
         return this->shaderProgram.get_uniform_location( _name );
     }
 

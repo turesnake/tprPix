@@ -16,6 +16,7 @@
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_animFrameSet.h"
 
 
@@ -52,7 +53,7 @@ namespace{//--------------- namespace -----------------//
 AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
                                 const std::string &_actionName ){
 
-    assert( esrc::animFrameSets.find(_animFrameSetName) != esrc::animFrameSets.end() );
+    tprAssert( esrc::animFrameSets.find(_animFrameSetName) != esrc::animFrameSets.end() );
     return  esrc::animFrameSets.at(_animFrameSetName).getnc_animActionPtr( _actionName );
 }
 

@@ -5,16 +5,17 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_MOVE_H_
-#define _TPR_MOVE_H_
+#ifndef TPR_MOVE_H_
+#define TPR_MOVE_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "SpeedLevel.h"
 #include "MapCoord.h"
 #include "DirAxes.h"
@@ -68,7 +69,7 @@ public:
                 this->renderUpdataFunc = std::bind( &Move::drag_renderUpdate, this ); 
                 return;
             default:
-                assert(0);
+                tprAssert(0);
                 return;
         }
     }
@@ -79,7 +80,7 @@ public:
 
 
     inline void set_drag_targetFPos( const glm::vec2 &_FPos ){
-        assert( this->moveType == MoveType::Drag );
+        tprAssert( this->moveType == MoveType::Drag );
         if( _FPos == this->targetFPos ){
             return;
         }
@@ -92,7 +93,7 @@ public:
         return this->speedLvl;
     }
     inline bool is_drag_moving() const {
-        assert( this->moveType == MoveType::Drag );
+        tprAssert( this->moveType == MoveType::Drag );
         return this->isMoving;
     } 
 

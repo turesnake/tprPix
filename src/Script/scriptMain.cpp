@@ -44,11 +44,11 @@ extern void onStart_test();
 void scriptMain(){
 
     //------- Awakes -------//
-    esrc::behaviour.signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
-    esrc::behaviour.signUp_Awakes( std::bind( &onUISpecIds_SignUp ) );
+    esrc::get_behaviour().signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
+    esrc::get_behaviour().signUp_Awakes( std::bind( &onUISpecIds_SignUp ) );
 
     //------- Starts -------//
-    esrc::behaviour.signUp_Starts( std::bind( &onStart_test ) );
+    esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
 
 
 }

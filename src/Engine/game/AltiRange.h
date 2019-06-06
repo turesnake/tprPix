@@ -7,14 +7,17 @@
  *    go 高度区间, 不是 地图海拔，要和 Altitude 区分开来 
  * ----------------------------
  */
-#ifndef _TPR_ALTI_RANGE_H_
-#define _TPR_ALTI_RANGE_H_
+#ifndef TPR_ALTI_RANGE_H_
+#define TPR_ALTI_RANGE_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 //-- 暂不关心 硬盘存储 -- 
 //  0 <= val <= 45:  major   -- (u8_t) [0, 45]
@@ -27,14 +30,14 @@ public:
     AltiRange( char _low, char _high ):
         low(_low),
         high(_high)
-        { assert( (low<=high) && (low<=jumpLimit) ); }
+        { tprAssert( (low<=high) && (low<=jumpLimit) ); }
 
     inline void clear_all(){
         low = 0;
         high = 0;
     }
     inline void set( char _low, char _high ){
-        assert( (_low<=_high) && (_low<=jumpLimit) );
+        tprAssert( (_low<=_high) && (_low<=jumpLimit) );
         low  = _low;
         high = _high;
     }
@@ -43,7 +46,7 @@ public:
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
     inline void set_by_addAlti( const AltiRange &_a, float _addAlti ){
-        assert( (_addAlti<(float)jumpLimit) && (_a.low+(u8_t)_addAlti)<=jumpLimit );
+        tprAssert( (_addAlti<(float)jumpLimit) && (_a.low+(u8_t)_addAlti)<=jumpLimit );
         low  =  _a.low  + (u8_t)_addAlti;
         high =  _a.high + (u8_t)_addAlti;
     }
@@ -62,7 +65,7 @@ public:
     }
 
     //======== static ========//
-    static char  jumpLimit;       //- assert( low <= jumpLimit );
+    static char  jumpLimit;       //- tprAssert( low <= jumpLimit );
     static u8_t  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
     static u8_t  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
 
@@ -92,14 +95,14 @@ inline const AltiRange altiRange_surface {  (char)AltiRange::diskAlti_surface,
  * -----------------------------------------------------------
  */
 inline AltiRange operator + ( const AltiRange &_a, const AltiRange &_b ){
-    assert( (_a.low+_b.low)<=AltiRange::jumpLimit );
+    tprAssert( (_a.low+_b.low)<=AltiRange::jumpLimit );
     return  AltiRange{  (char)(_a.low+_b.low),
                         (char)(_a.high+_b.high) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
 inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
-    assert( (_addAlti<(float)AltiRange::jumpLimit) && (_a.low+(u8_t)_addAlti)<=AltiRange::jumpLimit );
+    tprAssert( (_addAlti<(float)AltiRange::jumpLimit) && (_a.low+(u8_t)_addAlti)<=AltiRange::jumpLimit );
     return  AltiRange{  (char)(_a.low  + (u8_t)_addAlti),
                         (char)(_a.high + (u8_t)_addAlti) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...

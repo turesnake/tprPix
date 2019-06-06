@@ -7,8 +7,8 @@
  *    general funcs, support unix/win
  * ----------------------------
  */
-#ifndef _TPR_GENERAL_H_
-#define _TPR_GENERAL_H_
+#ifndef TPR_GENERAL_H_
+#define TPR_GENERAL_H_
 
 #include <string>
 

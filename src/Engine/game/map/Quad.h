@@ -7,11 +7,14 @@
  *  quadrant
  * ----------------------------
  */
-#ifndef _TPR_QUAD_H_
-#define _TPR_QUAD_H_
+#ifndef TPR_QUAD_H_
+#define TPR_QUAD_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
+
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
 
 //-- 一共有 4个 扇区 --
 #define QUAD_NUM 4
@@ -38,7 +41,7 @@ inline QuadType QuadIdx_2_Type( int _idx ){
         case 2: return QuadType::Left_Top;
         case 3: return QuadType::Right_Top;
         default:
-            assert(0);
+            tprAssert(0);
             return QuadType::Left_Bottom; //- never touch
     }
 }

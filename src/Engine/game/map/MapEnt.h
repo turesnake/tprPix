@@ -7,8 +7,8 @@
  *    map ent
  * ----------------------------
  */
-#ifndef _TPR_MAP_ENT_H_
-#define _TPR_MAP_ENT_H_
+#ifndef TPR_MAP_ENT_H_
+#define TPR_MAP_ENT_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

@@ -10,13 +10,13 @@
 #include "ShaderProgram.h"
 
 //-------------------- C ----------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 
-#include "SysConfig.h" // MUST BEFORE _TPR_OS_WIN32_ !!!
-#ifdef _TPR_OS_WIN32_ 
+#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
+#ifdef TPR_OS_WIN32_ 
     #include "tprFileSys_win.h"
 #else
     #include "tprFileSys_unix.h"
@@ -27,6 +27,7 @@
 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "global.h"
 
 //#include "tprDebug.h" //- tmp
@@ -52,7 +53,7 @@ void ShaderProgram::init(   const std::string &_lpathVs,
     std::string fsbuf;
 
     //-- 读取文件，获得 数据
-#ifdef _TPR_OS_WIN32_
+#ifdef TPR_OS_WIN32_
     tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
     tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
 #else
@@ -78,7 +79,7 @@ void ShaderProgram::init(   const std::string &_lpathVs,
         glGetProgramInfoLog( this->shaderProgram, 512, NULL, infoLog );
         //cout << "ShaderProgram::init: error: \n" 
         //     << infoLog << endl;
-        assert(0);
+        tprAssert(0);
     }
     //--- 及时释放 ---
     glDeleteShader( v_shader );  
@@ -108,7 +109,7 @@ void ShaderProgram::compile( GLuint _shaderObj, const std::string &_sbuf ){
     if( !success ){
         glGetShaderInfoLog( _shaderObj, 512, NULL, infoLog );
         std::cout << infoLog << std::endl;
-        assert(0);
+        tprAssert(0);
     }
 }
 

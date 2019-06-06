@@ -8,8 +8,8 @@
  *   分离出来，以便快速切换
  * ----------------------------
  */
-#ifndef _TPR_WINDOW_CONFIG_H_
-#define _TPR_WINDOW_CONFIG_H_
+#ifndef TPR_WINDOW_CONFIG_H_
+#define TPR_WINDOW_CONFIG_H_
 
 
 //------- 屏幕长宽(像素) --------//

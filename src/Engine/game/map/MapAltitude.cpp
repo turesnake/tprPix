@@ -8,9 +8,10 @@
 #include "MapAltitude.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 
 
@@ -20,7 +21,7 @@
  */
 void MapAltitude::set( float _altiVal_from_gpgpu ){
 
-    assert( (_altiVal_from_gpgpu>=-100.0) && (_altiVal_from_gpgpu<=100.0) );
+    tprAssert( (_altiVal_from_gpgpu>=-100.0) && (_altiVal_from_gpgpu<=100.0) );
     this->val = static_cast<int>(_altiVal_from_gpgpu);
 
     //------------------//

@@ -7,7 +7,7 @@
  */
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 //#include <vector>
@@ -19,6 +19,7 @@
 //#include "tprDataType.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "Job.h"
 #include "jobs_all.h"
 #include "esrc_jobQue.h"
@@ -68,7 +69,7 @@ void jobThread_main(){
             break;
         
         default:
-            assert(0);
+            tprAssert(0);
         }
     }//--- while: end ---
 

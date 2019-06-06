@@ -6,12 +6,13 @@
  * ----------------------------------------------------------
  */
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_chunk.h"
 #include "esrc_renderPool.h"
 #include "config.h"
@@ -52,7 +53,7 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
     Chunk  chunk {};
     chunk.set_by_anyMPos( _anyMPos );
     chunkKey_t key = chunk.get_key();
-        assert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
+        tprAssert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
     esrc::chunks.insert({ key, chunk }); //- copy
     chunkPtr = &(esrc::chunks.at(key));
     chunkPtr->set_mesh_shader_program( _sp );
@@ -92,7 +93,7 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+                tprAssert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
 
 
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
@@ -113,7 +114,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                assert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+                tprAssert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
 
 
     return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
@@ -132,7 +133,7 @@ bool find_from_chunks( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  */
 Chunk *get_chunkPtr( chunkKey_t _key ){
-        assert( esrc::chunks.find(_key) != esrc::chunks.end() );//- must exist
+        tprAssert( esrc::chunks.find(_key) != esrc::chunks.end() );//- must exist
     return &(esrc::chunks.at(_key));
 }
 
@@ -144,8 +145,10 @@ Chunk *get_chunkPtr( chunkKey_t _key ){
 void render_chunks(){
     for( auto& p : esrc::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
-            esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
-                                                const_cast<Mesh*>(&p.second.get_mesh()) });
+            //esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
+            //                                    const_cast<Mesh*>(&p.second.get_mesh()) });
+            esrc::insert_2_renderPool_meshs( p.second.get_mesh().get_render_z(),
+                                                const_cast<Mesh*>(&p.second.get_mesh()) );
     }
 }
 

@@ -9,8 +9,8 @@
  *  job线程 从 esrc::jobQue 取出job，并完成它们
  * ----------------------------
  */
-#ifndef _TPR_JOB_THREAD_H_
-#define _TPR_JOB_THREAD_H_
+#ifndef TPR_JOB_THREAD_H_
+#define TPR_JOB_THREAD_H_
 
 
 void jobThread_main();

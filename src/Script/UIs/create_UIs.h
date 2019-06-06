@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_CREATE_UIS_H_
-#define _TPR_CREATE_UIS_H_
+#ifndef TPR_CREATE_UIS_H_
+#define TPR_CREATE_UIS_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

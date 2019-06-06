@@ -10,7 +10,7 @@
 #include "MapTexture.h" 
 
 //------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- Engine --------------------//
 #include "RGBA.h"

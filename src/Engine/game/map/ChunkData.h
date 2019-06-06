@@ -7,16 +7,17 @@
  *  以 chunk 为单位的，需要被 job线程 计算生成的 数据集 
  * ----------------------------
  */
-#ifndef _TPR_CHUNK_DATA_H_
-#define _TPR_CHUNK_DATA_H_
+#ifndef TPR_CHUNK_DATA_H_
+#define TPR_CHUNK_DATA_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "MapTexture.h"
 #include "MapAltitude.h"
@@ -38,7 +39,7 @@ public:
 
     //-- set --//
     inline void set_mapEntAlti( size_t _idx, const MapAltitude &_alti ){
-        assert( _idx < this->mapEntAltis.size() );
+        tprAssert( _idx < this->mapEntAltis.size() );
         this->mapEntAltis.at(_idx) = _alti;
     }
 
@@ -53,7 +54,7 @@ public:
 
     
     inline const MapAltitude &get_mapEntAlti( size_t _idx ){
-        assert( _idx < this->mapEntAltis.size() );
+        tprAssert( _idx < this->mapEntAltis.size() );
         return this->mapEntAltis.at(_idx);
     }
 

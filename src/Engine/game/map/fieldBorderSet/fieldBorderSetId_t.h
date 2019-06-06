@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_FIELD_BORDER_SET_ID_T_H_
-#define _TPR_FIELD_BORDER_SET_ID_T_H_
+#ifndef TPR_FIELD_BORDER_SET_ID_T_H_
+#define TPR_FIELD_BORDER_SET_ID_T_H_
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

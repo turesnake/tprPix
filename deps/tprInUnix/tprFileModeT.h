@@ -8,8 +8,8 @@
  *   mode_t
  * ----------------------------
  */
-#ifndef _TPR_FILE_MODE_H_
-#define _TPR_FILE_MODE_H_
+#ifndef TPR_FILE_MODE_H_
+#define TPR_FILE_MODE_H_
 
 
 //- rw-------

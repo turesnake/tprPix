@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_CAMERA_H_
-#define _TPR_CAMERA_H_
+#ifndef TPR_CAMERA_H_
+#define TPR_CAMERA_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

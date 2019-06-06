@@ -8,8 +8,8 @@
  *  目前仅用于 main.cpp 文件
  * ----------------------------
  */
-#ifndef _TPR_ESRC_ALL_H_
-#define _TPR_ESRC_ALL_H_
+#ifndef TPR_ESRC_ALL_H_
+#define TPR_ESRC_ALL_H_
 
 //-------------------- Engine --------------------//
 #include "esrc_animFrameSet.h"

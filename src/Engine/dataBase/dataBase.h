@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_DATA_BASE_H_
-#define _TPR_DATA_BASE_H_
+#ifndef TPR_DATA_BASE_H_
+#define TPR_DATA_BASE_H_
 
 //-------------------- CPP --------------------//
 #include <unordered_map>

@@ -8,9 +8,6 @@
 #-- 将 sqlite3 设置为 单线程 模式
 add_definitions ( -DSQLITE_THREADSAFE=0 )
 
-#-- 指定 依赖的 h文件所在 路径:
-include_directories ( src/ )
-
 
 #-- 定义一个列表，放置所有 cpp 文件 --
 FILE(GLOB SQLITE_SRC  src/*.c )
@@ -18,7 +15,21 @@ FILE(GLOB SQLITE_SRC  src/*.c )
 
 #-- 建立 目标 库对象 -- 
 #-- 在 主CMakeLists.txt 文件中，以此名来调用 本库
-add_library ( SQLite ${SQLITE_SRC} )
+add_library ( SQLite 
+                STATIC
+                ${SQLITE_SRC} )
+
+#-- 指定 依赖的 h文件所在 路径:
+#   PRIVATE - 自身编译include
+#   SYSTEM INTERFACE - 提供给全局的 include（调用者不用再指定 include 了）
+target_include_directories ( SQLite
+                            PRIVATE   src/
+                            SYSTEM INTERFACE  src/
+                            )              
+
+#-- sqlite 不设 warning 
+#target_compile_options ( SQLite PRIVATE -Wall )
+
 
 #-- 更改 库 最终生成的 可执行二进制文件 的放置目录：build/lib
 #-- 这个设置 意味着，每次 cmake/make, 本库都是需要重新编译的。

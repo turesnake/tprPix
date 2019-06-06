@@ -8,7 +8,7 @@
 #include "Script/gameObjs/majorGos/Norman.h"
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -18,6 +18,7 @@
 //#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_shader.h" 
 
 
@@ -47,7 +48,7 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
 					            const MapAltitude &_alti,
 					            const Density &_density ){
 
-    assert( _goPtr != nullptr );
+    tprAssert( _goPtr != nullptr );
     goPtr = _goPtr;
 
     //-------- go.pvtBinary ---------//
@@ -92,8 +93,8 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
         GameObjMesh &rootGoMeshRef = 
                 goPtr->creat_new_goMesh("root", //- gmesh-name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::rect_shader,  
-                                        &esrc::rect_shader,
+                                        &esrc::get_rect_shader(),  
+                                        &esrc::get_rect_shader(),
                                         glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                         0.0,  //- off_z
                                         true, //- isVisible

@@ -9,6 +9,7 @@
  */
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "random.h"
 #include "esrc_ecoSysPlan.h"
 
@@ -44,6 +45,16 @@ namespace {//-------- namespace: --------------//
 
     std::vector<float> densityDivideVals_50_20_50
         { -50.0f, -30.0f, -10.0f, 10.0f, 30.0f, 50.0f }; //- 两极各占:50，中间lvl各占:20
+
+    
+    std::unordered_map<ecoSysPlanId_t, EcoSysPlan> ecoSysPlanes {};
+
+    //-- 一种type，一个子容器，容纳此type 的所有变种 --
+    std::vector<std::vector<ecoSysPlanId_t>> ecoSysPlanIds_in_type {};
+
+
+    //-- 仅记录所有 ecoId 值 --
+    std::vector<ecoSysPlanId_t> ecoSysPlanIds {};
     
 
     //===== funcs =====//
@@ -60,6 +71,16 @@ namespace {//-------- namespace: --------------//
 
 
 /* ===========================================================
+ *                  get_ecoSysPlanPtr
+ * -----------------------------------------------------------
+ */
+EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId ){
+        tprAssert( esrc::ecoSysPlanes.find(_ecoId) != esrc::ecoSysPlanes.end() ); //- tmp
+    return &(esrc::ecoSysPlanes.at(_ecoId));
+}
+
+
+/* ===========================================================
  *                  insert_new_ecoSysPlan
  * -----------------------------------------------------------
  * -- 仅用于本文件内部
@@ -71,7 +92,7 @@ EcoSysPlan *insert_new_ecoSysPlan( EcoSysPlanType _type ){
     ecoSysPlanId_t ecoPlanId = EcoSysPlan::id_manager.apply_a_u32_id();
     ecoPlan.set_id( ecoPlanId );
     ecoPlan.set_type( _type );
-        assert( esrc::ecoSysPlanes.find(ecoPlanId) == esrc::ecoSysPlanes.end() );//- must not exist
+        tprAssert( esrc::ecoSysPlanes.find(ecoPlanId) == esrc::ecoSysPlanes.end() );//- must not exist
     esrc::ecoSysPlanes.insert({ ecoPlanId, ecoPlan }); //- copy
     esrc::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(_type)).push_back(ecoPlanId);
     esrc::ecoSysPlanIds.push_back(ecoPlanId);
@@ -136,7 +157,7 @@ void init_ecoSysPlanes(){
                     randEngine );
 }
 
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
     
 /* ===========================================================

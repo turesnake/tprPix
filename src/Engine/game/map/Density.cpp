@@ -9,9 +9,10 @@
 
 //------------------- C --------------------//
 #include <cmath>
-#include <cassert>
+//#include <cassert>
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
@@ -41,7 +42,7 @@ void Density::set( const IntVec2 &_fieldMPos,
     //-----------//
     //   pnVal
     //-----------//
-    const glm::vec2 &densitySeed_pposOff = esrc::gameSeed.get_densitySeed_pposOff();
+    const glm::vec2 &densitySeed_pposOff = esrc::get_gameSeed().get_densitySeed_pposOff();
     float freq = 0.03125f * 0.5f; //- 1*1 个 chunk，构成一个 perlin 晶格
     float x = static_cast<float>(_fieldMPos.x) + densitySeed_pposOff.x;
     float y = static_cast<float>(_fieldMPos.y) + densitySeed_pposOff.y;
@@ -72,7 +73,7 @@ void Density::set( const IntVec2 &_fieldMPos,
     if( !is_find ){
         this->lvl = Density::maxLvl;
     }
-    assert( (this->lvl>=Density::minLvl) && (this->lvl<=Density::maxLvl) );
+    tprAssert( (this->lvl>=Density::minLvl) && (this->lvl<=Density::maxLvl) );
 }
 
 

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_ANIM_FRAME_SET_H_
-#define _TPR_ESRC_ANIM_FRAME_SET_H_
+#ifndef TPR_ESRC_ANIM_FRAME_SET_H_
+#define TPR_ESRC_ANIM_FRAME_SET_H_
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
@@ -19,7 +19,6 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 void load_animFrameSets();
-
 
 AnimAction *getnc_animActionPtr(const std::string &_animFrameSetName,
                                 const std::string &_actionName );

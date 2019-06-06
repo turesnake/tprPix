@@ -7,8 +7,8 @@
  *   游戏存档
  * ----------------------------
  */
-#ifndef _TPR_GAME_ARCHIVE_H_
-#define _TPR_GAME_ARCHIVE_H_
+#ifndef TPR_GAME_ARCHIVE_H_
+#define TPR_GAME_ARCHIVE_H_
 
 
 //-------------------- Engine --------------------//

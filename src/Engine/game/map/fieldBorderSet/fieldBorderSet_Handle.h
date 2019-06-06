@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_FIELD_BORDER_SET_HANDLE_H_
-#define _TPR_FIELD_BORDER_SET_HANDLE_H_
+#ifndef TPR_FIELD_BORDER_SET_HANDLE_H_
+#define TPR_FIELD_BORDER_SET_HANDLE_H_
 
 
 void load_fieldBorderSets();

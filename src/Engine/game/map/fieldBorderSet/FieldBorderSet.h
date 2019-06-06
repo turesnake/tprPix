@@ -5,11 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_FIELD_BORDER_SET_H_
-#define _TPR_FIELD_BORDER_SET_H_
+#ifndef TPR_FIELD_BORDER_SET_H_
+#define TPR_FIELD_BORDER_SET_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>

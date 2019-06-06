@@ -7,8 +7,8 @@
  *   此文件 可能从未被使用过， 也许会被废弃 
  * ----------------------------
  */
-#ifndef _TPR_VECTOR_MATRIX_H_
-#define _TPR_VECTOR_MATRIX_H_
+#ifndef TPR_VECTOR_MATRIX_H_
+#define TPR_VECTOR_MATRIX_H_
 
 
 //--- glm - 0.9.9.5 ---

@@ -17,6 +17,7 @@
 #include <cmath>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "random.h"
 #include "PerlinNoise3D.h" //- out 
@@ -77,7 +78,7 @@ void EcoObj::init_for_node( sectionKey_t _sectionKey ){
 
     this->init_fstOrder( _sectionKey );
 
-    assert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
+    tprAssert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
     EcoSysPlan *ecoSysPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_rand_ecoSysPlanId(this->weight) );
     //------------------------//
     //  确定 targetEcoPlanPtr 后, 正式 分配数据
@@ -124,7 +125,7 @@ void EcoObj::init_fstOrder( sectionKey_t _sectionKey ){
     float freq = 1.0f / 3.0f; 
     glm::vec2 fv = this->mcpos.get_fpos();
     fv /= ENTS_PER_SECTION;
-    fv += esrc::gameSeed.get_ecoObjWeight_pposOff();
+    fv += esrc::get_gameSeed().get_ecoObjWeight_pposOff();
 
     this->weight = simplex_noise2(  fv.x * freq,
                                     fv.y * freq ) * 100.0f; //- [-100.0, 100.0]
@@ -197,7 +198,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
             case 2: ecoPlanType = node_3_Ptr->get_type(); break;
             case 3: ecoPlanType = node_4_Ptr->get_type(); break;
             default:
-                assert(0);
+                tprAssert(0);
                 ecoPlanType = node_1_Ptr->get_type(); // never reach
         }
         targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );

@@ -8,8 +8,8 @@
  *    可以作为一个 独立的单位，存在于 游戏中
  * ----------------------------
  */
-#ifndef _TPR_GAME_OBJ_H_
-#define _TPR_GAME_OBJ_H_
+#ifndef TPR_GAME_OBJ_H_
+#define TPR_GAME_OBJ_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

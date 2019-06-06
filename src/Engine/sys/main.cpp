@@ -10,7 +10,7 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- Engine --------------------//
 #include "prepare.h"
@@ -69,13 +69,14 @@ int main(){
     //------------------------------------------//
     //        Behaviour.Awakes
     //------------------------------------------//
-    esrc::behaviour.call_Awakes();
+    //esrc::behaviour.call_Awakes();
+    esrc::get_behaviour().call_Awakes();
 
     //------------------------------------------//
     //           不依赖任何外部代码的资源
     //------------------------------------------//
     input::init_input();             //---- input -----
-    esrc::camera.init();             //---- camera 资源 ----
+    esrc::get_camera().init();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
@@ -100,8 +101,8 @@ int main(){
 
     GameObj::id_manager.set_max_id( 0 );
 
-        esrc::player.init();         //----  player 资源 ----
-        esrc::player.goid = NULLID; 
+        esrc::get_player().init();         //----  player 资源 ----
+        esrc::get_player().goid = NULLID; 
     //... 
 
     tprDebug::init_debug();             //---- tprDebug 资源 ----
@@ -120,8 +121,8 @@ int main(){
     //------------------------------------------//
     //        Behaviour.Starts
     //------------------------------------------//
-    esrc::behaviour.call_Starts();
-
+    //esrc::behaviour.call_Starts();
+    esrc::get_behaviour().call_Starts();
 
     //------------------------------------------//
     //           bind first scene
@@ -131,18 +132,19 @@ int main(){
     //========================================================//
     //                 main render loop
     //========================================================//
-    while( !glfwWindowShouldClose( esrc::windowPtr ) ){
+    //GLFWwindow *targetWindowPtr = esrc::get_windowPtr();
+    while( !glfwWindowShouldClose( esrc::get_windowPtr() ) ){
 
         //--------------------------------//
         //             time   
         //--------------------------------//
-        esrc::timer.update_time();
+        esrc::get_timer().update_time();
 
         //--------------------------------//
         //            input   
         //--------------------------------//
         //-- 目前版本 非常简陋
-		input::processInput( esrc::windowPtr );
+		input::processInput( esrc::get_windowPtr() );
 
         //--------------------------------//
         //      render background   
@@ -161,7 +163,7 @@ int main(){
         //     swap the buffers               
         //--------------------------------//
 		glfwPollEvents();          //-- 处理所有 处于 event queue 中的 待决event
-		glfwSwapBuffers( esrc::windowPtr ); //- 交换 两个 帧缓冲区
+		glfwSwapBuffers( esrc::get_windowPtr() ); //- 交换 两个 帧缓冲区
 
         //------------ 显示数据到终端 -----------//
         // [-DEBUG-]

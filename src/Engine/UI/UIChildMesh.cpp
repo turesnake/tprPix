@@ -8,9 +8,10 @@
 #include "UIChildMesh.h"
 
 //-------------------- C --------------------//
-#include <cassert> //-- asserts
+//#include <cassert> //-- asserts
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "UIObj.h"
 #include "UIMesh.h"
 #include "VAOVBO.h" 
@@ -77,12 +78,12 @@ void UIChildMesh::refresh_translate(){
     if( this->isPic == true ){
         this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
                                     
-        this->translate_val.z = esrc::camera.get_zFar() + ViewingBox::get_renderLayerZOff(RenderLayerType::UIs) +
+        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::get_renderLayerZOff(RenderLayerType::UIs) +
                                 this->uiMeshPtr->get_off_z();
         
     }else{
         this->translate_val.y = goCurrentFPos.y - (float)vRef.y;  
-        this->translate_val.z = esrc::camera.get_zFar() + ViewingBox::goShadows_zOff;         
+        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff;         
     }
 }
 
@@ -114,14 +115,14 @@ void UIChildMesh::draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    assert( this->shaderPtr != nullptr );
+    tprAssert( this->shaderPtr != nullptr );
     this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本UIMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
     //   但是， gl本体可以存储 非常多个 tex实例
     glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
-    assert( texName != 0 ); 
+    tprAssert( texName != 0 ); 
     glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------

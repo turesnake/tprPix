@@ -6,7 +6,7 @@
  * ----------------------------------------------------------
  */
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
@@ -15,6 +15,7 @@
 #include <deque>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_chunkData.h"
 #include "config.h"
 
@@ -67,7 +68,7 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
     ChunkData *chunkDataPtr;
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
-            assert( is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
+            tprAssert( is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
         esrc::chunkDatas.insert({ _chunkKey, chunkData }); //- copy
         chunkDataPtr = &(esrc::chunkDatas.at(_chunkKey));
     }
@@ -83,7 +84,7 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
 void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
-        assert( esrc::chunkDatas.erase(_chunkKey) == 1 );
+        tprAssert( esrc::chunkDatas.erase(_chunkKey) == 1 );
     }
 }
 
@@ -97,7 +98,7 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
 const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
-            assert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
+            tprAssert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
         return &(esrc::chunkDatas.at(_chunkKey));
     }
 }

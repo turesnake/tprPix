@@ -7,11 +7,11 @@
  *    Chunk "id":  (int)w + (int)h
  * ----------------------------
  */
-#ifndef _TPR_CHUNK_KEY_H_
-#define _TPR_CHUNK_KEY_H_
+#ifndef TPR_CHUNK_KEY_H_
+#define TPR_CHUNK_KEY_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -20,6 +20,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "config.h"
 #include "IntVec.h" 
 #include "MapCoord.h"
@@ -84,7 +85,7 @@ inline IntVec2 anyMPos_2_chunkMPos( const IntVec2 &_anyMPos ){
 /* ===========================================================
  *             is_a_chunkMPos
  * -----------------------------------------------------------
- * -- 检测 目标参数， 是否为 chunk mpos （多用于 assert ）
+ * -- 检测 目标参数， 是否为 chunk mpos （多用于 tprAssert ）
  */
 inline bool is_a_chunkMPos( const IntVec2 &_anyMPos ){
     return ( anyMPos_2_chunkMPos(_anyMPos) == _anyMPos ); //- 不需要考虑性能
@@ -123,7 +124,7 @@ inline chunkKey_t anyMPos_2_chunkKey( const IntVec2 &_anyMPos ){
  *    如果参数不为 chunkMPos，直接报错。
  */
 inline chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos ){
-        assert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
+        tprAssert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
     return chunkMPos_2_key_inn( _chunkMPos );
 }
 
@@ -134,7 +135,7 @@ inline chunkKey_t chunkMPos_2_chunkKey( const IntVec2 &_chunkMPos ){
  *    如果参数不为 chunkMPos，直接报错。
  */
 inline IntVec2 chunkMPos_2_chunkCPos( const IntVec2 &_chunkMPos ){
-        assert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
+        tprAssert( anyMPos_2_chunkMPos(_chunkMPos) == _chunkMPos ); //- tmp
     return floorDiv( _chunkMPos, ENTS_PER_CHUNK  );
 }
 

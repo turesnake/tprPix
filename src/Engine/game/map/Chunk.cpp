@@ -8,7 +8,7 @@
 #include "Chunk.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -82,7 +82,7 @@ void Chunk::init(){
     const ChunkData *chunkDataPtr = esrc::atom_get_chunkDataPtr( this->chunkKey );
     {//-- 用作用域 来取代 函数 --
         const auto &mapEntAltis = chunkDataPtr->get_mapEntAltis();
-            assert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
+            tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
         size_t entIdx;
         for( int h=0; h<ENTS_PER_CHUNK; h++ ){
             for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
@@ -135,7 +135,7 @@ void Chunk::refresh_translate_auto(){
     const IntVec2 &ppos = mcpos.get_ppos();
     mesh.set_translate(glm::vec3{   (float)ppos.x,
                                     (float)ppos.y,
-                                    esrc::camera.get_zFar() + ViewingBox::chunks_zOff +
+                                    esrc::get_camera().get_zFar() + ViewingBox::chunks_zOff +
                                         this->zOff  //-- MUST --
                                     });
 }
@@ -171,7 +171,7 @@ size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos ){
     IntVec2 mposOff = _anyMPos - this->mcpos.get_mpos();
     int w = mposOff.x;
     int h = mposOff.y;
-        assert( (w>=0) && (w<ENTS_PER_CHUNK) &&
+        tprAssert( (w>=0) && (w<ENTS_PER_CHUNK) &&
                 (h>=0) && (h<ENTS_PER_CHUNK) ); //- tmp
     return static_cast<size_t>(h*ENTS_PER_CHUNK + w);
 }
@@ -186,7 +186,7 @@ size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &_anyPPos ){
     IntVec2 pposOff = _anyPPos - this->mcpos.get_ppos();
     int w = pposOff.x;
     int h = pposOff.y;
-        assert( (w>=0) && (w<PIXES_PER_CHUNK) &&
+        tprAssert( (w>=0) && (w<PIXES_PER_CHUNK) &&
                 (h>=0) && (h<PIXES_PER_CHUNK) ); //- tmp
     return static_cast<size_t>( h*PIXES_PER_CHUNK + w );
 }

@@ -7,17 +7,18 @@
  *    ecosystem plan
  * ----------------------------
  */
-#ifndef _TPR_ECOSYS_PLAN_H_
-#define _TPR_ECOSYS_PLAN_H_
+#ifndef TPR_ECOSYS_PLAN_H_
+#define TPR_ECOSYS_PLAN_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "RGBA.h" 
 #include "GameObjType.h"
 #include "ID_Manager.h" 
@@ -66,7 +67,7 @@ public:
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end(){
-        assert( (this->is_goSpecIdPools_init) && 
+        tprAssert( (this->is_goSpecIdPools_init) && 
                 (this->is_applyPercents_init) &&
                 (this->is_densityDivideVals_init) );
     }

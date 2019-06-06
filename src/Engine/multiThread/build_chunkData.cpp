@@ -15,7 +15,7 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cstring>
 #include <cmath>
 
@@ -23,6 +23,7 @@
 #include <map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "jobs_all.h"
 #include "Job.h"
 #include "simplexNoise.h"
@@ -154,7 +155,7 @@ void build_chunkData_main( const Job &_job ){
     //-------------------//
     //   job.argBinary
     //-------------------//
-    assert( _job.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
+    tprAssert( _job.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
     ArgBinary_Build_ChunkData arg;
     memcpy( (void*)&arg,
             (void*)&(_job.argBinary.at(0)),
@@ -225,9 +226,10 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
     IntVec2      chunkPPos = mpos_2_ppos(_chunkMPos);
     glm::vec2    pixCFPos; //- 以 chunk 为晶格的 fpos
 
-    glm::vec2  altiSeed_pposOffBig = esrc::gameSeed.get_altiSeed_pposOffBig();
-    glm::vec2  altiSeed_pposOffMid = esrc::gameSeed.get_altiSeed_pposOffMid();
-    glm::vec2  altiSeed_pposOffSml = esrc::gameSeed.get_altiSeed_pposOffSml();
+    GameSeed &gameSeedRef = esrc::get_gameSeed();
+    glm::vec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
+    glm::vec2  altiSeed_pposOffMid = gameSeedRef.get_altiSeed_pposOffMid();
+    glm::vec2  altiSeed_pposOffSml = gameSeedRef.get_altiSeed_pposOffSml();
                             //-- 此处有问题，从 job线程 访问 gameSeed，不够安全...
 
     float      pixDistance; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心

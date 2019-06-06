@@ -11,6 +11,7 @@
 #include "Collision.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "GameObjMesh.h"
 #include "GameObj.h"
 #include "FramePos.h"
@@ -164,7 +165,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     //-----------------//
     for( const auto &i : doCesRef.get_delEntOffs(_nbIdx) ){ //- each del EntOff
         mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
-        assert( mapEntPtr->major_gos.erase(doGoPtr->id) == 1 );
+        tprAssert( mapEntPtr->major_gos.erase(doGoPtr->id) == 1 );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
     }//-- each del EntOff
     

@@ -8,8 +8,8 @@
  *    所有的 go 都不在具备 独立的 碰撞区，而是选用 现成的预制件 来有机组合。
  * ----------------------------
  */
-#ifndef _TPR_COLLI_ENT_SET_H_
-#define _TPR_COLLI_ENT_SET_H_
+#ifndef TPR_COLLI_ENT_SET_H_
+#define TPR_COLLI_ENT_SET_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

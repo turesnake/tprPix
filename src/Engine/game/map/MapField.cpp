@@ -10,13 +10,14 @@
 #include "MapField.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
 #include <map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "random.h"
 #include "IntVec.h"
 #include "EcoObj.h"
@@ -64,7 +65,7 @@ void MapField::init( const IntVec2 &_anyMPos ){
     //--- fieldFPos ----
     this->FDPos = this->mcpos.get_fpos();
     this->FDPos /= ENTS_PER_FIELD;
-    this->FDPos += esrc::gameSeed.get_field_pposOff();
+    this->FDPos += esrc::get_gameSeed().get_field_pposOff();
 
     //--- field.nodeMPos ---
     this->init_nodeMPos();
@@ -101,13 +102,13 @@ void MapField::init( const IntVec2 &_anyMPos ){
  */
 void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
 
-    assert( this->isNodeMapAltiSet == false );
+    tprAssert( this->isNodeMapAltiSet == false );
     this->isNodeMapAltiSet = true;
 
     IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
     size_t  idx = off.y * ENTS_PER_CHUNK + off.x;
 
-    assert( idx < _chunkMapEnts.size() );
+    tprAssert( idx < _chunkMapEnts.size() );
     this->nodeMapAlti = _chunkMapEnts.at(idx).mapAlti;
 }
 
@@ -133,7 +134,7 @@ void MapField::init_nodeMPos(){
 
     pnX = pnX * 71 + 100; //- [71.0, 171.0]
     pnY = pnY * 71 + 100; //- [71.0, 171.0]
-        assert( (pnX>0) && (pnY>0) );
+        tprAssert( (pnX>0) && (pnY>0) );
 
     idxX = static_cast<size_t>(pnX) % ENTS_PER_FIELD; //- mod
     idxY = static_cast<size_t>(pnY) % ENTS_PER_FIELD; //- mod
@@ -158,7 +159,7 @@ void MapField::init_occupyWeight(){
                                     (this->FDPos.y + 17.1f) ) * 30.0f + 60.0f; //- [30.0, 90.0]
 
 
-    assert( Fidx > 0 );
+    tprAssert( Fidx > 0 );
     size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
 
     this->occupyWeight = calc_occupyWeight( oddEven, randIdx );
@@ -199,7 +200,7 @@ void MapField::assign_field_to_4_ecoObjs(){
     vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
     vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
 
-    const glm::vec2 &field_pposOff = esrc::gameSeed.get_field_pposOff();
+    const glm::vec2 &field_pposOff = esrc::get_gameSeed().get_field_pposOff();
     vx += field_pposOff.x;
     vy += field_pposOff.y;
     float pnValBig = simplex_noise2(    (vx + 51.15f) * freqBig,

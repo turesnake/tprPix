@@ -7,8 +7,8 @@
  *    随机数 模块
  * ----------------------------
  */
-#ifndef _TPR_RANDOM_H_
-#define _TPR_RANDOM_H_
+#ifndef TPR_RANDOM_H_
+#define TPR_RANDOM_H_
 
 //------------------- CPP --------------------//
 #include <random>

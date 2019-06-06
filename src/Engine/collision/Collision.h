@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_COLLISION_H_
-#define _TPR_COLLISION_H_
+#ifndef TPR_COLLISION_H_
+#define TPR_COLLISION_H_
 
 //-------------------- CPP --------------------//
 #include <string>

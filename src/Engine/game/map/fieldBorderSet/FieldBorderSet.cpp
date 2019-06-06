@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 //#include "random.h"
 
 
@@ -124,14 +125,14 @@ fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
  */
 const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t _id, QuadType _quad ){
 
-    assert( fieldBorderSets.find(_id) != fieldBorderSets.end() );
+    tprAssert( fieldBorderSets.find(_id) != fieldBorderSets.end() );
     switch(_quad){
         case QuadType::Left_Bottom:   return fieldBorderSets.at(_id).leftBottoms;
         case QuadType::Right_Bottom:  return fieldBorderSets.at(_id).rightBottoms;
         case QuadType::Left_Top:      return fieldBorderSets.at(_id).leftTops;
         case QuadType::Right_Top:     return fieldBorderSets.at(_id).rightTops;
         default:
-            assert(0);
+            tprAssert(0);
             return fieldBorderSets.at(_id).leftBottoms; //- never touch
     }   
 }
@@ -152,7 +153,7 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
     FieldBorderSet  fbs {};
     fieldBorderSetId_t id_ = FieldBorderSet::id_manager.apply_a_u32_id();
     fbs.id = id_;
-        assert( fieldBorderSets.find(id_) == fieldBorderSets.end() );//- must
+        tprAssert( fieldBorderSets.find(id_) == fieldBorderSets.end() );//- must
     fieldBorderSet_ids.push_back( id_ );
     fieldBorderSets.insert({id_, fbs}); //- copy
     FieldBorderSet &fbsRef = fieldBorderSets.at(id_);
@@ -162,7 +163,7 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
     fbsRef.leftTops.reserve( quadSize );
     fbsRef.rightTops.reserve( quadSize );
 
-    assert( _container.size() == frameSize );
+    tprAssert( _container.size() == frameSize );
 
 
     IntVec2   pixWH;
@@ -195,10 +196,10 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
         }
     }
 
-    assert( fbsRef.leftBottoms.size() == quadSize );
-    assert( fbsRef.rightBottoms.size() == quadSize );
-    assert( fbsRef.leftTops.size() == quadSize );
-    assert( fbsRef.rightTops.size() == quadSize );
+    tprAssert( fbsRef.leftBottoms.size() == quadSize );
+    tprAssert( fbsRef.rightBottoms.size() == quadSize );
+    tprAssert( fbsRef.leftTops.size() == quadSize );
+    tprAssert( fbsRef.rightTops.size() == quadSize );
 }
 
 

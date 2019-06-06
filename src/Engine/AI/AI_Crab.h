@@ -7,8 +7,8 @@
  *   螃蟹式 AI 
  * -----------------------
  */
-#ifndef _TPR_AI_CRAB_H_
-#define _TPR_AI_CRAB_H_
+#ifndef TPR_AI_CRAB_H_
+#define TPR_AI_CRAB_H_
 
 
 //-------------------- CPP --------------------//

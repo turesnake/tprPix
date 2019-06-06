@@ -7,8 +7,8 @@
  *   go direction
  * ----------------------------
  */
-#ifndef _TPR_DIRECTION_H_
-#define _TPR_DIRECTION_H_
+#ifndef TPR_DIRECTION_H_
+#define TPR_DIRECTION_H_
 
 
 //-- 暂时只适用于 go 

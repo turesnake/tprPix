@@ -5,11 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_BUTTON_SCENE_BEGIN_POINTER_H_
-#define _TPR_BUTTON_SCENE_BEGIN_POINTER_H_
+#ifndef TPR_BUTTON_SCENE_BEGIN_POINTER_H_
+#define TPR_BUTTON_SCENE_BEGIN_POINTER_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -17,6 +17,7 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "UIObj.h"
 #include "UIMesh.h"
 #include "AnimFrameSet.h"
@@ -39,7 +40,7 @@ public:
     
     //--  每次调用回调函数，都需要做的 指针重绑定 --
     inline void rebind_ptr( UIObj *_uiObjPtr ){
-        assert( _uiObjPtr->uiObjSpecId == Button_SceneBegin_Pointer::specId );
+        tprAssert( _uiObjPtr->uiObjSpecId == Button_SceneBegin_Pointer::specId );
         //-- rebind ptr -----
         this->uiObjPtr = _uiObjPtr;
     }

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_THREAD_H_
-#define _TPR_ESRC_THREAD_H_
+#ifndef TPR_ESRC_THREAD_H_
+#define TPR_ESRC_THREAD_H_
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

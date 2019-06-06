@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef _TPR_JOY_STICK_BUTTON_H_
-#define _TPR_JOY_STICK_BUTTON_H_
+#ifndef TPR_JOY_STICK_BUTTON_H_
+#define TPR_JOY_STICK_BUTTON_H_
 
 
 //-- 目前的 次序，完全按照 北通pc手柄 --

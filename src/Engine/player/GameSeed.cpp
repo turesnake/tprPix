@@ -12,6 +12,9 @@
 #include "tprDebug.h"
 
 
+#include "tprAssert.h"
+
+
 namespace{//----------- namespace ----------------//
 
     inline std::uniform_int_distribution<int>   uDistribution_altiSeed(-1000, 1000);
@@ -29,7 +32,7 @@ namespace{//----------- namespace ----------------//
 void GameSeed::init(  u32_t _baseSeed ){
     //-- 只可被初始化一次... --
     //   不一定... 在未来会被 取消...
-    assert( this->is_all_seed_init == false );
+    tprAssert( this->is_all_seed_init == false );
 
     this->baseSeed = _baseSeed;
 

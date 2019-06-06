@@ -8,8 +8,8 @@
  *   使用 cpp 特有的 inline 关键词来 一步到位地 声明+初始化
  * ----------------------------
  */
-#ifndef _TPR_GLOBAL_H_
-#define _TPR_GLOBAL_H_
+#ifndef TPR_GLOBAL_H_
+#define TPR_GLOBAL_H_
 
 //-------------------- CPP --------------------//
 #include <string>

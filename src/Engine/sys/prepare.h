@@ -7,8 +7,8 @@
  *   main 函数 的前期 准备工作
  * ----------------------------
  */
-#ifndef _TPR_PREPARE_H_
-#define _TPR_PREPARE_H_
+#ifndef TPR_PREPARE_H_
+#define TPR_PREPARE_H_
 
 
 void prepare();

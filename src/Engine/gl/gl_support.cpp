@@ -12,13 +12,14 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "input.h" 
 #include "global.h"
 #include "windowConfig.h" //-- SCR_WIDTH
@@ -48,7 +49,7 @@ void glad_set();
  * -- glfw 库 的初始化。
  */
 void glfw_init(){
-    assert( glfwInit() != GL_FALSE );
+    tprAssert( glfwInit() != GL_FALSE );
 }
 
 
@@ -76,11 +77,13 @@ void glfw_hints_set(){
  */
 void glfw_window_creat(){
 
-    assert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
+    //GLFWwindow *targetWindowPtr = esrc::get_windowPtr();
+
+    tprAssert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
     if( IS_FULL_SCREEN == true){
         //------ 全屏模式 ------//
         // 未完工... 禁止使用 
-            assert(0);
+            tprAssert(0);
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -88,32 +91,43 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-
-        esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
+        /*
+        targetWindowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
                                             monitor, 
                                             NULL );
+        */
+        esrc::set_windowPtr( glfwCreateWindow( ViewingBox::windowSZ.x,
+                                            ViewingBox::windowSZ.y,
+                                            "tprpix", 
+                                            monitor, 
+                                            NULL ) );
 
     }else{
         //------ 窗口模式 ------//
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); //- 阻止玩家在程序运行后，修改 window 尺寸
-
-        esrc::windowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
+        /*
+        targetWindowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
                                             NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                             NULL );
+        */
+        esrc::set_windowPtr( glfwCreateWindow( ViewingBox::windowSZ.x,
+                                            ViewingBox::windowSZ.y,
+                                            "tprpix", 
+                                            NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
+                                            NULL ) );
 
     }
 
-	if(esrc::windowPtr == NULL){
+	if(esrc::get_windowPtr() == NULL){
 		glfwTerminate();
-        assert(0);
+        tprAssert(0);
 	}
     //-- 将这个 唯一的 window 设为 current context
-	glfwMakeContextCurrent( esrc::windowPtr );
-
+	glfwMakeContextCurrent( esrc::get_windowPtr() );
 
 }
 
@@ -129,9 +143,6 @@ void glfw_oth_set(){
     //  所以，本游戏 不用 隐藏鼠标 
     //glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
-
-
 }
 
 
@@ -141,12 +152,9 @@ void glfw_oth_set(){
  * -- glfw 回调函数 设置区
  */
 void glfw_callback_set(){
-
      //-- 窗口模式中，不再允许用户更改 窗口尺寸
-              
     //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
     //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
-
 }
 
 
@@ -155,7 +163,16 @@ void glfw_callback_set(){
  * -----------------------------------------------------------
  */
 void glad_init(){
-    assert( gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) );
+    //tprAssert( gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) );
+    if( !gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) ){
+        tprAssert(0);
+    }
+
+    cout << "OpenGL: " <<  GLVersion.major
+        << ". " <<  GLVersion.minor
+        << endl;
+            // mac 4.1
+            // win 0.0 -- 估计是有问题
 }
  
 

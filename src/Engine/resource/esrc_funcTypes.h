@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_FUNC_TYPES_H_
-#define _TPR_FUNC_TYPES_H_
+#ifndef TPR_FUNC_TYPES_H_
+#define TPR_FUNC_TYPES_H_
 
 //-------------------- CPP --------------------//
 #include <functional> 

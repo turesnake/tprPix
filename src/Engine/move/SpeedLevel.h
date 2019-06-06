@@ -7,17 +7,20 @@
  *    专门管理 GameObj实例 的 位移运动: 爬行
  * ----------------------------
  */
-#ifndef _TPR_SPEED_LEVEL_H_
-#define _TPR_SPEED_LEVEL_H_
+#ifndef TPR_SPEED_LEVEL_H_
+#define TPR_SPEED_LEVEL_H_
 
 //------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- CPP --------------------//
 #include <vector>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 //-- go 可设置的 8档 速度 --
@@ -78,7 +81,7 @@ inline const SpeedLevel calc_higher_speedLvl( const SpeedLevel &_lvl ){
         case SpeedLevel::LV_11: return SpeedLevel::LV_12;
         case SpeedLevel::LV_12: return SpeedLevel::LV_12;
         default:
-            assert(0);
+            tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
     }
 }
@@ -98,7 +101,7 @@ inline const SpeedLevel calc_lower_speedLvl( const SpeedLevel &_lvl ){
         case SpeedLevel::LV_11: return SpeedLevel::LV_10;
         case SpeedLevel::LV_12: return SpeedLevel::LV_11;
         default:
-            assert(0);
+            tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
     }
 }

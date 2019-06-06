@@ -7,17 +7,18 @@
  *    wrap funcs of sqlite3
  * ----------------------------
  */
-#ifndef _TPR_WRAP_SQLITE3_H_
-#define _TPR_WRAP_SQLITE3_H_
+#ifndef TPR_WRAP_SQLITE3_H_
+#define TPR_WRAP_SQLITE3_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <iostream>
 #include <string>
 
 //-------------------- Libs --------------------//
+#include "tprAssert.h"
 #include "sqlite3.h"
 
 
@@ -28,19 +29,19 @@
  * -- 版本2，仅仅翻译 ERROR CODE 名称
  */
 inline void _handle_sqlite_err( sqlite3 *_db, int _rc, const std::string &_funcName ){
-    assert( _rc != SQLITE_OK );
+    tprAssert( _rc != SQLITE_OK );
     std::cout << "ERROR: " << _funcName << ": \n"
         << sqlite3_errmsg( _db )
         << std::endl;
     sqlite3_close( _db ); //- better
-    assert(0);
+    tprAssert(0);
 }
 inline void _handle_sqlite_err_without_db( int _rc, const std::string &_funcName ){
-    assert( _rc != SQLITE_OK );
+    tprAssert( _rc != SQLITE_OK );
     std::cout << "ERROR_CODE: " << _funcName << ": \n"
         << sqlite3_errstr( _rc )
         << std::endl;
-    assert(0);
+    tprAssert(0);
 }
 
 
@@ -212,11 +213,11 @@ inline void w_sqlite3_bind_zeroblob( sqlite3 *_db, sqlite3_stmt *_pStmt, int _id
  */
 inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *_pStmt, const char *_zName){
     int retIdx = sqlite3_bind_parameter_index( _pStmt, _zName);
-    //assert( retIdx != 0 );
+    //tprAssert( retIdx != 0 );
     if( retIdx == 0 ){
         std::cout << "cant find parameter: " << _zName
             << std::endl;
-        assert(0);
+        tprAssert(0);
     }
     return retIdx;
 }

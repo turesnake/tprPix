@@ -7,8 +7,8 @@
  * 类似 GO 的 ChildMesh 
  * ----------------------------
  */
-#ifndef _TPR_UI_CHILD_MESH_H_
-#define _TPR_UI_CHILD_MESH_H_
+#ifndef TPR_UI_CHILD_MESH_H_
+#define TPR_UI_CHILD_MESH_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>

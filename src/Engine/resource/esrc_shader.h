@@ -5,15 +5,17 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_SHADER_H_
-#define _TPR_ESRC_SHADER_H_
+#ifndef TPR_ESRC_SHADER_H_
+#define TPR_ESRC_SHADER_H_
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-inline ShaderProgram rect_shader {};
+//inline ShaderProgram rect_shader {};
+ShaderProgram &get_rect_shader();
+
 void init_shaders();
 
 }//---------------------- namespace: esrc -------------------------//

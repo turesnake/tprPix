@@ -28,13 +28,13 @@
  *   此时就有必要进入 更为完善的 tex显存管理（到时再说）
  * ----------------------------
  */
-#ifndef _TPR_ANIM_FRAME_SET_H_
-#define _TPR_ANIM_FRAME_SET_H_
+#ifndef TPR_ANIM_FRAME_SET_H_
+#define TPR_ANIM_FRAME_SET_H_
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
 //-------------------- C --------------------//
-#include <cassert> //- assert
+//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -45,6 +45,7 @@
 #include "tprDataType.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
 #include "FramePos.h"
@@ -71,7 +72,7 @@ public:
                 );
 
     inline AnimAction *getnc_animActionPtr( const std::string &_actionName ){
-       assert( this->animActions.find(_actionName) != this->animActions.end() );
+       tprAssert( this->animActions.find(_actionName) != this->animActions.end() );
        return  &this->animActions.at(_actionName);
     }
 

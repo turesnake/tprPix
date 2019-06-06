@@ -8,7 +8,7 @@
 #include "Script/UIs/buttons/Button_SceneBegin_Archive.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -19,6 +19,7 @@
 //#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
@@ -37,7 +38,7 @@ namespace uis{//------------- namespace uis ----------------
 void Button_SceneBegin_Archive::init_in_autoMod(  UIObj  *_uiObjPtr,
                                                 const glm::vec2 &_fpos ){
 
-    assert( _uiObjPtr != nullptr );
+    tprAssert( _uiObjPtr != nullptr );
     this->uiObjPtr = _uiObjPtr;
 
     //-------- bind callback funcs ---------//
@@ -53,8 +54,8 @@ void Button_SceneBegin_Archive::init_in_autoMod(  UIObj  *_uiObjPtr,
 
         //-- 制作唯一的 mesh 实例: "root" --
         UIMesh &uiMeshRef = this->uiObjPtr->creat_new_uiMesh(
-                                        &esrc::rect_shader,  
-                                        &esrc::rect_shader, //- 其实没有 shadow
+                                        &esrc::get_rect_shader(),  
+                                        &esrc::get_rect_shader(), //- 其实没有 shadow
                                         1.0,  //- off_z 通过此值来确保，archive 在 pointer 后方
                                         true, //- isVisible
                                         false //- isFlipOver

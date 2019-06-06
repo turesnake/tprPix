@@ -9,16 +9,17 @@
  *  只有 field 才需要记录自己的 density 值
  * ----------------------------
  */
-#ifndef _TPR_DENSITY_H_
-#define _TPR_DENSITY_H_
+#ifndef TPR_DENSITY_H_
+#define TPR_DENSITY_H_
 
 //------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //------------------- CPP --------------------//
 #include <vector>
 
 //------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 
 
@@ -33,7 +34,7 @@ public:
     explicit Density( int _lvl ):
         lvl(_lvl)
         {
-            assert( (_lvl>=Density::minLvl) && (_lvl<=Density::maxLvl) );
+            tprAssert( (_lvl>=Density::minLvl) && (_lvl<=Density::maxLvl) );
         }
 
     void set(   const IntVec2 &_fieldMPos, 
@@ -55,7 +56,7 @@ public:
             case 2:  return 5;
             case 3:  return 6;
             default:
-                assert(0);
+                tprAssert(0);
                 return 0; //- never reach
         }
     }
@@ -81,7 +82,7 @@ public:
             case 2:  return 5;
             case 3:  return 6;
             default:
-                assert(0);
+                tprAssert(0);
                 return 0; //- never reach
         }
     }   

@@ -7,8 +7,8 @@
  *    Chunk  64*64_mapents, [left-bottom]
  * ----------------------------
  */
-#ifndef _TPR_CHUNK_H_
-#define _TPR_CHUNK_H_
+#ifndef TPR_CHUNK_H_
+#define TPR_CHUNK_H_
 
 //--- glm - 0.9.9.5 ---
 #include <glm/glm.hpp>
@@ -18,13 +18,14 @@
             //-- glm::mat4
 
 //-------------------- C --------------------//
-#include <cassert> //- tmp
+//#include <cassert> //- tmp
 
 //-------------------- CPP --------------------//
 #include <vector>
 #include <set>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 #include "MapEnt.h"
 #include "config.h" 
@@ -102,7 +103,7 @@ public:
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
         int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
-            assert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
+            tprAssert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
         return &(memMapEnts.at(idx));
     }
     

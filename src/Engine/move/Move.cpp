@@ -8,7 +8,7 @@
 #include "Move.h"
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -17,6 +17,7 @@
 #include <iomanip>
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
 #include "MapCoord.h"
@@ -59,7 +60,7 @@ namespace{//-------------- namespace ------------------//
  * -----------------------------------------------------------
  */
 void Move::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
-    assert( this->moveType == MoveType::Crawl );
+    tprAssert( this->moveType == MoveType::Crawl );
     //-----------//
     //  isMoving
     //-----------//
@@ -109,7 +110,7 @@ void Move::crawl_renderUpdate(){
     //----------------//
     speedV = this->currentDirAxes.to_fmpos();
     speedV *= SpeedLevel_2_val(this->speedLvl) *
-              60 * esrc::timer.get_smoothDeltaTime();
+              60 * esrc::get_timer().get_smoothDeltaTime();
     //---- crawl -----//
     this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
 }
@@ -138,7 +139,7 @@ void Move::drag_renderUpdate(){
     fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
     speedV = glm::normalize( fposOff ); //- 等效于 DirAxes 的计算。
     speedV *=   SpeedLevel_2_val(this->speedLvl) *
-                60 * esrc::timer.get_smoothDeltaTime();
+                60 * esrc::get_timer().get_smoothDeltaTime();
 
     bool isLastFrame = false;
     if( (std::abs(speedV.x) > std::abs(fposOff.x)) ||
@@ -182,7 +183,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
         isCross = true;
 
         off = newMCPos - oldMCPos;
-            assert( off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
+            tprAssert( off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
         nb.set( off.get_mpos().x, off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
@@ -217,7 +218,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
 
     if( newChunkKey!=goPtr->currentChunkKey ){
         oldChunkPtr = esrc::get_chunkPtr( this->goPtr->currentChunkKey );
-        assert( oldChunkPtr->erase_from_goIds(goid) == 1 );
+        tprAssert( oldChunkPtr->erase_from_goIds(goid) == 1 );
         oldChunkPtr->erase_from_edgeGoIds(goid);
         //---
         goPtr->currentChunkKey = newChunkKey;
@@ -231,7 +232,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
     }else if( chunkKeysSize > 1 ){
         newChunkPtr->insert_2_edgeGoIds(goid);
     }else{
-        assert(0);
+        tprAssert(0);
     }
 
         //-----------------------------------------

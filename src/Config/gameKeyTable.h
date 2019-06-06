@@ -11,8 +11,8 @@
  *   目前的实现很丑陋，在未来做改良...
  * ----------------------------
  */
-#ifndef _TPR_GAME_KEY_TABLE_H_
-#define _TPR_GAME_KEY_TABLE_H_
+#ifndef TPR_GAME_KEY_TABLE_H_
+#define TPR_GAME_KEY_TABLE_H_
 
 //-------------------- CPP --------------------//
 #include <unordered_map>

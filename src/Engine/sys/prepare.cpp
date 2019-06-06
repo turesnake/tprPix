@@ -6,17 +6,17 @@
  * ----------------------------------------------------------
  */
 //---------------- from cmake ------------------//
-#include "SysConfig.h" // MUST BEFORE _TPR_OS_WIN32_ !!!
+#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
 
 //-------------------- C ----------------------//
-#ifdef _TPR_OS_WIN32_
+#ifdef TPR_OS_WIN32_
 	#include <windows.h>
 #else
 	#include <unistd.h>  //- fchdir
 	#include <fcntl.h>    //-- open，openat, AT_FDCWD
 #endif
 
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string> 
@@ -27,7 +27,7 @@
 #include "tprGeneral.h"
 
 
-#ifdef _TPR_OS_WIN32_
+#ifdef TPR_OS_WIN32_
     #include "tprFileSys_win.h" 
 #else
     #include "wrapUnix.h"
@@ -36,6 +36,7 @@
 #endif
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "global.h"
 
 
@@ -101,7 +102,7 @@ namespace {//------------ namespace ------------//
 void build_path_cwd(){
 
 
-#ifdef _TPR_OS_WIN32_
+#ifdef TPR_OS_WIN32_
 
 	char buf[MAX_PATH];
 	GetModuleFileName( NULL, buf, MAX_PATH );
@@ -119,12 +120,12 @@ void build_path_cwd(){
     if( (fd_cwd = openat( AT_FDCWD, "..", (O_RDONLY | O_DIRECTORY) )) == -1 ){
         //cout << "prepare: openat: ERROR. fd_cwd.\n" 
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
     if( fchdir( fd_cwd ) == -1 ){ //-- 将 system目录的 父目录 设为 当前工作目录
         //cout << "prepare: fchdir: ERROR. \n"
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //----------------------------//
@@ -134,7 +135,7 @@ void build_path_cwd(){
     if( getcwd( cpath_cwd, 1024 ) == NULL ){
         //cout << "prepare: getcwd: ERROR.\n"
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //---  通过临时 string 对象，将 字符串 转存到 string对象：path_cwd 中。
@@ -159,7 +160,7 @@ void check_and_creat_important_dir(){
     //      path_cwd
 
 
-#ifdef _TPR_OS_WIN32_
+#ifdef TPR_OS_WIN32_
 
     //---------------------------------//
     //           path_data
@@ -265,7 +266,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "short len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- unsigned short ------//
@@ -274,7 +275,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "unsigned short len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- int ------//
@@ -283,7 +284,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "int len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- unsigned int ------//
@@ -292,7 +293,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "unsigned int len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- long long ------//
@@ -301,7 +302,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "long long len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- unsigned long long ------//
@@ -310,7 +311,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "unsigned long long len = " << len
         //    << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- float ------//
@@ -319,7 +320,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "float len = " << len
         //   << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- double ------//
@@ -328,7 +329,7 @@ void data_type_confirm(){
         //cout << "data_type_confirm: ERROR."
         //    << "double len = " << len
         //   << endl;
-        assert(0);
+        tprAssert(0);
     }
 
     //------- off_t ------//
@@ -357,19 +358,19 @@ void check_OS(){
 
     current_OS = OS_NULL; //-- 先设置为 未找到状态
 
-    #ifdef _TPR_OS_APPLE_
+    #ifdef TPR_OS_APPLE_
         current_OS = OS_APPLE;
-        cout << "_TPR_OS_APPLE_" << endl;
+        cout << "TPR_OS_APPLE_" << endl;
     #endif 
 
-    #ifdef _TPR_OS_UNIX_
+    #ifdef TPR_OS_UNIX_
         current_OS = OS_UNIX;
-        cout << "_TPR_OS_UNIX_" << endl;
+        cout << "TPR_OS_UNIX_" << endl;
     #endif 
 
-    #ifdef _TPR_OS_WIN32_
+    #ifdef TPR_OS_WIN32_
         current_OS = OS_WIN32;
-        cout << "_TPR_OS_WIN32_" << endl;
+        cout << "TPR_OS_WIN32_" << endl;
     #endif 
     
 

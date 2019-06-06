@@ -5,11 +5,11 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef _TPR_ESRC_ECOSYS_PLAN_H_
-#define _TPR_ESRC_ECOSYS_PLAN_H_
+#ifndef TPR_ESRC_ECOSYS_PLAN_H_
+#define TPR_ESRC_ECOSYS_PLAN_H_
 
 //-------------------- C --------------------//
-#include <cassert>
+//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <unordered_map>
@@ -20,22 +20,19 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-inline std::unordered_map<ecoSysPlanId_t, EcoSysPlan> ecoSysPlanes {};
+//inline std::unordered_map<ecoSysPlanId_t, EcoSysPlan> ecoSysPlanes {};
 
 void init_ecoSysPlanes();
 
-inline EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId ){
-        assert( esrc::ecoSysPlanes.find(_ecoId) != esrc::ecoSysPlanes.end() ); //- tmp
-    return &(esrc::ecoSysPlanes.at(_ecoId));
-}
+EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId );
 
 //-- 一种type，一个子容器，容纳此type 的所有变种 --
-inline std::vector<std::vector<ecoSysPlanId_t>> ecoSysPlanIds_in_type {};
+//inline std::vector<std::vector<ecoSysPlanId_t>> ecoSysPlanIds_in_type {};
 
 ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObjWeight );
 
 //-- 仅记录所有 ecoId 值 --
-inline std::vector<ecoSysPlanId_t> ecoSysPlanIds {};
+//inline std::vector<ecoSysPlanId_t> ecoSysPlanIds {};
 
 ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float _ecoObjWeight );
 

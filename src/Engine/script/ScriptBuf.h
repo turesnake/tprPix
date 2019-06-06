@@ -9,19 +9,23 @@
  *    目前，此装置未被使用
  * ----------------------------
  */
-#ifndef _TPR_SCRIPT_BUF_H_
-#define _TPR_SCRIPT_BUF_H_
+#ifndef TPR_SCRIPT_BUF_H_
+#define TPR_SCRIPT_BUF_H_
 
 //-------------------- C --------------------//
 #include <cstring> //- memcpy
-#include <cassert> //- assert
+//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <vector> 
 #include <string>
 
+
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 //--- 一个更加强大，专业的 引擎-脚本 参数／返回值 传递工具 ---
@@ -38,7 +42,7 @@ public:
     }
 
     inline bool pop_bool(){
-        assert( is_boolval_push == true );
+        tprAssert( is_boolval_push == true );
         is_boolval_push = false;
         return boolval;
     }
@@ -50,7 +54,7 @@ public:
     }
 
     inline int pop_int(){
-        assert( is_i32val_push == true );
+        tprAssert( is_i32val_push == true );
         is_i32val_push = false;
         return i32val;
     }
@@ -62,7 +66,7 @@ public:
     }
 
     inline u64_t pop_u64(){
-        assert( is_u64val_push == true );
+        tprAssert( is_u64val_push == true );
         is_u64val_push = false;
         return u64val;
     }
@@ -74,7 +78,7 @@ public:
     }
 
     inline std::string pop_str(){
-        assert( is_str_push == true );
+        tprAssert( is_str_push == true );
         is_str_push = false;
         return str; //- copy
     }
@@ -90,9 +94,9 @@ public:
 
     inline void pop_binary( void *_buf, int _len ){
         //- 非常严格，buf长度不匹配也将 报错 
-        assert( is_binary_push == true );
+        tprAssert( is_binary_push == true );
         is_binary_push = false;
-        assert( binary.size() == _len );
+        tprAssert( binary.size() == _len );
         memcpy( _buf,
                 (void*)&(binary.at(0)),
                 (size_t)_len );
