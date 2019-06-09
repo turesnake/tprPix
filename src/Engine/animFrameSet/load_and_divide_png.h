@@ -19,7 +19,7 @@
 
 IntVec2 load_and_divide_png(const std::string &_path,
                             const IntVec2 &_frameNum,
-                            int            _totalFrameNum,
+                            size_t         _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary );
 
 

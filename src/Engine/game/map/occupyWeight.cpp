@@ -15,9 +15,10 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 
 
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
     //- 为了避免相邻的 4顶点 不出现相同的 occupyWeight
     //  首先根据 顶点在 地图上的 奇偶性， 将每个 顶点 划分为 4种类型。
@@ -44,7 +45,7 @@ occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
     tprAssert( (_oddEven.x>=0) && (_oddEven.x<=1) && 
             (_oddEven.y>=0) && (_oddEven.y<=1) );
 
-    size_t containerIdx = _oddEven.y * 2 + _oddEven.x;
+    size_t containerIdx = to_size_t_cast( _oddEven.y * 2 + _oddEven.x );
         //tprAssert( containerIdx < occupyWeights.size() ); //- tmp
     const std::vector<occupyWeight_t> &container = occupyWeights.at(containerIdx);
 

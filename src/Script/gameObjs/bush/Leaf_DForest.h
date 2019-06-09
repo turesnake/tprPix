@@ -35,7 +35,7 @@ inline std::vector<PubBinaryValType> leaf_DForest_pubBinaryValTypes {
 };
 
 struct Leaf_DForest_PvtBinary{
-    int   leaf_DForestId {0};
+    size_t   leaf_DForestId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
     //===== padding =====//
     //...
@@ -68,7 +68,7 @@ public:
         tprAssert( _goPtr->species == Leaf_DForest::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Leaf_DForest_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<Leaf_DForest_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

@@ -110,7 +110,7 @@ void Move::crawl_renderUpdate(){
     //----------------//
     speedV = this->currentDirAxes.to_fmpos();
     speedV *= SpeedLevel_2_val(this->speedLvl) *
-              60 * esrc::get_timer().get_smoothDeltaTime();
+              60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
     //---- crawl -----//
     this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
 }
@@ -139,7 +139,7 @@ void Move::drag_renderUpdate(){
     fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
     speedV = glm::normalize( fposOff ); //- 等效于 DirAxes 的计算。
     speedV *=   SpeedLevel_2_val(this->speedLvl) *
-                60 * esrc::get_timer().get_smoothDeltaTime();
+                60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
 
     bool isLastFrame = false;
     if( (std::abs(speedV.x) > std::abs(fposOff.x)) ||

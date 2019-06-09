@@ -37,10 +37,10 @@
 #include "tprDebug.h"
 
 
-namespace chunkBuild { //------- namespace: chunkBuild ----------//
+namespace chunkBuild {//------- namespace: chunkBuild ----------//
 
 
-namespace{//----------- namespace ----------------//
+namespace {//----------- namespace ----------------//
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     // 此数据 和 MapField.cpp 中存在重复
@@ -205,7 +205,7 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
 }
 
 
-namespace{//----------- namespace ----------------//
+namespace {//----------- namespace ----------------//
 
 
 /* ===========================================================

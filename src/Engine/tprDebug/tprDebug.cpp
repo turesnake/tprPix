@@ -10,17 +10,7 @@
 #include "tprDebug.h"
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
+#include "glm_no_warnings.h"
 
 //-------------------- Engine --------------------//
 #include "config.h"

@@ -58,7 +58,7 @@ public:
         tprAssert( this->is_binded );
         this->mesh.set_translate( glm::vec3{ _x, _y, _z } );
     }
-    inline GLuint get_uniform_location( const std::string &_name ){
+    inline GLint get_uniform_location( const std::string &_name ){
         tprAssert( this->is_binded );
         return this->shaderProgram.get_uniform_location( _name );
     }
@@ -77,7 +77,7 @@ private:
             //  这些实例，各自配有独立的 glsl 程序组。
 
     //===== flags =====//
-    bool  is_binded {false};;    //- 统一 绑定／释放
+    bool  is_binded {false};    //- 统一 绑定／释放
 
 };
 

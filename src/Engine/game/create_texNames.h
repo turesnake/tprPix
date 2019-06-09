@@ -29,16 +29,16 @@
  * param: _frame_data_ary  -- 图形数据本体
  * param: _texNamesBuf -- 最终生成的 texNames 存入此容器
  */
-inline void create_texNames( int  _texNum,
+inline void create_texNames(size_t _texNum,
                             const IntVec2 &_imgWH,
                             const std::vector<std::vector<RGBA>> &_frame_data_ary,
                             std::vector<GLuint> &_texNamesBuf ){
 
     _texNamesBuf.resize( _texNum );
     //-- 申请 _texNum个 tex实例，并获得其 names
-    glGenTextures( _texNum, &_texNamesBuf.at(0) );
+    glGenTextures( static_cast<GLsizei>(_texNum), &_texNamesBuf.at(0) );
 
-    for( int i=0; i<_texNum; i++ ){
+    for( size_t i=0; i<_texNum; i++ ){
 
         glBindTexture( GL_TEXTURE_2D, _texNamesBuf.at(i) );
         //-- 为 GL_TEXTURE_2D 设置环绕、过滤方式
@@ -48,7 +48,7 @@ inline void create_texNames( int  _texNum,
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // 放大时 纹理过滤 的策略
                                                         //-- GL_NEAREST 临近过滤，8-bit 专用
                                                         //-- GL_LINEAR  线性过滤，
-        const GLvoid *dptr = (const GLvoid*)&(_frame_data_ary.at(i).at(0));
+        const GLvoid *dptr = static_cast<const GLvoid*>(&(_frame_data_ary.at(i).at(0)));
         //-- 通过之前的 png图片数据，生成 一个 纹理。
         glTexImage2D( GL_TEXTURE_2D,       //-- 指定纹理目标／target，
                         0,                 //-- 多级渐远纹理的级别: 0: 基本级别
@@ -71,7 +71,7 @@ inline void create_texNames( int  _texNum,
  * param: _imgWH     -- 目标texture 的 宽度长度
  * param: _imgDataPtr  -- 图形数据本体
  */
-inline int create_a_texName( const IntVec2 &_imgWH,
+inline GLuint create_a_texName( const IntVec2 &_imgWH,
                              const GLvoid  *_imgDataPtr ){
 
     GLuint texName;
@@ -107,7 +107,7 @@ inline int create_a_texName( const IntVec2 &_imgWH,
  * -----------------------------------------------------------
  * param: _imgWH     -- 目标texture 的 宽度长度
  */
-inline int create_a_empty_texName( const IntVec2 &_imgWH ){
+inline GLuint create_a_empty_texName( const IntVec2 &_imgWH ){
     GLuint texName;
     //-- 申请 _texNum个 tex实例，并获得其 names
     glGenTextures( 1, &texName );
@@ -128,7 +128,7 @@ inline int create_a_empty_texName( const IntVec2 &_imgWH ){
                     0,                 //-- 总是被设为0（历史遗留问题
                     GL_RGBA,           //-- 源图的 格式
                     GL_UNSIGNED_BYTE,  //-- 源图的 数据类型
-                    NULL               //-- 图像数据, 为空
+                    nullptr               //-- 图像数据, 为空
                     );
     //-- 本游戏不需要 多级渐远 --
     //glGenerateMipmap(GL_TEXTURE_2D); //-- 生成多级渐远纹理

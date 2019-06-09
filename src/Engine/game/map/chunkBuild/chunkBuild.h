@@ -22,7 +22,7 @@
 #include "chunkKey.h"
 
 
-namespace chunkBuild { //------- namespace: chunkBuild ----------//
+namespace chunkBuild {//------- namespace: chunkBuild ----------//
     
 
 void build_9_chunks( const IntVec2 &_playerMPos );

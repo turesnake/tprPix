@@ -38,8 +38,8 @@ namespace{//------------------ namespace ---------------------//
 void UIChildMesh::refresh_scale_auto(){
     const IntVec2 &p = this->uiMeshPtr->get_animAction_pixNum_per_frame();
 
-    this->scale_val.x = (float)p.x;
-    this->scale_val.y = (float)p.y;
+    this->scale_val.x = static_cast<float>(p.x);
+    this->scale_val.y = static_cast<float>(p.y);
     this->scale_val.z = 1.0f;
 
     //---- 亦或时 才左右翻转 ----//
@@ -66,7 +66,7 @@ void UIChildMesh::refresh_translate(){
 
 
     //--- set translate_val ---//
-    this->translate_val.x = goCurrentFPos.x - (float)vRef.x;
+    this->translate_val.x = goCurrentFPos.x - static_cast<float>(vRef.x);
     //---- 亦或时 才左右翻转 ----//
     //  暂不实现 左右翻转...
     /*
@@ -76,7 +76,7 @@ void UIChildMesh::refresh_translate(){
     */
 
     if( this->isPic == true ){
-        this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
+        this->translate_val.y = goCurrentFPos.y - static_cast<float>(vRef.y);
                                     
         this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::get_renderLayerZOff(RenderLayerType::UIs) +
                                 this->uiMeshPtr->get_off_z();

@@ -13,8 +13,7 @@
 #define TPR_INPUT_INS_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
+#include "glm_no_warnings.h"
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -40,10 +39,10 @@ public:
 
     inline void set_key_from_keyboard( const GameKey &_key ){
         switch( _key ){
-            case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
-            case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
-            case GameKey::UP:     dirAxes.set_y(  1.0 );  break;
-            case GameKey::DOWN:   dirAxes.set_y( -1.0 );  break;
+            case GameKey::LEFT:   dirAxes.set_x( -1.0f );  break;
+            case GameKey::RIGHT:  dirAxes.set_x(  1.0f );  break;
+            case GameKey::UP:     dirAxes.set_y(  1.0f );  break;
+            case GameKey::DOWN:   dirAxes.set_y( -1.0f );  break;
             default: //- oth keys
                 keys = keys | (1<<(int)_key);
                 break;
@@ -53,10 +52,10 @@ public:
     inline void set_key_from_joystick( const GameKey &_key ){
         switch( _key ){
             //-- 暂时不允许 设置 方向键 button 
-            case GameKey::LEFT:   tprAssert(0);
-            case GameKey::RIGHT:  tprAssert(0);
-            case GameKey::UP:     tprAssert(0);
-            case GameKey::DOWN:   tprAssert(0);
+            case GameKey::LEFT:   tprAssert(0); break;
+            case GameKey::RIGHT:  tprAssert(0); break;
+            case GameKey::UP:     tprAssert(0); break;
+            case GameKey::DOWN:   tprAssert(0); break;
             default: //- oth keys
                 keys = keys | (1<<(int)_key);
                 break;
@@ -79,10 +78,10 @@ public:
             return (((keys>>idx) & 1)==1);
         }else{
             switch( _key ){
-                case GameKey::LEFT:  return (dirAxes.get_x() < -0.0);
-                case GameKey::RIGHT: return (dirAxes.get_x() >  0.0);
-                case GameKey::UP:    return (dirAxes.get_y() >  0.0);
-                case GameKey::DOWN:  return (dirAxes.get_y() < -0.0);
+                case GameKey::LEFT:  return (dirAxes.get_x() < -0.0f);
+                case GameKey::RIGHT: return (dirAxes.get_x() >  0.0f);
+                case GameKey::UP:    return (dirAxes.get_y() >  0.0f);
+                case GameKey::DOWN:  return (dirAxes.get_y() < -0.0f);
                 default:
                     tprAssert(0);
                     return false;

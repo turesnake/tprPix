@@ -76,7 +76,7 @@ void ShaderProgram::init(   const std::string &_lpathVs,
     //--- 检查 是否创建成功 ---
     glGetProgramiv( this->shaderProgram, GL_LINK_STATUS, &success );
     if( !success ){
-        glGetProgramInfoLog( this->shaderProgram, 512, NULL, infoLog );
+        glGetProgramInfoLog( this->shaderProgram, 512, nullptr, infoLog );
         //cout << "ShaderProgram::init: error: \n" 
         //     << infoLog << endl;
         tprAssert(0);
@@ -102,12 +102,12 @@ void ShaderProgram::compile( GLuint _shaderObj, const std::string &_sbuf ){
     char infoLog[512]; //-- 出错信息 暂存 buf
     //---------- 编译 ---------
     const char *sbufPtr = _sbuf.c_str(); //-- 转换为 c风格字符串指针。
-    glShaderSource( _shaderObj, 1, (const GLchar **)&sbufPtr, NULL );
+    glShaderSource( _shaderObj, 1, (const GLchar **)&sbufPtr, nullptr );
     glCompileShader( _shaderObj );
     //-------- 检查 编译 是否成功 ---------
     glGetShaderiv( _shaderObj, GL_COMPILE_STATUS, &success );
     if( !success ){
-        glGetShaderInfoLog( _shaderObj, 512, NULL, infoLog );
+        glGetShaderInfoLog( _shaderObj, 512, nullptr, infoLog );
         std::cout << infoLog << std::endl;
         tprAssert(0);
     }

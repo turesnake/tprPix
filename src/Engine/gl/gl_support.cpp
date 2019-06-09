@@ -102,7 +102,7 @@ void glfw_window_creat(){
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
                                             monitor, 
-                                            NULL ) );
+                                            nullptr ) );
 
     }else{
         //------ 窗口模式 ------//
@@ -117,12 +117,12 @@ void glfw_window_creat(){
         esrc::set_windowPtr( glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
-                                            NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
-                                            NULL ) );
+                                            nullptr,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
+                                            nullptr ) );
 
     }
 
-	if(esrc::get_windowPtr() == NULL){
+	if(esrc::get_windowPtr() == nullptr){
 		glfwTerminate();
         tprAssert(0);
 	}

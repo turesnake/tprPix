@@ -10,12 +10,8 @@
 #ifndef TPR_MAP_ENT_COMPASS_H_
 #define TPR_MAP_ENT_COMPASS_H_
 
-//--- glm - - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -48,7 +44,7 @@ public:
     } 
 
     inline glm::vec2 to_fpos() const {
-        return glm::vec2{ (float)x, (float)y };
+        return glm::vec2{ static_cast<float>(x), static_cast<float>(y) };
     }
 
     //======== vals ========//

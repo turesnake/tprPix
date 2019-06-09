@@ -19,18 +19,7 @@
 #define TPR_MAP_COORD_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -98,21 +87,21 @@ public:
     inline void set_by_ppos_( const IntVec2 &_ppos ){
             tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
         this->ppos = _ppos;
-        this->mpos = floorDiv( this->ppos, (float)PIXES_PER_MAPENT );
+        this->mpos = floorDiv( this->ppos, static_cast<float>(PIXES_PER_MAPENT) );
     }
     inline void set_by_ppos_( int _x, int _y ){
             tprAssert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
         this->ppos.set( _x, _y );
-        this->mpos = floorDiv( this->ppos, (float)PIXES_PER_MAPENT );
+        this->mpos = floorDiv( this->ppos, static_cast<float>(PIXES_PER_MAPENT) );
     }
 
     //-- 宽松版，目前仅被 gameObj_mem.cpp -> signUp_newGO_to_mapEnt() 使用 --
     inline void set_by_anyPPos( const IntVec2 &_anyPPos ){
-        this->mpos = _anyPPos.floorDiv( (float)PIXES_PER_MAPENT );
+        this->mpos = _anyPPos.floorDiv( static_cast<float>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
     }
     inline void set_by_anyPPos( int _x, int _y ){
-        this->mpos = floorDiv( IntVec2{_x, _y}, (float)PIXES_PER_MAPENT );
+        this->mpos = floorDiv( IntVec2{_x, _y}, static_cast<float>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
     }
     
@@ -133,15 +122,15 @@ public:
     }
 
     inline const glm::vec2 get_midFPos() const { //- ppos of the mid_box
-        IntVec2 ppos = mpos_2_ppos( this->mpos );
-        return glm::vec2{   static_cast<float>(ppos.x + HALF_PIXES_PER_MAPENT),
-                            static_cast<float>(ppos.y + HALF_PIXES_PER_MAPENT) };
+        IntVec2 ppos_l = mpos_2_ppos( this->mpos );
+        return glm::vec2{   static_cast<float>(ppos_l.x + HALF_PIXES_PER_MAPENT),
+                            static_cast<float>(ppos_l.y + HALF_PIXES_PER_MAPENT) };
     }
 
     inline const glm::vec2 get_fpos() const {
-        IntVec2 ppos = mpos_2_ppos( this->mpos );
-        return glm::vec2{ static_cast<float>(ppos.x), 
-                          static_cast<float>(ppos.y) };
+        IntVec2 ppos_l = mpos_2_ppos( this->mpos );
+        return glm::vec2{ static_cast<float>(ppos_l.x), 
+                          static_cast<float>(ppos_l.y) };
     }
 
     //-- 仅用于 crawl --
@@ -198,11 +187,11 @@ inline const MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
  */
 inline const IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
     tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
-    return floorDiv( _ppos, (float)PIXES_PER_MAPENT );
+    return floorDiv( _ppos, static_cast<float>(PIXES_PER_MAPENT) );
 }
 
 inline const IntVec2 anyPPos_2_mpos( const IntVec2 &_anyPPos ){
-    return floorDiv( _anyPPos, (float)PIXES_PER_MAPENT );
+    return floorDiv( _anyPPos, static_cast<float>(PIXES_PER_MAPENT) );
 }
 
 /* ===========================================================
@@ -212,8 +201,8 @@ inline const IntVec2 anyPPos_2_mpos( const IntVec2 &_anyPPos ){
  */
 inline const MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
     //-- float除法
-    float fx = _fpos.x / (float)(PIXES_PER_MAPENT);
-    float fy = _fpos.y / (float)(PIXES_PER_MAPENT);
+    float fx = _fpos.x / static_cast<float>(PIXES_PER_MAPENT);
+    float fy = _fpos.y / static_cast<float>(PIXES_PER_MAPENT);
     //-- math.floor() 
     return MapCoord{    static_cast<int>(floor(fx)), 
                         static_cast<int>(floor(fy)) };
@@ -221,8 +210,8 @@ inline const MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
 
 inline const IntVec2 fpos_2_mpos( const glm::vec2 &_fpos ){
     //-- float除法
-    float fx = _fpos.x / (float)(PIXES_PER_MAPENT);
-    float fy = _fpos.y / (float)(PIXES_PER_MAPENT);
+    float fx = _fpos.x / static_cast<float>(PIXES_PER_MAPENT);
+    float fy = _fpos.y / static_cast<float>(PIXES_PER_MAPENT);
     //-- math.floor() 
     return IntVec2{ static_cast<int>(floor(fx)), 
                     static_cast<int>(floor(fy)) };

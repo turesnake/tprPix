@@ -77,7 +77,7 @@ public:
 
         //--- R --- 
         //------- rootColliEntHead_NoAffect --------
-        int cesNUm = 16; //- 目前只有 16种 ces预制件
+        u8_t cesNUm = 16; //- 目前只有 16种 ces预制件
         if(       is_in_range(rgba.r, R_rootColliEntHead_CarryAffect, cesNUm) ){ //---
             isRootColliEntHead = true;
             colliEntHead.colliEntSetIdx = rgba.r - R_rootColliEntHead_CarryAffect;
@@ -163,7 +163,7 @@ private:
         colliEntHead.isBody = true;
 
         //--- major ---//
-        colliEntHead.lAltiRange.set( (char)low, (char)high );
+        colliEntHead.lAltiRange.set( static_cast<char>(low), static_cast<char>(high) );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内

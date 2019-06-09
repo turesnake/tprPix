@@ -30,20 +30,18 @@
 #include "config.h"
 #include "IntVec.h"
 #include "FieldBorderSet.h"
+#include "load_and_divide_png.h"
+
+#include "tprCast.h"
 
 
-extern IntVec2 load_and_divide_png( const std::string &_path,
-                          const IntVec2 &_frameNum,
-                          int            _totalFrameNum,
-        std::vector< std::vector<RGBA>> &_frame_data_ary );
 
-
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
     std::string  lpath {};
     IntVec2      pixNum_per_frame {};   //- 单帧画面 的 长宽 像素值
     IntVec2      frameNum {};         //- 画面中，横排可分为几帧，纵向可分为几帧
-    int          totalFrameNum {};    //- 总 图元帧 个数 
+    size_t       totalFrameNum {};    //- 总 图元帧 个数 
 
     //- png原始数据
     std::vector< std::vector<RGBA> > frame_data_ary {};
@@ -73,7 +71,7 @@ void load_fieldBorderSets(){
     lpath = "/fieldBorderSet-4.png";
 
     frameNum.set( 4, 2 );
-    totalFrameNum = frameNum.x * frameNum.y;
+    totalFrameNum = to_size_t_cast( frameNum.x * frameNum.y );
 
     //----------------------------//
     //     读取 png 原始数据
@@ -96,12 +94,12 @@ void load_fieldBorderSets(){
     for( const auto &frameRef : frame_data_ary ){ //- each frame in png
 
         frameDatas.clear();
-        frameDatas.resize( pixNum_per_frame.x * pixNum_per_frame.y );
+        frameDatas.resize( to_size_t_cast(pixNum_per_frame.x * pixNum_per_frame.y) );
 
         //--- 将 原版数据 传入 预制件实例 ---//
         clear_for_fieldBorderSet();
-        for( int h=0; h<PIXES_PER_FIELD_BORDER_SET; h++ ){
-            for( int w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){ //- each pix in png-frame (2*2chunk)
+        for( size_t h=0; h<PIXES_PER_FIELD_BORDER_SET; h++ ){
+            for( size_t w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){ //- each pix in png-frame (2*2chunk)
                 pixIdx = h * PIXES_PER_FIELD_BORDER_SET + w;
 
                 if( rgba::is_rgba_near(frameRef.at(pixIdx), pixColor, 5) ){ //- 主色点

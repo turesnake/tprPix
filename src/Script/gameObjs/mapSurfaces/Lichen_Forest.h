@@ -35,7 +35,7 @@ inline std::vector<PubBinaryValType> lichen_Forest_pubBinaryValTypes {
 };
 
 struct Lichen_Forest_PvtBinary{
-    int   lichen_ForestId {0};
+    size_t   lichen_ForestId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
     //===== padding =====//
     //...
@@ -68,7 +68,7 @@ public:
         tprAssert( _goPtr->species == Lichen_Forest::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Lichen_Forest_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<Lichen_Forest_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

@@ -7,8 +7,6 @@
 #-- cmake 最小 版本号
 cmake_minimum_required(VERSION 3.1)
 
-
-
 if( APPLE )
     option( TPR_OS_APPLE_ " APPLE " ON )
     message( STATUS "___APPLE___" )
@@ -71,68 +69,8 @@ configure_file(
 
 
 #---------------------------------------------------#
-#                   include
+#                     src
 #---------------------------------------------------#
-#-- 指定 依赖的 h文件所在 路径:
-include_directories (${PROJECT_SOURCE_DIR}/src)
-
-#-- Config --
-include_directories (${PROJECT_SOURCE_DIR}/src/Config)
-
-#-- Engine 中的所有目录 都会被 include 到 --
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionFSM)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/affect)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/AI)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/camera)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/collision)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/dataBase)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/tprDebug)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/ecoSys)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/game/map/chunkBuild)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/gl)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/input)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/mesh)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/move)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/multiThread)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/player)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/random)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/resource)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/scene)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/script)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/shaderProgram)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/sys)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/time)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/UI)
-include_directories (${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO)
-
-
-#-- Script 只 include 顶层目录 --
-include_directories (${PROJECT_SOURCE_DIR}/src/Script)
-
-include_directories (${PROJECT_SOURCE_DIR}/deps)
-
-include_directories (${PROJECT_SOURCE_DIR}/deps/glad/include)
-include_directories (${PROJECT_SOURCE_DIR}/deps/glm.9.9.5)
-
-include_directories (${PROJECT_BINARY_DIR}/sysconfig)
-
-
-#-- glfw --
-#-- 这两个目录中的文件 好像是 一样的 --
-if( UNIX )
-    include_directories (${PROJECT_SOURCE_DIR}/deps/glfw_unix/include)
-else()
-    include_directories (${PROJECT_SOURCE_DIR}/deps/glfw_win/include)
-endif( UNIX )
-
-
 #-- 创建变量 PIXEL_FILES （是个 list）
 #-- 包含 主进程需要的 cpp 文件
 FILE(GLOB PIXEL_FILES   src/*.cpp     
@@ -198,8 +136,69 @@ set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 add_executable(
     tprpix
     ${PIXEL_FILES}
-    ${PROJECT_SOURCE_DIR}/deps/glad/src/glad.c
 )
+
+#---------------------------------------------------#
+#                   include
+#---------------------------------------------------#
+target_include_directories ( tprpix PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/Config
+
+    ${PROJECT_SOURCE_DIR}/src/Engine
+    ${PROJECT_SOURCE_DIR}/src/Engine/actionFSM
+    ${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch
+    ${PROJECT_SOURCE_DIR}/src/Engine/affect
+    ${PROJECT_SOURCE_DIR}/src/Engine/AI
+    ${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet
+    ${PROJECT_SOURCE_DIR}/src/Engine/camera
+    ${PROJECT_SOURCE_DIR}/src/Engine/collision
+    ${PROJECT_SOURCE_DIR}/src/Engine/dataBase
+    ${PROJECT_SOURCE_DIR}/src/Engine/tprDebug
+    ${PROJECT_SOURCE_DIR}/src/Engine/ecoSys
+    ${PROJECT_SOURCE_DIR}/src/Engine/game
+    ${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj
+    ${PROJECT_SOURCE_DIR}/src/Engine/game/map
+    ${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet
+    ${PROJECT_SOURCE_DIR}/src/Engine/game/map/chunkBuild
+    ${PROJECT_SOURCE_DIR}/src/Engine/gl
+    ${PROJECT_SOURCE_DIR}/src/Engine/input
+    ${PROJECT_SOURCE_DIR}/src/Engine/mesh
+    ${PROJECT_SOURCE_DIR}/src/Engine/move
+    ${PROJECT_SOURCE_DIR}/src/Engine/multiThread
+    ${PROJECT_SOURCE_DIR}/src/Engine/player
+    ${PROJECT_SOURCE_DIR}/src/Engine/random
+    ${PROJECT_SOURCE_DIR}/src/Engine/resource
+    ${PROJECT_SOURCE_DIR}/src/Engine/scene
+    ${PROJECT_SOURCE_DIR}/src/Engine/script
+    ${PROJECT_SOURCE_DIR}/src/Engine/shaderProgram
+    ${PROJECT_SOURCE_DIR}/src/Engine/sys
+    ${PROJECT_SOURCE_DIR}/src/Engine/time
+    ${PROJECT_SOURCE_DIR}/src/Engine/UI
+    ${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO
+
+    ${PROJECT_SOURCE_DIR}/src/Script
+
+    ${PROJECT_BINARY_DIR}/sysconfig
+    )
+
+#-- 防止 第三方库h文件 报 warnings --
+target_include_directories ( tprpix SYSTEM PUBLIC
+    ${PROJECT_SOURCE_DIR}/deps
+    ${PROJECT_SOURCE_DIR}/deps/stb_image
+    ${PROJECT_SOURCE_DIR}/deps/glm.9.9.5
+    )
+
+
+
+#-- glfw --
+#-- 这两个目录中的文件 好像是 一样的 --
+if( UNIX )
+    target_include_directories ( tprpix PUBLIC ${PROJECT_SOURCE_DIR}/deps/glfw_unix/include)
+else()
+    target_include_directories ( tprpix PUBLIC ${PROJECT_SOURCE_DIR}/deps/glfw_win/include)
+endif( UNIX )
+
 
 
 #---------------------------------------------------#
@@ -219,6 +218,7 @@ else()
     add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInWin)
 endif( UNIX )
 
+add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glad)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprGeneral)
 add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 
@@ -228,6 +228,7 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 #---------------------------------------------------#
 if ( UNIX )
     target_link_libraries( tprpix 
+        glad
         glfw
         ${GLFW_LIBRARIES}
         tprGeneral
@@ -236,18 +237,40 @@ if ( UNIX )
         )
 else()
     target_link_libraries( tprpix 
+        glad
         ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
         tprGeneral
         tprInWin
         SQLite
         )
-
 endif( UNIX )
 
 
 
-
-target_compile_options( tprpix PRIVATE -Wall )
+target_compile_options( tprpix 
+                        PRIVATE 
+                        -Wall 
+                        -Wno-c++98-compat
+						-Wno-c++98-compat-pedantic
+						-Wno-documentation
+						-Wno-documentation-unknown-command
+						-Wno-nonportable-system-include-path
+						-Wno-reserved-id-macro
+						-Wno-language-extension-token
+						-Wno-global-constructors
+                        -Wno-exit-time-destructors
+                        -Wno-covered-switch-default
+                        -Wno-unused-parameter
+                        #-Wno-gnu-anonymous-struct #glm
+                        -Wno-missing-prototypes
+                        -Wno-old-style-cast   #---- tmp ----
+                        #-Wno-float-equal #glm ----- tmp ----
+                        #-Wno-sign-conversion #----- tmp -----
+                        -Wno-unused-member-function #----- tmp -----
+                        #-Wno-nested-anon-types  #glm
+                        -Wno-switch-enum
+                        -Wno-missing-noreturn # tprAssert
+                        )
 
 
 

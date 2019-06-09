@@ -150,7 +150,7 @@ float simplex_noise2( const glm::vec2 &_v ){
     g.x = a0.x  * x0.x + h.x  * x0.y;
     g.y = a0.y * x12.x + h.y * x12.y;
     g.z = a0.z * x12.z + h.z * x12.w;
-    return static_cast<float>( 130.0f * glm::dot(m, g) );
+    return static_cast<float>( 130.0 * glm::dot(m, g) );
 }
 
 

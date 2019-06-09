@@ -46,9 +46,9 @@ public:
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
     inline void set_by_addAlti( const AltiRange &_a, float _addAlti ){
-        tprAssert( (_addAlti<(float)jumpLimit) && (_a.low+(u8_t)_addAlti)<=jumpLimit );
-        low  =  _a.low  + (u8_t)_addAlti;
-        high =  _a.high + (u8_t)_addAlti;
+        tprAssert( (_addAlti<static_cast<float>(jumpLimit)) && (_a.low+static_cast<u8_t>(_addAlti))<=jumpLimit );
+        low  =  _a.low  + static_cast<u8_t>(_addAlti);
+        high =  _a.high + static_cast<u8_t>(_addAlti);
     }
 
     inline bool is_collide( const AltiRange& _a ){
@@ -84,10 +84,10 @@ inline u8_t AltiRange::diskAlti_surface = 253;
 
 
 //-- item / surface --//
-inline const AltiRange altiRange_item    {  (char)AltiRange::diskAlti_item, 
-                                            (char)AltiRange::diskAlti_item };
-inline const AltiRange altiRange_surface {  (char)AltiRange::diskAlti_surface, 
-                                            (char)AltiRange::diskAlti_surface };
+inline const AltiRange altiRange_item    {  static_cast<char>(AltiRange::diskAlti_item), 
+                                            static_cast<char>(AltiRange::diskAlti_item) };
+inline const AltiRange altiRange_surface {  static_cast<char>(AltiRange::diskAlti_surface), 
+                                            static_cast<char>(AltiRange::diskAlti_surface) };
 
 
 /* ===========================================================
@@ -96,15 +96,15 @@ inline const AltiRange altiRange_surface {  (char)AltiRange::diskAlti_surface,
  */
 inline AltiRange operator + ( const AltiRange &_a, const AltiRange &_b ){
     tprAssert( (_a.low+_b.low)<=AltiRange::jumpLimit );
-    return  AltiRange{  (char)(_a.low+_b.low),
-                        (char)(_a.high+_b.high) };
+    return  AltiRange{  static_cast<char>(_a.low+_b.low),
+                        static_cast<char>(_a.high+_b.high) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
 inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
-    tprAssert( (_addAlti<(float)AltiRange::jumpLimit) && (_a.low+(u8_t)_addAlti)<=AltiRange::jumpLimit );
-    return  AltiRange{  (char)(_a.low  + (u8_t)_addAlti),
-                        (char)(_a.high + (u8_t)_addAlti) };
+    tprAssert( (_addAlti<static_cast<float>(AltiRange::jumpLimit)) && (_a.low+static_cast<u8_t>(_addAlti))<=AltiRange::jumpLimit );
+    return  AltiRange{  static_cast<char>(_a.low  + static_cast<char>(_addAlti)),
+                        static_cast<char>(_a.high + static_cast<char>(_addAlti)) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 

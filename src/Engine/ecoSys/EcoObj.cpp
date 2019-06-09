@@ -8,10 +8,7 @@
 #include "EcoObj.h"
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 #include <cmath>
@@ -20,7 +17,7 @@
 #include "tprAssert.h"
 #include "config.h"
 #include "random.h"
-#include "PerlinNoise3D.h" //- out 
+//#include "PerlinNoise3D.h" //- out 
 #include "Density.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"
@@ -157,7 +154,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
 
     EcoSysPlanType   ecoPlanType;
 
-    randEngine.seed( static_cast<size_t>(this->weight) ); //- 实现了伪随机
+    randEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
 
     //------------------------//
     //          右下
@@ -218,7 +215,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
  */
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *_targetEcoPlanPtr ){
 
-    randEngine.seed( static_cast<size_t>(this->weight) ); //- 实现了伪随机
+    randEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
 
     this->ecoSysPlanId = _targetEcoPlanPtr->get_id();
     this->ecoSysPlanType = _targetEcoPlanPtr->get_type();

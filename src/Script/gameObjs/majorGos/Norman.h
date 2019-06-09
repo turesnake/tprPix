@@ -64,7 +64,7 @@ public:
         tprAssert( _goPtr->species == Norman::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<Norman_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

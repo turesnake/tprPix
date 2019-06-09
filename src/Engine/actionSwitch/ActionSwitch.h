@@ -62,12 +62,12 @@ public:
 
     //-- 登记某个 actionSwitch --
     inline void signUp( ActionSwitchType _type ){
-        bitMap.signUp( (u32_t)_type );
+        bitMap.signUp( static_cast<u32_t>(_type) );
     }
 
     //-- 检查某个 actionSwitch 是否已登记 --
     inline bool check( ActionSwitchType _type ){
-        return  bitMap.check( (u32_t)_type );
+        return  bitMap.check( static_cast<u32_t>(_type) );
     }
     
 

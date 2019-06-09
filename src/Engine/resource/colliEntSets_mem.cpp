@@ -67,7 +67,7 @@ void init_colliEntSet_tables(){
         //"ces_7_7"  //- 15
     };
 
-    for( int i=0; i<names.size(); i++ ){
+    for( size_t i=0; i<names.size(); i++ ){
        esrc::colliEntSet_name_idx.insert({ names.at(i), i });
        esrc::colliEntSet_idx_name.insert({ i, names.at(i) });
     }
@@ -83,7 +83,7 @@ void init_colliEntSet_tables(){
 void load_colliEntSets(){
 
     //- ces 预制件 个数 --
-    int totalSets = 4*3; 
+    size_t totalSets = 4*3; 
 
     //-- 创建 ColliEntSetLoader 实例 --
     ColliEntSetLoader  loader { "colliEntSet_1.png",
@@ -94,7 +94,7 @@ void load_colliEntSets(){
     loader.init();
 
     //-- 将 loader 中的数据，手动 搬运到 全局容器中  [ copy ] --
-    for( int i=0; i<totalSets; i++ ){
+    for( size_t i=0; i<totalSets; i++ ){
         esrc::colliEntSets.insert({ i, loader.get_collientSet(i) });
     }
 

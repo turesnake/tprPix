@@ -53,7 +53,7 @@ void BigMan::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(BigMan_PvtBinary) );
-    pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<BigMan_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
 
     //-------- bind callback funcs ---------//

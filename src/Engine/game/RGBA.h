@@ -139,7 +139,7 @@ inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
  */
 inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
 
-    tprAssert( (_aPercent>=0.0) && (_aPercent<=1.0) );
+    tprAssert( (_aPercent>=0.0f) && (_aPercent<=1.0f) );
 
     float bPercent = 1.0f - _aPercent;
 
@@ -164,7 +164,7 @@ inline RGBA linear_blend( const RGBA &_a, const RGBA &_b, float _aPercent ){
  */
 inline RGBA multiply( const RGBA &_a, const RGBA &_b, float _bPercent ){
 
-    tprAssert( (_bPercent>=0.0) && (_bPercent<=1.0) );
+    tprAssert( (_bPercent>=0.0f) && (_bPercent<=1.0f) );
 
     float r = static_cast<float>(_a.r) * static_cast<float>(_b.r) / 255.0f;
     float g = static_cast<float>(_a.g) * static_cast<float>(_b.g) / 255.0f;

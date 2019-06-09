@@ -7,12 +7,8 @@
  *    加载 解析 “图元帧式的png文件” 
  * ----------------------------
  */
-//-- 全局唯一 
-#ifndef STB_IMAGE_IMPLEMENTATION
-    #define STB_IMAGE_IMPLEMENTATION
-#endif
-#include "stb_image.h" //-- 加载图片数据用
 
+#include "stb_image_no_warnings.h"
 
 //------------------- CPP --------------------//
 #include <iterator>
@@ -37,7 +33,7 @@
  */
 IntVec2 load_and_divide_png( const std::string &_path,
                           const IntVec2 &_frameNum,
-                          int            _totalFrameNum,
+                          size_t         _totalFrameNum,
         std::vector< std::vector<RGBA>> &_frame_data_ary ){
 
     //------------------------------//
@@ -62,7 +58,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
     //------------------------------------// 
     //-- 事先准备好 每一帧的容器 --
     _frame_data_ary.clear();
-    for( int i=0; i<_totalFrameNum; i++ ){
+    for( size_t i=0; i<_totalFrameNum; i++ ){
         std::vector<RGBA> v {};
         _frame_data_ary.push_back( v );//- copy
     }
@@ -72,7 +68,7 @@ IntVec2 load_and_divide_png( const std::string &_path,
     int wf; //-- 以帧为单位，目标像素在横排中 的序号
     int hf; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
     //int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的) 未使用...
-    int nrf; //-- 像素 属于的 帧序号
+    size_t nrf; //-- 像素 属于的 帧序号
 
     RGBA *pixHeadPtr = (RGBA*)data;
     RGBA *pixPtr; //- tmp
@@ -91,7 +87,11 @@ IntVec2 load_and_divide_png( const std::string &_path,
             hf = _frameNum.y - 1 - hf; 
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
-            nrf = hf*_frameNum.x + wf;
+
+            int tmpInt = hf*_frameNum.x + wf;
+            tprAssert( tmpInt >= 0 );
+            nrf = static_cast<size_t>( tmpInt );
+                        // 这样实现并不好
 
             //-- 只处理 非空置的 frame ---
             if( nrf < _totalFrameNum ){

@@ -37,21 +37,21 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace{//-------------- namespace ------------------//
 
     //--- 将所有 oakId 分类，方便分配 ---
-    std::vector<int> multiBranch_age1   { 0 };
-    std::vector<int> singleTrunk_age1   { 1, 2 };
+    std::vector<size_t> multiBranch_age1   { 0 };
+    std::vector<size_t> singleTrunk_age1   { 1, 2 };
     //---
-    std::vector<int> multiBranch_age2   { 3, 4 };
-    std::vector<int> singleTrunk_age2   { 5, 6 };
+    std::vector<size_t> multiBranch_age2   { 3, 4 };
+    std::vector<size_t> singleTrunk_age2   { 5, 6 };
     //---
-    std::vector<int> multiBranch_age3   { 7, 8, 9, 10, 11 };
-    std::vector<int> singleTrunk_age3   { 12, 13, 14, 15, 16 };
+    std::vector<size_t> multiBranch_age3   { 7, 8, 9, 10, 11 };
+    std::vector<size_t> singleTrunk_age3   { 12, 13, 14, 15, 16 };
     //---
-    std::vector<int> multiBranch_age4   { 16 }; //- 暂无
-    std::vector<int> singleTrunk_age4   { 16 }; //- 暂无
+    std::vector<size_t> multiBranch_age4   { 16 }; //- 暂无
+    std::vector<size_t> singleTrunk_age4   { 16 }; //- 暂无
 
 
     //===== funcs =====//
-    int apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk );
+    size_t apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk );
 
 
 }//------------------ namespace: end ------------------//
@@ -72,7 +72,7 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(OakTree_PvtBinary) );
-    pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<OakTree_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
         pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( _fieldWeight );
@@ -255,9 +255,9 @@ namespace{//-------------- namespace ------------------//
  *                     apply_a_oakId
  * -----------------------------------------------------------
  */
-int apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk ){
+size_t apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk ){
     size_t  idx;
-    int     randV = gameObjs::apply_a_simpleId( _fieldWeight, 83 );
+    size_t     randV = gameObjs::apply_a_simpleId( _fieldWeight, 83 );
 
     if( _isSingleTrunk ){ //- 单树干
         switch( _age ){

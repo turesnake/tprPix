@@ -11,16 +11,7 @@
 #define TPR_UI_CHILD_MESH_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
+#include "glm_no_warnings.h"
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader

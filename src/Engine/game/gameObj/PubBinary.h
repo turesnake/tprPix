@@ -51,8 +51,8 @@ public:
     //  使用前 应主动调用 check() 
     inline void *get_valPtr( PubBinaryValType _type ) const {
         const byteoff_t &off = valOffs.at((idx_t)_type);
-        return (void*)&(binary.at(off)); 
-                        //- 此处不能使用 static_cast
+        return reinterpret_cast<void*>(  const_cast<u8_t*>(&(binary.at(off))) ); 
+                        //- first remove const，then reinterpret_cast
     }
 
 private:

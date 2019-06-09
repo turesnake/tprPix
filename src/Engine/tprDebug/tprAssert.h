@@ -14,27 +14,37 @@
 #include "SysConfig.h"
 
 
+/* ===========================================================
+ *                    tprAssert_inn
+ * -----------------------------------------------------------
+ */
 #ifdef TPR_OS_WIN32_
 
     #include <windows.h>
     #include <sstream>   //-- stringstream
-
-    inline void tprMessageBox(  const std::string &_e,
+    inline int tprMessageBox(  const std::string &_e,
                                 const std::string &_file,
                                 int _line ){
         std::stringstream ss;                               
         ss << _e << "\n";                                 
         ss << _file << ": " << _line;                  
-        MessageBox(NULL, ss.str().c_str(), "tprAssert", MB_OK);
-        exit(-99);                                          
+        MessageBox( nullptr, ss.str().c_str(), "tprAssert", MB_OK);
+        exit(-99);  
+        return 0; //- never reach                                        
     }
-    #define tprAssert(e)  (e) ? (void)0 : tprMessageBox(#e, __FILE__, __LINE__);
+    #define tprAssert_inn(e,File,Line)  (e) ? 0 : tprMessageBox(#e, File,Line)
 
 #else
     #include <cassert>
-    #define tprAssert(e) assert(e);
+    #define tprAssert_inn(e,File,Line) assert(e);
 #endif
 
+
+/* ===========================================================
+ *                    tprAssert
+ * -----------------------------------------------------------
+ */
+#define tprAssert(e) tprAssert_inn(e,__FILE__, __LINE__)
 
 
 #endif 

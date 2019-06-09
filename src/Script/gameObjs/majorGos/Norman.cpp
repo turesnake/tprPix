@@ -53,7 +53,7 @@ void Norman::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Norman_PvtBinary) );
-    pvtBp = (Norman_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<Norman_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
 
     //-------- bind callback funcs ---------//

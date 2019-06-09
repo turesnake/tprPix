@@ -72,7 +72,7 @@ public:
         return Density::maxLvl;
     }
 
-    static int lvl_2_idx( int _lvl ){
+    static size_t lvl_2_idx( int _lvl ){
         switch( _lvl ){
             case -3: return 0;
             case -2: return 1;

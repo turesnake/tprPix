@@ -15,11 +15,7 @@
 #define TPR_NINE_BOX_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -65,8 +61,8 @@ public:
                         y*PIXES_PER_MAPENT };
     } 
     inline glm::vec2 to_fpos() const {
-        return glm::vec2{ (float)(x*PIXES_PER_MAPENT), 
-                          (float)(y*PIXES_PER_MAPENT) };
+        return glm::vec2{ static_cast<float>(x*PIXES_PER_MAPENT), 
+                          static_cast<float>(y*PIXES_PER_MAPENT) };
     } 
 
     inline bool is_zero() const {
@@ -108,7 +104,7 @@ inline const NineBox  nb_right_top {  1,  1 };
 
 
 //-- 九宫格 另一种表达法。
-enum class NineBoxIdx : int {
+enum class NineBoxIdx : size_t {
     //--
     Left_Bottom  = 0,
     Mid_Bottom   = 1,

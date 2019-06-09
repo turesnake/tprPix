@@ -55,7 +55,7 @@ void SingleStone_Desert::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(SingleStone_Desert_PvtBinary) );
-    pvtBp = (SingleStone_Desert_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<SingleStone_Desert_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->singleStone_DesertId = gameObjs::apply_a_simpleId( _fieldWeight, 8 );
 

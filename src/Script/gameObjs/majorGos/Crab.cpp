@@ -53,7 +53,7 @@ void Crab::init_in_autoMod( GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Crab_PvtBinary) );
-    pvtBp = (Crab_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<Crab_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
     pvtBp->tmpVal = 999;
 
@@ -62,8 +62,8 @@ void Crab::init_in_autoMod( GameObj *_goPtr,
 
     pvtBp->ai_crab.bind_get_tmpVal_functor(
         [_goPtr](){
-            Crab_PvtBinary *pvtBp = (Crab_PvtBinary*)_goPtr->get_pvtBinaryPtr();
-            return pvtBp->tmpVal;
+            Crab_PvtBinary *pvtBp_l = reinterpret_cast<Crab_PvtBinary*>(_goPtr->get_pvtBinaryPtr());
+            return pvtBp_l->tmpVal;
         }
     );
 

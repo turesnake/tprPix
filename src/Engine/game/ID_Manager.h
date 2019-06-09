@@ -45,10 +45,10 @@ public:
         max_id(_max_id)
         {
             switch( id_scope ){
-                case ID_TYPE::U8:  id_limit = (u8_t)(-1); break;
-                case ID_TYPE::U16: id_limit = (u16_t)(-1); break;
-                case ID_TYPE::U32: id_limit = (u32_t)(-1); break;
-                case ID_TYPE::U64: id_limit = (u64_t)(-1); break; //- 用不到
+                case ID_TYPE::U8:  id_limit = static_cast<u8_t>(-1); break;
+                case ID_TYPE::U16: id_limit = static_cast<u16_t>(-1); break;
+                case ID_TYPE::U32: id_limit = static_cast<u32_t>(-1); break;
+                case ID_TYPE::U64: id_limit = static_cast<u64_t>(-1); break; //- 用不到
                 default:
                     tprAssert(0); //- 不会运行到此行
             }
@@ -60,7 +60,7 @@ public:
         tprAssert( id_scope == ID_TYPE::U8 );
         max_id++;
         tprAssert( max_id <= id_limit );//-- 2^8 --
-        return (u8_t)max_id;
+        return static_cast<u8_t>(max_id);
     }
 
     //-- 申请分配一个 新 u16 id --
@@ -69,7 +69,7 @@ public:
         tprAssert( id_scope == ID_TYPE::U16 );
         max_id++;
         tprAssert( max_id <= id_limit );//-- 2^16 --
-        return (u16_t)max_id;
+        return static_cast<u16_t>(max_id);
     }
 
     //-- 申请分配一个 新 u32 id --
@@ -78,7 +78,7 @@ public:
         tprAssert( id_scope == ID_TYPE::U32 );
         max_id++;
         tprAssert( max_id <= id_limit );//-- 2^32 --
-        return (u32_t)max_id;
+        return static_cast<u32_t>(max_id);
     }
 
     //-- 申请分配一个 新 u64 id --

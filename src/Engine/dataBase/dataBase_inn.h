@@ -45,7 +45,7 @@ inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt *
                             _sql_str.c_str(), 
                             static_cast<int>(_sql_str.size()+1),
                             _ppStmt,
-                            NULL );
+                            nullptr );
 }
 
 

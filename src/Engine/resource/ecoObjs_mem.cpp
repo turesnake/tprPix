@@ -108,7 +108,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
  * -- 更加精细的 元素数据 只读访问 接口 [值传递]
  * 仅用于 field 实例 创建阶段
  */
-const std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t _sectionkey ){
+std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t _sectionkey ){
 
     std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly;
     {//--- atom ---//
@@ -148,7 +148,7 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
  *          atom_ecoObj_apply_a_rand_goSpecId    [-READ-]
  * -----------------------------------------------------------
  */
-const goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _densityIdx, float _randV ){
+goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _densityIdx, float _randV ){
     goSpecId_t id;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
@@ -163,7 +163,7 @@ const goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, siz
  * -----------------------------------------------------------
  * -- 更加精细的 元素数据 只读访问 接口
  */
-const float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Density &_density ){
+float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Density &_density ){
     float val;
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -

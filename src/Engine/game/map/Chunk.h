@@ -11,11 +11,7 @@
 #define TPR_CHUNK_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert> //- tmp
@@ -35,6 +31,7 @@
 #include "MapCoord.h" 
 #include "sectionKey.h"
 
+#include "tprCast.h"
 
 //-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
 //-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
@@ -102,8 +99,8 @@ public:
     }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
-        int idx = _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x;
-            tprAssert( (idx>=0) && (idx<memMapEnts.size()) ); //- tmp
+        size_t idx = to_size_t_cast( _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x );
+            tprAssert( idx < memMapEnts.size() ); //- tmp
         return &(memMapEnts.at(idx));
     }
     

@@ -105,7 +105,7 @@ void build_path_cwd(){
 #ifdef TPR_OS_WIN32_
 
 	char buf[MAX_PATH];
-	GetModuleFileName( NULL, buf, MAX_PATH );
+	GetModuleFileName( nullptr, buf, MAX_PATH );
 	// 当前 buf数据 为 ".../xx.exe"
 	// 需要将 最后一段 截掉
 	std::string::size_type pos = std::string(buf).find_last_of( "\\/" );

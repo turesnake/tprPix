@@ -12,11 +12,7 @@
 #define TPR_COLLI_ENT_SET_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -32,6 +28,7 @@
 
 //-- 一个 碰撞区预制件，CREATE一个实例 --
 class ColliEntSet{
+    using addEntOffs_size_type = std::vector<std::set<MapCoord>>::size_type;
 public:
 
     //---- set ----//
@@ -76,10 +73,10 @@ public:
         return this->colliEnts;
     }
     inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx _nbIdx ) const {
-        return this->addEntOffss.at( static_cast<int>(_nbIdx) );
+        return this->addEntOffss.at( static_cast<addEntOffs_size_type>(_nbIdx) );
     }
     inline const std::set<MapCoord> &get_delEntOffs( NineBoxIdx _nbIdx ) const {
-        return this->delEntOffss.at( static_cast<int>(_nbIdx) );
+        return this->delEntOffss.at( static_cast<addEntOffs_size_type>(_nbIdx) );
     }
 
 private:

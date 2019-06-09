@@ -43,7 +43,7 @@ struct OakTree_PvtBinary{
         // 3 -- 成年树
         // 4 -- 巨树（树精）
     
-    int  oakId {0};
+    size_t  oakId {0};
         // 每颗树在 init 最初阶段，就根据 age，isSingleTRunk,
         // 分配得到一个 具体的 树id。（一般对应 actionFrames图中某一帧）
         // [0, 17]
@@ -83,7 +83,7 @@ public:
         tprAssert( _goPtr->species == OakTree::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (OakTree_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<OakTree_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

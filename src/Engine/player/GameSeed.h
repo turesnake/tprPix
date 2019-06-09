@@ -11,17 +11,14 @@
 #define TPR_GameSeed_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
 #include "random.h"
-#include "PerlinNoise3D.h"
+//#include "PerlinNoise3D.h"
 #include "IntVec.h"
 
 

@@ -30,7 +30,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * param: _fieldWeight -- [-100.0, 100.0]
  */
 inline bool apply_isFlipOver( float _fieldWeight ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.1 + 911.3 ));
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.1f + 911.3f ));
     return ((randV%10)<5);
 }
 
@@ -42,7 +42,7 @@ inline bool apply_isFlipOver( float _fieldWeight ){
  * param: _fieldWeight -- [-100.0, 100.0]
  */
 inline bool apply_isSingleTRunk( float _fieldWeight ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.7 + 701.7 ));
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.7f + 701.7f ));
     return ((randV%10)<5);
 }
 
@@ -53,8 +53,8 @@ inline bool apply_isSingleTRunk( float _fieldWeight ){
  * 这组方法很临时。不够好...
  * param: _fieldWeight -- [-100.0, 100.0]
  */
-inline int apply_a_simpleId( float _fieldWeight, int _totalNum ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 5.3 + 977.1 ));
+inline size_t apply_a_simpleId( float _fieldWeight, size_t _totalNum ){
+    size_t randV = static_cast<size_t>(floor( _fieldWeight * 5.3f + 977.1f ));
     return randV % _totalNum;
 }
 

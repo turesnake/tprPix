@@ -23,6 +23,11 @@ public:
         x(_x),
         y(_y)
         {}
+    
+    IntVec2( size_t _x, size_t _y ):
+        x(static_cast<int>(_x)),
+        y(static_cast<int>(_y))
+        {}
 
     inline void clear_all(){
         this->x = 0;

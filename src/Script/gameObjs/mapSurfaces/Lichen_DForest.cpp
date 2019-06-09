@@ -56,7 +56,7 @@ void Lichen_DForest::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Lichen_DForest_PvtBinary) );
-    pvtBp = (Lichen_DForest_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<Lichen_DForest_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->lichen_DForestId = gameObjs::apply_a_simpleId( _fieldWeight, 24 );
 

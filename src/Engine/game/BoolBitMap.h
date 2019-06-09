@@ -41,7 +41,7 @@ public:
     inline void signUp( u32_t _idx ){
         tprAssert( (_idx/bitsPerByte) < bitMap.size() );
         u8_t &bitRef = bitMap.at( _idx/bitsPerByte );
-        bitRef = bitRef | (1 << (_idx%bitsPerByte));
+        bitRef = bitRef | static_cast<u8_t>(1 << (_idx%bitsPerByte));
     }
 
     inline bool check( u32_t _idx ){

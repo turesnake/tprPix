@@ -31,6 +31,7 @@
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
+#include "tprCast.h"
 
 #include "tprDebug.h"
 
@@ -72,7 +73,7 @@ void Chunk::init(){
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
     IntVec2 oddEven = floorMod( v, 2 );
-    this->zOff = zOffs.at( oddEven.y * 2 + oddEven.x );
+    this->zOff = zOffs.at( to_size_t_cast(oddEven.y * 2 + oddEven.x) );
 
     
     //------------------------------//
@@ -84,8 +85,8 @@ void Chunk::init(){
         const auto &mapEntAltis = chunkDataPtr->get_mapEntAltis();
             tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
         size_t entIdx;
-        for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-            for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
+        for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
+            for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
                 entIdx = h * ENTS_PER_CHUNK + w;
                 this->memMapEnts.at(entIdx).mapAlti = mapEntAltis.at(entIdx);
             }

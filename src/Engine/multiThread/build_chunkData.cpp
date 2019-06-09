@@ -8,11 +8,7 @@
  * ----------------------------
  */
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -31,6 +27,7 @@
 #include "MapTexture.h" 
 #include "Quad.h"
 #include "FieldBorderSet.h"
+#include "tprCast.h"
 
 #include "esrc_chunkData.h"
 #include "esrc_gameSeed.h"
@@ -279,7 +276,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
             //------------------//
             //   写入 chunkData
             //------------------//
-            pixIdx = h * PIXES_PER_CHUNK + w;
+            pixIdx = to_size_t_cast( h * PIXES_PER_CHUNK + w );
             _pixAltis.at(pixIdx) = altiVal;
         }
     } //- each pix in chunk: end --
@@ -310,7 +307,7 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     PixData   pixData;//- each pix
 
     size_t    entIdx_in_chunk;
-    int       count;
+    size_t    count;
 
     //------------------------//
     //   mapEntAltis, mapEntMPoses    
@@ -357,7 +354,7 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
                 mposOff = tmpEntMPos - _chunkMPos;
-                entIdx_in_chunk = mposOff.y * ENTS_PER_CHUNK + mposOff.x;
+                entIdx_in_chunk = to_size_t_cast( mposOff.y * ENTS_PER_CHUNK + mposOff.x );
 
                 for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
                     for( int pw=0; pw<PIXES_PER_MAPENT; pw++ ){ //------ each pix in mapent ------
@@ -365,13 +362,13 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
 
                         pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
                         pposOff = pixData.ppos - mpos_2_ppos(_chunkMPos);
-                        pixData.pixIdx_in_chunk = pposOff.y * PIXES_PER_CHUNK + pposOff.x;
+                        pixData.pixIdx_in_chunk = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
 
-                        pixData.pixIdx_in_chunkTex = pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x;
+                        pixData.pixIdx_in_chunkTex = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x );
                         pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunkTex;
 
                         pposOff = pixData.ppos - tmpFieldPPos;
-                        pixData.pixIdx_in_field = pposOff.y * PIXES_PER_FIELD + pposOff.x;
+                        pixData.pixIdx_in_field = to_size_t_cast( pposOff.y * PIXES_PER_FIELD + pposOff.x );
 
                         //--------------------------------//
                         // 确定 pix 属于 周边4个field 中的哪一个
@@ -455,7 +452,7 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
 
     IntVec2     targetFieldMPos = fieldKey_2_mpos( _fieldKey );
     fieldKey_t  tmpFieldKey;
-    int         count = 0;
+    //int         count = 0; //- 好想没什么用...
     //---
     _container.clear();
     for( const auto &fieldInfo : nearFour_fieldInfos ){
@@ -468,7 +465,7 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
         _container.insert({ -tmpPair.first, 
                             FieldData{  tmpPair.second, 
                                         fieldInfo.quad } }); //- copy
-        count++;
+        //count++;
     }
     return targetFieldMPos;
 }

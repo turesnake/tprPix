@@ -10,11 +10,8 @@
 #ifndef TPR_VIEWING_BOX_H_
 #define TPR_VIEWING_BOX_H_
 
-//--- glm - - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -41,10 +38,10 @@ public:
             case RenderLayerType::UIs:         return UIs_zOff;
             case RenderLayerType::MajorGoes: 
                 tprAssert(0);
-                return 0.0; //- never reach
+                return 0.0f; //- never reach
             default:
                 tprAssert(0);
-                return 0.0; //- never reach
+                return 0.0f; //- never reach
         }
     }
 
@@ -102,7 +99,7 @@ inline IntVec2  ViewingBox::windowSZ {  SCR_WIDTH_, SCR_HEIGHT_ };
 inline glm::vec2 ViewingBox::gameSZ {   static_cast<float>(SCR_WIDTH_)  / static_cast<float>(PIXES_PER_GAMEPIX),
                                         static_cast<float>(SCR_HEIGHT_) / static_cast<float>(PIXES_PER_GAMEPIX) };
 
-inline float ViewingBox::z { (float)VIEWING_BOX_Z_DEEP };
+inline float ViewingBox::z { static_cast<float>(VIEWING_BOX_Z_DEEP) };
 
 inline float  ViewingBox::ground_zOff        { 10.0f };
 inline float  ViewingBox::chunks_zOff        { 20.0f };

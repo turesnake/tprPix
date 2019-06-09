@@ -12,6 +12,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 //#include "random.h"
 
 
@@ -81,21 +82,21 @@ void build_all_mutant_datas_for_fieldBorderSet(){
 
     for( int h=0; h<PIXES_PER_FIELD_BORDER_SET; h++ ){
         for( int w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){//- each pix in frame
-            pixIdx_origin = h * PIXES_PER_FIELD_BORDER_SET + w;
+            pixIdx_origin = to_size_t_cast( h * PIXES_PER_FIELD_BORDER_SET + w );
 
             XYflipPixWH.x = PIXES_PER_FIELD_BORDER_SET - 1 - w;
             XYflipPixWH.y = PIXES_PER_FIELD_BORDER_SET - 1 - h;
 
             //-- X --
-            pixIdx_flip = h * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x;
+            pixIdx_flip = to_size_t_cast( h * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
             originData_Xflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
 
             //-- Y --
-            pixIdx_flip = XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + w;
+            pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + w );
             originData_Yflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
 
             //-- XY --
-            pixIdx_flip = XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x;
+            pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
             originData_XYflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
         }
     }
@@ -170,28 +171,28 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
     size_t    containerIdx; //- pix 在 原始数据中的 idx
     size_t    quadIdx;  //- pix 在具体 象限中的 idx
     
-    for( int h=0; h<PIXES_PER_FIELD; h++ ){
-        for( int w=0; w<PIXES_PER_FIELD; w++ ){ //- each pix in 1/4 container
+    for( size_t h=0; h<PIXES_PER_FIELD; h++ ){
+        for( size_t w=0; w<PIXES_PER_FIELD; w++ ){ //- each pix in 1/4 container
             quadIdx = h * PIXES_PER_FIELD + w;
-
+            
             //----- leftBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, 0 };
-            containerIdx = pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x;
+            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.leftBottoms.push_back( _container.at(containerIdx) );
 
             //----- rightBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, 0 };
-            containerIdx = pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x;
+            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.rightBottoms.push_back( _container.at(containerIdx) );
 
             //----- leftTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, PIXES_PER_FIELD };
-            containerIdx = pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x;
+            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.leftTops.push_back( _container.at(containerIdx) );
 
             //----- rightTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, PIXES_PER_FIELD };
-            containerIdx = pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x;
+            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.rightTops.push_back( _container.at(containerIdx) );
         }
     }

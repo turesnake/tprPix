@@ -14,11 +14,7 @@
 #include "sceneLoop.h"
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -57,7 +53,7 @@ namespace{//-------------- namespace ------------------//
         glm::vec2 {0.0, -50.0}  //- 2
     };
 
-    int targetIdx {0}; //- 用来指向 buttonMPoses : 0,1,2
+    size_t targetIdx {0}; //- 用来指向 buttonMPoses : 0,1,2
 
     //- 一种简陋的方法，来降低 input 输入频率，
     //  每获得一次有效输入后，屏蔽之后10帧的 输入
@@ -207,7 +203,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
         //  可以将其 写入 游戏mem态，并进入 后续流程
         //  创建／读取 相关 数据库 table。结束 scenebegin，准备进入 sceneWorld
 
-        gameArchiveId_t archiveId = targetIdx+1;
+        gameArchiveId_t archiveId = static_cast<gameArchiveId_t>(targetIdx+1);
 
         if( gameArchives.find(archiveId) == gameArchives.end() ){
             //-----------------------//
@@ -259,6 +255,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
             //-----------------------//
             //  玩家选中的 存档 已经存在 
             //-----------------------//
+            
             GameArchive &targetGameArchive = esrc::get_gameArchive();
 
             targetGameArchive = gameArchives.at(archiveId); //- copy
@@ -267,6 +264,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
             GameObj::id_manager.set_max_id( targetGameArchive.maxGoId );
 
                 cout << "maxGoId_from_db = " << GameObj::id_manager.get_max_id() << endl;
+
+                                    //-- win-clang-release 并未执行到这一步
 
             //-- gameTime --
             esrc::get_timer().start_record_gameTime( targetGameArchive.gameTime );
@@ -302,9 +301,10 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
     if( _inputINS.check_key(GameKey::UP) ){
         is_input_open = false;
         //---
-        targetIdx--;
-        if( targetIdx < 0 ){
-            targetIdx = static_cast<int>(buttonFPoses.size() - 1);
+        if( targetIdx == 0 ){
+            targetIdx = buttonFPoses.size() - 1;
+        }else{
+            targetIdx--;
         }
         button_pointer_Ptr->drag_to_fpos( buttonFPoses.at(targetIdx) );
 

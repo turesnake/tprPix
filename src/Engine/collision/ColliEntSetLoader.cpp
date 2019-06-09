@@ -20,6 +20,8 @@
 #include "ColliEntSet_RGBAHandle.h"
 #include "load_and_divide_png.h"
 
+#include "tprCast.h"
+
 //#include "tprDebug.h" //- tmp
 
 
@@ -47,23 +49,24 @@ void ColliEntSetLoader::init(){
     //----------------------------//
     //   parse each frame data
     //----------------------------//
-    int pixNum = this->pixNum_per_frame.x * 
-                 this->pixNum_per_frame.y; //- 一帧有几个像素点
+    size_t pixNum = to_size_t_cast( this->pixNum_per_frame.x * 
+                                    this->pixNum_per_frame.y ); //- 一帧有几个像素点
+
     ColliEntSet_RGBAHandle  ch {5};
     this->collientSets.resize( this->totalFrameNum );
 
     IntVec2 pixPPos; //- tmp. pos for each rgba Pix
 
-    for( int f=0; f<this->totalFrameNum; f++ ){ //- each frame
-        for( int p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
+    for( size_t f=0; f<this->totalFrameNum; f++ ){ //- each frame
+        for( size_t p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]
 
             ch.set_rgba( frame_data_ary.at(f).at(p) );
             if( ch.is_emply() == true ){
                 continue; //- next frame.pix
             }
 
-            pixPPos.set( p%this->pixNum_per_frame.x,
-                         p/this->pixNum_per_frame.x );
+            pixPPos.set( static_cast<int>(p)%this->pixNum_per_frame.x,
+                         static_cast<int>(p)/this->pixNum_per_frame.x );
 
             if( ch.is_center() == true ){
                 this->collientSets.at(f).set_centerPPos( pixPPos );

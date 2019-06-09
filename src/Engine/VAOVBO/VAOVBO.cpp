@@ -31,9 +31,9 @@ namespace {//------------------ namespace ---------------------//
         0.0f,  0.0f, 0.0f,  0.0f, 0.0f
     };
     //- rectBase 的 总字节数
-    GLsizeiptr VBO_size = (GLsizeiptr)(sizeof(float) * rectBase.size());
+    GLsizeiptr VBO_size = static_cast<GLsizeiptr>(sizeof(float) * rectBase.size());
     //- 步长，glVertexAttribPointer 函数中用到
-    GLsizei    stride = (GLsizei)( sizeof(float) * 5 );
+    GLsizei    stride = static_cast<GLsizei>( sizeof(float) * 5 );
 
 }//--------------------- namespace end ------------------------//
 
@@ -60,17 +60,17 @@ void init_VAOVBO(){
     glBindBuffer( GL_ARRAY_BUFFER, VBO );
     glBufferData( GL_ARRAY_BUFFER, 
                 VBO_size, 
-                (GLvoid*)&(rectBase.at(0)), 
+                static_cast<GLvoid*>(&(rectBase.at(0))), 
                 GL_STATIC_DRAW );
 
     //-- 将 VAO 的 0号顶点属性，绑定到 VBO数据 的 position 段 
     //  对应 着色器 “vs文件” 中的: layout (location = 0) in vec3 aPos; 
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0 ); 
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, stride, static_cast<void*>(nullptr) ); 
     glEnableVertexAttribArray( 0 ); 
 
     //-- 将 VAO 的 1号顶点属性，绑定到 VBO数据 的 texture 段
     //  对应 着色器 “vs文件” 中的: layout (location = 1) in vec2 aTexCoord;
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, stride, (void*)(3*sizeof(float)) ); 
+    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(3*sizeof(float)) ); 
     glEnableVertexAttribArray( 1 ); 
 
     //---------------------------------------------//

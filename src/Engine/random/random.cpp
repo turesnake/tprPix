@@ -65,10 +65,10 @@ u32_t get_new_seed(){
     u32_t seed; //- return;
 
     IntVec2 mousePos = input::get_mouse_pos();
-    seed = mousePos.x + (mousePos.y*3);
+    seed = static_cast<u32_t>(mousePos.x + (mousePos.y*3));
 
     double tm = esrc::get_timer().get_currentTime();
-    seed += (u32_t)(tm * 10000000);
+    seed += static_cast<u32_t>(tm * 10000000);
                     //-- glfw 时钟的精度就是这么多位
 
     return seed;

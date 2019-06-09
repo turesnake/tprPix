@@ -13,17 +13,7 @@
 #include<glad/glad.h>  
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
-#include <glm/gtc/matrix_transform.hpp>
-            //-- glm::translate
-            //-- glm::rotate
-            //-- glm::scale
-            //-- glm::perspective
-#include <glm/gtc/type_ptr.hpp> 
-            //-- glm::value_ptr
+#include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
 //#include <cassert>
@@ -53,7 +43,7 @@ public:
         uniforms.insert({ _name, glGetUniformLocation(this->shaderProgram, _name.c_str()) });
     }
 
-    inline GLuint get_uniform_location( const std::string &_name ){
+    inline GLint get_uniform_location( const std::string &_name ){
         tprAssert( this->uniforms.find(_name) != this->uniforms.end() );
         return this->uniforms.at(_name);
     }
@@ -69,26 +59,26 @@ public:
     //-- 将 3个矩阵 的值 传输到 着色器程序。
     inline void send_mat4_model_2_shader( const glm::mat4 &m ){
         this->use_program();
-        glUniformMatrix4fv( this->get_uniform_location( "model" ),
+        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "model" ) ), 
                             1, 
                             GL_FALSE, 
-                            (const GLfloat*)(glm::value_ptr(m)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(m)) );
     }
 
     inline void send_mat4_view_2_shader( const glm::mat4 &v ){
         this->use_program();
-        glUniformMatrix4fv( this->get_uniform_location( "view" ),
+        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "view" ) ),
                             1, 
                             GL_FALSE, 
-                            (const GLfloat*)(glm::value_ptr(v)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(v)) );
     }
 
     inline void send_mat4_projection_2_shader( const glm::mat4 &p ){
         this->use_program();
-        glUniformMatrix4fv( this->get_uniform_location( "projection" ),
+        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "projection" ) ),
                             1, 
                             GL_FALSE, 
-                            (const GLfloat*)(glm::value_ptr(p)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(p)) );
     }
 
 private:
@@ -98,7 +88,7 @@ private:
     GLuint       shaderProgram  {0}; 
 
     //-- 着色器程序中的 uniform 变量们
-    std::unordered_map<std::string, GLuint> uniforms {}; 
+    std::unordered_map<std::string, GLint> uniforms {}; 
 
     //======== flags ========//
     bool  is_shaderProgram_set {false};

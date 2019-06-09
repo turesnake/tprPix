@@ -50,8 +50,8 @@ public:
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
     // param: _randV -- [-100.0, 100.0]
-    inline const goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ) const {
-        size_t randV = static_cast<size_t>(floor( _randV * 5.1 + 971.3 ));
+    inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ) const {
+        size_t randV = static_cast<size_t>(floor( _randV * 5.1f + 971.3f ));
         auto &pool = this->goSpecIdPools.at( _densityIdx );
         return pool.at( randV % pool.size() );
     }
@@ -123,7 +123,7 @@ private:
     //-- 独立数据 --
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
 
-    float           densitySeaLvlOff  {0.0}; 
+    float           densitySeaLvlOff  {0.0f}; 
 
 };
 

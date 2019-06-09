@@ -37,17 +37,17 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace{//-------------- namespace ------------------//
 
     //--- 将所有 pineId 分类，方便分配 ---
-    std::vector<int> ids_age1   { 0, 1 };
+    std::vector<size_t> ids_age1   { 0, 1 };
     //---
-    std::vector<int> ids_age2   { 2, 3 };
+    std::vector<size_t> ids_age2   { 2, 3 };
     //---
-    std::vector<int> ids_age3   { 4, 5, 6, 7 };
+    std::vector<size_t> ids_age3   { 4, 5, 6, 7 };
     //---
-    std::vector<int> ids_age4   { 7 }; //- 暂无
+    std::vector<size_t> ids_age4   { 7 }; //- 暂无
 
 
     //===== funcs =====//
-    int apply_a_oakId( int _age, float _fieldWeight );
+    size_t apply_a_oakId( int _age, float _fieldWeight );
 
 
 }//------------------ namespace: end ------------------//
@@ -68,7 +68,7 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(PineTree_PvtBinary) );
-    pvtBp = (PineTree_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<PineTree_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
         pvtBp->pineId = apply_a_oakId( pvtBp->age, _fieldWeight );
@@ -249,9 +249,9 @@ namespace{//-------------- namespace ------------------//
  *                     apply_a_oakId
  * -----------------------------------------------------------
  */
-int apply_a_oakId( int _age, float _fieldWeight ){
+size_t apply_a_oakId( int _age, float _fieldWeight ){
     size_t  idx;
-    int randV = gameObjs::apply_a_simpleId( _fieldWeight, 79 );
+    size_t randV = gameObjs::apply_a_simpleId( _fieldWeight, 79 );
 
     switch( _age ){
         case 1: idx = randV % ids_age1.size();  return ids_age1.at(idx);

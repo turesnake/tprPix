@@ -59,7 +59,7 @@ public:
 
     //--- 获得 上一帧的 deltaTime ---//
     //  ...目前未被任何代码使用...
-    inline const double get_last_deltaTime() const {
+    inline double get_last_deltaTime() const {
         return this->deltaTime;
     }
 
@@ -67,12 +67,12 @@ public:
     // 注意，此处的 deltaTime 不是 “上一帧的 dt”，
     // 而是一个 平滑值。专门提供给 其它 模块使用 
     //  ...目前未被任何代码使用...
-    inline const double get_smoothDeltaTime() const {
+    inline double get_smoothDeltaTime() const {
         return this->smoothDeltaTime;
     }
 
     //-- 获得 游戏 总帧数 --//
-    inline const u64_t get_frameNum() const {
+    inline u64_t get_frameNum() const {
         return this->frameNum;
     }
 

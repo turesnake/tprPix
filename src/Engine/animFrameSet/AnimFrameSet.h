@@ -64,7 +64,7 @@ public:
     void insert_a_png(
                 const std::string &_lpath_pic, 
                 IntVec2             _frameNum,
-                int                 _totalFrameNum,
+                size_t              _totalFrameNum,
                 bool                _isHaveShadow,
                 bool                _isPjtSingleFrame,
                 bool                _isShadowSingleFrame,

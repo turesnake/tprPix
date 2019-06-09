@@ -28,7 +28,10 @@ target_include_directories ( SQLite
                             )              
 
 #-- sqlite 不设 warning 
-#target_compile_options ( SQLite PRIVATE -Wall )
+target_compile_options ( SQLite 
+                        PRIVATE 
+                        -Wno-unused-variable 
+                        )
 
 
 #-- 更改 库 最终生成的 可执行二进制文件 的放置目录：build/lib

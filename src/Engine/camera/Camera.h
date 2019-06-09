@@ -11,11 +11,8 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//--- glm - - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
 
 //-------------------- Engine --------------------//
 #include "vector_matrix.h" 
@@ -54,7 +51,7 @@ public:
     }
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
-    inline const glm::vec2 get_camera2DFPos() const { 
+    inline glm::vec2 get_camera2DFPos() const { 
         return  glm::vec2{ this->currentFPos.x, this->currentFPos.y };  
     }
 
@@ -63,7 +60,7 @@ public:
     inline const float &get_zNear() const {
         return this->currentFPos.z;
     }
-    inline const float get_zFar() const {
+    inline float get_zFar() const {
         return this->currentFPos.z - ViewingBox::z; 
     }
 

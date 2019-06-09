@@ -28,7 +28,7 @@
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
 class FramePos{
 public:
-    FramePos(){};
+    FramePos(){}
 
     //---- set ----//
     // set 阶段 无需考虑性能

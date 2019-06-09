@@ -68,7 +68,7 @@ public:
         tprAssert( _goPtr->species == Crab::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Crab_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<Crab_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

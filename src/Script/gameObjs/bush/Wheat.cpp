@@ -54,7 +54,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Wheat_PvtBinary) );
-    pvtBp = (Wheat_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->wheatId = gameObjs::apply_a_simpleId( _fieldWeight, 4 );
 

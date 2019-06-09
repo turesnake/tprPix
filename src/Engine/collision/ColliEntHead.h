@@ -14,12 +14,8 @@
 #ifndef TPR_COLLI_ENT_HEAD_H_
 #define TPR_COLLI_ENT_HEAD_H_
 
-//--- glm - - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
-            //-- glm::vec3
-            //-- glm::vec4
-            //-- glm::mat4
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"

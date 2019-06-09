@@ -113,11 +113,11 @@ void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff,
     tprAssert( _datas.size() == Density::get_idxNum()-1 );
     //-- 确认 每个元素值 不越界 --
     for( const auto &i : _datas ){
-        tprAssert( (i>=-100.0) && (i<=100.0) );
+        tprAssert( (i>=-100.0f) && (i<=100.0f) );
     }
     //-- 确认 每个元素值 递增 --
-    float old {0.0};
-    float neo {0.0};
+    float old {0.0f};
+    float neo {0.0f};
     for( auto i=_datas.cbegin(); i!=_datas.cend(); i++ ){
         if( i == _datas.cbegin() ){
             old = *i;
@@ -145,7 +145,7 @@ void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
     tprAssert( (this->is_goSpecIdPools_init==false) && 
             (this->is_applyPercents_init==false) );
     this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
-    this->applyPercents.resize( Density::get_idxNum(), 0.0 );
+    this->applyPercents.resize( Density::get_idxNum(), 0.0f );
     this->is_goSpecIdPools_init = true;
     this->is_applyPercents_init = true;
 }
@@ -162,12 +162,12 @@ void EcoSysPlan::insert(const Density &_density,
     tprAssert( this->is_applyPercents_init ); //- MUST
     this->applyPercents.at(_density.get_idx()) = _applyPercent;
 
-    goSpecId_t  id;
+    goSpecId_t  id_l;
     for( const auto &ent : _ecoEnts ){
         tprAssert( this->is_goSpecIdPools_init ); //- MUST
         auto &poolRef = this->goSpecIdPools.at(_density.get_idx());
-        id = ssrc::get_goSpecId(ent.specName);
-        poolRef.insert( poolRef.begin(), ent.idNum, id );
+        id_l = ssrc::get_goSpecId(ent.specName);
+        poolRef.insert( poolRef.begin(), ent.idNum, id_l );
     }
 }
 

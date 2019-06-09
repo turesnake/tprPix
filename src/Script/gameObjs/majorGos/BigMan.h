@@ -65,7 +65,7 @@ public:
         tprAssert( _goPtr->species == BigMan::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (BigMan_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<BigMan_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

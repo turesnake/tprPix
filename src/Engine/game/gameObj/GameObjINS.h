@@ -13,8 +13,7 @@
 #define TPR_GAME_OBJ_INS_H_
 
 //--- glm - 0.9.9.5 ---
-#include <glm/glm.hpp>
-            //-- glm::vec2
+#include "glm_no_warnings.h"
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

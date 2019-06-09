@@ -95,7 +95,7 @@ public:
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
     // param: _randV -- [-100.0, 100.0]
     inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ){
-        size_t randV = static_cast<size_t>(floor( _randV * 1.9 + 701.7 ));
+        size_t randV = static_cast<size_t>(floor( _randV * 1.9f + 701.7f ));
         auto &pool = this->goSpecIdPools.at( _densityIdx );
         return pool.at( randV % pool.size() );
     }
@@ -107,7 +107,7 @@ private:
     //======== vals ========//
     ecoSysPlanId_t      id      {};
     EcoSysPlanType      type    {EcoSysPlanType::Forest};
-    float               densitySeaLvlOff  {0.0}; 
+    float               densitySeaLvlOff  {0.0f}; 
 
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子

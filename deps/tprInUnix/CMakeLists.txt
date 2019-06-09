@@ -22,7 +22,12 @@ target_include_directories (tprInUnix
                             )
 
                             
-target_compile_options ( tprInUnix PRIVATE -Wall )
+target_compile_options ( tprInUnix 
+                        PRIVATE 
+                        -Wall 
+                        -Wno-c++98-compat
+						-Wno-c++98-compat-pedantic
+                        )
 
 
 #-- 更改 库 最终生成的 可执行二进制文件 的放置目录：build/lib

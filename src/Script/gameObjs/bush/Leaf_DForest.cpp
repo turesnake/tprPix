@@ -55,7 +55,7 @@ void Leaf_DForest::init_in_autoMod(   GameObj *_goPtr,
 
     //-------- go.pvtBinary ---------//
     goPtr->resize_pvtBinary( sizeof(Leaf_DForest_PvtBinary) );
-    pvtBp = (Leaf_DForest_PvtBinary*)goPtr->get_pvtBinaryPtr(); //- 绑定到本地指针
+    pvtBp = reinterpret_cast<Leaf_DForest_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->leaf_DForestId = gameObjs::apply_a_simpleId( _fieldWeight, 8 );
 

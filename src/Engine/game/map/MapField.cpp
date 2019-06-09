@@ -27,6 +27,7 @@
 
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
+#include "tprCast.h"
 
 #include "tprDebug.h"
 
@@ -106,7 +107,7 @@ void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
     this->isNodeMapAltiSet = true;
 
     IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
-    size_t  idx = off.y * ENTS_PER_CHUNK + off.x;
+    size_t  idx = to_size_t_cast( off.y * ENTS_PER_CHUNK + off.x );
 
     tprAssert( idx < _chunkMapEnts.size() );
     this->nodeMapAlti = _chunkMapEnts.at(idx).mapAlti;
@@ -193,7 +194,7 @@ void MapField::assign_field_to_4_ecoObjs(){
     float         freqSml = 2.3f;
     float         pnVal; //- 围绕 0 波动的 随机值
     float         off;
-    int           count;
+    size_t        count;
 
     float targetDistance = 1.4f * (0.5f * ENTS_PER_SECTION) * 1.04f; //- 每个field 最终的 距离比较值。
 

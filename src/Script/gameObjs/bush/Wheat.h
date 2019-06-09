@@ -35,7 +35,7 @@ inline std::vector<PubBinaryValType> wheat_pubBinaryValTypes {
 };
 
 struct Wheat_PvtBinary{
-    int   wheatId {0};
+    size_t   wheatId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
     //===== padding =====//
     //...
@@ -68,7 +68,7 @@ public:
         tprAssert( _goPtr->species == Wheat::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (Wheat_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

@@ -35,7 +35,7 @@ inline std::vector<PubBinaryValType> singleStone_Desert_pubBinaryValTypes {
 };
 
 struct SingleStone_Desert_PvtBinary{
-    int   singleStone_DesertId {0};
+    size_t   singleStone_DesertId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
     //===== padding =====//
     //...
@@ -68,7 +68,7 @@ public:
         tprAssert( _goPtr->species == SingleStone_Desert::specId );
         //-- rebind ptr -----
         goPtr = _goPtr;
-        pvtBp = (SingleStone_Desert_PvtBinary*)goPtr->get_pvtBinaryPtr();
+        pvtBp = reinterpret_cast<SingleStone_Desert_PvtBinary*>(goPtr->get_pvtBinaryPtr());
     }
 
     //======== tmp vals ========//

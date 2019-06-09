@@ -104,7 +104,7 @@ void draw_groundCanvas(){
     esrc::groundCanvas.use_shaderProgram(); //- MUST !!! 
 
     glUniform1f(esrc::groundCanvas.get_uniform_location("u_time"), 
-                    (float)glfwGetTime() ); //- 1-float
+                static_cast<float>(glfwGetTime()) ); //- 1-float
 
     const glm::vec2 cameraFPos = esrc::get_camera().get_camera2DFPos();
 
@@ -114,8 +114,8 @@ void draw_groundCanvas(){
 
 
     //glm::vec2 canvasFPos = cameraFPos - glm::vec2{ 0.5*_SCR_WIDTH, 0.5*_SCR_HEIGHT};
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * windowSZ_fx , 
-                                                    0.5 * windowSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
+                                                    0.5f * windowSZ_fy };
 
     esrc::groundCanvas.set_translate( canvasFPos.x,
                                       canvasFPos.y,
@@ -149,7 +149,7 @@ void draw_waterAnimCanvas(){
     esrc::waterAnimCanvas.use_shaderProgram(); //- MUST !!! 
 
     glUniform1f(esrc::waterAnimCanvas.get_uniform_location("u_time"), 
-                    (float)glfwGetTime() ); //- 1-float
+                    static_cast<float>(glfwGetTime()) ); //- 1-float
 
     const glm::vec2 cameraFPos = esrc::get_camera().get_camera2DFPos();
 
@@ -157,8 +157,8 @@ void draw_waterAnimCanvas(){
     float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
 
     //glm::vec2 canvasFPos = cameraFPos - glm::vec2{ 0.5*_SCR_WIDTH, 0.5*_SCR_HEIGHT};
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5 * windowSZ_fx , 
-                                                    0.5 * windowSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
+                                                    0.5f * windowSZ_fy };
 
     esrc::waterAnimCanvas.set_translate(canvasFPos.x,
                                         canvasFPos.y,
