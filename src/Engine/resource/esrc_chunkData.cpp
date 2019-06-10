@@ -1,13 +1,10 @@
 /*
- * ==================== chunkDatas_mem.cpp ==========================
+ * ==================== esrc_chunkData.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <unordered_map>
 #include <mutex>
@@ -20,21 +17,11 @@
 #include "config.h"
 
 
-//#include "tprDebug.h"
-
-/*
-#include <iostream>
-#include <string>
-using std::cout;
-using std::endl;
-*/
-
-
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
     std::unordered_map<chunkKey_t, ChunkData> chunkDatas {};
@@ -65,7 +52,7 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     ChunkData  chunkData {};
-    ChunkData *chunkDataPtr;
+    ChunkData *chunkDataPtr {};
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
             tprAssert( is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
@@ -111,7 +98,7 @@ const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
  * -- 查看 状态表 是否为空
  */
 bool atom_is_chunkDataFlags_empty(){
-    bool ret;
+    bool ret {true};
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
         ret = esrc::chunkDataFlags.empty();
@@ -138,7 +125,7 @@ void atom_push_back_2_chunkDataFlags( chunkKey_t _chunkKey ){
  * -- 通常由 主线程 调用
  */
 chunkKey_t atom_pop_from_chunkDataFlags(){
-    chunkKey_t key;
+    chunkKey_t key {};
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
         key = esrc::chunkDataFlags.front();

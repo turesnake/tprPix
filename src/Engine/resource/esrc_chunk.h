@@ -8,11 +8,6 @@
 #ifndef TPR_ESRC_CHUNK_H_
 #define TPR_ESRC_CHUNK_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
-//-------------------- CPP --------------------//
-//#include <set>
 
 //-------------------- Engine --------------------//
 #include "Chunk.h" 

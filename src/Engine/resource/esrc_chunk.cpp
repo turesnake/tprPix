@@ -1,13 +1,10 @@
 /*
- * ========================= chunks_mem.cpp ==========================
+ * ========================= esrc_chunk.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <unordered_map>
 
@@ -25,7 +22,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
     std::unordered_map<chunkKey_t, Chunk> chunks {};
@@ -49,7 +46,7 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
             //   不需要每次 创建chunk 时都指定。
 
     // ***| INSERT FIRST, INIT LATER  |***
-    Chunk *chunkPtr;
+    Chunk *chunkPtr {};
     Chunk  chunk {};
     chunk.set_by_anyMPos( _anyMPos );
     chunkKey_t key = chunk.get_key();
@@ -85,7 +82,6 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
 
-
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
                 if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
@@ -105,7 +101,6 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
     chunkKey_t    chunkKey = anyMPos_2_chunkKey( _anyMPos );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( _anyMPos );
-
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
                 if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
@@ -145,8 +140,6 @@ Chunk *get_chunkPtr( chunkKey_t _key ){
 void render_chunks(){
     for( auto& p : esrc::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
-            //esrc::renderPool_meshs.insert({ p.second.get_mesh().get_render_z(),
-            //                                    const_cast<Mesh*>(&p.second.get_mesh()) });
             esrc::insert_2_renderPool_meshs( p.second.get_mesh().get_render_z(),
                                                 const_cast<Mesh*>(&p.second.get_mesh()) );
     }

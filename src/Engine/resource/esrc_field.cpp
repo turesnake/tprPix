@@ -1,13 +1,10 @@
 /*
- * ========================= field_mem.cpp ==========================
+ * ======================= esrc_field.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <unordered_map>
 #include <mutex>
@@ -34,7 +31,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     std::unordered_map<fieldKey_t,MapField> fields {};
     std::shared_mutex  fieldsSharedMutex; //- 读写锁
@@ -157,7 +154,7 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     const MapField &fieldRef = esrc::fields.at( _fieldKey );
 
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
-    goSpecId_t     goSpecId;
+    goSpecId_t     goSpecId {};
 
     float randV = (fieldRef.get_weight() * 0.35f + 313.17f); //- 确保大于0
     float fract = randV - floor(randV); //- 小数部分
@@ -195,7 +192,7 @@ const MapField &atom_get_field( fieldKey_t _fieldKey ){
 
 
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
 
 /* ===========================================================

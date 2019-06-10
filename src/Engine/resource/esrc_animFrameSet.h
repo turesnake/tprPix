@@ -24,8 +24,6 @@ AnimAction *getnc_animActionPtr(const std::string &_animFrameSetName,
                                 const std::string &_actionName );
 
 
-
-
 }//---------------------- namespace: esrc -------------------------//
 #endif
 

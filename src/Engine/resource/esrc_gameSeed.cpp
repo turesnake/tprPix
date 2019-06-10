@@ -1,31 +1,25 @@
 /*
- * ======================= time_mem.cpp ==========================
+ * ===================== esrc_gameSeed.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.06.03
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#include "esrc_time.h"
+#include "esrc_gameSeed.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace {//-------- namespace: --------------//
 
-    TimeBase   timer {}; //-- 全局时间
-    TimeCircle logicTimeCircle { &timer, 5 }; //- 逻辑时间循环 实例（5帧1周期）
+    GameSeed  gameSeed {}; //- tmp, 游戏种子，
+                            //- 暂设为：只有一个种子，且每次运行都重置
 
 }//------------- namespace: end --------------//
 
-TimeBase &get_timer(){
-    return timer;
+GameSeed &get_gameSeed(){
+    return gameSeed;
 }
-
-
-TimeCircle &get_logicTimeCircle(){
-    return logicTimeCircle;
-}
-
 
 
 

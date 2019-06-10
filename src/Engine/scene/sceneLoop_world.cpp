@@ -22,7 +22,7 @@
 using namespace std::placeholders;
 
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
 
     //-- 临时数据 --
@@ -59,7 +59,6 @@ void prepare_for_sceneWorld(){
     //  然后根据这些数据，来 build chunks
     //
     //
-    
         //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
         //   在未来，会被 完善的 游戏存档系统 所取代
         //chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
@@ -191,7 +190,7 @@ void sceneLoop_world(){
 
 
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
 
 /* ===========================================================
@@ -208,12 +207,10 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
     //- 这会造成 camera 的延迟，但不要紧
     esrc::get_camera().set_targetFPos( playerRef.goPtr->goPos.get_currentFPos() );
 
-
     //... 暂时没有 处理 剩余功能键的 代码 
 
     //-- 直接传递给 player
     playerRef.handle_inputINS( _inputINS );
-
 
     //-----------------//
     //      tmp
@@ -237,8 +234,6 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
     if( _inputINS.check_key(GameKey::KEY_Y) ){
         isNew_Y_press = true;
     }
-
-
 
 
     SpeedLevel lvl = playerRef.goPtr->move.get_speedLvl();
@@ -265,7 +260,6 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 
 
         //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...
-
         cout << "mapAlti.val = " << mapEntPtr->mapAlti.val
             //<< ";   fieldKey = " << mapEntPtr->fieldKey
             << ";   nodeFieldAltiVal = " << field.get_nodeMapAlti().val
@@ -278,9 +272,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){
-
         //-- 暂时什么都不做 ...
-        
     }
 
     //---------------

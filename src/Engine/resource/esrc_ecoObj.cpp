@@ -1,5 +1,5 @@
 /*
- * ========================= ecoObjs_mem.cpp ==========================
+ * ========================= esrc_ecoObj.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.16
  *                                        MODIFY -- 
@@ -7,9 +7,6 @@
  *   ecoObj 内存态
  * ----------------------------
  */
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <shared_mutex> //- c++17 读写锁
 
@@ -24,7 +21,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace{//------------ namespace --------------//
+namespace {//------------ namespace --------------//
 
     //-- 目前版本中，只有 主现场可以 创建 ecoObj 实例 --
     //   仅提供 数据只读口给 job线程 
@@ -110,7 +107,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
  */
 std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t _sectionkey ){
 
-    std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly;
+    std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
             tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
@@ -135,7 +132,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  */
 const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey ){
 
-    const std::vector<RGBA> *ptr;
+    const std::vector<RGBA> *ptr {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
             tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
@@ -149,7 +146,7 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
  * -----------------------------------------------------------
  */
 goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _densityIdx, float _randV ){
-    goSpecId_t id;
+    goSpecId_t id {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
             tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
@@ -164,7 +161,7 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _d
  * -- 更加精细的 元素数据 只读访问 接口
  */
 float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Density &_density ){
-    float val;
+    float val {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
             tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist

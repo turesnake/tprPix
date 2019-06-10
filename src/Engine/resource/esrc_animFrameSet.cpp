@@ -1,5 +1,5 @@
 /*
- * ================= animFrameSets_mem.cpp =====================
+ * ================= esrc_animFrameSet.cpp =====================
  *                          -- tpr --
  *                                        CREATE -- 2018.11.23
  *                                        MODIFY -- 
@@ -12,7 +12,6 @@
 #include <sstream>
 
 //-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -25,11 +24,11 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace{//--------------- namespace -----------------//
+namespace {//--------------- namespace -----------------//
 
     std::unordered_map<std::string, AnimFrameSet> animFrameSets {};
 
-    std::stringstream  ss;
+    //std::stringstream  ss;
 
     std::vector<AnimActionParam> animActionParams {};
 
@@ -38,8 +37,8 @@ namespace{//--------------- namespace -----------------//
     AnimFrameSet *insert_new_animFrameSet( const std::string &_name );
 
     void build_animActionParams(const std::string &_prefix,
-                            const std::string &_suffix,
-                            size_t _size );
+                                const std::string &_suffix,
+                                size_t _size );
 
 }//--------------- namespace end -----------------//
 
@@ -68,9 +67,7 @@ AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
 void load_animFrameSets(){
 
     esrc::animFrameSets.clear();
-
-    AnimFrameSet *animFrameSetPtr;
-
+    AnimFrameSet *animFrameSetPtr {};
 
     //---------------------------------------//
     //                Button
@@ -87,7 +84,6 @@ void load_animFrameSets(){
                 AnimActionParam{    "data",    2 }
             });
 
-
     //---------------------------------------//
     //               GO: Major
     //---------------------------------------//
@@ -101,7 +97,6 @@ void load_animFrameSets(){
             true, //- 有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
             std::vector<AnimActionParam>{
-                                        
                 AnimActionParam{    "move_idle", 
                                     AnimActionType::Cycle,
                                     true,  //- isOrder
@@ -114,7 +109,6 @@ void load_animFrameSets(){
                                     4 }
             });
 
-    
     //-----------//
     //   bigMan
     //-----------//
@@ -125,7 +119,6 @@ void load_animFrameSets(){
             true, //- 有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
             std::vector<AnimActionParam>{
-                                        
                 AnimActionParam{    "move_idle", 
                                     AnimActionType::Cycle,
                                     true,  //- isOrder
@@ -139,7 +132,6 @@ void load_animFrameSets(){
             });
 
 
-    
     //-----------//
     //    crab
     //-----------//
@@ -188,8 +180,6 @@ void load_animFrameSets(){
                                     true,  //- isOrder
                                     std::vector<size_t>{ 7,8,9,10 },
                                     std::vector<size_t>{ 4,4,4, 4 } },
-
-
 
 
                 //... 未完 ...
@@ -278,8 +268,6 @@ void load_animFrameSets(){
             animActionParams
             );
 
-
-
     //---------------------------------------//
     //               GO: MapSurface
     //---------------------------------------//
@@ -316,7 +304,7 @@ void load_animFrameSets(){
 
 
 
-namespace{//--------------- namespace -----------------//
+namespace {//--------------- namespace -----------------//
 
 
 /* ===========================================================

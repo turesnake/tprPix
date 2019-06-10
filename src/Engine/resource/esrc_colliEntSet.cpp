@@ -1,5 +1,5 @@
 /*
- * ========================= colliEntSets_mem.cpp ==========================
+ * ========================= esrc_colliEntSet.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.14
  *                                        MODIFY -- 
@@ -7,7 +7,6 @@
  *  资源管理:  colliEntSets
  * ----------------------------
  */
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -83,7 +82,7 @@ void init_colliEntSet_tables(){
 void load_colliEntSets(){
 
     //- ces 预制件 个数 --
-    size_t totalSets = 4*3; 
+    size_t totalSets  { 4*3 }; 
 
     //-- 创建 ColliEntSetLoader 实例 --
     ColliEntSetLoader  loader { "colliEntSet_1.png",
@@ -129,10 +128,6 @@ const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx ){
         tprAssert( esrc::colliEntSets.find(_colliEntSetIdx) != esrc::colliEntSets.end() );
     return esrc::colliEntSets.at( _colliEntSetIdx );
 }
-
-
-
-
 
 
 }//---------------------- namespace: esrc -------------------------//

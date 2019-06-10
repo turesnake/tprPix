@@ -1,26 +1,25 @@
 /*
- * ====================== camera_mem.cpp ==========================
+ * ======================= esrc_player.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.06.03
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#include "esrc_camera.h"
+#include "esrc_player.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//------------------ namespace -------------------------//
+namespace {//-------- namespace: --------------//
 
-    Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
+    Player  player {}; //- 全游戏唯一 Player 实例  
 
-}//--------------------- namespace: end -------------------------//
+}//------------- namespace: end --------------//
 
 
-Camera &get_camera(){
-    return camera;
+Player &get_player(){
+    return player;
 }
-
 
 }//---------------------- namespace: esrc -------------------------//
 

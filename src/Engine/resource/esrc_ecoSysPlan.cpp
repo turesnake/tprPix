@@ -1,5 +1,5 @@
 /*
- * ================== ecoSysPlanes_mem.cpp =====================
+ * ===================== esrc_ecoSysPlan.cpp =====================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.22
  *                                        MODIFY -- 
@@ -7,7 +7,6 @@
  *  资源管理:  ecoSysPlanes
  * ----------------------------
  */
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "random.h"

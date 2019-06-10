@@ -24,12 +24,6 @@ void debug_colliEntSets(); //- debug
 const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx );
 
 
-
-
-//-- 正反表 --
-//inline std::unordered_map<std::string, int> colliEntSet_name_idx {};
-//inline std::unordered_map<int, std::string> colliEntSet_idx_name {};
-
 void init_colliEntSet_tables(); 
 
 

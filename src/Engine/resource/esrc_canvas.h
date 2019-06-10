@@ -15,9 +15,6 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-//inline Canvas  groundCanvas {};
-//inline Canvas  waterAnimCanvas {};
-
 void init_canvases();
 void draw_groundCanvas();
 void draw_waterAnimCanvas();

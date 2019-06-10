@@ -1,8 +1,10 @@
 #===================================================#
 #           CMakeLists.txt -- 根目录
 #===================================================#
-#  
-#-------------------
+
+#----
+# cmake -DCMAKE_BUILD_TYPE=Release ..
+# cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 #-- cmake 最小 版本号
 cmake_minimum_required(VERSION 3.1)
@@ -249,27 +251,24 @@ endif( UNIX )
 
 target_compile_options( tprpix 
                         PRIVATE 
-                        -Wall 
+                        -Wall -Wextra
                         -Wno-c++98-compat
-						-Wno-c++98-compat-pedantic
-						-Wno-documentation
-						-Wno-documentation-unknown-command
+                        -Wno-c++98-compat-pedantic
+                        -Wno-language-extension-token      #- glad
+						-Wno-documentation                 #- glfw3
+						-Wno-documentation-unknown-command #- glfw3
 						-Wno-nonportable-system-include-path
 						-Wno-reserved-id-macro
-						-Wno-language-extension-token
-						-Wno-global-constructors
-                        -Wno-exit-time-destructors
-                        -Wno-covered-switch-default
-                        -Wno-unused-parameter
+						-Wno-global-constructors     #++ need ++
+                        -Wno-exit-time-destructors   #++ need ++
+                        -Wno-covered-switch-default  #++ need ++
+                        -Wno-switch-enum             #++ need ++
+                        -Wno-unused-parameter        #++ need ++
+                        -Wno-unused-member-function  #++ need ++
                         #-Wno-gnu-anonymous-struct #glm
+
                         -Wno-missing-prototypes
-                        -Wno-old-style-cast   #---- tmp ----
-                        #-Wno-float-equal #glm ----- tmp ----
-                        #-Wno-sign-conversion #----- tmp -----
-                        -Wno-unused-member-function #----- tmp -----
-                        #-Wno-nested-anon-types  #glm
-                        -Wno-switch-enum
-                        -Wno-missing-noreturn # tprAssert
+                        -Wno-old-style-cast   #---- tmp ----                        
                         )
 
 

@@ -41,7 +41,7 @@ using std::cout;
 using std::endl;
 */
 
-namespace{//----------- namespace ----------------//
+namespace {//----------- namespace ----------------//
 
     //-- 不要随意建立 static数据，本文件的代码，会被数个 job线程 调用 --
 
@@ -58,8 +58,6 @@ namespace{//----------- namespace ----------------//
     //const float zOffSml  { 17.8f };
 
     const glm::vec2  worldCenter { 0.0f, 0.0f };
-
-
 
     //----------- 用于 calc_chunkData ------------//
 
@@ -85,7 +83,7 @@ namespace{//----------- namespace ----------------//
         //====== vals ======//
         fieldKey_t               fieldKey {};
         const std::vector<RGBA> *landColorsPtr {};
-        FieldBorderSet::quadContainer_t  *quadContainerPtr; //-- fieldBorderSet 子扇区容器 --
+        FieldBorderSet::quadContainer_t  *quadContainerPtr {}; //-- fieldBorderSet 子扇区容器 --
     private:
         //====== vals ======//
         size_t                   densityIdx {};
@@ -112,8 +110,8 @@ namespace{//----------- namespace ----------------//
 
     class FieldInfo{
     public:
-        IntVec2   mposOff;
-        QuadType  quad; //- 注意，这个值是反的，从 fieldBorderSet 角度去看 得到的 quad
+        IntVec2   mposOff {};
+        QuadType  quad {}; //- 注意，这个值是反的，从 fieldBorderSet 角度去看 得到的 quad
     };
     //- 周边4个field 指示数据 --
     const std::vector<FieldInfo> nearFour_fieldInfos {
@@ -124,7 +122,6 @@ namespace{//----------- namespace ----------------//
     };
 
 
-
     //===== funcs =====//
     void calc_pixAltis(     const IntVec2 &_chunkMPos, 
                             std::vector<float> &_pixAltis );
@@ -133,7 +130,6 @@ namespace{//----------- namespace ----------------//
                             const std::vector<float> &_pixAltis,
                             ChunkData *_chunkDataPtr ); 
                 //- 在未来，要改名
-
 
     const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
                                             fieldKey_t _fieldKey );
@@ -153,7 +149,7 @@ void build_chunkData_main( const Job &_job ){
     //   job.argBinary
     //-------------------//
     tprAssert( _job.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
-    ArgBinary_Build_ChunkData arg;
+    ArgBinary_Build_ChunkData arg {};
     memcpy( (void*)&arg,
             (void*)&(_job.argBinary.at(0)),
             sizeof(ArgBinary_Build_ChunkData) );
@@ -174,11 +170,11 @@ void build_chunkData_main( const Job &_job ){
     //            [2]
     //  集中生成 周边 4chunk 的 所有 fields
     //------------------------------//
-    IntVec2  tmpFieldMPos;
-    for( size_t h=0; h<FIELDS_PER_CHUNK*2; h++ ){
-        for( size_t w=0; w<FIELDS_PER_CHUNK*2; w++ ){ //- each field in 2*2chunks
-            tmpFieldMPos.set(   chunkMPos.x + static_cast<int>(w*ENTS_PER_FIELD),
-                                chunkMPos.y + static_cast<int>(h*ENTS_PER_FIELD) );
+    IntVec2  tmpFieldMPos {};
+    for( int h=0; h<FIELDS_PER_CHUNK*2; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK*2; w++ ){ //- each field in 2*2chunks
+            tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD,
+                                chunkMPos.y + h*ENTS_PER_FIELD );
             esrc::atom_try_to_insert_and_init_the_field_ptr( tmpFieldMPos );
         }
     } //- each field in 2*2chunks
@@ -210,7 +206,7 @@ void build_chunkData_main( const Job &_job ){
 }
 
 
-namespace{//----------- namespace ----------------//
+namespace {//----------- namespace ----------------//
 
 
 /* ===========================================================
@@ -221,7 +217,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
                     std::vector<float> &_pixAltis ){
 
     IntVec2      chunkPPos = mpos_2_ppos(_chunkMPos);
-    glm::vec2    pixCFPos; //- 以 chunk 为晶格的 fpos
+    glm::vec2    pixCFPos {}; //- 以 chunk 为晶格的 fpos
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
     glm::vec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
@@ -229,15 +225,15 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
     glm::vec2  altiSeed_pposOffSml = gameSeedRef.get_altiSeed_pposOffSml();
                             //-- 此处有问题，从 job线程 访问 gameSeed，不够安全...
 
-    float      pixDistance; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
-    float      seaLvl;
+    float      pixDistance {}; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
+    float      seaLvl {};
 
-    float    pnValBig;
-    float    pnValMid;
-    float    pnValSml;
-    float    altiVal;  //- target val
+    float    pnValBig {};
+    float    pnValMid {};
+    float    pnValSml {};
+    float    altiVal {};  //- target val
 
-    size_t   pixIdx;
+    size_t   pixIdx {};
 
     _pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0f );
     for( int h=0; h<PIXES_PER_CHUNK; h++ ){
@@ -283,8 +279,6 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
 }
 
 
-
-
 /* ===========================================================
  *                 calc_chunkData
  * -----------------------------------------------------------
@@ -294,20 +288,20 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
                     const std::vector<float> &_pixAltis,
                     ChunkData *_chunkDataPtr ){
 
-    RGBA      *texBufHeadPtr; //- mapTex
-    RGBA       color;
+    RGBA      *texBufHeadPtr {}; //- mapTex
+    RGBA       color {};
 
-    IntVec2    tmpFieldMPos;
-    IntVec2    tmpFieldPPos;
+    IntVec2    tmpFieldMPos {};
+    IntVec2    tmpFieldPPos {};
 
-    IntVec2    tmpEntMPos;
-    IntVec2    pposOff;   //- 通用偏移向量
-    IntVec2    mposOff;
+    IntVec2    tmpEntMPos {};
+    IntVec2    pposOff {};   //- 通用偏移向量
+    IntVec2    mposOff {};
 
-    PixData   pixData;//- each pix
+    PixData   pixData {};//- each pix
 
-    size_t    entIdx_in_chunk;
-    size_t    count;
+    size_t    entIdx_in_chunk {};
+    size_t    count {};
 
     //------------------------//
     //   mapEntAltis, mapEntMPoses    
@@ -325,7 +319,7 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     //      fieldKeys
     //------------------------//
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，仅函数内使用
-    IntVec2    tmpFieldMpos;
+    IntVec2    tmpFieldMpos {};
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
             tmpFieldMpos = _chunkMPos + IntVec2{    w*ENTS_PER_FIELD,
@@ -358,7 +352,6 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
 
                 for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
                     for( int pw=0; pw<PIXES_PER_MAPENT; pw++ ){ //------ each pix in mapent ------
-
 
                         pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
                         pposOff = pixData.ppos - mpos_2_ppos(_chunkMPos);
@@ -418,8 +411,8 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     //  将 chunk.tex 上方／右方 两条 pix 颜色补齐
     //  补齐方案很简单，直接复制 相邻pix 的颜色
     //---------------------------//
-    RGBA    *pixPtr;
-    RGBA    *nearPixPtr;
+    RGBA    *pixPtr      {};
+    RGBA    *nearPixPtr  {};
     //--- chunk 上方那条 额外 pix ---
     for( int pw=0; pw<PIXES_PER_CHUNK_IN_TEXTURE; pw++ ){
         nearPixPtr = texBufHeadPtr + 
@@ -451,8 +444,7 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
                                         fieldKey_t _fieldKey ){
 
     IntVec2     targetFieldMPos = fieldKey_2_mpos( _fieldKey );
-    fieldKey_t  tmpFieldKey;
-    //int         count = 0; //- 好想没什么用...
+    fieldKey_t  tmpFieldKey {};
     //---
     _container.clear();
     for( const auto &fieldInfo : nearFour_fieldInfos ){
@@ -465,7 +457,6 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
         _container.insert({ -tmpPair.first, 
                             FieldData{  tmpPair.second, 
                                         fieldInfo.quad } }); //- copy
-        //count++;
     }
     return targetFieldMPos;
 }

@@ -44,7 +44,7 @@ using namespace std::placeholders;
 #include "tprDebug.h"
 
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
     //-- 三个按钮的 位置 --
     const std::vector<glm::vec2> buttonFPoses {
@@ -170,7 +170,7 @@ void sceneLoop_begin(){
 
 }
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
 
 /* ===========================================================
@@ -218,7 +218,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 
             //-- max goid --
             // 必须在 chunks／goes 生成之前
-            u64_t   maxGoId = 1;
+            u64_t   maxGoId  { 1 };
             GameObj::id_manager.set_max_id(maxGoId);
 
                 //-- 随便定个 mpos 
@@ -255,7 +255,6 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
             //-----------------------//
             //  玩家选中的 存档 已经存在 
             //-----------------------//
-            
             GameArchive &targetGameArchive = esrc::get_gameArchive();
 
             targetGameArchive = gameArchives.at(archiveId); //- copy

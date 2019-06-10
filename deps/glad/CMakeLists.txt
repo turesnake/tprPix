@@ -22,7 +22,10 @@ target_include_directories (glad
                             )
 
                             
-#target_compile_options ( glad PRIVATE -Wall )
+target_compile_options (glad 
+                        PRIVATE 
+                        -Wno-language-extension-token
+                        )
 
 
 #-- 更改 库 最终生成的 可执行二进制文件 的放置目录：build/lib
