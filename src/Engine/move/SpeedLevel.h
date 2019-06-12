@@ -10,9 +10,6 @@
 #ifndef TPR_SPEED_LEVEL_H_
 #define TPR_SPEED_LEVEL_H_
 
-//------------------- C --------------------//
-//#include <cassert>
-
 //------------------- CPP --------------------//
 #include <vector>
 

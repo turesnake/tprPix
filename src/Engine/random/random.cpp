@@ -29,7 +29,7 @@ using std::string;
 //#include "tprDebug.h" //- tmp
 
 
-namespace{//------------- namespace ----------------//
+namespace {//------------- namespace ----------------//
 
     //-- 随机数引擎实例,没传入种子，所以是伪随机，--
     //   使用时需要用种子打乱它,
@@ -62,7 +62,7 @@ std::default_random_engine &get_dRandEng(){
  */
 u32_t get_new_seed(){
 
-    u32_t seed; //- return;
+    u32_t seed {}; //- return;
 
     IntVec2 mousePos = input::get_mouse_pos();
     seed = static_cast<u32_t>(mousePos.x + (mousePos.y*3));
@@ -73,7 +73,4 @@ u32_t get_new_seed(){
 
     return seed;
 }
-
-
-
 

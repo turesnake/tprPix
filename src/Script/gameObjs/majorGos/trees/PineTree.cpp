@@ -7,15 +7,11 @@
  */
 #include "Script/gameObjs/majorGos/trees/PineTree.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
 
 //-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -34,7 +30,7 @@ using namespace std::placeholders;
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
     //--- 将所有 pineId 分类，方便分配 ---
     std::vector<size_t> ids_age1   { 0, 1 };
@@ -241,7 +237,7 @@ void PineTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
 
 
@@ -250,7 +246,7 @@ namespace{//-------------- namespace ------------------//
  * -----------------------------------------------------------
  */
 size_t apply_a_oakId( int _age, float _fieldWeight ){
-    size_t  idx;
+    size_t  idx {};
     size_t randV = gameObjs::apply_a_simpleId( _fieldWeight, 79 );
 
     switch( _age ){

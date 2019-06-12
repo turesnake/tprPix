@@ -8,7 +8,6 @@
 #include "Script/gameObjs/bush/Leaf_DForest.h"
 
 //-------------------- C --------------------//
-//#include <cassert> //- assert
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -16,7 +15,6 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//

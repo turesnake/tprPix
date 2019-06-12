@@ -10,9 +10,6 @@
 #ifndef TPR_WRAP_SQLITE3_H_
 #define TPR_WRAP_SQLITE3_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <iostream>
 #include <string>
@@ -213,7 +210,6 @@ inline void w_sqlite3_bind_zeroblob( sqlite3 *_db, sqlite3_stmt *_pStmt, int _id
  */
 inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *_pStmt, const char *_zName){
     int retIdx = sqlite3_bind_parameter_index( _pStmt, _zName);
-    //tprAssert( retIdx != 0 );
     if( retIdx == 0 ){
         std::cout << "cant find parameter: " << _zName
             << std::endl;

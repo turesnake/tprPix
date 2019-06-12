@@ -28,8 +28,8 @@ public:
     }
 
 private:
-    TimeBase  *timerPtr; //- 绑定一个 全局 timer
-    size_t     frameNum; //- 一个circle 需要 多少 帧。
+    TimeBase  *timerPtr  {nullptr}; //- 绑定一个 全局 timer
+    size_t     frameNum  {};        //- 一个circle 需要 多少 帧。
 
 };
 

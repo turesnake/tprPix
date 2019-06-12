@@ -13,11 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-//inline GameSeed  gameSeed {}; //- tmp, 游戏种子，
-                            //- 暂设为：只有一个种子，且每次运行都重置
-
 GameSeed &get_gameSeed();
-
 
 
 }//---------------------- namespace: esrc -------------------------//

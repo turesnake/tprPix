@@ -9,12 +9,6 @@
 #ifndef TPR_FRAME_POS_H_
 #define TPR_FRAME_POS_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
-//-------------------- CPP --------------------//
-//#include <vector>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "MapCoord.h"
@@ -23,7 +17,6 @@
 #include "MapEntCompass.h"
 #include "NineBox.h"
 #include "IntVec.h"
-
 
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
 class FramePos{
@@ -78,7 +71,7 @@ private:
                         //-- 只有在以 图元帧左下角 思考问题时，此值才有意义。
 
     //-- 精简版，每个 图元帧，仅拥有一个 ceh
-    ColliEntHead  colliEntHead;
+    ColliEntHead  colliEntHead {};
 
                     //-- 在这里，ceh 也可以被打散
 

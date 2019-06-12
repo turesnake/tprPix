@@ -7,15 +7,9 @@
  */
 #include "Script/gameObjs/majorGos/Norman.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
-
-//-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

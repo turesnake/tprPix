@@ -10,7 +10,6 @@
 #include "chunkKey.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- Engine --------------------//
@@ -38,11 +37,4 @@ size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos ){
                 (h>=0) && (h<CHUNKS_PER_SECTION) ); //- tmp
     return (size_t)(h*CHUNKS_PER_SECTION + w);
 }
-
-
-
-
-
-
-
 

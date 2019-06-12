@@ -10,9 +10,6 @@
 #ifndef TPR_ALTI_RANGE_H_
 #define TPR_ALTI_RANGE_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
@@ -114,15 +111,12 @@ inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
  * -----------------------------------------------------------
  */
 inline bool is_AltiRange_collide( const AltiRange& _a, const AltiRange& _b ){
-    bool rbool;
     if( _a.low == _b.low ){
         return true;
     }else if( _a.low < _b.low ){
-        (_a.high>_b.low) ? rbool = true : rbool = false;
-        return rbool;
+        return ((_a.high>_b.low) ? true : false);
     }else{
-        (_b.high>_a.low) ? rbool = true : rbool = false;
-        return rbool;
+        return ((_b.high>_a.low) ? true : false);
     }
 }
 

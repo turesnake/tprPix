@@ -26,7 +26,6 @@
 /* ===========================================================
  *                       init
  * -----------------------------------------------------------
- * -- 
  */
 void Collision::init( GameObj *_goPtr ){
     this->goPtr = _goPtr;
@@ -59,15 +58,14 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     // 在这种情景里， 本函数就不会被调用
 
     //------------------------------//
-    MapCoord  cesMCPos;             //- 每个 ces左下角的 mcpos （世界绝对pos）
-    AltiRange currentAltiRange {};  //- each ceh abs AltiRange.
-    MemMapEnt *mapEntPtr;           //- 目标 mapent
-    GameObj   *beGoPtr;         //- 目标mapent 中存储的 major_go (被动go)
+    MapCoord  cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
+    AltiRange currentAltiRange {};        //- each ceh abs AltiRange.
+    MemMapEnt *mapEntPtr       {};        //- 目标 mapent
+    GameObj   *beGoPtr         {nullptr}; //- 目标mapent 中存储的 major_go (被动go)
     GameObj   *doGoPtr = this->goPtr; //- 碰撞检测 主动发起方
 
     //----------------------
     IntVec2 currentMPos = this->goPtr->goPos.get_currentMPos();
-    //const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos(); //- 未被使用
         
     const ColliEntHead &doCehRef = *(doGoPtr->get_rootColliEntHeadPtr());
     const ColliEntSet  &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
@@ -198,7 +196,4 @@ bool Collision::isPass_Check( bool _isBePass ){
         return false;
     }
 }
-
-
-
 

@@ -10,9 +10,6 @@
 #ifndef TPR_COLLI_ENT_SET_LOADER_H_
 #define TPR_COLLI_ENT_SET_LOADER_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
@@ -53,10 +50,7 @@ private:
     size_t   totalFrameNum {};    //- 总 图元帧 个数
 
     std::vector<ColliEntSet> collientSets {}; //- 临时存储区
-
 };
-
-
 
 
 #endif 

@@ -10,9 +10,6 @@
  */
 #include "Mesh.h" 
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "VAOVBO.h" 

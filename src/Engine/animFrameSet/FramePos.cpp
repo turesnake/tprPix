@@ -10,9 +10,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h" 

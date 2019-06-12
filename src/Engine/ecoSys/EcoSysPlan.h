@@ -10,9 +10,6 @@
 #ifndef TPR_ECOSYS_PLAN_H_
 #define TPR_ECOSYS_PLAN_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
@@ -28,8 +25,8 @@ class Density;
 
 //-- 在 insert() 函数中做参数 --
 struct EcoEnt{
-    std::string  specName;
-    size_t       idNum;
+    std::string  specName {};
+    size_t       idNum    {};
 };
 
 

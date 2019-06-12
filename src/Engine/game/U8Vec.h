@@ -11,7 +11,6 @@
 #define TPR_U8_VEC_H_
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 
@@ -30,24 +29,19 @@ public:
         {}
 
     inline void clear_all(){
-        x = 0;
-        y = 0;
+        this->x = 0;
+        this->y = 0;
     }
 
     inline void set( u8_t _x, u8_t _y ){
-        x = _x;
-        y = _y;
+        this->x = _x;
+        this->y = _y;
     }
-
 
     //======== vals ========//
     u8_t  x {0};
     u8_t  y {0};
 };
-
-
-
-
 
 
 #endif 

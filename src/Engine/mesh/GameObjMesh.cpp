@@ -7,9 +7,6 @@
  */
 #include "GameObjMesh.h" 
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <functional>
 

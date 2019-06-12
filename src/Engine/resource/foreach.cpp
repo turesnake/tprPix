@@ -25,12 +25,6 @@ void foreach_memGameObjs( F_GOID_GOPTR _fp ){
     for( ; ipair!=esrc::get_memGameObjs().end(); ipair++ ){
         _fp( ipair->first, &(ipair->second) );
     }
-    
-    /*
-    for( auto &pair : esrc::get_memGameObjs() ){
-        _fp( pair.first, &(pair.second) );
-    }
-    */
 }
 
 
@@ -53,7 +47,7 @@ void foreach_memUIs( F_UIObjId_GOPTR _fp ){
  */
 void foreach_goids_active( F_GOID_GOPTR _fp ){
 
-    GameObj *goPtr;
+    GameObj *goPtr {};
     auto it = esrc::get_goids_active().begin();
     for( ; it!=esrc::get_goids_active().end(); it++ ){
 
@@ -69,7 +63,7 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
  */
 void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
 
-    UIObj *uiGoPtr;
+    UIObj *uiGoPtr {};
     auto it = esrc::get_uiIds_active().begin();
     for( ; it!=esrc::get_uiIds_active().end(); it++ ){
         uiGoPtr = &(esrc::get_memUIs().at(*it));
@@ -86,7 +80,7 @@ void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
  */
 void foreach_goids_inactive( F_GOID_GOPTR _fp ){
 
-    GameObj *goPtr;
+    GameObj *goPtr {};
     auto it = esrc::get_goids_inactive().begin();
     for( ; it!=esrc::get_goids_inactive().end(); it++ ){
 

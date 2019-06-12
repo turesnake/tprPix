@@ -67,8 +67,8 @@ private:
     void update_mat4_model(); //-- 重新计算 model矩阵
 
     //======== vals ========//
-    UIObj      *uiGoPtr       {nullptr};
-    UIMesh     *uiMeshPtr {nullptr};
+    UIObj      *uiGoPtr    {nullptr};
+    UIMesh     *uiMeshPtr  {nullptr};
 
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++

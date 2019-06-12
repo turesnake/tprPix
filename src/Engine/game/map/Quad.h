@@ -10,9 +10,6 @@
 #ifndef TPR_QUAD_H_
 #define TPR_QUAD_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 

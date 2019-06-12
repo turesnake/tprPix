@@ -7,8 +7,6 @@
  */
 #include "AnimAction.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"

@@ -34,7 +34,7 @@ inline std::vector<PubBinaryValType> norman_pubBinaryValTypes {
 };
 
 struct Norman_PvtBinary{
-    int   tmp;
+    int   tmp  {};
 };
 
 

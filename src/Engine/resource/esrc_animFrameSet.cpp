@@ -28,8 +28,6 @@ namespace {//--------------- namespace -----------------//
 
     std::unordered_map<std::string, AnimFrameSet> animFrameSets {};
 
-    //std::stringstream  ss;
-
     std::vector<AnimActionParam> animActionParams {};
 
 
@@ -67,7 +65,7 @@ AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
 void load_animFrameSets(){
 
     esrc::animFrameSets.clear();
-    AnimFrameSet *animFrameSetPtr {};
+    AnimFrameSet *animFrameSetPtr {nullptr};
 
     //---------------------------------------//
     //                Button

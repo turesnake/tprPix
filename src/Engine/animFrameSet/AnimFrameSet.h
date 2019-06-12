@@ -33,9 +33,6 @@
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>

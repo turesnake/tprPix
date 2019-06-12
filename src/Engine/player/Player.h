@@ -11,9 +11,6 @@
 #ifndef TPR_PLAYER_H_
 #define TPR_PLAYER_H_
 
-//------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
@@ -42,7 +39,7 @@ public:
 
     //======== vals ========//
     goid_t    goid   {NULLID}; 
-    GameObj  *goPtr {nullptr}; //- 玩家当前绑定的 go 指针            
+    GameObj  *goPtr  {nullptr}; //- 玩家当前绑定的 go 指针            
 private:
 };
 

@@ -8,7 +8,6 @@
 #include "Chunk.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -27,7 +26,6 @@
 
 #include "esrc_ecoObj.h"
 #include "esrc_camera.h"
-//#include "esrc_GPGPU.h"
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
@@ -39,8 +37,7 @@
 #include "Script/gameObjs/create_goes.h"
 
 
-
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
     
     //--- 定值: chunk-mesh scale --
     const glm::vec3  mesh_scaleVal {PIXES_PER_CHUNK_IN_TEXTURE,
@@ -84,7 +81,7 @@ void Chunk::init(){
     {//-- 用作用域 来取代 函数 --
         const auto &mapEntAltis = chunkDataPtr->get_mapEntAltis();
             tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
-        size_t entIdx;
+        size_t entIdx {};
         for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
             for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
                 entIdx = h * ENTS_PER_CHUNK + w;
@@ -97,8 +94,8 @@ void Chunk::init(){
     //      fieldKeys
     //  设置 field.nodeMapAlti
     //------------------------//
-    IntVec2       tmpFieldMpos;
-    fieldKey_t    tmpFieldKey;
+    IntVec2       tmpFieldMpos {};
+    fieldKey_t    tmpFieldKey  {};
     this->fieldKeys.clear();
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
@@ -123,7 +120,6 @@ void Chunk::init(){
     //- mapTex 直接坐标于 camera 的 远平面上
     //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
     this->refresh_translate_auto();
-
 }
 
 
@@ -191,8 +187,4 @@ size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &_anyPPos ){
                 (h>=0) && (h<PIXES_PER_CHUNK) ); //- tmp
     return static_cast<size_t>( h*PIXES_PER_CHUNK + w );
 }
-
-
-
-
 

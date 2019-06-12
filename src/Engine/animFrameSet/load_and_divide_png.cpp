@@ -7,7 +7,6 @@
  *    加载 解析 “图元帧式的png文件” 
  * ----------------------------
  */
-
 #include "stb_image_no_warnings.h"
 
 //------------------- CPP --------------------//
@@ -39,10 +38,10 @@ IntVec2 load_and_divide_png( const std::string &_path,
     //------------------------------//
     //   加载 png图片，获得其 原始数据
     //------------------------------//
-    int width;
-    int height;
-    int nrChannels;
-    unsigned char *data; //-- 临时，图片数据的指针。
+    int width  {};
+    int height {};
+    int nrChannels {};
+    unsigned char *data {nullptr}; //-- 临时，图片数据的指针。
                         //- 真实数据存储在 stbi 模块自己创建的 内存中。
                         //- 我们只获得一个 调用指针。
 
@@ -65,13 +64,12 @@ IntVec2 load_and_divide_png( const std::string &_path,
 
     auto fit = _frame_data_ary.begin(); //- 指向某个 帧容器
 
-    int wf; //-- 以帧为单位，目标像素在横排中 的序号
-    int hf; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
-    //int antihf; //-- 以帧为单位，目标像素的 纵向 序号 (左上坐标系，我们要的) 未使用...
-    size_t nrf; //-- 像素 属于的 帧序号
+    int wf {}; //-- 以帧为单位，目标像素在横排中 的序号
+    int hf {}; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
+    size_t nrf {}; //-- 像素 属于的 帧序号
 
     RGBA *pixHeadPtr = (RGBA*)data;
-    RGBA *pixPtr; //- tmp
+    RGBA *pixPtr {nullptr}; //- tmp
 
     tprAssert( ((width%_frameNum.x)==0) && 
             ((height%_frameNum.y)==0) );

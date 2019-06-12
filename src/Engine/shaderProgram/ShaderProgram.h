@@ -15,9 +15,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -96,7 +93,6 @@ private:
     //======== static ========//
     static GLuint shaderProgram_current; //-- 当前被使用的 shaderProgram
 };
-
 
 
 #endif

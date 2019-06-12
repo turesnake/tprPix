@@ -8,9 +8,6 @@
 #ifndef TPR_MOVE_H_
 #define TPR_MOVE_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <functional>
 
@@ -24,7 +21,6 @@
 class GameObj;
 class GameObjPos;
 class Collision;
-
 
 
 enum class MoveType : int {
@@ -111,7 +107,7 @@ private:
     GameObjPos  *goPosPtr {nullptr};
     Collision   *collisionPtr {nullptr}; 
 
-    MoveType   moveType {MoveType::Crawl};
+    MoveType   moveType    { MoveType::Crawl };
     SpeedLevel   speedLvl  { SpeedLevel::LV_3 };
 
     

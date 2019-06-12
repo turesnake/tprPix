@@ -10,9 +10,6 @@
 #ifndef TPR_BOOL_BIT_MAP_H_
 #define TPR_BOOL_BIT_MAP_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 

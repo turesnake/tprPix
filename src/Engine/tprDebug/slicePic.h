@@ -22,7 +22,7 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 
 //-- 这段完全可以在 函数内创建...
 
-namespace{//-------- namespace ----------//
+namespace {//-------- namespace ----------//
     inline RGBA e_ { 0,0,0,0 };       //- 空白
     inline RGBA CO { 255,255,0,150 }; //- 有颜色
 }//-------------- namespace: end --------//

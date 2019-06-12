@@ -136,7 +136,6 @@ void init_ecoSysPlanes(){
     esrc::ecoSysPlanIds_in_type.resize( EcoSysPlanType_Num );
     esrc::ecoSysPlanIds.clear();
     //---------------------//
-
     
     //init_Forest_1();
     //init_Forest_2();

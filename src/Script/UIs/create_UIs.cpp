@@ -7,9 +7,6 @@
  */
 #include "Script/UIs/create_UIs.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "esrc_ui.h" 
@@ -37,8 +34,6 @@ uiObjId_t create_a_ui( uiObjSpecId_t _uiObjSpecId,
     UIObj *uiObjPtr = esrc::get_memUIPtr( uiObjId ); //- 获取目标go指针
 
         tprAssert( ssrc::find_from_uiInit_funcs(_uiObjSpecId) );
-        //ssrc::uiInit_funcs.at(_uiObjSpecId)(  uiObjPtr,
-                                            //_fpos );
         ssrc::call_uiInit_func( _uiObjSpecId, uiObjPtr, _fpos );
 
     //------------------------------//

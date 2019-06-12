@@ -36,7 +36,7 @@ inline std::vector<PubBinaryValType> bigMan_pubBinaryValTypes {
 };
 
 struct BigMan_PvtBinary{
-    int   tmp;
+    int   tmp {};
 };
 
 

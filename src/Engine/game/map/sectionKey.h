@@ -10,9 +10,6 @@
 #ifndef TPR_SECTION_KEY_H_
 #define TPR_SECTION_KEY_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -44,7 +41,7 @@ sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &_sectionMPos );
  * param: _sectionMPos - 必须为 section左下角mpos。
  */
 inline sectionKey_t sectionMPos_2_key_inn( const IntVec2 &_sectionMPos ){
-    sectionKey_t key;
+    sectionKey_t key {};
     int *ptr = (int*)&key;
     *ptr = _sectionMPos.x;
     ptr++;

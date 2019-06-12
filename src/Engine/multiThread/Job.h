@@ -19,15 +19,10 @@
 //-------------------- Engine --------------------//
 #include "JobType.h"
 
-
-
-
 class Job{
 public:
-
-
-    JobType           jobType {JobType::Null};
-    std::vector<u8_t> argBinary {}; //- 相关参数
+    JobType           jobType    {JobType::Null};
+    std::vector<u8_t> argBinary  {}; //- 相关参数
 };
 
 

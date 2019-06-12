@@ -31,9 +31,6 @@
 #include "fieldKey.h"
 #include "MapAltitude.h"
 
-//--- need ---//
-//class MapField;
-
 
 //-- 投影地图单位的 一级信息 [disk] --//
 //-  优先查看此信息，如有需要，再通过 id 查找 二级信息。
@@ -150,9 +147,9 @@ public:
     //-- 临时测试用 
     MemMapEnt() = default;
 
-    explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
+    //explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         //fst_d2m( _fdme );
-    }
+    //}
 
     inline const IntVec2 &get_mpos() const {
         return this->mcpos.get_mpos();

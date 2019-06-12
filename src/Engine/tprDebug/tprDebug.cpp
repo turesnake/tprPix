@@ -27,7 +27,7 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 namespace {//-------- namespace ----------//
 
     //-- 简易开关，用来快速关闭 mes显示功能
-    bool  is_mapEntSlice_show  {true}; 
+    bool  is_mapEntSlice_show  {false}; 
     bool  is_pointPic_show     {false};
 
     std::vector<Mesh> renderPool_mapEntSlices {};
@@ -95,7 +95,7 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
     }
 
     // ***| INSERT FIRST, INIT LATER  |***
-    Mesh  mesh;
+    Mesh  mesh {};
     renderPool_mapEntSlices.push_back( mesh ); //- copy
     Mesh &meshRef = renderPool_mapEntSlices.back();
 
@@ -122,7 +122,7 @@ void insert_new_pointPic( const glm::vec2 &_fpos ){
     }
 
     // ***| INSERT FIRST, INIT LATER  |***
-    Mesh  mesh;
+    Mesh  mesh {};
     renderPool_pointPics.push_back( mesh ); //- copy
     Mesh &meshRef = renderPool_pointPics.back();
 

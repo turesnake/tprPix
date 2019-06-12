@@ -9,15 +9,12 @@
  */
 #include "MapTexture.h" 
 
-//------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Engine --------------------//
 #include "RGBA.h"
 #include "create_texNames.h"
 
 
-namespace{//----------- namespace ---------------//
+namespace {//----------- namespace ---------------//
 
     IntVec2  pixWH {    PIXES_PER_CHUNK_IN_TEXTURE, 
                         PIXES_PER_CHUNK_IN_TEXTURE };

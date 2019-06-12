@@ -9,15 +9,9 @@
  */
 #include "Script/gameObjs/majorGos/BigMan.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
-
-//-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -34,8 +28,8 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-namespace{//-------------- namespace ------------------//
-}//------------------ namespace: end ------------------//
+//namespace{//-------------- namespace ------------------//
+//}//------------------ namespace: end ------------------//
 
 
 /* ===========================================================

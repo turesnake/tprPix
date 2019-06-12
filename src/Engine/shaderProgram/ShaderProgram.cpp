@@ -9,9 +9,6 @@
  */
 #include "ShaderProgram.h"
 
-//-------------------- C ----------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 
@@ -21,9 +18,6 @@
 #else
     #include "tprFileSys_unix.h"
 #endif
-
-
-
 
 
 //-------------------- Engine --------------------//
@@ -45,12 +39,12 @@ GLuint ShaderProgram::shaderProgram_current {0};
 void ShaderProgram::init(   const std::string &_lpathVs, 
                             const std::string &_lpathFs ){
 
-    int success;
+    int success {};
     char infoLog[512]; //-- 出错信息 暂存 buf
 
     //-- vs/fs 文件的 数据存储地
-    std::string vsbuf;
-    std::string fsbuf;
+    std::string vsbuf {};
+    std::string fsbuf {};
 
     //-- 读取文件，获得 数据
 #ifdef TPR_OS_WIN32_
@@ -98,7 +92,7 @@ void ShaderProgram::init(   const std::string &_lpathVs,
  */
 void ShaderProgram::compile( GLuint _shaderObj, const std::string &_sbuf ){
 
-    int success;
+    int success {};
     char infoLog[512]; //-- 出错信息 暂存 buf
     //---------- 编译 ---------
     const char *sbufPtr = _sbuf.c_str(); //-- 转换为 c风格字符串指针。

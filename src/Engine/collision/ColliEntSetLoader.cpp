@@ -7,11 +7,7 @@
  */
 #include "ColliEntSetLoader.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
-//#include "tprFileSys.h" 
 #include "tprGeneral.h"
 
 //------------------- Engine --------------------//
@@ -55,7 +51,7 @@ void ColliEntSetLoader::init(){
     ColliEntSet_RGBAHandle  ch {5};
     this->collientSets.resize( this->totalFrameNum );
 
-    IntVec2 pixPPos; //- tmp. pos for each rgba Pix
+    IntVec2 pixPPos {}; //- tmp. pos for each rgba Pix
 
     for( size_t f=0; f<this->totalFrameNum; f++ ){ //- each frame
         for( size_t p=0; p<pixNum; p++ ){ //- each frame.pix [left-bottom]

@@ -10,9 +10,6 @@
 #ifndef TPR_CHUNK_KEY_H_
 #define TPR_CHUNK_KEY_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -44,7 +41,7 @@ IntVec2 chunkMPos_2_chunkCPos( const IntVec2 &_chunkMPos );
  * -- 传入 chunk左下角mpos，获得 chunk key（u64）
  */
 inline chunkKey_t chunkMPos_2_key_inn( const IntVec2 &_chunkMPos ){
-    chunkKey_t key;
+    chunkKey_t key {};
     int *ptr = (int*)(&key); //- 此处不能使用 static_casts
     *ptr = _chunkMPos.x;
     ptr++;

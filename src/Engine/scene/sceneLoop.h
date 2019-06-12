@@ -32,8 +32,5 @@ void prepare_for_sceneWorld();
 void switch_sceneLoop( const SceneLoopType &_type );
 
 
-
-
-
 #endif 
 

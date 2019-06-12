@@ -156,7 +156,7 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
     goSpecId_t     goSpecId {};
 
-    float randV = (fieldRef.get_weight() * 0.35f + 313.17f); //- 确保大于0
+    float randV = fieldRef.get_weight() * 0.35f + 313.17f; //- 确保大于0
     float fract = randV - floor(randV); //- 小数部分
     tprAssert( (fract>=0.0f) && (fract<=1.0f) );
 
@@ -207,7 +207,7 @@ void insert_2_fieldsBuilding( fieldKey_t _fieldKey ){
     }
 }
 bool is_in_fieldsBuilding( fieldKey_t _fieldKey ){
-    bool ret;
+    bool ret {};
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
         ret = fieldsBuilding.find(_fieldKey) != fieldsBuilding.end();

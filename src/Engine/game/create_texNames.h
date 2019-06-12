@@ -74,7 +74,7 @@ inline void create_texNames(size_t _texNum,
 inline GLuint create_a_texName( const IntVec2 &_imgWH,
                              const GLvoid  *_imgDataPtr ){
 
-    GLuint texName;
+    GLuint texName {};
     //-- 申请 _texNum个 tex实例，并获得其 names
     glGenTextures( 1, &texName );
     glBindTexture( GL_TEXTURE_2D, texName );
@@ -108,7 +108,7 @@ inline GLuint create_a_texName( const IntVec2 &_imgWH,
  * param: _imgWH     -- 目标texture 的 宽度长度
  */
 inline GLuint create_a_empty_texName( const IntVec2 &_imgWH ){
-    GLuint texName;
+    GLuint texName {};
     //-- 申请 _texNum个 tex实例，并获得其 names
     glGenTextures( 1, &texName );
     glBindTexture( GL_TEXTURE_2D, texName );

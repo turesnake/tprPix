@@ -38,20 +38,6 @@ class UIObj;
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
 
-        //  和 esrc 一样，这里的很多数据，应该放到 .cpp 中去 
-
-//-- 正反表 --
-//inline std::unordered_map<u32_t, std::string> acionHdle_typeId_names;
-//inline std::unordered_map<std::string, u32_t> acionHdle_name_typeIds;
-
-
-//-------------------------------//
-//             go
-//-------------------------------//
-
-//-- 正反表 --
-//inline std::unordered_map<goSpecId_t, std::string> go_specId_names;
-//inline std::unordered_map<std::string, goSpecId_t> go_name_specIds;
 
 goSpecId_t get_goSpecId( const std::string &_name );
 
@@ -67,7 +53,6 @@ using F_GO_INIT = std::function<void( GameObj*,
 					                    const MapAltitude &,
 					                    const Density & )>;
 
-//inline std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs; 
 
 void call_goInit_func(  goSpecId_t _id,
                         GameObj *_goPtr,
@@ -86,9 +71,6 @@ void insert_2_goInit_funcs( goSpecId_t _goSpecId,
 //-------------------------------//
 //             ui
 //-------------------------------//
-//-- 正反表 --
-//inline std::unordered_map<uiObjSpecId_t, std::string> ui_specId_names;
-//inline std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds;
 
 uiObjSpecId_t get_uiSpecId( const std::string &_name );
 
@@ -100,14 +82,6 @@ void insert_2_ui_specId_names_containers(   uiObjSpecId_t _id,
 //-- map自动生成器 使用的 uiInit函数 ---
 using F_UI_INIT = std::function<void(   UIObj*,
                                         const glm::vec2 & )>;
-
-//inline std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs; 
-
-/*
-inline bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId ){
-    return (ssrc::uiInit_funcs.find(_uiSpecId) != ssrc::uiInit_funcs.end());
-}
-*/
 
 bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId );
 

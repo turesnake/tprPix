@@ -30,8 +30,7 @@ namespace {//-------- namespace: --------------//
 
     std::unordered_map<uiObjId_t, UIObj> memUIs {}; //- 所有 ui实例 实际存储区。
 
-                                    
-    std::unordered_set<uiObjId_t> uiIds_active   {}; 
+    std::unordered_set<uiObjId_t> uiIds_active  {}; 
                 //-- 这个 好像没有被用到 ？？？
 
 }//------------- namespace: end --------------//

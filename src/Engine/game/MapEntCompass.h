@@ -13,9 +13,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -29,22 +26,22 @@ public:
     MapEntCompass( int _x, int _y ):
         x(_x),
         y(_y)
-        { tprAssert(   (x >= 0) && (x < PIXES_PER_MAPENT) && 
-                    (y >= 0) && (y < PIXES_PER_MAPENT) ); }
+        { tprAssert( (this->x >= 0) && (this->x < PIXES_PER_MAPENT) && 
+                    (this->y >= 0) && (this->y < PIXES_PER_MAPENT) ); }
 
     //---- funcs ----//
     inline void clear_all(){
-        x = 0;
-        y = 0;
+        this->x = 0;
+        this->y = 0;
     }
 
     //- 只是简单转换为 IntVec2, 在用于 MapCoord 时要注意
     inline IntVec2 to_IntVec2() const {
-        return IntVec2{ x, y };
+        return IntVec2{ this->x, this->y };
     } 
 
     inline glm::vec2 to_fpos() const {
-        return glm::vec2{ static_cast<float>(x), static_cast<float>(y) };
+        return glm::vec2{ static_cast<float>(this->x), static_cast<float>(this->y) };
     }
 
     //======== vals ========//

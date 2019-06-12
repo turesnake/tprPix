@@ -9,9 +9,6 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//-------------------- C ----------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "prepare.h"
 #include "global.h"
@@ -69,7 +66,6 @@ int main(){
     //------------------------------------------//
     //        Behaviour.Awakes
     //------------------------------------------//
-    //esrc::behaviour.call_Awakes();
     esrc::get_behaviour().call_Awakes();
 
     //------------------------------------------//
@@ -121,7 +117,6 @@ int main(){
     //------------------------------------------//
     //        Behaviour.Starts
     //------------------------------------------//
-    //esrc::behaviour.call_Starts();
     esrc::get_behaviour().call_Starts();
 
     //------------------------------------------//

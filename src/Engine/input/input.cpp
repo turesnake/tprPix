@@ -13,7 +13,6 @@
 #include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -37,7 +36,7 @@
 namespace input{//------------- namespace input --------------------
 
 
-namespace{
+namespace {
 
     InputINS   inputINS {}; //- 记录玩家 鼠键输入。
     
@@ -47,7 +46,6 @@ namespace{
     //glm::vec2 lastMousePos    {0.0f, 0.0f};    
     //glm::vec2 currentMousePos {0.0f, 0.0f};
 
-
     //-- 清除 NIL元素。制作 运行时检测表 --
     //   减少每帧 不必要的检测
     std::unordered_map<GameKey, KeyBoard>        keyboardTable_runtime {};
@@ -55,19 +53,18 @@ namespace{
 
 
     //-- joystick --//
-    bool isFindJoystick;
-    int  joystickId;
+    bool isFindJoystick {false};
+    int  joystickId     {};
     
-    int  joystickAxesCount;
-    int  joystickButtonsCount;
+    int  joystickAxesCount     {};
+    int  joystickButtonsCount  {};
 
-    const float* joystickAxesPtr;
-    const unsigned char* joystickButtonsPtr;
+    const float* joystickAxesPtr             {nullptr};
+    const unsigned char* joystickButtonsPtr  {nullptr};
 
 
     //---------
     //void mousePos_2_dir();
-
     void joystick_update();
 }
 
@@ -114,7 +111,6 @@ void init_input(){
             break;
         }
     }
-
 }
 
 
@@ -146,7 +142,6 @@ void processInput( GLFWwindow *_windowPtr ){
 	}
                 //... 在未来，ESC 键 将被屏蔽。改为 游戏内置的 退出键 ...
 
-    
     //------------------------//
     //     1. 读取鼠键输入
     //------------------------//
@@ -202,8 +197,8 @@ void processInput( GLFWwindow *_windowPtr ){
  * 这个函数 目前仅用于 randow 种子生成
  */
 IntVec2 get_mouse_pos(){
-    double x;
-    double y;
+    double x {};
+    double y {};
     glfwGetCursorPos( esrc::get_windowPtr(), &x, &y);
     return IntVec2{ (int)x, (int)y };
 }
@@ -224,7 +219,7 @@ void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
 */
 
 
-namespace{ //------------------- namespace ----------------------//
+namespace {//------------------- namespace ----------------------//
 
 /* ==========================================================
  *                 mousePos_2_dir
@@ -312,13 +307,7 @@ void joystick_update(){
             inputINS.set_key_from_joystick( pair.first );
         }
     }
-
 }
-
-
-
-
-
 
 
 }//------------------------ namespace: end --------------------//

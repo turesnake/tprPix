@@ -11,7 +11,6 @@
 #ifndef TPR_BEHAVIOUR_H_
 #define TPR_BEHAVIOUR_H_
 
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -70,10 +69,6 @@ private:
                                    //  这个 Updates 是每帧执行一次，还是 每n帧 执行一次
                                    //  目前还没有想好 
 };
-
-
-
-
 
 
 #endif

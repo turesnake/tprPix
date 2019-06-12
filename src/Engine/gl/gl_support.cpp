@@ -12,7 +12,6 @@
 #include<GLFW/glfw3.h>
 
 //-------------------- C ----------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -28,10 +27,7 @@
 #include "IntVec.h"
 #include "esrc_window.h" 
 
-using std::string;
-
 #include "tprDebug.h" //- tmp
-
 
 //------------------- 提供给全局的 函数 ----------------
 void glfw_init();
@@ -77,8 +73,6 @@ void glfw_hints_set(){
  */
 void glfw_window_creat(){
 
-    //GLFWwindow *targetWindowPtr = esrc::get_windowPtr();
-
     tprAssert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
     if( IS_FULL_SCREEN == true){
         //------ 全屏模式 ------//
@@ -91,13 +85,7 @@ void glfw_window_creat(){
         glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-        /*
-        targetWindowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
-                                            ViewingBox::windowSZ.y,
-                                            "tprpix", 
-                                            monitor, 
-                                            NULL );
-        */
+
         esrc::set_windowPtr( glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
@@ -107,13 +95,7 @@ void glfw_window_creat(){
     }else{
         //------ 窗口模式 ------//
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE); //- 阻止玩家在程序运行后，修改 window 尺寸
-        /*
-        targetWindowPtr = glfwCreateWindow( ViewingBox::windowSZ.x,
-                                            ViewingBox::windowSZ.y,
-                                            "tprpix", 
-                                            NULL,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
-                                            NULL );
-        */
+
         esrc::set_windowPtr( glfwCreateWindow( ViewingBox::windowSZ.x,
                                             ViewingBox::windowSZ.y,
                                             "tprpix", 
@@ -163,7 +145,7 @@ void glfw_callback_set(){
  * -----------------------------------------------------------
  */
 void glad_init(){
-    //tprAssert( gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) );
+
     if( !gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) ){
         tprAssert(0);
     }

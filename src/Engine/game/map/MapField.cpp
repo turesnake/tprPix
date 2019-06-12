@@ -10,7 +10,6 @@
 #include "MapField.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -32,7 +31,7 @@
 #include "tprDebug.h"
 
 
-namespace{//----------- namespace ---------------//
+namespace {//----------- namespace ---------------//
 
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
@@ -120,11 +119,11 @@ void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
  */
 void MapField::init_nodeMPos(){
 
-    float    freq = 13.0f;
-    float    pnX;
-    float    pnY;
-    size_t   idxX;
-    size_t   idxY;
+    float    freq  { 13.0f };
+    float    pnX   {};
+    float    pnY   {};
+    size_t   idxX  {};
+    size_t   idxY  {};
 
     pnX = simplex_noise2(   this->FDPos.x * freq, 
                             this->FDPos.y * freq ); //- [-1.0, 1.0]
@@ -181,20 +180,20 @@ void MapField::assign_field_to_4_ecoObjs(){
     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
     std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {}; 
 
-    sectionKey_t   tmpKey;
+    sectionKey_t   tmpKey {};
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
         nearFour_ecoObjDatas.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
     }
 
-    float         vx;
-    float         vy;
-    IntVec2       mposOff;
-    float         freqBig = 0.9f;
-    float         freqSml = 2.3f;
-    float         pnVal; //- 围绕 0 波动的 随机值
-    float         off;
-    size_t        count;
+    float         vx        {};
+    float         vy        {};
+    IntVec2       mposOff   {};
+    float         freqBig   { 0.9f };
+    float         freqSml   { 2.3f };
+    float         pnVal     {}; //- 围绕 0 波动的 随机值
+    float         off       {};
+    size_t        count     {};
 
     float targetDistance = 1.4f * (0.5f * ENTS_PER_SECTION) * 1.04f; //- 每个field 最终的 距离比较值。
 

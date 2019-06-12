@@ -7,15 +7,11 @@
  */
 #include "AnimFrameSet.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <algorithm> //- find
 #include <iterator>
 
 //------------------- Libs --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h" 
 
 //------------------- Engine --------------------//
@@ -30,11 +26,11 @@
 //#include "tprDebug.h" //- tmp
 
 
-namespace{//----------------- namespace ------------------//
+namespace {//----------------- namespace ------------------//
 
     //-- 每次 insert png数据时，以下这些数据都会被复用 --
-    size_t headIdx; //- 本次 png数据insert，起始idx
-                    //- 在此之前，容器中以及有数据了。
+    size_t headIdx {}; //- 本次 png数据insert，起始idx
+                       //- 在此之前，容器中以及有数据了。
 
     //-- 图元帧 数据容器组。帧排序为 [left-top] --
     std::vector<std::vector<RGBA>> P_frame_data_ary {}; 
@@ -44,18 +40,18 @@ namespace{//----------------- namespace ------------------//
     //- 画面 贴图集的 相对路径名。一个动作的所有帧图片，存储为一张 png图。
     //- 这个 路径名 只在游戏启动阶段被使用，之后 预存于此
     //- local path，based on path_animFrameSet_srcs
-    std::string  lpath_pic;    //-- picture
-    std::string  lpath_pjt;    //-- collients
-    std::string  lpath_shadow; //-- shadow  (此文件也许可为空...)
+    std::string  lpath_pic    {}; //-- picture
+    std::string  lpath_pjt    {}; //-- collients
+    std::string  lpath_shadow {}; //-- shadow  (此文件也许可为空...)
 
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值 （会被存到 animAction 实例中）
-    IntVec2  frameNum {};          //- 画面中，横排可分为几帧，纵向可分为几帧
-    size_t   totalFrameNum {};     //- 目标png文件中，总 图元帧 个数
+    IntVec2  frameNum         {};  //- 画面中，横排可分为几帧，纵向可分为几帧
+    size_t   totalFrameNum    {};  //- 目标png文件中，总 图元帧 个数
 
     bool  isPJTSingleFrame    {};  //- pjt 每帧数据都是一样的，png也只记录了一帧
     bool  isShadowSingleFrame {};  //- shadow 每帧数据都是一样的，png也只记录了一帧
 
-    std::vector<GLuint> tmpTexNames; //- 用于 create_texNames()
+    std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
 
     //===== funcs =====//
     void build_three_lpaths( const std::string &_lpath_pic );
@@ -99,7 +95,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     J_frame_data_ary.clear();
     S_frame_data_ary.clear();
 
-    IntVec2 tmpv2; //-tmp
+    IntVec2 tmpv2 {}; //-tmp
 
     //-------------------//
     //       Pic
@@ -199,14 +195,13 @@ void AnimFrameSet::handle_pjt(){
 
     this->framePoses.insert( this->framePoses.end(), totalFrameNum, FramePos{} );
 
-    IntVec2  pixPPos; //- tmp. current pix ppos
-    IntVec2  rootAnchorOff;       //- tmp
-    IntVec2  rootColliEntHeadOff; //- tmp
-    size_t   idx_for_J_frame_data_ary;
-    size_t   idx_framePoses;
+    IntVec2  pixPPos {}; //- tmp. current pix ppos
+    IntVec2  rootAnchorOff {};       //- tmp
+    IntVec2  rootColliEntHeadOff {}; //- tmp
+    size_t   idx_for_J_frame_data_ary {};
+    size_t   idx_framePoses {};
 
     for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
-
         idx_framePoses = headIdx + f;
         tprAssert( this->framePoses.size() > idx_framePoses );
 
@@ -262,7 +257,7 @@ void AnimFrameSet::handle_shadow(){
     size_t pixNum = to_size_t_cast( pixNum_per_frame.x * 
                                     pixNum_per_frame.y); //- 一帧有几个像素点
     RGBA    color_shadow { 0,0,0, 255 };
-    size_t  idx_for_S_frame_data_ary;
+    size_t  idx_for_S_frame_data_ary {};
 
     for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
@@ -303,7 +298,7 @@ namespace {//----------------- namespace ------------------//
 void build_three_lpaths( const std::string &_lpath_pic ){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
-    std::string lst; //- tmp, 尾部字符串，不停地被截断
+    std::string lst {}; //- tmp, 尾部字符串，不停地被截断
 
     lpath_pic = _lpath_pic;
 

@@ -9,18 +9,12 @@
 
 //-------------------- C --------------------//
 #include <cmath>
-//#include <cassert>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "windowConfig.h"
 
 //#include "tprDebug.h" //- tmp
-
-//---------------------- 局部 变量 ---------------------
-//namespace {
-//    Camera *camera_p_current = nullptr; //-- 当前摄像机 指针 未被使用...
-//}
 
 
 /* ===========================================================
@@ -53,7 +47,7 @@ void Camera::RenderUpdate(){
     glm::vec2 off { this->targetFPos.x - this->currentFPos.x, 
                     this->targetFPos.y - this->currentFPos.y };
     //-- 若非常接近，直接同步 --
-    float criticalVal = 2.0f; 
+    float criticalVal { 2.0f }; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
     if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
@@ -111,7 +105,6 @@ glm::mat4 &Camera::update_mat4_projection(){
     // 两者都是 定值（无需每帧变化）
     float zNear_relative  = 0.0f;  //- 负数也接受
     float zFar_relative   = ViewingBox::z;
-
 
     this->mat4_projection = glm::ortho( -ow,   //-- 左边界
                                         ow,   //-- 右边界

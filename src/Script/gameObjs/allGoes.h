@@ -10,9 +10,6 @@
 #ifndef TPR_ALL_GOES_H_
 #define TPR_ALL_GOES_H_
 
-
-
-
 //---------- Script : gameObjs : majorGos -------------//
 #include "Script/gameObjs/majorGos/Norman.h"
 #include "Script/gameObjs/majorGos/BigMan.h"

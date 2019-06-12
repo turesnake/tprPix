@@ -7,15 +7,11 @@
  */
 #include "Script/gameObjs/majorGos/Crab.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
 
-//-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

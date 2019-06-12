@@ -132,7 +132,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  */
 const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey ){
 
-    const std::vector<RGBA> *ptr {};
+    const std::vector<RGBA> *ptr {nullptr};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
             tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist

@@ -11,7 +11,6 @@
 #define TPR_PIX_VEC_H_
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 
@@ -176,8 +175,6 @@ public:
 inline bool is_equal( const IntVec3 &_a, const IntVec3 &_b ){
     return ( ((_a.x==_b.x)&&(_a.y==_b.y)&&(_a.z==_b.z)) );
 }
-
-
 
 
 #endif

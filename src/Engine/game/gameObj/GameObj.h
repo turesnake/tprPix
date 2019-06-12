@@ -39,7 +39,6 @@
 #include "ActionFSM.h"
 #include "chunkKey.h"
 
-
 #include "tprDebug.h"
 
 
@@ -137,9 +136,9 @@ public:
 
     //-- tmp,未来会被整理..
     // 当某一个未绑定时，应将其设置为 nullptr,这样 碰撞检测系统会跳过它
-    F_AFFECT DoAffect_body {nullptr};
+    F_AFFECT DoAffect_body    {nullptr};
     F_AFFECT DoAffect_virtual {nullptr};
-    F_AFFECT BeAffect_body {nullptr};   
+    F_AFFECT BeAffect_body    {nullptr};   
         // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
     //----------------- self vals ---------------//
@@ -206,7 +205,7 @@ private:
                                         // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
                                           
     //----------- pvtBinary -------------//         
-    std::vector<u8_t>  pvtBinary;  //- 只存储 具象go类 内部使用的 各种变量
+    std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
 
@@ -217,7 +216,6 @@ private:
                             // ------
                             // 就算要修改它，也需要通过特定的 函数
                             // 通常会在 go实例 创建阶段，被赋值
-
 };
 
 //============== static ===============//

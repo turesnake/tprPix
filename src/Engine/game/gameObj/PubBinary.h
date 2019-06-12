@@ -8,9 +8,6 @@
 #ifndef TPR_PUB_BINARY_H_
 #define TPR_PUB_BINARY_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <unordered_map>
@@ -31,8 +28,8 @@ public:
 
     //- 通过一个 变量类型表，一次性注册所有变量
     inline void init( const std::vector<PubBinaryValType> &_types ){
-        idx_t      idx; //- tmp
-        byteoff_t  off = 0; 
+        idx_t      idx {}; //- tmp
+        byteoff_t  off {0}; 
         for( const auto &i : _types ){
             idx = (idx_t)i;
             tprAssert( valOffs.find(idx)==valOffs.end() ); //- no duplicate

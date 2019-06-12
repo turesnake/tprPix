@@ -7,9 +7,6 @@
  */
 #include "occupyWeight.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 

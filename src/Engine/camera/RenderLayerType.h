@@ -10,8 +10,6 @@
 #ifndef TPR_RENDER_LAYER_H_
 #define TPR_RENDER_LAYER_H_
 
-
-
 // from zFar -> zNear 
 enum class RenderLayerType{
 

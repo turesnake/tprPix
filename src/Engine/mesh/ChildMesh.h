@@ -66,8 +66,8 @@ private:
     void update_mat4_model(); //-- 重新计算 model矩阵
 
     //======== vals ========//
-    GameObj      *goPtr       {nullptr};
-    GameObjMesh  *goMeshPtr {nullptr};
+    GameObj      *goPtr        {nullptr};
+    GameObjMesh  *goMeshPtr    {nullptr};
 
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
@@ -75,9 +75,9 @@ private:
                           //-- 自动初始化为 标准矩阵
 
     //-- 位移／旋转／缩放 变化向量。
-    glm::vec3 translate_val {};    
-    float     rotate_z      {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val     {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
+    glm::vec3 translate_val  {};    
+    float     rotate_z       {0.0f};  //- 只有 z轴旋转角度
+    glm::vec3 scale_val      {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
 
     //======== flags ========//  
     bool    isPic {true}; //-- pic / shadow

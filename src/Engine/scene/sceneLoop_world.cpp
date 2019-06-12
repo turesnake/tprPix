@@ -9,7 +9,6 @@
  */
 #include "sceneLoop.h"
 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "input.h"
@@ -139,13 +138,6 @@ void sceneLoop_world(){
 
     //--- clear RenderPools:
     // *** 注意次序 ***
-    /*
-    esrc::renderPool_meshs.clear();
-    esrc::renderPool_goMeshs_pic.clear();
-    esrc::renderPool_goMeshs_shadow.clear();
-    esrc::renderPool_mapSurfaces.clear();
-    */
-
     esrc::clear_renderPool_meshs();
     esrc::clear_renderPool_goMeshs_pic();
     esrc::clear_renderPool_goMeshs_shadow();

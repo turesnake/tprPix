@@ -229,21 +229,26 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 #             target_link_libraries
 #---------------------------------------------------#
 if ( UNIX )
-    target_link_libraries( tprpix 
-        glad
-        glfw
-        ${GLFW_LIBRARIES}
-        tprGeneral
-        tprInUnix
-        SQLite
+    SET(LINK_LIBRARY_UNIX
+    optimized tprGeneral
+    optimized tprInUnix
+    optimized glad
+    debug glfw
+    debug ${GLFW_LIBRARIES}
+    debug SQLite
         )
+
+    target_link_libraries( tprpix  ${LINK_LIBRARY_UNIX} )
+
+
 else()
     target_link_libraries( tprpix 
-        glad
-        ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
         tprGeneral
         tprInWin
-        SQLite
+
+        debug glad
+        debug ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
+        debug SQLite
         )
 endif( UNIX )
 

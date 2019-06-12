@@ -12,9 +12,6 @@
 #ifndef TPR_DENSITY_H_
 #define TPR_DENSITY_H_
 
-//------------------- C --------------------//
-//#include <cassert>
-
 //------------------- CPP --------------------//
 #include <vector>
 
@@ -97,9 +94,6 @@ private:
     static int  maxLvl;  //  3
 };
 
-
-
- 
 
 #endif 
 

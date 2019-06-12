@@ -27,9 +27,9 @@ namespace db{//---------------- namespace: db ----------------------//
 
 
 //-- 全游戏唯一的 db connect 实例 --
-inline sqlite3 *dbConnect;
-inline char    *zErrMsg {nullptr};
-inline int      rc;
+inline sqlite3 *dbConnect {nullptr};
+inline char    *zErrMsg   {nullptr};
+inline int      rc        {};
 
 inline std::mutex dbMutex;
 
@@ -75,8 +75,6 @@ inline void sqlite3_bind_double_inn_( const std::string &_paramStr, const double
 
 
 
-
-
 //=============================//
 //      table_gameArchive 
 //=============================//
@@ -116,7 +114,6 @@ inline const std::string sql_select_all_from_table_gameArchive  {
 inline sqlite3_stmt *stmt_select_all_from_table_gameArchive {nullptr};
 
 
-
 inline const std::string sql_insert_or_replace_to_table_gameArchive  {
     "INSERT OR REPLACE INTO table_gameArchive (id, baseSeed, playerGoId, playerGoMPosX, playerGoMPosY, maxGoId, gameTime ) " \
     "VALUES ( :id, :baseSeed, :playerGoId, :playerGoMPosX, :playerGoMPosY, :maxGoId, :gameTime );" 
@@ -135,11 +132,6 @@ inline const std::string sql_create_table_chunks  {
     "padding        INT         NOT NULL " \
     ");" 
     };
-
-
-
-
-
 
 
 

@@ -58,10 +58,7 @@ public:
     static IntVec2    windowSZ; //- 屏幕尺寸（像素） （在高分屏上似乎有问题）
     static glm::vec2  gameSZ;   //- 游戏像素尺寸
 
-
     static float z;
-
-
 
     //-- distance from zFar(to zNear) --
     //   camera.zFar 是个动态值，此处只能保存一个 相对偏移
@@ -84,7 +81,6 @@ public:
         
     static float  debug_zOff;
         // tprDebug 专用 图层
-
     
     //...
 

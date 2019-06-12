@@ -11,9 +11,6 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -105,8 +102,8 @@ public:
     bool            isOrder;
     bool            isTimeStepsManualSet;    //- 若为 false，参数 _timeSteps 可为空容器
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
-    std::vector<size_t> lFrameIdxs;          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
-    std::vector<size_t> timeSteps; 
+    std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
+    std::vector<size_t> timeSteps  {}; 
 };
 
 
@@ -169,24 +166,23 @@ private:
     void update_cycle( AnimActionPvtData &_pvtData );
 
     //===== vals =====//
-
     //-- 从 animFrameSet 中获得的 只读指针 --
-    const std::vector<GLuint> *texNames_pic_ptr {nullptr};
+    const std::vector<GLuint> *texNames_pic_ptr    {nullptr};
     const std::vector<GLuint> *texNames_shadow_ptr {nullptr};
-    const std::vector<FramePos> *framePosesPtr {nullptr};
+    const std::vector<FramePos> *framePosesPtr     {nullptr};
 
     AnimActionType   actionType {}; 
 
     //- 用户可以手动编排 frameIdx 序列。同时，默认 容器中的第一帧，就是 enterIdx --
-    std::vector<size_t> frameIdxs; //- 相对于 AnimFrameSet 全frames数据的 idx
-    std::vector<size_t> timeSteps;
+    std::vector<size_t> frameIdxs {}; //- 相对于 AnimFrameSet 全frames数据的 idx
+    std::vector<size_t> timeSteps {};
 
     size_t  totalFrameNum {};   //- 本 action 有几帧
 
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值
 
     //===== flags =====//
-    bool   isHaveShadow;
+    bool   isHaveShadow {};
 
 };
 

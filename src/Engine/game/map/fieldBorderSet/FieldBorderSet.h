@@ -8,9 +8,6 @@
 #ifndef TPR_FIELD_BORDER_SET_H_
 #define TPR_FIELD_BORDER_SET_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <unordered_map>

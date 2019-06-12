@@ -37,7 +37,6 @@ void atom_select_one_from_table_goes( goid_t _goid, DiskGameObj &_diskGo ){
 }
 
 
-
 /* ===========================================================
  *          atom_insert_or_replace_to_table_goes
  * -----------------------------------------------------------
@@ -64,7 +63,6 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &_diskGo ){
 
     sqlite3_bind_int_inn_(  ":mposY", 
                             _diskGo.mpos.y );
-    
 
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_goes, SQLITE_DONE );

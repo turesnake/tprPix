@@ -16,7 +16,7 @@
 //#include "random.h"
 
 
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
     size_t frameSize = PIXES_PER_FIELD_BORDER_SET * PIXES_PER_FIELD_BORDER_SET;
     size_t quadSize = PIXES_PER_FIELD * PIXES_PER_FIELD;
@@ -72,9 +72,9 @@ void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &
  */
 void build_all_mutant_datas_for_fieldBorderSet(){
 
-    IntVec2   XYflipPixWH;  //- 原始数据 xy翻转后的 相对坐标 
-    size_t    pixIdx_origin;
-    size_t    pixIdx_flip;
+    IntVec2   XYflipPixWH   {};  //- 原始数据 xy翻转后的 相对坐标 
+    size_t    pixIdx_origin {};
+    size_t    pixIdx_flip   {};
 
     originData_Xflip.resize( frameSize );
     originData_Yflip.resize( frameSize );
@@ -140,7 +140,7 @@ const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t _i
 
 
 
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
 
 /* ===========================================================
@@ -167,9 +167,9 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
     tprAssert( _container.size() == frameSize );
 
 
-    IntVec2   pixWH;
-    size_t    containerIdx; //- pix 在 原始数据中的 idx
-    size_t    quadIdx;  //- pix 在具体 象限中的 idx
+    IntVec2   pixWH        {};
+    size_t    containerIdx {}; //- pix 在 原始数据中的 idx
+    size_t    quadIdx      {}; //- pix 在具体 象限中的 idx
     
     for( size_t h=0; h<PIXES_PER_FIELD; h++ ){
         for( size_t w=0; w<PIXES_PER_FIELD; w++ ){ //- each pix in 1/4 container

@@ -5,18 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
-//#include <vector>
 #include <iostream>
 #include <string>
 #include <thread>
-
-//-------------------- Libs --------------------//
-//#include "tprDataType.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -28,8 +20,6 @@
 using std::cout;
 using std::endl;
 
-//namespace{//------------ namespace --------------//
-//}//---------------- namespace end --------------//
 
 /* ===========================================================
  *                   jobThread_main
@@ -77,10 +67,5 @@ void jobThread_main(){
     cout << "jobThread_main(): end the jobThread: " << std::this_thread::get_id()
          << endl;
 }
-
-
-
-
-
 
 

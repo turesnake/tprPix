@@ -17,9 +17,6 @@
  */
 #include<glad/glad.h>  
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>

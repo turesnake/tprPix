@@ -31,7 +31,7 @@
 
 //-- 是否开启 全屏模式 --
 //  尚未完工，严谨开启 full sreen
-inline bool IS_FULL_SCREEN = false; 
+inline bool IS_FULL_SCREEN  {false}; 
 
 
 

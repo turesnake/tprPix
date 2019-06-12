@@ -8,7 +8,6 @@
 #include "Move.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -33,7 +32,7 @@
 #include "tprDebug.h" 
 
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
     //--- 以下数据 被每一次 Crawl::RenderUpdate_2() 调用 共用 ---//
     bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
@@ -208,8 +207,8 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
     //   -- 重新统计 本go 的 chunkKeys，如果确认为 临界go，  
     //       登记到 主chunk 的 edgegoids 容器中
     //---------------------------//
-    Chunk   *oldChunkPtr;
-    Chunk   *newChunkPtr;
+    Chunk   *oldChunkPtr  {nullptr}; 
+    Chunk   *newChunkPtr  {nullptr};
     goid_t   goid = this->goPtr->id;
 
     chunkKey_t newChunkKey = anyMPos_2_chunkKey(  this->goPosPtr->get_currentMPos() );

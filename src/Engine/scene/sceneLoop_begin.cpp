@@ -16,9 +16,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <unordered_map>
 
@@ -58,12 +55,12 @@ namespace {//-------------- namespace ------------------//
     //- 一种简陋的方法，来降低 input 输入频率，
     //  每获得一次有效输入后，屏蔽之后10帧的 输入
     int  inputFrameCount {0};
-    bool is_input_open {true};
+    bool is_input_open   {true};
 
-    UIObj *button_archive_1_Ptr;
-    UIObj *button_archive_2_Ptr;
-    UIObj *button_archive_3_Ptr;
-    UIObj *button_pointer_Ptr;
+    UIObj *button_archive_1_Ptr  {nullptr};
+    UIObj *button_archive_2_Ptr  {nullptr};
+    UIObj *button_archive_3_Ptr  {nullptr};
+    UIObj *button_pointer_Ptr    {nullptr};
 
 
     std::unordered_map<gameArchiveId_t, GameArchive> gameArchives {};
@@ -213,7 +210,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
             esrc::get_gameSeed().init( target_baseSeed );
 
             //-- gameTime --
-            double newGameTime = 0.0;
+            double newGameTime { 0.0 };
             esrc::get_timer().start_record_gameTime( newGameTime );
 
             //-- max goid --

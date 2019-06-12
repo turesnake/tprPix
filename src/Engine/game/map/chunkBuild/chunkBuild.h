@@ -34,8 +34,6 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk();
 void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey );
 
 
-
-
 }//----------------- namespace: chunkBuild: end -------------------//
 #endif
 

@@ -7,9 +7,6 @@
  */
 #include "Script/gameObjs/create_goes.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "esrc_gameObj.h" 
@@ -42,13 +39,6 @@ goid_t create_a_Go( goSpecId_t _goSpecId,
     GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
 
         tprAssert( ssrc::find_from_goInit_funcs(_goSpecId) );
-        /*
-        ssrc::goInit_funcs.at(_goSpecId)(   goPtr,
-                                            _mpos,
-                                            _fieldWeight,
-                                            _alti,
-                                            _density  );
-        */
         ssrc::call_goInit_func( _goSpecId,
                                 goPtr,
                                 _mpos,
@@ -79,13 +69,6 @@ void rebind_a_disk_Go( const DiskGameObj &_diskGo,
     GameObj *goPtr = esrc::get_memGameObjPtr( _diskGo.goid ); //- 获取目标go指针
 
     tprAssert( ssrc::find_from_goInit_funcs(_diskGo.goSpecId) );
-    /*
-    ssrc::goInit_funcs.at(_diskGo.goSpecId)(   goPtr,
-                                        _diskGo.mpos,
-                                        _fieldWeight,
-                                        _alti,
-                                        _density  );
-    */
     ssrc::call_goInit_func( _diskGo.goSpecId,
                             goPtr,
                             _diskGo.mpos,

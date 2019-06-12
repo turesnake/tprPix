@@ -7,9 +7,6 @@
  */
 #include "ChildMesh.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "GameObj.h"
@@ -19,7 +16,7 @@
 #include "esrc_camera.h"
 
 
-namespace{//------------------ namespace ---------------------//
+namespace {//------------------ namespace ---------------------//
 
     //-- 3个常量，分别代表 xyz 三个轴，用在 glm::rotate 函数中。
     //const glm::vec3 axle_x( 1.0f, 0.0f, 0.0f );
@@ -112,7 +109,7 @@ void ChildMesh::draw(){
     }
 
     //---------- refresh texName -------------
-    GLuint texName;
+    GLuint texName {};
     if( this->isPic ){
         texName=this->goMeshPtr->get_currentTexName_pic();
     }else{

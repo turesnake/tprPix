@@ -63,7 +63,7 @@ private:
     void update_mat4_model(); //-- 重新计算 model矩阵
 
     //======== vals ========//
-    GLuint         texName {0};
+    GLuint         texName     {0};
     ShaderProgram  *shaderPtr  {nullptr}; 
 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++

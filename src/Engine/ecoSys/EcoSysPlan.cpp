@@ -19,13 +19,12 @@
 #include "Script/resource/ssrc.h" 
 
 
-
-namespace{//-------- namespace: --------------//
+namespace {//-------- namespace: --------------//
 
     //- 根据 density.lvl, 颜色递进（逐渐加深）
-    int off_r = -11;
-    int off_g = -8;
-    int off_b = -7;
+    int off_r  { -11 };
+    int off_g  { -8 };
+    int off_b  { -7 };
 
 }//------------- namespace: end --------------//
 
@@ -58,7 +57,7 @@ void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &_baseColor ){
  */
 void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
 
-    int absI;
+    int absI {}; 
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
@@ -81,7 +80,7 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
                                     bool  is_goDeep_high,
                                     bool  is_goDeep_low ){
 
-    int    absI;
+    int    absI {};
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
@@ -162,7 +161,7 @@ void EcoSysPlan::insert(const Density &_density,
     tprAssert( this->is_applyPercents_init ); //- MUST
     this->applyPercents.at(_density.get_idx()) = _applyPercent;
 
-    goSpecId_t  id_l;
+    goSpecId_t  id_l {};
     for( const auto &ent : _ecoEnts ){
         tprAssert( this->is_goSpecIdPools_init ); //- MUST
         auto &poolRef = this->goSpecIdPools.at(_density.get_idx());
@@ -180,10 +179,10 @@ void EcoSysPlan::insert(const Density &_density,
  */
 void EcoSysPlan::shuffle_goSpecIdPools( u32_t _seed ){
 
-    std::default_random_engine  randEngine; 
-    randEngine.seed( _seed );
+    std::default_random_engine  rEngine; 
+    rEngine.seed( _seed );
     for( auto &poolRef : this->goSpecIdPools ){
-        std::shuffle( poolRef.begin(), poolRef.end(), randEngine );
+        std::shuffle( poolRef.begin(), poolRef.end(), rEngine );
     }
 }
 

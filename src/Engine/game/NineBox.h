@@ -17,9 +17,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -39,34 +36,34 @@ public:
     NineBox( int _x, int _y ):
         x(_x),
         y(_y)
-        { tprAssert( (x>=-1) && (x<=1) && (y>=-1) && (y<=1) ); }
+        { tprAssert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) ); }
 
     inline void clear_all(){
-        x = 0;
-        y = 0;
+        this->x = 0;
+        this->y = 0;
     }
 
     inline void set( int _x, int _y ){
         tprAssert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) );
-        x = _x;
-        y = _y;
+        this->x = _x;
+        this->y = _y;
     }
     
     //-- 专用于 crawl模式，将方向转换为 位移值 --
     inline IntVec2 to_mpos() const {
-        return IntVec2{ x, y };
+        return IntVec2{ this->x, this->y };
     }
     inline IntVec2 to_ppos() const {
-        return IntVec2{ x*PIXES_PER_MAPENT, 
-                        y*PIXES_PER_MAPENT };
+        return IntVec2{ this->x*PIXES_PER_MAPENT, 
+                        this->y*PIXES_PER_MAPENT };
     } 
     inline glm::vec2 to_fpos() const {
-        return glm::vec2{ static_cast<float>(x*PIXES_PER_MAPENT), 
-                          static_cast<float>(y*PIXES_PER_MAPENT) };
+        return glm::vec2{ static_cast<float>(this->x*PIXES_PER_MAPENT), 
+                          static_cast<float>(this->y*PIXES_PER_MAPENT) };
     } 
 
     inline bool is_zero() const {
-        if( (x==0) && (y==0) ){
+        if( (this->x==0) && (this->y==0) ){
             return true;
         }
         return false;

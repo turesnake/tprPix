@@ -8,9 +8,6 @@
 #ifndef TPR_BUTTON_SCENE_BEGIN_POINTER_H_
 #define TPR_BUTTON_SCENE_BEGIN_POINTER_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>

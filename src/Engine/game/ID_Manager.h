@@ -11,9 +11,6 @@
 #ifndef TPR_ID_MANAGER_H_
 #define TPR_ID_MANAGER_H_
 
-//-------------------- C ----------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
@@ -44,11 +41,11 @@ public:
         id_scope(_id_type),
         max_id(_max_id)
         {
-            switch( id_scope ){
-                case ID_TYPE::U8:  id_limit = static_cast<u8_t>(-1); break;
-                case ID_TYPE::U16: id_limit = static_cast<u16_t>(-1); break;
-                case ID_TYPE::U32: id_limit = static_cast<u32_t>(-1); break;
-                case ID_TYPE::U64: id_limit = static_cast<u64_t>(-1); break; //- 用不到
+            switch( this->id_scope ){
+                case ID_TYPE::U8:  this->id_limit = static_cast<u8_t>(-1); break;
+                case ID_TYPE::U16: this->id_limit = static_cast<u16_t>(-1); break;
+                case ID_TYPE::U32: this->id_limit = static_cast<u32_t>(-1); break;
+                case ID_TYPE::U64: this->id_limit = static_cast<u64_t>(-1); break; //- 用不到
                 default:
                     tprAssert(0); //- 不会运行到此行
             }
@@ -57,45 +54,45 @@ public:
     //-- 申请分配一个 新 u8 id --
     inline u8_t apply_a_u8_id(){
         
-        tprAssert( id_scope == ID_TYPE::U8 );
-        max_id++;
-        tprAssert( max_id <= id_limit );//-- 2^8 --
-        return static_cast<u8_t>(max_id);
+        tprAssert( this->id_scope == ID_TYPE::U8 );
+        this->max_id++;
+        tprAssert( this->max_id <= this->id_limit );//-- 2^8 --
+        return static_cast<u8_t>(this->max_id);
     }
 
     //-- 申请分配一个 新 u16 id --
     inline u16_t apply_a_u16_id(){
         
-        tprAssert( id_scope == ID_TYPE::U16 );
-        max_id++;
-        tprAssert( max_id <= id_limit );//-- 2^16 --
-        return static_cast<u16_t>(max_id);
+        tprAssert( this->id_scope == ID_TYPE::U16 );
+        this->max_id++;
+        tprAssert( this->max_id <= this->id_limit );//-- 2^16 --
+        return static_cast<u16_t>(this->max_id);
     }
 
     //-- 申请分配一个 新 u32 id --
     inline u32_t apply_a_u32_id(){
         
-        tprAssert( id_scope == ID_TYPE::U32 );
-        max_id++;
-        tprAssert( max_id <= id_limit );//-- 2^32 --
-        return static_cast<u32_t>(max_id);
+        tprAssert( this->id_scope == ID_TYPE::U32 );
+        this->max_id++;
+        tprAssert( this->max_id <= this->id_limit );//-- 2^32 --
+        return static_cast<u32_t>(this->max_id);
     }
 
     //-- 申请分配一个 新 u64 id --
     inline u64_t apply_a_u64_id(){
         
-        tprAssert( id_scope == ID_TYPE::U64 );
-        max_id++;
+        tprAssert( this->id_scope == ID_TYPE::U64 );
+        this->max_id++;
         //-- 2^64 个id，永远也用不完。
-        return max_id;
+        return this->max_id;
     }
 
     inline void set_max_id( u64_t _max_id ){
-        max_id = _max_id;
+        this->max_id = _max_id;
     }
 
     inline u64_t get_max_id() const {
-        return max_id;
+        return this->max_id;
     }
 
 private:

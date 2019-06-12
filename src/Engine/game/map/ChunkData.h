@@ -10,9 +10,6 @@
 #ifndef TPR_CHUNK_DATA_H_
 #define TPR_CHUNK_DATA_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -64,7 +61,7 @@ public:
 
 
 private:
-    std::vector<RGBA>         texBuf;
+    std::vector<RGBA>         texBuf {};
     std::vector<MapAltitude>  mapEntAltis {};
 };
 

@@ -8,9 +8,7 @@
 #include "dataBase.h"
 #include "dataBase_inn.h"
 
-
 namespace db{//---------------- namespace: db ----------------------//
-
 
 /* ===========================================================
  *           atom_select_all_from_table_gameArchive
@@ -82,9 +80,6 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &_archive ){
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_gameArchive, SQLITE_DONE );
 }
-
-
-
 
 
 }//----------------------- namespace: db end ----------------------//

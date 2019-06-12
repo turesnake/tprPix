@@ -22,16 +22,12 @@
 #include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "IntVec.h" 
 #include "config.h" 
-
-//#include <iostream> //- tmp
-//#include <string> //- tmp
 
 
 /* ===========================================================

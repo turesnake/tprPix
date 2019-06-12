@@ -5,16 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//-------------------- CPP --------------------//
-//#include <string>
-
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "esrc_canvas.h"
 #include "esrc_window.h"
 #include "esrc_camera.h"
 #include "esrc_gameSeed.h"
-
 
 //#include "tprDebug.h" //- tmp
 
@@ -53,8 +49,6 @@ void init_canvases(){
     esrc::groundCanvas.add_new_uniform( "SCR_WIDTH" ); //- 1-float
     esrc::groundCanvas.add_new_uniform( "SCR_HEIGHT" ); //- 1-float
                         //-- 当 窗口发生变化，此组值需要被重传
-
-
 
     //------------------//
     //    waterAnimCanvas
@@ -98,8 +92,6 @@ void draw_groundCanvas(){
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
     float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
 
-
-    //glm::vec2 canvasFPos = cameraFPos - glm::vec2{ 0.5*_SCR_WIDTH, 0.5*_SCR_HEIGHT};
     glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
                                                     0.5f * windowSZ_fy };
 

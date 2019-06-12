@@ -16,8 +16,6 @@
 	#include <fcntl.h>    //-- open，openat, AT_FDCWD
 #endif
 
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <string> 
 #include <fstream>   //-- ifstream
@@ -159,7 +157,6 @@ void check_and_creat_important_dir(){
     //  已经确认的 目录：
     //      path_cwd
 
-
 #ifdef TPR_OS_WIN32_
 
     //---------------------------------//
@@ -259,7 +256,7 @@ void check_and_creat_important_dir(){
  */
 void data_type_confirm(){
 
-    int len; //-- 临时变量。
+    int len {}; //-- 临时变量。
     //------- short ------//
     len = sizeof(short);
     if( len != 2 ){

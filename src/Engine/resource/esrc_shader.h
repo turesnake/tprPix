@@ -13,7 +13,6 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-//inline ShaderProgram rect_shader {};
 ShaderProgram &get_rect_shader();
 
 void init_shaders();

@@ -29,7 +29,6 @@ public:
 
     F_TMP  enterFunc {nullptr}; //- 入口函数 
     F_TMP  exitFunc  {nullptr}; //- 出口函数
-    
 
 };
 

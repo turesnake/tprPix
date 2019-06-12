@@ -15,9 +15,6 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-//inline TimeBase   timer {}; //-- 全局时间
-//inline TimeCircle logicTimeCircle { &timer, 5 }; //- 逻辑时间循环 实例（5帧1周期）
-
 TimeBase &get_timer();
 TimeCircle &get_logicTimeCircle();
 

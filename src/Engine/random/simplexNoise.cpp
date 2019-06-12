@@ -10,7 +10,6 @@
 #include "simplexNoise.h"
 
 //-------------------- C ----------------------//
-//#include <cassert>
 #include <cmath>
 
 
@@ -94,7 +93,7 @@ float simplex_noise2( const glm::vec2 &_v ){
     glm::dvec2 i  = glm::floor( v + dotV2(v.x, v.y, C.y, C.y) );
     glm::dvec2 x0 = v -         i + dotV2(i.x, i.y, C.x, C.x);
     // Other corners
-    glm::dvec2 i1;
+    glm::dvec2 i1 {};
     //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
     //i1.y = 1.0 - i1.x;
     (x0.x > x0.y) ? 
@@ -146,7 +145,7 @@ float simplex_noise2( const glm::vec2 &_v ){
     m.y *= 1.79284291400159 - 0.85373472095314 * tmpV.y;
     m.z *= 1.79284291400159 - 0.85373472095314 * tmpV.z;
     // Compute final noise value at P
-    glm::dvec3 g;
+    glm::dvec3 g {};
     g.x = a0.x  * x0.x + h.x  * x0.y;
     g.y = a0.y * x12.x + h.y * x12.y;
     g.z = a0.z * x12.z + h.z * x12.w;

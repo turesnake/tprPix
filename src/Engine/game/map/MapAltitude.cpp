@@ -7,9 +7,6 @@
  */
 #include "MapAltitude.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -27,9 +24,9 @@ void MapAltitude::set( float _altiVal_from_gpgpu ){
     //------------------//
     //      lvl
     //------------------//
-    int    tmpLvl;
-    float waterStep = 7.0f; //- 水下梯度，tmp...
-    float landStep  = 14.0f; //- 陆地梯度，tmp...
+    int    tmpLvl    {};
+    float waterStep  { 7.0f }; //- 水下梯度，tmp...
+    float landStep   { 14.0f }; //- 陆地梯度，tmp...
 
     if( this->val < 0 ){ //- under water
         tmpLvl = static_cast<int>( floor(_altiVal_from_gpgpu/waterStep) );

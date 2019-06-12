@@ -11,7 +11,6 @@
 #include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cstring>
 #include <cmath>
 
@@ -231,7 +230,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
     float    pnValBig {};
     float    pnValMid {};
     float    pnValSml {};
-    float    altiVal {};  //- target val
+    float    altiVal  {};  //- target val
 
     size_t   pixIdx {};
 
@@ -460,8 +459,6 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
     }
     return targetFieldMPos;
 }
-
-
 
 }//-------------- namespace : end ----------------//
 

@@ -15,9 +15,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
@@ -102,10 +99,10 @@ private:
     std::default_random_engine   engine; //- 随机数引擎，默认初始状态
     std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
 
-    float freq; //- 频率
-    float ampl; //- 振幅
+    float freq  {}; //- 频率
+    float ampl  {}; //- 振幅
 
-    bool isInit; //- 检查 是否执行 init
+    bool isInit {}; //- 检查 是否执行 init
 };
 
 

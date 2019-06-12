@@ -7,7 +7,6 @@
  */
 #include "esrc_jobQue.h"
 
-
 //-------------------- CPP --------------------//
 #include <deque>
 #include <mutex>
@@ -79,7 +78,7 @@ void atom_push_back_2_jobQue( const Job &_job ){
  * -- 通常由 job线程来 检查 jobQue 状态
  */
 bool atom_is_jobQue_empty(){
-    bool ret;
+    bool ret {true};
     {//--- atom ---//
         std::lock_guard<std::mutex> lg(jobQueMutex);
                 //- 若抢占不到 mutex 的 lock权，就会持续 阻塞 下去
@@ -97,7 +96,7 @@ bool atom_is_jobQue_empty(){
  */
 Job atom_pop_from_jobQue(){
 
-    Job job;
+    Job job {};
     {//--- atom ---//
         std::unique_lock<std::mutex> ul(jobQueMutex);
         jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), []{ return !esrc::jobQue.empty(); } );

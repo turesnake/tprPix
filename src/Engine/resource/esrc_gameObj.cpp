@@ -22,9 +22,6 @@
 #include "tprAssert.h"
 
 
-using std::vector;
-
-
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace {//-------- namespace: --------------//
@@ -51,8 +48,6 @@ std::unordered_set<goid_t> &get_goids_active(){
 std::unordered_set<goid_t> &get_goids_inactive(){
     return goids_inactive;
 }
-
-
 
 
 GameObj *get_memGameObjPtr( goid_t _goid ){
@@ -98,9 +93,6 @@ void insert_a_disk_gameObj( goid_t _goid ){
 
 
 
-
-
-
 /* ===========================================================
  *                    realloc_active_goes
  * -----------------------------------------------------------
@@ -109,22 +101,19 @@ void insert_a_disk_gameObj( goid_t _goid ){
  */
 void realloc_active_goes(){
 
-    vector<goid_t> container; //- tmp, 容纳 命中的id
+    std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
 
-    GameObj *goPtr;
+    GameObj *goPtr {};
 
-    glm::vec2 v;
-    float distance;
-    float range = 1600.0f; //- 激活圈 半径的平方
+    glm::vec2 v    {};
+    float distance {};
+    float range    { 1600.0f }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_active ){
-
         goPtr = esrc::get_memGameObjPtr( id );
-
         v = get_camera().get_camera2DFPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
-
         //-- 将离开 激活圈的 go 移动到 激活组 --
         if( distance > range ){
             container.push_back( id );
@@ -147,22 +136,19 @@ void realloc_active_goes(){
  */
 void realloc_inactive_goes(){
 
-    vector<goid_t> container; //- tmp, 容纳 命中的id
+    std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
 
-    GameObj *goPtr;
+    GameObj *goPtr {};
 
-    glm::vec2 v;
-    float distance;
-    float range = 1600.0f; //- 激活圈 半径的平方
+    glm::vec2 v    {};
+    float distance {};
+    float range    { 1600.0f }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : goids_inactive ){
-
         goPtr = esrc::get_memGameObjPtr( id );
-        
         v = get_camera().get_camera2DFPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
-
         //-- 将进入 激活圈的 go 移动到 激活组 --
         if( distance <= range ){
             container.push_back( id );
@@ -195,10 +181,10 @@ void realloc_inactive_goes(){
 void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
 
     IntVec2    currentMPos = _goPtr->goPos.get_currentMPos();
-    MapCoord   cesMCPos;      //- 每个 ces左下角的 mcpos （世界绝对pos）
-    MapCoord   colliEntMCPos; //- 每个 collient 的 mcpos （世界绝对pos）
-    MemMapEnt  *mapEntPtr;    //- 目标 mapent
-    chunkKey_t  tmpChunkKey;  //- 每个 collient 当前所在的 chunk key
+    MapCoord   cesMCPos      {}; //- 每个 ces左下角的 mcpos （世界绝对pos）
+    MapCoord   colliEntMCPos {}; //- 每个 collient 的 mcpos （世界绝对pos）
+    MemMapEnt  *mapEntPtr    {}; //- 目标 mapent
+    chunkKey_t  tmpChunkKey  {}; //- 每个 collient 当前所在的 chunk key
 
     //------------------------------//
     // --- 记录 go.currentChunkKey
@@ -213,7 +199,6 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
         currentChunkPtr->insert_2_edgeGoIds( _goPtr->id );
     }
     currentChunkPtr->insert_2_goIds( _goPtr->id );
-
 
     //------------------------------//
     //  只有 rootGoMesh 会被记录到 mapent 上
@@ -248,9 +233,6 @@ void signUp_newGO_to_mapEnt( GameObj *_goPtr ){
                                         MajorGO_in_MapEnt{ cehPtr->lAltiRange, cehPtr->isCarryAffect } });
     }
 }
-
-
-
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -13,7 +13,6 @@
 #include <vector>
 
 //------------------- Libs --------------------//
-//#include "tprFileSys.h" 
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -103,7 +102,6 @@ void atom_writeBack_to_table_gameArchive(){
 
     //--- atom ---//
     //此处不该上锁，下面调用了 atom 函数，会引发 递归锁
-
     Player &playerRef = esrc::get_player();
 
     goid_t goid = playerRef.goPtr->id;
@@ -152,10 +150,6 @@ void atom_close_dataBase(){
     sqlite3_close( dbConnect );
     cout << "== DATABASE ALL SUCCESS; ==" << endl;
 }
-
-
-
-
 
 
 /* ===========================================================

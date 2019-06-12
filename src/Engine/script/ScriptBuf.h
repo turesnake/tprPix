@@ -14,12 +14,10 @@
 
 //-------------------- C --------------------//
 #include <cstring> //- memcpy
-//#include <cassert> //- assert
 
 //-------------------- CPP --------------------//
 #include <vector> 
 #include <string>
-
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -105,17 +103,17 @@ public:
     
 private:
     //------ val container ---
-    bool   boolval {};
-    int    i32val  {};
-    u64_t    u64val  {};
-    std::vector<u8_t> binary;
-    std::string     str;
+    bool   boolval  {};
+    int    i32val   {};
+    u64_t  u64val   {};
+    std::vector<u8_t> binary {};
+    std::string       str    {};
 
     //======== flags ========//
     bool   is_boolval_push {false};
     bool   is_i32val_push  {false};
     bool   is_u64val_push  {false};
-    bool   is_str_push  {false};
+    bool   is_str_push     {false};
     bool   is_binary_push  {false};
 };
 

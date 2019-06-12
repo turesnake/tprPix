@@ -37,7 +37,7 @@ inline std::vector<PubBinaryValType> crab_pubBinaryValTypes {
 };
 
 struct Crab_PvtBinary{
-    int      tmpVal;
+    int      tmpVal  {};
     AI_Crab  ai_crab {};
 };
 

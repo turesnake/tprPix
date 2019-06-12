@@ -28,16 +28,16 @@ class ColliEntHead{
 public:
 
     inline void clear_all(){
-        colliEntSetIdx = 0;
-        mposOff_from_cesLB_2_centerMPos.clear_all();
-        lAltiRange.clear_all();
+        this->colliEntSetIdx = 0;
+        this->mposOff_from_cesLB_2_centerMPos.clear_all();
+        this->lAltiRange.clear_all();
     }
 
     //======== vals ========//
-    int         colliEntSetIdx; 
+    int         colliEntSetIdx {}; 
                             //- ces预制件 idx号
 
-    IntVec2     mposOff_from_cesLB_2_centerMPos;
+    IntVec2     mposOff_from_cesLB_2_centerMPos {};
                             //  ces左下角，到 rootAnchor 所在mapent 的 mpos 偏移。
                             //  值等于 ces.centerMPos。
                             //  用来快速计算 ces 左下角 mpos
@@ -45,14 +45,14 @@ public:
     MapEntCompass  rootAnchorCompass {};
                             // 和 ces.centerCompass 是一摸一样的
 
-    glm::vec2  off_from_rootAnchor_2_mapEntMid;
+    glm::vec2  off_from_rootAnchor_2_mapEntMid {};
                             //  将 goPos.currentFPos 加上此值，就能获得 rootAnchor 所在 mapent中心 的fpos
                             //  用于 新版的 crawl 位移系统
                             //  ----
                             //  一个固定值，原本应该存储在 ces中，为了此值的访问频率很高，故存储于此
                             //  仅用于 goPos 
 
-    AltiRange   lAltiRange;
+    AltiRange   lAltiRange {};
                             //- 和 colliEntHead 对应，记载每一个 ces实例 携带的 高度区间信息
                             //-- 仅仅是 相对高度区间 
 

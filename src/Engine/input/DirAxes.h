@@ -18,7 +18,6 @@
 #include "glm_no_warnings.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- Engine --------------------//
@@ -134,10 +133,6 @@ private:
     float x {0.0f}; //- [-1.0, 1.0]
     float y {0.0f}; //- [-1.0, 1.0]
 };
-
-
-
-
 
 
 #endif 

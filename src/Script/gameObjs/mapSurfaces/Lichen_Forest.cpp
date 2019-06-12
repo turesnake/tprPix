@@ -8,7 +8,6 @@
 #include "Script/gameObjs/mapSurfaces/Lichen_Forest.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
@@ -16,7 +15,6 @@
 #include <string>
 
 //-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//

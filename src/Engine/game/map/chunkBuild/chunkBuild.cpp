@@ -5,9 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cstring>
 
 //-------------------- CPP --------------------//
@@ -83,8 +81,8 @@ namespace {//----------- namespace ----------------//
 void build_9_chunks( const IntVec2 &_playerMPos ){
 
     IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( _playerMPos );
-    IntVec2     tmpChunkMPos;
-    chunkKey_t  chunkKey;
+    IntVec2     tmpChunkMPos {};
+    chunkKey_t  chunkKey     {};
 
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){ //- 周边 9 个 chunk
@@ -125,8 +123,8 @@ void collect_chunks_need_to_be_build_in_update(){
         //-- 全新 跨线程方案 --
         // 检查目标 chunk 周边9个chunk，如果哪个chunk 尚未生成，就将它 push到 全局容器 
         IntVec2      playerChunkMPos = chunkKey_2_mpos( currentChunkKey );
-        IntVec2      tmpChunkMPos;
-        chunkKey_t   tmpChunkKey;
+        IntVec2      tmpChunkMPos {};
+        chunkKey_t   tmpChunkKey  {};
         for( int h=-1; h<=1; h++ ){
             for( int w=-1; w<=1; w++ ){ //- nearby 9 个 chunk
                 tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
@@ -189,7 +187,7 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
  */
 void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
 
-    chunkKey_t tmpChunkKey;
+    chunkKey_t tmpChunkKey {};
     while( true ){
         //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
         if( esrc::atom_is_chunkDataFlags_empty() ){
@@ -255,8 +253,6 @@ void build_one_chunk( chunkKey_t _chunkKey ){
     //          tmp...
     //------------------------------//
 
-
-
 }
 
 
@@ -276,7 +272,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     //  而且是在 主线程上计算。如果 ecoObj 实例 创建成本不高，
     //  那么还可以接受
     IntVec2 targetChunkMPos = chunkKey_2_mpos( _chunkKey );
-    IntVec2  tmpChunkMPos;
+    IntVec2  tmpChunkMPos  {};
     for( size_t h=0; h<=1; h++ ){
         for( size_t w=0; w<=1; w++ ){ //- 周边 4 个chunk
             tmpChunkMPos.set(   targetChunkMPos.x + static_cast<int>(w*ENTS_PER_CHUNK),
@@ -288,7 +284,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     //--------------------------//
     //       push job
     //--------------------------//
-    ArgBinary_Build_ChunkData arg;
+    ArgBinary_Build_ChunkData arg {};
     arg.chunkKey = _chunkKey;
     //----------
     Job  job {};
@@ -315,7 +311,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
  */
 void fst_ecoObjs( const IntVec2 &_sectionMPos ){
 
-    sectionKey_t  tmpSectionKey;
+    sectionKey_t  tmpSectionKey {};
     for( const auto &whOff : quadSectionKeyOffs ){
         tmpSectionKey = sectionMPos_2_sectionKey( _sectionMPos + whOff );
                 //ecoObj::find_or_create_the_ecoObj( tmpSectionKey );

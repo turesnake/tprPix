@@ -50,7 +50,6 @@ void scriptMain(){
     //------- Starts -------//
     esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
 
-
 }
 
 

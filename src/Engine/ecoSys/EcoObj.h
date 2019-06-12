@@ -8,9 +8,6 @@
 #ifndef TPR_ECO_OBJ_H_
 #define TPR_ECO_OBJ_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -124,7 +121,6 @@ private:
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
 
     float           densitySeaLvlOff  {0.0f}; 
-
 };
 
 

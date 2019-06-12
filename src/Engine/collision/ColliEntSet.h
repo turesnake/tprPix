@@ -41,7 +41,7 @@ public:
     }
 
     inline void add_colliEnt( const IntVec2 &_ppos ){
-        MapCoord pos;
+        MapCoord pos {};
         pos.set_by_ppos_( _ppos ); //-- 必须使用严谨版
         this->colliEnts.insert( pos ); //- copy 
     }
@@ -54,7 +54,7 @@ public:
 
     void create_adds_dels();
     //---- get ----//    
-    
+
     inline const IntVec2 &get_centerPPos() const {
         return  this->centerPPos;
     }

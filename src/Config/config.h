@@ -12,20 +12,11 @@
 #define TPR_CONFIG_H_
 
 
-//-- 一个 mapSection 占有 256*256 个 mapEnt
-//  由于 section 始终是正方形，仅记录一条边的边长（包含多少个 mapents）
-//#define SECTION_SIDE_ENTS 256
-
-
-
 //-- 一个 section，占有 4*4 chunks
 #define CHUNKS_PER_SECTION 4
 
 //-- 一个 chunk，占有 8*8 fields
 #define FIELDS_PER_CHUNK  8
-
-//-- 一个 section，占有 32*32 fields
-//#define FIELDS_PER_SECTION  (FIELDS_PER_CHUNK*CHUNKS_PER_SECTION)
 
 //-- 一个 field，占有 4*4 mapents
 #define ENTS_PER_FIELD      4

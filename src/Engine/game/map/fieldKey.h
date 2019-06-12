@@ -10,10 +10,6 @@
 #ifndef TPR_FIELD_KEY_H_
 #define TPR_FIELD_KEY_H_
 
-
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -44,7 +40,7 @@ fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &_fieldMPos );
  * param: _fieldMPos - 必须为 field 左下角mpos。
  */
 inline fieldKey_t fieldMPos_2_key_inn( const IntVec2 &_fieldMPos ){
-    fieldKey_t key;
+    fieldKey_t key {};
     int *ptr = (int*)&key;
     *ptr = _fieldMPos.x;
     ptr++;

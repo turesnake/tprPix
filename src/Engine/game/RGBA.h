@@ -11,7 +11,6 @@
 #define TPR_RGBA_H_
 
 //------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //------------------- Libs --------------------//
@@ -42,15 +41,15 @@ public:
         {}
     
     inline bool is_near( const RGBA &_a, u8_t _off )const{
-        int rr = static_cast<int>(this->r) - static_cast<int>(_a.r);
-        int gg = static_cast<int>(this->g) - static_cast<int>(_a.g);
-        int bb = static_cast<int>(this->b) - static_cast<int>(_a.b);
-        int aa = static_cast<int>(this->a) - static_cast<int>(_a.a);
+        int rr = static_cast<int>(this->r - _a.r);
+        int gg = static_cast<int>(this->g - _a.g);
+        int bb = static_cast<int>(this->b - _a.b);
+        int aa = static_cast<int>(this->a - _a.a);
         return (
-        (abs(rr) <= static_cast<int>(_off)) &&
-        (abs(gg) <= static_cast<int>(_off)) &&
-        (abs(bb) <= static_cast<int>(_off)) &&
-        (abs(aa) <= static_cast<int>(_off))
+        (std::abs(rr) <= static_cast<int>(_off)) &&
+        (std::abs(gg) <= static_cast<int>(_off)) &&
+        (std::abs(bb) <= static_cast<int>(_off)) &&
+        (std::abs(aa) <= static_cast<int>(_off))
         );
     }
 
@@ -63,13 +62,13 @@ public:
 
     //-- 支持更复杂的数据 累加 --
     inline RGBA add( int _r, int _g, int _b, int _a ) const {
-        int rr = static_cast<int>(this->r) + static_cast<int>(_r);
-        int gg = static_cast<int>(this->g) + static_cast<int>(_g);
-        int bb = static_cast<int>(this->b) + static_cast<int>(_b);
-        int aa = static_cast<int>(this->a) + static_cast<int>(_a);
-        tprAssert( (rr>=0) && (rr<256) &&
-                (gg>=0) && (gg<256) &&
-                (bb>=0) && (bb<256) );
+        int rr = static_cast<int>(this->r + _r);
+        int gg = static_cast<int>(this->g + _g);
+        int bb = static_cast<int>(this->b + _b);
+        int aa = static_cast<int>(this->a + _a);
+        tprAssert(  (rr>=0) && (rr<256) &&
+                    (gg>=0) && (gg<256) &&
+                    (bb>=0) && (bb<256) );
         return RGBA {   static_cast<u8_t>(rr), 
                         static_cast<u8_t>(gg), 
                         static_cast<u8_t>(bb), 
@@ -118,10 +117,10 @@ namespace rgba {//-------- namespace: rgba --------------//
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 inline bool is_rgba_near( const RGBA &_a, const RGBA &_b, u8_t _off ){
 
-    int rr = static_cast<int>(_a.r) - static_cast<int>(_b.r);
-    int gg = static_cast<int>(_a.g) - static_cast<int>(_b.g);
-    int bb = static_cast<int>(_a.b) - static_cast<int>(_b.b);
-    int aa = static_cast<int>(_a.a) - static_cast<int>(_b.a);
+    int rr = static_cast<int>(_a.r - _b.r);
+    int gg = static_cast<int>(_a.g - _b.g);
+    int bb = static_cast<int>(_a.b - _b.b);
+    int aa = static_cast<int>(_a.a - _b.a);
     return (
        (std::abs(rr) <= static_cast<int>(_off)) &&
        (std::abs(gg) <= static_cast<int>(_off)) &&

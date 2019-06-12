@@ -8,15 +8,11 @@
 #include "Script/UIs/buttons/Button_SceneBegin_Pointer.h"
 
 //-------------------- C --------------------//
-//#include <cassert>
 #include <cmath>
 
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
-
-//-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

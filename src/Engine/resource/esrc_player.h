@@ -11,10 +11,7 @@
 //-------------------- Engine --------------------//
 #include "Player.h" 
 
-namespace esrc {//------------------ namespace: esrc -------------------------//
-
-//--- mem ---//
-//inline Player  player {}; //- 全游戏唯一 Player 实例  
+namespace esrc {//------------------ namespace: esrc -------------------------//  
 
 Player &get_player();
 

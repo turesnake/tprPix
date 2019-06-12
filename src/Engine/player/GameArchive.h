@@ -35,7 +35,6 @@ public:
     double         gameTime       {}; //- double
 
 
-
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
 

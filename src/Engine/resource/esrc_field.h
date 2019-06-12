@@ -28,7 +28,6 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
 void atom_create_a_go_in_field( fieldKey_t _fieldKey );
 
 
-
 //-- tmp，仅用于 debug，在未来，要被删除
 const MapField &atom_get_field( fieldKey_t _fieldKey );   // tmp......
 

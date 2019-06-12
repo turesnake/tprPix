@@ -17,11 +17,6 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-//-- 一个 类实例 维护一个 window。
-//-- window 数据结构的 具体内容由 glfw库管理。
-//-- 用户只需保存一个指针。用来访问这个 window。
-//inline GLFWwindow  *windowPtr {};
-
 GLFWwindow *get_windowPtr();
 
 void set_windowPtr( GLFWwindow *_newPtr );

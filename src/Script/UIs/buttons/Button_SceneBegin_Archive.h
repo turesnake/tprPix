@@ -8,8 +8,6 @@
 #ifndef TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H_
 #define TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H_
 
-//-------------------- C --------------------//
-//#include <cassert>
 
 //-------------------- CPP --------------------//
 #include <string>

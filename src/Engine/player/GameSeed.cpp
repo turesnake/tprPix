@@ -8,16 +8,13 @@
  * ----------------------------
  */
 #include "GameSeed.h"
-
 #include "tprDebug.h"
-
-
 #include "tprAssert.h"
 
 
-namespace{//----------- namespace ----------------//
+namespace {//----------- namespace ----------------//
 
-    inline std::uniform_int_distribution<int>   uDistribution_altiSeed(-1000, 1000);
+    inline std::uniform_int_distribution<int>    uDistribution_altiSeed(-1000, 1000);
     inline std::uniform_real_distribution<float> uDistribution_float(-1000.0, 1000.0);
 
 
@@ -81,7 +78,4 @@ void GameSeed::init_glm_vec2s(){
     this->ecoObjWeight_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
                                                 static_cast<float>(uDistribution_float(this->randEngine)) );
 }
-
-
-
 

@@ -12,7 +12,6 @@
 
 //------------------- C --------------------//
 #include <cmath>
-//#include <cassert>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
@@ -22,7 +21,7 @@
 #include "RGBA.h"
 
 
-namespace{//---------- namespace ---------//
+namespace ces_RGBAHandle_inn {//---------- namespace ---------//
     //--- A --- 
     u8_t    A_SOLID         = 255; 
     //--- R --- 
@@ -60,21 +59,21 @@ public:
         this->isColliEnt = false;
 
         //-- empty --
-        if( (is_near_inner(RGBA_ChannelType::A, A_SOLID)==false) || 
-            (this->rgba.is_near( uselessColor_1, 5)==true) ||
-            (this->rgba.is_near( uselessColor_2, 5)==true) ||
-            (this->rgba.is_near( uselessColor_3, 5)==true) ){
+        if( (is_near_inner(RGBA_ChannelType::A, ces_RGBAHandle_inn::A_SOLID)==false) || 
+            (this->rgba.is_near( ces_RGBAHandle_inn::uselessColor_1, 5)==true) ||
+            (this->rgba.is_near( ces_RGBAHandle_inn::uselessColor_2, 5)==true) ||
+            (this->rgba.is_near( ces_RGBAHandle_inn::uselessColor_3, 5)==true) ){
             return;
         }
         this->isEmpty = false;
 
         //--- R --- 
-        if( is_near_inner(RGBA_ChannelType::R, R_colliEnt) == true ){
+        if( is_near_inner(RGBA_ChannelType::R, ces_RGBAHandle_inn::R_colliEnt) == true ){
             this->isColliEnt = true;
         }
 
         //--- B --- 
-        if( is_near_inner(RGBA_ChannelType::B, B_center) == true ){
+        if( is_near_inner(RGBA_ChannelType::B, ces_RGBAHandle_inn::B_center) == true ){
             this->isCenter       = true;
             tprAssert( this->rgba.g > 0 );
         }

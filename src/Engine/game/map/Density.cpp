@@ -9,7 +9,6 @@
 
 //------------------- C --------------------//
 #include <cmath>
-//#include <cassert>
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"

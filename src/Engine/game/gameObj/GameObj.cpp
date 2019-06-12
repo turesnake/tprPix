@@ -48,7 +48,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
                                         bool              _isFlipOver ){
 
     // ***| INSERT FIRST, INIT LATER  |***
-    GameObjMesh  goMesh; //- tmp 
+    GameObjMesh  goMesh {}; //- tmp 
     this->goMeshs.insert({ _name, goMesh }); //- copy
     GameObjMesh &gmesh = this->goMeshs.at(_name);
 
@@ -80,9 +80,9 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
  * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
  */
 void GameObj::reset_chunkKeys(){
-    MapCoord     cesMCPos; //- 每个 ces左下角的 mcpos （世界绝对pos）
-    MapCoord     tmpEntMCPos;
-    chunkKey_t   tmpChunkKey;
+    MapCoord     cesMCPos    {}; //- 每个 ces左下角的 mcpos （世界绝对pos）
+    MapCoord     tmpEntMCPos {};
+    chunkKey_t   tmpChunkKey {};
     //-------
     this->chunkKeys.clear();
     //-------
@@ -103,7 +103,6 @@ void GameObj::reset_chunkKeys(){
         this->chunkKeys.insert( tmpChunkKey ); //- copy
     } //- each collient mcpos end --
 }
-
 
 
 

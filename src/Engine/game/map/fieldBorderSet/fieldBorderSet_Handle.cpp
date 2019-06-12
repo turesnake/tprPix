@@ -7,11 +7,6 @@
  */
 #include "fieldBorderSet_Handle.h"
 
-
-//-------------------- C --------------------//
-//#include <cassert>
-
-
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
@@ -19,7 +14,6 @@
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
-//#include "tprFileSys.h" 
 #include "tprGeneral.h"
 
 
@@ -89,7 +83,7 @@ void load_fieldBorderSets(){
     //----------------------------//
     //        parse
     //----------------------------//
-    size_t                pixIdx;
+    size_t                pixIdx {};
 
     for( const auto &frameRef : frame_data_ary ){ //- each frame in png
 

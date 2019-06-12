@@ -6,9 +6,6 @@
  * ----------------------------------------------------------
  */
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "sceneLoop.h"
@@ -36,9 +33,4 @@ void switch_sceneLoop( const SceneLoopType &_type ){
     }
 
 }
-
-
-
-
-
 

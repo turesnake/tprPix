@@ -7,15 +7,11 @@
  */
 #include "Script/gameObjs/majorGos/trees/OakTree.h"
 
-//-------------------- C --------------------//
-//#include <cassert> //- assert
-
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
 
 //-------------------- tpr --------------------//
-//#include "tprFileSys.h"
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -34,7 +30,7 @@ using namespace std::placeholders;
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-namespace{//-------------- namespace ------------------//
+namespace {//-------------- namespace ------------------//
 
     //--- 将所有 oakId 分类，方便分配 ---
     std::vector<size_t> multiBranch_age1   { 0 };
