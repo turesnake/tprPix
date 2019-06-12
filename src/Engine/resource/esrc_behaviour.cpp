@@ -10,15 +10,15 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//------------------ namespace -------------------------//
+namespace behaviour_inn {//------------------ namespace: behaviour_inn -------------------------//
 
     Behaviour behaviour {};  //- 全游戏唯一 Behaviour 实例
 
-}//--------------------- namespace: end -------------------------//
+}//--------------------- namespace: behaviour_inn end -------------------------//
 
 
 Behaviour &get_behaviour(){
-    return behaviour;
+    return behaviour_inn::behaviour;
 }
 
 

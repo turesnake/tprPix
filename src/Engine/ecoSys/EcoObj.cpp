@@ -26,7 +26,7 @@
 #include "tprDebug.h"
 
 
-namespace {//-------- namespace: --------------//
+namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 
     std::default_random_engine  rEngine; //-通用 随机数引擎实例
     inline std::uniform_real_distribution<float> uDistribution_f(-100.0f,100.0f);
@@ -42,7 +42,7 @@ namespace {//-------- namespace: --------------//
         IntVec2{ ENTS_PER_SECTION*2, ENTS_PER_SECTION*2 }
     };
 
-}//------------- namespace: end --------------//
+}//------------- namespace: ecoObj_inn end --------------//
 
 
 /* ===========================================================
@@ -58,7 +58,7 @@ void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t _targetKey,
     IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(_targetKey), static_cast<float>(sideLen) ) * sideLen;
 
     _container.clear();
-    for( const auto &off :  nearFour_node_ecoObj_mposOffs ){ //- each off mpos
+    for( const auto &off :  ecoObj_inn::nearFour_node_ecoObj_mposOffs ){ //- each off mpos
         _container.push_back( sectionMPos_2_sectionKey(baseMPos + off) );
     }
 }
@@ -153,7 +153,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
 
     EcoSysPlanType   ecoPlanType {};
 
-    rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
+    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
 
     //------------------------//
     //          右下
@@ -162,7 +162,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
         node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
         node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(1)) );
 
-        (uDistribution_2(rEngine)==0) ?
+        (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
         targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
@@ -174,7 +174,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
         node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
         node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
 
-        (uDistribution_2(rEngine)==0) ?
+        (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
         targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
@@ -188,7 +188,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
         node_3_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
         node_4_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(3)) );
 
-        switch( uDistribution_4(rEngine) ){
+        switch( ecoObj_inn::uDistribution_4(ecoObj_inn::rEngine) ){
             case 0: ecoPlanType = node_1_Ptr->get_type(); break;
             case 1: ecoPlanType = node_2_Ptr->get_type(); break;
             case 2: ecoPlanType = node_3_Ptr->get_type(); break;
@@ -214,7 +214,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
  */
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *_targetEcoPlanPtr ){
 
-    rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
+    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
 
     this->ecoSysPlanId = _targetEcoPlanPtr->get_id();
     this->ecoSysPlanType = _targetEcoPlanPtr->get_type();
@@ -230,7 +230,7 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *_targetEcoPlanPtr ){
     for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
         //--- 取 8 个元素 ---
         for( int ci=0; ci<8; ci++ ){ 
-            tmpGoSpecId = _targetEcoPlanPtr->apply_a_rand_goSpecId( i, uDistribution_f(rEngine) );
+            tmpGoSpecId = _targetEcoPlanPtr->apply_a_rand_goSpecId( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
             this->goSpecIdPools.at(i).push_back( tmpGoSpecId );
         }
     }

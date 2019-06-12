@@ -10,15 +10,15 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//-------- namespace: --------------//
+namespace gameSeed_inn {//-------- namespace: gameSeed_inn --------------//
 
     GameSeed  gameSeed {}; //- tmp, 游戏种子，
                             //- 暂设为：只有一个种子，且每次运行都重置
 
-}//------------- namespace: end --------------//
+}//------------- namespace: gameSeed_inn end --------------//
 
 GameSeed &get_gameSeed(){
-    return gameSeed;
+    return gameSeed_inn::gameSeed;
 }
 
 

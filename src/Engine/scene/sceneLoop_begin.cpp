@@ -41,7 +41,7 @@ using namespace std::placeholders;
 #include "tprDebug.h"
 
 
-namespace {//-------------- namespace ------------------//
+namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
     //-- 三个按钮的 位置 --
     const std::vector<glm::vec2> buttonFPoses {
@@ -69,7 +69,7 @@ namespace {//-------------- namespace ------------------//
     //===== funcs =====//
     void inputINS_handle_in_sceneBegin( const InputINS &_inputINS);
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: sc_begin_inn end ------------------//
 
 
 /* ===========================================================
@@ -82,38 +82,38 @@ void prepare_for_sceneBegin(){
     //----------------------------//
     //      create ui objs
     //----------------------------//
-    uiObjId_t pointerId = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_pointer"), buttonFPoses.at(0) );
+    uiObjId_t pointerId = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_pointer"), sc_begin_inn::buttonFPoses.at(0) );
 
-    uiObjId_t archiveId_1 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), buttonFPoses.at(0) );
-    uiObjId_t archiveId_2 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), buttonFPoses.at(1) );
-    uiObjId_t archiveId_3 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), buttonFPoses.at(2) );
+    uiObjId_t archiveId_1 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(0) );
+    uiObjId_t archiveId_2 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(1) );
+    uiObjId_t archiveId_3 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(2) );
 
-    button_pointer_Ptr   = esrc::get_memUIPtr( pointerId );
-    button_archive_1_Ptr = esrc::get_memUIPtr( archiveId_1 );
-    button_archive_2_Ptr = esrc::get_memUIPtr( archiveId_2 );
-    button_archive_3_Ptr = esrc::get_memUIPtr( archiveId_3 );
+    sc_begin_inn::button_pointer_Ptr   = esrc::get_memUIPtr( pointerId );
+    sc_begin_inn::button_archive_1_Ptr = esrc::get_memUIPtr( archiveId_1 );
+    sc_begin_inn::button_archive_2_Ptr = esrc::get_memUIPtr( archiveId_2 );
+    sc_begin_inn::button_archive_3_Ptr = esrc::get_memUIPtr( archiveId_3 );
 
 
     //----------------------------//
     //            db
     //----------------------------//
     //-- 从 数据库读取 所有 gameArchives 的数据 --
-    db::atom_select_all_from_table_gameArchive( gameArchives );
-        tprAssert( gameArchives.size() <= 3 );
+    db::atom_select_all_from_table_gameArchive( sc_begin_inn::gameArchives );
+        tprAssert( sc_begin_inn::gameArchives.size() <= 3 );
     
-    for( const auto &pair : gameArchives ){
+    for( const auto &pair : sc_begin_inn::gameArchives ){
         //-- 如果哪个 存档已经有数据了，修改其图标（显示"data"）
         //   简单粗暴的实现，临时...
         switch( pair.first ){
-            case 1:  button_archive_1_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
-            case 2:  button_archive_2_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
-            case 3:  button_archive_3_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 1:  sc_begin_inn::button_archive_1_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 2:  sc_begin_inn::button_archive_2_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 3:  sc_begin_inn::button_archive_3_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
             default:
                 tprAssert(0);
         }
     }
     
-    input::bind_inputINS_handleFunc( std::bind( &inputINS_handle_in_sceneBegin, _1 ) );
+    input::bind_inputINS_handleFunc( std::bind( &sc_begin_inn::inputINS_handle_in_sceneBegin, _1 ) );
     switch_sceneLoop( SceneLoopType::Begin );
 }
 
@@ -167,7 +167,7 @@ void sceneLoop_begin(){
 
 }
 
-namespace {//-------------- namespace ------------------//
+namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
 
 /* ===========================================================
@@ -322,5 +322,5 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 }
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: sc_begin_inn end ------------------//
 

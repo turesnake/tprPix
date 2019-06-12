@@ -35,6 +35,11 @@
     #define tprAssert_inn(e,File,Line)  (e) ? 0 : tprMessageBox(#e, File,Line)
 
 #else
+    // allow assert in release mode 
+    // 如果不取消 NDEBUG，将在 release mode 引发关于 OpenGL_glad 的奇怪的 Segmentation fault 错误...
+    #ifdef NDEBUG 
+        #undef NDEBUG 
+    #endif
     #include <cassert>
     #define tprAssert_inn(e,File,Line) assert(e);
 #endif

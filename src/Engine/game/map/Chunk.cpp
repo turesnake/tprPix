@@ -37,7 +37,7 @@
 #include "Script/gameObjs/create_goes.h"
 
 
-namespace {//-------- namespace: --------------//
+namespace chunk_inn {//-------- namespace: chunk_inn --------------//
     
     //--- 定值: chunk-mesh scale --
     const glm::vec3  mesh_scaleVal {PIXES_PER_CHUNK_IN_TEXTURE,
@@ -49,7 +49,7 @@ namespace {//-------- namespace: --------------//
         0.1f, 0.2f, 0.3f, 0.4f
     };
 
-}//------------- namespace: end --------------//
+}//------------- namespace: chunk_inn end --------------//
 
 
 /* ===========================================================
@@ -59,7 +59,7 @@ namespace {//-------- namespace: --------------//
 void Chunk::init(){
     
     //--- mesh.scale ---
-    mesh.set_scale(mesh_scaleVal);
+    mesh.set_scale(chunk_inn::mesh_scaleVal);
 
     //---
     this->init_memMapEnts();
@@ -70,7 +70,7 @@ void Chunk::init(){
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
     IntVec2 oddEven = floorMod( v, 2 );
-    this->zOff = zOffs.at( to_size_t_cast(oddEven.y * 2 + oddEven.x) );
+    this->zOff = chunk_inn::zOffs.at( to_size_t_cast(oddEven.y * 2 + oddEven.x) );
 
     
     //------------------------------//

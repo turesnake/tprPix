@@ -38,7 +38,7 @@
 namespace chunkBuild {//------- namespace: chunkBuild ----------//
 
 
-namespace {//----------- namespace ----------------//
+namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     // 此数据 和 MapField.cpp 中存在重复
@@ -67,7 +67,7 @@ namespace {//----------- namespace ----------------//
     void insert_2_chunkQueBuilding( chunkKey_t _chunkKey );
     void erase_from_chunkQueBuilding( chunkKey_t _chunkKey );
 
-}//-------------- namespace : end ----------------//
+}//-------------- namespace: cb_inn end ----------------//
 
 
 
@@ -92,7 +92,7 @@ void build_9_chunks( const IntVec2 &_playerMPos ){
             if( !esrc::find_from_chunks( chunkKey ) ){
 
                 //-- 全新 跨线程方案 --
-                chunkBuild_1_push_job( chunkKey );
+                cb_inn::chunkBuild_1_push_job( chunkKey );
                 chunkBuild_4_wait_until_target_chunk_builded( chunkKey  );
             }
         }
@@ -111,18 +111,18 @@ void collect_chunks_need_to_be_build_in_update(){
 
     IntVec2 playerMPos = esrc::get_player().goPtr->goPos.get_currentMPos();
 
-    currentChunkKey = anyMPos_2_chunkKey( playerMPos );
-    if( is_first_check ){
-        is_first_check = false;
-        lastChunkKey = currentChunkKey;
+    cb_inn::currentChunkKey = anyMPos_2_chunkKey( playerMPos );
+    if( cb_inn::is_first_check ){
+        cb_inn::is_first_check = false;
+        cb_inn::lastChunkKey = cb_inn::currentChunkKey;
         return;
     }
 
-    if( currentChunkKey != lastChunkKey ){
-        lastChunkKey = currentChunkKey;
+    if( cb_inn::currentChunkKey != cb_inn::lastChunkKey ){
+        cb_inn::lastChunkKey = cb_inn::currentChunkKey;
         //-- 全新 跨线程方案 --
         // 检查目标 chunk 周边9个chunk，如果哪个chunk 尚未生成，就将它 push到 全局容器 
-        IntVec2      playerChunkMPos = chunkKey_2_mpos( currentChunkKey );
+        IntVec2      playerChunkMPos = chunkKey_2_mpos( cb_inn::currentChunkKey );
         IntVec2      tmpChunkMPos {};
         chunkKey_t   tmpChunkKey  {};
         for( int h=-1; h<=1; h++ ){
@@ -134,8 +134,8 @@ void collect_chunks_need_to_be_build_in_update(){
 
                     //-- 多一道判断，对于那些已经 进入build流程的 chunk 
                     //   也不用再重复登记了。不然会有 bug 
-                    if( !find_from_chunkQueBuilding(tmpChunkKey) ){
-                        chunkBuild_1_push_job( tmpChunkKey ); //-- 跨线程新方案
+                    if( !cb_inn::find_from_chunkQueBuilding(tmpChunkKey) ){
+                        cb_inn::chunkBuild_1_push_job( tmpChunkKey ); //-- 跨线程新方案
                     }
                 }
             }
@@ -167,14 +167,14 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
     chunkKey_t chunkKey = esrc::atom_pop_from_chunkDataFlags();
 
         //-- 正式生成这个 chunk 实例
-        build_one_chunk( chunkKey );
+        cb_inn::build_one_chunk( chunkKey );
                 //-- 实际上，目前的 job线程 是空的，
                 //   所有运算 都在这个 函数中...
 
 
     //-- 及时删除 chunkData 数据本体 --
     esrc::atom_erase_from_chunkDatas( chunkKey ); //- MUST !!!
-    erase_from_chunkQueBuilding( chunkKey ); //- MUST !!!
+    cb_inn::erase_from_chunkQueBuilding( chunkKey ); //- MUST !!!
     return chunkKey;
 }
 
@@ -203,7 +203,7 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
 }
 
 
-namespace {//----------- namespace ----------------//
+namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
 
 /* ===========================================================
@@ -341,5 +341,5 @@ void erase_from_chunkQueBuilding( chunkKey_t _chunkKey ){
 
 
 
-}//-------------- namespace : end ----------------//
+}//-------------- namespace: cb_inn end ----------------//
 }//----------------- namespace: chunkBuild: end -------------------//

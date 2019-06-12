@@ -15,7 +15,7 @@
 #include "tprCast.h"
 
 
-namespace {//-------- namespace: --------------//
+namespace ow_inn {//-------- namespace: ow_inn --------------//
 
     //- 为了避免相邻的 4顶点 不出现相同的 occupyWeight
     //  首先根据 顶点在 地图上的 奇偶性， 将每个 顶点 划分为 4种类型。
@@ -28,7 +28,7 @@ namespace {//-------- namespace: --------------//
         std::vector<occupyWeight_t>{ 3, 5,  8, 13 }  //- {1,1}
     };
 
-}//------------- namespace: end --------------//
+}//------------- namespace: ow_inn end --------------//
 
 
 /* ===========================================================
@@ -44,7 +44,7 @@ occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
 
     size_t containerIdx = to_size_t_cast( _oddEven.y * 2 + _oddEven.x );
         //tprAssert( containerIdx < occupyWeights.size() ); //- tmp
-    const std::vector<occupyWeight_t> &container = occupyWeights.at(containerIdx);
+    const std::vector<occupyWeight_t> &container = ow_inn::occupyWeights.at(containerIdx);
 
     size_t idx = _randIdx % container.size(); //- mod
     return container.at(idx);

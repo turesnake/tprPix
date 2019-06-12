@@ -21,7 +21,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//------------ namespace --------------//
+namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
     //-- 目前版本中，只有 主现场可以 创建 ecoObj 实例 --
     //   仅提供 数据只读口给 job线程 
@@ -33,7 +33,7 @@ namespace {//------------ namespace --------------//
         return (ecoObjs.find(_key) != ecoObjs.end());
     }
 
-}//---------------- namespace end --------------//
+}//---------------- namespace: ecoObj_inn end --------------//
 
 
 /* ===========================================================
@@ -45,9 +45,9 @@ namespace {//------------ namespace --------------//
 void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
 
     //=== lock ===//
-    std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write -
+    std::unique_lock<std::shared_mutex> ul( ecoObj_inn::sharedMutex ); //- write -
     //-- 若已存在，直接返回 --
-    if( is_find_in_ecoObjs_(_ecoObjKey) ){
+    if( ecoObj_inn::is_find_in_ecoObjs_(_ecoObjKey) ){
         return;
     }
 
@@ -63,8 +63,8 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
     ul.lock();
     for( const auto &key : nearby_four_nodeKeys ){
         //-- 已经存在的 node 实例 不需要创建 --
-        if( is_find_in_ecoObjs_( key ) ){
-            nearby_four_ecoSysIds.push_back( esrc::ecoObjs.at(key).get_ecoSysPlanId() ); //- copy
+        if( ecoObj_inn::is_find_in_ecoObjs_( key ) ){
+            nearby_four_ecoSysIds.push_back( ecoObj_inn::ecoObjs.at(key).get_ecoSysPlanId() ); //- copy
             continue;
         }
 
@@ -76,14 +76,14 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
 
         //=== lock ===//
         ul.lock();
-        esrc::ecoObjs.insert({ key, ecoObj }); //- copy
+        ecoObj_inn::ecoObjs.insert({ key, ecoObj }); //- copy
     }
     
     //=== still locked ===//
     tprAssert( nearby_four_ecoSysIds.size() == 4 );
     //-- 若 目标 ecoObj 实例 就是 node
     //   则此时会直接返回
-    if( is_find_in_ecoObjs_(_ecoObjKey) ){
+    if( ecoObj_inn::is_find_in_ecoObjs_(_ecoObjKey) ){
         return;
     }
 
@@ -95,7 +95,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
 
     //=== lock ===//
     ul.lock();
-    esrc::ecoObjs.insert({ _ecoObjKey, targetEnt }); //- copy
+    ecoObj_inn::ecoObjs.insert({ _ecoObjKey, targetEnt }); //- copy
 }
 
 
@@ -109,9 +109,9 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
 
     std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly {};
     {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        const auto &ecoObjRef = esrc::ecoObjs.at(_sectionkey);
+        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
+        const auto &ecoObjRef = ecoObj_inn::ecoObjs.at(_sectionkey);
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
         readOnly.second.sectionKey = ecoObjRef.get_sectionKey();
@@ -134,9 +134,9 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
 
     const std::vector<RGBA> *ptr {nullptr};
     {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        ptr = esrc::ecoObjs.at(_sectionkey).get_landColorsPtr();
+        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
+        ptr = ecoObj_inn::ecoObjs.at(_sectionkey).get_landColorsPtr();
     }
     return ptr;
 }
@@ -148,9 +148,9 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
 goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _densityIdx, float _randV ){
     goSpecId_t id {};
     {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        id = esrc::ecoObjs.at(_sectionkey).apply_a_rand_goSpecId( _densityIdx, _randV  );
+        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
+        id = ecoObj_inn::ecoObjs.at(_sectionkey).apply_a_rand_goSpecId( _densityIdx, _randV  );
     }
     return id;
 }
@@ -163,9 +163,9 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _d
 float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Density &_density ){
     float val {};
     {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read -
-            tprAssert( is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        val = esrc::ecoObjs.at(_sectionkey).get_applyPercent( _density );
+        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
+        val = ecoObj_inn::ecoObjs.at(_sectionkey).get_applyPercent( _density );
     }
     return val;
 }

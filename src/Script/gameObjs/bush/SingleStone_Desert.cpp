@@ -33,9 +33,6 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
-
 
 /* ===========================================================
  *                  init_in_autoMod
@@ -221,7 +218,5 @@ void SingleStone_Desert::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type
 }
 
 
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

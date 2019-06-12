@@ -24,7 +24,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//--------------- namespace -----------------//
+namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn -------------//
 
     std::unordered_map<std::string, AnimFrameSet> animFrameSets {};
 
@@ -38,20 +38,20 @@ namespace {//--------------- namespace -----------------//
                                 const std::string &_suffix,
                                 size_t _size );
 
-}//--------------- namespace end -----------------//
+}//--------------- namespace: animFrameSet_inn end -----------------//
 
 
 /* ===========================================================
  *                      getnc_animActionPtr
  * -----------------------------------------------------------
  * -- 用法：
- *    esrc::getnc_animActionPtr( "dog", "jump" );
+ *    getnc_animActionPtr( "dog", "jump" );
  */
 AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
                                 const std::string &_actionName ){
 
-    tprAssert( esrc::animFrameSets.find(_animFrameSetName) != esrc::animFrameSets.end() );
-    return  esrc::animFrameSets.at(_animFrameSetName).getnc_animActionPtr( _actionName );
+    tprAssert( animFrameSet_inn::animFrameSets.find(_animFrameSetName) != animFrameSet_inn::animFrameSets.end() );
+    return  animFrameSet_inn::animFrameSets.at(_animFrameSetName).getnc_animActionPtr( _actionName );
 }
 
 
@@ -64,13 +64,13 @@ AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
  */
 void load_animFrameSets(){
 
-    esrc::animFrameSets.clear();
+    animFrameSet_inn::animFrameSets.clear();
     AnimFrameSet *animFrameSetPtr {nullptr};
 
     //---------------------------------------//
     //                Button
     //---------------------------------------//
-    animFrameSetPtr = insert_new_animFrameSet( "button_beginScene" );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "button_beginScene" );
     animFrameSetPtr->insert_a_png(  
             "/button/beginScene/button_beginScene.P.png",
             IntVec2{1, 3}, 3,
@@ -88,7 +88,7 @@ void load_animFrameSets(){
     //-----------//
     //   norman
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "norman" );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "norman" );
     animFrameSetPtr->insert_a_png(  
             "/norman/norman.P.png",
             IntVec2{6, 2}, 12,
@@ -110,7 +110,7 @@ void load_animFrameSets(){
     //-----------//
     //   bigMan
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "bigMan" );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "bigMan" );
     animFrameSetPtr->insert_a_png(  
             "/bigMan/bigMan.P.png",
             IntVec2{6, 2}, 12,
@@ -133,7 +133,7 @@ void load_animFrameSets(){
     //-----------//
     //    crab
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "crab" );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "crab" );
     animFrameSetPtr->insert_a_png(  
             "/crab/crab.P.png",
             IntVec2{5, 4}, 19,
@@ -193,27 +193,27 @@ void load_animFrameSets(){
     //-----------//
     //  oakTree
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "oakTree" );
-    build_animActionParams( "", "_idle", 17 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "oakTree" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 17 );
     animFrameSetPtr->insert_a_png(  
             "/oakTree/OakTree_2.P.png",
             IntVec2{5, 4}, 17,
             true, //- 有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams );
+            animFrameSet_inn::animActionParams );
 
 
     //-----------//
     //  pineTree
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "pineTree" );
-    build_animActionParams( "", "_idle", 8 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "pineTree" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 8 );
     animFrameSetPtr->insert_a_png(  
             "/pineTree/pineTree.P.png", 
             IntVec2{4, 2}, 8,
             true, //- 有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams );
+            animFrameSet_inn::animActionParams );
 
 
     //---------------------------------------//
@@ -223,47 +223,47 @@ void load_animFrameSets(){
     //-----------//
     //  wheat
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "wheat" );
-    build_animActionParams( "front_", "_idle", 4 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "wheat" );
+    animFrameSet_inn::build_animActionParams( "front_", "_idle", 4 );
     animFrameSetPtr->insert_a_png(  
             "/wheat/wheat_Front.P.png",
             IntVec2{4, 1}, 4,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams );
-    build_animActionParams( "back_", "_idle", 4 );
+            animFrameSet_inn::animActionParams );
+    animFrameSet_inn::build_animActionParams( "back_", "_idle", 4 );
     animFrameSetPtr->insert_a_png(  
             "/wheat/wheat_Back.P.png",
             IntVec2{4, 1}, 4,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams );
+            animFrameSet_inn::animActionParams );
 
     
     //-----------//
     // singleStone_Desert 
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "singleStone_Desert" );
-    build_animActionParams( "", "_idle", 8 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "singleStone_Desert" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 8 );
     animFrameSetPtr->insert_a_png(  
             "/singleStone_Desert/singleStone_Desert.P.png", 
             IntVec2{4, 2}, 8,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams
+            animFrameSet_inn::animActionParams
             );
 
     //-----------//
     //  leaf_DForest
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "leaf_DForest" );
-    build_animActionParams( "", "_idle", 8 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "leaf_DForest" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 8 );
     animFrameSetPtr->insert_a_png(  
             "/leaf_DForest/leaf_DForest.P.png", 
             IntVec2{4, 2}, 8,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams
+            animFrameSet_inn::animActionParams
             );
 
     //---------------------------------------//
@@ -273,14 +273,14 @@ void load_animFrameSets(){
     //-----------//
     // lichen_Forest 
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "lichen_Forest" );
-    build_animActionParams( "", "_idle", 32 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "lichen_Forest" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 32 );
     animFrameSetPtr->insert_a_png(  
             "/lichen_Forest/lichen_Forest.P.png", 
             IntVec2{8, 4}, 32,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams
+            animFrameSet_inn::animActionParams
             );
 
 
@@ -288,21 +288,21 @@ void load_animFrameSets(){
     //-----------//
     // lichen_DForest 
     //-----------//
-    animFrameSetPtr = insert_new_animFrameSet( "lichen_DForest" );
-    build_animActionParams( "", "_idle", 24 );
+    animFrameSetPtr = animFrameSet_inn::insert_new_animFrameSet( "lichen_DForest" );
+    animFrameSet_inn::build_animActionParams( "", "_idle", 24 );
     animFrameSetPtr->insert_a_png(  
             "/lichen_DForest/lichen_DForest.P.png", 
             IntVec2{8, 3}, 24,
             false, //- 没有 shadow 数据
             false, false, //- J,S 数据是否只有 1 帧
-            animActionParams
+            animFrameSet_inn::animActionParams
             );
 
 }
 
 
 
-namespace {//--------------- namespace -----------------//
+namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn -------------//
 
 
 /* ===========================================================
@@ -310,8 +310,8 @@ namespace {//--------------- namespace -----------------//
  * -----------------------------------------------------------
  */
 AnimFrameSet *insert_new_animFrameSet( const std::string &_name ){
-    esrc::animFrameSets.insert({ _name, AnimFrameSet { _name } });
-    return &esrc::animFrameSets.at(_name);
+    animFrameSet_inn::animFrameSets.insert({ _name, AnimFrameSet { _name } });
+    return &animFrameSet_inn::animFrameSets.at(_name);
 }
 
 
@@ -322,13 +322,13 @@ AnimFrameSet *insert_new_animFrameSet( const std::string &_name ){
 void build_animActionParams(const std::string &_prefix,
                             const std::string &_suffix,
                             size_t _size ){
-    animActionParams.clear();
+    animFrameSet_inn::animActionParams.clear();
     for( size_t i=0; i<_size; i++ ){
-        animActionParams.push_back( AnimActionParam{ tprGeneral::nameString_combine( _prefix, i, _suffix ), i } );
+        animFrameSet_inn::animActionParams.push_back( AnimActionParam{ tprGeneral::nameString_combine( _prefix, i, _suffix ), i } );
     }
 }
 
 
-}//--------------- namespace end -----------------//
-}//---------------------- namespace: esrc -------------------------//
+}//--------------- namespace: animFrameSet_inn end -----------------//
+}//---------------------- namespace: esrc end -------------------------//
 

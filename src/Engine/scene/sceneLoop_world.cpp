@@ -21,7 +21,7 @@
 using namespace std::placeholders;
 
 
-namespace {//-------------- namespace ------------------//
+namespace sc_world_inn {//-------------- namespace: sc_world_inn ------------------//
 
 
     //-- 临时数据 --
@@ -40,7 +40,7 @@ namespace {//-------------- namespace ------------------//
     //===== funcs =====//
     void inputINS_handle_in_sceneWorld( const InputINS &_inputINS);
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: sc_world_inn end ------------------//
 
 
 
@@ -68,7 +68,7 @@ void prepare_for_sceneWorld(){
 
     
     esrc::get_camera().set_allFPos( esrc::get_player().goPtr->goPos.get_currentFPos() );
-    input::bind_inputINS_handleFunc( std::bind( &inputINS_handle_in_sceneWorld, _1 ) );
+    input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
 }
@@ -182,7 +182,7 @@ void sceneLoop_world(){
 
 
 
-namespace {//-------------- namespace ------------------//
+namespace sc_world_inn {//-------------- namespace: sc_world_inn ------------------//
 
 
 /* ===========================================================
@@ -275,7 +275,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
 }
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: sc_world_inn end ------------------//
 
 
 

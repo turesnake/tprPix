@@ -26,9 +26,9 @@ using std::string;
 //#include "tprDebug.h" //- tmp
 
 
-namespace {//------------------- namespace ---------------------
+namespace uiSpecIds_inn {//------------------- namespace: uiSpecIds_inn ---------------------
     void uiSpec_alloc( uiObjSpecId_t _id, const string &_name );
-}//------------------------- namespace: end -------------------
+}//------------------------- namespace: uiSpecIds_inn end -------------------
 
 
 /* ===========================================================
@@ -49,12 +49,12 @@ void onUISpecIds_SignUp(){
     //==================================//
 
     id = 1;   //- 
-        uiSpec_alloc( id, "button_sceneBegin_archive" ); 
+        uiSpecIds_inn::uiSpec_alloc( id, "button_sceneBegin_archive" ); 
         uis::Button_SceneBegin_Archive::specId = id;
         ssrc::insert_2_uiInit_funcs( id, std::bind( &uis::Button_SceneBegin_Archive::init_in_autoMod, &uis::button_sceneBegin_archive, _1, _2 ) );
 
     id = 2;   //- 
-        uiSpec_alloc( id, "button_sceneBegin_pointer" ); 
+        uiSpecIds_inn::uiSpec_alloc( id, "button_sceneBegin_pointer" ); 
         uis::Button_SceneBegin_Pointer::specId = id;
         ssrc::insert_2_uiInit_funcs( id, std::bind( &uis::Button_SceneBegin_Pointer::init_in_autoMod, &uis::button_sceneBegin_pointer, _1, _2 ) );
 
@@ -64,7 +64,7 @@ void onUISpecIds_SignUp(){
 
 
 
-namespace {//------------------- namespace ---------------------
+namespace uiSpecIds_inn {//------------------- namespace: uiSpecIds_inn ---------------------
 
 
 
@@ -77,7 +77,7 @@ void uiSpec_alloc( uiObjSpecId_t _id, const string &_name ){
     ssrc::insert_2_ui_specId_names_containers( _id, _name );
 }
 
-}//------------------------- namespace: end -------------------
+}//------------------------- namespace: uiSpecIds_inn end -------------------
 
 
 

@@ -31,7 +31,7 @@
 #include "tprDebug.h"
 
 
-namespace {//----------- namespace ---------------//
+namespace mapField_inn {//----------- namespace: mapField_inn ---------------//
 
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
@@ -42,7 +42,7 @@ namespace {//----------- namespace ---------------//
         IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
     };
 
-}//-------------- namespace : end ---------------//
+}//-------------- namespace: mapField_inn end ---------------//
 
 
 
@@ -181,7 +181,7 @@ void MapField::assign_field_to_4_ecoObjs(){
     std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {}; 
 
     sectionKey_t   tmpKey {};
-    for( const auto &whOff : quadSectionKeyOffs ){
+    for( const auto &whOff : mapField_inn::quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
         nearFour_ecoObjDatas.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
     }

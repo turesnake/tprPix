@@ -10,7 +10,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//-------- namespace: --------------//
+namespace gameArchive_inn {//-------- namespace: gameArchive_inn --------------//
 
     //-- 在游戏开始阶段，从 db中读取。 
     //   之后一直存放与此，但并不被改写，也不参与游戏运行
@@ -19,11 +19,11 @@ namespace {//-------- namespace: --------------//
 
                     //- 若此数据 会被 多线程读写，则需要加锁...
 
-}//------------- namespace: end --------------//
+}//------------- namespace: gameArchive_inn end --------------//
 
 
 GameArchive &get_gameArchive(){
-    return gameArchive;
+    return gameArchive_inn::gameArchive;
 }
 
 

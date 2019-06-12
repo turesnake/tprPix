@@ -21,7 +21,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//------------ namespace --------------//
+namespace ces_inn {//------------ namespace: ces_inn --------------//
 
     std::unordered_map<std::string, int> colliEntSet_name_idx {};
     std::unordered_map<int, std::string> colliEntSet_idx_name {};
@@ -30,7 +30,7 @@ namespace {//------------ namespace --------------//
     std::unordered_map<int, ColliEntSet> colliEntSets {};
 
 
-}//---------------- namespace end --------------//
+}//---------------- namespace: ces_inn end --------------//
 
 
 /* ===========================================================
@@ -67,8 +67,8 @@ void init_colliEntSet_tables(){
     };
 
     for( size_t i=0; i<names.size(); i++ ){
-       esrc::colliEntSet_name_idx.insert({ names.at(i), i });
-       esrc::colliEntSet_idx_name.insert({ i, names.at(i) });
+       ces_inn::colliEntSet_name_idx.insert({ names.at(i), i });
+       ces_inn::colliEntSet_idx_name.insert({ i, names.at(i) });
     }
 }
 
@@ -94,7 +94,7 @@ void load_colliEntSets(){
 
     //-- 将 loader 中的数据，手动 搬运到 全局容器中  [ copy ] --
     for( size_t i=0; i<totalSets; i++ ){
-        esrc::colliEntSets.insert({ i, loader.get_collientSet(i) });
+        ces_inn::colliEntSets.insert({ i, loader.get_collientSet(i) });
     }
 
     //-- 自动销毁 ColliEntSetLoader 实例: loader -- 
@@ -107,8 +107,8 @@ void load_colliEntSets(){
  */
 void debug_colliEntSets(){
     
-    auto p = esrc::colliEntSets.begin();
-    for( ; p!=esrc::colliEntSets.end(); p++ ){
+    auto p = ces_inn::colliEntSets.begin();
+    for( ; p!=ces_inn::colliEntSets.end(); p++ ){
 
         cout << "-------- " << p->first 
              << " -------->"
@@ -125,8 +125,8 @@ void debug_colliEntSets(){
  * -----------------------------------------------------------
  */
 const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx ){
-        tprAssert( esrc::colliEntSets.find(_colliEntSetIdx) != esrc::colliEntSets.end() );
-    return esrc::colliEntSets.at( _colliEntSetIdx );
+        tprAssert( ces_inn::colliEntSets.find(_colliEntSetIdx) != ces_inn::colliEntSets.end() );
+    return ces_inn::colliEntSets.at( _colliEntSetIdx );
 }
 
 

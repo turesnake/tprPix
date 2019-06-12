@@ -16,7 +16,7 @@
 //#include "random.h"
 
 
-namespace {//-------- namespace: --------------//
+namespace fbs_inn {//-------- namespace: fbs_inn --------------//
 
     size_t frameSize = PIXES_PER_FIELD_BORDER_SET * PIXES_PER_FIELD_BORDER_SET;
     size_t quadSize = PIXES_PER_FIELD * PIXES_PER_FIELD;
@@ -40,7 +40,7 @@ namespace {//-------- namespace: --------------//
     void handle_each_container( const FieldBorderSet::quadContainer_t &_container );
 
 
-}//------------- namespace: end --------------//
+}//------------- namespace: fbs_inn end --------------//
 
 
 /* ===========================================================
@@ -48,10 +48,10 @@ namespace {//-------- namespace: --------------//
  * -----------------------------------------------------------
  */
 void clear_for_fieldBorderSet(){
-    originData.clear();
-    originData_Xflip.clear();
-    originData_Yflip.clear();
-    originData_XYflip.clear();
+    fbs_inn::originData.clear();
+    fbs_inn::originData_Xflip.clear();
+    fbs_inn::originData_Yflip.clear();
+    fbs_inn::originData_XYflip.clear();
 }
 
 
@@ -61,7 +61,7 @@ void clear_for_fieldBorderSet(){
  * -- 将原版数据，暂存在 文件容器中
  */
 void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &_datas  ){
-    originData.insert( originData.end(), _datas.begin(), _datas.end() ); //- copy
+    fbs_inn::originData.insert( fbs_inn::originData.end(), _datas.begin(), _datas.end() ); //- copy
 
 }
 
@@ -76,9 +76,9 @@ void build_all_mutant_datas_for_fieldBorderSet(){
     size_t    pixIdx_origin {};
     size_t    pixIdx_flip   {};
 
-    originData_Xflip.resize( frameSize );
-    originData_Yflip.resize( frameSize );
-    originData_XYflip.resize( frameSize );
+    fbs_inn::originData_Xflip.resize( fbs_inn::frameSize );
+    fbs_inn::originData_Yflip.resize( fbs_inn::frameSize );
+    fbs_inn::originData_XYflip.resize( fbs_inn::frameSize );
 
     for( int h=0; h<PIXES_PER_FIELD_BORDER_SET; h++ ){
         for( int w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){//- each pix in frame
@@ -89,23 +89,23 @@ void build_all_mutant_datas_for_fieldBorderSet(){
 
             //-- X --
             pixIdx_flip = to_size_t_cast( h * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
-            originData_Xflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
+            fbs_inn::originData_Xflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
 
             //-- Y --
             pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + w );
-            originData_Yflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
+            fbs_inn::originData_Yflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
 
             //-- XY --
             pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
-            originData_XYflip.at(pixIdx_flip) = originData.at(pixIdx_origin);
+            fbs_inn::originData_XYflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
         }
     }
 
     //-- 逐个处理8个容器，将每个容器的数据，拆分为 4份 --
-    handle_each_container( originData );
-    handle_each_container( originData_Xflip );
-    handle_each_container( originData_Yflip );
-    handle_each_container( originData_XYflip );
+    fbs_inn::handle_each_container( fbs_inn::originData );
+    fbs_inn::handle_each_container( fbs_inn::originData_Xflip );
+    fbs_inn::handle_each_container( fbs_inn::originData_Yflip );
+    fbs_inn::handle_each_container( fbs_inn::originData_XYflip );
 }
 
 
@@ -115,8 +115,8 @@ void build_all_mutant_datas_for_fieldBorderSet(){
  */
 fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
 
-    size_t idx = _randIdx % fieldBorderSet_ids.size();
-    return fieldBorderSet_ids.at(idx);
+    size_t idx = _randIdx % fbs_inn::fieldBorderSet_ids.size();
+    return fbs_inn::fieldBorderSet_ids.at(idx);
 }
 
 
@@ -126,21 +126,21 @@ fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
  */
 const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t _id, QuadType _quad ){
 
-    tprAssert( fieldBorderSets.find(_id) != fieldBorderSets.end() );
+    tprAssert( fbs_inn::fieldBorderSets.find(_id) != fbs_inn::fieldBorderSets.end() );
     switch(_quad){
-        case QuadType::Left_Bottom:   return fieldBorderSets.at(_id).leftBottoms;
-        case QuadType::Right_Bottom:  return fieldBorderSets.at(_id).rightBottoms;
-        case QuadType::Left_Top:      return fieldBorderSets.at(_id).leftTops;
-        case QuadType::Right_Top:     return fieldBorderSets.at(_id).rightTops;
+        case QuadType::Left_Bottom:   return fbs_inn::fieldBorderSets.at(_id).leftBottoms;
+        case QuadType::Right_Bottom:  return fbs_inn::fieldBorderSets.at(_id).rightBottoms;
+        case QuadType::Left_Top:      return fbs_inn::fieldBorderSets.at(_id).leftTops;
+        case QuadType::Right_Top:     return fbs_inn::fieldBorderSets.at(_id).rightTops;
         default:
             tprAssert(0);
-            return fieldBorderSets.at(_id).leftBottoms; //- never touch
+            return fbs_inn::fieldBorderSets.at(_id).leftBottoms; //- never touch
     }   
 }
 
 
 
-namespace {//-------- namespace: --------------//
+namespace fbs_inn {//-------- namespace: fbs_inn --------------//
 
 
 /* ===========================================================
@@ -204,6 +204,6 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
 }
 
 
-}//------------- namespace: end --------------//
+}//------------- namespace: fbs_inn end --------------//
 
 

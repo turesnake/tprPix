@@ -14,7 +14,7 @@
 #include <vector>
 
 
-namespace {//------------------ namespace ---------------------//
+namespace VAOVBO_inn {//------------------ namespace: VAOVBO_inn ---------------------//
 
     //----------------------------//
     // 图元 定点数据 模版. 2*2 像素(半径扩展法)
@@ -33,7 +33,7 @@ namespace {//------------------ namespace ---------------------//
     //- 步长，glVertexAttribPointer 函数中用到
     GLsizei    stride = static_cast<GLsizei>( sizeof(float) * 5 );
 
-}//--------------------- namespace end ------------------------//
+}//--------------------- namespace: VAOVBO_inn end ------------------------//
 
 
 /* ===========================================================
@@ -57,18 +57,18 @@ void init_VAOVBO(){
     //-- 制作一个 VBO，并设置好数据
     glBindBuffer( GL_ARRAY_BUFFER, VBO );
     glBufferData( GL_ARRAY_BUFFER, 
-                VBO_size, 
-                static_cast<GLvoid*>(&(rectBase.at(0))), 
+                VAOVBO_inn::VBO_size, 
+                static_cast<GLvoid*>(&(VAOVBO_inn::rectBase.at(0))), 
                 GL_STATIC_DRAW );
 
     //-- 将 VAO 的 0号顶点属性，绑定到 VBO数据 的 position 段 
     //  对应 着色器 “vs文件” 中的: layout (location = 0) in vec3 aPos; 
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, stride, static_cast<void*>(nullptr) ); 
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, VAOVBO_inn::stride, static_cast<void*>(nullptr) ); 
     glEnableVertexAttribArray( 0 ); 
 
     //-- 将 VAO 的 1号顶点属性，绑定到 VBO数据 的 texture 段
     //  对应 着色器 “vs文件” 中的: layout (location = 1) in vec2 aTexCoord;
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, stride, reinterpret_cast<void*>(3*sizeof(float)) ); 
+    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, VAOVBO_inn::stride, reinterpret_cast<void*>(3*sizeof(float)) ); 
     glEnableVertexAttribArray( 1 ); 
 
     //---------------------------------------------//

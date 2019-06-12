@@ -10,15 +10,15 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//------------------ namespace -------------------------//
+namespace camera_inn {//------------------ namespace: camera_inn -------------------------//
 
     Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
 
-}//--------------------- namespace: end -------------------------//
+}//--------------------- namespace: camera_inn end -------------------------//
 
 
 Camera &get_camera(){
-    return camera;
+    return camera_inn::camera;
 }
 
 

@@ -29,13 +29,13 @@ using std::string;
 //#include "tprDebug.h" //- tmp
 
 
-namespace {//------------- namespace ----------------//
+namespace random_inn {//------------- namespace: random_inn ----------------//
 
     //-- 随机数引擎实例,没传入种子，所以是伪随机，--
     //   使用时需要用种子打乱它,
     std::default_random_engine dRandEng; 
 
-}//------------------ namespace end ----------------//
+}//------------------ namespace: random_inn end ----------------//
 
 /* ===========================================================
  *                      get_dRandEng
@@ -51,8 +51,8 @@ std::default_random_engine &get_dRandEng(){
     //-----------------------------//
     //   把种子喂给 引擎，打乱它的状态
     //-----------------------------//
-    dRandEng.seed(seed);
-    return dRandEng;
+    random_inn::dRandEng.seed(seed);
+    return random_inn::dRandEng;
 }
 
 /* ===========================================================

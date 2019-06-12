@@ -28,9 +28,6 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
-
 
 /* ===========================================================
  *                   init_in_autoMod

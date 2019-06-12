@@ -12,7 +12,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//-------- namespace: --------------//
+namespace renderP_inn {//-------- namespace: renderP_inn  --------------//
 
     //--- goMesh ---//
     std::multimap<float, ChildMesh*> renderPool_goMeshs_pic {}; 
@@ -38,44 +38,44 @@ namespace {//-------- namespace: --------------//
     //    - UI图元等
     std::multimap<float, Mesh*> renderPool_meshs {};
 
-}//------------- namespace: end --------------//
+}//------------- namespace: renderP_inn end --------------//
 
 
 
 void insert_2_renderPool_goMeshs_pic( float _off_z, ChildMesh *_meshPtr ){
-    renderPool_goMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
+    renderP_inn::renderPool_goMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
 }
 
 void pushback_2_renderPool_mapSurfaces( ChildMesh *_meshPtr ){
-    renderPool_mapSurfaces.push_back( _meshPtr ); //- copy
+    renderP_inn::renderPool_mapSurfaces.push_back( _meshPtr ); //- copy
 }
 
 void pushback_2_renderPool_goMeshs_shadow( ChildMesh *_meshPtr ){
-    renderPool_goMeshs_shadow.push_back( _meshPtr ); //- copy
+    renderP_inn::renderPool_goMeshs_shadow.push_back( _meshPtr ); //- copy
 }
 
 void insert_2_renderPool_meshs( float _off_z, Mesh *_meshPtr ){
-    renderPool_meshs.insert({ _off_z, _meshPtr }); //- copy
+    renderP_inn::renderPool_meshs.insert({ _off_z, _meshPtr }); //- copy
 }
 
 void insert_2_renderPool_uiMeshs_pic( float _off_z, UIChildMesh *_meshPtr ){
-    renderPool_uiMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
+    renderP_inn::renderPool_uiMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
 }
 
 void clear_renderPool_goMeshs_pic(){
-    renderPool_goMeshs_pic.clear();
+    renderP_inn::renderPool_goMeshs_pic.clear();
 }
 void clear_renderPool_goMeshs_shadow(){
-    renderPool_goMeshs_shadow.clear();
+    renderP_inn::renderPool_goMeshs_shadow.clear();
 }
 void clear_renderPool_mapSurfaces(){
-    renderPool_mapSurfaces.clear();
+    renderP_inn::renderPool_mapSurfaces.clear();
 }
 void clear_renderPool_uiMeshs_pic(){
-    renderPool_uiMeshs_pic.clear();
+    renderP_inn::renderPool_uiMeshs_pic.clear();
 }
 void clear_renderPool_meshs(){
-    renderPool_meshs.clear();
+    renderP_inn::renderPool_meshs.clear();
 }
 
 
@@ -86,7 +86,7 @@ void clear_renderPool_meshs(){
  */
 void draw_renderPool_goMeshs_pic(){
 
-    for( auto &pairRef : esrc::renderPool_goMeshs_pic ){
+    for( auto &pairRef : renderP_inn::renderPool_goMeshs_pic ){
         //-- 渲染持续，pos.z值小的 先渲染 --
         pairRef.second->draw();
     }
@@ -98,7 +98,7 @@ void draw_renderPool_goMeshs_pic(){
  */
 void draw_renderPool_uiMeshs_pic(){
 
-    for( auto &pairRef : esrc::renderPool_uiMeshs_pic ){
+    for( auto &pairRef : renderP_inn::renderPool_uiMeshs_pic ){
         //-- 渲染持续，pos.z值小的 先渲染 --
         pairRef.second->draw();
     }
@@ -111,7 +111,7 @@ void draw_renderPool_uiMeshs_pic(){
  */
 void draw_renderPool_goMeshs_shadow(){
     
-    for( auto &ptr : esrc::renderPool_goMeshs_shadow ){
+    for( auto &ptr : renderP_inn::renderPool_goMeshs_shadow ){
         ptr->draw();
     }
 }
@@ -122,7 +122,7 @@ void draw_renderPool_goMeshs_shadow(){
  */
 void draw_renderPool_mapSurfaces(){
 
-    for( auto &ptr : esrc::renderPool_mapSurfaces ){
+    for( auto &ptr : renderP_inn::renderPool_mapSurfaces ){
         ptr->draw();
     }
 }
@@ -134,7 +134,7 @@ void draw_renderPool_mapSurfaces(){
  */
 void draw_renderPool_meshs(){
 
-    for( auto &pairRef : esrc::renderPool_meshs ){
+    for( auto &pairRef : renderP_inn::renderPool_meshs ){
         pairRef.second->draw();
     }
 }

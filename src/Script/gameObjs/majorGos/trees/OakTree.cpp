@@ -30,7 +30,7 @@ using namespace std::placeholders;
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-namespace {//-------------- namespace ------------------//
+namespace OakTree_inn {//-------------- namespace: OakTree_inn ------------------//
 
     //--- 将所有 oakId 分类，方便分配 ---
     std::vector<size_t> multiBranch_age1   { 0 };
@@ -50,7 +50,7 @@ namespace {//-------------- namespace ------------------//
     size_t apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk );
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: OakTree_inn end ------------------//
 
 
 /* ===========================================================
@@ -72,7 +72,7 @@ void OakTree::init_in_autoMod(  GameObj *_goPtr,
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
         pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( _fieldWeight );
-        pvtBp->oakId = apply_a_oakId( pvtBp->age, _fieldWeight, pvtBp->isSingleTRunk );
+        pvtBp->oakId = OakTree_inn::apply_a_oakId( pvtBp->age, _fieldWeight, pvtBp->isSingleTRunk );
         //...
         
 
@@ -243,7 +243,7 @@ void OakTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
-namespace{//-------------- namespace ------------------//
+namespace OakTree_inn {//-------------- namespace: OakTree_inn ------------------//
 
 
 
@@ -280,6 +280,6 @@ size_t apply_a_oakId( int _age, float _fieldWeight, bool _isSingleTrunk ){
 
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: OakTree_inn end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

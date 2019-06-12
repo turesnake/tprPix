@@ -16,14 +16,14 @@
 #include "esrc_camera.h"
 
 
-namespace {//------------------ namespace ---------------------//
+namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------------------//
 
     //-- 3个常量，分别代表 xyz 三个轴，用在 glm::rotate 函数中。
     //const glm::vec3 axle_x( 1.0f, 0.0f, 0.0f );
     //const glm::vec3 axle_y( 0.0f, 1.0f, 0.0f );
     const glm::vec3 axis_z( 0.0f, 0.0f, 1.0f );
 
-}//--------------------- namespace end ------------------------//
+}//--------------------- namespace: childMesh_inn end ------------------------//
 
 
 /* ===========================================================
@@ -159,7 +159,7 @@ void ChildMesh::update_mat4_model(){
     //- pix游戏 只支持 z轴旋转
     this->mat4_model = glm::rotate( this->mat4_model, 
                             glm::radians(this->rotate_z),
-                            axis_z );
+                            childMesh_inn::axis_z );
 
     //----- scale ------
     this->mat4_model = glm::scale( this->mat4_model, this->scale_val );

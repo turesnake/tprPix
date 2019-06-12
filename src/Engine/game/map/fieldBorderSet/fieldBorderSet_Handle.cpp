@@ -30,7 +30,7 @@
 
 
 
-namespace {//-------- namespace: --------------//
+namespace fbsh_inn {//-------- namespace: fbsh_inn --------------//
 
     std::string  lpath {};
     IntVec2      pixNum_per_frame {};   //- 单帧画面 的 长宽 像素值
@@ -47,8 +47,7 @@ namespace {//-------- namespace: --------------//
     RGBA pixColor { 0, 0, 255, 255 }; //- png数据 中的 主色
 
 
-
-}//------------- namespace: end --------------//
+}//------------- namespace: fbsh_inn end --------------//
 
 
 
@@ -62,33 +61,33 @@ void load_fieldBorderSets(){
     //-------------------------//
     //  手动设置 png 数据... tmp...
     //-------------------------//
-    lpath = "/fieldBorderSet-4.png";
+    fbsh_inn::lpath = "/fieldBorderSet-4.png";
 
-    frameNum.set( 4, 2 );
-    totalFrameNum = to_size_t_cast( frameNum.x * frameNum.y );
+    fbsh_inn::frameNum.set( 4, 2 );
+    fbsh_inn::totalFrameNum = to_size_t_cast( fbsh_inn::frameNum.x * fbsh_inn::frameNum.y );
 
     //----------------------------//
     //     读取 png 原始数据
     //----------------------------//
-    frame_data_ary.clear();
+    fbsh_inn::frame_data_ary.clear();
 
-    pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_fieldBorderSet, lpath ),
-                                                frameNum,
-                                                totalFrameNum,
-                                                frame_data_ary );
+    fbsh_inn::pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_fieldBorderSet, fbsh_inn::lpath ),
+                                                fbsh_inn::frameNum,
+                                                fbsh_inn::totalFrameNum,
+                                                fbsh_inn::frame_data_ary );
     
-    tprAssert( (pixNum_per_frame.x==PIXES_PER_FIELD_BORDER_SET ) &&
-            (pixNum_per_frame.y==PIXES_PER_FIELD_BORDER_SET) );
+    tprAssert( (fbsh_inn::pixNum_per_frame.x==PIXES_PER_FIELD_BORDER_SET ) &&
+            (fbsh_inn::pixNum_per_frame.y==PIXES_PER_FIELD_BORDER_SET) );
 
     //----------------------------//
     //        parse
     //----------------------------//
     size_t                pixIdx {};
 
-    for( const auto &frameRef : frame_data_ary ){ //- each frame in png
+    for( const auto &frameRef : fbsh_inn::frame_data_ary ){ //- each frame in png
 
-        frameDatas.clear();
-        frameDatas.resize( to_size_t_cast(pixNum_per_frame.x * pixNum_per_frame.y) );
+        fbsh_inn::frameDatas.clear();
+        fbsh_inn::frameDatas.resize( to_size_t_cast(fbsh_inn::pixNum_per_frame.x * fbsh_inn::pixNum_per_frame.y) );
 
         //--- 将 原版数据 传入 预制件实例 ---//
         clear_for_fieldBorderSet();
@@ -96,15 +95,15 @@ void load_fieldBorderSets(){
             for( size_t w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){ //- each pix in png-frame (2*2chunk)
                 pixIdx = h * PIXES_PER_FIELD_BORDER_SET + w;
 
-                if( rgba::is_rgba_near(frameRef.at(pixIdx), pixColor, 5) ){ //- 主色点
-                    frameDatas.at(pixIdx) = 1;
+                if( rgba::is_rgba_near(frameRef.at(pixIdx), fbsh_inn::pixColor, 5) ){ //- 主色点
+                    fbsh_inn::frameDatas.at(pixIdx) = 1;
                 }else{
-                    frameDatas.at(pixIdx) = 0;
+                    fbsh_inn::frameDatas.at(pixIdx) = 0;
                 }
             }
         } //-- each pix in png-frame (2*2chunk) end --
 
-        copy_originData_for_fieldBorderSet( frameDatas );
+        copy_originData_for_fieldBorderSet( fbsh_inn::frameDatas );
         build_all_mutant_datas_for_fieldBorderSet();
     } //-- each frame in png end --
 }

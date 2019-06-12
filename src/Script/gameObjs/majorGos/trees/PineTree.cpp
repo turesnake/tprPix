@@ -30,7 +30,7 @@ using namespace std::placeholders;
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-namespace {//-------------- namespace ------------------//
+namespace PineTree_inn {//-------------- namespace: PineTree_inn ------------------//
 
     //--- 将所有 pineId 分类，方便分配 ---
     std::vector<size_t> ids_age1   { 0, 1 };
@@ -46,7 +46,7 @@ namespace {//-------------- namespace ------------------//
     size_t apply_a_oakId( int _age, float _fieldWeight );
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: PineTree_inn end ------------------//
 
 
 /* ===========================================================
@@ -67,7 +67,7 @@ void PineTree::init_in_autoMod(  GameObj *_goPtr,
     pvtBp = reinterpret_cast<PineTree_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
-        pvtBp->pineId = apply_a_oakId( pvtBp->age, _fieldWeight );
+        pvtBp->pineId = PineTree_inn::apply_a_oakId( pvtBp->age, _fieldWeight );
         //...
         
 
@@ -237,7 +237,7 @@ void PineTree::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
-namespace {//-------------- namespace ------------------//
+namespace PineTree_inn {//-------------- namespace: PineTree_inn ------------------//
 
 
 
@@ -262,6 +262,6 @@ size_t apply_a_oakId( int _age, float _fieldWeight ){
 
 
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: PineTree_inn end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

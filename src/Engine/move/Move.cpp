@@ -32,7 +32,7 @@
 #include "tprDebug.h" 
 
 
-namespace {//-------------- namespace ------------------//
+namespace move_inn {//-------------- namespace: move_inn ------------------//
 
     //--- 以下数据 被每一次 Crawl::RenderUpdate_2() 调用 共用 ---//
     bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
@@ -50,7 +50,7 @@ namespace {//-------------- namespace ------------------//
     MapCoord off {};  // newMCPos - oldMCPos
     NineBox  nb {};
 
-}//------------------ namespace: end ------------------//
+}//------------------ namespace: move_inn end ------------------//
 
 
 
@@ -107,11 +107,11 @@ void Move::crawl_renderUpdate(){
     //----------------//
     //  计算 speedV
     //----------------//
-    speedV = this->currentDirAxes.to_fmpos();
-    speedV *= SpeedLevel_2_val(this->speedLvl) *
-              60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
+    move_inn::speedV = this->currentDirAxes.to_fmpos();
+    move_inn::speedV *= SpeedLevel_2_val(this->speedLvl) *
+                        60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+    this->crawl_renderUpdate_inn( this->currentDirAxes, move_inn::speedV );
 }
 
 
@@ -135,20 +135,20 @@ void Move::drag_renderUpdate(){
     // 在 drag 的最后一帧，fposOff 往往会小于 speedV。
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
-    fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
-    speedV = glm::normalize( fposOff ); //- 等效于 DirAxes 的计算。
-    speedV *=   SpeedLevel_2_val(this->speedLvl) *
+    move_inn::fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
+    move_inn::speedV = glm::normalize( move_inn::fposOff ); //- 等效于 DirAxes 的计算。
+    move_inn::speedV *=   SpeedLevel_2_val(this->speedLvl) *
                 60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
 
     bool isLastFrame = false;
-    if( (std::abs(speedV.x) > std::abs(fposOff.x)) ||
-        (std::abs(speedV.y) > std::abs(fposOff.y)) ){
+    if( (std::abs(move_inn::speedV.x) > std::abs(move_inn::fposOff.x)) ||
+        (std::abs(move_inn::speedV.y) > std::abs(move_inn::fposOff.y)) ){
         isLastFrame = true;
-        speedV = fposOff;
+        move_inn::speedV = move_inn::fposOff;
     }
 
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+    this->crawl_renderUpdate_inn( this->currentDirAxes, move_inn::speedV );
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -166,33 +166,33 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
                                     const glm::vec2 &_speedV ){
 
 
-    isObstruct = false; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
-    isCross    = false; //- currentMidFPos 是否进入新的 mapent
+    move_inn::isObstruct = false; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
+    move_inn::isCross    = false; //- currentMidFPos 是否进入新的 mapent
 
 
-    oldMidFPos = this->goPosPtr->calc_rootAnchor_midFPos();
-    newMidFPos = oldMidFPos + _speedV;
+    move_inn::oldMidFPos = this->goPosPtr->calc_rootAnchor_midFPos();
+    move_inn::newMidFPos = move_inn::oldMidFPos + _speedV;
 
     //-- 这里计算的是 rootAnchorMidFPos 的 mcpos --
-    oldMCPos = fpos_2_mcpos( oldMidFPos );
-    newMCPos = fpos_2_mcpos( newMidFPos );
+    move_inn::oldMCPos = fpos_2_mcpos( move_inn::oldMidFPos );
+    move_inn::newMCPos = fpos_2_mcpos( move_inn::newMidFPos );
 
     
-    if( oldMCPos != newMCPos ){
-        isCross = true;
+    if( move_inn::oldMCPos != move_inn::newMCPos ){
+        move_inn::isCross = true;
 
-        off = newMCPos - oldMCPos;
-            tprAssert( off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
-        nb.set( off.get_mpos().x, off.get_mpos().y );
+        move_inn::off = move_inn::newMCPos - move_inn::oldMCPos;
+            tprAssert( move_inn::off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
+        move_inn::nb.set( move_inn::off.get_mpos().x, move_inn::off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        isObstruct = this->collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(nb) );        
+        move_inn::isObstruct = this->collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(move_inn::nb) );        
     }
 
-    if( isObstruct == false ){
+    if( move_inn::isObstruct == false ){
         this->goPosPtr->accum_currentFPos_2( _speedV );
-        if( isCross ){
-            this->goPosPtr->accum_currentMCPos_2(nb);
+        if( move_inn::isCross ){
+            this->goPosPtr->accum_currentMCPos_2(move_inn::nb);
                         //-- 使用 NineBox 来传递参数，
                         //   决定了当前模式下的 最大速度，不能超过 1_mapent_per_frame 
                         //   想要突破这个限制，就要 进一步 完善 collision 函数

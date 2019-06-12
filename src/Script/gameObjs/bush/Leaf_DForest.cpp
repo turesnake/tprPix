@@ -33,9 +33,6 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
-
 
 /* ===========================================================
  *                    init_in_autoMod
@@ -223,7 +220,5 @@ void Leaf_DForest::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
 }
 
 
-//namespace{//-------------- namespace ------------------//
-//}//------------------ namespace: end ------------------//
 }//------------- namespace gameObjs: end ----------------
 

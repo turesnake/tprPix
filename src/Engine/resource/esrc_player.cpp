@@ -10,15 +10,15 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//-------- namespace: --------------//
+namespace player_inn {//-------- namespace: player_inn --------------//
 
     Player  player {}; //- 全游戏唯一 Player 实例  
 
-}//------------- namespace: end --------------//
+}//------------- namespace: player_inn end --------------//
 
 
 Player &get_player(){
-    return player;
+    return player_inn::player;
 }
 
 }//---------------------- namespace: esrc -------------------------//

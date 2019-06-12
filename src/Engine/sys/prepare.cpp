@@ -45,13 +45,13 @@ using std::endl;
 
 
 
-namespace {//------------ namespace ------------//
+namespace prepare_inn {//------------ namespace: prepare_inn ------------//
     void build_path_cwd();
     void data_type_confirm();
     void check_OS();
     //void check_fst_run();
     void check_and_creat_important_dir();
-}//------------ namespace: end ------------//
+}//------------ namespace: prepare_inn end ------------//
 
 
 
@@ -64,22 +64,22 @@ void prepare(){
     //------------------------//
     //      变量类型检测
     //------------------------//
-    data_type_confirm();
+    prepare_inn::data_type_confirm();
 
     //------------------------//
     //   查看当前所在的 操作系统
     //------------------------//
-    check_OS();
+    prepare_inn::check_OS();
 
     //------------------------//
     //    初始化 path_cwd
     //------------------------//
-    build_path_cwd();
+    prepare_inn::build_path_cwd();
 
     //------------------------//
     // 检测 关键 目录 的存在，若没有，创建之
     //------------------------//
-    check_and_creat_important_dir();
+    prepare_inn::check_and_creat_important_dir();
 
 
     //----------------------------//
@@ -90,7 +90,7 @@ void prepare(){
     return;
 }
 
-namespace {//------------ namespace ------------//
+namespace prepare_inn {//------------ namespace: prepare_inn ------------//
 
 
 /* ===========================================================
@@ -400,5 +400,5 @@ void check_fst_run(){
 */
 
 
-}//------------- namespace ----------------//
+}//------------- namespace: prepare_inn ----------------//
 

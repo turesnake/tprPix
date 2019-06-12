@@ -24,9 +24,9 @@ using namespace std::placeholders;
 //#include "tprDebug.h" //- tmp
 
 
-namespace {//------------------- namespace ---------------------
+namespace goSpecIds_inn {//-------------- namespace: goSpecIds_inn ---------------------
     void goSpec_alloc( goSpecId_t _id, const std::string &_name );
-}//------------------------- namespace: end -------------------
+}//------------------------- namespace: goSpecIds_inn end -------------------
 
 
 /* ===========================================================
@@ -45,17 +45,17 @@ void onGoSpecIds_SignUp(){
     //goSpecIds.insert(0); //--- 0号id 保留。
     //==================================//
     id = 1; 
-        goSpec_alloc( id, "norman" );  
+        goSpecIds_inn::goSpec_alloc( id, "norman" );  
         gameObjs::Norman::specId = id; 
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Norman::init_in_autoMod, &gameObjs::norman, _1, _2, _3, _4, _5 ) );
 
     id = 2; 
-        goSpec_alloc( id, "bigMan" );  
+        goSpecIds_inn::goSpec_alloc( id, "bigMan" );  
         gameObjs::BigMan::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::BigMan::init_in_autoMod, &gameObjs::big_man, _1, _2, _3, _4, _5 ) );
 
     id = 3; 
-        goSpec_alloc( id, "crab" );  
+        goSpecIds_inn::goSpec_alloc( id, "crab" );  
         gameObjs::Crab::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Crab::init_in_autoMod, &gameObjs::crab, _1, _2, _3, _4, _5 ) );
 
@@ -63,12 +63,12 @@ void onGoSpecIds_SignUp(){
     //        tree
     //-------------------//
     id = 1001;   //- 橡树
-        goSpec_alloc( id, "oakTree" );  
+        goSpecIds_inn::goSpec_alloc( id, "oakTree" );  
         gameObjs::OakTree::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::OakTree::init_in_autoMod, &gameObjs::oakTree, _1, _2, _3, _4, _5 ) );
 
     id = 1002;  //- 松树
-        goSpec_alloc( id, "pineTree" ); 
+        goSpecIds_inn::goSpec_alloc( id, "pineTree" ); 
         gameObjs::PineTree::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::PineTree::init_in_autoMod, &gameObjs::pineTree, _1, _2, _3, _4, _5 ) );
 
@@ -77,17 +77,17 @@ void onGoSpecIds_SignUp(){
     //        bush
     //-------------------//
     id = 2001;  //- 小麦
-        goSpec_alloc( id, "wheat" );              
+        goSpecIds_inn::goSpec_alloc( id, "wheat" );              
         gameObjs::Wheat::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Wheat::init_in_autoMod, &gameObjs::wheat, _1, _2, _3, _4, _5 ) );
 
     id = 2002;  //- 沙漠中的 单块石头
-        goSpec_alloc( id, "singleStone_Desert" ); 
+        goSpecIds_inn::goSpec_alloc( id, "singleStone_Desert" ); 
         gameObjs::SingleStone_Desert::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::SingleStone_Desert::init_in_autoMod, &gameObjs::singleStone_Desert, _1, _2, _3, _4, _5 ) );
 
     id = 2003;  //- 黑森林中的 竖状叶片
-        goSpec_alloc( id, "leaf_DForest" );       
+        goSpecIds_inn::goSpec_alloc( id, "leaf_DForest" );       
         gameObjs::Leaf_DForest::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Leaf_DForest::init_in_autoMod, &gameObjs::leaf_DForest, _1, _2, _3, _4, _5 ) );
 
@@ -96,13 +96,13 @@ void onGoSpecIds_SignUp(){
     //    mapSurface
     //-------------------//
     id = 3001;   //- 地衣
-        goSpec_alloc( id, "lichen_Forest" ); 
+        goSpecIds_inn::goSpec_alloc( id, "lichen_Forest" ); 
         gameObjs::Lichen_Forest::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Lichen_Forest::init_in_autoMod, &gameObjs::lichen_Forest, _1, _2, _3, _4, _5 ) );
 
 
     id = 3002;   //- 地衣
-        goSpec_alloc( id, "lichen_DForest" ); 
+        goSpecIds_inn::goSpec_alloc( id, "lichen_DForest" ); 
         gameObjs::Lichen_DForest::specId = id;
         ssrc::insert_2_goInit_funcs( id, std::bind( &gameObjs::Lichen_DForest::init_in_autoMod, &gameObjs::lichen_DForest, _1, _2, _3, _4, _5 ) );
 
@@ -112,7 +112,7 @@ void onGoSpecIds_SignUp(){
 
 
 
-namespace {//------------------- namespace ---------------------
+namespace goSpecIds_inn {//------------------- namespace: goSpecIds_inn ---------------------
 
 
 
@@ -125,7 +125,7 @@ void goSpec_alloc( goSpecId_t _id, const std::string &_name ){
     ssrc::insert_2_go_specId_names_containers( _id, _name );
 }
 
-}//------------------------- namespace: end -------------------
+}//------------------------- namespace: goSpecIds_inn end -------------------
 
 
 //-- 仅用于流程测试 

@@ -21,7 +21,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//------------ namespace --------------//
+namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
     std::unordered_map<chunkKey_t, ChunkData> chunkDatas {};
@@ -33,11 +33,11 @@ namespace {//------------ namespace --------------//
 
     //===== funcs =====//
     bool is_find_in_chunkDatas_( chunkKey_t _key ){
-        return (esrc::chunkDatas.find(_key) != esrc::chunkDatas.end());
+        return (chunkD_inn::chunkDatas.find(_key) != chunkD_inn::chunkDatas.end());
     }
 
 
-}//---------------- namespace end --------------//
+}//---------------- namespace: chunkD_inn end --------------//
 
 
 /* ===========================================================
@@ -54,10 +54,10 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
     ChunkData  chunkData {};
     ChunkData *chunkDataPtr {};
     {//--- atom ---//
-        std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
-            tprAssert( is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
-        esrc::chunkDatas.insert({ _chunkKey, chunkData }); //- copy
-        chunkDataPtr = &(esrc::chunkDatas.at(_chunkKey));
+        std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
+            tprAssert( chunkD_inn::is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
+        chunkD_inn::chunkDatas.insert({ _chunkKey, chunkData }); //- copy
+        chunkDataPtr = &(chunkD_inn::chunkDatas.at(_chunkKey));
     }
     return chunkDataPtr;
 }
@@ -70,8 +70,8 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
  */
 void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
     {//--- atom ---//
-        std::unique_lock<std::shared_mutex> ul( sharedMutex ); //- write
-        tprAssert( esrc::chunkDatas.erase(_chunkKey) == 1 );
+        std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
+        tprAssert( chunkD_inn::chunkDatas.erase(_chunkKey) == 1 );
     }
 }
 
@@ -84,9 +84,9 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
  */
 const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
     {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( sharedMutex ); //- read
-            tprAssert( is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-        return &(esrc::chunkDatas.at(_chunkKey));
+        std::shared_lock<std::shared_mutex> sl( chunkD_inn::sharedMutex ); //- read
+            tprAssert( chunkD_inn::is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
+        return &(chunkD_inn::chunkDatas.at(_chunkKey));
     }
 }
 
@@ -100,8 +100,8 @@ const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
 bool atom_is_chunkDataFlags_empty(){
     bool ret {true};
     {//--- atom ---//
-        std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
-        ret = esrc::chunkDataFlags.empty();
+        std::lock_guard<std::mutex> lg( chunkD_inn::chunkDataFlagsMutex );
+        ret = chunkD_inn::chunkDataFlags.empty();
     }
     return ret;
 }
@@ -114,8 +114,8 @@ bool atom_is_chunkDataFlags_empty(){
  */
 void atom_push_back_2_chunkDataFlags( chunkKey_t _chunkKey ){
     {//--- atom ---//
-        std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
-        esrc::chunkDataFlags.push_back( _chunkKey );
+        std::lock_guard<std::mutex> lg( chunkD_inn::chunkDataFlagsMutex );
+        chunkD_inn::chunkDataFlags.push_back( _chunkKey );
     }
 }
 
@@ -127,9 +127,9 @@ void atom_push_back_2_chunkDataFlags( chunkKey_t _chunkKey ){
 chunkKey_t atom_pop_from_chunkDataFlags(){
     chunkKey_t key {};
     {//--- atom ---//
-        std::lock_guard<std::mutex> lg( chunkDataFlagsMutex );
-        key = esrc::chunkDataFlags.front();
-        esrc::chunkDataFlags.pop_front();
+        std::lock_guard<std::mutex> lg( chunkD_inn::chunkDataFlagsMutex );
+        key = chunkD_inn::chunkDataFlags.front();
+        chunkD_inn::chunkDataFlags.pop_front();
     }
     return key;
 }

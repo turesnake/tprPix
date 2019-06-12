@@ -36,7 +36,7 @@
 namespace input{//------------- namespace input --------------------
 
 
-namespace {
+namespace _inn {
 
     InputINS   inputINS {}; //- 记录玩家 鼠键输入。
     
@@ -85,17 +85,17 @@ void init_input(){
     tprAssert( keyboardTable.at(GameKey::UP)    != KeyBoard::NIL );
     tprAssert( keyboardTable.at(GameKey::DOWN)  != KeyBoard::NIL );
 
-    keyboardTable_runtime.clear();
+    _inn::keyboardTable_runtime.clear();
     for( const auto &pair : keyboardTable ){
         if( pair.second != KeyBoard::NIL ){
-            keyboardTable_runtime.insert(pair); //- copy
+            _inn::keyboardTable_runtime.insert(pair); //- copy
         }
     }
 
-    joyButtonTable_runtime.clear();
+    _inn::joyButtonTable_runtime.clear();
     for( const auto &pair : joyButtonTable ){
         if( pair.second != JoyStickButton::NIL ){
-            joyButtonTable_runtime.insert(pair); //- copy
+            _inn::joyButtonTable_runtime.insert(pair); //- copy
         }
     }
 
@@ -103,11 +103,11 @@ void init_input(){
     //       joystick
     //----------------------//
     //-- 简单版，找到第一个 joystick 就停手 --
-    isFindJoystick = false;
+    _inn::isFindJoystick = false;
     for( int i=0; i<10; i++ ){
         if( glfwJoystickPresent(i)==GL_TRUE ){
-            isFindJoystick = true;
-            joystickId = i;
+            _inn::isFindJoystick = true;
+            _inn::joystickId = i;
             break;
         }
     }
@@ -119,7 +119,7 @@ void init_input(){
  *-----------------------------------------------------------
  */
 void bind_inputINS_handleFunc( const F_InputINS_Handle &_func ){
-    inputINS_handleFunc = _func;
+    _inn::inputINS_handleFunc = _func;
 }
 
 
@@ -145,14 +145,14 @@ void processInput( GLFWwindow *_windowPtr ){
     //------------------------//
     //     1. 读取鼠键输入
     //------------------------//
-    inputINS.clear_allKeys(); //- 0
+    _inn::inputINS.clear_allKeys(); //- 0
 
     //mousePos_2_dir(); //-- 目前暂时不识别 mouse 输入...
 
-    for( const auto &ipair : keyboardTable_runtime ){ //-- each gameKey
+    for( const auto &ipair : _inn::keyboardTable_runtime ){ //-- each gameKey
         //-- 跳过 没有被按下的 --
         if( glfwGetKey(_windowPtr, static_cast<int>(ipair.second)) == GLFW_PRESS ){
-            inputINS.set_key_from_keyboard( ipair.first );
+            _inn::inputINS.set_key_from_keyboard( ipair.first );
         }            
     }
 
@@ -160,18 +160,18 @@ void processInput( GLFWwindow *_windowPtr ){
     //  2. 读取 joystick 输入
     // (可能会覆盖之前的 鼠键数据)
     //------------------------//
-    joystick_update();
+    _inn::joystick_update();
 
     //------------------------//
     //  3. 修正 inputINS.dirAxes 
     //------------------------//
-    inputINS.limit_dirAxes();
+    _inn::inputINS.limit_dirAxes();
 
 
     //------------------------//
     //  处理 inputINS 中的数据
     //------------------------//
-    inputINS_handleFunc( inputINS );
+    _inn::inputINS_handleFunc( _inn::inputINS );
 }
 
 
@@ -219,7 +219,7 @@ void scroll_callback(GLFWwindow* _window, double _xoffset, double _yoffset){
 */
 
 
-namespace {//------------------- namespace ----------------------//
+namespace _inn {//------------------- namespace: _inn ----------------------//
 
 /* ==========================================================
  *                 mousePos_2_dir
@@ -310,6 +310,6 @@ void joystick_update(){
 }
 
 
-}//------------------------ namespace: end --------------------//
+}//------------------------ namespace: _inn end --------------------//
 }//----------------- namespace input: end -------------------
 

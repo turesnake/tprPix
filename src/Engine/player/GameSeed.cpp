@@ -12,13 +12,13 @@
 #include "tprAssert.h"
 
 
-namespace {//----------- namespace ----------------//
+namespace gameSeed_inn {//----------- namespace: gameSeed_inn ----------------//
 
     inline std::uniform_int_distribution<int>    uDistribution_altiSeed(-1000, 1000);
     inline std::uniform_real_distribution<float> uDistribution_float(-1000.0, 1000.0);
 
 
-}//-------------- namespace : end ----------------//
+}//-------------- namespace: gameSeed_inn end ----------------//
 
 
 /* ===========================================================
@@ -59,23 +59,23 @@ void GameSeed::init(  u32_t _baseSeed ){
 void GameSeed::init_glm_vec2s(){
 
     //------ altiSeeds --------//
-    this->altiSeed_pposOffSeaLvl = glm::vec2(static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
-    this->altiSeed_pposOffBig = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
-    this->altiSeed_pposOffMid = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
-    this->altiSeed_pposOffSml = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffSeaLvl = glm::vec2(static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffBig = glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffMid = glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
+    this->altiSeed_pposOffSml = glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
 
     //------ densitySeed --------//
-    this->densitySeed_pposOff = glm::vec2(  static_cast<float>(uDistribution_altiSeed(this->randEngine)),
-                                            static_cast<float>(uDistribution_altiSeed(this->randEngine)) );
+    this->densitySeed_pposOff = glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
+                                            static_cast<float>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
     //------ field --------//
-    this->field_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
-                                        static_cast<float>(uDistribution_float(this->randEngine)) );
+    this->field_pposOff =   glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_float(this->randEngine)),
+                                        static_cast<float>(gameSeed_inn::uDistribution_float(this->randEngine)) );
     //------ ecoObj --------//
-    this->ecoObjWeight_pposOff =   glm::vec2(  static_cast<float>(uDistribution_float(this->randEngine)),
-                                                static_cast<float>(uDistribution_float(this->randEngine)) );
+    this->ecoObjWeight_pposOff =   glm::vec2(  static_cast<float>(gameSeed_inn::uDistribution_float(this->randEngine)),
+                                                static_cast<float>(gameSeed_inn::uDistribution_float(this->randEngine)) );
 }
 

@@ -26,7 +26,7 @@
 //#include "tprDebug.h" //- tmp
 
 
-namespace {//----------------- namespace ------------------//
+namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
     //-- 每次 insert png数据时，以下这些数据都会被复用 --
     size_t headIdx {}; //- 本次 png数据insert，起始idx
@@ -57,7 +57,7 @@ namespace {//----------------- namespace ------------------//
     void build_three_lpaths( const std::string &_lpath_pic );
 
 
-}//-------------------- namespace: end ------------------//
+}//-------------------- namespace: afs_inn end ------------------//
 
 
 /* ===========================================================
@@ -73,11 +73,11 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
                             const std::vector<AnimActionParam> &_animActionParams
                             ){
 
-    build_three_lpaths( _lpath_pic );
-    frameNum = _frameNum;
-    totalFrameNum = _totalFrameNum;
-    isPJTSingleFrame = _isPjtSingleFrame;
-    isShadowSingleFrame = _isShadowSingleFrame;
+    afs_inn::build_three_lpaths( _lpath_pic );
+    afs_inn::frameNum = _frameNum;
+    afs_inn::totalFrameNum = _totalFrameNum;
+    afs_inn::isPJTSingleFrame = _isPjtSingleFrame;
+    afs_inn::isShadowSingleFrame = _isShadowSingleFrame;
     
     //-------------------//
     //
@@ -86,14 +86,14 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     size_t lastNums = this->framePoses.size();
     tprAssert( this->texNames_pic.size() == lastNums );
     tprAssert( this->texNames_shadow.size() == lastNums );
-    headIdx = lastNums;
+    afs_inn::headIdx = lastNums;
 
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
     //----------------------------------------//
-    P_frame_data_ary.clear();
-    J_frame_data_ary.clear();
-    S_frame_data_ary.clear();
+    afs_inn::P_frame_data_ary.clear();
+    afs_inn::J_frame_data_ary.clear();
+    afs_inn::S_frame_data_ary.clear();
 
     IntVec2 tmpv2 {}; //-tmp
 
@@ -101,66 +101,66 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //       Pic
     //-------------------//
     //-- 目前暂不支持 没有 pic数据的 AnimFrameSet 实例 ---
-    pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pic ),
-                                            frameNum,
-                                            totalFrameNum,
-                                            P_frame_data_ary );
+    afs_inn::pixNum_per_frame = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pic ),
+                                            afs_inn::frameNum,
+                                            afs_inn::totalFrameNum,
+                                            afs_inn::P_frame_data_ary );
 
-    tmpTexNames.clear();
-    create_texNames( totalFrameNum,
-                     pixNum_per_frame,
-                     P_frame_data_ary,
-                     tmpTexNames );
-    this->texNames_pic.insert( this->texNames_pic.end(), tmpTexNames.begin(), tmpTexNames.end() ); //- copy
+    afs_inn::tmpTexNames.clear();
+    create_texNames( afs_inn::totalFrameNum,
+                     afs_inn::pixNum_per_frame,
+                     afs_inn::P_frame_data_ary,
+                     afs_inn::tmpTexNames );
+    this->texNames_pic.insert( this->texNames_pic.end(), afs_inn::tmpTexNames.begin(), afs_inn::tmpTexNames.end() ); //- copy
 
     //-------------------//
     //       Pjt
     //-------------------//
-    if( isPJTSingleFrame ){
+    if( afs_inn::isPJTSingleFrame ){
         //--- J.png 只有一帧 --//
-        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pjt ),
+        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pjt ),
                                     IntVec2{1,1},
                                     1,
-                                    J_frame_data_ary );
+                                    afs_inn::J_frame_data_ary );
     }else{
-        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_pjt ),
-                                    frameNum,
-                                    totalFrameNum,
-                                    J_frame_data_ary );
+        tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pjt ),
+                                    afs_inn::frameNum,
+                                    afs_inn::totalFrameNum,
+                                    afs_inn::J_frame_data_ary );
     }
-    tprAssert( tmpv2 == pixNum_per_frame );
+    tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
     this->handle_pjt();
 
     //-------------------//
     //      Shadow
     //-------------------//
     if( _isHaveShadow ){
-        if( isShadowSingleFrame ){
+        if( afs_inn::isShadowSingleFrame ){
             //--- S.png 只有一帧 --//
-            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_shadow ),
+            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
                                         IntVec2{1,1},
                                         1,
-                                        S_frame_data_ary );
+                                        afs_inn::S_frame_data_ary );
         }else{
-            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, lpath_shadow ),
-                                        frameNum,
-                                        totalFrameNum,
-                                        S_frame_data_ary );
+            tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
+                                        afs_inn::frameNum,
+                                        afs_inn::totalFrameNum,
+                                        afs_inn::S_frame_data_ary );
         }
 
-        tprAssert( tmpv2 == pixNum_per_frame );
+        tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
         this->handle_shadow();
-        tmpTexNames.clear();
-        create_texNames( totalFrameNum,
-                     pixNum_per_frame,
-                     S_frame_data_ary,
-                     tmpTexNames );
-        this->texNames_shadow.insert( this->texNames_shadow.end(), tmpTexNames.begin(), tmpTexNames.end() );
+        afs_inn::tmpTexNames.clear();
+        create_texNames( afs_inn::totalFrameNum,
+                        afs_inn::pixNum_per_frame,
+                        afs_inn::S_frame_data_ary,
+                        afs_inn::tmpTexNames );
+        this->texNames_shadow.insert( this->texNames_shadow.end(), afs_inn::tmpTexNames.begin(), afs_inn::tmpTexNames.end() );
         
     }else{
         //-- 没有 shadow数据时，填写 0 来占位 --
         this->texNames_shadow.insert(   this->texNames_shadow.end(), 
-                                        totalFrameNum, 
+                                        afs_inn::totalFrameNum, 
                                         0 );
     }
 
@@ -175,8 +175,8 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
 
         actionRef.init( const_cast<const AnimFrameSet*>(this),
                         param,
-                        pixNum_per_frame,
-                        headIdx,
+                        afs_inn::pixNum_per_frame,
+                        afs_inn::headIdx,
                         _isHaveShadow );
     }
 }
@@ -189,11 +189,11 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
  */
 void AnimFrameSet::handle_pjt(){
 
-    size_t pixNum = to_size_t_cast( pixNum_per_frame.x * 
-                                    pixNum_per_frame.y); //- 一帧有几个像素点
+    size_t pixNum = to_size_t_cast( afs_inn::pixNum_per_frame.x * 
+                                    afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
     Pjt_RGBAHandle  jh {5};
 
-    this->framePoses.insert( this->framePoses.end(), totalFrameNum, FramePos{} );
+    this->framePoses.insert( this->framePoses.end(), afs_inn::totalFrameNum, FramePos{} );
 
     IntVec2  pixPPos {}; //- tmp. current pix ppos
     IntVec2  rootAnchorOff {};       //- tmp
@@ -201,22 +201,22 @@ void AnimFrameSet::handle_pjt(){
     size_t   idx_for_J_frame_data_ary {};
     size_t   idx_framePoses {};
 
-    for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
-        idx_framePoses = headIdx + f;
+    for( size_t f=0; f<afs_inn::totalFrameNum; f++ ){ //--- each frame ---
+        idx_framePoses = afs_inn::headIdx + f;
         tprAssert( this->framePoses.size() > idx_framePoses );
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
-            pixPPos.set( static_cast<int>(p)%pixNum_per_frame.x,
-                         static_cast<int>(p)/pixNum_per_frame.x );
+            pixPPos.set( static_cast<int>(p)%afs_inn::pixNum_per_frame.x,
+                         static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
             //-- 通过此装置，实现了 “相同的 pjt数据 只用记录一帧” --
             //   并不是最优解，会做很多次重复运算，但是是对原有代码改动最少的。
-            isPJTSingleFrame ?
+            afs_inn::isPJTSingleFrame ?
                     idx_for_J_frame_data_ary=0 :
                     idx_for_J_frame_data_ary=f;
 
-            jh.set_rgba( J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p), pixPPos );
+            jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p), pixPPos );
             if( jh.is_emply() == true ){
                 continue; //- next frame.pix
             }
@@ -254,21 +254,21 @@ void AnimFrameSet::handle_pjt(){
  */
 void AnimFrameSet::handle_shadow(){
 
-    size_t pixNum = to_size_t_cast( pixNum_per_frame.x * 
-                                    pixNum_per_frame.y); //- 一帧有几个像素点
+    size_t pixNum = to_size_t_cast( afs_inn::pixNum_per_frame.x * 
+                                    afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
     RGBA    color_shadow { 0,0,0, 255 };
     size_t  idx_for_S_frame_data_ary {};
 
-    for( size_t f=0; f<totalFrameNum; f++ ){ //--- each frame ---
+    for( size_t f=0; f<afs_inn::totalFrameNum; f++ ){ //--- each frame ---
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
         //-- 通过此装置，实现了 “相同的 pjt数据 只用记录一帧” --
         //   并不是最优解，会做很多次重复运算，但是是对原有代码改动最少的。
-        isShadowSingleFrame ?
+        afs_inn::isShadowSingleFrame ?
                 idx_for_S_frame_data_ary=0 :
                 idx_for_S_frame_data_ary=f;
 
-        RGBA &rgbaRef = S_frame_data_ary.at(idx_for_S_frame_data_ary).at(p);
+        RGBA &rgbaRef = afs_inn::S_frame_data_ary.at(idx_for_S_frame_data_ary).at(p);
         if( rgbaRef.is_near(color_shadow, 5) == false ){
             continue; //- next frame.pix
         }
@@ -288,7 +288,7 @@ void AnimFrameSet::handle_shadow(){
 
 
 
-namespace {//----------------- namespace ------------------//
+namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
 
 /* ===========================================================
@@ -320,4 +320,4 @@ void build_three_lpaths( const std::string &_lpath_pic ){
     lpath_shadow += ".S.png";
 }
 
-}//-------------------- namespace: end ------------------//
+}//-------------------- namespace: afs_inn end ------------------//

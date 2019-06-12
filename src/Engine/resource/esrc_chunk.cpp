@@ -22,13 +22,13 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-namespace {//------------ namespace --------------//
+namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
     std::unordered_map<chunkKey_t, Chunk> chunks {};
 
 
-}//---------------- namespace end --------------//
+}//---------------- namespace: chunk_inn end --------------//
 
 
 
@@ -50,9 +50,9 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
     Chunk  chunk {};
     chunk.set_by_anyMPos( _anyMPos );
     chunkKey_t key = chunk.get_key();
-        tprAssert( esrc::chunks.find(key) == esrc::chunks.end() );//- must not exist
-    esrc::chunks.insert({ key, chunk }); //- copy
-    chunkPtr = &(esrc::chunks.at(key));
+        tprAssert( chunk_inn::chunks.find(key) == chunk_inn::chunks.end() );//- must not exist
+    chunk_inn::chunks.insert({ key, chunk }); //- copy
+    chunkPtr = &(chunk_inn::chunks.at(key));
     chunkPtr->set_mesh_shader_program( _sp );
     chunkPtr->init();
     return chunkPtr;
@@ -83,16 +83,16 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
     IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
-                if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
+                if( chunk_inn::chunks.find(chunkKey) == chunk_inn::chunks.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                tprAssert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+                tprAssert( chunk_inn::chunks.find(chunkKey) != chunk_inn::chunks.end() ); //- tmp
 
 
-    return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
+    return chunk_inn::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
@@ -103,16 +103,16 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
     IntVec2  lMPosOff = get_chunk_lMPosOff( _anyMPos );
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
-                if( esrc::chunks.find(chunkKey) == esrc::chunks.end() ){
+                if( chunk_inn::chunks.find(chunkKey) == chunk_inn::chunks.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                tprAssert( esrc::chunks.find(chunkKey) != esrc::chunks.end() ); //- tmp
+                tprAssert( chunk_inn::chunks.find(chunkKey) != chunk_inn::chunks.end() ); //- tmp
 
 
-    return esrc::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
+    return chunk_inn::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 /* ===========================================================
@@ -120,7 +120,7 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
  * -----------------------------------------------------------
  */
 bool find_from_chunks( chunkKey_t _chunkKey ){
-    return (esrc::chunks.find(_chunkKey) != esrc::chunks.end());
+    return (chunk_inn::chunks.find(_chunkKey) != chunk_inn::chunks.end());
 }
 
 /* ===========================================================
@@ -128,8 +128,8 @@ bool find_from_chunks( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  */
 Chunk *get_chunkPtr( chunkKey_t _key ){
-        tprAssert( esrc::chunks.find(_key) != esrc::chunks.end() );//- must exist
-    return &(esrc::chunks.at(_key));
+        tprAssert( chunk_inn::chunks.find(_key) != chunk_inn::chunks.end() );//- must exist
+    return &(chunk_inn::chunks.at(_key));
 }
 
 
@@ -138,9 +138,9 @@ Chunk *get_chunkPtr( chunkKey_t _key ){
  * -----------------------------------------------------------
  */
 void render_chunks(){
-    for( auto& p : esrc::chunks ){
+    for( auto& p : chunk_inn::chunks ){
             p.second.refresh_translate_auto(); //-- MUST !!!
-            esrc::insert_2_renderPool_meshs( p.second.get_mesh().get_render_z(),
+            insert_2_renderPool_meshs( p.second.get_mesh().get_render_z(),
                                                 const_cast<Mesh*>(&p.second.get_mesh()) );
     }
 }

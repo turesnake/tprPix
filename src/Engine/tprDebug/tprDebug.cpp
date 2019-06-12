@@ -24,7 +24,7 @@
 
 namespace tprDebug {//---------- namespace: tprDebug --------------//
 
-namespace {//-------- namespace ----------//
+namespace _inn {//-------- namespace: _inn ----------//
 
     //-- 简易开关，用来快速关闭 mes显示功能
     bool  is_mapEntSlice_show  {false}; 
@@ -42,7 +42,7 @@ namespace {//-------- namespace ----------//
                 // 坐标不对齐，用来辅助显示数据
 
 
-}//-------------- namespace: end --------//
+}//-------------- namespace: _inn end --------//
 
 /* ===========================================================
  *                    init_debug
@@ -68,8 +68,8 @@ void init_debug(){
  * -----------------------------------------------------------
  */
 void clear_mapEntSlices(){
-    if( is_mapEntSlice_show == true ){
-        renderPool_mapEntSlices.clear();
+    if( _inn::is_mapEntSlice_show == true ){
+        _inn::renderPool_mapEntSlices.clear();
     }
 }
 
@@ -78,8 +78,8 @@ void clear_mapEntSlices(){
  * -----------------------------------------------------------
  */
 void clear_pointPics(){
-    if( is_pointPic_show == true ){
-        renderPool_pointPics.clear();
+    if( _inn::is_pointPic_show == true ){
+        _inn::renderPool_pointPics.clear();
     }
 }
 
@@ -90,14 +90,14 @@ void clear_pointPics(){
  */
 void insert_new_mapEntSlice( const MapCoord &_mcpos ){
 
-    if( is_mapEntSlice_show == false ){
+    if( _inn::is_mapEntSlice_show == false ){
         return;
     }
 
     // ***| INSERT FIRST, INIT LATER  |***
     Mesh  mesh {};
-    renderPool_mapEntSlices.push_back( mesh ); //- copy
-    Mesh &meshRef = renderPool_mapEntSlices.back();
+    _inn::renderPool_mapEntSlices.push_back( mesh ); //- copy
+    Mesh &meshRef = _inn::renderPool_mapEntSlices.back();
 
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
@@ -117,14 +117,14 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
  */
 void insert_new_pointPic( const glm::vec2 &_fpos ){
 
-    if( is_pointPic_show == false ){
+    if( _inn::is_pointPic_show == false ){
         return;
     }
 
     // ***| INSERT FIRST, INIT LATER  |***
     Mesh  mesh {};
-    renderPool_pointPics.push_back( mesh ); //- copy
-    Mesh &meshRef = renderPool_pointPics.back();
+    _inn::renderPool_pointPics.push_back( mesh ); //- copy
+    Mesh &meshRef = _inn::renderPool_pointPics.back();
 
     meshRef.init( texName_pointPic );
     meshRef.isVisible = true;
@@ -145,10 +145,10 @@ void insert_new_pointPic( const glm::vec2 &_fpos ){
  * -----------------------------------------------------------
  */
 void draw_renderPool_mapEntSlices(){
-    if( is_mapEntSlice_show == false ){
+    if( _inn::is_mapEntSlice_show == false ){
         return;
     }
-    for( auto &m : renderPool_mapEntSlices ){
+    for( auto &m : _inn::renderPool_mapEntSlices ){
         m.draw();
     }
 }
@@ -159,10 +159,10 @@ void draw_renderPool_mapEntSlices(){
  * -----------------------------------------------------------
  */
 void draw_renderPool_pointPics(){
-    if( is_pointPic_show == false ){
+    if( _inn::is_pointPic_show == false ){
         return;
     }
-    for( auto &m : renderPool_pointPics ){
+    for( auto &m : _inn::renderPool_pointPics ){
         m.draw();
     }
 }

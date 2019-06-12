@@ -24,7 +24,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//-------- namespace: --------------//
+namespace go_inn {//-------- namespace: go_inn --------------//
 
     std::unordered_map<goid_t, GameObj> memGameObjs {}; //- 所有载入内存的 go实例 实际存储区。
                                     
@@ -33,26 +33,26 @@ namespace {//-------- namespace: --------------//
 
     FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
-}//------------- namespace: end --------------//
+}//------------- namespace: go_inn end --------------//
 
 
 std::unordered_map<goid_t, GameObj> &get_memGameObjs(){
-    return memGameObjs;
+    return go_inn::memGameObjs;
 }
 
 
 std::unordered_set<goid_t> &get_goids_active(){
-    return goids_active;
+    return go_inn::goids_active;
 }
 
 std::unordered_set<goid_t> &get_goids_inactive(){
-    return goids_inactive;
+    return go_inn::goids_inactive;
 }
 
 
 GameObj *get_memGameObjPtr( goid_t _goid ){
-        tprAssert( memGameObjs.find(_goid) != memGameObjs.end() );//- tmp
-    return  &(memGameObjs.at(_goid));
+        tprAssert( go_inn::memGameObjs.find(_goid) != go_inn::memGameObjs.end() );//- tmp
+    return  &(go_inn::memGameObjs.at(_goid));
 }
 
 
@@ -69,9 +69,9 @@ goid_t insert_new_gameObj(){
     GameObj  tmp_go {};
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
     tmp_go.id = goid; //-- MUST --
-        tprAssert( esrc::memGameObjs.find(goid) == esrc::memGameObjs.end() );//- must not exist
-    esrc::memGameObjs.insert({ goid, tmp_go }); //- copy
-    esrc::memGameObjs.at(goid).init(); //- MUST --
+        tprAssert( go_inn::memGameObjs.find(goid) == go_inn::memGameObjs.end() );//- must not exist
+    go_inn::memGameObjs.insert({ goid, tmp_go }); //- copy
+    go_inn::memGameObjs.at(goid).init(); //- MUST --
     return goid;
 }
 
@@ -86,9 +86,9 @@ void insert_a_disk_gameObj( goid_t _goid ){
     // ***| INSERT FIRST, INIT LATER  |***
     GameObj  tmp_go {};
     tmp_go.id = _goid; //-- MUST --
-        tprAssert( esrc::memGameObjs.find(_goid) == esrc::memGameObjs.end() );//- must not exist
-    esrc::memGameObjs.insert({ _goid, tmp_go }); //- copy
-    esrc::memGameObjs.at(_goid).init(); //- MUST --
+        tprAssert( go_inn::memGameObjs.find(_goid) == go_inn::memGameObjs.end() );//- must not exist
+    go_inn::memGameObjs.insert({ _goid, tmp_go }); //- copy
+    go_inn::memGameObjs.at(_goid).init(); //- MUST --
 }
 
 
@@ -110,7 +110,7 @@ void realloc_active_goes(){
     float range    { 1600.0f }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
-    for( auto id : goids_active ){
+    for( auto id : go_inn::goids_active ){
         goPtr = esrc::get_memGameObjPtr( id );
         v = get_camera().get_camera2DFPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
@@ -122,8 +122,8 @@ void realloc_active_goes(){
 
     //-- 正式移动 这些 goid --
     for( auto i : container ){
-        goids_inactive.insert( i );
-        goids_active.erase( i );
+        go_inn::goids_inactive.insert( i );
+        go_inn::goids_active.erase( i );
     }
 }
 
@@ -145,7 +145,7 @@ void realloc_inactive_goes(){
     float range    { 1600.0f }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
-    for( auto id : goids_inactive ){
+    for( auto id : go_inn::goids_inactive ){
         goPtr = esrc::get_memGameObjPtr( id );
         v = get_camera().get_camera2DFPos() - goPtr->goPos.get_currentFPos();
         distance = v.x * v.x + v.y * v.y;
@@ -157,8 +157,8 @@ void realloc_inactive_goes(){
 
     //-- 正式移动 这些 goid --
     for( auto i : container ){
-        goids_active.insert( i );
-        goids_inactive.erase( i );
+        go_inn::goids_active.insert( i );
+        go_inn::goids_inactive.erase( i );
     }
 }
 

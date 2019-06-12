@@ -40,6 +40,11 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 #set ( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall" ) 
 
 
+
+set ( CMAKE_CXX_FLAGS_DEBUG "-O0" )
+set ( CMAKE_CXX_FLAGS_RELEASE "-O0" )
+
+
 #-- 单独设置 c++ 的编译选项 的方式:
 #add_definitions ( -DXXX_XXX=1 )
 
@@ -229,26 +234,22 @@ add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
 #             target_link_libraries
 #---------------------------------------------------#
 if ( UNIX )
-    SET(LINK_LIBRARY_UNIX
-    optimized tprGeneral
-    optimized tprInUnix
-    optimized glad
-    debug glfw
-    debug ${GLFW_LIBRARIES}
-    debug SQLite
+    target_link_libraries( tprpix  
+        tprGeneral
+        tprInUnix
+        glad
+        glfw
+        ${GLFW_LIBRARIES}
+        SQLite
         )
-
-    target_link_libraries( tprpix  ${LINK_LIBRARY_UNIX} )
-
 
 else()
     target_link_libraries( tprpix 
         tprGeneral
         tprInWin
-
-        debug glad
-        debug ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
-        debug SQLite
+        glad
+        ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
+        SQLite
         )
 endif( UNIX )
 
@@ -270,7 +271,6 @@ target_compile_options( tprpix
                         -Wno-switch-enum             #++ need ++
                         -Wno-unused-parameter        #++ need ++
                         -Wno-unused-member-function  #++ need ++
-                        #-Wno-gnu-anonymous-struct #glm
 
                         -Wno-missing-prototypes
                         -Wno-old-style-cast   #---- tmp ----                        

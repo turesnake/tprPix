@@ -14,7 +14,7 @@
 #include "create_texNames.h"
 
 
-namespace {//----------- namespace ---------------//
+namespace mapTexture_inn {//----------- namespace: mapTexture_inn ---------------//
 
     IntVec2  pixWH {    PIXES_PER_CHUNK_IN_TEXTURE, 
                         PIXES_PER_CHUNK_IN_TEXTURE };
@@ -37,7 +37,7 @@ void MapTexture::creat_texName(){
     //---------------------------------------//
     //        gl --> texName
     //---------------------------------------//
-    texName = create_a_texName( pixWH, (GLvoid*)&(texBuf.at(0)) );
+    texName = create_a_texName( mapTexture_inn::pixWH, (GLvoid*)&(texBuf.at(0)) );
 
     //-- 可以选择性释放 texBuf 资源 ---
     // 未定...

@@ -22,7 +22,7 @@ using std::endl;
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-namespace {//------------ namespace --------------//
+namespace jobQue_inn {//------------ namespace: jobQue_inn --------------//
 
     //-- 提醒所有 job thread：jobs处理完毕后即可 自动 exit 了 --
     std::atomic<bool> exitJobThreadsFlag(false);
@@ -32,7 +32,7 @@ namespace {//------------ namespace --------------//
     std::condition_variable  jobQueCondVar;
 
 
-}//---------------- namespace end --------------//
+}//---------------- namespace: jobQue_inn end --------------//
 
 
 /* ===========================================================
@@ -42,7 +42,7 @@ namespace {//------------ namespace --------------//
  *    提醒 job thread，在处理完 jobQue 中所有 jobs 后，即可自行exit
  */
 void atom_exitJobThreadsFlag_store( bool _val ){
-    exitJobThreadsFlag.store( _val );
+    jobQue_inn::exitJobThreadsFlag.store( _val );
 }
 
 /* ===========================================================
@@ -51,7 +51,7 @@ void atom_exitJobThreadsFlag_store( bool _val ){
  * -- 通常为 job thread 调用，来查看 exitJobThreadsFlag 的值
  */
 bool atom_exitJobThreadsFlag_load(){
-    return exitJobThreadsFlag.load();
+    return jobQue_inn::exitJobThreadsFlag.load();
 }
 
 
@@ -63,12 +63,12 @@ bool atom_exitJobThreadsFlag_load(){
 void atom_push_back_2_jobQue( const Job &_job ){
 
     {//--- atom ---//
-        std::lock_guard<std::mutex> lg(jobQueMutex);
-        esrc::jobQue.push_back( _job ); //- copy
+        std::lock_guard<std::mutex> lg(jobQue_inn::jobQueMutex);
+        jobQue_inn::jobQue.push_back( _job ); //- copy
     }
     //-- 解除 消费者线程 的阻塞
     //  注意，此句 不需要处于 上文的 lock作用域中
-    jobQueCondVar.notify_one();
+    jobQue_inn::jobQueCondVar.notify_one();
 }
 
 
@@ -80,10 +80,10 @@ void atom_push_back_2_jobQue( const Job &_job ){
 bool atom_is_jobQue_empty(){
     bool ret {true};
     {//--- atom ---//
-        std::lock_guard<std::mutex> lg(jobQueMutex);
+        std::lock_guard<std::mutex> lg(jobQue_inn::jobQueMutex);
                 //- 若抢占不到 mutex 的 lock权，就会持续 阻塞 下去
                 //  直到 其他程序释放此 mutex，本语句 成功抢占 为止。
-        ret = esrc::jobQue.empty();
+        ret = jobQue_inn::jobQue.empty();
     }
     return ret;
 }
@@ -98,20 +98,20 @@ Job atom_pop_from_jobQue(){
 
     Job job {};
     {//--- atom ---//
-        std::unique_lock<std::mutex> ul(jobQueMutex);
-        jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), []{ return !esrc::jobQue.empty(); } );
+        std::unique_lock<std::mutex> ul(jobQue_inn::jobQueMutex);
+        jobQue_inn::jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), []{ return !jobQue_inn::jobQue.empty(); } );
                 //- 阻塞，直到 生产者调用 notify_xxx() 函数
                 //  通过 参数3 用来防止 假醒
                 //- 参数3 判断式 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的
                 //- 通过 参数2 来限制 wait时间（0.5秒）时间到了自己苏醒。
 
         //- 此句 jobQue.empty() 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的
-        if( esrc::jobQue.empty() ){
+        if( jobQue_inn::jobQue.empty() ){
             //-- 说明并没有获取job，仅仅是时间到了
             job.jobType = JobType::JustTimeOut;
         }else{
-            job = esrc::jobQue.front();
-            esrc::jobQue.pop_front();
+            job = jobQue_inn::jobQue.front();
+            jobQue_inn::jobQue.pop_front();
         }
     }
     return job;

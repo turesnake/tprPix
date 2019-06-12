@@ -40,7 +40,7 @@ using std::cout;
 using std::endl;
 */
 
-namespace {//----------- namespace ----------------//
+namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     //-- 不要随意建立 static数据，本文件的代码，会被数个 job线程 调用 --
 
@@ -133,7 +133,7 @@ namespace {//----------- namespace ----------------//
     const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
                                             fieldKey_t _fieldKey );
 
-}//-------------- namespace : end ----------------//
+}//-------------- namespace: bcd_inn end ----------------//
 
 
 
@@ -182,12 +182,12 @@ void build_chunkData_main( const Job &_job ){
     //       pixAltis
     //--------------------------//
     std::vector<float> pixAltis {}; //- 仅内部使用
-    calc_pixAltis( chunkMPos, pixAltis );
+    bcd_inn::calc_pixAltis( chunkMPos, pixAltis );
 
     //--------------------------//
     //      chunkData
     //--------------------------//
-    calc_chunkData( chunkMPos, pixAltis, chunkDataPtr );
+    bcd_inn::calc_chunkData( chunkMPos, pixAltis, chunkDataPtr );
 
     //--------------------------//
     //-- chunkData 数据计算完成后，向 状态表 添加一个元素
@@ -205,7 +205,7 @@ void build_chunkData_main( const Job &_job ){
 }
 
 
-namespace {//----------- namespace ----------------//
+namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
 /* ===========================================================
@@ -460,5 +460,5 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
     return targetFieldMPos;
 }
 
-}//-------------- namespace : end ----------------//
+}//-------------- namespace: bcd_inn end ----------------//
 

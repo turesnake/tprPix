@@ -10,7 +10,7 @@
 #include "PubBinaryValType.h"
 
 
-namespace {//-------- namespace: --------------//
+namespace PubBinaryValType_inn {//-------- namespace: PubBinaryValType_inn --------------//
 
     //- 记载了每一种元素的 字节数（类型）--
     std::map<u32_t, u32_t> PubBinaryValSizes {
@@ -19,11 +19,11 @@ namespace {//-------- namespace: --------------//
     //...
     };
 
-}//------------- namespace: end --------------//
+}//------------- namespace: PubBinaryValType_inn end --------------//
 
 
 std::map<u32_t, u32_t> &get_PubBinaryValSizes(){
-    return PubBinaryValSizes;
+    return PubBinaryValType_inn::PubBinaryValSizes;
 }
 
 
