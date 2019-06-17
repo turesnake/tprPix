@@ -11,8 +11,9 @@
 #cmakedefine SWITCH_1
 
 //-- 标明自己所处 OS
-#cmakedefine  TPR_OS_APPLE_
 #cmakedefine  TPR_OS_UNIX_
+#cmakedefine  TPR_OS_MACOSX_
+#cmakedefine  TPR_OS_LINUX_
 #cmakedefine  TPR_OS_WIN32_
 
 

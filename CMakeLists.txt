@@ -2,18 +2,30 @@
 #           CMakeLists.txt -- 根目录
 #===================================================#
 
-#----
+#---- 推荐选项 ----
 # cmake -DCMAKE_BUILD_TYPE=Release ..
+# cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
 # cmake -DCMAKE_BUILD_TYPE=Debug ..
+# make 
 
-#-- cmake 最小 版本号
+
+#---------------------------------------------------#
+#                cmake version
+#---------------------------------------------------#
 cmake_minimum_required(VERSION 3.1)
+message( STATUS "cmake: ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" )
 
+
+#---------------------------------------------------#
+#                    OS
+#---------------------------------------------------#
 if( APPLE )
-    option( TPR_OS_APPLE_ " APPLE " ON )
+    option( TPR_OS_MACOSX_ " MACOSX " ON )
+    option( TPR_OS_UNIX_ " UNIX " ON )
     message( STATUS "___APPLE___" )
 
 elseif( UNIX AND NOT APPLE )
+    option( TPR_OS_LINUX_ " LINUX " ON )
     option( TPR_OS_UNIX_ " UNIX " ON )
     message( STATUS "___UNIX___" )
 
@@ -35,14 +47,9 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 
-#-- 测试用
-#set ( CMAKE_CXX_COMPILER            "clang++"  )
-#set ( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall" ) 
 
-
-
-set ( CMAKE_CXX_FLAGS_DEBUG "-O0" )
-set ( CMAKE_CXX_FLAGS_RELEASE "-O0" )
+#-- 显示编译时使用的 编译选项
+set ( CMAKE_VERBOSE_MAKEFILE ON )
 
 
 #-- 单独设置 c++ 的编译选项 的方式:
@@ -144,6 +151,24 @@ add_executable(
     tprpix
     ${PIXEL_FILES}
 )
+
+#---------------------------------------------------#
+#                     C#
+#---------------------------------------------------#
+# 调用 shell 文件，会在 make 阶段
+
+if( APPLE )
+    add_custom_target( csDll ALL
+        COMMAND /bin/sh ${PROJECT_SOURCE_DIR}/shells/build_osx.sh
+        )
+
+elseif( WIN32 )
+    add_custom_target( csDll ALL
+        COMMAND cmd ${PROJECT_SOURCE_DIR}/shells/build_win.bat
+    )
+
+endif( APPLE )
+
 
 #---------------------------------------------------#
 #                   include
@@ -254,7 +279,6 @@ else()
 endif( UNIX )
 
 
-
 target_compile_options( tprpix 
                         PRIVATE 
                         -Wall -Wextra
@@ -265,16 +289,48 @@ target_compile_options( tprpix
 						-Wno-documentation-unknown-command #- glfw3
 						-Wno-nonportable-system-include-path
 						-Wno-reserved-id-macro
-						-Wno-global-constructors     #++ need ++
-                        -Wno-exit-time-destructors   #++ need ++
-                        -Wno-covered-switch-default  #++ need ++
-                        -Wno-switch-enum             #++ need ++
-                        -Wno-unused-parameter        #++ need ++
-                        -Wno-unused-member-function  #++ need ++
-
+						-Wno-global-constructors            #++ need ++
+                        -Wno-exit-time-destructors          #++ need ++
+                        -Wno-covered-switch-default         #++ need ++
+                        -Wno-switch-enum                    #++ need ++
+                        -Wno-unused-parameter               #++ need ++
+                        -Wno-unused-member-function         #++ need ++
+                        -Wno-missing-variable-declarations  #++ need ++
                         -Wno-missing-prototypes
                         -Wno-old-style-cast   #---- tmp ----                        
                         )
+
+
+#=========== 强行关闭所有 优化 ============
+#-------- UNIX ----------
+if( UNIX )
+    set ( CMAKE_C_FLAGS                  "-O0"              CACHE STRING "regular mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_DEBUG            "-O0 -g"           CACHE STRING "debug mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_MINSIZEREL       "-O0 -DNDEBUG"     CACHE STRING "minSizeRel mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_RELEASE          "-O0 -DNDEBUG"     CACHE STRING "release mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_RELWITHDEBINFO   "-O0 -g -DNDEBUG"  CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
+
+    set ( CMAKE_CXX_FLAGS                 "-O0"             CACHE STRING "regular mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_DEBUG           "-O0 -g"          CACHE STRING "debug mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_MINSIZEREL      "-O0 -DNDEBUG"    CACHE STRING "minSizeRel mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_RELEASE         "-O0 -DNDEBUG"    CACHE STRING "release mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO  "-O0 -g -DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
+
+
+#-------- WIN ----------
+else()
+    # do not have CMAKE_C_FLAGS;
+    set ( CMAKE_C_FLAGS_DEBUG            "/MDd /Zi /Ob0 /Od /RTC1"   CACHE STRING "debug mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_MINSIZEREL       "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "minSizeRel mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_RELEASE          "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "release mode: no optimize" FORCE )
+    set ( CMAKE_C_FLAGS_RELWITHDEBINFO   "/MD /Zi /O0 /Ob1 /DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
+
+    # do not have CMAKE_CXX_FLAGS;
+    set ( CMAKE_CXX_FLAGS_DEBUG            "/MDd /Zi /Ob0 /Od /RTC1"   CACHE STRING "debug mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_MINSIZEREL       "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "minSizeRel mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_RELEASE          "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "release mode: no optimize" FORCE )
+    set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO   "/MD /Zi /O0 /Ob1 /DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
+endif( UNIX )
 
 
 

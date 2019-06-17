@@ -13,9 +13,9 @@
 #include "tprGeneral.h"
 
 #include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
-#ifdef TPR_OS_WIN32_ 
+#if defined TPR_OS_WIN32_ 
     #include "tprFileSys_win.h"
-#else
+#elif defined TPR_OS_UNIX_ 
     #include "tprFileSys_unix.h"
 #endif
 
@@ -47,10 +47,10 @@ void ShaderProgram::init(   const std::string &_lpathVs,
     std::string fsbuf {};
 
     //-- 读取文件，获得 数据
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
     tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
     tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
-#else
+#elif defined TPR_OS_UNIX_
     tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
     tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
 #endif

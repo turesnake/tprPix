@@ -24,16 +24,17 @@
 //                     file
 //----------------------------------------------------//
 inline int         fd_cwd {};   //-- 项目 主目录 fd
-inline std::string path_cwd {}; //-- 项目 主目录 路径名
-                
-inline std::string path_home {};  //-- ~/
-inline std::string path_dataBase {};  //-- .../dataBase/
-inline std::string path_shaders {}; //-- .../shaders/
-inline std::string path_textures {}; //-- .../textures/
 
-inline std::string path_animFrameSets {}; //-- .../textures/animFrameSets
-inline std::string path_colliEntSet   {}; //-- .../textures/colliEntSet
-inline std::string path_fieldBorderSet {}; //-- .../textures/fieldBorderSet
+inline std::string path_cwd {}; //-- exe 所在目录的 path
+inline std::string path_csharpLibs {}; //-- .../build/bin/csharpLibs/
+                
+inline std::string path_dataBase {};  //-- .../build/bin/dataBase/
+inline std::string path_shaders {}; //-- .../build/bin/shaders/
+inline std::string path_textures {}; //-- .../build/bin/textures/
+
+inline std::string path_animFrameSets {}; //-- .../build/bin/textures/animFrameSets
+inline std::string path_colliEntSet   {}; //-- .../build/bin/textures/colliEntSet
+inline std::string path_fieldBorderSet {}; //-- .../build/bin/textures/fieldBorderSet
 
 
 //----------------------------------------------------//

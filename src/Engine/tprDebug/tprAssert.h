@@ -18,7 +18,7 @@
  *                    tprAssert_inn
  * -----------------------------------------------------------
  */
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
 
     #include <windows.h>
     #include <sstream>   //-- stringstream
@@ -34,7 +34,7 @@
     }
     #define tprAssert_inn(e,File,Line)  (e) ? 0 : tprMessageBox(#e, File,Line)
 
-#else
+#elif defined TPR_OS_UNIX_
     // allow assert in release mode 
     // 如果不取消 NDEBUG，将在 release mode 引发关于 OpenGL_glad 的奇怪的 Segmentation fault 错误...
     #ifdef NDEBUG 

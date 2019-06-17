@@ -5,13 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "prepare.h"
+
 //---------------- from cmake ------------------//
-#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
+#include "SysConfig.h" // MUST BEFORE TPR_OS_XXX macros !!!
 
 //-------------------- C ----------------------//
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
 	#include <windows.h>
-#else
+#elif defined TPR_OS_UNIX_
+    #include <limits.h>  //- PATH_MAX
+    #include <stdlib.h>  //- realpath
 	#include <unistd.h>  //- fchdir
 	#include <fcntl.h>    //-- open，openat, AT_FDCWD
 #endif
@@ -25,9 +29,9 @@
 #include "tprGeneral.h"
 
 
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
     #include "tprFileSys_win.h" 
-#else
+#elif defined TPR_OS_UNIX_
     #include "wrapUnix.h"
     #include "tprFileModeT.h"
     #include "tprFileSys_unix.h" 
@@ -38,7 +42,6 @@
 #include "global.h"
 
 
-
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -46,7 +49,7 @@ using std::endl;
 
 
 namespace prepare_inn {//------------ namespace: prepare_inn ------------//
-    void build_path_cwd();
+    void build_path_cwd( char *_appPath );
     void data_type_confirm();
     void check_OS();
     //void check_fst_run();
@@ -59,7 +62,7 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  *                      prepare  
  *-----------------------------------------------------------
  */
-void prepare(){
+void prepare( char *_appPath ){
 
     //------------------------//
     //      变量类型检测
@@ -74,7 +77,7 @@ void prepare(){
     //------------------------//
     //    初始化 path_cwd
     //------------------------//
-    prepare_inn::build_path_cwd();
+    prepare_inn::build_path_cwd( _appPath );
 
     //------------------------//
     // 检测 关键 目录 的存在，若没有，创建之
@@ -97,24 +100,25 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  *                  build_path_cwd   
  * -----------------------------------------------------------
  */
-void build_path_cwd(){
+void build_path_cwd( char *_appPath ){
 
 
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
 
 	char buf[MAX_PATH];
-	GetModuleFileName( nullptr, buf, MAX_PATH );
+	GetModuleFileName( nullptr, buf, MAX_PATH ); //- exe文件path
 	// 当前 buf数据 为 ".../xx.exe"
 	// 需要将 最后一段 截掉
 	std::string::size_type pos = std::string(buf).find_last_of( "\\/" );
 	path_cwd = std::string(buf).substr( 0, pos );
 
-#else
+#elif defined TPR_OS_UNIX_
     //----------------------------//
     //       MODIFY 当前工作目录
     //----------------------------//
     //    这个 fd_cwd 好想 从未被 用过...
     //-- 始终将 项目根目录 设置为 当前工作目录。
+    /*
     if( (fd_cwd = openat( AT_FDCWD, "..", (O_RDONLY | O_DIRECTORY) )) == -1 ){
         //cout << "prepare: openat: ERROR. fd_cwd.\n" 
         //    << endl;
@@ -125,20 +129,32 @@ void build_path_cwd(){
         //    << endl;
         tprAssert(0);
     }
+    */
 
     //----------------------------//
-    //    获得 当前工作目录 路径名
+    //    
     //----------------------------//
+    /*
     char cpath_cwd[1024];
     if( getcwd( cpath_cwd, 1024 ) == NULL ){
         //cout << "prepare: getcwd: ERROR.\n"
         //    << endl;
         tprAssert(0);
     }
-
     //---  通过临时 string 对象，将 字符串 转存到 string对象：path_cwd 中。
     std::string s( cpath_cwd );
     path_cwd = s;
+    */
+
+    char ubuf[ PATH_MAX + 1 ];
+    char *res = realpath( _appPath, ubuf);
+    if (!res) {
+        cout << "realpath ERROR; _appPath = " << _appPath << endl;
+        tprAssert(0);
+    }
+    //- ubuf 暂为 .../xxx.exe 的 path，需要截去最后一段 
+	std::string::size_type pos = std::string(ubuf).find_last_of( "/" );
+	path_cwd = std::string(ubuf).substr( 0, pos );
     
 #endif
 
@@ -156,8 +172,16 @@ void check_and_creat_important_dir(){
     //----------------------------//
     //  已经确认的 目录：
     //      path_cwd
+    cout << "path_cwd = " << path_cwd << endl;
 
-#ifdef TPR_OS_WIN32_
+#if defined TPR_OS_WIN32_
+
+    //---------------------------------//
+    //           path_csharpLibs
+    //---------------------------------//
+    path_csharpLibs = tprWin::mk_dir( path_cwd,
+                        "csharpLibs/",
+                        err_info );
 
     //---------------------------------//
     //           path_data
@@ -196,12 +220,15 @@ void check_and_creat_important_dir(){
                                         "fieldBorderSet/",
                                         err_info );
 
-#else
+#elif defined TPR_OS_UNIX_
+
     //---------------------------------//
-    //           path_home
+    //           path_csharpLibs
     //---------------------------------//
-    //   从未被使用...
-    path_home = tprUnix::Getenv( "HOME", err_info );
+    path_csharpLibs = tprUnix::mk_dir( path_cwd,
+                        "csharpLibs/",
+                        RWXR_XR_X,
+                        err_info );
 
     //---------------------------------//
     //           path_data
@@ -355,22 +382,19 @@ void check_OS(){
 
     current_OS = OS_NULL; //-- 先设置为 未找到状态
 
-    #ifdef TPR_OS_APPLE_
+    #if defined TPR_OS_MACOSX_
         current_OS = OS_APPLE;
-        cout << "TPR_OS_APPLE_" << endl;
-    #endif 
+        cout << "TPR_OS_MACOSX_" << endl;
 
-    #ifdef TPR_OS_UNIX_
+    #elif defined TPR_OS_LINUX_
         current_OS = OS_UNIX;
-        cout << "TPR_OS_UNIX_" << endl;
-    #endif 
+        cout << "TPR_OS_LINUX_" << endl;
 
-    #ifdef TPR_OS_WIN32_
+    #elif defined TPR_OS_WIN32_
         current_OS = OS_WIN32;
         cout << "TPR_OS_WIN32_" << endl;
     #endif 
     
-
 }
 
 
