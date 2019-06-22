@@ -44,10 +44,11 @@ endif( APPLE )
 #---- Must before project!!! ----
 
 
-#-- cpp 版本控制。 c++17
+#-- c++17
 #-- CMAKE_CXX_STANDARD 是 cmake 3.1 后的新语句。可放心使用
 #-- 当低于此版本时，.h文件中的 inline 关键词将失效
 set (CMAKE_CXX_STANDARD 17)
+
 
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
