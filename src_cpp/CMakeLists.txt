@@ -9,6 +9,11 @@
 # make 
 
 
+# PROJECT_SOURCE_DIR       --- 
+# PROJECT_BINARY_DIR       --- cmake 编译所在的目录 path
+# CMAKE_CURRENT_SOURCE_DIR --- current CMakeLists.txt path
+
+
 #---------------------------------------------------#
 #                cmake version
 #---------------------------------------------------#
@@ -36,7 +41,7 @@ elseif( WIN32 )
     message( STATUS "___WIN32___" )
 
 endif( APPLE )
-#-- 此段 务必 在 设置 project 之前
+#---- Must before project!!! ----
 
 
 #-- cpp 版本控制。 c++17
@@ -59,13 +64,20 @@ set ( CMAKE_VERBOSE_MAKEFILE ON )
 #---------------------------------------------------#
 #                project name
 #---------------------------------------------------#
-#-- 工程 名。不是 最终输出的 可执行二进制文件 的名字
-project ( tprPixel )
+project ( tprPixelCPP )
 
-#-- *** 测试 ***
-#-- 设置 工程 版本号： 0.1
+#-- *** test: 0.2 ***
+#-- c#_app_with_cpp_dlls
 set ( VERSION_MAJOR 0 )
-set ( VERSION_MINOR 1 )
+set ( VERSION_MINOR 2 )
+
+
+#---------------------------------------------------#
+#                 libs out-path
+#---------------------------------------------------#
+#-- change finally libs/dlls out-path 
+set (LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../build/publish)
+
 
 #---------------------------------------------------#
 #                     SySconfig
@@ -77,8 +89,8 @@ set ( VERSION_MINOR 1 )
 option( SWITCH_1
     " option test: switch 1 " ON )
 configure_file(
-    "${PROJECT_SOURCE_DIR}/sysconfig/SysConfig.h.in"
-    "${PROJECT_BINARY_DIR}/sysconfig/SysConfig.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sysconfig/SysConfig.h.in"
+    "${LIBRARY_OUTPUT_PATH}/sysconfig/SysConfig.h"
 )
 
 
@@ -100,6 +112,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
+                        src/Engine/cpp_with_csharp/*.cpp 
                         src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
@@ -136,89 +149,70 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/UIs/buttons/*.cpp 
                         )
 
-#---------------------------------------------------#
-#                   build/bin/
-#---------------------------------------------------#
-#-- 更改 项目最终生成的 可执行二进制文件 的放置目录： build/bin 
-set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-        #-- 更改输出 会导致 很多 glfw 的测试 也挪到 build/bin/ 目录中
-        
 
 #---------------------------------------------------#
 #                      tprpix 
 #---------------------------------------------------#
-add_executable(
-    tprpix
+add_library (
+    tprpix_cpp SHARED
     ${PIXEL_FILES}
 )
 
-#---------------------------------------------------#
-#                     C#
-#---------------------------------------------------#
-# 调用 shell 文件，会在 make 阶段
-
-if( APPLE )
-    add_custom_target( csDll ALL
-        COMMAND /bin/sh ${PROJECT_SOURCE_DIR}/shells/build_osx.sh
-        )
-
-elseif( WIN32 )
-    add_custom_target( csDll ALL
-        COMMAND cmd ${PROJECT_SOURCE_DIR}/shells/build_win.bat
-    )
-
-endif( APPLE )
+#-- set libs/dlls output-name --> "tprpix_cpp.xxx"
+set_target_properties(tprpix_cpp PROPERTIES PREFIX "")
+set_target_properties(tprpix_cpp PROPERTIES OUTPUT_NAME "tprpix_cpp")
 
 
 #---------------------------------------------------#
 #                   include
 #---------------------------------------------------#
-target_include_directories ( tprpix PUBLIC
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/Config
+target_include_directories ( tprpix_cpp PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Config
 
-    ${PROJECT_SOURCE_DIR}/src/Engine
-    ${PROJECT_SOURCE_DIR}/src/Engine/actionFSM
-    ${PROJECT_SOURCE_DIR}/src/Engine/actionSwitch
-    ${PROJECT_SOURCE_DIR}/src/Engine/affect
-    ${PROJECT_SOURCE_DIR}/src/Engine/AI
-    ${PROJECT_SOURCE_DIR}/src/Engine/animFrameSet
-    ${PROJECT_SOURCE_DIR}/src/Engine/camera
-    ${PROJECT_SOURCE_DIR}/src/Engine/collision
-    ${PROJECT_SOURCE_DIR}/src/Engine/dataBase
-    ${PROJECT_SOURCE_DIR}/src/Engine/tprDebug
-    ${PROJECT_SOURCE_DIR}/src/Engine/ecoSys
-    ${PROJECT_SOURCE_DIR}/src/Engine/game
-    ${PROJECT_SOURCE_DIR}/src/Engine/game/gameObj
-    ${PROJECT_SOURCE_DIR}/src/Engine/game/map
-    ${PROJECT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet
-    ${PROJECT_SOURCE_DIR}/src/Engine/game/map/chunkBuild
-    ${PROJECT_SOURCE_DIR}/src/Engine/gl
-    ${PROJECT_SOURCE_DIR}/src/Engine/input
-    ${PROJECT_SOURCE_DIR}/src/Engine/mesh
-    ${PROJECT_SOURCE_DIR}/src/Engine/move
-    ${PROJECT_SOURCE_DIR}/src/Engine/multiThread
-    ${PROJECT_SOURCE_DIR}/src/Engine/player
-    ${PROJECT_SOURCE_DIR}/src/Engine/random
-    ${PROJECT_SOURCE_DIR}/src/Engine/resource
-    ${PROJECT_SOURCE_DIR}/src/Engine/scene
-    ${PROJECT_SOURCE_DIR}/src/Engine/script
-    ${PROJECT_SOURCE_DIR}/src/Engine/shaderProgram
-    ${PROJECT_SOURCE_DIR}/src/Engine/sys
-    ${PROJECT_SOURCE_DIR}/src/Engine/time
-    ${PROJECT_SOURCE_DIR}/src/Engine/UI
-    ${PROJECT_SOURCE_DIR}/src/Engine/VAOVBO
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/actionFSM
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/actionSwitch
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/affect
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/AI
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/cpp_with_csharp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/gameObj
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/chunkBuild
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/resource
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/scene
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/script
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/shaderProgram
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/sys
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/time
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/UI
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/VAOVBO
 
-    ${PROJECT_SOURCE_DIR}/src/Script
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Script
 
-    ${PROJECT_BINARY_DIR}/sysconfig
+    ${LIBRARY_OUTPUT_PATH}/sysconfig
     )
 
 #-- 防止 第三方库h文件 报 warnings --
-target_include_directories ( tprpix SYSTEM PUBLIC
-    ${PROJECT_SOURCE_DIR}/deps
-    ${PROJECT_SOURCE_DIR}/deps/stb_image
-    ${PROJECT_SOURCE_DIR}/deps/glm.9.9.5
+target_include_directories ( tprpix_cpp SYSTEM PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/stb_image
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/glm.9.9.5
     )
 
 
@@ -226,9 +220,9 @@ target_include_directories ( tprpix SYSTEM PUBLIC
 #-- glfw --
 #-- 这两个目录中的文件 好像是 一样的 --
 if( UNIX )
-    target_include_directories ( tprpix PUBLIC ${PROJECT_SOURCE_DIR}/deps/glfw_unix/include)
+    target_include_directories ( tprpix_cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix/include)
 else()
-    target_include_directories ( tprpix PUBLIC ${PROJECT_SOURCE_DIR}/deps/glfw_win/include)
+    target_include_directories ( tprpix_cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/include)
 endif( UNIX )
 
 
@@ -244,22 +238,22 @@ if( UNIX )
     set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glfw_unix)
-    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInUnix)
+    add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix)
+    add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprInUnix)
 else()
-    add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprInWin)
+    add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprInWin)
 endif( UNIX )
 
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/glad)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/tprGeneral)
-add_subdirectory (${PROJECT_SOURCE_DIR}/deps/sqlite.3.28)
+add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/glad)
+add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprGeneral)
+add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/sqlite.3.28)
 
 
 #---------------------------------------------------#
 #             target_link_libraries
 #---------------------------------------------------#
 if ( UNIX )
-    target_link_libraries( tprpix  
+    target_link_libraries( tprpix_cpp  
         tprGeneral
         tprInUnix
         glad
@@ -269,17 +263,17 @@ if ( UNIX )
         )
 
 else()
-    target_link_libraries( tprpix 
+    target_link_libraries( tprpix_cpp
         tprGeneral
         tprInWin
         glad
-        ${PROJECT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
         SQLite
         )
 endif( UNIX )
 
 
-target_compile_options( tprpix 
+target_compile_options( tprpix_cpp
                         PRIVATE 
                         -Wall -Wextra
                         -Wno-c++98-compat
@@ -341,6 +335,8 @@ else()
     set ( CMAKE_CXX_FLAGS_MINSIZEREL       "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "minSizeRel mode: no optimize" FORCE )
     set ( CMAKE_CXX_FLAGS_RELEASE          "/MD /O0 /Ob1 /DNDEBUG"     CACHE STRING "release mode: no optimize" FORCE )
     set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO   "/MD /Zi /O0 /Ob1 /DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
+
+
 endif( UNIX )
 
 

@@ -49,7 +49,7 @@ using std::endl;
 
 
 namespace prepare_inn {//------------ namespace: prepare_inn ------------//
-    void build_path_cwd( char *_appPath );
+    void build_path_cwd( char *exeDirPath_ );
     void data_type_confirm();
     void check_OS();
     //void check_fst_run();
@@ -62,7 +62,7 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  *                      prepare  
  *-----------------------------------------------------------
  */
-void prepare( char *_appPath ){
+void prepare( char *exeDirPath_ ){
 
     //------------------------//
     //      变量类型检测
@@ -77,7 +77,7 @@ void prepare( char *_appPath ){
     //------------------------//
     //    初始化 path_cwd
     //------------------------//
-    prepare_inn::build_path_cwd( _appPath );
+    prepare_inn::build_path_cwd( exeDirPath_ );
 
     //------------------------//
     // 检测 关键 目录 的存在，若没有，创建之
@@ -100,64 +100,10 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  *                  build_path_cwd   
  * -----------------------------------------------------------
  */
-void build_path_cwd( char *_appPath ){
+void build_path_cwd( char *exeDirPath_ ){
 
-
-#if defined TPR_OS_WIN32_
-
-	char buf[MAX_PATH];
-	GetModuleFileName( nullptr, buf, MAX_PATH ); //- exe文件path
-	// 当前 buf数据 为 ".../xx.exe"
-	// 需要将 最后一段 截掉
-	std::string::size_type pos = std::string(buf).find_last_of( "\\/" );
-	path_cwd = std::string(buf).substr( 0, pos );
-
-#elif defined TPR_OS_UNIX_
-    //----------------------------//
-    //       MODIFY 当前工作目录
-    //----------------------------//
-    //    这个 fd_cwd 好想 从未被 用过...
-    //-- 始终将 项目根目录 设置为 当前工作目录。
-    /*
-    if( (fd_cwd = openat( AT_FDCWD, "..", (O_RDONLY | O_DIRECTORY) )) == -1 ){
-        //cout << "prepare: openat: ERROR. fd_cwd.\n" 
-        //    << endl;
-        tprAssert(0);
-    }
-    if( fchdir( fd_cwd ) == -1 ){ //-- 将 system目录的 父目录 设为 当前工作目录
-        //cout << "prepare: fchdir: ERROR. \n"
-        //    << endl;
-        tprAssert(0);
-    }
-    */
-
-    //----------------------------//
-    //    
-    //----------------------------//
-    /*
-    char cpath_cwd[1024];
-    if( getcwd( cpath_cwd, 1024 ) == NULL ){
-        //cout << "prepare: getcwd: ERROR.\n"
-        //    << endl;
-        tprAssert(0);
-    }
-    //---  通过临时 string 对象，将 字符串 转存到 string对象：path_cwd 中。
-    std::string s( cpath_cwd );
-    path_cwd = s;
-    */
-
-    char ubuf[ PATH_MAX + 1 ];
-    char *res = realpath( _appPath, ubuf);
-    if (!res) {
-        cout << "realpath ERROR; _appPath = " << _appPath << endl;
-        tprAssert(0);
-    }
-    //- ubuf 暂为 .../xxx.exe 的 path，需要截去最后一段 
-	std::string::size_type pos = std::string(ubuf).find_last_of( "/" );
-	path_cwd = std::string(ubuf).substr( 0, pos );
-    
-#endif
-
+    //-- 这部分工作，已经由 C# 完成 ---
+    path_cwd = exeDirPath_;
 }
 
 
@@ -170,8 +116,6 @@ void check_and_creat_important_dir(){
     std::string err_info = "check_and_creat_important_dir(): ";
 
     //----------------------------//
-    //  已经确认的 目录：
-    //      path_cwd
     cout << "path_cwd = " << path_cwd << endl;
 
 #if defined TPR_OS_WIN32_

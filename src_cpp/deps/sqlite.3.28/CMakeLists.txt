@@ -42,5 +42,6 @@ target_compile_options ( SQLite
 #set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 #-- 将 库 的输出名字改为 SQLite.lib
+set_target_properties (SQLite PROPERTIES PREFIX "")
 set_target_properties (SQLite PROPERTIES OUTPUT_NAME "SQLite" )
 

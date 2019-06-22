@@ -10,6 +10,6 @@
 #ifndef TPR_PREPARE_H_
 #define TPR_PREPARE_H_
 
-void prepare( char *_appPath );
+void prepare( char *exeDirPath_ );
 
 #endif 

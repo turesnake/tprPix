@@ -1,32 +1,35 @@
 #===================================================#
-#           CMakeLists.txt -- <根目录>/deps/tprInUnix/
+#           CMakeLists.txt -- <根目录>/deps/tprInWin/
 #===================================================#
-#-- 将 tprInUnix 包装成 静态库。 进一步 模块化
+#-- 将 tprInWin 包装成 静态库。 进一步 模块化
 
 
 #-- 定义一个列表，放置所有 cpp 文件 --
-FILE(GLOB TPR_IN_UNIX_SRC  *.cpp )
+FILE(GLOB TPR_IN_WIN_SRC  *.cpp )
 
 #-- 建立 目标 库对象 -- 
 #-- 在 主CMakeLists.txt 文件中，以此名来调用 本库
-add_library (   tprInUnix 
+add_library ( tprInWin 
                 STATIC
-                ${TPR_IN_UNIX_SRC} )
+                ${TPR_IN_WIN_SRC} )
 
 #-- 指定 依赖的 h文件所在 路径:
 #   PRIVATE - 自身编译include
 #   SYSTEM INTERFACE - 提供给全局的 include（调用者不用再指定 include 了）
-target_include_directories (tprInUnix
+target_include_directories (tprInWin 
                             PRIVATE ../tprGeneral ./
                             SYSTEM INTERFACE  ./
                             )
 
-                            
-target_compile_options ( tprInUnix 
+
+target_compile_options ( tprInWin 
                         PRIVATE 
                         -Wall 
                         -Wno-c++98-compat
-						-Wno-c++98-compat-pedantic
+                        -Wno-c++98-compat-pedantic
+                        -Wno-zero-as-null-pointer-constant
+                        -Wno-nonportable-system-include-path
+                        -Wno-old-style-cast
                         )
 
 
@@ -38,6 +41,7 @@ target_compile_options ( tprInUnix
 #set (LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 
-#-- 将 库 的输出名字改为 tprInUnix.lib
-set_target_properties (tprInUnix PROPERTIES OUTPUT_NAME "tprInUnix" )
+#-- 将 库 的输出名字改为 tprInWin.lib
+set_target_properties (tprInWin PROPERTIES PREFIX "")
+set_target_properties (tprInWin PROPERTIES OUTPUT_NAME "tprInWin" )
 
