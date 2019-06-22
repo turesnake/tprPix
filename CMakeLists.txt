@@ -302,6 +302,17 @@ target_compile_options( tprpix
 
 
 #=========== 强行关闭所有 优化 ============
+set ( TPR_LINK_FLAGS "-rdynamic" )
+
+#-- 这组属性确实在 win 中起了作用，建议保留 
+#-- 可以使用 dumpbin /exports xxx.dll 查看 win 中 dll 符号表
+set( CMAKE_SHARED_LINKER_FLAGS                "${TPR_LINK_FLAGS}" )
+set( CMAKE_SHARED_LINKER_FLAGS_DEBUG          "${TPR_LINK_FLAGS}" )
+set( CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL     "${TPR_LINK_FLAGS}" )
+set( CMAKE_SHARED_LINKER_FLAGS_RELEASE        "${TPR_LINK_FLAGS}" )
+set( CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "${TPR_LINK_FLAGS}" )
+
+
 #-------- UNIX ----------
 if( UNIX )
     set ( CMAKE_C_FLAGS                  "-O0"              CACHE STRING "regular mode: no optimize" FORCE )
