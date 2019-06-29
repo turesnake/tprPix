@@ -21,12 +21,8 @@
  * -----------------------------------------------------------
  */
 void GameObj::init(){
-    this->collision.init( const_cast<GameObj*>(this) );
     this->goPos.init( std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
                       std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
-
-    this->move.init( const_cast<GameObj*>(this), &this->goPos, &this->collision );
-    this->actionSwitch.init( const_cast<GameObj*>(this) );
     //...
 }
 
@@ -37,35 +33,35 @@ void GameObj::init(){
  * -- 通过一组参数来实现 gomesh 的初始化。
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
-GameObjMesh &GameObj::creat_new_goMesh( const std::string &_name,
-                                        RenderLayerType    _layerType,
-                                        ShaderProgram     *_pixShaderPtr,
-                                        ShaderProgram     *_shadowShaderPtr,
-                                        const glm::vec2   _pposOff,
-                                        float             _off_z,
-                                        bool              _isVisible,
-                                        bool              _isCollide,
-                                        bool              _isFlipOver ){
+GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
+                                        RenderLayerType    layerType_,
+                                        ShaderProgram     *pixShaderPtr_,
+                                        ShaderProgram     *shadowShaderPtr_,
+                                        const glm::vec2   pposOff_,
+                                        float             off_z_,
+                                        bool              isVisible_,
+                                        bool              isCollide_,
+                                        bool              isFlipOver_ ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     GameObjMesh  goMesh {}; //- tmp 
-    this->goMeshs.insert({ _name, goMesh }); //- copy
-    GameObjMesh &gmesh = this->goMeshs.at(_name);
+    this->goMeshs.insert({ name_, goMesh }); //- copy
+    GameObjMesh &gmesh = this->goMeshs.at(name_);
 
     //----- init -----//
     gmesh.init( const_cast<GameObj*>(this) );
-    gmesh.set_pic_renderLayer( _layerType ); 
-    gmesh.set_pic_shader_program( _pixShaderPtr );
-    gmesh.set_shadow_shader_program( _shadowShaderPtr );
+    gmesh.set_pic_renderLayer( layerType_ ); 
+    gmesh.set_pic_shader_program( pixShaderPtr_ );
+    gmesh.set_shadow_shader_program( shadowShaderPtr_ );
 
     //-- goMesh pos in go --
-    gmesh.set_pposOff(_pposOff);
-    gmesh.set_off_z(_off_z);
+    gmesh.set_pposOff(pposOff_);
+    gmesh.set_off_z(off_z_);
 
     //-- flags --//
-    gmesh.isVisible = _isVisible;
-    gmesh.isCollide = _isCollide;
-    gmesh.isFlipOver = _isFlipOver;
+    gmesh.isVisible = isVisible_;
+    gmesh.isCollide = isCollide_;
+    gmesh.isFlipOver = isFlipOver_;
 
     //-----
     return gmesh;

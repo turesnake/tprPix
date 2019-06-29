@@ -33,11 +33,11 @@ class EcoObj{
 public:
     EcoObj() = default;
 
-    void init_for_node( sectionKey_t _sectionKey );
-    void init_for_regular(  sectionKey_t _sectionKey,
-                            const std::vector<sectionKey_t> &_nearby_four_ecoSysPlanIds );
+    void init_for_node( sectionKey_t sectionKey_ );
+    void init_for_regular(  sectionKey_t sectionKey_,
+                            const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ );
 
-    void init_fstOrder( sectionKey_t _sectionKey );
+    void init_fstOrder( sectionKey_t sectionKey_ );
 
     inline const IntVec2& get_mpos() const {
         return this->mcpos.get_mpos();
@@ -46,10 +46,10 @@ public:
     //-- 核心函数 --
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
-    // param: _randV -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ) const {
-        size_t randV = static_cast<size_t>(floor( _randV * 5.1f + 971.3f ));
-        auto &pool = this->goSpecIdPools.at( _densityIdx );
+    // param: randV_ -- [-100.0, 100.0]
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, float randV_ ) const {
+        size_t randV = static_cast<size_t>(floor( randV_ * 5.1f + 971.3f ));
+        auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
 
@@ -59,8 +59,8 @@ public:
     inline const EcoSysPlanType &get_ecoSysPlanType() const {
         return this->ecoSysPlanType;
     }
-    inline const float &get_applyPercent( const Density &_density ) const {
-        return this->applyPercentsPtr->at(_density.get_idx());
+    inline const float &get_applyPercent( const Density &density_ ) const {
+        return this->applyPercentsPtr->at(density_.get_idx());
     }
     inline const float &get_densitySeaLvlOff() const {
         return this->densitySeaLvlOff;
@@ -82,14 +82,14 @@ public:
     }
 
     //======== static funcs ========// 
-    static void calc_nearFour_node_ecoObjKey(  sectionKey_t _targetKey, 
-                                                    std::vector<sectionKey_t> &_container );
+    static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 
+                                                    std::vector<sectionKey_t> &container_ );
                
 private:
-    void copy_datas_from_ecoSysPlan( EcoSysPlan *_targetEcoPtr );
+    void copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPtr_ );
 
     //--- 只能被 非node 实例调用 --
-    void init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_four_ecoSysPlanIds );
+    void init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ );
     
     //======== vals ========//
     sectionKey_t  sectionKey {};

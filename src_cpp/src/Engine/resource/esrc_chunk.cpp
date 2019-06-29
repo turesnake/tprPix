@@ -39,8 +39,8 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
  * ---
  * 仅被 check_and_build_sections.cpp -> build_one_chunk() 调用
  */
-Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
-                                ShaderProgram *_sp ){
+Chunk *insert_and_init_new_chunk(const IntVec2 &anyMPos_,
+                                ShaderProgram *sp_ ){
 
             //-- ShaderProgram 是固定的，可以在游戏初期就绑定。
             //   不需要每次 创建chunk 时都指定。
@@ -48,12 +48,12 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
     // ***| INSERT FIRST, INIT LATER  |***
     Chunk *chunkPtr {};
     Chunk  chunk {};
-    chunk.set_by_anyMPos( _anyMPos );
+    chunk.set_by_anyMPos( anyMPos_ );
     chunkKey_t key = chunk.get_key();
         tprAssert( chunk_inn::chunks.find(key) == chunk_inn::chunks.end() );//- must not exist
     chunk_inn::chunks.insert({ key, chunk }); //- copy
     chunkPtr = &(chunk_inn::chunks.at(key));
-    chunkPtr->set_mesh_shader_program( _sp );
+    chunkPtr->set_mesh_shader_program( sp_ );
     chunkPtr->init();
     return chunkPtr;
 }
@@ -74,10 +74,10 @@ Chunk *insert_and_init_new_chunk(const IntVec2 &_anyMPos,
  *   这个方法是防止程序崩溃的最后办法，临时的
  *   未来希望更好的办法...
  */
-MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
+MemMapEnt *get_memMapEntPtr( const MapCoord &anyMCpos_ ){
 
     //-- 计算 目标 chunk 的 key --
-    const IntVec2 &mposRef = _anyMCpos.get_mpos();
+    const IntVec2 &mposRef = anyMCpos_.get_mpos();
     chunkKey_t     chunkKey = anyMPos_2_chunkKey( mposRef );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
@@ -95,12 +95,12 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &_anyMCpos ){
     return chunk_inn::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
-MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
+MemMapEnt *get_memMapEntPtr( const IntVec2 &anyMPos_ ){
 
     //-- 计算 目标 chunk 的 key --
-    chunkKey_t    chunkKey = anyMPos_2_chunkKey( _anyMPos );
+    chunkKey_t    chunkKey = anyMPos_2_chunkKey( anyMPos_ );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
-    IntVec2  lMPosOff = get_chunk_lMPosOff( _anyMPos );
+    IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
                 if( chunk_inn::chunks.find(chunkKey) == chunk_inn::chunks.end() ){
@@ -119,17 +119,17 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &_anyMPos ){
  *                find_from_chunks
  * -----------------------------------------------------------
  */
-bool find_from_chunks( chunkKey_t _chunkKey ){
-    return (chunk_inn::chunks.find(_chunkKey) != chunk_inn::chunks.end());
+bool find_from_chunks( chunkKey_t chunkKey_ ){
+    return (chunk_inn::chunks.find(chunkKey_) != chunk_inn::chunks.end());
 }
 
 /* ===========================================================
  *                 get_chunkPtr
  * -----------------------------------------------------------
  */
-Chunk *get_chunkPtr( chunkKey_t _key ){
-        tprAssert( chunk_inn::chunks.find(_key) != chunk_inn::chunks.end() );//- must exist
-    return &(chunk_inn::chunks.at(_key));
+Chunk *get_chunkPtr( chunkKey_t key_ ){
+        tprAssert( chunk_inn::chunks.find(key_) != chunk_inn::chunks.end() );//- must exist
+    return &(chunk_inn::chunks.at(key_));
 }
 
 

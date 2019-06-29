@@ -30,17 +30,17 @@ public:
 
     GameObjPos() = default;
 
-    inline void init( const F_Get_RootAnchorCompass &_func_1,
-                      const F_Get_Off_From_RootAnchor_2_MapEntMid &_func_2 ){
-        this->get_rootAnchorCompass_functor = _func_1;
-        this->get_off_from_rootAnchor_2_mapEntMid_functor = _func_2;
+    inline void init( const F_Get_RootAnchorCompass &func_1_,
+                      const F_Get_Off_From_RootAnchor_2_MapEntMid &func_2_ ){
+        this->get_rootAnchorCompass_functor = func_1_;
+        this->get_off_from_rootAnchor_2_mapEntMid_functor = func_2_;
     }
 
     //-- 将 go.goPos.currentFPos 放到 参数 _pos 指定的 mpos 上
     //   在调用此函数之前，应先确保 潜在碰撞区的 干净
     //   此函数不需要什么性能，反正不会经常设置 go的 mcpos
-    inline void init_by_currentMPos( const IntVec2 &_mpos ){
-        this->currentMCPos.set_by_mpos( _mpos );
+    inline void init_by_currentMPos( const IntVec2 &mpos_ ){
+        this->currentMCPos.set_by_mpos( mpos_ );
         //---
         const MapEntCompass &compassRef = this->get_rootAnchorCompass_functor();
         IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
@@ -59,18 +59,18 @@ public:
     
 
     //------- set -------//
-    inline void set_alti( float _alti ){
-        this->alti = _alti;
+    inline void set_alti( float alti_ ){
+        this->alti = alti_;
     }
 
 
     //---- 临时函数，有问题.... ----
     //  仅用于 crawl
-    inline void accum_currentFPos_2( const glm::vec2 &_fpos ){
-        this->currentFPos += _fpos;
+    inline void accum_currentFPos_2( const glm::vec2 &fpos_ ){
+        this->currentFPos += fpos_;
     }
-    inline void accum_currentMCPos_2( const NineBox &_nbOff ){
-        this->currentMCPos.accum_mpos( _nbOff.to_mpos() );
+    inline void accum_currentMCPos_2( const NineBox &nbOff_ ){
+        this->currentMCPos.accum_mpos( nbOff_.to_mpos() );
     }
 
 
@@ -107,8 +107,6 @@ public:
     }
 
 private:
-
-
     glm::vec2   currentFPos  {};  //- 基于 go.rootAnchor 的， 当前 fpos，无需对齐与mapent
     MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent
                                   //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置

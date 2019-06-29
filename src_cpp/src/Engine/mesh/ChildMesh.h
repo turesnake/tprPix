@@ -24,20 +24,20 @@ class GameObj;
 //   这个 class 应尽可能地 轻量化，让公共数据，放到 GoMesh 中
 class ChildMesh{
 public:
-    explicit ChildMesh( bool _isPic ):
-        isPic(_isPic)
+    explicit ChildMesh( bool isPic_ ):
+        isPic(isPic_)
         {}
 
-    inline void init( GameObj *_goPtr, GameObjMesh *_goMeshPtr ){
-        this->goPtr = _goPtr;
-        this->goMeshPtr = _goMeshPtr;
+    inline void init( GameObj *goPtr_, GameObjMesh *goMeshPtr_ ){
+        this->goPtr = goPtr_;
+        this->goMeshPtr = goMeshPtr_;
     }
 
     void draw();
 
-    inline void set_shader_program( ShaderProgram *_sp ) { this->shaderPtr=_sp; }
-    inline void set_rotate_z( float _z )                 { this->rotate_z=_z; }
-    inline void set_scale( const glm::vec3 &_v )         { this->scale_val=_v; }
+    inline void set_shader_program( ShaderProgram *sp_ ) { this->shaderPtr=sp_; }
+    inline void set_rotate_z( float z_ )                 { this->rotate_z=z_; }
+    inline void set_scale( const glm::vec3 &v_ )         { this->scale_val=v_; }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --

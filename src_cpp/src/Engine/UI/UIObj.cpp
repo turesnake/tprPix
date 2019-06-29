@@ -29,24 +29,24 @@ void UIObj::init(){
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.animFrameIdxHandle.bind_xxx()
  */
 UIMesh &UIObj::creat_new_uiMesh(   //const std::string &_animFrameSetName,
-                                ShaderProgram     *_pixShaderPtr,
-                                ShaderProgram     *_shadowShaderPtr,
-                                float             _off_z,
-                                bool              _isVisible,
-                                bool              _isFlipOver ){
+                                ShaderProgram     *pixShaderPtr_,
+                                ShaderProgram     *shadowShaderPtr_,
+                                float             off_z_,
+                                bool              isVisible_,
+                                bool              isFlipOver_ ){
 
     //----- init -----//
     //this->uiMesh.bind_animFrameSet( _animFrameSetName );
     this->uiMesh.init( const_cast<UIObj*>(this) );
-    this->uiMesh.set_pic_shader_program( _pixShaderPtr );
-    this->uiMesh.set_shadow_shader_program( _shadowShaderPtr );
+    this->uiMesh.set_pic_shader_program( pixShaderPtr_ );
+    this->uiMesh.set_shadow_shader_program( shadowShaderPtr_ );
 
     //-- goMesh pos in go --
-    this->uiMesh.set_off_z(_off_z);
+    this->uiMesh.set_off_z(off_z_);
 
     //-- flags --//
-    this->uiMesh.isVisible = _isVisible;
-    this->uiMesh.isFlipOver = _isFlipOver;
+    this->uiMesh.isVisible = isVisible_;
+    this->uiMesh.isFlipOver = isFlipOver_;
 
     //----
     return this->uiMesh;

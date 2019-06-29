@@ -12,7 +12,7 @@ class Program{
         //---- exe dir path ------
         string exeDirPath = System.IO.Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]);
 
-        Test.cppMain_tmp(exeDirPath);
+        PInvoke.cppMain_tmp(exeDirPath);
 
 
         Console.WriteLine("C#: end ");

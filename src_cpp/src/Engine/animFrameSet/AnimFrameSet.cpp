@@ -54,7 +54,7 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
     std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
 
     //===== funcs =====//
-    void build_three_lpaths( const std::string &_lpath_pic );
+    void build_three_lpaths( const std::string &lpath_pic_ );
 
 
 }//-------------------- namespace: afs_inn end ------------------//
@@ -64,20 +64,19 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
  *                  insert_a_png
  * -----------------------------------------------------------
  */
-void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic, 
-                            IntVec2             _frameNum,
-                            size_t              _totalFrameNum,
-                            bool                _isHaveShadow, //-- 将被记录到 animAction 数据中去
-                            bool                _isPjtSingleFrame,
-                            bool                _isShadowSingleFrame,
-                            const std::vector<AnimActionParam> &_animActionParams
-                            ){
+void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_, 
+                            IntVec2             frameNum_,
+                            size_t              totalFrameNum_,
+                            bool                isHaveShadow_, //-- 将被记录到 animAction 数据中去
+                            bool                isPjtSingleFrame_,
+                            bool                isShadowSingleFrame_,
+                            const std::vector<AnimActionParam> &animActionParams_ ){
 
-    afs_inn::build_three_lpaths( _lpath_pic );
-    afs_inn::frameNum = _frameNum;
-    afs_inn::totalFrameNum = _totalFrameNum;
-    afs_inn::isPJTSingleFrame = _isPjtSingleFrame;
-    afs_inn::isShadowSingleFrame = _isShadowSingleFrame;
+    afs_inn::build_three_lpaths( lpath_pic_ );
+    afs_inn::frameNum = frameNum_;
+    afs_inn::totalFrameNum = totalFrameNum_;
+    afs_inn::isPJTSingleFrame = isPjtSingleFrame_;
+    afs_inn::isShadowSingleFrame = isShadowSingleFrame_;
     
     //-------------------//
     //
@@ -134,7 +133,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //-------------------//
     //      Shadow
     //-------------------//
-    if( _isHaveShadow ){
+    if( isHaveShadow_ ){
         if( afs_inn::isShadowSingleFrame ){
             //--- S.png 只有一帧 --//
             tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
@@ -168,7 +167,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
     //-------------------//
     //    animActions
     //-------------------//
-    for( const auto &param : _animActionParams ){
+    for( const auto &param : animActionParams_ ){
 
         this->animActions.insert({ param.actionName, AnimAction{} }); 
         AnimAction &actionRef = this->animActions.at(param.actionName);
@@ -177,7 +176,7 @@ void AnimFrameSet::insert_a_png(  const std::string &_lpath_pic,
                         param,
                         afs_inn::pixNum_per_frame,
                         afs_inn::headIdx,
-                        _isHaveShadow );
+                        isHaveShadow_ );
     }
 }
 
@@ -216,7 +215,8 @@ void AnimFrameSet::handle_pjt(){
                     idx_for_J_frame_data_ary=0 :
                     idx_for_J_frame_data_ary=f;
 
-            jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p), pixPPos );
+            //jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p), pixPPos );
+            jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p) );
             if( jh.is_emply() == true ){
                 continue; //- next frame.pix
             }
@@ -295,12 +295,12 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
  *                 build_three_lpaths
  * -----------------------------------------------------------
  */
-void build_three_lpaths( const std::string &_lpath_pic ){
+void build_three_lpaths( const std::string &lpath_pic_ ){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
     std::string lst {}; //- tmp, 尾部字符串，不停地被截断
 
-    lpath_pic = _lpath_pic;
+    lpath_pic = lpath_pic_;
 
     //--------------------//
     //    生成 lpath_pjt

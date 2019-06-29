@@ -24,39 +24,39 @@ class AltiRange{
 public:
     //---- constructor -----//
     AltiRange() = default;
-    AltiRange( char _low, char _high ):
-        low(_low),
-        high(_high)
+    AltiRange( char low_, char high_ ):
+        low(low_),
+        high(high_)
         { tprAssert( (low<=high) && (low<=jumpLimit) ); }
 
     inline void clear_all(){
         low = 0;
         high = 0;
     }
-    inline void set( char _low, char _high ){
-        tprAssert( (_low<=_high) && (_low<=jumpLimit) );
-        low  = _low;
-        high = _high;
+    inline void set( char low_, char high_ ){
+        tprAssert( (low_<=high_) && (low_<=jumpLimit) );
+        low  = low_;
+        high = high_;
     }
 
-    // 在一个 给定 AltiRange值的基础上，类加上一个 _addAlti.
+    // 在一个 给定 AltiRange值的基础上，类加上一个 addAlti_.
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
-    inline void set_by_addAlti( const AltiRange &_a, float _addAlti ){
-        tprAssert( (_addAlti<static_cast<float>(jumpLimit)) && (_a.low+static_cast<u8_t>(_addAlti))<=jumpLimit );
-        low  =  _a.low  + static_cast<u8_t>(_addAlti);
-        high =  _a.high + static_cast<u8_t>(_addAlti);
+    inline void set_by_addAlti( const AltiRange &a_, float addAlti_ ){
+        tprAssert( (addAlti_<static_cast<float>(jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=jumpLimit );
+        low  =  a_.low  + static_cast<u8_t>(addAlti_);
+        high =  a_.high + static_cast<u8_t>(addAlti_);
     }
 
-    inline bool is_collide( const AltiRange& _a ){
+    inline bool is_collide( const AltiRange& a_ ){
         bool rbool;
-        if( low == _a.low ){
+        if( low == a_.low ){
             return true;
-        }else if( low < _a.low ){
-            (high>_a.low) ? rbool=true : rbool=false;
+        }else if( low < a_.low ){
+            (high>a_.low) ? rbool=true : rbool=false;
             return rbool;
         }else{
-            (_a.high>low) ? rbool=true : rbool=false;
+            (a_.high>low) ? rbool=true : rbool=false;
             return rbool;
         }
     }
@@ -91,17 +91,17 @@ inline const AltiRange altiRange_surface {  static_cast<char>(AltiRange::diskAlt
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline AltiRange operator + ( const AltiRange &_a, const AltiRange &_b ){
-    tprAssert( (_a.low+_b.low)<=AltiRange::jumpLimit );
-    return  AltiRange{  static_cast<char>(_a.low+_b.low),
-                        static_cast<char>(_a.high+_b.high) };
+inline AltiRange operator + ( const AltiRange &a_, const AltiRange &b_ ){
+    tprAssert( (a_.low+b_.low)<=AltiRange::jumpLimit );
+    return  AltiRange{  static_cast<char>(a_.low+b_.low),
+                        static_cast<char>(a_.high+b_.high) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
-inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
-    tprAssert( (_addAlti<static_cast<float>(AltiRange::jumpLimit)) && (_a.low+static_cast<u8_t>(_addAlti))<=AltiRange::jumpLimit );
-    return  AltiRange{  static_cast<char>(_a.low  + static_cast<char>(_addAlti)),
-                        static_cast<char>(_a.high + static_cast<char>(_addAlti)) };
+inline AltiRange operator + ( const AltiRange &a_, float addAlti_ ){
+    tprAssert( (addAlti_<static_cast<float>(AltiRange::jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=AltiRange::jumpLimit );
+    return  AltiRange{  static_cast<char>(a_.low  + static_cast<char>(addAlti_)),
+                        static_cast<char>(a_.high + static_cast<char>(addAlti_)) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
@@ -110,13 +110,13 @@ inline AltiRange operator + ( const AltiRange &_a, float _addAlti ){
  *                 is_AltiRange_collide
  * -----------------------------------------------------------
  */
-inline bool is_AltiRange_collide( const AltiRange& _a, const AltiRange& _b ){
-    if( _a.low == _b.low ){
+inline bool is_AltiRange_collide( const AltiRange& a_, const AltiRange& b_ ){
+    if( a_.low == b_.low ){
         return true;
-    }else if( _a.low < _b.low ){
-        return ((_a.high>_b.low) ? true : false);
+    }else if( a_.low < b_.low ){
+        return ((a_.high>b_.low) ? true : false);
     }else{
-        return ((_b.high>_a.low) ? true : false);
+        return ((b_.high>a_.low) ? true : false);
     }
 }
 

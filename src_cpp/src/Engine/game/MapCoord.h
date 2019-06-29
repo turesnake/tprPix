@@ -35,12 +35,12 @@
  * -----------------------------------------------------------
  * --  放在前面，因为会被 class MapCoord 用到
  */
-inline const IntVec2 mpos_2_ppos( const IntVec2 &_mpos ){
-    return (_mpos*PIXES_PER_MAPENT);
+inline const IntVec2 mpos_2_ppos( const IntVec2 &mpos_ ){
+    return (mpos_*PIXES_PER_MAPENT);
 }
-inline const glm::vec2 mpos_2_fpos( const IntVec2 &_mpos ){
-    return glm::vec2{   static_cast<float>(_mpos.x*PIXES_PER_MAPENT),
-                        static_cast<float>(_mpos.y*PIXES_PER_MAPENT) };
+inline const glm::vec2 mpos_2_fpos( const IntVec2 &mpos_ ){
+    return glm::vec2{   static_cast<float>(mpos_.x*PIXES_PER_MAPENT),
+                        static_cast<float>(mpos_.y*PIXES_PER_MAPENT) };
 }
 
 
@@ -50,12 +50,12 @@ public:
     //---- constructor -----//
     MapCoord() = default;
     //-- 只支持 mpos初始化，若想用 ppos来初始化，先用 anyPPos_2_mpos() 转换
-    explicit MapCoord( const IntVec2 &_mpos ):
-        mpos(_mpos),
+    explicit MapCoord( const IntVec2 &mpos_ ):
+        mpos(mpos_),
         ppos( mpos * PIXES_PER_MAPENT )
         {}
-    MapCoord( int _mpos_x, int _mpos_y ):
-        mpos( IntVec2{ _mpos_x, _mpos_y } ),
+    MapCoord( int mpos_x_, int mpos_y_ ):
+        mpos( IntVec2{ mpos_x_, mpos_y_ } ),
         ppos( mpos * PIXES_PER_MAPENT )
         {}
     
@@ -66,13 +66,13 @@ public:
     }
 
     //----- set ------//
-    inline void set_by_mpos( const IntVec2 &_mpos ){
-        this->mpos = _mpos;
+    inline void set_by_mpos( const IntVec2 &mpos_ ){
+        this->mpos = mpos_;
         this->ppos = mpos_2_ppos( this->mpos );
     }
 
-    inline void set_by_mpos( int _x, int _y ){
-        this->mpos.set( _x, _y );
+    inline void set_by_mpos( int x_, int y_ ){
+        this->mpos.set( x_, y_ );
         this->ppos = mpos_2_ppos( this->mpos );
     }
 
@@ -80,30 +80,30 @@ public:
     //   需要一组更加 完备的函数
     //   -------
     //   还是需要使用 这个 严谨版
-    inline void set_by_ppos_( const IntVec2 &_ppos ){
-            tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
-        this->ppos = _ppos;
+    inline void set_by_ppos_( const IntVec2 &ppos_ ){
+            tprAssert( (ppos_.x%PIXES_PER_MAPENT==0) && (ppos_.y%PIXES_PER_MAPENT==0) );
+        this->ppos = ppos_;
         this->mpos = floorDiv( this->ppos, static_cast<float>(PIXES_PER_MAPENT) );
     }
-    inline void set_by_ppos_( int _x, int _y ){
-            tprAssert( (_x%PIXES_PER_MAPENT==0) && (_y%PIXES_PER_MAPENT==0) );
-        this->ppos.set( _x, _y );
+    inline void set_by_ppos_( int x_, int y_ ){
+            tprAssert( (x_%PIXES_PER_MAPENT==0) && (y_%PIXES_PER_MAPENT==0) );
+        this->ppos.set( x_, y_ );
         this->mpos = floorDiv( this->ppos, static_cast<float>(PIXES_PER_MAPENT) );
     }
 
     //-- 宽松版，目前仅被 gameObj_mem.cpp -> signUp_newGO_to_mapEnt() 使用 --
-    inline void set_by_anyPPos( const IntVec2 &_anyPPos ){
-        this->mpos = _anyPPos.floorDiv( static_cast<float>(PIXES_PER_MAPENT) );
+    inline void set_by_anyPPos( const IntVec2 &anyPPos_ ){
+        this->mpos = anyPPos_.floorDiv( static_cast<float>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
     }
-    inline void set_by_anyPPos( int _x, int _y ){
-        this->mpos = floorDiv( IntVec2{_x, _y}, static_cast<float>(PIXES_PER_MAPENT) );
+    inline void set_by_anyPPos( int x_, int y_ ){
+        this->mpos = floorDiv( IntVec2{x_, y_}, static_cast<float>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
     }
     
 
-    inline void accum_mpos( const IntVec2 &_mposOff ){
-        this->mpos += _mposOff;
+    inline void accum_mpos( const IntVec2 &mposOff_ ){
+        this->mpos += mposOff_;
         this->ppos = mpos_2_ppos( this->mpos );
     }
 
@@ -148,11 +148,11 @@ private:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( const MapCoord &_a, const MapCoord &_b ){
-    return ( _a.get_mpos() == _b.get_mpos() );
+inline bool operator == ( const MapCoord &a_, const MapCoord &b_ ){
+    return ( a_.get_mpos() == b_.get_mpos() );
 }
-inline bool operator != ( const MapCoord &_a, const MapCoord &_b ){
-    return ( _a.get_mpos() != _b.get_mpos() );
+inline bool operator != ( const MapCoord &a_, const MapCoord &b_ ){
+    return ( a_.get_mpos() != b_.get_mpos() );
 }
 
 /* ===========================================================
@@ -160,54 +160,54 @@ inline bool operator != ( const MapCoord &_a, const MapCoord &_b ){
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，MapCoord 类型将支持 set.find() 
  */
-inline bool operator < ( const MapCoord &_a, const MapCoord &_b ){
-    return ( _a.get_mpos() < _b.get_mpos() );
+inline bool operator < ( const MapCoord &a_, const MapCoord &b_ ){
+    return ( a_.get_mpos() < b_.get_mpos() );
 }
 
 /* ===========================================================
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline const MapCoord operator + ( const MapCoord &_a, const MapCoord &_b ){
-    return MapCoord { _a.get_mpos() + _b.get_mpos() };
+inline const MapCoord operator + ( const MapCoord &a_, const MapCoord &b_ ){
+    return MapCoord { a_.get_mpos() + b_.get_mpos() };
 }
-inline const MapCoord operator - ( const MapCoord &_a, const MapCoord &_b ){
-    return MapCoord { _a.get_mpos() - _b.get_mpos() };
+inline const MapCoord operator - ( const MapCoord &a_, const MapCoord &b_ ){
+    return MapCoord { a_.get_mpos() - b_.get_mpos() };
 }
 
 
 /* ===========================================================
  *                   ppos_2_mpos  [严格对齐]
  * -----------------------------------------------------------
- * -- 参数 _ppos 必须对齐于 mapent坐标系
+ * -- 参数 ppos_ 必须对齐于 mapent坐标系
  */
-inline const IntVec2 ppos_2_mpos( const IntVec2 &_ppos ){
-    tprAssert( (_ppos.x%PIXES_PER_MAPENT==0) && (_ppos.y%PIXES_PER_MAPENT==0) );
-    return floorDiv( _ppos, static_cast<float>(PIXES_PER_MAPENT) );
+inline const IntVec2 ppos_2_mpos( const IntVec2 &ppos_ ){
+    tprAssert( (ppos_.x%PIXES_PER_MAPENT==0) && (ppos_.y%PIXES_PER_MAPENT==0) );
+    return floorDiv( ppos_, static_cast<float>(PIXES_PER_MAPENT) );
 }
 
-inline const IntVec2 anyPPos_2_mpos( const IntVec2 &_anyPPos ){
-    return floorDiv( _anyPPos, static_cast<float>(PIXES_PER_MAPENT) );
+inline const IntVec2 anyPPos_2_mpos( const IntVec2 &anyPPos_ ){
+    return floorDiv( anyPPos_, static_cast<float>(PIXES_PER_MAPENT) );
 }
 
 /* ===========================================================
  *                   fpos_2_mcpos  [宽松]    IMPORTANT !!!
  * -----------------------------------------------------------
- * -- 参数 _fpos 可以为任意值。 无需对齐于 mapent坐标系
+ * -- 参数 fpos_ 可以为任意值。 无需对齐于 mapent坐标系
  */
-inline const MapCoord fpos_2_mcpos( const glm::vec2 &_fpos ){
+inline const MapCoord fpos_2_mcpos( const glm::vec2 &fpos_ ){
     //-- float除法
-    float fx = _fpos.x / static_cast<float>(PIXES_PER_MAPENT);
-    float fy = _fpos.y / static_cast<float>(PIXES_PER_MAPENT);
+    float fx = fpos_.x / static_cast<float>(PIXES_PER_MAPENT);
+    float fy = fpos_.y / static_cast<float>(PIXES_PER_MAPENT);
     //-- math.floor() 
     return MapCoord{    static_cast<int>(floor(fx)), 
                         static_cast<int>(floor(fy)) };
 }
 
-inline const IntVec2 fpos_2_mpos( const glm::vec2 &_fpos ){
+inline const IntVec2 fpos_2_mpos( const glm::vec2 &fpos_ ){
     //-- float除法
-    float fx = _fpos.x / static_cast<float>(PIXES_PER_MAPENT);
-    float fy = _fpos.y / static_cast<float>(PIXES_PER_MAPENT);
+    float fx = fpos_.x / static_cast<float>(PIXES_PER_MAPENT);
+    float fy = fpos_.y / static_cast<float>(PIXES_PER_MAPENT);
     //-- math.floor() 
     return IntVec2{ static_cast<int>(floor(fx)), 
                     static_cast<int>(floor(fy)) };
@@ -220,9 +220,9 @@ inline const IntVec2 fpos_2_mpos( const glm::vec2 &_fpos ){
  * -----------------------------------------------------------
  * -- 获得 mapent 中间pixel 的 ppos 
  */
-inline const IntVec2 mpos_2_midPPos( const IntVec2 &_mpos ){
-    return IntVec2{ _mpos.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
-                    _mpos.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
+inline const IntVec2 mpos_2_midPPos( const IntVec2 &mpos_ ){
+    return IntVec2{ mpos_.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
+                    mpos_.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
 }
 
 
@@ -232,8 +232,8 @@ inline const IntVec2 mpos_2_midPPos( const IntVec2 &_mpos ){
  * 计算两个 ppos 的距离（快速版，不开根号）
  * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
  */
-inline int calc_fast_ppos_distance( const IntVec2 &_aPPos, const IntVec2 &_bPPos ){
-    IntVec2 off = _aPPos - _bPPos;
+inline int calc_fast_ppos_distance( const IntVec2 &aPPos_, const IntVec2 &bPPos_ ){
+    IntVec2 off = aPPos_ - bPPos_;
         //-- 没有做 溢出检测...
     return (off.x*off.x + off.y*off.y);
 }
@@ -245,8 +245,8 @@ inline int calc_fast_ppos_distance( const IntVec2 &_aPPos, const IntVec2 &_bPPos
  * 和上一个函数并没有本质区别。
  * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
  */
-inline int calc_fast_mpos_distance( const IntVec2 &_aMPos, const IntVec2 &_bMPos ){
-    IntVec2 off = _aMPos - _bMPos;
+inline int calc_fast_mpos_distance( const IntVec2 &aMPos_, const IntVec2 &bMPos_ ){
+    IntVec2 off = aMPos_ - bMPos_;
         //-- 没有做 溢出检测...
     return (off.x*off.x + off.y*off.y);
 }

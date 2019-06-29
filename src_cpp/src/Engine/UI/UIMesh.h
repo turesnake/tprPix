@@ -37,8 +37,8 @@ class UIMesh{
 public:
     UIMesh() = default;
 
-    inline void init( UIObj *_uiGoPtr ){
-        this->uiGoPtr = _uiGoPtr;
+    inline void init( UIObj *uiGoPtr_ ){
+        this->uiGoPtr = uiGoPtr_;
         //-----
         this->picMesh.init(    this->uiGoPtr, const_cast<UIMesh*>(this) );
         this->shadowMesh.init( this->uiGoPtr, const_cast<UIMesh*>(this) ); //- 就算没有 shadow，也会执行 init
@@ -46,18 +46,18 @@ public:
 
     void RenderUpdate();
 
-    void bind_animAction(   const std::string &_animFrameSetName,
-                            const std::string &_actionName  );
+    void bind_animAction(   const std::string &animFrameSetName_,
+                            const std::string &actionName_  );
 
     //------------- set -------------//
-    inline void set_off_z( float _off_z ){
-        this->off_z = _off_z;
+    inline void set_off_z( float off_z_ ){
+        this->off_z = off_z_;
     }
-    inline void set_pic_shader_program( ShaderProgram *_sp ){
-        this->picMesh.set_shader_program( _sp );
+    inline void set_pic_shader_program( ShaderProgram *sp_ ){
+        this->picMesh.set_shader_program( sp_ );
     }
-    inline void set_shadow_shader_program( ShaderProgram *_sp ){
-        this->shadowMesh.set_shader_program( _sp );
+    inline void set_shadow_shader_program( ShaderProgram *sp_ ){
+        this->shadowMesh.set_shader_program( sp_ );
     }
 
     //------------- get -------------//

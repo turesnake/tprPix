@@ -26,20 +26,20 @@
 // -- 离开函数，顺带销毁 本实例
 class ColliEntSetLoader{
 public:
-    ColliEntSetLoader(  const std::string &_lpath,
-                        IntVec2  _frameNum,
-                        size_t   _totalFrameNum
+    ColliEntSetLoader(  const std::string &lpath_,
+                        IntVec2  frameNum_,
+                        size_t   totalFrameNum_
                         ):
-        lpath(_lpath),
-        frameNum(_frameNum),
-        totalFrameNum(_totalFrameNum)
+        lpath(lpath_),
+        frameNum(frameNum_),
+        totalFrameNum(totalFrameNum_)
         {}
 
     void init();
 
     //---- get ----//
-    const ColliEntSet &get_collientSet( size_t _idx ) const {
-        return this->collientSets.at(_idx); //-- auto throw error
+    const ColliEntSet &get_collientSet( size_t idx_ ) const {
+        return this->collientSets.at(idx_); //-- auto throw error
     }
 
 private:

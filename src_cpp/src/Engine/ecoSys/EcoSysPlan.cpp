@@ -35,14 +35,14 @@ namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//
  *    让 density.lvl: 1，2，3 颜色逐渐加深。
  *    其余区域 保持原色 
  */
-void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &_baseColor ){
+void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &baseColor_ ){
 
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
         (i <= 0) ?
-            this->landColors.at( Density::lvl_2_idx(i) ) = _baseColor :
-            this->landColors.at( Density::lvl_2_idx(i) ) = _baseColor.add(  i * ecoSysPlan_inn::off_r, 
+            this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_ :
+            this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_.add(  i * ecoSysPlan_inn::off_r, 
                                                                             i * ecoSysPlan_inn::off_g, 
                                                                             i * ecoSysPlan_inn::off_b, 
                                                                             0 );
@@ -58,14 +58,14 @@ void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &_baseColor ){
  *    让 density.lvl: -1，-2，-3 颜色逐渐加深。
  * 适合 密林，仅留下小路通行
  */
-void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
+void EcoSysPlan::init_landColor_doubleDeep( const RGBA &baseColor_ ){
 
     int absI {}; 
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
         absI = std::abs(i);
-        this->landColors.at( Density::lvl_2_idx(i) ) = _baseColor.add(  absI * ecoSysPlan_inn::off_r, 
+        this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_.add(  absI * ecoSysPlan_inn::off_r, 
                                                                         absI * ecoSysPlan_inn::off_g, 
                                                                         absI * ecoSysPlan_inn::off_b, 
                                                                         0 );
@@ -77,34 +77,34 @@ void EcoSysPlan::init_landColor_doubleDeep( const RGBA &_baseColor ){
  *          init_landColor_twoPattern
  * -----------------------------------------------------------
  * -- landColor 上色方案：
- *    所有 密度大于等于 _density.lvl 的走 _color_1。
+ *    所有 密度大于等于 density_.lvl 的走 _color_1。
  *    剩下区域 走 _color_2
  */
-void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
-                                    const RGBA &_color_high,
-                                    const RGBA &_color_low,
-                                    bool  is_goDeep_high,
-                                    bool  is_goDeep_low ){
+void EcoSysPlan::init_landColor_twoPattern( const Density &density_high_,
+                                    const RGBA &color_high_,
+                                    const RGBA &color_low_,
+                                    bool  is_goDeep_high_,
+                                    bool  is_goDeep_low_ ){
 
     int    absI {};
     this->landColors.resize( Density::get_idxNum() );
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
         absI = std::abs(i);
-        if( i >= _density_high.get_lvl() ){ //- high
-            is_goDeep_high ?
-                this->landColors.at( Density::lvl_2_idx(i) ) = _color_high.add( absI * ecoSysPlan_inn::off_r, 
+        if( i >= density_high_.get_lvl() ){ //- high
+            is_goDeep_high_ ?
+                this->landColors.at( Density::lvl_2_idx(i) ) = color_high_.add( absI * ecoSysPlan_inn::off_r, 
                                                                                 absI * ecoSysPlan_inn::off_g, 
                                                                                 absI * ecoSysPlan_inn::off_b, 
                                                                                 0 ) :
-                this->landColors.at( Density::lvl_2_idx(i) ) = _color_high;
+                this->landColors.at( Density::lvl_2_idx(i) ) = color_high_;
         }else{ //- low
-            is_goDeep_low ?
-                this->landColors.at( Density::lvl_2_idx(i) ) = _color_low.add(  absI * ecoSysPlan_inn::off_r, 
+            is_goDeep_low_ ?
+                this->landColors.at( Density::lvl_2_idx(i) ) = color_low_.add(  absI * ecoSysPlan_inn::off_r, 
                                                                                 absI * ecoSysPlan_inn::off_g, 
                                                                                 absI * ecoSysPlan_inn::off_b, 
                                                                                 0 ) :
-                this->landColors.at( Density::lvl_2_idx(i) ) = _color_low;
+                this->landColors.at( Density::lvl_2_idx(i) ) = color_low_;
         }
     }
 }
@@ -114,23 +114,23 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &_density_high,
  *             init_densityDatas
  * -----------------------------------------------------------
  */
-void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff, 
-                                const std::vector<float> &_datas ){
+void EcoSysPlan::init_densityDatas( float densitySeaLvlOff_, 
+                                const std::vector<float> &datas_ ){
 
     tprAssert( !this->is_densityDivideVals_init );
-    this->densitySeaLvlOff = _densitySeaLvlOff;
+    this->densitySeaLvlOff = densitySeaLvlOff_;
 
     //-- 确认个数不出错 --
-    tprAssert( _datas.size() == Density::get_idxNum()-1 );
+    tprAssert( datas_.size() == Density::get_idxNum()-1 );
     //-- 确认 每个元素值 不越界 --
-    for( const auto &i : _datas ){
+    for( const auto &i : datas_ ){
         tprAssert( (i>=-100.0f) && (i<=100.0f) );
     }
     //-- 确认 每个元素值 递增 --
     float old {0.0f};
     float neo {0.0f};
-    for( auto i=_datas.cbegin(); i!=_datas.cend(); i++ ){
-        if( i == _datas.cbegin() ){
+    for( auto i=datas_.cbegin(); i!=datas_.cend(); i++ ){
+        if( i == datas_.cbegin() ){
             old = *i;
         }else{
             neo = *i;
@@ -141,8 +141,8 @@ void EcoSysPlan::init_densityDatas( float _densitySeaLvlOff,
     //-- 正式搬运 --
     this->densityDivideVals.clear();
     this->densityDivideVals.insert( this->densityDivideVals.end(),
-                                    _datas.begin(),
-                                    _datas.end() );
+                                    datas_.begin(),
+                                    datas_.end() );
 
     this->is_densityDivideVals_init = true;
 }
@@ -166,17 +166,17 @@ void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
  *              insert
  * -----------------------------------------------------------
  */
-void EcoSysPlan::insert(const Density &_density, 
-                    float _applyPercent,
-                    const std::vector<EcoEnt> &_ecoEnts ){
+void EcoSysPlan::insert(const Density &density_, 
+                    float applyPercent_,
+                    const std::vector<EcoEnt> &ecoEnts_ ){
 
     tprAssert( this->is_applyPercents_init ); //- MUST
-    this->applyPercents.at(_density.get_idx()) = _applyPercent;
+    this->applyPercents.at(density_.get_idx()) = applyPercent_;
 
     goSpecId_t  id_l {};
-    for( const auto &ent : _ecoEnts ){
+    for( const auto &ent : ecoEnts_ ){
         tprAssert( this->is_goSpecIdPools_init ); //- MUST
-        auto &poolRef = this->goSpecIdPools.at(_density.get_idx());
+        auto &poolRef = this->goSpecIdPools.at(density_.get_idx());
         id_l = ssrc::get_goSpecId(ent.specName);
         poolRef.insert( poolRef.begin(), ent.idNum, id_l );
     }
@@ -189,10 +189,10 @@ void EcoSysPlan::insert(const Density &_density,
  * -- 需要调用者 提供 seed
  *    通过这种方式，来实现真正的 伪随机
  */
-void EcoSysPlan::shuffle_goSpecIdPools( u32_t _seed ){
+void EcoSysPlan::shuffle_goSpecIdPools( u32_t seed_ ){
 
     std::default_random_engine  rEngine; 
-    rEngine.seed( _seed );
+    rEngine.seed( seed_ );
     for( auto &poolRef : this->goSpecIdPools ){
         std::shuffle( poolRef.begin(), poolRef.end(), rEngine );
     }

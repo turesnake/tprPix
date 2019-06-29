@@ -32,11 +32,11 @@ namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn ----------
 
 
     //===== funcs =====//
-    AnimFrameSet *insert_new_animFrameSet( const std::string &_name );
+    AnimFrameSet *insert_new_animFrameSet( const std::string &name_ );
 
-    void build_animActionParams(const std::string &_prefix,
-                                const std::string &_suffix,
-                                size_t _size );
+    void build_animActionParams(const std::string &prefix_,
+                                const std::string &suffix_,
+                                size_t size_ );
 
 }//--------------- namespace: animFrameSet_inn end -----------------//
 
@@ -47,11 +47,11 @@ namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn ----------
  * -- 用法：
  *    getnc_animActionPtr( "dog", "jump" );
  */
-AnimAction *getnc_animActionPtr(  const std::string &_animFrameSetName,
-                                const std::string &_actionName ){
+AnimAction *getnc_animActionPtr(  const std::string &animFrameSetName_,
+                                const std::string &actionName_ ){
 
-    tprAssert( animFrameSet_inn::animFrameSets.find(_animFrameSetName) != animFrameSet_inn::animFrameSets.end() );
-    return  animFrameSet_inn::animFrameSets.at(_animFrameSetName).getnc_animActionPtr( _actionName );
+    tprAssert( animFrameSet_inn::animFrameSets.find(animFrameSetName_) != animFrameSet_inn::animFrameSets.end() );
+    return  animFrameSet_inn::animFrameSets.at(animFrameSetName_).getnc_animActionPtr( actionName_ );
 }
 
 
@@ -309,9 +309,9 @@ namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn ----------
  *               insert_new_animFrameSet
  * -----------------------------------------------------------
  */
-AnimFrameSet *insert_new_animFrameSet( const std::string &_name ){
-    animFrameSet_inn::animFrameSets.insert({ _name, AnimFrameSet { _name } });
-    return &animFrameSet_inn::animFrameSets.at(_name);
+AnimFrameSet *insert_new_animFrameSet( const std::string &name_ ){
+    animFrameSet_inn::animFrameSets.insert({ name_, AnimFrameSet { name_ } });
+    return &animFrameSet_inn::animFrameSets.at(name_);
 }
 
 
@@ -319,12 +319,12 @@ AnimFrameSet *insert_new_animFrameSet( const std::string &_name ){
  *               build_animActionParams
  * -----------------------------------------------------------
  */
-void build_animActionParams(const std::string &_prefix,
-                            const std::string &_suffix,
-                            size_t _size ){
+void build_animActionParams(const std::string &prefix_,
+                            const std::string &suffix_,
+                            size_t size_ ){
     animFrameSet_inn::animActionParams.clear();
-    for( size_t i=0; i<_size; i++ ){
-        animFrameSet_inn::animActionParams.push_back( AnimActionParam{ tprGeneral::nameString_combine( _prefix, i, _suffix ), i } );
+    for( size_t i=0; i<size_; i++ ){
+        animFrameSet_inn::animActionParams.push_back( AnimActionParam{ tprGeneral::nameString_combine( prefix_, i, suffix_ ), i } );
     }
 }
 

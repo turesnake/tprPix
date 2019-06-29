@@ -23,9 +23,9 @@
 class U8Vec2{
 public:
     U8Vec2() = default;
-    U8Vec2( u8_t _x, u8_t _y ):
-        x(_x),
-        y(_y)
+    U8Vec2( u8_t x_, u8_t y_ ):
+        x(x_),
+        y(y_)
         {}
 
     inline void clear_all(){
@@ -33,9 +33,9 @@ public:
         this->y = 0;
     }
 
-    inline void set( u8_t _x, u8_t _y ){
-        this->x = _x;
-        this->y = _y;
+    inline void set( u8_t x_, u8_t y_ ){
+        this->x = x_;
+        this->y = y_;
     }
 
     //======== vals ========//

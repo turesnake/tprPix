@@ -20,11 +20,11 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_ecoSysPlanes();
 
-EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId );
+EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ );
 
-ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObjWeight );
+ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, float ecoObjWeight_ );
 
-ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float _ecoObjWeight );
+ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float ecoObjWeight_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

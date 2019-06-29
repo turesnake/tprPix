@@ -31,11 +31,11 @@ void init_debug();
 
 //-- mapEntSlices --//
 void clear_mapEntSlices();
-void insert_new_mapEntSlice( const MapCoord &_mcpos );
+void insert_new_mapEntSlice( const MapCoord &mcpos_ );
 void draw_renderPool_mapEntSlices();
 
 void clear_pointPics();
-void insert_new_pointPic( const glm::vec2 &_fpos );
+void insert_new_pointPic( const glm::vec2 &fpos_ );
 void draw_renderPool_pointPics();
 
 

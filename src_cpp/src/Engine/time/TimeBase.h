@@ -77,8 +77,8 @@ public:
     }
 
     //-- 依靠 db记录的 gameTime 旧值，来重启 gameTime 记录器 --
-    inline void start_record_gameTime( double _gameTime_from_db ){
-        this->lastGameTime_from_db = _gameTime_from_db;
+    inline void start_record_gameTime( double gameTime_from_db_ ){
+        this->lastGameTime_from_db = gameTime_from_db_;
         this->begPoint_of_gameTime = this->currentTime;
     }
 

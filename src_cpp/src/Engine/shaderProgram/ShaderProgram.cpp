@@ -36,8 +36,8 @@ GLuint ShaderProgram::shaderProgram_current {0};
  *                         init
  * -----------------------------------------------------------
  */
-void ShaderProgram::init(   const std::string &_lpathVs, 
-                            const std::string &_lpathFs ){
+void ShaderProgram::init(   const std::string &lpathVs_, 
+                            const std::string &lpathFs_ ){
 
     int success {};
     char infoLog[512]; //-- 出错信息 暂存 buf
@@ -48,11 +48,11 @@ void ShaderProgram::init(   const std::string &_lpathVs,
 
     //-- 读取文件，获得 数据
 #if defined TPR_OS_WIN32_
-    tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
-    tprWin::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
+    tprWin::file_load( tprGeneral::path_combine(path_shaders, lpathVs_), vsbuf );
+    tprWin::file_load( tprGeneral::path_combine(path_shaders, lpathFs_), fsbuf );
 #elif defined TPR_OS_UNIX_
-    tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathVs), vsbuf );
-    tprUnix::file_load( tprGeneral::path_combine(path_shaders, _lpathFs), fsbuf );
+    tprUnix::file_load( tprGeneral::path_combine(path_shaders, lpathVs_), vsbuf );
+    tprUnix::file_load( tprGeneral::path_combine(path_shaders, lpathFs_), fsbuf );
 #endif
 
     //-------------------
@@ -86,22 +86,22 @@ void ShaderProgram::init(   const std::string &_lpathVs,
 /* ===========================================================
  *                         compile
  * -----------------------------------------------------------
- * -- param: _shaderObj --
- * -- param: _sbuf  -- 存放 着色器程序文本的 buf
+ * -- param: shaderObj_ --
+ * -- param: sbuf_  -- 存放 着色器程序文本的 buf
  * -- param: _sname -- 着色器程序名，比如 “vertexShader”
  */
-void ShaderProgram::compile( GLuint _shaderObj, const std::string &_sbuf ){
+void ShaderProgram::compile( GLuint shaderObj_, const std::string &sbuf_ ){
 
     int success {};
     char infoLog[512]; //-- 出错信息 暂存 buf
     //---------- 编译 ---------
-    const char *sbufPtr = _sbuf.c_str(); //-- 转换为 c风格字符串指针。
-    glShaderSource( _shaderObj, 1, (const GLchar **)&sbufPtr, nullptr );
-    glCompileShader( _shaderObj );
+    const char *sbufPtr = sbuf_.c_str(); //-- 转换为 c风格字符串指针。
+    glShaderSource( shaderObj_, 1, (const GLchar **)&sbufPtr, nullptr );
+    glCompileShader( shaderObj_ );
     //-------- 检查 编译 是否成功 ---------
-    glGetShaderiv( _shaderObj, GL_COMPILE_STATUS, &success );
+    glGetShaderiv( shaderObj_, GL_COMPILE_STATUS, &success );
     if( !success ){
-        glGetShaderInfoLog( _shaderObj, 512, nullptr, infoLog );
+        glGetShaderInfoLog( shaderObj_, 512, nullptr, infoLog );
         std::cout << infoLog << std::endl;
         tprAssert(0);
     }

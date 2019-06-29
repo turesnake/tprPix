@@ -10,6 +10,7 @@
 
 //-------------------- CPP --------------------//
 #include <functional>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -34,16 +35,9 @@ enum class MoveType : int {
 class Move{
     using F_RenderUpdate = std::function< void() >;
 public:
-    Move() = default;
-
-    //- 在 gameObj.init() 中被调用 --
-    inline void init(   GameObj *_goPtr, 
-                        GameObjPos *_goPosPtr,
-                        Collision *_collisionPtr ){ //-- MUST --
-        this->goPtr    = _goPtr;
-        this->goPosPtr = _goPosPtr;
-        this->collisionPtr = _collisionPtr;
-    }
+    Move( GameObj &goRef_ ):
+        goRef(goRef_)
+        {}
 
     inline void RenderUpdate(){
         this->renderUpdataFunc();
@@ -55,9 +49,9 @@ public:
     }
 
     //------- set -------//
-    inline void set_MoveType( MoveType _type ){
-        this->moveType = _type;
-        switch ( _type ){
+    inline void set_MoveType( MoveType type_ ){
+        this->moveType = type_;
+        switch ( type_ ){
             case MoveType::Crawl:      
                 this->renderUpdataFunc = std::bind( &Move::crawl_renderUpdate, this ); 
                 return;
@@ -69,18 +63,18 @@ public:
                 return;
         }
     }
-    inline void set_speedLvl( SpeedLevel _lv ){
-        this->speedLvl = _lv;
+    inline void set_speedLvl( SpeedLevel lv_ ){
+        this->speedLvl = lv_;
     }
-    void set_newCrawlDirAxes( const DirAxes &_newDirAxes );
+    void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
 
-    inline void set_drag_targetFPos( const glm::vec2 &_FPos ){
+    inline void set_drag_targetFPos( const glm::vec2 &FPos_ ){
         tprAssert( this->moveType == MoveType::Drag );
-        if( _FPos == this->targetFPos ){
+        if( FPos_ == this->targetFPos ){
             return;
         }
-        this->targetFPos = _FPos;
+        this->targetFPos = FPos_;
         this->isMoving = true;
     }
 
@@ -99,13 +93,11 @@ private:
     void drag_renderUpdate();
 
 
-    void crawl_renderUpdate_inn(const DirAxes &_newDirAxes,
-                                const glm::vec2 &_speedV );
+    void crawl_renderUpdate_inn(const DirAxes &newDirAxes_,
+                                const glm::vec2 &speedV_ );
 
     //===== vals =====//
-    GameObj     *goPtr    {nullptr}; //- 每个 fly实例 都属于一个 go实例, 强关联
-    GameObjPos  *goPosPtr {nullptr};
-    Collision   *collisionPtr {nullptr}; 
+    GameObj      &goRef;
 
     MoveType   moveType    { MoveType::Crawl };
     SpeedLevel   speedLvl  { SpeedLevel::LV_3 };
@@ -119,10 +111,8 @@ private:
     F_RenderUpdate renderUpdataFunc {nullptr}; //- functor
                                                //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
 
-
     //===== flags =====//
     bool   isMoving {false};
-
 };
 
 

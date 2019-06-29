@@ -29,8 +29,8 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
     std::shared_mutex  sharedMutex; //- 读写锁
 
     //-- 仅用于 文件内 各种 atom 函数内 [lock状态] --
-    bool is_find_in_ecoObjs_( sectionKey_t _key ){
-        return (ecoObjs.find(_key) != ecoObjs.end());
+    bool is_find_in_ecoObjs_( sectionKey_t key_ ){
+        return (ecoObjs.find(key_) != ecoObjs.end());
     }
 
 }//---------------- namespace: ecoObj_inn end --------------//
@@ -42,12 +42,12 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
  * 一步到位地实现 任意 ecoObj 实例 的创建
  * 此函数 只应在 主线程（唯一写入者） 中被执行 
  */
-void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
+void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ ){
 
     //=== lock ===//
     std::unique_lock<std::shared_mutex> ul( ecoObj_inn::sharedMutex ); //- write -
     //-- 若已存在，直接返回 --
-    if( ecoObj_inn::is_find_in_ecoObjs_(_ecoObjKey) ){
+    if( ecoObj_inn::is_find_in_ecoObjs_(ecoObjKey_) ){
         return;
     }
 
@@ -55,7 +55,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
         ul.unlock();
         //-- 计算出周边 4个 node key --
         std::vector<sectionKey_t> nearby_four_nodeKeys {};
-        EcoObj::calc_nearFour_node_ecoObjKey( _ecoObjKey, nearby_four_nodeKeys );
+        EcoObj::calc_nearFour_node_ecoObjKey( ecoObjKey_, nearby_four_nodeKeys );
 
         std::vector<sectionKey_t> nearby_four_ecoSysIds {}; //- 需要传给 init_for_regular()
 
@@ -83,19 +83,19 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
     tprAssert( nearby_four_ecoSysIds.size() == 4 );
     //-- 若 目标 ecoObj 实例 就是 node
     //   则此时会直接返回
-    if( ecoObj_inn::is_find_in_ecoObjs_(_ecoObjKey) ){
+    if( ecoObj_inn::is_find_in_ecoObjs_(ecoObjKey_) ){
         return;
     }
 
         //=== unlock ===//
         ul.unlock();
         EcoObj targetEnt {};
-        targetEnt.init_for_regular( _ecoObjKey, nearby_four_ecoSysIds );
+        targetEnt.init_for_regular( ecoObjKey_, nearby_four_ecoSysIds );
         
 
     //=== lock ===//
     ul.lock();
-    ecoObj_inn::ecoObjs.insert({ _ecoObjKey, targetEnt }); //- copy
+    ecoObj_inn::ecoObjs.insert({ ecoObjKey_, targetEnt }); //- copy
 }
 
 
@@ -105,13 +105,13 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t _ecoObjKey ){
  * -- 更加精细的 元素数据 只读访问 接口 [值传递]
  * 仅用于 field 实例 创建阶段
  */
-std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t _sectionkey ){
+std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t sectionkey_ ){
 
     std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        const auto &ecoObjRef = ecoObj_inn::ecoObjs.at(_sectionkey);
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+        const auto &ecoObjRef = ecoObj_inn::ecoObjs.at(sectionkey_);
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
         readOnly.second.sectionKey = ecoObjRef.get_sectionKey();
@@ -130,13 +130,13 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  *    实际数据在 ecosys 实例中（不用担心会不存在）
  *    所以可以在此处，放心地传递 指针
  */
-const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey ){
+const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_ ){
 
     const std::vector<RGBA> *ptr {nullptr};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        ptr = ecoObj_inn::ecoObjs.at(_sectionkey).get_landColorsPtr();
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+        ptr = ecoObj_inn::ecoObjs.at(sectionkey_).get_landColorsPtr();
     }
     return ptr;
 }
@@ -145,12 +145,12 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t _sectionkey
  *          atom_ecoObj_apply_a_rand_goSpecId    [-READ-]
  * -----------------------------------------------------------
  */
-goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _densityIdx, float _randV ){
+goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t densityIdx_, float randV_ ){
     goSpecId_t id {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        id = ecoObj_inn::ecoObjs.at(_sectionkey).apply_a_rand_goSpecId( _densityIdx, _randV  );
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+        id = ecoObj_inn::ecoObjs.at(sectionkey_).apply_a_rand_goSpecId( densityIdx_, randV_  );
     }
     return id;
 }
@@ -160,12 +160,12 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t _sectionkey, size_t _d
  * -----------------------------------------------------------
  * -- 更加精细的 元素数据 只读访问 接口
  */
-float atom_ecoObj_get_applyPercent( sectionKey_t _sectionkey, const Density &_density ){
+float atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_density ){
     float val {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(_sectionkey) );//- must exist
-        val = ecoObj_inn::ecoObjs.at(_sectionkey).get_applyPercent( _density );
+            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+        val = ecoObj_inn::ecoObjs.at(sectionkey_).get_applyPercent( _density );
     }
     return val;
 }

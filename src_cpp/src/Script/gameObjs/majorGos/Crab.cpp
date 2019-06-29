@@ -35,27 +35,24 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -----------------------------------------------------------
  * -- 最后三个参数 并未用上
  */
-void Crab::init_in_autoMod( GameObj *_goPtr,
-                            const IntVec2 &_mpos,
-					        float _fieldWeight,
-					        const MapAltitude &_alti,
+void Crab::init_in_autoMod( GameObj &goRef_,
+                            const IntVec2 &mpos_,
+					        float fieldWeight_,
+					        const MapAltitude &alti_,
 					        const Density &_density ){
 
-    tprAssert( _goPtr != nullptr );
-    goPtr = _goPtr;
-
     //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(Crab_PvtBinary) );
-    pvtBp = reinterpret_cast<Crab_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
+    goRef_.resize_pvtBinary( sizeof(Crab_PvtBinary) );
+    Crab_PvtBinary  *pvtBp = reinterpret_cast<Crab_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
     pvtBp->tmpVal = 999;
 
-    pvtBp->ai_crab.init( _goPtr );
+    pvtBp->ai_crab.init(  );
     
 
     pvtBp->ai_crab.bind_get_tmpVal_functor(
-        [_goPtr](){
-            Crab_PvtBinary *pvtBp_l = reinterpret_cast<Crab_PvtBinary*>(_goPtr->get_pvtBinaryPtr());
+        [pvtBp](){
+            Crab_PvtBinary *pvtBp_l = pvtBp;
             return pvtBp_l->tmpVal;
         }
     );
@@ -63,40 +60,40 @@ void Crab::init_in_autoMod( GameObj *_goPtr,
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Crab::OnRenderUpdate, &crab, _goPtr );   
-    goPtr->LogicUpdate  = std::bind( &Crab::OnLogicUpdate,  &crab, _goPtr );
+    goRef_.RenderUpdate = std::bind( &Crab::OnRenderUpdate, &crab, _1 );   
+    goRef_.LogicUpdate  = std::bind( &Crab::OnLogicUpdate,  &crab, _1 );
     
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.bind_func( std::bind( &Crab::OnActionSwitch, &crab, _1, _2 ) );
-    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
-    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Move );
+    goRef_.actionSwitch.bind_func( std::bind( &Crab::OnActionSwitch, &crab, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
 
 
     //-------- go self vals ---------//
-    goPtr->species = Crab::specId;
-    goPtr->family = GameObjFamily::Major;
-    goPtr->parentId = NULLID;
-    goPtr->state = GameObjState::Waked;
-    goPtr->moveState = GameObjMoveState::Movable;
-    goPtr->weight = 5.0f;
+    goRef_.species = Crab::specId;
+    goRef_.family = GameObjFamily::Major;
+    goRef_.parentId = NULLID;
+    goRef_.state = GameObjState::Waked;
+    goRef_.moveState = GameObjMoveState::Movable;
+    goRef_.weight = 5.0f;
 
-    goPtr->isTopGo = true;
-    goPtr->isActive = true;
-    goPtr->isDirty = false;
-    goPtr->isControlByPlayer = false;
+    goRef_.isTopGo = true;
+    goRef_.isActive = true;
+    goRef_.isDirty = false;
+    goRef_.isControlByPlayer = false;
 
-    //goPtr->move.set_speedLvl( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
-    goPtr->move.set_speedLvl( SpeedLevel::LV_5 );   //- tmp，用来快速检索地图
-    goPtr->move.set_MoveType( MoveType::Crawl );
+    //goRef_.move.set_speedLvl( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
+    goRef_.move.set_speedLvl( SpeedLevel::LV_5 );   //- tmp，用来快速检索地图
+    goRef_.move.set_MoveType( MoveType::Crawl );
 
-    goPtr->set_collision_isDoPass( false );
-    goPtr->set_collision_isBePass( false );
+    goRef_.set_collision_isDoPass( false );
+    goRef_.set_collision_isBePass( false );
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
-                goPtr->creat_new_goMesh("root", //- gmesh-name
+                goRef_.creat_new_goMesh("root", //- gmesh-name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::get_rect_shader(),  
                                         &esrc::get_rect_shader(),
@@ -108,17 +105,17 @@ void Crab::init_in_autoMod( GameObj *_goPtr,
                                         );
         rootGoMeshRef.bind_animAction( "crab", "appear" );
 
-        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
+        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
     //-- 务必在 mesh:"root" 之后 ---
-    goPtr->goPos.set_alti( 0.0f );
-    goPtr->goPos.init_by_currentMPos( _mpos );
+    goRef_.goPos.set_alti( 0.0f );
+    goRef_.goPos.init_by_currentMPos( mpos_ );
 
     //...
 
     //-------- go.pubBinary ---------//
-    goPtr->pubBinary.init( crab_pubBinaryValTypes );
+    goRef_.pubBinary.init( crab_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -127,7 +124,7 @@ void Crab::init_in_autoMod( GameObj *_goPtr,
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Crab::bind( GameObj *_goPtr ){
+void Crab::bind( GameObj &goRef_ ){
 }
 
 
@@ -137,7 +134,7 @@ void Crab::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Crab::rebind( GameObj *_goPtr ){
+void Crab::rebind( GameObj &goRef_ ){
 }
 
 
@@ -145,11 +142,11 @@ void Crab::rebind( GameObj *_goPtr ){
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Crab::OnRenderUpdate( GameObj *_goPtr ){
+void Crab::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Crab_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
 
     //=====================================//
     //            AI
@@ -159,12 +156,12 @@ void Crab::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goPtr->move.RenderUpdate();
+    goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &pairRef : goPtr->goMeshs ){
+    for( auto &pairRef : goRef_.goMeshs ){
         pairRef.second.RenderUpdate();
     }
 }
@@ -174,15 +171,13 @@ void Crab::OnRenderUpdate( GameObj *_goPtr ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Crab::OnLogicUpdate( GameObj *_goPtr ){
+void Crab::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Crab_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
     //=====================================//
-
     //this->pvtBp->ai_crab.logicUpdate();
-
     // 什么也没做...
 }
 
@@ -194,19 +189,19 @@ void Crab::OnLogicUpdate( GameObj *_goPtr ){
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
-void Crab::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+void Crab::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Crab_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    GameObjMesh &rootGoMeshRef = goRef_.goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
-    switch( _type ){
+    switch( type_ ){
         case ActionSwitchType::Move_Idle:
             rootGoMeshRef.bind_animAction( "crab", "half_disappear" );
 

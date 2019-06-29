@@ -25,10 +25,10 @@ using namespace std::placeholders;
  * -----------------------------------------------------------
  * -- 切换动作时的 核心函数
  */
-void GameObjMesh::bind_animAction(   const std::string &_animFrameSetName,
-                        const std::string &_actionName  ){
+void GameObjMesh::bind_animAction(   const std::string &animFrameSetName_,
+                        const std::string &actionName_  ){
 
-    this->animActionPtr = esrc::getnc_animActionPtr( _animFrameSetName, _actionName );
+    this->animActionPtr = esrc::getnc_animActionPtr( animFrameSetName_, actionName_ );
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
 
     this->isHaveShadow = this->animActionPtr->get_isHaveShadow();

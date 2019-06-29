@@ -35,9 +35,9 @@ public:
     }
 
     //-- set --//
-    inline void set_mapEntAlti( size_t _idx, const MapAltitude &_alti ){
+    inline void set_mapEntAlti( size_t _idx, const MapAltitude &alti_ ){
         tprAssert( _idx < this->mapEntAltis.size() );
-        this->mapEntAltis.at(_idx) = _alti;
+        this->mapEntAltis.at(_idx) = alti_;
     }
 
     //-- get --//

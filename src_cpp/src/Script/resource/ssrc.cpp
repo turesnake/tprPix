@@ -64,14 +64,14 @@ void clear_ui_name_specIds(){
 
 
 
-void insert_2_go_specId_names_containers( goSpecId_t _id, const std::string &_name ){
-    _inn::go_specId_names.insert({ _id, _name });
-    _inn::go_name_specIds.insert({ _name, _id });
+void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &name_ ){
+    _inn::go_specId_names.insert({ id_, name_ });
+    _inn::go_name_specIds.insert({ name_, id_ });
 }
 
-void insert_2_ui_specId_names_containers( uiObjSpecId_t _id, const std::string &_name ){
-    _inn::ui_specId_names.insert({ _id, _name });
-    _inn::ui_name_specIds.insert({ _name, _id });
+void insert_2_ui_specId_names_containers( uiObjSpecId_t id_, const std::string &name_ ){
+    _inn::ui_specId_names.insert({ id_, name_ });
+    _inn::ui_name_specIds.insert({ name_, id_ });
 }
 
 
@@ -80,9 +80,9 @@ void insert_2_ui_specId_names_containers( uiObjSpecId_t _id, const std::string &
  *                     get_goSpecId
  * -----------------------------------------------------------
  */
-goSpecId_t get_goSpecId( const std::string &_name ){
-        tprAssert( _inn::go_name_specIds.find(_name) != _inn::go_name_specIds.end() );
-    return _inn::go_name_specIds.at(_name);
+goSpecId_t get_goSpecId( const std::string &name_ ){
+        tprAssert( _inn::go_name_specIds.find(name_) != _inn::go_name_specIds.end() );
+    return _inn::go_name_specIds.at(name_);
 }
 
 
@@ -90,9 +90,9 @@ goSpecId_t get_goSpecId( const std::string &_name ){
  *                     get_uiSpecId
  * -----------------------------------------------------------
  */
-uiObjSpecId_t get_uiSpecId( const std::string &_name ){
-        tprAssert( _inn::ui_name_specIds.find(_name) != _inn::ui_name_specIds.end() );
-    return _inn::ui_name_specIds.at(_name);
+uiObjSpecId_t get_uiSpecId( const std::string &name_ ){
+        tprAssert( _inn::ui_name_specIds.find(name_) != _inn::ui_name_specIds.end() );
+    return _inn::ui_name_specIds.at(name_);
 }
 
 
@@ -100,8 +100,8 @@ uiObjSpecId_t get_uiSpecId( const std::string &_name ){
  *                  find_from_goInit_funcs
  * -----------------------------------------------------------
  */
-bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
-    return (_inn::goInit_funcs.find(_goSpecId) != _inn::goInit_funcs.end());
+bool find_from_goInit_funcs( goSpecId_t goSpecId_ ){
+    return (_inn::goInit_funcs.find(goSpecId_) != _inn::goInit_funcs.end());
 }
 
 
@@ -109,14 +109,14 @@ bool find_from_goInit_funcs( goSpecId_t _goSpecId ){
  *                  call_goInit_func
  * -----------------------------------------------------------
  */
-void call_goInit_func(  goSpecId_t _id,
-                        GameObj *_goPtr,
-                        const IntVec2 &_mpos,
-					    float _fieldWeight,
-					    const MapAltitude &_alti,
-					    const Density &_density  ){
+void call_goInit_func(  goSpecId_t id_,
+                        GameObj &goRef_,
+                        const IntVec2 &mpos_,
+					    float fieldWeight_,
+					    const MapAltitude &alti_,
+					    const Density &density_  ){
     
-    _inn::goInit_funcs.at(_id)( _goPtr, _mpos, _fieldWeight, _alti, _density );
+    _inn::goInit_funcs.at(id_)( goRef_, mpos_, fieldWeight_, alti_, density_ );
 }
 
 
@@ -124,9 +124,9 @@ void call_goInit_func(  goSpecId_t _id,
  *                 insert_2_goInit_funcs
  * -----------------------------------------------------------
  */
-void insert_2_goInit_funcs( goSpecId_t _goSpecId,
-                            const F_GO_INIT &_functor ){
-    _inn::goInit_funcs.insert({ _goSpecId, _functor });
+void insert_2_goInit_funcs( goSpecId_t goSpecId_,
+                            const F_GO_INIT &functor_ ){
+    _inn::goInit_funcs.insert({ goSpecId_, functor_ });
 }
 
 
@@ -136,8 +136,8 @@ void insert_2_goInit_funcs( goSpecId_t _goSpecId,
  *                  find_from_uiInit_funcs
  * -----------------------------------------------------------
  */
-bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId ){
-    return (_inn::uiInit_funcs.find(_uiSpecId) != _inn::uiInit_funcs.end());
+bool find_from_uiInit_funcs( uiObjSpecId_t uiSpecId_ ){
+    return (_inn::uiInit_funcs.find(uiSpecId_) != _inn::uiInit_funcs.end());
 }
 
 
@@ -146,10 +146,10 @@ bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId ){
  *                 call_uiInit_func
  * -----------------------------------------------------------
  */
-void call_uiInit_func(  uiObjSpecId_t _id,  
-                        UIObj *_uiObjPtr,
-                        const glm::vec2 &_fpos ){
-    _inn::uiInit_funcs.at(_id)( _uiObjPtr, _fpos );           
+void call_uiInit_func(  uiObjSpecId_t id_,  
+                        UIObj *uiObjPtr_,
+                        const glm::vec2 &fpos_ ){
+    _inn::uiInit_funcs.at(id_)( uiObjPtr_, fpos_ );           
 }
 
 
@@ -157,10 +157,10 @@ void call_uiInit_func(  uiObjSpecId_t _id,
  *               insert_2_uiInit_funcs
  * -----------------------------------------------------------
  */
-void insert_2_uiInit_funcs( uiObjSpecId_t _id,
-                            const F_UI_INIT &_functor ){
+void insert_2_uiInit_funcs( uiObjSpecId_t id_,
+                            const F_UI_INIT &functor_ ){
 
-    _inn::uiInit_funcs.insert({ _id, _functor });
+    _inn::uiInit_funcs.insert({ id_, functor_ });
 }
 
 

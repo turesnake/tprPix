@@ -124,17 +124,17 @@ fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
  *                get_fieldBorderSet
  * -----------------------------------------------------------
  */
-const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t _id, QuadType _quad ){
+const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType _quad ){
 
-    tprAssert( fbs_inn::fieldBorderSets.find(_id) != fbs_inn::fieldBorderSets.end() );
+    tprAssert( fbs_inn::fieldBorderSets.find(id_) != fbs_inn::fieldBorderSets.end() );
     switch(_quad){
-        case QuadType::Left_Bottom:   return fbs_inn::fieldBorderSets.at(_id).leftBottoms;
-        case QuadType::Right_Bottom:  return fbs_inn::fieldBorderSets.at(_id).rightBottoms;
-        case QuadType::Left_Top:      return fbs_inn::fieldBorderSets.at(_id).leftTops;
-        case QuadType::Right_Top:     return fbs_inn::fieldBorderSets.at(_id).rightTops;
+        case QuadType::Left_Bottom:   return fbs_inn::fieldBorderSets.at(id_).leftBottoms;
+        case QuadType::Right_Bottom:  return fbs_inn::fieldBorderSets.at(id_).rightBottoms;
+        case QuadType::Left_Top:      return fbs_inn::fieldBorderSets.at(id_).leftTops;
+        case QuadType::Right_Top:     return fbs_inn::fieldBorderSets.at(id_).rightTops;
         default:
             tprAssert(0);
-            return fbs_inn::fieldBorderSets.at(_id).leftBottoms; //- never touch
+            return fbs_inn::fieldBorderSets.at(id_).leftBottoms; //- never touch
     }   
 }
 

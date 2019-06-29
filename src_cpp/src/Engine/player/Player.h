@@ -33,13 +33,20 @@ public:
 
     //-- 必须等 chunks 彻底加载到 mem态（相伴的go数据也实例化）之后 --
     //   才能调用本函数 
-    void bind_go( goid_t _goid );
+    void bind_go( goid_t goid_ );
 
-    void handle_inputINS( const InputINS &_inputINS );
+    void handle_inputINS( const InputINS &inputINS_ );
+
+    GameObj &get_goRef() const;
+
 
     //======== vals ========//
     goid_t    goid   {NULLID}; 
-    GameObj  *goPtr  {nullptr}; //- 玩家当前绑定的 go 指针            
+    //GameObj  *goPtr  {nullptr}; //- 玩家当前绑定的 go 指针 
+    //std::shared_ptr<GameObj> goSPtr {}; //- 玩家当前绑定的 go 指针 
+                    // 不再长期持有 goPtr，而是持有 goid，随用随取。
+                    // 忽略这点性能损失
+
 private:
 };
 

@@ -42,8 +42,8 @@ inline const size_t EcoSysPlanType_MaxIdx { static_cast<size_t>(EcoSysPlanType::
 inline const size_t EcoSysPlanType_Num  { EcoSysPlanType_MaxIdx - EcoSysPlanType_MinIdx + 1 }; //- type 个数
 
 //-- 用来遍历 某些复合容器 --
-inline size_t ecoSysPlanType_2_idx( EcoSysPlanType _type ){
-    return (static_cast<size_t>(_type) - EcoSysPlanType_MinIdx);
+inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ ){
+    return (static_cast<size_t>(type_) - EcoSysPlanType_MinIdx);
 }
 
 

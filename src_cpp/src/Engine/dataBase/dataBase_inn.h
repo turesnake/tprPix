@@ -35,16 +35,16 @@ inline std::mutex dbMutex;
 
 
 //===== funcs =====//
-int callback_1(void *_data, int _argc, char **_argv, char **_azColNames);
+int callback_1(void *data_, int argc_, char **argv_, char **azColNames_);
 
 
 //-- prepare_v2 --
-//-- 注意，参数 _ppStmt 必须为 pp，
-inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt **_ppStmt ){
+//-- 注意，参数 ppStmt_ 必须为 pp，
+inline void sqlite3_prepare_v2_inn_( const std::string &sql_str_, sqlite3_stmt **ppStmt_ ){
     w_sqlite3_prepare_v2(   dbConnect, 
-                            _sql_str.c_str(), 
-                            static_cast<int>(_sql_str.size()+1),
-                            _ppStmt,
+                            sql_str_.c_str(), 
+                            static_cast<int>(sql_str_.size()+1),
+                            ppStmt_,
                             nullptr );
 }
 
@@ -53,24 +53,24 @@ inline void sqlite3_prepare_v2_inn_( const std::string &_sql_str, sqlite3_stmt *
 //  注意：下面这组操作，必须在一个 atom 函数内被调用 --
 inline sqlite3_stmt *stmt_for_bindFuncs {nullptr};
 
-inline void reset_stmt_for_bindFuncs_inn_( sqlite3_stmt *_newStmt ){
-    stmt_for_bindFuncs = _newStmt;
+inline void reset_stmt_for_bindFuncs_inn_( sqlite3_stmt *newStmt_ ){
+    stmt_for_bindFuncs = newStmt_;
 }
 
-inline void sqlite3_bind_int_inn_( const std::string &_paramStr, const int &_val ){
+inline void sqlite3_bind_int_inn_( const std::string &paramStr_, const int &val_ ){
     w_sqlite3_bind_int( dbConnect, stmt_for_bindFuncs, 
-                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, _paramStr.c_str() ),  
-                        _val );
+                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, paramStr_.c_str() ),  
+                        val_ );
 }
-inline void sqlite3_bind_int64_inn_( const std::string &_paramStr, const i64_t &_val ){
+inline void sqlite3_bind_int64_inn_( const std::string &paramStr_, const i64_t &val_ ){
     w_sqlite3_bind_int64( dbConnect, stmt_for_bindFuncs, 
-                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, _paramStr.c_str() ),  
-                        _val );
+                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, paramStr_.c_str() ),  
+                        val_ );
 }
-inline void sqlite3_bind_double_inn_( const std::string &_paramStr, const double &_val ){
+inline void sqlite3_bind_double_inn_( const std::string &paramStr_, const double &val_ ){
     w_sqlite3_bind_double( dbConnect, stmt_for_bindFuncs, 
-                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, _paramStr.c_str() ),  
-                        _val );
+                        w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, paramStr_.c_str() ),  
+                        val_ );
 }
 
 

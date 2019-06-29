@@ -118,8 +118,8 @@ void init_input(){
  *                 bind_inputINS_handleFunc
  *-----------------------------------------------------------
  */
-void bind_inputINS_handleFunc( const F_InputINS_Handle &_func ){
-    _inn::inputINS_handleFunc = _func;
+void bind_inputINS_handleFunc( const F_InputINS_Handle &func_ ){
+    _inn::inputINS_handleFunc = func_;
 }
 
 
@@ -128,14 +128,14 @@ void bind_inputINS_handleFunc( const F_InputINS_Handle &_func ){
  *                 processInput
  *-----------------------------------------------------------
  */
-void processInput( GLFWwindow *_windowPtr ){
+void processInput( GLFWwindow *windowPtr_ ){
 
     //-------------------------------//
     //   快速退出（tmp，未来将被删除...）
     //-------------------------------//
-	if( glfwGetKey( _windowPtr, GLFW_KEY_ESCAPE )==GLFW_PRESS ){ //- ESC -
+	if( glfwGetKey( windowPtr_, GLFW_KEY_ESCAPE )==GLFW_PRESS ){ //- ESC -
         //-- 注意，请不要在此处 添加 thread.join() 系列指令 --
-		glfwSetWindowShouldClose( _windowPtr, GL_TRUE );
+		glfwSetWindowShouldClose( windowPtr_, GL_TRUE );
                     //-- 并不是立即结束程序，而是退出 main.cpp -> while 大循环
                     //   while 大循环 之后的代码还将被调用
                     //   thread.join() 系列指令 应当添加在那个位置
@@ -151,7 +151,7 @@ void processInput( GLFWwindow *_windowPtr ){
 
     for( const auto &ipair : _inn::keyboardTable_runtime ){ //-- each gameKey
         //-- 跳过 没有被按下的 --
-        if( glfwGetKey(_windowPtr, static_cast<int>(ipair.second)) == GLFW_PRESS ){
+        if( glfwGetKey(windowPtr_, static_cast<int>(ipair.second)) == GLFW_PRESS ){
             _inn::inputINS.set_key_from_keyboard( ipair.first );
         }            
     }

@@ -16,6 +16,7 @@
 
 //-------------------- CPP --------------------//
 #include <functional>
+#include <memory>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -31,48 +32,46 @@ class GameObj;
 
 class ActionSwitch{
 public:
-    using F_ACTION_SWITCH = std::function<void(GameObj*, ActionSwitchType)>;
+    using F_ACTION_SWITCH = std::function<void( GameObj&, ActionSwitchType)>;
 
-    ActionSwitch() = default;
+    ActionSwitch( GameObj &goRef_ ):
+        goRef(goRef_)
+        {
+            bitMap.init(bitMapBytes);
+        }
 
+    /*
     inline void init( GameObj *_goPtr ){
-        this->goPtr = _goPtr;
+        //this->goPtr = _goPtr;
         bitMap.init(bitMapBytes);
     }
+    */
 
-    inline void bind_func( const F_ACTION_SWITCH &_func ){
-        func = _func;
+    inline void bind_func( const F_ACTION_SWITCH &func_ ){
+        func = func_;
     }
 
-    inline void call_func( ActionSwitchType _type ){
-        if( func == nullptr ){
-            return;
-        }
-        //-- 如果本实例 没装载此 _type，也将安全返回 --
-        if( check(_type) == false ){
-            return;
-        }
-        //-- 正式call --
-        func( this->goPtr, _type );
-    }
+    void call_func( ActionSwitchType type_ );
 
     inline void clear_bitMap(){
         bitMap.clear_all();
     }
 
     //-- 登记某个 actionSwitch --
-    inline void signUp( ActionSwitchType _type ){
-        bitMap.signUp( static_cast<u32_t>(_type) );
+    inline void signUp( ActionSwitchType type_ ){
+        bitMap.signUp( static_cast<u32_t>(type_) );
     }
 
     //-- 检查某个 actionSwitch 是否已登记 --
-    inline bool check( ActionSwitchType _type ){
-        return  bitMap.check( static_cast<u32_t>(_type) );
+    inline bool check( ActionSwitchType type_ ){
+        return  bitMap.check( static_cast<u32_t>(type_) );
     }
     
 
 private:
-    GameObj *goPtr {nullptr};
+    //GameObj *goPtr {nullptr};
+    GameObj   &goRef;
+
 
     BoolBitMap  bitMap  {}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
                             //- 暂定上限为 64-bit
@@ -88,7 +87,6 @@ private:
 //-------- static --------//
 //-- 在游戏运行期间，此值不会被改变
 inline size_t ActionSwitch::bitMapBytes {8};
-
 
 
 #endif 

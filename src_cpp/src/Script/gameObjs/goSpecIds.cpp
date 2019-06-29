@@ -25,7 +25,7 @@ using namespace std::placeholders;
 
 
 namespace goSpecIds_inn {//-------------- namespace: goSpecIds_inn ---------------------
-    void goSpec_alloc( goSpecId_t _id, const std::string &_name );
+    void goSpec_alloc( goSpecId_t id_, const std::string &name_ );
 }//------------------------- namespace: goSpecIds_inn end -------------------
 
 
@@ -121,8 +121,8 @@ namespace goSpecIds_inn {//------------------- namespace: goSpecIds_inn --------
  * -----------------------------------------------------------
  * -- 拼装 正反表
  */
-void goSpec_alloc( goSpecId_t _id, const std::string &_name ){
-    ssrc::insert_2_go_specId_names_containers( _id, _name );
+void goSpec_alloc( goSpecId_t id_, const std::string &name_ ){
+    ssrc::insert_2_go_specId_names_containers( id_, name_ );
 }
 
 }//------------------------- namespace: goSpecIds_inn end -------------------

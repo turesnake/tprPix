@@ -25,18 +25,18 @@
  * -- 版本1，更加精细的出错信息
  * -- 版本2，仅仅翻译 ERROR CODE 名称
  */
-inline void _handle_sqlite_err( sqlite3 *_db, int _rc, const std::string &_funcName ){
-    tprAssert( _rc != SQLITE_OK );
-    std::cout << "ERROR: " << _funcName << ": \n"
-        << sqlite3_errmsg( _db )
+inline void _handle_sqlite_err( sqlite3 *db_, int rc_, const std::string &funcName_ ){
+    tprAssert( rc_ != SQLITE_OK );
+    std::cout << "ERROR: " << funcName_ << ": \n"
+        << sqlite3_errmsg( db_ )
         << std::endl;
-    sqlite3_close( _db ); //- better
+    sqlite3_close( db_ ); //- better
     tprAssert(0);
 }
-inline void _handle_sqlite_err_without_db( int _rc, const std::string &_funcName ){
-    tprAssert( _rc != SQLITE_OK );
-    std::cout << "ERROR_CODE: " << _funcName << ": \n"
-        << sqlite3_errstr( _rc )
+inline void _handle_sqlite_err_without_db( int rc_, const std::string &funcName_ ){
+    tprAssert( rc_ != SQLITE_OK );
+    std::cout << "ERROR_CODE: " << funcName_ << ": \n"
+        << sqlite3_errstr( rc_ )
         << std::endl;
     tprAssert(0);
 }
@@ -60,12 +60,12 @@ inline void w_sqlite3_config_singleThread(){
  *                 open
  * -----------------------------------------------
  */
-inline void w_sqlite3_open( const char *_filename, /* Database filename (UTF-8) */
-                            sqlite3 **_ppDb        /* OUT: SQLite db handle */
+inline void w_sqlite3_open( const char *filename_, /* Database filename (UTF-8) */
+                            sqlite3 **ppDb_        /* OUT: SQLite db handle */
                             ){
-    int rc = sqlite3_open(_filename, _ppDb);
+    int rc = sqlite3_open(filename_, ppDb_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( *_ppDb, rc, "sqlite3_open()" );
+        _handle_sqlite_err( *ppDb_, rc, "sqlite3_open()" );
     }
 }
 
@@ -73,15 +73,15 @@ inline void w_sqlite3_open( const char *_filename, /* Database filename (UTF-8) 
  *                 exec
  * -----------------------------------------------
  */
-inline void w_sqlite3_exec(  sqlite3* _db,                               /* An open database */
-                            const char *_sql,                           /* SQL to be evaluated */
-                            int (*_callback)(void*,int,char**,char**),  /* Callback function */
-                            void *_fstArg,                              /* 1st argument to callback */
-                            char **_errmsg                              /* Error msg written here */
+inline void w_sqlite3_exec(  sqlite3* db_,                               /* An open database */
+                            const char *sql_,                           /* SQL to be evaluated */
+                            int (*callback_)(void*,int,char**,char**),  /* Callback function */
+                            void *fstArg_,                              /* 1st argument to callback */
+                            char **errmsg_                              /* Error msg written here */
                             ){
-    int rc = sqlite3_exec( _db, _sql, _callback, _fstArg, _errmsg );
+    int rc = sqlite3_exec( db_, sql_, callback_, fstArg_, errmsg_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_exec()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_exec()" );
     }
 }
 
@@ -90,15 +90,15 @@ inline void w_sqlite3_exec(  sqlite3* _db,                               /* An o
  *                 prepare
  * -----------------------------------------------
  */
-inline void w_sqlite3_prepare_v2( sqlite3 *_db,           /* Database handle */
-                                const char *_zSql,      /* SQL statement, UTF-8 encoded */
-                                int _nByte,             /* Maximum length of zSql in bytes. */
-                                sqlite3_stmt **_ppStmt, /* OUT: Statement handle */
-                                const char **_pzTail    /* OUT: Pointer to unused portion of zSql */
+inline void w_sqlite3_prepare_v2( sqlite3 *db_,           /* Database handle */
+                                const char *zSql_,      /* SQL statement, UTF-8 encoded */
+                                int nByte_,             /* Maximum length of zSql in bytes. */
+                                sqlite3_stmt **ppStmt_, /* OUT: Statement handle */
+                                const char **pzTail_    /* OUT: Pointer to unused portion of zSql */
                                 ){
-    int rc = sqlite3_prepare_v2( _db, _zSql, _nByte, _ppStmt, _pzTail );
+    int rc = sqlite3_prepare_v2( db_, zSql_, nByte_, ppStmt_, pzTail_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_prepare_v2()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_prepare_v2()" );
     }
 }
 
@@ -106,10 +106,10 @@ inline void w_sqlite3_prepare_v2( sqlite3 *_db,           /* Database handle */
  *                 reset
  * -----------------------------------------------
  */
-inline void w_sqlite3_reset( sqlite3 *_db, sqlite3_stmt *_pStmt ){
-    int rc = sqlite3_reset( _pStmt );
+inline void w_sqlite3_reset( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
+    int rc = sqlite3_reset( pStmt_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_reset()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_reset()" );
     }
 }
 
@@ -119,10 +119,10 @@ inline void w_sqlite3_reset( sqlite3 *_db, sqlite3_stmt *_pStmt ){
  * -----------------------------------------------
  */
 //-- 一个不全面的 wrap，仅适用于 部分场合 --
-inline void w_sqlite3_step( sqlite3 *_db, sqlite3_stmt *_pStmt, int _resultCord){
-    int rc = sqlite3_step( _pStmt );
-    if( rc != _resultCord ){
-        _handle_sqlite_err( _db, rc, "sqlite3_step()" );
+inline void w_sqlite3_step( sqlite3 *db_, sqlite3_stmt *pStmt_, int resultCord_){
+    int rc = sqlite3_step( pStmt_ );
+    if( rc != resultCord_ ){
+        _handle_sqlite_err( db_, rc, "sqlite3_step()" );
     }
 }
 
@@ -130,10 +130,10 @@ inline void w_sqlite3_step( sqlite3 *_db, sqlite3_stmt *_pStmt, int _resultCord)
  *                 finalize
  * -----------------------------------------------
  */
-inline void w_sqlite3_finalize( sqlite3 *_db, sqlite3_stmt *_pStmt ){
-    int rc = sqlite3_finalize( _pStmt );
+inline void w_sqlite3_finalize( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
+    int rc = sqlite3_finalize( pStmt_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_finalize()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_finalize()" );
     }
 }
 
@@ -142,76 +142,76 @@ inline void w_sqlite3_finalize( sqlite3 *_db, sqlite3_stmt *_pStmt ){
  *                     bind 
  * -----------------------------------------------
  */
-inline void w_sqlite3_bind_blob( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, const void *_val, int _valSize, void(*_callback)(void*)){
-    int rc = sqlite3_bind_blob( _pStmt, _idx, _val, _valSize, _callback );
+inline void w_sqlite3_bind_blob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, const void *val_, int valSize_, void(*callback_)(void*)){
+    int rc = sqlite3_bind_blob( pStmt_, idx_, val_, valSize_, callback_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_blob()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_blob()" );
     }
 }
 //-- 暂不使用 blob64 --
-//int sqlite3_bind_blob64(sqlite3_stmt *_pStmt, int _idx, const void *_val, sqlite3_uint64 _valSize, void(*_callback)(void*));
+//int sqlite3_bind_blob64(sqlite3_stmt *pStmt_, int idx_, const void *val_, sqlite3_uint64 valSize_, void(*callback_)(void*));
 
-inline void w_sqlite3_bind_double( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, double _val){
-    int rc = sqlite3_bind_double( _pStmt, _idx, _val);
+inline void w_sqlite3_bind_double( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, double val_){
+    int rc = sqlite3_bind_double( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_double()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_double()" );
     }
 }
-inline void w_sqlite3_bind_int( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, int _val){
-    int rc = sqlite3_bind_int( _pStmt, _idx, _val);
+inline void w_sqlite3_bind_int( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, int val_){
+    int rc = sqlite3_bind_int( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_int()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_int()" );
     }
 }
-inline void w_sqlite3_bind_int64( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, sqlite3_int64 _val){
-    int rc = sqlite3_bind_int64( _pStmt, _idx, _val);
+inline void w_sqlite3_bind_int64( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, sqlite3_int64 val_){
+    int rc = sqlite3_bind_int64( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_int64()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_int64()" );
     }
 }
-inline void w_sqlite3_bind_null( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx){
-    int rc = sqlite3_bind_null( _pStmt, _idx);
+inline void w_sqlite3_bind_null( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_){
+    int rc = sqlite3_bind_null( pStmt_, idx_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_null()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_null()" );
     }
 }
-inline void w_sqlite3_bind_text( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, const char *_val, int _valSize, void(*_callback)(void*)){
-    int rc = sqlite3_bind_text( _pStmt, _idx, _val, _valSize, _callback );
+inline void w_sqlite3_bind_text( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, const char *val_, int valSize_, void(*callback_)(void*)){
+    int rc = sqlite3_bind_text( pStmt_, idx_, val_, valSize_, callback_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_text()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_text()" );
     }
 }
 
 //-- 暂不使用 text16 --
-//int sqlite3_bind_text16(sqlite3_stmt *_pStmt, int _idx, const void *_val, int _valSize, void(*_callback)(void*));
+//int sqlite3_bind_text16(sqlite3_stmt *pStmt_, int idx_, const void *val_, int valSize_, void(*callback_)(void*));
 
 //-- 暂不使用 text64 --
-//int sqlite3_bind_text64(sqlite3_stmt *_pStmt, int _idx, const char *_val, sqlite3_uint64 _valSize, void(*_callback)(void*), unsigned char _encoding);
+//int sqlite3_bind_text64(sqlite3_stmt *pStmt_, int idx_, const char *val_, sqlite3_uint64 valSize_, void(*callback_)(void*), unsigned char _encoding);
 
 //-- 暂不使用 sqlite3_value --
-//int sqlite3_bind_value(sqlite3_stmt *_pStmt, int _idx, const sqlite3_value *_val);
+//int sqlite3_bind_value(sqlite3_stmt *pStmt_, int idx_, const sqlite3_value *val_);
 
 //-- 暂不使用 pointer --
-//int sqlite3_bind_pointer( sqlite3_stmt *_pStmt, int _idx, void *_val, const char *_type, void(*_callback)(void*) );
+//int sqlite3_bind_pointer( sqlite3_stmt *pStmt_, int idx_, void *val_, const char *type_, void(*callback_)(void*) );
 
-inline void w_sqlite3_bind_zeroblob( sqlite3 *_db, sqlite3_stmt *_pStmt, int _idx, int _valSize){
-    int rc = sqlite3_bind_zeroblob( _pStmt, _idx, _valSize);
+inline void w_sqlite3_bind_zeroblob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, int valSize_){
+    int rc = sqlite3_bind_zeroblob( pStmt_, idx_, valSize_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( _db, rc, "sqlite3_bind_zeroblob()" );
+        _handle_sqlite_err( db_, rc, "sqlite3_bind_zeroblob()" );
     }
 }
 
 //-- 暂不使用 zeroblob64 --
-//int sqlite3_bind_zeroblob64(sqlite3_stmt *_pStmt, int _idx, sqlite3_uint64 _valSize);
+//int sqlite3_bind_zeroblob64(sqlite3_stmt *pStmt_, int idx_, sqlite3_uint64 valSize_);
 
 /* ===============================================
  *          paramName -> paramIdx
  * -----------------------------------------------
  */
-inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *_pStmt, const char *_zName){
-    int retIdx = sqlite3_bind_parameter_index( _pStmt, _zName);
+inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *pStmt_, const char *zName_){
+    int retIdx = sqlite3_bind_parameter_index( pStmt_, zName_);
     if( retIdx == 0 ){
-        std::cout << "cant find parameter: " << _zName
+        std::cout << "cant find parameter: " << zName_
             << std::endl;
         tprAssert(0);
     }

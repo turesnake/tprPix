@@ -51,8 +51,8 @@ class GameObjMesh{
 public:
     GameObjMesh() = default;
 
-    inline void init( GameObj *_goPtr ){
-        this->goPtr = _goPtr;
+    inline void init( GameObj *goPtr_ ){
+        this->goPtr = goPtr_;
         //-----
         this->picMesh.init(    this->goPtr, const_cast<GameObjMesh*>(this) );
         this->shadowMesh.init( this->goPtr, const_cast<GameObjMesh*>(this) ); //- 就算没有 shadow，也会执行 init
@@ -60,31 +60,31 @@ public:
 
     void RenderUpdate();
 
-    void bind_animAction(   const std::string &_animFrameSetName,
-                            const std::string &_actionName  );
+    void bind_animAction(   const std::string &animFrameSetName_,
+                            const std::string &actionName_  );
 
     //------------- set -------------//
-    inline void set_pic_renderLayer( RenderLayerType _layerType ){
-        this->picRenderLayerType = _layerType;
-        if( _layerType == RenderLayerType::MajorGoes ){
+    inline void set_pic_renderLayer( RenderLayerType layerType_ ){
+        this->picRenderLayerType = layerType_;
+        if( layerType_ == RenderLayerType::MajorGoes ){
             this->isPicFixedZOff = false;
             this->picFixedZOff = 0.0; //- null
         }else{
             this->isPicFixedZOff = true;
-            this->picFixedZOff = ViewingBox::get_renderLayerZOff(_layerType);
+            this->picFixedZOff = ViewingBox::get_renderLayerZOff(layerType_);
         }
     }
-    inline void set_pposOff( const glm::vec2 &_pposOff ){
-        this->pposOff = _pposOff;
+    inline void set_pposOff( const glm::vec2 &pposOff_ ){
+        this->pposOff = pposOff_;
     }
-    inline void set_off_z( float _off_z ){
-        this->off_z = _off_z;
+    inline void set_off_z( float off_z_ ){
+        this->off_z = off_z_;
     }
-    inline void set_pic_shader_program( ShaderProgram *_sp ){
-        this->picMesh.set_shader_program( _sp );
+    inline void set_pic_shader_program( ShaderProgram *sp_ ){
+        this->picMesh.set_shader_program( sp_ );
     }
-    inline void set_shadow_shader_program( ShaderProgram *_sp ){
-        this->shadowMesh.set_shader_program( _sp );
+    inline void set_shadow_shader_program( ShaderProgram *sp_ ){
+        this->shadowMesh.set_shader_program( sp_ );
     }
 
 

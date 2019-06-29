@@ -29,7 +29,7 @@ inline F_SceneLoop sceneLoopFunc {nullptr};
 void prepare_for_sceneBegin();
 void prepare_for_sceneWorld();
 
-void switch_sceneLoop( const SceneLoopType &_type );
+void switch_sceneLoop( const SceneLoopType &type_ );
 
 
 #endif 

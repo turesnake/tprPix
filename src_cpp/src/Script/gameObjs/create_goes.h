@@ -20,16 +20,16 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-goid_t create_a_Go( goSpecId_t _goSpecId,
+goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 &_mpos,
-					float _fieldWeight,
-					const MapAltitude &_alti,
+					float fieldWeight_,
+					const MapAltitude &alti_,
 					const Density &_density );
 
 
 void rebind_a_disk_Go( const DiskGameObj &_diskGo,
-                        float _fieldWeight,
-					    const MapAltitude &_alti,
+                        float fieldWeight_,
+					    const MapAltitude &alti_,
 					    const Density &_density  );
 
 

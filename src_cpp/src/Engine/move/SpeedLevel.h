@@ -57,13 +57,13 @@ inline const std::vector<float> speedTable{
 };
 
 
-inline float SpeedLevel_2_val( const SpeedLevel &_lvl ){
-    return speedTable.at( static_cast<size_t>(_lvl) );
+inline float SpeedLevel_2_val( const SpeedLevel &lvl_ ){
+    return speedTable.at( static_cast<size_t>(lvl_) );
 }
 
 
-inline SpeedLevel calc_higher_speedLvl( const SpeedLevel &_lvl ){
-    switch (_lvl){
+inline SpeedLevel calc_higher_speedLvl( const SpeedLevel &lvl_ ){
+    switch (lvl_){
         case SpeedLevel::LV_0:  return SpeedLevel::LV_1;
         case SpeedLevel::LV_1:  return SpeedLevel::LV_2;
         case SpeedLevel::LV_2:  return SpeedLevel::LV_3;
@@ -82,8 +82,8 @@ inline SpeedLevel calc_higher_speedLvl( const SpeedLevel &_lvl ){
             return SpeedLevel::LV_0; //- never reach
     }
 }
-inline SpeedLevel calc_lower_speedLvl( const SpeedLevel &_lvl ){
-    switch (_lvl){
+inline SpeedLevel calc_lower_speedLvl( const SpeedLevel &lvl_ ){
+    switch (lvl_){
         case SpeedLevel::LV_0:  return SpeedLevel::LV_0;
         case SpeedLevel::LV_1:  return SpeedLevel::LV_0;
         case SpeedLevel::LV_2:  return SpeedLevel::LV_1;

@@ -62,21 +62,21 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     class FieldData{
     public:
-        explicit FieldData( const MapFieldData_In_ChunkBuild &_data,
-                            QuadType       _quadType ){
-            this->fieldKey = _data.fieldKey;
-            this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( _data.ecoObjKey );
+        explicit FieldData( const MapFieldData_In_ChunkBuild &data_,
+                            QuadType       quadType_ ){
+            this->fieldKey = data_.fieldKey;
+            this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( data_.ecoObjKey );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
-                                                    &get_fieldBorderSet( _data.fieldBorderSetId, _quadType) );
-            this->densityIdx = _data.densityIdx;
-            this->nodeMPos = _data.nodeMPos;
+                                                    &get_fieldBorderSet( data_.fieldBorderSetId, quadType_) );
+            this->densityIdx = data_.densityIdx;
+            this->nodeMPos = data_.nodeMPos;
         }
         inline const RGBA &clac_pixColor() const {
             return this->landColorsPtr->at( this->densityIdx );
         }
 
-        inline bool is_equal_2_nodeMPos( const IntVec2 &_mpos ) const {
-            return (this->nodeMPos == _mpos);
+        inline bool is_equal_2_nodeMPos( const IntVec2 &mpos_ ) const {
+            return (this->nodeMPos == mpos_);
         }
 
         //====== vals ======//
@@ -93,8 +93,8 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     class PixData{
     public:
-        inline void init( const IntVec2 &_ppos ){
-            this->ppos = _ppos;
+        inline void init( const IntVec2 &ppos_ ){
+            this->ppos = ppos_;
         }
         //====== vals ======//
         size_t     pixIdx_in_chunk    {};
@@ -122,16 +122,16 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
     //===== funcs =====//
-    void calc_pixAltis(     const IntVec2 &_chunkMPos, 
-                            std::vector<float> &_pixAltis );
+    void calc_pixAltis(     const IntVec2 &chunkMPos_, 
+                            std::vector<float> &pixAltis_ );
 
-    void calc_chunkData(    const IntVec2 &_chunkMPos, 
-                            const std::vector<float> &_pixAltis,
-                            ChunkData *_chunkDataPtr ); 
+    void calc_chunkData(    const IntVec2 &chunkMPos_, 
+                            const std::vector<float> &pixAltis_,
+                            ChunkData *chunkDataPtr_ ); 
                 //- 在未来，要改名
 
-    const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
-                                            fieldKey_t _fieldKey );
+    const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &container_,
+                                            fieldKey_t fieldKey_ );
 
 }//-------------- namespace: bcd_inn end ----------------//
 
@@ -142,15 +142,15 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
  * -----------------------------------------------------------
  * 在未来，这个函数需要写进 atom 函数中。
  */
-void build_chunkData_main( const Job &_job ){
+void build_chunkData_main( const Job &job_ ){
 
     //-------------------//
     //   job.argBinary
     //-------------------//
-    tprAssert( _job.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
+    tprAssert( job_.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
     ArgBinary_Build_ChunkData arg {};
     memcpy( (void*)&arg,
-            (void*)&(_job.argBinary.at(0)),
+            (void*)&(job_.argBinary.at(0)),
             sizeof(ArgBinary_Build_ChunkData) );
 
     //-- 制作一个 ChunkData 数据实例 --
@@ -212,10 +212,10 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
  *                 calc_pixAltis
  * -----------------------------------------------------------
  */
-void calc_pixAltis( const IntVec2 &_chunkMPos, 
-                    std::vector<float> &_pixAltis ){
+void calc_pixAltis( const IntVec2 &chunkMPos_, 
+                    std::vector<float> &pixAltis_ ){
 
-    IntVec2      chunkPPos = mpos_2_ppos(_chunkMPos);
+    IntVec2      chunkPPos = mpos_2_ppos(chunkMPos_);
     glm::vec2    pixCFPos {}; //- 以 chunk 为晶格的 fpos
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
@@ -234,7 +234,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
 
     size_t   pixIdx {};
 
-    _pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0f );
+    pixAltis_.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0f );
     for( int h=0; h<PIXES_PER_CHUNK; h++ ){
         for( int w=0; w<PIXES_PER_CHUNK; w++ ){//- each pix in chunk
 
@@ -272,7 +272,7 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
             //   写入 chunkData
             //------------------//
             pixIdx = to_size_t_cast( h * PIXES_PER_CHUNK + w );
-            _pixAltis.at(pixIdx) = altiVal;
+            pixAltis_.at(pixIdx) = altiVal;
         }
     } //- each pix in chunk: end --
 }
@@ -283,9 +283,9 @@ void calc_pixAltis( const IntVec2 &_chunkMPos,
  * -----------------------------------------------------------
  * -- 生成 chunkData 中数据
  */
-void calc_chunkData(const IntVec2 &_chunkMPos, 
-                    const std::vector<float> &_pixAltis,
-                    ChunkData *_chunkDataPtr ){
+void calc_chunkData(const IntVec2 &chunkMPos_, 
+                    const std::vector<float> &pixAltis_,
+                    ChunkData *chunkDataPtr_ ){
 
     RGBA      *texBufHeadPtr {}; //- mapTex
     RGBA       color {};
@@ -305,12 +305,12 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     //------------------------//
     //   mapEntAltis, mapEntMPoses    
     //------------------------//
-    _chunkDataPtr->init_mapEntAltis();
+    chunkDataPtr_->init_mapEntAltis();
     //-------
     std::vector<IntVec2> mapEntMPoses {}; //- 仅内部使用
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
-            mapEntMPoses.push_back( _chunkMPos + IntVec2{w, h} ); //- copy
+            mapEntMPoses.push_back( chunkMPos_ + IntVec2{w, h} ); //- copy
         }
     }
 
@@ -321,7 +321,7 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     IntVec2    tmpFieldMpos {};
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
-            tmpFieldMpos = _chunkMPos + IntVec2{    w*ENTS_PER_FIELD,
+            tmpFieldMpos = chunkMPos_ + IntVec2{    w*ENTS_PER_FIELD,
                                                     h*ENTS_PER_FIELD };
             fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
         }
@@ -330,8 +330,8 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
     //------------------------//
     //        mapTex
     //------------------------//
-    _chunkDataPtr->resize_texBuf();
-    texBufHeadPtr = _chunkDataPtr->getnc_texBufHeadPtr();
+    chunkDataPtr_->resize_texBuf();
+    texBufHeadPtr = chunkDataPtr_->getnc_texBufHeadPtr();
 
     std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
                                     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
@@ -346,14 +346,14 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
-                mposOff = tmpEntMPos - _chunkMPos;
+                mposOff = tmpEntMPos - chunkMPos_;
                 entIdx_in_chunk = to_size_t_cast( mposOff.y * ENTS_PER_CHUNK + mposOff.x );
 
                 for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
                     for( int pw=0; pw<PIXES_PER_MAPENT; pw++ ){ //------ each pix in mapent ------
 
                         pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
-                        pposOff = pixData.ppos - mpos_2_ppos(_chunkMPos);
+                        pposOff = pixData.ppos - mpos_2_ppos(chunkMPos_);
                         pixData.pixIdx_in_chunk = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
 
                         pixData.pixIdx_in_chunkTex = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x );
@@ -382,13 +382,13 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
                         //--------------------------------//
                         //  计算 本pix  alti
                         //--------------------------------//
-                        pixData.alti.set( _pixAltis.at(pixData.pixIdx_in_chunk) );
+                        pixData.alti.set( pixAltis_.at(pixData.pixIdx_in_chunk) );
 
                         //--------------------------------//
                         // 每个 mapent.mapAlti 被设置为其 中点pix 的 alti
                         //--------------------------------//
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
-                            _chunkDataPtr->set_mapEntAlti( entIdx_in_chunk, pixData.alti );
+                            chunkDataPtr_->set_mapEntAlti( entIdx_in_chunk, pixData.alti );
                             esrc::atom_field_reflesh_min_and_max_altis( fieldKey, pixData.alti );
                         }
                         
@@ -439,13 +439,13 @@ void calc_chunkData(const IntVec2 &_chunkMPos,
  * -- 收集 目标field 周边4个 field 数据
  * -- 返回 目标 field mpos
  */
-const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &_container,
-                                        fieldKey_t _fieldKey ){
+const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &container_,
+                                        fieldKey_t fieldKey_ ){
 
-    IntVec2     targetFieldMPos = fieldKey_2_mpos( _fieldKey );
+    IntVec2     targetFieldMPos = fieldKey_2_mpos( fieldKey_ );
     fieldKey_t  tmpFieldKey {};
     //---
-    _container.clear();
+    container_.clear();
     for( const auto &fieldInfo : nearFour_fieldInfos ){
 
         tmpFieldKey = fieldMPos_2_fieldKey( targetFieldMPos + fieldInfo.mposOff );
@@ -453,7 +453,7 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
         std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> tmpPair = 
                     esrc::atom_get_mapFieldData_in_chunkBuild( tmpFieldKey );
 
-        _container.insert({ -tmpPair.first, 
+        container_.insert({ -tmpPair.first, 
                             FieldData{  tmpPair.second, 
                                         fieldInfo.quad } }); //- copy
     }

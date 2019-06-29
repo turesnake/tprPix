@@ -18,14 +18,14 @@
  *                      init
  * -----------------------------------------------------------
  */
-void Canvas::init(  IntVec2 *_texSizePtr,
-                    const std::string &_lpath_vs,
-                    const std::string &_lpath_fs ){
+void Canvas::init(  IntVec2 *texSizePtr_,
+                    const std::string &lpath_vs_,
+                    const std::string &lpath_fs_ ){
 
-    this->texSizePtr = _texSizePtr;
+    this->texSizePtr = texSizePtr_;
 
     //-------- shaderProgram ---------
-    this->shaderProgram.init( _lpath_vs, _lpath_fs );
+    this->shaderProgram.init( lpath_vs_, lpath_fs_ );
     this->shaderProgram.use_program();
     this->shaderProgram.add_new_uniform( "model" );
     this->shaderProgram.add_new_uniform( "view" );

@@ -34,8 +34,8 @@
 class ScriptBuf{
 public:
     //============== bool ==============//
-    inline void push_bool( bool _b ){
-        boolval = _b;
+    inline void push_bool( bool b_ ){
+        boolval = b_;
         is_boolval_push = true;
     }
 
@@ -46,8 +46,8 @@ public:
     }
 
     //============== int ==============//
-    inline void push_int( int _i ){
-        i32val = _i;
+    inline void push_int( int i_ ){
+        i32val = i_;
         is_i32val_push = true;
     }
 
@@ -58,8 +58,8 @@ public:
     }
 
     //============== u64_t ==============//
-    inline void push_u64( u64_t _u ){
-        u64val = _u;
+    inline void push_u64( u64_t u_ ){
+        u64val = u_;
         is_u64val_push = true;
     }
 
@@ -70,8 +70,8 @@ public:
     }
 
     //============== string ==============//
-    inline void push_str( std::string _str ){
-        str = _str;
+    inline void push_str( std::string str_ ){
+        str = str_;
         is_str_push = true;
     }
 
@@ -82,22 +82,22 @@ public:
     }
 
     //============== binary ==============//
-    inline void push_binary( void *_buf, int _len ){
-        binary.resize(_len);
+    inline void push_binary( void *buf_, int len_ ){
+        binary.resize(len_);
         memcpy( (void*)&(binary.at(0)),
-                _buf,
-                (size_t)_len );
+                buf_,
+                (size_t)len_ );
         is_binary_push = true;
     }
 
-    inline void pop_binary( void *_buf, int _len ){
+    inline void pop_binary( void *buf_, int len_ ){
         //- 非常严格，buf长度不匹配也将 报错 
         tprAssert( is_binary_push == true );
         is_binary_push = false;
-        tprAssert( binary.size() == _len );
-        memcpy( _buf,
+        tprAssert( binary.size() == len_ );
+        memcpy( buf_,
                 (void*)&(binary.at(0)),
-                (size_t)_len );
+                (size_t)len_ );
         binary.clear();
     }
     

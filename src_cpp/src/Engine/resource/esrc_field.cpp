@@ -41,9 +41,9 @@ namespace field_inn {//------------ namespace: field_inn --------------//
     std::mutex  fieldsBuildingMutex;
 
     //===== funcs =====//
-    void insert_2_fieldsBuilding( fieldKey_t _fieldKey );
-    bool is_in_fieldsBuilding( fieldKey_t _fieldKey );
-    void erase_from_fieldsBuilding( fieldKey_t _fieldKey );
+    void insert_2_fieldsBuilding( fieldKey_t fieldKey_ );
+    bool is_in_fieldsBuilding( fieldKey_t fieldKey_ );
+    void erase_from_fieldsBuilding( fieldKey_t fieldKey_ );
 
     bool is_find_in_fields_( fieldKey_t _key ){
         return (field_inn::fields.find(_key) != field_inn::fields.end());
@@ -61,9 +61,9 @@ namespace field_inn {//------------ namespace: field_inn --------------//
  * ----
  * 目前被 check_and_build_sections_3.cpp -> build_one_chunk_3() 调用
  */
-void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
+void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
 
-    fieldKey_t fieldKey = fieldMPos_2_fieldKey( _fieldMPos );
+    fieldKey_t fieldKey = fieldMPos_2_fieldKey( fieldMPos_ );
     //--- lock---//
     std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
     if( field_inn::is_find_in_fields_(fieldKey) ||
@@ -76,7 +76,7 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
         ul.unlock();
         // ***| INIT FIRST, INSERT LATER  |***
         MapField  field {};
-        field.init( _fieldMPos ); 
+        field.init( fieldMPos_ ); 
                 //-- 这里耗时有点长, 所以在 解锁状态运行
                 //   这样就不会耽误 其他线程 对 全局容器的 访问
 
@@ -92,11 +92,11 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &_fieldMPos ){
  *           atom_field_reflesh_min_and_max_altis     [-WRITE-]
  * -----------------------------------------------------------
  */
-void atom_field_reflesh_min_and_max_altis(fieldKey_t _fieldKey, const MapAltitude &_alti ){
+void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitude &alti_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
-        tprAssert( field_inn::is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-        field_inn::fields.at(_fieldKey).reflesh_min_and_max_altis( _alti );
+        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+        field_inn::fields.at(fieldKey_).reflesh_min_and_max_altis( alti_ );
     }
 }
 
@@ -107,12 +107,12 @@ void atom_field_reflesh_min_and_max_altis(fieldKey_t _fieldKey, const MapAltitud
  * -----------------------------------------------------------
  * -- 仅被 Chunk::init() 使用
  */
-void atom_field_set_nodeAlti_2( fieldKey_t _fieldKey, 
+void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, 
                                 const std::vector<MemMapEnt> &_chunkMapEnts ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
-        tprAssert( field_inn::is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-        field_inn::fields.at(_fieldKey).set_nodeAlti_2( _chunkMapEnts );
+        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+        field_inn::fields.at(fieldKey_).set_nodeAlti_2( _chunkMapEnts );
     }
 }
 
@@ -121,12 +121,12 @@ void atom_field_set_nodeAlti_2( fieldKey_t _fieldKey,
  *       atom_get_mapFieldData_in_chunkBuild     [-READ-]
  * -----------------------------------------------------------
  */
-const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t _fieldKey ){
+const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t fieldKey_ ){
     std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> pair {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-            tprAssert( field_inn::is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-        const auto &field = field_inn::fields.at( _fieldKey );
+            tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+        const auto &field = field_inn::fields.at( fieldKey_ );
         pair.first = field.get_occupyWeight();
         //---
         pair.second.fieldKey = field.get_fieldKey();
@@ -147,11 +147,11 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
  * -2- 计算生成概率
  * -3- 正式执行生成
  */
-void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
+void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-        tprAssert( field_inn::is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-    const MapField &fieldRef = field_inn::fields.at( _fieldKey );
+        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+    const MapField &fieldRef = field_inn::fields.at( fieldKey_ );
 
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
     goSpecId_t     goSpecId {};
@@ -182,11 +182,11 @@ void atom_create_a_go_in_field( fieldKey_t _fieldKey ){
  * -----------------------------------------------------------
  *     debug 用.....
  */
-const MapField &atom_get_field( fieldKey_t _fieldKey ){
+const MapField &atom_get_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-        tprAssert( field_inn::is_find_in_fields_(_fieldKey) ); //- MUST EXIST
-    return field_inn::fields.at( _fieldKey );
+        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+    return field_inn::fields.at( fieldKey_ );
 }
 
 
@@ -199,25 +199,25 @@ namespace field_inn {//------------ namespace: field_inn --------------//
  *              fieldsBuilding funcs
  * -----------------------------------------------------------
  */
-void insert_2_fieldsBuilding( fieldKey_t _fieldKey ){
+void insert_2_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-            tprAssert( fieldsBuilding.find(_fieldKey) == fieldsBuilding.end() );
-        fieldsBuilding.insert( _fieldKey );
+            tprAssert( fieldsBuilding.find(fieldKey_) == fieldsBuilding.end() );
+        fieldsBuilding.insert( fieldKey_ );
     }
 }
-bool is_in_fieldsBuilding( fieldKey_t _fieldKey ){
+bool is_in_fieldsBuilding( fieldKey_t fieldKey_ ){
     bool ret {};
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-        ret = fieldsBuilding.find(_fieldKey) != fieldsBuilding.end();
+        ret = fieldsBuilding.find(fieldKey_) != fieldsBuilding.end();
     }
     return ret;
 }
-void erase_from_fieldsBuilding( fieldKey_t _fieldKey ){
+void erase_from_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-        tprAssert( fieldsBuilding.erase( _fieldKey ) == 1 );
+        tprAssert( fieldsBuilding.erase( fieldKey_ ) == 1 );
     }
 }
 

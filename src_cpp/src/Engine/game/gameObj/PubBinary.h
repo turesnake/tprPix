@@ -27,10 +27,10 @@ public:
     PubBinary() = default;
 
     //- 通过一个 变量类型表，一次性注册所有变量
-    inline void init( const std::vector<PubBinaryValType> &_types ){
+    inline void init( const std::vector<PubBinaryValType> &types_ ){
         idx_t      idx {}; //- tmp
         byteoff_t  off {0}; 
-        for( const auto &i : _types ){
+        for( const auto &i : types_ ){
             idx = (idx_t)i;
             tprAssert( valOffs.find(idx)==valOffs.end() ); //- no duplicate
             valOffs.insert({ idx, off });
@@ -39,15 +39,15 @@ public:
         binary.resize( off );
     }
 
-    inline bool check( PubBinaryValType _type ) const {
-        return (valOffs.find((idx_t)_type)!=valOffs.end());
+    inline bool check( PubBinaryValType type_ ) const {
+        return (valOffs.find((idx_t)type_)!=valOffs.end());
     }
 
     //- 仅返回 void*, 需要调用者自行转换为 对应的 指针类型...
     //  此指针同时提供 读写权限
     //  使用前 应主动调用 check() 
-    inline void *get_valPtr( PubBinaryValType _type ) const {
-        const byteoff_t &off = valOffs.at((idx_t)_type);
+    inline void *get_valPtr( PubBinaryValType type_ ) const {
+        const byteoff_t &off = valOffs.at((idx_t)type_);
         return reinterpret_cast<void*>(  const_cast<u8_t*>(&(binary.at(off))) ); 
                         //- first remove const，then reinterpret_cast
     }

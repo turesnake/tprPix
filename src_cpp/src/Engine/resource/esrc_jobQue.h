@@ -19,7 +19,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 void atom_exitJobThreadsFlag_store( bool _val );
 bool atom_exitJobThreadsFlag_load();
 
-void atom_push_back_2_jobQue( const Job &_job );
+void atom_push_back_2_jobQue( const Job &job_ );
 bool atom_is_jobQue_empty();
 Job  atom_pop_from_jobQue();
 

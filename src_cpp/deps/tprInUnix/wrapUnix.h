@@ -22,46 +22,46 @@ namespace tprUnix {//--------------- namespace: tprUnix -------------------//
 
 
 //========================== wrap_unix.cpp ===============================//
-int Open( const char *_path, int _oflag, mode_t _mode, const std::string &_err_info );
+int Open( const char *path_, int oflag_, mode_t mode_, const std::string &err_info_ );
 
-void Mkdir( const char *_path, mode_t _mode, const std::string &_err_info );
-void Mkdirat( int _fd, const char *_path, mode_t _mode, const std::string &_err_info );
+void Mkdir( const char *path_, mode_t mode_, const std::string &err_info_ );
+void Mkdirat( int fd_, const char *path_, mode_t mode_, const std::string &err_info_ );
 
-void Close( int _fd, const std::string &_err_info );
+void Close( int fd_, const std::string &err_info_ );
 
-off_t Lseek( int _fd, off_t _offset, int _whence, const std::string &_err_info);
-void Fseeko( FILE *_fp, off_t _offset, int _whence, const std::string &_err_info);
-//off_t Ftello( FILE *_fp, const std::string &_err_info );
+off_t Lseek( int fd_, off_t offset_, int whence_, const std::string &err_info_);
+void Fseeko( FILE *fp_, off_t offset_, int whence_, const std::string &err_info_);
+//off_t Ftello( FILE *fp_, const std::string &err_info_ );
 
 /*
-pid_t Fork( const std::string &_err_info );
-void Wait( int *_status, pid_t _pid_target, const std::string &_err_info );
+pid_t Fork( const std::string &err_info_ );
+void Wait( int *_status, pid_t _pid_target, const std::string &err_info_ );
 int Select( int _maxfdp1, fd_set *_readset, fd_set *_writeset, fd_set *_exceptset,
-            struct timeval *_timeout, const std::string &_err_info );
+            struct timeval *_timeout, const std::string &err_info_ );
 */
-ssize_t Read( int _fd, void *_buf, size_t _nbytes, const std::string &_err_info );
-void Write( int _fd, const void *_buf, size_t _nbytes, const std::string &_err_info );
+ssize_t Read( int fd_, void *buf_, size_t nbytes_, const std::string &err_info_ );
+void Write( int fd_, const void *buf_, size_t nbytes_, const std::string &err_info_ );
 
-std::string Getenv( const char *_name, const std::string &_err_info );
+std::string Getenv( const char *name_, const std::string &err_info_ );
 
 //========================== wrap_socket.cpp ===============================//
 /*
-int Socket( int _family, int _type, int _protocol, const std::string &_err_info );
+int Socket( int _family, int type_, int _protocol, const std::string &err_info_ );
 int Accept( int _sockfd, struct sockaddr *_cliaddr, socklen_t *_addrlen, 
-            const std::string &_err_info );
+            const std::string &err_info_ );
 void Bind( int _sockfd, const struct sockaddr *_addr, socklen_t _len, 
-            const std::string &_err_info );
+            const std::string &err_info_ );
 void Connect( int _sockfd, const struct sockaddr *_servaddr, socklen_t _addrlen, 
-            const std::string &_err_info );
-void Listen( int _sockfd, int _backlog, const std::string &_err_info );
+            const std::string &err_info_ );
+void Listen( int _sockfd, int _backlog, const std::string &err_info_ );
 const char* Inet_ntop( int _family, 
                         const void* _addrptr, 
                         char* _strptr, 
                         socklen_t _size,
-                        const std::string &_err_info );
+                        const std::string &err_info_ );
 void Inet_pton( int _family, const char* _strptr, void* _addrptr, 
-                const std::string &_err_info );
-void Shutdown( int _sockfd, int _howto, const std::string &_err_info );
+                const std::string &err_info_ );
+void Shutdown( int _sockfd, int _howto, const std::string &err_info_ );
 */
 
 

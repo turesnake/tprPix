@@ -19,7 +19,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 GLFWwindow *get_windowPtr();
 
-void set_windowPtr( GLFWwindow *_newPtr );
+void set_windowPtr( GLFWwindow *newPtr_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

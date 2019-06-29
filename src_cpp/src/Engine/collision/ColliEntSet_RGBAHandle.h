@@ -46,13 +46,13 @@ namespace ces_RGBAHandle_inn {//---------- namespace ---------//
 //   - ...
 class ColliEntSet_RGBAHandle{
 public:
-    explicit ColliEntSet_RGBAHandle( int _off=5 ):
-        off(_off)
+    explicit ColliEntSet_RGBAHandle( int off_=5 ):
+        off(off_)
         {} 
 
-    inline void set_rgba( const RGBA &_rgba ){
+    inline void set_rgba( const RGBA &rgba_ ){
         //-- reset --
-        this->rgba = _rgba;
+        this->rgba = rgba_;
 
         this->isEmpty = true;
         this->isCenter = false;
@@ -91,12 +91,12 @@ public:
 
 private:
     
-    inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
-        switch( _ct ){
-            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-_target)) <= this->off);
-            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-_target)) <= this->off);
-            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-_target)) <= this->off);
-            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-_target)) <= this->off);
+    inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ ){
+        switch( ct_ ){
+            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
+            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
+            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-target_)) <= this->off);
+            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-target_)) <= this->off);
             default:
                 tprAssert(0);
                 return  false; //- never touch -

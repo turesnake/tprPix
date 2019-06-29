@@ -29,8 +29,8 @@
  *                         init
  * -----------------------------------------------------------
  */
-void Mesh::init( GLuint _texName ){
-    this->texName = _texName;
+void Mesh::init( GLuint texName_ ){
+    this->texName = texName_;
     this->isMat4Change = true;
 }
 

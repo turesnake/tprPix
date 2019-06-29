@@ -36,10 +36,10 @@ enum class ID_TYPE : u8_t {
 // 0 号 id 就是空id
 class ID_Manager{
 public:
-    explicit ID_Manager(ID_TYPE _id_type=ID_TYPE::U64,
-                        u64_t   _max_id=1 ):
-        id_scope(_id_type),
-        max_id(_max_id)
+    explicit ID_Manager(ID_TYPE id_type_=ID_TYPE::U64,
+                        u64_t   max_id_=1 ):
+        id_scope(id_type_),
+        max_id(max_id_)
         {
             switch( this->id_scope ){
                 case ID_TYPE::U8:  this->id_limit = static_cast<u8_t>(-1); break;
@@ -87,8 +87,8 @@ public:
         return this->max_id;
     }
 
-    inline void set_max_id( u64_t _max_id ){
-        this->max_id = _max_id;
+    inline void set_max_id( u64_t max_id_ ){
+        this->max_id = max_id_;
     }
 
     inline u64_t get_max_id() const {

@@ -51,15 +51,15 @@ namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
  * 生成 目标ecoObjKey 周边 4个 node key 的值，写入 参数容器中
  * -- 将被 atom_try_to_inert_and_init_a_ecoObj() 调用
  */
-void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t _targetKey,
-                                                    std::vector<sectionKey_t> &_container ){
+void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t targetKey_,
+                                                    std::vector<sectionKey_t> &container_ ){
     //-- 获得 (2*2 section) 单元 左下角 mpos --
     int sideLen { 2*ENTS_PER_SECTION };
-    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(_targetKey), static_cast<float>(sideLen) ) * sideLen;
+    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(targetKey_), static_cast<float>(sideLen) ) * sideLen;
 
-    _container.clear();
+    container_.clear();
     for( const auto &off :  ecoObj_inn::nearFour_node_ecoObj_mposOffs ){ //- each off mpos
-        _container.push_back( sectionMPos_2_sectionKey(baseMPos + off) );
+        container_.push_back( sectionMPos_2_sectionKey(baseMPos + off) );
     }
 }
 
@@ -70,9 +70,9 @@ void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t _targetKey,
  *                    init_for_node
  * -----------------------------------------------------------
  */
-void EcoObj::init_for_node( sectionKey_t _sectionKey ){
+void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
 
-    this->init_fstOrder( _sectionKey );
+    this->init_fstOrder( sectionKey_ );
 
     tprAssert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
     EcoSysPlan *ecoSysPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_rand_ecoSysPlanId(this->weight) );
@@ -88,11 +88,11 @@ void EcoObj::init_for_node( sectionKey_t _sectionKey ){
  *                   init_for_regular
  * -----------------------------------------------------------
  */
-void EcoObj::init_for_regular( sectionKey_t _sectionKey,
-                                    const std::vector<sectionKey_t> &_nearby_four_ecoSysPlanIds ){
+void EcoObj::init_for_regular( sectionKey_t sectionKey_,
+                                    const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
 
-    this->init_fstOrder( _sectionKey );
-    this->init_for_no_node_ecoObj( _nearby_four_ecoSysPlanIds );
+    this->init_fstOrder( sectionKey_ );
+    this->init_for_no_node_ecoObj( nearby_four_ecoSysPlanIds_ );
 }
 
 
@@ -102,12 +102,12 @@ void EcoObj::init_for_regular( sectionKey_t _sectionKey,
  * -----------------------------------------------------------
  * -- 仅初始化几个 最简单的数据
  */
-void EcoObj::init_fstOrder( sectionKey_t _sectionKey ){
+void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
 
     //------------------//
     //    key / mpos
     //------------------//
-    this->sectionKey = _sectionKey;
+    this->sectionKey = sectionKey_;
     this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );
     //------------------//
     //     oddEven
@@ -143,7 +143,7 @@ void EcoObj::init_fstOrder( sectionKey_t _sectionKey ){
  * -----------------------------------------------------------
  * -- 完成后半段初始化。 仅用于 非 node 实例
  */
-void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_four_ecoSysPlanIds ){
+void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
 
     EcoSysPlan *node_1_Ptr       {nullptr};
     EcoSysPlan *node_2_Ptr       {nullptr};
@@ -159,8 +159,8 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
     //          右下
     //------------------------//
     if( (oddEven.x==1) && (oddEven.y==0) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(1)) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(1)) );
 
         (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
@@ -171,8 +171,8 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
     //          左上
     //------------------------//
     else if( (oddEven.x==0) && (oddEven.y==1) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(2)) );
 
         (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
@@ -183,10 +183,10 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
     //          右上
     //------------------------//
     else{
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(1)) );
-        node_3_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(2)) );
-        node_4_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(_nearby_four_ecoSysPlanIds.at(3)) );
+        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
+        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(1)) );
+        node_3_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(2)) );
+        node_4_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(3)) );
 
         switch( ecoObj_inn::uDistribution_4(ecoObj_inn::rEngine) ){
             case 0: ecoPlanType = node_1_Ptr->get_type(); break;
@@ -212,25 +212,25 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &_nearby_f
  * -----------------------------------------------------------
  * -- 
  */
-void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *_targetEcoPlanPtr ){
+void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
 
     ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
 
-    this->ecoSysPlanId = _targetEcoPlanPtr->get_id();
-    this->ecoSysPlanType = _targetEcoPlanPtr->get_type();
-    this->densitySeaLvlOff = _targetEcoPlanPtr->get_densitySeaLvlOff();
+    this->ecoSysPlanId = targetEcoPlanPtr_->get_id();
+    this->ecoSysPlanType = targetEcoPlanPtr_->get_type();
+    this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
 
     //--- 仅 获得 只读指针 ---
-    this->landColorsPtr = _targetEcoPlanPtr->get_landColorsPtr();
-    this->applyPercentsPtr = _targetEcoPlanPtr->get_applyPercentsPtr();
-    this->densityDivideValsPtr = _targetEcoPlanPtr->get_densityDivideValsPtr();
+    this->landColorsPtr = targetEcoPlanPtr_->get_landColorsPtr();
+    this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();
+    this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();
 
     //---- goSpecIdPools 数据 ----
     goSpecId_t  tmpGoSpecId {};
     for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
         //--- 取 8 个元素 ---
         for( int ci=0; ci<8; ci++ ){ 
-            tmpGoSpecId = _targetEcoPlanPtr->apply_a_rand_goSpecId( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
+            tmpGoSpecId = targetEcoPlanPtr_->apply_a_rand_goSpecId( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
             this->goSpecIdPools.at(i).push_back( tmpGoSpecId );
         }
     }

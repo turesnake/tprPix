@@ -37,30 +37,30 @@ class EcoSysPlan{
 public:
     EcoSysPlan() = default;
 
-    inline void set_id( ecoSysPlanId_t _id ){
-        this->id = _id;
+    inline void set_id( ecoSysPlanId_t id_ ){
+        this->id = id_;
     }
-    inline void set_type( EcoSysPlanType _type ){
-        this->type = _type;
+    inline void set_type( EcoSysPlanType type_ ){
+        this->type = type_;
     }
 
     //--- 几种 landColor 上色方案 --
-    void init_landColor_onlyHighLand( const RGBA &_baseColor );
-    void init_landColor_doubleDeep( const RGBA &_baseColor );
-    void init_landColor_twoPattern( const Density &_density_high,
-                                    const RGBA &_color_high,
-                                    const RGBA &_color_low,
-                                    bool  is_goDeep_high,
-                                    bool  is_goDeep_low );
+    void init_landColor_onlyHighLand( const RGBA &baseColor_ );
+    void init_landColor_doubleDeep( const RGBA   &baseColor_ );
+    void init_landColor_twoPattern( const Density &density_high_,
+                                    const RGBA &color_high_,
+                                    const RGBA &color_low_,
+                                    bool  is_goDeep_high_,
+                                    bool  is_goDeep_low_ );
 
     void init_goSpecIdPools_and_applyPercents();
 
-    void init_densityDatas( float _densitySeaLvlOff, const std::vector<float> &_datas );
+    void init_densityDatas( float densitySeaLvlOff_, const std::vector<float> &datas_ );
 
-    void insert(const Density &_density, 
-                float _applyPercent,
-                const std::vector<EcoEnt> &_ecoEnts );
-    void shuffle_goSpecIdPools( u32_t _seed );
+    void insert(const Density &density_, 
+                float applyPercent_,
+                const std::vector<EcoEnt> &ecoEnts_ );
+    void shuffle_goSpecIdPools( u32_t seed_ );
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end(){
@@ -90,10 +90,10 @@ public:
     }
 
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
-    // param: _randV -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t _densityIdx, float _randV ){
-        size_t randV = static_cast<size_t>(floor( _randV * 1.9f + 701.7f ));
-        auto &pool = this->goSpecIdPools.at( _densityIdx );
+    // param: randV_ -- [-100.0, 100.0]
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, float randV_ ){
+        size_t randV = static_cast<size_t>(floor( randV_ * 1.9f + 701.7f ));
+        auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
 

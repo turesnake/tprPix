@@ -23,15 +23,6 @@
 
 //#include "tprDebug.h"
 
-/* ===========================================================
- *                       init
- * -----------------------------------------------------------
- */
-void Collision::init( GameObj *_goPtr ){
-    this->goPtr = _goPtr;
-    //...
-}
-
 
 /* ===========================================================
  *                   collide_for_crawl    [2rd]
@@ -40,7 +31,7 @@ void Collision::init( GameObj *_goPtr ){
  *   第二版
  *   go 携带的碰撞盒 变成了一个类似 风筝的存在，由自由移动的 go 拖着行走
  * ------------
- * 参数 _nbIdx 限制了 每帧移动范围，只能向 周围 8个 mapent 移动
+ * 参数 nbIdx_ 限制了 每帧移动范围，只能向 周围 8个 mapent 移动
  * ------------
  * -- 命名规则：
  *   - "do..."  主动go所属变量
@@ -49,7 +40,7 @@ void Collision::init( GameObj *_goPtr ){
  *    true  -- 检测到 “无法穿过”的碰撞，将提示 crawl 放弃本回合移动
  *    false -- 未检测到 “无法穿过”的碰撞，crawl的 本次移动将正常进行
  */  
-bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
+bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
 
     // 当前的 实现已经收缩了检测范围：只检测 doGo.rootGoMesh
     // 因为本函数只在 dogo 发生 节点位移时，才被触发。
@@ -61,13 +52,12 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     MapCoord  cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
     AltiRange currentAltiRange {};        //- each ceh abs AltiRange.
     MemMapEnt *mapEntPtr       {};        //- 目标 mapent
-    GameObj   *beGoPtr         {nullptr}; //- 目标mapent 中存储的 major_go (被动go)
-    GameObj   *doGoPtr = this->goPtr; //- 碰撞检测 主动发起方
+    GameObj   &doGoRef = this->goRef; //- 碰撞检测 主动发起方
 
     //----------------------
-    IntVec2 currentMPos = this->goPtr->goPos.get_currentMPos();
+    IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
         
-    const ColliEntHead &doCehRef = *(doGoPtr->get_rootColliEntHeadPtr());
+    const ColliEntHead &doCehRef = *(doGoRef.get_rootColliEntHeadPtr());
     const ColliEntSet  &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
 
     bool isObstruct {false}; //- 是否检测到 “无法穿过” 的碰撞。
@@ -79,14 +69,14 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     //------------------------------//
     // 检测当前移动方向的 所有 addsEnt
     //------------------------------//
-    if( doGoPtr->goMeshs.at("root").isCollide ){
+    if( doGoRef.goMeshs.at("root").isCollide ){
 
-        currentAltiRange.set_by_addAlti( doCehRef.lAltiRange, doGoPtr->goPos.get_alti() ); 
+        currentAltiRange.set_by_addAlti( doCehRef.lAltiRange, doGoRef.goPos.get_alti() ); 
 
         cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
 
         //--- 访问 adds ---//
-        for( const auto &i : doCesRef.get_addEntOffs(_nbIdx) ){ //- each add EntOff
+        for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
             if(isObstruct) break;
 
             mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos );
@@ -94,10 +84,10 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
             for( const auto &majorGoPair : mapEntPtr->major_gos ){ //- each major_go in target mapent
                 if(isObstruct) break;
                 const MajorGO_in_MapEnt &goDataRef = majorGoPair.second;
-                beGoPtr = esrc::get_memGameObjPtr( majorGoPair.first ); //- 获取目标go指针
+                GameObj &beGoRef = esrc::get_goRef( majorGoPair.first ); //- 目标mapent 中存储的 major_go (被动go)
 
                 //-- 没撞到，检查下一个 --
-                if( currentAltiRange.is_collide( beGoPtr->get_currentAltiRange( goDataRef.lAltiRange ) )==false ){
+                if( currentAltiRange.is_collide( beGoRef.get_currentAltiRange( goDataRef.lAltiRange ) )==false ){
                     continue;
                 }
                         
@@ -107,17 +97,17 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                 // 现在，beGoPtr 就是 确认碰撞的 被动go
                 //-- 优先执行 doAffect;
                 if( doCehRef.isBody==true ){
-                    if( (doCehRef.isCarryAffect==true) && (doGoPtr->DoAffect_body!=nullptr) ){
-                        doGoPtr->DoAffect_body( doGoPtr, beGoPtr );
+                    if( (doCehRef.isCarryAffect==true) && (doGoRef.DoAffect_body!=nullptr) ){
+                        doGoRef.DoAffect_body( doGoRef, beGoRef );
                     }
                 }else{
-                    if( (doCehRef.isCarryAffect==true) && (doGoPtr->DoAffect_virtual!=nullptr) ){
-                        doGoPtr->DoAffect_virtual( doGoPtr, beGoPtr );
+                    if( (doCehRef.isCarryAffect==true) && (doGoRef.DoAffect_virtual!=nullptr) ){
+                        doGoRef.DoAffect_virtual( doGoRef, beGoRef );
                     }
                 }
                 //-- 再执行 beAffect;
-                if( (goDataRef.isCarryAffect==true) && (beGoPtr->BeAffect_body!=nullptr) ){
-                    beGoPtr->BeAffect_body( doGoPtr, beGoPtr );
+                if( (goDataRef.isCarryAffect==true) && (beGoRef.BeAffect_body!=nullptr) ){
+                    beGoRef.BeAffect_body( doGoRef, beGoRef );
                 }
                                 //-- 如果一个 被动go 已经被碰撞了。很可能在 后续帧中，
                                 //   被 同一个主动go 的其他 collient 再次碰撞
@@ -129,9 +119,16 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
                                 //  这方面内容，应该在 affect 函数中实现
                                 //...
 
+                                // 关于 DoAffect_body.. 这三个函数
+                                // 在未来，有必要重新设计 接口格式（ 反正不能用 goPtr 了 ）
+                                // 比如，改成 weak_ptr
+                                //....
+                                
+
+
                 //-- 如果确认的碰撞为 "可以穿过"，将继续后续检测
                 //-- 只要出现一次 “无法穿过”式的碰撞，后续检测就被终止 --
-                if( isPass_Check( beGoPtr->get_collision_isBePass() )==false ){
+                if( isPass_Check( beGoRef.get_collision_isBePass() )==false ){
                     isObstruct = true;
                 }
 
@@ -152,18 +149,18 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
     //-----------------//
     //   登记所有 adds 
     //-----------------//
-    for( const auto &i : doCesRef.get_addEntOffs(_nbIdx) ){ //- each add EntOff
+    for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
         mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
-        mapEntPtr->major_gos.insert({ doGoPtr->id,
+        mapEntPtr->major_gos.insert({ doGoRef.id,
                         MajorGO_in_MapEnt{ doCehRef.lAltiRange, doCehRef.isCarryAffect } });
     }//-- each add EntOff
 
     //-----------------//
     //   注销所有 dels 
     //-----------------//
-    for( const auto &i : doCesRef.get_delEntOffs(_nbIdx) ){ //- each del EntOff
+    for( const auto &i : doCesRef.get_delEntOffs(nbIdx_) ){ //- each del EntOff
         mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
-        tprAssert( mapEntPtr->major_gos.erase(doGoPtr->id) == 1 );
+        tprAssert( mapEntPtr->major_gos.erase(doGoRef.id) == 1 );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
     }//-- each del EntOff
     
@@ -180,7 +177,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &_nbIdx ){
  *     - true:   说明本次碰撞 可以穿过
  *     - false:  说明本次碰撞 无法穿过
  */
-bool Collision::isPass_Check( bool _isBePass ){
+bool Collision::isPass_Check( bool isBePass_ ){
 
     //--- *** 本流程可能存在逻辑问题... *** ---//
     if( this->isDoPass == true ){
@@ -188,7 +185,7 @@ bool Collision::isPass_Check( bool _isBePass ){
         return true;
     }
 
-    if( _isBePass == true ){
+    if( isBePass_ == true ){
         //-- 说明 被动go 允许别人穿过自己。比如是：草，地上的液体等
         return true;
     }else{

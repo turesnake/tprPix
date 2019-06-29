@@ -31,15 +31,15 @@ public:
     }
 
     //-- 统一设置 --
-    inline void set_rootAnchorPPosOff( const IntVec2 &_rootAnchorPPosOff ){
-        this->rootAnchorPPosOff = _rootAnchorPPosOff;
+    inline void set_rootAnchorPPosOff( const IntVec2 &rootAnchorPPosOff_ ){
+        this->rootAnchorPPosOff = rootAnchorPPosOff_;
         this->is_rootAnchorPos_set  = true;
     }
 
 
     //-- ceh --
-    inline void set_colliEntHead( const ColliEntHead &_ceh ){
-        this->colliEntHead = _ceh; //- copy
+    inline void set_colliEntHead( const ColliEntHead &ceh_ ){
+        this->colliEntHead = ceh_; //- copy
         this->is_colliEntHead_set = true;
     }
 

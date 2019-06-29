@@ -23,9 +23,9 @@ class MapEntCompass{
 public:
     //---- constructor -----//
     MapEntCompass() = default;
-    MapEntCompass( int _x, int _y ):
-        x(_x),
-        y(_y)
+    MapEntCompass( int x_, int y_ ):
+        x(x_),
+        y(y_)
         { tprAssert( (this->x >= 0) && (this->x < PIXES_PER_MAPENT) && 
                     (this->y >= 0) && (this->y < PIXES_PER_MAPENT) ); }
 
@@ -53,11 +53,11 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( const MapEntCompass &_a, const MapEntCompass &_b ){
-    return ( (_a.x==_b.x) && (_a.y==_b.y) );
+inline bool operator == ( const MapEntCompass &a_, const MapEntCompass &b_ ){
+    return ( (a_.x==b_.x) && (a_.y==b_.y) );
 }
-inline bool operator != ( const MapEntCompass &_a, const MapEntCompass &_b ){
-    return ( (_a.x!=_b.x) || (_a.y!=_b.y) );
+inline bool operator != ( const MapEntCompass &a_, const MapEntCompass &b_ ){
+    return ( (a_.x!=b_.x) || (a_.y!=b_.y) );
 }
 
 /* ===========================================================
@@ -65,9 +65,9 @@ inline bool operator != ( const MapEntCompass &_a, const MapEntCompass &_b ){
  * -----------------------------------------------------------
  * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置 
  */
-inline MapEntCompass calc_ppos_compass( const IntVec2 _ppos ){
-    return MapEntCompass {  _ppos.x%PIXES_PER_MAPENT, 
-                            _ppos.y%PIXES_PER_MAPENT };
+inline MapEntCompass calc_ppos_compass( const IntVec2 ppos_ ){
+    return MapEntCompass {  ppos_.x%PIXES_PER_MAPENT, 
+                            ppos_.y%PIXES_PER_MAPENT };
 }
 
 

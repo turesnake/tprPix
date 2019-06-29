@@ -20,46 +20,46 @@ using namespace std::placeholders;
  *                     init
  * -----------------------------------------------------------
  */
-void AnimAction::init(  const AnimFrameSet *_animFrameSetPtr,
-                        const AnimActionParam &_param,
-                        const IntVec2 &_pixNum_per_frame,
-                        size_t _headIdx,
-                        bool _isHaveShadow ){
+void AnimAction::init(  const AnimFrameSet *animFrameSetPtr_,
+                        const AnimActionParam &param_,
+                        const IntVec2 &pixNum_per_frame_,
+                        size_t headIdx_,
+                        bool isHaveShadow_ ){
 
-    this->texNames_pic_ptr = _animFrameSetPtr->get_texNames_pic_ptr();
-    this->texNames_shadow_ptr = _animFrameSetPtr->get_texNames_shadow_ptr();
-    this->framePosesPtr = _animFrameSetPtr->get_framePosesPtr();
+    this->texNames_pic_ptr = animFrameSetPtr_->get_texNames_pic_ptr();
+    this->texNames_shadow_ptr = animFrameSetPtr_->get_texNames_shadow_ptr();
+    this->framePosesPtr = animFrameSetPtr_->get_framePosesPtr();
 
 
-    this->isHaveShadow = _isHaveShadow;
-    this->pixNum_per_frame = _pixNum_per_frame;
+    this->isHaveShadow = isHaveShadow_;
+    this->pixNum_per_frame = pixNum_per_frame_;
 
-    this->totalFrameNum = _param.lFrameIdxs.size();
+    this->totalFrameNum = param_.lFrameIdxs.size();
     
-    this->actionType = _param.actionType;
+    this->actionType = param_.actionType;
 
     //-----------------//
     //    frameIdxs
     //-----------------//
     this->frameIdxs.clear();
-    (_param.isOrder) ?
-        this->frameIdxs.insert( this->frameIdxs.end(), _param.lFrameIdxs.begin(), _param.lFrameIdxs.end() ) :
-        this->frameIdxs.insert( this->frameIdxs.end(), _param.lFrameIdxs.rbegin(), _param.lFrameIdxs.rend() );
+    (param_.isOrder) ?
+        this->frameIdxs.insert( this->frameIdxs.end(), param_.lFrameIdxs.begin(), param_.lFrameIdxs.end() ) :
+        this->frameIdxs.insert( this->frameIdxs.end(), param_.lFrameIdxs.rbegin(), param_.lFrameIdxs.rend() );
     for( auto &ref : this->frameIdxs ){
-        ref += _headIdx; //-- 累加 全局起始值
+        ref += headIdx_; //-- 累加 全局起始值
     }
 
     //-----------------//
     //    timeSteps
     //-----------------//
     this->timeSteps.clear();
-    if( _param.isTimeStepsManualSet ){
-        tprAssert( _param.timeSteps.size() == _param.lFrameIdxs.size() );
-        (_param.isOrder) ?
-            this->timeSteps.insert( this->timeSteps.end(), _param.timeSteps.begin(), _param.timeSteps.end() ) :
-            this->timeSteps.insert( this->timeSteps.end(), _param.timeSteps.rbegin(), _param.timeSteps.rend() );
+    if( param_.isTimeStepsManualSet ){
+        tprAssert( param_.timeSteps.size() == param_.lFrameIdxs.size() );
+        (param_.isOrder) ?
+            this->timeSteps.insert( this->timeSteps.end(), param_.timeSteps.begin(), param_.timeSteps.end() ) :
+            this->timeSteps.insert( this->timeSteps.end(), param_.timeSteps.rbegin(), param_.timeSteps.rend() );
     }else{
-        this->timeSteps.resize( this->totalFrameNum, _param.defaultTimeStep ); //- 默认值，统统为6
+        this->timeSteps.resize( this->totalFrameNum, param_.defaultTimeStep ); //- 默认值，统统为6
     } 
 
     //---------------------//
@@ -85,31 +85,31 @@ void AnimAction::init(  const AnimFrameSet *_animFrameSetPtr,
 /* ===========================================================
  *                     update_once
  * -----------------------------------------------------------
- * 将给定的帧序列 播放一次。当到达最后一帧时，改写 _pvtData.isLastFrame
+ * 将给定的帧序列 播放一次。当到达最后一帧时，改写 pvtData_.isLastFrame
  * 在正常流程中，外部代码在接受到这个 状态值 后，会根据具体情况，切换新的 action
  * 如果外部代码未作为，本函数将继续播放 最后一帧.
  */
-void AnimAction::update_once( AnimActionPvtData &_pvtData ){
+void AnimAction::update_once( AnimActionPvtData &pvtData_ ){
 
     //-- 无限停留在最后一帧，并一直返回 LastFrame 
-    if( _pvtData.isLastFrame == true ){
+    if( pvtData_.isLastFrame == true ){
         return;
     }
 
-    _pvtData.updates++;
+    pvtData_.updates++;
     //----- node frame -----//
-    if( _pvtData.updates >= _pvtData.currentTimeStep ){
-        _pvtData.updates = 0;
+    if( pvtData_.updates >= pvtData_.currentTimeStep ){
+        pvtData_.updates = 0;
         
         //--- currentIdx_for_frameIdxs ---
-        if(_pvtData.currentIdx_for_frameIdxs==this->totalFrameNum-1){
-            _pvtData.isLastFrame = true;
+        if(pvtData_.currentIdx_for_frameIdxs==this->totalFrameNum-1){
+            pvtData_.isLastFrame = true;
             return;
         }
     
-        _pvtData.currentIdx_for_frameIdxs++;
-        _pvtData.currentFrameIdx = this->frameIdxs.at( _pvtData.currentIdx_for_frameIdxs );
-        _pvtData.currentTimeStep = this->timeSteps.at( _pvtData.currentIdx_for_frameIdxs );
+        pvtData_.currentIdx_for_frameIdxs++;
+        pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
+        pvtData_.currentTimeStep = this->timeSteps.at( pvtData_.currentIdx_for_frameIdxs );
     }
 }
 
@@ -119,20 +119,20 @@ void AnimAction::update_once( AnimActionPvtData &_pvtData ){
  * -----------------------------------------------------------
  * 无限循环 给定的帧序列，永不停止，除非被外部 切换成其他 action
  */
-void AnimAction::update_cycle( AnimActionPvtData &_pvtData ){
+void AnimAction::update_cycle( AnimActionPvtData &pvtData_ ){
 
-    _pvtData.updates++;
+    pvtData_.updates++;
     //----- node frame -----//
-    if( _pvtData.updates >= _pvtData.currentTimeStep ){
-        _pvtData.updates = 0;
+    if( pvtData_.updates >= pvtData_.currentTimeStep ){
+        pvtData_.updates = 0;
         
         //--- currentIdx_for_frameIdxs ---
-        (_pvtData.currentIdx_for_frameIdxs==this->totalFrameNum-1) ? //- end 
-                _pvtData.currentIdx_for_frameIdxs=0 :
-                _pvtData.currentIdx_for_frameIdxs++;
+        (pvtData_.currentIdx_for_frameIdxs==this->totalFrameNum-1) ? //- end 
+                pvtData_.currentIdx_for_frameIdxs=0 :
+                pvtData_.currentIdx_for_frameIdxs++;
 
-        _pvtData.currentFrameIdx = this->frameIdxs.at( _pvtData.currentIdx_for_frameIdxs );
-        _pvtData.currentTimeStep = this->timeSteps.at( _pvtData.currentIdx_for_frameIdxs );
+        pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
+        pvtData_.currentTimeStep = this->timeSteps.at( pvtData_.currentIdx_for_frameIdxs );
     }
 }
 

@@ -20,8 +20,8 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void load_animFrameSets();
 
-AnimAction *getnc_animActionPtr(const std::string &_animFrameSetName,
-                                const std::string &_actionName );
+AnimAction *getnc_animActionPtr(const std::string &animFrameSetName_,
+                                const std::string &actionName_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -21,7 +21,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 void load_colliEntSets();
 void debug_colliEntSets(); //- debug
 
-const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx );
+const ColliEntSet &get_colliEntSetRef( int colliEntSetIdx_ );
 
 
 void init_colliEntSet_tables(); 

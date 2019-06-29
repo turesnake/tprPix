@@ -88,7 +88,7 @@ void clear_pointPics(){
  *               insert_new_mapEntSlice
  * -----------------------------------------------------------
  */
-void insert_new_mapEntSlice( const MapCoord &_mcpos ){
+void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
 
     if( _inn::is_mapEntSlice_show == false ){
         return;
@@ -102,8 +102,8 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &esrc::get_rect_shader() );
-    meshRef.set_translate(glm::vec3{ _mcpos.get_fpos().x,
-                                     _mcpos.get_fpos().y,
+    meshRef.set_translate(glm::vec3{ mcpos_.get_fpos().x,
+                                     mcpos_.get_fpos().y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
     meshRef.set_scale(glm::vec3{ (float)PIXES_PER_MAPENT, 
@@ -115,7 +115,7 @@ void insert_new_mapEntSlice( const MapCoord &_mcpos ){
  *                insert_new_pointPic
  * -----------------------------------------------------------
  */
-void insert_new_pointPic( const glm::vec2 &_fpos ){
+void insert_new_pointPic( const glm::vec2 &fpos_ ){
 
     if( _inn::is_pointPic_show == false ){
         return;
@@ -129,8 +129,8 @@ void insert_new_pointPic( const glm::vec2 &_fpos ){
     meshRef.init( texName_pointPic );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &esrc::get_rect_shader() );
-    meshRef.set_translate(glm::vec3{ _fpos.x,
-                                     _fpos.y,
+    meshRef.set_translate(glm::vec3{ fpos_.x,
+                                     fpos_.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
     meshRef.set_scale(glm::vec3{ (float)(pointPicSize.x), 

@@ -27,8 +27,8 @@ enum class QuadType : int {
 };
 
 
-inline int QuadType_2_Idx( QuadType _type ){
-    return (int)_type;
+inline int QuadType_2_Idx( QuadType type_ ){
+    return (int)type_;
 }
 
 inline QuadType QuadIdx_2_Type( int _idx ){

@@ -25,8 +25,8 @@ class BoolBitMap{
 public:
     BoolBitMap() = default;
 
-    inline void init( size_t _bytes ){
-        bitMap.resize( _bytes );
+    inline void init( size_t bytes_ ){
+        bitMap.resize( bytes_ );
     }
 
     inline void clear_all(){
@@ -35,16 +35,16 @@ public:
         }
     }
 
-    inline void signUp( u32_t _idx ){
-        tprAssert( (_idx/bitsPerByte) < bitMap.size() );
-        u8_t &bitRef = bitMap.at( _idx/bitsPerByte );
-        bitRef = bitRef | static_cast<u8_t>(1 << (_idx%bitsPerByte));
+    inline void signUp( u32_t idx_ ){
+        tprAssert( (idx_/bitsPerByte) < bitMap.size() );
+        u8_t &bitRef = bitMap.at( idx_/bitsPerByte );
+        bitRef = bitRef | static_cast<u8_t>(1 << (idx_%bitsPerByte));
     }
 
-    inline bool check( u32_t _idx ){
-        tprAssert( (_idx/bitsPerByte) < bitMap.size() );
-        const u8_t &bitRef = bitMap.at( _idx/bitsPerByte ); 
-        return  ( ((bitRef>>(_idx%bitsPerByte)) & 1)==1 );
+    inline bool check( u32_t idx_ ){
+        tprAssert( (idx_/bitsPerByte) < bitMap.size() );
+        const u8_t &bitRef = bitMap.at( idx_/bitsPerByte ); 
+        return  ( ((bitRef>>(idx_%bitsPerByte)) & 1)==1 );
     }
 
 private:

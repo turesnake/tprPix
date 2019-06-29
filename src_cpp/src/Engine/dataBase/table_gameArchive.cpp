@@ -15,9 +15,9 @@ namespace db{//---------------- namespace: db ----------------------//
  * -----------------------------------------------------------
  * 将 table_gameArchive 中数据 全部读取，写入 参数传入的 _container 中
  */
-void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t, GameArchive> &_container ){
+void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t, GameArchive> &container_ ){
 
-    _container.clear();
+    container_.clear();
     GameArchive archive {};
 
     //--- atom ---//
@@ -35,7 +35,7 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
         archive.maxGoId        =  static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
         archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 6);
         //---
-        _container.insert({ archive.id, archive }); //- copy
+        container_.insert({ archive.id, archive }); //- copy
     }
                 //-- 这样写 很可能是 不够安全的。暂时先不管....
 }
@@ -46,7 +46,7 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
  *            atom_insert_or_replace_to_table_gameArchive
  * -----------------------------------------------------------
  */
-void atom_insert_or_replace_to_table_gameArchive( const GameArchive &_archive ){
+void atom_insert_or_replace_to_table_gameArchive( const GameArchive &archive_ ){
 
     //--- atom ---//
     std::lock_guard<std::mutex> lg( dbMutex );
@@ -57,25 +57,25 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &_archive ){
     //-- 注意：下面这组操作，必须在一个 atom 函数内被调用 --
     reset_stmt_for_bindFuncs_inn_( stmt_insert_or_replace_to_table_gameArchive );
     sqlite3_bind_int_inn_( ":id", 
-                            static_cast<int>(_archive.id) );
+                            static_cast<int>(archive_.id) );
 
     sqlite3_bind_int_inn_( ":baseSeed", 
-                            static_cast<int>(_archive.baseSeed) );
+                            static_cast<int>(archive_.baseSeed) );
 
     sqlite3_bind_int64_inn_( ":playerGoId", 
-                            static_cast<i64_t>(_archive.playerGoId) );
+                            static_cast<i64_t>(archive_.playerGoId) );
 
     sqlite3_bind_int_inn_( ":playerGoMPosX", 
-                            _archive.playerGoMPos.x );
+                            archive_.playerGoMPos.x );
 
     sqlite3_bind_int_inn_( ":playerGoMPosY", 
-                            _archive.playerGoMPos.y );
+                            archive_.playerGoMPos.y );
 
     sqlite3_bind_int64_inn_( ":maxGoId", 
-                            static_cast<i64_t>(_archive.maxGoId) );
+                            static_cast<i64_t>(archive_.maxGoId) );
     
     sqlite3_bind_double_inn_( ":gameTime", 
-                            _archive.gameTime );
+                            archive_.gameTime );
 
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_gameArchive, SQLITE_DONE );

@@ -67,7 +67,7 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
 
 
     //===== funcs =====//
-    void inputINS_handle_in_sceneBegin( const InputINS &_inputINS);
+    void inputINS_handle_in_sceneBegin( const InputINS &inputINS_);
 
 }//------------------ namespace: sc_begin_inn end ------------------//
 
@@ -153,10 +153,10 @@ void sceneLoop_begin(){
     //     - picMeshs
     //------------------------//
     esrc::foreach_uiIds_active(
-        []( uiObjId_t _uiObjId, UIObj *_uiObjPtr ){
-            //tprAssert( _uiObjPtr->RenderUpdate != nullptr );
-            //_uiObjPtr->RenderUpdate( _uiObjPtr ); 
-            _uiObjPtr->renderUpdate();
+        []( uiObjId_t uiObjId_, UIObj *uiObjPtr_ ){
+            //tprAssert( uiObjPtr_->RenderUpdate != nullptr );
+            //uiObjPtr_->RenderUpdate( uiObjPtr_ ); 
+            uiObjPtr_->renderUpdate();
         }
     );
 
@@ -175,7 +175,7 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
  * -----------------------------------------------------------
  * -- 目前未实现对 ESC 健的处理...
  */
-void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
+void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
     //-- 当获得一次有效 input后，屏蔽之后的 10 帧。
     if( is_input_open == false ){
@@ -191,8 +191,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
     //      Key: H 
     //      Key: ENTER
     //-----------------------//
-    if( _inputINS.check_key(GameKey::KEY_A) ||
-        _inputINS.check_key(GameKey::KEY_ENTER) ){
+    if( inputINS_.check_key(GameKey::KEY_A) ||
+        inputINS_.check_key(GameKey::KEY_ENTER) ){
         is_input_open = false;
         cout << "enter" << endl;
 
@@ -294,7 +294,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
 
 
     //-- 只检查 上下 健 --
-    if( _inputINS.check_key(GameKey::UP) ){
+    if( inputINS_.check_key(GameKey::UP) ){
         is_input_open = false;
         //---
         if( targetIdx == 0 ){
@@ -304,7 +304,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &_inputINS){
         }
         button_pointer_Ptr->drag_to_fpos( buttonFPoses.at(targetIdx) );
 
-    }else if( _inputINS.check_key(GameKey::DOWN) ){
+    }else if( inputINS_.check_key(GameKey::DOWN) ){
         is_input_open = false;  
         //---
         targetIdx++;

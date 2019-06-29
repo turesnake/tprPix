@@ -21,21 +21,25 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-std::unordered_map<goid_t, GameObj> &get_memGameObjs();
+
 std::unordered_set<goid_t> &get_goids_active();
 std::unordered_set<goid_t> &get_goids_inactive();
 
-void foreach_memGameObjs( F_GOID_GOPTR _fp );
-void foreach_goids_active( F_GOID_GOPTR _fp );
-void foreach_goids_inactive( F_GOID_GOPTR _fp );
+
+std::weak_ptr<GameObj> get_goWPtr( goid_t id_ );
+GameObj &get_goRef( goid_t id_ );
+GameObj *get_goRawPtr( goid_t id_ );
+
+
+void foreach_goids_active( F_GOID_GOPTR fp_ );
+void foreach_goids_inactive( F_GOID_GOPTR fp_ );
 
 goid_t insert_new_gameObj();
-void insert_a_disk_gameObj( goid_t _goid );
+void insert_a_disk_gameObj( goid_t goid_ );
 void realloc_active_goes();
 void realloc_inactive_goes();
-void signUp_newGO_to_mapEnt( GameObj *_goPtr );
+void signUp_newGO_to_mapEnt( GameObj &goRef_ );
 
-GameObj *get_memGameObjPtr( goid_t _goid );
 
 
 }//---------------------- namespace: esrc -------------------------//

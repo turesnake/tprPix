@@ -109,7 +109,7 @@ void build_9_chunks( const IntVec2 &_playerMPos ){
  */
 void collect_chunks_need_to_be_build_in_update(){
 
-    IntVec2 playerMPos = esrc::get_player().goPtr->goPos.get_currentMPos();
+    IntVec2 playerMPos = esrc::get_player().get_goRef().goPos.get_currentMPos();
 
     cb_inn::currentChunkKey = anyMPos_2_chunkKey( playerMPos );
     if( cb_inn::is_first_check ){

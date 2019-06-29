@@ -30,19 +30,19 @@ public:
     ShaderProgram() = default;
 
     //--- init ---//
-    void init(  const std::string &_lpathVs, 
-                const std::string &_lpathFs );
+    void init(  const std::string &lpathVs_, 
+                const std::string &lpathFs_ );
 
     //-- 从 着色器程序中 获得 目标变量的 地址
-    inline void add_new_uniform( const std::string &_name ){
-        tprAssert( this->uniforms.find(_name) == this->uniforms.end() );
+    inline void add_new_uniform( const std::string &name_ ){
+        tprAssert( this->uniforms.find(name_) == this->uniforms.end() );
         tprAssert( this->is_shaderProgram_set );
-        uniforms.insert({ _name, glGetUniformLocation(this->shaderProgram, _name.c_str()) });
+        uniforms.insert({ name_, glGetUniformLocation(this->shaderProgram, name_.c_str()) });
     }
 
-    inline GLint get_uniform_location( const std::string &_name ){
-        tprAssert( this->uniforms.find(_name) != this->uniforms.end() );
-        return this->uniforms.at(_name);
+    inline GLint get_uniform_location( const std::string &name_ ){
+        tprAssert( this->uniforms.find(name_) != this->uniforms.end() );
+        return this->uniforms.at(name_);
     }
 
     inline void use_program(){
@@ -54,32 +54,32 @@ public:
     }
 
     //-- 将 3个矩阵 的值 传输到 着色器程序。
-    inline void send_mat4_model_2_shader( const glm::mat4 &m ){
+    inline void send_mat4_model_2_shader( const glm::mat4 &m_ ){
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "model" ) ), 
                             1, 
                             GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(m)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(m_)) );
     }
 
-    inline void send_mat4_view_2_shader( const glm::mat4 &v ){
+    inline void send_mat4_view_2_shader( const glm::mat4 &v_ ){
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "view" ) ),
                             1, 
                             GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(v)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(v_)) );
     }
 
-    inline void send_mat4_projection_2_shader( const glm::mat4 &p ){
+    inline void send_mat4_projection_2_shader( const glm::mat4 &p_ ){
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "projection" ) ),
                             1, 
                             GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(p)) );
+                            static_cast<const GLfloat*>(glm::value_ptr(p_)) );
     }
 
 private:
-    void compile( GLuint _shaderObj, const std::string &_sbuf );
+    void compile( GLuint shaderObj_, const std::string &sbuf_ );
 
     //======== vals ========//
     GLuint       shaderProgram  {0}; 

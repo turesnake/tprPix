@@ -26,25 +26,25 @@ public:
     void renderUpdate();
 
     UIMesh &creat_new_uiMesh(   //const std::string &_animFrameSetName,
-                                    ShaderProgram     *_pixShaderPtr,
-                                    ShaderProgram     *_shadowShaderPtr,
-                                    float             _off_z,
-                                    bool              _isVisible,
-                                    bool              _isFlipOver );
+                                    ShaderProgram     *pixShaderPtr_,
+                                    ShaderProgram     *shadowShaderPtr_,
+                                    float             off_z_,
+                                    bool              isVisible_,
+                                    bool              isFlipOver_ );
 
     //===== set =====//
     //-- 将一个 uiObj 跳置到一个 fpos
-    inline void skip_to_fpos( const glm::vec2 &_newFPos ){
-        this->currentFPos = _newFPos;
-        this->targetFPos = _newFPos;
+    inline void skip_to_fpos( const glm::vec2 &newFPos_ ){
+        this->currentFPos = newFPos_;
+        this->targetFPos = newFPos_;
         this->isMoving = false;
     }
     //-- 设置 targetFPos，让 uiObj 自己移动过去
-    inline void drag_to_fpos( const glm::vec2 &_FPos ){
-        if( this->currentFPos == _FPos ){
+    inline void drag_to_fpos( const glm::vec2 &FPos_ ){
+        if( this->currentFPos == FPos_ ){
             return;
         }
-        this->targetFPos = _FPos;
+        this->targetFPos = FPos_;
         this->isMoving = true;
     }
 

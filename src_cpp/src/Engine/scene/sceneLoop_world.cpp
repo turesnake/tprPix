@@ -38,7 +38,7 @@ namespace sc_world_inn {//-------------- namespace: sc_world_inn ---------------
 
 
     //===== funcs =====//
-    void inputINS_handle_in_sceneWorld( const InputINS &_inputINS);
+    void inputINS_handle_in_sceneWorld( const InputINS &inputINS_);
 
 }//------------------ namespace: sc_world_inn end ------------------//
 
@@ -67,7 +67,7 @@ void prepare_for_sceneWorld(){
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
-    esrc::get_camera().set_allFPos( esrc::get_player().goPtr->goPos.get_currentFPos() );
+    esrc::get_camera().set_allFPos( esrc::get_player().get_goRef().goPos.get_currentFPos() );
     input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -99,11 +99,11 @@ void sceneLoop_world(){
         case 0:
             esrc::realloc_inactive_goes(); //- tmp
             break;
-
         case 1:
             esrc::foreach_goids_active(
-                []( goid_t _goid, GameObj *_goPtr ){
-                    _goPtr->LogicUpdate();
+                []( goid_t goid_, GameObj &goRef_ ){
+
+                    goRef_.LogicUpdate( goRef_ );
                             //-- 这么设计还是会造成 拥塞问题
                             //   大量的 go在同一帧 更新自己的 logic。
                             //   最好的办法是，分摊到 不同的帧中去...
@@ -120,6 +120,7 @@ void sceneLoop_world(){
                         // 更新中...
             break;
         case 4:
+            //esrc::realloc_active_goes(); //- tmp
             break;
         default:
             tprAssert(0);
@@ -158,9 +159,10 @@ void sceneLoop_world(){
     //     - picMeshs
     //------------------------//
     esrc::foreach_goids_active(
-        []( goid_t _goid, GameObj *_goPtr ){
-            tprAssert( _goPtr->RenderUpdate != nullptr );
-            _goPtr->RenderUpdate(); 
+        []( goid_t goid_, GameObj &goRef_ ){
+            
+            tprAssert( goRef_.RenderUpdate != nullptr );
+            goRef_.RenderUpdate( goRef_ ); 
         }
     );
 
@@ -189,20 +191,21 @@ namespace sc_world_inn {//-------------- namespace: sc_world_inn ---------------
  *              inputINS_handle_in_sceneWorld
  * -----------------------------------------------------------
  */
-void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
+void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
 
     Player &playerRef = esrc::get_player();
+    GameObj &playerGoRef = playerRef.get_goRef();
     //-----------------//
     //      camera
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::get_camera().set_targetFPos( playerRef.goPtr->goPos.get_currentFPos() );
+    esrc::get_camera().set_targetFPos( playerGoRef.goPos.get_currentFPos() );
 
     //... 暂时没有 处理 剩余功能键的 代码 
 
     //-- 直接传递给 player
-    playerRef.handle_inputINS( _inputINS );
+    playerRef.handle_inputINS( inputINS_ );
 
     //-----------------//
     //      tmp
@@ -214,39 +217,39 @@ void inputINS_handle_in_sceneWorld( const InputINS &_inputINS){
     isNew_X_press = false;
     isNew_Y_press = false;
 
-    if( _inputINS.check_key(GameKey::KEY_A) ){
+    if( inputINS_.check_key(GameKey::KEY_A) ){
         isNew_A_press = true;
     }
-    if( _inputINS.check_key(GameKey::KEY_B) ){
+    if( inputINS_.check_key(GameKey::KEY_B) ){
         isNew_B_press = true;
     }
-    if( _inputINS.check_key(GameKey::KEY_X) ){
+    if( inputINS_.check_key(GameKey::KEY_X) ){
         isNew_X_press = true;
     }
-    if( _inputINS.check_key(GameKey::KEY_Y) ){
+    if( inputINS_.check_key(GameKey::KEY_Y) ){
         isNew_Y_press = true;
     }
 
 
-    SpeedLevel lvl = playerRef.goPtr->move.get_speedLvl();
+    SpeedLevel lvl = playerGoRef.move.get_speedLvl();
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
         SpeedLevel newLvl = calc_higher_speedLvl(lvl);
-        playerRef.goPtr->move.set_speedLvl( newLvl );
+        playerGoRef.move.set_speedLvl( newLvl );
             cout << " + " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl; 
     }
     if( (isOld_B_press==false) && (isNew_B_press) ){
         SpeedLevel newLvl = calc_lower_speedLvl(lvl);
-        playerRef.goPtr->move.set_speedLvl( newLvl );
+        playerGoRef.move.set_speedLvl( newLvl );
             cout << " - " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl;
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( playerRef.goPtr->goPos.get_currentMPos() );
+        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( playerGoRef.goPos.get_currentMPos() );
 
         const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntPtr->get_mpos()) );
 

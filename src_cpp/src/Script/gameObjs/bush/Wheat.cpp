@@ -38,56 +38,52 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(   GameObj *_goPtr,
-                                const IntVec2 &_mpos,
-					            float _fieldWeight,
-					            const MapAltitude &_alti,
+void Wheat::init_in_autoMod(   GameObj &goRef_,
+                                const IntVec2 &mpos_,
+					            float fieldWeight_,
+					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    tprAssert( _goPtr != nullptr );
-    goPtr = _goPtr;
+    goRef_.resize_pvtBinary( sizeof(Wheat_PvtBinary) );
+    Wheat_PvtBinary  *pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-    //-------- go.pvtBinary ---------//
-    goPtr->resize_pvtBinary( sizeof(Wheat_PvtBinary) );
-    pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goPtr->get_pvtBinaryPtr()); //- 绑定到本地指针
-
-        pvtBp->wheatId = gameObjs::apply_a_simpleId( _fieldWeight, 4 );
+        pvtBp->wheatId = gameObjs::apply_a_simpleId( fieldWeight_, 4 );
 
 
     //-------- bind callback funcs ---------//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goPtr->RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _goPtr );   
-    goPtr->LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _goPtr );
+    goRef_.RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _1 );   
+    goRef_.LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _1 );
     
     //-------- actionSwitch ---------//
-    goPtr->actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
-    goPtr->actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
             //- 当前 wheat 只有一种动画，就是永久待机...
 
     //-------- go self vals ---------//
-    goPtr->species = Wheat::specId;
-    goPtr->family = GameObjFamily::Major;
-    goPtr->parentId = NULLID;
-    goPtr->state = GameObjState::Waked;
-    goPtr->moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goPtr->weight = 1.0f;
+    goRef_.species = Wheat::specId;
+    goRef_.family = GameObjFamily::Major;
+    goRef_.parentId = NULLID;
+    goRef_.state = GameObjState::Waked;
+    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
+    goRef_.weight = 1.0f;
 
-    goPtr->isTopGo = true;
-    goPtr->isActive = true;
-    goPtr->isDirty = false;
-    goPtr->isControlByPlayer = false;
+    goRef_.isTopGo = true;
+    goRef_.isActive = true;
+    goRef_.isDirty = false;
+    goRef_.isControlByPlayer = false;
 
-    goPtr->move.set_speedLvl( SpeedLevel::LV_0 );
-    goPtr->move.set_MoveType( MoveType::Crawl );
+    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
+    goRef_.move.set_MoveType( MoveType::Crawl );
 
-    goPtr->set_collision_isDoPass( false );
-    goPtr->set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
+    goRef_.set_collision_isDoPass( false );
+    goRef_.set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
 
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
-                goPtr->creat_new_goMesh("root", //- gmesh-name
+                goRef_.creat_new_goMesh("root", //- gmesh-name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::get_rect_shader(),  
                                         &esrc::get_rect_shader(), //- 其实没有 shadow
@@ -95,17 +91,17 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         0.0,  //- off_z
                                         true, //- isVisible
                                         true, //- isCollide
-                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
+                                        gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
                                         );
         rootGoMeshRef.bind_animAction( "wheat", 
                                         tprGeneral::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
 
-        goPtr->set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
+        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
                     
 
         //------- 制作 mesh 实例: "back" -------
         GameObjMesh &backGoMeshRef = 
-                goPtr->creat_new_goMesh("back", //- gmesh-name
+                goRef_.creat_new_goMesh("back", //- gmesh-name
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                         &esrc::get_rect_shader(),  
                                         &esrc::get_rect_shader(), //- 其实没有 shadow
@@ -113,19 +109,19 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
                                         0.0,  //- off_z
                                         true, //- isVisible
                                         false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
-                                        gameObjs::apply_isFlipOver( _fieldWeight ) //- isFlipOver
+                                        gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
                                         );
         backGoMeshRef.bind_animAction( "wheat", 
                                         tprGeneral::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
                      
 
     //-- 务必在 mesh:"root" 之后 ---
-    goPtr->goPos.set_alti( 0.0f );
-    goPtr->goPos.init_by_currentMPos( _mpos );
+    goRef_.goPos.set_alti( 0.0f );
+    goRef_.goPos.init_by_currentMPos( mpos_ );
     //...
 
     //-------- go.pubBinary ---------//
-    goPtr->pubBinary.init( wheat_pubBinaryValTypes );
+    goRef_.pubBinary.init( wheat_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -134,7 +130,7 @@ void Wheat::init_in_autoMod(   GameObj *_goPtr,
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Wheat::bind( GameObj *_goPtr ){
+void Wheat::bind( GameObj &goRef_ ){
 }
 
 
@@ -144,18 +140,18 @@ void Wheat::bind( GameObj *_goPtr ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Wheat::rebind( GameObj *_goPtr ){
+void Wheat::rebind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnRenderUpdate( GameObj *_goPtr ){
+void Wheat::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
 
     //=====================================//
     //            AI
@@ -165,13 +161,13 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    //goPtr->move.RenderUpdate();
+    //goRef_.move.RenderUpdate();
             // 目前来看，永远也不会 移动...
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &pairRef : goPtr->goMeshs ){
+    for( auto &pairRef : goRef_.goMeshs ){
         pairRef.second.RenderUpdate();
     }
 }
@@ -181,11 +177,11 @@ void Wheat::OnRenderUpdate( GameObj *_goPtr ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnLogicUpdate( GameObj *_goPtr ){
+void Wheat::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -199,19 +195,19 @@ void Wheat::OnLogicUpdate( GameObj *_goPtr ){
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
-void Wheat::OnActionSwitch( GameObj *_goPtr, ActionSwitchType _type ){
+void Wheat::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    rebind_ptr( _goPtr );
+    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    //GameObjMesh &rootGoMeshRef = goPtr->goMeshs.at("root");
+    //GameObjMesh &rootGoMeshRef = goRef_.goMeshs.at("root");
 
     //-- 处理不同的 actionSwitch 分支 --
-    switch( _type ){
+    switch( type_ ){
         case ActionSwitchType::Move_Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
             //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace tprpix{
     
     
-public class Test{
+public class PInvoke{
 
     //---  Cpp main() ---
     [DllImport("tprpix_cpp", EntryPoint = "cppMain_tmp")]

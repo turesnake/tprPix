@@ -27,14 +27,14 @@ namespace uis{//------------- namespace uis ----------------
  * -----------------------------------------------------------
  * -- tmp 
  */
-uiObjId_t create_a_ui( uiObjSpecId_t _uiObjSpecId,
-                    const glm::vec2 &_fpos  ){
+uiObjId_t create_a_ui( uiObjSpecId_t uiObjSpecId_,
+                    const glm::vec2 &fpos_  ){
 
     uiObjId_t uiObjId = esrc::insert_new_ui();
     UIObj *uiObjPtr = esrc::get_memUIPtr( uiObjId ); //- 获取目标go指针
 
-        tprAssert( ssrc::find_from_uiInit_funcs(_uiObjSpecId) );
-        ssrc::call_uiInit_func( _uiObjSpecId, uiObjPtr, _fpos );
+        tprAssert( ssrc::find_from_uiInit_funcs(uiObjSpecId_) );
+        ssrc::call_uiInit_func( uiObjSpecId_, uiObjPtr, fpos_ );
 
     //------------------------------//
         esrc::get_uiIds_active().insert( uiObjId ); //- tmp

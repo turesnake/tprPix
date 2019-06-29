@@ -104,8 +104,9 @@ void atom_writeBack_to_table_gameArchive(){
     //此处不该上锁，下面调用了 atom 函数，会引发 递归锁
     Player &playerRef = esrc::get_player();
 
-    goid_t goid = playerRef.goPtr->id;
-    IntVec2 mpos = playerRef.goPtr->goPos.get_currentMPos();
+    goid_t goid = playerRef.goid;
+    GameObj &playerGoRef = playerRef.get_goRef();
+    IntVec2 mpos = playerGoRef.goPos.get_currentMPos();
 
 
     //-- 将新数据 写回 db --
@@ -119,7 +120,7 @@ void atom_writeBack_to_table_gameArchive(){
 
     DiskGameObj diskGo {};
     diskGo.goid = goid;
-    diskGo.goSpecId = playerRef.goPtr->species;
+    diskGo.goSpecId = playerGoRef.species;
     diskGo.mpos = mpos;
     db::atom_insert_or_replace_to_table_goes( diskGo );
 
@@ -156,11 +157,11 @@ void atom_close_dataBase(){
  *                         callback_1
  * -----------------------------------------------------------
  */
-int callback_1(void *_data, int _argc, char **_argv, char **_azColNames){
-    cout << (const char*)_data << endl;
-    for(int i=0; i<_argc; i++){
-      cout << _azColNames[i] << " = "
-            << (_argv[i] ? _argv[i] : "NULL")
+int callback_1(void *data_, int argc_, char **argv_, char **azColNames_){
+    cout << (const char*)data_ << endl;
+    for(int i=0; i<argc_; i++){
+      cout << azColNames_[i] << " = "
+            << (argv_[i] ? argv_[i] : "NULL")
             << endl;
     }
     printf("\n");

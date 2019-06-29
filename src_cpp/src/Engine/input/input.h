@@ -34,8 +34,8 @@ void bind_inputINS_handleFunc( const F_InputINS_Handle &_func );
 
 void init_input();
 
-void processInput( GLFWwindow *_windowPtr );
-void scroll_callback(GLFWwindow* _windowPtr, double _xoffset, double _yoffset);
+void processInput( GLFWwindow *windowPtr_ );
+//void scroll_callback(GLFWwindow* windowPtr_, double xoffset_, double yoffset_);
 IntVec2 get_mouse_pos();
 
 

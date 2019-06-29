@@ -53,13 +53,14 @@ namespace pjt_RGBAHandle_inn{//---------- namespace ---------//
 //  - XXX = jh.is_colliEntHead();
 class Pjt_RGBAHandle{
 public:
-    explicit Pjt_RGBAHandle( int _off=5 ):
-        off(_off)
+    explicit Pjt_RGBAHandle( int off_=5 ):
+        off(off_)
         {}    
 
-    inline void set_rgba( const RGBA &_rgba, const IntVec2 &_pixPos ){
+    //inline void set_rgba( const RGBA &rgba_, const IntVec2 &_pixPos ){
+    inline void set_rgba( const RGBA &rgba_ ){
         //-- reset --
-        this->rgba = _rgba;
+        this->rgba = rgba_;
         this->colliEntHead.clear_all(); 
 
         this->isEmpty            = true;
@@ -114,12 +115,12 @@ public:
 
 private:
 
-    inline bool is_near_inner( RGBA_ChannelType _ct, u8_t _target ){
-        switch( _ct ){
-            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-_target)) <= this->off);
-            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-_target)) <= this->off);
-            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-_target)) <= this->off);
-            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-_target)) <= this->off);
+    inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ ){
+        switch( ct_ ){
+            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
+            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
+            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-target_)) <= this->off);
+            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-target_)) <= this->off);
             default:
                 tprAssert(0);
                 return  false; //- never touch -
@@ -165,8 +166,8 @@ private:
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
-    inline bool is_in_range( u8_t _beCheck, u8_t _low, u8_t _off ){
-        return ((_beCheck>=_low) && (_beCheck<(_low+_off)));
+    inline bool is_in_range( u8_t beCheck_, u8_t low_, u8_t off_ ){
+        return ((beCheck_>=low_) && (beCheck_<(low_+off_)));
     }
 
     //======== vals ========//

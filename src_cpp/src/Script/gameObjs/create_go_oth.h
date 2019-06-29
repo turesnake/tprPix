@@ -27,10 +27,10 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   apply_isFlipOver
  * -----------------------------------------------------------
  * 是否左右翻转
- * param: _fieldWeight -- [-100.0, 100.0]
+ * param: fieldWeight_ -- [-100.0, 100.0]
  */
-inline bool apply_isFlipOver( float _fieldWeight ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.1f + 911.3f ));
+inline bool apply_isFlipOver( float fieldWeight_ ){
+    size_t randV = static_cast<size_t>(floor( fieldWeight_ * 3.1f + 911.3f ));
     return ((randV%10)<5);
 }
 
@@ -39,10 +39,10 @@ inline bool apply_isFlipOver( float _fieldWeight ){
  *                   apply_isSingleTRunk
  * -----------------------------------------------------------
  * 树，主干是否分叉
- * param: _fieldWeight -- [-100.0, 100.0]
+ * param: fieldWeight_ -- [-100.0, 100.0]
  */
-inline bool apply_isSingleTRunk( float _fieldWeight ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 3.7f + 701.7f ));
+inline bool apply_isSingleTRunk( float fieldWeight_ ){
+    size_t randV = static_cast<size_t>(floor( fieldWeight_ * 3.7f + 701.7f ));
     return ((randV%10)<5);
 }
 
@@ -51,10 +51,10 @@ inline bool apply_isSingleTRunk( float _fieldWeight ){
  *                     apply_a_oakId   tmp
  * -----------------------------------------------------------
  * 这组方法很临时。不够好...
- * param: _fieldWeight -- [-100.0, 100.0]
+ * param: fieldWeight_ -- [-100.0, 100.0]
  */
-inline size_t apply_a_simpleId( float _fieldWeight, size_t _totalNum ){
-    size_t randV = static_cast<size_t>(floor( _fieldWeight * 5.3f + 977.1f ));
+inline size_t apply_a_simpleId( float fieldWeight_, size_t _totalNum ){
+    size_t randV = static_cast<size_t>(floor( fieldWeight_ * 5.3f + 977.1f ));
     return randV % _totalNum;
 }
 

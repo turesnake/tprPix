@@ -20,6 +20,7 @@
 #include <set>
 #include <functional>
 #include <unordered_map>
+#include <memory>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -54,52 +55,57 @@
 //  go类 与 具象go类：
 //  -- go类实例 负责存储实际的数据
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
-class GameObj{
-    using F_GO         = std::function<void()>;
+class GameObj : public std::enable_shared_from_this<GameObj>{
+    using F_GO         = std::function<void( GameObj& )>;
     using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
-    using F_AFFECT     = std::function<void(GameObj*,GameObj*)>;
+    using F_AFFECT     = std::function<void(GameObj&,GameObj&)>;
 public:
-    GameObj() = default;
+    //-- factory --
+    static std::shared_ptr<GameObj> factory( goid_t goid_ ){
+        std::shared_ptr<GameObj> newSPtr( new GameObj(goid_) );//- can not use make_shared
+        //newSPtr->anti_bind_shared_from_this();
+        newSPtr->init();
+        return newSPtr;
+    }
 
     void init();//-- MUST --
 
     void reset_chunkKeys();
    
-    inline void resize_pvtBinary( size_t _size ){
-        this->pvtBinary.resize( _size );
+    inline void resize_pvtBinary( size_t size_ ){
+        this->pvtBinary.resize( size_ );
     }
     inline u8_t *get_pvtBinaryPtr(){
         return &(this->pvtBinary.at(0));
     }
-
-    GameObjMesh &creat_new_goMesh(  const std::string &_name,
-                                    RenderLayerType    _layerType,
-                                    ShaderProgram     *_pixShaderPtr,
-                                    ShaderProgram     *_shadowShaderPtr,
-                                    const glm::vec2   _pposOff,
-                                    float             _off_z,
-                                    bool              _isVisible,
-                                    bool              _isCollide,
-                                    bool              _isFlipOver );
-
+    
+    GameObjMesh &creat_new_goMesh(  const std::string &name_,
+                                    RenderLayerType    layerType_,
+                                    ShaderProgram     *pixShaderPtr_,
+                                    ShaderProgram     *shadowShaderPtr_,
+                                    const glm::vec2   pposOff_,
+                                    float             off_z_,
+                                    bool              isVisible_,
+                                    bool              isCollide_,
+                                    bool              isFlipOver_ );
 
     //-- 目前被 Crawl 使用 --
-    inline void set_direction_and_isFlipOver( const GODirection &_dir ){
-        this->direction = _dir;
+    inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
+        this->direction = dir_;
         this->isFlipOver = (this->direction==GODirection::Left); 
     }
 
     //- 只有在 1.go实例init阶段  2.go发生变形时 ，才能调用次函数
-    inline void set_rootColliEntHeadPtr( const ColliEntHead *_ptr ){
-        this->rootColliEntHeadPtr = _ptr;
+    inline void set_rootColliEntHeadPtr( const ColliEntHead *ptr_ ){
+        this->rootColliEntHeadPtr = ptr_;
     }
 
     //-- isPass 系列flag 也许不放在 collision 模块中...
-    inline void set_collision_isDoPass( bool _b ){
-        this->collision.isDoPass = _b;
+    inline void set_collision_isDoPass( bool b_ ){
+        this->collision.isDoPass = b_;
     }
-    inline void set_collision_isBePass( bool _b ){
-        this->collision.isBePass = _b;
+    inline void set_collision_isBePass( bool b_ ){
+        this->collision.isBePass = b_;
     }
     inline bool get_collision_isDoPass() const {
         return this->collision.isDoPass;
@@ -113,11 +119,15 @@ public:
 
     //- 获得 目标 ces 当前 绝对 altiRange
     //- 参数 _ces_altiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
-    inline AltiRange get_currentAltiRange( const AltiRange &_ces_altiRange ){
-        return ( _ces_altiRange + this->goPos.get_alti() );
+    inline AltiRange get_currentAltiRange( const AltiRange &ces_altiRange_ ){
+        return ( ces_altiRange_ + this->goPos.get_alti() );
     }
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
         return this->chunkKeys;
+    }
+
+    inline bool collide_for_crawl( const NineBoxIdx &nbIdx_ ){
+        return this->collision.collide_for_crawl( nbIdx_ );
     }
 
     //void debug(); //- 打印 本go实例 的所有信息
@@ -142,12 +152,12 @@ public:
         // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
     //----------------- self vals ---------------//
-    goid_t         id       {NULLID};    
+    goid_t         id;  
     goSpecId_t     species  {0};                //- go species id
     GameObjFamily  family   {GameObjFamily::Major};  
 
     goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
-                             //- 如果没有，此项写 NULLID
+                              //- 暂未被使用
     
     float        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
     GODirection  direction {GODirection::Left};  //- 朝向
@@ -158,7 +168,7 @@ public:
     
     //--- move sys ---//
     GameObjPos   goPos {}; 
-    Move         move  {};
+    Move         move;
 
     // - rootGoMesh  -- name = “root”; 核心goMesh;
     // - childGoMesh -- 剩下的goMesh
@@ -168,7 +178,7 @@ public:
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
-    ActionSwitch    actionSwitch {}; //-- 将被取代...
+    ActionSwitch    actionSwitch; //-- 将被取代...
 
     ActionFSM       actionFSM {}; //- 尚未完工...
 
@@ -199,6 +209,18 @@ public:
 
 private:
 
+    GameObj( goid_t goid_ ):
+        id(goid_),
+        move( *this ),
+        actionSwitch( *this ),
+        collision( *this )
+        {}
+
+    void anti_bind_shared_from_this(){
+        //this->move.bind_weakPtr( weak_from_this() );
+    }
+
+
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
                                         // 通过 reset_chunkKeys() 来更新。
@@ -207,7 +229,7 @@ private:
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
-    Collision    collision {}; //- 一个go实例，对应一个 collision实例。强关联
+    Collision    collision; //- 一个go实例，对应一个 collision实例。强关联
 
 
     const ColliEntHead  *rootColliEntHeadPtr {nullptr}; //- 重要的简化措施

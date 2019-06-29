@@ -33,20 +33,20 @@
 class NineBox{
 public:
     NineBox() = default;
-    NineBox( int _x, int _y ):
-        x(_x),
-        y(_y)
-        { tprAssert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) ); }
+    NineBox( int x_, int y_ ):
+        x(x_),
+        y(y_)
+        { tprAssert( (x_>=-1) && (x_<=1) && (y_>=-1) && (y_<=1) ); }
 
     inline void clear_all(){
         this->x = 0;
         this->y = 0;
     }
 
-    inline void set( int _x, int _y ){
-        tprAssert( (_x>=-1) && (_x<=1) && (_y>=-1) && (_y<=1) );
-        this->x = _x;
-        this->y = _y;
+    inline void set( int x_, int y_ ){
+        tprAssert( (x_>=-1) && (x_<=1) && (y_>=-1) && (y_<=1) );
+        this->x = x_;
+        this->y = y_;
     }
     
     //-- 专用于 crawl模式，将方向转换为 位移值 --
@@ -78,11 +78,11 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( const NineBox &_a, const NineBox &_b ){
-    return ( (_a.x==_b.x) && (_a.y==_b.y) );
+inline bool operator == ( const NineBox &a_, const NineBox &b_ ){
+    return ( (a_.x==b_.x) && (a_.y==b_.y) );
 }
-inline bool operator != ( const NineBox &_a, const NineBox &_b ){
-    return ( (_a.x!=_b.x) || (_a.y!=_b.y) );
+inline bool operator != ( const NineBox &a_, const NineBox &b_ ){
+    return ( (a_.x!=b_.x) || (a_.y!=b_.y) );
 }
 
 
@@ -122,23 +122,23 @@ inline const int NineBoxIdxSize {9}; //- 9个子单位
  *                   NineBox_XY_2_Idx
  * -----------------------------------------------------------
  */
-inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &_nb ){
+inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &nb_ ){
 
-    if( _nb.y < 0 ){
-        if( _nb.x<0 ){          return NineBoxIdx::Left_Bottom;
-        }else if( _nb.x==0 ){   return NineBoxIdx::Mid_Bottom;
+    if( nb_.y < 0 ){
+        if( nb_.x<0 ){          return NineBoxIdx::Left_Bottom;
+        }else if( nb_.x==0 ){   return NineBoxIdx::Mid_Bottom;
         }else{                  return NineBoxIdx::Right_Bottom;
         }
 
-    }else if( _nb.y == 0 ){
-        if( _nb.x<0 ){         return NineBoxIdx::Left_Mid;
-        }else if( _nb.x==0 ){  return NineBoxIdx::Mid_Mid;
+    }else if( nb_.y == 0 ){
+        if( nb_.x<0 ){         return NineBoxIdx::Left_Mid;
+        }else if( nb_.x==0 ){  return NineBoxIdx::Mid_Mid;
         }else{                 return NineBoxIdx::Right_Mid;
         }
 
     }else{
-        if( _nb.x<0 ){         return NineBoxIdx::Left_Top;
-        }else if( _nb.x==0 ){  return NineBoxIdx::Mid_Top;
+        if( nb_.x<0 ){         return NineBoxIdx::Left_Top;
+        }else if( nb_.x==0 ){  return NineBoxIdx::Mid_Top;
         }else{                 return NineBoxIdx::Right_Top;
         }
     }
@@ -149,9 +149,9 @@ inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &_nb ){
  *                 NineBox_Idx_2_XY
  * -----------------------------------------------------------
  */
-inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx _idx ){
+inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx idx_ ){
 
-    switch( _idx ){
+    switch( idx_ ){
         case NineBoxIdx::Left_Bottom:   return nb_left_bottom;
         case NineBoxIdx::Mid_Bottom:    return nb_mid_bottom;
         case NineBoxIdx::Right_Bottom:  return nb_right_bottom;

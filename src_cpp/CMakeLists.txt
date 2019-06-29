@@ -55,7 +55,7 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 
 
 #-- 显示编译时使用的 编译选项
-set ( CMAKE_VERBOSE_MAKEFILE ON )
+#set ( CMAKE_VERBOSE_MAKEFILE ON )
 
 
 #-- 单独设置 c++ 的编译选项 的方式:
@@ -292,20 +292,22 @@ target_compile_options( tprpix_cpp
                         -Wno-unused-member-function         #++ need ++
                         -Wno-missing-variable-declarations  #++ need ++
                         -Wno-missing-prototypes
-                        -Wno-old-style-cast   #---- tmp ----                        
+                        -Wno-old-style-cast   #---- tmp ---- 
+                        
+                        -Wno-unused-variable #----- tmp ----
                         )
 
 
 #=========== 强行关闭所有 优化 ============
-set ( TPR_LINK_FLAGS "-rdynamic" )
+#set ( TPR_LINK_FLAGS "-rdynamic" )
 
 #-- 这组属性确实在 win 中起了作用，建议保留 
 #-- 可以使用 dumpbin /exports xxx.dll 查看 win 中 dll 符号表
-set( CMAKE_SHARED_LINKER_FLAGS                "${TPR_LINK_FLAGS}" )
-set( CMAKE_SHARED_LINKER_FLAGS_DEBUG          "${TPR_LINK_FLAGS}" )
-set( CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL     "${TPR_LINK_FLAGS}" )
-set( CMAKE_SHARED_LINKER_FLAGS_RELEASE        "${TPR_LINK_FLAGS}" )
-set( CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "${TPR_LINK_FLAGS}" )
+#set( CMAKE_SHARED_LINKER_FLAGS                "${TPR_LINK_FLAGS}" )
+#set( CMAKE_SHARED_LINKER_FLAGS_DEBUG          "${TPR_LINK_FLAGS}" )
+#set( CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL     "${TPR_LINK_FLAGS}" )
+#set( CMAKE_SHARED_LINKER_FLAGS_RELEASE        "${TPR_LINK_FLAGS}" )
+#set( CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "${TPR_LINK_FLAGS}" )
 
 
 #-------- UNIX ----------

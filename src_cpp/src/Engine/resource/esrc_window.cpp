@@ -23,8 +23,8 @@ GLFWwindow *get_windowPtr(){
     return window_inn::windowPtr;
 }
 
-void set_windowPtr( GLFWwindow *_newPtr ){
-    window_inn::windowPtr = _newPtr;
+void set_windowPtr( GLFWwindow *newPtr_ ){
+    window_inn::windowPtr = newPtr_;
 }
 
 }//---------------------- namespace: esrc -------------------------//

@@ -32,40 +32,40 @@ namespace tprUnix {//--------------- namespace: tprUnix -------------------//
 
 
 //---------------------- 提供给外部的 函数 --------------------
-int Open( const char *_path, int _oflag, mode_t _mode, const std::string &_err_info );
+int Open( const char *path_, int oflag_, mode_t mode_, const std::string &err_info_ );
 
-void Mkdir( const char *_path, mode_t _mode, const std::string &_err_info );
-void Mkdirat( int _fd, const char *_path, mode_t _mode, const std::string &_err_info );
+void Mkdir( const char *path_, mode_t mode_, const std::string &err_info_ );
+void Mkdirat( int fd_, const char *path_, mode_t mode_, const std::string &err_info_ );
 
-void Close( int _fd, const std::string &_err_info );
-void Unlink( const char *_pathname, const std::string &_err_info );
+void Close( int fd_, const std::string &err_info_ );
+void Unlink( const char *pathname_, const std::string &err_info_ );
 
-off_t Lseek( int _fd, off_t _offset, int _whence, const std::string &_err_info);
-void Fseeko( FILE *_fp, off_t _offset, int _whence, const std::string &_err_info);
-off_t Ftello( FILE *_fp, const std::string &_err_info );
+off_t Lseek( int fd_, off_t offset_, int whence_, const std::string &err_info_);
+void Fseeko( FILE *_fp, off_t offset_, int whence_, const std::string &err_info_);
+off_t Ftello( FILE *_fp, const std::string &err_info_ );
 
 /*
-pid_t Fork( const std::string &_err_info );
-void Wait( int *_status, pid_t _pid_target, const std::string &_err_info );
+pid_t Fork( const std::string &err_info_ );
+void Wait( int *_status, pid_t _pid_target, const std::string &err_info_ );
 int Select( int _maxfdp1, fd_set *_readset, fd_set *_writeset, fd_set *_exceptset,
-            struct timeval *_timeout, const std::string &_err_info );
+            struct timeval *_timeout, const std::string &err_info_ );
 */
-ssize_t Read( int _fd, void *_buf, size_t _nbytes, const std::string &_err_info );
-void Write( int _fd, const void *_buf, size_t _nbytes, const std::string &_err_info );
-//std::string Getenv( const char *_name, const std::string &_err_info );
+ssize_t Read( int fd_, void *buf_, size_t nbytes_, const std::string &err_info_ );
+void Write( int fd_, const void *buf_, size_t nbytes_, const std::string &err_info_ );
+//std::string Getenv( const char *name_, const std::string &err_info_ );
 
 //===========================================================
 //                         Open
 //-----------------------------------------------------------
-int Open( const char *_path, int _oflag, mode_t _mode, const std::string &_err_info ){
+int Open( const char *path_, int oflag_, mode_t mode_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     int fd;
-    fd = open(_path, _oflag, _mode);
+    fd = open(path_, oflag_, mode_);
     if( fd == -1 ){
         cout << "Open: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -76,13 +76,13 @@ int Open( const char *_path, int _oflag, mode_t _mode, const std::string &_err_i
 //===========================================================
 //                      Mkdir    
 //-----------------------------------------------------------
-void Mkdir( const char *_path, mode_t _mode, const std::string &_err_info ){
+void Mkdir( const char *path_, mode_t mode_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
-    if( mkdir(_path, _mode) == -1 ){
+    if( mkdir(path_, mode_) == -1 ){
         cout << "Mkdir: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -91,13 +91,13 @@ void Mkdir( const char *_path, mode_t _mode, const std::string &_err_info ){
 //===========================================================
 //                      Mkdirat    
 //-----------------------------------------------------------
-void Mkdirat( int _fd, const char *_path, mode_t _mode, const std::string &_err_info ){
+void Mkdirat( int fd_, const char *path_, mode_t mode_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
-    if( mkdirat( _fd, _path, _mode) == -1 ){
+    if( mkdirat( fd_, path_, mode_) == -1 ){
         cout << "Mkdirat: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -107,14 +107,14 @@ void Mkdirat( int _fd, const char *_path, mode_t _mode, const std::string &_err_
 //===========================================================
 //                      Close
 //-----------------------------------------------------------
-void Close( int _fd, const std::string &_err_info ){
+void Close( int fd_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
-    if( close(_fd) == -1 ){
+    if( close(fd_) == -1 ){
         cout << "Close: ERROR. return -1."
-            << "fd = " << _fd << "\n"
+            << "fd = " << fd_ << "\n"
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -124,13 +124,13 @@ void Close( int _fd, const std::string &_err_info ){
 //===========================================================
 //                      Unlink
 //-----------------------------------------------------------
-void Unlink( const char *_pathname, const std::string &_err_info ){
+void Unlink( const char *pathname_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
-    if( unlink(_pathname) < 0 ){
+    if( unlink(pathname_) < 0 ){
         cout << "Unlink: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -140,16 +140,16 @@ void Unlink( const char *_pathname, const std::string &_err_info ){
 //                      Lseek
 //-----------------------------------------------------------
 //-- off_t 是 带符号的 64-bits 整形。可以放心容纳一切大小的文件。
-off_t Lseek( int _fd, off_t _offset, int _whence, const std::string &_err_info){
+off_t Lseek( int fd_, off_t offset_, int whence_, const std::string &err_info_){
 
     errno = 0; //-- 清空 errno
     off_t r;
-    if( (r=lseek(_fd, _offset, _whence)) == (off_t)(-1) ){
+    if( (r=lseek(fd_, offset_, whence_)) == (off_t)(-1) ){
                         //-- 有些 非常规文件 的 当前偏移量 可能是 负数。
                         //-- 所以，检测出错是，不要使用 " < 0"  这种写法
         cout << "Lseek: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -160,13 +160,13 @@ off_t Lseek( int _fd, off_t _offset, int _whence, const std::string &_err_info){
 //                      Fseeko
 //-----------------------------------------------------------
 //-- off_t 是 带符号的 8-bytes 整形。可以放心容纳一切大小的文件。
-void Fseeko( FILE *_fp, off_t _offset, int _whence, const std::string &_err_info){
+void Fseeko( FILE *_fp, off_t offset_, int whence_, const std::string &err_info_){
 
     errno = 0; //-- 清空 errno
-    if( fseeko(_fp, _offset, _whence) == -1 ){
+    if( fseeko(_fp, offset_, whence_) == -1 ){
         cout << "Fseeko: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -178,14 +178,14 @@ void Fseeko( FILE *_fp, off_t _offset, int _whence, const std::string &_err_info
 //-----------------------------------------------------------
 //-- off_t 是 带符号的 8-bytes 整形。可以放心容纳一切大小的文件。
 /*
-off_t Ftello( FILE *_fp, const std::string &_err_info ){
+off_t Ftello( FILE *_fp, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     off_t r;
     if( (r=ftello(_fp)) == (off_t)(-1) ){
         cout << "Ftello: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -200,14 +200,14 @@ off_t Ftello( FILE *_fp, const std::string &_err_info ){
 //                        Fork
 //-----------------------------------------------------------
 /*
-pid_t Fork( const std::string &_err_info ){
+pid_t Fork( const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     pid_t p = fork();
     if( p < 0 ){
         cout << "Fork: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -220,13 +220,13 @@ pid_t Fork( const std::string &_err_info ){
 //                        Wait
 //-----------------------------------------------------------
 /*
-void Wait( int *_status, pid_t _pid_target, const std::string &_err_info ){
+void Wait( int *_status, pid_t _pid_target, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     if( wait(_status) != _pid_target ){
         cout << "Wait: ERROR. return != " << _pid_target << ". "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -239,7 +239,7 @@ void Wait( int *_status, pid_t _pid_target, const std::string &_err_info ){
 //-----------------------------------------------------------
 /*
 int Select( int _maxfdp1, fd_set *_readset, fd_set *_writeset, fd_set *_exceptset,
-            struct timeval *_timeout, const std::string &_err_info ){
+            struct timeval *_timeout, const std::string &err_info_ ){
     
     errno = 0; //-- 清空 errno
     int r;
@@ -248,7 +248,7 @@ int Select( int _maxfdp1, fd_set *_readset, fd_set *_writeset, fd_set *_exceptse
     if( r < 0 ){
         cout << "Select: ERROR. return < 0. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -260,15 +260,15 @@ int Select( int _maxfdp1, fd_set *_readset, fd_set *_writeset, fd_set *_exceptse
 //===========================================================
 //                        Read
 //-----------------------------------------------------------
-ssize_t Read( int _fd, void *_buf, size_t _nbytes, const std::string &_err_info ){
+ssize_t Read( int fd_, void *buf_, size_t nbytes_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     ssize_t len;
-    len = read( _fd, _buf, _nbytes );
+    len = read( fd_, buf_, nbytes_ );
     if( len == -1 ){
         cout << "Read: ERROR. return -1. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -280,15 +280,15 @@ ssize_t Read( int _fd, void *_buf, size_t _nbytes, const std::string &_err_info 
 //                        Write
 //-----------------------------------------------------------
 //-- 很严格，只要 不成功写入 目标字节数，都算错
-void Write( int _fd, const void *_buf, size_t _nbytes, const std::string &_err_info ){
+void Write( int fd_, const void *buf_, size_t nbytes_, const std::string &err_info_ ){
 
     errno = 0; //-- 清空 errno
     ssize_t len;
-    len = write( _fd, _buf, _nbytes );
-    if( (size_t)len != _nbytes ){
+    len = write( fd_, buf_, nbytes_ );
+    if( (size_t)len != nbytes_ ){
         cout << "Write: ERROR. return != nbytes. \n"
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }
@@ -297,15 +297,15 @@ void Write( int _fd, const void *_buf, size_t _nbytes, const std::string &_err_i
 //===========================================================
 //                        Getenv
 //-----------------------------------------------------------
-std::string Getenv( const char *_name, const std::string &_err_info ){
+std::string Getenv( const char *name_, const std::string &err_info_ ){
     
     errno = 0; //-- 清空 errno
     char *r;
-    r = getenv(_name);
+    r = getenv(name_);
     if( r == NULL ){
         cout << "Getenv: ERROR. return -1."
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << _err_info
+            << err_info_
             << endl;
         assert(0);
     }

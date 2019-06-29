@@ -18,24 +18,26 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 /* ===========================================================
  *                     foreach_memGameObjs
  * -----------------------------------------------------------
+ * 暂未被使用
  */
-void foreach_memGameObjs( F_GOID_GOPTR _fp ){
-    
+/*
+void foreach_memGameObjs( F_GOID_GOPTR fp_ ){
     auto ipair = esrc::get_memGameObjs().begin();
     for( ; ipair!=esrc::get_memGameObjs().end(); ipair++ ){
-        _fp( ipair->first, &(ipair->second) );
+        fp_( ipair->first,  (ipair->second) );
     }
 }
+*/
 
 
 /* ===========================================================
  *                     foreach_memUIs
  * -----------------------------------------------------------
  */
-void foreach_memUIs( F_UIObjId_GOPTR _fp ){
+void foreach_memUIs( F_UIObjId_GOPTR fp_ ){
     auto ipair = esrc::get_memUIs().begin();
     for( ; ipair!=esrc::get_memUIs().end(); ipair++ ){
-        _fp( ipair->first, &(ipair->second) );
+        fp_( ipair->first, &(ipair->second) );
     }
 }
 
@@ -45,14 +47,14 @@ void foreach_memUIs( F_UIObjId_GOPTR _fp ){
  * -----------------------------------------------------------
  * -- 
  */
-void foreach_goids_active( F_GOID_GOPTR _fp ){
+void foreach_goids_active( F_GOID_GOPTR fp_ ){
 
-    GameObj *goPtr {};
+    //GameObj *goPtr {};
     auto it = esrc::get_goids_active().begin();
     for( ; it!=esrc::get_goids_active().end(); it++ ){
 
-        goPtr = &(esrc::get_memGameObjs().at(*it));
-        _fp( *it, goPtr );
+        //goPtr = &(esrc::get_memGameObjs().at(*it));
+        fp_( *it, esrc::get_goRef(*it) );
     }
 }
 
@@ -61,13 +63,13 @@ void foreach_goids_active( F_GOID_GOPTR _fp ){
  * -----------------------------------------------------------
  * -- 
  */
-void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
+void foreach_uiIds_active( F_UIObjId_GOPTR fp_ ){
 
     UIObj *uiGoPtr {};
     auto it = esrc::get_uiIds_active().begin();
     for( ; it!=esrc::get_uiIds_active().end(); it++ ){
         uiGoPtr = &(esrc::get_memUIs().at(*it));
-        _fp( *it, uiGoPtr );
+        fp_( *it, uiGoPtr );
     }
 }
 
@@ -78,14 +80,14 @@ void foreach_uiIds_active( F_UIObjId_GOPTR _fp ){
  * -----------------------------------------------------------
  * -- 
  */
-void foreach_goids_inactive( F_GOID_GOPTR _fp ){
+void foreach_goids_inactive( F_GOID_GOPTR fp_ ){
 
-    GameObj *goPtr {};
+    //GameObj *goPtr {};
     auto it = esrc::get_goids_inactive().begin();
     for( ; it!=esrc::get_goids_inactive().end(); it++ ){
 
-        goPtr = &(esrc::get_memGameObjs().at(*it));
-        _fp( *it, goPtr );
+        //goPtr = &(esrc::get_memGameObjs().at(*it));
+        fp_( *it, esrc::get_goRef(*it) );
     }
 }
 

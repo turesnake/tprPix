@@ -28,23 +28,28 @@ public:
     AI_Crab() = default;
 
 
-    inline void init( GameObj *_goPtr ){
-        this->goPtr = _goPtr;
+    inline void init(  ){
+        //this->goid = goid_;
     }
 
 
     //void logicUpdate();
 
 
-    inline void bind_get_tmpVal_functor( const F_1 &_functor ){
-        this->get_tmpVal_functor = _functor;
+    inline void bind_get_tmpVal_functor( const F_1 &functor_ ){
+        this->get_tmpVal_functor = functor_;
     }
 
 
 
 private:
 
-    GameObj *goPtr {nullptr};
+    //GameObj *goPtr {nullptr};
+    //std::weak_ptr<GameObj> goWPtr {};
+    //goid_t  goid {};
+                //-- tmp 
+
+
     F_1 get_tmpVal_functor {nullptr};
     //int tmpCount {0}; 未被使用...
 

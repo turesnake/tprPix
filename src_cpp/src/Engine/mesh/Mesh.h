@@ -32,22 +32,22 @@ class Mesh{
 public:
     Mesh() = default;
 
-    void init( GLuint _texName );
+    void init( GLuint texName_ );
     void draw();
 
     //--------------------------//
-    inline void set_shader_program( ShaderProgram *_sp ){
-        this->shaderPtr = _sp;
+    inline void set_shader_program( ShaderProgram *sp_ ){
+        this->shaderPtr = sp_;
     }
-    inline void set_texName( GLuint _texName ){
-        this->texName = _texName;
+    inline void set_texName( GLuint texName_ ){
+        this->texName = texName_;
     }
-    inline void set_translate( const glm::vec3 &_v ){
-        this->translate_val = _v;
+    inline void set_translate( const glm::vec3 &v_ ){
+        this->translate_val = v_;
         this->isMat4Change = true;
     }
-    inline void set_scale( const glm::vec3 &_v ){
-        this->scale_val = _v;
+    inline void set_scale( const glm::vec3 &v_ ){
+        this->scale_val = v_;
         this->isMat4Change = true;
     }
     //------- get -------//

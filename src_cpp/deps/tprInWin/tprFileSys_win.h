@@ -18,13 +18,13 @@
 namespace tprWin {//--------------- namespace: tprWin -------------------//
 
 
-const std::string mk_dir(const std::string &_path_dir,
-						 const std::string &_name,
-						 const std::string &_err_info );
+const std::string mk_dir(const std::string &path_dir_,
+						 const std::string &name_,
+						 const std::string &err_info_ );
 
 
-i32_t file_load( const std::string &_path,
-				 std::string &_buf);
+i32_t file_load( const std::string &path_,
+				 std::string &buf_);
 
 
 

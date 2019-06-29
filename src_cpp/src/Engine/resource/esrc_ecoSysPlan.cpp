@@ -73,9 +73,9 @@ namespace ecoPlan_inn {//-------- namespace: ecoPlan_inn --------------//
  *                  get_ecoSysPlanPtr
  * -----------------------------------------------------------
  */
-EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId ){
-        tprAssert( ecoPlan_inn::ecoSysPlanes.find(_ecoId) != ecoPlan_inn::ecoSysPlanes.end() ); //- tmp
-    return &(ecoPlan_inn::ecoSysPlanes.at(_ecoId));
+EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ ){
+        tprAssert( ecoPlan_inn::ecoSysPlanes.find(ecoId_) != ecoPlan_inn::ecoSysPlanes.end() ); //- tmp
+    return &(ecoPlan_inn::ecoSysPlanes.at(ecoId_));
 }
 
 
@@ -84,16 +84,16 @@ EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t _ecoId ){
  * -----------------------------------------------------------
  * -- 仅用于本文件内部
  */
-EcoSysPlan *insert_new_ecoSysPlan( EcoSysPlanType _type ){
+EcoSysPlan *insert_new_ecoSysPlan( EcoSysPlanType type_ ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     EcoSysPlan  ecoPlan {};
     ecoSysPlanId_t ecoPlanId = EcoSysPlan::id_manager.apply_a_u32_id();
     ecoPlan.set_id( ecoPlanId );
-    ecoPlan.set_type( _type );
+    ecoPlan.set_type( type_ );
         tprAssert( ecoPlan_inn::ecoSysPlanes.find(ecoPlanId) == ecoPlan_inn::ecoSysPlanes.end() );//- must not exist
     ecoPlan_inn::ecoSysPlanes.insert({ ecoPlanId, ecoPlan }); //- copy
-    ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(_type)).push_back(ecoPlanId);
+    ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_)).push_back(ecoPlanId);
     ecoPlan_inn::ecoSysPlanIds.push_back(ecoPlanId);
     return &(ecoPlan_inn::ecoSysPlanes.at(ecoPlanId)); 
 }
@@ -104,9 +104,9 @@ EcoSysPlan *insert_new_ecoSysPlan( EcoSysPlanType _type ){
  * -----------------------------------------------------------
  * -- 指定了 type，在此基础上，分配一个 变种id
  */
-ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObjWeight ){
-    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 2.7f + 907.9f ));
-    auto &container = ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(_type));    
+ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, float ecoObjWeight_ ){
+    size_t randV = static_cast<size_t>(floor( ecoObjWeight_ * 2.7f + 907.9f ));
+    auto &container = ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_));    
     return container.at( randV % container.size() );
 }
 
@@ -115,8 +115,8 @@ ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType _type, float _ecoObj
  *              apply_a_rand_ecoSysPlanId
  * -----------------------------------------------------------
  */
-ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float _ecoObjWeight ){
-    size_t randV = static_cast<size_t>(floor( _ecoObjWeight * 7.1f + 977.3f ));
+ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float ecoObjWeight_ ){
+    size_t randV = static_cast<size_t>(floor( ecoObjWeight_ * 7.1f + 977.3f ));
     size_t idx = randV % ecoPlan_inn::ecoSysPlanIds.size();
     return ecoPlan_inn::ecoSysPlanIds.at(idx);
 }

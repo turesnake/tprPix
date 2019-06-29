@@ -50,7 +50,7 @@ void build_all_mutant_datas_for_fieldBorderSet();
 
 
 fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx );
-const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t _id, QuadType _quad );
+const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType _quad );
 
 
 

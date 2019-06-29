@@ -36,6 +36,16 @@ using namespace std::placeholders;
 void Player::init(){
 
     //-- nothing...
+    this->goid = NULLID; 
+}
+
+
+/* ===========================================================
+ *                   get_goRef
+ * -----------------------------------------------------------
+ */
+GameObj &Player::get_goRef() const {
+    return esrc::get_goRef( this->goid );
 }
 
 
@@ -44,21 +54,21 @@ void Player::init(){
  * -----------------------------------------------------------
  * -- 这个函数有漏洞
  */
-void Player::bind_go( goid_t _goid ){
+void Player::bind_go( goid_t goid_ ){
 
     //-- 解绑旧go --//
-    if( this->goPtr!=nullptr ){
-        this->goPtr->isControlByPlayer = false;
+    if( this->goid != NULLID ){
+        GameObj &oldGoRef = esrc::get_goRef( this->goid );
+        oldGoRef.isControlByPlayer = false;
     }
-
-
-    tprAssert( _goid != NULLID );
-    this->goid = _goid;
 
     //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
     //...
-    this->goPtr = esrc::get_memGameObjPtr( this->goid );
-    this->goPtr->isControlByPlayer = true;
+
+    tprAssert( goid_ != NULLID );
+    GameObj &newGoRef = esrc::get_goRef( goid_ );
+    newGoRef.isControlByPlayer = true;
+    this->goid = goid_;
 }
 
 
@@ -70,14 +80,15 @@ void Player::bind_go( goid_t _goid ){
  * -------
  *  每一渲染帧都会被调用
  */
-void Player::handle_inputINS( const InputINS &_inputINS ){
+void Player::handle_inputINS( const InputINS &inputINS_ ){
 
 
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
     //this->goPtr->inputINS = _inputINS; //- copy 
-    
-    this->goPtr->move.set_newCrawlDirAxes( _inputINS.get_dirAxes() );
+
+    GameObj &goRef = esrc::get_goRef( this->goid );
+    goRef.move.set_newCrawlDirAxes( inputINS_.get_dirAxes() );
 }
 

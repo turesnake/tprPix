@@ -37,9 +37,9 @@ class Canvas{
 public:
     Canvas() = default;
 
-    void init(  IntVec2 *_texSizePtr,
-                const std::string &_lpath_vs,
-                const std::string &_lpath_fs );
+    void init(  IntVec2 *texSizePtr_,
+                const std::string &lpath_vs_,
+                const std::string &lpath_fs_ );
 
     void draw();
 
@@ -47,17 +47,17 @@ public:
         this->is_binded = true;
         this->shaderProgram.use_program();
     }
-    inline void add_new_uniform( const std::string &_name ){
+    inline void add_new_uniform( const std::string &name_ ){
         tprAssert( this->is_binded );
-        this->shaderProgram.add_new_uniform( _name );
+        this->shaderProgram.add_new_uniform( name_ );
     }
-    inline void set_translate( float _x, float _y, float _z ){
+    inline void set_translate( float x_, float y_, float z_ ){
         tprAssert( this->is_binded );
-        this->mesh.set_translate( glm::vec3{ _x, _y, _z } );
+        this->mesh.set_translate( glm::vec3{ x_, y_, z_ } );
     }
-    inline GLint get_uniform_location( const std::string &_name ){
+    inline GLint get_uniform_location( const std::string &name_ ){
         tprAssert( this->is_binded );
-        return this->shaderProgram.get_uniform_location( _name );
+        return this->shaderProgram.get_uniform_location( name_ );
     }
 
 private:

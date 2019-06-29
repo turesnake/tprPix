@@ -29,17 +29,17 @@ public:
     Button_SceneBegin_Pointer() = default;
 
     //--- 延迟init ---//
-    void init_in_autoMod(   UIObj  *_uiObjPtr,
-                            const glm::vec2 &_fpos );
+    void init_in_autoMod(   UIObj  *uiObjPtr_,
+                            const glm::vec2 &fpos_ );
 
     //--- callback ---//
     // 暂无...
     
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline void rebind_ptr( UIObj *_uiObjPtr ){
-        tprAssert( _uiObjPtr->uiObjSpecId == Button_SceneBegin_Pointer::specId );
+    inline void rebind_ptr( UIObj *uiObjPtr_ ){
+        tprAssert( uiObjPtr_->uiObjSpecId == Button_SceneBegin_Pointer::specId );
         //-- rebind ptr -----
-        this->uiObjPtr = _uiObjPtr;
+        this->uiObjPtr = uiObjPtr_;
     }
 
     //======== tmp vals ========//

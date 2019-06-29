@@ -32,22 +32,22 @@ public:
 
     //-- 瞬移到 某位置 --
     //   目前仅用于 sceneWorld 的 perpare 阶段
-    inline void set_allFPos( const glm::vec2 &_tpos ){
-        this->currentFPos.x = _tpos.x; 
-        this->currentFPos.y = _tpos.y + 25.0f; //- 不是完全对齐，而是留了段小距离来运动
-        this->targetFPos  = _tpos;
+    inline void set_allFPos( const glm::vec2 &tpos_ ){
+        this->currentFPos.x = tpos_.x; 
+        this->currentFPos.y = tpos_.y + 25.0f; //- 不是完全对齐，而是留了段小距离来运动
+        this->targetFPos  = tpos_;
         this->isMoving = true;
     }
 
 
     //- 外部代码控制 camera运动 的唯一方式
-    inline void set_targetFPos( const glm::vec2 &_tpos, float _approachPercent=0.08f ){
-        if( _tpos == this->targetFPos ){
+    inline void set_targetFPos( const glm::vec2 &tpos_, float approachPercent_=0.08f ){
+        if( tpos_ == this->targetFPos ){
             return;
         }
-        this->targetFPos = _tpos;
+        this->targetFPos = tpos_;
         this->isMoving = true;
-        this->approachPercent = _approachPercent;
+        this->approachPercent = approachPercent_;
     }
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --

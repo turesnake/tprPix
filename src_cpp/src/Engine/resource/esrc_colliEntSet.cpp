@@ -124,9 +124,9 @@ void debug_colliEntSets(){
  *                  get_colliEntSetRef
  * -----------------------------------------------------------
  */
-const ColliEntSet &get_colliEntSetRef( int _colliEntSetIdx ){
-        tprAssert( ces_inn::colliEntSets.find(_colliEntSetIdx) != ces_inn::colliEntSets.end() );
-    return ces_inn::colliEntSets.at( _colliEntSetIdx );
+const ColliEntSet &get_colliEntSetRef( int colliEntSetIdx_ ){
+        tprAssert( ces_inn::colliEntSets.find(colliEntSetIdx_) != ces_inn::colliEntSets.end() );
+    return ces_inn::colliEntSets.at( colliEntSetIdx_ );
 }
 
 

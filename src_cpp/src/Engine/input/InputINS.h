@@ -37,34 +37,34 @@ public:
         dirAxes.clear_all();
     }
 
-    inline void set_key_from_keyboard( const GameKey &_key ){
-        switch( _key ){
+    inline void set_key_from_keyboard( const GameKey &key_ ){
+        switch( key_ ){
             case GameKey::LEFT:   dirAxes.set_x( -1.0f );  break;
             case GameKey::RIGHT:  dirAxes.set_x(  1.0f );  break;
             case GameKey::UP:     dirAxes.set_y(  1.0f );  break;
             case GameKey::DOWN:   dirAxes.set_y( -1.0f );  break;
             default: //- oth keys
-                keys = keys | (1<<(int)_key);
+                keys = keys | (1<<(int)key_);
                 break;
         }
     }
 
-    inline void set_key_from_joystick( const GameKey &_key ){
-        switch( _key ){
+    inline void set_key_from_joystick( const GameKey &key_ ){
+        switch( key_ ){
             //-- 暂时不允许 设置 方向键 button 
             case GameKey::LEFT:   tprAssert(0); break;
             case GameKey::RIGHT:  tprAssert(0); break;
             case GameKey::UP:     tprAssert(0); break;
             case GameKey::DOWN:   tprAssert(0); break;
             default: //- oth keys
-                keys = keys | (1<<(int)_key);
+                keys = keys | (1<<(int)key_);
                 break;
         }
     }
 
 
-    inline void set_dirAxes_from_joystick( float _x, float _y ){
-        this->dirAxes.set(_x, _y);
+    inline void set_dirAxes_from_joystick( float x_, float y_ ){
+        this->dirAxes.set(x_, y_);
     }
 
     inline void limit_dirAxes(){
@@ -72,12 +72,12 @@ public:
     }
 
     //-- 目前被 sceneBegin 使用 --
-    inline bool check_key( const GameKey &_key ) const {
-        size_t idx = static_cast<size_t>(_key);
+    inline bool check_key( const GameKey &key_ ) const {
+        size_t idx = static_cast<size_t>(key_);
         if(  idx < 32 ){
             return (((keys>>idx) & 1)==1);
         }else{
-            switch( _key ){
+            switch( key_ ){
                 case GameKey::LEFT:  return (dirAxes.get_x() < -0.0f);
                 case GameKey::RIGHT: return (dirAxes.get_x() >  0.0f);
                 case GameKey::UP:    return (dirAxes.get_y() >  0.0f);

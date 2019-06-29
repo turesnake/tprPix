@@ -54,23 +54,22 @@
 //   AnimFrameSet 没有 具象as类。
 class AnimFrameSet{
 public:
-    AnimFrameSet( const std::string &_name ):
-        name(_name)
+    AnimFrameSet( const std::string &name_ ):
+        name(name_)
         {}
 
     void insert_a_png(
-                const std::string &_lpath_pic, 
-                IntVec2             _frameNum,
-                size_t              _totalFrameNum,
-                bool                _isHaveShadow,
-                bool                _isPjtSingleFrame,
-                bool                _isShadowSingleFrame,
-                const std::vector<AnimActionParam> &_animActionParams
-                );
+                const std::string &lpath_pic_, 
+                IntVec2             frameNum_,
+                size_t              totalFrameNum_,
+                bool                isHaveShadow_,
+                bool                isPjtSingleFrame_,
+                bool                isShadowSingleFrame_,
+                const std::vector<AnimActionParam> &animActionParams_ );
 
-    inline AnimAction *getnc_animActionPtr( const std::string &_actionName ){
-       tprAssert( this->animActions.find(_actionName) != this->animActions.end() );
-       return  &this->animActions.at(_actionName);
+    inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
+       tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
+       return  &this->animActions.at(actionName_);
     }
 
     inline const std::vector<GLuint> *get_texNames_pic_ptr() const {

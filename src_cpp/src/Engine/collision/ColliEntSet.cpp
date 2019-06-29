@@ -42,16 +42,16 @@ void ColliEntSet::create_adds_dels(){
  * -- 根据 NineBox 提供的 crawl方向，生成 对应的 adds / dels 集
  * -- 这个函数 将被 调用 9 次 
  */
-void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx _idx ){
+void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx idx_ ){
 
     //-- idx==4 号 子容器为空，直接跳过 --
-    if( _idx == NineBoxIdx::Mid_Mid ){
+    if( idx_ == NineBoxIdx::Mid_Mid ){
         return;
     }
 
     //-- adds/dels 子容器idx --
-    size_t idx = static_cast<size_t>(_idx);
-    NineBox nb = NineBox_Idx_2_XY( _idx );
+    size_t idx = static_cast<size_t>(idx_);
+    NineBox nb = NineBox_Idx_2_XY( idx_ );
 
     //-- 每个 collient 需要的 位移向量 --
     MapCoord  mcOff { IntVec2{ nb.x, nb.y } };

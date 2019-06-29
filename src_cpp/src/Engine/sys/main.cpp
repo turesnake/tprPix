@@ -28,9 +28,6 @@
 //#include "tprDebug.h" //- tmp
 
 
-
-
-
 /* ===========================================================
  *                     cppMain_tmp
  * -----------------------------------------------------------
@@ -105,7 +102,6 @@ int cppMain_tmp( char *exeDirPath_ ){
     GameObj::id_manager.set_max_id( 0 );
 
         esrc::get_player().init();         //----  player 资源 ----
-        esrc::get_player().goid = NULLID; 
     //... 
 
     tprDebug::init_debug();             //---- tprDebug 资源 ----

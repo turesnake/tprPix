@@ -29,25 +29,25 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -----------------------------------------------------------
  * -- tmp 
  */
-goid_t create_a_Go( goSpecId_t _goSpecId,
+goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 &_mpos,
-					float _fieldWeight,
-					const MapAltitude &_alti,
+					float fieldWeight_,
+					const MapAltitude &alti_,
 					const Density &_density ){
 
     goid_t goid = esrc::insert_new_gameObj();
-    GameObj *goPtr = esrc::get_memGameObjPtr( goid ); //- 获取目标go指针
+    GameObj &goRef = esrc::get_goRef( goid );
 
-        tprAssert( ssrc::find_from_goInit_funcs(_goSpecId) );
-        ssrc::call_goInit_func( _goSpecId,
-                                goPtr,
+        tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
+        ssrc::call_goInit_func( goSpecId_,
+                                goRef,
                                 _mpos,
-                                _fieldWeight,
-                                _alti,
+                                fieldWeight_,
+                                alti_,
                                 _density );
 
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goPtr );
+    esrc::signUp_newGO_to_mapEnt( goRef );
         esrc::get_goids_active().insert( goid ); //- tmp
     
     return  goid;
@@ -61,30 +61,27 @@ goid_t create_a_Go( goSpecId_t _goSpecId,
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
 void rebind_a_disk_Go( const DiskGameObj &_diskGo,
-                        float _fieldWeight,
-					    const MapAltitude &_alti,
+                        float fieldWeight_,
+					    const MapAltitude &alti_,
 					    const Density &_density  ){
 
     esrc::insert_a_disk_gameObj( _diskGo.goid );
-    GameObj *goPtr = esrc::get_memGameObjPtr( _diskGo.goid ); //- 获取目标go指针
+    GameObj &goRef = esrc::get_goRef( _diskGo.goid );
 
     tprAssert( ssrc::find_from_goInit_funcs(_diskGo.goSpecId) );
     ssrc::call_goInit_func( _diskGo.goSpecId,
-                            goPtr,
+                            goRef,
                             _diskGo.mpos,
-                            _fieldWeight,
-                            _alti,
+                            fieldWeight_,
+                            alti_,
                             _density );
 
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goPtr );
+    esrc::signUp_newGO_to_mapEnt( goRef );
         esrc::get_goids_active().insert( _diskGo.goid ); //- tmp
 }
-
-
-
 
 
 

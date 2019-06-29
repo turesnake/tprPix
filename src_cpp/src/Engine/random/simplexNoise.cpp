@@ -17,55 +17,55 @@
  *                prepare funcs...
  * -----------------------------------------------------------
  */
-glm::dvec2 mod289V2( const glm::dvec2 &_vec ){
+glm::dvec2 mod289V2( const glm::dvec2 &vec_ ){
 
 
-    glm::dvec2 tmpv {floor(_vec.x / 289.0),
-                     floor(_vec.y / 289.0) };
+    glm::dvec2 tmpv {floor(vec_.x / 289.0),
+                     floor(vec_.y / 289.0) };
     tmpv *= 289.0;
-    return _vec - tmpv; 
+    return vec_ - tmpv; 
 }
 
-glm::dvec3 mod289V3( const glm::dvec3 &_vec){ 
-    glm::dvec3 tmpv {floor(_vec.x / 289.0),
-                     floor(_vec.y / 289.0),
-                     floor(_vec.z / 289.0) };
+glm::dvec3 mod289V3( const glm::dvec3 &vec_){ 
+    glm::dvec3 tmpv {floor(vec_.x / 289.0),
+                     floor(vec_.y / 289.0),
+                     floor(vec_.z / 289.0) };
     tmpv *= 289.0;
-    return _vec - tmpv;
+    return vec_ - tmpv;
 }
 
-glm::dvec4 mod289V4( const glm::dvec4 &_vec){ 
-    glm::dvec4 tmpv {floor(_vec.x / 289.0),
-                     floor(_vec.y / 289.0),
-                     floor(_vec.z / 289.0),
-                     floor(_vec.w / 289.0) };
+glm::dvec4 mod289V4( const glm::dvec4 &vec_){ 
+    glm::dvec4 tmpv {floor(vec_.x / 289.0),
+                     floor(vec_.y / 289.0),
+                     floor(vec_.z / 289.0),
+                     floor(vec_.w / 289.0) };
     tmpv *= 289.0;
-    return _vec - tmpv;
+    return vec_ - tmpv;
 }
 
 
-glm::dvec3 permuteV3( const glm::dvec3 &_vec ){ 
-    return mod289V3( glm::dvec3{ ((_vec.x*34.0) + 1.0) * _vec.x,
-                                 ((_vec.y*34.0) + 1.0) * _vec.y,
-                                 ((_vec.z*34.0) + 1.0) * _vec.z } );
+glm::dvec3 permuteV3( const glm::dvec3 &vec_ ){ 
+    return mod289V3( glm::dvec3{ ((vec_.x*34.0) + 1.0) * vec_.x,
+                                 ((vec_.y*34.0) + 1.0) * vec_.y,
+                                 ((vec_.z*34.0) + 1.0) * vec_.z } );
 }
 
-glm::dvec4 permuteV4( const glm::dvec4 &_vec){
-    return mod289V4( glm::dvec4{ ((_vec.x*34.0) + 1.0) * _vec.x,
-                                 ((_vec.y*34.0) + 1.0) * _vec.y,
-                                 ((_vec.z*34.0) + 1.0) * _vec.z,
-                                 ((_vec.w*34.0) + 1.0) * _vec.w } );
+glm::dvec4 permuteV4( const glm::dvec4 &vec_){
+    return mod289V4( glm::dvec4{ ((vec_.x*34.0) + 1.0) * vec_.x,
+                                 ((vec_.y*34.0) + 1.0) * vec_.y,
+                                 ((vec_.z*34.0) + 1.0) * vec_.z,
+                                 ((vec_.w*34.0) + 1.0) * vec_.w } );
 }
 
-glm::dvec4 taylorInvSqrtV4( const glm::dvec4 &_vec ){ 
-    return glm::dvec4{   1.79284291400159 - 0.85373472095314 * _vec.x,
-                         1.79284291400159 - 0.85373472095314 * _vec.y,
-                         1.79284291400159 - 0.85373472095314 * _vec.z,
-                         1.79284291400159 - 0.85373472095314 * _vec.w };
+glm::dvec4 taylorInvSqrtV4( const glm::dvec4 &vec_ ){ 
+    return glm::dvec4{   1.79284291400159 - 0.85373472095314 * vec_.x,
+                         1.79284291400159 - 0.85373472095314 * vec_.y,
+                         1.79284291400159 - 0.85373472095314 * vec_.z,
+                         1.79284291400159 - 0.85373472095314 * vec_.w };
 }
 
-double dotV2( double _ax, double _ay, double _bx, double _by ){
-    return (_ax*_bx + _ay*_by);
+double dotV2( double ax_, double ay_, double bx_, double by_ ){
+    return (ax_*bx_ + ay_*by_);
 }
 
 
@@ -76,8 +76,8 @@ double dotV2( double _ax, double _ay, double _bx, double _by ){
  *  和 glsl 中 同名函数，内容完全一致 
  *  return 【-1.0， 1.0】
  */
-float simplex_noise2( float _x, float _y ){
-    return simplex_noise2( glm::vec2{_x, _y} );
+float simplex_noise2( float x_, float y_ ){
+    return simplex_noise2( glm::vec2{x_, y_} );
 }
 float simplex_noise2( const glm::vec2 &_v ){
 

@@ -27,8 +27,8 @@
 class ViewingBox{
 public: 
 
-    static float get_renderLayerZOff( RenderLayerType _type ){
-        switch(_type){
+    static float get_renderLayerZOff( RenderLayerType type_ ){
+        switch(type_){
             case RenderLayerType::Ground:      return ground_zOff;
             case RenderLayerType::Chunks:      return chunks_zOff;
             case RenderLayerType::WaterAnim:   return waterAnim_zOff;
@@ -45,12 +45,12 @@ public:
         }
     }
 
-    static void reset( const int _windowSZ_x,
-                       const int _windowSZ_y ){
-        windowSZ.x = _windowSZ_x;
-        windowSZ.y = _windowSZ_y;
-        gameSZ.x = static_cast<float>(_windowSZ_x) / static_cast<float>(PIXES_PER_GAMEPIX);
-        gameSZ.y = static_cast<float>(_windowSZ_y) / static_cast<float>(PIXES_PER_GAMEPIX);
+    static void reset( const int windowSZ_x_,
+                       const int windowSZ_y_ ){
+        windowSZ.x = windowSZ_x_;
+        windowSZ.y = windowSZ_y_;
+        gameSZ.x = static_cast<float>(windowSZ_x_) / static_cast<float>(PIXES_PER_GAMEPIX);
+        gameSZ.y = static_cast<float>(windowSZ_y_) / static_cast<float>(PIXES_PER_GAMEPIX);
     }
 
 

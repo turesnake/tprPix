@@ -42,24 +42,24 @@ namespace renderP_inn {//-------- namespace: renderP_inn  --------------//
 
 
 
-void insert_2_renderPool_goMeshs_pic( float _off_z, ChildMesh *_meshPtr ){
-    renderP_inn::renderPool_goMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
+void insert_2_renderPool_goMeshs_pic( float off_z_, ChildMesh *meshPtr_ ){
+    renderP_inn::renderPool_goMeshs_pic.insert({ off_z_, meshPtr_ }); //- copy
 }
 
-void pushback_2_renderPool_mapSurfaces( ChildMesh *_meshPtr ){
-    renderP_inn::renderPool_mapSurfaces.push_back( _meshPtr ); //- copy
+void pushback_2_renderPool_mapSurfaces( ChildMesh *meshPtr_ ){
+    renderP_inn::renderPool_mapSurfaces.push_back( meshPtr_ ); //- copy
 }
 
-void pushback_2_renderPool_goMeshs_shadow( ChildMesh *_meshPtr ){
-    renderP_inn::renderPool_goMeshs_shadow.push_back( _meshPtr ); //- copy
+void pushback_2_renderPool_goMeshs_shadow( ChildMesh *meshPtr_ ){
+    renderP_inn::renderPool_goMeshs_shadow.push_back( meshPtr_ ); //- copy
 }
 
-void insert_2_renderPool_meshs( float _off_z, Mesh *_meshPtr ){
-    renderP_inn::renderPool_meshs.insert({ _off_z, _meshPtr }); //- copy
+void insert_2_renderPool_meshs( float off_z_, Mesh *meshPtr_ ){
+    renderP_inn::renderPool_meshs.insert({ off_z_, meshPtr_ }); //- copy
 }
 
-void insert_2_renderPool_uiMeshs_pic( float _off_z, UIChildMesh *_meshPtr ){
-    renderP_inn::renderPool_uiMeshs_pic.insert({ _off_z, _meshPtr }); //- copy
+void insert_2_renderPool_uiMeshs_pic( float off_z_, UIChildMesh *meshPtr_ ){
+    renderP_inn::renderPool_uiMeshs_pic.insert({ off_z_, meshPtr_ }); //- copy
 }
 
 void clear_renderPool_goMeshs_pic(){

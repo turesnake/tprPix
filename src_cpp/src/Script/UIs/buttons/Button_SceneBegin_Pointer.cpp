@@ -32,11 +32,11 @@ namespace uis{//------------- namespace uis ----------------
  *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
-                                                const glm::vec2 &_fpos ){
+void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *uiObjPtr_,
+                                                const glm::vec2 &fpos_ ){
 
-    tprAssert( _uiObjPtr != nullptr );
-    this->uiObjPtr = _uiObjPtr;
+    tprAssert( uiObjPtr_ != nullptr );
+    this->uiObjPtr = uiObjPtr_;
  
     //-------- bind callback funcs ---------//
     // 暂无...
@@ -46,7 +46,7 @@ void Button_SceneBegin_Pointer::init_in_autoMod(  UIObj  *_uiObjPtr,
     //-------- go self vals ---------//
     this->uiObjPtr->uiObjSpecId = Button_SceneBegin_Pointer::specId;
 
-    this->uiObjPtr->skip_to_fpos( _fpos );
+    this->uiObjPtr->skip_to_fpos( fpos_ );
     //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
 
         //-- 制作唯一的 mesh 实例: "root" --

@@ -49,17 +49,17 @@ public:
     void refresh_translate_auto();
 
 
-    inline void insert_2_goIds( const goid_t &_id ){
-        this->goIds.insert(_id);
+    inline void insert_2_goIds( const goid_t &id_ ){
+        this->goIds.insert(id_);
     }
-    inline size_t erase_from_goIds( const goid_t &_id ){
-        return this->goIds.erase(_id);
+    inline size_t erase_from_goIds( const goid_t &id_ ){
+        return this->goIds.erase(id_);
     }
-    inline void insert_2_edgeGoIds( const goid_t &_id ){
-        this->edgeGoIds.insert(_id);
+    inline void insert_2_edgeGoIds( const goid_t &id_ ){
+        this->edgeGoIds.insert(id_);
     }
-    inline size_t erase_from_edgeGoIds( const goid_t &_id ){
-        return this->edgeGoIds.erase(_id);
+    inline size_t erase_from_edgeGoIds( const goid_t &id_ ){
+        return this->edgeGoIds.erase(id_);
     }
 
     //------- set -------//

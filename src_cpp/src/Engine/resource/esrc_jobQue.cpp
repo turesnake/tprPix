@@ -41,8 +41,8 @@ namespace jobQue_inn {//------------ namespace: jobQue_inn --------------//
  * -- 通常为 游戏主线程 向 jobQue 写入一个 true
  *    提醒 job thread，在处理完 jobQue 中所有 jobs 后，即可自行exit
  */
-void atom_exitJobThreadsFlag_store( bool _val ){
-    jobQue_inn::exitJobThreadsFlag.store( _val );
+void atom_exitJobThreadsFlag_store( bool val_ ){
+    jobQue_inn::exitJobThreadsFlag.store( val_ );
 }
 
 /* ===========================================================
@@ -60,11 +60,11 @@ bool atom_exitJobThreadsFlag_load(){
  * -----------------------------------------------------------
  * -- 通常为 游戏主线程 向 jobQue 写入一个 job
  */
-void atom_push_back_2_jobQue( const Job &_job ){
+void atom_push_back_2_jobQue( const Job &job_ ){
 
     {//--- atom ---//
         std::lock_guard<std::mutex> lg(jobQue_inn::jobQueMutex);
-        jobQue_inn::jobQue.push_back( _job ); //- copy
+        jobQue_inn::jobQue.push_back( job_ ); //- copy
     }
     //-- 解除 消费者线程 的阻塞
     //  注意，此句 不需要处于 上文的 lock作用域中

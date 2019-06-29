@@ -26,14 +26,14 @@
  * -- param: _path   -- png文件的 绝对path
  * -- param: _frameNums -- xy轴 图元帧 个数
  * -- param: _totalFrameNums -- 总帧数 
- * -- param: _frame_data_ary -- 将每一帧的图形数据，存入这组 帧容器中
+ * -- param: frame_data_ary_ -- 将每一帧的图形数据，存入这组 帧容器中
  * -- return:
  *          pixNum_per_frame
  */
-IntVec2 load_and_divide_png( const std::string &_path,
-                          const IntVec2 &_frameNum,
-                          size_t         _totalFrameNum,
-        std::vector< std::vector<RGBA>> &_frame_data_ary ){
+IntVec2 load_and_divide_png( const std::string &path_,
+                          const IntVec2 &frameNum_,
+                          size_t         totalFrameNum_,
+        std::vector< std::vector<RGBA>> &frame_data_ary_ ){
 
     //------------------------------//
     //   加载 png图片，获得其 原始数据
@@ -46,9 +46,9 @@ IntVec2 load_and_divide_png( const std::string &_path,
                         //- 我们只获得一个 调用指针。
 
     stbi_set_flip_vertically_on_load( 1 ); //-- 防止 图片 y轴颠倒。
-    data = stbi_load( _path.c_str(), &width, &height, &nrChannels, 0 );
+    data = stbi_load( path_.c_str(), &width, &height, &nrChannels, 0 );
         if(  data == nullptr ){
-            cout << _path << endl;
+            cout << path_ << endl;
             tprAssert( data != nullptr );
         }
 
@@ -56,13 +56,13 @@ IntVec2 load_and_divide_png( const std::string &_path,
     //   获得 每一帧的数据, 存入各自 帧容器中
     //------------------------------------// 
     //-- 事先准备好 每一帧的容器 --
-    _frame_data_ary.clear();
-    for( size_t i=0; i<_totalFrameNum; i++ ){
+    frame_data_ary_.clear();
+    for( size_t i=0; i<totalFrameNum_; i++ ){
         std::vector<RGBA> v {};
-        _frame_data_ary.push_back( v );//- copy
+        frame_data_ary_.push_back( v );//- copy
     }
 
-    auto fit = _frame_data_ary.begin(); //- 指向某个 帧容器
+    auto fit = frame_data_ary_.begin(); //- 指向某个 帧容器
 
     int wf {}; //-- 以帧为单位，目标像素在横排中 的序号
     int hf {}; //-- 以帧为单位，目标像素的 纵向 序号 (左下坐标系)
@@ -71,9 +71,9 @@ IntVec2 load_and_divide_png( const std::string &_path,
     RGBA *pixHeadPtr = (RGBA*)data;
     RGBA *pixPtr {nullptr}; //- tmp
 
-    tprAssert( ((width%_frameNum.x)==0) && 
-            ((height%_frameNum.y)==0) );
-    IntVec2 pixNum_per_frame { width/_frameNum.x, height/_frameNum.y };
+    tprAssert( ((width%frameNum_.x)==0) && 
+            ((height%frameNum_.y)==0) );
+    IntVec2 pixNum_per_frame { width/frameNum_.x, height/frameNum_.y };
 
     //--- 遍历 png 中的 每一像素 ---
     for( int h=0; h<height; h++  ){
@@ -82,22 +82,22 @@ IntVec2 load_and_divide_png( const std::string &_path,
             //-- 计算 本像素 所属帧的容器 的迭代器 fit --
             wf = w/pixNum_per_frame.x;
             hf = h/pixNum_per_frame.y;
-            hf = _frameNum.y - 1 - hf; 
+            hf = frameNum_.y - 1 - hf; 
                         //- 关键步骤！修正帧排序，(注意必须先减1，可画图验证)
                         //- 现在，帧排序从 左下 修正为 左上角坐标系
 
-            int tmpInt = hf*_frameNum.x + wf;
+            int tmpInt = hf*frameNum_.x + wf;
             tprAssert( tmpInt >= 0 );
             nrf = static_cast<size_t>( tmpInt );
                         // 这样实现并不好
 
             //-- 只处理 非空置的 frame ---
-            if( nrf < _totalFrameNum ){
+            if( nrf < totalFrameNum_ ){
                 //-- 获得 本像素 的数据 --
                 pixPtr = pixHeadPtr + (h*width + w);
 
                 //-- 将数据 压入 对应的 帧容器 中 --
-                fit = _frame_data_ary.begin();
+                fit = frame_data_ary_.begin();
                 std::advance( fit, nrf ); //-- 事实上，std::advance 并不检测是否越界...
                 fit->push_back( *pixPtr ); //-copy
             }

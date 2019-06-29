@@ -22,12 +22,12 @@
 
     #include <windows.h>
     #include <sstream>   //-- stringstream
-    inline int tprMessageBox(  const std::string &_e,
-                                const std::string &_file,
-                                int _line ){
+    inline int tprMessageBox(  const std::string &e_,
+                                const std::string &file_,
+                                int line_ ){
         std::stringstream ss;                               
-        ss << _e << "\n";                                 
-        ss << _file << ": " << _line;                  
+        ss << e_ << "\n";                                 
+        ss << file_ << ": " << line_;                  
         MessageBox( nullptr, ss.str().c_str(), "tprAssert", MB_OK);
         exit(-99);  
         return 0; //- never reach                                        

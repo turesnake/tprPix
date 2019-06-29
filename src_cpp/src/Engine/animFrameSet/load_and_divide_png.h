@@ -17,10 +17,10 @@
 #include "IntVec.h"
 
 
-IntVec2 load_and_divide_png(const std::string &_path,
-                            const IntVec2 &_frameNum,
-                            size_t         _totalFrameNum,
-        std::vector< std::vector<RGBA>> &_frame_data_ary );
+IntVec2 load_and_divide_png(const std::string &path_,
+                            const IntVec2 &frameNum_,
+                            size_t         totalFrameNum_,
+        std::vector< std::vector<RGBA>> &frame_data_ary_ );
 
 
 #endif 

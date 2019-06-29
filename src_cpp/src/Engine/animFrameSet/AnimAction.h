@@ -52,47 +52,47 @@ class AnimActionParam{
 public:
 
     //-- 常规构造器,且手动设置 timesteps --
-    AnimActionParam(const std::string  &_actionName,
-                    const AnimActionType &_type,
-                    bool                _isOrder,
-                    const std::vector<size_t>  &_lFrameIdxs,
-                    const std::vector<size_t>  &_timeSteps ):
-        actionName(_actionName),
-        actionType( _type ),
-        isOrder( _isOrder ),
+    AnimActionParam(const std::string     &actionName_,
+                    const AnimActionType  &type_,
+                    bool                   isOrder_,
+                    const std::vector<size_t>  &lFrameIdxs_,
+                    const std::vector<size_t>  &timeSteps_ ):
+        actionName(actionName_),
+        actionType( type_ ),
+        isOrder( isOrder_ ),
         isTimeStepsManualSet(true),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
-            this->lFrameIdxs.insert( this->lFrameIdxs.end(), _lFrameIdxs.begin(), _lFrameIdxs.end() );
-            this->timeSteps.insert( this->timeSteps.end(), _timeSteps.begin(), _timeSteps.end() );
+            this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
+            this->timeSteps.insert( this->timeSteps.end(), timeSteps_.begin(), timeSteps_.end() );
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
-    AnimActionParam(const std::string  &_actionName,
-                    const AnimActionType &_type,
-                    bool                _isOrder,
-                    const std::vector<size_t>  &_lFrameIdxs,
+    AnimActionParam(const std::string    &actionName_,
+                    const AnimActionType &type_,
+                    bool                  isOrder_,
+                    const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep ):
-        actionName(_actionName),
-        actionType( _type ),
-        isOrder( _isOrder ),
+        actionName(actionName_),
+        actionType( type_ ),
+        isOrder( isOrder_ ),
         isTimeStepsManualSet(false),
         defaultTimeStep(_defaultTimeStep)
         {
-            this->lFrameIdxs.insert( this->lFrameIdxs.end(), _lFrameIdxs.begin(), _lFrameIdxs.end() );
+            this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
             this->timeSteps.push_back( _defaultTimeStep ); //- 用不上
         }
 
     //-- 单帧action 专用 构造器 --
-    AnimActionParam(    const std::string &_actionName,
-                        size_t  _lFrameIdx ):
-        actionName(_actionName),
+    AnimActionParam(    const std::string &actionName_,
+                        size_t  lFrameIdx_ ):
+        actionName(actionName_),
         actionType( AnimActionType::Idle ), //- 默认type
         isOrder( true ), //- 随便写一个值，反正用不上
         isTimeStepsManualSet(false),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
-            this->lFrameIdxs.push_back( _lFrameIdx );
+            this->lFrameIdxs.push_back( lFrameIdx_ );
             this->timeSteps.push_back( 6 ); //- 随便写一个值，反正用不上
         }
 
@@ -100,7 +100,7 @@ public:
     std::string     actionName;
     AnimActionType  actionType;
     bool            isOrder;
-    bool            isTimeStepsManualSet;    //- 若为 false，参数 _timeSteps 可为空容器
+    bool            isTimeStepsManualSet;    //- 若为 false，参数 timeSteps_ 可为空容器
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
     std::vector<size_t> timeSteps  {}; 
@@ -120,22 +120,22 @@ public:
     AnimAction() = default;
 
 
-    void init(  const AnimFrameSet *_animFrameSetPtr,
-                const AnimActionParam &_param,
-                const IntVec2 &_pixNum_per_frame,
-                size_t _headIdx,
-                bool _isHaveShadow );
+    void init(  const AnimFrameSet *animFrameSetPtr_,
+                const AnimActionParam &param_,
+                const IntVec2 &pixNum_per_frame_,
+                size_t headIdx_,
+                bool isHaveShadow_ );
 
     F_UPDATE  update {nullptr};
 
 
     //- 当 gomesh 切换 animAction 时
     //  通过此函数，来重置自己的 pvtdata 值 --
-    inline void reset_pvtData( AnimActionPvtData &_pvtData ){
-        _pvtData.currentIdx_for_frameIdxs = 0;
-        _pvtData.currentFrameIdx = this->frameIdxs.at(0);
-        _pvtData.currentTimeStep = this->timeSteps.at(0);
-        _pvtData.isLastFrame = false;
+    inline void reset_pvtData( AnimActionPvtData &pvtData_ ){
+        pvtData_.currentIdx_for_frameIdxs = 0;
+        pvtData_.currentFrameIdx = this->frameIdxs.at(0);
+        pvtData_.currentTimeStep = this->timeSteps.at(0);
+        pvtData_.isLastFrame = false;
     }
 
 
@@ -146,24 +146,24 @@ public:
     inline const IntVec2 &get_pixNum_per_frame() const {
         return this->pixNum_per_frame;
     }
-    inline const IntVec2 &get_currentRootAnchorPPosOff( const AnimActionPvtData &_pvtData ) const {
-        return this->framePosesPtr->at(_pvtData.currentFrameIdx).get_rootAnchorPPosOff();
+    inline const IntVec2 &get_currentRootAnchorPPosOff( const AnimActionPvtData &pvtData_ ) const {
+        return this->framePosesPtr->at(pvtData_.currentFrameIdx).get_rootAnchorPPosOff();
     }
-    inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &_pvtData ) const {
-        return this->texNames_pic_ptr->at(_pvtData.currentFrameIdx);
+    inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const {
+        return this->texNames_pic_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &_pvtData ) const {
-        return this->texNames_shadow_ptr->at(_pvtData.currentFrameIdx);
+    inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const {
+        return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const FramePos &get_currentFramePos( const AnimActionPvtData &_pvtData ) const {
-        return this->framePosesPtr->at(_pvtData.currentFrameIdx);
+    inline const FramePos &get_currentFramePos( const AnimActionPvtData &pvtData_ ) const {
+        return this->framePosesPtr->at(pvtData_.currentFrameIdx);
     }
 
 private:
 
-    inline void update_idle( AnimActionPvtData &_pvtData ){}
-    void update_once( AnimActionPvtData &_pvtData );
-    void update_cycle( AnimActionPvtData &_pvtData );
+    inline void update_idle( AnimActionPvtData &pvtData_ ){}
+    void update_once( AnimActionPvtData &pvtData_ );
+    void update_cycle( AnimActionPvtData &pvtData_ );
 
     //===== vals =====//
     //-- 从 animFrameSet 中获得的 只读指针 --

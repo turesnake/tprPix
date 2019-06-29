@@ -42,17 +42,17 @@ class ActionFSM{
 public:
     ActionFSM() = default;
 
-    inline void init( GameObj *_goPtr ){
-        this->goPtr = _goPtr;
+    inline void init( GameObj *goPtr_ ){
+        this->goPtr = goPtr_;
     }
 
 
-    inline ActionState *insert_new_state( const std::string &_name ){
+    inline ActionState *insert_new_state( const std::string &name_ ){
         // ***| INSERT FIRST, INIT LATER  |***
         ActionState state {};
-        states.insert({ _name, state }); //- copy
+        states.insert({ name_, state }); //- copy
         // init...
-        return &(states.at(_name));
+        return &(states.at(name_));
     }
 
 

@@ -16,9 +16,9 @@
  *                   switch_sceneLoop
  * -----------------------------------------------------------
  */
-void switch_sceneLoop( const SceneLoopType &_type ){
+void switch_sceneLoop( const SceneLoopType &type_ ){
 
-    switch (_type){
+    switch (type_){
     case SceneLoopType::Begin:
         sceneLoopFunc = std::bind( sceneLoop_begin );
         break;

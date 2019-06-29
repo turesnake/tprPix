@@ -22,11 +22,12 @@ class GameObj;
 //
 class Collision{
 public:
-    Collision() = default;
+    Collision( GameObj &goRef_ ):
+        goRef(goRef_)
+        {}
 
-    void init( GameObj *_goPtr );
 
-    bool collide_for_crawl( const NineBoxIdx &_nbIdx ); //-- 碰撞检测主流程 
+    bool collide_for_crawl( const NineBoxIdx &nbIdx_ ); //-- 碰撞检测主流程 
                     //-- 临时的，局限性很大...
 
     //======== flags ========//
@@ -39,10 +40,10 @@ public:
                             //  此时，本go 将无法阻止任何 go 从自己身上 穿过
 
 private:
-    bool isPass_Check( bool _isBePass );
+    bool isPass_Check( bool isBePass_ );
 
     //======== vals ========//
-    GameObj  *goPtr       {nullptr};
+    GameObj    &goRef;
 };
 
 

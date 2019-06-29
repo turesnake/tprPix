@@ -27,12 +27,12 @@
 class DirAxes{
 public:
     DirAxes() = default;
-    DirAxes( float _x, float _y ):
-        x(_x),
-        y(_y)
+    DirAxes( float x_, float y_ ):
+        x(x_),
+        y(y_)
         {
-            tprAssert( (_x>=-1.0f) && (_x<=1.0f) &&
-                    (_y>=-1.0f) && (_y<=1.0f) );
+            tprAssert( (x_>=-1.0f) && (x_<=1.0f) &&
+                    (y_>=-1.0f) && (y_<=1.0f) );
             this->consider_threshold_x();
             this->consider_threshold_y();
         }
@@ -42,24 +42,24 @@ public:
         this->y = 0.0f;
     }
 
-    inline void set( float _x, float _y ){
-        tprAssert( (_x>=-1.0f) && (_x<=1.0f) &&
-                (_y>=-1.0f) && (_y<=1.0f) );
-        this->x = _x;
-        this->y = _y;
+    inline void set( float x_, float y_ ){
+        tprAssert( (x_>=-1.0f) && (x_<=1.0f) &&
+                (y_>=-1.0f) && (y_<=1.0f) );
+        this->x = x_;
+        this->y = y_;
         this->consider_threshold_x();
         this->consider_threshold_y();
     }
 
     //-- 仅用于 InputINS --
-    inline void set_x( float _x ){
-        tprAssert( (_x>=-1.0f) && (_x<=1.0f) );
-        this->x = _x;
+    inline void set_x( float x_ ){
+        tprAssert( (x_>=-1.0f) && (x_<=1.0f) );
+        this->x = x_;
         this->consider_threshold_x();
     }
-    inline void set_y( float _y ){
-        tprAssert( (_y>=-1.0f) && (_y<=1.0f) );
-        this->y = _y;
+    inline void set_y( float y_ ){
+        tprAssert( (y_>=-1.0f) && (y_<=1.0f) );
+        this->y = y_;
         this->consider_threshold_y();
     }
 
@@ -82,12 +82,12 @@ public:
 
 
     //- 目标参数 是否符合 数值范围要求 --
-    static bool is_effectVal( float _x, float _y ){
+    static bool is_effectVal( float x_, float y_ ){
         bool ret = false;
-        if( (_x>=-1.0f) && (_x<=1.0f) && 
-            (_y>=-1.0f) && (_y<=1.0f) ){
-            if( ((_x >= DirAxes::threshold) || (_x <= -DirAxes::threshold)) ||
-                ((_y >= DirAxes::threshold) || (_y <= -DirAxes::threshold)) ){
+        if( (x_>=-1.0f) && (x_<=1.0f) && 
+            (y_>=-1.0f) && (y_<=1.0f) ){
+            if( ((x_ >= DirAxes::threshold) || (x_ <= -DirAxes::threshold)) ||
+                ((y_ >= DirAxes::threshold) || (y_ <= -DirAxes::threshold)) ){
                 ret = true;
             }
         }

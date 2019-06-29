@@ -32,8 +32,8 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
     std::mutex  chunkDataFlagsMutex;
 
     //===== funcs =====//
-    bool is_find_in_chunkDatas_( chunkKey_t _key ){
-        return (chunkD_inn::chunkDatas.find(_key) != chunkD_inn::chunkDatas.end());
+    bool is_find_in_chunkDatas_( chunkKey_t key_ ){
+        return (chunkD_inn::chunkDatas.find(key_) != chunkD_inn::chunkDatas.end());
     }
 
 
@@ -48,16 +48,16 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
  *       
  *           这样实现 很不安全，在未来需要修改
  */
-ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
+ChunkData *atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     ChunkData  chunkData {};
     ChunkData *chunkDataPtr {};
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
-            tprAssert( chunkD_inn::is_find_in_chunkDatas_(_chunkKey) == false ); //- MUST NOT EXIST
-        chunkD_inn::chunkDatas.insert({ _chunkKey, chunkData }); //- copy
-        chunkDataPtr = &(chunkD_inn::chunkDatas.at(_chunkKey));
+            tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) == false ); //- MUST NOT EXIST
+        chunkD_inn::chunkDatas.insert({ chunkKey_, chunkData }); //- copy
+        chunkDataPtr = &(chunkD_inn::chunkDatas.at(chunkKey_));
     }
     return chunkDataPtr;
 }
@@ -68,10 +68,10 @@ ChunkData *atom_insert_new_chunkData( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  * 通常由 主线程 调用
  */
-void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
+void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
-        tprAssert( chunkD_inn::chunkDatas.erase(_chunkKey) == 1 );
+        tprAssert( chunkD_inn::chunkDatas.erase(chunkKey_) == 1 );
     }
 }
 
@@ -82,11 +82,11 @@ void atom_erase_from_chunkDatas( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  * 只能由 主线程 调用
  */
-const ChunkData *atom_get_chunkDataPtr( chunkKey_t _chunkKey ){
+const ChunkData *atom_get_chunkDataPtr( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( chunkD_inn::sharedMutex ); //- read
-            tprAssert( chunkD_inn::is_find_in_chunkDatas_(_chunkKey) ); //- MUST EXIST
-        return &(chunkD_inn::chunkDatas.at(_chunkKey));
+            tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) ); //- MUST EXIST
+        return &(chunkD_inn::chunkDatas.at(chunkKey_));
     }
 }
 
@@ -112,10 +112,10 @@ bool atom_is_chunkDataFlags_empty(){
  * -----------------------------------------------------------
  * -- 通常由 job线程 调用
  */
-void atom_push_back_2_chunkDataFlags( chunkKey_t _chunkKey ){
+void atom_push_back_2_chunkDataFlags( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( chunkD_inn::chunkDataFlagsMutex );
-        chunkD_inn::chunkDataFlags.push_back( _chunkKey );
+        chunkD_inn::chunkDataFlags.push_back( chunkKey_ );
     }
 }
 

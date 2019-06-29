@@ -20,8 +20,8 @@
 namespace uis{//------------- namespace uis ----------------
 
 
-uiObjId_t create_a_ui( uiObjSpecId_t _uiObjSpecId,
-                    const glm::vec2 &_fpos );
+uiObjId_t create_a_ui( uiObjSpecId_t uiObjSpecId_,
+                    const glm::vec2 &fpos_ );
 
 
 }//------------- namespace uis: end ----------------

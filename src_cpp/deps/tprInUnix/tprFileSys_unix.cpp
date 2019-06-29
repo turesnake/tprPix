@@ -42,8 +42,8 @@ namespace {
 
     //std::stringstream ss;
     //===== funcs =====//
-    bool _is_path_valid_result_check( int _r, int _fd, const char *_path );
-    int  _is_path_a_dir_result_check( int _r, int _fd, const char *_path );
+    bool _is_path_valid_result_check( int r_, int fd_, const char *path_ );
+    int  _is_path_a_dir_result_check( int r_, int fd_, const char *path_ );
 
 }
 
@@ -58,23 +58,24 @@ namespace {
  * -----------------------------------------------------------
  * -- 检查 st_mode 指向 什么类型的 文件
  *  return:
- *      若 _mode 存在问题，直接报错终止
- *      若 _mode 正确， 返回不同类型 对应的 int 值
+ *      若 mode_ 存在问题，直接报错终止
+ *      若 mode_ 正确， 返回不同类型 对应的 int 值
  */
-int check_st_mode( mode_t _mode ){
+int check_st_mode( mode_t mode_ ){
 
-    if(       S_ISREG(_mode)  ){ return 1;
-    }else if( S_ISDIR(_mode)  ){ return 2;
-    }else if( S_ISCHR(_mode)  ){ return 3;
-    }else if( S_ISBLK(_mode)  ){ return 4;
-    }else if( S_ISFIFO(_mode) ){ return 5;
-    }else if( S_ISSOCK(_mode) ){ return 6;
-    }else if( S_ISLNK(_mode)  ){ return 7;
+    if(       S_ISREG(mode_)  ){ return 1;
+    }else if( S_ISDIR(mode_)  ){ return 2;
+    }else if( S_ISCHR(mode_)  ){ return 3;
+    }else if( S_ISBLK(mode_)  ){ return 4;
+    }else if( S_ISFIFO(mode_) ){ return 5;
+    }else if( S_ISSOCK(mode_) ){ return 6;
+    }else if( S_ISLNK(mode_)  ){ return 7;
     }else{
-        //-- 什么类型都不是，说明 _mode 有问题
-        cout << "check_st_mode: ERROR. _mode is invalid. " 
+        //-- 什么类型都不是，说明 mode_ 有问题
+        cout << "check_st_mode: ERROR. mode_ is invalid. " 
             << endl;
         assert(0);
+        return 0; //- never reach
     }
 }
 
@@ -83,10 +84,10 @@ int check_st_mode( mode_t _mode ){
 /* ===========================================================
  *                  check_path_st_mode  [1]
  * -----------------------------------------------------------
- * -- 检查 _path 的 stat.st_mode
+ * -- 检查 path_ 的 stat.st_mode
  *  return:
  *      若 调用 lstat 出错，返回 errno 的 负值。
- *      若 _path 确实指向一个文件，
+ *      若 path_ 确实指向一个文件，
  *          且为  常规文件   返回 1
  *          且为  目录      返回 2
  *          且为  字符设备   返回 3
@@ -95,10 +96,10 @@ int check_st_mode( mode_t _mode ){
  *          且为  socket   返回 6
  *          且为  符号链接   返回 7 
  */
-int check_path_st_mode( const char *_path ){
+int check_path_st_mode( const char *path_ ){
     errno = 0; //-- 清空 errno
     struct stat st;
-    if( lstat(_path, &st) == -1 ){
+    if( lstat(path_, &st) == -1 ){
         return (-errno);  //-- errno 的负值
     }else{
         return check_st_mode( st.st_mode );
@@ -108,12 +109,12 @@ int check_path_st_mode( const char *_path ){
 /* ===========================================================
  *                  check_path_st_mode  [2]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-int check_path_st_mode( int _fd ){
+int check_path_st_mode( int fd_ ){
     errno = 0; //-- 清空 errno
     struct stat st;
-    if( fstat(_fd, &st) == -1 ){
+    if( fstat(fd_, &st) == -1 ){
         return (-errno);  //-- errno 的负值
     }else{
         return check_st_mode( st.st_mode );
@@ -124,12 +125,12 @@ int check_path_st_mode( int _fd ){
 /* ===========================================================
  *                  check_path_st_mode  [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 (_fd, _path)
+ * -- 重载函数，参数改为 (fd_, path_)
  */
-int check_path_st_mode( int _fd, const char *_path ){
+int check_path_st_mode( int fd_, const char *path_ ){
     errno = 0; //-- 清空 errno
     struct stat st;
-    if( fstatat(_fd, _path, &st, AT_SYMLINK_NOFOLLOW) == -1 ){
+    if( fstatat(fd_, path_, &st, AT_SYMLINK_NOFOLLOW) == -1 ){
         return (-errno);  //-- errno 的负值
     }else{
         return check_st_mode( st.st_mode );
@@ -142,43 +143,44 @@ int check_path_st_mode( int _fd, const char *_path ){
  * -----------------------------------------------------------
  * -- 为 所有 is_path_valid 函数 服务的函数，
  * -- 检测 check_path_st_mode 函数的 返回值，并提供对应的 结果
- * -- param: _r     -- check_path_st_mode 的返回值
- * -- param: _fd   -- 不需要时 写入 -1
- * -- param: _path -- 不需要时 写入 NULL
+ * -- param: r_     -- check_path_st_mode 的返回值
+ * -- param: fd_   -- 不需要时 写入 -1
+ * -- param: path_ -- 不需要时 写入 NULL
  * 
  *  return:
- *      若 _path 合法，    返回 true。
+ *      若 path_ 合法，    返回 true。
  *      若 _path格式不正确，返回 false
  *      若出现 系统级错误，直接 报错终止
  */
 namespace{
-bool _is_path_valid_result_check( int _r, int _fd, const char *_path ){
+bool _is_path_valid_result_check( int r_, int fd_, const char *path_ ){
 
-    int r = _r;
+    int r = r_;
     if( r > 0 ){
-        return true; //-- _path 确实指向某文件，为为有效路径名
+        return true; //-- path_ 确实指向某文件，为为有效路径名
     }else{
         r = -r; //-- 负值取反。
         switch( r ){
-            case ENOENT:       //-  2 - _path 中某一段不存在，或 _path是空字符串
+            case ENOENT:       //-  2 - path_ 中某一段不存在，或 _path是空字符串
             case EBADF:        //-  9 - fd 是坏的。（目前不可能）
-            case EACCES:       //- 13 - _path 中，某一级目录缺乏 执行／搜索权
-            case ENOTDIR:      //- 20 - _path 的前缀 不是 目录
-            case ENAMETOOLONG: //- 36 - _path 过长
-            case ELOOP:        //- 40 - _path 的 符号链接 级数过多
+            case EACCES:       //- 13 - path_ 中，某一级目录缺乏 执行／搜索权
+            case ENOTDIR:      //- 20 - path_ 的前缀 不是 目录
+            case ENAMETOOLONG: //- 36 - path_ 过长
+            case ELOOP:        //- 40 - path_ 的 符号链接 级数过多
                 return false;
 
             default: //-- 剩余的都是 系统级error，直接报错终止
                 cout << "is_path_valid: lstat: ERROR. " 
                     << "errno = " << r << " " << strerror(r) 
                     << endl;
-                if( _fd != -1 ){
-                    cout << "_fd = " << _fd << endl;
+                if( fd_ != -1 ){
+                    cout << "fd_ = " << fd_ << endl;
                 }
-                if( _path != NULL ){
-                    cout << "_path = " << _path << endl;
+                if( path_ != NULL ){
+                    cout << "path_ = " << path_ << endl;
                 }
                 assert(0);
+                return false; //- never reach
         }
     }
 }
@@ -188,57 +190,57 @@ bool _is_path_valid_result_check( int _r, int _fd, const char *_path ){
 /* ===========================================================
  *                  is_path_valid  [1]
  * -----------------------------------------------------------
- * -- 检查 _path 是否 为有效路径名 
+ * -- 检查 path_ 是否 为有效路径名 
  *  return:
- *      若 _path 合法，    返回 true。
+ *      若 path_ 合法，    返回 true。
  *      若 _path格式不正确，返回 false
  *      若出现 系统级错误，直接 报错终止
  */
-bool is_path_valid( const char *_path ){
+bool is_path_valid( const char *path_ ){
 
     int r;
-    r = check_path_st_mode( _path );
-    return _is_path_valid_result_check( r, -1, _path );
+    r = check_path_st_mode( path_ );
+    return _is_path_valid_result_check( r, -1, path_ );
 }
 
 /* ===========================================================
  *                  is_path_valid  [2]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-bool is_path_valid( int _fd ){
+bool is_path_valid( int fd_ ){
 
     int r;
-    r = check_path_st_mode( _fd );
-    return _is_path_valid_result_check( r, _fd, NULL );
+    r = check_path_st_mode( fd_ );
+    return _is_path_valid_result_check( r, fd_, NULL );
 }
 
 /* ===========================================================
  *                  is_path_valid  [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 (_fd, _path)
+ * -- 重载函数，参数改为 (fd_, path_)
  */
-bool is_path_valid( int _fd, const char *_path ){
+bool is_path_valid( int fd_, const char *path_ ){
 
     int r;
-    r = check_path_st_mode( _fd, _path );
-    return _is_path_valid_result_check( r, _fd, _path );
+    r = check_path_st_mode( fd_, path_ );
+    return _is_path_valid_result_check( r, fd_, path_ );
 }
 
 
 /* ===========================================================
  *                  Is_path_valid  [1]
  * -----------------------------------------------------------
- * -- is_path_valid 的 包裹函数，对于 无效的 _path, 直接报错终止
+ * -- is_path_valid 的 包裹函数，对于 无效的 path_, 直接报错终止
  * -- 此函数的 使用频率很高
  */
-void Is_path_valid( const char *_path, const std::string &_err_info ){
+void Is_path_valid( const char *path_, const std::string &err_info_ ){
 
-    if( is_path_valid(_path) == false ){
+    if( is_path_valid(path_) == false ){
         cout << "Is_path_valid: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_path: " << _path << "\n" 
-            << _err_info
+            << "path_: " << path_ << "\n" 
+            << err_info_
             << endl;
         assert(0);
     }
@@ -247,15 +249,15 @@ void Is_path_valid( const char *_path, const std::string &_err_info ){
 /* ===========================================================
  *                  Is_path_valid   [2]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-void Is_path_valid( int _fd, const std::string &_err_info ){
+void Is_path_valid( int fd_, const std::string &err_info_ ){
 
-    if( is_path_valid(_fd) == false ){
+    if( is_path_valid(fd_) == false ){
         cout << "Is_path_valid: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_fd: " << _fd << "\n" 
-            << _err_info
+            << "fd_: " << fd_ << "\n" 
+            << err_info_
             << endl;
         assert(0);
     }
@@ -264,16 +266,16 @@ void Is_path_valid( int _fd, const std::string &_err_info ){
 /* ===========================================================
  *                  Is_path_valid   [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-void Is_path_valid( int _fd, const char *_path, const std::string &_err_info ){
+void Is_path_valid( int fd_, const char *path_, const std::string &err_info_ ){
 
-    if( is_path_valid(_fd, _path) == false ){
+    if( is_path_valid(fd_, path_) == false ){
         cout << "Is_path_valid: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_fd   = " << _fd << "\n" 
-            << "_path = " << _path
-            << _err_info
+            << "fd_   = " << fd_ << "\n" 
+            << "path_ = " << path_
+            << err_info_
             << endl;
         assert(0);
     }
@@ -285,43 +287,44 @@ void Is_path_valid( int _fd, const char *_path, const std::string &_err_info ){
  * -----------------------------------------------------------
  * -- 为 所有 is_path_a_dir 函数 服务的函数，
  * -- 检测 check_path_st_mode 函数的 返回值，并提供对应的 结果
- * -- param: _r     -- check_path_st_mode 的返回值
- * -- param: _fd   -- 不需要时 写入 -1
- * -- param: _path -- 不需要时 写入 NULL
+ * -- param: r_     -- check_path_st_mode 的返回值
+ * -- param: fd_   -- 不需要时 写入 -1
+ * -- param: path_ -- 不需要时 写入 NULL
  */
 namespace{
-int _is_path_a_dir_result_check( int _r, int _fd, const char *_path ){
+int _is_path_a_dir_result_check( int r_, int fd_, const char *path_ ){
 
-    int r = _r;
+    int r = r_;
     if( r == 2 ){        
-        return 1;  //--  _path 确实指向一个 目录
+        return 1;  //--  path_ 确实指向一个 目录
 
     }else if( r > 0 ){   
-        return 0;  //--  _path 有效，但指向的文件 不是目录
+        return 0;  //--  path_ 有效，但指向的文件 不是目录
 
     }else{
         r = -r; //-- 负值取反。
         switch( r ){
-            case ENOENT:       //-  2 - _path 中某一段不存在，或 _path是空字符串
+            case ENOENT:       //-  2 - path_ 中某一段不存在，或 _path是空字符串
                 return (-1);
 
             case EBADF:        //-  9 - fd 是坏的。（目前不可能）
-            case EACCES:       //- 13 - _path 中，某一级目录缺乏 执行／搜索权
-            case ENOTDIR:      //- 20 - _path 的前缀 不是 目录
-            case ENAMETOOLONG: //- 36 - _path 过长
-            case ELOOP:        //- 40 - _path 的 符号链接 级数过多
+            case EACCES:       //- 13 - path_ 中，某一级目录缺乏 执行／搜索权
+            case ENOTDIR:      //- 20 - path_ 的前缀 不是 目录
+            case ENAMETOOLONG: //- 36 - path_ 过长
+            case ELOOP:        //- 40 - path_ 的 符号链接 级数过多
                 return (-2);
 
             default: //-- 剩余的都是 系统级error，直接报错终止
                 cout << "is_path_a_dir: lstat: ERROR. " 
                     << "errno = " << r << " " << strerror(r) << endl;
-                if( _fd != -1 ){
-                    cout << "_fd = " << _fd << endl;
+                if( fd_ != -1 ){
+                    cout << "fd_ = " << fd_ << endl;
                 }
-                if( _path != NULL ){
-                    cout << "_path = " << _path << endl;
+                if( path_ != NULL ){
+                    cout << "path_ = " << path_ << endl;
                 }
                 assert(0);
+                return 0; //- never reach
         }
     }
 }
@@ -330,59 +333,59 @@ int _is_path_a_dir_result_check( int _r, int _fd, const char *_path ){
 /* ===========================================================
  *                  is_path_a_dir  [1]
  * -----------------------------------------------------------
- * -- 检查 _path 是否为 目录
+ * -- 检查 path_ 是否为 目录
  * -- return:
- *      若 _path 确实指向一个 目录，                 返回 1
- *      若 _path 有效，但指向的不是目录（其它文件类型） 返回 0
- *      若 _path 指向的地址没有文件／目录，ENOENT， 返回 -1. (当检查一个 尚未新建的 路径时，这种情况可能发送)
- *      若 _path 格式错误。                      返回 -2
- *      若 _path 格式没问题，但 调用lstat 发生系统级错误，直接报错终止
+ *      若 path_ 确实指向一个 目录，                 返回 1
+ *      若 path_ 有效，但指向的不是目录（其它文件类型） 返回 0
+ *      若 path_ 指向的地址没有文件／目录，ENOENT， 返回 -1. (当检查一个 尚未新建的 路径时，这种情况可能发送)
+ *      若 path_ 格式错误。                      返回 -2
+ *      若 path_ 格式没问题，但 调用lstat 发生系统级错误，直接报错终止
  * 
  */
-int is_path_a_dir( const char *_path ){
+int is_path_a_dir( const char *path_ ){
 
     int r;
-    r = check_path_st_mode( _path );
-    return _is_path_a_dir_result_check( r, -1, _path );
+    r = check_path_st_mode( path_ );
+    return _is_path_a_dir_result_check( r, -1, path_ );
 }
 
 /* ===========================================================
  *                  is_path_a_dir  [2]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-int is_path_a_dir( int _fd ){
+int is_path_a_dir( int fd_ ){
 
     int r;
-    r = check_path_st_mode( _fd );
-    return _is_path_a_dir_result_check( r, _fd, NULL );
+    r = check_path_st_mode( fd_ );
+    return _is_path_a_dir_result_check( r, fd_, NULL );
 }
 
 /* ===========================================================
  *                  is_path_a_dir  [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 (_fd, _path)
+ * -- 重载函数，参数改为 (fd_, path_)
  */
-int is_path_a_dir( int _fd, const char *_path ){
+int is_path_a_dir( int fd_, const char *path_ ){
 
     int r;
-    r = check_path_st_mode( _fd, _path );
-    return _is_path_a_dir_result_check( r, _fd, _path );
+    r = check_path_st_mode( fd_, path_ );
+    return _is_path_a_dir_result_check( r, fd_, path_ );
 }
 
 
 /* ===========================================================
  *                  Is_path_a_dir  [1]
  * -----------------------------------------------------------
- * -- is_path_a_dir 的 包裹函数，对于 不是目录的 _path, 直接报错终止
+ * -- is_path_a_dir 的 包裹函数，对于 不是目录的 path_, 直接报错终止
  */
-void Is_path_a_dir( const char *_path, const std::string &_err_info ){
+void Is_path_a_dir( const char *path_, const std::string &err_info_ ){
 
-    if( is_path_a_dir(_path) != 1 ){
+    if( is_path_a_dir(path_) != 1 ){
         cout << "Is_path_a_dir: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_path = " << _path << "\n" 
-            << _err_info
+            << "path_ = " << path_ << "\n" 
+            << err_info_
             << endl;
         assert(0);
     }
@@ -391,15 +394,15 @@ void Is_path_a_dir( const char *_path, const std::string &_err_info ){
 /* ===========================================================
  *                  Is_path_a_dir  [2]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-void Is_path_a_dir( int _fd, const std::string &_err_info ){
+void Is_path_a_dir( int fd_, const std::string &err_info_ ){
 
-    if( is_path_a_dir(_fd) != 1 ){
+    if( is_path_a_dir(fd_) != 1 ){
         cout << "Is_path_a_dir: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_fd = " << _fd << "\n" 
-            << _err_info
+            << "fd_ = " << fd_ << "\n" 
+            << err_info_
             << endl;
         assert(0);
     }
@@ -408,16 +411,16 @@ void Is_path_a_dir( int _fd, const std::string &_err_info ){
 /* ===========================================================
  *                  Is_path_a_dir  [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 (_fd, _path)
+ * -- 重载函数，参数改为 (fd_, path_)
  */
-void Is_path_a_dir( int _fd, const char *_path, const std::string &_err_info ){
+void Is_path_a_dir( int fd_, const char *path_, const std::string &err_info_ ){
 
-    if( is_path_a_dir(_fd, _path) != 1 ){
+    if( is_path_a_dir(fd_, path_) != 1 ){
         cout << "Is_path_a_dir: ERROR. "
             << "errno = " << errno << " " << strerror(errno) << "\n"
-            << "_fd   = " << _fd << "\n" 
-            << "_path = " << _path << "\n" 
-            << _err_info
+            << "fd_   = " << fd_ << "\n" 
+            << "path_ = " << path_ << "\n" 
+            << err_info_
             << endl;
         assert(0);
     }
@@ -427,20 +430,20 @@ void Is_path_a_dir( int _fd, const char *_path, const std::string &_err_info ){
 /* ===========================================================
  *                       mk_dir  [1]
  * -----------------------------------------------------------
- * -- param: _path  -- 新目录的 绝对路径名
+ * -- param: path_  -- 新目录的 绝对路径名
  * -- return:
- *       若 _path 尚未存在，执行 Mkdir，创新 新目录
- *       若 _path 指向出，已经存在一个文件，且是目录，说明目录已存在，直接返回
- *       若 _path 指向出，已经存在一个文件，但不是目录，报错终止
- *       若 _path 存在格式错误，或系统错误，报错终止
+ *       若 path_ 尚未存在，执行 Mkdir，创新 新目录
+ *       若 path_ 指向出，已经存在一个文件，且是目录，说明目录已存在，直接返回
+ *       若 path_ 指向出，已经存在一个文件，但不是目录，报错终止
+ *       若 path_ 存在格式错误，或系统错误，报错终止
  */
-void mk_dir( const char *_path, mode_t _mode,
-            const std::string &_err_info ){
+void mk_dir( const char *path_, mode_t mode_,
+            const std::string &err_info_ ){
     
-    std::string err_info = _err_info + "mk_dir(): ";
+    std::string err_info = err_info_ + "mk_dir(): ";
     //--------------------------
     int r;
-    r = is_path_a_dir( _path );
+    r = is_path_a_dir( path_ );
     switch( r ){
         case  1:  //-- 目标目录已经创建了，直接跳出返回
             break;
@@ -448,19 +451,19 @@ void mk_dir( const char *_path, mode_t _mode,
         case  0:  //-- 存在一个同名的文件，但它不是目录
             cout << err_info << "ERROR. "
                 << "find a file with same name, but it's not a dir. \n" 
-                << "_path   = " << _path << " \n"
+                << "path_   = " << path_ << " \n"
                 << endl;
             assert(0);
 
         case -1:  //-- 可以执行 新目录 的创建工作
-            Mkdir( _path, _mode, err_info );
+            Mkdir( path_, mode_, err_info );
             break;
 
         case -2:  //-- path 存在格式错误。（但这几乎不可能）
         default:  //-- is_path_a_dir() 不可能存在 其它返回值
             cout << err_info << "ERROR. "
                 << "errno = " << errno << " " << strerror(errno) << "\n"
-                << "_path   = " << _path << " \n"
+                << "path_   = " << path_ << " \n"
                 << endl;
             assert(0);
     }//--------- switch end ----------//
@@ -471,14 +474,14 @@ void mk_dir( const char *_path, mode_t _mode,
  * -----------------------------------------------------------
  * -- 重载版，通过两个 路径名 合成 新目录的 绝对路径名
  * -- param: _path_dir  -- 父目录，在此目录下 创建新目录
- * -- param: _name      -- 新目录的 名字（不是路径名）
+ * -- param: name_      -- 新目录的 名字（不是路径名）
  */
 const std::string mk_dir(   const std::string &_path_dir, 
-                            const std::string &_name,  
-                            mode_t _mode,
-                            const std::string &_err_info ){
+                            const std::string &name_,  
+                            mode_t mode_,
+                            const std::string &err_info_ ){
     
-    std::string err_info = _err_info + "mk_dir(): ";
+    std::string err_info = err_info_ + "mk_dir(): ";
     std::string err_dir = err_info + "the parent dir is error. ";
 
     //--------------------------//
@@ -491,12 +494,12 @@ const std::string mk_dir(   const std::string &_path_dir,
     //--------------------------//
     std::string path; //-- 新目录的 绝对路径名
     std::string dir = _path_dir;
-    std::string name = _name;
+    std::string name = name_;
     path = tprGeneral::path_combine( dir, name );
     //--------------------------//
     //  检测 新的目录 是否已存在 
     //--------------------------//
-    mk_dir( path.c_str(), _mode, err_info ); //-- 调用 mk_dir-[1] 
+    mk_dir( path.c_str(), mode_, err_info ); //-- 调用 mk_dir-[1] 
     return path;
 }
 
@@ -504,27 +507,27 @@ const std::string mk_dir(   const std::string &_path_dir,
 /* ===========================================================
  *                       mk_dir  [3]
  * -----------------------------------------------------------
- * -- 重载函数，参数改为 _fd
+ * -- 重载函数，参数改为 fd_
  */
-void mk_dir( int _fd, const char * _name, mode_t _mode,
-            const std::string &_err_info ){
+void mk_dir( int fd_, const char * name_, mode_t mode_,
+            const std::string &err_info_ ){
 
-    std::string err_info = _err_info + "mk_dir(): ";
+    std::string err_info = err_info_ + "mk_dir(): ";
     std::string err_dir = err_info + "the parent dir is error. ";
 
     //--------------------------//
     //  确保 _path_dir 是有效的目录
     //--------------------------//
-    Is_path_a_dir( _fd, err_dir );
+    Is_path_a_dir( fd_, err_dir );
 
     //--------------------------//
     //  此重载 不需要 合成 绝对路径名
     //--------------------------//
-    //  测试表明，参数 _name 写成 "/name", "name", "//name"
+    //  测试表明，参数 name_ 写成 "/name", "name", "//name"
     //      都能正确运行。所以也不需要做 "/" 的检测
     //--------------------------//
     int r;
-    r = is_path_a_dir( _fd, _name);
+    r = is_path_a_dir( fd_, name_);
     switch( r ){
         case  1:  //-- 目标目录已经创建了，直接跳出返回
             break;
@@ -532,21 +535,21 @@ void mk_dir( int _fd, const char * _name, mode_t _mode,
         case  0:  //-- 存在一个同名的文件，但它不是目录
             cout << err_info << "ERROR. "
                 << "find a file with same name, but it's not a dir. \n" 
-                << "_fd   = " << _fd << " \n"
-                << "_name = " << _name << " \n"
+                << "fd_   = " << fd_ << " \n"
+                << "name_ = " << name_ << " \n"
                 << endl;
             assert(0);
 
         case -1:  //-- 可以执行 新目录 的创建工作
-            Mkdirat( _fd, _name, _mode, err_info );
+            Mkdirat( fd_, name_, mode_, err_info );
             break;
 
         case -2:  //-- path 存在格式错误。（但这几乎不可能）
         default:  //-- is_path_a_dir() 不可能存在 其它返回值
             cout << err_info << "ERROR. "
                 << "errno = " << errno << " " << strerror(errno) << "\n"
-                << "_fd   = " << _fd << "\n" 
-                << "_name = " << _name << "\n"
+                << "fd_   = " << fd_ << "\n" 
+                << "name_ = " << name_ << "\n"
                 << endl;
             assert(0);
     }//--------- switch end ----------//
@@ -641,10 +644,10 @@ const std::string nameString_combine(   const std::string &_prefix,
  * -- 返回 true    表示 长度允许
  * -- 返回 false， 表示 太长了
  */
-bool is_path_not_too_long( const std::string &_path ){
+bool is_path_not_too_long( const std::string &path_ ){
 
     //-- TPR_PATH_MAX 里包含了 尾后0 的字节
-    if( (_path.size()+1) <= TPR_PATH_MAX ){ 
+    if( (path_.size()+1) <= TPR_PATH_MAX ){ 
         return true;
     }else{
         return false;
@@ -654,16 +657,16 @@ bool is_path_not_too_long( const std::string &_path ){
 /* ===========================================================
  *                   Is_path_not_too_long
  * -----------------------------------------------------------
- * -- 检测 _path 长度，过长的 直接报错终止
+ * -- 检测 path_ 长度，过长的 直接报错终止
  */
-void Is_path_not_too_long( const std::string &_path,
-                            const std::string &_err_info ){
+void Is_path_not_too_long( const std::string &path_,
+                            const std::string &err_info_ ){
 
     //-- TPR_PATH_MAX 里包含了 尾后0 的字节
-    if( (_path.size()+1) > TPR_PATH_MAX ){ 
+    if( (path_.size()+1) > TPR_PATH_MAX ){ 
         cout << "Is_path_not_too_long: ERROR. "
-            << _err_info
-            << "_path =" << _path  
+            << err_info_
+            << "path_ =" << path_  
             << endl;
         assert(0);
     }
@@ -675,16 +678,16 @@ void Is_path_not_too_long( const std::string &_path,
  * -----------------------------------------------------------
  * -- 获得 文件的 字节数。fd版
  */
-off_t get_file_size( int _fd, const std::string &_err_info ){
+off_t get_file_size( int fd_, const std::string &err_info_ ){
 
-    std::string err_info = _err_info + "get_file_size(1): ";
+    std::string err_info = err_info_ + "get_file_size(1): ";
     //-----------------------------
     //-- 暂存 旧的 “当前文件偏移量／current file offset”
-    off_t cfo = Lseek( _fd, 0, SEEK_CUR, err_info );
+    off_t cfo = Lseek( fd_, 0, SEEK_CUR, err_info );
     //-- 将 当前偏移量 指向 文件最后一字节, 同时获得 此字节的 偏移量数值（我们要的）
-    off_t r = Lseek( _fd, 0, SEEK_END, err_info );
+    off_t r = Lseek( fd_, 0, SEEK_END, err_info );
     //-- 将 当前偏移量 设置回 原来的值。
-    Lseek( _fd, cfo, SEEK_SET, err_info );
+    Lseek( fd_, cfo, SEEK_SET, err_info );
     return r;
 }
 
@@ -694,9 +697,9 @@ off_t get_file_size( int _fd, const std::string &_err_info ){
  * -- 重载2，FILE版
  */
 /*
-off_t get_file_size( FILE *_fp, const std::string &_err_info ){
+off_t get_file_size( FILE *_fp, const std::string &err_info_ ){
 
-    string err_info = _err_info + "get_file_size(2): ";
+    string err_info = err_info_ + "get_file_size(2): ";
     //-----------------------------
     //-- 暂存 旧的 “当前文件偏移量／current file offset”
     off_t cfo = Ftello( _fp, err_info );
@@ -713,14 +716,14 @@ off_t get_file_size( FILE *_fp, const std::string &_err_info ){
  * -----------------------------------------------------------
  * -- 重载3，path版
  */
-off_t get_file_size( const char *_path, const std::string &_err_info ){
+off_t get_file_size( const char *path_, const std::string &err_info_ ){
 
-    std::string err_info = _err_info + "get_file_size(3): ";
+    std::string err_info = err_info_ + "get_file_size(3): ";
     //-----------------------------
-    Is_path_valid( _path, err_info ); //-- 确保 _path 指向 已存在文件
-    int fd = Open( _path, O_RDONLY, 0, err_info ); //-- 获得 fd
+    Is_path_valid( path_, err_info ); //-- 确保 path_ 指向 已存在文件
+    int fd = Open( path_, O_RDONLY, 0, err_info ); //-- 获得 fd
 
-    off_t r = get_file_size( fd, _err_info );
+    off_t r = get_file_size( fd, err_info_ );
     Close( fd, err_info );
     return r;
 }
@@ -734,7 +737,7 @@ off_t get_file_size( const char *_path, const std::string &_err_info ){
  * -- param: _buf   -- 获得的文件数据 存入buf. (此buf的原数据将被丢弃)
  *
  */
-void file_load( const std::string &_path, std::string &_buf ){
+void file_load( const std::string &path_, std::string &_buf ){
 
     std::string err_info = "file_load(): ";
     //-------
@@ -742,9 +745,9 @@ void file_load( const std::string &_path, std::string &_buf ){
     off_t flen;   //- 文件 字节数
     ssize_t rlen; //- 实际读取 字节数
     
-    flen = get_file_size( _path.c_str(), err_info );
+    flen = get_file_size( path_.c_str(), err_info );
     _buf.resize( flen );
-    fd = Open( _path.c_str(), O_RDONLY, 0, err_info );
+    fd = Open( path_.c_str(), O_RDONLY, 0, err_info );
     rlen = Read( fd, (void*)_buf.c_str(), flen, err_info );
     assert( rlen == (ssize_t)flen );
 

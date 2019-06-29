@@ -20,6 +20,7 @@
 #include <unordered_set> 
 #include <functional> 
 #include <map>
+#include <memory>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -39,43 +40,43 @@ class UIObj;
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
 
 
-goSpecId_t get_goSpecId( const std::string &_name );
+goSpecId_t get_goSpecId( const std::string &name_ );
 
-void insert_2_go_specId_names_containers( goSpecId_t _id, const std::string &_name );
+void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &name_ );
 
 
 //--- 下面这部分 放的很乱... ---
 
 //-- map自动生成器 使用的 goInit函数 ---
-using F_GO_INIT = std::function<void( GameObj*,
+using F_GO_INIT = std::function<void(   GameObj&,
                                         const IntVec2 &,
 					                    float,
 					                    const MapAltitude &,
 					                    const Density & )>;
 
 
-void call_goInit_func(  goSpecId_t _id,
-                        GameObj *_goPtr,
-                        const IntVec2 &_mpos,
-					    float _fieldWeight,
-					    const MapAltitude &_alti,
-					    const Density &_density  );
+void call_goInit_func(  goSpecId_t id_,
+                        GameObj &goRef_,
+                        const IntVec2 &mpos_,
+					    float fieldWeight_,
+					    const MapAltitude &alti_,
+					    const Density &density_  );
 
 
-bool find_from_goInit_funcs( goSpecId_t _goSpecId );
+bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
 
-void insert_2_goInit_funcs( goSpecId_t _goSpecId,
-                            const F_GO_INIT &_functor );
+void insert_2_goInit_funcs( goSpecId_t goSpecId_,
+                            const F_GO_INIT &functor_ );
 
 
 //-------------------------------//
 //             ui
 //-------------------------------//
 
-uiObjSpecId_t get_uiSpecId( const std::string &_name );
+uiObjSpecId_t get_uiSpecId( const std::string &name_ );
 
-void insert_2_ui_specId_names_containers(   uiObjSpecId_t _id, 
-                                            const std::string &_name );
+void insert_2_ui_specId_names_containers(   uiObjSpecId_t id_, 
+                                            const std::string &name_ );
 
 
 //--- 下面这部分 放的很乱... ---
@@ -83,16 +84,16 @@ void insert_2_ui_specId_names_containers(   uiObjSpecId_t _id,
 using F_UI_INIT = std::function<void(   UIObj*,
                                         const glm::vec2 & )>;
 
-bool find_from_uiInit_funcs( uiObjSpecId_t _uiSpecId );
+bool find_from_uiInit_funcs( uiObjSpecId_t uiSpecId_ );
 
-void call_uiInit_func(  uiObjSpecId_t _id,  
-                        UIObj *_uiObjPtr,
-                        const glm::vec2 &_fpos );
+void call_uiInit_func(  uiObjSpecId_t id_,  
+                        UIObj *uiObjPtr_,
+                        const glm::vec2 &fpos_ );
 
 
 
-void insert_2_uiInit_funcs( uiObjSpecId_t _id,
-                            const F_UI_INIT &_functor );
+void insert_2_uiInit_funcs( uiObjSpecId_t id_,
+                            const F_UI_INIT &functor_ );
 
 
 

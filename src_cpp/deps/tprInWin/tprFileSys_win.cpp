@@ -30,12 +30,12 @@ namespace tprWin {//--------------- namespace: tprWin -------------------//
  * -----------------------------------------------------------
  * -- 简陋版 目录生成
  */
-const std::string mk_dir(const std::string &_path_dir,
-						 const std::string &_name,
-						 const std::string &_err_info ){
+const std::string mk_dir(const std::string &path_dir_,
+						 const std::string &name_,
+						 const std::string &err_info_ ){
 
-	std::string err_info = _err_info + "mk_dir(): ";
-	std::string path = tprGeneral::path_combine( _path_dir, _name );
+	std::string err_info = err_info_ + "mk_dir(): ";
+	std::string path = tprGeneral::path_combine( path_dir_, name_ );
 	
 	if( CreateDirectory(path.c_str(), nullptr) ||
 		GetLastError() == ERROR_ALREADY_EXISTS ){
@@ -57,11 +57,11 @@ const std::string mk_dir(const std::string &_path_dir,
  * -----------------------------------------------------------
  * 返回 实际读取的 bytes
  */
-i32_t file_load( const std::string &_path,
-				 std::string &_buf){
+i32_t file_load( const std::string &path_,
+				 std::string &buf_){
 
 	//--- create ---//
-	HANDLE hFile = (HANDLE)CreateFile(_path.c_str(),
+	HANDLE hFile = (HANDLE)CreateFile(path_.c_str(),
 									GENERIC_READ,
 									FILE_SHARE_READ,
 									NULL,
@@ -72,7 +72,7 @@ i32_t file_load( const std::string &_path,
 		hFile = NULL;
         std::stringstream ss;
         ss << "CreateFile(); INVALID_HANDLE_VALUE\n"
-            << "path = " << _path;
+            << "path = " << path_;
 		MessageBox( nullptr, ss.str().c_str(), "Error", MB_OK );
 		exit(-99);
 	}
@@ -84,17 +84,17 @@ i32_t file_load( const std::string &_path,
 		hFile = NULL;
         std::stringstream ss;
 		ss << "CreateFile(); GetFileSizeEx()==FALSE\n"
-            << "path = " << _path;
+            << "path = " << path_;
 		MessageBox( nullptr, ss.str().c_str(), "Error", MB_OK );
 		exit(-99);
 	}
 
 
 	//--- read ---//
-	_buf.resize( static_cast<std::string::size_type>(fileBytes.QuadPart) );
+	buf_.resize( static_cast<std::string::size_type>(fileBytes.QuadPart) );
 	DWORD readedBytes;
 	ret = ReadFile(hFile,
-				   static_cast<LPVOID>(&(_buf.at(0))),
+				   static_cast<LPVOID>(&(buf_.at(0))),
 				   static_cast<DWORD>(fileBytes.QuadPart),
 				   &readedBytes,
 				   NULL );
@@ -104,7 +104,7 @@ i32_t file_load( const std::string &_path,
 	if( ret == FALSE ){
         std::stringstream ss;
 		ss << "CreateFile(); CloseHandle()==FALSE\n"
-            << "path = " << _path;
+            << "path = " << path_;
 		MessageBox( nullptr, ss.str().c_str(), "Error", MB_OK );
 		exit(-99);
 	}

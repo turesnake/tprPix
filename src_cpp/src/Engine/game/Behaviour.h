@@ -25,16 +25,16 @@ public:
     Behaviour() = default;
 
     //------------- sign up -------------//
-    inline void signUp_Awakes( F_V_V _func ){ 
-        Awakes.push_back(_func);
+    inline void signUp_Awakes( F_V_V func_ ){ 
+        Awakes.push_back(func_);
     }
 
-    inline void signUp_Starts( F_V_V _func ){ 
-        Starts.push_back(_func);
+    inline void signUp_Starts( F_V_V func_ ){ 
+        Starts.push_back(func_);
     }
 
-    inline void signUp_Updates( F_V_V _func ){ 
-        Updates.push_back(_func);
+    inline void signUp_Updates( F_V_V func_ ){ 
+        Updates.push_back(func_);
     }
 
     //------------- call -------------//
@@ -51,11 +51,11 @@ public:
     }
 
 private:
-    inline void call_funcs( const std::vector<F_V_V> &_funcs ){
-        if( _funcs.size() == 0 ){
+    inline void call_funcs( const std::vector<F_V_V> &funcs_ ){
+        if( funcs_.size() == 0 ){
             return;
         }
-        for( const auto &i : _funcs ){
+        for( const auto &i : funcs_ ){
             if( i != nullptr ){
                 i();
             }

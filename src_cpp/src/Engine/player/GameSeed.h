@@ -31,7 +31,7 @@ public:
                                 // 真正的初始化，还在 init 函数中
     }
 
-    void init( u32_t _baseSeed );
+    void init( u32_t baseSeed_ );
 
 
     inline std::default_random_engine &getnc_realRandEngine(){

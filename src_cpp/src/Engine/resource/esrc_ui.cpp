@@ -36,9 +36,9 @@ namespace ui_inn {//-------- namespace: ui_inn --------------//
 }//------------- namespace: ui_inn end --------------//
 
 
-UIObj *get_memUIPtr( uiObjId_t _uiObjid ){
-        tprAssert( ui_inn::memUIs.find(_uiObjid) != ui_inn::memUIs.end() );//- tmp
-    return  &(ui_inn::memUIs.at(_uiObjid));
+UIObj *get_memUIPtr( uiObjId_t uiObjid_ ){
+        tprAssert( ui_inn::memUIs.find(uiObjid_) != ui_inn::memUIs.end() );//- tmp
+    return  &(ui_inn::memUIs.at(uiObjid_));
 }
 
 

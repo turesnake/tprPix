@@ -40,15 +40,15 @@ public:
         this->centerMPos.clear_all();
     }
 
-    inline void add_colliEnt( const IntVec2 &_ppos ){
+    inline void add_colliEnt( const IntVec2 &ppos_ ){
         MapCoord pos {};
-        pos.set_by_ppos_( _ppos ); //-- 必须使用严谨版
+        pos.set_by_ppos_( ppos_ ); //-- 必须使用严谨版
         this->colliEnts.insert( pos ); //- copy 
     }
 
-    inline void set_centerPPos( const IntVec2 &_ppos ){
-        this->centerPPos = _ppos;
-        this->centerMPos = anyPPos_2_mpos( _ppos );
+    inline void set_centerPPos( const IntVec2 &ppos_ ){
+        this->centerPPos = ppos_;
+        this->centerMPos = anyPPos_2_mpos( ppos_ );
         this->centerCompass = calc_ppos_compass( this->centerPPos );
     }
 
@@ -72,15 +72,15 @@ public:
     inline const std::set<MapCoord> &get_colliEnts() const {
         return this->colliEnts;
     }
-    inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx _nbIdx ) const {
-        return this->addEntOffss.at( static_cast<addEntOffs_size_type>(_nbIdx) );
+    inline const std::set<MapCoord> &get_addEntOffs( NineBoxIdx nbIdx_ ) const {
+        return this->addEntOffss.at( static_cast<addEntOffs_size_type>(nbIdx_) );
     }
-    inline const std::set<MapCoord> &get_delEntOffs( NineBoxIdx _nbIdx ) const {
-        return this->delEntOffss.at( static_cast<addEntOffs_size_type>(_nbIdx) );
+    inline const std::set<MapCoord> &get_delEntOffs( NineBoxIdx nbIdx_ ) const {
+        return this->delEntOffss.at( static_cast<addEntOffs_size_type>(nbIdx_) );
     }
 
 private:
-    void create_adds_dels_by_nineBox( NineBoxIdx _idx );
+    void create_adds_dels_by_nineBox( NineBoxIdx idx_ );
 
     //======== vals ========//
     //-- 此处的 set，依赖 MapCoord类型的 "<" 运算符

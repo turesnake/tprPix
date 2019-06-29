@@ -58,7 +58,7 @@ namespace move_inn {//-------------- namespace: move_inn ------------------//
  *               set_newCrawlDirAxes
  * -----------------------------------------------------------
  */
-void Move::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
+void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     tprAssert( this->moveType == MoveType::Crawl );
     //-----------//
     //  isMoving
@@ -68,11 +68,11 @@ void Move::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
         this->isMoving = true;
 
     //-- 设置 go 方向 --
-    this->newDirAxes = _newDirAxes;
+    this->newDirAxes = newDirAxes_;
     if( this->newDirAxes.get_x() < -DirAxes::threshold ){
-        this->goPtr->set_direction_and_isFlipOver( GODirection::Left );
+        this->goRef.set_direction_and_isFlipOver( GODirection::Left );
     }else if(this->newDirAxes.get_x() > DirAxes::threshold ){
-        this->goPtr->set_direction_and_isFlipOver( GODirection::Right );
+        this->goRef.set_direction_and_isFlipOver( GODirection::Right );
     }
 }
 
@@ -82,6 +82,7 @@ void Move::set_newCrawlDirAxes( const DirAxes &_newDirAxes ){
  * -----------------------------------------------------------
  */
 void Move::crawl_renderUpdate(){
+
 
     //----------------------------//
     //  currentDirAxes & newDirAxes
@@ -94,9 +95,9 @@ void Move::crawl_renderUpdate(){
     
     //-- 在 move状态切换的 两个点 调用 OnMove() ／ OnIdle() --
     if( this->currentDirAxes.is_zero() && (this->newDirAxes.is_zero()==false) ){
-        this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Move );
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Move );
     }else if( (this->currentDirAxes.is_zero()==false) && this->newDirAxes.is_zero() ){
-        this->goPtr->actionSwitch.call_func( ActionSwitchType::Move_Idle );
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Idle );
     }
 
     this->currentDirAxes = this->newDirAxes;
@@ -135,7 +136,7 @@ void Move::drag_renderUpdate(){
     // 在 drag 的最后一帧，fposOff 往往会小于 speedV。
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
-    move_inn::fposOff = this->targetFPos - this->goPosPtr->get_currentFPos();
+    move_inn::fposOff = this->targetFPos - this->goRef.goPos.get_currentFPos();
     move_inn::speedV = glm::normalize( move_inn::fposOff ); //- 等效于 DirAxes 的计算。
     move_inn::speedV *=   SpeedLevel_2_val(this->speedLvl) *
                 60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
@@ -162,16 +163,17 @@ void Move::drag_renderUpdate(){
  * -----------------------------------------------------------
  * -- 通用
  */
-void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
-                                    const glm::vec2 &_speedV ){
+void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
+                                    const glm::vec2 &speedV_ ){
 
+    GameObjPos &goPosRef = this->goRef.goPos;
 
     move_inn::isObstruct = false; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
     move_inn::isCross    = false; //- currentMidFPos 是否进入新的 mapent
 
 
-    move_inn::oldMidFPos = this->goPosPtr->calc_rootAnchor_midFPos();
-    move_inn::newMidFPos = move_inn::oldMidFPos + _speedV;
+    move_inn::oldMidFPos = goPosRef.calc_rootAnchor_midFPos();
+    move_inn::newMidFPos = move_inn::oldMidFPos + speedV_;
 
     //-- 这里计算的是 rootAnchorMidFPos 的 mcpos --
     move_inn::oldMCPos = fpos_2_mcpos( move_inn::oldMidFPos );
@@ -186,13 +188,13 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
         move_inn::nb.set( move_inn::off.get_mpos().x, move_inn::off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        move_inn::isObstruct = this->collisionPtr->collide_for_crawl( NineBox_XY_2_Idx(move_inn::nb) );        
+        move_inn::isObstruct = this->goRef.collide_for_crawl( NineBox_XY_2_Idx(move_inn::nb) );        
     }
 
     if( move_inn::isObstruct == false ){
-        this->goPosPtr->accum_currentFPos_2( _speedV );
+        goPosRef.accum_currentFPos_2( speedV_ );
         if( move_inn::isCross ){
-            this->goPosPtr->accum_currentMCPos_2(move_inn::nb);
+            goPosRef.accum_currentMCPos_2(move_inn::nb);
                         //-- 使用 NineBox 来传递参数，
                         //   决定了当前模式下的 最大速度，不能超过 1_mapent_per_frame 
                         //   想要突破这个限制，就要 进一步 完善 collision 函数
@@ -209,23 +211,23 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
     //---------------------------//
     Chunk   *oldChunkPtr  {nullptr}; 
     Chunk   *newChunkPtr  {nullptr};
-    goid_t   goid = this->goPtr->id;
+    goid_t   goid = this->goRef.id;
 
-    chunkKey_t newChunkKey = anyMPos_2_chunkKey(  this->goPosPtr->get_currentMPos() );
+    chunkKey_t newChunkKey = anyMPos_2_chunkKey( goPosRef.get_currentMPos() );
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
     newChunkPtr = esrc::get_chunkPtr( newChunkKey );
 
-    if( newChunkKey!=goPtr->currentChunkKey ){
-        oldChunkPtr = esrc::get_chunkPtr( this->goPtr->currentChunkKey );
+    if( newChunkKey!=this->goRef.currentChunkKey ){
+        oldChunkPtr = esrc::get_chunkPtr( this->goRef.currentChunkKey );
         tprAssert( oldChunkPtr->erase_from_goIds(goid) == 1 );
         oldChunkPtr->erase_from_edgeGoIds(goid);
         //---
-        goPtr->currentChunkKey = newChunkKey;
+        this->goRef.currentChunkKey = newChunkKey;
         newChunkPtr->insert_2_goIds(goid);
     }
 
-    this->goPtr->reset_chunkKeys();
-    size_t chunkKeysSize = this->goPtr->get_chunkKeysRef().size();
+    this->goRef.reset_chunkKeys();
+    size_t chunkKeysSize = this->goRef.get_chunkKeysRef().size();
     if( chunkKeysSize == 1 ){
         newChunkPtr->erase_from_edgeGoIds(goid);
     }else if( chunkKeysSize > 1 ){
@@ -238,9 +240,8 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &_newDirAxes,
         //-- 这个检测，最好在，所有工作都结束后，
         //   此时的结果最准确
         {//-- 打印 当前帧的 ces 区域 --- 
-            IntVec2 currentMPos = this->goPtr->goPos.get_currentMPos();
-            //const IntVec2 compassPPos = this->goPtr->goPos.get_rootAnchorCompassPPos(); // 未被使用...
-            const ColliEntHead &doCehRef = *(this->goPtr->get_rootColliEntHeadPtr());
+            IntVec2 currentMPos = this->goRef.goPos.get_currentMPos();
+            const ColliEntHead &doCehRef = *(this->goRef.get_rootColliEntHeadPtr());
             const ColliEntSet &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
             MapCoord cesMCPos;
             cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );

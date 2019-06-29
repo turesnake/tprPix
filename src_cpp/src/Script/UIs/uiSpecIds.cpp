@@ -27,7 +27,7 @@ using std::string;
 
 
 namespace uiSpecIds_inn {//------------------- namespace: uiSpecIds_inn ---------------------
-    void uiSpec_alloc( uiObjSpecId_t _id, const string &_name );
+    void uiSpec_alloc( uiObjSpecId_t id_, const string &name_ );
 }//------------------------- namespace: uiSpecIds_inn end -------------------
 
 
@@ -73,8 +73,8 @@ namespace uiSpecIds_inn {//------------------- namespace: uiSpecIds_inn --------
  * -----------------------------------------------------------
  * -- 拼装 正反表
  */
-void uiSpec_alloc( uiObjSpecId_t _id, const string &_name ){
-    ssrc::insert_2_ui_specId_names_containers( _id, _name );
+void uiSpec_alloc( uiObjSpecId_t id_, const string &name_ ){
+    ssrc::insert_2_ui_specId_names_containers( id_, name_ );
 }
 
 }//------------------------- namespace: uiSpecIds_inn end -------------------
