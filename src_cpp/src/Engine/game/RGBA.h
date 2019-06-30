@@ -41,10 +41,10 @@ public:
         {}
     
     inline bool is_near( const RGBA &a_, u8_t off_ )const{
-        int rr = static_cast<int>(this->r - a_.r);
-        int gg = static_cast<int>(this->g - a_.g);
-        int bb = static_cast<int>(this->b - a_.b);
-        int aa = static_cast<int>(this->a - a_.a);
+        int rr = static_cast<int>(this->r) - static_cast<int>(a_.r);
+        int gg = static_cast<int>(this->g) - static_cast<int>(a_.g);
+        int bb = static_cast<int>(this->b) - static_cast<int>(a_.b);
+        int aa = static_cast<int>(this->a) - static_cast<int>(a_.a);
         return (
         (std::abs(rr) <= static_cast<int>(off_)) &&
         (std::abs(gg) <= static_cast<int>(off_)) &&
@@ -62,10 +62,10 @@ public:
 
     //-- 支持更复杂的数据 累加 --
     inline RGBA add( int r_, int g_, int b_, int a_ ) const {
-        int rr = static_cast<int>(this->r + r_);
-        int gg = static_cast<int>(this->g + g_);
-        int bb = static_cast<int>(this->b + b_);
-        int aa = static_cast<int>(this->a + a_);
+        int rr = static_cast<int>(this->r) + r_;
+        int gg = static_cast<int>(this->g) + g_;
+        int bb = static_cast<int>(this->b) + b_;
+        int aa = static_cast<int>(this->a) + a_;
         tprAssert(  (rr>=0) && (rr<256) &&
                     (gg>=0) && (gg<256) &&
                     (bb>=0) && (bb<256) );
@@ -117,10 +117,10 @@ namespace rgba {//-------- namespace: rgba --------------//
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
 inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ){
 
-    int rr = static_cast<int>(a_.r - b_.r);
-    int gg = static_cast<int>(a_.g - b_.g);
-    int bb = static_cast<int>(a_.b - b_.b);
-    int aa = static_cast<int>(a_.a - b_.a);
+    int rr = static_cast<int>(a_.r) - static_cast<int>(b_.r);
+    int gg = static_cast<int>(a_.g) - static_cast<int>(b_.g);
+    int bb = static_cast<int>(a_.b) - static_cast<int>(b_.b);
+    int aa = static_cast<int>(a_.a) - static_cast<int>(b_.a);
     return (
        (std::abs(rr) <= static_cast<int>(off_)) &&
        (std::abs(gg) <= static_cast<int>(off_)) &&

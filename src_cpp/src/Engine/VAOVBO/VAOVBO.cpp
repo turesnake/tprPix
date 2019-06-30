@@ -63,7 +63,7 @@ void init_VAOVBO(){
 
     //-- 将 VAO 的 0号顶点属性，绑定到 VBO数据 的 position 段 
     //  对应 着色器 “vs文件” 中的: layout (location = 0) in vec3 aPos; 
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, VAOVBO_inn::stride, static_cast<void*>(nullptr) ); 
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, VAOVBO_inn::stride, nullptr ); 
     glEnableVertexAttribArray( 0 ); 
 
     //-- 将 VAO 的 1号顶点属性，绑定到 VBO数据 的 texture 段
