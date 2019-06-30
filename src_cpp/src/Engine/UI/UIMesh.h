@@ -7,8 +7,8 @@
  *  UIObj 专用 Mesh， 类似 GO 的 GoMesh
  * ----------------------------
  */
-#ifndef TPR_UI_MESH_H_
-#define TPR_UI_MESH_H_
+#ifndef TPR_UI_MESH_H
+#define TPR_UI_MESH_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 

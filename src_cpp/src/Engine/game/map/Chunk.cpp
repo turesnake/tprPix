@@ -164,8 +164,8 @@ void Chunk::init_memMapEnts(){
  * -----------------------------------------------------------
  * -- 传入任意 mpos，获得其在 本chunk 中的 idx（访问 vector 用）
  */
-size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos ){
-    IntVec2 mposOff = _anyMPos - this->mcpos.get_mpos();
+size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ ){
+    IntVec2 mposOff = anyMPos_ - this->mcpos.get_mpos();
     int w = mposOff.x;
     int h = mposOff.y;
         tprAssert( (w>=0) && (w<ENTS_PER_CHUNK) &&
@@ -179,8 +179,8 @@ size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos ){
  * -----------------------------------------------------------
  * -- 传入任意 ppos 绝对值，获得 此pix 在 本chunk 中的 idx（访问 mapTex 用）
  */
-size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &_anyPPos ){
-    IntVec2 pposOff = _anyPPos - this->mcpos.get_ppos();
+size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &anyPPos_ ){
+    IntVec2 pposOff = anyPPos_ - this->mcpos.get_ppos();
     int w = pposOff.x;
     int h = pposOff.y;
         tprAssert( (w>=0) && (w<PIXES_PER_CHUNK) &&

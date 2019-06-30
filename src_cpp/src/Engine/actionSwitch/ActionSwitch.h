@@ -11,8 +11,8 @@
  *   可能会被 ActionFSM 取代...
  * ----------------------------
  */
-#ifndef TPR_ACTION_SWITCH_H_
-#define TPR_ACTION_SWITCH_H_
+#ifndef TPR_ACTION_SWITCH_H
+#define TPR_ACTION_SWITCH_H
 
 //-------------------- CPP --------------------//
 #include <functional>

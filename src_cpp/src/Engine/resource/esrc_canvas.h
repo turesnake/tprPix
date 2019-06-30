@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_CANVAS_H_
-#define TPR_ESRC_CANVAS_H_
+#ifndef TPR_ESRC_CANVAS_H
+#define TPR_ESRC_CANVAS_H
 
 //-------------------- Engine --------------------//
 #include "Canvas.h"

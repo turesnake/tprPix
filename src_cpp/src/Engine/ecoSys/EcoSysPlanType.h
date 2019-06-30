@@ -7,8 +7,8 @@
  *    ecosystem plan type
  * ----------------------------
  */
-#ifndef TPR_ECOSYS_PLAN_TYPE_H_
-#define TPR_ECOSYS_PLAN_TYPE_H_
+#ifndef TPR_ECOSYS_PLAN_TYPE_H
+#define TPR_ECOSYS_PLAN_TYPE_H
 
 //------------------- C --------------------//
 #include <cstddef> //- size_t

@@ -7,8 +7,8 @@
  * type cast
  * ---------------------
  */
-#ifndef TPR_CAST_H_
-#define TPR_CAST_H_
+#ifndef TPR_CAST_H
+#define TPR_CAST_H
 
 #include "tprAssert.h"
 

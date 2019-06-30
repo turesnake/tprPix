@@ -8,8 +8,8 @@
  *   所有的 mesh/goMesh 都应该包含 本文件，直接使用里面的 VAO,VBO
  * ----------------------------
  */
-#ifndef TPR_VAO_VBO_H_
-#define TPR_VAO_VBO_H_
+#ifndef TPR_VAO_VBO_H
+#define TPR_VAO_VBO_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 

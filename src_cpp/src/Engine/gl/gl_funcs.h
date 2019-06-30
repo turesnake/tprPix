@@ -7,8 +7,8 @@
  *   gl 模块中的 公共函数
  * ----------------------------
  */
-#ifndef TPR_GL_H_
-#define TPR_GL_H_
+#ifndef TPR_GL_FUNC_H
+#define TPR_GL_FUNC_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

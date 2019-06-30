@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_MOVE_H_
-#define TPR_MOVE_H_
+#ifndef TPR_MOVE_H
+#define TPR_MOVE_H
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -35,7 +35,7 @@ enum class MoveType : int {
 class Move{
     using F_RenderUpdate = std::function< void() >;
 public:
-    Move( GameObj &goRef_ ):
+    explicit Move( GameObj &goRef_ ):
         goRef(goRef_)
         {}
 
@@ -99,8 +99,8 @@ private:
     //===== vals =====//
     GameObj      &goRef;
 
-    MoveType   moveType    { MoveType::Crawl };
-    SpeedLevel   speedLvl  { SpeedLevel::LV_3 };
+    MoveType    moveType  { MoveType::Crawl };
+    SpeedLevel  speedLvl  { SpeedLevel::LV_3 };
 
     
     DirAxes  newDirAxes     {};  //- 本次渲染帧，新传入的 方向值（每一帧都被外部代码更新）

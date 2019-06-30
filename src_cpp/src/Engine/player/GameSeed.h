@@ -7,8 +7,8 @@
  *   game seed for random
  * ----------------------------
  */
-#ifndef TPR_GameSeed_H_
-#define TPR_GameSeed_H_
+#ifndef TPR_GameSeed_H
+#define TPR_GameSeed_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

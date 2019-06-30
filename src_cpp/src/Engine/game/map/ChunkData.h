@@ -7,8 +7,8 @@
  *  以 chunk 为单位的，需要被 job线程 计算生成的 数据集 
  * ----------------------------
  */
-#ifndef TPR_CHUNK_DATA_H_
-#define TPR_CHUNK_DATA_H_
+#ifndef TPR_CHUNK_DATA_H
+#define TPR_CHUNK_DATA_H
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -35,9 +35,9 @@ public:
     }
 
     //-- set --//
-    inline void set_mapEntAlti( size_t _idx, const MapAltitude &alti_ ){
-        tprAssert( _idx < this->mapEntAltis.size() );
-        this->mapEntAltis.at(_idx) = alti_;
+    inline void set_mapEntAlti( size_t idx_, const MapAltitude &alti_ ){
+        tprAssert( idx_ < this->mapEntAltis.size() );
+        this->mapEntAltis.at(idx_) = alti_;
     }
 
     //-- get --//
@@ -50,9 +50,9 @@ public:
     }
 
     
-    inline const MapAltitude &get_mapEntAlti( size_t _idx ){
-        tprAssert( _idx < this->mapEntAltis.size() );
-        return this->mapEntAltis.at(_idx);
+    inline const MapAltitude &get_mapEntAlti( size_t idx_ ){
+        tprAssert( idx_ < this->mapEntAltis.size() );
+        return this->mapEntAltis.at(idx_);
     }
 
     inline const std::vector<MapAltitude> &get_mapEntAltis() const {

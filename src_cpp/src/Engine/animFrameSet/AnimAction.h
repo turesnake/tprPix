@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_ANIM_ACTION_H_
-#define TPR_ANIM_ACTION_H_
+#ifndef TPR_ANIM_ACTION_H
+#define TPR_ANIM_ACTION_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

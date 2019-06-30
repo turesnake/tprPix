@@ -45,7 +45,7 @@ class MapField{
 public:
     MapField() = default;
 
-    void init( const IntVec2 &_anyMPos );
+    void init( const IntVec2 &anyMPos_ );
 
     inline bool is_land() const {
         //return (this->minMapAlti.is_land() &&
@@ -58,16 +58,16 @@ public:
     }
 
     //------- set -------//    
-    inline void reflesh_min_and_max_altis( const MapAltitude &_mapAlti ){
-        if( _mapAlti < this->minMapAlti ){
-            this->minMapAlti = _mapAlti;
+    inline void reflesh_min_and_max_altis( const MapAltitude &mapAlti_ ){
+        if( mapAlti_ < this->minMapAlti ){
+            this->minMapAlti = mapAlti_;
         }
-        if( _mapAlti > this->maxMapAlti ){
-            this->maxMapAlti = _mapAlti;
+        if( mapAlti_ > this->maxMapAlti ){
+            this->maxMapAlti = mapAlti_;
         }
     }
 
-    void set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts );
+    void set_nodeAlti_2( const std::vector<MemMapEnt> &chunkMapEnts_ );
 
     //------- get -------//
     inline const IntVec2& get_mpos() const {

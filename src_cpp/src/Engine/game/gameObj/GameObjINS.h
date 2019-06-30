@@ -9,8 +9,8 @@
  *  物理鼠键 -> inputINS -> GameObjINS
  * ----------------------------
  */
-#ifndef TPR_GAME_OBJ_INS_H_
-#define TPR_GAME_OBJ_INS_H_
+#ifndef TPR_GAME_OBJ_INS_H
+#define TPR_GAME_OBJ_INS_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

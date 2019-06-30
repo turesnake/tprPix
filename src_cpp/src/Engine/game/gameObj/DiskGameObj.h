@@ -7,8 +7,8 @@
  *    GameObj 各种数据 结构
  * ----------------------------
  */
-#ifndef TPR_DISK_GAME_OBJ_H_
-#define TPR_DISK_GAME_OBJ_H_
+#ifndef TPR_DISK_GAME_OBJ_H
+#define TPR_DISK_GAME_OBJ_H
 
 //------------------- Engine --------------------//
 #include "IntVec.h"

@@ -7,8 +7,8 @@
  *   游戏中全体 ui 具象类 h文件 include
  * ----------------------------
  */
-#ifndef TPR_ALL_UIS_H_
-#define TPR_ALL_UIS_H_
+#ifndef TPR_ALL_UIS_H
+#define TPR_ALL_UIS_H
 
 
 //---------- Script : gameObjs : majorGos -------------//

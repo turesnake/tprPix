@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GAME_OBJ_POS_H_
-#define TPR_GAME_OBJ_POS_H_
+#ifndef TPR_GAME_OBJ_POS_H
+#define TPR_GAME_OBJ_POS_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

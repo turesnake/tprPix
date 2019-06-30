@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_KEYBOARD_H_
-#define TPR_KEYBOARD_H_
+#ifndef TPR_KEYBOARD_H
+#define TPR_KEYBOARD_H
 
 //-- 键盘上的所有 按键 --
 // 排列次序，几乎参照 glfw3.h 中的顺序.

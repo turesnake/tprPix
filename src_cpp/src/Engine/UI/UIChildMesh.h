@@ -7,8 +7,8 @@
  * 类似 GO 的 ChildMesh 
  * ----------------------------
  */
-#ifndef TPR_UI_CHILD_MESH_H_
-#define TPR_UI_CHILD_MESH_H_
+#ifndef TPR_UI_CHILD_MESH_H
+#define TPR_UI_CHILD_MESH_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
@@ -54,7 +54,7 @@ public:
     inline UIChildMesh *getnc_UIChildMeshPtr(){
         return  const_cast<UIChildMesh*>(this);
     }
-    //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
+    //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
     inline const float &get_render_z() const {
         return this->translate_val.z;
     }

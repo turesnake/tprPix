@@ -13,8 +13,8 @@
  *  需要拓展 ...
  * ----------------------------
  */
-#ifndef TPR_PJT_RGBA_HANDLE_H_
-#define TPR_PJT_RGBA_HANDLE_H_
+#ifndef TPR_PJT_RGBA_HANDLE_H
+#define TPR_PJT_RGBA_HANDLE_H
 //------------------- C --------------------//
 #include <cmath>
 

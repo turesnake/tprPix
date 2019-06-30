@@ -58,14 +58,14 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     std::set<chunkKey_t> chunkQueBuilding {};
 
     //===== funcs =====//
-    void fst_ecoObjs( const IntVec2 &_sectionMPos );
-    void chunkBuild_1_push_job( chunkKey_t _chunkKey );
-    void build_one_chunk( chunkKey_t _chunkKey );
+    void fst_ecoObjs( const IntVec2 &sectionMPos_ );
+    void chunkBuild_1_push_job( chunkKey_t chunkKey_ );
+    void build_one_chunk( chunkKey_t chunkKey_ );
 
     //-- 有关 chunkQueBuilding 状态表 的函数 --
-    bool find_from_chunkQueBuilding( chunkKey_t _chunkKey );
-    void insert_2_chunkQueBuilding( chunkKey_t _chunkKey );
-    void erase_from_chunkQueBuilding( chunkKey_t _chunkKey );
+    bool find_from_chunkQueBuilding( chunkKey_t chunkKey_ );
+    void insert_2_chunkQueBuilding( chunkKey_t chunkKey_ );
+    void erase_from_chunkQueBuilding( chunkKey_t chunkKey_ );
 
 }//-------------- namespace: cb_inn end ----------------//
 
@@ -78,9 +78,9 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
  * -------
  *    非常临时随意的写法，在未来修改
  */
-void build_9_chunks( const IntVec2 &_playerMPos ){
+void build_9_chunks( const IntVec2 &playerMPos_ ){
 
-    IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( _playerMPos );
+    IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( playerMPos_ );
     IntVec2     tmpChunkMPos {};
     chunkKey_t  chunkKey     {};
 
@@ -185,7 +185,7 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
  * 被用于 esrc::get_memMapEntPtr()
  *       build_9_chunks()
  */
-void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
+void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 
     chunkKey_t tmpChunkKey {};
     while( true ){
@@ -196,7 +196,7 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t _chunkKey ){
         }
         tmpChunkKey = chunkBuild_3_receive_data_and_build_one_chunk();
         tprAssert( tmpChunkKey != 1 );
-        if( tmpChunkKey == _chunkKey ){
+        if( tmpChunkKey == chunkKey_ ){
             return;
         }
     }
@@ -210,11 +210,11 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
  *                   build_one_chunk
  * -----------------------------------------------------------
  */
-void build_one_chunk( chunkKey_t _chunkKey ){
+void build_one_chunk( chunkKey_t chunkKey_ ){
 
             //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
 
-    IntVec2 targetChunkMPos = chunkKey_2_mpos( _chunkKey );
+    IntVec2 targetChunkMPos = chunkKey_2_mpos( chunkKey_ );
 
     //------------------------------//
     //           [1]
@@ -262,7 +262,7 @@ void build_one_chunk( chunkKey_t _chunkKey ){
  * 三步：第一步：
  * 根据 目标chunk 制作成job，发送到 jobQue 
  */
-void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
+void chunkBuild_1_push_job( chunkKey_t chunkKey_ ){
 
     //------------------------------//
     //           [1]
@@ -271,7 +271,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     //  在最坏的情况下，这部分会一口气 创建 5个 ecoObj 实例（1个渲染帧内）
     //  而且是在 主线程上计算。如果 ecoObj 实例 创建成本不高，
     //  那么还可以接受
-    IntVec2 targetChunkMPos = chunkKey_2_mpos( _chunkKey );
+    IntVec2 targetChunkMPos = chunkKey_2_mpos( chunkKey_ );
     IntVec2  tmpChunkMPos  {};
     for( size_t h=0; h<=1; h++ ){
         for( size_t w=0; w<=1; w++ ){ //- 周边 4 个chunk
@@ -285,7 +285,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     //       push job
     //--------------------------//
     ArgBinary_Build_ChunkData arg {};
-    arg.chunkKey = _chunkKey;
+    arg.chunkKey = chunkKey_;
     //----------
     Job  job {};
     job.jobType = JobType::Build_ChunkData;
@@ -300,7 +300,7 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
     //  进入被 build流程的 chunk 需要被登记
     //  防止被重复创建
     //--------------------------//
-    insert_2_chunkQueBuilding( _chunkKey );
+    insert_2_chunkQueBuilding( chunkKey_ );
 }
 
 
@@ -309,11 +309,11 @@ void chunkBuild_1_push_job( chunkKey_t _chunkKey ){
  * -----------------------------------------------------------
  * 第一阶段
  */
-void fst_ecoObjs( const IntVec2 &_sectionMPos ){
+void fst_ecoObjs( const IntVec2 &sectionMPos_ ){
 
     sectionKey_t  tmpSectionKey {};
     for( const auto &whOff : quadSectionKeyOffs ){
-        tmpSectionKey = sectionMPos_2_sectionKey( _sectionMPos + whOff );
+        tmpSectionKey = sectionMPos_2_sectionKey( sectionMPos_ + whOff );
                 //ecoObj::find_or_create_the_ecoObj( tmpSectionKey );
                 //-- 这个函数 应该内置到 esrc 原子函数内
 
@@ -328,15 +328,15 @@ void fst_ecoObjs( const IntVec2 &_sectionMPos ){
  * -----------------------------------------------------------
  *  building 表。由于只在 主线程存在，所以不用 加锁
  */
-bool find_from_chunkQueBuilding( chunkKey_t _chunkKey ){
-    return (chunkQueBuilding.find(_chunkKey) != chunkQueBuilding.end());
+bool find_from_chunkQueBuilding( chunkKey_t chunkKey_ ){
+    return (chunkQueBuilding.find(chunkKey_) != chunkQueBuilding.end());
 }
-void insert_2_chunkQueBuilding( chunkKey_t _chunkKey ){
-        tprAssert( chunkQueBuilding.find(_chunkKey) == chunkQueBuilding.end() );
-    chunkQueBuilding.insert(_chunkKey );
+void insert_2_chunkQueBuilding( chunkKey_t chunkKey_ ){
+        tprAssert( chunkQueBuilding.find(chunkKey_) == chunkQueBuilding.end() );
+    chunkQueBuilding.insert(chunkKey_ );
 }
-void erase_from_chunkQueBuilding( chunkKey_t _chunkKey ){
-    tprAssert( chunkQueBuilding.erase(_chunkKey) == 1 );
+void erase_from_chunkQueBuilding( chunkKey_t chunkKey_ ){
+    tprAssert( chunkQueBuilding.erase(chunkKey_) == 1 );
 }
 
 

@@ -7,8 +7,8 @@
  *   ppos 在其所处的 mapent 中的 位置偏移 （左下角） 
  * ----------------------------
  */
-#ifndef TPR_MAP_ENT_COMPASS_H_
-#define TPR_MAP_ENT_COMPASS_H_
+#ifndef TPR_MAP_ENT_COMPASS_H
+#define TPR_MAP_ENT_COMPASS_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

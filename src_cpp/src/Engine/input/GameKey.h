@@ -7,8 +7,8 @@
  *   游戏按键 enum类型
  * ----------------------------
  */
-#ifndef TPR_GAME_KEY_H_
-#define TPR_GAME_KEY_H_
+#ifndef TPR_GAME_KEY_H
+#define TPR_GAME_KEY_H
 
 //-------------------- Libs --------------------//
 #include "tprDataType.h"

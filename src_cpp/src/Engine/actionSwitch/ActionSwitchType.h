@@ -7,8 +7,8 @@
  *    这个文件 应该放到 script 层
  * ----------------------------
  */
-#ifndef TPR_ACTION_SWITCH_TYPE_H_
-#define TPR_ACTION_SWITCH_TYPE_H_
+#ifndef TPR_ACTION_SWITCH_TYPE_H
+#define TPR_ACTION_SWITCH_TYPE_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

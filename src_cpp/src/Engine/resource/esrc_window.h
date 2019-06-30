@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_WINDOW_H_
-#define TPR_ESRC_WINDOW_H_
+#ifndef TPR_ESRC_WINDOW_H
+#define TPR_ESRC_WINDOW_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>

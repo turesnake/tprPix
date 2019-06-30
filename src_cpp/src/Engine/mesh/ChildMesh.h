@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CHILD_MESH_H_
-#define TPR_CHILD_MESH_H_
+#ifndef TPR_CHILD_MESH_H
+#define TPR_CHILD_MESH_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
@@ -24,14 +24,10 @@ class GameObj;
 //   这个 class 应尽可能地 轻量化，让公共数据，放到 GoMesh 中
 class ChildMesh{
 public:
-    explicit ChildMesh( bool isPic_ ):
+    ChildMesh( bool isPic_, GameObjMesh &goMeshRef_ ):
+        goMeshRef(goMeshRef_),
         isPic(isPic_)
         {}
-
-    inline void init( GameObj *goPtr_, GameObjMesh *goMeshPtr_ ){
-        this->goPtr = goPtr_;
-        this->goMeshPtr = goMeshPtr_;
-    }
 
     void draw();
 
@@ -52,7 +48,7 @@ public:
     inline ChildMesh *getnc_ChildMeshPtr(){
         return  const_cast<ChildMesh*>(this);
     }
-    //- 通过 translate_val.z 值 来给 待渲染的 goMeshs 排序 --
+    //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
     inline const float &get_render_z() const {
         return this->translate_val.z;
     }
@@ -66,8 +62,7 @@ private:
     void update_mat4_model(); //-- 重新计算 model矩阵
 
     //======== vals ========//
-    GameObj      *goPtr        {nullptr};
-    GameObjMesh  *goMeshPtr    {nullptr};
+    GameObjMesh    &goMeshRef;
 
     ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++

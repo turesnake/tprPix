@@ -7,9 +7,8 @@
  * a poor assert macro, support win/unix
  * ---------------------
  */
-#ifndef TPR_ASSERT_H_
-#define TPR_ASSERT_H_
-
+#ifndef TPR_ASSERT_H
+#define TPR_ASSERT_H
 
 #include "SysConfig.h"
 

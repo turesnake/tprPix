@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GAME_ARCHIVE_ID_H_
-#define TPR_GAME_ARCHIVE_ID_H_
+#ifndef TPR_GAME_ARCHIVE_ID_H
+#define TPR_GAME_ARCHIVE_ID_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

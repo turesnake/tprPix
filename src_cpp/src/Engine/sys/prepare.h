@@ -7,8 +7,8 @@
  *   main 函数 的前期 准备工作
  * ----------------------------
  */
-#ifndef TPR_PREPARE_H_
-#define TPR_PREPARE_H_
+#ifndef TPR_PREPARE_H
+#define TPR_PREPARE_H
 
 void prepare( char *exeDirPath_ );
 

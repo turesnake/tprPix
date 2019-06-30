@@ -5,8 +5,8 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_UI_OBJ_TYPE_H_
-#define TPR_UI_OBJ_TYPE_H_
+#ifndef TPR_UI_OBJ_TYPE_H
+#define TPR_UI_OBJ_TYPE_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

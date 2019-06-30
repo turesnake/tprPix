@@ -8,8 +8,8 @@
  * 
  * ----------------------------
  */
-#ifndef TPR_ID_MANAGER_H_
-#define TPR_ID_MANAGER_H_
+#ifndef TPR_ID_MANAGER_H
+#define TPR_ID_MANAGER_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

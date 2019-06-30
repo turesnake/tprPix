@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_GAME_OBJ_H_
-#define TPR_ESRC_GAME_OBJ_H_
+#ifndef TPR_ESRC_GAME_OBJ_H
+#define TPR_ESRC_GAME_OBJ_H
 
 //-------------------- CPP --------------------//
 #include <functional> 

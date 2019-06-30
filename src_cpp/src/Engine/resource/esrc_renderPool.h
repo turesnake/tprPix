@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_RENDER_POOL_H_
-#define TPR_ESRC_RENDER_POOL_H_
+#ifndef TPR_ESRC_RENDER_POOL_H
+#define TPR_ESRC_RENDER_POOL_H
 
 //-------------------- CPP --------------------//
 #include <vector>

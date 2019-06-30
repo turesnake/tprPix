@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_JOB_TYPE_H_
-#define TPR_JOB_TYPE_H_
+#ifndef TPR_JOB_TYPE_H
+#define TPR_JOB_TYPE_H
 
 
 

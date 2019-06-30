@@ -28,8 +28,8 @@
  *   此时就有必要进入 更为完善的 tex显存管理（到时再说）
  * ----------------------------
  */
-#ifndef TPR_ANIM_FRAME_SET_H_
-#define TPR_ANIM_FRAME_SET_H_
+#ifndef TPR_ANIM_FRAME_SET_H
+#define TPR_ANIM_FRAME_SET_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 

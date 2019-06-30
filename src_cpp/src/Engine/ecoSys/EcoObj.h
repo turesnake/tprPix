@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_ECO_OBJ_H_
-#define TPR_ECO_OBJ_H_
+#ifndef TPR_ECO_OBJ_H
+#define TPR_ECO_OBJ_H
 
 //-------------------- CPP --------------------//
 #include <vector>

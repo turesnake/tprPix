@@ -7,8 +7,8 @@
  *   诺曼人
  * ----------------------------
  */
-#ifndef TPR_NORMAN_H_
-#define TPR_NORMAN_H_
+#ifndef TPR_NORMAN_H
+#define TPR_NORMAN_H
 
 //-------------------- CPP --------------------//
 #include <string>

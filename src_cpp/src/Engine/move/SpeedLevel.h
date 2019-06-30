@@ -7,8 +7,8 @@
  *    专门管理 GameObj实例 的 位移运动: 爬行
  * ----------------------------
  */
-#ifndef TPR_SPEED_LEVEL_H_
-#define TPR_SPEED_LEVEL_H_
+#ifndef TPR_SPEED_LEVEL_H
+#define TPR_SPEED_LEVEL_H
 
 //------------------- CPP --------------------//
 #include <vector>

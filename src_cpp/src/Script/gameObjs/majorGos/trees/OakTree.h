@@ -7,8 +7,8 @@
  *   橡树
  * ----------------------------
  */
-#ifndef TPR_OAK_TREE_H_
-#define TPR_OAK_TREE_H_
+#ifndef TPR_OAK_TREE_H
+#define TPR_OAK_TREE_H
 
 //-------------------- CPP --------------------//
 #include <string>

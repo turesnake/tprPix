@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_UI_H_
-#define TPR_ESRC_UI_H_
+#ifndef TPR_ESRC_UI_H
+#define TPR_ESRC_UI_H
 
 //-------------------- CPP --------------------//
 #include <functional> 

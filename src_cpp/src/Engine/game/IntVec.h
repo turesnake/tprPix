@@ -7,8 +7,8 @@
  *    以像素为单位的 vec 向量。
  * ----------------------------
  */
-#ifndef TPR_PIX_VEC_H_
-#define TPR_PIX_VEC_H_
+#ifndef TPR_PIX_VEC_H
+#define TPR_PIX_VEC_H
 
 //-------------------- C --------------------//
 #include <cmath>

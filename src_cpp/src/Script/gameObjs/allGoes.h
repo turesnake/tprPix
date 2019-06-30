@@ -7,8 +7,8 @@
  *   游戏中全体 go 具象类 h文件 include
  * ----------------------------
  */
-#ifndef TPR_ALL_GOES_H_
-#define TPR_ALL_GOES_H_
+#ifndef TPR_ALL_GOES_H
+#define TPR_ALL_GOES_H
 
 //---------- Script : gameObjs : majorGos -------------//
 #include "Script/gameObjs/majorGos/Norman.h"

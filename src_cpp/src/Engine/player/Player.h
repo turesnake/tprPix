@@ -8,8 +8,8 @@
  *    ----------
  * ----------------------------
  */
-#ifndef TPR_PLAYER_H_
-#define TPR_PLAYER_H_
+#ifndef TPR_PLAYER_H
+#define TPR_PLAYER_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

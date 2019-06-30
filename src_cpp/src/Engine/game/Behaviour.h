@@ -8,8 +8,8 @@
  *    可以作为一个 独立的单位，存在于 游戏中
  * ----------------------------
  */
-#ifndef TPR_BEHAVIOUR_H_
-#define TPR_BEHAVIOUR_H_
+#ifndef TPR_BEHAVIOUR_H
+#define TPR_BEHAVIOUR_H
 
 //-------------------- CPP --------------------//
 #include <string>

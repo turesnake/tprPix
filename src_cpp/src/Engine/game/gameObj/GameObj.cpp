@@ -43,13 +43,11 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                         bool              isCollide_,
                                         bool              isFlipOver_ ){
 
-    // ***| INSERT FIRST, INIT LATER  |***
-    GameObjMesh  goMesh {}; //- tmp 
-    this->goMeshs.insert({ name_, goMesh }); //- copy
-    GameObjMesh &gmesh = this->goMeshs.at(name_);
+        tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
+    this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
+    GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
     //----- init -----//
-    gmesh.init( const_cast<GameObj*>(this) );
     gmesh.set_pic_renderLayer( layerType_ ); 
     gmesh.set_pic_shader_program( pixShaderPtr_ );
     gmesh.set_shadow_shader_program( shadowShaderPtr_ );
@@ -84,7 +82,7 @@ void GameObj::reset_chunkKeys(){
     //-------
     
     //- 只有 rootGoMesh 参与 mapent 登记
-    if( this->goMeshs.at("root").isCollide == false ){ //- 不参与碰撞检测的 gomesh 直接跳过
+    if( this->get_goMeshRef("root").isCollide == false ){ //- 不参与碰撞检测的 gomesh 直接跳过
         return;
     }
 

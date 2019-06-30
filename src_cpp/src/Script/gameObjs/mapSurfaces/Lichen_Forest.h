@@ -7,8 +7,8 @@
  *   地衣
  * ----------------------------
  */
-#ifndef TPR_LICHEN_FOREST_H_
-#define TPR_LICHEN_FOREST_H_
+#ifndef TPR_LICHEN_FOREST_H
+#define TPR_LICHEN_FOREST_H
 
 //-------------------- CPP --------------------//
 #include <string>

@@ -9,8 +9,8 @@
  *    目前，此装置未被使用
  * ----------------------------
  */
-#ifndef TPR_SCRIPT_BUF_H_
-#define TPR_SCRIPT_BUF_H_
+#ifndef TPR_SCRIPT_BUF_H
+#define TPR_SCRIPT_BUF_H
 
 //-------------------- C --------------------//
 #include <cstring> //- memcpy

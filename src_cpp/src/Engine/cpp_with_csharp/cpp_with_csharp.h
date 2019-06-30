@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CPP_WITH_CSHARP_H_
-#define TPR_CPP_WITH_CSHARP_H_
+#ifndef TPR_CPP_WITH_CSHARP_H
+#define TPR_CPP_WITH_CSHARP_H
 
 
 #include "SysConfig.h" //- must before TPR_OS_WIN32_

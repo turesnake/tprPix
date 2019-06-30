@@ -7,8 +7,8 @@
  *   螃蟹
  * -----------------------
  */
-#ifndef TPR_CRAB_H_
-#define TPR_CRAB_H_
+#ifndef TPR_CRAB_H
+#define TPR_CRAB_H
 
 //-------------------- CPP --------------------//
 #include <string>

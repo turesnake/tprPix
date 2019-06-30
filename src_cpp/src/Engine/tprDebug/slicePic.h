@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_SLICE_PIC_H_
-#define TPR_SLICE_PIC_H_
+#ifndef TPR_SLICE_PIC_H
+#define TPR_SLICE_PIC_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 

@@ -6,8 +6,8 @@
  * ----------------------------------------------------------
  *    animFrameSet 中，单张 图元帧 拥有的 全部 pos数据集
  */
-#ifndef TPR_FRAME_POS_H_
-#define TPR_FRAME_POS_H_
+#ifndef TPR_FRAME_POS_H
+#define TPR_FRAME_POS_H
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

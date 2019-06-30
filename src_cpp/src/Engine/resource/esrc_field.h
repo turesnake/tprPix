@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_FIELD_H_
-#define TPR_ESRC_FIELD_H_
+#ifndef TPR_ESRC_FIELD_H
+#define TPR_ESRC_FIELD_H
 
 //-------------------- CPP --------------------//
 #include <utility> //- pair

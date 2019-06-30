@@ -7,8 +7,8 @@
  *    go 高度区间, 不是 地图海拔，要和 Altitude 区分开来 
  * ----------------------------
  */
-#ifndef TPR_ALTI_RANGE_H_
-#define TPR_ALTI_RANGE_H_
+#ifndef TPR_ALTI_RANGE_H
+#define TPR_ALTI_RANGE_H
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_PLAYER_H_
-#define TPR_ESRC_PLAYER_H_
+#ifndef TPR_ESRC_PLAYER_H
+#define TPR_ESRC_PLAYER_H
 
 //-------------------- Engine --------------------//
 #include "Player.h" 

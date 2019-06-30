@@ -7,8 +7,8 @@
  *  通用的 辅助函数
  * ---------------
  */
-#ifndef TPR_CREATE_GO_OTH_H_
-#define TPR_CREATE_GO_OTH_H_
+#ifndef TPR_CREATE_GO_OTH_H
+#define TPR_CREATE_GO_OTH_H
 
 //-------------------- CPP --------------------//
 #include <string>

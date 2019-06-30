@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_FIELD_BORDER_SET_H_
-#define TPR_FIELD_BORDER_SET_H_
+#ifndef TPR_FIELD_BORDER_SET_H
+#define TPR_FIELD_BORDER_SET_H
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -45,12 +45,12 @@ inline ID_Manager  FieldBorderSet::id_manager { ID_TYPE::U32, 1};
 
 
 void clear_for_fieldBorderSet();
-void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &_datas  );
+void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &datas_ );
 void build_all_mutant_datas_for_fieldBorderSet();
 
 
-fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx );
-const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType _quad );
+fieldBorderSetId_t apply_a_fieldBorderSetId( size_t randIdx_ );
+const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType quad_ );
 
 
 

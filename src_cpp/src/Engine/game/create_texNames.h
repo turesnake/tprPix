@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CREATE_TEXNAMES_H_
-#define TPR_CREATE_TEXNAMES_H_
+#ifndef TPR_CREATE_TEXNAMES_H
+#define TPR_CREATE_TEXNAMES_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 

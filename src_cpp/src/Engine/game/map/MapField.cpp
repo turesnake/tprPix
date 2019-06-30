@@ -53,10 +53,10 @@ namespace mapField_inn {//----------- namespace: mapField_inn ---------------//
  * param: _mpos      -- 此 field 中的任意 mapent.mpos 
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
-void MapField::init( const IntVec2 &_anyMPos ){
+void MapField::init( const IntVec2 &anyMPos_ ){
 
     //--- field.mcpos ---
-    this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(_anyMPos) );
+    this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(anyMPos_) );
 
     //--- field.fieldKey ---
     this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
@@ -100,7 +100,7 @@ void MapField::init( const IntVec2 &_anyMPos ){
  *                   set_nodeAlti_2
  * -----------------------------------------------------------
  */
-void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
+void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &chunkMapEnts_ ){
 
     tprAssert( this->isNodeMapAltiSet == false );
     this->isNodeMapAltiSet = true;
@@ -108,8 +108,8 @@ void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &_chunkMapEnts ){
     IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
     size_t  idx = to_size_t_cast( off.y * ENTS_PER_CHUNK + off.x );
 
-    tprAssert( idx < _chunkMapEnts.size() );
-    this->nodeMapAlti = _chunkMapEnts.at(idx).mapAlti;
+    tprAssert( idx < chunkMapEnts_.size() );
+    this->nodeMapAlti = chunkMapEnts_.at(idx).mapAlti;
 }
 
 

@@ -7,8 +7,8 @@
  *    MOST  POOR DEBUG SYSTEM
  * ----------------------------
  */
-#ifndef TPR_DEBUG_H_
-#define TPR_DEBUG_H_
+#ifndef TPR_DEBUG_H
+#define TPR_DEBUG_H
 
 #include <iostream>
 #include <string>

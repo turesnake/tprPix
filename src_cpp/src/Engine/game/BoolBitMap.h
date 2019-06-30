@@ -7,8 +7,8 @@
  *   each bit mean a bool_flag 
  * ----------------------------
  */
-#ifndef TPR_BOOL_BIT_MAP_H_
-#define TPR_BOOL_BIT_MAP_H_
+#ifndef TPR_BOOL_BIT_MAP_H
+#define TPR_BOOL_BIT_MAP_H
 
 //-------------------- CPP --------------------//
 #include <vector>

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_GAME_SEED_H_
-#define TPR_ESRC_GAME_SEED_H_
+#ifndef TPR_ESRC_GAME_SEED_H
+#define TPR_ESRC_GAME_SEED_H
 
 //-------------------- Engine --------------------//
 #include "GameSeed.h"

@@ -9,8 +9,8 @@
  *   4顶点 的 occupyWeight 值不应该 出现相同。
  * ------------------------
  */
-#ifndef TPR_OCCUPY_WEIGHT_H_
-#define TPR_OCCUPY_WEIGHT_H_
+#ifndef TPR_OCCUPY_WEIGHT_H
+#define TPR_OCCUPY_WEIGHT_H
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
@@ -18,7 +18,7 @@
 
 using occupyWeight_t = int;
 
-occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _idx );
+occupyWeight_t calc_occupyWeight( const IntVec2 &oddEven_, size_t idx_ );
 
 #endif
 

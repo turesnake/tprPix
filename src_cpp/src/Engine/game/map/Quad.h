@@ -7,8 +7,8 @@
  *  quadrant
  * ----------------------------
  */
-#ifndef TPR_QUAD_H_
-#define TPR_QUAD_H_
+#ifndef TPR_QUAD_H
+#define TPR_QUAD_H
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -31,8 +31,8 @@ inline int QuadType_2_Idx( QuadType type_ ){
     return (int)type_;
 }
 
-inline QuadType QuadIdx_2_Type( int _idx ){
-    switch(_idx){
+inline QuadType QuadIdx_2_Type( int idx_ ){
+    switch(idx_){
         case 0: return QuadType::Left_Bottom;
         case 1: return QuadType::Right_Bottom;
         case 2: return QuadType::Left_Top;
@@ -48,11 +48,11 @@ inline QuadType QuadIdx_2_Type( int _idx ){
 //   暂时未被使用
 class QuadFlag{
 public:
-    explicit QuadFlag( bool _val=false ):
-        is_left_bottom(_val),
-        is_right_bottom(_val),
-        is_left_top(_val),
-        is_right_top(_val)
+    explicit QuadFlag( bool val_=false ):
+        is_left_bottom(val_),
+        is_right_bottom(val_),
+        is_left_top(val_),
+        is_right_top(val_)
         {}
 
     inline bool is_all_true() const {

@@ -8,8 +8,8 @@
  *   handle single texture.
  * ----------------------------
  */
-#ifndef TPR_MESH_H_
-#define TPR_MESH_H_
+#ifndef TPR_MESH_H
+#define TPR_MESH_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 

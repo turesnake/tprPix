@@ -34,19 +34,19 @@ namespace ow_inn {//-------- namespace: ow_inn --------------//
 /* ===========================================================
  *                  calc_occupyWeight
  * -----------------------------------------------------------
- * param: _oddEven -- 目标点在map 中的 坐标奇偶性，必须是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
- * param: _randIdx -- 从 occupyWeights 子容器中 选择具体值。
+ * param: oddEven_ -- 目标点在map 中的 坐标奇偶性，必须是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
+ * param: randIdx_ -- 从 occupyWeights 子容器中 选择具体值。
  */
-occupyWeight_t calc_occupyWeight( const IntVec2 &_oddEven, size_t _randIdx ){
+occupyWeight_t calc_occupyWeight( const IntVec2 &oddEven_, size_t randIdx_ ){
 
-    tprAssert( (_oddEven.x>=0) && (_oddEven.x<=1) && 
-            (_oddEven.y>=0) && (_oddEven.y<=1) );
+    tprAssert( (oddEven_.x>=0) && (oddEven_.x<=1) && 
+            (oddEven_.y>=0) && (oddEven_.y<=1) );
 
-    size_t containerIdx = to_size_t_cast( _oddEven.y * 2 + _oddEven.x );
+    size_t containerIdx = to_size_t_cast( oddEven_.y * 2 + oddEven_.x );
         //tprAssert( containerIdx < occupyWeights.size() ); //- tmp
     const std::vector<occupyWeight_t> &container = ow_inn::occupyWeights.at(containerIdx);
 
-    size_t idx = _randIdx % container.size(); //- mod
+    size_t idx = randIdx_ % container.size(); //- mod
     return container.at(idx);
 
     //return container.at(0); //- 测试

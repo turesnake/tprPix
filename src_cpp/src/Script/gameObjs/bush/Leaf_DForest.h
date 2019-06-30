@@ -7,8 +7,8 @@
  *   2~3 片竖立的叶片 bush，DForest
  * ----------------------------
  */
-#ifndef TPR_LEAF_DARK_FOREST_H_
-#define TPR_LEAF_DARK_FOREST_H_
+#ifndef TPR_LEAF_DARK_FOREST_H
+#define TPR_LEAF_DARK_FOREST_H
 
 //-------------------- CPP --------------------//
 #include <string>

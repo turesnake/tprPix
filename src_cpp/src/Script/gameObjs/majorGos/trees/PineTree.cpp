@@ -177,9 +177,7 @@ void PineTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &pairRef : goRef_.goMeshs ){
-        pairRef.second.RenderUpdate();
-    }
+    goRef_.render_all_goMesh();
 }
 
 

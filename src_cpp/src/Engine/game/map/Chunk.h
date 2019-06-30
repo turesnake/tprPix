@@ -7,8 +7,8 @@
  *    Chunk  64*64_mapents, [left-bottom]
  * ----------------------------
  */
-#ifndef TPR_CHUNK_H_
-#define TPR_CHUNK_H_
+#ifndef TPR_CHUNK_H
+#define TPR_CHUNK_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
@@ -64,15 +64,15 @@ public:
 
     //------- set -------//
     //-- 参数 _mpos 是任意 mapent 的 mpos值。
-    inline void set_by_anyMPos( const IntVec2 &_anyMPos ){
-        this->chunkKey = anyMPos_2_chunkKey( _anyMPos );
+    inline void set_by_anyMPos( const IntVec2 &anyMPos_ ){
+        this->chunkKey = anyMPos_2_chunkKey( anyMPos_ );
         mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );             
     }
-    inline void set_mesh_shader_program( ShaderProgram *_sp ){
-        this->mesh.set_shader_program( _sp );
+    inline void set_mesh_shader_program( ShaderProgram *sp_ ){
+        this->mesh.set_shader_program( sp_ );
     }
-    inline void set_mesh_isVisible( bool _isVisible ){
-        this->mesh.isVisible = _isVisible;
+    inline void set_mesh_isVisible( bool isVisible_ ){
+        this->mesh.isVisible = isVisible_;
     }
 
     //------- get -------//
@@ -95,8 +95,8 @@ public:
         return this->fieldKeys;
     }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &_lMPosOff ){
-        size_t idx = to_size_t_cast( _lMPosOff.y*ENTS_PER_CHUNK + _lMPosOff.x );
+    inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &lMPosOff_ ){
+        size_t idx = to_size_t_cast( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
             tprAssert( idx < memMapEnts.size() ); //- tmp
         return &(memMapEnts.at(idx));
     }
@@ -106,8 +106,8 @@ public:
 
 private:
     void init_memMapEnts();
-    size_t get_mapEntIdx_in_chunk( const IntVec2 &_anyMPos );
-    size_t get_pixIdx_in_chunk( const IntVec2 &_anyPPos );
+    size_t get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ );
+    size_t get_pixIdx_in_chunk( const IntVec2 &anyPPos_ );
 
     //======== vals ========//
     //------- chunk 自己的 图形 ---

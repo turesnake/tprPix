@@ -15,8 +15,8 @@
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 GameObjMeshes
  * ----------------------------
  */
-#ifndef TPR_GAME_MESH_H_
-#define TPR_GAME_MESH_H_
+#ifndef TPR_GAME_MESH_H
+#define TPR_GAME_MESH_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 
@@ -49,14 +49,11 @@ class GameObj;
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
 class GameObjMesh{
 public:
-    GameObjMesh() = default;
-
-    inline void init( GameObj *goPtr_ ){
-        this->goPtr = goPtr_;
-        //-----
-        this->picMesh.init(    this->goPtr, const_cast<GameObjMesh*>(this) );
-        this->shadowMesh.init( this->goPtr, const_cast<GameObjMesh*>(this) ); //- 就算没有 shadow，也会执行 init
-    }
+    explicit GameObjMesh( GameObj &goRef_ ):
+        goRef(goRef_),
+        picMesh(    true,  *this),
+        shadowMesh( false, *this)
+        {}
 
     void RenderUpdate();
 
@@ -120,6 +117,10 @@ public:
         return this->animActionPvtData.isLastFrame;
     }
 
+    inline const GameObj &get_goCRef() const {
+        return this->goRef;
+    }
+
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据
@@ -133,10 +134,10 @@ public:
                                     // 仅作用于 pic, [被 ChildMesh 使用]
 private:
     //======== vals ========//
-    GameObj    *goPtr {nullptr}; //- 每个 GameObjMesh实例 都属于一个 go实例. 强关联
+    GameObj      &goRef;
 
-    ChildMesh   picMesh    { true };
-    ChildMesh   shadowMesh { false }; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
+    ChildMesh   picMesh;
+    ChildMesh   shadowMesh; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
 
     glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）

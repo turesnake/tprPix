@@ -153,9 +153,7 @@ void Leaf_DForest::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    for( auto &pairRef : goRef_.goMeshs ){
-        pairRef.second.RenderUpdate();
-    }
+    goRef_.render_all_goMesh();
 }
 
 
@@ -190,7 +188,7 @@ void Leaf_DForest::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &rootGoMeshRef = goRef_.goMeshs.at("root");
+    GameObjMesh &rootGoMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){

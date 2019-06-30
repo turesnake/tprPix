@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_SHADER_H_
-#define TPR_ESRC_SHADER_H_
+#ifndef TPR_ESRC_SHADER_H
+#define TPR_ESRC_SHADER_H
 
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h"

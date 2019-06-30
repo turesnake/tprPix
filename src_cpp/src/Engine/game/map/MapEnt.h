@@ -5,10 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    map ent
+ *    尚未完工，存在很多 无效数据
  * ----------------------------
  */
-#ifndef TPR_MAP_ENT_H_
-#define TPR_MAP_ENT_H_
+#ifndef TPR_MAP_ENT_H
+#define TPR_MAP_ENT_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

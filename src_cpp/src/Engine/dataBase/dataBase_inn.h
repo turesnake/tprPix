@@ -6,8 +6,8 @@
  * ----------------------------------------------------------
  * only in dataBase inner
  */
-#ifndef TPR_DATA_BASE_INN_H_
-#define TPR_DATA_BASE_INN_H_
+#ifndef TPR_DATA_BASE_INN_H
+#define TPR_DATA_BASE_INN_H
 
 //-------------------- CPP --------------------//
 #include <string>

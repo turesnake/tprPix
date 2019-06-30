@@ -8,8 +8,8 @@
  *    Perlin Noise Next 
  * ----------------------------
  */
-#ifndef TPR_PERLIN_NOISE_1D_H_
-#define TPR_PERLIN_NOISE_1D_H_
+#ifndef TPR_PERLIN_NOISE_1D_H
+#define TPR_PERLIN_NOISE_1D_H
 #include "random.h"
 
 //--- glm - 0.9.9.5 ---

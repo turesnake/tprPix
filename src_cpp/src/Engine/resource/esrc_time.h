@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_TIME_H_
-#define TPR_ESRC_TIME_H_
+#ifndef TPR_ESRC_TIME_H
+#define TPR_ESRC_TIME_H
 
 //-------------------- Engine --------------------//
 #include "TimeBase.h" 

@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H_
-#define TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H_
+#ifndef TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H
+#define TPR_BUTTON_SCENE_BEGIN_ARCHIVE_H
 
 
 //-------------------- CPP --------------------//

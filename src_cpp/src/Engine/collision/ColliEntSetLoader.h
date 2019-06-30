@@ -7,8 +7,8 @@
  *    ColliEntSet png数据 加载器
  * ----------------------------
  */
-#ifndef TPR_COLLI_ENT_SET_LOADER_H_
-#define TPR_COLLI_ENT_SET_LOADER_H_
+#ifndef TPR_COLLI_ENT_SET_LOADER_H
+#define TPR_COLLI_ENT_SET_LOADER_H
 
 //-------------------- CPP --------------------//
 #include <vector>

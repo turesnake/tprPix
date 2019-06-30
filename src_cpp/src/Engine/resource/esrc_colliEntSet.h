@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_COLLI_ENT_SET_H_
-#define TPR_ESRC_COLLI_ENT_SET_H_
+#ifndef TPR_ESRC_COLLI_ENT_SET_H
+#define TPR_ESRC_COLLI_ENT_SET_H
 
 //-------------------- CPP --------------------//
 #include <unordered_map>

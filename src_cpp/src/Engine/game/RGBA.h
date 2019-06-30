@@ -7,8 +7,8 @@
  *   png pix color: RGBA
  * ----------------------------
  */
-#ifndef TPR_RGBA_H_
-#define TPR_RGBA_H_
+#ifndef TPR_RGBA_H
+#define TPR_RGBA_H
 
 //------------------- C --------------------//
 #include <cmath>

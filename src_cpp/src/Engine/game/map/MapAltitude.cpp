@@ -16,10 +16,10 @@
  *                         set    [2]
  * -----------------------------------------------------------
  */
-void MapAltitude::set( float _altiVal_from_gpgpu ){
+void MapAltitude::set( float altiVal_from_gpgpu_ ){
 
-    tprAssert( (_altiVal_from_gpgpu>=-100.0f) && (_altiVal_from_gpgpu<=100.0f) );
-    this->val = static_cast<int>(_altiVal_from_gpgpu);
+    tprAssert( (altiVal_from_gpgpu_>=-100.0f) && (altiVal_from_gpgpu_<=100.0f) );
+    this->val = static_cast<int>(altiVal_from_gpgpu_);
 
     //------------------//
     //      lvl
@@ -29,12 +29,12 @@ void MapAltitude::set( float _altiVal_from_gpgpu ){
     float landStep   { 14.0f }; //- 陆地梯度，tmp...
 
     if( this->val < 0 ){ //- under water
-        tmpLvl = static_cast<int>( floor(_altiVal_from_gpgpu/waterStep) );
+        tmpLvl = static_cast<int>( floor(altiVal_from_gpgpu_/waterStep) );
         if( tmpLvl < -5 ){ //- 抹平 水域底部
             tmpLvl = -5;
         }
     }else{ //- land
-        tmpLvl = static_cast<int>( floor(_altiVal_from_gpgpu/landStep) );
+        tmpLvl = static_cast<int>( floor(altiVal_from_gpgpu_/landStep) );
         if( tmpLvl > 2 ){ //- 抹平 陆地高区
             tmpLvl = 2;
         }

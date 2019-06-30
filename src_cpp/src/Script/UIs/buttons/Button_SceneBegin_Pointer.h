@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_BUTTON_SCENE_BEGIN_POINTER_H_
-#define TPR_BUTTON_SCENE_BEGIN_POINTER_H_
+#ifndef TPR_BUTTON_SCENE_BEGIN_POINTER_H
+#define TPR_BUTTON_SCENE_BEGIN_POINTER_H
 
 //-------------------- CPP --------------------//
 #include <string>

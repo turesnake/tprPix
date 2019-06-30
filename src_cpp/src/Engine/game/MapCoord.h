@@ -15,8 +15,8 @@
  *	 SPos   - section pos (未实现)
  * ----------------------------
  */
-#ifndef TPR_MAP_COORD_H_
-#define TPR_MAP_COORD_H_
+#ifndef TPR_MAP_COORD_H
+#define TPR_MAP_COORD_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CREATE_GOES_H_
-#define TPR_CREATE_GOES_H_
+#ifndef TPR_CREATE_GOES_H
+#define TPR_CREATE_GOES_H
 
 
 //-------------------- Engine --------------------//

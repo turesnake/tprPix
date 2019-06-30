@@ -11,8 +11,8 @@
  *      值被设置为 (-1.0, 0.0, 1.0) 三种之一
  * ----------------------------
  */
-#ifndef TPR_DIR_AXES_H_
-#define TPR_DIR_AXES_H_
+#ifndef TPR_DIR_AXES_H
+#define TPR_DIR_AXES_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

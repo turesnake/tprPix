@@ -7,8 +7,8 @@
  *    ColliEntSet 每个 像素点RGBA值 解析
  * ----------------------------
  */
-#ifndef TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
-#define TPR_COLLI_ENT_SET_RGBA_HANDLE_H_
+#ifndef TPR_COLLI_ENT_SET_RGBA_HANDLE_H
+#define TPR_COLLI_ENT_SET_RGBA_HANDLE_H
 
 //------------------- C --------------------//
 #include <cmath>

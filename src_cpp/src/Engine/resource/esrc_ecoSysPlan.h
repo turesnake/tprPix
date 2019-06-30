@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_ECOSYS_PLAN_H_
-#define TPR_ESRC_ECOSYS_PLAN_H_
+#ifndef TPR_ESRC_ECOSYS_PLAN_H
+#define TPR_ESRC_ECOSYS_PLAN_H
 
 //-------------------- CPP --------------------//
 #include <unordered_map>

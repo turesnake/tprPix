@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CREATE_UIS_H_
-#define TPR_CREATE_UIS_H_
+#ifndef TPR_CREATE_UIS_H
+#define TPR_CREATE_UIS_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

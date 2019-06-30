@@ -7,8 +7,8 @@
  *   脚本区 公共资源 存储地
  * ----------------------------
  */
-#ifndef TPR_SRC_SCRIPT_H_
-#define TPR_SRC_SCRIPT_H_
+#ifndef TPR_SRC_SCRIPT_H
+#define TPR_SRC_SCRIPT_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

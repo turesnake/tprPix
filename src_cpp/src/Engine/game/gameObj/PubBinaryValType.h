@@ -7,8 +7,8 @@
  *   
  * ----------------------------
  */
-#ifndef TPR_PUB_BINARY_VAL_TYPE_H_
-#define TPR_PUB_BINARY_VAL_TYPE_H_
+#ifndef TPR_PUB_BINARY_VAL_TYPE_H
+#define TPR_PUB_BINARY_VAL_TYPE_H
 
 //-------------------- CPP --------------------//
 #include <map>

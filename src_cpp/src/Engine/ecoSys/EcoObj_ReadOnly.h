@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_ECO_OBJ_READ_ONLY_H_
-#define TPR_ECO_OBJ_READ_ONLY_H_
+#ifndef TPR_ECO_OBJ_READ_ONLY_H
+#define TPR_ECO_OBJ_READ_ONLY_H
 
 //-------------------- Engine --------------------//
 #include "EcoObj.h"

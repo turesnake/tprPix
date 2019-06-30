@@ -69,7 +69,8 @@ bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
     //------------------------------//
     // 检测当前移动方向的 所有 addsEnt
     //------------------------------//
-    if( doGoRef.goMeshs.at("root").isCollide ){
+    //if( doGoRef.goMeshs.at("root").isCollide ){
+    if( doGoRef.get_goMeshRef("root").isCollide ){
 
         currentAltiRange.set_by_addAlti( doCehRef.lAltiRange, doGoRef.goPos.get_alti() ); 
 

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_BEHAVIOUR_H_
-#define TPR_ESRC_BEHAVIOUR_H_
+#ifndef TPR_ESRC_BEHAVIOUR_H
+#define TPR_ESRC_BEHAVIOUR_H
 
 //-------------------- Engine --------------------//
 #include "Behaviour.h" 

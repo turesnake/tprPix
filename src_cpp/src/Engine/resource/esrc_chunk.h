@@ -5,9 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_CHUNK_H_
-#define TPR_ESRC_CHUNK_H_
-
+#ifndef TPR_ESRC_CHUNK_H
+#define TPR_ESRC_CHUNK_H
 
 //-------------------- Engine --------------------//
 #include "Chunk.h" 

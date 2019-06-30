@@ -7,8 +7,8 @@
  *   小麦
  * ----------------------------
  */
-#ifndef TPR_SINGLE_STONE_DESERT_H_
-#define TPR_SINGLE_STONE_DESERT_H_
+#ifndef TPR_SINGLE_STONE_DESERT_H
+#define TPR_SINGLE_STONE_DESERT_H
 
 //-------------------- CPP --------------------//
 #include <string>

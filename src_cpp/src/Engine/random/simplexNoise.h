@@ -7,8 +7,8 @@
  *   glsl版 simplex-noise, 移植到 cpu上
  * ----------------------------
  */
-#ifndef TPR_SIMPLEX_NOISE_H_
-#define TPR_SIMPLEX_NOISE_H_
+#ifndef TPR_SIMPLEX_NOISE_H
+#define TPR_SIMPLEX_NOISE_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

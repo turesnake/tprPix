@@ -8,8 +8,8 @@
  *   临时，后期会更换为 lua 来实现
  * ----------------------------
  */
-#ifndef TPR_CONFIG_H_
-#define TPR_CONFIG_H_
+#ifndef TPR_CONFIG_H
+#define TPR_CONFIG_H
 
 
 //-- 一个 section，占有 4*4 chunks

@@ -7,8 +7,8 @@
  *    texture for map sys
  * ----------------------------
  */
-#ifndef TPR_MAP_TEXTURE_H_
-#define TPR_MAP_TEXTURE_H_
+#ifndef TPR_MAP_TEXTURE_H
+#define TPR_MAP_TEXTURE_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h> 
 
@@ -39,9 +39,9 @@ public:
     }
 
     //- texBuf 数据 是在 job线程中生成的，传递到 主线程后，只需 复制到此处 --
-    inline void copy_texBuf_from( const std::vector<RGBA> &_src ){
+    inline void copy_texBuf_from( const std::vector<RGBA> &src_ ){
         this->texBuf.clear();
-        this->texBuf.insert( this->texBuf.end(), _src.begin(), _src.end() ); //- copy
+        this->texBuf.insert( this->texBuf.end(), src_.begin(), src_.end() ); //- copy
     }
     
 private:

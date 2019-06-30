@@ -5,8 +5,8 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_UI_OBJ_H_
-#define TPR_UI_OBJ_H_
+#ifndef TPR_UI_OBJ_H
+#define TPR_UI_OBJ_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

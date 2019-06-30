@@ -7,8 +7,8 @@
  *   小麦
  * ----------------------------
  */
-#ifndef TPR_WHEAT_H_
-#define TPR_WHEAT_H_
+#ifndef TPR_WHEAT_H
+#define TPR_WHEAT_H
 
 //-------------------- CPP --------------------//
 #include <string>

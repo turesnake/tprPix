@@ -8,12 +8,11 @@
  *   使用 cpp 特有的 inline 关键词来 一步到位地 声明+初始化
  * ----------------------------
  */
-#ifndef TPR_GLOBAL_H_
-#define TPR_GLOBAL_H_
+#ifndef TPR_GLOBAL_H
+#define TPR_GLOBAL_H
 
 //-------------------- CPP --------------------//
 #include <string>
-
 
 //inline bool is_fst_run {}; //-- 本次运行，是否为 本进程编译后的 首次运行
                             //-- 每次运行时，由函数 check_fst_run() 设置

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_GAME_ARCHIVE_H_
-#define TPR_ESRC_GAME_ARCHIVE_H_
+#ifndef TPR_ESRC_GAME_ARCHIVE_H
+#define TPR_ESRC_GAME_ARCHIVE_H
 
 //-------------------- Engine --------------------//
 #include "GameArchive.h"

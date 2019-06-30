@@ -7,11 +7,10 @@
  *   定义一种 时间循环
  * ----------------------------
  */
-#ifndef TPR_TIME_CIRCLE_H_
-#define TPR_TIME_CIRCLE_H_
+#ifndef TPR_TIME_CIRCLE_H
+#define TPR_TIME_CIRCLE_H
 
 #include "TimeBase.h"
-
 
 //--- 管理一种 时间循环 ---//
 //  每 n 帧 算一次 循环

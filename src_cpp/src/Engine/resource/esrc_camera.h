@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_CAMERA_H_
-#define TPR_ESRC_CAMERA_H_
+#ifndef TPR_ESRC_CAMERA_H
+#define TPR_ESRC_CAMERA_H
 
 //-------------------- Engine --------------------//
 #include "Camera.h"

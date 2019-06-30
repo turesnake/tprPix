@@ -8,8 +8,8 @@
  *    可以作为一个 独立的单位，存在于 游戏中
  * ----------------------------
  */
-#ifndef TPR_GAME_OBJ_H_
-#define TPR_GAME_OBJ_H_
+#ifndef TPR_GAME_OBJ_H
+#define TPR_GAME_OBJ_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
@@ -130,6 +130,17 @@ public:
         return this->collision.collide_for_crawl( nbIdx_ );
     }
 
+    inline GameObjMesh &get_goMeshRef( const std::string &name_ ){
+            tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
+        return *(this->goMeshs.at(name_).get());
+    }
+
+    inline void render_all_goMesh(){
+        for( auto &pairRef : this->goMeshs ){
+            pairRef.second->RenderUpdate();
+        }
+    }
+
     //void debug(); //- 打印 本go实例 的所有信息
 
     //---------------- callback -----------------//
@@ -170,13 +181,6 @@ public:
     GameObjPos   goPos {}; 
     Move         move;
 
-    // - rootGoMesh  -- name = “root”; 核心goMesh;
-    // - childGoMesh -- 剩下的goMesh
-    std::unordered_map<std::string, GameObjMesh>  goMeshs {}; //- go实例 与 GoMesh实例 强关联
-                            // 大部分go不会卸载／增加自己的 GoMesh实例
-                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
-                            //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
-                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
     ActionSwitch    actionSwitch; //-- 将被取代...
 
@@ -220,11 +224,20 @@ private:
         //this->move.bind_weakPtr( weak_from_this() );
     }
 
-
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
                                         // 通过 reset_chunkKeys() 来更新。
                                         // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
+
+    // - rootGoMesh  -- name = “root”; 核心goMesh;
+    // - childGoMesh -- 剩下的goMesh
+    std::unordered_map<std::string, std::unique_ptr<GameObjMesh>>  goMeshs {};
+                            //- go实例 与 GoMesh实例 强关联
+                            // 大部分go不会卸载／增加自己的 GoMesh实例
+                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
+                            //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
+                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
+
                                           
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量

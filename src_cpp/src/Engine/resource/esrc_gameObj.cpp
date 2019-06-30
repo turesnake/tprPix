@@ -228,7 +228,7 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
     //  只有 rootGoMesh 会被记录到 mapent 上
     //  遍历其每个 ces
     //------------------------------//
-    if( goRef_.goMeshs.at("root").isCollide == false ){
+    if( goRef_.get_goMeshRef("root").isCollide == false ){
         return;
     }
 

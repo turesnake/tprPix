@@ -37,7 +37,7 @@ namespace fbs_inn {//-------- namespace: fbs_inn --------------//
 
 
     //====== funcs =======//
-    void handle_each_container( const FieldBorderSet::quadContainer_t &_container );
+    void handle_each_container( const FieldBorderSet::quadContainer_t &container_ );
 
 
 }//------------- namespace: fbs_inn end --------------//
@@ -60,8 +60,8 @@ void clear_for_fieldBorderSet(){
  * -----------------------------------------------------------
  * -- 将原版数据，暂存在 文件容器中
  */
-void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &_datas  ){
-    fbs_inn::originData.insert( fbs_inn::originData.end(), _datas.begin(), _datas.end() ); //- copy
+void copy_originData_for_fieldBorderSet( const FieldBorderSet::quadContainer_t &datas_  ){
+    fbs_inn::originData.insert( fbs_inn::originData.end(), datas_.begin(), datas_.end() ); //- copy
 
 }
 
@@ -113,9 +113,9 @@ void build_all_mutant_datas_for_fieldBorderSet(){
  *              apply_a_fieldBorderSetId
  * -----------------------------------------------------------
  */
-fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
+fieldBorderSetId_t apply_a_fieldBorderSetId( size_t randIdx_ ){
 
-    size_t idx = _randIdx % fbs_inn::fieldBorderSet_ids.size();
+    size_t idx = randIdx_ % fbs_inn::fieldBorderSet_ids.size();
     return fbs_inn::fieldBorderSet_ids.at(idx);
 }
 
@@ -124,10 +124,10 @@ fieldBorderSetId_t apply_a_fieldBorderSetId( size_t _randIdx ){
  *                get_fieldBorderSet
  * -----------------------------------------------------------
  */
-const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType _quad ){
+const FieldBorderSet::quadContainer_t &get_fieldBorderSet( fieldBorderSetId_t id_, QuadType quad_ ){
 
     tprAssert( fbs_inn::fieldBorderSets.find(id_) != fbs_inn::fieldBorderSets.end() );
-    switch(_quad){
+    switch(quad_){
         case QuadType::Left_Bottom:   return fbs_inn::fieldBorderSets.at(id_).leftBottoms;
         case QuadType::Right_Bottom:  return fbs_inn::fieldBorderSets.at(id_).rightBottoms;
         case QuadType::Left_Top:      return fbs_inn::fieldBorderSets.at(id_).leftTops;
@@ -148,7 +148,7 @@ namespace fbs_inn {//-------- namespace: fbs_inn --------------//
  * -----------------------------------------------------------
  * -- 将目标容器中的数据 正式存储到 全局容器中。
  */
-void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
+void handle_each_container( const FieldBorderSet::quadContainer_t &container_ ){
 
     // ***| INSERT FIRST, INIT LATER  |***
     FieldBorderSet  fbs {};
@@ -164,7 +164,7 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
     fbsRef.leftTops.reserve( quadSize );
     fbsRef.rightTops.reserve( quadSize );
 
-    tprAssert( _container.size() == frameSize );
+    tprAssert( container_.size() == frameSize );
 
 
     IntVec2   pixWH        {};
@@ -178,22 +178,22 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &_container ){
             //----- leftBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, 0 };
             containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
-            fbsRef.leftBottoms.push_back( _container.at(containerIdx) );
+            fbsRef.leftBottoms.push_back( container_.at(containerIdx) );
 
             //----- rightBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, 0 };
             containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
-            fbsRef.rightBottoms.push_back( _container.at(containerIdx) );
+            fbsRef.rightBottoms.push_back( container_.at(containerIdx) );
 
             //----- leftTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, PIXES_PER_FIELD };
             containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
-            fbsRef.leftTops.push_back( _container.at(containerIdx) );
+            fbsRef.leftTops.push_back( container_.at(containerIdx) );
 
             //----- rightTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, PIXES_PER_FIELD };
             containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
-            fbsRef.rightTops.push_back( _container.at(containerIdx) );
+            fbsRef.rightTops.push_back( container_.at(containerIdx) );
         }
     }
 

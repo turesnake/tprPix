@@ -7,8 +7,8 @@
  *   着色器程序 类
  * ----------------------------
  */
-#ifndef TPR_SHADER_PROGRAM_H_
-#define TPR_SHADER_PROGRAM_H_
+#ifndef TPR_SHADER_PROGRAM_H
+#define TPR_SHADER_PROGRAM_H
 //=== *** glad FIRST, glfw SECEND *** ===
 #include<glad/glad.h>  
 

@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_PUB_BINARY_H_
-#define TPR_PUB_BINARY_H_
+#ifndef TPR_PUB_BINARY_H
+#define TPR_PUB_BINARY_H
 
 //-------------------- CPP --------------------//
 #include <vector>

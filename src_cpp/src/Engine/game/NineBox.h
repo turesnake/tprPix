@@ -11,8 +11,8 @@
  *  新版本的 crawl，支持 17个 运动方向 ( CrawlCompass ) 
  * ----------------------------
  */
-#ifndef TPR_NINE_BOX_H_
-#define TPR_NINE_BOX_H_
+#ifndef TPR_NINE_BOX_H
+#define TPR_NINE_BOX_H
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"

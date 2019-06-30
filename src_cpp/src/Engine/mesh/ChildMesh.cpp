@@ -33,14 +33,15 @@ namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------
  * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = this->goMeshPtr->get_animAction_pixNum_per_frame();
+    const IntVec2 &p = this->goMeshRef.get_animAction_pixNum_per_frame();
 
     this->scale_val.x = (float)p.x;
     this->scale_val.y = (float)p.y;
     this->scale_val.z = 1.0f;
 
     //---- 亦或时 才左右翻转 ----//
-    if( this->goPtr->isFlipOver != this->goMeshPtr->isFlipOver ){
+    const auto &goRef = this->goMeshRef.get_goCRef();
+    if( goRef.isFlipOver != this->goMeshRef.isFlipOver ){
         this->scale_val.x *= -1.0f;
     }
 }
@@ -54,25 +55,27 @@ void ChildMesh::refresh_scale_auto(){
  */
 void ChildMesh::refresh_translate(){
 
-    const glm::vec2 &goCurrentFPos = this->goPtr->goPos.get_currentFPos();
+    const auto &goRef = this->goMeshRef.get_goCRef();
+
+    const glm::vec2 &goCurrentFPos = goRef.goPos.get_currentFPos();
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
-    const IntVec2 &vRef = this->goMeshPtr->get_currentRootAnchorPPosOff();
-    const glm::vec2 &pposOff = this->goMeshPtr->get_pposOff();
+    const IntVec2 &vRef = this->goMeshRef.get_currentRootAnchorPPosOff();
+    const glm::vec2 &pposOff = this->goMeshRef.get_pposOff();
 
     //--- set translate_val ---//
     this->translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
     //---- 亦或时 才左右翻转 ----//
-    if( this->goPtr->isFlipOver != this->goMeshPtr->isFlipOver ){
-        this->translate_val.x += this->goMeshPtr->get_animAction_pixNum_per_frame().x;
+    if( goRef.isFlipOver != this->goMeshRef.isFlipOver ){
+        this->translate_val.x += this->goMeshRef.get_animAction_pixNum_per_frame().x;
     }
 
     if( this->isPic == true ){
-        this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + this->goPtr->goPos.get_alti();
+        this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goRef.goPos.get_alti();
                                     //-- 累加 高度alti
-        if( goMeshPtr->isPicFixedZOff ){
-            this->translate_val.z = esrc::get_camera().get_zFar() + goMeshPtr->get_picFixedZOff();
+        if( goMeshRef.isPicFixedZOff ){
+            this->translate_val.z = esrc::get_camera().get_zFar() + goMeshRef.get_picFixedZOff();
         }else{
-            this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshPtr->get_off_z());
+            this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshRef.get_off_z());
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负...
                                         // -2- 没有算入 vRef.y; 因为这个值只代表：
@@ -104,21 +107,21 @@ void ChildMesh::refresh_translate(){
  */
 void ChildMesh::draw(){
 
-    if( this->goMeshPtr->isVisible == false ){
+    if( this->goMeshRef.isVisible == false ){
         return;
     }
 
     //---------- refresh texName -------------
     GLuint texName {};
     if( this->isPic ){
-        texName=this->goMeshPtr->get_currentTexName_pic();
+        texName=this->goMeshRef.get_currentTexName_pic();
     }else{
         //--- 若没有 shadow，直接跳过本次 draw-call --- IMPORTANT !!!!!
-        if( this->goMeshPtr->isHaveShadow == false ){
+        if( this->goMeshRef.isHaveShadow == false ){
             return;
         }
         //------
-        texName=this->goMeshPtr->get_currentTexName_shadow();
+        texName=this->goMeshRef.get_currentTexName_shadow();
     }
 
     //---------- refresh mat4_model -------------

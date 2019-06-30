@@ -27,9 +27,9 @@
  * ------
  * param: _mpos -- 任意 mapent 的 mpos
  */
-size_t get_chunkIdx_in_section( const IntVec2 &_anyMPos ){
+size_t get_chunkIdx_in_section( const IntVec2 &anyMPos_ ){
 
-    IntVec2 mposOff = anyMPos_2_chunkMPos(_anyMPos) - anyMPos_2_sectionMPos(_anyMPos);
+    IntVec2 mposOff = anyMPos_2_chunkMPos(anyMPos_) - anyMPos_2_sectionMPos(anyMPos_);
         tprAssert( (mposOff.x>=0) && (mposOff.y>=0) ); //- tmp
     int w = std::abs(mposOff.x)/ENTS_PER_CHUNK;
     int h = std::abs(mposOff.y)/ENTS_PER_CHUNK;

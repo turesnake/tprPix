@@ -7,8 +7,8 @@
  *    section "id":  (int)w + (int)h
  * ----------------------------
  */
-#ifndef TPR_SECTION_KEY_H_
-#define TPR_SECTION_KEY_H_
+#ifndef TPR_SECTION_KEY_H
+#define TPR_SECTION_KEY_H
 
 //-------------------- CPP --------------------//
 #include <vector>
@@ -25,12 +25,12 @@
  
 using sectionKey_t = u64_t;
 
-sectionKey_t sectionMPos_2_key_inn( const IntVec2 &_sectionMPos );  //- 不推荐外部代码使用
-IntVec2 sectionKey_2_mpos( sectionKey_t _key );
-IntVec2 anyMPos_2_sectionMPos( const IntVec2 &_mpos );
-IntVec2 get_section_lMPosOff( const IntVec2 &_anyMPos );
-sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos );
-sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &_sectionMPos );
+sectionKey_t sectionMPos_2_key_inn( const IntVec2 &sectionMPos_ );  //- 不推荐外部代码使用
+IntVec2 sectionKey_2_mpos( sectionKey_t key_ );
+IntVec2 anyMPos_2_sectionMPos( const IntVec2 &mpos_ );
+IntVec2 get_section_lMPosOff( const IntVec2 &anyMPos_ );
+sectionKey_t anyMPos_2_sectionKey( const IntVec2 &anyMPos_ );
+sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &sectionMPos_ );
 
 
 
@@ -38,14 +38,14 @@ sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &_sectionMPos );
  *                 sectionMPos_2_key_inn
  * -----------------------------------------------------------
  * -- 传入 section左下角mpos，获得 section key（u64）
- * param: _sectionMPos - 必须为 section左下角mpos。
+ * param: sectionMPos_ - 必须为 section左下角mpos。
  */
-inline sectionKey_t sectionMPos_2_key_inn( const IntVec2 &_sectionMPos ){
+inline sectionKey_t sectionMPos_2_key_inn( const IntVec2 &sectionMPos_ ){
     sectionKey_t key {};
     int *ptr = (int*)&key;
-    *ptr = _sectionMPos.x;
+    *ptr = sectionMPos_.x;
     ptr++;
-    *ptr = _sectionMPos.y; 
+    *ptr = sectionMPos_.y; 
     //--------
     return key;
 }
@@ -56,9 +56,9 @@ inline sectionKey_t sectionMPos_2_key_inn( const IntVec2 &_sectionMPos ){
  * -----------------------------------------------------------
  * -- 传入某个key，生成其 section 的 mpos
  */
-inline IntVec2 sectionKey_2_mpos( sectionKey_t _key ){
+inline IntVec2 sectionKey_2_mpos( sectionKey_t key_ ){
     IntVec2  mpos {};
-    int *ptr = (int*)&_key;
+    int *ptr = (int*)&key_;
     //---
     mpos.x = *ptr;
     ptr++;
@@ -73,8 +73,8 @@ inline IntVec2 sectionKey_2_mpos( sectionKey_t _key ){
  * -----------------------------------------------------------
  * -- 传入 任意 mapent 的 mpos，获得其 所在 section 的 mpos（section左下角）
  */
-inline IntVec2 anyMPos_2_sectionMPos( const IntVec2 &_anyMPos ){
-    return ( floorDiv(_anyMPos, ENTS_PER_SECTION) * ENTS_PER_SECTION );
+inline IntVec2 anyMPos_2_sectionMPos( const IntVec2 &anyMPos_ ){
+    return ( floorDiv(anyMPos_, ENTS_PER_SECTION) * ENTS_PER_SECTION );
 }
 
 
@@ -83,8 +83,8 @@ inline IntVec2 anyMPos_2_sectionMPos( const IntVec2 &_anyMPos ){
  * -----------------------------------------------------------
  * -- 获得 目标mapent.mpos 在其 section 中的 相对mpos偏移
  */
-inline IntVec2 get_section_lMPosOff( const IntVec2 &_anyMPos ){
-    return ( _anyMPos - anyMPos_2_sectionMPos(_anyMPos) );
+inline IntVec2 get_section_lMPosOff( const IntVec2 &anyMPos_ ){
+    return ( anyMPos_ - anyMPos_2_sectionMPos(anyMPos_) );
 }
 
 
@@ -95,10 +95,10 @@ inline IntVec2 get_section_lMPosOff( const IntVec2 &_anyMPos ){
  *    推荐使用本函数。
  * -- 这个函数会使得调用者代码 隐藏一些bug。
  *    在明确自己传入的参数就是 sectionMPos 时，推荐使用 sectionMPos_2_sectionKey()
- * param: _anyMPos -- 任意 mapent 的 mpos
+ * param: anyMPos_ -- 任意 mapent 的 mpos
  */
-inline sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos ){
-    IntVec2 sectionMPos = anyMPos_2_sectionMPos( _anyMPos );
+inline sectionKey_t anyMPos_2_sectionKey( const IntVec2 &anyMPos_ ){
+    IntVec2 sectionMPos = anyMPos_2_sectionMPos( anyMPos_ );
     return sectionMPos_2_key_inn( sectionMPos );
 }
 
@@ -109,9 +109,9 @@ inline sectionKey_t anyMPos_2_sectionKey( const IntVec2 &_anyMPos ){
  * -- 当使用者 确定自己传入的参数就是 sectionMPos, 使用此函数
  *    如果参数不为 sectionMPos，直接报错。
  */
-inline sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &_sectionMPos ){
-        tprAssert( anyMPos_2_sectionMPos(_sectionMPos) == _sectionMPos ); //- tmp
-    return sectionMPos_2_key_inn( _sectionMPos );
+inline sectionKey_t sectionMPos_2_sectionKey( const IntVec2 &sectionMPos_ ){
+        tprAssert( anyMPos_2_sectionMPos(sectionMPos_) == sectionMPos_ ); //- tmp
+    return sectionMPos_2_key_inn( sectionMPos_ );
 }
 
 

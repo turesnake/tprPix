@@ -7,8 +7,8 @@
  *    ecosystem plan
  * ----------------------------
  */
-#ifndef TPR_ECOSYS_PLAN_H_
-#define TPR_ECOSYS_PLAN_H_
+#ifndef TPR_ECOSYS_PLAN_H
+#define TPR_ECOSYS_PLAN_H
 
 //-------------------- CPP --------------------//
 #include <vector>

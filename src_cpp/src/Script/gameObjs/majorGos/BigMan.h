@@ -8,8 +8,8 @@
  * 
  * ----------------------------
  */
-#ifndef TPR_BIG_MAN_H_
-#define TPR_BIG_MAN_H_
+#ifndef TPR_BIG_MAN_H
+#define TPR_BIG_MAN_H
 
 //-------------------- CPP --------------------//
 #include <string>

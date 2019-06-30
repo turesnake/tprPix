@@ -7,8 +7,8 @@
  *    GameObj 各种数据 结构
  * ----------------------------
  */
-#ifndef TPR_GAME_OBJ_TYPE_H_
-#define TPR_GAME_OBJ_TYPE_H_
+#ifndef TPR_GAME_OBJ_TYPE_H
+#define TPR_GAME_OBJ_TYPE_H
 
 //-------------------- CPP --------------------//
 #include <string>

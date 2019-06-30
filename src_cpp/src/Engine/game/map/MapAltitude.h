@@ -7,8 +7,8 @@
  *   每个 pix / mapEnt／field 都拥有自身的 高度信息。
  * ----------------------------
  */
-#ifndef TPR_MAP_ALTITUDE_H_
-#define TPR_MAP_ALTITUDE_H_
+#ifndef TPR_MAP_ALTITUDE_H
+#define TPR_MAP_ALTITUDE_H
 
 //------------------- Engine --------------------//
 #include "IntVec.h" 
@@ -19,11 +19,11 @@ class MapAltitude{
 public:
     MapAltitude() = default;
 
-    explicit MapAltitude( float _val ){
-        this->set( _val );
+    explicit MapAltitude( float val_ ){
+        this->set( val_ );
     }
     
-    void set( float _altiVal_from_gpgpu );
+    void set( float altiVal_from_gpgpu_ );
 
     //-- 仅表达是否为land，很可能为 临水区域 --
     inline bool is_land() const {
@@ -64,12 +64,12 @@ public:
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
  */
-inline bool operator < ( const MapAltitude &_a, const MapAltitude &_b ){
-    return ( _a.val < _b.val );
+inline bool operator < ( const MapAltitude &a_, const MapAltitude &b_ ){
+    return ( a_.val < b_.val );
 }
 
-inline bool operator > ( const MapAltitude &_a, const MapAltitude &_b ){
-    return ( _a.val > _b.val );
+inline bool operator > ( const MapAltitude &a_, const MapAltitude &b_ ){
+    return ( a_.val > b_.val );
 }
 
 

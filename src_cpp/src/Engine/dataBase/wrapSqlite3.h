@@ -7,8 +7,8 @@
  *    wrap funcs of sqlite3
  * ----------------------------
  */
-#ifndef TPR_WRAP_SQLITE3_H_
-#define TPR_WRAP_SQLITE3_H_
+#ifndef TPR_WRAP_SQLITE3_H
+#define TPR_WRAP_SQLITE3_H
 
 //-------------------- CPP --------------------//
 #include <iostream>
