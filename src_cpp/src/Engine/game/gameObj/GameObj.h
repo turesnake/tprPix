@@ -36,7 +36,8 @@
 #include "Collision.h"
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
-#include "PubBinary.h"
+//#include "PubBinary.h"
+#include "PubBinary2.h"
 #include "ActionFSM.h"
 #include "chunkKey.h"
 
@@ -57,7 +58,7 @@
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
-    using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
+    //using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
     using F_AFFECT     = std::function<void(GameObj&,GameObj&)>;
 public:
     //-- factory --
@@ -185,7 +186,8 @@ public:
     ActionSwitch    actionSwitch; //-- 将被 ActionFSM 取代...
     ActionFSM       actionFSM {}; //- 尚未完工...
 
-    PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
+    //PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
+    PubBinary2      pubBinary {};  //- 简易版，存储所有元素
 
     //InputINS        inputINS  {}; //- gameKeys 指令组
 

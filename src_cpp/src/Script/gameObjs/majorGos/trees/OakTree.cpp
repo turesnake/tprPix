@@ -64,10 +64,6 @@ void OakTree::init_in_autoMod(  goSpecId_t specID_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( oakTree_pubBinaryValTypes );
-
-
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(OakTree_PvtBinary) );
     OakTree_PvtBinary  *pvtBp = reinterpret_cast<OakTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());

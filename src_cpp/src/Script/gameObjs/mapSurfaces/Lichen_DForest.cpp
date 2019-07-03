@@ -45,9 +45,6 @@ void Lichen_DForest::init_in_autoMod(  goSpecId_t specID_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
     
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( lichen_DForest_pubBinaryValTypes );
-
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Lichen_DForest_PvtBinary) );

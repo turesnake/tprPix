@@ -20,19 +20,12 @@
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
-#include "PubBinaryValType.h"
 #include "MapAltitude.h"
 #include "Density.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
-//-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> leaf_DForest_pubBinaryValTypes {
-    PubBinaryValType::HP,
-    PubBinaryValType::MP
-};
 
 struct Leaf_DForest_PvtBinary{
     size_t   leaf_DForestId {0};

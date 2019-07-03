@@ -45,9 +45,6 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( wheat_pubBinaryValTypes );
-
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Wheat_PvtBinary) );

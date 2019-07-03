@@ -28,9 +28,9 @@ public:
 
     //----- bool -----//
     bool    isTopGo  {};
-    bool    isActive {};
     bool    isDoPass {};
     bool    isBePass {};
+    //bool    isActive {}; //- 是否进入激活圈
     //bool    isDirty  {};
     //bool    isControlByPlayer {};
 
@@ -39,6 +39,10 @@ public:
     float       alti   {};
     float       weight {};
     //...
+
+
+    //std::unordered_map<PubBinaryValType,int> pubVals {};
+    PubBinary2   pubBinary {};
 };
 
 

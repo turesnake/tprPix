@@ -31,7 +31,7 @@ public:
         idx_t      idx {}; //- tmp
         byteoff_t  off {0}; 
         for( const auto &i : types_ ){
-            idx = (idx_t)i;
+            idx = static_cast<idx_t>(i);
             tprAssert( valOffs.find(idx)==valOffs.end() ); //- no duplicate
             valOffs.insert({ idx, off });
             off += (byteoff_t)(get_PubBinaryValSizes().at(idx));

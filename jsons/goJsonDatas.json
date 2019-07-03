@@ -8,12 +8,13 @@
     "moveState": "Movable",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": false,
     "speedLvl": 6,
     "alti": 0,
-    "weight": 5
+    "weight": 5,
+    "pub.HP": 100,
+    "pub.MP": 50
   },
   {
     "gameObjType": "bigMan",
@@ -24,12 +25,13 @@
     "moveState": "Movable",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": false,
     "speedLvl": 5,
     "alti": 0,
-    "weight": 5
+    "weight": 5,
+    "pub.HP": 170,
+    "pub.MP": 50
   },
   {
     "gameObjType": "crab",
@@ -40,12 +42,13 @@
     "moveState": "Movable",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": false,
     "speedLvl": 5,
     "alti": 0,
-    "weight": 5
+    "weight": 5,
+    "pub.HP": 40,
+    "pub.MP": 30
   },
   {
     "gameObjType": "oakTree",
@@ -56,12 +59,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": false,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 50
+    "weight": 50,
+    "pub.HP": 500,
+    "pub.MP": 120
   },
   {
     "gameObjType": "pineTree",
@@ -72,12 +76,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": false,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 50
+    "weight": 50,
+    "pub.HP": 500,
+    "pub.MP": 120
   },
   {
     "gameObjType": "wheat",
@@ -88,12 +93,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": true,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 1
+    "weight": 1,
+    "pub.HP": 10,
+    "pub.MP": "nil"
   },
   {
     "gameObjType": "singleStone_Desert",
@@ -104,12 +110,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": true,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 1
+    "weight": 1,
+    "pub.HP": 300,
+    "pub.MP": "nil"
   },
   {
     "gameObjType": "leaf_DForest",
@@ -120,12 +127,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": true,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 1
+    "weight": 1,
+    "pub.HP": 10,
+    "pub.MP": "nil"
   },
   {
     "gameObjType": "lichen_Forest",
@@ -136,12 +144,13 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": true,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 1
+    "weight": 1,
+    "pub.HP": "nil",
+    "pub.MP": "nil"
   },
   {
     "gameObjType": "lichen_DForest",
@@ -152,11 +161,12 @@
     "moveState": "AbsFixed",
     "moveType": "Crawl",
     "isTopGo": true,
-    "isActive": true,
     "isDoPass": false,
     "isBePass": true,
     "speedLvl": 0,
     "alti": 0,
-    "weight": 1
+    "weight": 1,
+    "pub.HP": "nil",
+    "pub.MP": "nil"
   }
 ]

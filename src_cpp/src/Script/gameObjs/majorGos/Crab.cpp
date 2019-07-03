@@ -42,9 +42,6 @@ void Crab::init_in_autoMod( goSpecId_t specID_,
 					        float fieldWeight_,
 					        const MapAltitude &alti_,
 					        const Density &_density ){
-    
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( crab_pubBinaryValTypes );
 
 
     //================ go.pvtBinary =================//

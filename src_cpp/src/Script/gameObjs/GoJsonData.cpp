@@ -8,6 +8,7 @@
 //--------------- CPP ------------------//
 #include <unordered_map>
 #include <string>
+#include <utility>
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"
@@ -41,6 +42,7 @@ using std::endl;
 
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
     float get_float( const Value &val_ );
+    std::pair<bool, int> get_pubBinary_int( const Value &val_ );
 }//------------- namespace: goJson_inn end --------------//
 
 
@@ -151,15 +153,6 @@ void parse_from_goJsonFile(){
             goJsonData.isTopGo = a.GetBool();
         }
         //-------------------//
-        //      isActive
-        //-------------------//
-        {
-            tprAssert( goEnt.HasMember("isActive") );
-            const Value &a = goEnt["isActive"];
-            tprAssert( a.IsBool() );
-            goJsonData.isActive = a.GetBool();
-        }
-        //-------------------//
         //      isDoPass
         //-------------------//
         {
@@ -204,18 +197,40 @@ void parse_from_goJsonFile(){
             tprAssert( a.IsNumber() );
             goJsonData.weight = goJson_inn::get_float( a );
         }
+        //-------------------//
+        //      pub.HP
+        //-------------------//
+        {
+            tprAssert( goEnt.HasMember("pub.HP") );
+            const Value &a = goEnt["pub.HP"];
+            std::pair<bool,int> pair = goJson_inn::get_pubBinary_int( a );
+            (pair.first) ?
+                goJsonData.pubBinary.HP = pair.second :
+                goJsonData.pubBinary.HP = -999; //- tmp
+        }
+        //-------------------//
+        //      pub.MP
+        //-------------------//
+        {
+            tprAssert( goEnt.HasMember("pub.MP") );
+            const Value &a = goEnt["pub.MP"];
+            std::pair<bool,int> pair = goJson_inn::get_pubBinary_int( a );
+            (pair.first) ?
+                goJsonData.pubBinary.MP = pair.second :
+                goJsonData.pubBinary.MP = -999; //- tmp
+        }
 
-        //--------------------------------//
+
+        //====================================//
         //  Now, the goJsonData is inited
         //  insert it into all ssrc::containers
-        //--------------------------------//
+        //------------------------------------//
         ssrc::insert_2_go_specId_names_containers( goJsonData.specID, goJsonData.gameObjType );
         ssrc::insert_2_go_jsonDatas( goJsonData );
 
     }
 
     cout << "   ----- parse_from_goJsonFile: end ----- " << endl;
-    //exit(789);
 }
 
 
@@ -237,17 +252,24 @@ void assemble_goJsonData_2_newGo( goSpecId_t specID_,
     goRef_.move.set_MoveType( d.moveType );
 
     goRef_.isTopGo  = d.isTopGo;
-    goRef_.isActive = d.isActive;
     goRef_.set_collision_isDoPass( d.isDoPass );
     goRef_.set_collision_isBePass( d.isBePass );
 
     goRef_.move.set_speedLvl( d.speedLvl );
     goRef_.goPos.set_alti( d.alti );
     goRef_.weight = d.weight;
+
+    //------ pubBinary -------//
+    goRef_.pubBinary.HP = d.pubBinary.HP;
+    goRef_.pubBinary.MP = d.pubBinary.MP;
+
     //...
     //------ default -------//
     goRef_.isDirty = false;
     goRef_.isControlByPlayer = false;
+    //...
+    //------ tmp -------//
+    goRef_.isActive = true; //- tmp. 是否进入激活圈，应该由 mpos 计算出来 未实现
     //...
 }
 
@@ -267,6 +289,21 @@ float get_float( const Value &val_ ){
         return 0.0f; //- never reach
     }
 }
+
+
+std::pair<bool, int> get_pubBinary_int( const Value &val_ ){
+    string nil {"nil"};
+    if( val_.IsInt() ){
+        return std::pair<bool,int>{ true, val_.GetInt() };
+    }else if( val_.IsString() && (val_.GetString()==nil) ){
+        return std::pair<bool,int>{ false, 0 };
+    }else{
+        tprAssert(0);
+        return std::pair<bool,int>{ false, 0 }; //- never reach
+    }
+}
+
+
 
 }//------------- namespace: goJson_inn end --------------//
 

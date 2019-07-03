@@ -40,9 +40,6 @@ void BigMan::init_in_autoMod(  goSpecId_t specID_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( bigMan_pubBinaryValTypes );
-
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(BigMan_PvtBinary) );
     BigMan_PvtBinary  *pvtBp = reinterpret_cast<BigMan_PvtBinary*>(goRef_.get_pvtBinaryPtr());

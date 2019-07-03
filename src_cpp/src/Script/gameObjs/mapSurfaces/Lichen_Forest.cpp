@@ -45,9 +45,6 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //================ go.pubBinary ================//
-    goRef_.pubBinary.init( lichen_Forest_pubBinaryValTypes );
-
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Lichen_Forest_PvtBinary) );
     auto *pvtBp = reinterpret_cast<Lichen_Forest_PvtBinary*>(goRef_.get_pvtBinaryPtr());

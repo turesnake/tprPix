@@ -21,19 +21,12 @@
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
-#include "PubBinaryValType.h"
 #include "MapAltitude.h"
 #include "Density.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
-//-- 定义了 go.binary 的数据格式 --
-inline std::vector<PubBinaryValType> bigMan_pubBinaryValTypes {
-    PubBinaryValType::HP,
-    PubBinaryValType::MP
-};
 
 struct BigMan_PvtBinary{
     int   tmp {};
