@@ -57,12 +57,18 @@ namespace OakTree_inn {//-------------- namespace: OakTree_inn -----------------
  *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void OakTree::init_in_autoMod(  GameObj &goRef_,
+void OakTree::init_in_autoMod(  goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( oakTree_pubBinaryValTypes );
+
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(OakTree_PvtBinary) );
     OakTree_PvtBinary  *pvtBp = reinterpret_cast<OakTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
@@ -70,44 +76,8 @@ void OakTree::init_in_autoMod(  GameObj &goRef_,
         pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( fieldWeight_ );
         pvtBp->oakId = OakTree_inn::apply_a_oakId( pvtBp->age, fieldWeight_, pvtBp->isSingleTRunk );
         //...
-        
 
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &OakTree::OnRenderUpdate, &oakTree, _1 );   
-    goRef_.LogicUpdate  = std::bind( &OakTree::OnLogicUpdate,  &oakTree, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &OakTree::OnActionSwitch, &oakTree, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-                //- 当前树木只有一种动画，就是永久待机...
-
-    //-------- go self vals ---------//
-    goRef_.species = OakTree::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goRef_.weight = 50.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
-    if( pvtBp->age <= 2 ){
-        goRef_.set_collision_isBePass( true );
-    }else{
-        goRef_.set_collision_isBePass( false );
-    }
-    
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
-
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -127,14 +97,28 @@ void OakTree::init_in_autoMod(  GameObj &goRef_,
         goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
+    //================ bind callback funcs =================//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &OakTree::OnRenderUpdate, _1 );   
+    goRef_.LogicUpdate  = std::bind( &OakTree::OnLogicUpdate,  _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &OakTree::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+                //- 当前树木只有一种动画，就是永久待机...
 
+    //================ go self vals =================//
+
+    //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
+    if( pvtBp->age <= 2 ){
+        goRef_.set_collision_isBePass( true );
+    }else{
+        goRef_.set_collision_isBePass( false );
+    }
+    
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
     goRef_.goPos.init_by_currentMPos( mpos_ );
     //...
-
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( oakTree_pubBinaryValTypes );
 }
 
 
@@ -166,7 +150,7 @@ void OakTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OakTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    OakTree_PvtBinary  *pvtBp = OakTree::rebind_ptr( goRef_ );
 
     //=====================================//
     //           test: AI
@@ -194,7 +178,7 @@ void OakTree::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OakTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    OakTree_PvtBinary  *pvtBp = OakTree::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -215,7 +199,7 @@ void OakTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OakTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    OakTree_PvtBinary  *pvtBp = OakTree::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

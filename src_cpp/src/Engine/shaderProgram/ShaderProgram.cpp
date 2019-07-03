@@ -4,8 +4,6 @@
  *                                        CREATE -- 2018.11.21
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   着色器程序 类
- * ----------------------------
  */
 #include "ShaderProgram.h"
 
@@ -40,19 +38,22 @@ void ShaderProgram::init(   const std::string &lpathVs_,
                             const std::string &lpathFs_ ){
 
     int success {};
-    char infoLog[512]; //-- 出错信息 暂存 buf
+    char infoLog[512]; //-- error buf
 
-    //-- vs/fs 文件的 数据存储地
+    //-- vs/fs bufs
     std::string vsbuf {};
     std::string fsbuf {};
 
-    //-- 读取文件，获得 数据
+    std::string path_vs = tprGeneral::path_combine(path_shaders, lpathVs_);
+    std::string path_fs = tprGeneral::path_combine(path_shaders, lpathFs_);
+
+    //-- read files --
 #if defined TPR_OS_WIN32_
-    tprWin::file_load( tprGeneral::path_combine(path_shaders, lpathVs_), vsbuf );
-    tprWin::file_load( tprGeneral::path_combine(path_shaders, lpathFs_), fsbuf );
+    tprWin::file_load( path_vs, vsbuf );
+    tprWin::file_load( path_fs, fsbuf );
 #elif defined TPR_OS_UNIX_
-    tprUnix::file_load( tprGeneral::path_combine(path_shaders, lpathVs_), vsbuf );
-    tprUnix::file_load( tprGeneral::path_combine(path_shaders, lpathFs_), fsbuf );
+    tprUnix::file_load( path_vs, vsbuf );
+    tprUnix::file_load( path_fs, fsbuf );
 #endif
 
     //-------------------
@@ -67,7 +68,7 @@ void ShaderProgram::init(   const std::string &lpathVs_,
     glAttachShader( this->shaderProgram, f_shader );
     glLinkProgram( this->shaderProgram );
 
-    //--- 检查 是否创建成功 ---
+    //--- check if compile is successed ---
     glGetProgramiv( this->shaderProgram, GL_LINK_STATUS, &success );
     if( !success ){
         glGetProgramInfoLog( this->shaderProgram, 512, nullptr, infoLog );
@@ -93,12 +94,12 @@ void ShaderProgram::init(   const std::string &lpathVs_,
 void ShaderProgram::compile( GLuint shaderObj_, const std::string &sbuf_ ){
 
     int success {};
-    char infoLog[512]; //-- 出错信息 暂存 buf
+    char infoLog[512]; //-- error buf
     //---------- 编译 ---------
-    const char *sbufPtr = sbuf_.c_str(); //-- 转换为 c风格字符串指针。
+    const char *sbufPtr = sbuf_.c_str();
     glShaderSource( shaderObj_, 1, (const GLchar **)&sbufPtr, nullptr );
     glCompileShader( shaderObj_ );
-    //-------- 检查 编译 是否成功 ---------
+    //-------- check if compile is successed ---------
     glGetShaderiv( shaderObj_, GL_COMPILE_STATUS, &success );
     if( !success ){
         glGetShaderInfoLog( shaderObj_, 512, nullptr, infoLog );

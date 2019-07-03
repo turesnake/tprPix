@@ -38,49 +38,25 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void SingleStone_Desert::init_in_autoMod(   GameObj &goRef_,
+void SingleStone_Desert::init_in_autoMod(   goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( singleStone_Desert_pubBinaryValTypes );
+
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(SingleStone_Desert_PvtBinary) );
     SingleStone_Desert_PvtBinary  *pvtBp = reinterpret_cast<SingleStone_Desert_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
         pvtBp->singleStone_DesertId = gameObjs::apply_a_simpleId( fieldWeight_, 8 );
 
 
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &SingleStone_Desert::OnRenderUpdate, &singleStone_Desert, _1 );   
-    goRef_.LogicUpdate  = std::bind( &SingleStone_Desert::OnLogicUpdate,  &singleStone_Desert, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &SingleStone_Desert::OnActionSwitch, &singleStone_Desert, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 singleStone_Desert 只有一种动画，就是永久待机...
-
-    //-------- go self vals ---------//
-    goRef_.species = SingleStone_Desert::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goRef_.weight = 1.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    goRef_.set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
-
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
-
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
                 goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -99,14 +75,21 @@ void SingleStone_Desert::init_in_autoMod(   GameObj &goRef_,
         goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
+    //================ bind callback funcs =================//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &SingleStone_Desert::OnRenderUpdate, _1 );   
+    goRef_.LogicUpdate  = std::bind( &SingleStone_Desert::OnLogicUpdate,  _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &SingleStone_Desert::OnActionSwitch, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+            //- 当前 singleStone_Desert 只有一种动画，就是永久待机...
+
+    //================ go self vals =================//
+
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
     goRef_.goPos.init_by_currentMPos( mpos_ );
-
     //...
-
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( singleStone_Desert_pubBinaryValTypes );
 }
 
 /* ===========================================================
@@ -136,7 +119,7 @@ void SingleStone_Desert::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    SingleStone_Desert_PvtBinary *pvtBp = this->rebind_ptr( goRef_ );
+    SingleStone_Desert_PvtBinary *pvtBp = SingleStone_Desert::rebind_ptr( goRef_ );
 
     //=====================================//
     //               AI
@@ -164,7 +147,7 @@ void SingleStone_Desert::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    SingleStone_Desert_PvtBinary *pvtBp = this->rebind_ptr( goRef_ );
+    SingleStone_Desert_PvtBinary *pvtBp = SingleStone_Desert::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -183,7 +166,7 @@ void SingleStone_Desert::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    SingleStone_Desert_PvtBinary *pvtBp = this->rebind_ptr( goRef_ );
+    SingleStone_Desert_PvtBinary *pvtBp = SingleStone_Desert::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

@@ -163,6 +163,12 @@ void check_and_creat_important_dir(){
     path_fieldBorderSet = tprWin::mk_dir( path_textures,
                                         "fieldBorderSet/",
                                         err_info );
+    //---------------------------------//
+    //           path_jsons
+    //---------------------------------//
+    path_jsons = tprWin::mk_dir( path_cwd,
+                                "jsons/",
+                                err_info );
 
 #elif defined TPR_OS_UNIX_
 
@@ -216,6 +222,15 @@ void check_and_creat_important_dir(){
                         "fieldBorderSet/",
                         RWXR_XR_X,
                         err_info );
+    //---------------------------------//
+    //           path_jsons
+    //---------------------------------//
+    path_jsons = tprUnix::mk_dir( path_cwd,
+                        "jsons/",
+                        RWXR_XR_X,
+                        err_info );
+
+
 #endif
 }
 

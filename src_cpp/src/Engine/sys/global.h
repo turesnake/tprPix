@@ -30,6 +30,7 @@ inline std::string path_csharpLibs {}; //-- .../build/bin/csharpLibs/
 inline std::string path_dataBase {};  //-- .../build/bin/dataBase/
 inline std::string path_shaders {}; //-- .../build/bin/shaders/
 inline std::string path_textures {}; //-- .../build/bin/textures/
+inline std::string path_jsons    {}; //-- .../build/bin/jsons/
 
 inline std::string path_animFrameSets {}; //-- .../build/bin/textures/animFrameSets
 inline std::string path_colliEntSet   {}; //-- .../build/bin/textures/colliEntSet

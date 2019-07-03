@@ -47,44 +47,28 @@ public:
     Lichen_DForest() = default;
 
     //--- 延迟init ---//
-    void init_in_autoMod(   GameObj &goRef_,
+    static void init_in_autoMod(   goSpecId_t specID_,
+                            GameObj &goRef_,
                             const IntVec2 &mpos_,
 					        float fieldWeight_,
 					        const MapAltitude &alti_,
 					        const Density &_density );
 
-    void bind( GameObj &goRef_ );
-
-    //--- 从硬盘读取到 go实例数据后，重bind callback
-    void rebind( GameObj &goRef_ );
-
-    //--- callback ---//
-    void OnRenderUpdate( GameObj &goRef_ ); 
-    void OnLogicUpdate( GameObj &goRef_ ); 
-
+private:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline Lichen_DForest_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-
-        tprAssert( goRef_.species == Lichen_DForest::specId );
+    inline static  Lichen_DForest_PvtBinary *rebind_ptr( GameObj &goRef_ ){
         return reinterpret_cast<Lichen_DForest_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
 
-    //======== static ========//
-    static  u32_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
+    static void bind( GameObj &goRef_ );
+    static void rebind( GameObj &goRef_ );
 
-
-private:
     //--- callback ---//
-    void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
-
+    static void OnRenderUpdate( GameObj &goRef_ ); 
+    static void OnLogicUpdate( GameObj &goRef_ ); 
+    static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
 };
-
-//---------- static ----------//
-inline u32_t  Lichen_DForest::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
-
-//=====< 本类 唯一的 保留实例 >=====
-inline Lichen_DForest  lichen_DForest {};
 
 
 }//------------- namespace gameObjs: end ----------------

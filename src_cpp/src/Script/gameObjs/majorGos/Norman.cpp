@@ -32,50 +32,22 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -----------------------------------------------------------
  * -- 最后三个参数 并未用上
  */
-void Norman::init_in_autoMod(   GameObj &goRef_,
+void Norman::init_in_autoMod(   goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //-------- go.pvtBinary ---------//
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( norman_pubBinaryValTypes );
+
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Norman_PvtBinary) );
     Norman_PvtBinary *pvtBp = reinterpret_cast<Norman_PvtBinary*>(goRef_.get_pvtBinaryPtr()); //- 绑定到本地指针
 
-
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Norman::OnRenderUpdate, &norman, _1 );   
-    goRef_.LogicUpdate  = std::bind( &Norman::OnLogicUpdate,  &norman, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Norman::OnActionSwitch, &norman, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
-
-
-    //-------- go self vals ---------//
-    goRef_.species = Norman::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::Movable;
-    goRef_.weight = 5.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    //goPtr->move.set_speedLvl( SpeedLevel::LV_6 ); //- 标准crawl速度 4/5/6 都不错
-    goRef_.move.set_speedLvl( SpeedLevel::LV_6 );   //- tmp，用来快速检索地图
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    goRef_.set_collision_isBePass( false );
-
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
-
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -94,14 +66,22 @@ void Norman::init_in_autoMod(   GameObj &goRef_,
         goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
 
+    //================ bind callback funcs =================//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &Norman::OnRenderUpdate, _1 );   
+    goRef_.LogicUpdate  = std::bind( &Norman::OnLogicUpdate,  _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &Norman::OnActionSwitch, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
+
+
+    //================ go self vals =================//
+
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
     goRef_.goPos.init_by_currentMPos( mpos_ );
-
-    //...
-
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( norman_pubBinaryValTypes );
+    //...    
 }
 
 /* ===========================================================
@@ -125,7 +105,7 @@ void Norman::rebind( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Norman_PvtBinary *pvtBp = rebind_ptr( goRef_ );
+    Norman_PvtBinary *pvtBp = Norman::rebind_ptr( goRef_ );
 
 }
 
@@ -137,7 +117,7 @@ void Norman::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Norman_PvtBinary *pvtBp = rebind_ptr( goRef_ );
+    Norman_PvtBinary *pvtBp = Norman::rebind_ptr( goRef_ );
 
     //=====================================//
     //            AI
@@ -164,7 +144,7 @@ void Norman::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Norman_PvtBinary *pvtBp = rebind_ptr( goRef_ );
+    Norman_PvtBinary *pvtBp = Norman::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -183,7 +163,7 @@ void Norman::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Norman_PvtBinary *pvtBp = rebind_ptr( goRef_ );
+    Norman_PvtBinary *pvtBp = Norman::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -193,19 +173,15 @@ void Norman::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
             rootGoMeshRef.bind_animAction( "norman", "move_idle" );
-
-
             break;
 
         case ActionSwitchType::Move_Move:
             rootGoMeshRef.bind_animAction( "norman", "move_walk" );
-
             break;
 
         default:
             break;
             //-- 并不报错，什么也不做...
-
     }
 
 

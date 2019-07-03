@@ -11,6 +11,7 @@
 //-------------------- CPP --------------------//
 #include <functional>
 #include <memory>
+#include <string>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -29,6 +30,17 @@ enum class MoveType : int {
     Drag //- 类似 camera的运动方式：go快速向 目标pos 靠拢
                //  被用于 UI 图标运动
 };
+
+inline MoveType str_2_MoveType( const std::string name_ ){
+    if( name_ == "Crawl" ){
+        return MoveType::Crawl;
+    }else if( name_ == "Drag" ){
+        return MoveType::Drag;
+    }else{
+        tprAssert(0);
+        return MoveType::Crawl; //- never reach
+    }
+}
 
 
 //-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例

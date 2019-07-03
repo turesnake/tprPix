@@ -21,7 +21,7 @@
 
 
 //-- go 可设置的 8档 速度 --
-enum class SpeedLevel : u8_t {
+enum class SpeedLevel : int {
     LV_0 = 0, //- 无速度
     LV_1,     //- 低速
     LV_2, 
@@ -55,6 +55,27 @@ inline const std::vector<float> speedTable{
     7.0f    //- LV_12 : crawl 的最高速度，不能超过 1帧1mapent
            //  值7.5 会在 ubuntu 中出问题。暂改为 7.0 
 };
+
+inline SpeedLevel int_2_SpeedLevel( int num_ ){
+    switch(num_){
+        case 0: return SpeedLevel::LV_0;
+        case 1: return SpeedLevel::LV_1;
+        case 2: return SpeedLevel::LV_2;
+        case 3: return SpeedLevel::LV_3;
+        case 4: return SpeedLevel::LV_4;
+        case 5: return SpeedLevel::LV_5;
+        case 6: return SpeedLevel::LV_6;
+        case 7: return SpeedLevel::LV_7;
+        case 8: return SpeedLevel::LV_8;
+        case 9: return SpeedLevel::LV_9;
+        case 10: return SpeedLevel::LV_10;
+        case 11: return SpeedLevel::LV_11;
+        case 12: return SpeedLevel::LV_12;
+        default:
+            tprAssert(0);
+            return SpeedLevel::LV_0; //- never reach
+    }
+}
 
 
 inline float SpeedLevel_2_val( const SpeedLevel &lvl_ ){

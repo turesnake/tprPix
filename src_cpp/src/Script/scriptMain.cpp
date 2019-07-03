@@ -35,6 +35,8 @@ extern void onGoSpecIds_SignUp();
 extern void onUISpecIds_SignUp();
 extern void onStart_test();
 
+//extern void parse_from_goJsonFile();
+
 /* ===========================================================
  *                     scriptMain 
  * -----------------------------------------------------------
@@ -44,7 +46,9 @@ extern void onStart_test();
 void scriptMain(){
 
     //------- Awakes -------//
-    esrc::get_behaviour().signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) ); //-- 这个函数可能被丢弃--
+    //esrc::get_behaviour().signUp_Awakes( std::bind( &parse_from_goJsonFile ) );
+
+    esrc::get_behaviour().signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) );
     esrc::get_behaviour().signUp_Awakes( std::bind( &onUISpecIds_SignUp ) );
 
     //------- Starts -------//

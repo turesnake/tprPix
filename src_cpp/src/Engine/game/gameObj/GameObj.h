@@ -182,8 +182,7 @@ public:
     Move         move;
 
 
-    ActionSwitch    actionSwitch; //-- 将被取代...
-
+    ActionSwitch    actionSwitch; //-- 将被 ActionFSM 取代...
     ActionFSM       actionFSM {}; //- 尚未完工...
 
     PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用

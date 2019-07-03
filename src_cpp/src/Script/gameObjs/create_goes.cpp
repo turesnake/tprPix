@@ -16,6 +16,8 @@
 #include "Script/gameObjs/allGoes.h"
 #include "Script/resource/ssrc.h"
 
+#include "Script/gameObjs/GoJsonData.h"
+
 
 #include "tprDebug.h"
 
@@ -30,25 +32,29 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -- tmp 
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
-                    const IntVec2 &_mpos,
+                    const IntVec2 &mpos_,
 					float fieldWeight_,
 					const MapAltitude &alti_,
-					const Density &_density ){
+					const Density &density_ ){
 
     goid_t goid = esrc::insert_new_gameObj();
     GameObj &goRef = esrc::get_goRef( goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
-        ssrc::call_goInit_func( goSpecId_,
-                                goRef,
-                                _mpos,
-                                fieldWeight_,
-                                alti_,
-                                _density );
+
+    //-- set some static datas from JSON --
+    assemble_goJsonData_2_newGo( goSpecId_, goRef );
+
+    ssrc::call_goInit_func( goSpecId_,
+                            goRef,
+                            mpos_,
+                            fieldWeight_,
+                            alti_,
+                            density_ );
 
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goRef );
-        esrc::get_goids_active().insert( goid ); //- tmp
+    esrc::insert_2_goids_active( goid );
     
     return  goid;
 }
@@ -60,27 +66,35 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
  * -----------------------------------------------------------
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
-void rebind_a_disk_Go( const DiskGameObj &_diskGo,
+void rebind_a_disk_Go( const DiskGameObj &diskGo_,
                         float fieldWeight_,
 					    const MapAltitude &alti_,
-					    const Density &_density  ){
+					    const Density &density_  ){
 
-    esrc::insert_a_disk_gameObj( _diskGo.goid );
-    GameObj &goRef = esrc::get_goRef( _diskGo.goid );
+    esrc::insert_a_disk_gameObj( diskGo_.goid );
+    GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
-    tprAssert( ssrc::find_from_goInit_funcs(_diskGo.goSpecId) );
-    ssrc::call_goInit_func( _diskGo.goSpecId,
+        tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
+
+    //-- set some static datas from JSON --
+    assemble_goJsonData_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
+                    //-- 临时措施
+                    //   在未来，已经组装 从 数据库取出的数据，而不是从 json 中
+                    //   至少有一部分吧
+                    //   ...
+
+    ssrc::call_goInit_func( diskGo_.goSpecId,
                             goRef,
-                            _diskGo.mpos,
+                            diskGo_.mpos,
                             fieldWeight_,
                             alti_,
-                            _density );
+                            density_ );
 
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
     esrc::signUp_newGO_to_mapEnt( goRef );
-        esrc::get_goids_active().insert( _diskGo.goid ); //- tmp
+    esrc::insert_2_goids_active( diskGo_.goid );
 }
 
 

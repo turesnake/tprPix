@@ -35,6 +35,7 @@
 
 class GameObj;
 class UIObj;
+class GoJsonData;
 
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
@@ -48,7 +49,8 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
 //--- 下面这部分 放的很乱... ---
 
 //-- map自动生成器 使用的 goInit函数 ---
-using F_GO_INIT = std::function<void(   GameObj&,
+using F_GO_INIT = std::function<void(   goSpecId_t,
+                                        GameObj&,
                                         const IntVec2 &,
 					                    float,
 					                    const MapAltitude &,
@@ -65,8 +67,18 @@ void call_goInit_func(  goSpecId_t id_,
 
 bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
 
+/*
 void insert_2_goInit_funcs( goSpecId_t goSpecId_,
                             const F_GO_INIT &functor_ );
+*/
+
+void insert_2_goInit_funcs( const std::string &goTypeName_,
+                            const F_GO_INIT &functor_ );
+
+void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ );
+
+
+const GoJsonData &get_goJsonData( goSpecId_t id_ );
 
 
 //-------------------------------//

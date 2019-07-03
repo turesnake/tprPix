@@ -89,14 +89,11 @@ public:
     }
 
 
-
     //-- 一个为了验证功能，临时实现的函数， 在未来，被优化取代 .......................
     inline const IntVec2 get_rootAnchorCompassPPos() const {
         const auto &compass = this->get_rootAnchorCompass_functor();
         return IntVec2{ compass.x, compass.y};
     }                           
-
-
 
     //-- 注意，这个函数返回的是 currentFPos 的整形值（将丢失小数）
     //  只可用于：明确知道 当前 rootAnchor所在 collient 已对齐于 mapent 时。
@@ -112,11 +109,6 @@ private:
                                   //  很多 rootAnchor 都不在 mapent的中心，所以无法直接代表 mapent的位置
                                   //- 此值往往在 crawl的 回合中段 发生切换。
     float       alti         {0.0f}; //- 腾空高度。
-    //-- 这个值暂时 没被使用 --
-    //glm::vec2   targetFPos  { 0.0f, 0.0f };  //- 基于 go.rootAnchor 的，目标 fpos，无需对齐与mapent
-                                //- 此值的用途很多样，有待开发...
-                                //  目前版本中，主要用于 crawl 节点帧 对齐。
-                                //  用来记录 新回合的 最终 位移绝对地址
 
     F_Get_RootAnchorCompass                get_rootAnchorCompass_functor {nullptr};
     F_Get_Off_From_RootAnchor_2_MapEntMid  get_off_from_rootAnchor_2_mapEntMid_functor {nullptr};

@@ -47,46 +47,29 @@ public:
     Wheat() = default;
 
     //--- 延迟init ---//
-    void init_in_autoMod(   GameObj &goRef_,
+    static void init_in_autoMod(   goSpecId_t specID_,
+                            GameObj &goRef_,
                             const IntVec2 &mpos_,
 					        float fieldWeight_,
 					        const MapAltitude &alti_,
 					        const Density &_density );
-                            
-    void bind( GameObj &goRef_ );
-
-    //--- 从硬盘读取到 go实例数据后，重bind callback
-    void rebind( GameObj &goRef_ );
-
-    //--- callback ---//
-    void OnRenderUpdate( GameObj &goRef_ ); 
-    void OnLogicUpdate( GameObj &goRef_ ); 
-
-
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline Wheat_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-
-        tprAssert( goRef_.species == Wheat::specId );
-        return reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
-
-    //======== static ========//
-    static  u32_t  specId; //- 在 onGoSpecIds_SignUp() 中手动设置...
 
 private:
+    //--  每次调用回调函数，都需要做的 指针重绑定 --
+    inline static  Wheat_PvtBinary *rebind_ptr( GameObj &goRef_ ){
+        return reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    }
+                            
+    static void bind( GameObj &goRef_ );
+    static void rebind( GameObj &goRef_ );
+
     //--- callback ---//
-    void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
-
+    static void OnRenderUpdate( GameObj &goRef_ ); 
+    static void OnLogicUpdate( GameObj &goRef_ ); 
+    static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
 };
-
-//---------- static ----------//
-inline u32_t  Wheat::specId {0}; //- 具体值在 goSpecIds.cpp 中分配
-
-//=====< Wheat类 唯一的 保留实例 >=====
-inline Wheat  wheat {};
 
 
 }//------------- namespace gameObjs: end ----------------
 #endif 
-
 

@@ -28,6 +28,8 @@
 //#include "tprDebug.h" //- tmp
 
 
+
+
 /* ===========================================================
  *                     cppMain_tmp
  * -----------------------------------------------------------
@@ -77,7 +79,7 @@ int cppMain_tmp( char *exeDirPath_ ){
     //           不依赖任何外部代码的资源
     //------------------------------------------//
     input::init_input();             //---- input -----
-    esrc::get_camera().init();             //---- camera 资源 ----
+    esrc::get_camera().init();       //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 

@@ -85,6 +85,11 @@ std::unordered_set<goid_t> &get_goids_inactive(){
     return go_inn::goids_inactive;
 }
 
+void insert_2_goids_active( goid_t id_ ){
+        tprAssert( go_inn::goids_active.find(id_) == go_inn::goids_active.end() );//- tmp
+    go_inn::goids_active.insert( id_ );
+}
+
 
 
 

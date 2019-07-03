@@ -38,50 +38,25 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void Lichen_DForest::init_in_autoMod(  GameObj &goRef_,
+void Lichen_DForest::init_in_autoMod(  goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
+    
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( lichen_DForest_pubBinaryValTypes );
 
-    //-------- go.pvtBinary ---------//
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Lichen_DForest_PvtBinary) );
     Lichen_DForest_PvtBinary  *pvtBp = reinterpret_cast<Lichen_DForest_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
         pvtBp->lichen_DForestId = gameObjs::apply_a_simpleId( fieldWeight_, 24 );
 
 
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Lichen_DForest::OnRenderUpdate, &lichen_DForest, _1 );   
-    goRef_.LogicUpdate  = std::bind( &Lichen_DForest::OnLogicUpdate,  &lichen_DForest, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Lichen_DForest::OnActionSwitch, &lichen_DForest, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 lichen_DForest 只有一种动画，就是永久待机...
-
-    //-------- go self vals ---------//
-    goRef_.species = Lichen_DForest::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goRef_.weight = 1.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    goRef_.set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
-
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
-
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -98,15 +73,25 @@ void Lichen_DForest::init_in_autoMod(  GameObj &goRef_,
         rootGoMeshRef.bind_animAction( "lichen_DForest", 
                                         tprGeneral::nameString_combine( "", pvtBp->lichen_DForestId, "_idle" ) ); 
 
-        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...         
+        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现... 
+
+
+    //================ bind callback funcs =================//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &Lichen_DForest::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &Lichen_DForest::OnLogicUpdate,   _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &Lichen_DForest::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+            //- 当前 lichen_DForest 只有一种动画，就是永久待机...
+
+
+    //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
     goRef_.goPos.init_by_currentMPos( mpos_ );
-    //...
-
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( lichen_DForest_pubBinaryValTypes );
+    //...    
 }
 
 /* ===========================================================
@@ -136,7 +121,7 @@ void Lichen_DForest::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Lichen_DForest_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Lichen_DForest_PvtBinary  *pvtBp = Lichen_DForest::rebind_ptr( goRef_ );
 
     //=====================================//
     //              AI
@@ -164,7 +149,7 @@ void Lichen_DForest::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Lichen_DForest_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Lichen_DForest_PvtBinary  *pvtBp = Lichen_DForest::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -183,7 +168,7 @@ void Lichen_DForest::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Lichen_DForest_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Lichen_DForest_PvtBinary  *pvtBp = Lichen_DForest::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

@@ -168,6 +168,9 @@ set_target_properties(tprpix_cpp PROPERTIES OUTPUT_NAME "tprpix_cpp")
 #                   include
 #---------------------------------------------------#
 target_include_directories ( tprpix_cpp PUBLIC
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
+
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Config
 

@@ -16,10 +16,10 @@ namespace tprGeneral {//--------- namespace: tprGeneral -------------//
 
 
 
-const std::string path_combine( const std::string &_pa, const std::string &_pb );
-const std::string path_combine( const char *_pa, const char *_pb );
+std::string path_combine( const std::string &_pa, const std::string &_pb );
+std::string path_combine( const char *_pa, const char *_pb );
 
-const std::string nameString_combine(   const std::string &_prefix,
+std::string nameString_combine(   const std::string &_prefix,
                                         size_t _idx,
                                         const std::string &_suffix );
 

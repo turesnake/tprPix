@@ -21,7 +21,7 @@ namespace tprGeneral {//--------- namespace: tprGeneral -------------//
  * -----------------------------------------------------------
  * -- 拼接一种特殊的 string，类似 "dog_2_jump" 这种
  */
-const std::string nameString_combine(   const std::string &_prefix,
+std::string nameString_combine(   const std::string &_prefix,
                                         size_t _idx,
                                         const std::string &_suffix ){
     std::stringstream ss;
@@ -40,7 +40,7 @@ const std::string nameString_combine(   const std::string &_prefix,
  * -- 目前，不管调用者在 _pa，_pb 间写没写 '/', 都能正确合成。 
  *    '/' 在 win 中也可使用，所以，这个函数算是 跨平台的
  */
-const std::string path_combine( const std::string &_pa, const std::string &_pb ){
+std::string path_combine( const std::string &_pa, const std::string &_pb ){
 
     std::string err_info = "path_combine(): ";
     //---------------------
@@ -83,7 +83,7 @@ const std::string path_combine( const std::string &_pa, const std::string &_pb )
  * -----------------------------------------------------------
  * -- 重载版本，参数有变，不推荐使用此版 
  */
-const std::string path_combine( const char *_pa, const char *_pb ){
+std::string path_combine( const char *_pa, const char *_pb ){
 
     std::string a = _pa;
     std::string b = _pb;

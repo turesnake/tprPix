@@ -53,57 +53,25 @@ namespace PineTree_inn {//-------------- namespace: PineTree_inn ---------------
  *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void PineTree::init_in_autoMod(  GameObj &goRef_,
+void PineTree::init_in_autoMod(  goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
-    //-------- go.pvtBinary ---------//
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( pineTree_pubBinaryValTypes );
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(PineTree_PvtBinary) );
     PineTree_PvtBinary *pvtBp = reinterpret_cast<PineTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
         pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
         pvtBp->pineId = PineTree_inn::apply_a_oakId( pvtBp->age, fieldWeight_ );
         //...
-        
 
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &PineTree::OnRenderUpdate, &pineTree, _1 );   
-    goRef_.LogicUpdate  = std::bind( &PineTree::OnLogicUpdate,  &pineTree, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &PineTree::OnActionSwitch, &pineTree, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-                //- 当前树木只有一种动画，就是永久待机...
-
-    //-------- go self vals ---------//
-    goRef_.species = PineTree::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goRef_.weight = 50.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
-    if( pvtBp->age <= 2 ){
-        goRef_.set_collision_isBePass( true );
-    }else{
-        goRef_.set_collision_isBePass( false );
-    }
-    
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
-
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         GameObjMesh &rootGoMeshRef = 
                 goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -122,13 +90,29 @@ void PineTree::init_in_autoMod(  GameObj &goRef_,
 
         goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
 
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
-    goRef_.goPos.init_by_currentMPos( mpos_ );
-    //...
 
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( pineTree_pubBinaryValTypes );
+    //================ bind callback funcs =================//
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &PineTree::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &PineTree::OnLogicUpdate,   _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &PineTree::OnActionSwitch, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+                //- 当前树木只有一种动画，就是永久待机...
+
+    //================ go self vals =================//
+
+    //--- 小树，中树 可以被其它go 穿过，成年树不行 ---
+    if( pvtBp->age <= 2 ){
+        goRef_.set_collision_isBePass( true );
+    }else{
+        goRef_.set_collision_isBePass( false );
+    }
+    
+    //-- 务必在 mesh:"root" 之后 ---
+    goRef_.goPos.init_by_currentMPos( mpos_ );
+    //...    
 }
 
 
@@ -160,7 +144,7 @@ void PineTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
 
     //=====================================//
     //           test: AI
@@ -189,7 +173,7 @@ void PineTree::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -210,7 +194,7 @@ void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

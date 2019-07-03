@@ -38,48 +38,25 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(   GameObj &goRef_,
+void Wheat::init_in_autoMod(   goSpecId_t specID_,
+                                GameObj &goRef_,
                                 const IntVec2 &mpos_,
 					            float fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
+    //================ go.pubBinary ================//
+    goRef_.pubBinary.init( wheat_pubBinaryValTypes );
+
+
+    //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Wheat_PvtBinary) );
     Wheat_PvtBinary  *pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-
+    
         pvtBp->wheatId = gameObjs::apply_a_simpleId( fieldWeight_, 4 );
 
 
-    //-------- bind callback funcs ---------//
-    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Wheat::OnRenderUpdate, &wheat, _1 );   
-    goRef_.LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  &wheat, _1 );
-    
-    //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, &wheat, _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 wheat 只有一种动画，就是永久待机...
-
-    //-------- go self vals ---------//
-    goRef_.species = Wheat::specId;
-    goRef_.family = GameObjFamily::Major;
-    goRef_.parentId = NULLID;
-    goRef_.state = GameObjState::Waked;
-    goRef_.moveState = GameObjMoveState::AbsFixed; //- 无法移动
-    goRef_.weight = 1.0f;
-
-    goRef_.isTopGo = true;
-    goRef_.isActive = true;
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-
-    goRef_.move.set_speedLvl( SpeedLevel::LV_0 );
-    goRef_.move.set_MoveType( MoveType::Crawl );
-
-    goRef_.set_collision_isDoPass( false );
-    goRef_.set_collision_isBePass( true );  //- 碰撞区 可以被其它go 穿过
-
-    //-------- animFrameSet／animFrameIdxHandle/ goMesh ---------//
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //------- 制作 mesh 实例: "root" -------
         GameObjMesh &rootGoMeshRef = 
@@ -113,15 +90,26 @@ void Wheat::init_in_autoMod(   GameObj &goRef_,
                                         );
         backGoMeshRef.bind_animAction( "wheat", 
                                         tprGeneral::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
-                     
+
+
+    //================ bind callback funcs =================//
+
+    //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
+    goRef_.RenderUpdate = std::bind( &Wheat::OnRenderUpdate, _1 );   
+    goRef_.LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  _1 );
+    
+    //-------- actionSwitch ---------//
+    goRef_.actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, _1, _2 ) );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+            //- 当前 wheat 只有一种动画，就是永久待机...
+
+    //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.set_alti( 0.0f );
     goRef_.goPos.init_by_currentMPos( mpos_ );
     //...
 
-    //-------- go.pubBinary ---------//
-    goRef_.pubBinary.init( wheat_pubBinaryValTypes );
+    
 }
 
 /* ===========================================================
@@ -151,7 +139,7 @@ void Wheat::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
 
     //=====================================//
     //            AI
@@ -179,7 +167,7 @@ void Wheat::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
@@ -198,7 +186,7 @@ void Wheat::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp = this->rebind_ptr( goRef_ );
+    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
