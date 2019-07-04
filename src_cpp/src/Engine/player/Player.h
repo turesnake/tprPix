@@ -28,9 +28,6 @@ class Player{
 public:
     Player() = default;
 
-    //-- 延迟初始化 --
-    void init();
-
     //-- 必须等 chunks 彻底加载到 mem态（相伴的go数据也实例化）之后 --
     //   才能调用本函数 
     void bind_go( goid_t goid_ );

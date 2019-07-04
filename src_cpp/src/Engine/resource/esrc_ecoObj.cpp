@@ -23,7 +23,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
-    //-- 目前版本中，只有 主现场可以 创建 ecoObj 实例 --
+    //-- 目前版本中，只有 主线程可以 创建 ecoObj 实例 --
     //   仅提供 数据只读口给 job线程 
     std::unordered_map<sectionKey_t, EcoObj> ecoObjs {};
     std::shared_mutex  sharedMutex; //- 读写锁

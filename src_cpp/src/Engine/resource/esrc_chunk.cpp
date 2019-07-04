@@ -7,6 +7,7 @@
  */
 //-------------------- CPP --------------------//
 #include <unordered_map>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -25,7 +26,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
-    std::unordered_map<chunkKey_t, Chunk> chunks {};
+    std::unordered_map<chunkKey_t, std::unique_ptr<Chunk>> chunkUPtrs {};
 
 
 }//---------------- namespace: chunk_inn end --------------//
@@ -39,23 +40,22 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
  * ---
  * 仅被 check_and_build_sections.cpp -> build_one_chunk() 调用
  */
-Chunk *insert_and_init_new_chunk(const IntVec2 &anyMPos_,
+Chunk &insert_and_init_new_chunk(const IntVec2 &anyMPos_,
                                 ShaderProgram *sp_ ){
 
             //-- ShaderProgram 是固定的，可以在游戏初期就绑定。
             //   不需要每次 创建chunk 时都指定。
 
-    // ***| INSERT FIRST, INIT LATER  |***
-    Chunk *chunkPtr {};
-    Chunk  chunk {};
-    chunk.set_by_anyMPos( anyMPos_ );
-    chunkKey_t key = chunk.get_key();
-        tprAssert( chunk_inn::chunks.find(key) == chunk_inn::chunks.end() );//- must not exist
-    chunk_inn::chunks.insert({ key, chunk }); //- copy
-    chunkPtr = &(chunk_inn::chunks.at(key));
-    chunkPtr->set_mesh_shader_program( sp_ );
-    chunkPtr->init();
-    return chunkPtr;
+    auto chunkUPtr = std::make_unique<Chunk>();
+    chunkUPtr->set_by_anyMPos( anyMPos_ );
+    chunkUPtr->set_mesh_shader_program( sp_ );
+    chunkUPtr->init();
+
+    chunkKey_t key = chunkUPtr->get_key();
+        tprAssert( chunk_inn::chunkUPtrs.find(key) == chunk_inn::chunkUPtrs.end() );//- must not exist
+    chunk_inn::chunkUPtrs.insert({ key, std::move(chunkUPtr) });
+
+    return *(chunk_inn::chunkUPtrs.at(key).get());
 }
 
 
@@ -83,16 +83,16 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &anyMCpos_ ){
     IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
-                if( chunk_inn::chunks.find(chunkKey) == chunk_inn::chunks.end() ){
+                if( chunk_inn::chunkUPtrs.find(chunkKey) == chunk_inn::chunkUPtrs.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                tprAssert( chunk_inn::chunks.find(chunkKey) != chunk_inn::chunks.end() ); //- tmp
+                tprAssert( chunk_inn::chunkUPtrs.find(chunkKey) != chunk_inn::chunkUPtrs.end() ); //- tmp
 
 
-    return chunk_inn::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
+    return chunk_inn::chunkUPtrs.at(chunkKey)->getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 MemMapEnt *get_memMapEntPtr( const IntVec2 &anyMPos_ ){
@@ -103,16 +103,16 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &anyMPos_ ){
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
 
                 //-- 若 目标chunk实例不存在，调用特殊函数来 处理 --
-                if( chunk_inn::chunks.find(chunkKey) == chunk_inn::chunks.end() ){
+                if( chunk_inn::chunkUPtrs.find(chunkKey) == chunk_inn::chunkUPtrs.end() ){
                         cout << "get_memMapEntPtr(): wait_and_build_chunk..." 
                             << endl;
                     chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
                 }
                 //-- 再次检测
-                tprAssert( chunk_inn::chunks.find(chunkKey) != chunk_inn::chunks.end() ); //- tmp
+                tprAssert( chunk_inn::chunkUPtrs.find(chunkKey) != chunk_inn::chunkUPtrs.end() ); //- tmp
 
 
-    return chunk_inn::chunks.at(chunkKey).getnc_mapEntPtr_by_lMPosOff( lMPosOff );
+    return chunk_inn::chunkUPtrs.at(chunkKey)->getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
 /* ===========================================================
@@ -120,17 +120,18 @@ MemMapEnt *get_memMapEntPtr( const IntVec2 &anyMPos_ ){
  * -----------------------------------------------------------
  */
 bool find_from_chunks( chunkKey_t chunkKey_ ){
-    return (chunk_inn::chunks.find(chunkKey_) != chunk_inn::chunks.end());
+    return (chunk_inn::chunkUPtrs.find(chunkKey_) != chunk_inn::chunkUPtrs.end());
 }
 
 /* ===========================================================
- *                 get_chunkPtr
+ *                 get_chunkRef
  * -----------------------------------------------------------
  */
-Chunk *get_chunkPtr( chunkKey_t key_ ){
-        tprAssert( chunk_inn::chunks.find(key_) != chunk_inn::chunks.end() );//- must exist
-    return &(chunk_inn::chunks.at(key_));
+Chunk &get_chunkRef( chunkKey_t key_ ){
+        tprAssert( chunk_inn::chunkUPtrs.find(key_) != chunk_inn::chunkUPtrs.end() );//- must exist
+    return *(chunk_inn::chunkUPtrs.at(key_).get());
 }
+
 
 
 /* ===========================================================
@@ -138,10 +139,10 @@ Chunk *get_chunkPtr( chunkKey_t key_ ){
  * -----------------------------------------------------------
  */
 void render_chunks(){
-    for( auto& p : chunk_inn::chunks ){
-            p.second.refresh_translate_auto(); //-- MUST !!!
-            insert_2_renderPool_meshs( p.second.get_mesh().get_render_z(),
-                                                const_cast<Mesh*>(&p.second.get_mesh()) );
+    for( auto& p : chunk_inn::chunkUPtrs ){
+            p.second->refresh_translate_auto(); //-- MUST !!!
+            insert_2_renderPool_meshs( p.second->get_mesh().get_render_z(),
+                                                const_cast<Mesh*>(&p.second->get_mesh()) );
     }
 }
 

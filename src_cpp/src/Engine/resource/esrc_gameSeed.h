@@ -13,6 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_gameSeed();
 GameSeed &get_gameSeed();
 
 

@@ -13,6 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_behaviour();
 Behaviour &get_behaviour();
 void call_scriptMain(); //- 调用 脚本层 入口函数
 

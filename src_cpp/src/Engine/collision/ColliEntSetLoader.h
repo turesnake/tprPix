@@ -13,6 +13,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "ColliEntSet.h"
@@ -38,9 +39,11 @@ public:
     void init();
 
     //---- get ----//
-    const ColliEntSet &get_collientSet( size_t idx_ ) const {
-        return this->collientSets.at(idx_); //-- auto throw error
+    
+    std::shared_ptr<ColliEntSet> get_collientSetSPtr( size_t idx_ ) const {
+        return this->collientSets.at(idx_);
     }
+
 
 private:
     std::string  lpath {};
@@ -49,7 +52,8 @@ private:
     IntVec2  frameNum {};         //- 画面中，横排可分为几帧，纵向可分为几帧
     size_t   totalFrameNum {};    //- 总 图元帧 个数
 
-    std::vector<ColliEntSet> collientSets {}; //- 临时存储区
+    std::vector<std::shared_ptr<ColliEntSet>> collientSets {}; //- 临时存储区
+                        //-- 在未来，应该被改为 unique_ptr ...
 };
 
 

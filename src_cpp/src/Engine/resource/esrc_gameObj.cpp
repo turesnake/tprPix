@@ -222,12 +222,14 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
     goRef_.currentChunkKey = anyMPos_2_chunkKey( currentMPos );
-    Chunk *currentChunkPtr = esrc::get_chunkPtr( goRef_.currentChunkKey );
+    //Chunk *currentChunkPtr = esrc::get_chunkPtr( goRef_.currentChunkKey );
+    Chunk &currentChunkRef = esrc::get_chunkRef( goRef_.currentChunkKey );
+
     goRef_.reset_chunkKeys();
     if( goRef_.get_chunkKeysRef().size() > 1 ){
-        currentChunkPtr->insert_2_edgeGoIds( goRef_.id );
+        currentChunkRef.insert_2_edgeGoIds( goRef_.id );
     }
-    currentChunkPtr->insert_2_goIds( goRef_.id );
+    currentChunkRef.insert_2_goIds( goRef_.id );
 
     //------------------------------//
     //  只有 rootGoMesh 会被记录到 mapent 上

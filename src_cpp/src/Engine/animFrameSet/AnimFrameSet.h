@@ -48,6 +48,8 @@
 #include "FramePos.h"
 #include "AnimAction.h"
 
+#include "tprDebug.h"
+
 
 //-- 作为纯粹的 图像资源类，AnimFrameSet 应该被设计得尽可能简洁 --
 //   不负责其他任何数据 
@@ -68,6 +70,11 @@ public:
                 const std::vector<AnimActionParam> &animActionParams_ );
 
     inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
+
+        if( this->animActions.find(actionName_) == this->animActions.end() ){
+            cout << "   error:   " << actionName_ << endl;
+        }
+
        tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
        return  &this->animActions.at(actionName_);
     }

@@ -49,7 +49,10 @@ void ColliEntSetLoader::init(){
                                     this->pixNum_per_frame.y ); //- 一帧有几个像素点
 
     ColliEntSet_RGBAHandle  ch {5};
-    this->collientSets.resize( this->totalFrameNum );
+
+    for( size_t i=0; i<this->totalFrameNum; i++ ){
+        this->collientSets.push_back( std::make_shared<ColliEntSet>() );
+    }
 
     IntVec2 pixPPos {}; //- tmp. pos for each rgba Pix
 
@@ -65,16 +68,16 @@ void ColliEntSetLoader::init(){
                          static_cast<int>(p)/this->pixNum_per_frame.x );
 
             if( ch.is_center() == true ){
-                this->collientSets.at(f).set_centerPPos( pixPPos );
+                this->collientSets.at(f)->set_centerPPos( pixPPos );
             }
 
             if( ch.is_colliEnt() == true ){
-                this->collientSets.at(f).add_colliEnt( pixPPos );
+                this->collientSets.at(f)->add_colliEnt( pixPPos );
             }
         }
 
         //-- 生成 crawl 的“新增集”／“减少集” --
-        this->collientSets.at(f).create_adds_dels();
+        this->collientSets.at(f)->create_adds_dels();
     }
 }
 

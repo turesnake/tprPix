@@ -21,9 +21,13 @@
 
 class Camera{
 public:
-    Camera() = default;
+    Camera():
+        targetFPos(glm::vec2(0.0f, 0.0f)),
+        currentFPos(glm::vec3(  0.0f,
+                                0.0f,
+                                0.5f * ViewingBox::z ))
+        {}
 
-    void init();
     void RenderUpdate();
 
     glm::mat4 &update_mat4_view();
@@ -66,12 +70,12 @@ public:
 
 private:
     //------ 观察／投影 矩阵 -----
-    glm::mat4 mat4_view       = glm::mat4(1.0);       //-- 观察矩阵，默认初始化为 单位矩阵
+    glm::mat4 mat4_view       = glm::mat4(1.0); //-- 观察矩阵，默认初始化为 单位矩阵
     glm::mat4 mat4_projection = glm::mat4(1.0); //-- 投影矩阵，默认初始化为 单位矩阵
 
     //------ 坐标向量 -------
-    glm::vec2 targetFPos  {}; 
-    glm::vec3 currentFPos {}; 
+    glm::vec2 targetFPos; 
+    glm::vec3 currentFPos; 
 
     float  approachPercent {0.08f};  //- camera运动的 “接近比率”
 

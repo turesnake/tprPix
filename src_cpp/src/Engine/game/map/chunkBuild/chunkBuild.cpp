@@ -234,14 +234,14 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     //            [3]
     //    单独生成 主chunk 实例
     //------------------------------//
-    Chunk *chunkPtr = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::get_rect_shader()) );//- 一定不存在
+    Chunk &chunkRef = esrc::insert_and_init_new_chunk( targetChunkMPos, &(esrc::get_rect_shader()) );//- 一定不存在
 
 
     //------------------------------//
     //            [4]
     //  为 chunk 中的 8*8 个 field，分配 goes
     //------------------------------//
-    for( const auto &fieldKey : chunkPtr->get_fieldKeys() ){ //- each field key
+    for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
 
         esrc::atom_create_a_go_in_field( fieldKey );
     } //-- each field key end --

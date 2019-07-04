@@ -13,6 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_camera();
 Camera &get_camera();
 
 }//---------------------- namespace: esrc -------------------------//

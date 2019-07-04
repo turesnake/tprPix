@@ -21,8 +21,8 @@ namespace thread_inn {//------------ namespace: thread_inn --------------//
 
     //-- 一组 thread 空实例 [1~4]个 --
     std::thread jobThread_1;
-    //std::thread jobThread_2;
-    //std::thread jobThread_3;
+    std::thread jobThread_2;
+    std::thread jobThread_3;
 
 }//---------------- namespace: thread_inn end --------------//
 
@@ -36,8 +36,8 @@ namespace thread_inn {//------------ namespace: thread_inn --------------//
 void start_jobThreads(){
     //-- 创建一个 临时thread实例，并隐式 move 其所有权 到 空实例中 
     thread_inn::jobThread_1 = std::thread( jobThread_main );
-    //thread_inn::jobThread_2 = std::thread( jobThread_main );
-    //thread_inn::jobThread_3 = std::thread( jobThread_main );
+    thread_inn::jobThread_2 = std::thread( jobThread_main );
+    thread_inn::jobThread_3 = std::thread( jobThread_main );
 
 }
 
@@ -52,8 +52,8 @@ void join_jobThreads(){
 
     //-- 等待 jobThreads exit --
     thread_inn::jobThread_1.join();
-    //thread_inn::jobThread_2.join();
-    //thread_inn::jobThread_3.join();
+    thread_inn::jobThread_2.join();
+    thread_inn::jobThread_3.join();
 }
 
 

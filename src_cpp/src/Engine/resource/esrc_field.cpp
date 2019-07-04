@@ -10,6 +10,7 @@
 #include <mutex>
 #include <shared_mutex> //- c++17 读写锁
 #include <set>
+#include <memory>
 
 
 //-------------------- Engine --------------------//
@@ -33,7 +34,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace field_inn {//------------ namespace: field_inn --------------//
 
-    std::unordered_map<fieldKey_t,MapField> fields {};
+    std::unordered_map<fieldKey_t,std::unique_ptr<MapField>> fieldUPtrs {};
     std::shared_mutex  fieldsSharedMutex; //- 读写锁
 
     //-- 正在创建的 field 表 --
@@ -46,7 +47,7 @@ namespace field_inn {//------------ namespace: field_inn --------------//
     void erase_from_fieldsBuilding( fieldKey_t fieldKey_ );
 
     bool is_find_in_fields_( fieldKey_t _key ){
-        return (field_inn::fields.find(_key) != field_inn::fields.end());
+        return (field_inn::fieldUPtrs.find(_key) != field_inn::fieldUPtrs.end());
     }
 
 }//---------------- namespace: field_inn end --------------//
@@ -74,16 +75,15 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
     
         //--- unlock ---//
         ul.unlock();
-        // ***| INIT FIRST, INSERT LATER  |***
-        MapField  field {};
-        field.init( fieldMPos_ ); 
+        auto fieldUPtr = std::make_unique<MapField>();
+        fieldUPtr->init( fieldMPos_ );
                 //-- 这里耗时有点长, 所以在 解锁状态运行
                 //   这样就不会耽误 其他线程 对 全局容器的 访问
 
     //--- lock ---//
     ul.lock();
         tprAssert( field_inn::is_find_in_fields_(fieldKey) == false ); //- MUST NOT EXIST
-    field_inn::fields.insert({ fieldKey, field }); //- copy
+    field_inn::fieldUPtrs.insert({ fieldKey, std::move(fieldUPtr) }); //- copy
     field_inn::erase_from_fieldsBuilding( fieldKey );    
 }
 
@@ -96,7 +96,7 @@ void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitud
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        field_inn::fields.at(fieldKey_).reflesh_min_and_max_altis( alti_ );
+        field_inn::fieldUPtrs.at(fieldKey_)->reflesh_min_and_max_altis( alti_ );
     }
 }
 
@@ -112,7 +112,7 @@ void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_,
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        field_inn::fields.at(fieldKey_).set_nodeAlti_2( _chunkMapEnts );
+        field_inn::fieldUPtrs.at(fieldKey_)->set_nodeAlti_2( _chunkMapEnts );
     }
 }
 
@@ -126,7 +126,7 @@ const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldDat
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
             tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        const auto &field = field_inn::fields.at( fieldKey_ );
+        const auto &field = *(field_inn::fieldUPtrs.at( fieldKey_ ).get());
         pair.first = field.get_occupyWeight();
         //---
         pair.second.fieldKey = field.get_fieldKey();
@@ -151,7 +151,7 @@ void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-    const MapField &fieldRef = field_inn::fields.at( fieldKey_ );
+    const auto &fieldRef = *(field_inn::fieldUPtrs.at( fieldKey_ ).get());
 
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
     goSpecId_t     goSpecId {};
@@ -186,7 +186,7 @@ const MapField &atom_get_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-    return field_inn::fields.at( fieldKey_ );
+    return *(field_inn::fieldUPtrs.at( fieldKey_ ).get());
 }
 
 

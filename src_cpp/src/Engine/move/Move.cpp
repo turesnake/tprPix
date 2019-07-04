@@ -209,29 +209,32 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
     //   -- 重新统计 本go 的 chunkKeys，如果确认为 临界go，  
     //       登记到 主chunk 的 edgegoids 容器中
     //---------------------------//
-    Chunk   *oldChunkPtr  {nullptr}; 
-    Chunk   *newChunkPtr  {nullptr};
+    //Chunk   *oldChunkPtr  {nullptr}; 
+    //Chunk   *newChunkPtr  {nullptr};
     goid_t   goid = this->goRef.id;
 
     chunkKey_t newChunkKey = anyMPos_2_chunkKey( goPosRef.get_currentMPos() );
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
-    newChunkPtr = esrc::get_chunkPtr( newChunkKey );
+    //newChunkPtr = esrc::get_chunkPtr( newChunkKey );
+    Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
 
     if( newChunkKey!=this->goRef.currentChunkKey ){
-        oldChunkPtr = esrc::get_chunkPtr( this->goRef.currentChunkKey );
-        tprAssert( oldChunkPtr->erase_from_goIds(goid) == 1 );
-        oldChunkPtr->erase_from_edgeGoIds(goid);
+        //oldChunkPtr = esrc::get_chunkPtr( this->goRef.currentChunkKey );
+        Chunk &oldChunkRef = esrc::get_chunkRef( this->goRef.currentChunkKey );
+
+        tprAssert( oldChunkRef.erase_from_goIds(goid) == 1 );
+        oldChunkRef.erase_from_edgeGoIds(goid);
         //---
         this->goRef.currentChunkKey = newChunkKey;
-        newChunkPtr->insert_2_goIds(goid);
+        newChunkRef.insert_2_goIds(goid);
     }
 
     this->goRef.reset_chunkKeys();
     size_t chunkKeysSize = this->goRef.get_chunkKeysRef().size();
     if( chunkKeysSize == 1 ){
-        newChunkPtr->erase_from_edgeGoIds(goid);
+        newChunkRef.erase_from_edgeGoIds(goid);
     }else if( chunkKeysSize > 1 ){
-        newChunkPtr->insert_2_edgeGoIds(goid);
+        newChunkRef.insert_2_edgeGoIds(goid);
     }else{
         tprAssert(0);
     }

@@ -5,6 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+//-------------------- CPP --------------------//
+#include <memory>
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "esrc_canvas.h"
@@ -19,8 +21,8 @@ namespace esrc{//------------------ namespace: esrc -------------------------//
 
 namespace canvas_inn {//-------- namespace: canvas_inn --------------//
 
-    Canvas  groundCanvas {};
-    Canvas  waterAnimCanvas {};
+    std::unique_ptr<Canvas> groundCanvasUPtr;
+    std::unique_ptr<Canvas> waterAnimCanvasUPtr;
 
     bool  is_waterAnim_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
                                         // 这些值是固定的，每次游戏只需传入一次...
@@ -34,43 +36,46 @@ namespace canvas_inn {//-------- namespace: canvas_inn --------------//
  */
 void init_canvases(){
 
+    canvas_inn::groundCanvasUPtr = std::make_unique<Canvas>();
+    canvas_inn::waterAnimCanvasUPtr = std::make_unique<Canvas>();
+
     //------------------//
     //    groundCanvas
     //------------------//
 
-    canvas_inn::groundCanvas.init( &(ViewingBox::windowSZ),
+    canvas_inn::groundCanvasUPtr->init( &(ViewingBox::windowSZ),
                             "/groundCanvas.vs",
                             "/groundCanvas.fs" );
 
-    canvas_inn::groundCanvas.add_new_uniform( "u_time" ); //- 1-float
-    canvas_inn::groundCanvas.add_new_uniform( "canvasCFPos" ); //- 2-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "u_time" ); //- 1-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "canvasCFPos" ); //- 2-float
     
 
-    canvas_inn::groundCanvas.add_new_uniform( "SCR_WIDTH" ); //- 1-float
-    canvas_inn::groundCanvas.add_new_uniform( "SCR_HEIGHT" ); //- 1-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "SCR_WIDTH" ); //- 1-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "SCR_HEIGHT" ); //- 1-float
                         //-- 当 窗口发生变化，此组值需要被重传
 
     //------------------//
     //    waterAnimCanvas
     //------------------//
 
-    canvas_inn::waterAnimCanvas.init( &(ViewingBox::windowSZ),
+    canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::windowSZ),
                             "/waterAnimCanvas.vs",
                             "/waterAnimCanvas.fs" );
 
 
-    canvas_inn::waterAnimCanvas.add_new_uniform( "u_time" ); //- 1-float
-    canvas_inn::waterAnimCanvas.add_new_uniform( "canvasCFPos" ); //- 2-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "u_time" ); //- 1-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "canvasCFPos" ); //- 2-float
 
-    canvas_inn::waterAnimCanvas.add_new_uniform( "SCR_WIDTH" ); //- 1-float
-    canvas_inn::waterAnimCanvas.add_new_uniform( "SCR_HEIGHT" ); //- 1-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "SCR_WIDTH" ); //- 1-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "SCR_HEIGHT" ); //- 1-float
 
     //-- 以下 uniforms 只需传一次 --
     
-    canvas_inn::waterAnimCanvas.add_new_uniform( "altiSeed_pposOffSeaLvl" ); //- 2-float
-    canvas_inn::waterAnimCanvas.add_new_uniform( "altiSeed_pposOffBig" ); //- 2-float
-    canvas_inn::waterAnimCanvas.add_new_uniform( "altiSeed_pposOffMid" ); //- 2-float
-    canvas_inn::waterAnimCanvas.add_new_uniform( "altiSeed_pposOffSml" ); //- 2-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffSeaLvl" ); //- 2-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffBig" ); //- 2-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffMid" ); //- 2-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffSml" ); //- 2-float
 
 
 }
@@ -81,9 +86,9 @@ void init_canvases(){
  */
 void draw_groundCanvas(){
 
-    canvas_inn::groundCanvas.use_shaderProgram(); //- MUST !!! 
+    canvas_inn::groundCanvasUPtr->use_shaderProgram(); //- MUST !!! 
 
-    glUniform1f(canvas_inn::groundCanvas.get_uniform_location("u_time"), 
+    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("u_time"), 
                 static_cast<float>(glfwGetTime()) ); //- 1-float
 
     const glm::vec2 cameraFPos = get_camera().get_camera2DFPos();
@@ -95,18 +100,18 @@ void draw_groundCanvas(){
     glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
                                                     0.5f * windowSZ_fy };
 
-    canvas_inn::groundCanvas.set_translate( canvasFPos.x,
+    canvas_inn::groundCanvasUPtr->set_translate( canvasFPos.x,
                                       canvasFPos.y,
                                       get_camera().get_zFar() + ViewingBox::ground_zOff );
     
-    glUniform2f(canvas_inn::groundCanvas.get_uniform_location("canvasCFPos"), 
+    glUniform2f(canvas_inn::groundCanvasUPtr->get_uniform_location("canvasCFPos"), 
                     canvasFPos.x / PIXES_PER_CHUNK,
                     canvasFPos.y / PIXES_PER_CHUNK ); //- 2-float
     
-    glUniform1f(canvas_inn::groundCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
-    glUniform1f(canvas_inn::groundCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
+    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
 
-    canvas_inn::groundCanvas.draw();
+    canvas_inn::groundCanvasUPtr->draw();
 }
 
 
@@ -116,9 +121,9 @@ void draw_groundCanvas(){
  */
 void draw_waterAnimCanvas(){
 
-    canvas_inn::waterAnimCanvas.use_shaderProgram(); //- MUST !!! 
+    canvas_inn::waterAnimCanvasUPtr->use_shaderProgram(); //- MUST !!! 
 
-    glUniform1f(canvas_inn::waterAnimCanvas.get_uniform_location("u_time"), 
+    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("u_time"), 
                     static_cast<float>(glfwGetTime()) ); //- 1-float
 
     const glm::vec2 cameraFPos = get_camera().get_camera2DFPos();
@@ -129,13 +134,13 @@ void draw_waterAnimCanvas(){
     glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
                                                     0.5f * windowSZ_fy };
 
-    canvas_inn::waterAnimCanvas.set_translate(canvasFPos.x,
+    canvas_inn::waterAnimCanvasUPtr->set_translate(canvasFPos.x,
                                         canvasFPos.y,
                                         get_camera().get_zFar() + ViewingBox::waterAnim_zOff );
                                         //- 这一步是正确的，canvas 与 window 成功对齐，
                                         //  进而可知，SCR_WIDTH，SCR_HEIGHT 的使用也是正确的
 
-    glUniform2f(canvas_inn::waterAnimCanvas.get_uniform_location("canvasCFPos"), 
+    glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("canvasCFPos"), 
                     canvasFPos.x / PIXES_PER_CHUNK,
                     canvasFPos.y / PIXES_PER_CHUNK ); //- 2-float
 
@@ -147,30 +152,30 @@ void draw_waterAnimCanvas(){
     const glm::vec2 &altiSeed_pposOffMid    = gameSeedRef.get_altiSeed_pposOffMid();
     const glm::vec2 &altiSeed_pposOffSml    = gameSeedRef.get_altiSeed_pposOffSml();
 
-    glUniform1f(canvas_inn::waterAnimCanvas.get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
-    glUniform1f(canvas_inn::waterAnimCanvas.get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
+    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
+    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
 
     if( canvas_inn::is_waterAnim_baseUniforms_transmited == false ){
         canvas_inn::is_waterAnim_baseUniforms_transmited = true;
 
-        glUniform2f(canvas_inn::waterAnimCanvas.get_uniform_location("altiSeed_pposOffSeaLvl"), 
+        glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffSeaLvl"), 
                     altiSeed_pposOffSeaLvl.x,
                     altiSeed_pposOffSeaLvl.y ); //- 2-float
         
-        glUniform2f(canvas_inn::waterAnimCanvas.get_uniform_location("altiSeed_pposOffBig"), 
+        glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffBig"), 
                     altiSeed_pposOffBig.x,
                     altiSeed_pposOffBig.y ); //- 2-float
         
-        glUniform2f(canvas_inn::waterAnimCanvas.get_uniform_location("altiSeed_pposOffMid"), 
+        glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffMid"), 
                     altiSeed_pposOffMid.x,
                     altiSeed_pposOffMid.y ); //- 2-float
 
-        glUniform2f(canvas_inn::waterAnimCanvas.get_uniform_location("altiSeed_pposOffSml"), 
+        glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffSml"), 
                     altiSeed_pposOffSml.x,
                     altiSeed_pposOffSml.y ); //- 2-float
     }
 
-    canvas_inn::waterAnimCanvas.draw();
+    canvas_inn::waterAnimCanvasUPtr->draw();
 }
 
 

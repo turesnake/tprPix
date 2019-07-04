@@ -10,6 +10,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <deque>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -24,7 +25,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 
     //-- chunks 不跨线程，仅被 主线程访问 --
-    std::unordered_map<chunkKey_t, ChunkData> chunkDatas {};
+    std::unordered_map<chunkKey_t, std::unique_ptr<ChunkData>> chunkDatas {};
     std::shared_mutex  sharedMutex;
 
     //-- 已经被 job线程 制作完毕的 chunkData, 将向此表 压入一个 元素 --
@@ -43,23 +44,17 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 /* ===========================================================
  *              atom_insert_new_chunkData      [-WRITE-]
  * -----------------------------------------------------------
- * -- 返回一个 全空实例 的指针
  * 通常由 job线程 调用
- *       
- *           这样实现 很不安全，在未来需要修改
  */
-ChunkData *atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
-
-    // ***| INSERT FIRST, INIT LATER  |***
-    ChunkData  chunkData {};
-    ChunkData *chunkDataPtr {};
-    {//--- atom ---//
+ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
+    auto chunkDataUPtr = std::make_unique<ChunkData>();
+    //--- atom ---//
+    {
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
             tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) == false ); //- MUST NOT EXIST
-        chunkD_inn::chunkDatas.insert({ chunkKey_, chunkData }); //- copy
-        chunkDataPtr = &(chunkD_inn::chunkDatas.at(chunkKey_));
+        chunkD_inn::chunkDatas.insert({ chunkKey_, std::move(chunkDataUPtr) });
+        return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
     }
-    return chunkDataPtr;
 }
 
 
@@ -82,11 +77,11 @@ void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ ){
  * -----------------------------------------------------------
  * 只能由 主线程 调用
  */
-const ChunkData *atom_get_chunkDataPtr( chunkKey_t chunkKey_ ){
+const ChunkData &atom_get_chunkDataCRef( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( chunkD_inn::sharedMutex ); //- read
             tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) ); //- MUST EXIST
-        return &(chunkD_inn::chunkDatas.at(chunkKey_));
+        return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
     }
 }
 

@@ -13,6 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//  
 
+void init_player();
 Player &get_player();
 
 }//---------------------- namespace: esrc -------------------------//

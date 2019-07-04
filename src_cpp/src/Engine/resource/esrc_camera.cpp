@@ -6,19 +6,24 @@
  * ----------------------------------------------------------
  */
 #include "esrc_camera.h"
+#include <memory>
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace camera_inn {//------------------ namespace: camera_inn -------------------------//
 
-    Camera camera {}; //-- 本游戏暂时只有 一个 摄像机
+    std::unique_ptr<Camera> cameraPtr; // tmp only-one 
 
 }//--------------------- namespace: camera_inn end -------------------------//
 
 
+void init_camera(){
+    camera_inn::cameraPtr = std::make_unique<Camera>();
+}
+
 Camera &get_camera(){
-    return camera_inn::camera;
+    return *(camera_inn::cameraPtr.get());
 }
 
 

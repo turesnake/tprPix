@@ -14,7 +14,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-
+void init_time();
 TimeBase &get_timer();
 TimeCircle &get_logicTimeCircle();
 

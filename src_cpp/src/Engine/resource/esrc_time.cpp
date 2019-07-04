@@ -6,24 +6,30 @@
  * ----------------------------------------------------------
  */
 #include "esrc_time.h"
+#include <memory>
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace time_inn {//-------- namespace: time_inn  --------------//
 
-    TimeBase   timer {}; //-- 全局时间
-    TimeCircle logicTimeCircle { &timer, 5 }; //- 逻辑时间循环 实例（5帧1周期）
+    std::unique_ptr<TimeBase> timerUPtr;
+    std::unique_ptr<TimeCircle> logicTimeCircleUPtr;
 
 }//------------- namespace: time_inn end --------------//
 
+void init_time(){
+    time_inn::timerUPtr = std::make_unique<TimeBase>();
+    time_inn::logicTimeCircleUPtr = std::make_unique<TimeCircle>( *(time_inn::timerUPtr.get()), 5 );
+}
+
 TimeBase &get_timer(){
-    return time_inn::timer;
+    return *(time_inn::timerUPtr.get());
 }
 
 
 TimeCircle &get_logicTimeCircle(){
-    return time_inn::logicTimeCircle;
+    return *(time_inn::logicTimeCircleUPtr.get());
 }
 
 

@@ -298,6 +298,8 @@ target_compile_options( tprpix_cpp
                         -Wno-old-style-cast   #---- tmp ---- 
                         
                         -Wno-unused-variable #----- tmp ----
+
+                        #-Wno-zero-as-null-pointer-constant #- RapidJson
                         )
 
 

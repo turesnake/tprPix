@@ -66,8 +66,10 @@ int cppMain_tmp( char *exeDirPath_ ){
         //return(0);
 
     //------------------------------------------//
+    //          init behaviour
     //          call_scriptMain
     //------------------------------------------//
+    esrc::init_behaviour();
     esrc::call_scriptMain();
 
     //------------------------------------------//
@@ -79,7 +81,11 @@ int cppMain_tmp( char *exeDirPath_ ){
     //           不依赖任何外部代码的资源
     //------------------------------------------//
     input::init_input();             //---- input -----
-    esrc::get_camera().init();       //---- camera 资源 ----
+    esrc::init_time();               //---- timer,logicTimeCircle -----
+    
+    esrc::init_gameSeed();           //---- gameSeed ----
+    esrc::init_gameArchive();        //---- gameArchive ----
+    esrc::init_camera();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
 
@@ -103,7 +109,7 @@ int cppMain_tmp( char *exeDirPath_ ){
 
     GameObj::id_manager.set_max_id( 0 );
 
-        esrc::get_player().init();         //----  player 资源 ----
+    esrc::init_player();             //---- player -----
     //... 
 
     tprDebug::init_debug();             //---- tprDebug 资源 ----

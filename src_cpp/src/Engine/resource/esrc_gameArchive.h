@@ -13,7 +13,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-
+void init_gameArchive();
 GameArchive &get_gameArchive();
 
 

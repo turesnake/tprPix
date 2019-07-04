@@ -127,7 +127,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     void calc_chunkData(    const IntVec2 &chunkMPos_, 
                             const std::vector<float> &pixAltis_,
-                            ChunkData *chunkDataPtr_ ); 
+                            ChunkData &chunkDataRef_ ); 
                 //- 在未来，要改名
 
     const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &container_,
@@ -154,7 +154,9 @@ void build_chunkData_main( const Job &job_ ){
             sizeof(ArgBinary_Build_ChunkData) );
 
     //-- 制作一个 ChunkData 数据实例 --
-    ChunkData *chunkDataPtr = esrc::atom_insert_new_chunkData( arg.chunkKey );
+    //ChunkData *chunkDataPtr = esrc::atom_insert_new_chunkData( arg.chunkKey );
+    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( arg.chunkKey );
+
     IntVec2 chunkMPos = chunkKey_2_mpos( arg.chunkKey );
 
     //------------------------------//
@@ -187,7 +189,7 @@ void build_chunkData_main( const Job &job_ ){
     //--------------------------//
     //      chunkData
     //--------------------------//
-    bcd_inn::calc_chunkData( chunkMPos, pixAltis, chunkDataPtr );
+    bcd_inn::calc_chunkData( chunkMPos, pixAltis, chunkDataRef );
 
     //--------------------------//
     //-- chunkData 数据计算完成后，向 状态表 添加一个元素
@@ -285,7 +287,7 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
  */
 void calc_chunkData(const IntVec2 &chunkMPos_, 
                     const std::vector<float> &pixAltis_,
-                    ChunkData *chunkDataPtr_ ){
+                    ChunkData &chunkDataRef_ ){
 
     RGBA      *texBufHeadPtr {}; //- mapTex
     RGBA       color {};
@@ -305,7 +307,7 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
     //------------------------//
     //   mapEntAltis, mapEntMPoses    
     //------------------------//
-    chunkDataPtr_->init_mapEntAltis();
+    chunkDataRef_.init_mapEntAltis();
     //-------
     std::vector<IntVec2> mapEntMPoses {}; //- 仅内部使用
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
@@ -330,8 +332,8 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
     //------------------------//
     //        mapTex
     //------------------------//
-    chunkDataPtr_->resize_texBuf();
-    texBufHeadPtr = chunkDataPtr_->getnc_texBufHeadPtr();
+    chunkDataRef_.resize_texBuf();
+    texBufHeadPtr = chunkDataRef_.getnc_texBufHeadPtr();
 
     std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
                                     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
@@ -388,7 +390,7 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
                         // 每个 mapent.mapAlti 被设置为其 中点pix 的 alti
                         //--------------------------------//
                         if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
-                            chunkDataPtr_->set_mapEntAlti( entIdx_in_chunk, pixData.alti );
+                            chunkDataRef_.set_mapEntAlti( entIdx_in_chunk, pixData.alti );
                             esrc::atom_field_reflesh_min_and_max_altis( fieldKey, pixData.alti );
                         }
                         

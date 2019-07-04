@@ -10,6 +10,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -27,8 +28,8 @@ namespace ces_inn {//------------ namespace: ces_inn --------------//
     std::unordered_map<int, std::string> colliEntSet_idx_name {};
 
     //-- key: colliEntSetIdx
-    std::unordered_map<int, ColliEntSet> colliEntSets {};
-
+    std::unordered_map<int, std::shared_ptr<ColliEntSet>> colliEntSets {};
+                                        //-- 在未来，应该被改为 unique_ptr ...
 
 }//---------------- namespace: ces_inn end --------------//
 
@@ -94,9 +95,9 @@ void load_colliEntSets(){
 
     //-- 将 loader 中的数据，手动 搬运到 全局容器中  [ copy ] --
     for( size_t i=0; i<totalSets; i++ ){
-        ces_inn::colliEntSets.insert({ i, loader.get_collientSet(i) });
+        ces_inn::colliEntSets.insert({ i, loader.get_collientSetSPtr(i) });
     }
-
+    
     //-- 自动销毁 ColliEntSetLoader 实例: loader -- 
 }
 
@@ -126,7 +127,7 @@ void debug_colliEntSets(){
  */
 const ColliEntSet &get_colliEntSetRef( int colliEntSetIdx_ ){
         tprAssert( ces_inn::colliEntSets.find(colliEntSetIdx_) != ces_inn::colliEntSets.end() );
-    return ces_inn::colliEntSets.at( colliEntSetIdx_ );
+    return *(ces_inn::colliEntSets.at( colliEntSetIdx_ ).get());
 }
 
 

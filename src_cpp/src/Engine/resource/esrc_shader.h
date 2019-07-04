@@ -13,9 +13,8 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-ShaderProgram &get_rect_shader();
-
 void init_shaders();
+ShaderProgram &get_rect_shader();
 
 }//---------------------- namespace: esrc -------------------------//
 #endif
