@@ -40,10 +40,21 @@ public:
     //---
     size_t   currentFrameIdx {};  //- 当前指向的 frameidx 值
     size_t   currentTimeStep {};  //- 当前帧的 timeStep, （不应被外部访问）
+                                  //  被 smoothDeltaTime 修正过
     //---
     size_t   updates {};     //- 切换一次帧后，记录 调用 update() 的次数
     //-- flags --//
     bool     isLastFrame {false}; //- 仅用于 Once 模式
+};
+
+
+//-- 3 kinds of AnimActionParam 
+enum class AnimActionParamType{
+    singleFrame,
+    singleFrame_batch, // 一组 单帧action，批处理
+                        // 在未来，等树的动画完善后，这种 batch 类型会消失
+    multiFrame_SameTimeStep,
+    multiFrame_DiffTimeStep
 };
 
 
@@ -164,6 +175,8 @@ private:
     inline void update_idle( AnimActionPvtData &pvtData_ ){}
     void update_once( AnimActionPvtData &pvtData_ );
     void update_cycle( AnimActionPvtData &pvtData_ );
+
+    static size_t adjust_currentTimeStep_by_smoothDeltaTime( size_t currentTimeStep_ );
 
     //===== vals =====//
     //-- 从 animFrameSet 中获得的 只读指针 --

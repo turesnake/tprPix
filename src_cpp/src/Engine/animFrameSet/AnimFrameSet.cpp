@@ -169,8 +169,8 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     //-------------------//
     for( const auto &param : animActionParams_ ){
 
-        this->animActions.insert({ param.actionName, AnimAction{} }); 
-        AnimAction &actionRef = this->animActions.at(param.actionName);
+        this->animActions.insert({ param.actionName, std::make_unique<AnimAction>() }); 
+        AnimAction &actionRef = *(this->animActions.at(param.actionName).get());
 
         actionRef.init( const_cast<const AnimFrameSet*>(this),
                         param,

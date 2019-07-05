@@ -31,9 +31,7 @@ namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn ----------
 
     std::vector<AnimActionParam> animActionParams {};
 
-
     //===== funcs =====//
-    //AnimFrameSet *insert_new_animFrameSet( const std::string &name_ );
     AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 
     void build_animActionParams(const std::string &prefix_,

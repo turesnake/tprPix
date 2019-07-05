@@ -1,0 +1,350 @@
+[
+{
+    "name": "button_beginScene",
+    "pngs": [
+        {
+            "path": "/button/beginScene/button_beginScene.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  3,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "pointer",
+                        "type": "singleFrame",
+                        "lFrameIdx": 0
+                    },
+                    {
+                        "actionName": "new",
+                        "type": "singleFrame",
+                        "lFrameIdx": 1
+                    },
+                    {
+                        "actionName": "data",
+                        "type": "singleFrame",
+                        "lFrameIdx": 2
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "norman",
+    "pngs": [
+        {
+            "path": "/norman/norman.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  2,
+            "totalFrameNum": 12,
+            "isHaveShadow": true,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "move_idle",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 0,  1, 2,  3, 4, 5 ],
+                        "timeSteps" : [ 12, 8, 8, 12, 8, 8 ]
+                    },
+                    {
+                        "actionName": "move_walk",
+                        "type": "multiFrame_SameTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 6, 7, 8, 9, 10, 11 ],
+                        "timeStep" : 4
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "bigMan",
+    "pngs": [
+        {
+            "path": "/bigMan/bigMan.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  2,
+            "totalFrameNum": 12,
+            "isHaveShadow": true,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "move_idle",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 0,  1, 2,  3, 4, 5 ],
+                        "timeSteps" : [ 10, 8, 8,  8, 8, 16 ]
+                    },
+                    {
+                        "actionName": "move_walk",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 6, 7, 8, 9, 10, 11 ],
+                        "timeSteps" : [ 3, 6, 3, 3,  6,  3 ]
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "crab",
+    "pngs": [
+        {
+            "path": "/crab/crab.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 19,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "move_idle",
+                        "type": "singleFrame",
+                        "lFrameIdx": 0
+                    },
+                    {
+                        "actionName": "move_walk",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 0,  4,  5,  6 ],
+                        "timeSteps" : [ 4,  4,  4,  4 ]
+                    },
+                    {
+                        "actionName": "panic",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Once",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 0,  1, 2,  3 ],
+                        "timeSteps" : [ 8,  4, 4,  8 ]
+                    },
+                    {
+                        "actionName": "appear",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Once",
+                        "isOrder":    false,
+                        "lFrameIdxs": [ 7,8,9,10,11,12,13,14, 15,16,17,18 ],
+                        "timeSteps" : [ 4,4,4, 4, 4, 4, 4, 4, 20, 4, 4, 4 ]
+                    },
+                    {
+                        "actionName": "disappear",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Once",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 7,8,9,10,  11,12,13,14,15,16,17,18 ],
+                        "timeSteps" : [ 4,4,4, 4,  16, 4, 4, 4, 6, 4, 4, 4 ]
+                    },
+                    {
+                        "actionName": "half_appear",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Once",
+                        "isOrder":    false,
+                        "lFrameIdxs": [ 7,8,9,10 ],
+                        "timeSteps" : [ 4,4,4, 4 ]
+                    },
+                    {
+                        "actionName": "half_disappear",
+                        "type": "multiFrame_DiffTimeStep",
+                        "actionType": "Once",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 7,8,9,10 ],
+                        "timeSteps" : [ 4,4,4, 4 ]
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "oakTree",
+    "pngs": [
+        {
+            "path": "/oakTree/OakTree_2.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 17,
+            "isHaveShadow": true,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 17,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "pineTree",
+    "pngs": [
+        {
+            "path": "/pineTree/pineTree.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": true,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 8,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "wheat",
+    "pngs": [
+        {
+            "path": "/wheat/wheat_Front.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "front_",
+                        "actionName_midNum": 4,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        },
+        {
+            "path": "/wheat/wheat_Back.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "back_",
+                        "actionName_midNum": 4,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "singleStone_Desert",
+    "pngs": [
+        {
+            "path": "/singleStone_Desert/singleStone_Desert.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 8,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "leaf_DForest",
+    "pngs": [
+        {
+            "path": "/leaf_DForest/leaf_DForest.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 8,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "lichen_Forest",
+    "pngs": [
+        {
+            "path": "/lichen_Forest/lichen_Forest.P.png",
+            "frameNum.col":  8,
+            "frameNum.row":  4,
+            "totalFrameNum": 32,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 32,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+},
+{
+    "name": "lichen_DForest",
+    "pngs": [
+        {
+            "path": "/lichen_DForest/lichen_DForest.P.png",
+            "frameNum.col":  8,
+            "frameNum.row":  3,
+            "totalFrameNum": 24,
+            "isHaveShadow": false,
+            "isPjtSingle": false,
+            "isShadowSingle": false,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName_prefix": "",
+                        "actionName_midNum": 24,
+                        "actionName_suffix": "_idle",
+                        "type": "singleFrame_batch"
+                    }
+                ]
+        }
+    ]
+}
+
+]

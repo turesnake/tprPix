@@ -37,6 +37,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
@@ -70,13 +71,8 @@ public:
                 const std::vector<AnimActionParam> &animActionParams_ );
 
     inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
-
-        if( this->animActions.find(actionName_) == this->animActions.end() ){
-            cout << "   error:   " << actionName_ << endl;
-        }
-
        tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
-       return  &this->animActions.at(actionName_);
+       return  this->animActions.at(actionName_).get();
     }
 
     inline const std::vector<GLuint> *get_texNames_pic_ptr() const {
@@ -107,7 +103,7 @@ private:
     //-- each frame --
     std::vector<FramePos>  framePoses {};
 
-    std::unordered_map<std::string, AnimAction> animActions {};
+    std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
 };
 
 

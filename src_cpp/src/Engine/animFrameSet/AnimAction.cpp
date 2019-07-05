@@ -7,10 +7,13 @@
  */
 #include "AnimAction.h"
 
+//------------------- C --------------------//
+#include <cmath>
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "AnimFrameSet.h"
+#include "esrc_time.h"
 
 
 using namespace std::placeholders;
@@ -29,13 +32,9 @@ void AnimAction::init(  const AnimFrameSet *animFrameSetPtr_,
     this->texNames_pic_ptr = animFrameSetPtr_->get_texNames_pic_ptr();
     this->texNames_shadow_ptr = animFrameSetPtr_->get_texNames_shadow_ptr();
     this->framePosesPtr = animFrameSetPtr_->get_framePosesPtr();
-
-
     this->isHaveShadow = isHaveShadow_;
     this->pixNum_per_frame = pixNum_per_frame_;
-
     this->totalFrameNum = param_.lFrameIdxs.size();
-    
     this->actionType = param_.actionType;
 
     //-----------------//
@@ -109,7 +108,8 @@ void AnimAction::update_once( AnimActionPvtData &pvtData_ ){
     
         pvtData_.currentIdx_for_frameIdxs++;
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
-        pvtData_.currentTimeStep = this->timeSteps.at( pvtData_.currentIdx_for_frameIdxs );
+        pvtData_.currentTimeStep = AnimAction::adjust_currentTimeStep_by_smoothDeltaTime(
+                                        this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs) );
     }
 }
 
@@ -132,8 +132,23 @@ void AnimAction::update_cycle( AnimActionPvtData &pvtData_ ){
                 pvtData_.currentIdx_for_frameIdxs++;
 
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
-        pvtData_.currentTimeStep = this->timeSteps.at( pvtData_.currentIdx_for_frameIdxs );
+        pvtData_.currentTimeStep = AnimAction::adjust_currentTimeStep_by_smoothDeltaTime(
+                                    this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs) );
     }
 }
 
 
+
+/* ===========================================================
+ *    adjust_currentTimeStep_by_smoothDeltaTime   [static]
+ * -----------------------------------------------------------
+ * 目前默认，excel数据中记录的 timeSteps，以 60pfs 为基准
+ * return:
+ *     调整过的 currentTimeStep
+ */
+size_t AnimAction::adjust_currentTimeStep_by_smoothDeltaTime( size_t currentTimeStep_ ){
+
+    double smoothDeltaTime = esrc::get_timer().get_smoothDeltaTime();
+    constexpr double mid = (1.0 / 60.0) * 5.0;
+    return static_cast<size_t>( floor( mid / smoothDeltaTime ) );
+}
