@@ -141,7 +141,7 @@ bool find_from_goInit_funcs( goSpecId_t goSpecId_ ){
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
                         const IntVec2 &mpos_,
-					    float fieldWeight_,
+					    double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &density_  ){
     

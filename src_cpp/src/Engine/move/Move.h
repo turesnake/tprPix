@@ -81,12 +81,12 @@ public:
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
 
-    inline void set_drag_targetFPos( const glm::vec2 &FPos_ ){
+    inline void set_drag_targetDPos( const glm::dvec2 &DPos_ ){
         tprAssert( this->moveType == MoveType::Drag );
-        if( FPos_ == this->targetFPos ){
+        if( DPos_ == this->targetDPos ){
             return;
         }
-        this->targetFPos = FPos_;
+        this->targetDPos = DPos_;
         this->isMoving = true;
     }
 
@@ -106,7 +106,7 @@ private:
 
 
     void crawl_renderUpdate_inn(const DirAxes &newDirAxes_,
-                                const glm::vec2 &speedV_ );
+                                const glm::dvec2 &speedV_ );
 
     //===== vals =====//
     GameObj      &goRef;
@@ -118,7 +118,8 @@ private:
     DirAxes  newDirAxes     {};  //- 本次渲染帧，新传入的 方向值（每一帧都被外部代码更新）
     DirAxes  currentDirAxes {};  //- 当前正在处理的  方向值。（只在节点帧被改写）
 
-    glm::vec2 targetFPos  {};
+    //glm::vec2 targetFPos  {};
+    glm::dvec2 targetDPos  {};
 
     F_RenderUpdate renderUpdataFunc {nullptr}; //- functor
                                                //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现

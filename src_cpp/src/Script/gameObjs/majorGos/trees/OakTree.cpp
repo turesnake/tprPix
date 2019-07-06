@@ -47,7 +47,7 @@ namespace OakTree_inn {//-------------- namespace: OakTree_inn -----------------
 
 
     //===== funcs =====//
-    size_t apply_a_oakId( int _age, float fieldWeight_, bool _isSingleTrunk );
+    size_t apply_a_oakId( int _age, double fieldWeight_, bool _isSingleTrunk );
 
 
 }//------------------ namespace: OakTree_inn end ------------------//
@@ -60,7 +60,7 @@ namespace OakTree_inn {//-------------- namespace: OakTree_inn -----------------
 void OakTree::init_in_autoMod(  goSpecId_t specID_,
                                 GameObj &goRef_,
                                 const IntVec2 &mpos_,
-					            float fieldWeight_,
+					            double fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 
@@ -225,7 +225,7 @@ namespace OakTree_inn {//-------------- namespace: OakTree_inn -----------------
  *                     apply_a_oakId
  * -----------------------------------------------------------
  */
-size_t apply_a_oakId( int _age, float fieldWeight_, bool _isSingleTrunk ){
+size_t apply_a_oakId( int _age, double fieldWeight_, bool _isSingleTrunk ){
     size_t  idx;
     size_t     randV = gameObjs::apply_a_simpleId( fieldWeight_, 83 );
 

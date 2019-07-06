@@ -35,8 +35,8 @@ public:
         }
 
     void set(   const IntVec2 &_fieldMPos, 
-                const float &_ecoObj_densitySeaLvlOff,
-                const std::vector<float> *_ecoObj_densityDivideValsPtr );
+                const double &_ecoObj_densitySeaLvlOff,
+                const std::vector<double> *_ecoObj_densityDivideValsPtr );
 
     inline int get_lvl() const {
         return this->lvl;

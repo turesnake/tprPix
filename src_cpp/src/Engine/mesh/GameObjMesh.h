@@ -68,7 +68,7 @@ public:
             this->picFixedZOff = 0.0; //- null
         }else{
             this->isPicFixedZOff = true;
-            this->picFixedZOff = ViewingBox::get_renderLayerZOff(layerType_);
+            this->picFixedZOff = static_cast<float>(ViewingBox::get_renderLayerZOff(layerType_));
         }
     }
     inline void set_pposOff( const glm::vec2 &pposOff_ ){

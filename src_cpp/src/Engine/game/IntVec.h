@@ -56,11 +56,11 @@ public:
     }
 
     //-- 地板除法，向低取节点值 --
-    //  -1- float 除法
+    //  -1- double 除法
     //  -2- math.floor()
-    inline IntVec2 floorDiv( float div_ ) const {
-        float fx = ( static_cast<float>(this->x) ) / div_;
-        float fy = ( static_cast<float>(this->y) ) / div_;
+    inline IntVec2 floorDiv( double div_ ) const {
+        double fx = ( static_cast<double>(this->x) ) / div_;
+        double fy = ( static_cast<double>(this->y) ) / div_;
         return IntVec2{ static_cast<int>(floor(fx)),
                         static_cast<int>(floor(fy)) };
     }
@@ -136,13 +136,13 @@ inline bool IntVec2::is_closeEnough( const IntVec2 &v1_, const IntVec2 &v2_, siz
 /* ===========================================================
  *                     floorDiv
  * -----------------------------------------------------------
- * -- 地板除运算 [通过 "float地板除"，解决了负数bug] --
- *  -1- float 除法
+ * -- 地板除运算 [通过 "double地板除"，解决了负数bug] --
+ *  -1- double 除法
  *  -2- math.floor()
  */
-inline IntVec2 floorDiv(  const IntVec2 &a_, float div_ ){
-    float fx = ( static_cast<float>(a_.x) ) / div_;
-    float fy = ( static_cast<float>(a_.y) ) / div_;
+inline IntVec2 floorDiv(  const IntVec2 &a_, double div_ ){
+    double fx = ( static_cast<double>(a_.x) ) / div_;
+    double fy = ( static_cast<double>(a_.y) ) / div_;
     return IntVec2{ static_cast<int>(floor(fx)),
                     static_cast<int>(floor(fy)) };
 }
@@ -151,15 +151,15 @@ inline IntVec2 floorDiv(  const IntVec2 &a_, float div_ ){
 /* ===========================================================
  *                       floorMod
  * -----------------------------------------------------------
- * -- 取模运算 [通过 "float地板除"， 解决了负数bug] --
- *  -1- float 除法
+ * -- 取模运算 [通过 "double地板除"， 解决了负数bug] --
+ *  -1- double 除法
  *  -2- math.floor()
  */
-inline IntVec2 floorMod( const IntVec2 &v_, float mod_ ){
-    float fx = ( static_cast<float>(v_.x) ) / mod_;
-    float fy = ( static_cast<float>(v_.y) ) / mod_;
-    float floorX = floor(fx) * mod_;
-    float floorY = floor(fy) * mod_;
+inline IntVec2 floorMod( const IntVec2 &v_, double mod_ ){
+    double fx = ( static_cast<double>(v_.x) ) / mod_;
+    double fy = ( static_cast<double>(v_.y) ) / mod_;
+    double floorX = floor(fx) * mod_;
+    double floorY = floor(fy) * mod_;
     return IntVec2{ v_.x - static_cast<int>(floor(floorX)),
                     v_.y - static_cast<int>(floor(floorY)) };
 }

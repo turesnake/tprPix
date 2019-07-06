@@ -22,13 +22,13 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 &_mpos,
-					float fieldWeight_,
+					double fieldWeight_,
 					const MapAltitude &alti_,
 					const Density &_density );
 
 
 void rebind_a_disk_Go( const DiskGameObj &_diskGo,
-                        float fieldWeight_,
+                        double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &_density  );
 

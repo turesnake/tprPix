@@ -114,8 +114,8 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &density_high_,
  *             init_densityDatas
  * -----------------------------------------------------------
  */
-void EcoSysPlan::init_densityDatas( float densitySeaLvlOff_, 
-                                const std::vector<float> &datas_ ){
+void EcoSysPlan::init_densityDatas( double densitySeaLvlOff_, 
+                                const std::vector<double> &datas_ ){
 
     tprAssert( !this->is_densityDivideVals_init );
     this->densitySeaLvlOff = densitySeaLvlOff_;
@@ -124,11 +124,11 @@ void EcoSysPlan::init_densityDatas( float densitySeaLvlOff_,
     tprAssert( datas_.size() == Density::get_idxNum()-1 );
     //-- 确认 每个元素值 不越界 --
     for( const auto &i : datas_ ){
-        tprAssert( (i>=-100.0f) && (i<=100.0f) );
+        tprAssert( (i>=-100.0) && (i<=100.0) );
     }
     //-- 确认 每个元素值 递增 --
-    float old {0.0f};
-    float neo {0.0f};
+    double old {0.0};
+    double neo {0.0};
     for( auto i=datas_.cbegin(); i!=datas_.cend(); i++ ){
         if( i == datas_.cbegin() ){
             old = *i;
@@ -156,7 +156,7 @@ void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
     tprAssert( (this->is_goSpecIdPools_init==false) && 
             (this->is_applyPercents_init==false) );
     this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
-    this->applyPercents.resize( Density::get_idxNum(), 0.0f );
+    this->applyPercents.resize( Density::get_idxNum(), 0.0 );
     this->is_goSpecIdPools_init = true;
     this->is_applyPercents_init = true;
 }
@@ -167,7 +167,7 @@ void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
  * -----------------------------------------------------------
  */
 void EcoSysPlan::insert(const Density &density_, 
-                    float applyPercent_,
+                    double applyPercent_,
                     const std::vector<EcoEnt> &ecoEnts_ ){
 
     tprAssert( this->is_applyPercents_init ); //- MUST

@@ -29,15 +29,15 @@ void Camera::RenderUpdate(){
         return;
     }
 
-    glm::vec2 off { this->targetFPos.x - this->currentFPos.x, 
-                    this->targetFPos.y - this->currentFPos.y };
+    glm::dvec2 off { this->targetDPos.x - this->currentDPos.x, 
+                    this->targetDPos.y - this->currentDPos.y };
     //-- 若非常接近，直接同步 --
-    float criticalVal { 2.0f }; 
+    double criticalVal { 2.0 }; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
     if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
-        this->targetFPos.x = this->currentFPos.x;
-        this->targetFPos.y = this->currentFPos.y;
+        this->targetDPos.x = this->currentDPos.x;
+        this->targetDPos.y = this->currentDPos.y;
                             //- 注意 此2句 写法：在足够靠近时，camera放弃继续靠近，但此时并未对齐
         this->isMoving = false;
         return;
@@ -46,15 +46,18 @@ void Camera::RenderUpdate(){
     //---------------------------//
     //  为了解决游戏中 “chunk间白线” 问题
     //  限制 camera 每帧位移，都取整于 0.01 
+    //
+    //     但这可能导致 win 中，画面位移卡顿... 猜测
+    //
     //---------------------------//    
-    float alignX = this->approachPercent * off.x;
-    float alignY = this->approachPercent * off.y;
-    alignX = floor(alignX*100.0f) / 100.0f;
-    alignY = floor(alignY*100.0f) / 100.0f;
+    double alignX = this->approachPercent * off.x;
+    double alignY = this->approachPercent * off.y;
+        //alignX = floor(alignX*100.0) / 100.0;
+        //alignY = floor(alignY*100.0) / 100.0;
     //-----------
-    this->currentFPos.x += alignX;
-    this->currentFPos.y += alignY;
-    this->currentFPos.z =  -this->currentFPos.y + (0.5f * ViewingBox::z); //-- IMPORTANT --
+    this->currentDPos.x += alignX;
+    this->currentDPos.y += alignY;
+    this->currentDPos.z =  -this->currentDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
 }
 
 
@@ -65,8 +68,8 @@ void Camera::RenderUpdate(){
  */
 glm::mat4 &Camera::update_mat4_view(){
 
-    this->mat4_view = glm::lookAt( this->currentFPos, 
-                                (this->currentFPos + cameraFront), 
+    this->mat4_view = glm::lookAt( glm_dvec3_2_vec3(this->currentDPos), 
+                                (glm_dvec3_2_vec3(this->currentDPos) + cameraFront), 
                                 cameraUp );
     return this->mat4_view;
 }
@@ -81,15 +84,15 @@ glm::mat4 &Camera::update_mat4_projection(){
 
     //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
     //   所以不推荐，将 ow/oh 写成定值
-    float ow = 0.5f * ViewingBox::gameSZ.x;  //- 横向边界半径（像素）
-    float oh = 0.5f * ViewingBox::gameSZ.y;  //- 纵向边界半径（像素）
+    float ow = 0.5f * static_cast<float>(ViewingBox::gameSZ.x);  //- 横向边界半径（像素）
+    float oh = 0.5f * static_cast<float>(ViewingBox::gameSZ.y);  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
     // 基于 currentFPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
     float zNear_relative  = 0.0f;  //- 负数也接受
-    float zFar_relative   = ViewingBox::z;
+    float zFar_relative   = static_cast<float>(ViewingBox::z);
 
     this->mat4_projection = glm::ortho( -ow,   //-- 左边界
                                         ow,   //-- 右边界
@@ -97,7 +100,9 @@ glm::mat4 &Camera::update_mat4_projection(){
                                         oh,   //-- 上边界
                                         zNear_relative, //-- 近平面
                                         zFar_relative  //-- 远平面
-                                );
+                                    );
+        //-- 这组数据 其实可以被制作成 double ...
+
     return this->mat4_projection;
 }
 

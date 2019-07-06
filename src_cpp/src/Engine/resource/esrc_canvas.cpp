@@ -91,7 +91,7 @@ void draw_groundCanvas(){
     glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("u_time"), 
                 static_cast<float>(glfwGetTime()) ); //- 1-float
 
-    const glm::vec2 cameraFPos = get_camera().get_camera2DFPos();
+    const glm::vec2 cameraFPos = glm_dvec2_2_vec2(get_camera().get_camera2DDPos());
 
 
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
@@ -102,7 +102,7 @@ void draw_groundCanvas(){
 
     canvas_inn::groundCanvasUPtr->set_translate( canvasFPos.x,
                                       canvasFPos.y,
-                                      get_camera().get_zFar() + ViewingBox::ground_zOff );
+                                      static_cast<float>(get_camera().get_zFar() + ViewingBox::ground_zOff) );
     
     glUniform2f(canvas_inn::groundCanvasUPtr->get_uniform_location("canvasCFPos"), 
                     canvasFPos.x / PIXES_PER_CHUNK,
@@ -126,7 +126,7 @@ void draw_waterAnimCanvas(){
     glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("u_time"), 
                     static_cast<float>(glfwGetTime()) ); //- 1-float
 
-    const glm::vec2 cameraFPos = get_camera().get_camera2DFPos();
+    const glm::vec2 cameraFPos = glm_dvec2_2_vec2(get_camera().get_camera2DDPos());
 
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
     float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
@@ -136,7 +136,7 @@ void draw_waterAnimCanvas(){
 
     canvas_inn::waterAnimCanvasUPtr->set_translate(canvasFPos.x,
                                         canvasFPos.y,
-                                        get_camera().get_zFar() + ViewingBox::waterAnim_zOff );
+                                        static_cast<float>(get_camera().get_zFar() + ViewingBox::waterAnim_zOff) );
                                         //- 这一步是正确的，canvas 与 window 成功对齐，
                                         //  进而可知，SCR_WIDTH，SCR_HEIGHT 的使用也是正确的
 
@@ -147,10 +147,10 @@ void draw_waterAnimCanvas(){
     
     //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
     GameSeed &gameSeedRef = get_gameSeed();
-    const glm::vec2 &altiSeed_pposOffSeaLvl = gameSeedRef.get_altiSeed_pposOffSeaLvl();
-    const glm::vec2 &altiSeed_pposOffBig    = gameSeedRef.get_altiSeed_pposOffBig();
-    const glm::vec2 &altiSeed_pposOffMid    = gameSeedRef.get_altiSeed_pposOffMid();
-    const glm::vec2 &altiSeed_pposOffSml    = gameSeedRef.get_altiSeed_pposOffSml();
+    const glm::dvec2 &altiSeed_pposOffSeaLvl = gameSeedRef.get_altiSeed_pposOffSeaLvl();
+    const glm::dvec2 &altiSeed_pposOffBig    = gameSeedRef.get_altiSeed_pposOffBig();
+    const glm::dvec2 &altiSeed_pposOffMid    = gameSeedRef.get_altiSeed_pposOffMid();
+    const glm::dvec2 &altiSeed_pposOffSml    = gameSeedRef.get_altiSeed_pposOffSml();
 
     glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
     glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
@@ -159,20 +159,20 @@ void draw_waterAnimCanvas(){
         canvas_inn::is_waterAnim_baseUniforms_transmited = true;
 
         glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffSeaLvl"), 
-                    altiSeed_pposOffSeaLvl.x,
-                    altiSeed_pposOffSeaLvl.y ); //- 2-float
+                    static_cast<float>(altiSeed_pposOffSeaLvl.x),
+                    static_cast<float>(altiSeed_pposOffSeaLvl.y) ); //- 2-float
         
         glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffBig"), 
-                    altiSeed_pposOffBig.x,
-                    altiSeed_pposOffBig.y ); //- 2-float
+                    static_cast<float>(altiSeed_pposOffBig.x),
+                    static_cast<float>(altiSeed_pposOffBig.y) ); //- 2-float
         
         glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffMid"), 
-                    altiSeed_pposOffMid.x,
-                    altiSeed_pposOffMid.y ); //- 2-float
+                    static_cast<float>(altiSeed_pposOffMid.x),
+                    static_cast<float>(altiSeed_pposOffMid.y) ); //- 2-float
 
         glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("altiSeed_pposOffSml"), 
-                    altiSeed_pposOffSml.x,
-                    altiSeed_pposOffSml.y ); //- 2-float
+                    static_cast<float>(altiSeed_pposOffSml.x),
+                    static_cast<float>(altiSeed_pposOffSml.y) ); //- 2-float
     }
 
     canvas_inn::waterAnimCanvasUPtr->draw();

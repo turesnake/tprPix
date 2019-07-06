@@ -26,7 +26,7 @@
 #include "IntVec.h" 
 #include "GameObjType.h" 
 #include "ID_Manager.h" 
-#include "AltiRange.h"
+#include "GoAltiRange.h"
 #include "MapCoord.h"
 #include "EcoSysPlanType.h"
 #include "fieldKey.h"
@@ -131,9 +131,9 @@ struct Sec_diskMapEnt{
 
 //-- 
 struct MajorGO_in_MapEnt{
-    AltiRange  lAltiRange    {};      
+    GoAltiRange  lGoAltiRange    {};      
                     // 本mapent 所在的 ceh 的相对高度区间
-                    // 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ceh 当前altirange值
+                    // 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ceh 当前 goAltirange值
     bool       isCarryAffect {false}; 
                     // 本mapent 所在的 ceh 是否携带affect
     // 可拓展...
@@ -190,7 +190,7 @@ public:
     
     //=============== data: 二级信息 ===============//
     //-- 在最新设计中，major/item/surface 体系被弱化
-    //   altiRange 体系崛起。
+    //   goAltiRange 体系崛起。
     //   现在，支持 一个 mapent 容纳多个 go实例 
     //goid_t  major_go_id   {NULLID}; //- 主体go id. (实例)
     //goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)

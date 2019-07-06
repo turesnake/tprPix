@@ -49,10 +49,10 @@ bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
     // 在这种情景里， 本函数就不会被调用
 
     //------------------------------//
-    MapCoord  cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
-    AltiRange currentAltiRange {};        //- each ceh abs AltiRange.
-    MemMapEnt *mapEntPtr       {};        //- 目标 mapent
-    GameObj   &doGoRef = this->goRef; //- 碰撞检测 主动发起方
+    MapCoord    cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
+    GoAltiRange currentGoAltiRange {};      //- each ceh abs GoAltiRange.
+    MemMapEnt   *mapEntPtr       {};        //- 目标 mapent
+    GameObj     &doGoRef = this->goRef; //- 碰撞检测 主动发起方
 
     //----------------------
     IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
@@ -69,10 +69,9 @@ bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
     //------------------------------//
     // 检测当前移动方向的 所有 addsEnt
     //------------------------------//
-    //if( doGoRef.goMeshs.at("root").isCollide ){
     if( doGoRef.get_goMeshRef("root").isCollide ){
 
-        currentAltiRange.set_by_addAlti( doCehRef.lAltiRange, doGoRef.goPos.get_alti() ); 
+        currentGoAltiRange.set_by_addAlti( doCehRef.lGoAltiRange, doGoRef.goPos.get_alti() ); 
 
         cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
 
@@ -88,7 +87,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
                 GameObj &beGoRef = esrc::get_goRef( majorGoPair.first ); //- 目标mapent 中存储的 major_go (被动go)
 
                 //-- 没撞到，检查下一个 --
-                if( currentAltiRange.is_collide( beGoRef.get_currentAltiRange( goDataRef.lAltiRange ) )==false ){
+                if( currentGoAltiRange.is_collide( beGoRef.get_currentGoAltiRange( goDataRef.lGoAltiRange ) )==false ){
                     continue;
                 }
                         
@@ -153,7 +152,7 @@ bool Collision::collide_for_crawl( const NineBoxIdx &nbIdx_ ){
     for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
         mapEntPtr = esrc::get_memMapEntPtr( i+cesMCPos ); //- 目标 mapent
         mapEntPtr->major_gos.insert({ doGoRef.id,
-                        MajorGO_in_MapEnt{ doCehRef.lAltiRange, doCehRef.isCarryAffect } });
+                        MajorGO_in_MapEnt{ doCehRef.lGoAltiRange, doCehRef.isCarryAffect } });
     }//-- each add EntOff
 
     //-----------------//

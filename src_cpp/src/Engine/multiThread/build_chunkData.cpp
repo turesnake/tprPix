@@ -46,17 +46,17 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     //----------- 用于 calc_pixAltis ------------//
     //- 在未来，freq 这组值也会收到 ecosys 影响 --
-    const float freqSeaLvl { 0.05f };
-    const float freqBig    { 0.4f };
-    const float freqMid    { 1.6f };
-    const float freqSml    { 4.0f };
+    const double freqSeaLvl { 0.05 };
+    const double freqBig    { 0.4 };
+    const double freqMid    { 1.6 };
+    const double freqSml    { 4.0 };
 
     // 暂未被使用...
-    //const float zOffBig  { 0.2f };
-    //const float zOffMid  { 7.5f };
-    //const float zOffSml  { 17.8f };
+    //const double zOffBig  { 0.2 };
+    //const double zOffMid  { 7.5 };
+    //const double zOffSml  { 17.8 };
 
-    const glm::vec2  worldCenter { 0.0f, 0.0f };
+    const glm::dvec2  worldCenter { 0.0, 0.0 };
 
     //----------- 用于 calc_chunkData ------------//
 
@@ -123,10 +123,10 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     //===== funcs =====//
     void calc_pixAltis(     const IntVec2 &chunkMPos_, 
-                            std::vector<float> &pixAltis_ );
+                            std::vector<double> &pixAltis_ );
 
     void calc_chunkData(    const IntVec2 &chunkMPos_, 
-                            const std::vector<float> &pixAltis_,
+                            const std::vector<double> &pixAltis_,
                             ChunkData &chunkDataRef_ ); 
                 //- 在未来，要改名
 
@@ -183,7 +183,7 @@ void build_chunkData_main( const Job &job_ ){
     //--------------------------//
     //       pixAltis
     //--------------------------//
-    std::vector<float> pixAltis {}; //- 仅内部使用
+    std::vector<double> pixAltis {}; //- 仅内部使用
     bcd_inn::calc_pixAltis( chunkMPos, pixAltis );
 
     //--------------------------//
@@ -215,59 +215,59 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
  * -----------------------------------------------------------
  */
 void calc_pixAltis( const IntVec2 &chunkMPos_, 
-                    std::vector<float> &pixAltis_ ){
+                    std::vector<double> &pixAltis_ ){
 
     IntVec2      chunkPPos = mpos_2_ppos(chunkMPos_);
-    glm::vec2    pixCFPos {}; //- 以 chunk 为晶格的 fpos
+    glm::dvec2   pixCFPos {}; //- 以 chunk 为晶格的 dpos
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
-    glm::vec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
-    glm::vec2  altiSeed_pposOffMid = gameSeedRef.get_altiSeed_pposOffMid();
-    glm::vec2  altiSeed_pposOffSml = gameSeedRef.get_altiSeed_pposOffSml();
+    glm::dvec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
+    glm::dvec2  altiSeed_pposOffMid = gameSeedRef.get_altiSeed_pposOffMid();
+    glm::dvec2  altiSeed_pposOffSml = gameSeedRef.get_altiSeed_pposOffSml();
                             //-- 此处有问题，从 job线程 访问 gameSeed，不够安全...
 
-    float      pixDistance {}; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
-    float      seaLvl {};
+    double      pixDistance {}; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
+    double      seaLvl {};
 
-    float    pnValBig {};
-    float    pnValMid {};
-    float    pnValSml {};
-    float    altiVal  {};  //- target val
+    double    pnValBig {};
+    double    pnValMid {};
+    double    pnValSml {};
+    double    altiVal  {};  //- target val
 
     size_t   pixIdx {};
 
-    pixAltis_.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0f );
+    pixAltis_.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 );
     for( int h=0; h<PIXES_PER_CHUNK; h++ ){
         for( int w=0; w<PIXES_PER_CHUNK; w++ ){//- each pix in chunk
 
-            pixCFPos.x = static_cast<float>(chunkPPos.x+w) / PIXES_PER_CHUNK;
-            pixCFPos.y = static_cast<float>(chunkPPos.y+h) / PIXES_PER_CHUNK;
+            pixCFPos.x = static_cast<double>(chunkPPos.x+w) / static_cast<double>(PIXES_PER_CHUNK);
+            pixCFPos.y = static_cast<double>(chunkPPos.y+h) / static_cast<double>(PIXES_PER_CHUNK);
             //------------------//
             //     seaLvl
             //------------------//
             pixDistance = glm::distance( pixCFPos, worldCenter );
-            pixDistance /= 10.0f;
+            pixDistance /= 10.0;
             //--------
-            seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0f; // [-50.0, 50.0]
+            seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
             seaLvl += pixDistance;
-            if( seaLvl < 0.0f ){ //- land
-                seaLvl *= 0.3f;  // [-15.0, 50.0]
+            if( seaLvl < 0.0 ){ //- land
+                seaLvl *= 0.3;  // [-15.0, 50.0]
             }
             //------------------//
             //    alti.val
             //------------------//
             //--- 使用速度最快的 2D-simplex-noise ---
-            pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0f - seaLvl; // [-100.0, 100.0]
-            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0f  - seaLvl; // [-50.0, 50.0]
-            pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0f  - seaLvl; // [-20.0, 20.0]
+            pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
+            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
+            pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
             //---------
             altiVal = floor(pnValBig + pnValMid + pnValSml);
 
             //------- 抹平头尾 -------//
-            if( altiVal > 100.0f ){
-                altiVal = 100.0f;
-            }else if( altiVal < -100.0f ){
-                altiVal = -100.0f;
+            if( altiVal > 100.0 ){
+                altiVal = 100.0;
+            }else if( altiVal < -100.0 ){
+                altiVal = -100.0;
             }
             // now, altiVal: [-100.0, 100.0]
             //------------------//
@@ -286,7 +286,7 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
  * -- 生成 chunkData 中数据
  */
 void calc_chunkData(const IntVec2 &chunkMPos_, 
-                    const std::vector<float> &pixAltis_,
+                    const std::vector<double> &pixAltis_,
                     ChunkData &chunkDataRef_ ){
 
     RGBA      *texBufHeadPtr {}; //- mapTex

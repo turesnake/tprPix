@@ -85,7 +85,7 @@ public:
                                     ShaderProgram     *pixShaderPtr_,
                                     ShaderProgram     *shadowShaderPtr_,
                                     const glm::vec2   pposOff_,
-                                    float             off_z_,
+                                    double             off_z_,
                                     bool              isVisible_,
                                     bool              isCollide_,
                                     bool              isFlipOver_ );
@@ -118,10 +118,10 @@ public:
         return this->rootColliEntHeadPtr;
     }
 
-    //- 获得 目标 ces 当前 绝对 altiRange
-    //- 参数 _ces_altiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
-    inline AltiRange get_currentAltiRange( const AltiRange &ces_altiRange_ ){
-        return ( ces_altiRange_ + this->goPos.get_alti() );
+    //- 获得 目标 ces 当前 绝对 goAltiRange
+    //- 参数 _ces_goAltiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
+    inline GoAltiRange get_currentGoAltiRange( const GoAltiRange &ces_goAltiRange_ ){
+        return ( ces_goAltiRange_ + this->goPos.get_alti() );
     }
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
         return this->chunkKeys;
@@ -171,7 +171,7 @@ public:
     goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
                               //- 暂未被使用
     
-    float        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+    double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
     GODirection  direction {GODirection::Left};  //- 朝向
 
     //---- go 状态 ----//

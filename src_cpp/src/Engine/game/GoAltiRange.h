@@ -1,5 +1,5 @@
 /*
- * ========================= AltiRange.h ==========================
+ * ========================= GoAltiRange.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.01.05
  *                                        MODIFY -- 
@@ -20,11 +20,11 @@
 //  0 <= val <= 45:  major   -- (u8_t) [0, 45]
 //  val ==     -1:  item    -- (u8_t) 254
 //  val ==     -2:  surface -- (u8_t) 253 
-class AltiRange{
+class GoAltiRange{
 public:
     //---- constructor -----//
-    AltiRange() = default;
-    AltiRange( char low_, char high_ ):
+    GoAltiRange() = default;
+    GoAltiRange( char low_, char high_ ):
         low(low_),
         high(high_)
         { tprAssert( (low<=high) && (low<=jumpLimit) ); }
@@ -39,16 +39,16 @@ public:
         high = high_;
     }
 
-    // 在一个 给定 AltiRange值的基础上，类加上一个 addAlti_.
+    // 在一个 给定 GoAltiRange值的基础上，类加上一个 addAlti_.
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
-    inline void set_by_addAlti( const AltiRange &a_, float addAlti_ ){
-        tprAssert( (addAlti_<static_cast<float>(jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=jumpLimit );
+    inline void set_by_addAlti( const GoAltiRange &a_, double addAlti_ ){
+        tprAssert( (addAlti_ < static_cast<double>(jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=jumpLimit );
         low  =  a_.low  + static_cast<u8_t>(addAlti_);
         high =  a_.high + static_cast<u8_t>(addAlti_);
     }
 
-    inline bool is_collide( const AltiRange& a_ ){
+    inline bool is_collide( const GoAltiRange& a_ ){
         bool rbool;
         if( low == a_.low ){
             return true;
@@ -72,45 +72,45 @@ public:
 };
 
 //-- static --
-inline char AltiRange::jumpLimit = 45;
-inline u8_t AltiRange::diskAlti_item    = 254;
-inline u8_t AltiRange::diskAlti_surface = 253;
+inline char GoAltiRange::jumpLimit = 45;
+inline u8_t GoAltiRange::diskAlti_item    = 254;
+inline u8_t GoAltiRange::diskAlti_surface = 253;
             //- 原本是 255/254; 但这样就会与 AnimFrameSet 中的 rootAnchor 信息冲突
             //- 故暂时下调1，改为 254/253
             //  在未来。随着 碰撞系统的不断完善。 surface_go/item_go 这组设计很可能会被取代...
 
 
 //-- item / surface --//
-inline const AltiRange altiRange_item    {  static_cast<char>(AltiRange::diskAlti_item), 
-                                            static_cast<char>(AltiRange::diskAlti_item) };
-inline const AltiRange altiRange_surface {  static_cast<char>(AltiRange::diskAlti_surface), 
-                                            static_cast<char>(AltiRange::diskAlti_surface) };
+inline const GoAltiRange goAltiRange_item    {  static_cast<char>(GoAltiRange::diskAlti_item), 
+                                            static_cast<char>(GoAltiRange::diskAlti_item) };
+inline const GoAltiRange goAltiRange_surface {  static_cast<char>(GoAltiRange::diskAlti_surface), 
+                                            static_cast<char>(GoAltiRange::diskAlti_surface) };
 
 
 /* ===========================================================
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline AltiRange operator + ( const AltiRange &a_, const AltiRange &b_ ){
-    tprAssert( (a_.low+b_.low)<=AltiRange::jumpLimit );
-    return  AltiRange{  static_cast<char>(a_.low+b_.low),
+inline GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ ){
+    tprAssert( (a_.low+b_.low)<=GoAltiRange::jumpLimit );
+    return  GoAltiRange{  static_cast<char>(a_.low+b_.low),
                         static_cast<char>(a_.high+b_.high) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
-inline AltiRange operator + ( const AltiRange &a_, float addAlti_ ){
-    tprAssert( (addAlti_<static_cast<float>(AltiRange::jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=AltiRange::jumpLimit );
-    return  AltiRange{  static_cast<char>(a_.low  + static_cast<char>(addAlti_)),
+inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ ){
+    tprAssert( (addAlti_ < static_cast<double>(GoAltiRange::jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=GoAltiRange::jumpLimit );
+    return  GoAltiRange{  static_cast<char>(a_.low  + static_cast<char>(addAlti_)),
                         static_cast<char>(a_.high + static_cast<char>(addAlti_)) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
 
 /* ===========================================================
- *                 is_AltiRange_collide
+ *                 is_GoAltiRange_collide
  * -----------------------------------------------------------
  */
-inline bool is_AltiRange_collide( const AltiRange& a_, const AltiRange& b_ ){
+inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_ ){
     if( a_.low == b_.low ){
         return true;
     }else if( a_.low < b_.low ){

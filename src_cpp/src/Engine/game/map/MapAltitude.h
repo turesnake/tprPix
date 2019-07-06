@@ -19,11 +19,11 @@ class MapAltitude{
 public:
     MapAltitude() = default;
 
-    explicit MapAltitude( float val_ ){
+    explicit MapAltitude( double val_ ){
         this->set( val_ );
     }
     
-    void set( float altiVal_from_gpgpu_ );
+    void set( double altiVal_from_gpgpu_ );
 
     //-- 仅表达是否为land，很可能为 临水区域 --
     inline bool is_land() const {

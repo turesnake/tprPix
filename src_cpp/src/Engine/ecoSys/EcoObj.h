@@ -47,8 +47,8 @@ public:
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
     // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, float randV_ ) const {
-        size_t randV = static_cast<size_t>(floor( randV_ * 5.1f + 971.3f ));
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ) const {
+        size_t randV = static_cast<size_t>(floor( randV_ * 5.1 + 971.3 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
@@ -59,22 +59,22 @@ public:
     inline const EcoSysPlanType &get_ecoSysPlanType() const {
         return this->ecoSysPlanType;
     }
-    inline const float &get_applyPercent( const Density &density_ ) const {
+    inline const double &get_applyPercent( const Density &density_ ) const {
         return this->applyPercentsPtr->at(density_.get_idx());
     }
-    inline const float &get_densitySeaLvlOff() const {
+    inline const double &get_densitySeaLvlOff() const {
         return this->densitySeaLvlOff;
     }
    inline const std::vector<RGBA> *get_landColorsPtr() const {
        return this->landColorsPtr;
    }
-    inline const std::vector<float> *get_densityDivideValsPtr() const {
+    inline const std::vector<double> *get_densityDivideValsPtr() const {
         return this->densityDivideValsPtr;
     }
     inline const sectionKey_t &get_sectionKey() const {
         return this->sectionKey;
     }
-    inline const float &get_weight() const {
+    inline const double &get_weight() const {
         return this->weight;
     }
     inline const occupyWeight_t &get_occupyWeight() const {
@@ -95,7 +95,7 @@ private:
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
 
-    float weight {};  //- 根据 simplexNoise 生成的 权重值。[-100.0, 100.0]
+    double weight {};  //- 根据 simplexNoise 生成的 权重值。[-100.0, 100.0]
                       // [just mem] 
 
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
@@ -114,13 +114,13 @@ private:
     //-- 用 density.get_idx() 来遍历
     //  实际数据 存储在 ecosysPlan 实例中，此处仅保存 只读指针 --
     const std::vector<RGBA>   *landColorsPtr {};
-    const std::vector<float>  *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
-    const std::vector<float>  *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
+    const std::vector<double>  *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
+    const std::vector<double>  *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
                         
     //-- 独立数据 --
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
 
-    float           densitySeaLvlOff  {0.0f}; 
+    double           densitySeaLvlOff  {0.0}; 
 };
 
 

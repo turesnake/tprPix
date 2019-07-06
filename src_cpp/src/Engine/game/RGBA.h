@@ -9,7 +9,6 @@
  */
 #ifndef TPR_RGBA_H
 #define TPR_RGBA_H
-
 //------------------- C --------------------//
 #include <cmath>
 
@@ -136,15 +135,15 @@ inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ){
  * 将两个颜色 线性混合
  * param: aPercent_ -- 颜色 a_ 占了多少百分比 [0.0, 1.0]
  */
-inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, float aPercent_ ){
+inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ){
 
-    tprAssert( (aPercent_>=0.0f) && (aPercent_<=1.0f) );
+    tprAssert( (aPercent_>=0.0) && (aPercent_<=1.0) );
 
-    float bPercent = 1.0f - aPercent_;
+    double bPercent = 1.0 - aPercent_;
 
-    float r = static_cast<float>(a_.r)*aPercent_ + static_cast<float>(b_.r)*bPercent;
-    float g = static_cast<float>(a_.g)*aPercent_ + static_cast<float>(b_.g)*bPercent;
-    float b = static_cast<float>(a_.b)*aPercent_ + static_cast<float>(b_.b)*bPercent;
+    double r = static_cast<double>(a_.r)*aPercent_ + static_cast<double>(b_.r)*bPercent;
+    double g = static_cast<double>(a_.g)*aPercent_ + static_cast<double>(b_.g)*bPercent;
+    double b = static_cast<double>(a_.b)*aPercent_ + static_cast<double>(b_.b)*bPercent;
     //-- 默认不处理 RGBA.a --
 
     return RGBA {   static_cast<u8_t>(r), 
@@ -161,26 +160,20 @@ inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, float aPercent_ ){
  *  假设 a_.a 永远等于 255， 通过 参数 _bPercent，来调节 正片叠底 程度
  * param: bPercent_ -- 正片叠底 的 程度 [0.0, 1.0]
  */
-inline RGBA multiply( const RGBA &a_, const RGBA &b_, float bPercent_ ){
+inline RGBA multiply( const RGBA &a_, const RGBA &b_, double bPercent_ ){
 
-    tprAssert( (bPercent_>=0.0f) && (bPercent_<=1.0f) );
+    tprAssert( (bPercent_>=0.0) && (bPercent_<=1.0) );
 
-    float r = static_cast<float>(a_.r) * static_cast<float>(b_.r) / 255.0f;
-    float g = static_cast<float>(a_.g) * static_cast<float>(b_.g) / 255.0f;
-    float b = static_cast<float>(a_.b) * static_cast<float>(b_.b) / 255.0f;
+    double r = static_cast<double>(a_.r) * static_cast<double>(b_.r) / 255.0;
+    double g = static_cast<double>(a_.g) * static_cast<double>(b_.g) / 255.0;
+    double b = static_cast<double>(a_.b) * static_cast<double>(b_.b) / 255.0;
 
     return rgba::linear_blend(  a_,
                                 RGBA {  static_cast<u8_t>(r), 
                                         static_cast<u8_t>(g),
                                         static_cast<u8_t>(b),
                                         255 },
-                                (1.0f-bPercent_) );
-    /*
-    return RGBA {   static_cast<u8_t>(r), 
-                    static_cast<u8_t>(g),
-                    static_cast<u8_t>(b),
-                    255 };
-    */
+                                (1.0-bPercent_) );
 }
 
 

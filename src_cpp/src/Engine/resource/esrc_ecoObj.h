@@ -28,8 +28,8 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ );
 std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t sectionkey_ );
 const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_ );
 
-goSpecId_t atom_ecoObj_apply_a_rand_goSpecId( sectionKey_t sectionkey_, size_t densityIdx_, float randV_ );
-float atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &density_ );
+goSpecId_t atom_ecoObj_apply_a_rand_goSpecId( sectionKey_t sectionkey_, size_t densityIdx_, double randV_ );
+double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &density_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

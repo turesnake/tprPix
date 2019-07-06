@@ -145,7 +145,7 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_
  *          atom_ecoObj_apply_a_rand_goSpecId    [-READ-]
  * -----------------------------------------------------------
  */
-goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t densityIdx_, float randV_ ){
+goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t densityIdx_, double randV_ ){
     goSpecId_t id {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
@@ -160,8 +160,8 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t de
  * -----------------------------------------------------------
  * -- 更加精细的 元素数据 只读访问 接口
  */
-float atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_density ){
-    float val {};
+double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_density ){
+    double val {};
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
@@ -169,9 +169,6 @@ float atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_de
     }
     return val;
 }
-
-
-
 
 }//---------------------- namespace: esrc -------------------------//
 

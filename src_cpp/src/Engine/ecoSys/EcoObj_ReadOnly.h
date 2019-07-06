@@ -16,8 +16,8 @@
 class EcoObj_ReadOnly{
 public:
     sectionKey_t   sectionKey       {};
-    float          densitySeaLvlOff {};
-    const std::vector<float> *densityDivideValsPtr {};
+    double         densitySeaLvlOff {};
+    const std::vector<double> *densityDivideValsPtr {};
 };
 
 #endif 

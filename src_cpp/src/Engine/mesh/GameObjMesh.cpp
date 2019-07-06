@@ -60,13 +60,10 @@ void GameObjMesh::RenderUpdate(){
     this->picMesh.refresh_scale_auto();
     switch (this->picRenderLayerType){
         case RenderLayerType::MajorGoes:
-            //esrc::renderPool_goMeshs_pic.insert({   this->picMesh.get_render_z() + this->off_z , 
-            //                                        this->picMesh.getnc_ChildMeshPtr() });
             esrc::insert_2_renderPool_goMeshs_pic(  this->picMesh.get_render_z() + this->off_z , 
                                                     this->picMesh.getnc_ChildMeshPtr() );
             break;
         case RenderLayerType::MapSurfaces:
-            //esrc::renderPool_mapSurfaces.push_back( this->picMesh.getnc_ChildMeshPtr() );
             esrc::pushback_2_renderPool_mapSurfaces( this->picMesh.getnc_ChildMeshPtr() );
             break;
         default:

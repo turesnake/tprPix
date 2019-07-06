@@ -103,7 +103,7 @@ public:
     inline const occupyWeight_t &get_occupyWeight() const {
         return this->occupyWeight;
     }
-    inline const float &get_weight() const {
+    inline const double &get_weight() const {
         return this->weight;
     }
 
@@ -122,11 +122,11 @@ private:
     IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
                                 //- 绝对 mpos 坐标。
 
-    glm::vec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
+    glm::dvec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
-    float   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
-    float   weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+    double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
+    double   weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
                       // [just mem] 
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]

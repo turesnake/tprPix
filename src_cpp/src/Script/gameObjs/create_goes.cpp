@@ -33,7 +33,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 &mpos_,
-					float fieldWeight_,
+					double fieldWeight_,
 					const MapAltitude &alti_,
 					const Density &density_ ){
 
@@ -67,7 +67,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
 void rebind_a_disk_Go( const DiskGameObj &diskGo_,
-                        float fieldWeight_,
+                        double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &density_  ){
 

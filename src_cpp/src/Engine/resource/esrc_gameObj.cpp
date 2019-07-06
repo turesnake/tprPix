@@ -134,15 +134,15 @@ void realloc_active_goes(){
 
     std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
 
-    glm::vec2 v    {};
-    float distance {};
-    float range    { 1600.0f }; //- 激活圈 半径的平方
+    glm::dvec2 v    {};
+    double distance {};
+    double range    { 1600.0 }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_active ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DFPos() - goRef.goPos.get_currentFPos();
+        v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
         distance = v.x * v.x + v.y * v.y;
         //-- 将离开 激活圈的 go 移动到 激活组 --
         if( distance > range ){
@@ -168,15 +168,15 @@ void realloc_inactive_goes(){
 
     std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
 
-    glm::vec2 v    {};
-    float distance {};
-    float range    { 1600.0f }; //- 激活圈 半径的平方
+    glm::dvec2 v    {};
+    double distance {};
+    double range    { 1600.0 }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_inactive ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DFPos() - goRef.goPos.get_currentFPos();
+        v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
         distance = v.x * v.x + v.y * v.y;
         //-- 将进入 激活圈的 go 移动到 激活组 --
         if( distance <= range ){
@@ -261,7 +261,7 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
         mapEntPtr = esrc::get_memMapEntPtr( colliEntMCPos ); //- 目标 mapent 访问权 --
         //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
         mapEntPtr->major_gos.insert({   goRef_.id, 
-                                        MajorGO_in_MapEnt{ cehPtr->lAltiRange, cehPtr->isCarryAffect } });
+                                        MajorGO_in_MapEnt{ cehPtr->lGoAltiRange, cehPtr->isCarryAffect } });
     }
 }
 

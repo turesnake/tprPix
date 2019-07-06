@@ -99,15 +99,17 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
     _inn::renderPool_mapEntSlices.push_back( mesh ); //- copy
     Mesh &meshRef = _inn::renderPool_mapEntSlices.back();
 
+    glm::vec2 fpos = glm_dvec2_2_vec2( mcpos_.get_dpos() );
+
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &esrc::get_rect_shader() );
-    meshRef.set_translate(glm::vec3{ mcpos_.get_fpos().x,
-                                     mcpos_.get_fpos().y,
+    meshRef.set_translate(glm::vec3{ fpos.x,
+                                     fpos.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
-    meshRef.set_scale(glm::vec3{ (float)PIXES_PER_MAPENT, 
-                                (float)PIXES_PER_MAPENT, 
+    meshRef.set_scale(glm::vec3{ static_cast<float>(PIXES_PER_MAPENT), 
+                                static_cast<float>(PIXES_PER_MAPENT), 
                                 1.0f });
 }
 
@@ -133,8 +135,8 @@ void insert_new_pointPic( const glm::vec2 &fpos_ ){
                                      fpos_.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
-    meshRef.set_scale(glm::vec3{ (float)(pointPicSize.x), 
-                                (float)(pointPicSize.y), 
+    meshRef.set_scale(glm::vec3{ static_cast<float>(pointPicSize.x), 
+                                static_cast<float>(pointPicSize.y), 
                                 1.0f });
 }
 

@@ -12,7 +12,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "MapCoord.h"
-#include "AltiRange.h"
+#include "GoAltiRange.h"
 #include "ColliEntHead.h"
 #include "MapEntCompass.h"
 #include "NineBox.h"

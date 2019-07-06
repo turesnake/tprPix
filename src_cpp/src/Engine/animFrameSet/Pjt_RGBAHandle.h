@@ -24,7 +24,7 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "RGBA.h"
-#include "AltiRange.h" 
+#include "GoAltiRange.h" 
 #include "ColliEntHead.h"
 
 
@@ -82,13 +82,13 @@ public:
             this->isRootColliEntHead = true;
             this->colliEntHead.colliEntSetIdx = this->rgba.r - pjt_RGBAHandle_inn::R_rootColliEntHead_CarryAffect;
             this->colliEntHead.isCarryAffect = true;
-            this->set_altiRange();
+            this->set_goAltiRange();
         }
         else if( is_in_range(this->rgba.r, pjt_RGBAHandle_inn::R_rootColliEntHead_NoAffect, cesNUm) ){    //---
             this->isRootColliEntHead = true;
             this->colliEntHead.colliEntSetIdx = this->rgba.r - pjt_RGBAHandle_inn::R_rootColliEntHead_NoAffect;
             this->colliEntHead.isCarryAffect = false;
-            this->set_altiRange();
+            this->set_goAltiRange();
         }
         
         //--- B --- 
@@ -127,8 +127,8 @@ private:
         }
     } 
 
-    //-- 将 rgba 态 高度信息，转换为 mem态 altiRange值 --
-    inline void set_altiRange(){
+    //-- 将 rgba 态 高度信息，转换为 mem态 goAltiRange值 --
+    inline void set_goAltiRange(){
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;
 
@@ -137,11 +137,11 @@ private:
             // 在未来，item/surface 设计 可能会被取消...
             /*
             if( low == high ){
-                if( low == AltiRange::diskAlti_item ){
-                    colliEntHead.lAltiRange = altiRange_item;
+                if( low == GoAltiRange::diskAlti_item ){
+                    colliEntHead.lGoAltiRange = goAltiRange_item;
                     return;
-                }else if( low == AltiRange::diskAlti_surface ){
-                    colliEntHead.lAltiRange = altiRange_surface;
+                }else if( low == GoAltiRange::diskAlti_surface ){
+                    colliEntHead.lGoAltiRange = goAltiRange_surface;
                     return;
                 }else{
                     tprAssert(0);
@@ -162,7 +162,7 @@ private:
         this->colliEntHead.isBody = true;
 
         //--- major ---//
-        this->colliEntHead.lAltiRange.set( static_cast<char>(low), static_cast<char>(high) );
+        this->colliEntHead.lGoAltiRange.set( static_cast<char>(low), static_cast<char>(high) );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内

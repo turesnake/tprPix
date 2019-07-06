@@ -13,7 +13,6 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "VAOVBO.h" 
-#include "vector_matrix.h"
 
 //#include "tprDebug.h" 
 
@@ -80,7 +79,7 @@ void Mesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    this->mat4_model = glm::translate( normal_mat4, this->translate_val );
+    this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
 
     //----- not support rotate yet ------
 

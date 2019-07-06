@@ -76,13 +76,10 @@ double dotV2( double ax_, double ay_, double bx_, double by_ ){
  *  和 glsl 中 同名函数，内容完全一致 
  *  return 【-1.0， 1.0】
  */
-float simplex_noise2( float x_, float y_ ){
-    return simplex_noise2( glm::vec2{x_, y_} );
+double simplex_noise2( double x_, double y_ ){
+    return simplex_noise2( glm::dvec2{x_, y_} );
 }
-float simplex_noise2( const glm::vec2 &_v ){
-
-    const glm::dvec2 v {    static_cast<double>(_v.x),
-                            static_cast<double>(_v.y) };
+double simplex_noise2( const glm::dvec2 &v_ ){
 
     const glm::dvec4 C {0.211324865405187,  // (3.0-sqrt(3.0))/6.0
                         0.366025403784439,   // 0.5*(sqrt(3.0)-1.0)
@@ -90,8 +87,8 @@ float simplex_noise2( const glm::vec2 &_v ){
                         0.024390243902439 }; // 1.0 / 41.0
                 
     // First corner
-    glm::dvec2 i  = glm::floor( v + dotV2(v.x, v.y, C.y, C.y) );
-    glm::dvec2 x0 = v -         i + dotV2(i.x, i.y, C.x, C.x);
+    glm::dvec2 i  = glm::floor( v_ + dotV2(v_.x, v_.y, C.y, C.y) );
+    glm::dvec2 x0 = v_ - i + dotV2(i.x, i.y, C.x, C.x);
     // Other corners
     glm::dvec2 i1 {};
     //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
@@ -149,7 +146,7 @@ float simplex_noise2( const glm::vec2 &_v ){
     g.x = a0.x  * x0.x + h.x  * x0.y;
     g.y = a0.y * x12.x + h.y * x12.y;
     g.z = a0.z * x12.z + h.z * x12.w;
-    return static_cast<float>( 130.0 * glm::dot(m, g) );
+    return static_cast<double>( 130.0 * glm::dot(m, g) );
 }
 
 

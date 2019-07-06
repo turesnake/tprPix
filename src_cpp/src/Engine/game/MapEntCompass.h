@@ -39,9 +39,8 @@ public:
     inline IntVec2 to_IntVec2() const {
         return IntVec2{ this->x, this->y };
     } 
-
-    inline glm::vec2 to_fpos() const {
-        return glm::vec2{ static_cast<float>(this->x), static_cast<float>(this->y) };
+    inline glm::dvec2 to_dpos() const {
+        return glm::dvec2{ static_cast<double>(this->x), static_cast<double>(this->y) };
     }
 
     //======== vals ========//

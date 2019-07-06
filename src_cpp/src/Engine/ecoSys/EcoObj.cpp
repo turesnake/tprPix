@@ -29,7 +29,7 @@
 namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 
     std::default_random_engine  rEngine; //-通用 随机数引擎实例
-    inline std::uniform_real_distribution<float> uDistribution_f(-100.0f,100.0f);
+    inline std::uniform_real_distribution<double> uDistribution_f(-100.0,100.0);
     inline std::uniform_int_distribution<int> uDistribution_2(0,1);
     inline std::uniform_int_distribution<int> uDistribution_4(0,3);
 
@@ -55,7 +55,7 @@ void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t targetKey_,
                                                     std::vector<sectionKey_t> &container_ ){
     //-- 获得 (2*2 section) 单元 左下角 mpos --
     int sideLen { 2*ENTS_PER_SECTION };
-    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(targetKey_), static_cast<float>(sideLen) ) * sideLen;
+    IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(targetKey_), static_cast<double>(sideLen) ) * sideLen;
 
     container_.clear();
     for( const auto &off :  ecoObj_inn::nearFour_node_ecoObj_mposOffs ){ //- each off mpos
@@ -112,19 +112,19 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------//
     //     oddEven
     //------------------//
-    IntVec2 SPos = floorDiv( this->get_mpos(), ENTS_PER_SECTION );
-    this->oddEven = floorMod( SPos, 2 );
+    IntVec2 SPos = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_SECTION) );
+    this->oddEven = floorMod( SPos, 2.0 );
     //------------------//
     //     weight
     //------------------//
     // 3*3 个 ecoObj 组成一个 pn晶格
-    float freq = 1.0f / 3.0f; 
-    glm::vec2 fv = this->mcpos.get_fpos();
-    fv /= ENTS_PER_SECTION;
+    double freq = 1.0 / 3.0; 
+    glm::dvec2 fv = this->mcpos.get_dpos();
+    fv /= static_cast<double>(ENTS_PER_SECTION);
     fv += esrc::get_gameSeed().get_ecoObjWeight_pposOff();
 
     this->weight = simplex_noise2(  fv.x * freq,
-                                    fv.y * freq ) * 100.0f; //- [-100.0, 100.0]
+                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
     //------------------//
     //   occupyWeight
     //------------------//

@@ -12,7 +12,6 @@
 #include "UIObj.h"
 #include "UIMesh.h"
 #include "VAOVBO.h" 
-#include "vector_matrix.h"
 #include "esrc_camera.h"
 
 
@@ -75,12 +74,12 @@ void UIChildMesh::refresh_translate(){
     if( this->isPic == true ){
         this->translate_val.y = goCurrentFPos.y - static_cast<float>(vRef.y);
                                     
-        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::get_renderLayerZOff(RenderLayerType::UIs) +
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::get_renderLayerZOff(RenderLayerType::UIs)) +
                                 this->uiMeshPtr->get_off_z();
         
     }else{
         this->translate_val.y = goCurrentFPos.y - (float)vRef.y;  
-        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff;         
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff);         
     }
 }
 
@@ -140,7 +139,7 @@ void UIChildMesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    this->mat4_model = glm::translate( normal_mat4, this->translate_val );
+    this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
 
     //----- rotate: only Z-axis ------
     //- pix游戏 只支持 z轴旋转

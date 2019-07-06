@@ -38,7 +38,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                         ShaderProgram     *pixShaderPtr_,
                                         ShaderProgram     *shadowShaderPtr_,
                                         const glm::vec2   pposOff_,
-                                        float             off_z_,
+                                        double             off_z_,
                                         bool              isVisible_,
                                         bool              isCollide_,
                                         bool              isFlipOver_ ){
@@ -54,7 +54,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- goMesh pos in go --
     gmesh.set_pposOff(pposOff_);
-    gmesh.set_off_z(off_z_);
+    gmesh.set_off_z( static_cast<float>(off_z_));
 
     //-- flags --//
     gmesh.isVisible = isVisible_;

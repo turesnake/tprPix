@@ -22,9 +22,9 @@ void init_ecoSysPlanes();
 
 EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ );
 
-ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, float ecoObjWeight_ );
+ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObjWeight_ );
 
-ecoSysPlanId_t apply_a_rand_ecoSysPlanId( float ecoObjWeight_ );
+ecoSysPlanId_t apply_a_rand_ecoSysPlanId( double ecoObjWeight_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

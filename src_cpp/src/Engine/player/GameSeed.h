@@ -37,26 +37,26 @@ public:
     inline std::default_random_engine &getnc_realRandEngine(){
         return this->realRandEngine;
     }
-    inline const glm::vec2 &get_altiSeed_pposOffSeaLvl() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const {
         return this->altiSeed_pposOffSeaLvl;
     }
-    inline const glm::vec2 &get_altiSeed_pposOffBig() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffBig() const {
         return this->altiSeed_pposOffBig;
     }
-    inline const glm::vec2 &get_altiSeed_pposOffMid() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffMid() const {
         return this->altiSeed_pposOffMid;
     }
-    inline const glm::vec2 &get_altiSeed_pposOffSml() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffSml() const {
         return this->altiSeed_pposOffSml;
     }
 
-    inline const glm::vec2 &get_densitySeed_pposOff() const {
+    inline const glm::dvec2 &get_densitySeed_pposOff() const {
         return this->densitySeed_pposOff;
     }
-    inline const glm::vec2 &get_field_pposOff() const {
+    inline const glm::dvec2 &get_field_pposOff() const {
         return this->field_pposOff;
     }
-    inline const glm::vec2 &get_ecoObjWeight_pposOff() const {
+    inline const glm::dvec2 &get_ecoObjWeight_pposOff() const {
         return this->ecoObjWeight_pposOff;
     }
 
@@ -70,15 +70,15 @@ private:
     u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
 
     //- [-1000, 1000] 之间的 随机数
-    glm::vec2  altiSeed_pposOffSeaLvl {};
-    glm::vec2  altiSeed_pposOffBig {};
-    glm::vec2  altiSeed_pposOffMid {};
-    glm::vec2  altiSeed_pposOffSml {};
+    glm::dvec2  altiSeed_pposOffSeaLvl {};
+    glm::dvec2  altiSeed_pposOffBig {};
+    glm::dvec2  altiSeed_pposOffMid {};
+    glm::dvec2  altiSeed_pposOffSml {};
 
     //- [-1000, 1000] 之间的 随机数
-    glm::vec2  densitySeed_pposOff {};
-    glm::vec2  field_pposOff {};
-    glm::vec2  ecoObjWeight_pposOff {};
+    glm::dvec2  densitySeed_pposOff {};
+    glm::dvec2  field_pposOff {};
+    glm::dvec2  ecoObjWeight_pposOff {};
 
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 伪随机数引擎实例

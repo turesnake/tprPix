@@ -57,9 +57,9 @@ public:
         return IntVec2{ this->x*PIXES_PER_MAPENT, 
                         this->y*PIXES_PER_MAPENT };
     } 
-    inline glm::vec2 to_fpos() const {
-        return glm::vec2{ static_cast<float>(this->x*PIXES_PER_MAPENT), 
-                          static_cast<float>(this->y*PIXES_PER_MAPENT) };
+    inline glm::dvec2 to_dpos() const {
+        return glm::dvec2{ static_cast<double>(this->x*PIXES_PER_MAPENT), 
+                          static_cast<double>(this->y*PIXES_PER_MAPENT) };
     } 
 
     inline bool is_zero() const {

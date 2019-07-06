@@ -39,10 +39,10 @@ public:
 
     inline void set_key_from_keyboard( const GameKey &key_ ){
         switch( key_ ){
-            case GameKey::LEFT:   dirAxes.set_x( -1.0f );  break;
-            case GameKey::RIGHT:  dirAxes.set_x(  1.0f );  break;
-            case GameKey::UP:     dirAxes.set_y(  1.0f );  break;
-            case GameKey::DOWN:   dirAxes.set_y( -1.0f );  break;
+            case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
+            case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
+            case GameKey::UP:     dirAxes.set_y(  1.0 );  break;
+            case GameKey::DOWN:   dirAxes.set_y( -1.0 );  break;
             default: //- oth keys
                 keys = keys | (1<<(int)key_);
                 break;
@@ -63,7 +63,7 @@ public:
     }
 
 
-    inline void set_dirAxes_from_joystick( float x_, float y_ ){
+    inline void set_dirAxes_from_joystick( double x_, double y_ ){
         this->dirAxes.set(x_, y_);
     }
 
@@ -78,10 +78,10 @@ public:
             return (((keys>>idx) & 1)==1);
         }else{
             switch( key_ ){
-                case GameKey::LEFT:  return (dirAxes.get_x() < -0.0f);
-                case GameKey::RIGHT: return (dirAxes.get_x() >  0.0f);
-                case GameKey::UP:    return (dirAxes.get_y() >  0.0f);
-                case GameKey::DOWN:  return (dirAxes.get_y() < -0.0f);
+                case GameKey::LEFT:  return (dirAxes.get_x() < -0.0);
+                case GameKey::RIGHT: return (dirAxes.get_x() >  0.0);
+                case GameKey::UP:    return (dirAxes.get_y() >  0.0);
+                case GameKey::DOWN:  return (dirAxes.get_y() < -0.0);
                 default:
                     tprAssert(0);
                     return false;

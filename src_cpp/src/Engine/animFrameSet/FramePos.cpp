@@ -37,9 +37,9 @@ void FramePos::calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid(){
 
     const MapEntCompass &compass = esrc::get_colliEntSetRef( this->colliEntHead.colliEntSetIdx ).get_centerCompass();
     this->colliEntHead.rootAnchorCompass = compass;
-    this->colliEntHead.off_from_rootAnchor_2_mapEntMid = glm::vec2{
-                static_cast<float>(HALF_PIXES_PER_MAPENT - compass.x),
-                static_cast<float>(HALF_PIXES_PER_MAPENT - compass.y) };
+    this->colliEntHead.off_from_rootAnchor_2_mapEntMid = glm::dvec2{
+                static_cast<double>(HALF_PIXES_PER_MAPENT - compass.x),
+                static_cast<double>(HALF_PIXES_PER_MAPENT - compass.y) };
 }
 
 

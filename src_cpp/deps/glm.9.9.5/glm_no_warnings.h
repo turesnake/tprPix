@@ -25,4 +25,30 @@
             //-- glm::value_ptr
 
 
+
+inline glm::dvec2 glm_vec2_2_dvec2( const glm::vec2 fv_ ){
+    return glm::dvec2{ static_cast<double>(fv_.x),
+                        static_cast<double>(fv_.y) };
+}
+inline glm::vec2 glm_dvec2_2_vec2( const glm::dvec2 dv_ ){
+    return glm::vec2{ static_cast<float>(dv_.x),
+                        static_cast<float>(dv_.y) };
+}
+
+inline glm::dvec3 glm_vec3_2_dvec3( const glm::vec3 fv_ ){
+    return glm::dvec3{ static_cast<double>(fv_.x),
+                        static_cast<double>(fv_.y),
+                        static_cast<double>(fv_.z) };
+}
+inline glm::vec3 glm_dvec3_2_vec3( const glm::dvec3 dv_ ){
+    return glm::vec3{ static_cast<float>(dv_.x),
+                        static_cast<float>(dv_.y),
+                        static_cast<float>(dv_.z) };
+}
+
+
+
+
+
+
 #endif

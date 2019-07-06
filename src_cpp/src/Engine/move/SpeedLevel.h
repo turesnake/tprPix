@@ -39,20 +39,20 @@ enum class SpeedLevel : int {
 
 
 //-- 60HZ 时，一帧的 fpos 速度
-inline const std::vector<float> speedTable{
-    0.0f,   //- LV_0 //- 无速度
-    0.3f,   //- LV_1
-    0.8f,   //- LV_2
-    1.2f,   //- LV_3
-    1.6f,   //- LV_4 //- 普通的慢速
-    2.0f,   //- LV_5
-    2.5f,   //- LV_6 //- 最适合的速度
-    3.0f,   //- LV_7
-    3.5f,   //- LV_8
-    4.0f,   //- LV_9  //- 偏快的速度
-    5.0f,   //- LV_10
-    6.0f,   //- LV_11
-    7.0f    //- LV_12 : crawl 的最高速度，不能超过 1帧1mapent
+inline const std::vector<double> speedTable{
+    0.0,   //- LV_0 //- 无速度
+    0.3,   //- LV_1
+    0.8,   //- LV_2
+    1.2,   //- LV_3
+    1.6,   //- LV_4 //- 普通的慢速
+    2.0,   //- LV_5
+    2.5,   //- LV_6 //- 最适合的速度
+    3.0,   //- LV_7
+    3.5,   //- LV_8
+    4.0,   //- LV_9  //- 偏快的速度
+    5.0,   //- LV_10
+    6.0,   //- LV_11
+    7.0    //- LV_12 : crawl 的最高速度，不能超过 1帧1mapent
            //  值7.5 会在 ubuntu 中出问题。暂改为 7.0 
 };
 
@@ -78,7 +78,7 @@ inline SpeedLevel int_2_SpeedLevel( int num_ ){
 }
 
 
-inline float SpeedLevel_2_val( const SpeedLevel &lvl_ ){
+inline double SpeedLevel_2_val( const SpeedLevel &lvl_ ){
     return speedTable.at( static_cast<size_t>(lvl_) );
 }
 

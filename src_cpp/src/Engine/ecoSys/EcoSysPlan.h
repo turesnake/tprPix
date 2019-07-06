@@ -55,10 +55,10 @@ public:
 
     void init_goSpecIdPools_and_applyPercents();
 
-    void init_densityDatas( float densitySeaLvlOff_, const std::vector<float> &datas_ );
+    void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
     void insert(const Density &density_, 
-                float applyPercent_,
+                double applyPercent_,
                 const std::vector<EcoEnt> &ecoEnts_ );
     void shuffle_goSpecIdPools( u32_t seed_ );
 
@@ -75,24 +75,24 @@ public:
     inline const EcoSysPlanType &get_type() const {
         return this->type;
     }
-    inline const float &get_densitySeaLvlOff() const {
+    inline const double &get_densitySeaLvlOff() const {
         return this->densitySeaLvlOff;
     }
     //-- 主要用来 复制给 ecoObj 实例 --
     inline const std::vector<RGBA> *get_landColorsPtr() const {
         return &(this->landColors);
     }
-    inline const std::vector<float> *get_applyPercentsPtr() const {
+    inline const std::vector<double> *get_applyPercentsPtr() const {
         return &(this->applyPercents);
     }
-    inline const std::vector<float> *get_densityDivideValsPtr() const {
+    inline const std::vector<double> *get_densityDivideValsPtr() const {
         return &(this->densityDivideVals);
     }
 
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
     // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, float randV_ ){
-        size_t randV = static_cast<size_t>(floor( randV_ * 1.9f + 701.7f ));
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ){
+        size_t randV = static_cast<size_t>(floor( randV_ * 1.9 + 701.7 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
@@ -104,14 +104,14 @@ private:
     //======== vals ========//
     ecoSysPlanId_t      id      {};
     EcoSysPlanType      type    {EcoSysPlanType::Forest};
-    float               densitySeaLvlOff  {0.0f}; 
+    double              densitySeaLvlOff  {0.0}; 
 
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
     std::vector<RGBA>  landColors {};
-    std::vector<float> applyPercents {}; //- each entry: [0.0, 1.0]
-    std::vector<float> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
+    std::vector<double> applyPercents {}; //- each entry: [0.0, 1.0]
+    std::vector<double> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
     std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
     
     //===== flags =====//

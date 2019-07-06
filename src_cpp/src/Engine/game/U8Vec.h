@@ -20,6 +20,7 @@
 
 //-- 少数场合会用到的 vec2 ----
 // 不推荐大规模使用
+// 希望简化类型种类，尽可能统一到 int,double 中去
 class U8Vec2{
 public:
     U8Vec2() = default;

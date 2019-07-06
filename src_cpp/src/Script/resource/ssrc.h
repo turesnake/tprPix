@@ -52,7 +52,7 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
 using F_GO_INIT = std::function<void(   goSpecId_t,
                                         GameObj&,
                                         const IntVec2 &,
-					                    float,
+					                    double,
 					                    const MapAltitude &,
 					                    const Density & )>;
 
@@ -60,7 +60,7 @@ using F_GO_INIT = std::function<void(   goSpecId_t,
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
                         const IntVec2 &mpos_,
-					    float fieldWeight_,
+					    double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &density_  );
 

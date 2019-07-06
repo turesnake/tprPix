@@ -35,7 +35,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 void Norman::init_in_autoMod(   goSpecId_t specID_,
                                 GameObj &goRef_,
                                 const IntVec2 &mpos_,
-					            float fieldWeight_,
+					            double fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
 

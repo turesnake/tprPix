@@ -12,7 +12,6 @@
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "VAOVBO.h" 
-#include "vector_matrix.h"
 #include "esrc_camera.h"
 
 
@@ -57,7 +56,9 @@ void ChildMesh::refresh_translate(){
 
     const auto &goRef = this->goMeshRef.get_goCRef();
 
-    const glm::vec2 &goCurrentFPos = goRef.goPos.get_currentFPos();
+    //const glm::vec2 &goCurrentFPos = goRef.goPos.get_currentFPos();
+    const glm::vec2 &goCurrentFPos = glm_dvec2_2_vec2( goRef.goPos.get_currentDPos() );
+
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --
     const IntVec2 &vRef = this->goMeshRef.get_currentRootAnchorPPosOff();
     const glm::vec2 &pposOff = this->goMeshRef.get_pposOff();
@@ -70,10 +71,14 @@ void ChildMesh::refresh_translate(){
     }
 
     if( this->isPic == true ){
-        this->translate_val.y = goCurrentFPos.y + (float)pposOff.y - (float)vRef.y + goRef.goPos.get_alti();
+        this->translate_val.y = goCurrentFPos.y + 
+                                static_cast<float>(pposOff.y) - 
+                                static_cast<float>(vRef.y) + 
+                                static_cast<float>(goRef.goPos.get_alti());
                                     //-- 累加 高度alti
         if( goMeshRef.isPicFixedZOff ){
-            this->translate_val.z = esrc::get_camera().get_zFar() + goMeshRef.get_picFixedZOff();
+            this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar()) + 
+                                    goMeshRef.get_picFixedZOff();
         }else{
             this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshRef.get_off_z());
                                         //-- ** 注意！**  z值的计算有不同：
@@ -84,10 +89,10 @@ void ChildMesh::refresh_translate(){
         }
         
     }else{
-        this->translate_val.y = goCurrentFPos.y - (float)vRef.y;
+        this->translate_val.y = goCurrentFPos.y - static_cast<float>(vRef.y);
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
                                     //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
-        this->translate_val.z = esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff;
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff);
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }
@@ -156,7 +161,7 @@ void ChildMesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
-    this->mat4_model = glm::translate( normal_mat4, this->translate_val );
+    this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
 
     //----- rotate: only Z-axis ------
     //- pix游戏 只支持 z轴旋转

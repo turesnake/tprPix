@@ -42,6 +42,7 @@ using std::endl;
 
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
     float get_float( const Value &val_ );
+    double get_double( const Value &val_ );
     std::pair<bool, int> get_pubBinary_int( const Value &val_ );
 }//------------- namespace: goJson_inn end --------------//
 
@@ -186,7 +187,7 @@ void parse_from_goJsonFile(){
             tprAssert( goEnt.HasMember("alti") );
             const Value &a = goEnt["alti"];
             tprAssert( a.IsNumber() );
-            goJsonData.alti = goJson_inn::get_float( a );
+            goJsonData.alti = goJson_inn::get_double( a );
         }
         //-------------------//
         //      weight
@@ -195,7 +196,7 @@ void parse_from_goJsonFile(){
             tprAssert( goEnt.HasMember("weight") );
             const Value &a = goEnt["weight"];
             tprAssert( a.IsNumber() );
-            goJsonData.weight = goJson_inn::get_float( a );
+            goJsonData.weight = goJson_inn::get_double( a );
         }
         //-------------------//
         //      pub.HP
@@ -287,6 +288,17 @@ float get_float( const Value &val_ ){
     }else{
         tprAssert(0);
         return 0.0f; //- never reach
+    }
+}
+
+double get_double( const Value &val_ ){
+    if( val_.IsDouble() ){
+        return val_.GetDouble();
+    }else if( val_.IsInt() ){
+        return static_cast<double>( val_.GetInt() );
+    }else{
+        tprAssert(0);
+        return 0.0; //- never reach
     }
 }
 

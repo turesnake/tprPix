@@ -32,25 +32,8 @@
 #include "tprDebug.h" 
 
 
-namespace move_inn {//-------------- namespace: move_inn ------------------//
-
-    //--- 以下数据 被每一次 Crawl::RenderUpdate_2() 调用 共用 ---//
-    bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
-    bool isCross    {false}; //- currentMidFPos 是否进入新的 mapent
-
-    glm::vec2 speedV {};     //- 当前帧的 速度: fpos/frame
-    glm::vec2 oldMidFPos {}; //- rootAnchor 所在 mapent 的中点 的 fpos
-    glm::vec2 newMidFPos {};
-
-    glm::vec2 fposOff {}; //- 仅用于 drag 模式...
-
-    MapCoord oldMCPos {};  //- rootAnchor 所在 mapent 的中点 的 mcpos
-    MapCoord newMCPos {};
-
-    MapCoord off {};  // newMCPos - oldMCPos
-    NineBox  nb {};
-
-}//------------------ namespace: move_inn end ------------------//
+//namespace move_inn {//-------------- namespace: move_inn ------------------//
+//}//------------------ namespace: move_inn end ------------------//
 
 
 
@@ -106,13 +89,13 @@ void Move::crawl_renderUpdate(){
     }
 
     //----------------//
-    //  计算 speedV
+    //   speedV - fpos/frame
     //----------------//
-    move_inn::speedV = this->currentDirAxes.to_fmpos();
-    move_inn::speedV *= SpeedLevel_2_val(this->speedLvl) *
-                        60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
+    glm::dvec2 speedV = this->currentDirAxes.to_dmpos();
+    speedV *= SpeedLevel_2_val(this->speedLvl) *
+                        60.0 * esrc::get_timer().get_smoothDeltaTime();
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, move_inn::speedV );
+    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
 }
 
 
@@ -130,26 +113,26 @@ void Move::drag_renderUpdate(){
     //----------------//
     //  计算 speedV
     //----------------//
-    // fposOff -- 当前fpos 到 目标fpod 的实际便宜 （fpos）
+    // dposOff -- 当前fpos 到 目标fpod 的实际偏移 （fpos）
     // speedV  -- 沿着方向能行走的 标准距离向量
     // -------
-    // 在 drag 的最后一帧，fposOff 往往会小于 speedV。
+    // 在 drag 的最后一帧，dposOff 往往会小于 speedV。
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
-    move_inn::fposOff = this->targetFPos - this->goRef.goPos.get_currentFPos();
-    move_inn::speedV = glm::normalize( move_inn::fposOff ); //- 等效于 DirAxes 的计算。
-    move_inn::speedV *=   SpeedLevel_2_val(this->speedLvl) *
-                60.0f * static_cast<float>(esrc::get_timer().get_smoothDeltaTime());
+    glm::dvec2 dposOff = this->targetDPos - this->goRef.goPos.get_currentDPos();
+    glm::dvec2 speedV = glm::normalize( dposOff ); //- 等效于 DirAxes 的计算。
+    speedV *=   SpeedLevel_2_val(this->speedLvl) *
+                60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     bool isLastFrame = false;
-    if( (std::abs(move_inn::speedV.x) > std::abs(move_inn::fposOff.x)) ||
-        (std::abs(move_inn::speedV.y) > std::abs(move_inn::fposOff.y)) ){
+    if( (std::abs(speedV.x) > std::abs(dposOff.x)) ||
+        (std::abs(speedV.y) > std::abs(dposOff.y)) ){
         isLastFrame = true;
-        move_inn::speedV = move_inn::fposOff;
+        speedV = dposOff;
     }
 
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, move_inn::speedV );
+    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -164,37 +147,38 @@ void Move::drag_renderUpdate(){
  * -- 通用
  */
 void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
-                                    const glm::vec2 &speedV_ ){
+                                    const glm::dvec2 &speedV_ ){
 
     GameObjPos &goPosRef = this->goRef.goPos;
 
-    move_inn::isObstruct = false; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
-    move_inn::isCross    = false; //- currentMidFPos 是否进入新的 mapent
+    bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
+    bool isCross    {false}; //- currentMidDPos 是否进入新的 mapent
 
-
-    move_inn::oldMidFPos = goPosRef.calc_rootAnchor_midFPos();
-    move_inn::newMidFPos = move_inn::oldMidFPos + speedV_;
+    glm::dvec2 oldMidDPos = goPosRef.calc_rootAnchor_midDPos();
+    glm::dvec2 newMidDPos = oldMidDPos + speedV_;
 
     //-- 这里计算的是 rootAnchorMidFPos 的 mcpos --
-    move_inn::oldMCPos = fpos_2_mcpos( move_inn::oldMidFPos );
-    move_inn::newMCPos = fpos_2_mcpos( move_inn::newMidFPos );
+    MapCoord oldMCPos = dpos_2_mcpos( oldMidDPos );
+    MapCoord newMCPos = dpos_2_mcpos( newMidDPos );
 
+    MapCoord off {}; // newMCPos - oldMCPos
+    NineBox  nb {};
     
-    if( move_inn::oldMCPos != move_inn::newMCPos ){
-        move_inn::isCross = true;
+    if( oldMCPos != newMCPos ){
+        isCross = true;
 
-        move_inn::off = move_inn::newMCPos - move_inn::oldMCPos;
-            tprAssert( move_inn::off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
-        move_inn::nb.set( move_inn::off.get_mpos().x, move_inn::off.get_mpos().y );
+        off = newMCPos - oldMCPos;
+            tprAssert( off.is_match_with_nineBox() ); //- 一道简陋的检测, 确保 单帧位移 不超过 周边 8 mapent
+        nb.set( off.get_mpos().x, off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        move_inn::isObstruct = this->goRef.collide_for_crawl( NineBox_XY_2_Idx(move_inn::nb) );        
+        isObstruct = this->goRef.collide_for_crawl( NineBox_XY_2_Idx(nb) );        
     }
 
-    if( move_inn::isObstruct == false ){
-        goPosRef.accum_currentFPos_2( speedV_ );
-        if( move_inn::isCross ){
-            goPosRef.accum_currentMCPos_2(move_inn::nb);
+    if( isObstruct == false ){
+        goPosRef.accum_currentDPos_2( speedV_ );
+        if( isCross ){
+            goPosRef.accum_currentMCPos_2(nb);
                         //-- 使用 NineBox 来传递参数，
                         //   决定了当前模式下的 最大速度，不能超过 1_mapent_per_frame 
                         //   想要突破这个限制，就要 进一步 完善 collision 函数
@@ -209,17 +193,13 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
     //   -- 重新统计 本go 的 chunkKeys，如果确认为 临界go，  
     //       登记到 主chunk 的 edgegoids 容器中
     //---------------------------//
-    //Chunk   *oldChunkPtr  {nullptr}; 
-    //Chunk   *newChunkPtr  {nullptr};
     goid_t   goid = this->goRef.id;
 
     chunkKey_t newChunkKey = anyMPos_2_chunkKey( goPosRef.get_currentMPos() );
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
-    //newChunkPtr = esrc::get_chunkPtr( newChunkKey );
     Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
 
     if( newChunkKey!=this->goRef.currentChunkKey ){
-        //oldChunkPtr = esrc::get_chunkPtr( this->goRef.currentChunkKey );
         Chunk &oldChunkRef = esrc::get_chunkRef( this->goRef.currentChunkKey );
 
         tprAssert( oldChunkRef.erase_from_goIds(goid) == 1 );

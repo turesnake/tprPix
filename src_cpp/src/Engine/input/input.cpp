@@ -276,8 +276,10 @@ void joystick_update(){
     joystickAxesPtr = glfwGetJoystickAxes(joystickId, &joystickAxesCount);
     //-- 目前，只读取 joystick 头两个 axes 数据 --
     if( joystickAxesCount >= 2 ){
-        float x =  *(joystickAxesPtr+0);
-        float y = -*(joystickAxesPtr+1); //- 注意，要取反
+        float fx =  *(joystickAxesPtr+0);
+        float fy = -*(joystickAxesPtr+1); //- 注意，要取反
+        double x = static_cast<double>(fx);
+        double y = static_cast<double>(fy);
 
         //-- 只有在 确认有效时，才改写 inputINS --
         //   这个行为会覆盖之前 输入的 鼠键数据
@@ -285,7 +287,6 @@ void joystick_update(){
             inputINS.set_dirAxes_from_joystick( x, y );
         }
     }
-
 
     //--------------//
     //    Buttons

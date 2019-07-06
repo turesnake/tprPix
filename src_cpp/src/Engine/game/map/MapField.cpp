@@ -63,8 +63,8 @@ void MapField::init( const IntVec2 &anyMPos_ ){
 
 
     //--- fieldFPos ----
-    this->FDPos = this->mcpos.get_fpos();
-    this->FDPos /= ENTS_PER_FIELD;
+    this->FDPos = this->mcpos.get_dpos();
+    this->FDPos /= static_cast<double>(ENTS_PER_FIELD);
     this->FDPos += esrc::get_gameSeed().get_field_pposOff();
 
     //--- field.nodeMPos ---
@@ -76,15 +76,15 @@ void MapField::init( const IntVec2 &anyMPos_ ){
 
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
-    float freq = 1.0f / 3.0f; //- tmp
+    double freq = 1.0 / 3.0; //- tmp
     this->originPerlin = simplex_noise2(    this->FDPos.x * freq, 
                                             this->FDPos.y * freq );  //- [-1.0, 1.0]
 
     //--- weight ---
-    this->weight = this->originPerlin * 100.0f; //- [-100.0, 100.0]
+    this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
 
     //--- fieldBorderSetId ---
-    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1f)*997));
+    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1)*997.0));
     this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
 
     //--- occupyWeight ---
@@ -119,27 +119,28 @@ void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &chunkMapEnts_ ){
  */
 void MapField::init_nodeMPos(){
 
-    float    freq  { 13.0f };
-    float    pnX   {};
-    float    pnY   {};
+    double    freq  { 13.0 };
+    double    pnX   {};
+    double    pnY   {};
     size_t   idxX  {};
     size_t   idxY  {};
 
     pnX = simplex_noise2(   this->FDPos.x * freq, 
                             this->FDPos.y * freq ); //- [-1.0, 1.0]
 
-    pnY = simplex_noise2(   (this->FDPos.x + 70.7f) * freq, 
-                            (this->FDPos.y + 70.7f) * freq ); //- [-1.0, 1.0]
+    pnY = simplex_noise2(   (this->FDPos.x + 70.7) * freq, 
+                            (this->FDPos.y + 70.7) * freq ); //- [-1.0, 1.0]
 
 
-    pnX = pnX * 71 + 100; //- [71.0, 171.0]
-    pnY = pnY * 71 + 100; //- [71.0, 171.0]
+    pnX = pnX * 71.0 + 100.0; //- [71.0, 171.0]
+    pnY = pnY * 71.0 + 100.0; //- [71.0, 171.0]
         tprAssert( (pnX>0) && (pnY>0) );
 
-    idxX = static_cast<size_t>(pnX) % ENTS_PER_FIELD; //- mod
-    idxY = static_cast<size_t>(pnY) % ENTS_PER_FIELD; //- mod
+    idxX = static_cast<size_t>(floor(pnX)) % ENTS_PER_FIELD; //- mod
+    idxY = static_cast<size_t>(floor(pnY)) % ENTS_PER_FIELD; //- mod
 
-    this->nodeMPos = this->get_mpos() + IntVec2{ (int)idxX, (int)idxY };
+    this->nodeMPos = this->get_mpos() + IntVec2{ static_cast<int>(idxX), 
+                                                static_cast<int>(idxY) };
 }
 
 
@@ -151,12 +152,12 @@ void MapField::init_occupyWeight(){
 
     //-- 本 field 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
-    IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_FIELD );
-    IntVec2 oddEven = floorMod( v, 2 );
+    IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_FIELD) );
+    IntVec2 oddEven = floorMod( v, 2.0 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
-    float Fidx = simplex_noise2(    (this->FDPos.x + 17.1f), 
-                                    (this->FDPos.y + 17.1f) ) * 30.0f + 60.0f; //- [30.0, 90.0]
+    double Fidx = simplex_noise2(   (this->FDPos.x + 17.1), 
+                                    (this->FDPos.y + 17.1) ) * 30.0 + 60.0; //- [30.0, 90.0]
 
 
     tprAssert( Fidx > 0 );
@@ -186,33 +187,33 @@ void MapField::assign_field_to_4_ecoObjs(){
         nearFour_ecoObjDatas.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
     }
 
-    float         vx        {};
-    float         vy        {};
+    double         vx        {};
+    double         vy        {};
     IntVec2       mposOff   {};
-    float         freqBig   { 0.9f };
-    float         freqSml   { 2.3f };
-    float         pnVal     {}; //- 围绕 0 波动的 随机值
-    float         off       {};
+    double         freqBig   { 0.9 };
+    double         freqSml   { 2.3 };
+    double         pnVal     {}; //- 围绕 0 波动的 随机值
+    double         off       {};
     size_t        count     {};
 
-    float targetDistance = 1.4f * (0.5f * ENTS_PER_SECTION) * 1.04f; //- 每个field 最终的 距离比较值。
+    double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 
-    vx = (float)(this->get_mpos().x) / (float)ENTS_PER_CHUNK;
-    vy = (float)(this->get_mpos().y) / (float)ENTS_PER_CHUNK;
+    vx = static_cast<double>(this->get_mpos().x) / static_cast<double>(ENTS_PER_CHUNK);
+    vy = static_cast<double>(this->get_mpos().y) / static_cast<double>(ENTS_PER_CHUNK);
 
-    const glm::vec2 &field_pposOff = esrc::get_gameSeed().get_field_pposOff();
+    const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_pposOff();
     vx += field_pposOff.x;
     vy += field_pposOff.y;
-    float pnValBig = simplex_noise2(    (vx + 51.15f) * freqBig,
-                                        (vy + 151.15f) * freqBig ) * 17; // [-x.0, x.0]
-    float pnValSml = simplex_noise2(    (vx + 244.41f) * freqSml,
-                                        (vy + 144.41f) * freqSml ) * 5; // [-x.0, x.0]
+    double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
+                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
+    double pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
+                                        (vy + 144.41) * freqSml ) * 5; // [-x.0, x.0]
     pnVal = pnValBig + pnValSml;
-    if( pnVal > 20.0f ){
-        pnVal = 20.0f;
+    if( pnVal > 20.0 ){
+        pnVal = 20.0;
     }
-    if( pnVal < -20.0f ){
-        pnVal = -20.0f;
+    if( pnVal < -20.0 ){
+        pnVal = -20.0;
     }
     // now, pnVal: [-20.0, 20.0]
 
@@ -224,8 +225,8 @@ void MapField::assign_field_to_4_ecoObjs(){
         if( count != nearFour_ecoObjDatas.size()){ //- 前3个 eco
 
             mposOff = this->get_mpos() - sectionKey_2_mpos( ecoReadOnly.sectionKey );
-            off = static_cast<float>(sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y )); // [ ~ 90.0 ~ ]
-            off += pnVal * 0.7f; // [-x.0, x.0] + 90.0
+            off = static_cast<double>(sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y )); // [ ~ 90.0 ~ ]
+            off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
                 this->ecoObjKey = ecoReadOnly.sectionKey;

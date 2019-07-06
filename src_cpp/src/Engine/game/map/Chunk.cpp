@@ -45,8 +45,8 @@ namespace chunk_inn {//-------- namespace: chunk_inn --------------//
                                     1.0f };
 
     //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
-    const std::vector<float> zOffs{
-        0.1f, 0.2f, 0.3f, 0.4f
+    const std::vector<double> zOffs{
+        0.1, 0.2, 0.3, 0.4
     };
 
 }//------------- namespace: chunk_inn end --------------//
@@ -68,8 +68,8 @@ void Chunk::init(){
     // 来分配 zoff 值。 
     //-- 本 chunk 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
-    IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_CHUNK );
-    IntVec2 oddEven = floorMod( v, 2 );
+    IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_CHUNK) );
+    IntVec2 oddEven = floorMod( v, 2.0 );
     this->zOff = chunk_inn::zOffs.at( to_size_t_cast(oddEven.y * 2 + oddEven.x) );
 
     
@@ -131,10 +131,10 @@ void Chunk::init(){
  */
 void Chunk::refresh_translate_auto(){
     const IntVec2 &ppos = mcpos.get_ppos();
-    mesh.set_translate(glm::vec3{   (float)ppos.x,
-                                    (float)ppos.y,
-                                    esrc::get_camera().get_zFar() + ViewingBox::chunks_zOff +
-                                        this->zOff  //-- MUST --
+    mesh.set_translate(glm::vec3{   static_cast<float>(ppos.x),
+                                    static_cast<float>(ppos.y),
+                                    static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::chunks_zOff +
+                                        this->zOff)  //-- MUST --
                                     });
 }
 

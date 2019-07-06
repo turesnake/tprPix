@@ -36,8 +36,8 @@ public:
 
     //----- numbers -----//
     SpeedLevel  speedLvl {};
-    float       alti   {};
-    float       weight {};
+    double       alti   {};
+    double       weight {};
     //...
 
 
