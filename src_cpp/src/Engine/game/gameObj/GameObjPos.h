@@ -104,7 +104,6 @@ public:
     }
 
 private:
-    //glm::vec2   currentFPos  {};  //- 基于 go.rootAnchor 的， 当前 fpos，无需对齐与mapent
     glm::dvec2  currentDPos  {};  //- 基于 go.rootAnchor 的， 当前 dpos，无需对齐与mapent
 
     MapCoord    currentMCPos {};  //- rootAnchor所在的 collient 的中点， 当前所在的 mapent

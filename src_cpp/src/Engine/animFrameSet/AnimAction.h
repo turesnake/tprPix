@@ -31,6 +31,21 @@ enum class AnimActionType{
     Cycle   //- 循环播放一段 动画帧
 };
 
+inline AnimActionType str_2_AnimActionType( const std::string &str_ ){
+    const std::string Idle {"Idle"};
+    const std::string Once {"Once"};
+    const std::string Cycle {"Cycle"};
+    if( str_ == Idle ){
+        return AnimActionType::Idle;
+    }else if( str_ == Once ){
+        return AnimActionType::Once;
+    }else if( str_ == Cycle ){
+        return AnimActionType::Cycle;
+    }else{
+        tprAssert(0);
+        return AnimActionType::Idle; //- never reach
+    }
+}
 
 
 //-- gomesh 自己保存的 有关 animAction 的动态数据。
@@ -49,6 +64,7 @@ public:
 
 
 //-- 3 kinds of AnimActionParam 
+//   可能最终不会被使用 ...
 enum class AnimActionParamType{
     singleFrame,
     singleFrame_batch, // 一组 单帧action，批处理

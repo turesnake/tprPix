@@ -70,7 +70,7 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                             bool                isHaveShadow_, //-- 将被记录到 animAction 数据中去
                             bool                isPjtSingleFrame_,
                             bool                isShadowSingleFrame_,
-                            const std::vector<AnimActionParam> &animActionParams_ ){
+                            const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ ){
 
     afs_inn::build_three_lpaths( lpath_pic_ );
     afs_inn::frameNum = frameNum_;
@@ -167,13 +167,13 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     //-------------------//
     //    animActions
     //-------------------//
-    for( const auto &param : animActionParams_ ){
+    for( auto &paramSPtr : animActionParams_ ){
 
-        this->animActions.insert({ param.actionName, std::make_unique<AnimAction>() }); 
-        AnimAction &actionRef = *(this->animActions.at(param.actionName).get());
+        this->animActions.insert({ paramSPtr->actionName, std::make_unique<AnimAction>() }); 
+        AnimAction &actionRef = *(this->animActions.at(paramSPtr->actionName).get());
 
         actionRef.init( const_cast<const AnimFrameSet*>(this),
-                        param,
+                        *(paramSPtr.get()),
                         afs_inn::pixNum_per_frame,
                         afs_inn::headIdx,
                         isHaveShadow_ );

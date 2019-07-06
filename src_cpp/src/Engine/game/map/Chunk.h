@@ -76,11 +76,6 @@ public:
     }
 
     //------- get -------//
-    /*
-    inline const glm::vec2 get_fpos() const {
-        return mcpos.get_fpos();
-    }
-    */
     inline const IntVec2 &get_mpos() const {
         return this->mcpos.get_mpos();
     }

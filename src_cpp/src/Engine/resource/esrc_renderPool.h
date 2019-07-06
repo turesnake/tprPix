@@ -21,10 +21,10 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-void insert_2_renderPool_goMeshs_pic( double off_z_, ChildMesh *meshPtr_ );
+void insert_2_renderPool_goMeshs_pic( float off_z_, ChildMesh *meshPtr_ );
 void pushback_2_renderPool_mapSurfaces( ChildMesh *meshPtr_ );
 void pushback_2_renderPool_goMeshs_shadow( ChildMesh *meshPtr_ );
-void insert_2_renderPool_uiMeshs_pic( double off_z_, UIChildMesh *meshPtr_ );
+void insert_2_renderPool_uiMeshs_pic( float off_z_, UIChildMesh *meshPtr_ );
 
 void clear_renderPool_goMeshs_pic();
 void clear_renderPool_goMeshs_shadow();
@@ -38,7 +38,7 @@ void draw_renderPool_mapSurfaces();
 void draw_renderPool_uiMeshs_pic();
 
 
-void insert_2_renderPool_meshs( double off_z_, Mesh *meshPtr_ );
+void insert_2_renderPool_meshs( float off_z_, Mesh *meshPtr_ );
 void clear_renderPool_meshs();
 void draw_renderPool_meshs();
 

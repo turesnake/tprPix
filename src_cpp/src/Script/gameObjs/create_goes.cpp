@@ -16,7 +16,7 @@
 #include "Script/gameObjs/allGoes.h"
 #include "Script/resource/ssrc.h"
 
-#include "Script/gameObjs/GoJsonData.h"
+#include "Script/json/GoJsonData.h"
 
 
 #include "tprDebug.h"

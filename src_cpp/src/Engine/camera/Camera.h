@@ -22,8 +22,8 @@
 class Camera{
 public:
     Camera():
-        targetDPos(glm::vec2(0.0, 0.0)),
-        currentDPos(glm::vec3(  0.0,
+        targetDPos(glm::dvec2(0.0, 0.0)),
+        currentDPos(glm::dvec3(  0.0,
                                 0.0,
                                 0.5 * ViewingBox::z ))
         {}
@@ -55,11 +55,6 @@ public:
     }
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
-    /*
-    inline glm::vec2 get_camera2DFPos() const { 
-        return  glm::vec2{ this->currentFPos.x, this->currentFPos.y };  
-    }
-    */
     inline glm::dvec2 get_camera2DDPos() const { 
         return  glm::dvec2{ this->currentDPos.x, 
                             this->currentDPos.y };  

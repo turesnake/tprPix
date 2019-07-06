@@ -57,7 +57,7 @@ void UIMesh::RenderUpdate(){
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
 
-    esrc::insert_2_renderPool_uiMeshs_pic(  static_cast<double>(this->picMesh.get_render_z() + this->off_z), 
+    esrc::insert_2_renderPool_uiMeshs_pic(  this->picMesh.get_render_z() + this->off_z, 
                                             this->picMesh.getnc_UIChildMeshPtr() );
 
     //---------------//

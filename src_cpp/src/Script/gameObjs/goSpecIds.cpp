@@ -18,7 +18,7 @@
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/allGoes.h"
-#include "Script/gameObjs/GoJsonData.h"
+#include "Script/json/GoJsonData.h"
 
 using namespace std::placeholders;
 
@@ -44,7 +44,6 @@ void onGoSpecIds_SignUp(){
 
     //==================================//
     parse_from_goJsonFile();
-
 
     //==================================//
     ssrc::insert_2_goInit_funcs( "norman", std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2, _3, _4, _5, _6 ) );

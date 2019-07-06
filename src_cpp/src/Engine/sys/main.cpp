@@ -28,8 +28,6 @@
 //#include "tprDebug.h" //- tmp
 
 
-
-
 /* ===========================================================
  *                     cppMain_tmp
  * -----------------------------------------------------------
@@ -118,7 +116,6 @@ int cppMain_tmp( char *exeDirPath_ ){
 
     //++++++ load ++++++//
     esrc::load_colliEntSets();       //-- colliEntSets --
-    esrc::load_animFrameSets();      //-- animFrameSets --, MUST after load_colliEntSets()
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
     esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()

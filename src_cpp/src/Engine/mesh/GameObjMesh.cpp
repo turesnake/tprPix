@@ -76,7 +76,6 @@ void GameObjMesh::RenderUpdate(){
     if( this->isHaveShadow ){
         this->shadowMesh.refresh_translate();
         this->shadowMesh.refresh_scale_auto();
-        //esrc::renderPool_goMeshs_shadow.push_back( this->shadowMesh.getnc_ChildMeshPtr() );
         esrc::pushback_2_renderPool_goMeshs_shadow( this->shadowMesh.getnc_ChildMeshPtr() );
     }
 }

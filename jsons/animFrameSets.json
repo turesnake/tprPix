@@ -181,9 +181,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 17,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 17,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -204,9 +204,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 8,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 8,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -227,9 +227,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "front_",
-                        "actionName_midNum": 4,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "front_",
+                        "actionName.midNum": 4,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -245,9 +245,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "back_",
-                        "actionName_midNum": 4,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "back_",
+                        "actionName.midNum": 4,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -268,9 +268,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 8,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 8,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -291,9 +291,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 8,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 8,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -314,9 +314,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 32,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 32,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]
@@ -337,9 +337,9 @@
             "AnimActionParams":
                 [
                     {
-                        "actionName_prefix": "",
-                        "actionName_midNum": 24,
-                        "actionName_suffix": "_idle",
+                        "actionName.prefix": "",
+                        "actionName.midNum": 24,
+                        "actionName.suffix": "_idle",
                         "type": "singleFrame_batch"
                     }
                 ]

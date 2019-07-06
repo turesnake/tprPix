@@ -15,7 +15,7 @@
 
 
 //--------------- Script ------------------//
-#include "Script/gameObjs/GoJsonData.h"
+#include "Script/json/GoJsonData.h"
 
 #include "tprDebug.h" 
 

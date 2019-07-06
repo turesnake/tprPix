@@ -118,7 +118,6 @@ private:
     DirAxes  newDirAxes     {};  //- 本次渲染帧，新传入的 方向值（每一帧都被外部代码更新）
     DirAxes  currentDirAxes {};  //- 当前正在处理的  方向值。（只在节点帧被改写）
 
-    //glm::vec2 targetFPos  {};
     glm::dvec2 targetDPos  {};
 
     F_RenderUpdate renderUpdataFunc {nullptr}; //- functor

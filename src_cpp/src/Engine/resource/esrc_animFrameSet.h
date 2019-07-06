@@ -17,8 +17,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-
-void load_animFrameSets();
+AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 
 AnimAction *getnc_animActionPtr(const std::string &animFrameSetName_,
                                 const std::string &actionName_ );

@@ -32,18 +32,13 @@
 
 
 /* ===========================================================
- *             mpos_2_ppos / mpos_2_fpos  
+ *                  mpos_2_ppos
  * -----------------------------------------------------------
  * --  放在前面，因为会被 class MapCoord 用到
  */
 inline const IntVec2 mpos_2_ppos( const IntVec2 &mpos_ ){
     return (mpos_*PIXES_PER_MAPENT);
 }
-inline const glm::vec2 mpos_2_dpos( const IntVec2 &mpos_ ){
-    return glm::vec2{   static_cast<double>(mpos_.x*PIXES_PER_MAPENT),
-                        static_cast<double>(mpos_.y*PIXES_PER_MAPENT) };
-}
-
 
 //-- [left-bottom] --
 class MapCoord{

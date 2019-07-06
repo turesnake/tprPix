@@ -56,7 +56,6 @@ void ChildMesh::refresh_translate(){
 
     const auto &goRef = this->goMeshRef.get_goCRef();
 
-    //const glm::vec2 &goCurrentFPos = goRef.goPos.get_currentFPos();
     const glm::vec2 &goCurrentFPos = glm_dvec2_2_vec2( goRef.goPos.get_currentDPos() );
 
     //- 图元帧 左下角 到 rootAnchor 的 off偏移 --

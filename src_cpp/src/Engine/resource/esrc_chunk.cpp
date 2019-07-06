@@ -141,8 +141,8 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
 void render_chunks(){
     for( auto& p : chunk_inn::chunkUPtrs ){
             p.second->refresh_translate_auto(); //-- MUST !!!
-            insert_2_renderPool_meshs( static_cast<double>(p.second->get_mesh().get_render_z()),
-                                                const_cast<Mesh*>(&p.second->get_mesh()) );
+            insert_2_renderPool_meshs( p.second->get_mesh().get_render_z(),
+                                        const_cast<Mesh*>(&p.second->get_mesh()) );
     }
 }
 

@@ -68,7 +68,7 @@ public:
                 bool                isHaveShadow_,
                 bool                isPjtSingleFrame_,
                 bool                isShadowSingleFrame_,
-                const std::vector<AnimActionParam> &animActionParams_ );
+                const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
 
     inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
        tprAssert( this->animActions.find(actionName_) != this->animActions.end() );

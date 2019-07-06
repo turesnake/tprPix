@@ -25,6 +25,7 @@
 #include "esrc_behaviour.h" 
 
 //-------------------- Script --------------------//
+#include "Script/json/AnimFrameSetJsonData.h"
 
 
 using namespace std::placeholders;
@@ -35,8 +36,6 @@ extern void onGoSpecIds_SignUp();
 extern void onUISpecIds_SignUp();
 extern void onStart_test();
 
-//extern void parse_from_goJsonFile();
-
 /* ===========================================================
  *                     scriptMain 
  * -----------------------------------------------------------
@@ -46,13 +45,15 @@ extern void onStart_test();
 void scriptMain(){
 
     //------- Awakes -------//
-    //esrc::get_behaviour().signUp_Awakes( std::bind( &parse_from_goJsonFile ) );
 
     esrc::get_behaviour().signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) );
     esrc::get_behaviour().signUp_Awakes( std::bind( &onUISpecIds_SignUp ) );
 
     //------- Starts -------//
     esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
+
+    esrc::get_behaviour().signUp_Starts( std::bind( &parse_from_animFrameSetJsonFile ) ); // MUST after load_colliEntSets()
+
 
 }
 
