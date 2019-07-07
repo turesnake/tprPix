@@ -16,7 +16,5 @@
 double simplex_noise2( const glm::dvec2 &v_ );
 double simplex_noise2( double x_, double y_ );
 
-
-
 #endif 
 

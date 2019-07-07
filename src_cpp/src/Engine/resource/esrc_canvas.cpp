@@ -20,13 +20,11 @@ namespace esrc{//------------------ namespace: esrc -------------------------//
 
 
 namespace canvas_inn {//-------- namespace: canvas_inn --------------//
-
     std::unique_ptr<Canvas> groundCanvasUPtr;
     std::unique_ptr<Canvas> waterAnimCanvasUPtr;
 
     bool  is_waterAnim_baseUniforms_transmited {false}; //- pixGpgpu 的几个 静态uniform值 是否被传输
                                         // 这些值是固定的，每次游戏只需传入一次...
-
 }//------------- namespace: canvas_inn end --------------//
 
 
@@ -42,7 +40,6 @@ void init_canvases(){
     //------------------//
     //    groundCanvas
     //------------------//
-
     canvas_inn::groundCanvasUPtr->init( &(ViewingBox::windowSZ),
                             "/groundCanvas.vs",
                             "/groundCanvas.fs" );
@@ -58,7 +55,6 @@ void init_canvases(){
     //------------------//
     //    waterAnimCanvas
     //------------------//
-
     canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::windowSZ),
                             "/waterAnimCanvas.vs",
                             "/waterAnimCanvas.fs" );
@@ -71,13 +67,10 @@ void init_canvases(){
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "SCR_HEIGHT" ); //- 1-float
 
     //-- 以下 uniforms 只需传一次 --
-    
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffSeaLvl" ); //- 2-float
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffBig" ); //- 2-float
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffMid" ); //- 2-float
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffSml" ); //- 2-float
-
-
 }
 
 /* ===========================================================
@@ -92,7 +85,6 @@ void draw_groundCanvas(){
                 static_cast<float>(glfwGetTime()) ); //- 1-float
 
     const glm::vec2 cameraFPos = glm_dvec2_2_vec2(get_camera().get_camera2DDPos());
-
 
     float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
     float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
@@ -144,7 +136,6 @@ void draw_waterAnimCanvas(){
                     canvasFPos.x / PIXES_PER_CHUNK,
                     canvasFPos.y / PIXES_PER_CHUNK ); //- 2-float
 
-    
     //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
     GameSeed &gameSeedRef = get_gameSeed();
     const glm::dvec2 &altiSeed_pposOffSeaLvl = gameSeedRef.get_altiSeed_pposOffSeaLvl();
@@ -177,8 +168,6 @@ void draw_waterAnimCanvas(){
 
     canvas_inn::waterAnimCanvasUPtr->draw();
 }
-
-
 
 }//---------------------- namespace: esrc -------------------------//
 

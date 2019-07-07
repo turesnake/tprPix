@@ -36,8 +36,6 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
     bool is_find_in_chunkDatas_( chunkKey_t key_ ){
         return (chunkD_inn::chunkDatas.find(key_) != chunkD_inn::chunkDatas.end());
     }
-
-
 }//---------------- namespace: chunkD_inn end --------------//
 
 
@@ -70,8 +68,6 @@ void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ ){
     }
 }
 
-
-
 /* ===========================================================
  *              atom_get_chunkData_mapEntAltis      [-READ-]
  * -----------------------------------------------------------
@@ -84,8 +80,6 @@ const ChunkData &atom_get_chunkDataCRef( chunkKey_t chunkKey_ ){
         return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
     }
 }
-
-
 
 /* ===========================================================
  *              atom_is_chunkDataFlags_empty
@@ -100,7 +94,6 @@ bool atom_is_chunkDataFlags_empty(){
     }
     return ret;
 }
-
 
 /* ===========================================================
  *              atom_push_back_2_chunkDataFlags
@@ -128,10 +121,6 @@ chunkKey_t atom_pop_from_chunkDataFlags(){
     }
     return key;
 }
-
-
-
-
 
 }//---------------------- namespace: esrc -------------------------//
 

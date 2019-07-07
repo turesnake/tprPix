@@ -40,27 +40,26 @@ using std::cout;
 using std::endl;
 
 
-class AFSPng{
-public:
-    std::string path {};
-    IntVec2 frameNum {};
-    size_t totalFrameNum {};
-    bool isHaveShadow {};
-    bool isPjtSingle {};
-    bool isShadowSingle {};
-    std::vector<std::shared_ptr<AnimActionParam>> actionParams {};
-};
-
-
-class AnimFrameSetJsonData{
-public:
-    std::string name {};
-    std::vector<std::shared_ptr<AFSPng>> afsPngs {};
-};
-
-
-
 namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
+
+    class AFSPng{
+    public:
+        std::string path {};
+        IntVec2 frameNum {};
+        size_t totalFrameNum {};
+        bool isHaveShadow {};
+        bool isPjtSingle {};
+        bool isShadowSingle {};
+        std::vector<std::shared_ptr<AnimActionParam>> actionParams {};
+    };
+
+
+    class AnimFrameSetJsonData{
+    public:
+        std::string name {};
+        std::vector<std::shared_ptr<AFSPng>> afsPngs {};
+    };
+
     std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ );
     void parse_AnimActionParam( const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_ );
@@ -94,7 +93,7 @@ void parse_from_animFrameSetJsonFile(){
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
-        AnimFrameSetJsonData jsonData {};
+        afsJson_inn::AnimFrameSetJsonData jsonData {};
 
         {//--- name ---//
             const auto &a = json_inn::check_and_get_value( ent, "name", json_inn::JsonValType::String );

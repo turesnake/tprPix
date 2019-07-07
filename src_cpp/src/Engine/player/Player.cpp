@@ -4,9 +4,7 @@
  *                                        CREATE -- 2018.12.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    存储所有 玩家 信息。
- *    ----------
- *    
+ *   hold data about player
  * ----------------------------
  */
 #include "Player.h"
@@ -24,7 +22,6 @@
 
 
 using namespace std::placeholders;
-
 
 #include "tprDebug.h" //- tmp
 

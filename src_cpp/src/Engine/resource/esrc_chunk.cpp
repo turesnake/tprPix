@@ -21,17 +21,10 @@
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
-
-
 namespace chunk_inn {//------------ namespace: chunk_inn --------------//
-
     //-- chunks 不跨线程，仅被 主线程访问 --
     std::unordered_map<chunkKey_t, std::unique_ptr<Chunk>> chunkUPtrs {};
-
-
 }//---------------- namespace: chunk_inn end --------------//
-
-
 
 /* ===========================================================
  *             insert_and_init_new_chunk
@@ -91,7 +84,6 @@ MemMapEnt *get_memMapEntPtr( const MapCoord &anyMCpos_ ){
                 //-- 再次检测
                 tprAssert( chunk_inn::chunkUPtrs.find(chunkKey) != chunk_inn::chunkUPtrs.end() ); //- tmp
 
-
     return chunk_inn::chunkUPtrs.at(chunkKey)->getnc_mapEntPtr_by_lMPosOff( lMPosOff );
 }
 
@@ -131,8 +123,6 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
         tprAssert( chunk_inn::chunkUPtrs.find(key_) != chunk_inn::chunkUPtrs.end() );//- must exist
     return *(chunk_inn::chunkUPtrs.at(key_).get());
 }
-
-
 
 /* ===========================================================
  *                 render_chunks

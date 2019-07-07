@@ -35,8 +35,6 @@ uiObjId_t insert_new_ui();
 UIObj *get_memUIPtr( uiObjId_t uiObjid_ );
 
 
-
-
 }//---------------------- namespace: esrc -------------------------//
 #endif
 

@@ -132,7 +132,6 @@ void parse_from_goJsonFile(){
                 goJsonData.pubBinary.MP = -999; //- tmp
         }
 
-
         //====================================//
         //  Now, the goJsonData is inited
         //  insert it into all ssrc::containers

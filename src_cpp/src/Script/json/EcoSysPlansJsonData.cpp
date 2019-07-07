@@ -39,7 +39,6 @@ using std::endl;
 
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
-
     //--- densityDivideVals ---
     std::vector<double> densityDivideVals_default 
         { -65.0, -40.0, -15.0, 15.0, 40.0, 65.0 }; //- 较为均匀的分布

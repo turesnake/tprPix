@@ -39,8 +39,6 @@ public:
 
     //======== vals ========//
     goid_t    goid   {NULLID}; 
-    //GameObj  *goPtr  {nullptr}; //- 玩家当前绑定的 go 指针 
-    //std::shared_ptr<GameObj> goSPtr {}; //- 玩家当前绑定的 go 指针 
                     // 不再长期持有 goPtr，而是持有 goid，随用随取。
                     // 忽略这点性能损失
 

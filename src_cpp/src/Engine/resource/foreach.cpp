@@ -49,11 +49,9 @@ void foreach_memUIs( F_UIObjId_GOPTR fp_ ){
  */
 void foreach_goids_active( F_GOID_GOPTR fp_ ){
 
-    //GameObj *goPtr {};
     auto it = esrc::get_goids_active().begin();
     for( ; it!=esrc::get_goids_active().end(); it++ ){
 
-        //goPtr = &(esrc::get_memGameObjs().at(*it));
         fp_( *it, esrc::get_goRef(*it) );
     }
 }
@@ -82,11 +80,9 @@ void foreach_uiIds_active( F_UIObjId_GOPTR fp_ ){
  */
 void foreach_goids_inactive( F_GOID_GOPTR fp_ ){
 
-    //GameObj *goPtr {};
     auto it = esrc::get_goids_inactive().begin();
     for( ; it!=esrc::get_goids_inactive().end(); it++ ){
 
-        //goPtr = &(esrc::get_memGameObjs().at(*it));
         fp_( *it, esrc::get_goRef(*it) );
     }
 }

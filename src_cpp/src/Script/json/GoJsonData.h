@@ -40,7 +40,6 @@ public:
     double       weight {};
     //...
 
-
     //std::unordered_map<PubBinaryValType,int> pubVals {};
     PubBinary2   pubBinary {};
 };

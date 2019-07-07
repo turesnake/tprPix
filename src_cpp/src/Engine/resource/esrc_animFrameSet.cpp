@@ -20,12 +20,8 @@
 #include "esrc_animFrameSet.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
-
-
 namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn -------------//
-
     std::unordered_map<std::string, std::unique_ptr<AnimFrameSet>> animFrameSets {};
-
 }//--------------- namespace: animFrameSet_inn end -----------------//
 
 
@@ -38,7 +34,6 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
     animFrameSet_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
     return *(animFrameSet_inn::animFrameSets.at(name_).get());
 }
-
 
 /* ===========================================================
  *                      getnc_animActionPtr
