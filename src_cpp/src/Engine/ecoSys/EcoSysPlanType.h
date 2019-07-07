@@ -13,8 +13,14 @@
 //------------------- C --------------------//
 #include <cstddef> //- size_t
 
+//------------------- CPP --------------------//
+#include <string>
+
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
+
+//------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 using ecoSysPlanId_t = u32_t;
@@ -45,6 +51,29 @@ inline const size_t EcoSysPlanType_Num  { EcoSysPlanType_MaxIdx - EcoSysPlanType
 inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ ){
     return (static_cast<size_t>(type_) - EcoSysPlanType_MinIdx);
 }
+
+
+inline EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ ){
+    if( str_ == std::string{"Forest"} ){
+        return EcoSysPlanType::Forest;
+    }else if( str_ == std::string{"DarkForest"} ){
+        return EcoSysPlanType::DarkForest;
+    }else if( str_ == std::string{"Plain"} ){
+        return EcoSysPlanType::Plain;
+    }else if( str_ == std::string{"Swamp"} ){
+        return EcoSysPlanType::Swamp;
+    }else if( str_ == std::string{"Desert"} ){
+        return EcoSysPlanType::Desert;
+    }else{
+        tprAssert(0);
+        return EcoSysPlanType::Forest; //- never reach
+    }
+}
+
+
+
+
+
 
 
 #endif 

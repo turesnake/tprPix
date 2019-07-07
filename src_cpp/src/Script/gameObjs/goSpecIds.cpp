@@ -66,7 +66,7 @@ void onGoSpecIds_SignUp(){
     //-------------------//
     //    mapSurface
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "lichen_Forest",      std::bind( &gameObjs::Lichen_DForest::init_in_autoMod, _1, _2, _3, _4, _5, _6 ) );
+    ssrc::insert_2_goInit_funcs( "lichen_Forest",      std::bind( &gameObjs::Lichen_Forest::init_in_autoMod, _1, _2, _3, _4, _5, _6 ) );
     ssrc::insert_2_goInit_funcs( "lichen_DForest",     std::bind( &gameObjs::Lichen_DForest::init_in_autoMod, _1, _2, _3, _4, _5, _6 ) );
 
      //...

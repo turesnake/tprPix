@@ -17,23 +17,15 @@
 
 #include "tprGeneral.h"
 
-#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
-#if defined TPR_OS_WIN32_ 
-    #include "tprFileSys_win.h"
-#elif defined TPR_OS_UNIX_ 
-    #include "tprFileSys_unix.h"
-#endif
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
-
+#include "fileIO.h"
 
 //--------------- Script ------------------//
 #include "Script/json/GoJsonData.h"
 #include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
-
 
 using namespace rapidjson;
 
@@ -57,21 +49,14 @@ void parse_from_goJsonFile(){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string jsonBuf {};
     std::string path_file = tprGeneral::path_combine(path_jsons, "goJsonDatas.json");
-
-    //-- read files --
-#if defined TPR_OS_WIN32_
-    tprWin::file_load( path_file, jsonBuf );
-#elif defined TPR_OS_UNIX_
-    tprUnix::file_load( path_file, jsonBuf );
-#endif
+    auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//
     //      parce JSON data
     //-----------------------------//
     Document doc;
-    doc.Parse( jsonBuf.c_str() );
+    doc.Parse( jsonBufUPtr->c_str() );
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
@@ -79,81 +64,55 @@ void parse_from_goJsonFile(){
         GoJsonData  goJsonData {};
 
         {//--- gameObjType ---//
-            tprAssert( ent.HasMember("gameObjType") );
-            const Value &a = ent["gameObjType"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "gameObjType", json_inn::JsonValType::String );
             goJsonData.gameObjType = a.GetString();
         }
         {//--- specID ---//
-            tprAssert( ent.HasMember("specID") );
-            const Value &a = ent["specID"];
-            tprAssert( a.IsUint() );
+            const auto &a = json_inn::check_and_get_value( ent, "specID", json_inn::JsonValType::Uint );
             goJsonData.specID = static_cast<goSpecId_t>( a.GetUint() );
         }
         {//--- parentID ---//
-            tprAssert( ent.HasMember("parentID") );
-            const Value &a = ent["parentID"];
-            tprAssert( a.IsUint64() );
+            const auto &a = json_inn::check_and_get_value( ent, "parentID", json_inn::JsonValType::Uint64 );
             goJsonData.parentID = static_cast<goid_t>( a.GetUint64() );
         }
         {//--- family ---//
-            tprAssert( ent.HasMember("family") );
-            const Value &a = ent["family"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "family", json_inn::JsonValType::String );
             goJsonData.family = str_2_GameObjFamily( a.GetString() );
         }
         {//--- state ---//
-            tprAssert( ent.HasMember("state") );
-            const Value &a = ent["state"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "state", json_inn::JsonValType::String );
             goJsonData.state = str_2_GameObjState( a.GetString() );
         }
         {//--- moveState ---//
-            tprAssert( ent.HasMember("moveState") );
-            const Value &a = ent["moveState"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "moveState", json_inn::JsonValType::String );
             goJsonData.moveState = str_2_GameObjMoveState( a.GetString() );
         }
         {//--- moveType ---//
-            tprAssert( ent.HasMember("moveType") );
-            const Value &a = ent["moveType"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "moveType", json_inn::JsonValType::String );
             goJsonData.moveType = str_2_MoveType( a.GetString() );
         }
         {//--- isTopGo ---//
-            tprAssert( ent.HasMember("isTopGo") );
-            const Value &a = ent["isTopGo"];
-            tprAssert( a.IsBool() );
+            const auto &a = json_inn::check_and_get_value( ent, "isTopGo", json_inn::JsonValType::Bool );
             goJsonData.isTopGo = a.GetBool();
         }
         {//--- isDoPass ---//
-            tprAssert( ent.HasMember("isDoPass") );
-            const Value &a = ent["isDoPass"];
-            tprAssert( a.IsBool() );
+            const auto &a = json_inn::check_and_get_value( ent, "isDoPass", json_inn::JsonValType::Bool );
             goJsonData.isDoPass = a.GetBool();
         }
         {//--- isBePass ---//
-            tprAssert( ent.HasMember("isBePass") );
-            const Value &a = ent["isBePass"];
-            tprAssert( a.IsBool() );
+            const auto &a = json_inn::check_and_get_value( ent, "isBePass", json_inn::JsonValType::Bool );
             goJsonData.isBePass = a.GetBool();
         }
         {//--- speedLvl ---//
-            tprAssert( ent.HasMember("speedLvl") );
-            const Value &a = ent["speedLvl"];
-            tprAssert( a.IsInt() );
+            const auto &a = json_inn::check_and_get_value( ent, "speedLvl", json_inn::JsonValType::Int );
             goJsonData.speedLvl = int_2_SpeedLevel( a.GetInt() );
         }
         {//--- alti ---//
-            tprAssert( ent.HasMember("alti") );
-            const Value &a = ent["alti"];
-            tprAssert( a.IsNumber() );
+            const auto &a = json_inn::check_and_get_value( ent, "alti", json_inn::JsonValType::Number );
             goJsonData.alti = json_inn::get_double( a );
         }
         {//--- weight ---//
-            tprAssert( ent.HasMember("weight") );
-            const Value &a = ent["weight"];
-            tprAssert( a.IsNumber() );
+            const auto &a = json_inn::check_and_get_value( ent, "weight", json_inn::JsonValType::Number );
             goJsonData.weight = json_inn::get_double( a );
         }
         {//--- pub.HP ---//

@@ -80,7 +80,7 @@ void EcoSysPlan::init_landColor_doubleDeep( const RGBA &baseColor_ ){
  *    所有 密度大于等于 density_.lvl 的走 _color_1。
  *    剩下区域 走 _color_2
  */
-void EcoSysPlan::init_landColor_twoPattern( const Density &density_high_,
+void EcoSysPlan::init_landColor_twoPattern( int density_high_lvl_,
                                     const RGBA &color_high_,
                                     const RGBA &color_low_,
                                     bool  is_goDeep_high_,
@@ -91,7 +91,7 @@ void EcoSysPlan::init_landColor_twoPattern( const Density &density_high_,
     //---
     for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
         absI = std::abs(i);
-        if( i >= density_high_.get_lvl() ){ //- high
+        if( i >= density_high_lvl_ ){ //- high
             is_goDeep_high_ ?
                 this->landColors.at( Density::lvl_2_idx(i) ) = color_high_.add( absI * ecoSysPlan_inn::off_r, 
                                                                                 absI * ecoSysPlan_inn::off_g, 
@@ -166,19 +166,20 @@ void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
  *              insert
  * -----------------------------------------------------------
  */
-void EcoSysPlan::insert(const Density &density_, 
+void EcoSysPlan::insert( int densityLvl_, 
                     double applyPercent_,
-                    const std::vector<EcoEnt> &ecoEnts_ ){
-
+                    const std::vector<std::unique_ptr<EcoEnt>> &ecoEnts_ ){
+    
     tprAssert( this->is_applyPercents_init ); //- MUST
-    this->applyPercents.at(density_.get_idx()) = applyPercent_;
+    size_t densityIdx = Density::lvl_2_idx( densityLvl_ );
+    this->applyPercents.at(densityIdx) = applyPercent_;
 
     goSpecId_t  id_l {};
-    for( const auto &ent : ecoEnts_ ){
+    for( const auto &entUPtr : ecoEnts_ ){
         tprAssert( this->is_goSpecIdPools_init ); //- MUST
-        auto &poolRef = this->goSpecIdPools.at(density_.get_idx());
-        id_l = ssrc::get_goSpecId(ent.specName);
-        poolRef.insert( poolRef.begin(), ent.idNum, id_l );
+        auto &poolRef = this->goSpecIdPools.at(densityIdx);
+        id_l = ssrc::get_goSpecId(entUPtr->specName);
+        poolRef.insert( poolRef.begin(), entUPtr->idNum, id_l );
     }
 }
 

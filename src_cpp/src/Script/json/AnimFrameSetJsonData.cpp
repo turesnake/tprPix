@@ -19,16 +19,10 @@
 
 #include "tprGeneral.h"
 
-#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
-#if defined TPR_OS_WIN32_ 
-    #include "tprFileSys_win.h"
-#elif defined TPR_OS_UNIX_ 
-    #include "tprFileSys_unix.h"
-#endif
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
+#include "fileIO.h"
 #include "AnimFrameSet.h"
 #include "AnimAction.h"
 #include "esrc_animFrameSet.h"
@@ -36,6 +30,7 @@
 
 //--------------- Script ------------------//
 #include "Script/json/AnimFrameSetJsonData.h"
+#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
 
 using namespace rapidjson;
@@ -87,21 +82,14 @@ void parse_from_animFrameSetJsonFile(){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string jsonBuf {};
     std::string path_file = tprGeneral::path_combine(path_jsons, "animFrameSets.json");
-
-    //-- read files --
-#if defined TPR_OS_WIN32_
-    tprWin::file_load( path_file, jsonBuf );
-#elif defined TPR_OS_UNIX_
-    tprUnix::file_load( path_file, jsonBuf );
-#endif
+    auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//
     //      parce JSON data
     //-----------------------------//
     Document doc;
-    doc.Parse( jsonBuf.c_str() );
+    doc.Parse( jsonBufUPtr->c_str() );
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
@@ -109,15 +97,11 @@ void parse_from_animFrameSetJsonFile(){
         AnimFrameSetJsonData jsonData {};
 
         {//--- name ---//
-            tprAssert( ent.HasMember("name") );
-            const Value &a = ent["name"];
-            tprAssert( a.IsString() );
+            const auto &a = json_inn::check_and_get_value( ent, "name", json_inn::JsonValType::String );
             jsonData.name = a.GetString();
         }
         {//--- pngs [] ---//
-            tprAssert( ent.HasMember("pngs") );
-            const Value &a = ent["pngs"];
-            tprAssert( a.IsArray() );
+            const auto &a = json_inn::check_and_get_value( ent, "pngs", json_inn::JsonValType::Array );
             for( auto &pngEnt : a.GetArray() ){//- foreach pngs
                 jsonData.afsPngs.push_back( afsJson_inn::parse_AFSPng( pngEnt ) );
             }
@@ -152,51 +136,35 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
     auto afsPng = std::make_shared<AFSPng>();
 
     {//--- path ---//
-        tprAssert( pngEnt_.HasMember("path") );
-        const Value &a = pngEnt_["path"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "path", json_inn::JsonValType::String );
         afsPng->path = a.GetString();
     }
     {//--- frameNum.col ---//
-        tprAssert( pngEnt_.HasMember("frameNum.col") );
-        const Value &a = pngEnt_["frameNum.col"];
-        tprAssert( a.IsInt() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "frameNum.col", json_inn::JsonValType::Int );
         afsPng->frameNum.x =  a.GetInt();
     }
     {//--- frameNum.row ---//
-        tprAssert( pngEnt_.HasMember("frameNum.row") );
-        const Value &a = pngEnt_["frameNum.row"];
-        tprAssert( a.IsInt() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "frameNum.row", json_inn::JsonValType::Int );
         afsPng->frameNum.y =  a.GetInt();
     }
     {//--- totalFrameNum ---//
-        tprAssert( pngEnt_.HasMember("totalFrameNum") );
-        const Value &a = pngEnt_["totalFrameNum"];
-        tprAssert( a.IsUint64() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "totalFrameNum", json_inn::JsonValType::Uint64 );
         afsPng->totalFrameNum =  static_cast<size_t>(a.GetUint64());
     }
     {//--- isHaveShadow ---//
-        tprAssert( pngEnt_.HasMember("isHaveShadow") );
-        const Value &a = pngEnt_["isHaveShadow"];
-        tprAssert( a.IsBool() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "isHaveShadow", json_inn::JsonValType::Bool );
         afsPng->isHaveShadow =  a.GetBool();
     }
     {//--- isPjtSingle ---//
-        tprAssert( pngEnt_.HasMember("isPjtSingle") );
-        const Value &a = pngEnt_["isPjtSingle"];
-        tprAssert( a.IsBool() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "isPjtSingle", json_inn::JsonValType::Bool );
         afsPng->isPjtSingle =  a.GetBool();
     }
     {//--- isShadowSingle ---//
-        tprAssert( pngEnt_.HasMember("isShadowSingle") );
-        const Value &a = pngEnt_["isShadowSingle"];
-        tprAssert( a.IsBool() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "isShadowSingle", json_inn::JsonValType::Bool );
         afsPng->isShadowSingle =  a.GetBool();
     }
     {//--- AnimActionParams ---//
-        tprAssert( pngEnt_.HasMember("AnimActionParams") );
-        const Value &a = pngEnt_["AnimActionParams"];
-        tprAssert( a.IsArray() );
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "AnimActionParams", json_inn::JsonValType::Array );
         for( auto &ent : a.GetArray() ){//- foreach AnimActionParam
             afsJson_inn::parse_AnimActionParam( ent, afsPng->actionParams );
         }
@@ -219,9 +187,7 @@ void parse_AnimActionParam( const Value &actionParamEnt_,
     const std::string multiFrame_DiffTimeStep {"multiFrame_DiffTimeStep"};
 
     {//--- type ---//
-        tprAssert( actionParamEnt_.HasMember("type") );
-        const Value &a = actionParamEnt_["type"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "type", json_inn::JsonValType::String );
         type = a.GetString();
     }
 
@@ -250,15 +216,11 @@ std::shared_ptr<AnimActionParam> singleFrame( const Value &actionParamEnt_ ){
     std::string actionName {};
     size_t      lFrameIdx  {};
     {//--- actionName ---//
-        tprAssert( actionParamEnt_.HasMember("actionName") );
-        const Value &a = actionParamEnt_["actionName"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName", json_inn::JsonValType::String );
         actionName = a.GetString();
     }
     {//--- lFrameIdx ---//
-        tprAssert( actionParamEnt_.HasMember("lFrameIdx") );
-        const Value &a = actionParamEnt_["lFrameIdx"];
-        tprAssert( a.IsUint64() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdx", json_inn::JsonValType::Uint64 );
         lFrameIdx = static_cast<size_t>(a.GetUint64());
     }
     return std::make_shared<AnimActionParam>( actionName, lFrameIdx );
@@ -276,21 +238,15 @@ std::vector<std::shared_ptr<AnimActionParam>> singleFrame_batch( const Value &ac
     std::string actionName {};
     std::vector<std::shared_ptr<AnimActionParam>> params {};
     {//--- actionName.prefix ---//
-        tprAssert( actionParamEnt_.HasMember("actionName.prefix") );
-        const Value &a = actionParamEnt_["actionName.prefix"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.prefix", json_inn::JsonValType::String );
         prefix = a.GetString();
     }
     {//--- actionName.suffix ---//
-        tprAssert( actionParamEnt_.HasMember("actionName.suffix") );
-        const Value &a = actionParamEnt_["actionName.suffix"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.suffix", json_inn::JsonValType::String );
         suffix = a.GetString();
     }
     {//--- actionName.midNum ---//
-        tprAssert( actionParamEnt_.HasMember("actionName.midNum") );
-        const Value &a = actionParamEnt_["actionName.midNum"];
-        tprAssert( a.IsUint64() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.midNum", json_inn::JsonValType::Uint64 );
         num = static_cast<size_t>(a.GetUint64());
     }
     //---
@@ -315,27 +271,19 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
     size_t              timeStep  {}; //- only for SameTimeStep
 
     {//--- actionName ---//
-        tprAssert( actionParamEnt_.HasMember("actionName") );
-        const Value &a = actionParamEnt_["actionName"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName", json_inn::JsonValType::String );
         actionName = a.GetString();
     }
     {//--- actionType ---//
-        tprAssert( actionParamEnt_.HasMember("actionType") );
-        const Value &a = actionParamEnt_["actionType"];
-        tprAssert( a.IsString() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionType", json_inn::JsonValType::String );
         actionType = str_2_AnimActionType( a.GetString() );
     }
     {//--- isOrder ---//
-        tprAssert( actionParamEnt_.HasMember("isOrder") );
-        const Value &a = actionParamEnt_["isOrder"];
-        tprAssert( a.IsBool() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOrder", json_inn::JsonValType::Bool );
         isOrder = a.GetBool();
     }
     {//--- lFrameIdxs [] ---//
-        tprAssert( actionParamEnt_.HasMember("lFrameIdxs") );
-        const Value &a = actionParamEnt_["lFrameIdxs"];
-        tprAssert( a.IsArray() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdxs", json_inn::JsonValType::Array );
         for( SizeType i=0; i<a.Size(); i++ ){//- foreach lFrameIdx
             lFrameIdxs.push_back( static_cast<size_t>(a[i].GetUint64()) );
         }
@@ -343,9 +291,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
     
     if( isSameTimeStep_ ){
         //--- timeStep ---//
-        tprAssert( actionParamEnt_.HasMember("timeStep") );
-        const Value &a = actionParamEnt_["timeStep"];
-        tprAssert( a.IsUint64() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeStep", json_inn::JsonValType::Uint64 );
         timeStep = static_cast<size_t>(a.GetUint64());
         //---
         return std::make_shared<AnimActionParam>(   actionName,
@@ -355,9 +301,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
                                                     timeStep );
     }else{
         //--- timeSteps [] ---//
-        tprAssert( actionParamEnt_.HasMember("timeSteps") );
-        const Value &a = actionParamEnt_["timeSteps"];
-        tprAssert( a.IsArray() );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeSteps", json_inn::JsonValType::Array );
         for( SizeType i=0; i<a.Size(); i++ ){//- foreach timeStep
             timeSteps.push_back( static_cast<size_t>(a[i].GetUint64()) );
         }

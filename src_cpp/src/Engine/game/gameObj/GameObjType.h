@@ -33,11 +33,11 @@ enum class GameObjMoveState{
 };
 
 inline GameObjMoveState str_2_GameObjMoveState( const std::string &name_ ){
-    if( name_ == "AbsFixed" ){
+    if( name_ == std::string{"AbsFixed"} ){
         return GameObjMoveState::AbsFixed;
-    }else if( name_ == "BeMovable" ){
+    }else if( name_ == std::string{"BeMovable"} ){
         return GameObjMoveState::BeMovable;
-    }else if( name_ == "Movable" ){
+    }else if( name_ == std::string{"Movable"} ){
         return GameObjMoveState::Movable;
     }else{
         tprAssert(0);
@@ -52,9 +52,9 @@ enum class GameObjState{
 };
 
 inline GameObjState str_2_GameObjState( const std::string &name_ ){
-    if( name_ == "Sleep" ){
+    if( name_ == std::string{"Sleep"} ){
         return GameObjState::Sleep;
-    }else if( name_ == "Waked" ){
+    }else if( name_ == std::string{"Waked"} ){
         return GameObjState::Waked;
     }else{
         tprAssert(0);
@@ -72,11 +72,11 @@ enum class GameObjFamily{
 };
 
 inline GameObjFamily str_2_GameObjFamily( const std::string &name_ ){
-    if( name_ == "Major" ){
+    if( name_ == std::string{"Major"} ){
         return GameObjFamily::Major;
-    }else if( name_ == "Item" ){
+    }else if( name_ == std::string{"Item"} ){
         return GameObjFamily::Item;
-    }else if( name_ == "Surface" ){
+    }else if( name_ == std::string{"Surface"} ){
         return GameObjFamily::Surface;
     }else{
         tprAssert(0);

@@ -52,8 +52,8 @@ void Camera::RenderUpdate(){
     //---------------------------//    
     double alignX = this->approachPercent * off.x;
     double alignY = this->approachPercent * off.y;
-        //alignX = floor(alignX*100.0) / 100.0;
-        //alignY = floor(alignY*100.0) / 100.0;
+        alignX = floor(alignX*1000.0) / 1000.0;
+        alignY = floor(alignY*1000.0) / 1000.0;
     //-----------
     this->currentDPos.x += alignX;
     this->currentDPos.y += alignY;

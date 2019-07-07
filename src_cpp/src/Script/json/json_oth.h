@@ -23,8 +23,24 @@ float get_float( const rapidjson::Value &val_ );
 double get_double( const rapidjson::Value &val_ );
 std::pair<bool, int> get_nullable_int( const rapidjson::Value &val_ );
 
-//const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
-//                                            const std::string &name_ );
+
+enum class JsonValType : int{
+    Object,
+    Array,
+    Bool,
+    String,
+    Number,
+    Int,
+    Int64,
+    Uint,
+    Uint64,
+    Float,
+    Double
+};
+
+const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
+                                            const std::string &name_,
+                                            JsonValType jsonValType_ );
 
 }//------------- namespace: json_inn end --------------//
 #endif 

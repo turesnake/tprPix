@@ -10,20 +10,15 @@
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 
-#include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
-#if defined TPR_OS_WIN32_ 
-    #include "tprFileSys_win.h"
-#elif defined TPR_OS_UNIX_ 
-    #include "tprFileSys_unix.h"
-#endif
-
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
+#include "fileIO.h"
 
 //#include "tprDebug.h" //- tmp
 #include <iostream>
+using std::cout;
+using std::endl;
 
 
 //======== static ========//
@@ -40,28 +35,18 @@ void ShaderProgram::init(   const std::string &lpathVs_,
     int success {};
     char infoLog[512]; //-- error buf
 
-    //-- vs/fs bufs
-    std::string vsbuf {};
-    std::string fsbuf {};
-
+    //-- read files --
     std::string path_vs = tprGeneral::path_combine(path_shaders, lpathVs_);
     std::string path_fs = tprGeneral::path_combine(path_shaders, lpathFs_);
-
-    //-- read files --
-#if defined TPR_OS_WIN32_
-    tprWin::file_load( path_vs, vsbuf );
-    tprWin::file_load( path_fs, fsbuf );
-#elif defined TPR_OS_UNIX_
-    tprUnix::file_load( path_vs, vsbuf );
-    tprUnix::file_load( path_fs, fsbuf );
-#endif
+    auto vsbufUPtr = read_a_file( path_vs );
+    auto fsbufUPtr = read_a_file( path_fs );
 
     //-------------------
     GLuint v_shader = glCreateShader( GL_VERTEX_SHADER );
     GLuint f_shader = glCreateShader( GL_FRAGMENT_SHADER );
 
-    compile( v_shader, vsbuf );
-    compile( f_shader, fsbuf );
+    compile( v_shader, *(vsbufUPtr.get()) );
+    compile( f_shader, *(fsbufUPtr.get()) );
 
     this->shaderProgram = glCreateProgram();
     glAttachShader( this->shaderProgram, v_shader );
@@ -103,7 +88,7 @@ void ShaderProgram::compile( GLuint shaderObj_, const std::string &sbuf_ ){
     glGetShaderiv( shaderObj_, GL_COMPILE_STATUS, &success );
     if( !success ){
         glGetShaderInfoLog( shaderObj_, 512, nullptr, infoLog );
-        std::cout << infoLog << std::endl;
+        cout << infoLog << endl;
         tprAssert(0);
     }
 }

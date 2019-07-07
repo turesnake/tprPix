@@ -32,14 +32,11 @@ enum class AnimActionType{
 };
 
 inline AnimActionType str_2_AnimActionType( const std::string &str_ ){
-    const std::string Idle {"Idle"};
-    const std::string Once {"Once"};
-    const std::string Cycle {"Cycle"};
-    if( str_ == Idle ){
+    if( str_ == std::string{"Idle"} ){
         return AnimActionType::Idle;
-    }else if( str_ == Once ){
+    }else if( str_ == std::string{"Once"} ){
         return AnimActionType::Once;
-    }else if( str_ == Cycle ){
+    }else if( str_ == std::string{"Cycle"} ){
         return AnimActionType::Cycle;
     }else{
         tprAssert(0);

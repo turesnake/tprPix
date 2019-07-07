@@ -19,9 +19,6 @@
 #include "tprAssert.h"
 #include "esrc_animFrameSet.h"
 
-
-//#include "tprDebug.h" //- tmp
-
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
@@ -30,7 +27,6 @@ namespace animFrameSet_inn {//----------- namespace: animFrameSet_inn ----------
     std::unordered_map<std::string, std::unique_ptr<AnimFrameSet>> animFrameSets {};
 
 }//--------------- namespace: animFrameSet_inn end -----------------//
-
 
 
 /* ===========================================================

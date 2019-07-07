@@ -70,13 +70,29 @@ std::pair<bool, int> get_nullable_int( const Value &val_ ){
  *                check_and_get_value
  * -----------------------------------------------------------
  */
-/*
 const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
-                                            const std::string &name_ ){
-    tprAssert( val_.HasMember(name_) );
-    return val_[name_];
+                                            const std::string &name_,
+                                            JsonValType jsonValType_ ){
+    tprAssert( val_.HasMember(name_.c_str()) );
+    const Value &a = val_[name_.c_str()];
+    switch (jsonValType_){
+        case JsonValType::Object: tprAssert( a.IsObject() ); break;
+        case JsonValType::Array:  tprAssert( a.IsArray() ); break;
+        case JsonValType::Bool:   tprAssert( a.IsBool() ); break;
+        case JsonValType::String: tprAssert( a.IsString() ); break;
+        case JsonValType::Number: tprAssert( a.IsNumber() ); break;
+        case JsonValType::Int:    tprAssert( a.IsInt() ); break;
+        case JsonValType::Int64:  tprAssert( a.IsInt64() ); break;
+        case JsonValType::Uint:   tprAssert( a.IsUint() ); break;
+        case JsonValType::Uint64: tprAssert( a.IsUint64() ); break;
+        case JsonValType::Float:  tprAssert( a.IsFloat() ); break;
+        case JsonValType::Double: tprAssert( a.IsDouble() ); break;
+        default:
+            tprAssert(0);
+    }
+    return a;
 }
-*/
+
 
 
 

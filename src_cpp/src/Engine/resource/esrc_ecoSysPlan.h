@@ -20,6 +20,8 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_ecoSysPlanes();
 
+EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ );
+
 EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ );
 
 ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObjWeight_ );

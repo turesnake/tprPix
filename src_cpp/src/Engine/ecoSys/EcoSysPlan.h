@@ -13,6 +13,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -23,8 +24,14 @@
 
 class Density;
 
+
 //-- 在 insert() 函数中做参数 --
-struct EcoEnt{
+class EcoEnt{
+public:
+    EcoEnt( const std::string &specName_, size_t idNum_ ):
+        specName(specName_),
+        idNum(idNum_)
+        {}
     std::string  specName {};
     size_t       idNum    {};
 };
@@ -47,7 +54,7 @@ public:
     //--- 几种 landColor 上色方案 --
     void init_landColor_onlyHighLand( const RGBA &baseColor_ );
     void init_landColor_doubleDeep( const RGBA   &baseColor_ );
-    void init_landColor_twoPattern( const Density &density_high_,
+    void init_landColor_twoPattern( int density_high_lvl_,
                                     const RGBA &color_high_,
                                     const RGBA &color_low_,
                                     bool  is_goDeep_high_,
@@ -57,9 +64,9 @@ public:
 
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
-    void insert(const Density &density_, 
+    void insert(int densityLvl_, 
                 double applyPercent_,
-                const std::vector<EcoEnt> &ecoEnts_ );
+                const std::vector<std::unique_ptr<EcoEnt>> &ecoEnts_ );
     void shuffle_goSpecIdPools( u32_t seed_ );
 
     //-- 确保关键数据 都被初始化 --

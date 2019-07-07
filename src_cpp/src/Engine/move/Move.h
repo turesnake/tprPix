@@ -32,9 +32,9 @@ enum class MoveType : int {
 };
 
 inline MoveType str_2_MoveType( const std::string name_ ){
-    if( name_ == "Crawl" ){
+    if( name_ == std::string{"Crawl"} ){
         return MoveType::Crawl;
-    }else if( name_ == "Drag" ){
+    }else if( name_ == std::string{"Drag"} ){
         return MoveType::Drag;
     }else{
         tprAssert(0);

@@ -117,6 +117,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
+                        src/Engine/fileIO/*.cpp
                         src/Engine/game/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
@@ -187,6 +188,7 @@ target_include_directories ( tprpix_cpp PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map
