@@ -62,16 +62,15 @@ class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_AFFECT     = std::function<void(GameObj&,GameObj&)>;
 public:
     //-- factory --
-    static std::shared_ptr<GameObj> factory( goid_t goid_ ){
-        std::shared_ptr<GameObj> newSPtr( new GameObj(goid_) );//- can not use make_shared
+    static std::shared_ptr<GameObj> factory( goid_t goid_, const IntVec2 &mpos_ ){
+        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
         //newSPtr->anti_bind_shared_from_this();
-        newSPtr->init();
-        return newSPtr;
+        goSPtr->init( mpos_ );
+        return goSPtr;
     }
 
-    void init();//-- MUST --
 
-    void reset_chunkKeys();
+    void reCollect_chunkKeys();
    
     inline void resize_pvtBinary( size_t size_ ){
         this->pvtBinary.resize( size_ );
@@ -80,15 +79,19 @@ public:
         return &(this->pvtBinary.at(0));
     }
     
-    GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                                    RenderLayerType    layerType_,
-                                    ShaderProgram     *pixShaderPtr_,
-                                    ShaderProgram     *shadowShaderPtr_,
-                                    const glm::vec2   pposOff_,
-                                    double             off_z_,
-                                    bool              isVisible_,
-                                    bool              isCollide_,
-                                    bool              isFlipOver_ );
+    void creat_new_goMesh(  const std::string &name_,
+                            const std::string &animFrameSetName_,
+                            const std::string &actionName_,
+                            RenderLayerType    layerType_,
+                            ShaderProgram     *pixShaderPtr_,
+                            ShaderProgram     *shadowShaderPtr_,
+                            const glm::vec2   pposOff_,
+                            double             off_z_,
+                            bool              isVisible_,
+                            bool              isCollide_,
+                            bool              isFlipOver_ );
+
+    void init_check(); //- call in end of go init 
 
     //-- 目前被 Crawl 使用 --
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
@@ -103,19 +106,20 @@ public:
 
     //-- isPass 系列flag 也许不放在 collision 模块中...
     inline void set_collision_isDoPass( bool b_ ){
-        this->collision.isDoPass = b_;
+        this->collision.set_isDoPass(b_);
     }
     inline void set_collision_isBePass( bool b_ ){
-        this->collision.isBePass = b_;
+        this->collision.set_isBePass(b_);
     }
     inline bool get_collision_isDoPass() const {
-        return this->collision.isDoPass;
+        return this->collision.get_isDoPass();
     }
     inline bool get_collision_isBePass() const {
-        return this->collision.isBePass;
+        return this->collision.get_isBePass();
     }
-    inline const ColliEntHead *get_rootColliEntHeadPtr() const {
-        return this->rootColliEntHeadPtr;
+    inline const ColliEntHead &get_rootColliEntHeadRef() const {
+        tprAssert( this->rootColliEntHeadPtr );
+        return *(this->rootColliEntHeadPtr);
     }
 
     //- 获得 目标 ces 当前 绝对 goAltiRange
@@ -127,13 +131,19 @@ public:
         return this->chunkKeys;
     }
 
-    inline bool collide_for_crawl( const NineBoxIdx &nbIdx_ ){
-        return this->collision.collide_for_crawl( nbIdx_ );
+    inline bool detect_collision( const NineBoxIdx &nbIdx_ ){
+        return this->collision.detect_collision( nbIdx_ );
     }
 
     inline GameObjMesh &get_goMeshRef( const std::string &name_ ){
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
         return *(this->goMeshs.at(name_).get());
+    }
+
+    //-- 获得 rootCES 左下角 mpos --
+    inline IntVec2 get_rootCES_leftBottom_MPos() const {
+        return  this->goPos.get_currentMPos() -
+                this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos;
     }
 
     inline void render_all_goMesh(){
@@ -221,14 +231,16 @@ private:
         collision( *this )
         {}
 
+    void init( const IntVec2 &mpos_ );//-- MUST --
+
     void anti_bind_shared_from_this(){
         //this->move.bind_weakPtr( weak_from_this() );
     }
 
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
-                                        // 通过 reset_chunkKeys() 来更新。
-                                        // 在 本go 生成时，以及每一次move时，都要更新这个 容器数据
+                                        // 通过 reCollect_chunkKeys() 来更新。
+                                        // 在 本go 生成时，以及 rootCES 每一次步进时，都要更新这个 容器数据
 
     // - rootGoMesh  -- name = “root”; 核心goMesh;
     // - childGoMesh -- 剩下的goMesh
@@ -239,12 +251,10 @@ private:
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
-                                          
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
     Collision    collision; //- 一个go实例，对应一个 collision实例。强关联
-
 
     const ColliEntHead  *rootColliEntHeadPtr {nullptr}; //- 重要的简化措施
                             // 除非 go实例 “变形”，否则不轻易修改自己的 rootCES.

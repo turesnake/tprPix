@@ -230,7 +230,6 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
         isNew_Y_press = true;
     }
 
-
     SpeedLevel lvl = playerGoRef.move.get_speedLvl();
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
@@ -249,13 +248,11 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        const MemMapEnt *mapEntPtr = esrc::get_memMapEntPtr( playerGoRef.goPos.get_currentMPos() );
-
-        const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntPtr->get_mpos()) );
-
+        const auto &mapEntRef = esrc::get_memMapEntRef( playerGoRef.goPos.get_currentMPos() );
+        const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntRef.get_mpos()) );
 
         //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...
-        cout << "mapAlti.val = " << mapEntPtr->mapAlti.val
+        cout << "mapAlti.val = " << mapEntRef.mapAlti.val
             //<< ";   fieldKey = " << mapEntPtr->fieldKey
             << ";   nodeFieldAltiVal = " << field.get_nodeMapAlti().val
             << ";   minAltiVal = " << field.get_minMapAlti().val
@@ -264,10 +261,12 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
             //<< "," << nodeMPosOff.y
             << endl;
 
-
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){
         //-- 暂时什么都不做 ...
+
+        esrc::chunks_debug();
+
     }
 
     //---------------

@@ -118,6 +118,11 @@ enum class NineBoxIdx : size_t {
 inline const int NineBoxIdxSize {9}; //- 9个子单位
 
 
+inline size_t nineBoxIdx_2_size_t( const NineBoxIdx &idx_ ){
+    return static_cast<size_t>(idx_);
+}
+
+
 /* ===========================================================
  *                   NineBox_XY_2_Idx
  * -----------------------------------------------------------

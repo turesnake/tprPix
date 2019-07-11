@@ -34,6 +34,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace field_inn {//------------ namespace: field_inn --------------//
 
+    //-- cross threads --
     std::unordered_map<fieldKey_t,std::unique_ptr<MapField>> fieldUPtrs {};
     std::shared_mutex  fieldsSharedMutex; //- 读写锁
 
@@ -60,7 +61,6 @@ namespace field_inn {//------------ namespace: field_inn --------------//
  * ----
  * 展示了如何使用 unique_lock 来实现 实例init。
  * ----
- * 目前被 check_and_build_sections_3.cpp -> build_one_chunk_3() 调用
  */
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
 
@@ -108,7 +108,7 @@ void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitud
  * -- 仅被 Chunk::init() 使用
  */
 void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, 
-                                const std::vector<MemMapEnt> &_chunkMapEnts ){
+                                const std::vector<std::unique_ptr<MemMapEnt>> &_chunkMapEnts ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST

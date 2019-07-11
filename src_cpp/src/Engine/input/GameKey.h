@@ -70,6 +70,11 @@ enum class GameKey : u32_t {
 inline const int GameKeyNum {36}; //- 共 36个按键
 
 
+inline size_t gameKey_2_size_t( const GameKey &key_ ){
+    return static_cast<size_t>(key_);
+}
+
+
 
 #endif 
 

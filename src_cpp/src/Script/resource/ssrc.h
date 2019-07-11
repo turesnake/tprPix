@@ -51,7 +51,6 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
 //-- map自动生成器 使用的 goInit函数 ---
 using F_GO_INIT = std::function<void(   goSpecId_t,
                                         GameObj&,
-                                        const IntVec2 &,
 					                    double,
 					                    const MapAltitude &,
 					                    const Density & )>;
@@ -59,7 +58,6 @@ using F_GO_INIT = std::function<void(   goSpecId_t,
 
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-                        const IntVec2 &mpos_,
 					    double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &density_  );
@@ -67,10 +65,6 @@ void call_goInit_func(  goSpecId_t id_,
 
 bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
 
-/*
-void insert_2_goInit_funcs( goSpecId_t goSpecId_,
-                            const F_GO_INIT &functor_ );
-*/
 
 void insert_2_goInit_funcs( const std::string &goTypeName_,
                             const F_GO_INIT &functor_ );

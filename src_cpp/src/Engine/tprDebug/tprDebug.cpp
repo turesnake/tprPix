@@ -103,7 +103,7 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
 
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
-    meshRef.set_shader_program( &esrc::get_rect_shader() );
+    meshRef.set_shader_program( &(esrc::get_rect_shader()) );
     meshRef.set_translate(glm::vec3{ fpos.x,
                                      fpos.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
@@ -130,7 +130,7 @@ void insert_new_pointPic( const glm::vec2 &fpos_ ){
 
     meshRef.init( texName_pointPic );
     meshRef.isVisible = true;
-    meshRef.set_shader_program( &esrc::get_rect_shader() );
+    meshRef.set_shader_program( &(esrc::get_rect_shader()) );
     meshRef.set_translate(glm::vec3{ fpos_.x,
                                      fpos_.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff

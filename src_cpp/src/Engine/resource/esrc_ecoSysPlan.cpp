@@ -11,6 +11,7 @@
 #include <memory>
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "random.h"
 #include "esrc_ecoSysPlan.h"
 
@@ -73,7 +74,7 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
  * -- 指定了 type，在此基础上，分配一个 变种id
  */
 ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObjWeight_ ){
-    size_t randV = static_cast<size_t>(floor( ecoObjWeight_ * 2.7 + 907.9 ));
+    size_t randV = cast_2_size_t(floor( ecoObjWeight_ * 2.7 + 907.9 ));
     auto &container = ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_));    
     return container.at( randV % container.size() );
 }
@@ -84,7 +85,7 @@ ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObj
  * -----------------------------------------------------------
  */
 ecoSysPlanId_t apply_a_rand_ecoSysPlanId( double ecoObjWeight_ ){
-    size_t randV = static_cast<size_t>(floor( ecoObjWeight_ * 7.1 + 977.3 ));
+    size_t randV = cast_2_size_t(floor( ecoObjWeight_ * 7.1 + 977.3 ));
     size_t idx = randV % ecoPlan_inn::ecoSysPlanIds.size();
     return ecoPlan_inn::ecoSysPlanIds.at(idx);
 }

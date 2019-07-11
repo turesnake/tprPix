@@ -32,7 +32,7 @@ void jobThread_main(){
 
     //-- 一个 jobThread 只有一个 job实例，就在这里
     //   不应放在 堆中，因为 本函数可能是 数个 thread 的 main函数
-    Job job {};
+    std::shared_ptr<Job> jobSPtr;
 
     while( true ){
 
@@ -44,10 +44,10 @@ void jobThread_main(){
 
         //-- 从 esrc::jobQue 读取一个 job --
         //  若没抢到锁，或者 esrc::jobQue 为空，将阻塞与此，直到条件达成
-        job = esrc::atom_pop_from_jobQue(); //- copy
+        jobSPtr = esrc::atom_pop_from_jobQue(); //- copy
 
         //-- handle the job --//
-        switch (job.jobType){
+        switch (jobSPtr->jobType){
         case JobType::JustTimeOut:
             //--仅仅说明，单次读取时间到，请再走一次while循环
             //  只有这样，才能保证 不会被 pop 函数永久阻塞
@@ -55,7 +55,7 @@ void jobThread_main(){
             break;
         case JobType::Build_ChunkData:
             //....
-            build_chunkData_main( job );
+            build_chunkData_main( *(jobSPtr.get()) );
             break;
         
         default:

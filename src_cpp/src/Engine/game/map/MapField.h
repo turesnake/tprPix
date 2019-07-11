@@ -67,7 +67,7 @@ public:
         }
     }
 
-    void set_nodeAlti_2( const std::vector<MemMapEnt> &chunkMapEnts_ );
+    void set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
 
     //------- get -------//
     inline const IntVec2& get_mpos() const {

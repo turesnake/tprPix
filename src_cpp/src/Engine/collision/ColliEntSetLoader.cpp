@@ -45,7 +45,7 @@ void ColliEntSetLoader::init(){
     //----------------------------//
     //   parse each frame data
     //----------------------------//
-    size_t pixNum = to_size_t_cast( this->pixNum_per_frame.x * 
+    size_t pixNum = cast_2_size_t( this->pixNum_per_frame.x * 
                                     this->pixNum_per_frame.y ); //- 一帧有几个像素点
 
     ColliEntSet_RGBAHandle  ch {5};

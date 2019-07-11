@@ -9,6 +9,7 @@
  */
 //-------------------- CPP --------------------//
 #include <shared_mutex> //- c++17 读写锁
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -25,7 +26,7 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
     //-- 目前版本中，只有 主线程可以 创建 ecoObj 实例 --
     //   仅提供 数据只读口给 job线程 
-    std::unordered_map<sectionKey_t, EcoObj> ecoObjs {};
+    std::unordered_map<sectionKey_t, std::unique_ptr<EcoObj>> ecoObjs {};
     std::shared_mutex  sharedMutex; //- 读写锁
 
     //-- 仅用于 文件内 各种 atom 函数内 [lock状态] --
@@ -64,19 +65,19 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ ){
     for( const auto &key : nearby_four_nodeKeys ){
         //-- 已经存在的 node 实例 不需要创建 --
         if( ecoObj_inn::is_find_in_ecoObjs_( key ) ){
-            nearby_four_ecoSysIds.push_back( ecoObj_inn::ecoObjs.at(key).get_ecoSysPlanId() ); //- copy
+            nearby_four_ecoSysIds.push_back( ecoObj_inn::ecoObjs.at(key)->get_ecoSysPlanId() ); //- copy
             continue;
         }
 
             //=== unlock ===//
             ul.unlock();
-            EcoObj ecoObj {};
-            ecoObj.init_for_node( key );
-            nearby_four_ecoSysIds.push_back( ecoObj.get_ecoSysPlanId() ); //- copy
+            auto ecoObjUPtr = std::make_unique<EcoObj>();
+            ecoObjUPtr->init_for_node( key );
+            nearby_four_ecoSysIds.push_back( ecoObjUPtr->get_ecoSysPlanId() ); //- copy
 
         //=== lock ===//
         ul.lock();
-        ecoObj_inn::ecoObjs.insert({ key, ecoObj }); //- copy
+        ecoObj_inn::ecoObjs.insert({ key, std::move(ecoObjUPtr) }); //- copy
     }
     
     //=== still locked ===//
@@ -89,13 +90,12 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ ){
 
         //=== unlock ===//
         ul.unlock();
-        EcoObj targetEnt {};
-        targetEnt.init_for_regular( ecoObjKey_, nearby_four_ecoSysIds );
-        
+        auto targetEntUPtr = std::make_unique<EcoObj>();
+        targetEntUPtr->init_for_regular( ecoObjKey_, nearby_four_ecoSysIds );
 
     //=== lock ===//
     ul.lock();
-    ecoObj_inn::ecoObjs.insert({ ecoObjKey_, targetEnt }); //- copy
+    ecoObj_inn::ecoObjs.insert({ ecoObjKey_, std::move(targetEntUPtr) }); //- copy
 }
 
 
@@ -111,7 +111,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        const auto &ecoObjRef = ecoObj_inn::ecoObjs.at(sectionkey_);
+        const auto &ecoObjRef = *(ecoObj_inn::ecoObjs.at(sectionkey_).get());
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
         readOnly.second.sectionKey = ecoObjRef.get_sectionKey();
@@ -136,7 +136,7 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        ptr = ecoObj_inn::ecoObjs.at(sectionkey_).get_landColorsPtr();
+        ptr = ecoObj_inn::ecoObjs.at(sectionkey_)->get_landColorsPtr();
     }
     return ptr;
 }
@@ -150,7 +150,7 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t de
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        id = ecoObj_inn::ecoObjs.at(sectionkey_).apply_a_rand_goSpecId( densityIdx_, randV_  );
+        id = ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecId( densityIdx_, randV_  );
     }
     return id;
 }
@@ -165,7 +165,7 @@ double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_d
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        val = ecoObj_inn::ecoObjs.at(sectionkey_).get_applyPercent( _density );
+        val = ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( _density );
     }
     return val;
 }

@@ -73,7 +73,7 @@ public:
 
     //-- 目前被 sceneBegin 使用 --
     inline bool check_key( const GameKey &key_ ) const {
-        size_t idx = static_cast<size_t>(key_);
+        size_t idx = gameKey_2_size_t(key_);
         if(  idx < 32 ){
             return (((keys>>idx) & 1)==1);
         }else{

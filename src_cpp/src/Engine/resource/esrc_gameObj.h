@@ -36,8 +36,8 @@ GameObj *get_goRawPtr( goid_t id_ );
 void foreach_goids_active( F_GOID_GOPTR fp_ );
 void foreach_goids_inactive( F_GOID_GOPTR fp_ );
 
-goid_t insert_new_gameObj();
-void insert_a_disk_gameObj( goid_t goid_ );
+goid_t insert_new_gameObj( const IntVec2 &mpos_ );
+void insert_a_disk_gameObj( goid_t goid_, const IntVec2 &mpos_ );
 void realloc_active_goes();
 void realloc_inactive_goes();
 void signUp_newGO_to_mapEnt( GameObj &goRef_ );

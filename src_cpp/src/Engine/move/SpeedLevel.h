@@ -37,6 +37,10 @@ enum class SpeedLevel : int {
     LV_12     //- crawl 的最高速度，不能超过 1帧1mapent
 };
 
+inline size_t speedLevel_2_size_t( const SpeedLevel &lvl_ ){
+    return static_cast<size_t>(lvl_);
+}
+
 
 //-- 60HZ 时，一帧的 fpos 速度
 inline const std::vector<double> speedTable{
@@ -79,7 +83,7 @@ inline SpeedLevel int_2_SpeedLevel( int num_ ){
 
 
 inline double SpeedLevel_2_val( const SpeedLevel &lvl_ ){
-    return speedTable.at( static_cast<size_t>(lvl_) );
+    return speedTable.at( speedLevel_2_size_t(lvl_) );
 }
 
 

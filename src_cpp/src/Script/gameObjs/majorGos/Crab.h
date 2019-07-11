@@ -41,7 +41,6 @@ public:
     //--- 延迟init ---//
     static void init_in_autoMod(   goSpecId_t specID_,
                             GameObj &goRef_,
-                            const IntVec2 &mpos_,
 					        double fieldWeight_,
 					        const MapAltitude &alti_,
 					        const Density &_density );

@@ -17,6 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "RGBA.h" 
 #include "GameObjType.h"
 #include "ID_Manager.h" 
@@ -99,7 +100,7 @@ public:
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
     // param: randV_ -- [-100.0, 100.0]
     inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ){
-        size_t randV = static_cast<size_t>(floor( randV_ * 1.9 + 701.7 ));
+        size_t randV = cast_2_size_t(floor( randV_ * 1.9 + 701.7 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }

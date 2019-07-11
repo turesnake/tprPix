@@ -16,6 +16,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <set>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -63,13 +64,9 @@ public:
     }
 
     //------- set -------//
-    //-- 参数 _mpos 是任意 mapent 的 mpos值。
-    inline void set_by_anyMPos( const IntVec2 &anyMPos_ ){
-        this->chunkKey = anyMPos_2_chunkKey( anyMPos_ );
-        mcpos.set_by_mpos( chunkKey_2_mpos( this->chunkKey ) );             
-    }
-    inline void set_mesh_shader_program( ShaderProgram *sp_ ){
-        this->mesh.set_shader_program( sp_ );
+    inline void set_by_chunkKey( chunkKey_t chunkKey_ ){
+        this->chunkKey = chunkKey_;
+        this->mcpos.set_by_mpos( chunkKey_2_mpos(chunkKey_) );
     }
     inline void set_mesh_isVisible( bool isVisible_ ){
         this->mesh.isVisible = isVisible_;
@@ -92,10 +89,10 @@ public:
         return this->fieldKeys;
     }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt *getnc_mapEntPtr_by_lMPosOff( const IntVec2 &lMPosOff_ ){
-        size_t idx = to_size_t_cast( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
+    inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ ){
+        size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
             tprAssert( idx < memMapEnts.size() ); //- tmp
-        return &(memMapEnts.at(idx));
+        return *(memMapEnts.at(idx).get());
     }
     
     //======== flags ========//
@@ -114,7 +111,7 @@ private:
     chunkKey_t  chunkKey {};
     MapCoord    mcpos    {}; //- [left-bottom]
 
-    std::vector<MemMapEnt> memMapEnts {}; 
+    std::vector<std::unique_ptr<MemMapEnt>> memMapEnts {}; 
 
     std::set<goid_t>  goIds {}; //- 动态存储 本chunk 拥有的所有 go id。
                                 //  部分元素会与 edgeGoIds 重合

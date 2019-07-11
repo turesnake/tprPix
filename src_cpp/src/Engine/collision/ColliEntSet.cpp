@@ -50,7 +50,7 @@ void ColliEntSet::create_adds_dels_by_nineBox( NineBoxIdx idx_ ){
     }
 
     //-- adds/dels 子容器idx --
-    size_t idx = static_cast<size_t>(idx_);
+    size_t idx = nineBoxIdx_2_size_t( idx_);
     NineBox nb = NineBox_Idx_2_XY( idx_ );
 
     //-- 每个 collient 需要的 位移向量 --

@@ -188,7 +188,7 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
  */
 void AnimFrameSet::handle_pjt(){
 
-    size_t pixNum = to_size_t_cast( afs_inn::pixNum_per_frame.x * 
+    size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
     Pjt_RGBAHandle  jh {5};
 
@@ -254,7 +254,7 @@ void AnimFrameSet::handle_pjt(){
  */
 void AnimFrameSet::handle_shadow(){
 
-    size_t pixNum = to_size_t_cast( afs_inn::pixNum_per_frame.x * 
+    size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
     RGBA    color_shadow { 0,0,0, 255 };
     size_t  idx_for_S_frame_data_ary {};

@@ -37,7 +37,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 					const MapAltitude &alti_,
 					const Density &density_ ){
 
-    goid_t goid = esrc::insert_new_gameObj();
+    goid_t goid = esrc::insert_new_gameObj( mpos_ );
     GameObj &goRef = esrc::get_goRef( goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
@@ -47,7 +47,6 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 
     ssrc::call_goInit_func( goSpecId_,
                             goRef,
-                            mpos_,
                             fieldWeight_,
                             alti_,
                             density_ );
@@ -71,7 +70,7 @@ void rebind_a_disk_Go( const DiskGameObj &diskGo_,
 					    const MapAltitude &alti_,
 					    const Density &density_  ){
 
-    esrc::insert_a_disk_gameObj( diskGo_.goid );
+    esrc::insert_a_disk_gameObj( diskGo_.goid, diskGo_.mpos );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
@@ -85,7 +84,6 @@ void rebind_a_disk_Go( const DiskGameObj &diskGo_,
 
     ssrc::call_goInit_func( diskGo_.goSpecId,
                             goRef,
-                            diskGo_.mpos,
                             fieldWeight_,
                             alti_,
                             density_ );

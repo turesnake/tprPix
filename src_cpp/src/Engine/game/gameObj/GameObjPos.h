@@ -30,18 +30,17 @@ public:
 
     GameObjPos() = default;
 
-    inline void init( const F_Get_RootAnchorCompass &func_1_,
-                      const F_Get_Off_From_RootAnchor_2_MapEntMid &func_2_ ){
+    inline void init(   const IntVec2 &mpos_,
+                        const F_Get_RootAnchorCompass &func_1_,
+                        const F_Get_Off_From_RootAnchor_2_MapEntMid &func_2_ ){
+        this->currentMCPos.set_by_mpos( mpos_ );
         this->get_rootAnchorCompass_functor = func_1_;
         this->get_off_from_rootAnchor_2_mapEntMid_functor = func_2_;
     }
 
     //-- 将 go.goPos.currentFPos 放到 参数 _pos 指定的 mpos 上
     //   在调用此函数之前，应先确保 潜在碰撞区的 干净
-    //   此函数不需要什么性能，反正不会经常设置 go的 mcpos
-    inline void init_by_currentMPos( const IntVec2 &mpos_ ){
-        this->currentMCPos.set_by_mpos( mpos_ );
-        //---
+    inline void init_currentDPos(){
         const MapEntCompass &compassRef = this->get_rootAnchorCompass_functor();
         IntVec2 p = this->currentMCPos.get_ppos() + compassRef.to_IntVec2();
         this->currentDPos.x = static_cast<double>(p.x);

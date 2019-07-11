@@ -40,7 +40,6 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  */
 void Wheat::init_in_autoMod(   goSpecId_t specID_,
                                 GameObj &goRef_,
-                                const IntVec2 &mpos_,
 					            double fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
@@ -56,38 +55,32 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //------- 制作 mesh 实例: "root" -------
-        GameObjMesh &rootGoMeshRef = 
-                goRef_.creat_new_goMesh("root", //- gmesh-name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::get_rect_shader(),  
-                                        &esrc::get_rect_shader(), //- 其实没有 shadow
-                                        glm::vec2{ 0.0f, -7.0f }, //- pposoff
-                                        0.0,  //- off_z
-                                        true, //- isVisible
-                                        true, //- isCollide
-                                        gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
-                                        );
-        rootGoMeshRef.bind_animAction( "wheat", 
-                                        tprGeneral::nameString_combine( "front_", pvtBp->wheatId, "_idle" ) );
-
-        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
-                    
+        goRef_.creat_new_goMesh("root", //- gmesh-name
+                                "wheat", 
+                                tprGeneral::nameString_combine("front_", pvtBp->wheatId, "_idle"),
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  
+                                &esrc::get_rect_shader(), //- 其实没有 shadow
+                                glm::vec2{ 0.0f, -7.0f }, //- pposoff
+                                0.0,  //- off_z
+                                true, //- isVisible
+                                true, //- isCollide
+                                gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
+                                );
 
         //------- 制作 mesh 实例: "back" -------
-        GameObjMesh &backGoMeshRef = 
-                goRef_.creat_new_goMesh("back", //- gmesh-name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::get_rect_shader(),  
-                                        &esrc::get_rect_shader(), //- 其实没有 shadow
-                                        glm::vec2{ 0.0f, 7.0f }, //- pposoff
-                                        0.0,  //- off_z
-                                        true, //- isVisible
-                                        false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
-                                        gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
-                                        );
-        backGoMeshRef.bind_animAction( "wheat", 
-                                        tprGeneral::nameString_combine( "back_", pvtBp->wheatId, "_idle" ) );
-
+        goRef_.creat_new_goMesh("back", //- gmesh-name
+                                "wheat", 
+                                tprGeneral::nameString_combine("back_", pvtBp->wheatId, "_idle"),
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  
+                                &esrc::get_rect_shader(), //- 其实没有 shadow
+                                glm::vec2{ 0.0f, 7.0f }, //- pposoff
+                                0.0,  //- off_z
+                                true, //- isVisible
+                                false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
+                                gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
+                                );
 
     //================ bind callback funcs =================//
 
@@ -103,10 +96,11 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_by_currentMPos( mpos_ );
+    goRef_.goPos.init_currentDPos();
     //...
 
-    
+    //--- MUST ---
+    goRef_.init_check();
 }
 
 /* ===========================================================

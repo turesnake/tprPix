@@ -12,6 +12,7 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "AnimFrameSet.h"
 #include "esrc_time.h"
 
@@ -150,5 +151,5 @@ size_t AnimAction::adjust_currentTimeStep_by_smoothDeltaTime( size_t currentTime
 
     double smoothDeltaTime = esrc::get_timer().get_smoothDeltaTime();
     constexpr double mid = (1.0 / 60.0) * 5.0;
-    return static_cast<size_t>( floor( mid / smoothDeltaTime ) );
+    return cast_2_size_t( floor( mid / smoothDeltaTime ) );
 }

@@ -86,6 +86,7 @@ int cppMain_tmp( char *exeDirPath_ ){
     esrc::init_camera();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
+    esrc::init_chunks();             //---- chunks 模块的各种资源 ----
 
     db::atom_init_dataBase();        //---- dataBase 资源 ----
             //-- tmp...

@@ -66,7 +66,6 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
  */
 void Move::crawl_renderUpdate(){
 
-
     //----------------------------//
     //  currentDirAxes & newDirAxes
     //   控制 Move/Idle 动画的切换
@@ -89,13 +88,13 @@ void Move::crawl_renderUpdate(){
     }
 
     //----------------//
-    //   speedV - fpos/frame
+    //   speedV - dpos/frame
     //----------------//
     glm::dvec2 speedV = this->currentDirAxes.to_dmpos();
     speedV *= SpeedLevel_2_val(this->speedLvl) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+    this->renderUpdate_inn( this->currentDirAxes, speedV );
 }
 
 
@@ -132,7 +131,7 @@ void Move::drag_renderUpdate(){
     }
 
     //---- crawl -----//
-    this->crawl_renderUpdate_inn( this->currentDirAxes, speedV );
+    this->renderUpdate_inn( this->currentDirAxes, speedV );
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -142,12 +141,12 @@ void Move::drag_renderUpdate(){
 
 
 /* ===========================================================
- *               crawl_renderUpdate_inn
+ *               renderUpdate_inn
  * -----------------------------------------------------------
  * -- 通用
  */
-void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
-                                    const glm::dvec2 &speedV_ ){
+void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
+                                const glm::dvec2 &speedV_ ){
 
     GameObjPos &goPosRef = this->goRef.goPos;
 
@@ -172,7 +171,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
         nb.set( off.get_mpos().x, off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        isObstruct = this->goRef.collide_for_crawl( NineBox_XY_2_Idx(nb) );        
+        isObstruct = this->goRef.detect_collision( NineBox_XY_2_Idx(nb) ); // MAJOR !!!! 
     }
 
     if( isObstruct == false ){
@@ -199,7 +198,7 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
     Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
 
-    if( newChunkKey!=this->goRef.currentChunkKey ){
+    if( newChunkKey != this->goRef.currentChunkKey ){
         Chunk &oldChunkRef = esrc::get_chunkRef( this->goRef.currentChunkKey );
 
         tprAssert( oldChunkRef.erase_from_goIds(goid) == 1 );
@@ -208,8 +207,10 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
         this->goRef.currentChunkKey = newChunkKey;
         newChunkRef.insert_2_goIds(goid);
     }
+                    
+    // 重新收集 rootCES 中每个 colliEnt 所在的 chunkKeys
+    this->goRef.reCollect_chunkKeys();
 
-    this->goRef.reset_chunkKeys();
     size_t chunkKeysSize = this->goRef.get_chunkKeysRef().size();
     if( chunkKeysSize == 1 ){
         newChunkRef.erase_from_edgeGoIds(goid);
@@ -218,16 +219,22 @@ void Move::crawl_renderUpdate_inn(  const DirAxes &newDirAxes_,
     }else{
         tprAssert(0);
     }
+            // 这个方法存在问题，当 rootCES 中存在很多 colliEnt 时，
+            // ge可能横跨 3，4 个 chunk。
+            // 在当前方案中，只是简单设想了一种 只横跨 2个 chunk 的简单实现
+            // 但也可能是我理解错了 。。。
+            //
 
         //-----------------------------------------
         //-- 这个检测，最好在，所有工作都结束后，
         //   此时的结果最准确
         {//-- 打印 当前帧的 ces 区域 --- 
-            IntVec2 currentMPos = this->goRef.goPos.get_currentMPos();
-            const ColliEntHead &doCehRef = *(this->goRef.get_rootColliEntHeadPtr());
+            //IntVec2 currentMPos = this->goRef.goPos.get_currentMPos();
+            const ColliEntHead &doCehRef = this->goRef.get_rootColliEntHeadRef();
             const ColliEntSet &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
             MapCoord cesMCPos;
-            cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
+            cesMCPos.set_by_mpos( this->goRef.get_rootCES_leftBottom_MPos() );
+
             tprDebug::clear_mapEntSlices();
             for( const auto &i : doCesRef.get_colliEnts() ){
                 tprDebug::insert_new_mapEntSlice( i+cesMCPos );

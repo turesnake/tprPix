@@ -15,6 +15,7 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "load_and_divide_png.h"
 
 
@@ -88,8 +89,7 @@ IntVec2 load_and_divide_png( const std::string &path_,
 
             int tmpInt = hf*frameNum_.x + wf;
             tprAssert( tmpInt >= 0 );
-            nrf = static_cast<size_t>( tmpInt );
-                        // 这样实现并不好
+            nrf = cast_2_size_t( tmpInt );
 
             //-- 只处理 非空置的 frame ---
             if( nrf < totalFrameNum_ ){

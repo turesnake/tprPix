@@ -24,7 +24,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 
-    //-- chunks 不跨线程，仅被 主线程访问 --
+    //-- cross threads --
     std::unordered_map<chunkKey_t, std::unique_ptr<ChunkData>> chunkDatas {};
     std::shared_mutex  sharedMutex;
 

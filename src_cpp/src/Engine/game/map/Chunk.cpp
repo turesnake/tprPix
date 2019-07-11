@@ -14,6 +14,7 @@
 #include <map>
 
 //-------------------- Engine --------------------//
+#include "tprCast.h"
 #include "ViewingBox.h"
 #include "EcoObj.h"
 #include "random.h"
@@ -24,12 +25,13 @@
 #include "MapField.h"
 #include "ChunkData.h"
 
+#include "esrc_shader.h"
 #include "esrc_ecoObj.h"
 #include "esrc_camera.h"
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
-#include "tprCast.h"
+
 
 #include "tprDebug.h"
 
@@ -57,6 +59,9 @@ namespace chunk_inn {//-------- namespace: chunk_inn --------------//
  * -----------------------------------------------------------
  */
 void Chunk::init(){
+
+    //--- mesh.shaderProgram ---
+    this->mesh.set_shader_program( &(esrc::get_rect_shader()) ); //- default
     
     //--- mesh.scale ---
     mesh.set_scale(chunk_inn::mesh_scaleVal);
@@ -70,14 +75,12 @@ void Chunk::init(){
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_CHUNK) );
     IntVec2 oddEven = floorMod( v, 2.0 );
-    this->zOff = chunk_inn::zOffs.at( to_size_t_cast(oddEven.y * 2 + oddEven.x) );
-
+    this->zOff = chunk_inn::zOffs.at( cast_2_size_t(oddEven.y * 2 + oddEven.x) );
     
     //------------------------------//
     //  从 chunkData 中 copy: 
     //  mapEntAltis / fieldKeys
     //------------------------------//
-    //const ChunkData *chunkDataPtr = esrc::atom_get_chunkDataPtr( this->chunkKey );
     const auto &chunkDataRef = esrc::atom_get_chunkDataCRef( this->chunkKey );
     {//-- 用作用域 来取代 函数 --
         const auto &mapEntAltis = chunkDataRef.get_mapEntAltis();
@@ -86,7 +89,7 @@ void Chunk::init(){
         for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
             for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
                 entIdx = h * ENTS_PER_CHUNK + w;
-                this->memMapEnts.at(entIdx).mapAlti = mapEntAltis.at(entIdx);
+                this->memMapEnts.at(entIdx)->mapAlti = mapEntAltis.at(entIdx);
             }
         }
     }
@@ -108,7 +111,6 @@ void Chunk::init(){
             esrc::atom_field_set_nodeAlti_2( tmpFieldKey, this->memMapEnts );
         }
     }
-
 
     //------------------------------//
     //        mapTex, mesh
@@ -149,11 +151,12 @@ void Chunk::init_memMapEnts(){
     if( this->is_memMapEnts_set ){
         return;
     }
-    MemMapEnt mapEnt {};
+    this->memMapEnts.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK ); // reserve FIRST
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
-            mapEnt.mcpos = mcpos + MapCoord{ w, h };
-            this->memMapEnts.push_back( mapEnt ); //-copy
+            auto mapEntUPtr = std::make_unique<MemMapEnt>();
+            mapEntUPtr->mcpos = mcpos + MapCoord{ w, h };
+            this->memMapEnts.push_back( std::move(mapEntUPtr) ); //-copy
         }
     }
     this->is_memMapEnts_set = true;
@@ -171,7 +174,7 @@ size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ ){
     int h = mposOff.y;
         tprAssert( (w>=0) && (w<ENTS_PER_CHUNK) &&
                 (h>=0) && (h<ENTS_PER_CHUNK) ); //- tmp
-    return static_cast<size_t>(h*ENTS_PER_CHUNK + w);
+    return cast_2_size_t(h*ENTS_PER_CHUNK + w);
 }
 
 
@@ -186,6 +189,6 @@ size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &anyPPos_ ){
     int h = pposOff.y;
         tprAssert( (w>=0) && (w<PIXES_PER_CHUNK) &&
                 (h>=0) && (h<PIXES_PER_CHUNK) ); //- tmp
-    return static_cast<size_t>( h*PIXES_PER_CHUNK + w );
+    return cast_2_size_t( h*PIXES_PER_CHUNK + w );
 }
 

@@ -13,6 +13,8 @@
 //-------------------- C --------------------//
 #include <cmath>
 
+//-------------------- Engine --------------------//
+#include "tprCast.h"
 
 //--- [mem] --//
 class IntVec2{
@@ -125,8 +127,9 @@ inline IntVec2 operator * ( int m_, const IntVec2 &a_ ){
  * x/y 差值均小于 off_ 时，返回 true
  */
 inline bool IntVec2::is_closeEnough( const IntVec2 &v1_, const IntVec2 &v2_, size_t off_ ){
-    size_t off_x = static_cast<size_t>( std::abs( static_cast<double>(v1_.x-v2_.x) ) );
-    size_t off_y = static_cast<size_t>( std::abs( static_cast<double>(v1_.y-v2_.y) ) );
+    size_t off_x = cast_2_size_t( std::abs( static_cast<double>(v1_.x-v2_.x) ) );
+    size_t off_y = cast_2_size_t( std::abs( static_cast<double>(v1_.y-v2_.y) ) ); 
+                                            // prevent std::abs ambiguous
     return ( (off_x<off_) && (off_y<off_) );
 }
 

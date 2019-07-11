@@ -40,7 +40,6 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  */
 void Leaf_DForest::init_in_autoMod(   goSpecId_t specID_,
                                 GameObj &goRef_,
-                                const IntVec2 &mpos_,
 					            double fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
@@ -53,22 +52,18 @@ void Leaf_DForest::init_in_autoMod(   goSpecId_t specID_,
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //------- 制作 mesh 实例: "root" -------
-        GameObjMesh &rootGoMeshRef = 
-                goRef_.creat_new_goMesh("root", //- gmesh-name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::get_rect_shader(),  
-                                        &esrc::get_rect_shader(), //- 其实没有 shadow
-                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                        0.0,  //- off_z
-                                        true, //- isVisible
-                                        true, //- isCollide
-                                        gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
-                                        );
-        rootGoMeshRef.bind_animAction( "leaf_DForest", 
-                                        tprGeneral::nameString_combine( "", pvtBp->leaf_DForestId, "_idle" ) );
-
-        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
-
+        goRef_.creat_new_goMesh("root", //- gmesh-name
+                                "leaf_DForest", 
+                                tprGeneral::nameString_combine("", pvtBp->leaf_DForestId, "_idle"),
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  
+                                &esrc::get_rect_shader(), //- 其实没有 shadow
+                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                0.0,  //- off_z
+                                true, //- isVisible
+                                true, //- isCollide
+                                gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
+                                );
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -83,8 +78,11 @@ void Leaf_DForest::init_in_autoMod(   goSpecId_t specID_,
     //================ go self vals =================//
            
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_by_currentMPos( mpos_ );
+    goRef_.goPos.init_currentDPos();
     //...
+
+    //--- MUST ---
+    goRef_.init_check();
 }
 
 /* ===========================================================

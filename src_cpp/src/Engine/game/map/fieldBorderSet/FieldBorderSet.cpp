@@ -82,21 +82,21 @@ void build_all_mutant_datas_for_fieldBorderSet(){
 
     for( int h=0; h<PIXES_PER_FIELD_BORDER_SET; h++ ){
         for( int w=0; w<PIXES_PER_FIELD_BORDER_SET; w++ ){//- each pix in frame
-            pixIdx_origin = to_size_t_cast( h * PIXES_PER_FIELD_BORDER_SET + w );
+            pixIdx_origin = cast_2_size_t( h * PIXES_PER_FIELD_BORDER_SET + w );
 
             XYflipPixWH.x = PIXES_PER_FIELD_BORDER_SET - 1 - w;
             XYflipPixWH.y = PIXES_PER_FIELD_BORDER_SET - 1 - h;
 
             //-- X --
-            pixIdx_flip = to_size_t_cast( h * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
+            pixIdx_flip = cast_2_size_t( h * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
             fbs_inn::originData_Xflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
 
             //-- Y --
-            pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + w );
+            pixIdx_flip = cast_2_size_t( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + w );
             fbs_inn::originData_Yflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
 
             //-- XY --
-            pixIdx_flip = to_size_t_cast( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
+            pixIdx_flip = cast_2_size_t( XYflipPixWH.y * PIXES_PER_FIELD_BORDER_SET + XYflipPixWH.x );
             fbs_inn::originData_XYflip.at(pixIdx_flip) = fbs_inn::originData.at(pixIdx_origin);
         }
     }
@@ -177,22 +177,22 @@ void handle_each_container( const FieldBorderSet::quadContainer_t &container_ ){
             
             //----- leftBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, 0 };
-            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
+            containerIdx = cast_2_size_t( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.leftBottoms.push_back( container_.at(containerIdx) );
 
             //----- rightBottom ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, 0 };
-            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
+            containerIdx = cast_2_size_t( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.rightBottoms.push_back( container_.at(containerIdx) );
 
             //----- leftTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ 0, PIXES_PER_FIELD };
-            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
+            containerIdx = cast_2_size_t( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.leftTops.push_back( container_.at(containerIdx) );
 
             //----- rightTop ------//
             pixWH = IntVec2{w,h} + IntVec2{ PIXES_PER_FIELD, PIXES_PER_FIELD };
-            containerIdx = to_size_t_cast( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
+            containerIdx = cast_2_size_t( pixWH.y * PIXES_PER_FIELD_BORDER_SET + pixWH.x );
             fbsRef.rightTops.push_back( container_.at(containerIdx) );
         }
     }

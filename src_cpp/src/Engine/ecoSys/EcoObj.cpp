@@ -15,6 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "config.h"
 #include "random.h"
 #include "Density.h"
@@ -128,7 +129,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------//
     //   occupyWeight
     //------------------//
-    size_t randV = static_cast<size_t>(floor( this->weight * 3 + 757 ));
+    size_t randV = cast_2_size_t(floor( this->weight * 3 + 757 ));
     this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
     //------------------------------//
     //  landColors / goSpecIdPools

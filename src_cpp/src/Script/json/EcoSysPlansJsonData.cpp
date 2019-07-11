@@ -19,6 +19,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "global.h"
 #include "fileIO.h"
 #include "EcoSysPlan.h"
@@ -258,7 +259,7 @@ void parse_pool(   const Value &pool_,
             }
             {//--- num ---//
                 const auto &inna = json_inn::check_and_get_value( ecoEnt, "num", json_inn::JsonValType::Uint64 );
-                num = static_cast<size_t>(inna.GetUint64());
+                num = cast_2_size_t(inna.GetUint64());
             }
             ecoEnts.push_back( std::make_unique<EcoEnt>(specName, num) );
         }

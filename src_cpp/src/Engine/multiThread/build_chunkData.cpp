@@ -154,7 +154,6 @@ void build_chunkData_main( const Job &job_ ){
             sizeof(ArgBinary_Build_ChunkData) );
 
     //-- 制作一个 ChunkData 数据实例 --
-    //ChunkData *chunkDataPtr = esrc::atom_insert_new_chunkData( arg.chunkKey );
     ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( arg.chunkKey );
 
     IntVec2 chunkMPos = chunkKey_2_mpos( arg.chunkKey );
@@ -166,6 +165,7 @@ void build_chunkData_main( const Job &job_ ){
     //------------------------------//
     // 已经在 主线程 chunkBuild_1_push_job() 中 提前完成
     // 反正再糟糕也不过是，1帧内创建 5 个 ecoObj 实例
+    // 这个开销可以接受
 
     //------------------------------//
     //            [2]
@@ -184,6 +184,7 @@ void build_chunkData_main( const Job &job_ ){
     //       pixAltis
     //--------------------------//
     std::vector<double> pixAltis {}; //- 仅内部使用
+    pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 ); // resize FIRST !!!
     bcd_inn::calc_pixAltis( chunkMPos, pixAltis );
 
     //--------------------------//
@@ -236,7 +237,6 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
 
     size_t   pixIdx {};
 
-    pixAltis_.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 );
     for( int h=0; h<PIXES_PER_CHUNK; h++ ){
         for( int w=0; w<PIXES_PER_CHUNK; w++ ){//- each pix in chunk
 
@@ -273,7 +273,7 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
             //------------------//
             //   写入 chunkData
             //------------------//
-            pixIdx = to_size_t_cast( h * PIXES_PER_CHUNK + w );
+            pixIdx = cast_2_size_t( h * PIXES_PER_CHUNK + w );
             pixAltis_.at(pixIdx) = altiVal;
         }
     } //- each pix in chunk: end --
@@ -309,39 +309,45 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
     //------------------------//
     chunkDataRef_.init_mapEntAltis();
     //-------
-    std::vector<IntVec2> mapEntMPoses {}; //- 仅内部使用
+    /*
+    std::vector<IntVec2> mapEntMPoses {}; // only used inner
+    mapEntMPoses.reserve( ENTS_PER_CHUNK*ENTS_PER_CHUNK ); // reserve FIRST !!!
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             mapEntMPoses.push_back( chunkMPos_ + IntVec2{w, h} ); //- copy
         }
     }
+    */
+                    //
+                    //   这组数据 好像完全没被使用到    .......
+                    //
 
     //------------------------//
     //      fieldKeys
     //------------------------//
-    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，仅函数内使用
+    std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，only used inner
+    fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK ); // reserve FIRST !!!
     IntVec2    tmpFieldMpos {};
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
-            tmpFieldMpos = chunkMPos_ + IntVec2{    w*ENTS_PER_FIELD,
-                                                    h*ENTS_PER_FIELD };
+            tmpFieldMpos.set(   chunkMPos_.x + w*ENTS_PER_FIELD, 
+                                chunkMPos_.y + h*ENTS_PER_FIELD );
             fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
         }
     }
-
     //------------------------//
     //        mapTex
     //------------------------//
     chunkDataRef_.resize_texBuf();
     texBufHeadPtr = chunkDataRef_.getnc_texBufHeadPtr();
 
-    std::map<occupyWeight_t,FieldData> nearFour_fieldDatas {}; //- 一个 field 周边4个 field 数据
+    std::map<occupyWeight_t,FieldData> nearby_4_fieldDatas {}; //- 一个 field 周边4个 field 数据
                                     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
 
     for( const auto &fieldKey : fieldKeys ){ //- each field key
 
         //-- 收集 目标field 周边4个 field 实例指针  --
-        tmpFieldMPos = colloect_nearFour_fieldDatas( nearFour_fieldDatas, fieldKey );
+        tmpFieldMPos = colloect_nearFour_fieldDatas( nearby_4_fieldDatas, fieldKey );
         tmpFieldPPos = mpos_2_ppos( tmpFieldMPos );
 
         for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
@@ -349,29 +355,29 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
                 mposOff = tmpEntMPos - chunkMPos_;
-                entIdx_in_chunk = to_size_t_cast( mposOff.y * ENTS_PER_CHUNK + mposOff.x );
+                entIdx_in_chunk = cast_2_size_t( mposOff.y * ENTS_PER_CHUNK + mposOff.x );
 
                 for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
                     for( int pw=0; pw<PIXES_PER_MAPENT; pw++ ){ //------ each pix in mapent ------
 
                         pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
                         pposOff = pixData.ppos - mpos_2_ppos(chunkMPos_);
-                        pixData.pixIdx_in_chunk = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
+                        pixData.pixIdx_in_chunk = cast_2_size_t( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
 
-                        pixData.pixIdx_in_chunkTex = to_size_t_cast( pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x );
+                        pixData.pixIdx_in_chunkTex = cast_2_size_t( pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x );
                         pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunkTex;
 
                         pposOff = pixData.ppos - tmpFieldPPos;
-                        pixData.pixIdx_in_field = to_size_t_cast( pposOff.y * PIXES_PER_FIELD + pposOff.x );
+                        pixData.pixIdx_in_field = cast_2_size_t( pposOff.y * PIXES_PER_FIELD + pposOff.x );
 
                         //--------------------------------//
                         // 确定 pix 属于 周边4个field 中的哪一个
                         //--------------------------------//
                         count = 0;
-                        for( auto &fieldPair : nearFour_fieldDatas ){ //--- 周边4个 field 信息
+                        for( auto &fieldPair : nearby_4_fieldDatas ){ //--- 周边4个 field 信息
                             count++;
                             const FieldData &fieldDataRef = fieldPair.second;
-                            if( count != nearFour_fieldDatas.size() ){   //- 前3个 field
+                            if( count != nearby_4_fieldDatas.size() ){   //- 前3个 field
                                 if( fieldDataRef.quadContainerPtr->at(pixData.pixIdx_in_field) == 1 ){
                                     pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
                                     break;

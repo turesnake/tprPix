@@ -15,6 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "IntVec.h"
 #include "GameObjType.h"
 #include "Density.h"
@@ -30,7 +31,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
 inline bool apply_isFlipOver( double fieldWeight_ ){
-    size_t randV = static_cast<size_t>(floor(fieldWeight_ * 3.1 + 911.3));
+    size_t randV = cast_2_size_t(floor(fieldWeight_ * 3.1 + 911.3));
     return ((randV%10)<5);
 }
 
@@ -42,7 +43,7 @@ inline bool apply_isFlipOver( double fieldWeight_ ){
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
 inline bool apply_isSingleTRunk( double fieldWeight_ ){
-    size_t randV = static_cast<size_t>(floor(fieldWeight_ * 3.7 + 701.7));
+    size_t randV = cast_2_size_t(floor(fieldWeight_ * 3.7 + 701.7));
     return ((randV%10)<5);
 }
 
@@ -54,7 +55,7 @@ inline bool apply_isSingleTRunk( double fieldWeight_ ){
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
 inline size_t apply_a_simpleId( double fieldWeight_, size_t _totalNum ){
-    size_t randV = static_cast<size_t>(floor(fieldWeight_ * 5.3 + 977.1));
+    size_t randV = cast_2_size_t(floor(fieldWeight_ * 5.3 + 977.1));
     return randV % _totalNum;
 }
 

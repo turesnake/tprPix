@@ -21,6 +21,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "global.h"
 #include "fileIO.h"
 #include "AnimFrameSet.h"
@@ -148,7 +149,7 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
     }
     {//--- totalFrameNum ---//
         const auto &a = json_inn::check_and_get_value( pngEnt_, "totalFrameNum", json_inn::JsonValType::Uint64 );
-        afsPng->totalFrameNum =  static_cast<size_t>(a.GetUint64());
+        afsPng->totalFrameNum =  cast_2_size_t(a.GetUint64());
     }
     {//--- isHaveShadow ---//
         const auto &a = json_inn::check_and_get_value( pngEnt_, "isHaveShadow", json_inn::JsonValType::Bool );
@@ -220,7 +221,7 @@ std::shared_ptr<AnimActionParam> singleFrame( const Value &actionParamEnt_ ){
     }
     {//--- lFrameIdx ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdx", json_inn::JsonValType::Uint64 );
-        lFrameIdx = static_cast<size_t>(a.GetUint64());
+        lFrameIdx = cast_2_size_t(a.GetUint64());
     }
     return std::make_shared<AnimActionParam>( actionName, lFrameIdx );
 }
@@ -246,7 +247,7 @@ std::vector<std::shared_ptr<AnimActionParam>> singleFrame_batch( const Value &ac
     }
     {//--- actionName.midNum ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.midNum", json_inn::JsonValType::Uint64 );
-        num = static_cast<size_t>(a.GetUint64());
+        num = cast_2_size_t(a.GetUint64());
     }
     //---
     for( size_t i=0; i<num; i++ ){
@@ -284,14 +285,14 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
     {//--- lFrameIdxs [] ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdxs", json_inn::JsonValType::Array );
         for( SizeType i=0; i<a.Size(); i++ ){//- foreach lFrameIdx
-            lFrameIdxs.push_back( static_cast<size_t>(a[i].GetUint64()) );
+            lFrameIdxs.push_back( cast_2_size_t(a[i].GetUint64()) );
         }
     }
     
     if( isSameTimeStep_ ){
         //--- timeStep ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeStep", json_inn::JsonValType::Uint64 );
-        timeStep = static_cast<size_t>(a.GetUint64());
+        timeStep = cast_2_size_t(a.GetUint64());
         //---
         return std::make_shared<AnimActionParam>(   actionName,
                                                     actionType,
@@ -302,7 +303,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
         //--- timeSteps [] ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeSteps", json_inn::JsonValType::Array );
         for( SizeType i=0; i<a.Size(); i++ ){//- foreach timeStep
-            timeSteps.push_back( static_cast<size_t>(a[i].GetUint64()) );
+            timeSteps.push_back( cast_2_size_t(a[i].GetUint64()) );
         }
         //---
         return std::make_shared<AnimActionParam>(   actionName,

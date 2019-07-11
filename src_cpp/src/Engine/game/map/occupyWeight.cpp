@@ -42,7 +42,7 @@ occupyWeight_t calc_occupyWeight( const IntVec2 &oddEven_, size_t randIdx_ ){
     tprAssert( (oddEven_.x>=0) && (oddEven_.x<=1) && 
             (oddEven_.y>=0) && (oddEven_.y<=1) );
 
-    size_t containerIdx = to_size_t_cast( oddEven_.y * 2 + oddEven_.x );
+    size_t containerIdx = cast_2_size_t( oddEven_.y * 2 + oddEven_.x );
         //tprAssert( containerIdx < occupyWeights.size() ); //- tmp
     const std::vector<occupyWeight_t> &container = ow_inn::occupyWeights.at(containerIdx);
 

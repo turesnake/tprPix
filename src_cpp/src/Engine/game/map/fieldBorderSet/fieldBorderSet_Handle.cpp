@@ -64,7 +64,7 @@ void load_fieldBorderSets(){
     fbsh_inn::lpath = "/fieldBorderSet-4.png";
 
     fbsh_inn::frameNum.set( 4, 2 );
-    fbsh_inn::totalFrameNum = to_size_t_cast( fbsh_inn::frameNum.x * fbsh_inn::frameNum.y );
+    fbsh_inn::totalFrameNum = cast_2_size_t( fbsh_inn::frameNum.x * fbsh_inn::frameNum.y );
 
     //----------------------------//
     //     读取 png 原始数据
@@ -87,7 +87,7 @@ void load_fieldBorderSets(){
     for( const auto &frameRef : fbsh_inn::frame_data_ary ){ //- each frame in png
 
         fbsh_inn::frameDatas.clear();
-        fbsh_inn::frameDatas.resize( to_size_t_cast(fbsh_inn::pixNum_per_frame.x * fbsh_inn::pixNum_per_frame.y) );
+        fbsh_inn::frameDatas.resize( cast_2_size_t(fbsh_inn::pixNum_per_frame.x * fbsh_inn::pixNum_per_frame.y) );
 
         //--- 将 原版数据 传入 预制件实例 ---//
         clear_for_fieldBorderSet();

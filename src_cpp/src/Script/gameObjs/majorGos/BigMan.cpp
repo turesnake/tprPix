@@ -35,7 +35,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
  */
 void BigMan::init_in_autoMod(  goSpecId_t specID_,
                                 GameObj &goRef_,
-                                const IntVec2 &mpos_,
 					            double fieldWeight_,
 					            const MapAltitude &alti_,
 					            const Density &_density ){
@@ -47,23 +46,19 @@ void BigMan::init_in_autoMod(  goSpecId_t specID_,
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
-        GameObjMesh &rootGoMeshRef = 
-                goRef_.creat_new_goMesh("root", //- gmesh-name
-                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                        &esrc::get_rect_shader(),  
-                                        &esrc::get_rect_shader(),
-                                        glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                        0.0,  //- off_z
-                                        true, //- isVisible
-                                        true, //- isCollide
-                                        false //- isFlipOver
-                                        );
+        goRef_.creat_new_goMesh("root", //- gmesh-name
+                                "bigMan", 
+                                "move_idle",
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  
+                                &esrc::get_rect_shader(),
+                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                0.0,  //- off_z
+                                true, //- isVisible
+                                true, //- isCollide
+                                false //- isFlipOver
+                                );
         
-        rootGoMeshRef.bind_animAction( "bigMan", "move_idle" );
-
-        goRef_.set_rootColliEntHeadPtr( &rootGoMeshRef.get_currentFramePos().get_colliEntHead() ); //- 先这么实现...
-
-
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &BigMan::OnRenderUpdate,  _1 );   
@@ -78,8 +73,11 @@ void BigMan::init_in_autoMod(  goSpecId_t specID_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_by_currentMPos( mpos_ );
+    goRef_.goPos.init_currentDPos();
     //...    
+
+    //--- MUST ---
+    goRef_.init_check();
 }
 
 /* ===========================================================

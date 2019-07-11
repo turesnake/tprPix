@@ -5,7 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    map ent
- *    尚未完工，存在很多 无效数据
+ *    un-finished
+ *    存在很多 无效数据
  * ----------------------------
  */
 #ifndef TPR_MAP_ENT_H
@@ -23,6 +24,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "tprAssert.h"
 #include "IntVec.h" 
 #include "GameObjType.h" 
 #include "ID_Manager.h" 
@@ -129,15 +131,21 @@ struct Sec_diskMapEnt{
 };
 
 
-//-- 
-struct MajorGO_in_MapEnt{
+
+class MajorGO_in_MapEnt{
+public:
+    MajorGO_in_MapEnt(  const GoAltiRange &altiRange_, 
+                        bool              isCarryAffect_ ):
+        lGoAltiRange(altiRange_),
+        isCarryAffect(isCarryAffect_)
+        {}
+
     GoAltiRange  lGoAltiRange    {};      
                     // 本mapent 所在的 ceh 的相对高度区间
                     // 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ceh 当前 goAltirange值
     bool       isCarryAffect {false}; 
                     // 本mapent 所在的 ceh 是否携带affect
-    // 可拓展...
-    // 由于仅存在于mem态，不考虑 padding
+    //...
 };
 
 
@@ -154,6 +162,19 @@ public:
 
     inline const IntVec2 &get_mpos() const {
         return this->mcpos.get_mpos();
+    }
+
+    inline void insert_2_major_gos( goid_t             goid_,
+                                    const GoAltiRange &lGoAltiRange_,
+                                    bool               isCarryAffect ){
+        this->major_gos.insert({ goid_, MajorGO_in_MapEnt{lGoAltiRange_, isCarryAffect } });
+    }
+
+    inline const std::unordered_map<goid_t, MajorGO_in_MapEnt> &get_major_gos() const {
+        return this->major_gos;
+    }
+    inline void erase_the_onlyOne_from_major_gos( goid_t goid_ ){
+        tprAssert( this->major_gos.erase(goid_) == 1 );
     }
     
     //=============== data: 一级信息 ===============//
@@ -197,9 +218,8 @@ public:
     //goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
                         //-- 在新版 设计中，已经几乎没有 major-item-surface 区分了 ...
  
-    std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
-                
-                
+    
+            
 
     //-- 二级信息： mem <--> disk --
     //void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
@@ -211,6 +231,9 @@ public:
     MapCoord  mcpos {}; //- 本 mapent 世界坐标值 
 
 private:
+
+    std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
+
 };
 
 

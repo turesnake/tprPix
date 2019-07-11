@@ -233,6 +233,9 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                                                             0.0,
                                                             MapAltitude {},
                                                             Density {} );
+                        cout << "---koko---koko---" << endl;
+
+
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos } );
                 //-- db::table_gameArchive --
                 

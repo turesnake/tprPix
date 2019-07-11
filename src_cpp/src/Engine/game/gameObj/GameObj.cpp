@@ -20,9 +20,13 @@
  *                         init
  * -----------------------------------------------------------
  */
-void GameObj::init(){
-    this->goPos.init( std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
-                      std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
+void GameObj::init( const IntVec2 &mpos_ ){
+    this->goPos.init(   mpos_,
+                        std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
+                        std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
+                            // now, this->rootColliEntHeadPtr == nullptr;
+                            // but this bind can work
+    this->currentChunkKey = anyMPos_2_chunkKey( this->goPos.get_currentMPos() );
     //...
 }
 
@@ -33,7 +37,9 @@ void GameObj::init(){
  * -- 通过一组参数来实现 gomesh 的初始化。
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
-GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
+void GameObj::creat_new_goMesh( const std::string &name_,
+                                        const std::string &animFrameSetName_,
+                                        const std::string &actionName_,
                                         RenderLayerType    layerType_,
                                         ShaderProgram     *pixShaderPtr_,
                                         ShaderProgram     *shadowShaderPtr_,
@@ -61,39 +67,50 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
     gmesh.isCollide = isCollide_;
     gmesh.isFlipOver = isFlipOver_;
 
-    //-----
-    return gmesh;
+    //-- bind_animAction --//
+    gmesh.bind_animAction( animFrameSetName_, actionName_ );
+
+    //-- rootColliEntHeadPtr --//
+    if( name_ == std::string{"root"} ){
+        this->rootColliEntHeadPtr = &gmesh.get_currentFramePos().get_colliEntHead();
+    }
+}
+
+/* ===========================================================
+ *                    init_check
+ * -----------------------------------------------------------
+ */
+void GameObj::init_check(){
+
+    tprAssert( this->rootColliEntHeadPtr );
+
 }
 
 
 /* ===========================================================
- *                    reset_chunkKeys
+ *                    reCollect_chunkKeys     [ IMPORTANT !!! ]
  * -----------------------------------------------------------
- * -- 重装填
+ * 遍历当前 rootCES 中每个 colliEnt，收集其所在 chunkKeys
+ * ---
  * 此函数 只是单纯记录 本go相关的所有 chunk key 信息。
  * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
  */
-void GameObj::reset_chunkKeys(){
-    MapCoord     cesMCPos    {}; //- 每个 ces左下角的 mcpos （世界绝对pos）
-    MapCoord     tmpEntMCPos {};
-    chunkKey_t   tmpChunkKey {};
-    //-------
-    this->chunkKeys.clear();
-    //-------
-    
-    //- 只有 rootGoMesh 参与 mapent 登记
-    if( this->get_goMeshRef("root").isCollide == false ){ //- 不参与碰撞检测的 gomesh 直接跳过
+void GameObj::reCollect_chunkKeys(){
+    //-- only check rootGoMesh --
+    if( this->get_goMeshRef("root").isCollide == false ){
         return;
     }
 
-    cesMCPos.set_by_mpos( this->goPos.get_currentMPos() -
-                          this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos );
+    IntVec2      cesMPos = this->get_rootCES_leftBottom_MPos();
+    IntVec2      tmpEntMPos  {};
+    chunkKey_t   tmpChunkKey {};
 
-    const ColliEntSet &doCesRef = esrc::get_colliEntSetRef(this->rootColliEntHeadPtr->colliEntSetIdx); //- get do_ces_ref
+    this->chunkKeys.clear();
+    const ColliEntSet &doCesRef = esrc::get_colliEntSetRef(this->rootColliEntHeadPtr->colliEntSetIdx);
 
     for( const auto &mcpos : doCesRef.get_colliEnts() ){ //- each collient mcpos
-        tmpEntMCPos = mcpos + cesMCPos;
-        tmpChunkKey = anyMPos_2_chunkKey( tmpEntMCPos.get_mpos() );
+        tmpEntMPos = mcpos.get_mpos() + cesMPos;
+        tmpChunkKey = anyMPos_2_chunkKey( tmpEntMPos );
         this->chunkKeys.insert( tmpChunkKey ); //- copy
     } //- each collient mcpos end --
 }

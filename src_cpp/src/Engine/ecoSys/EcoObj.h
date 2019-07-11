@@ -13,6 +13,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "sectionKey.h"
 #include "EcoSysPlanType.h"
 #include "Quad.h"
@@ -48,7 +49,7 @@ public:
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
     // param: randV_ -- [-100.0, 100.0]
     inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ) const {
-        size_t randV = static_cast<size_t>(floor( randV_ * 5.1 + 971.3 ));
+        size_t randV = cast_2_size_t(floor( randV_ * 5.1 + 971.3 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }

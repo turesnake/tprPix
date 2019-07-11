@@ -104,9 +104,8 @@ private:
     void crawl_renderUpdate();
     void drag_renderUpdate();
 
-
-    void crawl_renderUpdate_inn(const DirAxes &newDirAxes_,
-                                const glm::dvec2 &speedV_ );
+    void renderUpdate_inn(  const DirAxes &newDirAxes_,
+                            const glm::dvec2 &speedV_ );
 
     //===== vals =====//
     GameObj      &goRef;

@@ -17,6 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "random.h"
 #include "IntVec.h"
 #include "EcoObj.h"
@@ -84,7 +85,7 @@ void MapField::init( const IntVec2 &anyMPos_ ){
     this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
 
     //--- fieldBorderSetId ---
-    size_t randIdx = static_cast<size_t>(floor((this->originPerlin+3.1)*997.0));
+    size_t randIdx = cast_2_size_t(floor((this->originPerlin+3.1)*997.0));
     this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
 
     //--- occupyWeight ---
@@ -100,16 +101,16 @@ void MapField::init( const IntVec2 &anyMPos_ ){
  *                   set_nodeAlti_2
  * -----------------------------------------------------------
  */
-void MapField::set_nodeAlti_2( const std::vector<MemMapEnt> &chunkMapEnts_ ){
+void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ ){
 
     tprAssert( this->isNodeMapAltiSet == false );
     this->isNodeMapAltiSet = true;
 
     IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
-    size_t  idx = to_size_t_cast( off.y * ENTS_PER_CHUNK + off.x );
+    size_t  idx = cast_2_size_t( off.y * ENTS_PER_CHUNK + off.x );
 
     tprAssert( idx < chunkMapEnts_.size() );
-    this->nodeMapAlti = chunkMapEnts_.at(idx).mapAlti;
+    this->nodeMapAlti = chunkMapEnts_.at(idx)->mapAlti;
 }
 
 
@@ -136,8 +137,8 @@ void MapField::init_nodeMPos(){
     pnY = pnY * 71.0 + 100.0; //- [71.0, 171.0]
         tprAssert( (pnX>0) && (pnY>0) );
 
-    idxX = static_cast<size_t>(floor(pnX)) % ENTS_PER_FIELD; //- mod
-    idxY = static_cast<size_t>(floor(pnY)) % ENTS_PER_FIELD; //- mod
+    idxX = cast_2_size_t(floor(pnX)) % ENTS_PER_FIELD; //- mod
+    idxY = cast_2_size_t(floor(pnY)) % ENTS_PER_FIELD; //- mod
 
     this->nodeMPos = this->get_mpos() + IntVec2{ static_cast<int>(idxX), 
                                                 static_cast<int>(idxY) };
