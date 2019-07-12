@@ -29,9 +29,11 @@ ChunkZone &get_chunkReleaseZoneRef();
 void chunks_debug();
 
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ );
+void erase_from_chunks( chunkKey_t chunkKey_ );
 
-MemMapEnt &get_memMapEntRef( const MapCoord &anyMCpos_ );
-MemMapEnt &get_memMapEntRef( const IntVec2 &anyMPos_ );
+MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ );
+
+
 Chunk &get_chunkRef( chunkKey_t key_ );
 
 

@@ -93,6 +93,8 @@ public:
 
     void init_check(); //- call in end of go init 
 
+    void signUp_newGO_to_mapEnt();
+
     //-- 目前被 Crawl 使用 --
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
         this->direction = dir_;
@@ -130,6 +132,9 @@ public:
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
         return this->chunkKeys;
     }
+    inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const {
+        return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
+    }
 
     inline bool detect_collision( const NineBoxIdx &nbIdx_ ){
         return this->collision.detect_collision( nbIdx_ );
@@ -145,6 +150,8 @@ public:
         return  this->goPos.get_currentMPos() -
                 this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos;
     }
+    
+
 
     inline void render_all_goMesh(){
         for( auto &pairRef : this->goMeshs ){

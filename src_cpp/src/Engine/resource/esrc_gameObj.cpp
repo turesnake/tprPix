@@ -9,7 +9,6 @@
  */
 #include "esrc_gameObj.h"
 #include "esrc_camera.h"
-#include "esrc_chunk.h"
 #include "esrc_colliEntSet.h"
 
 //--- glm - 0.9.9.5 ---
@@ -36,10 +35,6 @@ namespace go_inn {//-------- namespace: go_inn --------------//
 
 }//------------- namespace: go_inn end --------------//
 
-
-
-
-
 /* ===========================================================
  *                  get_goWPtr
  * -----------------------------------------------------------
@@ -51,7 +46,6 @@ std::weak_ptr<GameObj> get_goWPtr( goid_t id_ ){
     return  std::weak_ptr<GameObj>( go_inn::gameObjs.at(id_) );
 }
 
-
 /* ===========================================================
  *                  get_goRef
  * -----------------------------------------------------------
@@ -62,6 +56,20 @@ GameObj &get_goRef( goid_t id_ ){
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
     return *(go_inn::gameObjs.at(id_).get());
 }
+
+/* ===========================================================
+ *                  erase_the_go
+ * -----------------------------------------------------------
+ */
+void erase_the_go( goid_t id_ ){
+        
+    go_inn::goids_active.erase(id_);
+    go_inn::goids_inactive.erase(id_);
+    tprAssert( go_inn::gameObjs.erase(id_)==1 );
+}
+
+
+
 
 
 /* ===========================================================
@@ -75,7 +83,6 @@ GameObj *get_goRawPtr( goid_t id_ ){
     return go_inn::gameObjs.at(id_).get();
 }
 
-
 std::unordered_set<goid_t> &get_goids_active(){
     return go_inn::goids_active;
 }
@@ -88,9 +95,6 @@ void insert_2_goids_active( goid_t id_ ){
         tprAssert( go_inn::goids_active.find(id_) == go_inn::goids_active.end() );//- tmp
     go_inn::goids_active.insert( id_ );
 }
-
-
-
 
 /* ===========================================================
  *                  insert_new_gameObj
@@ -108,7 +112,6 @@ goid_t insert_new_gameObj( const IntVec2 &mpos_ ){
     return goid;
 }
 
-
 /* ===========================================================
  *                  insert_a_disk_gameObj
  * -----------------------------------------------------------
@@ -120,8 +123,6 @@ void insert_a_disk_gameObj( goid_t goid_, const IntVec2 &mpos_ ){
         tprAssert( go_inn::gameObjs.find(goid_) == go_inn::gameObjs.end() );//- must not exist
     go_inn::gameObjs.insert({ goid_, GameObj::factory(goid_, mpos_) });
 }
-
-
 
 /* ===========================================================
  *                    realloc_active_goes
@@ -156,7 +157,6 @@ void realloc_active_goes(){
     }
 }
 
-
 /* ===========================================================
  *                    realloc_inactive_goes
  * -----------------------------------------------------------
@@ -187,76 +187,6 @@ void realloc_inactive_goes(){
     for( auto i : container ){
         go_inn::goids_active.insert( i );
         go_inn::goids_inactive.erase( i );
-    }
-}
-
-
-/* ===========================================================
- *                 signUp_newGO_to_mapEnt
- * -----------------------------------------------------------
- * -- 将 新建go 的 collients 登记到所有对应的 mapent 上去。
- * 难点：
- *    有些身处 chunk边缘的 “临界go” 的 collient，可以位于 隔壁chunk
- *    而这个 隔壁 chunk，可能尚未创建。（此处会引发各种麻烦）
- *    目前解决方案：
- *      --- 新建go 跳过这个 collient 的登记工作
- *      --- 统计自己的 chunkeys,
- *      --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
- *      --- 将 本goid，记录到 主chunk goids 容器中
- */
-void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
-
-    //------------------------------//
-    // --- 记录 go.currentChunkKey
-    // --- 统计自己的 chunkeys
-    // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
-    // --- 将 本goid，记录到 主chunk goids 容器中
-    //------------------------------//
-    Chunk &currentChunkRef = esrc::get_chunkRef( goRef_.currentChunkKey );
-
-    goRef_.reCollect_chunkKeys();
-    if( goRef_.get_chunkKeysRef().size() > 1 ){
-        currentChunkRef.insert_2_edgeGoIds( goRef_.id );
-    }
-    currentChunkRef.insert_2_goIds( goRef_.id ); //- always
-
-    //------------------------------//
-    //    only check rootGoMesh
-    //------------------------------//
-    if( goRef_.get_goMeshRef("root").isCollide == false ){
-        return;
-    }
-
-    //------------------------------//
-    //  signUp each collient to mapEnt
-    //------------------------------//
-    IntVec2     colliEntMPos {}; //- each collient mcpos [world-abs-pos]
-    chunkKey_t  tmpChunkKey  {}; //- each collient current chunkKey
-
-    const ColliEntHead &cehRef = goRef_.get_rootColliEntHeadRef();
-    IntVec2  cesMPos = goRef_.get_rootCES_leftBottom_MPos(); //- rootCES left-bottom mcpos [world-abs-pos]
-
-    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
-    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
-
-        colliEntMPos = i.get_mpos() + cesMPos;
-        tmpChunkKey = anyMPos_2_chunkKey( colliEntMPos );
-
-        //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
-        // 此时显然不能去调用 esrc::get_memMapEntRef(), 会出错。
-        // 将会暂时 忽略掉这个 collient 的登记工作，
-        // 这个工作，会等到 目标chunk 创建阶段，再补上... 
-        auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
-        if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
-            continue;
-        }
-
-        //---- 正式注册 collient 到 mapents 上 -----
-        auto &mapEntRef = esrc::get_memMapEntRef( colliEntMPos ); //- 目标 mapent 访问权 --
-        //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
-        mapEntRef.insert_2_major_gos(   goRef_.id, 
-                                        cehRef.lGoAltiRange,
-                                        cehRef.isCarryAffect );
     }
 }
 

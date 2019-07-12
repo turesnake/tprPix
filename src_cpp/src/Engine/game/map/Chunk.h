@@ -85,14 +85,23 @@ public:
     inline const Mesh &get_mesh() const {
         return this->mesh;
     }
-    const std::vector<fieldKey_t> &get_fieldKeys() const {
+    inline const std::vector<fieldKey_t> &get_fieldKeys() const {
         return this->fieldKeys;
+    }
+    inline const std::set<goid_t> &get_goIds() const {
+        return this->goIds;
+    }
+    inline const std::set<goid_t> &get_edgeGoIds() const {
+        return this->edgeGoIds;
     }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ ){
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
             tprAssert( idx < memMapEnts.size() ); //- tmp
         return *(memMapEnts.at(idx).get());
+    }
+    inline void delete_mapTex(){
+        this->mapTex.delete_texture();
     }
     
     //======== flags ========//

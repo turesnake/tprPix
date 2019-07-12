@@ -11,7 +11,10 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
+#include "Chunk.h"
 #include "esrc_colliEntSet.h"
+#include "esrc_chunk.h"
+
 
 //#include "tprDebug.h" //- tmp
 
@@ -49,7 +52,7 @@ void GameObj::creat_new_goMesh( const std::string &name_,
                                         bool              isCollide_,
                                         bool              isFlipOver_ ){
 
-        tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
+    tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
     this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
@@ -94,6 +97,10 @@ void GameObj::init_check(){
  * ---
  * 此函数 只是单纯记录 本go相关的所有 chunk key 信息。
  * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
+ * ---
+ * 目前只在2处位置执行：
+ * -1- GameObj::signUp_newGO_to_mapEnt()
+ * -2- Move::renderUpdate_inn()
  */
 void GameObj::reCollect_chunkKeys(){
     //-- only check rootGoMesh --
@@ -113,6 +120,79 @@ void GameObj::reCollect_chunkKeys(){
         tmpChunkKey = anyMPos_2_chunkKey( tmpEntMPos );
         this->chunkKeys.insert( tmpChunkKey ); //- copy
     } //- each collient mcpos end --
+}
+
+
+
+/* ===========================================================
+ *                 signUp_newGO_to_mapEnt
+ * -----------------------------------------------------------
+ * -- 将 新建go 的 colliEnts 登记到所有对应的 mapent 上去。
+ * 难点：
+ *    有些身处 chunk边缘的 “临界go” 的 collient，可以位于 隔壁chunk
+ *    而这个 隔壁 chunk，可能尚未创建。（此处会引发各种麻烦）
+ *    目前解决方案：
+ *      --- 新建go 跳过这个 collient 的登记工作
+ *      --- 统计自己的 chunkeys,
+ *      --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
+ *      --- 将 本goid，记录到 主chunk goids 容器中
+ */
+void GameObj::signUp_newGO_to_mapEnt(){
+
+    //------------------------------//
+    // --- 记录 go.currentChunkKey
+    // --- 统计自己的 chunkeys
+    // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
+    // --- 将 本goid，记录到 主chunk goids 容器中
+    //------------------------------//
+    Chunk &currentChunkRef = esrc::get_chunkRef( this->currentChunkKey );
+
+    this->reCollect_chunkKeys();
+    if( this->chunkKeys.size() > 1 ){
+        currentChunkRef.insert_2_edgeGoIds( this->id );
+    }
+    currentChunkRef.insert_2_goIds( this->id ); //- always
+
+    //------------------------------//
+    //    only check rootGoMesh
+    //------------------------------//
+    if( this->get_goMeshRef("root").isCollide == false ){
+        return;
+    }
+
+    //------------------------------//
+    //  signUp each collient to mapEnt
+    //------------------------------//
+    IntVec2     colliEntMPos {}; //- each collient mcpos [world-abs-pos]
+    chunkKey_t  tmpChunkKey  {}; //- each collient current chunkKey
+
+    const ColliEntHead &cehRef = this->get_rootColliEntHeadRef();
+    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
+    IntVec2  cesMPos = this->get_rootCES_leftBottom_MPos(); //- rootCES left-bottom mcpos [world-abs-pos]
+    
+    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
+
+        colliEntMPos = i.get_mpos() + cesMPos;
+        tmpChunkKey = anyMPos_2_chunkKey( colliEntMPos );
+
+        //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
+        // 此时显然不能去调用 esrc::get_memMapEntRef_in_activeChunk(), 会出错。
+        // 将会暂时 忽略掉这个 collient 的登记工作，
+        // 这个工作，会等到 目标chunk 创建阶段，再补上: 
+        // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
+        auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
+        if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
+            continue;
+        }
+
+        //---- 正式注册 collient 到 mapents 上 -----
+        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( colliEntMPos );
+
+        //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
+        mapEntRef.insert_2_major_gos(   this->id, 
+                                        cehRef.lGoAltiRange,
+                                        cehRef.isCarryAffect );
+    }
 }
 
 

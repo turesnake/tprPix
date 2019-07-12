@@ -143,7 +143,6 @@ void Move::drag_renderUpdate(){
 /* ===========================================================
  *               renderUpdate_inn
  * -----------------------------------------------------------
- * -- 通用
  */
 void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
                                 const glm::dvec2 &speedV_ ){
@@ -240,7 +239,6 @@ void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
                 tprDebug::insert_new_mapEntSlice( i+cesMCPos );
             }
         }
-
 }
 
 

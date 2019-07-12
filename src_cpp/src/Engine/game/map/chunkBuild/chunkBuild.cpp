@@ -19,12 +19,14 @@
 #include "tprAssert.h"
 #include "Chunk.h"
 #include "sectionKey.h"
+#include "esrc_gameObj.h"
 #include "esrc_field.h"
 #include "esrc_chunk.h"
 #include "esrc_player.h"
 #include "esrc_ecoObj.h"
 #include "esrc_jobQue.h"
 #include "esrc_chunkData.h"
+#include "esrc_colliEntSet.h"
 
 #include "jobs_all.h"
 #include "Job.h"
@@ -46,14 +48,29 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
         IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
     };
 
-    //- 周边4个 chunk mpos 偏移，
+    //- 周边4个 chunk mpos 偏移，[left-bottom]
     const std::vector<IntVec2> nearby_4_chunkMPosOffs {
         IntVec2{ 0, 0 },
         IntVec2{ ENTS_PER_CHUNK, 0 },
         IntVec2{ 0, ENTS_PER_CHUNK },
         IntVec2{ ENTS_PER_CHUNK, ENTS_PER_CHUNK }
     };
-    
+
+
+    //- 周边8个 chunk mpos 偏移，[九宫格]
+    const std::vector<IntVec2> nearby_8_chunkMPosOffs {
+        IntVec2{ -ENTS_PER_CHUNK, -ENTS_PER_CHUNK },
+        IntVec2{ -ENTS_PER_CHUNK, 0 },
+        IntVec2{ -ENTS_PER_CHUNK, ENTS_PER_CHUNK },
+        //--
+        IntVec2{ 0, -ENTS_PER_CHUNK },
+        IntVec2{ 0, ENTS_PER_CHUNK },
+        //--
+        IntVec2{ ENTS_PER_CHUNK, -ENTS_PER_CHUNK },
+        IntVec2{ ENTS_PER_CHUNK, 0 },
+        IntVec2{ ENTS_PER_CHUNK, ENTS_PER_CHUNK }
+    };
+
 
     chunkKey_t   lastChunkKey    {}; //- 上次检测时，记录的 玩家所在 chunk.key
     chunkKey_t   currentChunkKey {}; //- 此次检测时，玩家所在 chunk.key
@@ -62,6 +79,8 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     //===== funcs =====//
     void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
     void build_one_chunk( chunkKey_t chunkKey_ );
+    void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
+    void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
 
 }//-------------- namespace: cb_inn end ----------------//
 
@@ -93,7 +112,7 @@ void build_9_chunks( const IntVec2 &playerMPos_ ){
 
         tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
         cb_inn::chunkBuild_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
-        chunkBuild_4_wait_until_target_chunk_builded( chunkKey  );
+        cb_inn::chunkBuild_4_wait_until_target_chunk_builded( chunkKey  );
     }
 }
 
@@ -140,7 +159,9 @@ void collect_chunks_need_to_be_build_in_update(){
                     // do nothing
                     break;
                 case ChunkMemState::WaitForRelease:
-                    esrc::move_chunkKey_from_WaitForRelease_2_active( tmpChunkKey );
+                    // 需要新建的 chunk 居然在 释放队列中，一定是参数设置出了问题 [严格版本]
+                    // 目前的选择是直接报错
+                    tprAssert(0);
                     break;
 
                 case ChunkMemState::OnReleasing:
@@ -167,8 +188,6 @@ void collect_chunks_need_to_be_build_in_update(){
  * 每一渲染帧，检查 esrc::chunkDataFlags, 从中取出一个 已经计算好 chunkData 的 chunk，
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
- * ----
- * 这个方法存在漏洞，所以还需要一道补救：在 get_memMapEntRef() 中
  */
 chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
 
@@ -179,24 +198,26 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
 
     //-- 从 已经制作好 chunkData 的队列中，取出一个 chunk
     chunkKey_t chunkKey = esrc::atom_pop_from_chunkDataFlags();
-    esrc::move_chunkKey_from_onCreating_2_active(chunkKey);  //- MUST before build_one_chunk
-
+    
         //-- 正式生成这个 chunk 实例
         cb_inn::build_one_chunk( chunkKey );
                 //-- 实际上，目前的 job线程 是空的，
                 //   所有运算 都在这个 函数中...
 
     //-- 及时删除 chunkData 数据本体 --
-    esrc::atom_erase_from_chunkDatas( chunkKey ); //- MUST !!!    
+    esrc::atom_erase_from_chunkDatas( chunkKey ); //- MUST !!!  
     return chunkKey;
 }
 
 
+
+
+namespace cb_inn {//----------- namespace: cb_inn ----------------//
+
 /* ===========================================================
  *      chunkBuild_4_wait_until_target_chunk_builded   
  * -----------------------------------------------------------
- * 被用于 esrc::get_memMapEntRef()
- *       build_9_chunks()
+ * 被用于 build_9_chunks()
  */
 void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 
@@ -216,9 +237,6 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 }
 
 
-namespace cb_inn {//----------- namespace: cb_inn ----------------//
-
-
 /* ===========================================================
  *                   build_one_chunk
  * -----------------------------------------------------------
@@ -226,6 +244,8 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
 void build_one_chunk( chunkKey_t chunkKey_ ){
 
             //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
+
+    IntVec2 chunkMPos = chunkKey_2_mpos( chunkKey_ );
 
     //------------------------------//
     //           [1]
@@ -243,10 +263,20 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     //            [3]
     //    单独生成 主chunk 实例
     //------------------------------//
-    Chunk &chunkRef = esrc::insert_and_init_new_chunk(chunkKey_);//- 一定不存在
+    Chunk &chunkRef = esrc::insert_and_init_new_chunk(chunkKey_);
+                                    // Now, the chunkState is Active !!! 
 
     //------------------------------//
     //            [4]
+    // 遍历周边 8 个chunk，如果某一chunk 已经存在
+    // 遍历此chunk 的 所有 edgeGoIds, 如果某个 edgeGo，其 collient 位于本chunk
+    // 则将这些 collients 登记到 对应的 mapent 上
+    // 针对 GameObj::signUp_newGO_to_mapEnt() 的一个补充
+    //------------------------------//
+    cb_inn::signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_, chunkMPos );
+
+    //------------------------------//
+    //            [5]
     //  为 chunk 中的 8*8 个 field，分配 goes
     //------------------------------//
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
@@ -254,7 +284,7 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     } //-- each field key end --
 
     //------------------------------//
-    //            [5]
+    //            [6]
     //  生成 刷怪笼（基于field）
     //          tmp...
     //------------------------------//
@@ -277,7 +307,7 @@ void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
     //  那么还可以接受
     std::set<sectionKey_t> sectionKeys {}; //- 为了去除重复
     IntVec2 tmpSectionMPos {};
-    for( auto &iOff : nearby_4_chunkMPosOffs ){
+    for( const auto &iOff : nearby_4_chunkMPosOffs ){
         tmpSectionMPos = anyMPos_2_sectionMPos( iOff + chunkMPos_ );
         for( const auto &jOff : nearby_4_sectionMPosOffs ){
             sectionKeys.insert( sectionMPos_2_sectionKey( tmpSectionMPos + jOff ) );
@@ -307,6 +337,65 @@ void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
     //--------------------------//
     esrc::insert_2_chunkKeys_onCreating( chunkKey_ );
 }
+
+
+/* ===========================================================
+ *        signUp_nearby_chunks_edgeGo_2_mapEnt
+ * -----------------------------------------------------------
+ * 主动访问 本chunk 的周边 8 个chunk 的 edgeGoIds，
+ * 如果某个 edgeGo，与本chunk 有关系。
+ * 就将这个 edgeGO 的 特定 colliEnts，登记到 本chunk 的 对应 mapent 上
+ * ---
+ * 这是一道 补充工作
+ */
+void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
+
+    IntVec2  cesMPos {};      //- rootCES left-bottom mcpos [world-abs-pos]
+    IntVec2  colliEntMPos {}; //- each collient mcpos [world-abs-pos]
+
+    IntVec2    tmpChunkMPos {};
+    chunkKey_t tmpChunkKey  {};
+    for( const auto &iOff : nearby_8_chunkMPosOffs ){
+        tmpChunkMPos = chunkMPos_ + iOff;
+        tmpChunkKey = chunkMPos_2_chunkKey( tmpChunkMPos );
+
+        if( ChunkMemState::Active == esrc::get_chunkMemState(tmpChunkKey) ){
+            
+            auto &chunkRef = esrc::get_chunkRef( tmpChunkKey );
+                                    //- 此函数内部也会做一道检测，且只允许 active 状态
+
+            for( auto &goid : chunkRef.get_edgeGoIds() ){//- foreach edgeGoId
+
+                auto &goRef = esrc::get_goRef(goid);
+                if( goRef.find_in_chunkKeys(chunkKey_) ){
+
+                    const ColliEntHead &cehRef = goRef.get_rootColliEntHeadRef();
+                    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
+                    cesMPos = goRef.get_rootCES_leftBottom_MPos();
+
+                    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
+
+                        colliEntMPos = i.get_mpos() + cesMPos;
+                        if( chunkKey_ == anyMPos_2_chunkKey(colliEntMPos) ){
+
+                            //---- 正式注册 collient 到 mapents 上 -----
+                            auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( colliEntMPos );
+
+                            mapEntRef.insert_2_major_gos(   goRef.id, 
+                                                            cehRef.lGoAltiRange,
+                                                            cehRef.isCarryAffect );
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
 
 
 }//-------------- namespace: cb_inn end ----------------//

@@ -60,6 +60,11 @@ void chunkStates_debug(){
         << endl;
 }
 
+//- only used by esrc_chunk -
+const std::unordered_set<chunkKey_t> &get_chunkKeys_active(){
+    return chunk_inn::chunkKeys_active;
+}
+
 
 void insert_2_chunkKeys_onCreating( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::NotExist ); // MUST
@@ -75,19 +80,6 @@ void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ ){
     chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::Active;
 }
 
-
-void move_chunkKey_from_WaitForRelease_2_active( chunkKey_t chunkKey_ ){
-        tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::WaitForRelease ); // MUST
-    auto target = std::find( chunk_inn::chunkKeys_waitForRelease.begin(),
-                            chunk_inn::chunkKeys_waitForRelease.end(),
-                            chunkKey_ );
-        tprAssert( target != chunk_inn::chunkKeys_waitForRelease.end() ); // MUST exist
-    chunk_inn::chunkKeys_waitForRelease.erase( target );
-    chunk_inn::chunkKeys_active.insert(chunkKey_);
-    chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::Active;
-}
-
-
 chunkKey_t pop_front_from_WaitForRelease_and_move_2_onReleasing(){
         tprAssert( !chunk_inn::chunkKeys_waitForRelease.empty() );
     chunkKey_t key = chunk_inn::chunkKeys_waitForRelease.front();
@@ -98,7 +90,7 @@ chunkKey_t pop_front_from_WaitForRelease_and_move_2_onReleasing(){
     return key;
 }
 
-
+//- only used by esrc_chunk -
 void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
     chunk_inn::chunkKeys_onReleasing.erase(chunkKey_);

@@ -48,12 +48,15 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
     // 在这种情景里， 本函数就不会被调用
 
     //------------------------------//
-    MapCoord    cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
+    //MapCoord    cesMCPos         {};        //- 每个 ces左下角的 mcpos （世界绝对pos）
+    IntVec2     cesMPos          {};
     GoAltiRange currentGoAltiRange {};      //- each ceh abs GoAltiRange.
     GameObj     &doGoRef = this->goRef; //- 碰撞检测 主动发起方
 
+    IntVec2     tmpEntMPos {};
+
     //----------------------
-    IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
+    //IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
         
     const ColliEntHead &doCehRef = doGoRef.get_rootColliEntHeadRef();
     const ColliEntSet  &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
@@ -71,12 +74,25 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
 
         currentGoAltiRange.set_by_addAlti( doCehRef.lGoAltiRange, doGoRef.goPos.get_alti() ); 
 
-        cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
+        //cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
+        //cesMCPos.set_by_mpos( doGoRef.get_rootCES_leftBottom_MPos() );
+        cesMPos = doGoRef.get_rootCES_leftBottom_MPos();
 
         //--- 访问 adds ---//
         for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
             if(isObstruct) break;
-            const auto &mapEntRef = esrc::get_memMapEntRef( i+cesMCPos );
+
+            tmpEntMPos = i.get_mpos() + cesMPos;
+
+            //- 当发现某个 addEnt 处于非 Active 的 chunk。
+            //  直接判定此次碰撞 为 阻塞，最简单的处理手段
+            auto chunkState = esrc::get_chunkMemState( anyMPos_2_chunkKey( tmpEntMPos ) );
+            if( chunkState != ChunkMemState::Active ){
+                isObstruct = true;
+                break;
+            }
+
+            const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( tmpEntMPos );
 
             for( const auto &majorGoPair : mapEntRef.get_major_gos() ){ //- each major_go in target mapent
                 if(isObstruct) break;
@@ -120,6 +136,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
                 //-- 只要出现一次 “无法穿过”式的碰撞，后续检测就被终止 --
                 if( isPass_Check( beGoRef.get_collision_isBePass() )==false ){
                     isObstruct = true;
+                    break;
                 }
 
             }//-- each major_go in target mapent
@@ -140,7 +157,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
     //   登记所有 adds 
     //-----------------//
     for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
-        auto &mapEntRef = esrc::get_memMapEntRef( i+cesMCPos ); //- 目标 mapent
+        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( i.get_mpos()+cesMPos );
         mapEntRef.insert_2_major_gos( doGoRef.id, doCehRef.lGoAltiRange, doCehRef.isCarryAffect );
     }//-- each add EntOff
 
@@ -148,7 +165,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
     //   注销所有 dels 
     //-----------------//
     for( const auto &i : doCesRef.get_delEntOffs(nbIdx_) ){ //- each del EntOff
-        auto &mapEntRef = esrc::get_memMapEntRef( i+cesMCPos ); //- 目标 mapent
+        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( i.get_mpos()+cesMPos );
         mapEntRef.erase_the_onlyOne_from_major_gos( doGoRef.id );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
     }//-- each del EntOff

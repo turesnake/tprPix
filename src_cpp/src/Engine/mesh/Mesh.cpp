@@ -17,10 +17,8 @@
 //#include "tprDebug.h" 
 
 //namespace mesh_inn {//------------------ namespace: mesh_inn ---------------------//
-
     //-- z轴常量，用在 glm::rotate 函数中。
     //const glm::vec3 axle_z( 0.0f, 0.0f, 1.0f ); //- 未被使用...
-
 //}//--------------------- namespace: mesh_inn end ------------------------//
 
 

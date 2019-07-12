@@ -81,111 +81,47 @@ Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
     chunkUPtr->init();
 
     chunk_inn::chunks.insert({ chunkKey_, std::move(chunkUPtr) });
-    //- chunkMemState 已在 chunkBuild_3_receive_data_and_build_one_chunk() 中被改为: Active
+    esrc::move_chunkKey_from_onCreating_2_active(chunkKey_);  
+                            // Now, the chunkState is Active !!! 
     return *(chunk_inn::chunks.at(chunkKey_).get());
 }
 
 
 /* ===========================================================
- *                  get_memMapEntRef
+ *             erase_from_chunks
+ * -----------------------------------------------------------
+ */
+extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ );
+void erase_from_chunks( chunkKey_t chunkKey_ ){
+        tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
+    tprAssert(chunk_inn::chunks.erase(chunkKey_)==1);
+    esrc::erase_chunkKey_from_onReleasing(chunkKey_);
+}
+
+
+
+/* ===========================================================
+ *          get_memMapEntRef_in_activeChunk     [严格版]
  * -----------------------------------------------------------
  * -- 根据参数 _mcpos, 找到其所在的 chunk, 从 chunk.memMapEnts
  * -- 找到对应的 mapEnt, 将其指针返回出去
- * -- 如果 目标 chunk 不存在，就要：加载它／创建它
- * -----------------
- * 这组函数存在缺陷：
- *   如果 mapent 所在的 chunk 并不存在，将直接出错。
- *   尤其是 collision 模块中
- *   ----
- *   目前的做法是，当发现目标 chunk 不存在时，调用一个 特殊的函数，阻塞主线程，直到目标chunk制作好
- *   这个方法是防止程序崩溃的最后办法，临时的
- *   未来希望更好的办法...
+ *    当目标 chunkMemState 不为 Active，直接报错
  */
-MemMapEnt &get_memMapEntRef( const MapCoord &anyMCpos_ ){
-
-    //-- 计算 目标 chunk 的 key --
-    const IntVec2 &mposRef = anyMCpos_.get_mpos();
-    chunkKey_t     chunkKey = anyMPos_2_chunkKey( mposRef );
-    //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
-    IntVec2  lMPosOff = get_chunk_lMPosOff( mposRef );
-
-                auto chunkState = get_chunkMemState(chunkKey);
-                switch (chunkState){
-                case ChunkMemState::NotExist:
-                    cout << "get_memMapEntRef(): target chunk is not exist..." << endl;
-                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
-                    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active ); //- 再次检测
-                    break;
-
-                case ChunkMemState::OnCreating:
-                    cout << "get_memMapEntRef()[anyMCpos]: target chunk is on creating..." << endl;
-                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
-                    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active ); //- 再次检测
-                    break;
-
-                case ChunkMemState::Active:
-                    // do nothing
-                    break;
-
-                case ChunkMemState::WaitForRelease:
-                    cout << "get_memMapEntRef(): target chunk is wait for release..." << endl;
-                    tprAssert(0); // tmp
-                    break;
-
-                case ChunkMemState::OnReleasing:
-                    cout << "get_memMapEntRef(): target chunk is on releasing..." << endl;
-                    tprAssert(0); // tmp
-                    break;
-                
-                default:
-                    tprAssert(0);
-                    break;
-                }
-    return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef_by_lMPosOff( lMPosOff );
-}
-
-MemMapEnt &get_memMapEntRef( const IntVec2 &anyMPos_ ){
+MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ ){
 
     //-- 计算 目标 chunk 的 key --
     chunkKey_t    chunkKey = anyMPos_2_chunkKey( anyMPos_ );
     //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
 
-                auto chunkState = get_chunkMemState(chunkKey);
-                switch (chunkState){
-                case ChunkMemState::NotExist:
-                    cout << "get_memMapEntRef(): target chunk is not exist..." << endl;
-                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
-                    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active ); //- 再次检测
-                    break;
+    if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
+        tprAssert(0);
+    }
 
-                case ChunkMemState::OnCreating:
-                    cout << "get_memMapEntRef()[anyMPos]: target chunk is on creating..." << endl;
-                    chunkBuild::chunkBuild_4_wait_until_target_chunk_builded( chunkKey );
-                    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active ); //- 再次检测
-                    //tprAssert(0); // tmp
-                    break;
-
-                case ChunkMemState::Active:
-                    // do nothing
-                    break;
-
-                case ChunkMemState::WaitForRelease:
-                    cout << "get_memMapEntRef(): target chunk is wait for release..." << endl;
-                    tprAssert(0); // tmp
-                    break;
-
-                case ChunkMemState::OnReleasing:
-                    cout << "get_memMapEntRef(): target chunk is on releasing..." << endl;
-                    tprAssert(0); // tmp
-                    break;
-                
-                default:
-                    tprAssert(0);
-                    break;
-                }
     return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef_by_lMPosOff( lMPosOff );
 }
+
+
 
 /* ===========================================================
  *                 get_chunkRef
@@ -199,12 +135,20 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
 /* ===========================================================
  *                 render_chunks
  * -----------------------------------------------------------
+ * 每一渲染帧，都要将所有 Active 态的 chunks， 重新存入 renderPool_meshs
+ * 从而给它们做一次排序。
  */
+extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
 void render_chunks(){
-    for( auto& p : chunk_inn::chunks ){
-            p.second->refresh_translate_auto(); //-- MUST !!!
-            insert_2_renderPool_meshs( p.second->get_mesh().get_render_z(),
-                                        const_cast<Mesh*>(&p.second->get_mesh()) );
+
+    const auto &activeKeys = esrc::get_chunkKeys_active();
+    for( auto &key : activeKeys ){
+        
+        auto &chunkRef = *(chunk_inn::chunks.at(key).get());
+        const auto &meshRef = chunkRef.get_mesh();
+        chunkRef.refresh_translate_auto(); //-- MUST !!!
+        insert_2_renderPool_meshs( meshRef.get_render_z(),
+                                    const_cast<Mesh*>(&meshRef) );
     }
 }
 

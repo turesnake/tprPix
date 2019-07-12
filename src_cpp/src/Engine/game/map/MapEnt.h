@@ -167,7 +167,11 @@ public:
     inline void insert_2_major_gos( goid_t             goid_,
                                     const GoAltiRange &lGoAltiRange_,
                                     bool               isCarryAffect ){
+        tprAssert( this->major_gos.find(goid_) == this->major_gos.end() );
         this->major_gos.insert({ goid_, MajorGO_in_MapEnt{lGoAltiRange_, isCarryAffect } });
+    }
+    inline void erase_from_major_gos( goid_t goid_ ){
+        tprAssert( this->major_gos.erase(goid_)==1 );
     }
 
     inline const std::unordered_map<goid_t, MajorGO_in_MapEnt> &get_major_gos() const {

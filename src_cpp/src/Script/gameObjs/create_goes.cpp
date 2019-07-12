@@ -52,7 +52,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
                             density_ );
 
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goRef );
+    goRef.signUp_newGO_to_mapEnt();
     esrc::insert_2_goids_active( goid );
     
     return  goid;
@@ -91,7 +91,7 @@ void rebind_a_disk_Go( const DiskGameObj &diskGo_,
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goRef );
+    goRef.signUp_newGO_to_mapEnt();
     esrc::insert_2_goids_active( diskGo_.goid );
 }
 

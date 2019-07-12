@@ -34,6 +34,10 @@ public:
 
     void creat_texName();
 
+    inline void delete_texture(){
+        glDeleteTextures( 1, &texName );
+    }
+
     inline const GLuint &get_texName() const {
         return texName;
     }

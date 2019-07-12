@@ -21,7 +21,6 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 //-- chunkKeys --
 void insert_2_chunkKeys_onCreating( chunkKey_t chunkKey_ );
 void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ );
-void move_chunkKey_from_WaitForRelease_2_active( chunkKey_t chunkKey_ );
 chunkKey_t pop_front_from_WaitForRelease_and_move_2_onReleasing();
 
 ChunkMemState get_chunkMemState( chunkKey_t chunkKey_ );

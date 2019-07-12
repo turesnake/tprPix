@@ -31,7 +31,6 @@ void collect_chunks_need_to_be_build_in_update();
 
 //-- 基于多线程的 新模块 --
 chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk();
-void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
 
 
 }//----------------- namespace: chunkBuild: end -------------------//

@@ -248,7 +248,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        const auto &mapEntRef = esrc::get_memMapEntRef( playerGoRef.goPos.get_currentMPos() );
+        const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( playerGoRef.goPos.get_currentMPos() );
         const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntRef.get_mpos()) );
 
         //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...
