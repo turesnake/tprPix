@@ -11,15 +11,15 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace camera_inn {//------------------ namespace: camera_inn -------------------------//
-    std::unique_ptr<Camera> cameraPtr; // tmp only-one 
+    std::unique_ptr<Camera> cameraUPtr; // tmp only-one 
 }//--------------------- namespace: camera_inn end -------------------------//
 
 void init_camera(){
-    camera_inn::cameraPtr = std::make_unique<Camera>();
+    camera_inn::cameraUPtr = std::make_unique<Camera>();
 }
 
 Camera &get_camera(){
-    return *(camera_inn::cameraPtr.get());
+    return *(camera_inn::cameraUPtr.get());
 }
 
 

@@ -29,6 +29,12 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 
 }//---------------- namespace: chunk_inn end --------------//
 
+void init_chunks(){
+    chunk_inn::chunks.reserve(1000);
+    chunk_inn::chunkCreateReleaseZoneUPtr = std::make_unique<ChunkCreateReleaseZone>( 3, 7 );
+    //...
+}
+
 extern void chunkStates_debug();
 void chunks_debug(){
     cout << "\nchunks.size() = " << chunk_inn::chunks.size() 
@@ -52,16 +58,7 @@ bool find_from_chunks( chunkKey_t chunkKey_ ){
 
 
 
-/* ===========================================================
- *                    init_chunks
- * -----------------------------------------------------------
- */
-void init_chunks(){
-    //chunk_inn::chunkCreateZoneUPtr = std::make_unique<ChunkZone>(3);
-    //chunk_inn::chunkReleaseZoneUPtr = std::make_unique<ChunkZone>(7);
-    chunk_inn::chunkCreateReleaseZoneUPtr = std::make_unique<ChunkCreateReleaseZone>( 3, 7 );
-    //...
-}
+
 
 /* ===========================================================
  *             insert_and_init_new_chunk

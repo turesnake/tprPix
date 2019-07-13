@@ -37,6 +37,14 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 
 }//---------------- namespace: chunk_inn end --------------//
 
+
+void init_chunkMemStates(){
+    chunk_inn::chunkMemStates.reserve(1000);
+    chunk_inn::chunkKeys_onCreating.reserve(1000);
+    chunk_inn::chunkKeys_active.reserve(1000);
+    chunk_inn::chunkKeys_onReleasing.reserve(1000);
+}
+
 void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ){
     auto state = get_chunkMemState( key_ );
     cout << "" << str_ << ": ";

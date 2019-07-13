@@ -79,14 +79,20 @@ int cppMain_tmp( char *exeDirPath_ ){
     //           不依赖任何外部代码的资源
     //------------------------------------------//
     input::init_input();             //---- input -----
+
     esrc::init_time();               //---- timer,logicTimeCircle -----
-    
     esrc::init_gameSeed();           //---- gameSeed ----
+    esrc::init_fields();
     esrc::init_gameArchive();        //---- gameArchive ----
     esrc::init_camera();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
     esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     esrc::init_chunks();             //---- chunks 模块的各种资源 ----
+    esrc::init_chunkDatas();
+    esrc::init_chunkMemStates();
+    esrc::init_ecoObjs();
+    esrc::init_gameObjs();
+    esrc::init_renderPools();
 
     db::atom_init_dataBase();        //---- dataBase 资源 ----
             //-- tmp...

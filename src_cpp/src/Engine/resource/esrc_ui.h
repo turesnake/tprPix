@@ -21,6 +21,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_uis();
 
 std::unordered_map<uiObjId_t, UIObj> &get_memUIs();
 std::unordered_set<uiObjId_t> &get_uiIds_active();

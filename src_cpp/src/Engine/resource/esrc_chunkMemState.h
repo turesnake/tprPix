@@ -20,6 +20,8 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_chunkMemStates();
+
 void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ); // debug tmp
 
 //-- chunkKeys --

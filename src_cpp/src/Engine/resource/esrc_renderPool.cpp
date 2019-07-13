@@ -41,6 +41,11 @@ namespace renderP_inn {//-------- namespace: renderP_inn  --------------//
 }//------------- namespace: renderP_inn end --------------//
 
 
+void init_renderPools(){
+    renderP_inn::renderPool_goMeshs_shadow.reserve(10000);
+    renderP_inn::renderPool_mapSurfaces.reserve(10000);
+}
+
 
 void insert_2_renderPool_goMeshs_pic( float off_z_, ChildMesh *meshPtr_ ){
     renderP_inn::renderPool_goMeshs_pic.insert({ off_z_, meshPtr_ }); //- copy

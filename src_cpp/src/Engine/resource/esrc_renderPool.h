@@ -11,6 +11,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <map>
+#include <unordered_set>
 
 //-------------------- Engine --------------------//
 #include "ChildMesh.h"
@@ -19,6 +20,8 @@
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
+
+void init_renderPools();
 
 
 void insert_2_renderPool_goMeshs_pic( float off_z_, ChildMesh *meshPtr_ );

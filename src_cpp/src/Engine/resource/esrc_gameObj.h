@@ -20,7 +20,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-
+void init_gameObjs();
 
 std::unordered_set<goid_t> &get_goids_active();
 std::unordered_set<goid_t> &get_goids_inactive();

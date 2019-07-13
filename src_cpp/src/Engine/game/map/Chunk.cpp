@@ -101,6 +101,7 @@ void Chunk::init(){
     IntVec2       tmpFieldMpos {};
     fieldKey_t    tmpFieldKey  {};
     this->fieldKeys.clear();
+    this->fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
             tmpFieldMpos = this->get_mpos() + IntVec2{  w*ENTS_PER_FIELD,

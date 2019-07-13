@@ -154,7 +154,9 @@ public:
 class MemMapEnt{
 public:
     //-- 临时测试用 
-    MemMapEnt() = default;
+    MemMapEnt(){
+        this->major_gos.reserve(10);
+    }
 
     //explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         //fst_d2m( _fdme );

@@ -35,6 +35,14 @@ namespace go_inn {//-------- namespace: go_inn --------------//
 
 }//------------- namespace: go_inn end --------------//
 
+
+void init_gameObjs(){
+    go_inn::gameObjs.reserve(10000);
+    go_inn::goids_active.reserve(10000);
+    go_inn::goids_inactive.reserve(10000);
+}
+
+
 /* ===========================================================
  *                  get_goWPtr
  * -----------------------------------------------------------
@@ -134,6 +142,8 @@ void insert_a_disk_gameObj( goid_t goid_, const IntVec2 &mpos_ ){
 void realloc_active_goes(){
 
     std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
+    container.reserve(10000);
+                    // 此容器也许可以被做成 全局容器
 
     glm::dvec2 v    {};
     double distance {};
@@ -167,7 +177,9 @@ void realloc_active_goes(){
 void realloc_inactive_goes(){
 
     std::vector<goid_t> container {}; //- tmp, 容纳 命中的id
-
+    container.reserve(10000);
+                    // 此容器也许可以被做成 全局容器
+                    
     glm::dvec2 v    {};
     double distance {};
     double range    { 1600.0 }; //- 激活圈 半径的平方

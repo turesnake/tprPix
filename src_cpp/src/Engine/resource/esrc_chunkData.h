@@ -15,6 +15,8 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_chunkDatas();
+
 ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ );
 void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ );
 

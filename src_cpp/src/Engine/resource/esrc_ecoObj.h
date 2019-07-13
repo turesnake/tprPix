@@ -21,6 +21,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_ecoObjs();
 
 void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ );
 

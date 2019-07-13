@@ -21,7 +21,6 @@
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
-
 namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
     //-- 目前版本中，只有 主线程可以 创建 ecoObj 实例 --
@@ -36,6 +35,10 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
 }//---------------- namespace: ecoObj_inn end --------------//
 
+
+void init_ecoObjs(){
+    ecoObj_inn::ecoObjs.reserve(10000);
+}
 
 /* ===========================================================
  *               atom_insert_new_ecoObj     [-WRITE-]
@@ -132,13 +135,10 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  */
 const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_ ){
 
-    const std::vector<RGBA> *ptr {nullptr};
-    {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        ptr = ecoObj_inn::ecoObjs.at(sectionkey_)->get_landColorsPtr();
-    }
-    return ptr;
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_landColorsPtr();
 }
 
 /* ===========================================================
@@ -146,13 +146,11 @@ const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_
  * -----------------------------------------------------------
  */
 goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t densityIdx_, double randV_ ){
-    goSpecId_t id {};
-    {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        id = ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecId( densityIdx_, randV_  );
-    }
-    return id;
+
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecId( densityIdx_, randV_  );
 }
 
 /* ===========================================================
@@ -161,13 +159,11 @@ goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t de
  * -- 更加精细的 元素数据 只读访问 接口
  */
 double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_density ){
-    double val {};
-    {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-            tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        val = ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( _density );
-    }
-    return val;
+
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( _density );
 }
 
 }//---------------------- namespace: esrc -------------------------//

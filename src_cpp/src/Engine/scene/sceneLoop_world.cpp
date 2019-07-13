@@ -132,16 +132,13 @@ void sceneLoop_world(){
     }
 
     //--------------------------------//
-    //  每一帧，最多装配生成一个 chunk 实例
+    //  每一帧，最多装配生成一个 chunk 实例（如果有）
+    //  或者 释放一个 chunk 实例（如果有）
     //--------------------------------//
-    chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
-
-
-    //--------------------------------//
-    //  每一帧，最多释放一个 chunk 实例
-    //--------------------------------//
-    chunkRelease::release_one_chunk();
-
+     auto pairRet = chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
+    if( pairRet.first == false ){
+        chunkRelease::release_one_chunk();
+    }
 
     //====================================//
     //          -- RENDER --

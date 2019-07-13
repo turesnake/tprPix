@@ -39,6 +39,10 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 }//---------------- namespace: chunkD_inn end --------------//
 
 
+void init_chunkDatas(){
+    chunkD_inn::chunkDatas.reserve(100);
+}
+
 /* ===========================================================
  *              atom_insert_new_chunkData      [-WRITE-]
  * -----------------------------------------------------------

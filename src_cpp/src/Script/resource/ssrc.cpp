@@ -42,7 +42,6 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
     std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds {};
 
 
-
     std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs {}; 
 
 }//--------------------- namespace: ssrc_inn end -------------------------//

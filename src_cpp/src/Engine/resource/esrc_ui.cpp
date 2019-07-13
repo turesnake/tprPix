@@ -35,6 +35,11 @@ namespace ui_inn {//-------- namespace: ui_inn --------------//
 
 }//------------- namespace: ui_inn end --------------//
 
+void init_uis(){
+    ui_inn::memUIs.reserve(1000);
+    ui_inn::uiIds_active.reserve(1000);
+}
+
 
 UIObj *get_memUIPtr( uiObjId_t uiObjid_ ){
         tprAssert( ui_inn::memUIs.find(uiObjid_) != ui_inn::memUIs.end() );//- tmp

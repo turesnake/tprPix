@@ -201,11 +201,11 @@ void collect_chunks_need_to_be_build_in_update(){
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
  */
-chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
+std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk(){
 
     //-- 没有需要 生成的 chunk 时，直接退出 --
     if( esrc::atom_is_chunkDataFlags_empty() ){
-        return 1; //- 不该这么写...
+        return std::pair<bool,chunkKey_t>{ false, 0 };
     }
 
     //-- 从 已经制作好 chunkData 的队列中，取出一个 chunk
@@ -218,7 +218,7 @@ chunkKey_t chunkBuild_3_receive_data_and_build_one_chunk(){
 
     //-- 及时删除 chunkData 数据本体 --
     esrc::atom_erase_from_chunkDatas( chunkKey ); //- MUST !!!  
-    return chunkKey;
+    return std::pair<bool,chunkKey_t>{ true, chunkKey };
 }
 
 
@@ -233,16 +233,19 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
  */
 void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 
-    chunkKey_t tmpChunkKey {};
+    //chunkKey_t tmpChunkKey {};
+    std::pair<bool,chunkKey_t> pairRet {};
     while( true ){
         //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
         if( esrc::atom_is_chunkDataFlags_empty() ){
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
         }
-        tmpChunkKey = chunkBuild_3_receive_data_and_build_one_chunk();
-        tprAssert( tmpChunkKey != 1 );
-        if( tmpChunkKey == chunkKey_ ){
+        //tmpChunkKey = chunkBuild_3_receive_data_and_build_one_chunk();
+        pairRet = chunkBuild_3_receive_data_and_build_one_chunk();
+        //tprAssert( tmpChunkKey != 1 );
+        tprAssert( pairRet.first );
+        if( pairRet.second == chunkKey_ ){
             return;
         }
     }

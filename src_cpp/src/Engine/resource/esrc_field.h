@@ -18,6 +18,7 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+void init_fields();
 
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ );
 void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitude &alti_ );
