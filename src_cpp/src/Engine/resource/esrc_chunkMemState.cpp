@@ -12,7 +12,6 @@
 #include <deque>
 #include <unordered_set>
 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
@@ -75,26 +74,42 @@ void insert_2_chunkKeys_onCreating( chunkKey_t chunkKey_ ){
 
 void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnCreating ); // MUST
-    chunk_inn::chunkKeys_onCreating.erase(chunkKey_);
+    size_t eraseNum = chunk_inn::chunkKeys_onCreating.erase(chunkKey_);
+    tprAssert( eraseNum == 1);
     chunk_inn::chunkKeys_active.insert(chunkKey_);
     chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::Active;
 }
 
-chunkKey_t pop_front_from_WaitForRelease_and_move_2_onReleasing(){
-        tprAssert( !chunk_inn::chunkKeys_waitForRelease.empty() );
+
+void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ ){
+        tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::Active ); // MUST
+    size_t eraseNum = chunk_inn::chunkKeys_active.erase(chunkKey_);
+    tprAssert( eraseNum == 1);
+    chunk_inn::chunkKeys_waitForRelease.push_back(chunkKey_);
+    chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::WaitForRelease;
+}
+
+std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing(){
+        
+    if( chunk_inn::chunkKeys_waitForRelease.empty() ){
+        return std::pair<bool,chunkKey_t>{ false, 0 };
+    }
     chunkKey_t key = chunk_inn::chunkKeys_waitForRelease.front();
     chunk_inn::chunkKeys_waitForRelease.pop_front();
         tprAssert( chunk_inn::chunkKeys_onReleasing.find(key) == chunk_inn::chunkKeys_onReleasing.end() );
     chunk_inn::chunkKeys_onReleasing.insert(key);
     chunk_inn::chunkMemStates.at(key) = ChunkMemState::OnReleasing;
-    return key;
+    return std::pair<bool,chunkKey_t>{ true, key };
 }
 
 //- only used by esrc_chunk -
 void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
-    chunk_inn::chunkKeys_onReleasing.erase(chunkKey_);
-    chunk_inn::chunkMemStates.erase(chunkKey_);
+    size_t eraseNum {};
+    eraseNum = chunk_inn::chunkKeys_onReleasing.erase(chunkKey_);
+    tprAssert( eraseNum == 1 );
+    eraseNum = chunk_inn::chunkMemStates.erase(chunkKey_);
+    tprAssert( eraseNum == 1 );
 }
 
 

@@ -27,6 +27,7 @@ void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, const std::vector<std::uni
 const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t fieldKey_ );
 void atom_create_a_go_in_field( fieldKey_t fieldKey_ );
 
+void atom_erase_all_fields_in_chunk( const IntVec2 &chunkMPos_ );
 
 //-- tmp，仅用于 debug，在未来，要被删除
 const MapField &atom_get_field( fieldKey_t fieldKey_ );   // tmp......

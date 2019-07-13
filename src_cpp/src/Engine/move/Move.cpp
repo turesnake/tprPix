@@ -197,10 +197,13 @@ void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
     Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
 
+    size_t eraseNum {};
+
     if( newChunkKey != this->goRef.currentChunkKey ){
         Chunk &oldChunkRef = esrc::get_chunkRef( this->goRef.currentChunkKey );
 
-        tprAssert( oldChunkRef.erase_from_goIds(goid) == 1 );
+        eraseNum = oldChunkRef.erase_from_goIds(goid);
+        tprAssert( eraseNum == 1 );
         oldChunkRef.erase_from_edgeGoIds(goid);
         //---
         this->goRef.currentChunkKey = newChunkKey;
@@ -218,11 +221,6 @@ void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
     }else{
         tprAssert(0);
     }
-            // 这个方法存在问题，当 rootCES 中存在很多 colliEnt 时，
-            // ge可能横跨 3，4 个 chunk。
-            // 在当前方案中，只是简单设想了一种 只横跨 2个 chunk 的简单实现
-            // 但也可能是我理解错了 。。。
-            //
 
         //-----------------------------------------
         //-- 这个检测，最好在，所有工作都结束后，

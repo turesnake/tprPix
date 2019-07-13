@@ -171,14 +171,16 @@ public:
         this->major_gos.insert({ goid_, MajorGO_in_MapEnt{lGoAltiRange_, isCarryAffect } });
     }
     inline void erase_from_major_gos( goid_t goid_ ){
-        tprAssert( this->major_gos.erase(goid_)==1 );
+        size_t eraseNum = this->major_gos.erase(goid_);
+        tprAssert( eraseNum == 1 );
     }
 
     inline const std::unordered_map<goid_t, MajorGO_in_MapEnt> &get_major_gos() const {
         return this->major_gos;
     }
     inline void erase_the_onlyOne_from_major_gos( goid_t goid_ ){
-        tprAssert( this->major_gos.erase(goid_) == 1 );
+        size_t eraseNum = this->major_gos.erase(goid_);
+        tprAssert( eraseNum == 1 );
     }
     
     //=============== data: 一级信息 ===============//

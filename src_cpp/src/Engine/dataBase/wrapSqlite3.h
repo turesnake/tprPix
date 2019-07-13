@@ -20,12 +20,12 @@
 
 
 /* ===========================================================
- *                   _handle_sqlite_err
+ *                   handle_sqlite_err_inn
  * -----------------------------------------------------------
  * -- 版本1，更加精细的出错信息
  * -- 版本2，仅仅翻译 ERROR CODE 名称
  */
-inline void _handle_sqlite_err( sqlite3 *db_, int rc_, const std::string &funcName_ ){
+inline void handle_sqlite_err_inn( sqlite3 *db_, int rc_, const std::string &funcName_ ){
     tprAssert( rc_ != SQLITE_OK );
     std::cout << "ERROR: " << funcName_ << ": \n"
         << sqlite3_errmsg( db_ )
@@ -33,7 +33,7 @@ inline void _handle_sqlite_err( sqlite3 *db_, int rc_, const std::string &funcNa
     sqlite3_close( db_ ); //- better
     tprAssert(0);
 }
-inline void _handle_sqlite_err_without_db( int rc_, const std::string &funcName_ ){
+inline void handle_sqlite_err_without_db_inn( int rc_, const std::string &funcName_ ){
     tprAssert( rc_ != SQLITE_OK );
     std::cout << "ERROR_CODE: " << funcName_ << ": \n"
         << sqlite3_errstr( rc_ )
@@ -51,7 +51,7 @@ inline void _handle_sqlite_err_without_db( int rc_, const std::string &funcName_
 inline void w_sqlite3_config_singleThread(){
     int rc = sqlite3_config( SQLITE_CONFIG_SINGLETHREAD );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err_without_db( rc, "sqlite3_config():single_thread" );
+        handle_sqlite_err_without_db_inn( rc, "sqlite3_config():single_thread" );
     }
 }
 
@@ -65,7 +65,7 @@ inline void w_sqlite3_open( const char *filename_, /* Database filename (UTF-8) 
                             ){
     int rc = sqlite3_open(filename_, ppDb_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( *ppDb_, rc, "sqlite3_open()" );
+        handle_sqlite_err_inn( *ppDb_, rc, "sqlite3_open()" );
     }
 }
 
@@ -81,7 +81,7 @@ inline void w_sqlite3_exec(  sqlite3* db_,                               /* An o
                             ){
     int rc = sqlite3_exec( db_, sql_, callback_, fstArg_, errmsg_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_exec()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_exec()" );
     }
 }
 
@@ -98,7 +98,7 @@ inline void w_sqlite3_prepare_v2( sqlite3 *db_,           /* Database handle */
                                 ){
     int rc = sqlite3_prepare_v2( db_, zSql_, nByte_, ppStmt_, pzTail_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_prepare_v2()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_prepare_v2()" );
     }
 }
 
@@ -109,7 +109,7 @@ inline void w_sqlite3_prepare_v2( sqlite3 *db_,           /* Database handle */
 inline void w_sqlite3_reset( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
     int rc = sqlite3_reset( pStmt_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_reset()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_reset()" );
     }
 }
 
@@ -122,7 +122,7 @@ inline void w_sqlite3_reset( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
 inline void w_sqlite3_step( sqlite3 *db_, sqlite3_stmt *pStmt_, int resultCord_){
     int rc = sqlite3_step( pStmt_ );
     if( rc != resultCord_ ){
-        _handle_sqlite_err( db_, rc, "sqlite3_step()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_step()" );
     }
 }
 
@@ -133,7 +133,7 @@ inline void w_sqlite3_step( sqlite3 *db_, sqlite3_stmt *pStmt_, int resultCord_)
 inline void w_sqlite3_finalize( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
     int rc = sqlite3_finalize( pStmt_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_finalize()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_finalize()" );
     }
 }
 
@@ -145,7 +145,7 @@ inline void w_sqlite3_finalize( sqlite3 *db_, sqlite3_stmt *pStmt_ ){
 inline void w_sqlite3_bind_blob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, const void *val_, int valSize_, void(*callback_)(void*)){
     int rc = sqlite3_bind_blob( pStmt_, idx_, val_, valSize_, callback_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_blob()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_blob()" );
     }
 }
 //-- 暂不使用 blob64 --
@@ -154,31 +154,31 @@ inline void w_sqlite3_bind_blob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, c
 inline void w_sqlite3_bind_double( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, double val_){
     int rc = sqlite3_bind_double( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_double()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_double()" );
     }
 }
 inline void w_sqlite3_bind_int( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, int val_){
     int rc = sqlite3_bind_int( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_int()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_int()" );
     }
 }
 inline void w_sqlite3_bind_int64( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, sqlite3_int64 val_){
     int rc = sqlite3_bind_int64( pStmt_, idx_, val_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_int64()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_int64()" );
     }
 }
 inline void w_sqlite3_bind_null( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_){
     int rc = sqlite3_bind_null( pStmt_, idx_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_null()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_null()" );
     }
 }
 inline void w_sqlite3_bind_text( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, const char *val_, int valSize_, void(*callback_)(void*)){
     int rc = sqlite3_bind_text( pStmt_, idx_, val_, valSize_, callback_ );
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_text()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_text()" );
     }
 }
 
@@ -197,7 +197,7 @@ inline void w_sqlite3_bind_text( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, c
 inline void w_sqlite3_bind_zeroblob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx_, int valSize_){
     int rc = sqlite3_bind_zeroblob( pStmt_, idx_, valSize_);
     if( rc != SQLITE_OK ){
-        _handle_sqlite_err( db_, rc, "sqlite3_bind_zeroblob()" );
+        handle_sqlite_err_inn( db_, rc, "sqlite3_bind_zeroblob()" );
     }
 }
 

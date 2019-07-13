@@ -41,14 +41,9 @@ void init_chunkCreateReleaseZone( const IntVec2 &playerMPos_ ){
     chunk_inn::chunkCreateReleaseZoneUPtr->init( playerMPos_ );
 }
 
-ChunkZone &get_chunkCreateZoneRef(){
-    return chunk_inn::chunkCreateReleaseZoneUPtr->get_createZoneRef();
+ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
+    return *(chunk_inn::chunkCreateReleaseZoneUPtr.get());
 }
-
-ChunkZone &get_chunkReleaseZoneRef(){
-    return chunk_inn::chunkCreateReleaseZoneUPtr->get_releaseZoneRef();
-}
-
 
 //- only used for esrc_chunkMemState -
 bool find_from_chunks( chunkKey_t chunkKey_ ){
@@ -94,7 +89,8 @@ Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
 extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ );
 void erase_from_chunks( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
-    tprAssert(chunk_inn::chunks.erase(chunkKey_)==1);
+    size_t eraseNum = chunk_inn::chunks.erase(chunkKey_);
+    tprAssert( eraseNum == 1 );
     esrc::erase_chunkKey_from_onReleasing(chunkKey_);
 }
 
@@ -129,6 +125,16 @@ MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ ){
  */
 Chunk &get_chunkRef( chunkKey_t key_ ){
         tprAssert( get_chunkMemState(key_) == ChunkMemState::Active );
+    return *(chunk_inn::chunks.at(key_).get());
+}
+
+/* ===========================================================
+ *              get_chunkRef_onReleasing
+ * -----------------------------------------------------------
+ * 仅在 chunkRelease::release_one_chunk() 中被调用
+ */
+Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
+        tprAssert( get_chunkMemState(key_) == ChunkMemState::OnReleasing );
     return *(chunk_inn::chunks.at(key_).get());
 }
 

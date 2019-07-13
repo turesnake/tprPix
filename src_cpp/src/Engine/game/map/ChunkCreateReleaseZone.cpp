@@ -8,11 +8,20 @@
 #include "ChunkCreateReleaseZone.h"
 
 //-------------------- Engine --------------------//
+#include <unordered_map>
+
+//-------------------- Engine --------------------//
 #include "chunkRelease.h"
+
 #include "esrc_chunk.h"
 #include "esrc_player.h"
 
 #include "tprDebug.h"
+
+
+//namespace ccrz_inn {//------------------ namespace: ccrz_inn -------------------------//
+//}//---------------------- namespace: ccrz_inn -------------------------//
+
 
 /* ===========================================================
  *                        init
@@ -23,40 +32,31 @@ void ChunkCreateReleaseZone::init( const IntVec2 &playerMPos_ ){
     //-------------------------//
     // 装填 old-chunkkeys 容器
     //-------------------------//
-    this->is_currentOld_in_A = true;
-
-    IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( playerMPos_ );
     IntVec2     tmpChunkMPos {};
     chunkKey_t  chunkKey     {};
 
-    this->createZoneUPtr->set_centerChunkMPos( playerChunkMPos );
-    this->releaseZoneUPtr->set_centerChunkMPos( playerChunkMPos );
+    this->releaseZoneCenterChunkMCPos = anyMPos_2_chunkMPos(playerMPos_);
 
-    const auto &chunkOffMPoses = this->releaseZoneUPtr->get_chunkOffMPoses();
-    for( const auto &iOffMPos : chunkOffMPoses ){
-        tmpChunkMPos = playerChunkMPos + iOffMPos;
+    this->is_currentOld_in_A = true;
+    for( const auto &iOffMPos : this->releaseZoneOffMPoses ){
+        tmpChunkMPos = this->releaseZoneCenterChunkMCPos + iOffMPos;
         chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
         this->releaseChunkKeys_A.insert(chunkKey);
     }
 }
 
+
 /* ===========================================================
- *                 refresh_and_release
+ *                 refresh_and_collect_chunks_need_to_be_release
  * -----------------------------------------------------------
  * main
  */
-void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
-
-    //------------------------//
-    //   refresh  createZone
-    //------------------------//
-    IntVec2 playerChunkMPos = anyMPos_2_chunkMPos( playerMPos_ );
-    this->createZoneUPtr->set_centerChunkMPos( playerChunkMPos );
+void ChunkCreateReleaseZone::refresh_and_collect_chunks_need_to_be_release( const IntVec2 &playerMPos_ ){
 
     //------------------------//
     //   check  createZone
     //------------------------//
-    IntVec2 offMPos = playerChunkMPos - this->releaseZoneUPtr->get_centerChunkMPos();
+    IntVec2 offMPos = anyMPos_2_chunkMPos(playerMPos_) - this->releaseZoneCenterChunkMCPos;
 
     bool is_X_overStep {};
     bool is_Y_overStep {};
@@ -69,19 +69,21 @@ void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
 
     //------------------------//
     //  Now, the releaseZone MUST be moved;
-    //  calc new releaseZone centerChunkMPos
     //------------------------//
-    IntVec2 newMPos = this->releaseZoneUPtr->get_centerChunkMPos();
-    //-- x --
-    if( is_X_overStep ){
-        (offMPos.x >= 0) ? newMPos.x-=LimitOff : newMPos.x+=LimitOff;
+    IntVec2 overflow {0,0}; // 本次 释放圈 需要位移的向量
+    if( offMPos.x > this->LimitOff ){
+        overflow.x = offMPos.x - this->LimitOff;
     }
-    //-- y --
-    if( is_Y_overStep ){
-        (offMPos.y >= 0) ? newMPos.y-=LimitOff : newMPos.y+=LimitOff;
+    if( offMPos.x < -this->LimitOff ){
+        overflow.x = offMPos.x + this->LimitOff;
     }
-    this->releaseZoneUPtr->set_centerChunkMPos( newMPos );
-
+    if( offMPos.y > this->LimitOff ){
+        overflow.y = offMPos.y - this->LimitOff;
+    }
+    if( offMPos.y < -this->LimitOff ){
+        overflow.y = offMPos.y + this->LimitOff;
+    }
+    this->releaseZoneCenterChunkMCPos += overflow;
 
     //------------------------//
     //    old/new chunkKeys
@@ -106,16 +108,13 @@ void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
 
     IntVec2     tmpChunkMPos {};
     chunkKey_t  chunkKey     {};
-    const auto &chunkOffMPoses = this->releaseZoneUPtr->get_chunkOffMPoses();
-    for( const auto &iOffMPos : chunkOffMPoses ){
-        tmpChunkMPos = playerChunkMPos + iOffMPos;
+    for( const auto &iOffMPos : this->releaseZoneOffMPoses ){
+        tmpChunkMPos = this->releaseZoneCenterChunkMCPos + iOffMPos;
         chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
         newChunkKeysPtr->insert(chunkKey);
     }
-    
-            tprAssert( newChunkKeysPtr->size() == this->releaseZoneUPtr->get_chunks() ); //- tmp
-            tprAssert( oldChunkKeysPtr->size() == this->releaseZoneUPtr->get_chunks() ); //- tmp
-
+            tprAssert( newChunkKeysPtr->size() == this->releaseZone.get_chunks() ); //- tmp
+            tprAssert( oldChunkKeysPtr->size() == this->releaseZone.get_chunks() ); //- tmp
     
     //------------------------//
     //  遍历 old-set 元素，如果某元素不在 new-set 中
@@ -131,11 +130,12 @@ void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
                     break;
                 case ChunkMemState::OnCreating:
                     // 想要删除的居然在新建 ？？？ 直接报错
-                    cout << "OnCreating" << endl;
                     tprAssert(0);
                     break;
                 case ChunkMemState::Active:
-                    chunkRelease::release_chunk( key );
+                    //chunkRelease::release_a_chunk( key );
+                    //-- 符合要求，将此chunk，添加到 释放队列
+                    esrc::move_chunkKey_from_active_2_waitForRelease( key );
                     break;
                 case ChunkMemState::WaitForRelease:
                     // already in release que
@@ -143,7 +143,6 @@ void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
                 case ChunkMemState::OnReleasing:
                     // already in release que
                     // but seems too slow...
-                    cout << "OnReleasing" << endl;
                     tprAssert(0);
                     break;
                 default:
@@ -152,10 +151,71 @@ void ChunkCreateReleaseZone::refresh_and_release( const IntVec2 &playerMPos_ ){
             }   
         }
     }//- each chunkKey in old-set
-    
 }
 
 
+/* ===========================================================
+ *               init_createZoneOffMPosesSets
+ * -----------------------------------------------------------
+ */
+void ChunkCreateReleaseZone::init_createZoneOffMPosesSets(){
+    
+    IntVec2 left_bottom { -1, -1 };
+    IntVec2 left_mid    { -1,  0 };
+    IntVec2 left_top    { -1,  1 };
+    //--
+    IntVec2 mid_bottom {  0, -1 };
+    IntVec2 mid_mid    {  0,  0 };
+    IntVec2 mid_top    {  0,  1 };
+    //--
+    IntVec2 right_bottom {  1, -1 };
+    IntVec2 right_mid    {  1,  0 };
+    IntVec2 right_top    {  1,  1 };
+    //--
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Bottom,
+        std::vector<IntVec2>{ mid_mid, left_bottom, left_mid, mid_bottom, left_top, right_bottom, mid_top, right_mid }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Top,
+        std::vector<IntVec2>{ mid_mid, left_top, mid_top, left_mid, left_bottom, right_top, mid_bottom, right_mid }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Top,
+        std::vector<IntVec2>{ mid_mid, right_top, mid_top, right_mid, left_top, right_bottom, left_mid, mid_bottom }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Bottom,
+        std::vector<IntVec2>{ mid_mid, right_bottom, mid_bottom, right_mid, right_top, left_bottom, left_mid, mid_top }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Mid,
+        std::vector<IntVec2>{ mid_mid, left_mid, left_bottom, left_top, mid_bottom, mid_top, right_bottom, right_top }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Mid_Bottom,
+        std::vector<IntVec2>{ mid_mid, mid_bottom, left_bottom, right_bottom, left_mid, right_mid, left_top, right_top }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Mid,
+        std::vector<IntVec2>{ mid_mid, right_mid, right_bottom, right_top, mid_bottom, mid_top, left_bottom, left_top }
+    });
+    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Mid_Top,
+        std::vector<IntVec2>{ mid_mid, mid_top, left_top, right_top, left_mid, right_mid, left_bottom, right_bottom }
+    });
+    for( auto &pair : this->createZoneOffMPosesSets ){
+        for( auto &mpos : pair.second ){
+            mpos *= ENTS_PER_CHUNK;
+        }
+    }
+}
 
+
+/* ===========================================================
+ *             init_releaseZoneOffMPoses
+ * -----------------------------------------------------------
+ */
+void ChunkCreateReleaseZone::init_releaseZoneOffMPoses(){
+
+    int offLen = this->releaseZone.get_offLen();
+    for( int h=-offLen; h<=offLen; h++ ){
+        for( int w=-offLen; w<=offLen; w++ ){
+            this->releaseZoneOffMPoses.push_back( IntVec2{ w*ENTS_PER_CHUNK , h*ENTS_PER_CHUNK } );
+        }
+    }
+}
 
 

@@ -45,7 +45,8 @@ void glad_set();
  * -- glfw 库 的初始化。
  */
 void glfw_init(){
-    tprAssert( glfwInit() != GL_FALSE );
+    int ret = glfwInit();
+    tprAssert( ret != GL_FALSE );
 }
 
 

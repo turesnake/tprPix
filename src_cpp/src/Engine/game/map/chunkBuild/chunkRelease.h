@@ -15,8 +15,8 @@
 
 namespace chunkRelease {//------- namespace: chunkRelease ----------//
 
-void release_chunk( chunkKey_t chunkKey_ );
-
+void collect_chunks_need_to_be_release_in_update();
+void release_one_chunk();
 
 }//----------------- namespace: chunkRelease: end -------------------//
 #endif 

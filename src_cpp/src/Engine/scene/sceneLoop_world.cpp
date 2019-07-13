@@ -13,6 +13,7 @@
 #include "tprAssert.h"
 #include "input.h"
 #include "chunkBuild.h"
+#include "chunkRelease.h"
 #include "esrc_all.h" //- 所有资源
 
 #include "tprDebug.h"
@@ -111,13 +112,17 @@ void sceneLoop_world(){
             );
             break;
         case 2:
-            //esrc::camera.print_pos();
-            break;
-        case 3:
             //--- 定期 检查玩家所在 chunk
             //  并将需要新建的 chunks 收集到 队列中
             chunkBuild::collect_chunks_need_to_be_build_in_update();
                         // 更新中...
+            break;
+        case 3:
+            //--- 定期 检查玩家所在 chunk
+            // 当发现 chunkReleaseZone 发生位移时，将需要 释放的chunk 排入队列
+            chunkRelease::collect_chunks_need_to_be_release_in_update();
+
+            
             break;
         case 4:
             //esrc::realloc_active_goes(); //- tmp
@@ -130,6 +135,12 @@ void sceneLoop_world(){
     //  每一帧，最多装配生成一个 chunk 实例
     //--------------------------------//
     chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
+
+
+    //--------------------------------//
+    //  每一帧，最多释放一个 chunk 实例
+    //--------------------------------//
+    chunkRelease::release_one_chunk();
 
 
     //====================================//

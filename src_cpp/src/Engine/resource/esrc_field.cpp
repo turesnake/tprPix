@@ -89,6 +89,40 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
 
 
 /* ===========================================================
+ *      atom_erase_all_fields_in_chunk   [-WRITE-]
+ * -----------------------------------------------------------
+ * 遍历 chunk 中所有 field， 直接删除这些实例
+ */
+void atom_erase_all_fields_in_chunk( const IntVec2 &chunkMPos_ ){
+
+    //--- lock---//
+    std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
+    
+    //--- unlock ---//
+    ul.unlock();
+    IntVec2    tmpFieldMPos {};
+    fieldKey_t tmpFieldKey {};
+    size_t     eraseNum {};
+
+    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){
+            tmpFieldMPos.set(   chunkMPos_.x + w*ENTS_PER_FIELD,
+                                chunkMPos_.y + h*ENTS_PER_FIELD );
+            tmpFieldKey = fieldMPos_2_fieldKey( tmpFieldMPos );
+
+            //--- lock ---//
+            ul.lock();
+            eraseNum = field_inn::fieldUPtrs.erase(tmpFieldKey);
+            tprAssert( eraseNum == 1 );
+
+            //--- unlock ---//
+            ul.unlock();
+        }
+    }
+}
+
+
+/* ===========================================================
  *           atom_field_reflesh_min_and_max_altis     [-WRITE-]
  * -----------------------------------------------------------
  */
@@ -217,7 +251,8 @@ bool is_in_fieldsBuilding( fieldKey_t fieldKey_ ){
 void erase_from_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-        tprAssert( fieldsBuilding.erase( fieldKey_ ) == 1 );
+        size_t eraseNum = fieldsBuilding.erase(fieldKey_);
+        tprAssert( eraseNum == 1 );
     }
 }
 

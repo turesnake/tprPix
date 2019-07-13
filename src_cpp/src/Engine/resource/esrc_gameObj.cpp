@@ -65,7 +65,8 @@ void erase_the_go( goid_t id_ ){
         
     go_inn::goids_active.erase(id_);
     go_inn::goids_inactive.erase(id_);
-    tprAssert( go_inn::gameObjs.erase(id_)==1 );
+    size_t eraseNum = go_inn::gameObjs.erase(id_);
+    tprAssert( eraseNum == 1 );
 }
 
 

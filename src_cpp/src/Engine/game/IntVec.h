@@ -61,8 +61,8 @@ public:
     //  -1- double 除法
     //  -2- math.floor()
     inline IntVec2 floorDiv( double div_ ) const {
-        double fx = ( static_cast<double>(this->x) ) / div_;
-        double fy = ( static_cast<double>(this->y) ) / div_;
+        double fx = static_cast<double>(this->x) / div_;
+        double fy = static_cast<double>(this->y) / div_;
         return IntVec2{ static_cast<int>(floor(fx)),
                         static_cast<int>(floor(fy)) };
     }
@@ -144,8 +144,8 @@ inline bool IntVec2::is_closeEnough( const IntVec2 &v1_, const IntVec2 &v2_, siz
  *  -2- math.floor()
  */
 inline IntVec2 floorDiv(  const IntVec2 &a_, double div_ ){
-    double fx = ( static_cast<double>(a_.x) ) / div_;
-    double fy = ( static_cast<double>(a_.y) ) / div_;
+    double fx = static_cast<double>(a_.x) / div_;
+    double fy = static_cast<double>(a_.y) / div_;
     return IntVec2{ static_cast<int>(floor(fx)),
                     static_cast<int>(floor(fy)) };
 }

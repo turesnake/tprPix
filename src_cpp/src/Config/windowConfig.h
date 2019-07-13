@@ -21,12 +21,15 @@
 // 必须在编译前设置 window尺寸，游戏运行时，无法修改 window 尺寸
 #define SCR_WIDTH_  900
 #define SCR_HEIGHT_ 600
+//#define SCR_WIDTH_  2200
+//#define SCR_HEIGHT_ 1300
             // 在未来，考虑用 lua 配置表 来替代...
 
 
 //-- 一个 "游戏像素" ，占用 n*n 个 显示屏像素 --
 //   推荐值: {3,4} 
 #define PIXES_PER_GAMEPIX  3
+//#define PIXES_PER_GAMEPIX  1
 
 
 //-- 是否开启 全屏模式 --

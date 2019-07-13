@@ -79,13 +79,13 @@ public:
         if (size) //  behavior of malloc(0) is implementation defined.
             return std::malloc(size);
         else
-            return NULL; // standardize to returning NULL.
+            return nullptr; // standardize to returning NULL.
     }
     void* Realloc(void* originalPtr, size_t originalSize, size_t newSize) {
         (void)originalSize;
         if (newSize == 0) {
             std::free(originalPtr);
-            return NULL;
+            return nullptr;
         }
         return std::realloc(originalPtr, newSize);
     }
@@ -120,8 +120,8 @@ public:
     /*! \param chunkSize The size of memory chunk. The default is kDefaultChunkSize.
         \param baseAllocator The allocator for allocating memory chunks.
     */
-    MemoryPoolAllocator(size_t chunkSize = kDefaultChunkCapacity, BaseAllocator* baseAllocator = 0) : 
-        chunkHead_(0), chunk_capacity_(chunkSize), userBuffer_(0), baseAllocator_(baseAllocator), ownBaseAllocator_(0)
+    MemoryPoolAllocator(size_t chunkSize = kDefaultChunkCapacity, BaseAllocator* baseAllocator = nullptr) : 
+        chunkHead_(nullptr), chunk_capacity_(chunkSize), userBuffer_(nullptr), baseAllocator_(baseAllocator), ownBaseAllocator_(nullptr)
     {
     }
 
@@ -188,12 +188,12 @@ public:
     //! Allocates a memory block. (concept Allocator)
     void* Malloc(size_t size) {
         if (!size)
-            return NULL;
+            return nullptr;
 
         size = RAPIDJSON_ALIGN(size);
-        if (chunkHead_ == 0 || chunkHead_->size + size > chunkHead_->capacity)
+        if (chunkHead_ == nullptr || chunkHead_->size + size > chunkHead_->capacity)
             if (!AddChunk(chunk_capacity_ > size ? chunk_capacity_ : size))
-                return NULL;
+                return nullptr;
 
         void *buffer = reinterpret_cast<char *>(chunkHead_) + RAPIDJSON_ALIGN(sizeof(ChunkHeader)) + chunkHead_->size;
         chunkHead_->size += size;
@@ -206,7 +206,7 @@ public:
             return Malloc(newSize);
 
         if (newSize == 0)
-            return NULL;
+            return nullptr;
 
         originalSize = RAPIDJSON_ALIGN(originalSize);
         newSize = RAPIDJSON_ALIGN(newSize);
@@ -231,7 +231,7 @@ public:
             return newBuffer;
         }
         else
-            return NULL;
+            return nullptr;
     }
 
     //! Frees a memory block (concept Allocator)

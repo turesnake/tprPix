@@ -12,6 +12,8 @@
 #include "tprAssert.h"
 #include "Chunk.h"
 #include "esrc_gameObj.h"
+#include "esrc_player.h"
+#include "esrc_field.h"
 #include "esrc_chunk.h"
 #include "esrc_colliEntSet.h"
 
@@ -27,28 +29,47 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
 }//-------------- namespace: cr_inn end ----------------//
 
 
+
 /* ===========================================================
- *                 release_chunk
+ *       collect_chunks_need_to_be_release_in_update
  * -----------------------------------------------------------
  */
-void release_chunk( chunkKey_t chunkKey_ ){
+void collect_chunks_need_to_be_release_in_update(){
 
-    auto &chunkRef = esrc::get_chunkRef( chunkKey_ ); // must be Active
-    IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey_);
+    IntVec2 playerMPos = esrc::get_player().get_goRef().goPos.get_currentMPos();
+    esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( playerMPos );
+}
+
+
+/* ===========================================================
+ *                 release_one_chunk
+ * -----------------------------------------------------------
+ */
+void release_one_chunk(){
+
+    //-------------------------------//
+    //  检查 esrc::chunkKeys_waitForRelease
+    //  若为空，直接退出
+    //------------------------------//
+    auto popRet = esrc::pop_front_from_WaitForRelease_and_move_2_onReleasing();
+    if( popRet.first == false ){
+        return;
+    }
+
+    chunkKey_t chunkKey = popRet.second;
+    auto &chunkRef = esrc::get_chunkRef_onReleasing( chunkKey ); 
+    IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey);
     
-
     //------------------------------//
     //         gameObjs
     // 清除 go 在 map 上的登记
     // 部分 go，需要存入 db，剩余go直接删除
     //------------------------------//
 
-    cr_inn::quit_edgeGos_from_mapEnt( chunkRef, chunkKey_, chunkMPos );
-
-
     //-- 将部分go 存入 db --
     // 未实现...
 
+    cr_inn::quit_edgeGos_from_mapEnt( chunkRef, chunkKey, chunkMPos );
 
     //-- 删除本chunk 的所有 go 实例 --
     for( auto &goid : chunkRef.get_goIds() ){//- foreach goIds
@@ -73,14 +94,13 @@ void release_chunk( chunkKey_t chunkKey_ ){
     //         fields
     // 删除所有 field 实例
     //------------------------------//
-
-    
+    esrc::atom_erase_all_fields_in_chunk( chunkMPos );
 
     //------------------------------//
     //         chunk
     // 删除 chunk 实例本身
     //------------------------------//
-    esrc::erase_from_chunks( chunkKey_ );
+    esrc::erase_from_chunks( chunkKey );
 
     //------------------------------//
     //          ecoObj

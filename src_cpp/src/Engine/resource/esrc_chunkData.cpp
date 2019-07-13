@@ -64,7 +64,8 @@ ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
 void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
-        tprAssert( chunkD_inn::chunkDatas.erase(chunkKey_) == 1 );
+        size_t eraseNum = chunkD_inn::chunkDatas.erase(chunkKey_);
+        tprAssert( eraseNum == 1 );
     }
 }
 

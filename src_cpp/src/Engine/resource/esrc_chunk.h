@@ -23,8 +23,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 void init_chunks();
 void init_chunkCreateReleaseZone( const IntVec2 &playerMPos_ );
 
-ChunkZone &get_chunkCreateZoneRef();
-ChunkZone &get_chunkReleaseZoneRef();
+ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef();
 
 void chunks_debug();
 
@@ -35,7 +34,7 @@ MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ );
 
 
 Chunk &get_chunkRef( chunkKey_t key_ );
-
+Chunk &get_chunkRef_onReleasing( chunkKey_t key_ );
 
 
 

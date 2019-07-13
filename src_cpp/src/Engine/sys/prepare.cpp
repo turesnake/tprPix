@@ -246,72 +246,48 @@ void data_type_confirm(){
     //------- short ------//
     len = sizeof(short);
     if( len != 2 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "short len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- unsigned short ------//
     len = sizeof(unsigned short);
     if( len != 2 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "unsigned short len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- int ------//
     len = sizeof(int);
     if( len != 4 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "int len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- unsigned int ------//
     len = sizeof(unsigned int);
     if( len != 4 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "unsigned int len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- long long ------//
     len = sizeof(long long);
     if( len != 8 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "long long len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- unsigned long long ------//
     len = sizeof(unsigned long long);
     if( len != 8 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "unsigned long long len = " << len
-        //    << endl;
         tprAssert(0);
     }
 
     //------- float ------//
     len = sizeof(float);
     if( len != 4 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "float len = " << len
-        //   << endl;
         tprAssert(0);
     }
 
     //------- double ------//
     len = sizeof(double);
     if( len != 8 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "double len = " << len
-        //   << endl;
         tprAssert(0);
     }
 

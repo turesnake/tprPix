@@ -101,7 +101,7 @@ inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ ){
  *    如果参数不为 fieldMPos，直接报错。
  */
 inline fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ ){
-        tprAssert( anyMPos_2_fieldMPos(fieldMPos_) == fieldMPos_ );
+        tprAssert( anyMPos_2_fieldMPos(fieldMPos_) == fieldMPos_ ); //- tmp
     return fieldMPos_2_key_inn( fieldMPos_ );
 }
 
