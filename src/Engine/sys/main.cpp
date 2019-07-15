@@ -9,7 +9,7 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-#include "cpp_with_csharp.h" //- tmp
+//#include "cpp_with_csharp.h" //- tmp
 
 //-------------------- Engine --------------------//
 #include "prepare.h"
@@ -32,18 +32,17 @@
 
 
 /* ===========================================================
- *                     cppMain_tmp
+ *                        main
  * -----------------------------------------------------------
  * 被 cs 调用
  * 在未来，要被分割
  */
-int cppMain_tmp( char *exeDirPath_ ){
+//int cppMain_tmp( char *exeDirPath_ ){
+int main( int argc, char* argv[] ){
     //==========================================//
     //                 prepare
     //------------------------------------------//
-    prepare( exeDirPath_ );
-
-    
+    prepare( argv[0] );
     
     //------------------------------------------//
     //                  glfw

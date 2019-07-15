@@ -103,7 +103,31 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
 void build_path_cwd( char *exeDirPath_ ){
 
     //-- 这部分工作，已经由 C# 完成 ---
-    path_cwd = exeDirPath_;
+    //path_cwd = exeDirPath_;
+
+#if defined TPR_OS_WIN32_
+
+	char buf[MAX_PATH];
+	GetModuleFileName( nullptr, buf, MAX_PATH ); //- exe文件path
+	// 当前 buf数据 为 ".../xx.exe"
+	// 需要将 最后一段 截掉
+	std::string::size_type pos = std::string(buf).find_last_of( "\\/" );
+	path_cwd = std::string(buf).substr( 0, pos );
+
+#elif defined TPR_OS_UNIX_
+
+    char ubuf[ PATH_MAX + 1 ];
+    char *res = realpath( exeDirPath_, ubuf);
+    if (!res) {
+        cout << "realpath ERROR; exeDirPath_ = " << exeDirPath_ << endl;
+        tprAssert(0);
+    }
+    //- ubuf 暂为 .../xxx.exe 的 path，需要截去最后一段 
+	std::string::size_type pos = std::string(ubuf).find_last_of( "/" );
+	path_cwd = std::string(ubuf).substr( 0, pos );
+    
+#endif
+
 }
 
 

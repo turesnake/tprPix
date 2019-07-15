@@ -57,7 +57,6 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 #-- 显示编译时使用的 编译选项
 #set ( CMAKE_VERBOSE_MAKEFILE ON )
 
-
 #-- 单独设置 c++ 的编译选项 的方式:
 #add_definitions ( -DXXX_XXX=1 )
 
@@ -74,10 +73,10 @@ set ( VERSION_MINOR 2 )
 
 
 #---------------------------------------------------#
-#                 libs out-path
+#                   build/publish/
 #---------------------------------------------------#
-#-- change finally libs/dlls out-path 
-set (LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../build/publish)
+#-- change finally exe out-path: build/publish
+set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/publish)
 
 
 #---------------------------------------------------#
@@ -91,7 +90,7 @@ option( SWITCH_1
     " option test: switch 1 " ON )
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/sysconfig/SysConfig.h.in"
-    "${LIBRARY_OUTPUT_PATH}/sysconfig/SysConfig.h"
+    "${EXECUTABLE_OUTPUT_PATH}/sysconfig/SysConfig.h"
 )
 
 
@@ -113,7 +112,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
-                        src/Engine/cpp_with_csharp/*.cpp 
                         src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
@@ -153,11 +151,13 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         )
 
 
+
+
 #---------------------------------------------------#
 #                      tprpix 
 #---------------------------------------------------#
-add_library (
-    tprpix_cpp SHARED
+add_executable(
+    tprpix_cpp
     ${PIXEL_FILES}
 )
 
@@ -184,7 +184,6 @@ target_include_directories ( tprpix_cpp PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/cpp_with_csharp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
@@ -212,7 +211,7 @@ target_include_directories ( tprpix_cpp PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Script
 
-    ${LIBRARY_OUTPUT_PATH}/sysconfig
+    ${EXECUTABLE_OUTPUT_PATH}/sysconfig
     )
 
 #-- 防止 第三方库h文件 报 warnings --
@@ -221,7 +220,6 @@ target_include_directories ( tprpix_cpp SYSTEM PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/stb_image
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/glm.9.9.5
     )
-
 
 
 #-- glfw --
@@ -302,7 +300,6 @@ target_compile_options( tprpix_cpp
                         
                         -Wno-unused-variable #----- tmp ----
 
-                        #-Wno-zero-as-null-pointer-constant #- RapidJson
                         )
 
 

@@ -47,8 +47,7 @@ cp -R ${DIR_src_jsons}     ${DIR_dst_jsons}
 
 #------------- build cpp/c# ----------------
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release ../src_cpp/
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 cd ..
-dotnet publish -c Release -r osx-x64 --self-contained true
 
