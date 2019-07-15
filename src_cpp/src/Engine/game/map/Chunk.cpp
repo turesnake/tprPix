@@ -81,7 +81,7 @@ void Chunk::init(){
     //  从 chunkData 中 copy: 
     //  mapEntAltis / fieldKeys
     //------------------------------//
-    const auto &chunkDataRef = esrc::atom_get_chunkDataCRef( this->chunkKey );
+    auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( this->chunkKey );
     {//-- 用作用域 来取代 函数 --
         const auto &mapEntAltis = chunkDataRef.get_mapEntAltis();
             tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
@@ -116,7 +116,7 @@ void Chunk::init(){
     //------------------------------//
     //        mapTex, mesh
     //------------------------------//
-    this->mapTex.copy_texBuf_from( chunkDataRef.get_texBuf() );
+    this->mapTex.swap_texBuf_from( chunkDataRef.getnc_texBuf() );
     this->mapTex.creat_texName();
     this->mesh.init( mapTex.get_texName() ); //- auto
     this->mesh.isVisible = true;  //- 一定可见

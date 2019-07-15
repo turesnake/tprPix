@@ -19,6 +19,9 @@
 //------------------- Libs --------------------// 
 #include "tprDataType.h"
 
+//------------------- Engine --------------------// 
+#include "timeLog.h"
+
 
 //--- 最基础的时间类,singleton ---//
 class TimeBase{
@@ -49,6 +52,8 @@ public:
             (off > 0) ? this->smoothDeltaTime += this->step :
                         this->smoothDeltaTime -= this->step;
         }
+        //-----------
+        collect_deltaTime(this->deltaTime); //- tmp
     }
 
     //--- 获得 当前时间 （从 glfw 启动 开始计算）---//

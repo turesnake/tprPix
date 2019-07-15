@@ -21,7 +21,7 @@ ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ );
 void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ );
 
 
-const ChunkData &atom_get_chunkDataCRef( chunkKey_t chunkKey_ );
+ChunkData &atom_getnc_chunkDataCRef( chunkKey_t chunkKey_ );
 
 
 bool atom_is_chunkDataFlags_empty();

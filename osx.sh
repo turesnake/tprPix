@@ -5,6 +5,8 @@
 DIR_base="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DIR_out=${DIR_base}/build/publish/
 
+DIR_tprLog=${DIR_out}/tprLog/
+
 DIR_src_shaders=${DIR_base}/shaders/
 DIR_src_textures=${DIR_base}/textures/
 DIR_src_jsons=${DIR_base}/jsons/
@@ -20,6 +22,10 @@ echo "------------"
 
 if [ ! -d "${DIR_out}" ]; then
     mkdir -p ${DIR_out}
+fi
+
+if [ ! -d "${DIR_tprLog}" ]; then
+    mkdir -p ${DIR_tprLog}
 fi
 
 if [ ! -d "${DIR_dst_shaders}" ]; then

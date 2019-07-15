@@ -24,6 +24,9 @@
 #include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
+
+#include "timeLog.h" // debug_tmp
+
  
 //#include "tprDebug.h" //- tmp
 
@@ -96,6 +99,8 @@ int cppMain_tmp( char *exeDirPath_ ){
 
     db::atom_init_dataBase();        //---- dataBase 资源 ----
             //-- tmp...
+
+    init_timeLog();  //- debug: timeLog 
 
     //------------------------------------------//
     //            启动 job线程组
@@ -200,6 +205,11 @@ int cppMain_tmp( char *exeDirPath_ ){
     delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
     
     //...
+
+    //---------------------------------------------//
+    //             timeLog debug
+    //---------------------------------------------//
+    process_and_echo_timeLog();
 
     //---------------------------------------------//
     //                glfw Terminate

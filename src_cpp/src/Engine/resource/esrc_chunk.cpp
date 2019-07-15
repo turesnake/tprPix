@@ -136,13 +136,13 @@ Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
 }
 
 /* ===========================================================
- *                 render_chunks
+ *               add_chunks_2_renderPool
  * -----------------------------------------------------------
  * 每一渲染帧，都要将所有 Active 态的 chunks， 重新存入 renderPool_meshs
  * 从而给它们做一次排序。
  */
 extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
-void render_chunks(){
+void add_chunks_2_renderPool(){
 
     const auto &activeKeys = esrc::get_chunkKeys_active();
     for( auto &key : activeKeys ){

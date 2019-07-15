@@ -25,16 +25,17 @@
 inline int         fd_cwd {};   //-- 项目 主目录 fd
 
 inline std::string path_cwd {}; //-- exe 所在目录的 path
-inline std::string path_csharpLibs {}; //-- .../build/bin/csharpLibs/
+inline std::string path_csharpLibs {}; //-- .../build/publish/csharpLibs/
                 
-inline std::string path_dataBase {};  //-- .../build/bin/dataBase/
-inline std::string path_shaders {}; //-- .../build/bin/shaders/
-inline std::string path_textures {}; //-- .../build/bin/textures/
-inline std::string path_jsons    {}; //-- .../build/bin/jsons/
+inline std::string path_dataBase {};  //-- .../build/publish/dataBase/
+inline std::string path_shaders {}; //-- .../build/publish/shaders/
+inline std::string path_textures {}; //-- .../build/publish/textures/
+inline std::string path_jsons    {}; //-- .../build/publish/jsons/
+inline std::string path_tprLog   {}; //-- .../build/publish/tprLog/
 
-inline std::string path_animFrameSets {}; //-- .../build/bin/textures/animFrameSets
-inline std::string path_colliEntSet   {}; //-- .../build/bin/textures/colliEntSet
-inline std::string path_fieldBorderSet {}; //-- .../build/bin/textures/fieldBorderSet
+inline std::string path_animFrameSets {}; //-- .../build/publish/textures/animFrameSets
+inline std::string path_colliEntSet   {}; //-- .../build/publish/textures/colliEntSet
+inline std::string path_fieldBorderSet {}; //-- .../build/publish/textures/fieldBorderSet
 
 
 //----------------------------------------------------//

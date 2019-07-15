@@ -61,7 +61,6 @@ void Canvas::draw(){
                                     static_cast<float>(this->texSizePtr->y), 
                                     1.0f });
 
-
     this->shaderProgram.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     this->shaderProgram.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 

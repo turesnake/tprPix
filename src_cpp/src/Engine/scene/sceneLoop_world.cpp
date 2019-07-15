@@ -114,7 +114,7 @@ void sceneLoop_world(){
         case 2:
             //--- 定期 检查玩家所在 chunk
             //  并将需要新建的 chunks 收集到 队列中
-            chunkBuild::collect_chunks_need_to_be_build_in_update();
+            //chunkBuild::collect_chunks_need_to_be_build_in_update();
                         // 更新中...
             break;
         case 3:
@@ -153,9 +153,9 @@ void sceneLoop_world(){
     esrc::clear_renderPool_mapSurfaces();
 
     //------------------------//
-    //       chunks
+    //        chunks
     //------------------------//
-    esrc::render_chunks();
+    esrc::add_chunks_2_renderPool();
 
     //------------------------//
     //     mapEntSlices
@@ -180,7 +180,7 @@ void sceneLoop_world(){
     // *** 注意次序,先渲染深处的 ***
     esrc::draw_groundCanvas();
     esrc::draw_renderPool_meshs(); //- chunks
-    esrc::draw_waterAnimCanvas();
+    //esrc::draw_waterAnimCanvas();
     esrc::draw_renderPool_mapSurfaces();
     esrc::draw_renderPool_goMeshs_shadow();
     tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear

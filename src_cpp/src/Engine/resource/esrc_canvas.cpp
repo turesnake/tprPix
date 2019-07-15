@@ -97,8 +97,8 @@ void draw_groundCanvas(){
                                       static_cast<float>(get_camera().get_zFar() + ViewingBox::ground_zOff) );
     
     glUniform2f(canvas_inn::groundCanvasUPtr->get_uniform_location("canvasCFPos"), 
-                    canvasFPos.x / PIXES_PER_CHUNK,
-                    canvasFPos.y / PIXES_PER_CHUNK ); //- 2-float
+                    canvasFPos.x / static_cast<float>(PIXES_PER_CHUNK),
+                    canvasFPos.y / static_cast<float>(PIXES_PER_CHUNK) ); //- 2-float
     
     glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
     glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
@@ -133,8 +133,8 @@ void draw_waterAnimCanvas(){
                                         //  进而可知，SCR_WIDTH，SCR_HEIGHT 的使用也是正确的
 
     glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("canvasCFPos"), 
-                    canvasFPos.x / PIXES_PER_CHUNK,
-                    canvasFPos.y / PIXES_PER_CHUNK ); //- 2-float
+                    canvasFPos.x / static_cast<float>(PIXES_PER_CHUNK),
+                    canvasFPos.y / static_cast<float>(PIXES_PER_CHUNK) ); //- 2-float
 
     //-- 每个游戏存档的这组值 其实是固定的，游戏运行期间，只需传输一次 --
     GameSeed &gameSeedRef = get_gameSeed();

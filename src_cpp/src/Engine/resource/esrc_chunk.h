@@ -38,7 +38,7 @@ Chunk &get_chunkRef_onReleasing( chunkKey_t key_ );
 
 
 
-void render_chunks();
+void add_chunks_2_renderPool();
 
 
 }//---------------------- namespace: esrc -------------------------//

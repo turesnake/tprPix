@@ -13,6 +13,8 @@ REM ----------------- prepare dirs ---------------
 SET DIR_base=%~dp0
 SET DIR_out=%~dp0\build\publish
 
+SET DIR_tprLog=%~dp0\build\publish\tprLog
+
 SET DIR_src_shaders=%~dp0\shaders
 SET DIR_src_textures=%~dp0\textures
 SET DIR_src_jsons=%~dp0\jsons
@@ -22,6 +24,7 @@ SET DIR_dst_textures=%~dp0\build\publish\textures
 SET DIR_dst_jsons=%~dp0\build\publish\jsons
 
 mkdir %DIR_out%
+mkdir %DIR_tprLog%
 mkdir %DIR_dst_shaders%
 mkdir %DIR_dst_textures%
 mkdir %DIR_dst_jsons%

@@ -308,19 +308,6 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
     //   mapEntAltis, mapEntMPoses    
     //------------------------//
     chunkDataRef_.init_mapEntAltis();
-    //-------
-    /*
-    std::vector<IntVec2> mapEntMPoses {}; // only used inner
-    mapEntMPoses.reserve( ENTS_PER_CHUNK*ENTS_PER_CHUNK ); // reserve FIRST !!!
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
-            mapEntMPoses.push_back( chunkMPos_ + IntVec2{w, h} ); //- copy
-        }
-    }
-    */
-                    //
-                    //   这组数据 好像完全没被使用到    .......
-                    //
 
     //------------------------//
     //      fieldKeys

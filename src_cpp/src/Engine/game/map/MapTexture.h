@@ -42,10 +42,9 @@ public:
         return texName;
     }
 
-    //- texBuf 数据 是在 job线程中生成的，传递到 主线程后，只需 复制到此处 --
-    inline void copy_texBuf_from( const std::vector<RGBA> &src_ ){
-        this->texBuf.clear();
-        this->texBuf.insert( this->texBuf.end(), src_.begin(), src_.end() ); //- copy
+    //- texBuf 数据 是在 job线程中生成的，传递到 主线程后，只需 swap 到此处 --
+    inline void swap_texBuf_from( std::vector<RGBA> &src_ ){
+        this->texBuf.swap(src_);
     }
     
 private:

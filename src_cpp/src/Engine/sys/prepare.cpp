@@ -169,6 +169,12 @@ void check_and_creat_important_dir(){
     path_jsons = tprWin::mk_dir( path_cwd,
                                 "jsons/",
                                 err_info );
+    //---------------------------------//
+    //           path_tprLog
+    //---------------------------------//
+    path_tprLog = tprWin::mk_dir( path_cwd,
+                                "tprLog/",
+                                err_info );
 
 #elif defined TPR_OS_UNIX_
 
@@ -229,7 +235,13 @@ void check_and_creat_important_dir(){
                         "jsons/",
                         RWXR_XR_X,
                         err_info );
-
+    //---------------------------------//
+    //           path_tprLog
+    //---------------------------------//
+    path_tprLog = tprUnix::mk_dir( path_cwd,
+                        "tprLog/",
+                        RWXR_XR_X,
+                        err_info );
 
 #endif
 }

@@ -45,7 +45,7 @@ public:
         return &(this->texBuf.at(0));
     }
 
-    inline const std::vector<RGBA> &get_texBuf() const {
+    inline std::vector<RGBA> &getnc_texBuf(){
         return this->texBuf;
     }
 

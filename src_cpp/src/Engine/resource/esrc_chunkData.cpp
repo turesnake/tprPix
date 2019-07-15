@@ -78,7 +78,7 @@ void atom_erase_from_chunkDatas( chunkKey_t chunkKey_ ){
  * -----------------------------------------------------------
  * 只能由 主线程 调用
  */
-const ChunkData &atom_get_chunkDataCRef( chunkKey_t chunkKey_ ){
+ChunkData &atom_getnc_chunkDataCRef( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( chunkD_inn::sharedMutex ); //- read
             tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) ); //- MUST EXIST

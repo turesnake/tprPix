@@ -92,6 +92,7 @@ float simplex_noise3( float _x, float _y, float _z );
  */
 void main()
 {
+    //discard;
     prepare();
     
     //------------------//
