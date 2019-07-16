@@ -25,7 +25,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 namespace go_inn {//-------- namespace: go_inn --------------//
-
+    // main thread only
     std::unordered_map<goid_t, std::shared_ptr<GameObj>> gameObjs {};  //- 所有载入内存的 go实例 实际存储区。
        
     std::unordered_set<goid_t> goids_active   {}; //- 激活组 (身处 激活圈 之内)

@@ -20,11 +20,13 @@ void switch_sceneLoop( const SceneLoopType &type_ ){
 
     switch (type_){
     case SceneLoopType::Begin:
-        sceneLoopFunc = std::bind( sceneLoop_begin );
+        sceneLogicLoopFunc = std::bind( sceneLogicLoop_begin );
+        sceneRenderLoopFunc = std::bind( sceneRenderLoop_begin );
         break;
 
     case SceneLoopType::World:
-        sceneLoopFunc = std::bind( sceneLoop_world );
+        sceneLogicLoopFunc = std::bind( sceneLogicLoop_world );
+        sceneRenderLoopFunc = std::bind( sceneRenderLoop_world );
         break;
     
     default:

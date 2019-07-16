@@ -16,6 +16,10 @@
 //------------------- C --------------------// 
 #include <cmath>
 
+//------------------- CPP --------------------// 
+//#include <thread>
+//#include <chrono>
+
 //------------------- Libs --------------------// 
 #include "tprDataType.h"
 
@@ -28,8 +32,8 @@ class TimeBase{
 public:
     TimeBase() = default;
 
-    //--- 在 每一主循环 中调用 ---//
-    inline void update_time(){
+    //--- 在 每一主循环 起始处调用 ---//
+    inline void update_before_all(){
         this->frameNum++;
         this->currentTime = glfwGetTime();
         this->deltaTime = this->currentTime - this->lastTime; //-- 更新 deltaTime
@@ -88,11 +92,13 @@ public:
     }
 
     //-- 获得当前时刻的 gameTime 值 --
-    //   此函数可在 游戏运气期 的任何时刻 调用
+    //   此函数可在 游戏运行期 的任何时刻 调用
     inline double get_gameTime() const {
         return (this->currentTime - this->begPoint_of_gameTime + 
                 this->lastGameTime_from_db );
     }
+
+    static double logicUpdateTimeLimit;
 
 
 private:
@@ -113,8 +119,10 @@ private:
     double  lastGameTime_from_db  {0.0}; //- 从db读取的，gameTime 值
     double  begPoint_of_gameTime  {0.0}; //- 当玩家选中一个存档时，会记下此时的 currentTime
                                          //- 作为 本局游戏的 gameTime 起始值
-
+    
 };
+
+inline double TimeBase::logicUpdateTimeLimit {1.0/60.0};
 
 
 #endif

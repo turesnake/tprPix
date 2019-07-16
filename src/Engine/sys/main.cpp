@@ -9,8 +9,6 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//#include "cpp_with_csharp.h" //- tmp
-
 //-------------------- Engine --------------------//
 #include "prepare.h"
 #include "global.h"
@@ -24,20 +22,15 @@
 #include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
-
 #include "timeLog.h" // debug_tmp
 
- 
 //#include "tprDebug.h" //- tmp
 
 
 /* ===========================================================
  *                        main
  * -----------------------------------------------------------
- * 被 cs 调用
- * 在未来，要被分割
  */
-//int cppMain_tmp( char *exeDirPath_ ){
 int main( int argc, char* argv[] ){
     //==========================================//
     //                 prepare
@@ -146,19 +139,14 @@ int main( int argc, char* argv[] ){
     //========================================================//
     //                 main render loop
     //========================================================//
-    //GLFWwindow *targetWindowPtr = esrc::get_windowPtr();
+    double logicLag = 0.0;
+    auto &timerRef = esrc::get_timer();
     while( !glfwWindowShouldClose( esrc::get_windowPtr() ) ){
 
         //--------------------------------//
         //             time   
         //--------------------------------//
-        esrc::get_timer().update_time();
-
-        //--------------------------------//
-        //            input   
-        //--------------------------------//
-        //-- 目前版本 非常简陋
-		input::processInput( esrc::get_windowPtr() );
+        timerRef.update_before_all(); //- MUST call first !!!
 
         //--------------------------------//
         //      render background   
@@ -167,21 +155,37 @@ int main( int argc, char* argv[] ){
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
 
         //================================//
-        //       scene main loop      
-        //       -- IMPORTANT --   
+        // input/AI/LogicUpdate fps is steady,
+        // Affected by TimeBase::logicUpdateTimeLimit
+        logicLag += timerRef.get_last_deltaTime();
+        while( logicLag >= TimeBase::logicUpdateTimeLimit ){
+            logicLag -= TimeBase::logicUpdateTimeLimit;
+
+            //--------------------------------//
+            //            input   
+            //--------------------------------//
+            //-- 目前版本 非常简陋
+            input::processInput( esrc::get_windowPtr() );
+
+            //--------------------------------//
+            //       scene Logic loop      
+            //--------------------------------//
+            sceneLogicLoopFunc();
+        }
+
         //================================//
-        sceneLoopFunc();
+        //       scene Render loop       
+        //================================//
+        // render fps is not steady, 
+        // Affected by vsync, monitor, GPU
+        sceneRenderLoopFunc();
 
         //--------------------------------//
         //   check and call events
         //     swap the buffers               
         //--------------------------------//
-		glfwPollEvents();          //-- 处理所有 处于 event queue 中的 待决event
-		glfwSwapBuffers( esrc::get_windowPtr() ); //- 交换 两个 帧缓冲区
-
-        //------------ 显示数据到终端 -----------//
-        // [-DEBUG-]
-        //...
+		glfwPollEvents();          //-- handle all events in event queue
+		glfwSwapBuffers( esrc::get_windowPtr() );
 
 
     }//------------ while render loop end --------------------//

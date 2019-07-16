@@ -157,19 +157,19 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
 #                      tprpix 
 #---------------------------------------------------#
 add_executable(
-    tprpix_cpp
+    tprpix
     ${PIXEL_FILES}
 )
 
-#-- set libs/dlls output-name --> "tprpix_cpp.xxx"
-set_target_properties(tprpix_cpp PROPERTIES PREFIX "")
-set_target_properties(tprpix_cpp PROPERTIES OUTPUT_NAME "tprpix_cpp")
+#-- set libs/dlls output-name --> "tprpix.xxx"
+set_target_properties(tprpix PROPERTIES PREFIX "")
+set_target_properties(tprpix PROPERTIES OUTPUT_NAME "tprpix")
 
 
 #---------------------------------------------------#
 #                   include
 #---------------------------------------------------#
-target_include_directories ( tprpix_cpp PUBLIC
+target_include_directories ( tprpix PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
 
@@ -215,7 +215,7 @@ target_include_directories ( tprpix_cpp PUBLIC
     )
 
 #-- 防止 第三方库h文件 报 warnings --
-target_include_directories ( tprpix_cpp SYSTEM PUBLIC
+target_include_directories ( tprpix SYSTEM PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/deps
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/stb_image
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/glm.9.9.5
@@ -225,9 +225,9 @@ target_include_directories ( tprpix_cpp SYSTEM PUBLIC
 #-- glfw --
 #-- 这两个目录中的文件 好像是 一样的 --
 if( UNIX )
-    target_include_directories ( tprpix_cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix/include)
+    target_include_directories ( tprpix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix/include)
 else()
-    target_include_directories ( tprpix_cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/include)
+    target_include_directories ( tprpix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/include)
 endif( UNIX )
 
 
@@ -258,7 +258,7 @@ add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/sqlite.3.28)
 #             target_link_libraries
 #---------------------------------------------------#
 if ( UNIX )
-    target_link_libraries( tprpix_cpp  
+    target_link_libraries( tprpix  
         tprGeneral
         tprInUnix
         glad
@@ -268,7 +268,7 @@ if ( UNIX )
         )
 
 else()
-    target_link_libraries( tprpix_cpp
+    target_link_libraries( tprpix
         tprGeneral
         tprInWin
         glad
@@ -278,7 +278,7 @@ else()
 endif( UNIX )
 
 
-target_compile_options( tprpix_cpp
+target_compile_options( tprpix
                         PRIVATE 
                         -Wall -Wextra
                         -Wno-c++98-compat

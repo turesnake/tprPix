@@ -76,21 +76,10 @@ void prepare_for_sceneWorld(){
 
 
 /* ===========================================================
- *                    sceneLoop_world
+ *                    sceneLogicLoop_world
  * -----------------------------------------------------------
  */
-void sceneLoop_world(){
-
-    //--------------------------------//
-    //    camera:: RenderUpdate()
-    //    camera --> shader: view, projection
-    //--------------------------------//
-    esrc::get_camera().RenderUpdate();
-    //--- 
-    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
-    rect_shaderRef.use_program();
-    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+void sceneLogicLoop_world(){
 
     //--------------------------------//
     //           logic
@@ -135,10 +124,34 @@ void sceneLoop_world(){
     //  每一帧，最多装配生成一个 chunk 实例（如果有）
     //  或者 释放一个 chunk 实例（如果有）
     //--------------------------------//
-     auto pairRet = chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
+    auto pairRet = chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
     if( pairRet.first == false ){
         chunkRelease::release_one_chunk();
     }
+                    // 一种临时的，简陋的 平衡帧间开销的方式
+                    // 在未来，需要实现一个专门的平衡器，来分配 本帧 的工作
+                    // 确保主线程的工作 不拥堵
+                    // ...
+
+}
+
+
+/* ===========================================================
+ *                    sceneRenderLoop_world
+ * -----------------------------------------------------------
+ */
+void sceneRenderLoop_world(){
+
+    //--------------------------------//
+    //    camera:: RenderUpdate()
+    //    camera --> shader: view, projection
+    //--------------------------------//
+    esrc::get_camera().RenderUpdate();
+    //--- 
+    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
+    rect_shaderRef.use_program();
+    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //====================================//
     //          -- RENDER --

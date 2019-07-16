@@ -10,9 +10,11 @@
 #ifndef TPR_SCENE_LOOP_INN_H
 #define TPR_SCENE_LOOP_INN_H
 
-void sceneLoop_begin();
-void sceneLoop_world();
+void sceneLogicLoop_begin();
+void sceneRenderLoop_begin();
 
+void sceneLogicLoop_world();
+void sceneRenderLoop_world();
 
 #endif 
 

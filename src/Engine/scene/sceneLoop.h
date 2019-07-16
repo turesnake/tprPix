@@ -22,7 +22,10 @@ enum class SceneLoopType : int{
 
 
 using F_SceneLoop = std::function<void(void)>;
-inline F_SceneLoop sceneLoopFunc {nullptr};
+//inline F_SceneLoop sceneLoopFunc {nullptr};
+
+inline F_SceneLoop sceneRenderLoopFunc {nullptr};
+inline F_SceneLoop sceneLogicLoopFunc {nullptr};
 
 
 void prepare_for_sceneBegin();

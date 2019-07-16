@@ -75,6 +75,9 @@ void release_one_chunk(){
     for( auto &goid : chunkRef.get_goIds() ){//- foreach goIds
         esrc::erase_the_go( goid );
     }
+                    // 在未来，go 会向 chunk一样，拥有完整的 生命周期管理
+                    // 同时，创建 go的释放队列。 延迟释放，平均每帧的开销
+                    // ...
 
     //------------------------------//
     //        chunk.texture

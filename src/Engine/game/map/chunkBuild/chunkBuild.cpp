@@ -81,7 +81,7 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
     void build_one_chunk( chunkKey_t chunkKey_ );
     void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
-    void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
+    void wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
 
     NineBoxIdx calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
 
@@ -114,11 +114,10 @@ void build_9_chunks( const IntVec2 &playerMPos_ ){
             chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkBuild_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
-            cb_inn::chunkBuild_4_wait_until_target_chunk_builded(chunkKey);
+            cb_inn::wait_until_target_chunk_builded(chunkKey);
                         // 此处禁止优化，必须逐个创建，逐个确认
         }
     }
-
 }
 
 
@@ -227,13 +226,12 @@ std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk(){
 namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
 /* ===========================================================
- *      chunkBuild_4_wait_until_target_chunk_builded   
+ *            wait_until_target_chunk_builded   
  * -----------------------------------------------------------
  * 被用于 build_9_chunks()
  */
-void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
+void wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 
-    //chunkKey_t tmpChunkKey {};
     std::pair<bool,chunkKey_t> pairRet {};
     while( true ){
         //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
@@ -241,9 +239,7 @@ void chunkBuild_4_wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
         }
-        //tmpChunkKey = chunkBuild_3_receive_data_and_build_one_chunk();
         pairRet = chunkBuild_3_receive_data_and_build_one_chunk();
-        //tprAssert( tmpChunkKey != 1 );
         tprAssert( pairRet.first );
         if( pairRet.second == chunkKey_ ){
             return;

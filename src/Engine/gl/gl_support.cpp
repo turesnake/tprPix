@@ -126,6 +126,9 @@ void glfw_oth_set(){
     //  所以，本游戏 不用 隐藏鼠标 
     //glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+    //--- vsync --
+    // 强制开启，在普通显示屏上，fps会被锁到 60
+    glfwSwapInterval( 1 );
 }
 
 

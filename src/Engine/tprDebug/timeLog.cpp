@@ -17,6 +17,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <memory>
+#include <map>
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
@@ -31,9 +33,10 @@ using std::cout;
 using std::endl;
 
 
-class TimeFrameData{
+//-- data in one frame --
+class FrameData{
 public:
-    TimeFrameData( size_t idx_, double deltaTime_, size_t frame_ ):
+    FrameData( size_t idx_, double deltaTime_, size_t frame_ ):
         idx(idx_),
         deltaTime(deltaTime_),
         frame(frame_)
@@ -47,33 +50,31 @@ public:
 
 namespace timeLog_inn {//------------ namespace: timeLog_inn --------------//
 
-    size_t   count {};
-    std::stringstream ss;
+    size_t   idx {};
+    std::unordered_map< size_t, std::unique_ptr<FrameData>> frameRawDatas {};
 
-    std::vector<TimeFrameData> deltaTimes {};
+    //-- sorted containers ---//
+    std::multimap<size_t,size_t> frame_idxs {};
 
+
+    //----- funcs -----//
+    void sort_frame_idxs();
     
 }//---------------- namespace: timeLog_inn end --------------//
 
 void init_timeLog(){
-    timeLog_inn::count = 0;
-    timeLog_inn::ss.precision(12);
-    timeLog_inn::deltaTimes.reserve(100000); //- support 20 mins
+    timeLog_inn::idx = 0;
+    timeLog_inn::frameRawDatas.reserve(100000); //- support 20 mins
 }
 
 void collect_deltaTime(double deltaTime_){
 
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
 
-    TimeFrameData tf { timeLog_inn::count,deltaTime_,frame };
-    timeLog_inn::deltaTimes.push_back( tf );//- copy
+    auto tfUPtr = std::make_unique<FrameData>( timeLog_inn::idx, deltaTime_, frame );
+    timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, std::move(tfUPtr) });
 
-    //---
-    timeLog_inn::ss << "  " << timeLog_inn::count 
-                    << ": " << deltaTime_ 
-                    << "; frame: " << frame
-                    << "\n";
-    timeLog_inn::count++;
+    timeLog_inn::idx++;
 }
 
 
@@ -84,7 +85,6 @@ void collect_deltaTime(double deltaTime_){
  */
 void process_and_echo_timeLog(){
 
-
     //--------------------------//
     //         process
     //--------------------------//
@@ -93,8 +93,8 @@ void process_and_echo_timeLog(){
     size_t minIdx {};
     size_t maxIdx {};
 
-    for( auto &tf : timeLog_inn::deltaTimes ){
-
+    for( auto &pair : timeLog_inn::frameRawDatas ){
+        auto &tf = *(pair.second.get());
         if( tf.frame > maxFrame ){
             maxFrame = tf.frame;
             maxIdx = tf.idx;
@@ -104,8 +104,6 @@ void process_and_echo_timeLog(){
             minIdx = tf.idx;
         }
     }
-
-
 
 
     //--------------------------//
@@ -118,19 +116,75 @@ void process_and_echo_timeLog(){
     if( writeFile ){
 
         writeFile.precision(12);
+        
+        //------------------------//
+        //    Kernel Info
+        //------------------------//
         writeFile << "~~~~~~~~~~~~~~~~~~~~ Kernel Info: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 << "\nidx:" << minIdx << "; minFrame = " << minFrame
                 << "\nidx:" << maxIdx << "; maxFrame = " << maxFrame
-                << "\n\n"
-                << "~~~~~~~~~~~~~~~~~~~~ timeLogData: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-                << timeLog_inn::ss.str()
-                << "~~~~~~~~~~~~~~~~~~~~ timeLogData: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
-                
-                << endl;        
+                << "\n"
+                << endl; 
+
+
+        //------------------------//
+        //    frame_idxs
+        //------------------------//
+        {
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ frame_idxs: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+            timeLog_inn::sort_frame_idxs();
+
+            size_t times {0};
+            for( const auto &pair : timeLog_inn::frame_idxs ){
+                const auto &tmpFrame = pair.first;
+                const auto &tmpIdx = pair.second;
+                writeFile   << "frame: " << tmpFrame
+                            << "; idx: " << tmpIdx
+                            << ";\n";
+                times++;
+                if( times > 50 ){
+                    break;
+                }
+            }
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ frame_idxs: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+                    << endl; 
+        }
+        //------------------------//
+        //    frameRawDatas
+        //------------------------//
+        writeFile << "~~~~~~~~~~~~~~~~~~~~ frameRawDatas: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+        for( auto &pair : timeLog_inn::frameRawDatas ){
+            auto &tf = *(pair.second.get());
+            writeFile << "" << tf.idx
+                << ": deltaTime: " << tf.deltaTime
+                << "; frame: " << tf.frame
+                << ";\n";
+        }
+        writeFile << "~~~~~~~~~~~~~~~~~~~~ frameRawDatas: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+                << endl;  
+
 
     }
-
-
 }
+
+
+namespace timeLog_inn {//------------ namespace: timeLog_inn --------------//
+
+void sort_frame_idxs(){
+
+    frame_idxs.clear();
+    for( auto &pair : frameRawDatas ){
+        auto &tmpIdx = pair.first;
+        auto &tmpFrame = pair.second->frame;
+        frame_idxs.insert({ tmpFrame, tmpIdx });
+    }
+}
+
+
+
+}//---------------- namespace: timeLog_inn end --------------//
+
+
 
 

@@ -120,12 +120,12 @@ void prepare_for_sceneBegin(){
 
 
 /* ===========================================================
- *                    sceneLoop_begin
+ *                sceneLogicLoop_begin
  * -----------------------------------------------------------
  * -- 游戏初始界面  
  *    最最简单的样式，快速填补功能空白。在未来，需要重新设计
  */
-void sceneLoop_begin(){
+void sceneLogicLoop_begin(){
 
     //--------------------------------//
     //    camera:: RenderUpdate()
@@ -139,13 +139,21 @@ void sceneLoop_begin(){
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
+}
+
+
+/* ===========================================================
+ *                 sceneRenderLoop_begin
+ * -----------------------------------------------------------
+ */
+void sceneRenderLoop_begin(){
+
     //====================================//
     //          -- RENDER --
     //    Z-Deep 深的 mesh 必须先渲染
     //====================================//
     //--- clear RenderPools:
     // *** 注意次序 ***
-    //esrc::renderPool_uiMeshs_pic.clear();
     esrc::clear_renderPool_uiMeshs_pic();
 
     //------------------------//
@@ -154,8 +162,6 @@ void sceneLoop_begin(){
     //------------------------//
     esrc::foreach_uiIds_active(
         []( uiObjId_t uiObjId_, UIObj *uiObjPtr_ ){
-            //tprAssert( uiObjPtr_->RenderUpdate != nullptr );
-            //uiObjPtr_->RenderUpdate( uiObjPtr_ ); 
             uiObjPtr_->renderUpdate();
         }
     );
@@ -164,8 +170,11 @@ void sceneLoop_begin(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_renderPool_uiMeshs_pic(); 
-
 }
+
+
+
+
 
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 

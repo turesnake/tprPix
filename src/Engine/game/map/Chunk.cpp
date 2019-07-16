@@ -82,7 +82,7 @@ void Chunk::init(){
     //  mapEntAltis / fieldKeys
     //------------------------------//
     auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( this->chunkKey );
-    {//-- 用作用域 来取代 函数 --
+    {
         const auto &mapEntAltis = chunkDataRef.get_mapEntAltis();
             tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
         size_t entIdx {};
@@ -110,6 +110,8 @@ void Chunk::init(){
             this->fieldKeys.push_back( tmpFieldKey );
             //----
             esrc::atom_field_set_nodeAlti_2( tmpFieldKey, this->memMapEnts );
+                            //- 在这里，直接传递 容器引用，很粗暴。
+                            //  可以做的更精细一些
         }
     }
 
