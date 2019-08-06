@@ -156,24 +156,25 @@ void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_,
 
 
 /* ===========================================================
- *       atom_get_mapFieldData_in_chunkBuild     [-READ-]
+ *       atom_get_mapFieldData_in_chunkCreate     [-READ-]
  * -----------------------------------------------------------
+ * only used by job-thread: build_chunkData.cpp
  */
-const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t fieldKey_ ){
-    std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> pair {};
+std::unique_ptr<MapFieldData_In_ChunkCreate> atom_get_mapFieldData_in_chunkCreate( fieldKey_t fieldKey_ ){
+
+    auto uptr = std::make_unique<MapFieldData_In_ChunkCreate>();
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
             tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
         const auto &field = *(field_inn::fields.at( fieldKey_ ).get());
-        pair.first = field.get_occupyWeight();
-        //---
-        pair.second.fieldKey = field.get_fieldKey();
-        pair.second.ecoObjKey = field.get_ecoObjKey();
-        pair.second.densityIdx = field.get_density().get_idx();
-        pair.second.fieldBorderSetId = field.get_fieldBorderSetId();
-        pair.second.nodeMPos = field.get_nodeMPos();
+        uptr->occupyWeight = field.get_occupyWeight();
+        uptr->fieldKey = field.get_fieldKey();
+        uptr->ecoObjKey = field.get_ecoObjKey();
+        uptr->densityIdx = field.get_density().get_idx();
+        uptr->fieldBorderSetId = field.get_fieldBorderSetId();
+        uptr->nodeMPos = field.get_nodeMPos();
     }
-    return pair;
+    return uptr;
 }
 
 

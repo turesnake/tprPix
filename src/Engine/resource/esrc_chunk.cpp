@@ -15,10 +15,11 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
-#include "chunkBuild.h"
+#include "chunkCreate.h"
 #include "esrc_renderPool.h"
 
 #include "tprDebug.h"
+
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace chunk_inn {//------------ namespace: chunk_inn --------------//
@@ -29,13 +30,19 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 
 }//---------------- namespace: chunk_inn end --------------//
 
+extern void chunkStates_debug();
+extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ );
+extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
+
+
 void init_chunks(){
     chunk_inn::chunks.reserve(1000);
     chunk_inn::chunkCreateReleaseZoneUPtr = std::make_unique<ChunkCreateReleaseZone>( 3, 7 );
+                                                                // 也许应该改为 3,9
     //...
 }
 
-extern void chunkStates_debug();
+
 void chunks_debug(){
     cout << "\nchunks.size() = " << chunk_inn::chunks.size() 
         << endl;
@@ -55,8 +62,6 @@ ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
 bool find_from_chunks( chunkKey_t chunkKey_ ){
     return (chunk_inn::chunks.find(chunkKey_)!=chunk_inn::chunks.end());
 }
-
-
 
 
 
@@ -83,7 +88,6 @@ Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
  *             erase_from_chunks
  * -----------------------------------------------------------
  */
-extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ );
 void erase_from_chunks( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
     size_t eraseNum = chunk_inn::chunks.erase(chunkKey_);
@@ -141,7 +145,6 @@ Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
  * 每一渲染帧，都要将所有 Active 态的 chunks， 重新存入 renderPool_meshs
  * 从而给它们做一次排序。
  */
-extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
 void add_chunks_2_renderPool(){
 
     const auto &activeKeys = esrc::get_chunkKeys_active();

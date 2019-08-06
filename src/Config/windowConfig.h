@@ -29,7 +29,7 @@
 //-- 一个 "游戏像素" ，占用 n*n 个 显示屏像素 --
 //   推荐值: {3,4} 
 //#define PIXES_PER_GAMEPIX  3
-#define PIXES_PER_GAMEPIX  3
+#define PIXES_PER_GAMEPIX  4
 
 
 //-- 是否开启 全屏模式 --

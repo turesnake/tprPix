@@ -107,6 +107,12 @@ public:
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
 
+    bool     is_dirty  {false};//- 如果目标chunk上的 伪随机go数据，发生变化
+                               //- 则被释放为 dirty.
+                               //  下次生成此chunk时，不能直接使用 伪随机数，
+                               //  还要参考 改动表 中的数据
+                               //  此部分功能未实现
+
 private:
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ );

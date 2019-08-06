@@ -12,7 +12,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "input.h"
-#include "chunkBuild.h"
+#include "chunkCreate.h"
 #include "chunkRelease.h"
 #include "esrc_all.h" //- 所有资源
 
@@ -61,7 +61,7 @@ void prepare_for_sceneWorld(){
     //
         //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
         //   在未来，会被 完善的 游戏存档系统 所取代
-        //chunkBuild::build_9_chunks( IntVec2{ 1,1 } );
+        //chunkCreate::build_9_chunks( IntVec2{ 1,1 } );
 
         //go_byPass();  //- 硬生产一组 Norman 实例
 
@@ -103,7 +103,7 @@ void sceneLogicLoop_world(){
         case 2:
             //--- 定期 检查玩家所在 chunk
             //  并将需要新建的 chunks 收集到 队列中
-            chunkBuild::collect_chunks_need_to_be_build_in_update();
+            chunkCreate::collect_chunks_need_to_be_build_in_update();
                         // 更新中...
             break;
         case 3:
@@ -124,7 +124,7 @@ void sceneLogicLoop_world(){
     //  每一帧，最多装配生成一个 chunk 实例（如果有）
     //  或者 释放一个 chunk 实例（如果有）
     //--------------------------------//
-    auto pairRet = chunkBuild::chunkBuild_3_receive_data_and_build_one_chunk();
+    auto pairRet = chunkCreate::chunkBuild_3_receive_data_and_build_one_chunk();
     if( pairRet.first == false ){
         chunkRelease::release_one_chunk();
     }

@@ -62,7 +62,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     class FieldData{
     public:
-        explicit FieldData( const MapFieldData_In_ChunkBuild &data_,
+        explicit FieldData( const MapFieldData_In_ChunkCreate &data_,
                             QuadType       quadType_ ){
             this->fieldKey = data_.fieldKey;
             this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( data_.ecoObjKey );
@@ -90,7 +90,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
     };
 
 
-
     class PixData{
     public:
         inline void init( const IntVec2 &ppos_ ){
@@ -106,7 +105,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         MapAltitude   alti {};
     };
 
-
     class FieldInfo{
     public:
         IntVec2   mposOff {};
@@ -119,7 +117,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         FieldInfo{ IntVec2{ 0, ENTS_PER_FIELD },              QuadType::Right_Bottom  },
         FieldInfo{ IntVec2{ ENTS_PER_FIELD, ENTS_PER_FIELD }, QuadType::Left_Bottom  }
     };
-
 
     //===== funcs =====//
     void calc_pixAltis(     const IntVec2 &chunkMPos_, 
@@ -197,14 +194,6 @@ void build_chunkData_main( const Job &job_ ){
     //   以此来提醒 主线程，这个 chunk 数据准备好了
     //--------------------------//
     esrc::atom_push_back_2_chunkDataFlags( arg.chunkKey );
-    
-        /*
-        cout << "    build_chunkData_main(): "
-            << "chunkMPos: " << chunkMPos.x
-            << ", " << chunkMPos.y
-            << "; DONE;"
-            << endl;
-        */
 }
 
 
@@ -445,11 +434,9 @@ const IntVec2 colloect_nearFour_fieldDatas( std::map<occupyWeight_t,FieldData> &
 
         tmpFieldKey = fieldMPos_2_fieldKey( targetFieldMPos + fieldInfo.mposOff );
         //-- 这个数据 仅临时存在一下
-        std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> tmpPair = 
-                    esrc::atom_get_mapFieldData_in_chunkBuild( tmpFieldKey );
-
-        container_.insert({ -tmpPair.first, 
-                            FieldData{  tmpPair.second, 
+        auto tmpUPtr = esrc::atom_get_mapFieldData_in_chunkCreate( tmpFieldKey );
+        container_.insert({ -(tmpUPtr->occupyWeight), 
+                            FieldData{  *(tmpUPtr.get()), 
                                         fieldInfo.quad } }); //- copy
     }
     return targetFieldMPos;

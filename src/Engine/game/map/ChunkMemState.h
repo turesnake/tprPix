@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_CHUNK_STATE_H
-#define TPR_CHUNK_STATE_H
+#ifndef TPR_CHUNK_MEM_STATE_H
+#define TPR_CHUNK_MEM_STATE_H
 
 // chunk 在游戏运行期间的 所有状态
 // ---
@@ -19,6 +19,9 @@
 // ---
 // 每一渲染帧，renderPool 会重新加载 active态的 chunk，并排序
 // 当把一个chunk，改成 WaitForRelease，它就已经无法被渲染出来了。
+//
+// ---
+// 有必要再添加一个 WaitForDB ...
 //
 enum class ChunkMemState : int{
     NotExist,

@@ -1,5 +1,5 @@
 /*
- * =================== chunkBuild.h =======================
+ * =================== chunkCreate.h =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.02.23
  *                                        MODIFY -- 
@@ -23,7 +23,7 @@
 #include "chunkKey.h"
 
 
-namespace chunkBuild {//------- namespace: chunkBuild ----------//
+namespace chunkCreate {//------- namespace: chunkCreate ----------//
     
 
 void build_9_chunks( const IntVec2 &playerMPos_ );
@@ -34,6 +34,6 @@ void collect_chunks_need_to_be_build_in_update();
 std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk();
 
 
-}//----------------- namespace: chunkBuild: end -------------------//
+}//----------------- namespace: chunkCreate: end -------------------//
 #endif
 

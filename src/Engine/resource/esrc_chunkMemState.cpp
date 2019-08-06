@@ -35,6 +35,11 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
     std::deque<chunkKey_t>             chunkKeys_waitForRelease {}; //- WaitForRelease
     std::unordered_set<chunkKey_t>     chunkKeys_onReleasing {};    //- OnReleasing
 
+    // 还有一个 容器：chunkKeys_waitForDB
+    // 如果一个 chunk 为 diry，会先被移入此容器，等待job线程完成 db存储工作后，再被移入 chunkKeys_waitForRelease 容器
+    // 如果 非dirty，则被直接移入 chunkKeys_waitForRelease 容器
+    // ...
+
 }//---------------- namespace: chunk_inn end --------------//
 
 

@@ -30,6 +30,10 @@ namespace go_inn {//-------- namespace: go_inn --------------//
        
     std::unordered_set<goid_t> goids_active   {}; //- 激活组 (身处 激活圈 之内)
     std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 激活圈 之外)
+                            // 这组概念可能会被改动，比如，配合新的 GoMemState 机制
+                            // ...
+
+
 
     FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 

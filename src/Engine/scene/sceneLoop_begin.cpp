@@ -23,7 +23,7 @@
 #include "tprAssert.h"
 #include "input.h"
 #include "IntVec.h"
-#include "chunkBuild.h"
+#include "chunkCreate.h"
 #include "dataBase.h"
 #include "GameArchive.h"
 #include "GameSeed.h"
@@ -230,13 +230,13 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 //-- 随便定个 mpos 
                 IntVec2    newGoMPos { 8,0 };
                 //--- 先 生成 chunks 基础数据 --
-                chunkBuild::build_9_chunks( newGoMPos );
+                chunkCreate::build_9_chunks( newGoMPos );
                         //-- 在未来，需要读取 db::table_chunks 的数据，来辅助生成 chunks
                         //   这部分，应该写进 chunk build 流程中 ...
 
                 //-- db::table_goes --
-                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
-                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
+                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
+                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
                 goid_t newGoId = gameObjs::create_a_Go(   newGoSpecId,
                                                             newGoMPos,
                                                             0.0,
@@ -286,7 +286,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
             
             //--- 先生成 chunks --
-            chunkBuild::build_9_chunks( targetGameArchive.playerGoMPos );
+            chunkCreate::build_9_chunks( targetGameArchive.playerGoMPos );
             
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...

@@ -10,11 +10,12 @@
 
 //-------------------- CPP --------------------//
 #include <utility> //- pair
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "MapField.h"
 #include "fieldKey.h"
-#include "MapFieldData_In_ChunkBuild.h"
+#include "MapFieldData_In_ChunkCreate.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -25,7 +26,7 @@ void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitud
 
 void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
 
-const std::pair<occupyWeight_t, MapFieldData_In_ChunkBuild> atom_get_mapFieldData_in_chunkBuild( fieldKey_t fieldKey_ );
+std::unique_ptr<MapFieldData_In_ChunkCreate> atom_get_mapFieldData_in_chunkCreate( fieldKey_t fieldKey_ );
 void atom_create_a_go_in_field( fieldKey_t fieldKey_ );
 
 void atom_erase_all_fields_in_chunk( const IntVec2 &chunkMPos_ );

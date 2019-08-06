@@ -25,7 +25,6 @@
 inline int         fd_cwd {};   //-- 项目 主目录 fd
 
 inline std::string path_cwd {}; //-- exe 所在目录的 path
-inline std::string path_csharpLibs {}; //-- .../build/publish/csharpLibs/
                 
 inline std::string path_dataBase {};  //-- .../build/publish/dataBase/
 inline std::string path_shaders {}; //-- .../build/publish/shaders/

@@ -145,13 +145,6 @@ void check_and_creat_important_dir(){
 #if defined TPR_OS_WIN32_
 
     //---------------------------------//
-    //           path_csharpLibs
-    //---------------------------------//
-    path_csharpLibs = tprWin::mk_dir( path_cwd,
-                        "csharpLibs/",
-                        err_info );
-
-    //---------------------------------//
     //           path_data
     //---------------------------------//
     path_dataBase = tprWin::mk_dir( path_cwd,
@@ -201,14 +194,6 @@ void check_and_creat_important_dir(){
                                 err_info );
 
 #elif defined TPR_OS_UNIX_
-
-    //---------------------------------//
-    //           path_csharpLibs
-    //---------------------------------//
-    path_csharpLibs = tprUnix::mk_dir( path_cwd,
-                        "csharpLibs/",
-                        RWXR_XR_X,
-                        err_info );
 
     //---------------------------------//
     //           path_data
