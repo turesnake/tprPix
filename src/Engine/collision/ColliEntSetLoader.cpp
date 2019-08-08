@@ -39,8 +39,8 @@ void ColliEntSetLoader::init(){
                                             this->totalFrameNum,
                                             frame_data_ary );
 
-    tprAssert( (this->pixNum_per_frame.x==5*PIXES_PER_MAPENT) && 
-            (this->pixNum_per_frame.y==5*PIXES_PER_MAPENT) ); //- tmp
+    tprAssert( (this->pixNum_per_frame.x==4*PIXES_PER_MAPENT) && 
+            (this->pixNum_per_frame.y==3*PIXES_PER_MAPENT) ); //- tmp
         
     //----------------------------//
     //   parse each frame data

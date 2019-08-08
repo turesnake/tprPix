@@ -12,7 +12,6 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "windowConfig.h"
 
 //#include "tprDebug.h" //- tmp
 

@@ -83,11 +83,11 @@ void init_colliEntSet_tables(){
 void load_colliEntSets(){
 
     //- ces 预制件 个数 --
-    size_t totalSets  { 4*3 }; 
+    size_t totalSets  { 4*2 }; 
 
     //-- 创建 ColliEntSetLoader 实例 --
-    ColliEntSetLoader  loader { "colliEntSet_1.png",
-                                IntVec2{ 4, 3 },
+    ColliEntSetLoader  loader { "colliEntSet_64m64.png",
+                                IntVec2{ 4, 2 },
                                 totalSets };
     
     //-- 解析 图片数据，将数据存储自身容器中 --

@@ -98,6 +98,28 @@
     ]
 },
 {
+    "name": "oneEyeBoy",
+    "pngs": [
+        {
+            "path": "/oneEyeBoy/oneEyeBoy.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "move_idle",
+                        "type": "singleFrame",
+                        "lFrameIdx": 0
+                    }
+                ]
+        }
+    ]
+},
+{
     "name": "crab",
     "pngs": [
         {

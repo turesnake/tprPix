@@ -23,8 +23,8 @@
 #include "IntVec.h" 
 #include "MapEnt.h"
 #include "config.h" 
-#include "Mesh.h"
-#include "MapTexture.h" 
+//#include "Mesh.h"
+//#include "MapTexture.h" 
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
@@ -46,9 +46,6 @@ public:
 
     void init();
     
-    //-- 每1渲染帧，都要根据 camera，重设 mesh.translate
-    void refresh_translate_auto();
-
 
     inline void insert_2_goIds( const goid_t &id_ ){
         this->goIds.insert(id_);
@@ -68,9 +65,6 @@ public:
         this->chunkKey = chunkKey_;
         this->mcpos.set_by_mpos( chunkKey_2_mpos(chunkKey_) );
     }
-    inline void set_mesh_isVisible( bool isVisible_ ){
-        this->mesh.isVisible = isVisible_;
-    }
 
     //------- get -------//
     inline const IntVec2 &get_mpos() const {
@@ -81,9 +75,6 @@ public:
     }
     inline const chunkKey_t &get_key() const {
         return this->chunkKey;
-    }
-    inline const Mesh &get_mesh() const {
-        return this->mesh;
     }
     inline const std::vector<fieldKey_t> &get_fieldKeys() const {
         return this->fieldKeys;
@@ -100,9 +91,6 @@ public:
             tprAssert( idx < memMapEnts.size() ); //- tmp
         return *(memMapEnts.at(idx).get());
     }
-    inline void delete_mapTex(){
-        this->mapTex.delete_texture();
-    }
     
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
@@ -117,11 +105,6 @@ private:
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ );
     size_t get_pixIdx_in_chunk( const IntVec2 &anyPPos_ );
-
-    //======== vals ========//
-    //------- chunk 自己的 图形 ---
-    MapTexture  mapTex {};
-    Mesh        mesh   {}; 
 
     chunkKey_t  chunkKey {};
     MapCoord    mcpos    {}; //- [left-bottom]
@@ -142,15 +125,6 @@ private:
 
     double  zOff {}; //- chunk间存在前后层次，
 };
-
-
-
-
-
-//--- 临时放这里 ---
-
-
-
 
 
 #endif

@@ -23,10 +23,17 @@
 #define HALF_ENTS_PER_FIELD 2
 
 //-- 一个 mapent 占用 8*8像素
-#define PIXES_PER_MAPENT  8
-#define HALF_PIXES_PER_MAPENT 4
+//#define PIXES_PER_MAPENT  8
+//#define HALF_PIXES_PER_MAPENT 4
 //-- 求 mpos 中间pixel的 ppos 时用到
-#define MID_PPOS_IDX_IN_MAPENT 4
+//#define MID_PPOS_IDX_IN_MAPENT 4
+
+
+#define PIXES_PER_MAPENT  64
+#define HALF_PIXES_PER_MAPENT 32
+//-- 求 mpos 中间pixel的 ppos 时用到
+#define MID_PPOS_IDX_IN_MAPENT 32
+
 
 //-- 一个 chunk，占有 32*32 mapents
 #define ENTS_PER_CHUNK (FIELDS_PER_CHUNK*ENTS_PER_FIELD)

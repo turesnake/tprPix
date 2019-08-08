@@ -21,7 +21,6 @@
 #include "tprAssert.h"
 #include "input.h" 
 #include "global.h"
-#include "windowConfig.h" //-- SCR_WIDTH
 #include "gl_funcs.h" 
 #include "ViewingBox.h"
 #include "IntVec.h"
@@ -74,8 +73,8 @@ void glfw_hints_set(){
  */
 void glfw_window_creat(){
 
-    tprAssert( IS_FULL_SCREEN == false ); //-- 全屏模式 未完工
-    if( IS_FULL_SCREEN == true){
+    tprAssert( ViewingBox::isFullScreen == false ); //-- 全屏模式 未完工
+    if( ViewingBox::isFullScreen == true){
         //------ 全屏模式 ------//
         // 未完工... 禁止使用 
             tprAssert(0);
@@ -102,7 +101,6 @@ void glfw_window_creat(){
                                             "tprpix", 
                                             nullptr,  //-- moniter，若为 NULL ，表示 创建 “窗口模式”。
                                             nullptr ) );
-
     }
 
 	if(esrc::get_windowPtr() == nullptr){

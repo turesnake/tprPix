@@ -63,8 +63,6 @@ public:
 private:
 
     //===== vals =====//
-    //IntVec2        texSize {}; //- = ViewingBox::screenSZ,
-                                // 当窗口被拉升时，这个值需要被修改
     IntVec2   *texSizePtr {}; //- = ViewingBox::screenSZ,
 
     Mesh           mesh {};

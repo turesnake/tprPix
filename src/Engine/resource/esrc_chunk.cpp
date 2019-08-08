@@ -139,25 +139,6 @@ Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
     return *(chunk_inn::chunks.at(key_).get());
 }
 
-/* ===========================================================
- *               add_chunks_2_renderPool
- * -----------------------------------------------------------
- * 每一渲染帧，都要将所有 Active 态的 chunks， 重新存入 renderPool_meshs
- * 从而给它们做一次排序。
- */
-void add_chunks_2_renderPool(){
-
-    const auto &activeKeys = esrc::get_chunkKeys_active();
-    for( auto &key : activeKeys ){
-        
-        auto &chunkRef = *(chunk_inn::chunks.at(key).get());
-        const auto &meshRef = chunkRef.get_mesh();
-        chunkRef.refresh_translate_auto(); //-- MUST !!!
-        insert_2_renderPool_meshs( meshRef.get_render_z(),
-                                    const_cast<Mesh*>(&meshRef) );
-    }
-}
-
 
 }//---------------------- namespace: esrc -------------------------//
 

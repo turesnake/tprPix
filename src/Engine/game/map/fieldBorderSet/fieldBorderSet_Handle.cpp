@@ -61,7 +61,8 @@ void load_fieldBorderSets(){
     //-------------------------//
     //  手动设置 png 数据... tmp...
     //-------------------------//
-    fbsh_inn::lpath = "/fieldBorderSet-4.png";
+    //fbsh_inn::lpath = "/fieldBorderSet-4.png";
+    fbsh_inn::lpath = "/fieldBorderSet-64m64.png";
 
     fbsh_inn::frameNum.set( 4, 2 );
     fbsh_inn::totalFrameNum = cast_2_size_t( fbsh_inn::frameNum.x * fbsh_inn::frameNum.y );

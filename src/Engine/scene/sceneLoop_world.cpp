@@ -168,7 +168,7 @@ void sceneRenderLoop_world(){
     //------------------------//
     //        chunks
     //------------------------//
-    esrc::add_chunks_2_renderPool();
+    //esrc::add_chunks_2_renderPool();
 
     //------------------------//
     //     mapEntSlices

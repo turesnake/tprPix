@@ -13,12 +13,8 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "windowConfig.h"
 #include "config.h"
 #include "RenderLayerType.h"
 #include "IntVec.h"
@@ -26,6 +22,9 @@
 
 class ViewingBox{
 public: 
+
+    //--- MUST before OpenGL init ---
+    static void init();
 
     static double get_renderLayerZOff( RenderLayerType type_ ){
         switch(type_){
@@ -45,18 +44,14 @@ public:
         }
     }
 
-    static void reset( const int windowSZ_x_,
-                       const int windowSZ_y_ ){
-        windowSZ.x = windowSZ_x_;
-        windowSZ.y = windowSZ_y_;
-        gameSZ.x = static_cast<double>(windowSZ_x_) / static_cast<double>(PIXES_PER_GAMEPIX);
-        gameSZ.y = static_cast<double>(windowSZ_y_) / static_cast<double>(PIXES_PER_GAMEPIX);
-    }
-
-
     //======= statix =======//
-    static IntVec2    windowSZ; //- 屏幕尺寸（像素） （在高分屏上似乎有问题）
-    static glm::dvec2  gameSZ;   //- 游戏像素尺寸
+    static IntVec2  windowSZ; //- 屏幕尺寸（像素）（在mac屏中，实际窗口尺寸可能为此值的2倍）
+    static IntVec2  gameSZ;      //- 游戏像素尺寸
+
+    //static double windowSZ_vs_gameSZ; //- 取代原本的 PIXES_PER_GAMEPIX 一值
+
+    static bool  isFullScreen;  //- 是否开启全屏模式
+                                //  尚未完工，此值必须确保为 false
 
     static double z;
 
@@ -90,10 +85,11 @@ public:
 };
 
 
-inline IntVec2  ViewingBox::windowSZ {  SCR_WIDTH_, SCR_HEIGHT_ };
-
-inline glm::dvec2 ViewingBox::gameSZ {   static_cast<double>(SCR_WIDTH_)  / static_cast<double>(PIXES_PER_GAMEPIX),
-                                        static_cast<double>(SCR_HEIGHT_) / static_cast<double>(PIXES_PER_GAMEPIX) };
+//-- init is delay to ViewingBox::init() --
+inline IntVec2  ViewingBox::windowSZ { 0, 0 };
+inline IntVec2  ViewingBox::gameSZ   { 0, 0 };
+//inline double ViewingBox::windowSZ_vs_gameSZ {0.0};
+inline bool   ViewingBox::isFullScreen {false};
 
 inline double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
 

@@ -34,6 +34,23 @@
     "pub.MP": 50
   },
   {
+    "gameObjType": "oneEyeBoy",
+    "specID": 20,
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "Movable",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isDoPass": false,
+    "isBePass": false,
+    "speedLvl": 5,
+    "alti": 0,
+    "weight": 5,
+    "pub.HP": 170,
+    "pub.MP": 50
+  },
+  {
     "gameObjType": "crab",
     "specID": 3,
     "parentID": 0,

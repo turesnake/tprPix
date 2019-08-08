@@ -229,14 +229,17 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 //-- 随便定个 mpos 
                 IntVec2    newGoMPos { 8,0 };
+
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::build_9_chunks( newGoMPos );
                         //-- 在未来，需要读取 db::table_chunks 的数据，来辅助生成 chunks
                         //   这部分，应该写进 chunk build 流程中 ...
 
                 //-- db::table_goes --
-                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
+                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
                 //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
+                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "oneEyeBoy" );
+
                 goid_t newGoId = gameObjs::create_a_Go(   newGoSpecId,
                                                             newGoMPos,
                                                             0.0,
@@ -283,6 +286,16 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             //-- db::table_goes --
             DiskGameObj diskGo {};
             db::atom_select_one_from_table_goes( targetGameArchive.playerGoId, diskGo );
+
+                //-- tmp
+                if( diskGo.mpos != targetGameArchive.playerGoMPos ){
+                    cout << "diskGo.mpos: " <<  diskGo.mpos.x 
+                        << ", " <<  diskGo.mpos.y
+                        << "; targetGameArchive.playerGoMPos: " << targetGameArchive.playerGoMPos.x 
+                        << ", " << targetGameArchive.playerGoMPos.y 
+                        << endl;
+                }
+
                 tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
             
             //--- 先生成 chunks --

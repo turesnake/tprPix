@@ -10,7 +10,6 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "create_texNames.h"
-#include "windowConfig.h"
 #include "esrc_camera.h"
 
 

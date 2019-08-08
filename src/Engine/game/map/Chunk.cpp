@@ -21,7 +21,7 @@
 #include "occupyWeight.h"
 #include "MapAltitude.h"
 #include "Quad.h"
-#include "FieldBorderSet.h"
+//#include "FieldBorderSet.h"
 #include "MapField.h"
 #include "ChunkData.h"
 
@@ -41,11 +41,6 @@
 
 namespace chunk_inn {//-------- namespace: chunk_inn --------------//
     
-    //--- 定值: chunk-mesh scale --
-    const glm::vec3  mesh_scaleVal {PIXES_PER_CHUNK_IN_TEXTURE,
-                                    PIXES_PER_CHUNK_IN_TEXTURE,
-                                    1.0f };
-
     //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
     const std::vector<double> zOffs{
         0.1, 0.2, 0.3, 0.4
@@ -60,13 +55,6 @@ namespace chunk_inn {//-------- namespace: chunk_inn --------------//
  */
 void Chunk::init(){
 
-    //--- mesh.shaderProgram ---
-    this->mesh.set_shader_program( &(esrc::get_rect_shader()) ); //- default
-    
-    //--- mesh.scale ---
-    mesh.set_scale(chunk_inn::mesh_scaleVal);
-
-    //---
     this->init_memMapEnts();
 
     // 根据 本chunk 在 2*2 chunk 中的位置
@@ -115,32 +103,6 @@ void Chunk::init(){
         }
     }
 
-    //------------------------------//
-    //        mapTex, mesh
-    //------------------------------//
-    this->mapTex.swap_texBuf_from( chunkDataRef.getnc_texBuf() );
-    this->mapTex.creat_texName();
-    this->mesh.init( mapTex.get_texName() ); //- auto
-    this->mesh.isVisible = true;  //- 一定可见
-
-    //- mapTex 直接坐标于 camera 的 远平面上
-    //  此值 需要跟随 camera 每一帧都调整。主要是 camera.get_zFar() 这个值
-    this->refresh_translate_auto();
-}
-
-
-
-/* ===========================================================
- *                  refresh_translate_auto
- * -----------------------------------------------------------
- */
-void Chunk::refresh_translate_auto(){
-    const IntVec2 &ppos = mcpos.get_ppos();
-    mesh.set_translate(glm::vec3{   static_cast<float>(ppos.x),
-                                    static_cast<float>(ppos.y),
-                                    static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::chunks_zOff +
-                                        this->zOff)  //-- MUST --
-                                    });
 }
 
 

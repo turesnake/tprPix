@@ -46,9 +46,10 @@ void onGoSpecIds_SignUp(){
     parse_from_goJsonFile();
 
     //==================================//
-    ssrc::insert_2_goInit_funcs( "norman", std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2, _3, _4, _5 ) );
-    ssrc::insert_2_goInit_funcs( "bigMan", std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2, _3, _4, _5 ) );
-    ssrc::insert_2_goInit_funcs( "crab",   std::bind( &gameObjs::Crab::init_in_autoMod, _1, _2, _3, _4, _5 ) );
+    ssrc::insert_2_goInit_funcs( "norman",    std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2, _3, _4, _5 ) );
+    ssrc::insert_2_goInit_funcs( "bigMan",    std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2, _3, _4, _5 ) );
+    ssrc::insert_2_goInit_funcs( "oneEyeBoy", std::bind( &gameObjs::OneEyeBoy::init_in_autoMod, _1, _2, _3, _4, _5 ) );
+    ssrc::insert_2_goInit_funcs( "crab",      std::bind( &gameObjs::Crab::init_in_autoMod, _1, _2, _3, _4, _5 ) );
 
     //-------------------//
     //        tree

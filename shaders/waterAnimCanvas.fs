@@ -21,8 +21,9 @@ uniform float u_time; //-- glfwGetTime(); 未做缩放。
 uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
 
 //- 对于每个游戏存档，这组值是静态的，只需要传入一次...
-uniform float SCR_WIDTH;
-uniform float SCR_HEIGHT;
+// canvas 本质就是一个 texture，此size（pix）通常等于 gameSZ
+uniform float texSizeW;
+uniform float texSizeH;
 uniform vec2  altiSeed_pposOffSeaLvl;
 uniform vec2  altiSeed_pposOffBig;
 uniform vec2  altiSeed_pposOffMid;
@@ -40,13 +41,15 @@ vec2 mid = vec2(0.4, 0.4); //- 和 lb 同体系，canvas中心坐标
 vec3  color;
 float alpha;
 
-float PIXES_PER_CHUNK = 256.0; //- tmp
+//float PIXES_PER_CHUNK = 256.0; //- tmp
+float PIXES_PER_CHUNK = 2048.0; //- tmp
 
 //- 在未来，freq 这组值也会收到 ecosys 影响 --
 float freqSeaLvl = 0.05;
 float freqBig = 0.4;
 float freqMid = 1.6;
 float freqSml = 4.0;
+
 float freqAnim = 5.0;
 
 float zOffBig = 0.2;
@@ -98,16 +101,19 @@ void main()
     //------------------//
     //     time
     //------------------//
-    float tm = u_time * 0.18;
+    float tm = u_time * 0.08;
         //- 理想的 time 值是一个 在 [0.0, n.0] 之间来回运动的值。 
+        //  目前仅仅是一个不断变大的值
 
     //------------------//
     // pixCFPos: 以 chunk 为晶格的 fpos
+    // 将 显示像素颗粒度，和 游戏中的 同步
+    // 如果去掉这组代码，canvas将永远是 最细腻的
     vec2 pixCFPos = canvasCFPos + lbAlign;
-
-    pixCFPos *= 240.0;
+    
+    pixCFPos *= PIXES_PER_CHUNK; //- 晶格边长
     pixCFPos = floor(pixCFPos);
-    pixCFPos =  pixCFPos / 240.0;
+    pixCFPos =  pixCFPos / PIXES_PER_CHUNK;;
     
 
     //------------------//
@@ -116,7 +122,7 @@ void main()
     float pixDistance = length( pixCFPos - 0 );//- 暂时假设，(0,0) 为世界中心
     pixDistance /= 10.0; //- 每10个chunk，递增一级
     //-------
-    seaLvl = simplex_noise2( (pixCFPos ) * freqSeaLvl ) * 45.0; // [-100.0, 100.0]
+    seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
     seaLvl += pixDistance;
     if( seaLvl < 0.0 ){ //- land
         seaLvl *= 0.3;  // [-15.0, 100.0]
@@ -244,12 +250,12 @@ void prepare(){
     //--------------------------//
     //    初始化 lb, lt
     //--------------------------//
-    //-- 左下坐标系 [0,1]
+    //-- 左下坐标系 [0.0,1.0]
     lb = TexCoord;
     //---
     lbAlign = lb;
-    lbAlign.y *= SCR_HEIGHT/SCR_WIDTH;
-    lbAlign *= SCR_WIDTH/PIXES_PER_CHUNK;
+    lbAlign.x *= texSizeW/PIXES_PER_CHUNK;
+    lbAlign.y *= texSizeH/PIXES_PER_CHUNK;
 }
 
 

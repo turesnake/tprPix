@@ -25,7 +25,7 @@
 #include "config.h"
 #include "MapTexture.h" 
 #include "Quad.h"
-#include "FieldBorderSet.h"
+#include "FieldBorderSet.h"   //- 即将被取代
 #include "tprCast.h"
 
 #include "esrc_chunkData.h"
@@ -71,9 +71,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
             this->densityIdx = data_.densityIdx;
             this->nodeMPos = data_.nodeMPos;
         }
-        inline const RGBA &clac_pixColor() const {
-            return this->landColorsPtr->at( this->densityIdx );
-        }
 
         inline bool is_equal_2_nodeMPos( const IntVec2 &mpos_ ) const {
             return (this->nodeMPos == mpos_);
@@ -97,13 +94,12 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         }
         //====== vals ======//
         size_t     pixIdx_in_chunk    {};
-        size_t     pixIdx_in_chunkTex {}; //- chunk-texture 会多出来几排pix
         size_t     pixIdx_in_field    {};
         IntVec2    ppos      {};
-        RGBA      *texPixPtr {nullptr};
         FieldData *fieldDataPtr {nullptr}; 
-        MapAltitude   alti {};
-    };
+    };                          //   可能不需要这个 class 了，新版视觉中，只需要计算一个 pix 的数据
+    
+
 
     class FieldInfo{
     public:
@@ -119,11 +115,9 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
     };
 
     //===== funcs =====//
-    void calc_pixAltis(     const IntVec2 &chunkMPos_, 
-                            std::vector<double> &pixAltis_ );
+    double calc_pixAlti( const IntVec2 &pixPPos_ );
 
     void calc_chunkData(    const IntVec2 &chunkMPos_, 
-                            const std::vector<double> &pixAltis_,
                             ChunkData &chunkDataRef_ ); 
                 //- 在未来，要改名
 
@@ -178,16 +172,9 @@ void build_chunkData_main( const Job &job_ ){
     } //- each field in 2*2chunks
 
     //--------------------------//
-    //       pixAltis
-    //--------------------------//
-    std::vector<double> pixAltis {}; //- 仅内部使用
-    pixAltis.resize( PIXES_PER_CHUNK * PIXES_PER_CHUNK, 0.0 ); // resize FIRST !!!
-    bcd_inn::calc_pixAltis( chunkMPos, pixAltis );
-
-    //--------------------------//
     //      chunkData
     //--------------------------//
-    bcd_inn::calc_chunkData( chunkMPos, pixAltis, chunkDataRef );
+    bcd_inn::calc_chunkData( chunkMPos, chunkDataRef );
 
     //--------------------------//
     //-- chunkData 数据计算完成后，向 状态表 添加一个元素
@@ -201,14 +188,13 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
 /* ===========================================================
- *                 calc_pixAltis
+ *                 calc_pixAlti
  * -----------------------------------------------------------
+ * 计算单个pix 的 alti
+ * ---
+ * 这部分算法，应当和 waterAnimCanvas 中的完全一致
  */
-void calc_pixAltis( const IntVec2 &chunkMPos_, 
-                    std::vector<double> &pixAltis_ ){
-
-    IntVec2      chunkPPos = mpos_2_ppos(chunkMPos_);
-    glm::dvec2   pixCFPos {}; //- 以 chunk 为晶格的 dpos
+double calc_pixAlti( const IntVec2 &pixPPos_ ){
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
     glm::dvec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
@@ -216,21 +202,18 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
     glm::dvec2  altiSeed_pposOffSml = gameSeedRef.get_altiSeed_pposOffSml();
                             //-- 此处有问题，从 job线程 访问 gameSeed，不够安全...
 
-    double      pixDistance {}; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
-    double      seaLvl {};
+    double    pixDistance {}; //- pix 距离 世界中心的距离。 暂时假设，(0,0) 为世界中心
+    double    seaLvl {};
 
     double    pnValBig {};
     double    pnValMid {};
     double    pnValSml {};
     double    altiVal  {};  //- target val
 
-    size_t   pixIdx {};
+    glm::dvec2 pixCFPos {};
 
-    for( int h=0; h<PIXES_PER_CHUNK; h++ ){
-        for( int w=0; w<PIXES_PER_CHUNK; w++ ){//- each pix in chunk
-
-            pixCFPos.x = static_cast<double>(chunkPPos.x+w) / static_cast<double>(PIXES_PER_CHUNK);
-            pixCFPos.y = static_cast<double>(chunkPPos.y+h) / static_cast<double>(PIXES_PER_CHUNK);
+            pixCFPos.x = static_cast<double>(pixPPos_.x) / static_cast<double>(PIXES_PER_CHUNK);
+            pixCFPos.y = static_cast<double>(pixPPos_.y) / static_cast<double>(PIXES_PER_CHUNK);
             //------------------//
             //     seaLvl
             //------------------//
@@ -258,14 +241,9 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
             }else if( altiVal < -100.0 ){
                 altiVal = -100.0;
             }
-            // now, altiVal: [-100.0, 100.0]
-            //------------------//
-            //   写入 chunkData
-            //------------------//
-            pixIdx = cast_2_size_t( h * PIXES_PER_CHUNK + w );
-            pixAltis_.at(pixIdx) = altiVal;
-        }
-    } //- each pix in chunk: end --
+            // now, altiVal: [-100.0, 100.0]=
+
+    return altiVal;
 }
 
 
@@ -275,11 +253,7 @@ void calc_pixAltis( const IntVec2 &chunkMPos_,
  * -- 生成 chunkData 中数据
  */
 void calc_chunkData(const IntVec2 &chunkMPos_, 
-                    const std::vector<double> &pixAltis_,
                     ChunkData &chunkDataRef_ ){
-
-    RGBA      *texBufHeadPtr {}; //- mapTex
-    RGBA       color {};
 
     IntVec2    tmpFieldMPos {};
     IntVec2    tmpFieldPPos {};
@@ -292,6 +266,10 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
 
     size_t    entIdx_in_chunk {};
     size_t    count {};
+
+    glm::dvec2  pixCFPos {};
+
+    MapAltitude  pixAlti {};
 
     //------------------------//
     //   mapEntAltis, mapEntMPoses    
@@ -312,10 +290,8 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
         }
     }
     //------------------------//
-    //        mapTex
+    //       
     //------------------------//
-    chunkDataRef_.resize_texBuf();
-    texBufHeadPtr = chunkDataRef_.getnc_texBufHeadPtr();
 
     std::map<occupyWeight_t,FieldData> nearby_4_fieldDatas {}; //- 一个 field 周边4个 field 数据
                                     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
@@ -333,87 +309,49 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
                 mposOff = tmpEntMPos - chunkMPos_;
                 entIdx_in_chunk = cast_2_size_t( mposOff.y * ENTS_PER_CHUNK + mposOff.x );
 
-                for( int ph=0; ph<PIXES_PER_MAPENT; ph++ ){
-                    for( int pw=0; pw<PIXES_PER_MAPENT; pw++ ){ //------ each pix in mapent ------
 
-                        pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{pw,ph} );
-                        pposOff = pixData.ppos - mpos_2_ppos(chunkMPos_);
-                        pixData.pixIdx_in_chunk = cast_2_size_t( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
+                //--------------------------------//
+                // mapent 中点 pix
+                //--------------------------------//
+                pixData.init( mpos_2_ppos(tmpEntMPos) + IntVec2{ HALF_PIXES_PER_MAPENT, HALF_PIXES_PER_MAPENT } );
+                pposOff = pixData.ppos - mpos_2_ppos(chunkMPos_);
+                pixData.pixIdx_in_chunk = cast_2_size_t( pposOff.y * PIXES_PER_CHUNK + pposOff.x );
 
-                        pixData.pixIdx_in_chunkTex = cast_2_size_t( pposOff.y * PIXES_PER_CHUNK_IN_TEXTURE + pposOff.x );
-                        pixData.texPixPtr = texBufHeadPtr + pixData.pixIdx_in_chunkTex;
+                pposOff = pixData.ppos - tmpFieldPPos;
+                pixData.pixIdx_in_field = cast_2_size_t( pposOff.y * PIXES_PER_FIELD + pposOff.x );
 
-                        pposOff = pixData.ppos - tmpFieldPPos;
-                        pixData.pixIdx_in_field = cast_2_size_t( pposOff.y * PIXES_PER_FIELD + pposOff.x );
-
-                        //--------------------------------//
-                        // 确定 pix 属于 周边4个field 中的哪一个
-                        //--------------------------------//
-                        count = 0;
-                        for( auto &fieldPair : nearby_4_fieldDatas ){ //--- 周边4个 field 信息
-                            count++;
-                            const FieldData &fieldDataRef = fieldPair.second;
-                            if( count != nearby_4_fieldDatas.size() ){   //- 前3个 field
-                                if( fieldDataRef.quadContainerPtr->at(pixData.pixIdx_in_field) == 1 ){
-                                    pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
-                                    break;
-                                }
-                            }else{     //- 第4个 field
-                                pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
-                            }
-                        } //--- 周边4个 field 信息 end ---
-
-                        //--------------------------------//
-                        //  计算 本pix  alti
-                        //--------------------------------//
-                        pixData.alti.set( pixAltis_.at(pixData.pixIdx_in_chunk) );
-
-                        //--------------------------------//
-                        // 每个 mapent.mapAlti 被设置为其 中点pix 的 alti
-                        //--------------------------------//
-                        if( (ph==HALF_PIXES_PER_MAPENT) && (pw==HALF_PIXES_PER_MAPENT) ){//- ent 中点 pix
-                            chunkDataRef_.set_mapEntAlti( entIdx_in_chunk, pixData.alti );
-                            esrc::atom_field_reflesh_min_and_max_altis( fieldKey, pixData.alti );
+                //--------------------------------//
+                // 确定 pix 属于 周边4个field 中的哪一个
+                //--------------------------------//
+                count = 0;
+                for( auto &fieldPair : nearby_4_fieldDatas ){ //--- 周边4个 field 信息
+                    count++;
+                    const FieldData &fieldDataRef = fieldPair.second;
+                    if( count != nearby_4_fieldDatas.size() ){   //- 前3个 field
+                        if( fieldDataRef.quadContainerPtr->at(pixData.pixIdx_in_field) == 1 ){
+                            pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
+                            break;
                         }
-                        
-                        //--------------------------------//
-                        //    正式给 pix 上色
-                        //--------------------------------//
-                        color = pixData.fieldDataPtr->clac_pixColor();
-                        color.a = 255;
-                            //-- 当前版本，整个 chunk 都是实心的，water图层 被移动到了 chunk图层上方。
-                        *pixData.texPixPtr = color;
+                    }else{     //- 第4个 field
+                        pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
                     }
-                } //- each pix in mapent end ---
+                } //--- 周边4个 field 信息 end ---
+
+                //--------------------------------//
+                //  计算 本pix  alti
+                //--------------------------------//
+                pixAlti.set( calc_pixAlti( pixData.ppos ) );
+
+                //--------------------------------//
+                // 每个 mapent.mapAlti 被设置为其 中点pix 的 alti
+                //--------------------------------//
+                chunkDataRef_.set_mapEntAlti( entIdx_in_chunk, pixAlti );
+                esrc::atom_field_reflesh_min_and_max_altis( fieldKey, pixAlti );
+
             }
         }//- each ent in field end -- 
     }//-- each field key end --
 
-    //---------------------------//
-    //  为了解决游戏中 “chunk间白线” 问题
-    //  将 chunk.tex 上方／右方 两条 pix 颜色补齐
-    //  补齐方案很简单，直接复制 相邻pix 的颜色
-    //---------------------------//
-    RGBA    *pixPtr      {};
-    RGBA    *nearPixPtr  {};
-    //--- chunk 上方那条 额外 pix ---
-    for( int pw=0; pw<PIXES_PER_CHUNK_IN_TEXTURE; pw++ ){
-        nearPixPtr = texBufHeadPtr + 
-                    ((PIXES_PER_CHUNK_IN_TEXTURE-2) * PIXES_PER_CHUNK_IN_TEXTURE + pw);
-        pixPtr = texBufHeadPtr + 
-                    ((PIXES_PER_CHUNK_IN_TEXTURE-1) * PIXES_PER_CHUNK_IN_TEXTURE + pw);
-        //---
-        *pixPtr = *nearPixPtr;
-    }
-    //--- chunk 右侧那条 额外 pix ---
-    for( int ph=0; ph<PIXES_PER_CHUNK_IN_TEXTURE; ph++ ){
-        nearPixPtr = texBufHeadPtr + 
-                    (ph * PIXES_PER_CHUNK_IN_TEXTURE + (PIXES_PER_CHUNK_IN_TEXTURE-2));
-        pixPtr = texBufHeadPtr + 
-                    (ph * PIXES_PER_CHUNK_IN_TEXTURE + (PIXES_PER_CHUNK_IN_TEXTURE-1));
-        //---
-        *pixPtr = *nearPixPtr;
-    }
 }
 
 

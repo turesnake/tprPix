@@ -31,9 +31,9 @@ namespace ces_RGBAHandle_inn {//---------- namespace ---------//
     u8_t    B_center        = 255;
     //...more...
 
-    RGBA  uselessColor_1  { 200, 200, 200, 255 };
-    RGBA  uselessColor_2  { 170, 170, 170, 255 };
-    RGBA  uselessColor_3  { 140, 150, 140, 255 };
+    RGBA  uselessColor_1  { 200, 200, 200, 255 }; // 中间区域颜色
+    RGBA  uselessColor_2  { 170, 170, 170, 255 }; // 边线颜色
+    RGBA  uselessColor_3  { 140, 150, 140, 255 }; // mapent 4个端点的颜色
 
 }//------------ namespace: end ---------//
 
@@ -75,7 +75,8 @@ public:
         //--- B --- 
         if( is_near_inner(RGBA_ChannelType::B, ces_RGBAHandle_inn::B_center) == true ){
             this->isCenter       = true;
-            tprAssert( this->rgba.g > 0 );
+            //tprAssert( this->rgba.g > 0 );
+            //  不再检测 radio 一值
         }
     }
 

@@ -15,6 +15,8 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
+#include "tprDebug.h"
+
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 

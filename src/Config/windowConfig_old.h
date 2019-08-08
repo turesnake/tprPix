@@ -1,11 +1,14 @@
 /*
- * ========================= windowConfig.h ==========================
+ * ========================= windowConfig_old.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.03.15
  *                                        MODIFY --
  * ----------------------------------------------------------
  *   配置 参数 [视窗]
  *   分离出来，以便快速切换
+ *                          
+ *                       已被同名 json 文件取代
+ * 
  * ----------------------------
  */
 #ifndef TPR_WINDOW_CONFIG_H
@@ -19,17 +22,23 @@
 // -----
 // 目前游戏只支持 窗口模式（不支持全屏模式）
 // 必须在编译前设置 window尺寸，游戏运行时，无法修改 window 尺寸
-#define SCR_WIDTH_  1440
-#define SCR_HEIGHT_ 900
+#define SCR_WIDTH_  1200
+#define SCR_HEIGHT_ 720
+//#define SCR_WIDTH_  1440
+//#define SCR_HEIGHT_ 900
 //#define SCR_WIDTH_  2200
 //#define SCR_HEIGHT_ 1200
             // 在未来，考虑用 lua 配置表 来替代...
+
+            // 当修改此处数据，记得同步修改 waterAnimCanvas 中的 晶格尺寸！！！！！！！
 
 
 //-- 一个 "游戏像素" ，占用 n*n 个 显示屏像素 --
 //   推荐值: {3,4} 
 //#define PIXES_PER_GAMEPIX  3
-#define PIXES_PER_GAMEPIX  4
+//#define PIXES_PER_GAMEPIX  0.4
+
+// windowSZ_vs_gameSZ 
 
 
 //-- 是否开启 全屏模式 --

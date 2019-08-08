@@ -98,7 +98,6 @@ private:
                                          //  主要用于 碰撞检测
                                          //  用它 可以快速计算 ces 左下角 mpos
     MapEntCompass   centerCompass {0,0}; //- center 在其 mapent 中的位置 
-
 };
 
 

@@ -80,20 +80,6 @@ void release_one_chunk(){
                     // ...
 
     //------------------------------//
-    //        chunk.texture
-    // 删除 renderpool 中的 mesh
-    // 删除 opengl 中的 有关对象
-    //------------------------------//
-
-    //-- mesh --
-    // 每一渲染帧，都会重新 insert 所有 Active-chunk 的 mesh 到 renderPool
-    // 所以，只要将 chunk 改为 WaitForRelease,
-    // 就会 停止渲染它
-
-    //- opengl texture --
-    chunkRef.delete_mapTex();
-
-    //------------------------------//
     //         fields
     // 删除所有 field 实例
     //------------------------------//
@@ -150,14 +136,6 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, const Int
         }
     }
 }
-
-
-
-
-
-
-
-
 
 
 

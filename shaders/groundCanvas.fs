@@ -20,21 +20,15 @@ uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
                           // 参见 waterAnim 中的同款值，让 sky 微弱的运动
 
 //- 对于每个游戏存档，这组值是静态的，只需要传入一次...
-uniform float SCR_WIDTH;
-uniform float SCR_HEIGHT;
+// canvas 本质就是一个 texture，此size（pix）通常等于 gameSZ
+uniform float texSizeW;
+uniform float texSizeH;
 
 
 float freqCloud = 1.4;
 float freqSml   = 4.4;
 
 //============ vals ===========//
-vec2 lb; //- [left_bottom] [0,1]
-vec2 lbAlign; //- 对齐过的 lb，首先，校准了 y值比例（毕竟window可能不是正方形）
-              //  其次，1个单位 lbAlign，等于 chunk-ppos 尺寸，而不是 canvas尺寸
-
-vec3 color;
-
-float PIXES_PER_CHUNK = 256.0; //- tmp
 
 
 //============ funcs ===========//
@@ -42,7 +36,6 @@ float PIXES_PER_CHUNK = 256.0; //- tmp
 // in     -- 只读
 // out    -- 只写
 // inout  -- 可读可写
-void prepare();
 float simplex_noise2( float _x, float _y );
 float simplex_noise2( vec2 v );
 
@@ -52,69 +45,9 @@ float simplex_noise2( vec2 v );
  */
 void main()
 {
-    
-    prepare();
-
-    /*
-    //------------------//
-    // pixCFPos: 以 chunk 为晶格的 fpos
-    vec2 pixCFPos = 0.08 * canvasCFPos + lbAlign;
-    pixCFPos.x += u_time * 0.05;
-            //- 不完全对齐，让它运动得慢些
-
-    pixCFPos *= 240.0;
-    pixCFPos = floor(pixCFPos);
-    pixCFPos =  pixCFPos / 240.0;
-
-
-    //------------------//
-    //     cloud
-    //------------------//
-    float pnValCloud = simplex_noise2( pixCFPos * freqCloud ) * 50.0; // [-50.0, 50.0]
-    float pnValSml   = simplex_noise2( (pixCFPos+100.0) * freqSml ) * 30.0; // [-50.0, 50.0]
-
-    pnValCloud += pnValSml;
-
-    vec3 colorCloud = vec3( 1.0, 1.0, 1.0 );
-    vec3 colorSky   = vec3( 0.6, 0.7, 0.8 );
-
-    float yv = lb.x*lb.x;
-    if( pnValCloud >= 30.0 ){ //- cloud
-        color = mix( colorSky, colorCloud, smoothstep(0.0, 1.0, yv) );
-    }else{
-        color = colorSky;
-    }
-
-    //FragColor = vec4( lb.xxy, 1.0 ); 
-    FragColor = vec4( color, 1.0 ); 
-    */
-    
-
-
-    FragColor = vec4( 0.4, 0.45, 0.2, 1.0 );
+    //prepare();
+    FragColor = vec4( 0.98, 0.96, 0.85, 1.0 );
 }
-
-
-/* ====================================================
- *                     prepare
- * ----------------------------------------------------
- * -- 准备工作
- */
-void prepare(){
-    // TexCoord:      每个pix 在 tecture 上的坐标 [0.0,1.0]
-    // u_resolution:  每个pix 在 window 上的坐标  [-1.0,1.0]
-    //--------------------------//
-    //    初始化 lb, lt
-    //--------------------------//
-    //-- 左下坐标系 [0,1]
-    lb = TexCoord;
-    //---
-    lbAlign = lb;
-    lbAlign.y *= SCR_HEIGHT/SCR_WIDTH;
-    lbAlign *= SCR_WIDTH/PIXES_PER_CHUNK;
-}
-
-
 
 
 /* ====================================================

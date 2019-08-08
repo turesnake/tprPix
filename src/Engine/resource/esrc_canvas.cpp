@@ -40,7 +40,7 @@ void init_canvases(){
     //------------------//
     //    groundCanvas
     //------------------//
-    canvas_inn::groundCanvasUPtr->init( &(ViewingBox::windowSZ),
+    canvas_inn::groundCanvasUPtr->init( &(ViewingBox::gameSZ),
                             "/groundCanvas.vs",
                             "/groundCanvas.fs" );
 
@@ -48,14 +48,14 @@ void init_canvases(){
     canvas_inn::groundCanvasUPtr->add_new_uniform( "canvasCFPos" ); //- 2-float
     
 
-    canvas_inn::groundCanvasUPtr->add_new_uniform( "SCR_WIDTH" ); //- 1-float
-    canvas_inn::groundCanvasUPtr->add_new_uniform( "SCR_HEIGHT" ); //- 1-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "texSizeW" ); //- 1-float
+    canvas_inn::groundCanvasUPtr->add_new_uniform( "texSizeH" ); //- 1-float
                         //-- 当 窗口发生变化，此组值需要被重传
 
     //------------------//
     //    waterAnimCanvas
     //------------------//
-    canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::windowSZ),
+    canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::gameSZ),
                             "/waterAnimCanvas.vs",
                             "/waterAnimCanvas.fs" );
 
@@ -63,8 +63,8 @@ void init_canvases(){
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "u_time" ); //- 1-float
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "canvasCFPos" ); //- 2-float
 
-    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "SCR_WIDTH" ); //- 1-float
-    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "SCR_HEIGHT" ); //- 1-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "texSizeW" ); //- 1-float
+    canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "texSizeH" ); //- 1-float
 
     //-- 以下 uniforms 只需传一次 --
     canvas_inn::waterAnimCanvasUPtr->add_new_uniform( "altiSeed_pposOffSeaLvl" ); //- 2-float
@@ -86,11 +86,12 @@ void draw_groundCanvas(){
 
     const glm::vec2 cameraFPos = glm_dvec2_2_vec2(get_camera().get_camera2DDPos());
 
-    float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
-    float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
+    float texSizeW = static_cast<float>(ViewingBox::gameSZ.x);
+    float texSizeH = static_cast<float>(ViewingBox::gameSZ.y);
+    
 
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
-                                                    0.5f * windowSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * texSizeW , 
+                                                    0.5f * texSizeH };
 
     canvas_inn::groundCanvasUPtr->set_translate( canvasFPos.x,
                                       canvasFPos.y,
@@ -100,8 +101,10 @@ void draw_groundCanvas(){
                     canvasFPos.x / static_cast<float>(PIXES_PER_CHUNK),
                     canvasFPos.y / static_cast<float>(PIXES_PER_CHUNK) ); //- 2-float
     
-    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
-    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
+    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("texSizeW"), texSizeW ); //- 1-float
+    glUniform1f(canvas_inn::groundCanvasUPtr->get_uniform_location("texSizeH"), texSizeH ); //- 1-float
+
+    
 
     canvas_inn::groundCanvasUPtr->draw();
 }
@@ -120,18 +123,17 @@ void draw_waterAnimCanvas(){
 
     const glm::vec2 cameraFPos = glm_dvec2_2_vec2(get_camera().get_camera2DDPos());
 
-    float windowSZ_fx = static_cast<float>(ViewingBox::windowSZ.x);
-    float windowSZ_fy = static_cast<float>(ViewingBox::windowSZ.y);
+    float texSizeW = static_cast<float>(ViewingBox::gameSZ.x);
+    float texSizeH = static_cast<float>(ViewingBox::gameSZ.y);
 
-    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * windowSZ_fx , 
-                                                    0.5f * windowSZ_fy };
+    glm::vec2 canvasFPos = cameraFPos - glm::vec2{  0.5f * texSizeW , 
+                                                    0.5f * texSizeH };
 
     canvas_inn::waterAnimCanvasUPtr->set_translate(canvasFPos.x,
                                         canvasFPos.y,
                                         static_cast<float>(get_camera().get_zFar() + ViewingBox::waterAnim_zOff) );
                                         //- 这一步是正确的，canvas 与 window 成功对齐，
-                                        //  进而可知，SCR_WIDTH，SCR_HEIGHT 的使用也是正确的
-
+                                       
     glUniform2f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("canvasCFPos"), 
                     canvasFPos.x / static_cast<float>(PIXES_PER_CHUNK),
                     canvasFPos.y / static_cast<float>(PIXES_PER_CHUNK) ); //- 2-float
@@ -143,8 +145,8 @@ void draw_waterAnimCanvas(){
     const glm::dvec2 &altiSeed_pposOffMid    = gameSeedRef.get_altiSeed_pposOffMid();
     const glm::dvec2 &altiSeed_pposOffSml    = gameSeedRef.get_altiSeed_pposOffSml();
 
-    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_WIDTH"), windowSZ_fx ); //- 1-float
-    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("SCR_HEIGHT"), windowSZ_fy ); //- 1-float
+    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("texSizeW"), texSizeW ); //- 1-float
+    glUniform1f(canvas_inn::waterAnimCanvasUPtr->get_uniform_location("texSizeH"), texSizeH ); //- 1-float
 
     if( canvas_inn::is_waterAnim_baseUniforms_transmited == false ){
         canvas_inn::is_waterAnim_baseUniforms_transmited = true;

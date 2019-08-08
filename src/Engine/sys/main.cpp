@@ -24,7 +24,7 @@
 
 #include "timeLog.h" // debug_tmp
 
-//#include "tprDebug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
 
 /* ===========================================================
@@ -36,6 +36,11 @@ int main( int argc, char* argv[] ){
     //                 prepare
     //------------------------------------------//
     prepare( argv[0] );
+
+    //------------------------------------------//
+    //             ViewingBox
+    //------------------------------------------//
+    ViewingBox::init(); //--- MUST before OpenGL init !!!
     
     //------------------------------------------//
     //                  glfw
@@ -124,7 +129,6 @@ int main( int argc, char* argv[] ){
     load_fieldBorderSets();          //----- fieldBorderSet ----
     esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()
     //...
-        
     
     //------------------------------------------//
     //        Behaviour.Starts

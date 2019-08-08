@@ -111,6 +111,7 @@ void build_9_chunks( const IntVec2 &playerMPos_ ){
         for( int w=-1; w<=1; w++ ){ //- 统一生成 周边 5*5 个 chunk
             tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
                                 playerChunkMPos.y + h*ENTS_PER_CHUNK );
+
             chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkBuild_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案

@@ -27,7 +27,7 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 namespace _inn {//-------- namespace: _inn ----------//
 
     //-- 简易开关，用来快速关闭 mes显示功能
-    bool  is_mapEntSlice_show  {false}; 
+    bool  is_mapEntSlice_show  {true}; 
     bool  is_pointPic_show     {false};
 
     std::vector<Mesh> renderPool_mapEntSlices {};
@@ -50,6 +50,20 @@ namespace _inn {//-------- namespace: _inn ----------//
  * -- 
  */
 void init_debug(){
+
+    //-- init slicePic
+    slicePic.clear();
+    for( size_t h=0; h<PIXES_PER_MAPENT; h++ ){
+        for( size_t w=0; w<PIXES_PER_MAPENT; w++ ){
+            if( (h==0) || (h==PIXES_PER_MAPENT-1) || (w==0) || (w==PIXES_PER_MAPENT-1) ){
+                slicePic.push_back( CO );
+            }else{
+                slicePic.push_back( e_ );
+            }
+        }
+    }
+
+
 
     //-- 生成 mapEntSlice 唯一的 texName
     texName_slice = create_a_texName( slicePicSize,

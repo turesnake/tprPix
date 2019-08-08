@@ -24,20 +24,12 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 
 
 inline RGBA e_ { 0,0,0,0 };       //- 空白
-inline RGBA CO { 255,255,0,150 }; //- 有颜色
+inline RGBA CO { 255,0,0,150 }; //- 有颜色
 
 //-- mapEntSlice 使用的 “黄色边框” img
-inline std::vector<RGBA> slicePic{
-    CO, CO, CO, CO, CO, CO, CO, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, e_, e_, e_, e_, e_, e_, CO,
-    CO, CO, CO, CO, CO, CO, CO, CO
-};
-inline IntVec2 slicePicSize { 8, 8 };
+//-- 这个 边框宽度已经失效果了。
+inline std::vector<RGBA> slicePic {};
+inline IntVec2 slicePicSize { 64, 64 };
 inline  GLuint  texName_slice {}; //- the only texName
 
 

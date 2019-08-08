@@ -53,6 +53,7 @@ public:
     inline IntVec2 to_mpos() const {
         return IntVec2{ this->x, this->y };
     }
+    /*
     inline IntVec2 to_ppos() const {
         return IntVec2{ this->x*PIXES_PER_MAPENT, 
                         this->y*PIXES_PER_MAPENT };
@@ -61,6 +62,7 @@ public:
         return glm::dvec2{ static_cast<double>(this->x*PIXES_PER_MAPENT), 
                           static_cast<double>(this->y*PIXES_PER_MAPENT) };
     } 
+    */
 
     inline bool is_zero() const {
         if( (this->x==0) && (this->y==0) ){
