@@ -44,8 +44,6 @@ void GameObj::creat_new_goMesh( const std::string &name_,
                                         const std::string &animFrameSetName_,
                                         const std::string &actionName_,
                                         RenderLayerType    layerType_,
-                                        ShaderProgram     *pixShaderPtr_,
-                                        ShaderProgram     *shadowShaderPtr_,
                                         const glm::vec2   pposOff_,
                                         double             off_z_,
                                         bool              isVisible_,
@@ -58,8 +56,6 @@ void GameObj::creat_new_goMesh( const std::string &name_,
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 
-    gmesh.set_pic_shader_program( pixShaderPtr_ );
-    gmesh.set_shadow_shader_program( shadowShaderPtr_ );
 
     //-- goMesh pos in go --
     gmesh.set_pposOff(pposOff_);

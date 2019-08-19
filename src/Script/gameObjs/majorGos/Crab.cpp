@@ -63,8 +63,6 @@ void Crab::init_in_autoMod( goSpecId_t specID_,
                                 "crab", 
                                 "appear",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(),
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible

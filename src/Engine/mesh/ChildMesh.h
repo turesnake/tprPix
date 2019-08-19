@@ -30,8 +30,8 @@ public:
         {}
 
     void draw();
+    void playerGoIndication_draw();
 
-    inline void set_shader_program( ShaderProgram *sp_ ) { this->shaderPtr=sp_; }
     inline void set_rotate_z( float z_ )                 { this->rotate_z=z_; }
     inline void set_scale( const glm::vec3 &v_ )         { this->scale_val=v_; }
 
@@ -64,7 +64,6 @@ private:
     //======== vals ========//
     GameObjMesh    &goMeshRef;
 
-    ShaderProgram  *shaderPtr  {nullptr}; 
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model = glm::mat4(1.0); //-- 每个 物体obj 都私有一个 模型矩阵
                           //-- 自动初始化为 标准矩阵

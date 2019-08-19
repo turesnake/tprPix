@@ -83,8 +83,6 @@ public:
                             const std::string &animFrameSetName_,
                             const std::string &actionName_,
                             RenderLayerType    layerType_,
-                            ShaderProgram     *pixShaderPtr_,
-                            ShaderProgram     *shadowShaderPtr_,
                             const glm::vec2   pposOff_,
                             double             off_z_,
                             bool              isVisible_,
@@ -94,6 +92,8 @@ public:
     void init_check(); //- call in end of go init 
 
     void signUp_newGO_to_mapEnt();
+
+    void render_all_goMesh_for_playerGoIndication();
 
     //-- 目前被 Crawl 使用 --
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
@@ -152,12 +152,13 @@ public:
     }
     
 
-
     inline void render_all_goMesh(){
         for( auto &pairRef : this->goMeshs ){
             pairRef.second->RenderUpdate();
         }
     }
+
+    
 
     //void debug(); //- 打印 本go实例 的所有信息
 

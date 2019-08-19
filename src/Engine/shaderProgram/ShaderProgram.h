@@ -78,6 +78,7 @@ public:
                             static_cast<const GLfloat*>(glm::value_ptr(p_)) );
     }
 
+
 private:
     void compile( GLuint shaderObj_, const std::string &sbuf_ );
 

@@ -201,7 +201,9 @@ public:
                     //  就算是 深渊类型的地面，也会有材质信息。
                     //  ...这个值可能被取消...
 
-    EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
+    //EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
+
+            //-- 这个值暂时未被配置，尽管在理想态，每个 mapent，应该知道自己的 eco 类型
 
 
     //--- 二级信息区 ---

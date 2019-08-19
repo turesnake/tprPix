@@ -24,19 +24,20 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 void init_renderPools();
 
 
-void insert_2_renderPool_goMeshs_pic( float off_z_, ChildMesh *meshPtr_ );
-void pushback_2_renderPool_mapSurfaces( ChildMesh *meshPtr_ );
-void pushback_2_renderPool_goMeshs_shadow( ChildMesh *meshPtr_ );
+void insert_2_renderPool_goMeshs_opaque( float off_z_, ChildMesh *meshPtr_ );
+void insert_2_renderPool_goMeshs_translucent( float off_z_, ChildMesh *meshPtr_ );
+
 void insert_2_renderPool_uiMeshs_pic( float off_z_, UIChildMesh *meshPtr_ );
 
-void clear_renderPool_goMeshs_pic();
-void clear_renderPool_goMeshs_shadow();
+void clear_renderPool_goMeshs_opaque();
+void clear_renderPool_goMeshs_translucent();
 void clear_renderPool_mapSurfaces();
 void clear_renderPool_uiMeshs_pic();
 
             
-void draw_renderPool_goMeshs_pic();
-void draw_renderPool_goMeshs_shadow();
+void draw_renderPool_goMeshs_opaque();
+void draw_renderPool_goMeshs_translucent();
+
 void draw_renderPool_mapSurfaces();
 void draw_renderPool_uiMeshs_pic();
 

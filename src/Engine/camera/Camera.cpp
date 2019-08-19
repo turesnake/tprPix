@@ -25,13 +25,13 @@
 void Camera::RenderUpdate(){
 
     if( this->isMoving == false ){
-        return;
+       return;
     }
-
+    
     glm::dvec2 off { this->targetDPos.x - this->currentDPos.x, 
                     this->targetDPos.y - this->currentDPos.y };
     //-- 若非常接近，直接同步 --
-    double criticalVal { 2.0 }; 
+    double criticalVal { 8.0 }; 
             //-- 适当提高临界值，会让 camera运动变的 “简练”
             // 同时利于 waterAnimCanvas 中的运算
     if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
@@ -43,20 +43,28 @@ void Camera::RenderUpdate(){
     }
 
     //---------------------------//
-    //  为了解决游戏中 “chunk间白线” 问题
-    //  限制 camera 每帧位移，都取整于 0.01 
-    //
-    //     但这可能导致 win 中，画面位移卡顿... 猜测
-    //
+    //  将每一次 camera 的位移距离，都对齐于 windowsz 像素尺寸
     //---------------------------//    
+    /*
+    {
+        double bili = ViewingBox::windowSZ.x / ViewingBox::gameSZ.x; // tmp
+        //
+        off.x = floor(bili * off.x) / bili;
+        off.y = floor(bili * off.y) / bili;
+    }
+    */
+
+
     double alignX = this->approachPercent * off.x;
     double alignY = this->approachPercent * off.y;
-        alignX = floor(alignX*1000.0) / 1000.0;
-        alignY = floor(alignY*1000.0) / 1000.0;
     //-----------
     this->currentDPos.x += alignX;
     this->currentDPos.y += alignY;
     this->currentDPos.z =  -this->currentDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
+    
+
+    
+
 }
 
 

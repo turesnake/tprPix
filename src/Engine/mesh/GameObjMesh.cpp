@@ -48,7 +48,6 @@ void GameObjMesh::RenderUpdate(){
     //---------------//
     this->animActionPtr->update( this->animActionPvtData );
 
-    
     //---------------//
     //      pic
     //---------------//
@@ -58,17 +57,13 @@ void GameObjMesh::RenderUpdate(){
 
     this->picMesh.refresh_translate();
     this->picMesh.refresh_scale_auto();
-    switch (this->picRenderLayerType){
-        case RenderLayerType::MajorGoes:
-            esrc::insert_2_renderPool_goMeshs_pic(  this->picMesh.get_render_z() + this->off_z , 
-                                                    this->picMesh.getnc_ChildMeshPtr() );
-            break;
-        case RenderLayerType::MapSurfaces:
-            esrc::pushback_2_renderPool_mapSurfaces( this->picMesh.getnc_ChildMeshPtr() );
-            break;
-        default:
-            tprAssert(0);
-    }
+
+            //  需要一次判断，是否为 不透明／半透明
+            //  未实现...
+            //  目前假设，所有 pic 图元都是 不透明的
+
+    esrc::insert_2_renderPool_goMeshs_opaque(   this->picMesh.get_render_z(), 
+                                                this->picMesh.getnc_ChildMeshPtr() );
 
     //---------------//
     //   shadow
@@ -76,7 +71,45 @@ void GameObjMesh::RenderUpdate(){
     if( this->isHaveShadow ){
         this->shadowMesh.refresh_translate();
         this->shadowMesh.refresh_scale_auto();
-        esrc::pushback_2_renderPool_goMeshs_shadow( this->shadowMesh.getnc_ChildMeshPtr() );
+        // shadow 一律是 半透明的 
+        esrc::insert_2_renderPool_goMeshs_translucent(  this->shadowMesh.get_render_z(), 
+                                                        this->shadowMesh.getnc_ChildMeshPtr() );
     }
 }
+
+
+/* ===========================================================
+ *           playerGoIndication_RenderUpdateImm
+ * -----------------------------------------------------------
+ * -- 暂未被使用 ......
+ */
+void GameObjMesh::playerGoIndication_RenderUpdateImm(){
+
+
+    //---------------//
+    //      pic
+    //---------------//
+    if( this->isVisible == false ){
+        return;
+    }
+
+    //---------------//
+    //   只有可以代表 playerGo 的图元，才会被渲染
+    //---------------//
+    //... 未实现...
+
+    //this->picMesh.refresh_translate();
+    //this->picMesh.refresh_scale_auto();
+
+    tprAssert( this->picRenderLayerType == RenderLayerType::MajorGoes );
+
+    this->picMesh.playerGoIndication_draw();
+
+}
+
+
+
+
+
+
 

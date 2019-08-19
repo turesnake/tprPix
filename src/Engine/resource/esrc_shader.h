@@ -15,6 +15,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_shaders();
 ShaderProgram &get_rect_shader();
+ShaderProgram &get_playerGoIndication_shader();
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

@@ -56,6 +56,7 @@ public:
         {}
 
     void RenderUpdate();
+    void playerGoIndication_RenderUpdateImm();
 
     void bind_animAction(   const std::string &animFrameSetName_,
                             const std::string &actionName_  );
@@ -77,13 +78,6 @@ public:
     inline void set_off_z( float off_z_ ){
         this->off_z = off_z_;
     }
-    inline void set_pic_shader_program( ShaderProgram *sp_ ){
-        this->picMesh.set_shader_program( sp_ );
-    }
-    inline void set_shadow_shader_program( ShaderProgram *sp_ ){
-        this->shadowMesh.set_shader_program( sp_ );
-    }
-
 
     //------------- get -------------//    
     inline const FramePos &get_currentFramePos() const {
@@ -148,6 +142,7 @@ private:
                     //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1f
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
+                    // 这个值 已经被累加到 z值中.
 
     float            picFixedZOff {}; //- 方便快速访问
     RenderLayerType  picRenderLayerType;

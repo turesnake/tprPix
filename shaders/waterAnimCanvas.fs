@@ -1,4 +1,4 @@
-// gpgpu FBO -- pix
+// water anim --
 #version 330 core
 
 //-- 片段着色器的 主输出：颜色
@@ -70,12 +70,11 @@ vec3 color_sea_5 = vec3( 0.13, 0.24, 0.32 );
 vec3 color_sea_6 = vec3( 0.11, 0.21, 0.27 );
 */
 
-//--- old ----
-vec3 color_sea_2 = vec3( 0.18, 0.32, 0.38 );
-vec3 color_sea_3 = vec3( 0.16, 0.26, 0.34 );
-vec3 color_sea_4 = vec3( 0.14, 0.22, 0.30 );
-vec3 color_sea_5 = vec3( 0.12, 0.20, 0.26 );
-vec3 color_sea_6 = vec3( 0.10, 0.18, 0.22 );
+//--- sec visual style ----
+vec3 color_sea_2 = vec3( 0.745, 0.753, 0.706 );
+vec3 color_sea_3 = vec3( 0.608, 0.627, 0.596 );
+vec3 color_sea_4 = vec3( 0.521, 0.541, 0.525 );
+vec3 color_sea_5 = vec3( 0.423, 0.443, 0.435 );
 
 
 //============ funcs ===========//
@@ -167,38 +166,25 @@ void main()
     float altiLvl;
     if( altiVal < 0.0 ){ //- under water
 
-        //------ -1 -------
-        if( altiVal > -10.0 ){
-            altiLvl = -1.0;
-        }
         //------ -2 -------
-        else if( altiVal > -30.0 ){
+        if( altiVal > -30.0 ){
             altiLvl = -2.0;
         }
-
         //------ -3 -------
-        else if( altiVal > -50.0 ){
+        else if( altiVal > -55.0 ){
             altiLvl = -3.0;
         }
-
         //------ -4 -------
-        else if( altiVal > -60.0 ){
+        else if( altiVal > -90.0 ){
             altiLvl = -4.0;
         }
-
         //------ -5 -------
-        else if( altiVal > -90.0 ){
+        else{
             altiLvl = -5.0;
         }
-
-        //------ -6 -------
-        else{
-            altiLvl = -6.0;
-        }
-
         //----------------
-        if( altiLvl < -6.0 ){
-            altiLvl = -6.0;
+        if( altiLvl < -5.0 ){
+            altiLvl = -5.0;
         }
     }else{ //- land
         altiLvl = 1.0;
@@ -209,18 +195,17 @@ void main()
     //------------------//
     if( altiLvl >= -2.0 ){
         color = color_sea_2;
-        alpha = 0.88; //-- 一定程度的 半透明
+        //alpha = 0.88; //-- 一定程度的 半透明
+        alpha = 1.0;
     }else if( altiLvl == -3.0 ){
         color = color_sea_3;
-        alpha = 0.94; //-- 一定程度的 半透明
+        //alpha = 0.94; //-- 一定程度的 半透明
+        alpha = 1.0;
     }else if( altiLvl == -4.0 ){
         color = color_sea_4;
         alpha = 1.0;
-    }else if( altiLvl == -5.0 ){
-        color = color_sea_5;
-        alpha = 1.0;
     }else{ 
-        color = color_sea_6;
+        color = color_sea_5;
         alpha = 1.0;
     }
 

@@ -50,8 +50,6 @@ void OneEyeBoy::init_in_autoMod(  goSpecId_t specID_,
                                 "oneEyeBoy", 
                                 "move_idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(),
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible

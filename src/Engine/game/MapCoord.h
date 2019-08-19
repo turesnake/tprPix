@@ -7,8 +7,8 @@
  *   mapEntPos / pixPos  2-axis
  *  --------------------------
  *  some kinds of pos:
- *   FPos   - float   pos
- *   DPos   - double  pos
+ *   FPos   - float   pos (pix)
+ *   DPos   - double  pos (pix)
  *	 PPos   - pixel   pos
  *	 MPos   - mapEnt  pos
  *	 FDPos  - field   pos

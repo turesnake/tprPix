@@ -58,8 +58,6 @@ void SingleStone_Desert::init_in_autoMod(   goSpecId_t specID_,
                                 "singleStone_Desert", 
                                 tprGeneral::nameString_combine("", pvtBp->singleStone_DesertId, "_idle"),
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(), //- 其实没有 shadow
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible

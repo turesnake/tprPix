@@ -45,7 +45,7 @@ public:
 
 
     //- 外部代码控制 camera运动 的唯一方式
-    inline void set_targetDPos( const glm::dvec2 &tpos_, double approachPercent_=0.08 ){
+    inline void set_targetDPos( const glm::dvec2 &tpos_, double approachPercent_=0.1 ){
         if( tpos_ == this->targetDPos ){
             return;
         }
@@ -78,7 +78,7 @@ private:
     glm::dvec2 targetDPos; 
     glm::dvec3 currentDPos; 
 
-    double  approachPercent {0.08};  //- camera运动的 “接近比率”
+    double  approachPercent {0.1};  //- camera运动的 “接近比率”
 
     //------ 方向向量 -------
     //-- 以下3个向量 都是 单位向量

@@ -59,8 +59,6 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
                                 "wheat", 
                                 tprGeneral::nameString_combine("front_", pvtBp->wheatId, "_idle"),
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(), //- 其实没有 shadow
                                 glm::vec2{ 0.0f, -7.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
@@ -73,8 +71,6 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
                                 "wheat", 
                                 tprGeneral::nameString_combine("back_", pvtBp->wheatId, "_idle"),
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(), //- 其实没有 shadow
                                 glm::vec2{ 0.0f, 7.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible

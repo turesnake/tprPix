@@ -152,6 +152,11 @@ void sceneRenderLoop_world(){
     rect_shaderRef.use_program();
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+    //--- 
+    ShaderProgram &playerGoIndication_shaderRef = esrc::get_playerGoIndication_shader();
+    playerGoIndication_shaderRef.use_program();
+    playerGoIndication_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    playerGoIndication_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //====================================//
     //          -- RENDER --
@@ -161,9 +166,8 @@ void sceneRenderLoop_world(){
     //--- clear RenderPools:
     // *** 注意次序 ***
     esrc::clear_renderPool_meshs();
-    esrc::clear_renderPool_goMeshs_pic();
-    esrc::clear_renderPool_goMeshs_shadow();
-    esrc::clear_renderPool_mapSurfaces();
+    esrc::clear_renderPool_goMeshs_opaque();
+    esrc::clear_renderPool_goMeshs_translucent();
 
     //------------------------//
     //        chunks
@@ -192,13 +196,19 @@ void sceneRenderLoop_world(){
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     // *** 注意次序,先渲染深处的 ***
     esrc::draw_groundCanvas();
-    esrc::draw_renderPool_meshs(); //- chunks
+    esrc::draw_renderPool_meshs(); //- chunks，已废弃
     esrc::draw_waterAnimCanvas();
-    esrc::draw_renderPool_mapSurfaces();
-    esrc::draw_renderPool_goMeshs_shadow();
     tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
     tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
-    esrc::draw_renderPool_goMeshs_pic(); 
+
+    //-- opaque First, Translucent Second !!! --
+    esrc::draw_renderPool_goMeshs_opaque(); 
+    esrc::draw_renderPool_goMeshs_translucent(); 
+
+
+    // playerGoIndication ...
+    //esrc::get_player().get_goRef().render_all_goMesh_for_playerGoIndication();
+
 
 }
 

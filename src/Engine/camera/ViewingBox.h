@@ -63,6 +63,8 @@ public:
     static double  chunks_zOff;
         // 游戏地图 图层。 由无数块 chunk 拼接而成。
         // 其中 water区域是半透明的，可以看到下层的 waterAnimCanvas 效果
+        // ...
+        // 在当前版本中，此层为空
 
     static double  waterAnim_zOff;
         // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染
@@ -79,6 +81,10 @@ public:
     
     //...
 
+    static double  playerGoIndication_zOff;
+        // 在 MajorGoes 的上方，再次渲染 player go，半透明的
+        // 从而让玩家可以知道 playerGo 的位置 
+        // 一个最简单的方案
 
     static double  UIs_zOff;
         // UIs 专用 图层
@@ -101,8 +107,8 @@ inline double  ViewingBox::goShadows_zOff     { 50.0 };
 inline double  ViewingBox::debug_zOff         { 60.0 };
 
 //...
-
-inline double  ViewingBox::UIs_zOff         { 1900.0 };
+inline double  ViewingBox::playerGoIndication_zOff  { 1890.0 };
+inline double  ViewingBox::UIs_zOff                 { 1900.0 };
 
 
 #endif

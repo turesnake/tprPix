@@ -13,6 +13,7 @@
 #include "GameObjMesh.h"
 #include "VAOVBO.h" 
 #include "esrc_camera.h"
+#include "esrc_shader.h"
 
 
 namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------------------//
@@ -81,7 +82,7 @@ void ChildMesh::refresh_translate(){
         }else{
             this->translate_val.z = -(goCurrentFPos.y + (float)pposOff.y  + this->goMeshRef.get_off_z());
                                         //-- ** 注意！**  z值的计算有不同：
-                                        // -1- 取负...
+                                        // -1- 取负， 摄像机朝向 z轴 负方向
                                         // -2- 没有算入 vRef.y; 因为这个值只代表：
                                         //     图元 和 根锚点的 偏移
                                         //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
@@ -131,9 +132,47 @@ void ChildMesh::draw(){
     //---------- refresh mat4_model -------------
     update_mat4_model();
 
-    //---------- 将 model矩阵的值传入 绑定的 着色器程序 ---------
-    tprAssert( this->shaderPtr != nullptr );
-    this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
+    //---------- 将 model矩阵的值传入 某个 着色器程序 ---------
+    esrc::get_rect_shader().send_mat4_model_2_shader( this->mat4_model );
+
+    //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
+    //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
+    //   但是， gl本体可以存储 非常多个 tex实例
+    glActiveTexture( GL_TEXTURE0 );  //- 激活纹理单元
+    tprAssert( texName != 0 ); 
+    glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
+
+    //----------- 绑定 本Model对象 的 VAO ----------
+    glBindVertexArray( VAO );
+
+    //----------- 正式绘制 ----------
+    glDrawArrays( GL_TRIANGLES, 0, 6 ); //-- 绘制 图元(rect). 不依赖 EBO 的写法
+}
+
+
+/* ===========================================================
+ *                playerGoIndication_draw
+ * -----------------------------------------------------------
+ */
+void ChildMesh::playerGoIndication_draw(){
+
+    if( this->goMeshRef.isVisible == false ){
+        return;
+    }
+
+    //---------- refresh texName -------------
+    tprAssert( this->isPic );
+
+    GLuint texName = this->goMeshRef.get_currentTexName_pic();
+
+    //---------- refresh mat4_model -------------
+    // 重新指定 z值：playerGoIndication_zOff
+    //this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::playerGoIndication_zOff );   
+    this->translate_val.z += 1.0;
+    update_mat4_model();
+
+    //---------- 将 model矩阵的值传入 某个 着色器程序 ---------
+    esrc::get_playerGoIndication_shader().send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
@@ -154,7 +193,7 @@ void ChildMesh::draw(){
  *                 update_mat4_model
  * -----------------------------------------------------------
  * -- 当 GameObjMesh对象的 位移／旋转／缩放 任一维发生变化，就要重新计算 model矩阵
- * -- 目前 优化粒度较粗。一有变化就全盘重算。
+ * -- 目前 并未实现任何优化
  */
 void ChildMesh::update_mat4_model(){
 

@@ -19,6 +19,8 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace shader_inn {//-------- namespace: shader_inn --------------//
 
     std::unique_ptr<ShaderProgram> rect_shaderUPtr;
+    std::unique_ptr<ShaderProgram> playerGoIndication_shaderUPtr;
+
 
 }//------------- namespace: shader_inn end --------------//
 
@@ -31,6 +33,10 @@ ShaderProgram &get_rect_shader(){
     return *(shader_inn::rect_shaderUPtr.get());
 }
 
+ShaderProgram &get_playerGoIndication_shader(){
+    return *(shader_inn::playerGoIndication_shaderUPtr.get());
+}
+
 
 /* ===========================================================
  *                    init_shaders     [pure]
@@ -39,9 +45,8 @@ ShaderProgram &get_rect_shader(){
  */
 void init_shaders(){
 
-    shader_inn::rect_shaderUPtr = std::make_unique<ShaderProgram>();
-
     //---- rect_sahder ----//
+    shader_inn::rect_shaderUPtr = std::make_unique<ShaderProgram>();
     shader_inn::rect_shaderUPtr->init( "/base.vs", "/base.fs" ); 
     shader_inn::rect_shaderUPtr->use_program();
     shader_inn::rect_shaderUPtr->add_new_uniform( "model" );
@@ -49,6 +54,19 @@ void init_shaders(){
     shader_inn::rect_shaderUPtr->add_new_uniform( "projection" );
     shader_inn::rect_shaderUPtr->add_new_uniform( "texture1" );
     shader_inn::rect_shaderUPtr->use_program();
+
+
+    //---- playerGoIndication_sahder ----//
+    shader_inn::playerGoIndication_shaderUPtr = std::make_unique<ShaderProgram>();
+    shader_inn::playerGoIndication_shaderUPtr->init( "/playerGoIndication.vs", "/playerGoIndication.fs" ); 
+    shader_inn::playerGoIndication_shaderUPtr->use_program();
+    shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "model" );
+    shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "view" );
+    shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "projection" );
+    shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "texture1" );
+    shader_inn::playerGoIndication_shaderUPtr->use_program();
+
+
 }
 
 

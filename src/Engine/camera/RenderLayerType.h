@@ -22,7 +22,7 @@ enum class RenderLayerType{
     MajorGoes,
     //....
 
-
+    PlayerGoIndication, //- not be used yet
     UIs
 };
 

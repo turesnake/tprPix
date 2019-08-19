@@ -56,8 +56,6 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
                                 "lichen_Forest", 
                                 tprGeneral::nameString_combine("", pvtBp->lichen_ForestId, "_idle"),
                                 RenderLayerType::MapSurfaces,
-                                &esrc::get_rect_shader(),  
-                                &esrc::get_rect_shader(), //- 其实没有 shadow
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
