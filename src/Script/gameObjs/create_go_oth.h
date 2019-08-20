@@ -30,10 +30,12 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * 是否左右翻转
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
+/*
 inline bool apply_isFlipOver( double fieldWeight_ ){
     size_t randV = cast_2_size_t(floor(fieldWeight_ * 3.1 + 911.3));
     return ((randV%10)<5);
 }
+*/
 
 
 /* ===========================================================

@@ -69,7 +69,7 @@ void MapField::init( const IntVec2 &anyMPos_ ){
     this->FDPos += esrc::get_gameSeed().get_field_pposOff();
 
     //--- field.nodeMPos ---
-    this->init_nodeMPos();
+    this->init_nodeMPos_and_nodePPosOff();
 
     //--- assign_field_to_4_ecoObjs ---
     //  顺带把 this->density 也初始化了
@@ -115,16 +115,14 @@ void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &ch
 
 
 /* ===========================================================
- *                init_nodeMPos
+ *                init_nodeMPos_and_nodePPosOff
  * -----------------------------------------------------------
  */
-void MapField::init_nodeMPos(){
+void MapField::init_nodeMPos_and_nodePPosOff(){
 
     double    freq  { 13.0 };
     double    pnX   {};
     double    pnY   {};
-    size_t   idxX  {};
-    size_t   idxY  {};
 
     pnX = simplex_noise2(   this->FDPos.x * freq, 
                             this->FDPos.y * freq ); //- [-1.0, 1.0]
@@ -137,11 +135,22 @@ void MapField::init_nodeMPos(){
     pnY = pnY * 71.0 + 100.0; //- [71.0, 171.0]
         tprAssert( (pnX>0) && (pnY>0) );
 
-    idxX = cast_2_size_t(floor(pnX)) % ENTS_PER_FIELD; //- mod
-    idxY = cast_2_size_t(floor(pnY)) % ENTS_PER_FIELD; //- mod
+    //-- nodeMPos --//
+    //-- [0,3] 
+    size_t idxX = cast_2_size_t(floor(pnX)) % (ENTS_PER_FIELD-1);
+    size_t idxY = cast_2_size_t(floor(pnY)) % (ENTS_PER_FIELD-1);
 
     this->nodeMPos = this->get_mpos() + IntVec2{ static_cast<int>(idxX), 
                                                 static_cast<int>(idxY) };
+
+    //-- nodePPosOff --//
+    size_t pposOffRange = 16;  // [-8,8]
+    size_t halfPposOffRange = 8;
+    size_t pX = cast_2_size_t(floor(pnX)) % pposOffRange;
+    size_t pY = cast_2_size_t(floor(pnY)) % pposOffRange;
+    this->nodePPosOff.set(  static_cast<int>( pX - halfPposOffRange ),
+                            static_cast<int>( pY - halfPposOffRange ) ); // [-8,8]
+    
 }
 
 

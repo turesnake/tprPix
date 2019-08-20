@@ -32,8 +32,10 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
         archive.playerGoId = static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 2) );
         archive.playerGoMPos.x =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 3);
         archive.playerGoMPos.y =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 4);
-        archive.maxGoId        =  static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
-        archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 6);
+        archive.playerGoPPosOff.x =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 5);
+        archive.playerGoPPosOff.y =  sqlite3_column_int(stmt_select_all_from_table_gameArchive, 6);
+        archive.maxGoId        =  static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 7) );
+        archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 8);
         //---
         container_.insert({ archive.id, archive }); //- copy
     }
@@ -70,6 +72,13 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &archive_ ){
 
     sqlite3_bind_int_inn_( ":playerGoMPosY", 
                             archive_.playerGoMPos.y );
+
+    sqlite3_bind_int_inn_( ":playerGoPPosOffX", 
+                            archive_.playerGoPPosOff.x );
+
+    sqlite3_bind_int_inn_( ":playerGoPPosOffY", 
+                            archive_.playerGoPPosOff.y );
+
 
     sqlite3_bind_int64_inn_( ":maxGoId", 
                             static_cast<i64_t>(archive_.maxGoId) );

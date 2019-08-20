@@ -38,7 +38,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(   goSpecId_t specID_,
+void Wheat::init_in_autoMod(    goSpecId_t specID_,
                                 GameObj &goRef_,
 					            double fieldWeight_,
 					            const MapAltitude &alti_,
@@ -59,11 +59,11 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
                                 "wheat", 
                                 tprGeneral::nameString_combine("front_", pvtBp->wheatId, "_idle"),
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, -7.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
-                                true, //- isCollide
-                                gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
+                                true //- isCollide
                                 );
 
         //------- 制作 mesh 实例: "back" -------
@@ -71,11 +71,11 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
                                 "wheat", 
                                 tprGeneral::nameString_combine("back_", pvtBp->wheatId, "_idle"),
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 7.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
-                                false, //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
-                                gameObjs::apply_isFlipOver( fieldWeight_ ) //- isFlipOver
+                                false //- isCollide -- 不参加碰撞检测，也不会写到 mapent上
                                 );
 
     //================ bind callback funcs =================//
@@ -92,7 +92,7 @@ void Wheat::init_in_autoMod(   goSpecId_t specID_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos();
+    goRef_.goPos.init_currentDPos( );
     //...
 
     //--- MUST ---

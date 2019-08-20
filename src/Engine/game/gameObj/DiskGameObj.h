@@ -10,6 +10,9 @@
 #ifndef TPR_DISK_GAME_OBJ_H
 #define TPR_DISK_GAME_OBJ_H
 
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
 //------------------- Engine --------------------//
 #include "IntVec.h"
 #include "GameObjType.h"
@@ -20,6 +23,8 @@ public:
     goid_t         goid     {}; //- u64   
     goSpecId_t     goSpecId {}; //- u32
     IntVec2        mpos     {}; //- int, int
+    IntVec2        pposOff  {}; //- int, int
+    //glm::dvec2     dpos     {}; //- double, double
     //...
 
 };

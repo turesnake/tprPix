@@ -15,6 +15,7 @@
 #include "Script/gameObjs/majorGos/BigMan.h"
 #include "Script/gameObjs/majorGos/OneEyeBoy.h"
 #include "Script/gameObjs/majorGos/Crab.h"
+#include "Script/gameObjs/oth/PlayerGoCircle.h"
 
 //---------- Script : gameObjs : majorGos : trees -------------//
 #include "Script/gameObjs/majorGos/trees/OakTree.h"
@@ -23,7 +24,7 @@
 //---------- Script : gameObjs : bush --------------------//
 #include "Script/gameObjs/bush/Wheat.h"
 #include "Script/gameObjs/bush/SingleStone_Desert.h"
-#include "Script/gameObjs/bush/Leaf_DForest.h"
+//#include "Script/gameObjs/bush/Leaf_DForest.h"
 
 
 //---------- Script : gameObjs : mapSurface --------------------//

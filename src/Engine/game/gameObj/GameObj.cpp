@@ -14,17 +14,18 @@
 #include "Chunk.h"
 #include "esrc_colliEntSet.h"
 #include "esrc_chunk.h"
-
+#include "esrc_shader.h"
 
 //#include "tprDebug.h" //- tmp
-
 
 /* ===========================================================
  *                         init
  * -----------------------------------------------------------
  */
-void GameObj::init( const IntVec2 &mpos_ ){
+void GameObj::init( const IntVec2 mpos_,
+                    const IntVec2 pposOff_ ){
     this->goPos.init(   mpos_,
+                        pposOff_,
                         std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
                         std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
                             // now, this->rootColliEntHeadPtr == nullptr;
@@ -41,14 +42,14 @@ void GameObj::init( const IntVec2 &mpos_ ){
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
 void GameObj::creat_new_goMesh( const std::string &name_,
-                                        const std::string &animFrameSetName_,
-                                        const std::string &actionName_,
-                                        RenderLayerType    layerType_,
-                                        const glm::vec2   pposOff_,
-                                        double             off_z_,
-                                        bool              isVisible_,
-                                        bool              isCollide_,
-                                        bool              isFlipOver_ ){
+                                    const std::string &animFrameSetName_,
+                                    const std::string &actionName_,
+                                    RenderLayerType    layerType_,
+                                    ShaderProgram     *pixShaderPtr_,
+                                    const glm::vec2   pposOff_,
+                                    double             off_z_,
+                                    bool              isVisible_,
+                                    bool              isCollide_ ){
 
     tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
     this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
@@ -56,6 +57,8 @@ void GameObj::creat_new_goMesh( const std::string &name_,
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 
+    gmesh.set_pic_shader_program( pixShaderPtr_ );
+    gmesh.set_shadow_shader_program( &esrc::get_rect_shader() ); //- 暂时自动选配 tmp
 
     //-- goMesh pos in go --
     gmesh.set_pposOff(pposOff_);
@@ -64,7 +67,6 @@ void GameObj::creat_new_goMesh( const std::string &name_,
     //-- flags --//
     gmesh.isVisible = isVisible_;
     gmesh.isCollide = isCollide_;
-    gmesh.isFlipOver = isFlipOver_;
 
     //-- bind_animAction --//
     gmesh.bind_animAction( animFrameSetName_, actionName_ );
@@ -230,7 +232,6 @@ void GameObj::debug(){
         << "\nisActive: "          << ( isActive ? "true" : "false" )
         << "\nisDirty: "           << ( isDirty ? "true" : "false" )
         << "\nisControlByPlayer: " << ( isControlByPlayer ? "true" : "false" )
-        << "\nisFlipOver: "        << ( isFlipOver ? "true" : "false" )
         << endl;
 
     cout << "binary.size() = " << binary.size()

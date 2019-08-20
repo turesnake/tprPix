@@ -40,10 +40,12 @@ void ChildMesh::refresh_scale_auto(){
     this->scale_val.z = 1.0f;
 
     //---- 亦或时 才左右翻转 ----//
+    /*
     const auto &goRef = this->goMeshRef.get_goCRef();
     if( goRef.isFlipOver != this->goMeshRef.isFlipOver ){
         this->scale_val.x *= -1.0f;
     }
+    */
 }
 
 
@@ -66,9 +68,11 @@ void ChildMesh::refresh_translate(){
     //--- set translate_val ---//
     this->translate_val.x = goCurrentFPos.x + (float)pposOff.x - (float)vRef.x;
     //---- 亦或时 才左右翻转 ----//
+    /*
     if( goRef.isFlipOver != this->goMeshRef.isFlipOver ){
         this->translate_val.x += this->goMeshRef.get_animAction_pixNum_per_frame().x;
     }
+    */
 
     if( this->isPic == true ){
         this->translate_val.y = goCurrentFPos.y + 
@@ -133,7 +137,9 @@ void ChildMesh::draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 某个 着色器程序 ---------
-    esrc::get_rect_shader().send_mat4_model_2_shader( this->mat4_model );
+    //esrc::get_rect_shader().send_mat4_model_2_shader( this->mat4_model );
+    tprAssert( this->shaderPtr != nullptr );
+    this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 
     //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）
@@ -173,6 +179,7 @@ void ChildMesh::playerGoIndication_draw(){
 
     //---------- 将 model矩阵的值传入 某个 着色器程序 ---------
     esrc::get_playerGoIndication_shader().send_mat4_model_2_shader( this->mat4_model );
+                    // tmp ...
 
     //----------- 绑定 本GameObjMesh对象 唯一的 texture ------------   
     //-- 单次 draw call 最多支持 32 个 texture。（完全够用）

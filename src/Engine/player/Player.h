@@ -42,6 +42,9 @@ public:
                     // 不再长期持有 goPtr，而是持有 goid，随用随取。
                     // 忽略这点性能损失
 
+    goid_t   playerGoCircle_goid {NULLID};
+                    // 这个 go实例 伴随 player实例 整个生命周期
+
 private:
 };
 

@@ -8,6 +8,9 @@
 #ifndef TPR_GAME_ARCHIVE_H
 #define TPR_GAME_ARCHIVE_H
 
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 #include "ID_Manager.h" 
@@ -24,6 +27,8 @@ public:
     //- player.go -
     goid_t         playerGoId     {}; //- u64   
     IntVec2        playerGoMPos   {}; //- int, int
+    IntVec2        playerGoPPosOff {};//- int, int
+    //glm::dvec2     playerGoDPos   {}; //- double, double
     //- GameObj -
     goid_t         maxGoId        {}; //- u64
 

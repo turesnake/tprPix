@@ -206,8 +206,10 @@ void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
                                                             fieldRef.get_weight() );
 
         if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
+
             gameObjs::create_a_Go(  goSpecId,
                                     fieldRef.get_nodeMPos(),
+                                    fieldRef.get_nodePPosOff(),
                                     fieldRef.get_weight(),
                                     fieldRef.get_nodeMapAlti(), //- tmp 有问题
                                     fieldRef.get_density() );

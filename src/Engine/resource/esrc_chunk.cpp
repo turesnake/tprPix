@@ -125,6 +125,29 @@ MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ ){
  * -----------------------------------------------------------
  */
 Chunk &get_chunkRef( chunkKey_t key_ ){
+
+        
+        if( get_chunkMemState(key_) != ChunkMemState::Active ){
+            IntVec2 chunkMPos = chunkKey_2_mpos(key_);
+            cout << "kkkkkkkkk---chunkMPos: " << chunkMPos.x 
+                << ", " << chunkMPos.y 
+                << endl;
+
+            switch (get_chunkMemState(key_)){
+                case ChunkMemState::NotExist: cout << "NotExist"; break;
+                case ChunkMemState::Active: cout << "Active"; break;
+                case ChunkMemState::OnCreating: cout << "OnCreating"; break;
+                case ChunkMemState::OnReleasing: cout << "OnReleasing"; break;
+                case ChunkMemState::WaitForRelease: cout << "WaitForRelease"; break;
+            
+                default:
+                    break;
+            }
+
+
+
+        }
+        
         tprAssert( get_chunkMemState(key_) == ChunkMemState::Active );
     return *(chunk_inn::chunks.at(key_).get());
 }

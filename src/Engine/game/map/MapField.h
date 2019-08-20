@@ -100,6 +100,9 @@ public:
     inline const IntVec2 &get_nodeMPos() const {
         return this->nodeMPos;
     }
+    inline const IntVec2 &get_nodePPosOff() const {
+        return this->nodePPosOff;
+    }
     inline const occupyWeight_t &get_occupyWeight() const {
         return this->occupyWeight;
     }
@@ -108,7 +111,7 @@ public:
     }
 
 private:
-    void init_nodeMPos();
+    void init_nodeMPos_and_nodePPosOff();
     void init_occupyWeight();
     void assign_field_to_4_ecoObjs();
 
@@ -121,6 +124,10 @@ private:
 
     IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
                                 //- 绝对 mpos 坐标。
+                                //  实际上，为了避免相邻 field 的 go紧密相连，
+                                //  nodeMPos 只在 [0,3] 之间分配
+    IntVec2     nodePPosOff {}; //- 对 nodeMPos 的一个补充，用于在map 种植 go 时，pos更加随机性
+                                //  区域范围 [-8,8]
 
     glm::dvec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用

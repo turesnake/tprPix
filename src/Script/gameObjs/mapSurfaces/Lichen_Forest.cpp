@@ -56,11 +56,11 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
                                 "lichen_Forest", 
                                 tprGeneral::nameString_combine("", pvtBp->lichen_ForestId, "_idle"),
                                 RenderLayerType::MapSurfaces,
+                                &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
-                                true, //- isCollide
-                                gameObjs::apply_isFlipOver(fieldWeight_) //- isFlipOver
+                                true //- isCollide
                                 );
 
     //================ bind callback funcs =================//
@@ -76,7 +76,7 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
     //================ go self vals =================//
         
     //-- 务必在 mesh:"root" 之后 ---   
-    goRef_.goPos.init_currentDPos();
+    goRef_.goPos.init_currentDPos( );
     //...    
 
     //--- MUST ---

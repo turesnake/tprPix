@@ -79,6 +79,13 @@ public:
         this->off_z = off_z_;
     }
 
+    inline void set_pic_shader_program( ShaderProgram *sp_ ){
+        this->picMesh.set_shader_program( sp_ );
+    }
+    inline void set_shadow_shader_program( ShaderProgram *sp_ ){
+        this->shadowMesh.set_shader_program( sp_ );
+    }
+
     //------------- get -------------//    
     inline const FramePos &get_currentFramePos() const {
         return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
@@ -121,7 +128,7 @@ public:
                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
-    bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+    //bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
     bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值

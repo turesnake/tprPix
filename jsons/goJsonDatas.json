@@ -51,6 +51,23 @@
     "pub.MP": 50
   },
   {
+    "gameObjType": "playerGoCircle",
+    "specID": 21,
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "Movable",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isDoPass": true,
+    "isBePass": true,
+    "speedLvl": 5,
+    "alti": 0,
+    "weight": 1,
+    "pub.HP": 1,
+    "pub.MP": 1
+  },
+  {
     "gameObjType": "crab",
     "specID": 3,
     "parentID": 0,

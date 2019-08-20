@@ -62,13 +62,14 @@ class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_AFFECT     = std::function<void(GameObj&,GameObj&)>;
 public:
     //-- factory --
-    static std::shared_ptr<GameObj> factory( goid_t goid_, const IntVec2 &mpos_ ){
+    static std::shared_ptr<GameObj> factory(    goid_t goid_, 
+                                                const IntVec2 mpos_,
+                                                const IntVec2 pposOff_ ){
         std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
         //newSPtr->anti_bind_shared_from_this();
-        goSPtr->init( mpos_ );
+        goSPtr->init( mpos_, pposOff_ );
         return goSPtr;
     }
-
 
     void reCollect_chunkKeys();
    
@@ -83,22 +84,25 @@ public:
                             const std::string &animFrameSetName_,
                             const std::string &actionName_,
                             RenderLayerType    layerType_,
+                            ShaderProgram     *pixShaderPtr_,
                             const glm::vec2   pposOff_,
                             double             off_z_,
                             bool              isVisible_,
-                            bool              isCollide_,
-                            bool              isFlipOver_ );
+                            bool              isCollide_ );
 
     void init_check(); //- call in end of go init 
 
     void signUp_newGO_to_mapEnt();
 
-    void render_all_goMesh_for_playerGoIndication();
+    //void render_all_goMesh_for_playerGoIndication();
 
     //-- 目前被 Crawl 使用 --
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
         this->direction = dir_;
         this->isFlipOver = (this->direction==GODirection::Left); 
+
+                        // 在新视觉风格中，可能被取代....
+
     }
 
     //- 只有在 1.go实例init阶段  2.go发生变形时 ，才能调用次函数
@@ -226,6 +230,12 @@ public:
                                 //  而应由 move／动画播放器 自动改写
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
+                                // ----
+
+                                // 在新视觉风格中，可能被取代....
+
+
+
     
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
@@ -239,7 +249,8 @@ private:
         collision( *this )
         {}
 
-    void init( const IntVec2 &mpos_ );//-- MUST --
+    void init(  const IntVec2 mpos_,
+                const IntVec2 pposOff_ );//-- MUST --
 
     void anti_bind_shared_from_this(){
         //this->move.bind_weakPtr( weak_from_this() );

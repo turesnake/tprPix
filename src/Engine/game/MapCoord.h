@@ -7,7 +7,7 @@
  *   mapEntPos / pixPos  2-axis
  *  --------------------------
  *  some kinds of pos:
- *   FPos   - float   pos (pix)
+ *   FPos   - float   pos (pix) 
  *   DPos   - double  pos (pix)
  *	 PPos   - pixel   pos
  *	 MPos   - mapEnt  pos
@@ -36,7 +36,7 @@
  * -----------------------------------------------------------
  * --  放在前面，因为会被 class MapCoord 用到
  */
-inline const IntVec2 mpos_2_ppos( const IntVec2 &mpos_ ){
+inline IntVec2 mpos_2_ppos( const IntVec2 &mpos_ ){
     return (mpos_*PIXES_PER_MAPENT);
 }
 
@@ -112,12 +112,12 @@ public:
     inline const IntVec2 &get_ppos() const{
         return this->ppos;
     }
-    inline const glm::dvec2 get_midDPos() const { //- ppos of the mid_box
+    inline glm::dvec2 get_midDPos() const { //- ppos of the mid_box
         IntVec2 ppos_l = mpos_2_ppos( this->mpos );
         return glm::dvec2{   static_cast<double>(ppos_l.x + HALF_PIXES_PER_MAPENT),
                             static_cast<double>(ppos_l.y + HALF_PIXES_PER_MAPENT) };
     }
-    inline const glm::dvec2 get_dpos() const {
+    inline glm::dvec2 get_dpos() const {
         IntVec2 ppos_l = mpos_2_ppos( this->mpos );
         return glm::dvec2{ static_cast<double>(ppos_l.x), 
                           static_cast<double>(ppos_l.y) };
@@ -161,10 +161,10 @@ inline bool operator < ( const MapCoord &a_, const MapCoord &b_ ){
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline const MapCoord operator + ( const MapCoord &a_, const MapCoord &b_ ){
+inline MapCoord operator + ( const MapCoord &a_, const MapCoord &b_ ){
     return MapCoord { a_.get_mpos() + b_.get_mpos() };
 }
-inline const MapCoord operator - ( const MapCoord &a_, const MapCoord &b_ ){
+inline MapCoord operator - ( const MapCoord &a_, const MapCoord &b_ ){
     return MapCoord { a_.get_mpos() - b_.get_mpos() };
 }
 
@@ -174,21 +174,21 @@ inline const MapCoord operator - ( const MapCoord &a_, const MapCoord &b_ ){
  * -----------------------------------------------------------
  * -- 参数 ppos_ 必须对齐于 mapent坐标系
  */
-inline const IntVec2 ppos_2_mpos( const IntVec2 &ppos_ ){
+inline IntVec2 ppos_2_mpos( const IntVec2 &ppos_ ){
     tprAssert( (ppos_.x%PIXES_PER_MAPENT==0) && (ppos_.y%PIXES_PER_MAPENT==0) );
     return floorDiv( ppos_, static_cast<double>(PIXES_PER_MAPENT) );
 }
 
-inline const IntVec2 anyPPos_2_mpos( const IntVec2 &anyPPos_ ){
+inline IntVec2 anyPPos_2_mpos( const IntVec2 &anyPPos_ ){
     return floorDiv( anyPPos_, static_cast<double>(PIXES_PER_MAPENT) );
 }
 
 /* ===========================================================
  *                   dpos_2_mcpos  [宽松]    IMPORTANT !!!
  * -----------------------------------------------------------
- * -- 参数 fpos_ 可以为任意值。 无需对齐于 mapent坐标系
+ * -- 参数 dpos_ 可以为任意值。 无需对齐于 mapent坐标系
  */
-inline const MapCoord dpos_2_mcpos( const glm::dvec2 &dpos_ ){
+inline MapCoord dpos_2_mcpos( const glm::dvec2 &dpos_ ){
     //-- double除法
     double fx = dpos_.x / static_cast<double>(PIXES_PER_MAPENT);
     double fy = dpos_.y / static_cast<double>(PIXES_PER_MAPENT);
@@ -197,7 +197,7 @@ inline const MapCoord dpos_2_mcpos( const glm::dvec2 &dpos_ ){
                         static_cast<int>(floor(fy)) };
 }
 
-inline const IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ){
+inline IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ){
     //-- double除法
     double fx = dpos_.x / static_cast<double>(PIXES_PER_MAPENT);
     double fy = dpos_.y / static_cast<double>(PIXES_PER_MAPENT);
@@ -206,13 +206,25 @@ inline const IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ){
                     static_cast<int>(floor(fy)) };
 }
 
+inline IntVec2 dpos_2_ppos( const glm::dvec2 &dpos_ ){
+    return IntVec2{ static_cast<int>(floor( dpos_.x )), 
+                    static_cast<int>(floor( dpos_.y )) };
+}
+
+
+inline glm::dvec2 calc_dpos_from_mpos_and_pposOff( const IntVec2 mpos_, const IntVec2 pposOff_ ){
+    IntVec2 ppos = mpos_2_ppos(mpos_) + pposOff_;
+    return glm::dvec2{  static_cast<double>(ppos.x),
+                        static_cast<double>(ppos.y) };
+}
+
 
 /* ===========================================================
  *                mpos_2_midPPos
  * -----------------------------------------------------------
  * -- 获得 mapent 中间pixel 的 ppos 
  */
-inline const IntVec2 mpos_2_midPPos( const IntVec2 &mpos_ ){
+inline IntVec2 mpos_2_midPPos( const IntVec2 &mpos_ ){
     return IntVec2{ mpos_.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
                     mpos_.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
 }

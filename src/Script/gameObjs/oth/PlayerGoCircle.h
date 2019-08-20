@@ -1,14 +1,14 @@
 /*
- * ========================= Leaf_DForest.h ==========================
+ * ===================== PlayerGoCircle.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.11
+ *                                        CREATE -- 2019.08.19
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   2~3 片竖立的叶片 bush，DForest
+ *   
  * ----------------------------
  */
-#ifndef TPR_LEAF_DARK_FOREST_H
-#define TPR_LEAF_DARK_FOREST_H
+#ifndef TPR_PLAYER_GO_CIRCLE_H
+#define TPR_PLAYER_GO_CIRCLE_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -26,18 +26,16 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
-struct Leaf_DForest_PvtBinary{
-    size_t   leaf_DForestId {0};
-            //- 简单的从 几种款式中，随机挑选一款 [0,7]
-    //===== padding =====//
-    //...
+/*
+struct PlayerGoCircle_PvtBinary{
+    int   tmp {};
 };
+*/
 
 
-class Leaf_DForest{
+class PlayerGoCircle{
 public:
-    Leaf_DForest() = default;
+    PlayerGoCircle() = default;
 
     //--- 延迟init ---//
     static void init_in_autoMod(   goSpecId_t specID_,
@@ -49,12 +47,14 @@ public:
 private:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  Leaf_DForest_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-        return reinterpret_cast<Leaf_DForest_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    /*
+    inline static  PlayerGoCircle_PvtBinary *rebind_ptr( GameObj &goRef_ ){
+        return reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
+    */
                             
-    static void bind( GameObj &goRef_ );
-    static void rebind( GameObj &goRef_ );
+    //static void bind( GameObj &goRef_ );
+    //static void rebind( GameObj &goRef_ );
 
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
@@ -63,8 +63,6 @@ private:
 };
 
 
-
 }//------------- namespace gameObjs: end ----------------
 #endif 
-
 

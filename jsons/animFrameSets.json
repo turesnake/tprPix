@@ -120,6 +120,36 @@
     ]
 },
 {
+    "name": "playerGoCircle",
+    "pngs": [
+        {
+            "path": "/playerGoCircle/playerGoCircle_1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  3,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "AnimActionParams":
+                [
+                    {
+                        "actionName": "move_idle",
+                        "type": "singleFrame",
+                        "lFrameIdx": 0
+                    },
+                    {
+                        "actionName": "selfRotate",
+                        "type": "multiFrame_SameTimeStep",
+                        "actionType": "Cycle",
+                        "isOrder":    true,
+                        "lFrameIdxs": [ 0,1,2,3,4,5,6,7,8,9,10,11 ],
+                        "timeStep" : 5
+                    }
+                ]
+        }
+    ]
+},
+{
     "name": "crab",
     "pngs": [
         {
@@ -281,29 +311,6 @@
     "pngs": [
         {
             "path": "/singleStone_Desert/singleStone_Desert.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  2,
-            "totalFrameNum": 8,
-            "isHaveShadow": false,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName.prefix": "",
-                        "actionName.midNum": 8,
-                        "actionName.suffix": "_idle",
-                        "type": "singleFrame_batch"
-                    }
-                ]
-        }
-    ]
-},
-{
-    "name": "leaf_DForest",
-    "pngs": [
-        {
-            "path": "/leaf_DForest/leaf_DForest.P.png",
             "frameNum.col":  4,
             "frameNum.row":  2,
             "totalFrameNum": 8,

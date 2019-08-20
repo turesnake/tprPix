@@ -144,6 +144,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/gameObjs/majorGos/trees/*.cpp
                         src/Script/gameObjs/spawners/*.cpp
                         src/Script/gameObjs/mapSurfaces/*.cpp
+                        src/Script/gameObjs/oth/*.cpp
                         src/Script/json/*.cpp
                         src/Script/resource/*.cpp
                         src/Script/UIs/*.cpp 

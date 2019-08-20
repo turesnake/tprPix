@@ -32,18 +32,21 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -- tmp 
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
-                    const IntVec2 &mpos_,
+                    const IntVec2 mpos_, 
+                    const IntVec2 pposOff_,
 					double fieldWeight_,
 					const MapAltitude &alti_,
 					const Density &density_ ){
 
-    goid_t goid = esrc::insert_new_gameObj( mpos_ );
+    goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
 
     //-- set some static datas from JSON --
     assemble_goJsonData_2_newGo( goSpecId_, goRef );
+
+    // 用 mpos, pposoff 合成 dpos 
 
     ssrc::call_goInit_func( goSpecId_,
                             goRef,
@@ -52,6 +55,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
                             density_ );
 
     //------------------------------//
+    //goRef.init_currentChunkKey();
     goRef.signUp_newGO_to_mapEnt();
     esrc::insert_2_goids_active( goid );
     
@@ -59,18 +63,19 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 }
 
 
-
 /* ===========================================================
  *                  rebind_a_disk_Go       [tmp]
  * -----------------------------------------------------------
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
-void rebind_a_disk_Go( const DiskGameObj &diskGo_,
+void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
+                        const IntVec2 mpos_, 
+                        const IntVec2 pposOff_,
                         double fieldWeight_,
 					    const MapAltitude &alti_,
 					    const Density &density_  ){
 
-    esrc::insert_a_disk_gameObj( diskGo_.goid, diskGo_.mpos );
+    esrc::insert_a_disk_gameObj( diskGo_.goid, mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
@@ -91,10 +96,10 @@ void rebind_a_disk_Go( const DiskGameObj &diskGo_,
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
+    //goRef.init_currentChunkKey();
     goRef.signUp_newGO_to_mapEnt();
     esrc::insert_2_goids_active( diskGo_.goid );
 }
-
 
 
 }//------------- namespace gameObjs: end ----------------

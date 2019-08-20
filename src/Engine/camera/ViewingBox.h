@@ -35,6 +35,7 @@ public:
             case RenderLayerType::GoShadows:   return goShadows_zOff;
             case RenderLayerType::Debug:       return debug_zOff;
             case RenderLayerType::UIs:         return UIs_zOff;
+            case RenderLayerType::PlayerGoIndication:  return playerGoIndication_zOff;
             case RenderLayerType::MajorGoes: 
                 tprAssert(0);
                 return 0.0; //- never reach

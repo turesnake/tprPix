@@ -173,9 +173,6 @@ void sceneRenderLoop_begin(){
 }
 
 
-
-
-
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
 
@@ -219,7 +216,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             esrc::get_gameSeed().init( target_baseSeed );
 
             //-- gameTime --
-            double newGameTime { 0.0 };
+            double newGameTime { 8.0 };
             esrc::get_timer().start_record_gameTime( newGameTime );
 
             //-- max goid --
@@ -228,7 +225,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             GameObj::id_manager.set_max_id(maxGoId);
 
                 //-- 随便定个 mpos 
-                IntVec2    newGoMPos { 8,0 };
+                IntVec2    newGoMPos    { 0,0 };
+                IntVec2    newGoPPosOff { 0,0 };
 
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::build_9_chunks( newGoMPos );
@@ -240,21 +238,23 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
                 goSpecId_t newGoSpecId = ssrc::get_goSpecId( "oneEyeBoy" );
 
-                goid_t newGoId = gameObjs::create_a_Go(   newGoSpecId,
+                goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoMPos,
+                                                            newGoPPosOff,
                                                             0.0,
                                                             MapAltitude {},
                                                             Density {} );
                         cout << "---koko---koko---" << endl;
 
 
-                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos } );
+                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos, newGoPPosOff } );
                 //-- db::table_gameArchive --
                 
                 esrc::get_gameArchive() = GameArchive {   archiveId, 
                                                     target_baseSeed,
                                                     newGoId,
                                                     newGoMPos,
+                                                    newGoPPosOff,
                                                     GameObj::id_manager.get_max_id(), //- chunk 生成后，maxId 变了
                                                     newGameTime  
                                                     };
@@ -288,6 +288,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             db::atom_select_one_from_table_goes( targetGameArchive.playerGoId, diskGo );
 
                 //-- tmp
+                /*
                 if( diskGo.mpos != targetGameArchive.playerGoMPos ){
                     cout << "diskGo.mpos: " <<  diskGo.mpos.x 
                         << ", " <<  diskGo.mpos.y
@@ -295,6 +296,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                         << ", " << targetGameArchive.playerGoMPos.y 
                         << endl;
                 }
+                */
 
                 tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
             
@@ -303,7 +305,10 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...
+
             gameObjs::rebind_a_disk_Go( diskGo,
+                                        targetGameArchive.playerGoMPos,
+                                        targetGameArchive.playerGoPPosOff,
                                         0.0,
                                         MapAltitude {},
                                         Density {} );

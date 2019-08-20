@@ -62,7 +62,7 @@ std::weak_ptr<GameObj> get_goWPtr( goid_t id_ ){
  *                  get_goRef
  * -----------------------------------------------------------
  * -- 返回 go实例 引用
- * -- 通过此接口，外部只有权 读取改写 go实例，无权删除 go实例，无关长期持有 go实例指针
+ * -- 通过此接口，外部只有权 读取改写 go实例，无权删除 go实例，无法长期持有 go实例指针
  */
 GameObj &get_goRef( goid_t id_ ){
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
@@ -80,8 +80,6 @@ void erase_the_go( goid_t id_ ){
     size_t eraseNum = go_inn::gameObjs.erase(id_);
     tprAssert( eraseNum == 1 );
 }
-
-
 
 
 
@@ -117,11 +115,11 @@ void insert_2_goids_active( goid_t id_ ){
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_gameObj( const IntVec2 &mpos_ ){
+goid_t insert_new_gameObj( const IntVec2 mpos_, const IntVec2 pposOff_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
         tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
-    go_inn::gameObjs.insert({ goid, GameObj::factory( goid, mpos_ ) });
+    go_inn::gameObjs.insert({ goid, GameObj::factory( goid, mpos_, pposOff_ ) });
     return goid;
 }
 
@@ -131,10 +129,10 @@ goid_t insert_new_gameObj( const IntVec2 &mpos_ ){
  * -- 从 db 中读取一个 go数据，根据此数据，来重建一个 mem态 go 实例
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
-void insert_a_disk_gameObj( goid_t goid_, const IntVec2 &mpos_ ){
+void insert_a_disk_gameObj( goid_t goid_, const IntVec2 mpos_, const IntVec2 pposOff_ ){
 
         tprAssert( go_inn::gameObjs.find(goid_) == go_inn::gameObjs.end() );//- must not exist
-    go_inn::gameObjs.insert({ goid_, GameObj::factory(goid_, mpos_) });
+    go_inn::gameObjs.insert({ goid_, GameObj::factory(goid_,mpos_,pposOff_) });
 }
 
 /* ===========================================================

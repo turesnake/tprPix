@@ -50,11 +50,11 @@ void BigMan::init_in_autoMod(  goSpecId_t specID_,
                                 "bigMan", 
                                 "move_idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true, //- isVisible
-                                true, //- isCollide
-                                false //- isFlipOver
+                                true  //- isCollide
                                 );
         
     //================ bind callback funcs =================//
@@ -71,7 +71,7 @@ void BigMan::init_in_autoMod(  goSpecId_t specID_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos();
+    goRef_.goPos.init_currentDPos( );
     //...    
 
     //--- MUST ---

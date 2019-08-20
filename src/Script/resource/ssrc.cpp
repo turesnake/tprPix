@@ -151,14 +151,6 @@ void call_goInit_func(  goSpecId_t id_,
  *                 insert_2_goInit_funcs
  * -----------------------------------------------------------
  */
-/*
-void insert_2_goInit_funcs( goSpecId_t goSpecId_,
-                            const F_GO_INIT &functor_ ){
-    ssrc_inn::goInit_funcs.insert({ goSpecId_, functor_ });
-}
-*/
-
-
 void insert_2_goInit_funcs( const std::string &goTypeName_,
                             const F_GO_INIT &functor_ ){
     goSpecId_t id = ssrc::get_goSpecId( goTypeName_ );

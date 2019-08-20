@@ -21,6 +21,11 @@
 #include "esrc_gameObj.h" 
 
 
+//-------------------- Script --------------------//
+#include "Script/resource/ssrc.h"
+#include "Script/gameObjs/create_goes.h"
+
+
 using namespace std::placeholders;
 
 #include "tprDebug.h" //- tmp
@@ -41,19 +46,85 @@ GameObj &Player::get_goRef() const {
  */
 void Player::bind_go( goid_t goid_ ){
 
+
+    //--- first bind ---//
+    if( this->goid == NULLID ){
+
+        //-- bind new go --//
+        tprAssert( goid_ != NULLID );
+        GameObj &newGoRef = esrc::get_goRef( goid_ );
+        newGoRef.isControlByPlayer = true;
+        this->goid = goid_;
+
+        //-- create playerGoCircle --//
+        /*
+        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
+                                                            newGoRef.goPos.get_currentDPos(),
+                                                            0.0,
+                                                            MapAltitude {},
+                                                            Density {} );
+        */
+
+    }else{
+        //-- 解绑旧go --//
+        GameObj &oldGoRef = esrc::get_goRef( this->goid );
+        oldGoRef.isControlByPlayer = false;
+
+        //=== 检测 chunk 中的 go数据 是否被 实例化到 mem态 ===//
+        //...
+
+        //-- bind new go --//
+        tprAssert( goid_ != NULLID );
+        GameObj &newGoRef = esrc::get_goRef( goid_ );
+        newGoRef.isControlByPlayer = true;
+        this->goid = goid_;
+
+        //-- reset playerGoCircle mpos --//
+
+
+
+
+    }
+
+
+
+
+                    //------
+
+
+    //-- 若是第一次调用，生成 playerGoCircle 实例 --//
+    /*
+    if( this->goid == NULLID ){
+        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
+                                                            IntVec2{0,0},
+                                                            0.0,
+                                                            MapAltitude {},
+                                                            Density {} );
+    }
+    */
+
     //-- 解绑旧go --//
+    /*
     if( this->goid != NULLID ){
         GameObj &oldGoRef = esrc::get_goRef( this->goid );
         oldGoRef.isControlByPlayer = false;
     }
+    */
 
-    //=== 检测 section 中的 go数据 是否被 实例化到 mem态 ===//
+    //=== 检测 chunk 中的 go数据 是否被 实例化到 mem态 ===//
     //...
 
+    /*
     tprAssert( goid_ != NULLID );
     GameObj &newGoRef = esrc::get_goRef( goid_ );
     newGoRef.isControlByPlayer = true;
     this->goid = goid_;
+    */
+
+    //-- 同步 playerGoCircle 的 pos --//
+    //...
+
+
 }
 
 

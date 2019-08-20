@@ -147,16 +147,21 @@ void sceneRenderLoop_world(){
     //    camera --> shader: view, projection
     //--------------------------------//
     esrc::get_camera().RenderUpdate();
-    //--- 
+    //--- rect_shader ---
     ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
     rect_shaderRef.use_program();
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
-    //--- 
+    //--- playerGoIndication_shader ---
     ShaderProgram &playerGoIndication_shaderRef = esrc::get_playerGoIndication_shader();
     playerGoIndication_shaderRef.use_program();
     playerGoIndication_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     playerGoIndication_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+    //--- playerGoCircle_shader ---
+    ShaderProgram &playerGoCircle_shaderRef = esrc::get_playerGoCircle_shader();
+    playerGoCircle_shaderRef.use_program();
+    playerGoCircle_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    playerGoCircle_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //====================================//
     //          -- RENDER --

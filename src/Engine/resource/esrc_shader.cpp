@@ -20,6 +20,7 @@ namespace shader_inn {//-------- namespace: shader_inn --------------//
 
     std::unique_ptr<ShaderProgram> rect_shaderUPtr;
     std::unique_ptr<ShaderProgram> playerGoIndication_shaderUPtr;
+    std::unique_ptr<ShaderProgram> playerGoCircle_shaderUPtr;
 
 
 }//------------- namespace: shader_inn end --------------//
@@ -32,9 +33,11 @@ namespace shader_inn {//-------- namespace: shader_inn --------------//
 ShaderProgram &get_rect_shader(){
     return *(shader_inn::rect_shaderUPtr.get());
 }
-
 ShaderProgram &get_playerGoIndication_shader(){
     return *(shader_inn::playerGoIndication_shaderUPtr.get());
+}
+ShaderProgram &get_playerGoCircle_shader(){
+    return *(shader_inn::playerGoCircle_shaderUPtr.get());
 }
 
 
@@ -53,7 +56,6 @@ void init_shaders(){
     shader_inn::rect_shaderUPtr->add_new_uniform( "view" );
     shader_inn::rect_shaderUPtr->add_new_uniform( "projection" );
     shader_inn::rect_shaderUPtr->add_new_uniform( "texture1" );
-    shader_inn::rect_shaderUPtr->use_program();
 
 
     //---- playerGoIndication_sahder ----//
@@ -64,7 +66,15 @@ void init_shaders(){
     shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "view" );
     shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "projection" );
     shader_inn::playerGoIndication_shaderUPtr->add_new_uniform( "texture1" );
-    shader_inn::playerGoIndication_shaderUPtr->use_program();
+
+    //---- playerGoCircle_sahder ----//
+    shader_inn::playerGoCircle_shaderUPtr = std::make_unique<ShaderProgram>();
+    shader_inn::playerGoCircle_shaderUPtr->init( "/playerGoCircle.vs", "/playerGoCircle.fs" ); 
+    shader_inn::playerGoCircle_shaderUPtr->use_program();
+    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "model" );
+    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "view" );
+    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "projection" );
+    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "texture1" );
 
 
 }

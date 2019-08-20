@@ -84,11 +84,13 @@ inline const std::string sql_create_table_gameArchive  {
     "id               INT     PRIMARY KEY     NOT NULL," \
     "baseSeed         INT     NOT NULL, " \
     /* player */
-    "playerGoId       INTEGER  NOT NULL, " \
-    "playerGoMPosX    INT         NOT NULL,  " \
-    "playerGoMPosY    INT         NOT NULL,  " \
+    "playerGoId       INTEGER    NOT NULL, " \
+    "playerGoMPosX    INT     NOT NULL,  " \
+    "playerGoMPosY    INT     NOT NULL,  " \
+    "playerGoPPosOffX    INT     NOT NULL,  " \
+    "playerGoPPosOffY    INT     NOT NULL,  " \
     /* GameObj */
-    "maxGoId          INTEGER     NOT NULL,  " \
+    "maxGoId          INTEGER    NOT NULL,  " \
     /* time */
     "gameTime         DOUBLE     NOT NULL  " \
     ");" \
@@ -107,6 +109,8 @@ inline const std::string sql_select_all_from_table_gameArchive  {
         "playerGoId,   "\
         "playerGoMPosX, "\
         "playerGoMPosY,  "\
+        "playerGoPPosOffX, "\
+        "playerGoPPosOffY,  "\
         "maxGoId,  "\
         "gameTime  "\
         "FROM table_gameArchive;" 
@@ -115,8 +119,8 @@ inline sqlite3_stmt *stmt_select_all_from_table_gameArchive {nullptr};
 
 
 inline const std::string sql_insert_or_replace_to_table_gameArchive  {
-    "INSERT OR REPLACE INTO table_gameArchive (id, baseSeed, playerGoId, playerGoMPosX, playerGoMPosY, maxGoId, gameTime ) " \
-    "VALUES ( :id, :baseSeed, :playerGoId, :playerGoMPosX, :playerGoMPosY, :maxGoId, :gameTime );" 
+    "INSERT OR REPLACE INTO table_gameArchive (id, baseSeed, playerGoId, playerGoMPosX, playerGoMPosY, playerGoPPosOffX, playerGoPPosOffY, maxGoId, gameTime ) " \
+    "VALUES ( :id, :baseSeed, :playerGoId, :playerGoMPosX, :playerGoMPosY, :playerGoPPosOffX, :playerGoPPosOffY, :maxGoId, :gameTime );" 
     };
 inline sqlite3_stmt *stmt_insert_or_replace_to_table_gameArchive {nullptr};
 
@@ -144,7 +148,9 @@ inline const std::string sql_create_table_goes  {
     "goid           INTEGER     PRIMARY KEY     NOT NULL," \
     "goSpecId       INT         NOT NULL,  " \
     "mposX          INT         NOT NULL,  " \
-    "mposY          INT         NOT NULL  " \
+    "mposY          INT         NOT NULL,  " \
+    "pposOffX       INT         NOT NULL,  " \
+    "pposOffY       INT         NOT NULL  " \
     ");" 
     };
 
@@ -152,15 +158,17 @@ inline const std::string sql_select_one_from_table_goes  {
     "SELECT  "\
         "goSpecId, "\
         "mposX,  "\
-        "mposY  "\
+        "mposY,  "\
+        "pposOffX,  "\
+        "pposOffY  "\
         "FROM table_goes WHERE goid = ?;" 
     };
 inline sqlite3_stmt *stmt_select_one_from_table_goes {nullptr};
 
 
 inline const std::string sql_insert_or_replace_to_table_goes  {
-    "INSERT OR REPLACE INTO table_goes ( goid, goSpecId, mposX, mposY ) " \
-    "VALUES ( :goid, :goSpecId, :mposX, :mposY );" 
+    "INSERT OR REPLACE INTO table_goes ( goid, goSpecId, mposX, mposY, pposOffX, pposOffY ) " \
+    "VALUES ( :goid, :goSpecId, :mposX, :mposY, :pposOffX, :pposOffY );" 
     };
 inline sqlite3_stmt *stmt_insert_or_replace_to_table_goes {nullptr};
 
