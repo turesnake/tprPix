@@ -19,14 +19,26 @@ namespace VAOVBO_inn {//------------------ namespace: VAOVBO_inn ---------------
     //----------------------------//
     // 图元 定点数据 模版. 2*2 像素(半径扩展法)
     // 左下坐标系
-    std::vector<float> rectBase {
+    std::vector<float> rectBase_old1 {  //- 以 xy面 左下角 为锚点
         //      坐标            textuel 
         0.0f,  0.0f, 0.0f,  0.0f, 0.0f,
         1.0f,  0.0f, 0.0f,  1.0f, 0.0f,
         1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
+        //---
         1.0f,  1.0f, 0.0f,  1.0f, 1.0f,
         0.0f,  1.0f, 0.0f,  0.0f, 1.0f,
         0.0f,  0.0f, 0.0f,  0.0f, 0.0f
+    };
+
+    std::vector<float> rectBase {       //- 以 xy面 中心 为锚点
+        //      坐标            textuel 
+        -0.5f,  -0.5f, 0.0f,  0.0f, 0.0f,
+         0.5f,  -0.5f, 0.0f,  1.0f, 0.0f,
+         0.5f,   0.5f, 0.0f,  1.0f, 1.0f,
+        //---
+         0.5f,   0.5f, 0.0f,  1.0f, 1.0f,
+        -0.5f,   0.5f, 0.0f,  0.0f, 1.0f,
+        -0.5f,  -0.5f, 0.0f,  0.0f, 0.0f
     };
     //- rectBase 的 总字节数
     GLsizeiptr VBO_size = static_cast<GLsizeiptr>(sizeof(float) * rectBase.size());

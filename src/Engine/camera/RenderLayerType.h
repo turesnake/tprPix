@@ -17,12 +17,12 @@ enum class RenderLayerType{
     Chunks,
     WaterAnim,
     MapSurfaces,
+    UnderGoShadows,
     GoShadows,
     Debug,
     MajorGoes,
+    AboveMajorGoes,
     //....
-
-    PlayerGoIndication, //- not be used yet
     UIs
 };
 

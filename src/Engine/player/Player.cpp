@@ -57,13 +57,20 @@ void Player::bind_go( goid_t goid_ ){
         this->goid = goid_;
 
         //-- create playerGoCircle --//
-        /*
+        // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
-                                                            newGoRef.goPos.get_currentDPos(),
+                                                            newGoRef.goPos.get_currentMPos(),
+                                                            newGoRef.goPos.calc_current_pposOff(),
                                                             0.0,
                                                             MapAltitude {},
                                                             Density {} );
-        */
+        
+        //-- playerGoCircle 的数据同步 --
+        GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
+        playerGoCircleRef.move.set_speedLvl( newGoRef.move.get_speedLvl() ); //- 同步 speedLv
+                                        //-- 当 go 自行加速，这个同步就失效了 ...
+                                        //   未修改 ...
+        
 
     }else{
         //-- 解绑旧go --//

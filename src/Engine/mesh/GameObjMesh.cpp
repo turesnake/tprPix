@@ -32,16 +32,31 @@ void GameObjMesh::bind_animAction(  const std::string &animFrameSetName_,
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
 
     this->isHaveShadow = this->animActionPtr->get_isHaveShadow();
+
+    //-- childMeshes --//
+    // -- 需要但尚未存在的 chileMesh 会被及时生成
+    // -- 不需要但已经存在的 chileMesh 会被及时销毁
+    if( this->picMeshUPtr == nullptr ){
+        this->picMeshUPtr = std::make_unique<ChildMesh>(true, *this);
+    }
+    if( this->isHaveShadow ){
+        if( this->shadowMeshUPtr == nullptr ){
+            this->shadowMeshUPtr = std::make_unique<ChildMesh>(false, *this);
+        }
+    }else{
+        if( this->shadowMeshUPtr != nullptr ){
+            this->shadowMeshUPtr = nullptr;
+        }
+    }
 }
 
-
 /* ===========================================================
- *                  RenderUpdate
+ *                RenderUpdate_auto
  * -----------------------------------------------------------
  * -- 针对本实例包含的 pic/shadow mesh, 执行必要的 update
  * -- 然后把它们 压入 对应的 renderpool 中
  */
-void GameObjMesh::RenderUpdate(){
+void GameObjMesh::RenderUpdate_auto(){
 
     //---------------//
     //  animAction
@@ -55,57 +70,30 @@ void GameObjMesh::RenderUpdate(){
         return;
     }
 
-    this->picMesh.refresh_translate();
-    this->picMesh.refresh_scale_auto();
+    this->picMeshUPtr->refresh_scale_auto();
+    this->picMeshUPtr->refresh_translate();
 
-            //  需要一次判断，是否为 不透明／半透明
-            //  未实现...
-            //  目前假设，所有 pic 图元都是 不透明的
-
-    esrc::insert_2_renderPool_goMeshs_opaque(   this->picMesh.get_render_z(), 
-                                                this->picMesh.getnc_ChildMeshPtr() );
+    //  不透明／半透明    
+    if( this->animActionPtr->get_isOpaque() ){
+        esrc::insert_2_renderPool_goMeshs_opaque(   this->picMeshUPtr->get_render_z(), 
+                                                    this->picMeshUPtr->getnc_ChildMeshPtr() );
+    }else{
+        esrc::insert_2_renderPool_goMeshs_translucent(  this->picMeshUPtr->get_render_z(), 
+                                                        this->picMeshUPtr->getnc_ChildMeshPtr() );
+    }
 
     //---------------//
     //   shadow
     //---------------//
     if( this->isHaveShadow ){
-        this->shadowMesh.refresh_translate();
-        this->shadowMesh.refresh_scale_auto();
+        this->shadowMeshUPtr->refresh_scale_auto();
+        this->shadowMeshUPtr->refresh_translate();
         // shadow 一律是 半透明的 
-        esrc::insert_2_renderPool_goMeshs_translucent(  this->shadowMesh.get_render_z(), 
-                                                        this->shadowMesh.getnc_ChildMeshPtr() );
+        esrc::insert_2_renderPool_goMeshs_translucent(  this->shadowMeshUPtr->get_render_z(), 
+                                                        this->shadowMeshUPtr->getnc_ChildMeshPtr() );
     }
 }
 
-
-/* ===========================================================
- *           playerGoIndication_RenderUpdateImm
- * -----------------------------------------------------------
- * -- 暂未被使用 ......
- */
-void GameObjMesh::playerGoIndication_RenderUpdateImm(){
-
-
-    //---------------//
-    //      pic
-    //---------------//
-    if( this->isVisible == false ){
-        return;
-    }
-
-    //---------------//
-    //   只有可以代表 playerGo 的图元，才会被渲染
-    //---------------//
-    //... 未实现...
-
-    //this->picMesh.refresh_translate();
-    //this->picMesh.refresh_scale_auto();
-
-    tprAssert( this->picRenderLayerType == RenderLayerType::MajorGoes );
-
-    this->picMesh.playerGoIndication_draw();
-
-}
 
 
 

@@ -215,6 +215,7 @@ std::shared_ptr<AnimActionParam> singleFrame( const Value &actionParamEnt_ ){
 
     std::string actionName {};
     size_t      lFrameIdx  {};
+    bool        isOpaque   {};
     {//--- actionName ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName", json_inn::JsonValType::String );
         actionName = a.GetString();
@@ -223,7 +224,12 @@ std::shared_ptr<AnimActionParam> singleFrame( const Value &actionParamEnt_ ){
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdx", json_inn::JsonValType::Uint64 );
         lFrameIdx = cast_2_size_t(a.GetUint64());
     }
-    return std::make_shared<AnimActionParam>( actionName, lFrameIdx );
+    {//--- isOpaque ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOpaque", json_inn::JsonValType::Bool );
+        isOpaque = a.GetBool();
+    }
+
+    return std::make_shared<AnimActionParam>( actionName, lFrameIdx, isOpaque );
 }
 
 /* ===========================================================
@@ -237,6 +243,7 @@ std::vector<std::shared_ptr<AnimActionParam>> singleFrame_batch( const Value &ac
     std::string suffix {};
     std::string actionName {};
     std::vector<std::shared_ptr<AnimActionParam>> params {};
+    bool        isOpaque   {};
     {//--- actionName.prefix ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.prefix", json_inn::JsonValType::String );
         prefix = a.GetString();
@@ -249,10 +256,14 @@ std::vector<std::shared_ptr<AnimActionParam>> singleFrame_batch( const Value &ac
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName.midNum", json_inn::JsonValType::Uint64 );
         num = cast_2_size_t(a.GetUint64());
     }
+    {//--- isOpaque ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOpaque", json_inn::JsonValType::Bool );
+        isOpaque = a.GetBool();
+    }
     //---
     for( size_t i=0; i<num; i++ ){
         actionName = tprGeneral::nameString_combine( prefix, i, suffix );
-        params.push_back( std::make_shared<AnimActionParam>(actionName,i) );
+        params.push_back( std::make_shared<AnimActionParam>(actionName,i,isOpaque) );
     }
     return params;
 }
@@ -266,6 +277,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
     std::string         actionName {};
     AnimActionType      actionType {};
     bool                isOrder {};
+    bool                isOpaque   {};
     std::vector<size_t> lFrameIdxs {};
     std::vector<size_t> timeSteps {}; //- only for DiffTimeStep
     size_t              timeStep  {}; //- only for SameTimeStep
@@ -282,6 +294,10 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOrder", json_inn::JsonValType::Bool );
         isOrder = a.GetBool();
     }
+    {//--- isOpaque ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOpaque", json_inn::JsonValType::Bool );
+        isOpaque = a.GetBool();
+    }
     {//--- lFrameIdxs [] ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdxs", json_inn::JsonValType::Array );
         for( SizeType i=0; i<a.Size(); i++ ){//- foreach lFrameIdx
@@ -297,6 +313,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
         return std::make_shared<AnimActionParam>(   actionName,
                                                     actionType,
                                                     isOrder,
+                                                    isOpaque,
                                                     lFrameIdxs,
                                                     timeStep );
     }else{
@@ -309,6 +326,7 @@ std::shared_ptr<AnimActionParam> multiFrame( const Value &actionParamEnt_, bool 
         return std::make_shared<AnimActionParam>(   actionName,
                                                     actionType,
                                                     isOrder,
+                                                    isOpaque,
                                                     lFrameIdxs,
                                                     timeSteps );
     }

@@ -55,6 +55,8 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
 
     IntVec2     tmpEntMPos {};
 
+    bool isRootCollide = doGoRef.get_goMeshRef("root").isCollide;
+
     //----------------------
     //IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
         
@@ -70,7 +72,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
     //------------------------------//
     // 检测当前移动方向的 所有 addsEnt
     //------------------------------//
-    if( doGoRef.get_goMeshRef("root").isCollide ){
+    if( isRootCollide ){
 
         currentGoAltiRange.set_by_addAlti( doCehRef.lGoAltiRange, doGoRef.goPos.get_alti() ); 
 
@@ -143,10 +145,14 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
         }//-- each add EntOff
     }
 
-
     //-- 若确认 “无法穿过”，直接退出本函数 --
     if( isObstruct==true ){
         return true;
+    }
+
+    //-- 不参与碰撞的go。不需要 注销和登记 collient
+    if( isRootCollide == false ){
+        return false;
     }
 
     //-- 若确认本回合移动 “可以穿过”，

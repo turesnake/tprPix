@@ -41,7 +41,7 @@ void GameObj::init( const IntVec2 mpos_,
  * -- 通过一组参数来实现 gomesh 的初始化。
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
-void GameObj::creat_new_goMesh( const std::string &name_,
+GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     const std::string &animFrameSetName_,
                                     const std::string &actionName_,
                                     RenderLayerType    layerType_,
@@ -55,11 +55,16 @@ void GameObj::creat_new_goMesh( const std::string &name_,
     this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
+    //-- bind_animAction --//
+    gmesh.bind_animAction( animFrameSetName_, actionName_ ); // Must Before Everything!!!
+
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 
     gmesh.set_pic_shader_program( pixShaderPtr_ );
-    gmesh.set_shadow_shader_program( &esrc::get_rect_shader() ); //- 暂时自动选配 tmp
-
+    if( gmesh.isHaveShadow ){
+        gmesh.set_shadow_shader_program( &esrc::get_rect_shader() ); //- 暂时自动选配 tmp
+    }
+    
     //-- goMesh pos in go --
     gmesh.set_pposOff(pposOff_);
     gmesh.set_off_z( static_cast<float>(off_z_));
@@ -68,13 +73,12 @@ void GameObj::creat_new_goMesh( const std::string &name_,
     gmesh.isVisible = isVisible_;
     gmesh.isCollide = isCollide_;
 
-    //-- bind_animAction --//
-    gmesh.bind_animAction( animFrameSetName_, actionName_ );
-
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
         this->rootColliEntHeadPtr = &gmesh.get_currentFramePos().get_colliEntHead();
     }
+
+    return gmesh;
 }
 
 /* ===========================================================
@@ -103,7 +107,7 @@ void GameObj::init_check(){
 void GameObj::reCollect_chunkKeys(){
     //-- only check rootGoMesh --
     if( this->get_goMeshRef("root").isCollide == false ){
-        return;
+        //return;
     }
 
     IntVec2      cesMPos = this->get_rootCES_leftBottom_MPos();

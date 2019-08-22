@@ -24,8 +24,6 @@
 #include <glm_inn/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
-
-
 inline glm::dvec2 glm_vec2_2_dvec2( const glm::vec2 fv_ ){
     return glm::dvec2{ static_cast<double>(fv_.x),
                         static_cast<double>(fv_.y) };

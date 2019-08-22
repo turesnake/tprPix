@@ -50,6 +50,7 @@ public:
         this->scale_val = v_;
         this->isMat4Change = true;
     }
+    
     //------- get -------//
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
     inline const float &get_render_z() const {

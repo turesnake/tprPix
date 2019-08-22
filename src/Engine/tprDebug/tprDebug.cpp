@@ -27,7 +27,7 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 namespace _inn {//-------- namespace: _inn ----------//
 
     //-- 简易开关，用来快速关闭 mes显示功能
-    bool  is_mapEntSlice_show  {true}; 
+    bool  is_mapEntSlice_show  {false}; 
     bool  is_pointPic_show     {false};
 
     std::vector<Mesh> renderPool_mapEntSlices {};
@@ -118,13 +118,13 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &(esrc::get_rect_shader()) );
+    meshRef.set_scale(glm::vec3{ static_cast<float>(PIXES_PER_MAPENT), 
+                                static_cast<float>(PIXES_PER_MAPENT), 
+                                1.0f });
     meshRef.set_translate(glm::vec3{ fpos.x,
                                      fpos.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
-    meshRef.set_scale(glm::vec3{ static_cast<float>(PIXES_PER_MAPENT), 
-                                static_cast<float>(PIXES_PER_MAPENT), 
-                                1.0f });
 }
 
 /* ===========================================================
@@ -145,13 +145,13 @@ void insert_new_pointPic( const glm::vec2 &fpos_ ){
     meshRef.init( texName_pointPic );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &(esrc::get_rect_shader()) );
+    meshRef.set_scale(glm::vec3{ static_cast<float>(pointPicSize.x), 
+                                static_cast<float>(pointPicSize.y), 
+                                1.0f });
     meshRef.set_translate(glm::vec3{ fpos_.x,
                                      fpos_.y,
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
-    meshRef.set_scale(glm::vec3{ static_cast<float>(pointPicSize.x), 
-                                static_cast<float>(pointPicSize.y), 
-                                1.0f });
 }
 
 

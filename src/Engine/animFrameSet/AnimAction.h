@@ -79,11 +79,13 @@ public:
     AnimActionParam(const std::string     &actionName_,
                     const AnimActionType  &type_,
                     bool                   isOrder_,
+                    bool                   isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_ ):
         actionName(actionName_),
         actionType( type_ ),
         isOrder( isOrder_ ),
+        isOpaque( isOpaque_ ),
         isTimeStepsManualSet(true),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
@@ -95,11 +97,13 @@ public:
     AnimActionParam(const std::string    &actionName_,
                     const AnimActionType &type_,
                     bool                  isOrder_,
+                    bool                  isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep ):
         actionName(actionName_),
         actionType( type_ ),
         isOrder( isOrder_ ),
+        isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
         defaultTimeStep(_defaultTimeStep)
         {
@@ -109,10 +113,12 @@ public:
 
     //-- 单帧action 专用 构造器 --
     AnimActionParam(    const std::string &actionName_,
-                        size_t  lFrameIdx_ ):
+                        size_t  lFrameIdx_,
+                        bool    isOpaque_ ):
         actionName(actionName_),
         actionType( AnimActionType::Idle ), //- 默认type
         isOrder( true ), //- 随便写一个值，反正用不上
+        isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
@@ -124,6 +130,7 @@ public:
     std::string     actionName;
     AnimActionType  actionType;
     bool            isOrder;
+    bool            isOpaque;                //- 是否为 不透明图元
     bool            isTimeStepsManualSet;    //- 若为 false，参数 timeSteps_ 可为空容器
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
@@ -162,10 +169,12 @@ public:
         pvtData_.isLastFrame = false;
     }
 
-
     //----- get -----//
     inline bool get_isHaveShadow() const {
         return this->isHaveShadow;
+    }
+    inline bool get_isOpaque() const {
+        return this->isOpaque;
     }
     inline const IntVec2 &get_pixNum_per_frame() const {
         return this->pixNum_per_frame;
@@ -209,6 +218,7 @@ private:
 
     //===== flags =====//
     bool   isHaveShadow {};
+    bool   isOpaque     {};
 
 };
 

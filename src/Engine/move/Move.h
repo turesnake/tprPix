@@ -27,8 +27,9 @@ class Collision;
 
 enum class MoveType : int {
     Crawl,
-    Drag //- 类似 camera的运动方式：go快速向 目标pos 靠拢
-               //  被用于 UI 图标运动
+    Drag    //- 类似 camera的运动方式：go快速向 目标pos 靠拢
+            //  被用于 UI 图标运动
+            //  接近率 足够高 的 drag，可以用来模拟 locate 操作
 };
 
 inline MoveType str_2_MoveType( const std::string name_ ){
@@ -104,8 +105,7 @@ private:
     void crawl_renderUpdate();
     void drag_renderUpdate();
 
-    void renderUpdate_inn(  const DirAxes &newDirAxes_,
-                            const glm::dvec2 &speedV_ );
+    void renderUpdate_inn( const glm::dvec2 &speedV_ );
 
     //===== vals =====//
     GameObj      &goRef;

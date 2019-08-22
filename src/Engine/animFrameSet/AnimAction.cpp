@@ -37,6 +37,7 @@ void AnimAction::init(  const AnimFrameSet *animFrameSetPtr_,
     this->pixNum_per_frame = pixNum_per_frame_;
     this->totalFrameNum = param_.lFrameIdxs.size();
     this->actionType = param_.actionType;
+    this->isOpaque = param_.isOpaque;
 
     //-----------------//
     //    frameIdxs

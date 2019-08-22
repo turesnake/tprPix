@@ -94,7 +94,7 @@ void Move::crawl_renderUpdate(){
     speedV *= SpeedLevel_2_val(this->speedLvl) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
     //---- crawl -----//
-    this->renderUpdate_inn( this->currentDirAxes, speedV );
+    this->renderUpdate_inn(  speedV );
 }
 
 
@@ -119,6 +119,12 @@ void Move::drag_renderUpdate(){
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
     glm::dvec2 dposOff = this->targetDPos - this->goRef.goPos.get_currentDPos();
+
+    //- 距离过小时直接不 drag 
+    if( (abs(dposOff.x)<1.0) && (abs(dposOff.y)<1.0) ){
+        return;
+    }
+
     glm::dvec2 speedV = glm::normalize( dposOff ); //- 等效于 DirAxes 的计算。
     speedV *=   SpeedLevel_2_val(this->speedLvl) *
                 60.0 * esrc::get_timer().get_smoothDeltaTime();
@@ -131,7 +137,7 @@ void Move::drag_renderUpdate(){
     }
 
     //---- crawl -----//
-    this->renderUpdate_inn( this->currentDirAxes, speedV );
+    this->renderUpdate_inn( speedV );
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -144,8 +150,7 @@ void Move::drag_renderUpdate(){
  *               renderUpdate_inn
  * -----------------------------------------------------------
  */
-void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
-                                const glm::dvec2 &speedV_ ){
+void Move::renderUpdate_inn( const glm::dvec2 &speedV_ ){
 
     GameObjPos &goPosRef = this->goRef.goPos;
 
@@ -171,17 +176,12 @@ void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
         isObstruct = this->goRef.detect_collision( NineBox_XY_2_Idx(nb) ); // MAJOR !!!! 
+                                    // rootGoMesh.isCollide 会在这个函数内检查
     }
 
+    //-- 更新 goPos --
     if( isObstruct == false ){
-        goPosRef.accum_currentDPos_2( speedV_ );
-        if( isCross ){
-            goPosRef.accum_currentMCPos_2(nb);
-                        //-- 使用 NineBox 来传递参数，
-                        //   决定了当前模式下的 最大速度，不能超过 1_mapent_per_frame 
-                        //   想要突破这个限制，就要 进一步 完善 collision 函数
-                        //   让它支持，一次检测 数个 mapent
-        }
+        goPosRef.accum_current_dpos_and_mcpos( speedV_, nb, isCross );
     }
     
     //---------------------------//
@@ -226,7 +226,6 @@ void Move::renderUpdate_inn(    const DirAxes &newDirAxes_,
         //-- 这个检测，最好在，所有工作都结束后，
         //   此时的结果最准确
         {//-- 打印 当前帧的 ces 区域 --- 
-            //IntVec2 currentMPos = this->goRef.goPos.get_currentMPos();
             const ColliEntHead &doCehRef = this->goRef.get_rootColliEntHeadRef();
             const ColliEntSet &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
             MapCoord cesMCPos;

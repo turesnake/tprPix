@@ -30,7 +30,7 @@ void main()
     //FragColor = vec4( 0.2, 0.6, 0.9, 1.0 );
     //FragColor = vec4( texColor.rgb, 0.2 ); //- 半透明
     //FragColor = vec4( texColor.rgb * 0.5, 1.0);
-    FragColor = vec4( 0.87, 0.42, 0.42, 0.8); //- 实心颜色
+    FragColor = vec4( 0.87, 0.42, 0.42, 0.6); //- 实心颜色
     //FragColor = vec4(  texColor.rgb, 0.9 );
 
 

@@ -26,6 +26,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <string>
+#include <memory>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -35,6 +36,7 @@
 #include "Collision.h" 
 #include "ChildMesh.h"
 #include "AnimAction.h"
+#include "RotateScaleData.h"
 
 
 //--- need ---//
@@ -50,13 +52,12 @@ class GameObj;
 class GameObjMesh{
 public:
     explicit GameObjMesh( GameObj &goRef_ ):
-        goRef(goRef_),
-        picMesh(    true,  *this),
-        shadowMesh( false, *this)
-        {}
+        goRef(goRef_)
+        {
+            // picMeshUPtr,shadowMeshUPtr 将被延迟到 bind_animAction() 中创建销毁
+        }
 
-    void RenderUpdate();
-    void playerGoIndication_RenderUpdateImm();
+    void RenderUpdate_auto();
 
     void bind_animAction(   const std::string &animFrameSetName_,
                             const std::string &actionName_  );
@@ -80,10 +81,12 @@ public:
     }
 
     inline void set_pic_shader_program( ShaderProgram *sp_ ){
-        this->picMesh.set_shader_program( sp_ );
+        tprAssert( this->picMeshUPtr );
+        this->picMeshUPtr->set_shader_program( sp_ );
     }
     inline void set_shadow_shader_program( ShaderProgram *sp_ ){
-        this->shadowMesh.set_shader_program( sp_ );
+        tprAssert( this->shadowMeshUPtr );
+        this->shadowMeshUPtr->set_shader_program( sp_ );
     }
 
     //------------- get -------------//    
@@ -122,6 +125,7 @@ public:
         return this->goRef;
     }
 
+    RotateScaleData rotateScaleData {}; // 管理所有 childMesh rotate 操作
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据
@@ -133,12 +137,13 @@ public:
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
     bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
                                     // 仅作用于 pic, [被 ChildMesh 使用]
+
 private:
     //======== vals ========//
     GameObj      &goRef;
 
-    ChildMesh   picMesh;
-    ChildMesh   shadowMesh; //- 当某个 gomesh实例 没有 shadow时，此数据会被空置
+    std::unique_ptr<ChildMesh> picMeshUPtr    {nullptr};
+    std::unique_ptr<ChildMesh> shadowMeshUPtr {nullptr}; // 不需要时会被及时释放
 
     glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）
@@ -150,6 +155,9 @@ private:
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
                     // 这个值 已经被累加到 z值中.
+                    // ----
+                    // 如果想要一个浮在所有 MajorGo 前方的图像，可以设置 off_z 为 500.0
+                    // 如果想要一个 沉在所有 MajorGo 后方的图像，可设置为 -500.0
 
     float            picFixedZOff {}; //- 方便快速访问
     RenderLayerType  picRenderLayerType;

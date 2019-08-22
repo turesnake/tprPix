@@ -30,11 +30,8 @@ public:
         {}
 
     void draw();
-    void playerGoIndication_draw();
 
     inline void set_shader_program( ShaderProgram *sp_ ) { this->shaderPtr=sp_; }
-    inline void set_rotate_z( float z_ )                 { this->rotate_z=z_; }
-    inline void set_scale( const glm::vec3 &v_ )         { this->scale_val=v_; }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
@@ -72,9 +69,8 @@ private:
 
     //-- 位移／旋转／缩放 变化向量。
     glm::vec3 translate_val  {};    
-    float     rotate_z       {0.0f};  //- 只有 z轴旋转角度
-    glm::vec3 scale_val      {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 缩放比例（用半径来缩放）
-
+    glm::vec2 scale_frameSZ    {glm::vec2(1.0f, 1.0f)};       //- 仅仅表达 图元帧 的缩放比例
+    glm::vec3 scale_total      {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 最终传入 mat4 的值            
     //======== flags ========//  
     bool    isPic {true}; //-- pic / shadow
 };

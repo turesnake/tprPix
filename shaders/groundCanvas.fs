@@ -46,6 +46,7 @@ float simplex_noise2( vec2 v );
 void main()
 {
     //prepare();
+    //discard;
     FragColor = vec4( 0.98, 0.96, 0.85, 1.0 );
 }
 

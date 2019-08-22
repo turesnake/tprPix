@@ -53,6 +53,7 @@ void scriptMain(){
     esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
 
     esrc::get_behaviour().signUp_Starts( std::bind( &parse_from_animFrameSetJsonFile ) ); // MUST after load_colliEntSets()
+                            //  这个函数是不是应该放到 main 中去 ...
 
 
 }

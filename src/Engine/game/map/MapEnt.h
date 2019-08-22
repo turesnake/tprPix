@@ -63,7 +63,7 @@ struct Fst_diskMapEnt{
                         //            所以，只要显示 is_covered（被一个 major go覆盖）
                         //            就意味着 这一格是 go head.
                         //           （一个 go 可能同时踩住数个 mapEnt, 但只有一块，是 起始单位）
-                        //           （起始单位 通常是 go.currentFPos 所在的 ces 的 左下角 mapent）
+                        //           （起始单位 通常是 go.currentDPos 所在的 ces 的 左下角 mapent）
                         //           （以此来，精确定位 go 的摆放位置）
                         //            一个 major_go 占据数个单位的 mapent，但只有一个 go head
                         //

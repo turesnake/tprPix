@@ -46,7 +46,7 @@ public:
                             // 和 ces.centerCompass 是一摸一样的
 
     glm::dvec2  off_from_rootAnchor_2_mapEntMid {};
-                            //  将 goPos.currentFPos 加上此值，就能获得 rootAnchor 所在 mapent中心 的dpos
+                            //  将 goPos.currentDPos 加上此值，就能获得 rootAnchor 所在 mapent中心 的dpos
                             //  用于 新版的 crawl 位移系统
                             //  ----
                             //  一个固定值，原本应该存储在 ces中，为了此值的访问频率很高，故存储于此

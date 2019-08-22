@@ -156,6 +156,7 @@ void realloc_active_goes(){
         GameObj &goRef = esrc::get_goRef(id);
 
         v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
+
         distance = v.x * v.x + v.y * v.y;
         //-- 将离开 激活圈的 go 移动到 激活组 --
         if( distance > range ){
@@ -191,6 +192,7 @@ void realloc_inactive_goes(){
         GameObj &goRef = esrc::get_goRef(id);
 
         v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
+
         distance = v.x * v.x + v.y * v.y;
         //-- 将进入 激活圈的 go 移动到 激活组 --
         if( distance <= range ){

@@ -28,14 +28,17 @@ public:
 
     static double get_renderLayerZOff( RenderLayerType type_ ){
         switch(type_){
-            case RenderLayerType::Ground:      return ground_zOff;
-            case RenderLayerType::Chunks:      return chunks_zOff;
-            case RenderLayerType::WaterAnim:   return waterAnim_zOff;
-            case RenderLayerType::MapSurfaces: return mapSurfaces_zOff;
-            case RenderLayerType::GoShadows:   return goShadows_zOff;
-            case RenderLayerType::Debug:       return debug_zOff;
+            case RenderLayerType::Ground:         return ground_zOff;
+            case RenderLayerType::Chunks:         return chunks_zOff;
+            case RenderLayerType::WaterAnim:      return waterAnim_zOff;
+            case RenderLayerType::MapSurfaces:    return mapSurfaces_zOff;
+            case RenderLayerType::UnderGoShadows: return underGoShadows_zOff;
+            case RenderLayerType::GoShadows:      return goShadows_zOff;
+            case RenderLayerType::Debug:          return debug_zOff;
+            case RenderLayerType::AboveMajorGoes: return aboveMajorGoes_zOff;
+            //-----
             case RenderLayerType::UIs:         return UIs_zOff;
-            case RenderLayerType::PlayerGoIndication:  return playerGoIndication_zOff;
+            //-----
             case RenderLayerType::MajorGoes: 
                 tprAssert(0);
                 return 0.0; //- never reach
@@ -74,6 +77,10 @@ public:
         // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
         // 在未来，也许会放到 waterAnim 下方...
         
+    static double  underGoShadows_zOff;
+        // 阴影层 下方的一层，
+        // 目前放置 playerGoCircle 的一部分
+
     static double  goShadows_zOff;
         // go阴影 图层。
         
@@ -82,10 +89,9 @@ public:
     
     //...
 
-    static double  playerGoIndication_zOff;
-        // 在 MajorGoes 的上方，再次渲染 player go，半透明的
-        // 从而让玩家可以知道 playerGo 的位置 
-        // 一个最简单的方案
+    static double  aboveMajorGoes_zOff;
+        // 在 MajorGoes 上方的一层
+        // 目前放置 playerGoCircle 的一部分
 
     static double  UIs_zOff;
         // UIs 专用 图层
@@ -100,16 +106,19 @@ inline bool   ViewingBox::isFullScreen {false};
 
 inline double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
 
-inline double  ViewingBox::ground_zOff        { 10.0 };
-inline double  ViewingBox::chunks_zOff        { 20.0 };
-inline double  ViewingBox::waterAnim_zOff     { 30.0 };
-inline double  ViewingBox::mapSurfaces_zOff   { 40.0 };
-inline double  ViewingBox::goShadows_zOff     { 50.0 };
-inline double  ViewingBox::debug_zOff         { 60.0 };
+inline double  ViewingBox::ground_zOff         { 10.0 };
+inline double  ViewingBox::chunks_zOff         { 20.0 };
+inline double  ViewingBox::waterAnim_zOff      { 30.0 };
+inline double  ViewingBox::mapSurfaces_zOff    { 40.0 };
+inline double  ViewingBox::underGoShadows_zOff { 50.0 };
+inline double  ViewingBox::goShadows_zOff      { 60.0 };
 
 //...
-inline double  ViewingBox::playerGoIndication_zOff  { 1890.0 };
-inline double  ViewingBox::UIs_zOff                 { 1900.0 };
+inline double  ViewingBox::debug_zOff         { 100.0 };
+
+//...
+inline double  ViewingBox::aboveMajorGoes_zOff  { 1890.0 };
+inline double  ViewingBox::UIs_zOff             { 1900.0 };
 
 
 #endif

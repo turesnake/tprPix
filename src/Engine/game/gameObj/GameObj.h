@@ -80,7 +80,7 @@ public:
         return &(this->pvtBinary.at(0));
     }
     
-    void creat_new_goMesh(  const std::string &name_,
+    GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             const std::string &animFrameSetName_,
                             const std::string &actionName_,
                             RenderLayerType    layerType_,
@@ -154,11 +154,10 @@ public:
         return  this->goPos.get_currentMPos() -
                 this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos;
     }
-    
 
     inline void render_all_goMesh(){
         for( auto &pairRef : this->goMeshs ){
-            pairRef.second->RenderUpdate();
+            pairRef.second->RenderUpdate_auto();
         }
     }
 

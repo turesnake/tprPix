@@ -95,8 +95,8 @@ glm::mat4 &Camera::update_mat4_projection(){
     float oh = 0.5f * static_cast<float>(ViewingBox::gameSZ.y);  //- 纵向边界半径（像素）
 
     //------ relative: zNear / zFar --------
-    // 基于 currentFPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
-    // 基于 currentFPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
+    // 基于 currentDPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
+    // 基于 currentDPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
     // 两者都是 定值（无需每帧变化）
     float zNear_relative  = 0.0f;  //- 负数也接受
     float zFar_relative   = static_cast<float>(ViewingBox::z);

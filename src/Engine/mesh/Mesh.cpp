@@ -77,6 +77,11 @@ void Mesh::update_mat4_model(){
 
     //----- translate: regular ------
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
+
+    //-- 修正：图元帧 左下角 -> 中心
+    this->translate_val.x += this->scale_val.x * 0.5f;
+    this->translate_val.y += this->scale_val.y * 0.5f;
+
     this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
 
     //----- not support rotate yet ------
