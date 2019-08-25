@@ -139,11 +139,9 @@ bool find_from_goInit_funcs( goSpecId_t goSpecId_ ){
  */
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-					    double fieldWeight_,
-					    const MapAltitude &alti_,
-					    const Density &density_  ){
+                        const ParamBinary &dyParams_  ){
     
-    ssrc_inn::goInit_funcs.at(id_)( id_, goRef_, fieldWeight_, alti_, density_ );
+    ssrc_inn::goInit_funcs.at(id_)( goRef_, dyParams_ );
 }
 
 

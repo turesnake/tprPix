@@ -26,7 +26,7 @@ std::unordered_set<goid_t> &get_goids_active();
 std::unordered_set<goid_t> &get_goids_inactive();
 
 void insert_2_goids_active( goid_t id_ );
-
+void insert_2_goids_inactive( goid_t id_ );
 
 
 std::weak_ptr<GameObj> get_goWPtr( goid_t id_ );

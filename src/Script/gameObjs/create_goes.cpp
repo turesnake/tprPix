@@ -18,7 +18,6 @@
 
 #include "Script/json/GoJsonData.h"
 
-
 #include "tprDebug.h"
 
 
@@ -34,9 +33,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 mpos_, 
                     const IntVec2 pposOff_,
-					double fieldWeight_,
-					const MapAltitude &alti_,
-					const Density &density_ ){
+                    const ParamBinary &dyParams_ ){
 
     goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( goid );
@@ -50,13 +47,16 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 
     ssrc::call_goInit_func( goSpecId_,
                             goRef,
-                            fieldWeight_,
-                            alti_,
-                            density_ );
+                            dyParams_ );
 
     //------------------------------//
     goRef.signUp_newGO_to_mapEnt();
-    esrc::insert_2_goids_active( goid );
+    esrc::insert_2_goids_inactive( goid );
+            //- 放入 未激活队列会造成 5帧的 显示空缺
+            //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
+            //  未来被 GoMemState 系统取代
+            //  ...
+
     
     return  goid;
 }
@@ -70,9 +70,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                         const IntVec2 mpos_, 
                         const IntVec2 pposOff_,
-                        double fieldWeight_,
-					    const MapAltitude &alti_,
-					    const Density &density_  ){
+                        const ParamBinary &dyParams_  ){
 
     esrc::insert_a_disk_gameObj( diskGo_.goid, mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
@@ -88,15 +86,17 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 
     ssrc::call_goInit_func( diskGo_.goSpecId,
                             goRef,
-                            fieldWeight_,
-                            alti_,
-                            density_ );
+                            dyParams_ );
 
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
     goRef.signUp_newGO_to_mapEnt();
-    esrc::insert_2_goids_active( diskGo_.goid );
+    esrc::insert_2_goids_inactive( diskGo_.goid );
+            //- 放入 未激活队列会造成 5帧的 显示空缺
+            //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
+            //  未来被 GoMemState 系统取代
+            //  ...
 }
 
 

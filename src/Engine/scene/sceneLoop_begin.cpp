@@ -235,15 +235,12 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 //-- db::table_goes --
                 //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
-                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "crab" );
                 goSpecId_t newGoSpecId = ssrc::get_goSpecId( "oneEyeBoy" );
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoMPos,
                                                             newGoPPosOff,
-                                                            0.0,
-                                                            MapAltitude {},
-                                                            Density {} );
+                                                            emptyParamBinary );
                         cout << "---koko---koko---" << endl;
 
 
@@ -309,9 +306,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             gameObjs::rebind_a_disk_Go( diskGo,
                                         targetGameArchive.playerGoMPos,
                                         targetGameArchive.playerGoPPosOff,
-                                        0.0,
-                                        MapAltitude {},
-                                        Density {} );
+                                        emptyParamBinary );
 
             //-- player --
             esrc::get_player().bind_go( targetGameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --

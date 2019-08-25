@@ -126,6 +126,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
+                        src/Engine/paramBinary/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/resource/*.cpp 
@@ -199,6 +200,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/paramBinary
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/resource

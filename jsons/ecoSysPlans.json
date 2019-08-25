@@ -14,21 +14,21 @@
             "density.lvl": -3,
             "applyPercent": 0.0,
             "ecoEnts":[
-                { "specName": "lichen_Forest", "num": 5 }
+                { "specName": "oneEyeBoy", "num": 5 }
             ]
         },
         {
             "density.lvl": -2,
             "applyPercent": 0.0,
             "ecoEnts":[
-                { "specName": "lichen_Forest", "num": 5 }
+                { "specName": "oneEyeBoy", "num": 5 }
             ]
         },
         {
             "density.lvl": -1,
             "applyPercent": 0.0,
             "ecoEnts":[
-                { "specName": "lichen_Forest", "num": 5 }
+                { "specName": "oneEyeBoy", "num": 5 }
             ]
         },
         {

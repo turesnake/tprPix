@@ -1,14 +1,12 @@
 /*
- * ========================= Lichen_Forest.h ==========================
+ * ===================== MapSurfaceLower.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.10
+ *                                        CREATE -- 2019.08.25
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   地衣
- * ----------------------------
  */
-#ifndef TPR_LICHEN_FOREST_H
-#define TPR_LICHEN_FOREST_H
+#ifndef TPR_MAP_SURFACE_LOWER_H
+#define TPR_MAP_SURFACE_LOWER_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -22,43 +20,38 @@
 #include "AnimFrameSet.h"
 #include "MapAltitude.h"
 #include "Density.h"
+#include "ParamBinary.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-struct Lichen_Forest_PvtBinary{
-    size_t   lichen_ForestId {0};
+struct MapSurfaceLower_PvtBinary{
+    //size_t   lichen_ForestId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
+    int tmp {};
     //===== padding =====//
     //...
 };
 
 
-class Lichen_Forest{
+class MapSurfaceLower{
 public:
-    Lichen_Forest() = default;
+    MapSurfaceLower() = default;
 
     //--- 延迟init ---//
-    static void init_in_autoMod(   goSpecId_t specID_,
-                            GameObj &goRef_,
-					        double fieldWeight_,
-					        const MapAltitude &alti_,
-					        const Density &_density );
+    static void init_in_autoMod(GameObj &goRef_,
+                            const ParamBinary &dyParams_ );
 
 private:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  Lichen_Forest_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-        return reinterpret_cast<Lichen_Forest_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    inline static  MapSurfaceLower_PvtBinary *rebind_ptr( GameObj &goRef_ ){
+        return reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
                             
-    static void bind( GameObj &goRef_ );
-    static void rebind( GameObj &goRef_ );
-
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
-    static void OnLogicUpdate( GameObj &goRef_ ); 
     static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
 };
 

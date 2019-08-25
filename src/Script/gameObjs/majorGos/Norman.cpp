@@ -32,11 +32,8 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -----------------------------------------------------------
  * -- 最后三个参数 并未用上
  */
-void Norman::init_in_autoMod(   goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void Norman::init_in_autoMod(   GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
 
 
     //================ go.pvtBinary =================//

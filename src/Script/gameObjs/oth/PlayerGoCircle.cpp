@@ -36,11 +36,8 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void PlayerGoCircle::init_in_autoMod(  goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
     //goRef_.resize_pvtBinary( sizeof(PlayerGoCircle_PvtBinary) );
@@ -85,7 +82,6 @@ void PlayerGoCircle::init_in_autoMod(  goSpecId_t specID_,
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &PlayerGoCircle::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &PlayerGoCircle::OnLogicUpdate,   _1 );
 
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &PlayerGoCircle::OnActionSwitch,  _1, _2 ) );
@@ -102,27 +98,6 @@ void PlayerGoCircle::init_in_autoMod(  goSpecId_t specID_,
     goRef_.init_check();
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
- * -- 这个 go实例 的类型，应该和 本类一致。
- */
-/*
-void PlayerGoCircle::bind( GameObj &goRef_ ){
-}
-*/
-
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
- * -- 会被 脚本层的一个 巨型分配函数 调用
- */
-/*
-void PlayerGoCircle::rebind( GameObj &goRef_ ){
-}
-*/
 
 /* ===========================================================
  *                      OnRenderUpdate
@@ -163,16 +138,6 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
 
                     //-- 改为 调用 gomesh 的 专用 RenderUpdate 函数，可以定制 缩放的那种 
 
-
-}
-
-
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
-void PlayerGoCircle::OnLogicUpdate( GameObj &goRef_ ){
-    // 什么也没做...
 }
 
 

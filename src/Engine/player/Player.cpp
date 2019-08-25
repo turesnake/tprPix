@@ -19,6 +19,7 @@
 #include "GameKey.h"
 #include "esrc_camera.h" 
 #include "esrc_gameObj.h" 
+#include "ParamBinary.h"
 
 
 //-------------------- Script --------------------//
@@ -61,9 +62,7 @@ void Player::bind_go( goid_t goid_ ){
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
                                                             newGoRef.goPos.get_currentMPos(),
                                                             newGoRef.goPos.calc_current_pposOff(),
-                                                            0.0,
-                                                            MapAltitude {},
-                                                            Density {} );
+                                                            emptyParamBinary );
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
@@ -104,9 +103,7 @@ void Player::bind_go( goid_t goid_ ){
     if( this->goid == NULLID ){
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
                                                             IntVec2{0,0},
-                                                            0.0,
-                                                            MapAltitude {},
-                                                            Density {} );
+                                                            emptyParamBinary );
     }
     */
 

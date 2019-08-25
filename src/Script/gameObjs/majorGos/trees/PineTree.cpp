@@ -16,6 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "GoCreateDyParams_tree.h"
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
@@ -53,18 +54,19 @@ namespace PineTree_inn {//-------------- namespace: PineTree_inn ---------------
  *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void PineTree::init_in_autoMod(  goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void PineTree::init_in_autoMod( GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
+
+    //================ dyParamBinary =================//
+    tprAssert( dyParams_.type == ParamBinaryType::Tree );
+    const GoCreateDyParams_tree *dyParamsPtr = reinterpret_cast<const GoCreateDyParams_tree*>(dyParams_.get_binaryPtr());
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(PineTree_PvtBinary) );
     PineTree_PvtBinary *pvtBp = reinterpret_cast<PineTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-        pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
-        pvtBp->pineId = PineTree_inn::apply_a_oakId( pvtBp->age, fieldWeight_ );
+        pvtBp->age = gameObjs::apply_treeAge_by_density( dyParamsPtr->fieldDensity );
+        pvtBp->pineId = PineTree_inn::apply_a_oakId( pvtBp->age, dyParamsPtr->fieldWeight );
         //...
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//

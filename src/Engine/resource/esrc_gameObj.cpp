@@ -32,10 +32,17 @@ namespace go_inn {//-------- namespace: go_inn --------------//
     std::unordered_set<goid_t> goids_inactive {}; //- 未激活组 (身处 激活圈 之外)
                             // 这组概念可能会被改动，比如，配合新的 GoMemState 机制
                             // ...
-
-
-
+                            // ------
+                            // 在 go类 的适用范围被扩充后，部分go 不需要这么复杂的功能
+                            // 比如，也许只有 MajorGo 需要，剩余的 go，可以彻底不参与 active 部分的活动
+                            // 未实现... 
+                            // ---
+                            // 在目前实现中，只有 active 的go 才会被渲染....
+                            
     FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
+
+    double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）
+    //double activeRange { 4 * 4 * 2048.0 * 2048.0 }; //- 激活圈 半径的平方(未开根号) （4 chunk 尺寸）
 
 }//------------- namespace: go_inn end --------------//
 
@@ -107,6 +114,11 @@ void insert_2_goids_active( goid_t id_ ){
     go_inn::goids_active.insert( id_ );
 }
 
+void insert_2_goids_inactive( goid_t id_ ){
+        tprAssert( go_inn::goids_inactive.find(id_) == go_inn::goids_inactive.end() );//- tmp
+    go_inn::goids_inactive.insert( id_ );
+}
+
 /* ===========================================================
  *                  insert_new_gameObj
  * -----------------------------------------------------------
@@ -149,7 +161,6 @@ void realloc_active_goes(){
 
     glm::dvec2 v    {};
     double distance {};
-    double range    { 1600.0 }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_active ){
@@ -157,9 +168,9 @@ void realloc_active_goes(){
 
         v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
 
-        distance = v.x * v.x + v.y * v.y;
+        distance = (v.x * v.x) + (v.y * v.y);
         //-- 将离开 激活圈的 go 移动到 激活组 --
-        if( distance > range ){
+        if( distance > go_inn::activeRange ){
             container.push_back( id );
         }
     }
@@ -185,7 +196,6 @@ void realloc_inactive_goes(){
                     
     glm::dvec2 v    {};
     double distance {};
-    double range    { 1600.0 }; //- 激活圈 半径的平方
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_inactive ){
@@ -193,9 +203,9 @@ void realloc_inactive_goes(){
 
         v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
 
-        distance = v.x * v.x + v.y * v.y;
+        distance = (v.x * v.x) + (v.y * v.y);
         //-- 将进入 激活圈的 go 移动到 激活组 --
-        if( distance <= range ){
+        if( distance <= go_inn::activeRange ){
             container.push_back( id );
         }
     }

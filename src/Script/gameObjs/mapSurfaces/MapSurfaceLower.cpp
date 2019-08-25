@@ -1,11 +1,11 @@
 /*
- * ========================= Lichen_Forest.cpp ==========================
+ * ========================= MapSurfaceLower.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/mapSurfaces/Lichen_Forest.h"
+#include "Script/gameObjs/mapSurfaces/MapSurfaceLower.h"
 
 //-------------------- C --------------------//
 #include <cmath>
@@ -38,20 +38,18 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                  init_in_autoMod
  * -----------------------------------------------------------
  */
-void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(Lichen_Forest_PvtBinary) );
-    auto *pvtBp = reinterpret_cast<Lichen_Forest_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
+    auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-        pvtBp->lichen_ForestId = gameObjs::apply_a_simpleId( fieldWeight_, 32 );
+        //pvtBp->lichen_ForestId = gameObjs::apply_a_simpleId( fieldWeight_, 32 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
+        /*
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 "lichen_Forest", 
                                 tprGeneral::nameString_combine("", pvtBp->lichen_ForestId, "_idle"),
@@ -62,16 +60,16 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
                                 true, //- isVisible
                                 true //- isCollide
                                 );
+        */
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Lichen_Forest::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &Lichen_Forest::OnLogicUpdate,   _1 );
+    goRef_.RenderUpdate = std::bind( &MapSurfaceLower::OnRenderUpdate,  _1 );   
     
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Lichen_Forest::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &MapSurfaceLower::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 lichen_Forest 只有一种动画，就是永久待机...
+            //- 当前 mapSurfaceLower 只有一种动画，就是永久待机...
 
     //================ go self vals =================//
         
@@ -83,34 +81,16 @@ void Lichen_Forest::init_in_autoMod(  goSpecId_t specID_,
     goRef_.init_check();
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
- * -- 这个 go实例 的类型，应该和 本类一致。
- */
-void Lichen_Forest::bind( GameObj &goRef_ ){
-}
-
-
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
- * -- 会被 脚本层的一个 巨型分配函数 调用
- */
-void Lichen_Forest::rebind( GameObj &goRef_ ){
-}
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Lichen_Forest::OnRenderUpdate( GameObj &goRef_ ){
+void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = Lichen_Forest::rebind_ptr( goRef_ );
+    auto *pvtBp = MapSurfaceLower::rebind_ptr( goRef_ );
 
     //=====================================//
     //              AI
@@ -131,33 +111,17 @@ void Lichen_Forest::OnRenderUpdate( GameObj &goRef_ ){
 
 
 /* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
-void Lichen_Forest::OnLogicUpdate( GameObj &goRef_ ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    auto *pvtBp = Lichen_Forest::rebind_ptr( goRef_ );
-    //=====================================//
-
-    // 什么也没做...
-}
-
-
-
-/* ===========================================================
  *               OnActionSwitch
  * -----------------------------------------------------------
  * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
-void Lichen_Forest::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = Lichen_Forest::rebind_ptr( goRef_ );
+    auto *pvtBp = MapSurfaceLower::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

@@ -19,7 +19,9 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "GoCreateDyParams_tree.h"
 #include "esrc_shader.h" 
+
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -38,18 +40,19 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(    goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void Wheat::init_in_autoMod(    GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
 
+    
+    //================ dyParamBinary =================//
+    tprAssert( dyParams_.type == ParamBinaryType::Tree );
+    const GoCreateDyParams_tree *dyParamsPtr = reinterpret_cast<const GoCreateDyParams_tree*>(dyParams_.get_binaryPtr());
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(Wheat_PvtBinary) );
     Wheat_PvtBinary  *pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     
-        pvtBp->wheatId = gameObjs::apply_a_simpleId( fieldWeight_, 4 );
+        pvtBp->wheatId = gameObjs::apply_a_simpleId( dyParamsPtr->fieldWeight, 4 );
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//

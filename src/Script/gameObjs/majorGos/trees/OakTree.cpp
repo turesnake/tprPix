@@ -16,6 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "GoCreateDyParams_tree.h"
 #include "esrc_shader.h" 
 
 //-------------------- Script --------------------//
@@ -57,19 +58,20 @@ namespace OakTree_inn {//-------------- namespace: OakTree_inn -----------------
  *                 init_in_autoMod
  * -----------------------------------------------------------
  */
-void OakTree::init_in_autoMod(  goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void OakTree::init_in_autoMod(  GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
+
+    //================ dyParamBinary =================//
+    tprAssert( dyParams_.type == ParamBinaryType::Tree );
+    const GoCreateDyParams_tree *dyParamsPtr = reinterpret_cast<const GoCreateDyParams_tree*>(dyParams_.get_binaryPtr());
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(OakTree_PvtBinary) );
     OakTree_PvtBinary  *pvtBp = reinterpret_cast<OakTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-        pvtBp->age = gameObjs::apply_treeAge_by_density( _density );
-        pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( fieldWeight_ );
-        pvtBp->oakId = OakTree_inn::apply_a_oakId( pvtBp->age, fieldWeight_, pvtBp->isSingleTRunk );
+        pvtBp->age = gameObjs::apply_treeAge_by_density( dyParamsPtr->fieldDensity );
+        pvtBp->isSingleTRunk = gameObjs::apply_isSingleTRunk( dyParamsPtr->fieldWeight );
+        pvtBp->oakId = OakTree_inn::apply_a_oakId( pvtBp->age, dyParamsPtr->fieldWeight, pvtBp->isSingleTRunk );
         //...
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//

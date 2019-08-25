@@ -128,6 +128,11 @@ private:
     } 
 
     //-- 将 rgba 态 高度信息，转换为 mem态 goAltiRange值 --
+    //
+    //     在 8m8 改为 64m64 后，原有的高度数值不管用了。
+    //     目前的临时记录法是：实际像素高度／10。
+    //     可以预测，这个方法 可能会在 引入跳跃系统时 带来麻烦
+    //
     inline void set_goAltiRange(){
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;

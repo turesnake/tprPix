@@ -93,10 +93,13 @@ void sceneLogicLoop_world(){
             esrc::foreach_goids_active(
                 []( goid_t goid_, GameObj &goRef_ ){
 
-                    goRef_.LogicUpdate( goRef_ );
+                    //-- Only Major --
+                    if( goRef_.family == GameObjFamily::Major ){
+                        goRef_.LogicUpdate( goRef_ );
                             //-- 这么设计还是会造成 拥塞问题
                             //   大量的 go在同一帧 更新自己的 logic。
                             //   最好的办法是，分摊到 不同的帧中去...
+                    }
                 }
             );
             break;
@@ -110,11 +113,9 @@ void sceneLogicLoop_world(){
             //--- 定期 检查玩家所在 chunk
             // 当发现 chunkReleaseZone 发生位移时，将需要 释放的chunk 排入队列
             chunkRelease::collect_chunks_need_to_be_release_in_update();
-
-            
             break;
         case 4:
-            //esrc::realloc_active_goes(); //- tmp
+            esrc::realloc_active_goes(); //- tmp
             break;
         default:
             tprAssert(0);
@@ -173,11 +174,6 @@ void sceneRenderLoop_world(){
     esrc::clear_renderPool_meshs();
     esrc::clear_renderPool_goMeshs_opaque();
     esrc::clear_renderPool_goMeshs_translucent();
-
-    //------------------------//
-    //        chunks
-    //------------------------//
-    //esrc::add_chunks_2_renderPool();
 
     //------------------------//
     //     mapEntSlices

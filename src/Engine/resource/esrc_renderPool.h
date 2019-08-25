@@ -31,14 +31,11 @@ void insert_2_renderPool_uiMeshs_pic( float off_z_, UIChildMesh *meshPtr_ );
 
 void clear_renderPool_goMeshs_opaque();
 void clear_renderPool_goMeshs_translucent();
-void clear_renderPool_mapSurfaces();
 void clear_renderPool_uiMeshs_pic();
 
             
 void draw_renderPool_goMeshs_opaque();
 void draw_renderPool_goMeshs_translucent();
-
-void draw_renderPool_mapSurfaces();
 void draw_renderPool_uiMeshs_pic();
 
 

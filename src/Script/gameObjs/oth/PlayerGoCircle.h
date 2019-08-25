@@ -22,6 +22,7 @@
 #include "AnimFrameSet.h"
 #include "MapAltitude.h"
 #include "Density.h"
+#include "ParamBinary.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -38,11 +39,8 @@ public:
     PlayerGoCircle() = default;
 
     //--- 延迟init ---//
-    static void init_in_autoMod(   goSpecId_t specID_,
-                            GameObj &goRef_,
-					        double fieldWeight_,
-					        const MapAltitude &alti_,
-					        const Density &_density );
+    static void init_in_autoMod(GameObj &goRef_,
+                            const ParamBinary &dyParams_ );
 
 private:
 
@@ -52,13 +50,9 @@ private:
         return reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
     */
-                            
-    //static void bind( GameObj &goRef_ );
-    //static void rebind( GameObj &goRef_ );
 
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
-    static void OnLogicUpdate( GameObj &goRef_ ); 
     static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
 };
 

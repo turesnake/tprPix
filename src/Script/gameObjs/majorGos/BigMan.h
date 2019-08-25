@@ -23,6 +23,7 @@
 #include "AnimFrameSet.h"
 #include "MapAltitude.h"
 #include "Density.h"
+#include "ParamBinary.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -38,11 +39,8 @@ public:
     BigMan() = default;
 
     //--- 延迟init ---//
-    static void init_in_autoMod(   goSpecId_t specID_,
-                            GameObj &goRef_,
-					        double fieldWeight_,
-					        const MapAltitude &alti_,
-					        const Density &_density );
+    static void init_in_autoMod(GameObj &goRef_,
+                            const ParamBinary &dyParams_ );
 
 private:
 

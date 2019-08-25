@@ -67,17 +67,25 @@ inline GameObjState str_2_GameObjState( const std::string &name_ ){
 //  这套系统使用使用，暂未确定
 enum class GameObjFamily{
     Major   = 1, //- 主go： 活体，树，建筑...
-    Item    = 2, //- 道具go： 武器，药剂
-    Surface = 3  //- 表面go： 液体，火焰...
+    //Item    = 2, //- 道具go： 武器，药剂
+    //Surface = 3  //- 表面go： 液体，火焰...
+
+    MapSurface, //- 包含 lower/upper 
+
+    Oth   // 暂时只有 playerGoCircle
+
+
 };
+
+
 
 inline GameObjFamily str_2_GameObjFamily( const std::string &name_ ){
     if( name_ == std::string{"Major"} ){
         return GameObjFamily::Major;
-    }else if( name_ == std::string{"Item"} ){
-        return GameObjFamily::Item;
-    }else if( name_ == std::string{"Surface"} ){
-        return GameObjFamily::Surface;
+    }else if( name_ == std::string{"MapSurface"} ){
+        return GameObjFamily::MapSurface;
+    }else if( name_ == std::string{"Oth"} ){
+        return GameObjFamily::Oth;
     }else{
         tprAssert(0);
         return GameObjFamily::Major; //- never reach

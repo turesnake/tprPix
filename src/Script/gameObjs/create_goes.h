@@ -17,6 +17,7 @@
 #include "MapAltitude.h"
 #include "Density.h"
 #include "DiskGameObj.h"
+#include "ParamBinary.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -25,17 +26,13 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 mpos_, 
                     const IntVec2 pposOff_,
-					double fieldWeight_,
-					const MapAltitude &alti_,
-					const Density &density_ );
+                    const ParamBinary &dyParams_ );
 
 
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                         const IntVec2 mpos_, 
                         const IntVec2 pposOff_,
-                        double fieldWeight_,
-					    const MapAltitude &alti_,
-					    const Density &density_  );
+                        const ParamBinary &dyParams_  );
 
 
 }//------------- namespace gameObjs: end ----------------

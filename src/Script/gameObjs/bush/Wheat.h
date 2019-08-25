@@ -22,6 +22,7 @@
 #include "AnimFrameSet.h"
 #include "MapAltitude.h"
 #include "Density.h"
+#include "ParamBinary.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -39,11 +40,8 @@ public:
     Wheat() = default;
 
     //--- 延迟init ---//
-    static void init_in_autoMod(   goSpecId_t specID_,
-                            GameObj &goRef_,
-					        double fieldWeight_,
-					        const MapAltitude &alti_,
-					        const Density &_density );
+    static void init_in_autoMod(    GameObj &goRef_,
+                                    const ParamBinary &dyParams_ );
 
 private:
     //--  每次调用回调函数，都需要做的 指针重绑定 --

@@ -28,6 +28,7 @@
 //-------------------- Engine --------------------//
 #include "GameObjType.h"
 #include "UIObjType.h"
+#include "ParamBinary.h"
 
 
 #include "MapAltitude.h"
@@ -49,18 +50,13 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
 //--- 下面这部分 放的很乱... ---
 
 //-- map自动生成器 使用的 goInit函数 ---
-using F_GO_INIT = std::function<void(   goSpecId_t,
-                                        GameObj&,
-					                    double,
-					                    const MapAltitude &,
-					                    const Density & )>;
+using F_GO_INIT = std::function<void(   GameObj&,
+                                        const ParamBinary &dyParams_ )>;
 
 
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-					    double fieldWeight_,
-					    const MapAltitude &alti_,
-					    const Density &density_  );
+                        const ParamBinary &dyParams_  );
 
 
 bool find_from_goInit_funcs( goSpecId_t goSpecId_ );

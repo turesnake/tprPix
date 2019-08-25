@@ -33,11 +33,8 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void OneEyeBoy::init_in_autoMod(  goSpecId_t specID_,
-                                GameObj &goRef_,
-					            double fieldWeight_,
-					            const MapAltitude &alti_,
-					            const Density &_density ){
+void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
+                                const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
     goRef_.resize_pvtBinary( sizeof(OneEyeBoy_PvtBinary) );

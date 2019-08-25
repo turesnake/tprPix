@@ -18,10 +18,12 @@
 #include "esrc_field.h"
 #include "config.h"
 #include "chunkKey.h"
+#include "GoCreateDyParams_tree.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
+
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
@@ -207,12 +209,17 @@ void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
 
         if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
 
+            std::unique_ptr<GoCreateDyParams_tree> dyParamUPtr = std::make_unique<GoCreateDyParams_tree>();
+
+            //-- 值传递，可被改良 --
+            dyParamUPtr->fieldWeight = fieldRef.get_weight();
+            dyParamUPtr->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
+            dyParamUPtr->fieldDensity = fieldRef.get_density();
+
             gameObjs::create_a_Go(  goSpecId,
                                     fieldRef.get_nodeMPos(),
                                     fieldRef.get_nodePPosOff(),
-                                    fieldRef.get_weight(),
-                                    fieldRef.get_nodeMapAlti(), //- tmp 有问题
-                                    fieldRef.get_density() );
+                                    emptyParamBinary );
         }
     }
 }
