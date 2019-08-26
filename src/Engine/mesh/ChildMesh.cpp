@@ -87,7 +87,7 @@ void ChildMesh::refresh_translate(){
         this->translate_val.y = currentFPos.y - vf.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
                                     //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
-        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff);
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff) - this->goMeshRef.get_off_z();
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }

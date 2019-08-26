@@ -218,6 +218,8 @@ public:
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
+                                //  目前这个值 暂未被使用 ...
+
     bool    isActive  {false}; //- 是否进入激活圈. 未进入激活圈的go，不参与逻辑运算，不被渲染
     bool    isDirty   {false};  //- 是否为 默认go（是否被改写过）
                             //- “默认go” 意味着这个 go没有被游戏改写过。

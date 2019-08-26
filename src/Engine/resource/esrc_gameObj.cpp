@@ -44,6 +44,12 @@ namespace go_inn {//-------- namespace: go_inn --------------//
     double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）
     //double activeRange { 4 * 4 * 2048.0 * 2048.0 }; //- 激活圈 半径的平方(未开根号) （4 chunk 尺寸）
 
+
+
+
+
+    
+
 }//------------- namespace: go_inn end --------------//
 
 

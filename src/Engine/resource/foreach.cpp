@@ -8,7 +8,6 @@
  * ----------------------------
  */
 #include "esrc_gameObj.h"
-#include "esrc_ui.h"
 
 //#include "tprDebug.h" //- tmp
 
@@ -31,18 +30,6 @@ void foreach_memGameObjs( F_GOID_GOPTR fp_ ){
 
 
 /* ===========================================================
- *                     foreach_memUIs
- * -----------------------------------------------------------
- */
-void foreach_memUIs( F_UIObjId_GOPTR fp_ ){
-    auto ipair = esrc::get_memUIs().begin();
-    for( ; ipair!=esrc::get_memUIs().end(); ipair++ ){
-        fp_( ipair->first, &(ipair->second) );
-    }
-}
-
-
-/* ===========================================================
  *                 foreach_goids_active
  * -----------------------------------------------------------
  * -- 
@@ -53,21 +40,6 @@ void foreach_goids_active( F_GOID_GOPTR fp_ ){
     for( ; it!=esrc::get_goids_active().end(); it++ ){
 
         fp_( *it, esrc::get_goRef(*it) );
-    }
-}
-
-/* ===========================================================
- *                 foreach_uiIs_active
- * -----------------------------------------------------------
- * -- 
- */
-void foreach_uiIds_active( F_UIObjId_GOPTR fp_ ){
-
-    UIObj *uiGoPtr {};
-    auto it = esrc::get_uiIds_active().begin();
-    for( ; it!=esrc::get_uiIds_active().end(); it++ ){
-        uiGoPtr = &(esrc::get_memUIs().at(*it));
-        fp_( *it, uiGoPtr );
     }
 }
 

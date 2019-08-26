@@ -195,7 +195,6 @@ void sceneRenderLoop_world(){
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
-    // *** 注意次序,先渲染深处的 ***
     esrc::draw_groundCanvas();
     esrc::draw_renderPool_meshs(); //- chunks，已废弃
     esrc::draw_waterAnimCanvas();

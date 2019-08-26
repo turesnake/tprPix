@@ -16,6 +16,7 @@
 
 //--------------- Script ------------------//
 #include "Script/json/GoJsonData.h"
+#include "Script/json/UIGoJsonData.h"
 
 #include "tprDebug.h" 
 
@@ -38,11 +39,24 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
 
     std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs {}; 
 
-    std::unordered_map<uiObjSpecId_t, std::string> ui_specId_names {};
-    std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds {};
+    //--- uiGo ---
+    //std::unordered_map<uiObjSpecId_t, std::string> ui_specId_names {};   //-- 将被废弃...
+    //std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds {};   //-- 将被废弃...
 
 
-    std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs {}; 
+    std::unordered_map<goSpecId_t, UIGoJsonData> uiGo_jsonDatas {}; //- new
+
+    std::unordered_map<goSpecId_t, std::string> uiGo_specId_names_2 {}; //- new
+    std::unordered_map<std::string, goSpecId_t> uiGo_name_specIds_2 {}; //- new
+
+
+    //std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs {};  //-- 将被废弃...
+
+
+    std::unordered_map<goSpecId_t, F_GO_INIT> uiGoInit_funcs {}; //- new
+                                                    // 其实可以被整合进 goInit_funcs 中
+
+
 
 }//--------------------- namespace: ssrc_inn end -------------------------//
 
@@ -51,11 +65,11 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
  *                  clear ...
  * -----------------------------------------------------------
  */
-void clear_uiInit_funcs(){
-    ssrc_inn::uiInit_funcs.clear();
-}
 void clear_goInit_funcs(){
     ssrc_inn::goInit_funcs.clear();
+}
+void clear_uiGoInit_funcs(){
+    ssrc_inn::uiGoInit_funcs.clear();
 }
 void clear_go_specId_names(){
     ssrc_inn::go_specId_names.clear();
@@ -63,12 +77,13 @@ void clear_go_specId_names(){
 void clear_go_name_specIds(){
     ssrc_inn::go_name_specIds.clear();
 }
-void clear_ui_specId_names(){
-    ssrc_inn::ui_specId_names.clear();
+void clear_uiGo_specId_names_2(){
+    ssrc_inn::uiGo_specId_names_2.clear();
 }
-void clear_ui_name_specIds(){
-    ssrc_inn::ui_name_specIds.clear();
+void clear_uiGo_name_specIds_2(){
+    ssrc_inn::uiGo_name_specIds_2.clear();
 }
+
 
 
 
@@ -77,15 +92,18 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
     ssrc_inn::go_name_specIds.insert({ name_, id_ });
 }
 
-void insert_2_ui_specId_names_containers( uiObjSpecId_t id_, const std::string &name_ ){
-    ssrc_inn::ui_specId_names.insert({ id_, name_ });
-    ssrc_inn::ui_name_specIds.insert({ name_, id_ });
+void insert_2_uiGo_specId_names_containers_2( goSpecId_t id_, const std::string &name_ ){
+    ssrc_inn::uiGo_specId_names_2.insert({ id_, name_ });
+    ssrc_inn::uiGo_name_specIds_2.insert({ name_, id_ });
 }
 
 void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ ){
     ssrc_inn::go_jsonDatas.insert({ goJsonData_.specID, goJsonData_ }); //- copy 不考虑性能
 }
 
+void insert_2_uiGo_jsonDatas( const UIGoJsonData &uiGoJsonData_ ){
+    ssrc_inn::uiGo_jsonDatas.insert({ uiGoJsonData_.specID, uiGoJsonData_ }); //- copy 不考虑性能
+}
 
 
 /* ===========================================================
@@ -93,14 +111,20 @@ void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ ){
  * -----------------------------------------------------------
  */
 goSpecId_t get_goSpecId( const std::string &name_ ){
-
         if( ssrc_inn::go_name_specIds.find(name_) == ssrc_inn::go_name_specIds.end() ){
             cout << "can not find name_: " << name_ << endl;
         }
-
-
         tprAssert( ssrc_inn::go_name_specIds.find(name_) != ssrc_inn::go_name_specIds.end() );
     return ssrc_inn::go_name_specIds.at(name_);
+}
+
+
+goSpecId_t get_uiGoSpecId( const std::string &name_ ){
+        if( ssrc_inn::uiGo_name_specIds_2.find(name_) == ssrc_inn::uiGo_name_specIds_2.end() ){
+            cout << "can not find name_: " << name_ << endl;
+        }
+        tprAssert( ssrc_inn::uiGo_name_specIds_2.find(name_) != ssrc_inn::uiGo_name_specIds_2.end() );
+    return ssrc_inn::uiGo_name_specIds_2.at(name_);
 }
 
 
@@ -114,13 +138,9 @@ const GoJsonData &get_goJsonData( goSpecId_t id_ ){
 }
 
 
-/* ===========================================================
- *                     get_uiSpecId
- * -----------------------------------------------------------
- */
-uiObjSpecId_t get_uiSpecId( const std::string &name_ ){
-        tprAssert( ssrc_inn::ui_name_specIds.find(name_) != ssrc_inn::ui_name_specIds.end() );
-    return ssrc_inn::ui_name_specIds.at(name_);
+const UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ ){
+        tprAssert( ssrc_inn::uiGo_jsonDatas.find(id_) != ssrc_inn::uiGo_jsonDatas.end() );
+    return ssrc_inn::uiGo_jsonDatas.at(id_);
 }
 
 
@@ -132,6 +152,10 @@ bool find_from_goInit_funcs( goSpecId_t goSpecId_ ){
     return (ssrc_inn::goInit_funcs.find(goSpecId_) != ssrc_inn::goInit_funcs.end());
 }
 
+bool find_from_uiGoInit_funcs( goSpecId_t goSpecId_ ){
+    return (ssrc_inn::uiGoInit_funcs.find(goSpecId_) != ssrc_inn::uiGoInit_funcs.end());
+}
+
 
 /* ===========================================================
  *                  call_goInit_func
@@ -140,8 +164,14 @@ bool find_from_goInit_funcs( goSpecId_t goSpecId_ ){
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
                         const ParamBinary &dyParams_  ){
-    
     ssrc_inn::goInit_funcs.at(id_)( goRef_, dyParams_ );
+}
+
+
+void call_uiGoInit_func(  goSpecId_t id_,
+                        GameObj &goRef_,
+                        const ParamBinary &dyParams_  ){
+    ssrc_inn::uiGoInit_funcs.at(id_)( goRef_, dyParams_ );
 }
 
 
@@ -156,39 +186,11 @@ void insert_2_goInit_funcs( const std::string &goTypeName_,
 }
 
 
-
-
-/* ===========================================================
- *                  find_from_uiInit_funcs
- * -----------------------------------------------------------
- */
-bool find_from_uiInit_funcs( uiObjSpecId_t uiSpecId_ ){
-    return (ssrc_inn::uiInit_funcs.find(uiSpecId_) != ssrc_inn::uiInit_funcs.end());
+void insert_2_uiGoInit_funcs( const std::string &goTypeName_,
+                            const F_GO_INIT &functor_ ){
+    goSpecId_t id = ssrc::get_uiGoSpecId( goTypeName_ );
+    ssrc_inn::uiGoInit_funcs.insert({ id, functor_ });
 }
-
-
-
-/* ===========================================================
- *                 call_uiInit_func
- * -----------------------------------------------------------
- */
-void call_uiInit_func(  uiObjSpecId_t id_,  
-                        UIObj *uiObjPtr_,
-                        const glm::vec2 &fpos_ ){
-    ssrc_inn::uiInit_funcs.at(id_)( uiObjPtr_, fpos_ );           
-}
-
-
-/* ===========================================================
- *               insert_2_uiInit_funcs
- * -----------------------------------------------------------
- */
-void insert_2_uiInit_funcs( uiObjSpecId_t id_,
-                            const F_UI_INIT &functor_ ){
-
-    ssrc_inn::uiInit_funcs.insert({ id_, functor_ });
-}
-
 
 
 

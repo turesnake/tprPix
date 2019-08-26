@@ -27,16 +27,18 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjType.h"
-#include "UIObjType.h"
 #include "ParamBinary.h"
 
 
 #include "MapAltitude.h"
 #include "Density.h"
 
+
+
 class GameObj;
 class UIObj;
 class GoJsonData;
+class UIGoJsonData;
 
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
@@ -74,11 +76,7 @@ const GoJsonData &get_goJsonData( goSpecId_t id_ );
 //-------------------------------//
 //             ui
 //-------------------------------//
-
-uiObjSpecId_t get_uiSpecId( const std::string &name_ );
-
-void insert_2_ui_specId_names_containers(   uiObjSpecId_t id_, 
-                                            const std::string &name_ );
+void insert_2_uiGo_specId_names_containers_2( goSpecId_t id_, const std::string &name_ );
 
 
 //--- 下面这部分 放的很乱... ---
@@ -86,25 +84,34 @@ void insert_2_ui_specId_names_containers(   uiObjSpecId_t id_,
 using F_UI_INIT = std::function<void(   UIObj*,
                                         const glm::vec2 & )>;
 
-bool find_from_uiInit_funcs( uiObjSpecId_t uiSpecId_ );
 
-void call_uiInit_func(  uiObjSpecId_t id_,  
-                        UIObj *uiObjPtr_,
-                        const glm::vec2 &fpos_ );
+void insert_2_uiGo_jsonDatas( const UIGoJsonData &uiGoJsonData_ );
 
 
+const UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ );
 
-void insert_2_uiInit_funcs( uiObjSpecId_t id_,
-                            const F_UI_INIT &functor_ );
 
+bool find_from_uiGoInit_funcs( goSpecId_t goSpecId_ );
+
+
+void call_uiGoInit_func(  goSpecId_t id_,
+                        GameObj &goRef_,
+                        const ParamBinary &dyParams_  );
+
+
+void insert_2_uiGoInit_funcs( const std::string &goTypeName_,
+                            const F_GO_INIT &functor_ );
+
+goSpecId_t get_uiGoSpecId( const std::string &name_ );
 
 
 void clear_uiInit_funcs();
 void clear_goInit_funcs();
+void clear_uiGoInit_funcs();
 void clear_go_specId_names();
 void clear_go_name_specIds();
-void clear_ui_specId_names();
-void clear_ui_name_specIds();
+void clear_uiGo_specId_names_2();
+void clear_uiGo_name_specIds_2();
 
 
 

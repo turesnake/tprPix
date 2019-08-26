@@ -17,6 +17,7 @@
 #include "Script/resource/ssrc.h"
 
 #include "Script/json/GoJsonData.h"
+#include "Script/json/UIGoJsonData.h"
 
 #include "tprDebug.h"
 
@@ -24,11 +25,11 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-
 /* ===========================================================
  *                  create_a_Go       [tmp]
  * -----------------------------------------------------------
- * -- tmp 
+ * -- 仅适用于 部分类型的 go
+ * -- 对于很多类似 ui的，不依赖map，且更为轻量的go，应为其专设 create 函数 
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 mpos_, 
@@ -38,12 +39,14 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
     goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( goid );
 
-        tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
-
     //-- set some static datas from JSON --
+        tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
     assemble_goJsonData_2_newGo( goSpecId_, goRef );
 
-    // 用 mpos, pposoff 合成 dpos 
+    //-- check GameObjFamily --
+    //....
+        tprAssert( goRef.family != GameObjFamily::UI ); //- tmp
+
 
     ssrc::call_goInit_func( goSpecId_,
                             goRef,
@@ -56,7 +59,6 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
             //  未来被 GoMemState 系统取代
             //  ...
-
     
     return  goid;
 }
@@ -101,4 +103,45 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 
 
 }//------------- namespace gameObjs: end ----------------
+
+
+
+namespace uiGos{//------------- namespace uiGos ----------------
+
+
+
+/* ===========================================================
+ *                  create_a_UIGo
+ * -----------------------------------------------------------
+ */
+goid_t create_a_UIGo( goSpecId_t goSpecId_,
+                    const IntVec2 mpos_, 
+                    const IntVec2 pposOff_,
+                    const ParamBinary &dyParams_ ){
+
+    goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
+    GameObj &goRef = esrc::get_goRef( goid );
+
+    
+    //-- set some static datas from JSON --
+        tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
+    assemble_uiGoJsonData_2_newUIGo( goSpecId_, goRef );
+
+    //-- check GameObjFamily --
+    tprAssert( goRef.family == GameObjFamily::UI );
+
+    ssrc::call_uiGoInit_func( goSpecId_,
+                            goRef,
+                            dyParams_ );
+
+    //------------------------------//
+    //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
+    //  ui 也不存在什么 active 状态
+    return  goid;
+}
+
+
+}//------------- namespace uiGos: end ----------------
+
+
 

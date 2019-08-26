@@ -14,7 +14,6 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjType.h"
-#include "UIObjType.h"
 
 class GameObj;
 class UIObj;
@@ -24,8 +23,6 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 using FUNC_V_V = std::function<void()>;
 using F_GOID_GOPTR = std::function<void(goid_t, GameObj&)>;
-
-using F_UIObjId_GOPTR = std::function<void(uiObjId_t,UIObj*)>;
 
 
 }//---------------------- namespace: esrc -------------------------//

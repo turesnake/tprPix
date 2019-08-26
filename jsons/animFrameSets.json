@@ -3,7 +3,7 @@
     "name": "button_beginScene",
     "pngs": [
         {
-            "path": "/button/beginScene/button_beginScene.P.png",
+            "path": "/ui/beginScene/button_beginScene.P.png",
             "frameNum.col":  1,
             "frameNum.row":  3,
             "totalFrameNum": 3,

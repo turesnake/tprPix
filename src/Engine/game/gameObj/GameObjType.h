@@ -72,8 +72,9 @@ enum class GameObjFamily{
 
     MapSurface, //- 包含 lower/upper 
 
-    Oth   // 暂时只有 playerGoCircle
+    Oth,   // 暂时只有 playerGoCircle
 
+    UI,   // 被合并进 GO 的 UIGO 类
 
 };
 
@@ -86,6 +87,8 @@ inline GameObjFamily str_2_GameObjFamily( const std::string &name_ ){
         return GameObjFamily::MapSurface;
     }else if( name_ == std::string{"Oth"} ){
         return GameObjFamily::Oth;
+    }else if( name_ == std::string{"UI"} ){
+        return GameObjFamily::UI;
     }else{
         tprAssert(0);
         return GameObjFamily::Major; //- never reach

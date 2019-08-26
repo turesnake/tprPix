@@ -148,8 +148,8 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/gameObjs/oth/*.cpp
                         src/Script/json/*.cpp
                         src/Script/resource/*.cpp
-                        src/Script/UIs/*.cpp 
-                        src/Script/UIs/buttons/*.cpp 
+
+                        src/Script/uiGos/*.cpp
                         )
 
 

@@ -93,8 +93,10 @@ void Move::crawl_renderUpdate(){
     glm::dvec2 speedV = this->currentDirAxes.to_dmpos();
     speedV *= SpeedLevel_2_val(this->speedLvl) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
-    //---- crawl -----//
-    this->renderUpdate_inn(  speedV );
+
+
+    //---- inn -----//
+    this->for_regularGo_inn(  speedV );
 }
 
 
@@ -136,8 +138,15 @@ void Move::drag_renderUpdate(){
         speedV = dposOff;
     }
 
-    //---- crawl -----//
-    this->renderUpdate_inn( speedV );
+    //---- inn -----//
+    
+    if( this->goRef.family == GameObjFamily::UI ){
+        this->goRef.goPos.accum_current_dpos_and_mcpos( speedV, NineBox{}, false );
+    }else{
+        this->for_regularGo_inn( speedV );
+    }
+
+
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -147,10 +156,10 @@ void Move::drag_renderUpdate(){
 
 
 /* ===========================================================
- *               renderUpdate_inn
+ *               for_regularGo_inn
  * -----------------------------------------------------------
  */
-void Move::renderUpdate_inn( const glm::dvec2 &speedV_ ){
+void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
 
     GameObjPos &goPosRef = this->goRef.goPos;
 

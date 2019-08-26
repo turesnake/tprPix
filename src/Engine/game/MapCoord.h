@@ -218,6 +218,11 @@ inline glm::dvec2 calc_dpos_from_mpos_and_pposOff( const IntVec2 mpos_, const In
                         static_cast<double>(ppos.y) };
 }
 
+inline glm::dvec2 mpos_2_dpos( const IntVec2 &mpos_ ){
+    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT),
+                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT) };
+}
+
 
 /* ===========================================================
  *                mpos_2_midPPos

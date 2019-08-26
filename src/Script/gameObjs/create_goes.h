@@ -34,7 +34,17 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                         const IntVec2 pposOff_,
                         const ParamBinary &dyParams_  );
 
-
 }//------------- namespace gameObjs: end ----------------
+
+
+namespace uiGos{//------------- namespace uiGos ----------------
+
+goid_t create_a_UIGo( goSpecId_t goSpecId_,
+                    const IntVec2 mpos_, 
+                    const IntVec2 pposOff_,
+                    const ParamBinary &dyParams_ );
+
+}//------------- namespace uiGos: end ----------------
+
 #endif 
 

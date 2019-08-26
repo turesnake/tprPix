@@ -18,12 +18,16 @@
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/allGoes.h"
+#include "Script/uiGos/allUIGoes.h"
+
 #include "Script/json/GoJsonData.h"
+#include "Script/json/UIGoJsonData.h"
+
+
 
 using namespace std::placeholders;
 
 //#include "tprDebug.h" //- tmp
-
 
 //namespace goSpecIds_inn {//-------------- namespace: goSpecIds_inn ---------------------
 //}//------------------------- namespace: goSpecIds_inn end -------------------
@@ -44,8 +48,9 @@ void onGoSpecIds_SignUp(){
 
     //==================================//
     parse_from_goJsonFile();
+    parse_from_uiGoJsonFile();
 
-    //==================================//
+    //================ Goes ==================//
     ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init_in_autoMod, _1, _2 ) );
@@ -73,6 +78,13 @@ void onGoSpecIds_SignUp(){
     ssrc::insert_2_goInit_funcs( "playerGoCircle", std::bind( &gameObjs::PlayerGoCircle::init_in_autoMod, _1, _2 ) );
 
      //...
+
+    //================ UIGoes ==================//
+
+    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_archive_2", std::bind( &uiGos::Button_SceneBegin_Archive::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_pointer_2", std::bind( &uiGos::Button_SceneBegin_Pointer::init_in_autoMod, _1, _2 ) );
+
+
 
     //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 
 }

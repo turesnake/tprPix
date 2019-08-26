@@ -33,7 +33,7 @@
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
 #include "Script/gameObjs/create_goes.h"
-#include "Script/UIs/create_UIs.h"
+//#include "Script/UIs/create_UIs.h"
 
 
 using namespace std::placeholders;
@@ -44,23 +44,27 @@ using namespace std::placeholders;
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
     //-- 三个按钮的 位置 --
-    const std::vector<glm::vec2> buttonFPoses {
-        glm::vec2 {0.0,  50.0},  //- 0
-        glm::vec2 {0.0,   0.0},  //- 1
-        glm::vec2 {0.0, -50.0}  //- 2
+
+    // 在未来，有必要制作一个 专门适合 UI 的 坐标体系
+    const std::vector<IntVec2> butonMPoses {
+        IntVec2 { 0,  3 },  //- 0
+        IntVec2 { 0,  0 },  //- 1
+        IntVec2 { 0, -3 }   //- 2
     };
+
 
     size_t targetIdx {0}; //- 用来指向 buttonMPoses : 0,1,2
 
     //- 一种简陋的方法，来降低 input 输入频率，
     //  每获得一次有效输入后，屏蔽之后10帧的 输入
     int  inputFrameCount {0};
+    int  inputGap        {10}; //- 间隙
     bool is_input_open   {true};
 
-    UIObj *button_archive_1_Ptr  {nullptr};
-    UIObj *button_archive_2_Ptr  {nullptr};
-    UIObj *button_archive_3_Ptr  {nullptr};
-    UIObj *button_pointer_Ptr    {nullptr};
+    goid_t button_archiveId_1 {};
+    goid_t button_archiveId_2 {};
+    goid_t button_archiveId_3 {};
+    goid_t button_pointerId   {};
 
 
     std::unordered_map<gameArchiveId_t, GameArchive> gameArchives {};
@@ -82,17 +86,34 @@ void prepare_for_sceneBegin(){
     //----------------------------//
     //      create ui objs
     //----------------------------//
-    uiObjId_t pointerId = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_pointer"), sc_begin_inn::buttonFPoses.at(0) );
+    //- 所有 uigo，默认使用 1m1 collientset, 手动修正，使得 rootanchor，对齐于 目标 mpos
+    //  最简陋的实现，tmp...
+    IntVec2 initPPosOff {-HALF_PIXES_PER_MAPENT, -HALF_PIXES_PER_MAPENT};
 
-    uiObjId_t archiveId_1 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(0) );
-    uiObjId_t archiveId_2 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(1) );
-    uiObjId_t archiveId_3 = uis::create_a_ui( ssrc::get_uiSpecId("button_sceneBegin_archive"), sc_begin_inn::buttonFPoses.at(2) );
+    sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_pointer_2"), 
+                                                            sc_begin_inn::butonMPoses.at(0),
+                                                            initPPosOff,
+                                                            emptyParamBinary );
+    //---
+    sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+                                                            sc_begin_inn::butonMPoses.at(0),
+                                                            initPPosOff,
+                                                            emptyParamBinary );
 
-    sc_begin_inn::button_pointer_Ptr   = esrc::get_memUIPtr( pointerId );
-    sc_begin_inn::button_archive_1_Ptr = esrc::get_memUIPtr( archiveId_1 );
-    sc_begin_inn::button_archive_2_Ptr = esrc::get_memUIPtr( archiveId_2 );
-    sc_begin_inn::button_archive_3_Ptr = esrc::get_memUIPtr( archiveId_3 );
+    sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+                                                            sc_begin_inn::butonMPoses.at(1),
+                                                            initPPosOff,
+                                                            emptyParamBinary );
+    
+    sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+                                                            sc_begin_inn::butonMPoses.at(2),
+                                                            initPPosOff,
+                                                            emptyParamBinary );
 
+    GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
+    GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
+    GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
+    GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
 
     //----------------------------//
     //            db
@@ -105,9 +126,15 @@ void prepare_for_sceneBegin(){
         //-- 如果哪个 存档已经有数据了，修改其图标（显示"data"）
         //   简单粗暴的实现，临时...
         switch( pair.first ){
-            case 1:  sc_begin_inn::button_archive_1_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
-            case 2:  sc_begin_inn::button_archive_2_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
-            case 3:  sc_begin_inn::button_archive_3_Ptr->get_uiMesh().bind_animAction( "button_beginScene", "data" ); break;
+            case 1:  
+                button_archiveRef_1.actionSwitch.call_func(ActionSwitchType::ButtonState_2);
+                break;
+            case 2:  
+                button_archiveRef_2.actionSwitch.call_func(ActionSwitchType::ButtonState_2);
+                break;
+            case 3:  
+                button_archiveRef_3.actionSwitch.call_func(ActionSwitchType::ButtonState_2);
+                break;
             default:
                 tprAssert(0);
         }
@@ -126,6 +153,15 @@ void prepare_for_sceneBegin(){
  *    最最简单的样式，快速填补功能空白。在未来，需要重新设计
  */
 void sceneLogicLoop_begin(){
+    //  nothing ...
+}
+
+
+/* ===========================================================
+ *                 sceneRenderLoop_begin
+ * -----------------------------------------------------------
+ */
+void sceneRenderLoop_begin(){
 
     //--------------------------------//
     //    camera:: RenderUpdate()
@@ -139,37 +175,34 @@ void sceneLogicLoop_begin(){
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
-}
 
-
-/* ===========================================================
- *                 sceneRenderLoop_begin
- * -----------------------------------------------------------
- */
-void sceneRenderLoop_begin(){
-
-    //====================================//
-    //          -- RENDER --
-    //    Z-Deep 深的 mesh 必须先渲染
-    //====================================//
     //--- clear RenderPools:
     // *** 注意次序 ***
-    esrc::clear_renderPool_uiMeshs_pic();
+    esrc::clear_renderPool_goMeshs_opaque();
+    esrc::clear_renderPool_goMeshs_translucent();
 
     //------------------------//
     //     - shadowMeshs
     //     - picMeshs
     //------------------------//
-    esrc::foreach_uiIds_active(
-        []( uiObjId_t uiObjId_, UIObj *uiObjPtr_ ){
-            uiObjPtr_->renderUpdate();
-        }
-    );
+    GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
+    GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
+    GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
+    GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
+
+    button_pointerRef.RenderUpdate( button_pointerRef );
+    button_archiveRef_1.RenderUpdate( button_archiveRef_1 );
+    button_archiveRef_2.RenderUpdate( button_archiveRef_2 );
+    button_archiveRef_3.RenderUpdate( button_archiveRef_3 );
 
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
-    esrc::draw_renderPool_uiMeshs_pic(); 
+    //-- opaque First, Translucent Second !!! --
+    esrc::draw_renderPool_goMeshs_opaque(); 
+    esrc::draw_renderPool_goMeshs_translucent(); 
+
+
 }
 
 
@@ -186,7 +219,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
     //-- 当获得一次有效 input后，屏蔽之后的 10 帧。
     if( is_input_open == false ){
         inputFrameCount++;
-        if( inputFrameCount < 10 ){
+        if( inputFrameCount < sc_begin_inn::inputGap ){
             return;
         }else{
             is_input_open = true;
@@ -209,6 +242,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         gameArchiveId_t archiveId = static_cast<gameArchiveId_t>(targetIdx+1);
 
         if( gameArchives.find(archiveId) == gameArchives.end() ){
+
             //-----------------------//
             //   玩家选中的 存档为 空 
             //-----------------------//
@@ -220,9 +254,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             esrc::get_timer().start_record_gameTime( newGameTime );
 
             //-- max goid --
-            // 必须在 chunks／goes 生成之前
-            u64_t   maxGoId  { 1 };
-            GameObj::id_manager.set_max_id(maxGoId);
+            // 新存档无需重制 goMaxId, 因为在创建本 scene 时，uigo 已经占用了 goid号
+            // tmp...
 
                 //-- 随便定个 mpos 
                 IntVec2    newGoMPos    { 0,0 };
@@ -241,7 +274,6 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                                                             newGoMPos,
                                                             newGoPPosOff,
                                                             emptyParamBinary );
-                        cout << "---koko---koko---" << endl;
 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos, newGoPPosOff } );
@@ -273,8 +305,6 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 cout << "maxGoId_from_db = " << GameObj::id_manager.get_max_id() << endl;
 
-                                    //-- win-clang-release 并未执行到这一步
-
             //-- gameTime --
             esrc::get_timer().start_record_gameTime( targetGameArchive.gameTime );
 
@@ -283,17 +313,6 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             //-- db::table_goes --
             DiskGameObj diskGo {};
             db::atom_select_one_from_table_goes( targetGameArchive.playerGoId, diskGo );
-
-                //-- tmp
-                /*
-                if( diskGo.mpos != targetGameArchive.playerGoMPos ){
-                    cout << "diskGo.mpos: " <<  diskGo.mpos.x 
-                        << ", " <<  diskGo.mpos.y
-                        << "; targetGameArchive.playerGoMPos: " << targetGameArchive.playerGoMPos.x 
-                        << ", " << targetGameArchive.playerGoMPos.y 
-                        << endl;
-                }
-                */
 
                 tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
             
@@ -323,22 +342,27 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         is_input_open = false;
         //---
         if( targetIdx == 0 ){
-            targetIdx = buttonFPoses.size() - 1;
+            targetIdx = butonMPoses.size()-1;
         }else{
             targetIdx--;
-        }
-        button_pointer_Ptr->drag_to_fpos( buttonFPoses.at(targetIdx) );
+        }   
+        //---    
+        GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );   
+        button_pointerRef.move.set_drag_targetDPos( mpos_2_dpos(butonMPoses.at(targetIdx)) );
+
 
     }else if( inputINS_.check_key(GameKey::DOWN) ){
         is_input_open = false;  
         //---
-        targetIdx++;
-        if( targetIdx >= buttonFPoses.size() ){
+        if( targetIdx == butonMPoses.size()-1 ){
             targetIdx = 0;
+        }else{
+            targetIdx++;
         }
-        button_pointer_Ptr->drag_to_fpos( buttonFPoses.at(targetIdx) );
+        //---
+        GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
+        button_pointerRef.move.set_drag_targetDPos( mpos_2_dpos(butonMPoses.at(targetIdx)) );
     }
-
 
     if( is_input_open == false ){
         inputFrameCount = 0; //- clear 0

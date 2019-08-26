@@ -86,9 +86,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
  * -----------------------------------------------------------
  */
 void GameObj::init_check(){
-
     tprAssert( this->rootColliEntHeadPtr );
-
 }
 
 

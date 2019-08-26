@@ -23,9 +23,7 @@ class Camera{
 public:
     Camera():
         targetDPos(glm::dvec2(0.0, 0.0)),
-        currentDPos(glm::dvec3(  0.0,
-                                0.0,
-                                0.5 * ViewingBox::z ))
+        currentDPos(glm::dvec3(0.0, 0.0, 0.5*ViewingBox::z))
         {}
 
     void RenderUpdate();

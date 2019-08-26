@@ -31,7 +31,6 @@
 #include "esrc_shader.h"
 #include "esrc_thread.h"
 #include "esrc_time.h"
-#include "esrc_ui.h"
 #include "esrc_window.h"
 
 

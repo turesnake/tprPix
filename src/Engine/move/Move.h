@@ -105,7 +105,8 @@ private:
     void crawl_renderUpdate();
     void drag_renderUpdate();
 
-    void renderUpdate_inn( const glm::dvec2 &speedV_ );
+    void for_regularGo_inn( const glm::dvec2 &speedV_ );
+
 
     //===== vals =====//
     GameObj      &goRef;
