@@ -167,7 +167,7 @@ void assemble_goJsonData_2_newGo( goSpecId_t specID_,
     goRef_.set_collision_isBePass( d.isBePass );
 
     goRef_.move.set_speedLvl( d.speedLvl );
-    goRef_.goPos.set_alti( d.alti );
+    goRef_.set_pos_alti( d.alti );
     goRef_.weight = d.weight;
 
     //------ pubBinary -------//

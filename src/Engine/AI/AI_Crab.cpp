@@ -32,7 +32,7 @@ void AI_Crab::logicUpdate(){
         this->tmpCount=0;
         //---
 
-        const IntVec2 mpos = this->goPtr->goPos.get_currentMPos();
+        const IntVec2 mpos = this->goPtr->get_goPos_currentMPos();
         cout << "go_mpos: " << mpos.x
             << ", " << mpos.y;
         cout << ";  tmpVal = " << this->get_tmpVal_functor()

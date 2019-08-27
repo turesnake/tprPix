@@ -69,20 +69,15 @@ public:
     //-- 使用 NineBox 来传递参数，
     //   决定了当前模式下的 最大速度，不能超过 1_mapent_per_frame 
     //   想要突破这个限制，就要 进一步 完善 collision 函数
-    //   让它支持，一次检测 数个 mapent
-    inline void accum_current_dpos_and_mcpos(   const glm::dvec2 &dpos_,
+    //   让它支持：一次检测 数个 mapent
+    inline void accum_current_dpos_and_mcpos(   const glm::dvec2 &addDPos_,
                                                 const NineBox &nbOff_,
                                                 bool  isCross_ ){
-        this->currentDPos += dpos_;
+        this->currentDPos += addDPos_;
         if( isCross_ ){
             this->currentMCPos.accum_mpos( nbOff_.to_mpos() );
         }
     }
-
-    //-- 用于 move.locate
-    //   直接将一个 go，摆放到一个 dpos 上
-    //inline void locate_by_dpos( const glm::dvec2 &dpos_ ){
-    //}
 
     //------- get -------//
 

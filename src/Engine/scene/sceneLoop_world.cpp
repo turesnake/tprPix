@@ -68,7 +68,7 @@ void prepare_for_sceneWorld(){
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
-    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().goPos.get_currentDPos() );
+    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_pos_currentDPos() );
     input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -170,8 +170,6 @@ void sceneRenderLoop_world(){
     //====================================//
 
     //--- clear RenderPools:
-    // *** 注意次序 ***
-    esrc::clear_renderPool_meshs();
     esrc::clear_renderPool_goMeshs_opaque();
     esrc::clear_renderPool_goMeshs_translucent();
 
@@ -196,19 +194,17 @@ void sceneRenderLoop_world(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_groundCanvas();
-    esrc::draw_renderPool_meshs(); //- chunks，已废弃
     esrc::draw_waterAnimCanvas();
-    tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
-    tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
+
+        tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
+        tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
 
     //-- opaque First, Translucent Second !!! --
     esrc::draw_renderPool_goMeshs_opaque(); 
     esrc::draw_renderPool_goMeshs_translucent(); 
 
-
     // playerGoIndication ...
     //esrc::get_player().get_goRef().render_all_goMesh_for_playerGoIndication();
-
 
 }
 
@@ -231,7 +227,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::get_camera().set_targetDPos( playerGoRef.goPos.get_currentDPos() );
+    esrc::get_camera().set_targetDPos( playerGoRef.get_pos_currentDPos() );
 
     //... 暂时没有 处理 剩余功能键的 代码 
 
@@ -279,7 +275,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 
-        const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( playerGoRef.goPos.get_currentMPos() );
+        const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( playerGoRef.get_goPos_currentMPos() );
         const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntRef.get_mpos()) );
 
         //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...

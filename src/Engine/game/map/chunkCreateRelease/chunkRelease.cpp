@@ -36,7 +36,7 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void collect_chunks_need_to_be_release_in_update(){
 
-    IntVec2 playerMPos = esrc::get_player().get_goRef().goPos.get_currentMPos();
+    IntVec2 playerMPos = esrc::get_player().get_goRef().get_goPos_currentMPos();
     esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( playerMPos );
 }
 

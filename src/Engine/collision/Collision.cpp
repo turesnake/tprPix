@@ -57,9 +57,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
 
     bool isRootCollide = doGoRef.get_goMeshRef("root").isCollide;
 
-    //----------------------
-    //IntVec2 currentMPos = doGoRef.goPos.get_currentMPos();
-        
+    //----------------------        
     const ColliEntHead &doCehRef = doGoRef.get_rootColliEntHeadRef();
     const ColliEntSet  &doCesRef = esrc::get_colliEntSetRef( doCehRef.colliEntSetIdx ); //- get do_ces_ref
 
@@ -74,7 +72,7 @@ bool Collision::detect_collision( const NineBoxIdx &nbIdx_ ){
     //------------------------------//
     if( isRootCollide ){
 
-        currentGoAltiRange.set_by_addAlti( doCehRef.lGoAltiRange, doGoRef.goPos.get_alti() ); 
+        currentGoAltiRange.set_by_addAlti( doCehRef.lGoAltiRange, doGoRef.get_pos_alti() ); 
 
         //cesMCPos.set_by_mpos( currentMPos - doCehRef.mposOff_from_cesLB_2_centerMPos );
         //cesMCPos.set_by_mpos( doGoRef.get_rootCES_leftBottom_MPos() );

@@ -106,8 +106,8 @@ void atom_writeBack_to_table_gameArchive(){
 
     goid_t goid = playerRef.goid;
     GameObj &playerGoRef = playerRef.get_goRef();
-    IntVec2 mpos = playerGoRef.goPos.get_currentMPos();
-    IntVec2 pposOff = playerGoRef.goPos.calc_current_pposOff();
+    IntVec2 mpos = playerGoRef.get_goPos_currentMPos();
+    IntVec2 pposOff = playerGoRef.calc_goPos_current_pposOff();
 
     //-- 将新数据 写回 db --
     esrc::get_gameArchive().playerGoId = goid;

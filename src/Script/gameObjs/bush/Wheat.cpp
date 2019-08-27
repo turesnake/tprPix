@@ -95,7 +95,7 @@ void Wheat::init_in_autoMod(    GameObj &goRef_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos( );
+    goRef_.init_goPos_currentDPos( );
     //...
 
     //--- MUST ---

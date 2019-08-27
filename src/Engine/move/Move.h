@@ -19,6 +19,10 @@
 #include "MapCoord.h"
 #include "DirAxes.h"
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 //-- need --
 class GameObj;
 class GameObjPos;
@@ -30,6 +34,10 @@ enum class MoveType : int {
     Drag    //- 类似 camera的运动方式：go快速向 目标pos 靠拢
             //  被用于 UI 图标运动
             //  接近率 足够高 的 drag，可以用来模拟 locate 操作
+
+    //-----
+    // Drag 应该被拆分为 匀速跟随／变速跟随 两种类型 
+
 };
 
 inline MoveType str_2_MoveType( const std::string name_ ){
@@ -118,7 +126,10 @@ private:
     DirAxes  newDirAxes     {};  //- 本次渲染帧，新传入的 方向值（每一帧都被外部代码更新）
     DirAxes  currentDirAxes {};  //- 当前正在处理的  方向值。（只在节点帧被改写）
 
-    glm::dvec2 targetDPos  {};
+    glm::dvec2 targetDPos  {-987654321.98765,-987654321.98765};
+                                //- 设置一个不可能指向的 初始值。防止 第一次使用 set_drag_targetDPos() 时
+                                //  就引发 targetDPos 初始值 等于 目标值。从而 drag 失效
+                                //  一种很简陋，但有效的办法
 
     F_RenderUpdate renderUpdataFunc {nullptr}; //- functor
                                                //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现

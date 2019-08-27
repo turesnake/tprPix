@@ -36,12 +36,14 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
                     const IntVec2 pposOff_,
                     const ParamBinary &dyParams_ ){
 
-    goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
+    goid_t goid = esrc::insert_new_regularGo( mpos_, pposOff_ );
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
     assemble_goJsonData_2_newGo( goSpecId_, goRef );
+
+    
 
     //-- check GameObjFamily --
     //....
@@ -115,13 +117,12 @@ namespace uiGos{//------------- namespace uiGos ----------------
  * -----------------------------------------------------------
  */
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
-                    const IntVec2 mpos_, 
-                    const IntVec2 pposOff_,
+                    const glm::dvec2 &basePointProportion_, 
+                    const glm::dvec2 &offDPos_,
                     const ParamBinary &dyParams_ ){
 
-    goid_t goid = esrc::insert_new_gameObj( mpos_, pposOff_ );
+    goid_t goid = esrc::insert_new_uiGo( basePointProportion_, offDPos_ );
     GameObj &goRef = esrc::get_goRef( goid );
-
     
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
@@ -133,7 +134,31 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     ssrc::call_uiGoInit_func( goSpecId_,
                             goRef,
                             dyParams_ );
+    //------------------------------//
+    //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
+    //  ui 也不存在什么 active 状态
+    return  goid;
+}
 
+
+goid_t create_a_UIGo( goSpecId_t goSpecId_,
+                    const UIAnchor &uiAnchor_,
+                    const ParamBinary &dyParams_ ){
+
+    goid_t goid = esrc::insert_new_uiGo(uiAnchor_.get_basePointProportion(), 
+                                        uiAnchor_.get_offDPos() );
+    GameObj &goRef = esrc::get_goRef( goid );
+    
+    //-- set some static datas from JSON --
+        tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
+    assemble_uiGoJsonData_2_newUIGo( goSpecId_, goRef );
+
+    //-- check GameObjFamily --
+    tprAssert( goRef.family == GameObjFamily::UI );
+
+    ssrc::call_uiGoInit_func( goSpecId_,
+                            goRef,
+                            dyParams_ );
     //------------------------------//
     //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
     //  ui 也不存在什么 active 状态

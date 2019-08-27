@@ -37,7 +37,10 @@ GameObj *get_goRawPtr( goid_t id_ );
 void foreach_goids_active( F_GOID_GOPTR fp_ );
 void foreach_goids_inactive( F_GOID_GOPTR fp_ );
 
-goid_t insert_new_gameObj( const IntVec2 mpos_, const IntVec2 pposOff_ );
+goid_t insert_new_regularGo( const IntVec2 mpos_, const IntVec2 pposOff_ );
+goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_, const glm::dvec2 &offDPos_ );
+
+
 void erase_the_go( goid_t id_ );
 void insert_a_disk_gameObj( goid_t goid_, const IntVec2 mpos_, const IntVec2 pposOff_ );
 void realloc_active_goes();

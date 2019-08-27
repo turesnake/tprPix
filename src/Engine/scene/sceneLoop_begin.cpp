@@ -27,6 +27,7 @@
 #include "dataBase.h"
 #include "GameArchive.h"
 #include "GameSeed.h"
+#include "UIAnchor.h"
 
 #include "esrc_all.h" //- 所有资源
 
@@ -47,13 +48,28 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
 
     // 在未来，有必要制作一个 专门适合 UI 的 坐标体系
     const std::vector<IntVec2> butonMPoses {
-        IntVec2 { 0,  3 },  //- 0
+        IntVec2 { 0,  2 },  //- 0
         IntVec2 { 0,  0 },  //- 1
-        IntVec2 { 0, -3 }   //- 2
+        IntVec2 { 0, -2 }   //- 2
     };
 
 
-    size_t targetIdx {0}; //- 用来指向 buttonMPoses : 0,1,2
+    const std::vector<UIAnchor> butonUIAnchors {
+        UIAnchor { glm::dvec2 { 0.0, 0.0 },    // center of window
+                   glm::dvec2 { 0.0, 64.0 } },  //- offDPos
+
+        UIAnchor { glm::dvec2 { 0.0, 0.0 },    // center of window
+                   glm::dvec2 { 0.0, 0.0 } },  //- offDPos
+
+        UIAnchor { glm::dvec2 { 0.0, 0.0 },    // center of window
+                   glm::dvec2 { 0.0, -64.0 } },  //- offDPos
+    };
+
+
+
+
+
+    size_t targetIdx {0}; //- 用来指向 buttonMPoses : {0,1,2}
 
     //- 一种简陋的方法，来降低 input 输入频率，
     //  每获得一次有效输入后，屏蔽之后10帧的 输入
@@ -91,29 +107,26 @@ void prepare_for_sceneBegin(){
     IntVec2 initPPosOff {-HALF_PIXES_PER_MAPENT, -HALF_PIXES_PER_MAPENT};
 
     sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_pointer_2"), 
-                                                            sc_begin_inn::butonMPoses.at(0),
-                                                            initPPosOff,
+                                                            sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyParamBinary );
     //---
     sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
-                                                            sc_begin_inn::butonMPoses.at(0),
-                                                            initPPosOff,
+                                                            sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyParamBinary );
 
     sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
-                                                            sc_begin_inn::butonMPoses.at(1),
-                                                            initPPosOff,
+                                                            sc_begin_inn::butonUIAnchors.at(1),
                                                             emptyParamBinary );
     
     sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
-                                                            sc_begin_inn::butonMPoses.at(2),
-                                                            initPPosOff,
+                                                            sc_begin_inn::butonUIAnchors.at(2),
                                                             emptyParamBinary );
 
     GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
     GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
     GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
     GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
+
 
     //----------------------------//
     //            db
@@ -175,9 +188,7 @@ void sceneRenderLoop_begin(){
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
-
     //--- clear RenderPools:
-    // *** 注意次序 ***
     esrc::clear_renderPool_goMeshs_opaque();
     esrc::clear_renderPool_goMeshs_translucent();
 
@@ -194,14 +205,13 @@ void sceneRenderLoop_begin(){
     button_archiveRef_1.RenderUpdate( button_archiveRef_1 );
     button_archiveRef_2.RenderUpdate( button_archiveRef_2 );
     button_archiveRef_3.RenderUpdate( button_archiveRef_3 );
-
+                        
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     //-- opaque First, Translucent Second !!! --
     esrc::draw_renderPool_goMeshs_opaque(); 
     esrc::draw_renderPool_goMeshs_translucent(); 
-
 
 }
 
@@ -239,7 +249,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         //  可以将其 写入 游戏mem态，并进入 后续流程
         //  创建／读取 相关 数据库 table。结束 scenebegin，准备进入 sceneWorld
 
-        gameArchiveId_t archiveId = static_cast<gameArchiveId_t>(targetIdx+1);
+        gameArchiveId_t archiveId = static_cast<gameArchiveId_t>(targetIdx+1);// 很粗暴的方式
 
         if( gameArchives.find(archiveId) == gameArchives.end() ){
 
@@ -341,27 +351,29 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
     if( inputINS_.check_key(GameKey::UP) ){
         is_input_open = false;
         //---
-        if( targetIdx == 0 ){
-            targetIdx = butonMPoses.size()-1;
+        if( targetIdx <= 0 ){
+            targetIdx = butonUIAnchors.size()-1;
         }else{
             targetIdx--;
         }   
         //---    
+
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );   
-        button_pointerRef.move.set_drag_targetDPos( mpos_2_dpos(butonMPoses.at(targetIdx)) );
+        button_pointerRef.move.set_drag_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
 
 
     }else if( inputINS_.check_key(GameKey::DOWN) ){
         is_input_open = false;  
         //---
-        if( targetIdx == butonMPoses.size()-1 ){
+        if( targetIdx >= butonUIAnchors.size()-1 ){
             targetIdx = 0;
         }else{
             targetIdx++;
         }
         //---
+
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
-        button_pointerRef.move.set_drag_targetDPos( mpos_2_dpos(butonMPoses.at(targetIdx)) );
+        button_pointerRef.move.set_drag_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
     }
 
     if( is_input_open == false ){

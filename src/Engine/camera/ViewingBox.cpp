@@ -25,11 +25,6 @@ void ViewingBox::init(){
 
     WindowConfigJsonData windowConfig = parse_from_windowConfigJsonFile();
 
-        cout << "windowConfig.windowPix: " << windowConfig.windowPixW
-            << ", " << windowConfig.windowPixH
-            << endl;
-
-
     double srcWidth  = static_cast<double>(windowConfig.windowPixW);
     double srcHeight = static_cast<double>(windowConfig.windowPixH);
 
@@ -53,6 +48,14 @@ void ViewingBox::init(){
 
 
     ViewingBox::isFullScreen = windowConfig.isFullScreen;
+
+    //---------
+            cout<< " ViewingBox:\n"
+                << " === windowSZ: " << ViewingBox::windowSZ.x
+                << ", " << ViewingBox::windowSZ.y << ";\n"
+                << " === gameSZ: " << ViewingBox::gameSZ.x
+                << ", " << ViewingBox::gameSZ.y << ";\n"
+                << endl;
 
 }
 

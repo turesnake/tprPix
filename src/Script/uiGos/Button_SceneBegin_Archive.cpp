@@ -16,7 +16,6 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-//#include "tprMath.h"
 #include "esrc_shader.h" 
 #include "esrc_player.h"
 
@@ -63,8 +62,6 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//
 
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos( );
     //...    
 
     //--- MUST ---

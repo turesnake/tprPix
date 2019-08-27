@@ -54,7 +54,7 @@ void ChildMesh::refresh_scale_auto(){
 void ChildMesh::refresh_translate(){
 
     const auto &goRef = this->goMeshRef.get_goCRef();
-    const glm::vec2 &currentFPos = glm_dvec2_2_vec2( goRef.goPos.get_currentDPos() );       
+    const glm::vec2 &currentFPos = glm_dvec2_2_vec2( goRef.get_pos_currentDPos() );       
     
     //- 图元帧 左下角 到 rootAnchor 的 偏移
     const IntVec2  &vRef = this->goMeshRef.get_currentRootAnchorPPosOff(); 
@@ -63,20 +63,22 @@ void ChildMesh::refresh_translate(){
 
     const glm::vec2 &pposOff = this->goMeshRef.get_pposOff();
 
-    float goAlti = static_cast<float>(goRef.goPos.get_alti());
+    float goAlti = static_cast<float>(goRef.get_pos_alti());
 
 
     //--- set translate_val ---//
     this->translate_val.x = currentFPos.x + pposOff.x - vf.x;
+
+    const float &off_zRef = this->goMeshRef.get_off_z();
 
     if( this->isPic == true ){
         this->translate_val.y = currentFPos.y + pposOff.y - vf.y + goAlti;
                                     
         if( goMeshRef.isPicFixedZOff ){
             this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar()) + 
-                                    goMeshRef.get_picFixedZOff();
+                                    goMeshRef.get_picFixedZOff() + off_zRef;
         }else{
-            this->translate_val.z = -(currentFPos.y + pposOff.y) + this->goMeshRef.get_off_z();
+            this->translate_val.z = -(currentFPos.y + pposOff.y) + off_zRef;
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负， 摄像机朝向 z轴 负方向
                                         // -2- 没有算入 vf.y; 因为这个值只代表：
@@ -87,7 +89,7 @@ void ChildMesh::refresh_translate(){
         this->translate_val.y = currentFPos.y - vf.y;
                                     //-- shadow 的 y值 并不随着 pposOff 而变化。
                                     //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
-        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff) - this->goMeshRef.get_off_z();
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff) + off_zRef;
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”
     }

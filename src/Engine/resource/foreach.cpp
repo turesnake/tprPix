@@ -15,21 +15,6 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 /* ===========================================================
- *                     foreach_memGameObjs
- * -----------------------------------------------------------
- * 暂未被使用
- */
-/*
-void foreach_memGameObjs( F_GOID_GOPTR fp_ ){
-    auto ipair = esrc::get_memGameObjs().begin();
-    for( ; ipair!=esrc::get_memGameObjs().end(); ipair++ ){
-        fp_( ipair->first,  (ipair->second) );
-    }
-}
-*/
-
-
-/* ===========================================================
  *                 foreach_goids_active
  * -----------------------------------------------------------
  * -- 
@@ -42,7 +27,6 @@ void foreach_goids_active( F_GOID_GOPTR fp_ ){
         fp_( *it, esrc::get_goRef(*it) );
     }
 }
-
 
 
 /* ===========================================================

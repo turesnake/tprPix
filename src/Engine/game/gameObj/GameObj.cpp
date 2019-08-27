@@ -16,21 +16,96 @@
 #include "esrc_chunk.h"
 #include "esrc_shader.h"
 
+using namespace std::placeholders;
+
 //#include "tprDebug.h" //- tmp
 
 /* ===========================================================
- *                         init
+ *                   init_for_regularGo
  * -----------------------------------------------------------
  */
-void GameObj::init( const IntVec2 mpos_,
-                    const IntVec2 pposOff_ ){
-    this->goPos.init(   mpos_,
+void GameObj::init_for_regularGo(   const IntVec2 mpos_,
+                                    const IntVec2 pposOff_ ){
+    
+    //-----------------------//
+    //    choose goPos
+    //-----------------------//
+    this->goPosUPtr = std::make_unique<GameObjPos>();
+    this->goPosUPtr->init(   mpos_,
                         pposOff_,
                         std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
                         std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
                             // now, this->rootColliEntHeadPtr == nullptr;
                             // but this bind can work
-    this->currentChunkKey = anyMPos_2_chunkKey( this->goPos.get_currentMPos() );
+    //-- Must Release Another One !!! --
+    if( this->uiGoPosUPtr != nullptr ){
+        this->uiGoPosUPtr = nullptr;
+    } 
+
+    GameObjPos *goPosPtr = this->goPosUPtr.get(); //- use for param 
+
+    //-- bind functors --
+    this->get_pos_currentDPos = std::bind( &GameObjPos::get_currentDPos, goPosPtr );
+    this->set_pos_alti        = std::bind( &GameObjPos::set_alti, goPosPtr,  _1 );
+    this->get_pos_alti        = std::bind( &GameObjPos::get_alti, goPosPtr );
+
+
+    // only in goPos:
+    this->get_goPos_currentMPos              = std::bind( &GameObjPos::get_currentMPos, goPosPtr );
+    this->init_goPos_currentDPos             = std::bind( &GameObjPos::init_currentDPos, goPosPtr );
+    this->calc_goPos_current_pposOff         = std::bind( &GameObjPos::calc_current_pposOff, goPosPtr );
+    this->accum_goPos_current_dpos_and_mcpos = std::bind( &GameObjPos::accum_current_dpos_and_mcpos, goPosPtr, _1,_2,_3 );
+    this->calc_goPos_rootAnchor_midDPos      = std::bind( &GameObjPos::calc_rootAnchor_midDPos, goPosPtr );
+
+    // only in uiGoPos:
+    this->accum_uiGoPos_currentDPos = nullptr;
+
+    //-----------------------//
+    //         oth
+    //-----------------------//
+    this->currentChunkKey = anyMPos_2_chunkKey( this->get_goPos_currentMPos() );
+    //...
+}
+
+/* ===========================================================
+ *                   init_for_uiGo
+ * -----------------------------------------------------------
+ */
+void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
+                            const glm::dvec2 &offDPos_ ){
+
+    //-----------------------//
+    //    choose uiGoPos
+    //-----------------------//
+    this->uiGoPosUPtr = std::make_unique<UIAnchor>();
+    this->uiGoPosUPtr->init( basePointProportion_, offDPos_ );
+
+    //-- Must Release Another One !!! --
+    if( this->goPosUPtr != nullptr ){
+        this->goPosUPtr = nullptr;
+    }
+
+    UIAnchor *uiGoPosPtr = this->uiGoPosUPtr.get(); //- use for param 
+
+    //-- bind functors --
+    this->get_pos_currentDPos = std::bind( &UIAnchor::get_currentDPos, uiGoPosPtr );
+    this->set_pos_alti        = std::bind( &UIAnchor::set_alti, uiGoPosPtr, _1 );
+    this->get_pos_alti        = std::bind( &UIAnchor::get_alti, uiGoPosPtr );
+
+
+    // only in goPos:
+    this->get_goPos_currentMPos = nullptr;
+    this->init_goPos_currentDPos = nullptr;
+    this->calc_goPos_current_pposOff = nullptr;
+    this->accum_goPos_current_dpos_and_mcpos = nullptr;
+    this->calc_goPos_rootAnchor_midDPos = nullptr;
+
+    // only in uiGoPos:
+    this->accum_uiGoPos_currentDPos = std::bind( &UIAnchor::accum_currentDPos, uiGoPosPtr, _1 );
+
+    //-----------------------//
+    //         oth
+    //-----------------------//
     //...
 }
 
@@ -194,55 +269,4 @@ void GameObj::signUp_newGO_to_mapEnt(){
                                         cehRef.isCarryAffect );
     }
 }
-
-
-
-/* ===========================================================
- *                       debug
- * -----------------------------------------------------------
- */
-/*
-void GameObj::debug(){
-
-    cout << "------ GameObj: " << id << " --------" << endl;
-
-    cout<< "\nsizeof(GameObj): "      << sizeof(GameObj)
-        << "\nsizeof(GameObjPos): "   << sizeof(GameObjPos)
-        << "\nsizeof(Move): "         << sizeof(Move)
-        << "\nsizeof(GameObjMesh): "  << sizeof(GameObjMesh)
-        << "\nsizeof(ChildMesh): "    << sizeof(ChildMesh)
-        << "\nsizeof(ActionSwitch): " << sizeof(ActionSwitch)
-        << "\nsizeof(Collision): "    << sizeof(Collision)
-        << endl;
-
-    
-    cout<< "\nAwake:        " << ( Awake==nullptr ? "nullptr" : "not nullptr" )
-        << "\nStart:        " << ( Start==nullptr ? "nullptr" : "not nullptr" )
-        << "\nRenderUpdate: " << ( RenderUpdate==nullptr ? "nullptr" : "not nullptr" )
-        << "\nLogicUpdate:  " << ( LogicUpdate==nullptr ? "nullptr" : "not nullptr" )
-        << "\nBeAffect:     " << ( BeAffect==nullptr ? "nullptr" : "not nullptr" )
-        << endl;
-
-    cout<< "\nspecies = " << species
-        << "\nid_parent = " << parentId
-        << endl;
-
-
-    cout << "weight = " << weight << endl;
-
-    cout<< "\nisTopGo: "           << ( isTopGo ? "true" : "false" )
-        << "\nisActive: "          << ( isActive ? "true" : "false" )
-        << "\nisDirty: "           << ( isDirty ? "true" : "false" )
-        << "\nisControlByPlayer: " << ( isControlByPlayer ? "true" : "false" )
-        << endl;
-
-    cout << "binary.size() = " << binary.size()
-        << endl;
-
-    cout << "\n\n" << endl;
-    
-}
-*/
-
-
 

@@ -92,7 +92,6 @@ int main( int argc, char* argv[] ){
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
     esrc::init_gameObjs();
-    esrc::init_renderPools();
 
     db::atom_init_dataBase();        //---- dataBase 资源 ----
             //-- tmp...

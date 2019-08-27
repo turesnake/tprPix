@@ -13,11 +13,11 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
-//#include "GameObjType.h"
 #include "MapAltitude.h"
 #include "Density.h"
 #include "DiskGameObj.h"
 #include "ParamBinary.h"
+#include "UIAnchor.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -40,9 +40,17 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 namespace uiGos{//------------- namespace uiGos ----------------
 
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
-                    const IntVec2 mpos_, 
-                    const IntVec2 pposOff_,
+                    const glm::dvec2 &basePointProportion_, 
+                    const glm::dvec2 &offDPos_,
                     const ParamBinary &dyParams_ );
+
+
+goid_t create_a_UIGo( goSpecId_t goSpecId_,
+                    const UIAnchor &uiAnchor_,
+                    const ParamBinary &dyParams_ );
+
+
+
 
 }//------------- namespace uiGos: end ----------------
 

@@ -120,7 +120,7 @@ void Move::drag_renderUpdate(){
     // 在 drag 的最后一帧，dposOff 往往会小于 speedV。
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
-    glm::dvec2 dposOff = this->targetDPos - this->goRef.goPos.get_currentDPos();
+    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_pos_currentDPos();
 
     //- 距离过小时直接不 drag 
     if( (abs(dposOff.x)<1.0) && (abs(dposOff.y)<1.0) ){
@@ -139,14 +139,11 @@ void Move::drag_renderUpdate(){
     }
 
     //---- inn -----//
-    
     if( this->goRef.family == GameObjFamily::UI ){
-        this->goRef.goPos.accum_current_dpos_and_mcpos( speedV, NineBox{}, false );
+        this->goRef.accum_uiGoPos_currentDPos( speedV );
     }else{
         this->for_regularGo_inn( speedV );
     }
-
-
     
     if( isLastFrame ){
         this->isMoving = false;
@@ -158,15 +155,14 @@ void Move::drag_renderUpdate(){
 /* ===========================================================
  *               for_regularGo_inn
  * -----------------------------------------------------------
+ * -- uiGo 不会调用此函数
  */
 void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
-
-    GameObjPos &goPosRef = this->goRef.goPos;
 
     bool isObstruct {false}; //- 碰撞检测返回值，是否检测到 "无法穿过"的碰撞
     bool isCross    {false}; //- currentMidDPos 是否进入新的 mapent
 
-    glm::dvec2 oldMidDPos = goPosRef.calc_rootAnchor_midDPos();
+    glm::dvec2 oldMidDPos = this->goRef.calc_goPos_rootAnchor_midDPos();
     glm::dvec2 newMidDPos = oldMidDPos + speedV_;
 
     //-- 这里计算的是 rootAnchorMidFPos 的 mcpos --
@@ -190,7 +186,7 @@ void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
 
     //-- 更新 goPos --
     if( isObstruct == false ){
-        goPosRef.accum_current_dpos_and_mcpos( speedV_, nb, isCross );
+        this->goRef.accum_goPos_current_dpos_and_mcpos( speedV_, nb, isCross );
     }
     
     //---------------------------//
@@ -202,7 +198,7 @@ void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
     //---------------------------//
     goid_t   goid = this->goRef.id;
 
-    chunkKey_t newChunkKey = anyMPos_2_chunkKey( goPosRef.get_currentMPos() );
+    chunkKey_t newChunkKey = anyMPos_2_chunkKey( this->goRef.get_goPos_currentMPos() );
                         //-- 确保在调用本函数之前，gopos 已经发生了位移
     Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
 

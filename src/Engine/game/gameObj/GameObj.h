@@ -33,15 +33,15 @@
 #include "Move.h"
 #include "MapCoord.h" 
 #include "GameObjPos.h"
+#include "UIAnchor.h"
 #include "Collision.h"
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
-//#include "PubBinary.h"
 #include "PubBinary2.h"
 #include "ActionFSM.h"
 #include "chunkKey.h"
 
-#include "tprDebug.h"
+//#include "tprDebug.h"
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -59,17 +59,40 @@
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
     //using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
-    using F_AFFECT     = std::function<void(GameObj&,GameObj&)>;
+    using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
+
+    using F_VOID         = std::function<void()>;
+    using F_VOID_DOUBLE  = std::function<void( double )>;
+    using F_DOUBLE       = std::function<double()>;
+    using F_INTVEC2      = std::function<IntVec2()>;
+    using F_C_INTVEC2REF = std::function<const IntVec2 &()>;
+    using F_C_DVEC2      = std::function<const glm::dvec2()>;
+    using F_C_DVEC2REF   = std::function<const glm::dvec2 &()>;
+    using F_VOID_C_DVEC2REF = std::function<void(const glm::dvec2 &)>;
+
+    using F_ACCUM_GOPOS  = std::function<void( const glm::dvec2 &, const NineBox &, bool )>;
+
+
+
 public:
     //-- factory --
-    static std::shared_ptr<GameObj> factory(    goid_t goid_, 
-                                                const IntVec2 mpos_,
-                                                const IntVec2 pposOff_ ){
+    static std::shared_ptr<GameObj> factory_for_regularGo(    goid_t goid_, 
+                                                            const IntVec2 mpos_,
+                                                            const IntVec2 pposOff_ ){
         std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
-        //newSPtr->anti_bind_shared_from_this();
-        goSPtr->init( mpos_, pposOff_ );
+        goSPtr->init_for_regularGo( mpos_, pposOff_ );
         return goSPtr;
     }
+
+    static std::shared_ptr<GameObj> factory_for_uiGo(    goid_t goid_, 
+                                                        const glm::dvec2 &basePointProportion_,
+                                                        const glm::dvec2 &offDPos_ ){
+        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
+        goSPtr->init_for_uiGo( basePointProportion_, offDPos_ );
+        return goSPtr;
+    }
+
+
 
     void reCollect_chunkKeys();
    
@@ -93,8 +116,6 @@ public:
     void init_check(); //- call in end of go init 
 
     void signUp_newGO_to_mapEnt();
-
-    //void render_all_goMesh_for_playerGoIndication();
 
     //-- 目前被 Crawl 使用 --
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
@@ -131,7 +152,7 @@ public:
     //- 获得 目标 ces 当前 绝对 goAltiRange
     //- 参数 _ces_goAltiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
     inline GoAltiRange get_currentGoAltiRange( const GoAltiRange &ces_goAltiRange_ ){
-        return ( ces_goAltiRange_ + this->goPos.get_alti() );
+        return ( ces_goAltiRange_ + this->get_pos_alti() );
     }
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
         return this->chunkKeys;
@@ -151,19 +172,30 @@ public:
 
     //-- 获得 rootCES 左下角 mpos --
     inline IntVec2 get_rootCES_leftBottom_MPos() const {
-        return  this->goPos.get_currentMPos() -
+        return  this->get_goPos_currentMPos() -
                 this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos;
     }
+
+    //-- pos sys --    
+    F_C_DVEC2REF    get_pos_currentDPos  {nullptr};
+    F_VOID_DOUBLE   set_pos_alti         {nullptr};
+    F_DOUBLE        get_pos_alti         {nullptr};
+
+    F_VOID          init_goPos_currentDPos      {nullptr}; // only goPos
+    F_C_INTVEC2REF  get_goPos_currentMPos       {nullptr}; // only goPos
+    F_INTVEC2       calc_goPos_current_pposOff  {nullptr}; // only goPos
+    F_ACCUM_GOPOS   accum_goPos_current_dpos_and_mcpos {nullptr}; // only goPos
+    F_C_DVEC2       calc_goPos_rootAnchor_midDPos {nullptr}; // only goPos
+
+    F_VOID_C_DVEC2REF accum_uiGoPos_currentDPos {nullptr}; // only uiGoPos
+
+
 
     inline void render_all_goMesh(){
         for( auto &pairRef : this->goMeshs ){
             pairRef.second->RenderUpdate_auto();
         }
     }
-
-    
-
-    //void debug(); //- 打印 本go实例 的所有信息
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
@@ -200,7 +232,6 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
     
     //--- move sys ---//
-    GameObjPos   goPos {}; 
     Move         move;
 
 
@@ -235,8 +266,6 @@ public:
 
                                 // 在新视觉风格中，可能被取代....
 
-
-
     
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
@@ -250,12 +279,11 @@ private:
         collision( *this )
         {}
 
-    void init(  const IntVec2 mpos_,
-                const IntVec2 pposOff_ );//-- MUST --
+    void init_for_regularGo(    const IntVec2 mpos_,
+                                const IntVec2 pposOff_ );
+    void init_for_uiGo( const glm::dvec2 &basePointProportion_,
+                        const glm::dvec2 &offDPos_ );
 
-    void anti_bind_shared_from_this(){
-        //this->move.bind_weakPtr( weak_from_this() );
-    }
 
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
@@ -270,6 +298,12 @@ private:
                             //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
+
+    //====== pos sys =====//
+    // only one will be used
+    std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
+    std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
+
 
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量

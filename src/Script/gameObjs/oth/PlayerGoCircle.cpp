@@ -91,7 +91,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     //================ go self vals =================//
 
     //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos( );
+    goRef_.init_goPos_currentDPos( );
     //...    
 
     //--- MUST ---
@@ -112,7 +112,7 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
 
     GameObj &playerGoRef = esrc::get_player().get_goRef();
 
-    goRef_.move.set_drag_targetDPos( playerGoRef.goPos.get_currentDPos() );
+    goRef_.move.set_drag_targetDPos( playerGoRef.get_pos_currentDPos() );
 
 
     //-- 每1渲染帧，手动旋转 circle 一个小角度 --

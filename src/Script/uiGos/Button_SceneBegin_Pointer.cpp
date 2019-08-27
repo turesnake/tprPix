@@ -46,7 +46,7 @@ void Button_SceneBegin_Pointer::init_in_autoMod(GameObj &goRef_,
                                 RenderLayerType::UIs, //- 固定zOff值  
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                5.5,  //- off_z，
+                                0.5,  //- off_z，确保，浮在 archive图元 上方
                                 true, //- isVisible
                                 false  // isCollide -- 不参加碰撞检测，也不会写到 mapent上
                                 );
@@ -61,8 +61,6 @@ void Button_SceneBegin_Pointer::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//
 
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.goPos.init_currentDPos( );
     //...    
 
     //--- MUST ---

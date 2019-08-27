@@ -126,20 +126,37 @@ void insert_2_goids_inactive( goid_t id_ ){
 }
 
 /* ===========================================================
- *                  insert_new_gameObj
+ *                  insert_new_regularGo
  * -----------------------------------------------------------
  * -- 创建1个 go实例，并为其分配新 goid. 然后存入 memGameObjs 容器中
  * -- 不能用在 从 硬盘读出的 go数据上
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_gameObj( const IntVec2 mpos_, const IntVec2 pposOff_ ){
+goid_t insert_new_regularGo( const IntVec2 mpos_, const IntVec2 pposOff_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
         tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
-    go_inn::gameObjs.insert({ goid, GameObj::factory( goid, mpos_, pposOff_ ) });
+    go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, mpos_, pposOff_ ) });
     return goid;
 }
+
+/* ===========================================================
+ *                  insert_new_uiGo
+ * -----------------------------------------------------------
+ * -- 创建1个 uiGo实例，并为其分配新 goid. 然后存入 memGameObjs 容器中
+ */
+goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
+                        const glm::dvec2 &offDPos_ ){
+
+    goid_t goid = GameObj::id_manager.apply_a_u64_id();
+        tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
+    go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
+    return goid;
+}
+
+
+
 
 /* ===========================================================
  *                  insert_a_disk_gameObj
@@ -150,7 +167,7 @@ goid_t insert_new_gameObj( const IntVec2 mpos_, const IntVec2 pposOff_ ){
 void insert_a_disk_gameObj( goid_t goid_, const IntVec2 mpos_, const IntVec2 pposOff_ ){
 
         tprAssert( go_inn::gameObjs.find(goid_) == go_inn::gameObjs.end() );//- must not exist
-    go_inn::gameObjs.insert({ goid_, GameObj::factory(goid_,mpos_,pposOff_) });
+    go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,mpos_,pposOff_) });
 }
 
 /* ===========================================================
@@ -172,7 +189,7 @@ void realloc_active_goes(){
     for( auto id : go_inn::goids_active ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_pos_currentDPos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -207,7 +224,7 @@ void realloc_inactive_goes(){
     for( auto id : go_inn::goids_inactive ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.goPos.get_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_pos_currentDPos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将进入 激活圈的 go 移动到 激活组 --
