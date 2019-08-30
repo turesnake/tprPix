@@ -30,14 +30,9 @@ class Collision;
 
 
 enum class MoveType : int {
-    Crawl,
-    Drag    //- 类似 camera的运动方式：go快速向 目标pos 靠拢
-            //  被用于 UI 图标运动
-            //  接近率 足够高 的 drag，可以用来模拟 locate 操作
-
-    //-----
-    // Drag 应该被拆分为 匀速跟随／变速跟随 两种类型 
-
+    Crawl,   // often used for regular Go, with uniform speed [have speed upper limit]
+    Drag,    // often used for regular Go, with uniform speed [have speed upper limit]
+    Adsorb,  // often used for UIGo, with smooth speed change [no speed upper limit]
 };
 
 inline MoveType str_2_MoveType( const std::string name_ ){
@@ -45,39 +40,42 @@ inline MoveType str_2_MoveType( const std::string name_ ){
         return MoveType::Crawl;
     }else if( name_ == std::string{"Drag"} ){
         return MoveType::Drag;
+    }else if( name_ == std::string{"Adsorb"} ){
+        return MoveType::Adsorb;
     }else{
         tprAssert(0);
         return MoveType::Crawl; //- never reach
     }
 }
 
-
-//-- 初级版本，在未来可能会发展成 数个 crawl实例 ／ 数个 fly实例
 class Move{
-    using F_RenderUpdate = std::function< void() >;
+    using F_Void = std::function< void() >;
 public:
     explicit Move( GameObj &goRef_ ):
         goRef(goRef_)
         {}
 
     inline void RenderUpdate(){
-        this->renderUpdataFunc();
+        this->renderUpdateFunc();
     }
 
     //------- flags -------//
-    inline bool is_crawl() const {
-        return (this->moveType==MoveType::Crawl);
-    }
+    inline bool is_crawl()  const { return (this->moveType==MoveType::Crawl); }
+    inline bool is_drag()   const { return (this->moveType==MoveType::Drag); }
+    inline bool is_adsorb() const { return (this->moveType==MoveType::Adsorb); }
 
     //------- set -------//
     inline void set_MoveType( MoveType type_ ){
         this->moveType = type_;
         switch ( type_ ){
             case MoveType::Crawl:      
-                this->renderUpdataFunc = std::bind( &Move::crawl_renderUpdate, this ); 
+                this->renderUpdateFunc = std::bind( &Move::renderUpdate_crawl, this ); 
                 return;
             case MoveType::Drag: 
-                this->renderUpdataFunc = std::bind( &Move::drag_renderUpdate, this ); 
+                this->renderUpdateFunc = std::bind( &Move::renderUpdate_drag, this ); 
+                return;
+            case MoveType::Adsorb: 
+                this->renderUpdateFunc = std::bind( &Move::renderUpdate_adsorb, this ); 
                 return;
             default:
                 tprAssert(0);
@@ -89,9 +87,16 @@ public:
     }
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
-
     inline void set_drag_targetDPos( const glm::dvec2 &DPos_ ){
-        tprAssert( this->moveType == MoveType::Drag );
+        tprAssert( this->is_drag() );
+        if( DPos_ == this->targetDPos ){
+            return;
+        }
+        this->targetDPos = DPos_;
+        this->isMoving = true;
+    }
+    inline void set_adsorb_targetDPos( const glm::dvec2 &DPos_ ){
+        tprAssert( this->is_adsorb() );
         if( DPos_ == this->targetDPos ){
             return;
         }
@@ -103,15 +108,14 @@ public:
     inline const SpeedLevel &get_speedLvl() const {
         return this->speedLvl;
     }
-    inline bool is_drag_moving() const {
-        tprAssert( this->moveType == MoveType::Drag );
-        return this->isMoving;
-    } 
+
+
 
 private:
 
-    void crawl_renderUpdate();
-    void drag_renderUpdate();
+    void renderUpdate_crawl();
+    void renderUpdate_drag();
+    void renderUpdate_adsorb();
 
     void for_regularGo_inn( const glm::dvec2 &speedV_ );
 
@@ -123,16 +127,16 @@ private:
     SpeedLevel  speedLvl  { SpeedLevel::LV_3 };
 
     
-    DirAxes  newDirAxes     {};  //- 本次渲染帧，新传入的 方向值（每一帧都被外部代码更新）
-    DirAxes  currentDirAxes {};  //- 当前正在处理的  方向值。（只在节点帧被改写）
+    DirAxes  newDirAxes {};  //- this renderFrame, new input val
+    DirAxes  oldDirAxes {};  //- last renderFrame, old input val
 
     glm::dvec2 targetDPos  {-987654321.98765,-987654321.98765};
                                 //- 设置一个不可能指向的 初始值。防止 第一次使用 set_drag_targetDPos() 时
                                 //  就引发 targetDPos 初始值 等于 目标值。从而 drag 失效
                                 //  一种很简陋，但有效的办法
 
-    F_RenderUpdate renderUpdataFunc {nullptr}; //- functor
-                                               //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
+    //------- functor -------//
+    F_Void renderUpdateFunc {nullptr}; //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
 
     //===== flags =====//
     bool   isMoving {false};

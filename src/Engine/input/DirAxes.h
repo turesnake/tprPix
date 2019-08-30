@@ -108,8 +108,6 @@ public:
         }
     }
 
-
-
     //===== static =====//
     static constexpr double threshold = 0.005; //- 阈值，[-0.01, 0.01] 区间的信号不识别
 

@@ -28,6 +28,7 @@ public:
 
     //----- bool -----//
     bool    isTopGo  {};
+    bool    isMoveCollide {};
     bool    isDoPass {};
     bool    isBePass {};
     //bool    isActive {}; //- 是否进入激活圈

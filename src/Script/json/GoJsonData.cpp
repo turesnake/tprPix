@@ -95,6 +95,10 @@ void parse_from_goJsonFile(){
             const auto &a = json_inn::check_and_get_value( ent, "isTopGo", json_inn::JsonValType::Bool );
             goJsonData.isTopGo = a.GetBool();
         }
+        {//--- isMoveCollide ---//
+            const auto &a = json_inn::check_and_get_value( ent, "isMoveCollide", json_inn::JsonValType::Bool );
+            goJsonData.isMoveCollide = a.GetBool();
+        }
         {//--- isDoPass ---//
             const auto &a = json_inn::check_and_get_value( ent, "isDoPass", json_inn::JsonValType::Bool );
             goJsonData.isDoPass = a.GetBool();
@@ -163,6 +167,7 @@ void assemble_goJsonData_2_newGo( goSpecId_t specID_,
     goRef_.move.set_MoveType( d.moveType );
 
     goRef_.isTopGo  = d.isTopGo;
+    goRef_.isMoveCollide = d.isMoveCollide;
     goRef_.set_collision_isDoPass( d.isDoPass );
     goRef_.set_collision_isBePass( d.isBePass );
 

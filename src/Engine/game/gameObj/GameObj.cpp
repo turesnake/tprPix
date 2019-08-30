@@ -61,6 +61,13 @@ void GameObj::init_for_regularGo(   const IntVec2 mpos_,
     this->accum_uiGoPos_currentDPos = nullptr;
 
     //-----------------------//
+    //    collision
+    //-----------------------//
+    this->collisionUPtr = std::make_unique<Collision>(*this);
+                            //-- 在未来，是否加载 collision 组件，可以由 go 的创建者 手动设置
+                            //   目前先默认，所有 常规go，都加载 此 组件
+
+    //-----------------------//
     //         oth
     //-----------------------//
     this->currentChunkKey = anyMPos_2_chunkKey( this->get_goPos_currentMPos() );
@@ -104,6 +111,11 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
     this->accum_uiGoPos_currentDPos = std::bind( &UIAnchor::accum_currentDPos, uiGoPosPtr, _1 );
 
     //-----------------------//
+    //    collision
+    //-----------------------//
+    this->collisionUPtr = nullptr;
+
+    //-----------------------//
     //         oth
     //-----------------------//
     //...
@@ -123,8 +135,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     ShaderProgram     *pixShaderPtr_,
                                     const glm::vec2   pposOff_,
                                     double             off_z_,
-                                    bool              isVisible_,
-                                    bool              isCollide_ ){
+                                    bool              isVisible_ ){
 
     tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
     this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
@@ -146,7 +157,6 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- flags --//
     gmesh.isVisible = isVisible_;
-    gmesh.isCollide = isCollide_;
 
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
@@ -178,8 +188,8 @@ void GameObj::init_check(){
  * -2- Move::renderUpdate_inn()
  */
 void GameObj::reCollect_chunkKeys(){
-    //-- only check rootGoMesh --
-    if( this->get_goMeshRef("root").isCollide == false ){
+
+    if( this->isMoveCollide == false ){
         //return;
     }
 
@@ -229,9 +239,7 @@ void GameObj::signUp_newGO_to_mapEnt(){
     currentChunkRef.insert_2_goIds( this->id ); //- always
 
     //------------------------------//
-    //    only check rootGoMesh
-    //------------------------------//
-    if( this->get_goMeshRef("root").isCollide == false ){
+    if( this->isMoveCollide == false ){
         return;
     }
 

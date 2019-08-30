@@ -22,6 +22,8 @@
 #include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
+//#include "collide_test.h" //- tmp!!!
+
 #include "timeLog.h" // debug_tmp
 
 #include "tprDebug.h" //- tmp
@@ -63,6 +65,8 @@ int main( int argc, char* argv[] ){
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
 
+        //collide_test();
+
     //------------------------------------------//
     //          init behaviour
     //          call_scriptMain
@@ -102,6 +106,15 @@ int main( int argc, char* argv[] ){
     //            启动 job线程组
     //------------------------------------------//
     esrc::start_jobThreads();
+
+
+    //==========================================//
+    //                  TEST_2
+    //------------------------------------------//
+        //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
+        //return(0);
+
+        //collide_test();
 
 
     //------------------------------------------//
@@ -176,6 +189,8 @@ int main( int argc, char* argv[] ){
             //--------------------------------//
             sceneLogicLoopFunc();
         }
+
+        collide_test();
 
         //================================//
         //       scene Render loop       

@@ -42,10 +42,11 @@
  * -----------------------------------------------------------
  */
 void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
-    tprAssert( this->moveType == MoveType::Crawl );
+    tprAssert( this->is_crawl() );
     //-----------//
     //  isMoving
     //-----------//
+    // 虽然设置了 isMoving，但暂时并未起作用
     newDirAxes.is_zero() ?
         this->isMoving = false :
         this->isMoving = true;
@@ -61,39 +62,37 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
 
 /* ===========================================================
- *              crawl_renderUpdate
+ *              renderUpdate_crawl
  * -----------------------------------------------------------
  */
-void Move::crawl_renderUpdate(){
+void Move::renderUpdate_crawl(){
 
     //----------------------------//
-    //  currentDirAxes & newDirAxes
-    //   控制 Move/Idle 动画的切换
+    //    oldDirAxes & newDirAxes
+    //   switch Move/Idle animAction
     //----------------------------//
-    //-- skip the time without "NineBox" input --
-    if( this->currentDirAxes.is_zero() && this->newDirAxes.is_zero() ){
+    if( this->oldDirAxes.is_zero() && this->newDirAxes.is_zero() ){
         return;
     }
     
-    //-- 在 move状态切换的 两个点 调用 OnMove() ／ OnIdle() --
-    if( this->currentDirAxes.is_zero() && (this->newDirAxes.is_zero()==false) ){
+    //-- switch Move/Idle animAction --
+    if( this->oldDirAxes.is_zero() && (this->newDirAxes.is_zero()==false) ){
         this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Move );
-    }else if( (this->currentDirAxes.is_zero()==false) && this->newDirAxes.is_zero() ){
+    }else if( (this->oldDirAxes.is_zero()==false) && this->newDirAxes.is_zero() ){
         this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Idle );
     }
 
-    this->currentDirAxes = this->newDirAxes;
-    if( this->currentDirAxes.is_zero() ){
-        return; //- end_frame of one_piece_input
+    this->oldDirAxes = this->newDirAxes;
+    if( this->newDirAxes.is_zero() ){
+        return;
     }
 
     //----------------//
     //   speedV - dpos/frame
     //----------------//
-    glm::dvec2 speedV = this->currentDirAxes.to_dmpos();
+    glm::dvec2 speedV = this->newDirAxes.to_dmpos();
     speedV *= SpeedLevel_2_val(this->speedLvl) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
-
 
     //---- inn -----//
     this->for_regularGo_inn(  speedV );
@@ -102,10 +101,10 @@ void Move::crawl_renderUpdate(){
 
 
 /* ===========================================================
- *              drag_renderUpdate
+ *                  renderUpdate_drag
  * -----------------------------------------------------------
  */
-void Move::drag_renderUpdate(){
+void Move::renderUpdate_drag(){
 
     if( this->isMoving == false ){
         return;
@@ -123,7 +122,7 @@ void Move::drag_renderUpdate(){
     glm::dvec2 dposOff = this->targetDPos - this->goRef.get_pos_currentDPos();
 
     //- 距离过小时直接不 drag 
-    if( (abs(dposOff.x)<1.0) && (abs(dposOff.y)<1.0) ){
+    if( (std::abs(dposOff.x)<1.0) && (std::abs(dposOff.y)<1.0) ){
         return;
     }
 
@@ -149,6 +148,30 @@ void Move::drag_renderUpdate(){
         this->isMoving = false;
                 //- 放在这里 不够严谨，毕竟本帧还是 移动的。
     }
+}
+
+
+/* ===========================================================
+ *                  renderUpdate_adsorb
+ * -----------------------------------------------------------
+ */
+void Move::renderUpdate_adsorb(){
+
+    if( this->isMoving == false ){
+        return;
+    }
+
+    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_pos_currentDPos();
+
+    if( (std::abs(dposOff.x)<0.1) && (std::abs(dposOff.y)<0.1) ){
+        this->isMoving = false; //- 放在这里 不够严谨，毕竟本帧还是 移动的。
+        return;
+    }
+
+    double ProximityRate = 0.3; //- 暂用固定的 接近倍率
+    glm::dvec2 speedV = dposOff * ProximityRate;
+
+    this->goRef.accum_uiGoPos_currentDPos( speedV );
 }
 
 
@@ -180,14 +203,28 @@ void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
         nb.set( off.get_mpos().x, off.get_mpos().y );
 
         //-- 执行碰撞检测，并获知 此回合移动 是否可穿过 --
-        isObstruct = this->goRef.detect_collision( NineBox_XY_2_Idx(nb) ); // MAJOR !!!! 
-                                    // rootGoMesh.isCollide 会在这个函数内检查
+        //   事先设置为 不碰撞的 go，直接跳过 碰撞检测函数调用
+        if( this->goRef.isMoveCollide ){
+            isObstruct = this->goRef.detect_collision_for_move( NineBox_XY_2_Idx(nb) ); // MAJOR !!!! 
+        }else{
+            isObstruct = false;
+        }
+
     }
 
     //-- 更新 goPos --
     if( isObstruct == false ){
         this->goRef.accum_goPos_current_dpos_and_mcpos( speedV_, nb, isCross );
     }
+
+                // 如果移动被阻挡，其实也是可以发生位移的：
+                // 正对碰撞面法线 的 move向量会被去除，
+                // 平行于 碰撞面 的 move向量，会被保留
+                // 于是，go可以贴着碰撞面滑动
+                // 等待被实现。
+
+
+
     
     //---------------------------//
     //  如果确认需要位移
@@ -196,6 +233,20 @@ void Move::for_regularGo_inn( const glm::dvec2 &speedV_ ){
     //   -- 重新统计 本go 的 chunkKeys，如果确认为 临界go，  
     //       登记到 主chunk 的 edgegoids 容器中
     //---------------------------//
+
+                // 这里存在漏洞，如果没有发生位移，不需要更新 chunk 数据
+                // 未实现 ...
+
+
+
+
+    //-- 只有在 移动碰撞检测中，确认发生了 mapent跨越的帧，才会释放和重登记 mapents
+    //-- 但在每一个 移动帧，都会检测 chunkKeys 是否要更新
+
+
+                //  也许不是很好的主意 ...
+                //  下方的很多运算 都应该被限定 执行条件，不用每帧都执行 ...
+
     goid_t   goid = this->goRef.id;
 
     chunkKey_t newChunkKey = anyMPos_2_chunkKey( this->goRef.get_goPos_currentMPos() );

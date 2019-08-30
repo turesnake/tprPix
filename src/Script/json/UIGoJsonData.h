@@ -25,6 +25,7 @@ public:
 
     //----- bool -----//
     //----- numbers -----//
+    MoveType    moveType {};
     SpeedLevel  speedLvl {};
     //...
 

@@ -131,7 +131,7 @@ public:
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据
                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
-    bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
+    //bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
     //bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
                                 // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时

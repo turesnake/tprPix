@@ -77,6 +77,10 @@ void parse_from_uiGoJsonFile(){
             const auto &a = json_inn::check_and_get_value( ent, "family", json_inn::JsonValType::String );
             uiGoJsonData.family = str_2_GameObjFamily( a.GetString() );
         }
+        {//--- moveType ---//
+            const auto &a = json_inn::check_and_get_value( ent, "moveType", json_inn::JsonValType::String );
+            uiGoJsonData.moveType = str_2_MoveType( a.GetString() );
+        }
         {//--- speedLvl ---//
             const auto &a = json_inn::check_and_get_value( ent, "speedLvl", json_inn::JsonValType::Int );
             uiGoJsonData.speedLvl = int_2_SpeedLevel( a.GetInt() );
@@ -114,13 +118,16 @@ void assemble_uiGoJsonData_2_newUIGo( goSpecId_t specID_,
     goRef_.parentId  = d.parentID;
     goRef_.family    = d.family;
 
+    goRef_.move.set_MoveType( d.moveType );
     goRef_.move.set_speedLvl( d.speedLvl );
+   
 
     // 对于 uiGo 来说，很多 go成员 都不需要
     // 直接使用 默认值...
 
     // 有些则需要手动设置
-    goRef_.move.set_MoveType( MoveType::Drag );
+    //...
+    goRef_.isMoveCollide = false;
 
     //------ default -------//
     goRef_.isDirty = false;

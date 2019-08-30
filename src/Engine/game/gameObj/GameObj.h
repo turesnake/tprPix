@@ -4,8 +4,7 @@
  *                                        CREATE -- 2018.11.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    GameObj 是游戏中的 一等公民。
- *    可以作为一个 独立的单位，存在于 游戏中
+ *   Fst-class Citizens in game
  * ----------------------------
  */
 #ifndef TPR_GAME_OBJ_H
@@ -61,14 +60,14 @@ class GameObj : public std::enable_shared_from_this<GameObj>{
     //using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
 
-    using F_VOID         = std::function<void()>;
-    using F_VOID_DOUBLE  = std::function<void( double )>;
-    using F_DOUBLE       = std::function<double()>;
+    using F_void         = std::function<void()>;
+    using F_void_double  = std::function<void( double )>;
+    using F_double       = std::function<double()>;
     using F_INTVEC2      = std::function<IntVec2()>;
-    using F_C_INTVEC2REF = std::function<const IntVec2 &()>;
-    using F_C_DVEC2      = std::function<const glm::dvec2()>;
-    using F_C_DVEC2REF   = std::function<const glm::dvec2 &()>;
-    using F_VOID_C_DVEC2REF = std::function<void(const glm::dvec2 &)>;
+    using F_c_IntVec2Ref = std::function<const IntVec2 &()>;
+    using F_c_dvec2      = std::function<const glm::dvec2()>;
+    using F_c_dvec2Ref   = std::function<const glm::dvec2 &()>;
+    using F_void_c_dvec2Ref = std::function<void(const glm::dvec2 &)>;
 
     using F_ACCUM_GOPOS  = std::function<void( const glm::dvec2 &, const NineBox &, bool )>;
 
@@ -110,8 +109,7 @@ public:
                             ShaderProgram     *pixShaderPtr_,
                             const glm::vec2   pposOff_,
                             double             off_z_,
-                            bool              isVisible_,
-                            bool              isCollide_ );
+                            bool              isVisible_ );
 
     void init_check(); //- call in end of go init 
 
@@ -131,19 +129,25 @@ public:
         this->rootColliEntHeadPtr = ptr_;
     }
 
+    //--------- collison ----------//
     //-- isPass 系列flag 也许不放在 collision 模块中...
     inline void set_collision_isDoPass( bool b_ ){
-        this->collision.set_isDoPass(b_);
+        this->collisionUPtr->set_isDoPass(b_);
     }
     inline void set_collision_isBePass( bool b_ ){
-        this->collision.set_isBePass(b_);
+        this->collisionUPtr->set_isBePass(b_);
     }
     inline bool get_collision_isDoPass() const {
-        return this->collision.get_isDoPass();
+        return this->collisionUPtr->get_isDoPass();
     }
     inline bool get_collision_isBePass() const {
-        return this->collision.get_isBePass();
+        return this->collisionUPtr->get_isBePass();
     }
+    inline bool detect_collision_for_move( const NineBoxIdx &nbIdx_ ){
+        return this->collisionUPtr->detect_collision_for_move( nbIdx_ );
+    }
+
+
     inline const ColliEntHead &get_rootColliEntHeadRef() const {
         tprAssert( this->rootColliEntHeadPtr );
         return *(this->rootColliEntHeadPtr);
@@ -161,10 +165,6 @@ public:
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
     }
 
-    inline bool detect_collision( const NineBoxIdx &nbIdx_ ){
-        return this->collision.detect_collision( nbIdx_ );
-    }
-
     inline GameObjMesh &get_goMeshRef( const std::string &name_ ){
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
         return *(this->goMeshs.at(name_).get());
@@ -177,18 +177,17 @@ public:
     }
 
     //-- pos sys --    
-    F_C_DVEC2REF    get_pos_currentDPos  {nullptr};
-    F_VOID_DOUBLE   set_pos_alti         {nullptr};
-    F_DOUBLE        get_pos_alti         {nullptr};
+    F_c_dvec2Ref    get_pos_currentDPos  {nullptr};
+    F_void_double   set_pos_alti         {nullptr};
+    F_double        get_pos_alti         {nullptr};
 
-    F_VOID          init_goPos_currentDPos      {nullptr}; // only goPos
-    F_C_INTVEC2REF  get_goPos_currentMPos       {nullptr}; // only goPos
+    F_void          init_goPos_currentDPos      {nullptr}; // only goPos
+    F_c_IntVec2Ref  get_goPos_currentMPos       {nullptr}; // only goPos
     F_INTVEC2       calc_goPos_current_pposOff  {nullptr}; // only goPos
     F_ACCUM_GOPOS   accum_goPos_current_dpos_and_mcpos {nullptr}; // only goPos
-    F_C_DVEC2       calc_goPos_rootAnchor_midDPos {nullptr}; // only goPos
+    F_c_dvec2       calc_goPos_rootAnchor_midDPos {nullptr}; // only goPos
 
-    F_VOID_C_DVEC2REF accum_uiGoPos_currentDPos {nullptr}; // only uiGoPos
-
+    F_void_c_dvec2Ref accum_uiGoPos_currentDPos {nullptr}; // only uiGoPos
 
 
     inline void render_all_goMesh(){
@@ -266,6 +265,9 @@ public:
 
                                 // 在新视觉风格中，可能被取代....
 
+    bool    isMoveCollide {false}; //- 是否参与 移动碰撞检测，
+                                    //  取代 rootGoMesh.isCollide 
+
     
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
@@ -275,10 +277,11 @@ private:
     GameObj( goid_t goid_ ):
         id(goid_),
         move( *this ),
-        actionSwitch( *this ),
-        collision( *this )
+        actionSwitch( *this )
+        //collision( *this )
         {}
 
+    //-- init --//
     void init_for_regularGo(    const IntVec2 mpos_,
                                 const IntVec2 pposOff_ );
     void init_for_uiGo( const glm::dvec2 &basePointProportion_,
@@ -308,7 +311,10 @@ private:
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
-    Collision    collision; //- 一个go实例，对应一个 collision实例。强关联
+    //Collision    collision; //- 一个go实例，对应一个 collision实例
+    std::unique_ptr<Collision> collisionUPtr {nullptr};
+
+
 
     const ColliEntHead  *rootColliEntHeadPtr {nullptr}; //- 重要的简化措施
                             // 除非 go实例 “变形”，否则不轻易修改自己的 rootCES.

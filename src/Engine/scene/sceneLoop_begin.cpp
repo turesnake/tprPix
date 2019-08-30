@@ -45,15 +45,6 @@ using namespace std::placeholders;
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
     //-- 三个按钮的 位置 --
-
-    // 在未来，有必要制作一个 专门适合 UI 的 坐标体系
-    const std::vector<IntVec2> butonMPoses {
-        IntVec2 { 0,  2 },  //- 0
-        IntVec2 { 0,  0 },  //- 1
-        IntVec2 { 0, -2 }   //- 2
-    };
-
-
     const std::vector<UIAnchor> butonUIAnchors {
         UIAnchor { glm::dvec2 { 0.0, 0.0 },    // center of window
                    glm::dvec2 { 0.0, 64.0 } },  //- offDPos
@@ -64,10 +55,6 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
         UIAnchor { glm::dvec2 { 0.0, 0.0 },    // center of window
                    glm::dvec2 { 0.0, -64.0 } },  //- offDPos
     };
-
-
-
-
 
     size_t targetIdx {0}; //- 用来指向 buttonMPoses : {0,1,2}
 
@@ -359,7 +346,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         //---    
 
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );   
-        button_pointerRef.move.set_drag_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
+        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
 
 
     }else if( inputINS_.check_key(GameKey::DOWN) ){
@@ -373,7 +360,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         //---
 
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
-        button_pointerRef.move.set_drag_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
+        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
     }
 
     if( is_input_open == false ){

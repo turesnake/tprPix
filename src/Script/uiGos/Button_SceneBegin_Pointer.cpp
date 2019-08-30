@@ -47,8 +47,7 @@ void Button_SceneBegin_Pointer::init_in_autoMod(GameObj &goRef_,
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.5,  //- off_z，确保，浮在 archive图元 上方
-                                true, //- isVisible
-                                false  // isCollide -- 不参加碰撞检测，也不会写到 mapent上
+                                true //- isVisible
                                 );
         
     //================ bind callback funcs =================//

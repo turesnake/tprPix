@@ -47,8 +47,7 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z， 沉在所有 MajorGo 后方
-                                true, //- isVisible
-                                false  // isCollide -- 不参加碰撞检测，也不会写到 mapent上
+                                true //- isVisible
                                 );
         
     //================ bind callback funcs =================//

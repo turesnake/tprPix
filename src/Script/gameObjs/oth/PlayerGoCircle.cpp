@@ -54,8 +54,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 &esrc::get_playerGoCircle_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 -500.0,  //- off_z， 沉在所有 MajorGo 后方
-                                true, //- isVisible
-                                false  // isCollide -- 不参加碰撞检测，也不会写到 mapent上
+                                true //- isVisible
                                 );
         /*
         //-- 制作 mesh 实例: "front" --
@@ -67,8 +66,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 &esrc::get_playerGoCircle_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 500.0,  //- off_z， 浮在所有 MajorGo 前方
-                                true, //- isVisible
-                                false  // isCollide -- 不参加碰撞检测，也不会写到 mapent上
+                                true //- isVisible
                                 );
         */
 
