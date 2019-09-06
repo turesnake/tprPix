@@ -32,7 +32,7 @@ void AnimAction::init(  const AnimFrameSet *animFrameSetPtr_,
 
     this->texNames_pic_ptr = animFrameSetPtr_->get_texNames_pic_ptr();
     this->texNames_shadow_ptr = animFrameSetPtr_->get_texNames_shadow_ptr();
-    this->framePosesPtr = animFrameSetPtr_->get_framePosesPtr();
+    this->framePoses2_ptr = animFrameSetPtr_->get_framePoses2();
     this->isHaveShadow = isHaveShadow_;
     this->pixNum_per_frame = pixNum_per_frame_;
     this->totalFrameNum = param_.lFrameIdxs.size();

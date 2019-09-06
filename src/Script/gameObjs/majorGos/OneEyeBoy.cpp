@@ -64,11 +64,9 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
     goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
 
 
-    //================ go self vals =================//
+    //================ go self vals =================//   
 
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.init_goPos_currentDPos( );
-    //...    
+    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
 
     //--- MUST ---
     goRef_.init_check();

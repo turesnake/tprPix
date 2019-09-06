@@ -45,4 +45,10 @@
 
 #  float glm::distance( const glm::vec2 &_v1, const glm::vec2 &_v2 );
     计算两个 向量的 距离，很方便
+    -----
+    真的是 2个向量的 距离吗？？？
+    有待测试
 
+
+#  double glm::length( const glm::dvec2 &v_ );
+    计算一个向量 的模（长度）（勾股定理）

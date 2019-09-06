@@ -10,6 +10,7 @@
             "isHaveShadow": false,
             "isPjtSingle": false,
             "isShadowSingle": false,
+            "ColliderType": "Nil",
             "AnimActionParams":
                 [
                     {
@@ -35,86 +36,17 @@
     ]
 },
 {
-    "name": "norman",
-    "pngs": [
-        {
-            "path": "/norman/norman.P.png",
-            "frameNum.col":  6,
-            "frameNum.row":  2,
-            "totalFrameNum": 12,
-            "isHaveShadow": true,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "move_idle",
-                        "type": "multiFrame_DiffTimeStep",
-                        "actionType": "Cycle",
-                        "isOrder":    true,
-                        "isOpaque":   true,
-                        "lFrameIdxs": [ 0,  1, 2,  3, 4, 5 ],
-                        "timeSteps" : [ 12, 8, 8, 12, 8, 8 ]
-                    },
-                    {
-                        "actionName": "move_walk",
-                        "type": "multiFrame_SameTimeStep",
-                        "actionType": "Cycle",
-                        "isOrder":    true,
-                        "isOpaque":   true,
-                        "lFrameIdxs": [ 6, 7, 8, 9, 10, 11 ],
-                        "timeStep" : 4
-                    }
-                ]
-        }
-    ]
-},
-{
-    "name": "bigMan",
-    "pngs": [
-        {
-            "path": "/bigMan/bigMan.P.png",
-            "frameNum.col":  6,
-            "frameNum.row":  2,
-            "totalFrameNum": 12,
-            "isHaveShadow": true,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "move_idle",
-                        "type": "multiFrame_DiffTimeStep",
-                        "actionType": "Cycle",
-                        "isOrder":    true,
-                        "isOpaque":   true,
-                        "lFrameIdxs": [ 0,  1, 2,  3, 4, 5 ],
-                        "timeSteps" : [ 10, 8, 8,  8, 8, 16 ]
-                    },
-                    {
-                        "actionName": "move_walk",
-                        "type": "multiFrame_DiffTimeStep",
-                        "actionType": "Cycle",
-                        "isOrder":    true,
-                        "isOpaque":   true,
-                        "lFrameIdxs": [ 6, 7, 8, 9, 10, 11 ],
-                        "timeSteps" : [ 3, 6, 3, 3,  6,  3 ]
-                    }
-                ]
-        }
-    ]
-},
-{
     "name": "oneEyeBoy",
     "pngs": [
         {
-            "path": "/oneEyeBoy/oneEyeBoy2.P.png",
+            "path": "/oneEyeBoy/oneEyeBoyCircle1.P.png",
             "frameNum.col":  1,
             "frameNum.row":  1,
             "totalFrameNum": 1,
-            "isHaveShadow": true,
+            "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
+            "ColliderType": "Circular",
             "AnimActionParams":
                 [
                     {
@@ -138,6 +70,7 @@
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
+            "ColliderType": "Nil",
             "AnimActionParams":
                 [
                     {
@@ -151,90 +84,23 @@
     ]
 },
 {
-    "name": "oakTree",
+    "name": "wallA",
     "pngs": [
         {
-            "path": "/oakTree/OakTree_2.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  4,
-            "totalFrameNum": 17,
-            "isHaveShadow": true,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName.prefix": "",
-                        "actionName.midNum": 17,
-                        "actionName.suffix": "_idle",
-                        "type": "singleFrame_batch",
-                        "isOpaque": true
-                    }
-                ]
-        }
-    ]
-},
-{
-    "name": "pineTree",
-    "pngs": [
-        {
-            "path": "/pineTree/pineTree.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  2,
-            "totalFrameNum": 8,
-            "isHaveShadow": true,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName.prefix": "",
-                        "actionName.midNum": 8,
-                        "actionName.suffix": "_idle",
-                        "type": "singleFrame_batch",
-                        "isOpaque": true
-                    }
-                ]
-        }
-    ]
-},
-{
-    "name": "wheat",
-    "pngs": [
-        {
-            "path": "/wheat/wheat_Front.P.png",
-            "frameNum.col":  4,
+            "path": "/wallA/wallA2.P.png",
+            "frameNum.col":  1,
             "frameNum.row":  1,
-            "totalFrameNum": 4,
+            "totalFrameNum": 1,
             "isHaveShadow": false,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Capsule",
             "AnimActionParams":
                 [
                     {
-                        "actionName.prefix": "front_",
-                        "actionName.midNum": 4,
-                        "actionName.suffix": "_idle",
-                        "type": "singleFrame_batch",
-                        "isOpaque": true
-                    }
-                ]
-        },
-        {
-            "path": "/wheat/wheat_Back.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": false,
-            "isPjtSingle": false,
-            "isShadowSingle": false,
-            "AnimActionParams":
-                [
-                    {
-                        "actionName.prefix": "back_",
-                        "actionName.midNum": 4,
-                        "actionName.suffix": "_idle",
-                        "type": "singleFrame_batch",
+                        "actionName": "move_idle",
+                        "type": "singleFrame",
+                        "lFrameIdx": 0,
                         "isOpaque": true
                     }
                 ]

@@ -10,6 +10,7 @@
 //-------------------- CPP --------------------//
 #include <algorithm> //- find
 #include <iterator>
+#include <utility> //- move
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h" 
@@ -17,7 +18,7 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
-#include "Pjt_RGBAHandle.h"
+#include "Pjt_RGBAHandle2.h"
 #include "create_texNames.h"
 #include "load_and_divide_png.h"
 
@@ -50,6 +51,8 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
     bool  isPJTSingleFrame    {};  //- pjt 每帧数据都是一样的，png也只记录了一帧
     bool  isShadowSingleFrame {};  //- shadow 每帧数据都是一样的，png也只记录了一帧
+    //bool  isColliCapsule      {};  //- 碰撞体类型: circular / capsule
+    ColliderType  colliderType {}; //- 碰撞体类型: nil / circular / capsule
 
     std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
 
@@ -70,6 +73,7 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                             bool                isHaveShadow_, //-- 将被记录到 animAction 数据中去
                             bool                isPjtSingleFrame_,
                             bool                isShadowSingleFrame_,
+                            ColliderType        colliderType_,
                             const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ ){
 
     afs_inn::build_three_lpaths( lpath_pic_ );
@@ -77,12 +81,12 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     afs_inn::totalFrameNum = totalFrameNum_;
     afs_inn::isPJTSingleFrame = isPjtSingleFrame_;
     afs_inn::isShadowSingleFrame = isShadowSingleFrame_;
+    afs_inn::colliderType = colliderType_;
+    
     
     //-------------------//
-    //
-    //-------------------//
     //-- 获得本次 insert 的 起始idx
-    size_t lastNums = this->framePoses.size();
+    size_t lastNums = this->framePoses2.size();
     tprAssert( this->texNames_pic.size() == lastNums );
     tprAssert( this->texNames_shadow.size() == lastNums );
     afs_inn::headIdx = lastNums;
@@ -190,24 +194,28 @@ void AnimFrameSet::handle_pjt(){
 
     size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
-    Pjt_RGBAHandle  jh {5};
+    Pjt_RGBAHandle2  jh2 {5};
 
-    this->framePoses.insert( this->framePoses.end(), afs_inn::totalFrameNum, FramePos{} );
+    //this->framePoses2.insert( this->framePoses2.end(), afs_inn::totalFrameNum, FramePos2{} );
+    for( size_t i=0; i<afs_inn::totalFrameNum; i++ ){
+        this->framePoses2.push_back(  FramePos2{}  ); //-- 存在问题.... 有关 unique_ptr 和 copy 
+    }
 
-    IntVec2  pixPPos {}; //- tmp. current pix ppos
-    IntVec2  rootAnchorOff {};       //- tmp
-    IntVec2  rootColliEntHeadOff {}; //- tmp
+    glm::dvec2  pixDPos {}; //- current pix dpos
     size_t   idx_for_J_frame_data_ary {};
     size_t   idx_framePoses {};
 
+
     for( size_t f=0; f<afs_inn::totalFrameNum; f++ ){ //--- each frame ---
         idx_framePoses = afs_inn::headIdx + f;
-        tprAssert( this->framePoses.size() > idx_framePoses );
+        tprAssert( this->framePoses2.size() > idx_framePoses );
+
+        FramePos2SemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
-            pixPPos.set( static_cast<int>(p)%afs_inn::pixNum_per_frame.x,
-                         static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
+            pixDPos.x = static_cast<double>( static_cast<int>(p)%afs_inn::pixNum_per_frame.x );
+            pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
             //-- 通过此装置，实现了 “相同的 pjt数据 只用记录一帧” --
             //   并不是最优解，会做很多次重复运算，但是是对原有代码改动最少的。
@@ -215,34 +223,14 @@ void AnimFrameSet::handle_pjt(){
                     idx_for_J_frame_data_ary=0 :
                     idx_for_J_frame_data_ary=f;
 
-            //jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p), pixPPos );
-            jh.set_rgba( afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p) );
-            if( jh.is_emply() == true ){
-                continue; //- next frame.pix
-            }
-
-            //--- 一张 animFrameSet.frame 只有一个 rootAnchor ---
-            if( jh.is_rootAnchor() == true ){
-                rootAnchorOff = pixPPos; //- 并不直接设置，而是先缓存起来。
-            }
-
-            //if( jh.is_childAnchor() == true ){
-                //-- 暂时什么也不做...
-            //}
-
-            //- 新版中，一个 mesh 只有一个 ces／ceh
-            if( jh.is_rootColliEntHead() == true ){
-                rootColliEntHeadOff = pixPPos;
-                this->framePoses.at(idx_framePoses).set_colliEntHead( jh.get_colliEntHead() );
-            }
+            jh2.set_rgba(   &frameSemiData,
+                            afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p),
+                            pixDPos );
 
         }//------ each frame.pix ------
 
-        //-- 注意，顺序不能错!!! --//
-        this->framePoses.at(idx_framePoses).set_rootAnchorPPosOff( rootAnchorOff );
-        this->framePoses.at(idx_framePoses).calc_ceh_mposOff_from_cesLB_2_centerMPos();
-        this->framePoses.at(idx_framePoses).calc_ceh_rootAnchorCompass_and_off_from_rootAnchor_2_mapEntMid();
-        this->framePoses.at(idx_framePoses).check();                 //-- MUST --//
+        //--- 执行所有 补充性设置， IMPORTANT!!! --- 
+        this->framePoses2.at(idx_framePoses).init_from_semiData( frameSemiData );
 
     }//-------- each frame -------
 }

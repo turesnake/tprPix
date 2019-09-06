@@ -46,8 +46,9 @@
 #include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
-#include "FramePos.h"
+#include "FramePos2.h"
 #include "AnimAction.h"
+#include "ColliderType.h"
 
 #include "tprDebug.h"
 
@@ -68,6 +69,7 @@ public:
                 bool                isHaveShadow_,
                 bool                isPjtSingleFrame_,
                 bool                isShadowSingleFrame_,
+                ColliderType        colliderType_,
                 const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
 
     inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
@@ -81,8 +83,8 @@ public:
     inline const std::vector<GLuint> *get_texNames_shadow_ptr() const {
         return &(this->texNames_shadow);
     }
-    inline const std::vector<FramePos> *get_framePosesPtr() const {
-        return &(this->framePoses);
+    inline const std::vector<FramePos2> *get_framePoses2() const {
+        return &(this->framePoses2);
     }
 
 private:
@@ -101,7 +103,7 @@ private:
     std::vector<GLuint> texNames_shadow {}; //- 就算没有 shadow数据，也要填写0 来占位
 
     //-- each frame --
-    std::vector<FramePos>  framePoses {};
+    std::vector<FramePos2>  framePoses2 {};
 
     std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
 };

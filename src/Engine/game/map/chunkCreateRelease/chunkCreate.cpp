@@ -27,7 +27,6 @@
 #include "esrc_ecoObj.h"
 #include "esrc_jobQue.h"
 #include "esrc_chunkData.h"
-#include "esrc_colliEntSet.h"
 
 #include "jobs_all.h"
 #include "Job.h"
@@ -131,9 +130,9 @@ void build_9_chunks( const IntVec2 &playerMPos_ ){
  */
 void collect_chunks_need_to_be_build_in_update(){
 
-    IntVec2 playerMPos = esrc::get_player().get_goRef().get_goPos_currentMPos();
+    const glm::dvec2 &playerDPos = esrc::get_player().get_goRef().get_currentDPos();
 
-    cb_inn::currentChunkKey = anyMPos_2_chunkKey( playerMPos );
+    cb_inn::currentChunkKey = anyDPos_2_chunkKey( playerDPos );
     if( cb_inn::is_first_check ){
         cb_inn::is_first_check = false;
         cb_inn::lastChunkKey = cb_inn::currentChunkKey;
@@ -362,9 +361,6 @@ void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
  */
 void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
 
-    IntVec2  cesMPos {};      //- rootCES left-bottom mcpos [world-abs-pos]
-    IntVec2  colliEntMPos {}; //- each collient mcpos [world-abs-pos]
-
     IntVec2    tmpChunkMPos {};
     chunkKey_t tmpChunkKey  {};
     for( const auto &iOff : nearby_8_chunkMPosOffs ){
@@ -380,24 +376,16 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &
 
                 auto &goRef = esrc::get_goRef(goid);
                 if( goRef.find_in_chunkKeys(chunkKey_) ){
-
-                    const ColliEntHead &cehRef = goRef.get_rootColliEntHeadRef();
-                    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
-                    cesMPos = goRef.get_rootCES_leftBottom_MPos();
-
-                    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
-
-                        colliEntMPos = i.get_mpos() + cesMPos;
-                        if( chunkKey_ == anyMPos_2_chunkKey(colliEntMPos) ){
-
+                    
+                    for( const auto &mpos : goRef.get_currentSignINMapEntsRef() ){ 
+                        
+                        if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
-                            auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( colliEntMPos );
-
-                            mapEntRef.insert_2_major_gos(   goRef.id, 
-                                                            cehRef.lGoAltiRange,
-                                                            cehRef.isCarryAffect );
+                            auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                            mapEntRef.insert_2_majorGos(   goRef.id );
                         }
                     }
+
                 }
             }
         }

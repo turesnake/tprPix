@@ -70,8 +70,7 @@ public:
         return this->y;
     }
 
-    //-- 以 double-mpos 为单位 --
-    inline const glm::dvec2 to_dmpos() const {
+    inline const glm::dvec2 to_dpos() const {
         return glm::dvec2{ this->x, this->y };
     }
 

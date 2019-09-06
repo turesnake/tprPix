@@ -217,8 +217,7 @@ void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
             dyParamUPtr->fieldDensity = fieldRef.get_density();
 
             gameObjs::create_a_Go(  goSpecId,
-                                    fieldRef.get_nodeMPos(),
-                                    fieldRef.get_nodePPosOff(),
+                                    fieldRef.get_nodeDPos(),
                                     emptyParamBinary );
         }
     }

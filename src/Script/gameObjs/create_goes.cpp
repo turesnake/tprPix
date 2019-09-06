@@ -32,27 +32,20 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -- 对于很多类似 ui的，不依赖map，且更为轻量的go，应为其专设 create 函数 
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
-                    const IntVec2 mpos_, 
-                    const IntVec2 pposOff_,
+                    const glm::dvec2 &dpos_,
                     const ParamBinary &dyParams_ ){
 
-    goid_t goid = esrc::insert_new_regularGo( mpos_, pposOff_ );
+    goid_t goid = esrc::insert_new_regularGo( dpos_ );
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
     assemble_goJsonData_2_newGo( goSpecId_, goRef );
 
-    
-
     //-- check GameObjFamily --
-    //....
-        tprAssert( goRef.family != GameObjFamily::UI ); //- tmp
+        tprAssert( goRef.family != GameObjFamily::UI );
 
-
-    ssrc::call_goInit_func( goSpecId_,
-                            goRef,
-                            dyParams_ );
+    ssrc::call_goInit_func( goSpecId_, goRef, dyParams_ );
 
     //------------------------------//
     goRef.signUp_newGO_to_mapEnt();
@@ -72,11 +65,10 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
-                        const IntVec2 mpos_, 
-                        const IntVec2 pposOff_,
+                        const glm::dvec2 &dpos_,
                         const ParamBinary &dyParams_  ){
 
-    esrc::insert_a_disk_gameObj( diskGo_.goid, mpos_, pposOff_ );
+    esrc::insert_a_diskGo( diskGo_.goid, dpos_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
         tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
@@ -88,10 +80,7 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                     //   至少有一部分吧
                     //   ...
 
-    ssrc::call_goInit_func( diskGo_.goSpecId,
-                            goRef,
-                            dyParams_ );
-
+    ssrc::call_goInit_func( diskGo_.goSpecId, goRef, dyParams_ );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
             
     //------------------------------//
@@ -131,9 +120,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    ssrc::call_uiGoInit_func( goSpecId_,
-                            goRef,
-                            dyParams_ );
+    ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
     //------------------------------//
     //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
     //  ui 也不存在什么 active 状态
@@ -156,9 +143,8 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    ssrc::call_uiGoInit_func( goSpecId_,
-                            goRef,
-                            dyParams_ );
+    ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
+    
     //------------------------------//
     //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
     //  ui 也不存在什么 active 状态

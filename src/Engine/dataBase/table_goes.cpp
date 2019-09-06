@@ -31,10 +31,8 @@ void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
     if( sqlite3_step(stmt_select_one_from_table_goes) == SQLITE_ROW ){
         diskGo_.goid = goid_;
         diskGo_.goSpecId = static_cast<goSpecId_t>( sqlite3_column_int(stmt_select_one_from_table_goes, 0) );
-        diskGo_.mpos.x = sqlite3_column_int(stmt_select_one_from_table_goes, 1);
-        diskGo_.mpos.y = sqlite3_column_int(stmt_select_one_from_table_goes, 2);
-        diskGo_.pposOff.x = sqlite3_column_int(stmt_select_one_from_table_goes, 3);
-        diskGo_.pposOff.y = sqlite3_column_int(stmt_select_one_from_table_goes, 4);
+        diskGo_.dpos.x = sqlite3_column_double(stmt_select_one_from_table_goes, 1);
+        diskGo_.dpos.y = sqlite3_column_double(stmt_select_one_from_table_goes, 2);
     }
 }
 
@@ -60,17 +58,11 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
     sqlite3_bind_int_inn_(  ":goSpecId", 
                             static_cast<int>(diskGo_.goSpecId) );
 
-    sqlite3_bind_int_inn_(  ":mposX", 
-                            diskGo_.mpos.x );
+    sqlite3_bind_double_inn_(  ":dposX", 
+                            diskGo_.dpos.x );
 
-    sqlite3_bind_int_inn_(  ":mposY", 
-                            diskGo_.mpos.y );
-
-    sqlite3_bind_int_inn_(  ":pposOffX", 
-                            diskGo_.pposOff.x );
-
-    sqlite3_bind_int_inn_(  ":pposOffY", 
-                            diskGo_.pposOff.y );
+    sqlite3_bind_double_inn_(  ":dposY", 
+                            diskGo_.dpos.y );
 
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_goes, SQLITE_DONE );

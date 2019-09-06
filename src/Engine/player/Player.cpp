@@ -60,8 +60,7 @@ void Player::bind_go( goid_t goid_ ){
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
-                                                            newGoRef.get_goPos_currentMPos(),
-                                                            newGoRef.calc_goPos_current_pposOff(),
+                                                            newGoRef.get_currentDPos(),
                                                             emptyParamBinary );
         
         //-- playerGoCircle 的数据同步 --
@@ -127,7 +126,6 @@ void Player::bind_go( goid_t goid_ ){
 
     //-- 同步 playerGoCircle 的 pos --//
     //...
-
 
 }
 

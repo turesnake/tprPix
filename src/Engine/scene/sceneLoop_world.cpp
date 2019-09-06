@@ -68,7 +68,7 @@ void prepare_for_sceneWorld(){
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
-    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_pos_currentDPos() );
+    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_currentDPos() );
     input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -178,6 +178,8 @@ void sceneRenderLoop_world(){
     //------------------------//
     //...
 
+        //cout << "_._" << endl;
+
     //------------------------//
     //     - shadowMeshs
     //     - picMeshs
@@ -227,7 +229,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::get_camera().set_targetDPos( playerGoRef.get_pos_currentDPos() );
+    esrc::get_camera().set_targetDPos( playerGoRef.get_currentDPos() );
 
     //... 暂时没有 处理 剩余功能键的 代码 
 
@@ -274,20 +276,9 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
                 << endl;
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
-
-        const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( playerGoRef.get_goPos_currentMPos() );
-        const auto &field = esrc::atom_get_field( anyMPos_2_fieldKey(mapEntRef.get_mpos()) );
-
-        //IntVec2 nodeMPosOff = field.get_nodeMPos() - field.get_mpos(); //- 未被使用...
-        cout << "mapAlti.val = " << mapEntRef.mapAlti.val
-            //<< ";   fieldKey = " << mapEntPtr->fieldKey
-            << ";   nodeFieldAltiVal = " << field.get_nodeMapAlti().val
-            << ";   minAltiVal = " << field.get_minMapAlti().val
-            << ";   maxAltiVal = " << field.get_maxMapAlti().val
-            //<< ";   nodeMPosOff = " << nodeMPosOff.x
-            //<< "," << nodeMPosOff.y
-            << endl;
-
+        playerGoRef.debug();
+        //...
+        
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){
         //-- 暂时什么都不做 ...

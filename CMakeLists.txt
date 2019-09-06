@@ -302,6 +302,7 @@ target_compile_options( tprpix
                         -Wno-old-style-cast   #---- tmp ---- 
                         
                         -Wno-unused-variable #----- tmp ----
+                        -Wno-unused-private-field #----- tmp ----
 
                         )
 

@@ -24,14 +24,12 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 goid_t create_a_Go( goSpecId_t goSpecId_,
-                    const IntVec2 mpos_, 
-                    const IntVec2 pposOff_,
+                    const glm::dvec2 &dpos_,
                     const ParamBinary &dyParams_ );
 
 
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
-                        const IntVec2 mpos_, 
-                        const IntVec2 pposOff_,
+                        const glm::dvec2 &dpos_,
                         const ParamBinary &dyParams_  );
 
 }//------------- namespace gameObjs: end ----------------

@@ -15,7 +15,6 @@
 #include "esrc_player.h"
 #include "esrc_field.h"
 #include "esrc_chunk.h"
-#include "esrc_colliEntSet.h"
 
 
 
@@ -36,8 +35,8 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void collect_chunks_need_to_be_release_in_update(){
 
-    IntVec2 playerMPos = esrc::get_player().get_goRef().get_goPos_currentMPos();
-    esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( playerMPos );
+    const glm::dvec2 &playerDPosRef = esrc::get_player().get_goRef().get_currentDPos();
+    esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( dpos_2_mpos(playerDPosRef) );
 }
 
 
@@ -110,27 +109,20 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
 
-    IntVec2    cesMPos      {}; //- rootCES left-bottom mcpos [world-abs-pos]
-    IntVec2    colliEntMPos {}; //- each collient mcpos [world-abs-pos]
     chunkKey_t tmpChunkKey  {};
-
+    //--
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
         auto &goRef = esrc::get_goRef(goid);
-        const ColliEntHead &cehRef = goRef.get_rootColliEntHeadRef();
-        const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
-        cesMPos = goRef.get_rootCES_leftBottom_MPos();
 
-        for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
-
-            colliEntMPos = i.get_mpos() + cesMPos;
-            tmpChunkKey = anyMPos_2_chunkKey(colliEntMPos);
+        for( const auto &mpos : goRef.get_currentSignINMapEntsRef() ){
+            tmpChunkKey = anyMPos_2_chunkKey(mpos);
             if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
 
                 if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
                     //---- 正式从 mapEnt 上清除登记 -----
-                    auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( colliEntMPos );
-                    mapEntRef.erase_from_major_gos( goRef.id );
+                    auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                    mapEntRef.erase_the_onlyOne_from_majorGos( goRef.id );
                 }
             }
         }

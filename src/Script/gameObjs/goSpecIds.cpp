@@ -51,20 +51,22 @@ void onGoSpecIds_SignUp(){
     parse_from_uiGoJsonFile();
 
     //================ Goes ==================//
-    ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init_in_autoMod, _1, _2 ) );
+
+    ssrc::insert_2_goInit_funcs( "wallA",          std::bind( &gameObjs::WallA::init_in_autoMod, _1, _2 ) );
 
     //-------------------//
     //        tree
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init_in_autoMod, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "pineTree", std::bind( &gameObjs::PineTree::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "pineTree", std::bind( &gameObjs::PineTree::init_in_autoMod, _1, _2 ) );
 
     //-------------------//
     //        bush
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init_in_autoMod, _1, _2 ) );
 
     //-------------------//
     //    mapSurface

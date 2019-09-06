@@ -33,7 +33,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "Collision.h" 
+//#include "Collision.h" 
 #include "ChildMesh.h"
 #include "AnimAction.h"
 #include "RotateScaleData.h"
@@ -90,9 +90,10 @@ public:
     }
 
     //------------- get -------------//    
-    inline const FramePos &get_currentFramePos() const {
-        return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
+    inline const FramePos2 &get_currentFramePos2() const {
+        return this->animActionPtr->get_currentFramePos2( this->animActionPvtData );
     }   
+
     inline const GLuint &get_currentTexName_pic() const {
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
@@ -100,9 +101,10 @@ public:
         tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    inline const IntVec2 &get_currentRootAnchorPPosOff() const {
-        return this->animActionPtr->get_currentRootAnchorPPosOff( this->animActionPvtData );
+    inline const glm::dvec2 &get_currentRootAnchorDPosOff() const {
+        return this->animActionPtr->get_currentRootAnchorDPosOff( this->animActionPvtData );
     }
+
    inline const IntVec2 &get_animAction_pixNum_per_frame() const {
         return this->animActionPtr->get_pixNum_per_frame();
     }

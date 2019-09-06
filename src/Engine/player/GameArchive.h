@@ -26,9 +26,7 @@ public:
 
     //- player.go -
     goid_t         playerGoId     {}; //- u64   
-    IntVec2        playerGoMPos   {}; //- int, int
-    IntVec2        playerGoPPosOff {};//- int, int
-    //glm::dvec2     playerGoDPos   {}; //- double, double
+    glm::dvec2     playerGoDPos   {}; //- double, double
     //- GameObj -
     goid_t         maxGoId        {}; //- u64
 

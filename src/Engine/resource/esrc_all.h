@@ -18,7 +18,6 @@
 #include "esrc_canvas.h"
 #include "esrc_chunk.h"
 #include "esrc_chunkData.h"
-#include "esrc_colliEntSet.h"
 #include "esrc_ecoSysPlan.h"
 #include "esrc_ecoObj.h"
 #include "esrc_field.h"

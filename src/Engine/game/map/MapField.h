@@ -103,6 +103,13 @@ public:
     inline const IntVec2 &get_nodePPosOff() const {
         return this->nodePPosOff;
     }
+
+    inline glm::dvec2 get_nodeDPos() const {
+        IntVec2 p = mpos_2_ppos(this->nodeMPos) + this->nodePPosOff;
+        return glm::dvec2{  static_cast<double>(p.x),
+                            static_cast<double>(p.y) };
+    }
+
     inline const occupyWeight_t &get_occupyWeight() const {
         return this->occupyWeight;
     }
@@ -128,6 +135,7 @@ private:
                                 //  nodeMPos 只在 [0,3] 之间分配
     IntVec2     nodePPosOff {}; //- 对 nodeMPos 的一个补充，用于在map 种植 go 时，pos更加随机性
                                 //  区域范围 [-8,8]
+                                //  也许可以被直接实现为 double ...
 
     glm::dvec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用

@@ -1,14 +1,12 @@
 /*
- * ========================= Norman.h ==========================
+ * ========================= WallA.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.08.06
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   诺曼人
- * ----------------------------
  */
-#ifndef TPR_NORMAN_H
-#define TPR_NORMAN_H
+#ifndef TPR_WALL_A_H
+#define TPR_WALL_A_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -24,27 +22,30 @@
 #include "Density.h"
 #include "ParamBinary.h"
 
+
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-struct Norman_PvtBinary{
-    int   tmp  {};
+
+struct WallA_PvtBinary{
+    int   tmp {};
 };
 
 
-class Norman{
+class WallA{
 public:
-    Norman() = default;
+    WallA() = default;
 
     //--- 延迟init ---//
     static void init_in_autoMod(GameObj &goRef_,
                             const ParamBinary &dyParams_ );
 
 private:
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static Norman_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-        return reinterpret_cast<Norman_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
 
+    //--  每次调用回调函数，都需要做的 指针重绑定 --
+    inline static  WallA_PvtBinary *rebind_ptr( GameObj &goRef_ ){
+        return reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    }
+                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );
 

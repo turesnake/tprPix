@@ -24,27 +24,40 @@
 #include <glm_inn/gtc/type_ptr.hpp> 
             //-- glm::value_ptr
 
-inline glm::dvec2 glm_vec2_2_dvec2( const glm::vec2 fv_ ){
+//-------------------- C --------------------//
+#include <cmath>
+
+inline glm::dvec2 glm_vec2_2_dvec2( const glm::vec2 &fv_ ){
     return glm::dvec2{ static_cast<double>(fv_.x),
                         static_cast<double>(fv_.y) };
 }
-inline glm::vec2 glm_dvec2_2_vec2( const glm::dvec2 dv_ ){
+inline glm::vec2 glm_dvec2_2_vec2( const glm::dvec2 &dv_ ){
     return glm::vec2{ static_cast<float>(dv_.x),
                         static_cast<float>(dv_.y) };
 }
 
-inline glm::dvec3 glm_vec3_2_dvec3( const glm::vec3 fv_ ){
+inline glm::dvec3 glm_vec3_2_dvec3( const glm::vec3 &fv_ ){
     return glm::dvec3{ static_cast<double>(fv_.x),
                         static_cast<double>(fv_.y),
                         static_cast<double>(fv_.z) };
 }
-inline glm::vec3 glm_dvec3_2_vec3( const glm::dvec3 dv_ ){
+inline glm::vec3 glm_dvec3_2_vec3( const glm::dvec3 &dv_ ){
     return glm::vec3{ static_cast<float>(dv_.x),
                         static_cast<float>(dv_.y),
                         static_cast<float>(dv_.z) };
 }
 
+//-- 计算两个向量值 是否足够接近
+inline bool glm_is_near( const glm::dvec2 &a_, const glm::dvec2 &b_, double step_=0.01 ){
+    return (    (std::abs(a_.x - b_.x) <= step_) &&
+                (std::abs(a_.y - b_.y) <= step_) );
+}
 
+
+inline bool glm_is_near_zero( const glm::dvec2 &a_, double step_=0.01 ){
+    return (    (std::abs(a_.x) <= step_) &&
+                (std::abs(a_.y) <= step_) );
+}
 
 
 

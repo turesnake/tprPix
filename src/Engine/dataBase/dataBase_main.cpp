@@ -106,13 +106,11 @@ void atom_writeBack_to_table_gameArchive(){
 
     goid_t goid = playerRef.goid;
     GameObj &playerGoRef = playerRef.get_goRef();
-    IntVec2 mpos = playerGoRef.get_goPos_currentMPos();
-    IntVec2 pposOff = playerGoRef.calc_goPos_current_pposOff();
+    const glm::dvec2 &dposRef = playerGoRef.get_currentDPos();
 
     //-- 将新数据 写回 db --
     esrc::get_gameArchive().playerGoId = goid;
-    esrc::get_gameArchive().playerGoMPos = mpos;
-    esrc::get_gameArchive().playerGoPPosOff = pposOff;
+    esrc::get_gameArchive().playerGoDPos = dposRef;
     esrc::get_gameArchive().maxGoId = GameObj::id_manager.get_max_id();
     esrc::get_gameArchive().gameTime = esrc::get_timer().get_gameTime();
     //...
@@ -122,8 +120,7 @@ void atom_writeBack_to_table_gameArchive(){
     DiskGameObj diskGo {};
     diskGo.goid = goid;
     diskGo.goSpecId = playerGoRef.species;
-    diskGo.mpos = mpos;
-    diskGo.pposOff = pposOff;
+    diskGo.dpos = dposRef;
     db::atom_insert_or_replace_to_table_goes( diskGo );
 
 }

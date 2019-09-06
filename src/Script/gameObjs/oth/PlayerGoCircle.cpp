@@ -87,9 +87,8 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     //goRef_.actionSwitch.signUp( ActionSwitchType::selfRotate );
 
     //================ go self vals =================//
-
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.init_goPos_currentDPos( );
+    
+    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
     //...    
 
     //--- MUST ---
@@ -107,10 +106,10 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     //            AI
     //-------------------------------------//
     //...
-
+    /*
     GameObj &playerGoRef = esrc::get_player().get_goRef();
 
-    goRef_.move.set_drag_targetDPos( playerGoRef.get_pos_currentDPos() );
+    goRef_.move.set_drag_targetDPos( playerGoRef.get_currentDPos() );
 
 
     //-- 每1渲染帧，手动旋转 circle 一个小角度 --
@@ -121,13 +120,14 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
         rotateDegree.z -= 360.f;
     }
     rootGoMeshRef.rotateScaleData.set_rotateDegree( rotateDegree );
+    */
 
 
 
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goRef_.move.RenderUpdate();
+    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         

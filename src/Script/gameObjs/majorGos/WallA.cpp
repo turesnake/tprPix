@@ -1,38 +1,31 @@
 /*
- * ========================= Wheat.cpp ==========================
+ * ========================= WallA.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.10
+ *                                        CREATE -- 2019.01.30
  *                                        MODIFY -- 
  * ----------------------------------------------------------
+ * 
+ * ----------------------------
  */
-#include "Script/gameObjs/bush/Wheat.h"
-
-//-------------------- C --------------------//
-#include <cmath>
+#include "Script/gameObjs/majorGos/WallA.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
 
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "GoCreateDyParams_tree.h"
 #include "esrc_shader.h" 
-
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
-#include "Script/gameObjs/create_go_oth.h"
 
 using namespace std::placeholders;
 
 #include "tprDebug.h" 
 
 
-namespace gameObjs{//------------- namespace gameObjs ----------------
+namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 
@@ -40,61 +33,40 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  *                   init_in_autoMod
  * -----------------------------------------------------------
  */
-void Wheat::init_in_autoMod(    GameObj &goRef_,
+void WallA::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
-    
-    //================ dyParamBinary =================//
-    tprAssert( dyParams_.type == ParamBinaryType::Tree );
-    const GoCreateDyParams_tree *dyParamsPtr = reinterpret_cast<const GoCreateDyParams_tree*>(dyParams_.get_binaryPtr());
-
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(Wheat_PvtBinary) );
-    Wheat_PvtBinary  *pvtBp = reinterpret_cast<Wheat_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    
-        pvtBp->wheatId = gameObjs::apply_a_simpleId( dyParamsPtr->fieldWeight, 4 );
+    goRef_.resize_pvtBinary( sizeof(WallA_PvtBinary) );
+    WallA_PvtBinary  *pvtBp = reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-
-        //------- 制作 mesh 实例: "root" -------
+        //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                "wheat", 
-                                tprGeneral::nameString_combine("front_", pvtBp->wheatId, "_idle"),
+                                "wallA", 
+                                "move_idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
-                                glm::vec2{ 0.0f, -7.0f }, //- pposoff
-                                0.0,  //- off_z
-                                true  //- isVisible
-                                );
-
-        //------- 制作 mesh 实例: "back" -------
-        goRef_.creat_new_goMesh("back", //- gmesh-name
-                                "wheat", 
-                                tprGeneral::nameString_combine("back_", pvtBp->wheatId, "_idle"),
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_rect_shader(),  // pic shader
-                                glm::vec2{ 0.0f, 7.0f }, //- pposoff
+                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );
-
+        
     //================ bind callback funcs =================//
-
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Wheat::OnRenderUpdate, _1 );   
-    goRef_.LogicUpdate  = std::bind( &Wheat::OnLogicUpdate,  _1 );
-    
+    goRef_.RenderUpdate = std::bind( &WallA::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &WallA::OnLogicUpdate,   _1 );
+
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Wheat::OnActionSwitch, _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &WallA::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-            //- 当前 wheat 只有一种动画，就是永久待机...
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
 
-    //================ go self vals =================//
 
-    //-- 务必在 mesh:"root" 之后 ---
-    goRef_.init_goPos_currentDPos( );
-    //...
+    //================ go self vals =================//   
+
+    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
 
     //--- MUST ---
     goRef_.init_check();
@@ -106,7 +78,7 @@ void Wheat::init_in_autoMod(    GameObj &goRef_,
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Wheat::bind( GameObj &goRef_ ){
+void WallA::bind( GameObj &goRef_ ){
 }
 
 
@@ -116,18 +88,18 @@ void Wheat::bind( GameObj &goRef_ ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Wheat::rebind( GameObj &goRef_ ){
+void WallA::rebind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnRenderUpdate( GameObj &goRef_ ){
+void WallA::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
+    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
 
     //=====================================//
     //            AI
@@ -137,8 +109,7 @@ void Wheat::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    //goRef_.move.RenderUpdate();
-            // 目前来看，永远也不会 移动...
+    goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -151,46 +122,49 @@ void Wheat::OnRenderUpdate( GameObj &goRef_ ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Wheat::OnLogicUpdate( GameObj &goRef_ ){
+void WallA::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
+    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
     //=====================================//
 
     // 什么也没做...
 }
 
 
-
 /* ===========================================================
  *               OnActionSwitch
  * -----------------------------------------------------------
- * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
- * -- 会被 动作状态机 取代...
+ * -- 
  */
-void Wheat::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Wheat_PvtBinary  *pvtBp =  Wheat::rebind_ptr( goRef_ );
+    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
-    //GameObjMesh &rootGoMeshRef = goRef_.goMeshs.at("root");
+    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
-            //rootGoMeshRef.bind_animFrameSet( "norman" );
-            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->wheatId );
+            goMeshRef.bind_animAction( "wallA", "move_idle" );
             break;
+
+        //case ActionSwitchType::Move_Move:
+        //    goMeshRef.bind_animAction( "wallA", "move_walk" );
+        //    break;
 
         default:
             break;
             //-- 并不报错，什么也不做...
+
     }
+
 
 }
 

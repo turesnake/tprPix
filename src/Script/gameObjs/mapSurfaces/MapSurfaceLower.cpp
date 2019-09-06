@@ -72,8 +72,7 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//
         
-    //-- 务必在 mesh:"root" 之后 ---   
-    goRef_.init_goPos_currentDPos( );
+    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
     //...    
 
     //--- MUST ---

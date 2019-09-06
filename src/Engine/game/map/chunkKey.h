@@ -10,6 +10,9 @@
 #ifndef TPR_CHUNK_KEY_H
 #define TPR_CHUNK_KEY_H
 
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
 //-------------------- CPP --------------------//
 #include <vector>
 
@@ -79,6 +82,7 @@ inline IntVec2 anyMPos_2_chunkMPos( const IntVec2 &anyMPos_ ){
 }
 
 
+
 /* ===========================================================
  *             is_a_chunkMPos
  * -----------------------------------------------------------
@@ -110,6 +114,12 @@ inline IntVec2 get_chunk_lMPosOff( const IntVec2 &anyMPos_ ){
  */
 inline chunkKey_t anyMPos_2_chunkKey( const IntVec2 &anyMPos_ ){
     IntVec2 chunkMPos = anyMPos_2_chunkMPos( anyMPos_ );
+    return chunkMPos_2_key_inn( chunkMPos );
+}
+
+
+inline chunkKey_t anyDPos_2_chunkKey( const glm::dvec2 &anyDPos_ ){
+    IntVec2 chunkMPos = anyMPos_2_chunkMPos( dpos_2_mpos(anyDPos_) ); //-- 未来做优化 
     return chunkMPos_2_key_inn( chunkMPos );
 }
 

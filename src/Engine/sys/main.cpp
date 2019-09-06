@@ -22,8 +22,6 @@
 #include "sceneLoop.h"
 #include "esrc_all.h" //- 所有资源
 
-//#include "collide_test.h" //- tmp!!!
-
 #include "timeLog.h" // debug_tmp
 
 #include "tprDebug.h" //- tmp
@@ -65,7 +63,6 @@ int main( int argc, char* argv[] ){
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
 
-        //collide_test();
 
     //------------------------------------------//
     //          init behaviour
@@ -90,7 +87,7 @@ int main( int argc, char* argv[] ){
     esrc::init_gameArchive();        //---- gameArchive ----
     esrc::init_camera();             //---- camera 资源 ----
     esrc::init_shaders();            //---- shaders 资源 ----
-    esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
+    //esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
     esrc::init_chunks();             //---- chunks 模块的各种资源 ----
     esrc::init_chunkDatas();
     esrc::init_chunkMemStates();
@@ -107,14 +104,6 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     esrc::start_jobThreads();
 
-
-    //==========================================//
-    //                  TEST_2
-    //------------------------------------------//
-        //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
-        //return(0);
-
-        //collide_test();
 
 
     //------------------------------------------//
@@ -136,7 +125,7 @@ int main( int argc, char* argv[] ){
     esrc::init_canvases();           //---- canvas 资源 ----
 
     //++++++ load ++++++//
-    esrc::load_colliEntSets();       //-- colliEntSets --
+    //esrc::load_colliEntSets();       //-- colliEntSets --
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
     esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()
@@ -189,8 +178,6 @@ int main( int argc, char* argv[] ){
             //--------------------------------//
             sceneLogicLoopFunc();
         }
-
-        collide_test();
 
         //================================//
         //       scene Render loop       

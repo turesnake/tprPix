@@ -33,7 +33,7 @@
 #include "MapCoord.h" 
 #include "GameObjPos.h"
 #include "UIAnchor.h"
-#include "Collision.h"
+#include "Collision2.h"
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
@@ -63,23 +63,15 @@ class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_void         = std::function<void()>;
     using F_void_double  = std::function<void( double )>;
     using F_double       = std::function<double()>;
-    using F_INTVEC2      = std::function<IntVec2()>;
-    using F_c_IntVec2Ref = std::function<const IntVec2 &()>;
-    using F_c_dvec2      = std::function<const glm::dvec2()>;
     using F_c_dvec2Ref   = std::function<const glm::dvec2 &()>;
     using F_void_c_dvec2Ref = std::function<void(const glm::dvec2 &)>;
-
-    using F_ACCUM_GOPOS  = std::function<void( const glm::dvec2 &, const NineBox &, bool )>;
-
-
 
 public:
     //-- factory --
     static std::shared_ptr<GameObj> factory_for_regularGo(    goid_t goid_, 
-                                                            const IntVec2 mpos_,
-                                                            const IntVec2 pposOff_ ){
+                                                            const glm::dvec2 &dpos_ ){
         std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
-        goSPtr->init_for_regularGo( mpos_, pposOff_ );
+        goSPtr->init_for_regularGo( dpos_ );
         return goSPtr;
     }
 
@@ -91,9 +83,7 @@ public:
         return goSPtr;
     }
 
-
-
-    void reCollect_chunkKeys();
+    size_t reCollect_chunkKeys();
    
     inline void resize_pvtBinary( size_t size_ ){
         this->pvtBinary.resize( size_ );
@@ -119,46 +109,60 @@ public:
     inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
         this->direction = dir_;
         this->isFlipOver = (this->direction==GODirection::Left); 
-
                         // 在新视觉风格中，可能被取代....
-
     }
 
-    //- 只有在 1.go实例init阶段  2.go发生变形时 ，才能调用次函数
-    inline void set_rootColliEntHeadPtr( const ColliEntHead *ptr_ ){
-        this->rootColliEntHeadPtr = ptr_;
-    }
 
     //--------- collison ----------//
     //-- isPass 系列flag 也许不放在 collision 模块中...
+    //   如果一个 没有加载 collide 组件的 go实例，调用这系列函数，将直接报错...(不是好办法)
     inline void set_collision_isDoPass( bool b_ ){
-        this->collisionUPtr->set_isDoPass(b_);
+        this->collision2UPtr->set_isDoPass(b_);
     }
     inline void set_collision_isBePass( bool b_ ){
-        this->collisionUPtr->set_isBePass(b_);
+        this->collision2UPtr->set_isBePass(b_);
     }
     inline bool get_collision_isDoPass() const {
-        return this->collisionUPtr->get_isDoPass();
+        return this->collision2UPtr->get_isDoPass();
     }
     inline bool get_collision_isBePass() const {
-        return this->collisionUPtr->get_isBePass();
+        return this->collision2UPtr->get_isBePass();
     }
-    inline bool detect_collision_for_move( const NineBoxIdx &nbIdx_ ){
-        return this->collisionUPtr->detect_collision_for_move( nbIdx_ );
+    inline glm::dvec2 detect_collision_for_move2( const glm::dvec2 &speedVal_ ){
+        return this->collision2UPtr->detect_for_move2( speedVal_ );
+    }
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const {
+        return this->collision2UPtr->get_currentSignINMapEntsRef();
+    }
+    /*
+    inline void insert_2_adjacentBeGos( goid_t goid_, const glm::dvec2 &self_2_oth_ ){
+        this->collision2UPtr->insert_2_adjacentBeGos( goid_, self_2_oth_ );
+    }
+    inline void erase_from_adjacentBeGos( goid_t goid_ ){
+        this->collision2UPtr->erase_from_adjacentBeGos( goid_ );
+    }
+    */
+
+
+    //--------- rootFramePos2 ----------//
+    inline const FramePos2 &get_rootFramePos2Ref() const {
+            tprAssert( this->rootFramePos2Ptr );
+        return *(this->rootFramePos2Ptr);
+    }
+    inline Circular calc_circular( const CollideFamily &family_ ) const {
+        return this->get_rootFramePos2Ref().calc_circular( this->get_currentDPos(), family_ );
+    }
+    inline Capsule calc_capsule( const CollideFamily &family_ ) const {
+        return this->get_rootFramePos2Ref().calc_capsule( this->get_currentDPos(), family_ );
     }
 
 
-    inline const ColliEntHead &get_rootColliEntHeadRef() const {
-        tprAssert( this->rootColliEntHeadPtr );
-        return *(this->rootColliEntHeadPtr);
+    inline GoAltiRange get_currentGoAltiRange(){
+        return (this->get_rootFramePos2Ref().get_lGoAltiRange() + this->get_pos_alti());
     }
 
-    //- 获得 目标 ces 当前 绝对 goAltiRange
-    //- 参数 _ces_goAltiRange 一般是在 碰撞检测流程中，从 mapent.major_gos 中取出的
-    inline GoAltiRange get_currentGoAltiRange( const GoAltiRange &ces_goAltiRange_ ){
-        return ( ces_goAltiRange_ + this->get_pos_alti() );
-    }
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
+            tprAssert( this->isMoveCollide ); //- tmp
         return this->chunkKeys;
     }
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const {
@@ -170,25 +174,14 @@ public:
         return *(this->goMeshs.at(name_).get());
     }
 
-    //-- 获得 rootCES 左下角 mpos --
-    inline IntVec2 get_rootCES_leftBottom_MPos() const {
-        return  this->get_goPos_currentMPos() -
-                this->rootColliEntHeadPtr->mposOff_from_cesLB_2_centerMPos;
-    }
+    void debug();
 
     //-- pos sys --    
-    F_c_dvec2Ref    get_pos_currentDPos  {nullptr};
+    F_void_c_dvec2Ref accum_currentDPos  {nullptr};
     F_void_double   set_pos_alti         {nullptr};
+    F_c_dvec2Ref    get_currentDPos      {nullptr};
     F_double        get_pos_alti         {nullptr};
-
-    F_void          init_goPos_currentDPos      {nullptr}; // only goPos
-    F_c_IntVec2Ref  get_goPos_currentMPos       {nullptr}; // only goPos
-    F_INTVEC2       calc_goPos_current_pposOff  {nullptr}; // only goPos
-    F_ACCUM_GOPOS   accum_goPos_current_dpos_and_mcpos {nullptr}; // only goPos
-    F_c_dvec2       calc_goPos_rootAnchor_midDPos {nullptr}; // only goPos
-
-    F_void_c_dvec2Ref accum_uiGoPos_currentDPos {nullptr}; // only uiGoPos
-
+    
 
     inline void render_all_goMesh(){
         for( auto &pairRef : this->goMeshs ){
@@ -265,8 +258,11 @@ public:
 
                                 // 在新视觉风格中，可能被取代....
 
-    bool    isMoveCollide {false}; //- 是否参与 移动碰撞检测，
+    bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
                                     //  取代 rootGoMesh.isCollide 
+                                    //  若为 false，也不需要 登记到 mapent 上
+                                    //  值为 false 的go，会被 精简掉 大量代码
+                                    //  uiGo 一律为 false。部分 regularGo 也可为 false（游戏世界中的ui元素）
 
     
     //======== static ========//
@@ -278,20 +274,20 @@ private:
         id(goid_),
         move( *this ),
         actionSwitch( *this )
-        //collision( *this )
         {}
 
     //-- init --//
-    void init_for_regularGo(    const IntVec2 mpos_,
-                                const IntVec2 pposOff_ );
+    void init_for_regularGo( const glm::dvec2 &dpos_ );
     void init_for_uiGo( const glm::dvec2 &basePointProportion_,
                         const glm::dvec2 &offDPos_ );
-
 
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
                                         // 通过 reCollect_chunkKeys() 来更新。
                                         // 在 本go 生成时，以及 rootCES 每一次步进时，都要更新这个 容器数据
+
+                                        // isMoveCollide == false 的go，此容器永远为空
+
 
     // - rootGoMesh  -- name = “root”; 核心goMesh;
     // - childGoMesh -- 剩下的goMesh
@@ -311,17 +307,10 @@ private:
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
-    //Collision    collision; //- 一个go实例，对应一个 collision实例
-    std::unique_ptr<Collision> collisionUPtr {nullptr};
+    std::unique_ptr<Collision2> collision2UPtr {nullptr};
 
+    const FramePos2 *rootFramePos2Ptr {nullptr}; //- 替代上个成员
 
-
-    const ColliEntHead  *rootColliEntHeadPtr {nullptr}; //- 重要的简化措施
-                            // 除非 go实例 “变形”，否则不轻易修改自己的 rootCES.
-                            // rootCES 不再通过 rootGoMesh 动态读取，而是存储于此
-                            // ------
-                            // 就算要修改它，也需要通过特定的 函数
-                            // 通常会在 go实例 创建阶段，被赋值
 };
 
 //============== static ===============//

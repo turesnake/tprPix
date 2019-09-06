@@ -12,16 +12,16 @@
     "pools":[
         {
             "density.lvl": -3,
-            "applyPercent": 0.0,
+            "applyPercent": 0.4,
             "ecoEnts":[
-                { "specName": "oneEyeBoy", "num": 5 }
+                { "specName": "wallA", "num": 5 }
             ]
         },
         {
             "density.lvl": -2,
-            "applyPercent": 0.0,
+            "applyPercent": 0.2,
             "ecoEnts":[
-                { "specName": "oneEyeBoy", "num": 5 }
+                { "specName": "wallA", "num": 5 }
             ]
         },
         {
@@ -35,7 +35,7 @@
             "density.lvl": 0,
             "applyPercent": 0.2,
             "ecoEnts":[
-                { "specName": "oneEyeBoy",   "num": 9 }
+                { "specName": "wallA",   "num": 9 }
             ]
         },
         {
@@ -54,7 +54,7 @@
         },
         {
             "density.lvl": 3,
-            "applyPercent": 0.5,
+            "applyPercent": 0.9,
             "ecoEnts":[
                 { "specName": "oneEyeBoy",   "num": 9 }
             ]

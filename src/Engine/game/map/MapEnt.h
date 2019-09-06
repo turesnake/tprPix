@@ -6,7 +6,11 @@
  * ----------------------------------------------------------
  *    map ent
  *    un-finished
- *    存在很多 无效数据
+ * 
+ *                      历史遗留代码太多
+ *                      存在很多 无效数据 .....
+ * 
+ * 
  * ----------------------------
  */
 #ifndef TPR_MAP_ENT_H
@@ -18,7 +22,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
-#include <unordered_map> 
+#include <unordered_set> 
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -131,7 +135,7 @@ struct Sec_diskMapEnt{
 };
 
 
-
+/*
 class MajorGO_in_MapEnt{
 public:
     MajorGO_in_MapEnt(  const GoAltiRange &altiRange_, 
@@ -147,6 +151,7 @@ public:
                     // 本mapent 所在的 ceh 是否携带affect
     //...
 };
+*/
 
 
 //-- 投影地图单位的信息 [mem] --
@@ -154,9 +159,10 @@ public:
 class MemMapEnt{
 public:
     //-- 临时测试用 
-    MemMapEnt(){
-        this->major_gos.reserve(10);
-    }
+    MemMapEnt()
+        {
+            this->majorGos.reserve(10);
+        }
 
     //explicit MemMapEnt( Fst_diskMapEnt *_fdme ){
         //fst_d2m( _fdme );
@@ -166,22 +172,15 @@ public:
         return this->mcpos.get_mpos();
     }
 
-    inline void insert_2_major_gos( goid_t             goid_,
-                                    const GoAltiRange &lGoAltiRange_,
-                                    bool               isCarryAffect ){
-        tprAssert( this->major_gos.find(goid_) == this->major_gos.end() );
-        this->major_gos.insert({ goid_, MajorGO_in_MapEnt{lGoAltiRange_, isCarryAffect } });
+    inline void insert_2_majorGos( goid_t goid_ ){
+        tprAssert( this->majorGos.find(goid_) == this->majorGos.end() );
+        this->majorGos.insert({ goid_ });
     }
-    inline void erase_from_major_gos( goid_t goid_ ){
-        size_t eraseNum = this->major_gos.erase(goid_);
-        tprAssert( eraseNum == 1 );
+    inline const std::unordered_set<goid_t> &get_majorGos() const {
+        return this->majorGos;
     }
-
-    inline const std::unordered_map<goid_t, MajorGO_in_MapEnt> &get_major_gos() const {
-        return this->major_gos;
-    }
-    inline void erase_the_onlyOne_from_major_gos( goid_t goid_ ){
-        size_t eraseNum = this->major_gos.erase(goid_);
+    inline void erase_the_onlyOne_from_majorGos( goid_t goid_ ){
+        size_t eraseNum = this->majorGos.erase(goid_);
         tprAssert( eraseNum == 1 );
     }
     
@@ -227,9 +226,6 @@ public:
     //goid_t  item_goid    {NULLID}; //- 道具go id. (实例，并不存入硬盘)
     //goid_t  surface_goid {NULLID}; //- 表面go id. (实例，压缩为 species 存入硬盘)
                         //-- 在新版 设计中，已经几乎没有 major-item-surface 区分了 ...
- 
-    
-            
 
     //-- 二级信息： mem <--> disk --
     //void sec_d2m( Sec_diskMapEnt *_dme ); //-- unfinish...
@@ -242,7 +238,9 @@ public:
 
 private:
 
-    std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
+    //std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
+    std::unordered_set<goid_t> majorGos {};
+
 
 };
 

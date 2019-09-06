@@ -112,13 +112,9 @@ public:
 
 
 private:
-
     void renderUpdate_crawl();
     void renderUpdate_drag();
     void renderUpdate_adsorb();
-
-    void for_regularGo_inn( const glm::dvec2 &speedV_ );
-
 
     //===== vals =====//
     GameObj      &goRef;

@@ -12,31 +12,25 @@
 
 //-------------------- Engine --------------------//
 #include "Chunk.h"
-#include "esrc_colliEntSet.h"
 #include "esrc_chunk.h"
 #include "esrc_shader.h"
 
 using namespace std::placeholders;
 
-//#include "tprDebug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
 /* ===========================================================
  *                   init_for_regularGo
  * -----------------------------------------------------------
  */
-void GameObj::init_for_regularGo(   const IntVec2 mpos_,
-                                    const IntVec2 pposOff_ ){
+void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     
     //-----------------------//
     //    choose goPos
     //-----------------------//
-    this->goPosUPtr = std::make_unique<GameObjPos>();
-    this->goPosUPtr->init(   mpos_,
-                        pposOff_,
-                        std::bind( [this](){ return this->rootColliEntHeadPtr->rootAnchorCompass; }), 
-                        std::bind( [this](){ return this->rootColliEntHeadPtr->off_from_rootAnchor_2_mapEntMid; }) );
-                            // now, this->rootColliEntHeadPtr == nullptr;
-                            // but this bind can work
+    this->goPosUPtr = std::make_unique<GameObjPos>();      
+    this->goPosUPtr->init( dpos_ );
+
     //-- Must Release Another One !!! --
     if( this->uiGoPosUPtr != nullptr ){
         this->uiGoPosUPtr = nullptr;
@@ -45,32 +39,23 @@ void GameObj::init_for_regularGo(   const IntVec2 mpos_,
     GameObjPos *goPosPtr = this->goPosUPtr.get(); //- use for param 
 
     //-- bind functors --
-    this->get_pos_currentDPos = std::bind( &GameObjPos::get_currentDPos, goPosPtr );
+    this->accum_currentDPos   = std::bind( &GameObjPos::accum_currentDPos, goPosPtr, _1 );
     this->set_pos_alti        = std::bind( &GameObjPos::set_alti, goPosPtr,  _1 );
+    this->get_currentDPos     = std::bind( &GameObjPos::get_currentDPos, goPosPtr );
     this->get_pos_alti        = std::bind( &GameObjPos::get_alti, goPosPtr );
-
-
-    // only in goPos:
-    this->get_goPos_currentMPos              = std::bind( &GameObjPos::get_currentMPos, goPosPtr );
-    this->init_goPos_currentDPos             = std::bind( &GameObjPos::init_currentDPos, goPosPtr );
-    this->calc_goPos_current_pposOff         = std::bind( &GameObjPos::calc_current_pposOff, goPosPtr );
-    this->accum_goPos_current_dpos_and_mcpos = std::bind( &GameObjPos::accum_current_dpos_and_mcpos, goPosPtr, _1,_2,_3 );
-    this->calc_goPos_rootAnchor_midDPos      = std::bind( &GameObjPos::calc_rootAnchor_midDPos, goPosPtr );
-
-    // only in uiGoPos:
-    this->accum_uiGoPos_currentDPos = nullptr;
+    
 
     //-----------------------//
     //    collision
     //-----------------------//
-    this->collisionUPtr = std::make_unique<Collision>(*this);
-                            //-- 在未来，是否加载 collision 组件，可以由 go 的创建者 手动设置
-                            //   目前先默认，所有 常规go，都加载 此 组件
+    this->collision2UPtr = std::make_unique<Collision2>(*this);
 
     //-----------------------//
     //         oth
     //-----------------------//
-    this->currentChunkKey = anyMPos_2_chunkKey( this->get_goPos_currentMPos() );
+    this->currentChunkKey = anyMPos_2_chunkKey( dpos_2_mpos(this->get_currentDPos()) );
+
+            
     //...
 }
 
@@ -95,25 +80,15 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
     UIAnchor *uiGoPosPtr = this->uiGoPosUPtr.get(); //- use for param 
 
     //-- bind functors --
-    this->get_pos_currentDPos = std::bind( &UIAnchor::get_currentDPos, uiGoPosPtr );
+    this->accum_currentDPos   = std::bind( &UIAnchor::accum_currentDPos, uiGoPosPtr, _1 );
     this->set_pos_alti        = std::bind( &UIAnchor::set_alti, uiGoPosPtr, _1 );
+    this->get_currentDPos     = std::bind( &UIAnchor::get_currentDPos, uiGoPosPtr );
     this->get_pos_alti        = std::bind( &UIAnchor::get_alti, uiGoPosPtr );
-
-
-    // only in goPos:
-    this->get_goPos_currentMPos = nullptr;
-    this->init_goPos_currentDPos = nullptr;
-    this->calc_goPos_current_pposOff = nullptr;
-    this->accum_goPos_current_dpos_and_mcpos = nullptr;
-    this->calc_goPos_rootAnchor_midDPos = nullptr;
-
-    // only in uiGoPos:
-    this->accum_uiGoPos_currentDPos = std::bind( &UIAnchor::accum_currentDPos, uiGoPosPtr, _1 );
 
     //-----------------------//
     //    collision
     //-----------------------//
-    this->collisionUPtr = nullptr;
+    this->collision2UPtr = nullptr;
 
     //-----------------------//
     //         oth
@@ -160,7 +135,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
-        this->rootColliEntHeadPtr = &gmesh.get_currentFramePos().get_colliEntHead();
+        this->rootFramePos2Ptr = &gmesh.get_currentFramePos2();
     }
 
     return gmesh;
@@ -171,14 +146,33 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
  * -----------------------------------------------------------
  */
 void GameObj::init_check(){
-    tprAssert( this->rootColliEntHeadPtr );
+
+    tprAssert( this->rootFramePos2Ptr );
+
+    //-- colliderType and isMoveCollide --
+    // 只有支持 移动碰撞检测的 regularGo
+    // 配合 携带了 非Nil碰撞体 的 rootGoMesh
+    // 才会绑定 以下 functor
+    if( this->isMoveCollide ){
+        tprAssert( this->rootFramePos2Ptr->get_colliderType() != ColliderType::Nil );
+        tprAssert( this->goPosUPtr != nullptr );
+
+        //-- 主动调用，init signINMapEnts --- MUST!!!
+        this->collision2UPtr->init_signInMapEnts( this->get_currentDPos(),
+                    //std::bind( &FramePos2::get_colliPointDPosOffsRef, const_cast<FramePos2*>(this->rootFramePos2Ptr) ) 
+                    std::bind( this->rootFramePos2Ptr->get_colliPointDPosOffsRef ) 
+                    );
+
+    }
+    //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...
+
 }
 
 
 /* ===========================================================
  *                    reCollect_chunkKeys     [ IMPORTANT !!! ]
  * -----------------------------------------------------------
- * 遍历当前 rootCES 中每个 colliEnt，收集其所在 chunkKeys
+ * 遍历当前 goPos 中每个 colliEnt，收集其所在 chunkKeys
  * ---
  * 此函数 只是单纯记录 本go相关的所有 chunk key 信息。
  * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
@@ -187,24 +181,15 @@ void GameObj::init_check(){
  * -1- GameObj::signUp_newGO_to_mapEnt()
  * -2- Move::renderUpdate_inn()
  */
-void GameObj::reCollect_chunkKeys(){
+size_t GameObj::reCollect_chunkKeys(){
 
-    if( this->isMoveCollide == false ){
-        //return;
-    }
-
-    IntVec2      cesMPos = this->get_rootCES_leftBottom_MPos();
-    IntVec2      tmpEntMPos  {};
-    chunkKey_t   tmpChunkKey {};
+        tprAssert( this->isMoveCollide ); //- tmp
 
     this->chunkKeys.clear();
-    const ColliEntSet &doCesRef = esrc::get_colliEntSetRef(this->rootColliEntHeadPtr->colliEntSetIdx);
-
-    for( const auto &mcpos : doCesRef.get_colliEnts() ){ //- each collient mcpos
-        tmpEntMPos = mcpos.get_mpos() + cesMPos;
-        tmpChunkKey = anyMPos_2_chunkKey( tmpEntMPos );
-        this->chunkKeys.insert( tmpChunkKey ); //- copy
-    } //- each collient mcpos end --
+    for( const auto &mpos : this->get_currentSignINMapEntsRef() ){
+        this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); //- copy
+    }
+    return this->chunkKeys.size();
 }
 
 
@@ -231,32 +216,25 @@ void GameObj::signUp_newGO_to_mapEnt(){
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
     Chunk &currentChunkRef = esrc::get_chunkRef( this->currentChunkKey );
-
-    this->reCollect_chunkKeys();
-    if( this->chunkKeys.size() > 1 ){
-        currentChunkRef.insert_2_edgeGoIds( this->id );
-    }
     currentChunkRef.insert_2_goIds( this->id ); //- always
 
-    //------------------------------//
-    if( this->isMoveCollide == false ){
-        return;
-    }
 
+    if( !this->isMoveCollide ){ return; }
+
+
+    //------------------------------//
+    size_t chunkKeySize = this->reCollect_chunkKeys();
+    if( chunkKeySize > 1 ){
+        currentChunkRef.insert_2_edgeGoIds( this->id );
+    }
     //------------------------------//
     //  signUp each collient to mapEnt
     //------------------------------//
-    IntVec2     colliEntMPos {}; //- each collient mcpos [world-abs-pos]
     chunkKey_t  tmpChunkKey  {}; //- each collient current chunkKey
+        tprAssert( !this->get_currentSignINMapEntsRef().empty() ); //- tmp
+    for( const auto &mpos : this->get_currentSignINMapEntsRef() ){
 
-    const ColliEntHead &cehRef = this->get_rootColliEntHeadRef();
-    const ColliEntSet &cesRef = esrc::get_colliEntSetRef( cehRef.colliEntSetIdx );
-    IntVec2  cesMPos = this->get_rootCES_leftBottom_MPos(); //- rootCES left-bottom mcpos [world-abs-pos]
-    
-    for( const auto &i : cesRef.get_colliEnts() ){ //- each collient in rootCES
-
-        colliEntMPos = i.get_mpos() + cesMPos;
-        tmpChunkKey = anyMPos_2_chunkKey( colliEntMPos );
+        tmpChunkKey = anyMPos_2_chunkKey( mpos );
 
         //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
         // 此时显然不能去调用 esrc::get_memMapEntRef_in_activeChunk(), 会出错。
@@ -269,12 +247,21 @@ void GameObj::signUp_newGO_to_mapEnt(){
         }
 
         //---- 正式注册 collient 到 mapents 上 -----
-        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( colliEntMPos );
+        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
 
         //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
-        mapEntRef.insert_2_major_gos(   this->id, 
-                                        cehRef.lGoAltiRange,
-                                        cehRef.isCarryAffect );
+        mapEntRef.insert_2_majorGos(   this->id );
     }
+
+}
+
+
+
+void GameObj::debug(){
+
+    cout << "sizeof(go) = " << sizeof( *this )
+        << "; sizeof(GO) = " << sizeof( GameObj )
+        << endl;
+
 }
 

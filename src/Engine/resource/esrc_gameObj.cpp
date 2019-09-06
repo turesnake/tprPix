@@ -9,7 +9,6 @@
  */
 #include "esrc_gameObj.h"
 #include "esrc_camera.h"
-#include "esrc_colliEntSet.h"
 
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
@@ -82,6 +81,13 @@ GameObj &get_goRef( goid_t id_ ){
     return *(go_inn::gameObjs.at(id_).get());
 }
 
+
+bool is_go_active(goid_t id_  ){
+    return (go_inn::gameObjs.find(id_) != go_inn::gameObjs.end());
+}
+
+
+
 /* ===========================================================
  *                  erase_the_go
  * -----------------------------------------------------------
@@ -133,11 +139,11 @@ void insert_2_goids_inactive( goid_t id_ ){
  * -- return：
  *     新实例的 id 号
  */
-goid_t insert_new_regularGo( const IntVec2 mpos_, const IntVec2 pposOff_ ){
+goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
         tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
-    go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, mpos_, pposOff_ ) });
+    go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
     return goid;
 }
 
@@ -159,15 +165,15 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
 
 
 /* ===========================================================
- *                  insert_a_disk_gameObj
+ *                  insert_a_diskGo
  * -----------------------------------------------------------
  * -- 从 db 中读取一个 go数据，根据此数据，来重建一个 mem态 go 实例
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
-void insert_a_disk_gameObj( goid_t goid_, const IntVec2 mpos_, const IntVec2 pposOff_ ){
+void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ ){
 
         tprAssert( go_inn::gameObjs.find(goid_) == go_inn::gameObjs.end() );//- must not exist
-    go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,mpos_,pposOff_) });
+    go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
 }
 
 /* ===========================================================
@@ -189,7 +195,7 @@ void realloc_active_goes(){
     for( auto id : go_inn::goids_active ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_pos_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_currentDPos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -224,7 +230,7 @@ void realloc_inactive_goes(){
     for( auto id : go_inn::goids_inactive ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_pos_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_currentDPos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将进入 激活圈的 go 移动到 激活组 --

@@ -26,6 +26,7 @@
 #include "fileIO.h"
 #include "AnimFrameSet.h"
 #include "AnimAction.h"
+#include "ColliderType.h"
 #include "esrc_animFrameSet.h"
 
 
@@ -51,6 +52,8 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
         bool isHaveShadow {};
         bool isPjtSingle {};
         bool isShadowSingle {};
+        //bool isColliCapsule {};
+        ColliderType  colliderType {};
         std::vector<std::shared_ptr<AnimActionParam>> actionParams {};
     };
 
@@ -117,6 +120,7 @@ void parse_from_animFrameSetJsonFile(){
                                             pngSPtr->isHaveShadow,
                                             pngSPtr->isPjtSingle,
                                             pngSPtr->isShadowSingle,
+                                            pngSPtr->colliderType,
                                             pngSPtr->actionParams );
         }
     }
@@ -162,6 +166,10 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
     {//--- isShadowSingle ---//
         const auto &a = json_inn::check_and_get_value( pngEnt_, "isShadowSingle", json_inn::JsonValType::Bool );
         afsPng->isShadowSingle =  a.GetBool();
+    }
+    {//--- ColliderType ---//
+        const auto &a = json_inn::check_and_get_value( pngEnt_, "ColliderType", json_inn::JsonValType::String );
+        afsPng->colliderType =  str_2_ColliderType( a.GetString() );
     }
     {//--- AnimActionParams ---//
         const auto &a = json_inn::check_and_get_value( pngEnt_, "AnimActionParams", json_inn::JsonValType::Array );

@@ -22,9 +22,7 @@ class DiskGameObj{
 public:
     goid_t         goid     {}; //- u64   
     goSpecId_t     goSpecId {}; //- u32
-    IntVec2        mpos     {}; //- int, int
-    IntVec2        pposOff  {}; //- int, int
-    //glm::dvec2     dpos     {}; //- double, double
+    glm::dvec2     dpos     {}; //- double, double
     //...
 
 };

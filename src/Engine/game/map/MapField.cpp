@@ -144,12 +144,19 @@ void MapField::init_nodeMPos_and_nodePPosOff(){
                                                 static_cast<int>(idxY) };
 
     //-- nodePPosOff --//
+    /*
     size_t pposOffRange = 16;  // [-8,8]
     size_t halfPposOffRange = 8;
     size_t pX = cast_2_size_t(floor(pnX)) % pposOffRange;
     size_t pY = cast_2_size_t(floor(pnY)) % pposOffRange;
     this->nodePPosOff.set(  static_cast<int>( pX - halfPposOffRange ),
                             static_cast<int>( pY - halfPposOffRange ) ); // [-8,8]
+    */
+
+    //-- 测试版
+    // 让 每个go，指向 mapent [1,1] ppos 位置
+    this->nodePPosOff.set( -HALF_PIXES_PER_MAPENT+1, -HALF_PIXES_PER_MAPENT+1 );
+
     
 }
 

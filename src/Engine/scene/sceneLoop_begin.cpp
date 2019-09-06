@@ -240,6 +240,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
         if( gameArchives.find(archiveId) == gameArchives.end() ){
 
+            cout << "New Archive" << endl;
             //-----------------------//
             //   玩家选中的 存档为 空 
             //-----------------------//
@@ -256,7 +257,10 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 //-- 随便定个 mpos 
                 IntVec2    newGoMPos    { 0,0 };
-                IntVec2    newGoPPosOff { 0,0 };
+                glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
+
+                glm::dvec2 secGoDPos { 150.0, 00.0 }; //- 测试用go
+
 
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::build_9_chunks( newGoMPos );
@@ -268,19 +272,22 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 goSpecId_t newGoSpecId = ssrc::get_goSpecId( "oneEyeBoy" );
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
-                                                            newGoMPos,
-                                                            newGoPPosOff,
+                                                            newGoDPos,
                                                             emptyParamBinary );
 
+                //- 测试用go
+                gameObjs::create_a_Go(  newGoSpecId,
+                                        secGoDPos,
+                                        emptyParamBinary );
 
-                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoMPos, newGoPPosOff } );
+
+                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
                 //-- db::table_gameArchive --
                 
                 esrc::get_gameArchive() = GameArchive {   archiveId, 
                                                     target_baseSeed,
                                                     newGoId,
-                                                    newGoMPos,
-                                                    newGoPPosOff,
+                                                    newGoDPos,
                                                     GameObj::id_manager.get_max_id(), //- chunk 生成后，maxId 变了
                                                     newGameTime  
                                                     };
@@ -290,6 +297,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 esrc::get_player().bind_go( newGoId ); //-- 务必在 go数据实例化后 再调用 --
 
         }else{
+            cout << "Exist Archive" << endl;
             //-----------------------//
             //  玩家选中的 存档 已经存在 
             //-----------------------//
@@ -311,17 +319,16 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             DiskGameObj diskGo {};
             db::atom_select_one_from_table_goes( targetGameArchive.playerGoId, diskGo );
 
-                tprAssert( diskGo.mpos == targetGameArchive.playerGoMPos ); //- tmp
+                tprAssert( glm::length(diskGo.dpos - targetGameArchive.playerGoDPos) < 1.0 ); //- tmp
             
             //--- 先生成 chunks --
-            chunkCreate::build_9_chunks( targetGameArchive.playerGoMPos );
+            chunkCreate::build_9_chunks( dpos_2_mpos( targetGameArchive.playerGoDPos ) );
             
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...
 
             gameObjs::rebind_a_disk_Go( diskGo,
-                                        targetGameArchive.playerGoMPos,
-                                        targetGameArchive.playerGoPPosOff,
+                                        targetGameArchive.playerGoDPos,
                                         emptyParamBinary );
 
             //-- player --
