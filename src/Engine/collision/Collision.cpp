@@ -1,5 +1,5 @@
 /*
- * ====================== Collision2.cpp ==========================
+ * ====================== Collision.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.01
  *                                        MODIFY -- 
@@ -8,7 +8,7 @@
  *    关键性数据 全在 mapEnt 中
  * ----------------------------
  */
-#include "Collision2.h"
+#include "Collision.h"
 
 //-------------------- CPP --------------------//
 #include <unordered_set>
@@ -18,7 +18,7 @@
 #include "tprAssert.h"
 #include "GameObjMesh.h"
 #include "GameObj.h"
-#include "FramePos2.h"
+#include "FramePos.h"
 #include "MapCoord.h"
 #include "MapEnt.h"
 #include "collide_oth.h"
@@ -39,14 +39,14 @@
  *  临时计算出，当前的 相邻bego 集，存入 adjacentBeGos
  *  (而不是使用之前的 登记制)
  */ 
-void Collision2::collect_adjacentBeGos(){
+void Collision::collect_adjacentBeGos(){
 
     // 调用本函数，意味着 goRef.isMoveCollide 一定为 true !!!
     //---------------------------------------//
     GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
 
         //-- dogo Must be Circular !!! --
-        tprAssert( dogoRef.get_rootFramePos2Ref().get_colliderType() == ColliderType::Circular );
+        tprAssert( dogoRef.get_rootFramePosRef().get_colliderType() == ColliderType::Circular );
 
     Circular dogoCir = dogoRef.calc_circular( CollideFamily::Move );
 
@@ -87,7 +87,7 @@ void Collision2::collect_adjacentBeGos(){
         Circular begoCir {};
         Capsule begoCap  {};
         std::pair<CollideState, glm::dvec2> capOut {};
-        switch ( begoRef.get_rootFramePos2Ref().get_colliderType() ){
+        switch ( begoRef.get_rootFramePosRef().get_colliderType() ){
             case ColliderType::Circular:
 
                 begoCir = begoRef.calc_circular( CollideFamily::Move );
@@ -124,41 +124,32 @@ void Collision2::collect_adjacentBeGos(){
  * -----------------------------------------------------------
  * 精简版，只需要计算 偏转后的 位移向量
  */
-glm::dvec2 Collision2::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
+glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
 
     if( this->adjacentBeGos.empty() ){
         return  moveVec_;
     }
 
-    GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
-
+    GameObj &dogoRef = this->goRef; //- 碰撞检测 主动发起方
     Circular dogoCir = dogoRef.calc_circular( CollideFamily::Move );
-    Circular begoCir {};
-    Capsule  begoCap {};
     //--------------------------------//
     bool is_leftSide_have {false};
     bool is_rightSide_have {false};
     std::vector<glm::dvec2> self_2_oths {};
     //--
     for( const auto &pair : this->adjacentBeGos ){
-        
         GameObj &begoRef = esrc::get_goRef( pair.first );
-        const auto &begoColliderType = begoRef.get_rootFramePos2Ref().get_colliderType();
+        const auto &begoColliderType = begoRef.get_rootFramePosRef().get_colliderType();
 
         //----- 过滤掉那些 背向而行 的 bego -----
         if( begoColliderType == ColliderType::Circular ){
-
-            begoCir = begoRef.calc_circular( CollideFamily::Move );
-            if( is_dogoCircular_leave_begoCircular(moveVec_, dogoCir, begoCir ) ){
+            if( is_dogoCircular_leave_begoCircular(moveVec_, dogoCir, begoRef.calc_circular(CollideFamily::Move) ) ){
                 continue;
             }
         }else if( begoColliderType == ColliderType::Capsule ){
-
-            begoCap = begoRef.calc_capsule( CollideFamily::Move );
-            if( is_dogoCircular_leave_begoCapsule(moveVec_, dogoCir, begoCap) ){
+            if( is_dogoCircular_leave_begoCapsule(moveVec_, dogoCir, begoRef.calc_capsule(CollideFamily::Move)) ){
                 continue;
             }
-
         }else{
             tprAssert(0);
         }
@@ -166,7 +157,7 @@ glm::dvec2 Collision2::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
         glm::dvec2 innVec = calc_innVec( moveVec_, pair.second );
 
         //-- 几乎和 位移 同方向
-        if( std::abs(innVec.y) < 0.01 ){
+        if( is_closeEnough(innVec.y, 0.0, 0.01) ){
             return glm::dvec2{0.0, 0.0}; //- 正面遭遇阻挡，位移彻底被阻挡. 
         }
         //--
@@ -189,23 +180,17 @@ glm::dvec2 Collision2::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
     for( const auto &i : self_2_oths ){
         sum += i;
     }
-    //- 现在，sum指向 总阻力向量 的反方向
-    double sumLen = glm::length( sum );
-
-    //-- 计算 偏移向量 --
-    double pct = std::abs(calc_innVec(sum, moveVec_).x) / sumLen;
-    glm::dvec2 newSum = sum * pct;
-    return (moveVec_ - newSum); //- 偏转后新的 位移向量
+    //---- 现在，sum指向 总阻力向量 的反方向 ----
+    return calc_slideMoveVec( moveVec_, sum );
 }
 
 
 
 /* ===========================================================
- *            detect_for_move2  [Sec]
+ *            detect_for_move  [Sec]
  * -----------------------------------------------------------
- *  暂时接替，原来的 Move::for_regularGo_inn2()
  */ 
-glm::dvec2 Collision2::detect_for_move2( const glm::dvec2 &moveVec_ ){
+glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
 
 
     {//-- 简陋的检测，位移距离 不大于 1mapent --
@@ -234,7 +219,7 @@ glm::dvec2 Collision2::detect_for_move2( const glm::dvec2 &moveVec_ ){
 
     isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( this->goRef.get_currentDPos() + moveVec );
     //-- 不管 forecast 的结果是否为 true，都要做 碰撞检测 --
-    auto out = this->for_move2_inn( moveVec ); // MAJOR !!!! 
+    auto out = this->for_move_inn( moveVec ); // MAJOR !!!! 
 
     isObstruct = out.first;
     if( isObstruct ){
@@ -274,13 +259,13 @@ glm::dvec2 Collision2::detect_for_move2( const glm::dvec2 &moveVec_ ){
 
 
 /* ===========================================================
- *            for_move2_inn  [Sec]
+ *            for_move_inn  [Sec]
  * -----------------------------------------------------------
  * -- return:
  *    bool       -- 位移是否遭遇 阻挡  
  *    glm::dvec2 -- 修正后的位移向量（ 原值／t／偏向 ）
  */  
-std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_ ){
+std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ ){
 
         //- only for debug
         double currentTime = esrc::get_timer().get_currentTime();
@@ -288,12 +273,12 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
     // 调用本函数，意味着 goRef.isMoveCollide 一定为 true !!!
     //---------------------------------------//
     GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
-    const auto  &dogoRootFramePos2Ref = dogoRef.get_rootFramePos2Ref();
+    const auto  &dogoRootFramePosRef = dogoRef.get_rootFramePosRef();
     glm::dvec2   dogeTargetDPos = dogoRef.get_currentDPos() + moveVec_;
 
     
         //-- dogo Must be Circular !!! --
-        tprAssert( dogoRootFramePos2Ref.get_colliderType() == ColliderType::Circular );
+        tprAssert( dogoRootFramePosRef.get_colliderType() == ColliderType::Circular );
 
 
     //----------------------------------------//
@@ -318,16 +303,14 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
         }
     }
 
-
     //-------- 没有 bego 就直接 return ---------//
     if( this->begoids.empty() ){
         return { false, moveVec_ };
     }
 
-
     //----------------------------------------//
     //   check each bego，and collect tbegoids
-    Circular dogoCir = dogoRootFramePos2Ref.calc_circular( dogoRef.get_currentDPos(), CollideFamily::Move );
+    Circular dogoCir = dogoRootFramePosRef.calc_circular( dogoRef.get_currentDPos(), CollideFamily::Move );
     Circular futureDogoCir = dogoCir.calc_new_circular( moveVec_ ); //- 位于 位移向量的终点
 
     Circular begoCir {};
@@ -337,8 +320,8 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
     for( const auto &begoid : this->begoids ){//- each bego
 
         GameObj &begoRef = esrc::get_goRef( begoid );
-        const auto &begoRootFramePos2Ref = begoRef.get_rootFramePos2Ref();
-        const auto &begoColliderType = begoRootFramePos2Ref.get_colliderType();
+        const auto &begoRootFramePosRef = begoRef.get_rootFramePosRef();
+        const auto &begoColliderType = begoRootFramePosRef.get_colliderType();
 
         //-- goAltiRange --//
         //  过滤掉，在 altiRange 不会碰撞的 bego --
@@ -371,7 +354,6 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
                 }else{
                     tprAssert(0);
                 }
-
 
                 break;
             case ColliderType::Capsule:
@@ -415,41 +397,21 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
     //----------------------------------------//
     //-- 1~n 个新的 相邻bego,它们的 t值 是一样的
     double tMin = this->tbegoids.begin()->first; //- min
-    return  { true, moveVec_ * tMin }; //- 用 t值 修正 位移向量
+    for( const auto &tbego : this->tbegoids ){
+
+        if( !is_closeEnough(tbego.first, tMin, 0.01) ){
+            continue;
+        }
+
+        //- 确认发生碰撞，调用对应的 functor
+        // ... 暂未实现 ...
 
 
-    /*
-    {
-        //------------------------------//
-        // 检测当前移动方向的 所有 addsEnt
-        //------------------------------//
-        currentGoAltiRange.set_by_addAlti( doGoRef.get_rootFramePos2Ref().get_lGoAltiRangeRef(), doGoRef.get_pos_alti() ); 
-        //--- 访问 adds ---//
-        for( const auto &mpos : doGoRef.get_currentSignINMapEntsRef() ){ //- each add EntOff
-        //for( const auto &i : doCesRef.get_addEntOffs(nbIdx_) ){ //- each add EntOff
+    }
 
-            if(isObstruct) break;
+    return  { true, moveVec_*tMin }; //- 用 t值 修正 位移向量
 
-            //- 当发现某个 addEnt 处于非 Active 的 chunk。
-            //  直接判定此次碰撞 为 阻塞，最简单的处理手段
-            auto chunkState = esrc::get_chunkMemState( anyMPos_2_chunkKey( mpos ) );
-            if( chunkState != ChunkMemState::Active ){
-                isObstruct = true;
-                break;
-            }
-
-            const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
-
-            for( const auto &majorGoPair : mapEntRef.get_majorGos() ){ //- each major_go in target mapent
-                if(isObstruct) break;
-                const MajorGO_in_MapEnt &goDataRef = majorGoPair.second;
-                GameObj &beGoRef = esrc::get_goRef( majorGoPair.first ); //- 目标mapent 中存储的 major_go (被动go)
-
-                //-- 没撞到，检查下一个 --
-                if( currentGoAltiRange.is_collide( beGoRef.get_currentGoAltiRange( goDataRef.lGoAltiRange ) )==false ){
-                    continue;
-                }
-                            
+            /*
                 //--------------//
                 //   若确认碰撞 
                 //--------------//
@@ -484,11 +446,8 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
                     isObstruct = true;
                     break;
                 }
-            }//-- each major_go in target mapent
-        }//-- each add EntOff
-    }
-    */
 
+            */
 }
 
 
@@ -496,7 +455,7 @@ std::pair<bool,glm::dvec2> Collision2::for_move2_inn( const glm::dvec2 &moveVec_
  *                 handle_chunkKeys
  * -----------------------------------------------------------
  */ 
-void Collision2::handle_chunkKeys(){
+void Collision::handle_chunkKeys(){
 
         //---------------------------//
         //  如果确认需要位移

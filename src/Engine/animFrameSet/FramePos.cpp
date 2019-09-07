@@ -1,11 +1,11 @@
 /*
- * ======================== FramePos2.cpp ==========================
+ * ======================== FramePos.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.08.31
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "FramePos2.h"
+#include "FramePos.h"
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -19,7 +19,7 @@
  *                  init_from_semiData
  * -----------------------------------------------------------
  */
-void FramePos2::init_from_semiData( const FramePos2SemiData &semiData_ ){
+void FramePos::init_from_semiData( const FramePosSemiData &semiData_ ){
 
         this->colliderType = semiData_.get_colliderType();
         this->rootAnchorDPosOff = semiData_.get_rootAnchor();

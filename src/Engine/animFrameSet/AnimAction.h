@@ -21,7 +21,7 @@
 #include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
-#include "FramePos2.h"
+#include "FramePos.h"
 
 
 //-- 动作类型 --
@@ -181,7 +181,7 @@ public:
     }
 
     inline const glm::dvec2 &get_currentRootAnchorDPosOff( const AnimActionPvtData &pvtData_ ) const {
-        return this->framePoses2_ptr->at(pvtData_.currentFrameIdx).get_rootAnchorDPosOff();
+        return this->framePoses_ptr->at(pvtData_.currentFrameIdx).get_rootAnchorDPosOff();
     }
 
     inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const {
@@ -190,8 +190,8 @@ public:
     inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const {
         return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const FramePos2 &get_currentFramePos2( const AnimActionPvtData &pvtData_ ) const {
-        return this->framePoses2_ptr->at(pvtData_.currentFrameIdx);
+    inline const FramePos &get_currentFramePos( const AnimActionPvtData &pvtData_ ) const {
+        return this->framePoses_ptr->at(pvtData_.currentFrameIdx);
     }
 
 private:
@@ -206,7 +206,7 @@ private:
     //-- 从 animFrameSet 中获得的 只读指针 --
     const std::vector<GLuint> *texNames_pic_ptr    {nullptr};
     const std::vector<GLuint> *texNames_shadow_ptr {nullptr};
-    const std::vector<FramePos2> *framePoses2_ptr     {nullptr};
+    const std::vector<FramePos> *framePoses_ptr     {nullptr};
 
     AnimActionType   actionType {}; 
 

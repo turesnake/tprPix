@@ -18,7 +18,7 @@
  */
 std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   const Circular &dogoCir_,
                                                             const Capsule  &begoCap_,
-                                                            double threshold_ ){
+                                                            double threshold_ ) noexcept {
     
     double sum_of_two_raidus = dogoCir_.radius + begoCap_.radius;
     double len {};
@@ -44,7 +44,7 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
     }
     len -= sum_of_two_raidus;
 
-    if( std::abs(len) <= threshold_ ){
+    if( is_closeEnough(len, 0.0, threshold_) ){
         return { CollideState::Adjacent, self_2_oth };
     }else if( len < 0.0 ){
         return { CollideState::Intersect, self_2_oth };
@@ -60,7 +60,7 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
  */
 double capsuleCast( const glm::dvec2 &moveVec_,
                     const Circular &dogoCir_,
-                    const Capsule  &begoCap_ ){
+                    const Capsule  &begoCap_ ) noexcept {
 
     glm::dvec2 capRoot_2_cirRoot = dogoCir_.dpos - begoCap_.dpos;
     double sum_of_2_radius = dogoCir_.radius + begoCap_.radius;

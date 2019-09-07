@@ -4,7 +4,7 @@
  *                                        CREATE -- 2019.08.30
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    Only used in Collision2.cpp !!!
+ *    Only used in Collision.cpp !!!
  * ------------
  */
 #ifndef TPR_COLLIDE_OTH_H
@@ -19,6 +19,7 @@
 
 //-------------------- Engine --------------------//
 #include "ColliderType.h"
+#include "tprMath.h"
 
 
 /* ===========================================================
@@ -29,7 +30,7 @@
  *     - true:   说明本次碰撞 可以穿过
  *     - false:  说明本次碰撞 无法穿过
  */
-inline bool isPass_Check( bool isDoPass_, bool isBePass_ ){
+inline bool isPass_Check( bool isDoPass_, bool isBePass_ ) noexcept {
 
     //--- *** 本流程可能存在逻辑问题... *** ---//
     if( isDoPass_ == true ){
@@ -45,6 +46,14 @@ inline bool isPass_Check( bool isDoPass_, bool isBePass_ ){
     }
 }
 
+
+
+inline double calc_cos( const glm::dvec2 &a_, const glm::dvec2 &b_ ) noexcept {
+    return glm::dot(glm::normalize(a_), glm::normalize(b_) );
+}
+
+
+
 /* ===========================================================
  *                  calc_innVec      
  * -----------------------------------------------------------
@@ -52,7 +61,7 @@ inline bool isPass_Check( bool isDoPass_, bool isBePass_ ){
  * 旋转 基向量，使其躺平到 x轴，对齐与 0 点
  * 返回新坐标系中的 目标向量值
  */
-inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beVec_ ){
+inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beVec_ ) noexcept {
 
         tprAssert( !((baseVec_.x==0.0) && (baseVec_.y==0.0)) );
     glm::dvec2 n = glm::normalize( baseVec_ );
@@ -70,7 +79,7 @@ inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beV
  */
 inline double calc_intersectX(  const glm::dvec2 &rootPoint_,
                                 const glm::dvec2 &root_2_tail_,
-                                double y_){
+                                double y_) noexcept {
     double pct = (rootPoint_.y-y_) / -root_2_tail_.y;    
     return (rootPoint_.x + (root_2_tail_.x * pct)); //- 允许返回 负值（从相交中退出
 }
@@ -84,14 +93,13 @@ inline double calc_intersectX(  const glm::dvec2 &rootPoint_,
  */
 inline CollideState collideState_from_circular_2_circular(  const Circular &dogoCir_,
                                                             const Circular &begoCir_,
-                                                            double threshold_ ){
+                                                            double threshold_ ) noexcept {
     glm::dvec2 offVec = begoCir_.dpos - dogoCir_.dpos;
     double     sum_of_two_raidus = dogoCir_.radius + begoCir_.radius;
     //-- Avoid Radical Sign / 避免开根号 --
     double off = (offVec.x * offVec.x) + (offVec.y * offVec.y) -
                 (sum_of_two_raidus * sum_of_two_raidus);
-    
-    if( std::abs(off) <= threshold_*threshold_ ){
+    if( is_closeEnough(off, 0.0, threshold_*threshold_) ){
         return CollideState::Adjacent;
     }else if( off < 0.0 ){
         return CollideState::Intersect;
@@ -108,7 +116,7 @@ inline CollideState collideState_from_circular_2_circular(  const Circular &dogo
  */
 std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   const Circular &dogoCir_,
                                                             const Capsule  &begoCap_,
-                                                            double threshold_ );
+                                                            double threshold_ ) noexcept;
 
 
 /* ===========================================================
@@ -118,12 +126,10 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
  */
 inline bool is_dogoCircular_leave_begoCircular( const glm::dvec2 &moveVec_,
                                                 const Circular &dogoCir_,
-                                                const Circular &begoCir_ ){
+                                                const Circular &begoCir_ ) noexcept {
     glm::dvec2 dogo_2_bego = begoCir_.dpos - dogoCir_.dpos;
-    //-----
-    double cosValue = glm::dot( glm::normalize(moveVec_), 
-                                glm::normalize(dogo_2_bego) );
-    return (cosValue <= 0.0) ? true : false;
+    double cosVal = calc_cos( moveVec_, dogo_2_bego );
+    return (cosVal <= 0.0) ? true : false;
 }
 
 
@@ -136,7 +142,7 @@ inline bool is_dogoCircular_leave_begoCircular( const glm::dvec2 &moveVec_,
 inline bool is_dogoCircular_leave_begoCapsule(  const glm::dvec2 &moveVec_, 
                                                 const Circular &dogoCir_,
                                                 const Capsule  &begoCap_
-                                                ){
+                                                ) noexcept {
     glm::dvec2 capRoot_2_cirRoot = dogoCir_.dpos - begoCap_.dpos;
     //-- capsule 坐标系体内的 move 两端点值 --
     glm::dvec2 cirRootInn = calc_innVec( begoCap_.root_2_tail, capRoot_2_cirRoot );
@@ -173,7 +179,7 @@ inline bool is_dogoCircular_leave_begoCapsule(  const glm::dvec2 &moveVec_,
  */
 inline double circularCast( const glm::dvec2 &moveVec_,
                             const Circular &dogoCir_,
-                            const Circular &begoCir_  ){
+                            const Circular &begoCir_  ) noexcept {
 
     double sum_of_2_radius = dogoCir_.radius + begoCir_.radius;
     glm::dvec2 dogo_2_bego = begoCir_.dpos - dogoCir_.dpos;
@@ -192,7 +198,35 @@ inline double circularCast( const glm::dvec2 &moveVec_,
  */
 double capsuleCast( const glm::dvec2 &moveVec_,
                     const Circular &dogoCir_,
-                    const Capsule  &begoCap_ );
+                    const Capsule  &begoCap_ ) noexcept ;
+
+
+
+/* ===========================================================
+ *                 calc_slideMoveVec
+ * -----------------------------------------------------------
+ * 位移向量 会被 阻挡向量 阻挡，退化为一个 平行与 阻挡向量的 分量。
+ * 当 位移向量 和 阻挡向量 夹角很小时，会主动对结果叠加一个增值，让它滑动得快些
+ */
+inline glm::dvec2 calc_slideMoveVec(   const glm::dvec2 &moveVec_,
+                                const glm::dvec2 &obstructVec_  ) noexcept {
+
+    double cosVal = calc_cos( moveVec_, obstructVec_ );
+    double scale {1.0};
+
+    if( cosVal > 0.5 ){
+        scale += cosVal;
+    }else if( cosVal > 0.0 ){
+        scale += cosVal * 0.5;
+    }
+
+    double pct = std::abs(calc_innVec(obstructVec_, moveVec_).x) / glm::length(obstructVec_);
+
+    return (moveVec_ - obstructVec_*pct) * scale; //- 偏转后新的 位移向量
+}
+
+
+
 
 
 #endif 

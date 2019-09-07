@@ -90,8 +90,8 @@ public:
     }
 
     //------------- get -------------//    
-    inline const FramePos2 &get_currentFramePos2() const {
-        return this->animActionPtr->get_currentFramePos2( this->animActionPvtData );
+    inline const FramePos &get_currentFramePos() const {
+        return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
     }   
 
     inline const GLuint &get_currentTexName_pic() const {

@@ -29,12 +29,12 @@ public:
         y(y_)
         {}
 
-    inline void clear_all(){
+    inline void clear_all() noexcept {
         this->x = 0;
         this->y = 0;
     }
 
-    inline void set( u8_t x_, u8_t y_ ){
+    inline void set( u8_t x_, u8_t y_ ) noexcept {
         this->x = x_;
         this->y = y_;
     }

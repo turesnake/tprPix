@@ -135,23 +135,7 @@ struct Sec_diskMapEnt{
 };
 
 
-/*
-class MajorGO_in_MapEnt{
-public:
-    MajorGO_in_MapEnt(  const GoAltiRange &altiRange_, 
-                        bool              isCarryAffect_ ):
-        lGoAltiRange(altiRange_),
-        isCarryAffect(isCarryAffect_)
-        {}
 
-    GoAltiRange  lGoAltiRange    {};      
-                    // 本mapent 所在的 ceh 的相对高度区间
-                    // 在 碰撞检测的 具体使用中，需要累加上 gpPos.alti 才能表达 此ceh 当前 goAltirange值
-    bool       isCarryAffect {false}; 
-                    // 本mapent 所在的 ceh 是否携带affect
-    //...
-};
-*/
 
 
 //-- 投影地图单位的信息 [mem] --
@@ -238,7 +222,6 @@ public:
 
 private:
 
-    //std::unordered_map<goid_t, MajorGO_in_MapEnt> major_gos {};
     std::unordered_set<goid_t> majorGos {};
 
 

@@ -18,7 +18,7 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
-#include "Pjt_RGBAHandle2.h"
+#include "Pjt_RGBAHandle.h"
 #include "create_texNames.h"
 #include "load_and_divide_png.h"
 
@@ -86,7 +86,7 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     
     //-------------------//
     //-- 获得本次 insert 的 起始idx
-    size_t lastNums = this->framePoses2.size();
+    size_t lastNums = this->framePoses.size();
     tprAssert( this->texNames_pic.size() == lastNums );
     tprAssert( this->texNames_shadow.size() == lastNums );
     afs_inn::headIdx = lastNums;
@@ -194,11 +194,10 @@ void AnimFrameSet::handle_pjt(){
 
     size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
-    Pjt_RGBAHandle2  jh2 {5};
+    Pjt_RGBAHandle  jh2 {5};
 
-    //this->framePoses2.insert( this->framePoses2.end(), afs_inn::totalFrameNum, FramePos2{} );
     for( size_t i=0; i<afs_inn::totalFrameNum; i++ ){
-        this->framePoses2.push_back(  FramePos2{}  ); //-- 存在问题.... 有关 unique_ptr 和 copy 
+        this->framePoses.push_back(  FramePos{}  ); //-- 存在问题.... 有关 unique_ptr 和 copy 
     }
 
     glm::dvec2  pixDPos {}; //- current pix dpos
@@ -208,9 +207,9 @@ void AnimFrameSet::handle_pjt(){
 
     for( size_t f=0; f<afs_inn::totalFrameNum; f++ ){ //--- each frame ---
         idx_framePoses = afs_inn::headIdx + f;
-        tprAssert( this->framePoses2.size() > idx_framePoses );
+        tprAssert( this->framePoses.size() > idx_framePoses );
 
-        FramePos2SemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
+        FramePosSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
@@ -230,7 +229,7 @@ void AnimFrameSet::handle_pjt(){
         }//------ each frame.pix ------
 
         //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-        this->framePoses2.at(idx_framePoses).init_from_semiData( frameSemiData );
+        this->framePoses.at(idx_framePoses).init_from_semiData( frameSemiData );
 
     }//-------- each frame -------
 }

@@ -1,5 +1,5 @@
 /*
- * ======================= Collision2.h ==========================
+ * ======================= Collision.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.01
  *                                        MODIFY -- 
@@ -35,14 +35,14 @@ class GameObj;
 // 这两种 相互独立。并行存在
 //   这意味着，go并不需要停下来才能 释放技能。 
 //   当然，由于 动画制作的问题，大部分技能在施展期间，还是会强制停下 go 的移动
-class Collision2{
+class Collision{
     using F_get_colliPointDPosOffsRef = std::function<const std::vector<glm::dvec2> &()>;
 public:
-    Collision2( GameObj &goRef_ ):
+    Collision( GameObj &goRef_ ):
         goRef(goRef_)
         {}
 
-    glm::dvec2 detect_for_move2( const glm::dvec2 &moveVec_ );
+    glm::dvec2 detect_for_move( const glm::dvec2 &moveVec_ );
 
 
     //-- only call in go init --
@@ -78,7 +78,7 @@ private:
     void handle_chunkKeys();
 
     
-    std::pair<bool, glm::dvec2> for_move2_inn( const glm::dvec2 &moveVec_ );
+    std::pair<bool, glm::dvec2> for_move_inn( const glm::dvec2 &moveVec_ );
 
 
     //======== vals ========//
@@ -87,7 +87,7 @@ private:
     std::unique_ptr<SignInMapEnts> signInMapEntsUPtr {nullptr};
 
 
-    //-- 以下容器，仅函数内容使用 --
+    //-- 以下容器，仅在函数内部使用 --
     std::unordered_map<goid_t, glm::dvec2> adjacentBeGos {}; // 相邻begos
                             // --1-- begoid
                             // --2-- self_2_oth

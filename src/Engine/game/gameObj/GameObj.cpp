@@ -48,7 +48,7 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     //    collision
     //-----------------------//
-    this->collision2UPtr = std::make_unique<Collision2>(*this);
+    this->collisionUPtr = std::make_unique<Collision>(*this);
 
     //-----------------------//
     //         oth
@@ -88,7 +88,7 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
     //-----------------------//
     //    collision
     //-----------------------//
-    this->collision2UPtr = nullptr;
+    this->collisionUPtr = nullptr;
 
     //-----------------------//
     //         oth
@@ -135,7 +135,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
-        this->rootFramePos2Ptr = &gmesh.get_currentFramePos2();
+        this->rootFramePosPtr = &gmesh.get_currentFramePos();
     }
 
     return gmesh;
@@ -147,20 +147,20 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
  */
 void GameObj::init_check(){
 
-    tprAssert( this->rootFramePos2Ptr );
+    tprAssert( this->rootFramePosPtr );
 
     //-- colliderType and isMoveCollide --
     // 只有支持 移动碰撞检测的 regularGo
     // 配合 携带了 非Nil碰撞体 的 rootGoMesh
     // 才会绑定 以下 functor
     if( this->isMoveCollide ){
-        tprAssert( this->rootFramePos2Ptr->get_colliderType() != ColliderType::Nil );
+        tprAssert( this->rootFramePosPtr->get_colliderType() != ColliderType::Nil );
         tprAssert( this->goPosUPtr != nullptr );
 
         //-- 主动调用，init signINMapEnts --- MUST!!!
-        this->collision2UPtr->init_signInMapEnts( this->get_currentDPos(),
-                    //std::bind( &FramePos2::get_colliPointDPosOffsRef, const_cast<FramePos2*>(this->rootFramePos2Ptr) ) 
-                    std::bind( this->rootFramePos2Ptr->get_colliPointDPosOffsRef ) 
+        this->collisionUPtr->init_signInMapEnts( this->get_currentDPos(),
+                    //std::bind( &FramePos::get_colliPointDPosOffsRef, const_cast<FramePos*>(this->rootFramePosPtr) ) 
+                    std::bind( this->rootFramePosPtr->get_colliPointDPosOffsRef ) 
                     );
 
     }

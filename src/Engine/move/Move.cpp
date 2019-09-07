@@ -20,7 +20,7 @@
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
 #include "MapCoord.h"
-#include "Collision2.h"
+#include "Collision.h"
 #include "GameObj.h" 
 
 #include "esrc_time.h"
@@ -99,7 +99,7 @@ void Move::renderUpdate_crawl(){
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
-    this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move2(speedVec) );
+    this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move(speedVec) );
 
 }
 
@@ -158,7 +158,7 @@ void Move::renderUpdate_drag(){
     if( this->goRef.family == GameObjFamily::UI ){
         this->goRef.accum_currentDPos( speedVec );
     }else{
-        this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move2(speedVec) );
+        this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move(speedVec) );
     }
     
     if( isLastFrame ){

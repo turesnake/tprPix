@@ -1,12 +1,10 @@
 /*
- * ========================= FramePos2.h ==========================
+ * ========================= FramePos.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.08.31
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    animFrameSet 中，单张 图元帧 拥有的 全部 pos数据集
- * 
- *    第三版
  */
 #ifndef TPR_FRAME_POS_2_H
 #define TPR_FRAME_POS_2_H
@@ -65,9 +63,9 @@ public:
 
 
 //-- 从 png文件 读取的 半成品数据 --
-class FramePos2SemiData{
+class FramePosSemiData{
 public:
-    FramePos2SemiData( const ColliderType &colliderType_ ):
+    FramePosSemiData( const ColliderType &colliderType_ ):
         colliderType(colliderType_)
         {}
     //----- set -----//
@@ -129,15 +127,15 @@ private:
 
 
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
-class FramePos2{
+class FramePos{
     using F_double     = std::function<double()>;
     using F_c_dvec2Ref = std::function<const glm::dvec2 &()>;
     using F_colliPointRef = std::function<const std::vector<glm::dvec2> &()>;
 
 public:
-    FramePos2() = default;
+    FramePos() = default;
 
-    void init_from_semiData( const FramePos2SemiData &semiData_ );
+    void init_from_semiData( const FramePosSemiData &semiData_ );
 
     //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const { return this->rootAnchorDPosOff; }
@@ -151,7 +149,6 @@ public:
     }
 
 
-
     inline Circular calc_circular(  const glm::dvec2 &goCurrentDPos_,
                                     const CollideFamily &family_ ) const {
         tprAssert( this->circularUPtr );
@@ -163,7 +160,6 @@ public:
         }
         return Circular{ goCurrentDPos_, radius };
     }
-
 
     inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_,
                                 const CollideFamily &family_ ) const {
@@ -213,10 +209,9 @@ private:
                             //...
                             // 这个概念可能要被修改...
                             //
-                            //
                             // 第三版中，没被任何代码设置，维持初始值...
 
-    bool        isBody       {true};
+    //bool        isBody       {true};
                             //- body    - “实体ceh” 会被登记到 mapent上，比如 生物的身体部分。
                             //- virtual - “虚幻ceh” 不会被登记到mapent上，比如火球，刀。
                             // ------------------
@@ -226,7 +221,6 @@ private:
                             //  (100+low, 100+high) 时，isBody == false
                             // --------------
                             // 在未来，需要提供 代码层的 改写口，方便在代码中制作一些 隐形的 技能向 碰撞区
-                            //
                             //
                             // 第三版中，没被任何代码设置，维持初始值...
 

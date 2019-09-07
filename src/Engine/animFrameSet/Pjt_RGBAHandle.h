@@ -1,20 +1,17 @@
 /*
  * ========================= Pjt_RGBAHandle.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.09
+ *                                        CREATE -- 2019.08.31
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *    在 "dog.PJ.png" 中，记载了每个图元帧的 pjt信息
  *    本模块就是用来 解析读取这些信息，将它们还原为 外部所需的状态
  * -------
- *  随着 colliEntSet 预制件 的推广，这个 模块 被大幅度简化
- * -------
- *  目前本模块 暂时只支持 一个 图元帧，包好 一个 colliEntSet预制件。
- *  需要拓展 ...
+ *  第二版
  * ----------------------------
  */
-#ifndef TPR_PJT_RGBA_HANDLE_H
-#define TPR_PJT_RGBA_HANDLE_H
+#ifndef TPR_PJT_RGBA_HANDLE_2_H
+#define TPR_PJT_RGBA_HANDLE_2_H
 //------------------- C --------------------//
 #include <cmath>
 
@@ -25,24 +22,35 @@
 #include "tprAssert.h"
 #include "RGBA.h"
 #include "GoAltiRange.h" 
-#include "ColliEntHead.h"
+#include "FramePos.h"
+#include "ColliderType.h"
 
 
-namespace pjt_RGBAHandle_inn{//---------- namespace ---------//
+#include "tprDebug.h"
+
+
+namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     //--- A --- 
-    u8_t    A_SOLID         { 255 }; 
+    u8_t    A_OPAQUE         { 255 }; // alpha
     //--- R --- 
-    u8_t    R_rootColliEntHead_CarryAffect { 50 };   //- ces with rootAnchor (carry affect)
-    u8_t    R_rootColliEntHead_NoAffect    { 100 };  //- ces with rootAnchor (no affect)
+    //u8_t    R_rootColliEntHead_CarryAffect { 50 };   //- ces with rootAnchor (carry affect)
+    //u8_t    R_rootColliEntHead_NoAffect    { 100 };  //- ces with rootAnchor (no affect)
                 //- 新版本中，一个mesh 只有一个 ces/ceh
                 //  也就是这里的 rootCEH
-    
-    //--- B --- 
-    u8_t    B_rootAnchor    { 255 };
-    u8_t    B_childAnchor   { 100 }; //- 子锚点应当 额外记录 z深度偏移。
-    //...more...                 //- 从而获得 3DPos 的 子锚点信息。
 
-    RGBA  uselessColor_1  { 200, 200, 200, 255 };
+    u8_t    R_rootAnchor    { 255 };
+    u8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
+
+
+    //--- G --- 
+    u8_t  G_moveColliRadius   { 150 };
+    u8_t  G_skillColliRadius  { 250 }; //- 胶囊体中，没有此点，此值将被同步为 moveColliRadius 
+
+    //--- B --- 
+    u8_t  B_colliPoint  { 150 }; 
+
+
+    RGBA  uselessColor_1  { 150, 150, 150, 255 };
 
 }//------------ namespace: end ---------//
 
@@ -57,70 +65,74 @@ public:
         off(off_)
         {}    
 
-    //inline void set_rgba( const RGBA &rgba_, const IntVec2 &_pixPos ){
-    inline void set_rgba( const RGBA &rgba_ ){
+    //-- 忠实地记录从 Jpng 中读取地每像素信息 --
+    // 而不关心实际 ColliderType，这部分由 FramePosSemiData 去完成
+    inline void set_rgba(   FramePosSemiData *frameSemiDataPtr_, 
+                            const RGBA &rgba_, 
+                            const glm::dvec2 &pixDPos_ 
+                            ){
         //-- reset --
         this->rgba = rgba_;
-        this->colliEntHead.clear_all(); 
+        this->frameSemiDataPtr = frameSemiDataPtr_;
 
-        this->isEmpty            = true;
-        this->isRootColliEntHead = false;
-        this->isRootAnchor       = false;
-        this->isChildAnchor      = false;
-
-        //--- A ---
-        if( (is_near_inner(RGBA_ChannelType::A, pjt_RGBAHandle_inn::A_SOLID)==false) ||
-            (this->rgba.is_near( pjt_RGBAHandle_inn::uselessColor_1, 5)==true) ){
+        //=== A ===
+        //--- ignore ---
+        if( (is_near_inner(RGBA_ChannelType::A, pjt_RGBAHandle_2_inn::A_OPAQUE)==false) ||
+            (this->rgba.is_near( pjt_RGBAHandle_2_inn::uselessColor_1, 5)==true) ){
             return;
         }
-        this->isEmpty = false;
 
-        //--- R --- 
-        //------- rootColliEntHead_NoAffect --------
-        u8_t cesNUm = 16; //- 目前只有 16种 ces预制件
-        if(       is_in_range(this->rgba.r, pjt_RGBAHandle_inn::R_rootColliEntHead_CarryAffect, cesNUm) ){ //---
-            this->isRootColliEntHead = true;
-            this->colliEntHead.colliEntSetIdx = this->rgba.r - pjt_RGBAHandle_inn::R_rootColliEntHead_CarryAffect;
-            this->colliEntHead.isCarryAffect = true;
+        //=== R ===
+        //--- rootAnchor ---
+        if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_rootAnchor ) ){
             this->set_goAltiRange();
+            this->frameSemiDataPtr->set_rootAnchor_onlyOnce( pixDPos_ );
+            return;
         }
-        else if( is_in_range(this->rgba.r, pjt_RGBAHandle_inn::R_rootColliEntHead_NoAffect, cesNUm) ){    //---
-            this->isRootColliEntHead = true;
-            this->colliEntHead.colliEntSetIdx = this->rgba.r - pjt_RGBAHandle_inn::R_rootColliEntHead_NoAffect;
-            this->colliEntHead.isCarryAffect = false;
-            this->set_goAltiRange();
+        //--- isTailAnchor ---
+        if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_tailAnchor ) ){
+            this->frameSemiDataPtr->set_tailAnchor_onlyOnce( pixDPos_ );
+            return;
         }
-        
-        //--- B --- 
-        this->isRootAnchor   = is_near_inner( RGBA_ChannelType::B, pjt_RGBAHandle_inn::B_rootAnchor );
-        this->isChildAnchor  = is_near_inner( RGBA_ChannelType::B, pjt_RGBAHandle_inn::B_childAnchor );
+            
+        //=== G ===
+        //--- moveColliRadius ---
+        if( is_near_inner( RGBA_ChannelType::G, pjt_RGBAHandle_2_inn::G_moveColliRadius ) ){
+            this->frameSemiDataPtr->set_moveColliRadiusAnchor_onlyOnce( pixDPos_ );
+            return;
+        }
+        //--- skillColliRadius ---
+        if( is_near_inner( RGBA_ChannelType::G, pjt_RGBAHandle_2_inn::G_skillColliRadius ) ){
+            this->frameSemiDataPtr->set_skillColliRadiusAnchor_onlyOnce( pixDPos_ );
+            return;
+        }
+            
+        //=== B === 
+        if( is_near_inner( RGBA_ChannelType::B, pjt_RGBAHandle_2_inn::B_colliPoint ) ){
+            this->frameSemiDataPtr->pushback_2_colliPoints( pixDPos_ );
+            return;
+        }
+
         //...more...
-    }
 
-    inline bool is_emply() const {
-        return  this->isEmpty;
-    }
-    inline bool is_rootColliEntHead() const {
-        return  this->isRootColliEntHead;
-    }
-    inline bool is_rootAnchor() const {
-        return  this->isRootAnchor;
-    }
-    inline bool is_childAnchor() const {
-        return  this->isChildAnchor;
-    }
-    inline const ColliEntHead &get_colliEntHead() const {
-        return this->colliEntHead;
+        //-- 遇到了 未识别的 颜色 --
+                cout << "Pjt_RGBAHandle: Unexpected Color: " 
+                    << static_cast<int>(this->rgba.r) << ", "
+                    << static_cast<int>(this->rgba.g) << ", "
+                    << static_cast<int>(this->rgba.b) << ", "
+                    << static_cast<int>(this->rgba.a) << "; "
+                    << endl;
+        tprAssert(0);
     }
 
 private:
 
     inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ ){
         switch( ct_ ){
-            case RGBA_ChannelType::R:  return (std::abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
-            case RGBA_ChannelType::G:  return (std::abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
-            case RGBA_ChannelType::B:  return (std::abs(static_cast<int>(this->rgba.b-target_)) <= this->off);
-            case RGBA_ChannelType::A:  return (std::abs(static_cast<int>(this->rgba.a-target_)) <= this->off);
+            case RGBA_ChannelType::R:  return (abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
+            case RGBA_ChannelType::G:  return (abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
+            case RGBA_ChannelType::B:  return (abs(static_cast<int>(this->rgba.b-target_)) <= this->off);
+            case RGBA_ChannelType::A:  return (abs(static_cast<int>(this->rgba.a-target_)) <= this->off);
             default:
                 tprAssert(0);
                 return  false; //- never touch -
@@ -136,38 +148,8 @@ private:
     inline void set_goAltiRange(){
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;
-
-
-            //-- item / surface --//
-            // 在未来，item/surface 设计 可能会被取消...
-            /*
-            if( low == high ){
-                if( low == GoAltiRange::diskAlti_item ){
-                    colliEntHead.lGoAltiRange = goAltiRange_item;
-                    return;
-                }else if( low == GoAltiRange::diskAlti_surface ){
-                    colliEntHead.lGoAltiRange = goAltiRange_surface;
-                    return;
-                }else{
-                    tprAssert(0);
-                }
-            }
-            */
-
-        //-- 暂时无视 item / surface 这组概念
-        //   但，高度区间是一定要有的，不然怎么实现碰撞检测 ？？？
         tprAssert( low < high );
-            
-        //-- isBody --//
-        if( low > 100 ){
-            this->colliEntHead.isBody = false;
-            low  -= 100;
-            high -= 100;
-        }
-        this->colliEntHead.isBody = true;
-
-        //--- major ---//
-        this->colliEntHead.lGoAltiRange.set( static_cast<char>(low), static_cast<char>(high) );
+        this->frameSemiDataPtr->set_lGoAltiRange_onlyOnce( static_cast<char>(low), static_cast<char>(high) );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
@@ -176,14 +158,9 @@ private:
     }
 
     //======== vals ========//
-    RGBA          rgba         {}; //- 本模块处理的数据
-    ColliEntHead  colliEntHead {}; //- 获得的 ceh信息组. 
-    int           off          {}; //- 颜色误差. 为了照顾 std::abs(), 改用 int 类型
-
-    bool isEmpty            {false}; //- when chanel_A==0;
-    bool isRootColliEntHead {false}; //- 与 isColliEntHead 不会同时亮起
-    bool isRootAnchor       {false};
-    bool isChildAnchor      {false}; 
+    RGBA                 rgba         {}; //- 本模块处理的数据
+    FramePosSemiData    *frameSemiDataPtr {nullptr};
+    int                  off          {}; //- 颜色误差. 为了照顾 std::abs(), 改用 int 类型
 };
 
 #endif 

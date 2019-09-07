@@ -48,9 +48,21 @@ using std::endl;
 
 
 
+//----- type detection -----//
+static_assert( sizeof(short)==2, "sizeof(short)==2" );
+static_assert( sizeof(unsigned short)==2, "sizeof(unsigned short)==2" );
+static_assert( sizeof(int)==4,   "sizeof(int)==4" );
+static_assert( sizeof(unsigned int)==4,   "sizeof(unsigned int)==4" );
+static_assert( sizeof(long long)==8,   "sizeof(long long)==8" );
+static_assert( sizeof(unsigned long long)==8,   "sizeof(unsigned long long)==8" );
+static_assert( sizeof(float)==4,   "sizeof(float)==4" );
+static_assert( sizeof(double)==8,   "sizeof(double)==8" );
+//static_assert( sizeof(off_t)==8,   "sizeof(off_t)==8" ); //- in unix is 8, in win is 4
+
+
+
 namespace prepare_inn {//------------ namespace: prepare_inn ------------//
     void build_path_cwd( char *exeDirPath_ );
-    void data_type_confirm();
     void check_OS();
     //void check_fst_run();
     void check_and_creat_important_dir();
@@ -63,11 +75,6 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  *-----------------------------------------------------------
  */
 void prepare( char *exeDirPath_ ){
-
-    //------------------------//
-    //      变量类型检测
-    //------------------------//
-    prepare_inn::data_type_confirm();
 
     //------------------------//
     //   查看当前所在的 操作系统
@@ -255,76 +262,6 @@ void check_and_creat_important_dir(){
 #endif
 }
 
-
-/* ===========================================================
- *                  data_type_confirm    
- * -----------------------------------------------------------
- * -- 一种简陋的 类型检测。
- */
-void data_type_confirm(){
-
-    int len {}; //-- 临时变量。
-    //------- short ------//
-    len = sizeof(short);
-    if( len != 2 ){
-        tprAssert(0);
-    }
-
-    //------- unsigned short ------//
-    len = sizeof(unsigned short);
-    if( len != 2 ){
-        tprAssert(0);
-    }
-
-    //------- int ------//
-    len = sizeof(int);
-    if( len != 4 ){
-        tprAssert(0);
-    }
-
-    //------- unsigned int ------//
-    len = sizeof(unsigned int);
-    if( len != 4 ){
-        tprAssert(0);
-    }
-
-    //------- long long ------//
-    len = sizeof(long long);
-    if( len != 8 ){
-        tprAssert(0);
-    }
-
-    //------- unsigned long long ------//
-    len = sizeof(unsigned long long);
-    if( len != 8 ){
-        tprAssert(0);
-    }
-
-    //------- float ------//
-    len = sizeof(float);
-    if( len != 4 ){
-        tprAssert(0);
-    }
-
-    //------- double ------//
-    len = sizeof(double);
-    if( len != 8 ){
-        tprAssert(0);
-    }
-
-    //------- off_t ------//
-    /*
-    len = sizeof(off_t);
-    if( len != 8 ){
-        //cout << "data_type_confirm: ERROR."
-        //    << "off_t len = " << len
-        //    << endl;
-        assert(0);
-    }
-    */
-         //-- unix 中为 8， win 中为 4
-         //   暂不处理...
-}
 
 
 /* ===========================================================

@@ -33,7 +33,7 @@
 #include "MapCoord.h" 
 #include "GameObjPos.h"
 #include "UIAnchor.h"
-#include "Collision2.h"
+#include "Collision.h"
 #include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
@@ -117,48 +117,40 @@ public:
     //-- isPass 系列flag 也许不放在 collision 模块中...
     //   如果一个 没有加载 collide 组件的 go实例，调用这系列函数，将直接报错...(不是好办法)
     inline void set_collision_isDoPass( bool b_ ){
-        this->collision2UPtr->set_isDoPass(b_);
+        this->collisionUPtr->set_isDoPass(b_);
     }
     inline void set_collision_isBePass( bool b_ ){
-        this->collision2UPtr->set_isBePass(b_);
+        this->collisionUPtr->set_isBePass(b_);
     }
     inline bool get_collision_isDoPass() const {
-        return this->collision2UPtr->get_isDoPass();
+        return this->collisionUPtr->get_isDoPass();
     }
     inline bool get_collision_isBePass() const {
-        return this->collision2UPtr->get_isBePass();
+        return this->collisionUPtr->get_isBePass();
     }
-    inline glm::dvec2 detect_collision_for_move2( const glm::dvec2 &speedVal_ ){
-        return this->collision2UPtr->detect_for_move2( speedVal_ );
+    inline glm::dvec2 detect_collision_for_move( const glm::dvec2 &speedVal_ ){
+        return this->collisionUPtr->detect_for_move( speedVal_ );
     }
     inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const {
-        return this->collision2UPtr->get_currentSignINMapEntsRef();
+        return this->collisionUPtr->get_currentSignINMapEntsRef();
     }
-    /*
-    inline void insert_2_adjacentBeGos( goid_t goid_, const glm::dvec2 &self_2_oth_ ){
-        this->collision2UPtr->insert_2_adjacentBeGos( goid_, self_2_oth_ );
-    }
-    inline void erase_from_adjacentBeGos( goid_t goid_ ){
-        this->collision2UPtr->erase_from_adjacentBeGos( goid_ );
-    }
-    */
 
 
-    //--------- rootFramePos2 ----------//
-    inline const FramePos2 &get_rootFramePos2Ref() const {
-            tprAssert( this->rootFramePos2Ptr );
-        return *(this->rootFramePos2Ptr);
+    //--------- rootFramePos ----------//
+    inline const FramePos &get_rootFramePosRef() const {
+            tprAssert( this->rootFramePosPtr );
+        return *(this->rootFramePosPtr);
     }
     inline Circular calc_circular( const CollideFamily &family_ ) const {
-        return this->get_rootFramePos2Ref().calc_circular( this->get_currentDPos(), family_ );
+        return this->get_rootFramePosRef().calc_circular( this->get_currentDPos(), family_ );
     }
     inline Capsule calc_capsule( const CollideFamily &family_ ) const {
-        return this->get_rootFramePos2Ref().calc_capsule( this->get_currentDPos(), family_ );
+        return this->get_rootFramePosRef().calc_capsule( this->get_currentDPos(), family_ );
     }
 
 
     inline GoAltiRange get_currentGoAltiRange(){
-        return (this->get_rootFramePos2Ref().get_lGoAltiRange() + this->get_pos_alti());
+        return (this->get_rootFramePosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
 
     inline const std::set<chunkKey_t> &get_chunkKeysRef(){
@@ -307,9 +299,9 @@ private:
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
-    std::unique_ptr<Collision2> collision2UPtr {nullptr};
+    std::unique_ptr<Collision> collisionUPtr {nullptr};
 
-    const FramePos2 *rootFramePos2Ptr {nullptr}; //- 替代上个成员
+    const FramePos *rootFramePosPtr {nullptr}; //- 替代上个成员
 
 };
 
