@@ -31,7 +31,7 @@ public:
 
     void draw();
 
-    inline void set_shader_program( ShaderProgram *sp_ ) { this->shaderPtr=sp_; }
+    inline void set_shader_program( ShaderProgram *sp_ ) noexcept{ this->shaderPtr=sp_; }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
@@ -43,16 +43,16 @@ public:
     //  但如果 AnimFrameSet实例 并不更换，也没必要 每1视觉帧 都执行此函数
     void refresh_scale_auto();
 
-    inline ChildMesh *getnc_ChildMeshPtr(){
+    inline ChildMesh *getnc_ChildMeshPtr()noexcept{
         return  const_cast<ChildMesh*>(this);
     }
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
-    inline const float &get_render_z() const {
+    inline const float &get_render_z() const noexcept{
         return this->translate_val.z;
     }
 
     //-- 外部 debug 用
-    inline const glm::vec3 &get_translate_val() const {
+    inline const glm::vec3 &get_translate_val() const noexcept{
         return this->translate_val;
     }
     

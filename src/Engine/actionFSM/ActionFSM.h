@@ -42,12 +42,12 @@ class ActionFSM{
 public:
     ActionFSM() = default;
 
-    inline void init( GameObj *goPtr_ ){
+    inline void init( GameObj *goPtr_ )noexcept{
         this->goPtr = goPtr_;
     }
 
 
-    inline ActionState *insert_new_state( const std::string &name_ ){
+    inline ActionState *insert_new_state( const std::string &name_ )noexcept{
         // ***| INSERT FIRST, INIT LATER  |***
         ActionState state {};
         states.insert({ name_, state }); //- copy

@@ -34,34 +34,34 @@ public:
     void init( u32_t baseSeed_ );
 
 
-    inline std::default_random_engine &getnc_realRandEngine(){
+    inline std::default_random_engine &getnc_realRandEngine()noexcept{
         return this->realRandEngine;
     }
-    inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const noexcept{
         return this->altiSeed_pposOffSeaLvl;
     }
-    inline const glm::dvec2 &get_altiSeed_pposOffBig() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffBig() const noexcept{
         return this->altiSeed_pposOffBig;
     }
-    inline const glm::dvec2 &get_altiSeed_pposOffMid() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffMid() const noexcept{
         return this->altiSeed_pposOffMid;
     }
-    inline const glm::dvec2 &get_altiSeed_pposOffSml() const {
+    inline const glm::dvec2 &get_altiSeed_pposOffSml() const noexcept{
         return this->altiSeed_pposOffSml;
     }
 
-    inline const glm::dvec2 &get_densitySeed_pposOff() const {
+    inline const glm::dvec2 &get_densitySeed_pposOff() const noexcept{
         return this->densitySeed_pposOff;
     }
-    inline const glm::dvec2 &get_field_pposOff() const {
+    inline const glm::dvec2 &get_field_pposOff() const noexcept{
         return this->field_pposOff;
     }
-    inline const glm::dvec2 &get_ecoObjWeight_pposOff() const {
+    inline const glm::dvec2 &get_ecoObjWeight_pposOff() const noexcept{
         return this->ecoObjWeight_pposOff;
     }
 
     //======== static ========//
-    static u32_t apply_new_baseSeed(){
+    static u32_t apply_new_baseSeed()noexcept{
         return get_new_seed();
     }
 
@@ -93,9 +93,6 @@ private:
 
     void init_glm_vec2s();
 };
-
-
-
 
 
 #endif 

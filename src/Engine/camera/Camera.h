@@ -15,7 +15,6 @@
 #include "glm_no_warnings.h"
 
 //-------------------- Engine --------------------//
-#include "vector_matrix.h" 
 #include "ViewingBox.h"
 
 
@@ -34,7 +33,7 @@ public:
 
     //-- 瞬移到 某位置 --
     //   目前仅用于 sceneWorld 的 perpare 阶段
-    inline void set_allDPos( const glm::dvec2 &tpos_ ){
+    inline void set_allDPos( const glm::dvec2 &tpos_ )noexcept{
         this->currentDPos.x = tpos_.x; 
         this->currentDPos.y = tpos_.y + 25.0; //- 不是完全对齐，而是留了段小距离来运动
         this->targetDPos  = tpos_;
@@ -43,7 +42,7 @@ public:
 
 
     //- 外部代码控制 camera运动 的唯一方式
-    inline void set_targetDPos( const glm::dvec2 &tpos_, double approachPercent_=0.1 ){
+    inline void set_targetDPos( const glm::dvec2 &tpos_, double approachPercent_=0.1 )noexcept{
         if( tpos_ == this->targetDPos ){
             return;
         }
@@ -53,17 +52,17 @@ public:
     }
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
-    inline glm::dvec2 get_camera2DDPos() const { 
+    inline glm::dvec2 get_camera2DDPos() const noexcept{ 
         return  glm::dvec2{ this->currentDPos.x, 
                             this->currentDPos.y };  
     }
 
     //--- used for render DEEP_Z --
     //-- 注意，此处的 zNear/zFar 是相对世界坐标的 绝对值
-    inline const double &get_zNear() const {
+    inline const double &get_zNear() const noexcept{
         return this->currentDPos.z;
     }
-    inline double get_zFar() const {
+    inline double get_zFar() const noexcept{
         return this->currentDPos.z - ViewingBox::z; 
     }
 

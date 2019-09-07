@@ -45,12 +45,8 @@ class EcoSysPlan{
 public:
     EcoSysPlan() = default;
 
-    inline void set_id( ecoSysPlanId_t id_ ){
-        this->id = id_;
-    }
-    inline void set_type( EcoSysPlanType type_ ){
-        this->type = type_;
-    }
+    inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
+    inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
 
     //--- 几种 landColor 上色方案 --
     void init_landColor_onlyHighLand( const RGBA &baseColor_ );
@@ -71,35 +67,35 @@ public:
     void shuffle_goSpecIdPools( u32_t seed_ );
 
     //-- 确保关键数据 都被初始化 --
-    inline void chueck_end(){
+    inline void chueck_end()noexcept{
         tprAssert( (this->is_goSpecIdPools_init) && 
                 (this->is_applyPercents_init) &&
                 (this->is_densityDivideVals_init) );
     }
     
-    inline const ecoSysPlanId_t &get_id() const {
+    inline const ecoSysPlanId_t &get_id() const noexcept{
         return this->id;
     }
-    inline const EcoSysPlanType &get_type() const {
+    inline const EcoSysPlanType &get_type() const noexcept{
         return this->type;
     }
-    inline const double &get_densitySeaLvlOff() const {
+    inline const double &get_densitySeaLvlOff() const noexcept{
         return this->densitySeaLvlOff;
     }
     //-- 主要用来 复制给 ecoObj 实例 --
-    inline const std::vector<RGBA> *get_landColorsPtr() const {
+    inline const std::vector<RGBA> *get_landColorsPtr() const noexcept{
         return &(this->landColors);
     }
-    inline const std::vector<double> *get_applyPercentsPtr() const {
+    inline const std::vector<double> *get_applyPercentsPtr() const noexcept{
         return &(this->applyPercents);
     }
-    inline const std::vector<double> *get_densityDivideValsPtr() const {
+    inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{
         return &(this->densityDivideVals);
     }
 
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
     // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ){
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ )noexcept{
         size_t randV = cast_2_size_t(floor( randV_ * 1.9 + 701.7 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );

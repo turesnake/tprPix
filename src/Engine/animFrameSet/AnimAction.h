@@ -31,7 +31,7 @@ enum class AnimActionType{
     Cycle   //- 循环播放一段 动画帧
 };
 
-inline AnimActionType str_2_AnimActionType( const std::string &str_ ){
+inline AnimActionType str_2_AnimActionType( const std::string &str_ )noexcept{
     if( str_ == std::string{"Idle"} ){
         return AnimActionType::Idle;
     }else if( str_ == std::string{"Once"} ){
@@ -162,7 +162,7 @@ public:
 
     //- 当 gomesh 切换 animAction 时
     //  通过此函数，来重置自己的 pvtdata 值 --
-    inline void reset_pvtData( AnimActionPvtData &pvtData_ ){
+    inline void reset_pvtData( AnimActionPvtData &pvtData_ )noexcept{
         pvtData_.currentIdx_for_frameIdxs = 0;
         pvtData_.currentFrameIdx = this->frameIdxs.at(0);
         pvtData_.currentTimeStep = this->timeSteps.at(0);
@@ -170,27 +170,27 @@ public:
     }
 
     //----- get -----//
-    inline bool get_isHaveShadow() const {
+    inline bool get_isHaveShadow() const noexcept{
         return this->isHaveShadow;
     }
-    inline bool get_isOpaque() const {
+    inline bool get_isOpaque() const noexcept{
         return this->isOpaque;
     }
-    inline const IntVec2 &get_pixNum_per_frame() const {
+    inline const IntVec2 &get_pixNum_per_frame() const noexcept{
         return this->pixNum_per_frame;
     }
 
-    inline const glm::dvec2 &get_currentRootAnchorDPosOff( const AnimActionPvtData &pvtData_ ) const {
+    inline const glm::dvec2 &get_currentRootAnchorDPosOff( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->framePoses_ptr->at(pvtData_.currentFrameIdx).get_rootAnchorDPosOff();
     }
 
-    inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const {
+    inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->texNames_pic_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const {
+    inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const FramePos &get_currentFramePos( const AnimActionPvtData &pvtData_ ) const {
+    inline const FramePos &get_currentFramePos( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->framePoses_ptr->at(pvtData_.currentFrameIdx);
     }
 

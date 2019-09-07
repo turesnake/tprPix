@@ -31,27 +31,27 @@ public:
     RotateScaleData() = default;
 
     //--- set ---//
-    inline void reset_rotateOrder( std::vector<RotateType> order_ ){
+    inline void reset_rotateOrder( std::vector<RotateType> order_ )noexcept{
         this->rotateOrder.swap( order_ );
     }
-    inline void set_rotateDegree( const glm::vec3 &rad_ ){
+    inline void set_rotateDegree( const glm::vec3 &rad_ )noexcept{
         this->rotateDegree = rad_;
     }
-    inline void set_scale( const glm::vec2 &scale_ ){
+    inline void set_scale( const glm::vec2 &scale_ )noexcept{
         this->scale = scale_;
     }
 
     //--- get ---//
-    inline const glm::vec3 &get_rotateDegreeRef() const {
+    inline const glm::vec3 &get_rotateDegreeRef() const noexcept{
         return this->rotateDegree;
     }
-    inline const glm::vec2 &get_scaleRef() const {
+    inline const glm::vec2 &get_scaleRef() const noexcept{
         return this->scale;
     }
-    inline bool isNeedToRotate() const {
+    inline bool isNeedToRotate() const noexcept{
         return !rotateOrder.empty();
     }
-    inline const std::vector<RotateType> &get_rotateOrder() const {
+    inline const std::vector<RotateType> &get_rotateOrder() const noexcept{
         return this->rotateOrder;
     }
 

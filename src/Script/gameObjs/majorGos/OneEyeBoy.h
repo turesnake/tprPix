@@ -45,7 +45,7 @@ public:
 private:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  OneEyeBoy_PvtBinary *rebind_ptr( GameObj &goRef_ ){
+    inline static  OneEyeBoy_PvtBinary *rebind_ptr( GameObj &goRef_ )noexcept{
         return reinterpret_cast<OneEyeBoy_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
                             

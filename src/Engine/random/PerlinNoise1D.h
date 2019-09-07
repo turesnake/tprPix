@@ -37,17 +37,17 @@ public:
         isInit( false )
         {}
 
-    inline void init(){ //- use auto seed
+    inline void init()noexcept{ //- use auto seed
         seed = get_new_seed();
         isInit = true;
     }
-    inline void init( u32_t seed_ ){ //- use param seed
+    inline void init( u32_t seed_ )noexcept{ //- use param seed
         seed = seed_;
         isInit = true;
     }
 
     //-- 主功能，传入 perlin曲线的 x值，获得对应的 y值 --
-    inline float get_y( float x_ ){
+    inline float get_y( float x_ )noexcept{
 
         tprAssert( isInit == true );//- 确保 调用者执行 init 函数
 
@@ -65,22 +65,22 @@ public:
     }
 
     //-- 手动 更新 seed --
-    inline void set_seed( u32_t seed_ ){
+    inline void set_seed( u32_t seed_ )noexcept{
         seed = seed_;
     }
 
     //-- 自动分配 新seed 值 --
-    inline void set_seed_auto(){
+    inline void set_seed_auto()noexcept{
         seed = get_new_seed();
     }
 
     //-- 手动更新 频率 和 振幅 --
-    inline void set_freq( float freq_ ){
+    inline void set_freq( float freq_ )noexcept{
         freq = freq_;
     }
 
     //-- 手动更新 频率 和 振幅 --
-    inline void set_ampl( float ampl_ ){
+    inline void set_ampl( float ampl_ )noexcept{
         ampl = ampl_;
     }
 
@@ -88,7 +88,7 @@ private:
     //-- 一个恒定不变的 伪随机数 序列 --
     //-  通过不同的 整形x
     //-  访问这个 序列上的 不同 y值 [ 0.0f, 1.0f ]
-    inline float pseudo_rand( int intX_ ){
+    inline float pseudo_rand( int intX_ )noexcept{
         engine.seed( seed );
         engine.discard( intX_ ); //- 前进n个状态
         return di(engine);
@@ -119,7 +119,7 @@ public:
             pn_main.set_ampl( ampl_ );
         }
     
-    inline void init(){
+    inline void init()noexcept{
         pn_step.init();
         pn_main.init();
     }
@@ -127,7 +127,7 @@ public:
     //-- 主功能 --
     //  按照一个 时快时慢的速度访问 perlin 曲线上的值
     //  进而获得一个 更加随机的 曲线 y值
-    inline float next(){
+    inline float next()noexcept{
         xstep += 1.0f;
         x += pn_step.get_y( xstep );
         return pn_main.get_y( x );

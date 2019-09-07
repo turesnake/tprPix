@@ -43,19 +43,19 @@ public:
 
     void draw();
 
-    inline void use_shaderProgram(){
+    inline void use_shaderProgram()noexcept{
         this->is_binded = true;
         this->shaderProgram.use_program();
     }
-    inline void add_new_uniform( const std::string &name_ ){
+    inline void add_new_uniform( const std::string &name_ )noexcept{
         tprAssert( this->is_binded );
         this->shaderProgram.add_new_uniform( name_ );
     }
-    inline void set_translate( float x_, float y_, float z_ ){
+    inline void set_translate( float x_, float y_, float z_ )noexcept{
         tprAssert( this->is_binded );
         this->mesh.set_translate( glm::vec3{ x_, y_, z_ } );
     }
-    inline GLint get_uniform_location( const std::string &name_ ){
+    inline GLint get_uniform_location( const std::string &name_ )noexcept{
         tprAssert( this->is_binded );
         return this->shaderProgram.get_uniform_location( name_ );
     }

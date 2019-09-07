@@ -22,7 +22,7 @@ public:
         {}
 
     //-- 返回当前 帧 在 时间循环中的 位置 --
-    inline size_t current(){
+    inline size_t current()noexcept{
         return (this->timerRef.get_frameNum() % this->frameNum);
     }
 

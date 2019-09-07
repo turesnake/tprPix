@@ -29,11 +29,11 @@ public:
         high(high_)
         { tprAssert( (low<=high) && (low<=jumpLimit) ); }
 
-    inline void clear_all(){
+    inline void clear_all()noexcept{
         low = 0;
         high = 0;
     }
-    inline void set( char low_, char high_ ){
+    inline void set( char low_, char high_ )noexcept{
         tprAssert( (low_<=high_) && (low_<=jumpLimit) );
         low  = low_;
         high = high_;
@@ -42,13 +42,13 @@ public:
     // 在一个 给定 GoAltiRange值的基础上，类加上一个 addAlti_.
     // 新的值 设置为本实例的值。
     //-- 常用于 碰撞检测 --
-    inline void set_by_addAlti( const GoAltiRange &a_, double addAlti_ ){
+    inline void set_by_addAlti( const GoAltiRange &a_, double addAlti_ )noexcept{
         tprAssert( (addAlti_ < static_cast<double>(jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=jumpLimit );
         low  =  a_.low  + static_cast<u8_t>(addAlti_);
         high =  a_.high + static_cast<u8_t>(addAlti_);
     }
 
-    inline bool is_collide( const GoAltiRange& a_ ){
+    inline bool is_collide( const GoAltiRange& a_ )noexcept{
         bool rbool;
         if( low == a_.low ){
             return true;
@@ -91,14 +91,14 @@ inline const GoAltiRange goAltiRange_surface {  static_cast<char>(GoAltiRange::d
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ ){
+inline GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ )noexcept{
     tprAssert( (a_.low+b_.low)<=GoAltiRange::jumpLimit );
     return  GoAltiRange{  static_cast<char>(a_.low+b_.low),
                         static_cast<char>(a_.high+b_.high) };
                             //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
 }
 
-inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ ){
+inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept{
     tprAssert( (addAlti_ < static_cast<double>(GoAltiRange::jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=GoAltiRange::jumpLimit );
     return  GoAltiRange{  static_cast<char>(a_.low  + static_cast<char>(addAlti_)),
                         static_cast<char>(a_.high + static_cast<char>(addAlti_)) };
@@ -110,7 +110,7 @@ inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ ){
  *                 is_GoAltiRange_collide
  * -----------------------------------------------------------
  */
-inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_ ){
+inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_ )noexcept{
     if( a_.low == b_.low ){
         return true;
     }else if( a_.low < b_.low ){

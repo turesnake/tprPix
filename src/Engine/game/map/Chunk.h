@@ -23,8 +23,6 @@
 #include "IntVec.h" 
 #include "MapEnt.h"
 #include "config.h" 
-//#include "Mesh.h"
-//#include "MapTexture.h" 
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
@@ -45,48 +43,47 @@ public:
     Chunk() = default;
 
     void init();
-    
 
-    inline void insert_2_goIds( const goid_t &id_ ){
+    inline void insert_2_goIds( const goid_t &id_ )noexcept{
         this->goIds.insert(id_);
     }
-    inline size_t erase_from_goIds( const goid_t &id_ ){
+    inline size_t erase_from_goIds( const goid_t &id_ )noexcept{
         return this->goIds.erase(id_);
     }
-    inline void insert_2_edgeGoIds( const goid_t &id_ ){
+    inline void insert_2_edgeGoIds( const goid_t &id_ )noexcept{
         this->edgeGoIds.insert(id_);
     }
-    inline size_t erase_from_edgeGoIds( const goid_t &id_ ){
+    inline size_t erase_from_edgeGoIds( const goid_t &id_ )noexcept{
         return this->edgeGoIds.erase(id_);
     }
 
     //------- set -------//
-    inline void set_by_chunkKey( chunkKey_t chunkKey_ ){
+    inline void set_by_chunkKey( chunkKey_t chunkKey_ )noexcept{
         this->chunkKey = chunkKey_;
         this->mcpos.set_by_mpos( chunkKey_2_mpos(chunkKey_) );
     }
 
     //------- get -------//
-    inline const IntVec2 &get_mpos() const {
+    inline const IntVec2 &get_mpos() const noexcept{
         return this->mcpos.get_mpos();
     }
-    inline const MapCoord &get_mcpos() const {
+    inline const MapCoord &get_mcpos() const noexcept{
         return this->mcpos;
     }
-    inline const chunkKey_t &get_key() const {
+    inline const chunkKey_t &get_key() const noexcept{
         return this->chunkKey;
     }
-    inline const std::vector<fieldKey_t> &get_fieldKeys() const {
+    inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{
         return this->fieldKeys;
     }
-    inline const std::set<goid_t> &get_goIds() const {
+    inline const std::set<goid_t> &get_goIds() const noexcept{
         return this->goIds;
     }
-    inline const std::set<goid_t> &get_edgeGoIds() const {
+    inline const std::set<goid_t> &get_edgeGoIds() const noexcept{
         return this->edgeGoIds;
     }
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ ){
+    inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ )noexcept{
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
             tprAssert( idx < memMapEnts.size() ); //- tmp
         return *(memMapEnts.at(idx).get());

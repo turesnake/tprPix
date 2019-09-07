@@ -39,7 +39,7 @@ public:
     //- param_1: window 上的 比例点[-1.0,1.0],此为偏移 基点
     //- param_2: 绝对偏移值，可写零
     void init(  const glm::dvec2 &basePointProportion_,  // [-1.0,1.0]
-                const glm::dvec2 &offDPos_  ){
+                const glm::dvec2 &offDPos_  )noexcept{
             this->check_basePointProportion( basePointProportion_ );
             glm::dvec2 basePointDPos {  
                     static_cast<double>(ViewingBox::gameSZ.x) * 0.5 * basePointProportion_.x,
@@ -48,29 +48,29 @@ public:
         }
 
     //----- set -----//
-    inline void set_alti( double alti_ ){
+    inline void set_alti( double alti_ )noexcept{
         this->alti = alti_;
     }
-    inline void accum_currentDPos( const glm::dvec2 &addDPos_ ){
+    inline void accum_currentDPos( const glm::dvec2 &addDPos_ )noexcept{
         this->currentDPos += addDPos_;
     }
 
     //----- get -----//
-    inline const glm::dvec2 &get_currentDPos() const{
+    inline const glm::dvec2 &get_currentDPos() const noexcept{
         return this->currentDPos;
     }
-    inline const double &get_alti() const {
+    inline const double &get_alti() const noexcept{
         return this->alti;
     }
-    inline const glm::dvec2 &get_basePointProportion() const {
+    inline const glm::dvec2 &get_basePointProportion() const noexcept{
         return this->basePointProportion;
     }
-    inline const glm::dvec2 &get_offDPos() const {
+    inline const glm::dvec2 &get_offDPos() const noexcept{
         return this->offDPos;
     }
 
 private:
-    inline void check_basePointProportion( const glm::dvec2 &basePointProportion_ ){
+    inline void check_basePointProportion( const glm::dvec2 &basePointProportion_ )noexcept{
         tprAssert(  (basePointProportion_.x>=-1.0) && (basePointProportion_.x<=1.0) &&  
                     (basePointProportion_.y>=-1.0) && (basePointProportion_.y<=1.0) );
     }

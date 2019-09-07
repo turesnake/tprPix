@@ -40,47 +40,26 @@ public:
 
     void init_fstOrder( sectionKey_t sectionKey_ );
 
-    inline const IntVec2& get_mpos() const {
-        return this->mcpos.get_mpos();
-    }
-
     //-- 核心函数 --
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
     // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ) const {
+    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ) const noexcept{
         size_t randV = cast_2_size_t(floor( randV_ * 5.1 + 971.3 ));
         auto &pool = this->goSpecIdPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
 
-    inline const ecoSysPlanId_t &get_ecoSysPlanId() const {
-        return this->ecoSysPlanId;
-    }
-    inline const EcoSysPlanType &get_ecoSysPlanType() const {
-        return this->ecoSysPlanType;
-    }
-    inline const double &get_applyPercent( const Density &density_ ) const {
-        return this->applyPercentsPtr->at(density_.get_idx());
-    }
-    inline const double &get_densitySeaLvlOff() const {
-        return this->densitySeaLvlOff;
-    }
-   inline const std::vector<RGBA> *get_landColorsPtr() const {
-       return this->landColorsPtr;
-   }
-    inline const std::vector<double> *get_densityDivideValsPtr() const {
-        return this->densityDivideValsPtr;
-    }
-    inline const sectionKey_t &get_sectionKey() const {
-        return this->sectionKey;
-    }
-    inline const double &get_weight() const {
-        return this->weight;
-    }
-    inline const occupyWeight_t &get_occupyWeight() const {
-        return this->occupyWeight;
-    }
+    inline const IntVec2& get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline const ecoSysPlanId_t &get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
+    inline const EcoSysPlanType &get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
+    inline const double &get_applyPercent( const Density &density_ ) const noexcept{ return this->applyPercentsPtr->at(density_.get_idx()); }
+    inline const double &get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
+    inline const std::vector<RGBA> *get_landColorsPtr() const noexcept{ return this->landColorsPtr; }
+    inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
+    inline const sectionKey_t &get_sectionKey() const noexcept{ return this->sectionKey; }
+    inline const double &get_weight() const noexcept{ return this->weight; }
+    inline const occupyWeight_t &get_occupyWeight() const noexcept{ return this->occupyWeight; }
 
     //======== static funcs ========// 
     static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 

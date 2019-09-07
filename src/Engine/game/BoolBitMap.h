@@ -24,23 +24,23 @@ class BoolBitMap{
 public:
     BoolBitMap() = default;
 
-    inline void init( size_t bytes_ ){
+    inline void init( size_t bytes_ )noexcept{
         bitMap.resize( bytes_ );
     }
 
-    inline void clear_all(){
+    inline void clear_all()noexcept{
         for( auto &i : bitMap ){
             i = 0; //- all false 
         }
     }
 
-    inline void signUp( u32_t idx_ ){
+    inline void signUp( u32_t idx_ )noexcept{
         tprAssert( (idx_/bitsPerByte) < bitMap.size() );
         u8_t &bitRef = bitMap.at( idx_/bitsPerByte );
         bitRef = bitRef | static_cast<u8_t>(1 << (idx_%bitsPerByte));
     }
 
-    inline bool check( u32_t idx_ ){
+    inline bool check( u32_t idx_ )noexcept{
         tprAssert( (idx_/bitsPerByte) < bitMap.size() );
         const u8_t &bitRef = bitMap.at( idx_/bitsPerByte ); 
         return  ( ((bitRef>>(idx_%bitsPerByte)) & 1)==1 );

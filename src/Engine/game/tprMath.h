@@ -22,7 +22,7 @@
 
 
 
-inline bool is_closeEnough( double a_, double b_, double threshold_=0.01 ){
+inline bool is_closeEnough( double a_, double b_, double threshold_=0.01 ) noexcept {
     return ( std::abs(a_-b_) < threshold_ );
 }
 

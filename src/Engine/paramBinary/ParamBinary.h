@@ -28,10 +28,10 @@ class ParamBinary{
 public:
     ParamBinary() = default;
 
-    inline void resize_binary( size_t size_ ){
+    inline void resize_binary( size_t size_ )noexcept{
         this->binary.resize(size_);
     }
-    inline const u8_t *get_binaryPtr() const {
+    inline const u8_t *get_binaryPtr() const noexcept{
         return &(this->binary.at(0));
     }
 

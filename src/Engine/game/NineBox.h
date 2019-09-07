@@ -38,33 +38,23 @@ public:
         y(y_)
         { tprAssert( (x_>=-1) && (x_<=1) && (y_>=-1) && (y_<=1) ); }
 
-    inline void clear_all(){
+    inline void clear_all() noexcept {
         this->x = 0;
         this->y = 0;
     }
 
-    inline void set( int x_, int y_ ){
+    inline void set( int x_, int y_ ) noexcept {
         tprAssert( (x_>=-1) && (x_<=1) && (y_>=-1) && (y_<=1) );
         this->x = x_;
         this->y = y_;
     }
     
     //-- 专用于 crawl模式，将方向转换为 位移值 --
-    inline IntVec2 to_mpos() const {
+    inline IntVec2 to_mpos() const noexcept {
         return IntVec2{ this->x, this->y };
     }
-    /*
-    inline IntVec2 to_ppos() const {
-        return IntVec2{ this->x*PIXES_PER_MAPENT, 
-                        this->y*PIXES_PER_MAPENT };
-    } 
-    inline glm::dvec2 to_dpos() const {
-        return glm::dvec2{ static_cast<double>(this->x*PIXES_PER_MAPENT), 
-                          static_cast<double>(this->y*PIXES_PER_MAPENT) };
-    } 
-    */
 
-    inline bool is_zero() const {
+    inline bool is_zero() const noexcept {
         if( (this->x==0) && (this->y==0) ){
             return true;
         }
@@ -80,10 +70,10 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( const NineBox &a_, const NineBox &b_ ){
+inline bool operator == ( const NineBox &a_, const NineBox &b_ ) noexcept {
     return ( (a_.x==b_.x) && (a_.y==b_.y) );
 }
-inline bool operator != ( const NineBox &a_, const NineBox &b_ ){
+inline bool operator != ( const NineBox &a_, const NineBox &b_ ) noexcept {
     return ( (a_.x!=b_.x) || (a_.y!=b_.y) );
 }
 
@@ -120,7 +110,7 @@ enum class NineBoxIdx : size_t {
 inline const int NineBoxIdxSize {9}; //- 9个子单位
 
 
-inline size_t nineBoxIdx_2_size_t( const NineBoxIdx &idx_ ){
+inline size_t nineBoxIdx_2_size_t( const NineBoxIdx &idx_ ) noexcept {
     return static_cast<size_t>(idx_);
 }
 
@@ -129,7 +119,7 @@ inline size_t nineBoxIdx_2_size_t( const NineBoxIdx &idx_ ){
  *                   NineBox_XY_2_Idx
  * -----------------------------------------------------------
  */
-inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &nb_ ){
+inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &nb_ ) noexcept {
 
     if( nb_.y < 0 ){
         if( nb_.x<0 ){          return NineBoxIdx::Left_Bottom;
@@ -156,7 +146,7 @@ inline NineBoxIdx NineBox_XY_2_Idx( const NineBox &nb_ ){
  *                 NineBox_Idx_2_XY
  * -----------------------------------------------------------
  */
-inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx idx_ ){
+inline const NineBox& NineBox_Idx_2_XY( NineBoxIdx idx_ ) noexcept {
 
     switch( idx_ ){
         case NineBoxIdx::Left_Bottom:   return nb_left_bottom;

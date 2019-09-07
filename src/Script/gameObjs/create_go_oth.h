@@ -44,7 +44,7 @@ inline bool apply_isFlipOver( double fieldWeight_ ){
  * 树，主干是否分叉
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
-inline bool apply_isSingleTRunk( double fieldWeight_ ){
+inline bool apply_isSingleTRunk( double fieldWeight_ )noexcept{
     size_t randV = cast_2_size_t(floor(fieldWeight_ * 3.7 + 701.7));
     return ((randV%10)<5);
 }
@@ -56,7 +56,7 @@ inline bool apply_isSingleTRunk( double fieldWeight_ ){
  * 这组方法很临时。不够好...
  * param: fieldWeight_ -- [-100.0, 100.0]
  */
-inline size_t apply_a_simpleId( double fieldWeight_, size_t _totalNum ){
+inline size_t apply_a_simpleId( double fieldWeight_, size_t _totalNum )noexcept{
     size_t randV = cast_2_size_t(floor(fieldWeight_ * 5.3 + 977.1));
     return randV % _totalNum;
 }
@@ -66,7 +66,7 @@ inline size_t apply_a_simpleId( double fieldWeight_, size_t _totalNum ){
  *             apply_treeAge_by_density  tmp
  * -----------------------------------------------------------
  */
-inline int apply_treeAge_by_density( const Density &_density ){
+inline int apply_treeAge_by_density( const Density &_density )noexcept{
     switch( _density.get_lvl() ){
         case -3: return 3; //- tmp
         case -2: return 2; //- tmp

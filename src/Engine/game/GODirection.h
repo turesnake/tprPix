@@ -12,6 +12,9 @@
 
 
 //-- 暂时只适用于 go 
+//
+//   未来将被拓展为 8个方向
+//
 enum class GODirection : int{
     Left  = 1,
     Right = 2

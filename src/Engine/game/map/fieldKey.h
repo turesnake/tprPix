@@ -25,11 +25,11 @@
 
 using fieldKey_t = u64_t;
 
-fieldKey_t fieldMPos_2_key_inn( const IntVec2 &fieldMPos_ ); //- 不推荐外部代码使用
-IntVec2 fieldKey_2_mpos( fieldKey_t key_ );
-IntVec2 anyMPos_2_fieldMPos( const IntVec2 &anyMPos_ );
-fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ );
-fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ );
+fieldKey_t fieldMPos_2_key_inn( const IntVec2 &fieldMPos_ )noexcept; //- 不推荐外部代码使用
+IntVec2 fieldKey_2_mpos( fieldKey_t key_ )noexcept;
+IntVec2 anyMPos_2_fieldMPos( const IntVec2 &anyMPos_ )noexcept;
+fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ )noexcept;
+fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ )noexcept;
 
 
 /* ===========================================================
@@ -39,7 +39,7 @@ fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ );
  *   此函数并不安全（没有检测 参数是否为 fieldMpos）所以只能在模块内部使用
  * param: fieldMPos_ - 必须为 field 左下角mpos。
  */
-inline fieldKey_t fieldMPos_2_key_inn( const IntVec2 &fieldMPos_ ){
+inline fieldKey_t fieldMPos_2_key_inn( const IntVec2 &fieldMPos_ )noexcept{
     fieldKey_t key {};
     int *ptr = (int*)&key;
     *ptr = fieldMPos_.x;
@@ -55,7 +55,7 @@ inline fieldKey_t fieldMPos_2_key_inn( const IntVec2 &fieldMPos_ ){
  * -----------------------------------------------------------
  * -- 传入某个key，生成其 field 的 mpos
  */
-inline IntVec2 fieldKey_2_mpos( fieldKey_t key_ ){
+inline IntVec2 fieldKey_2_mpos( fieldKey_t key_ )noexcept{
     IntVec2  mpos {};
     int *ptr = (int*)&key_;
     //---
@@ -72,7 +72,7 @@ inline IntVec2 fieldKey_2_mpos( fieldKey_t key_ ){
  * -----------------------------------------------------------
  * -- 传入 任意 mapent 的 mpos，获得其 所在 field 的 mpos（chunk左下角）
  */
-inline IntVec2 anyMPos_2_fieldMPos( const IntVec2 &anyMPos_ ){
+inline IntVec2 anyMPos_2_fieldMPos( const IntVec2 &anyMPos_ )noexcept{
     return ( floorDiv(anyMPos_,static_cast<double>(ENTS_PER_FIELD)) * ENTS_PER_FIELD );
 }
 
@@ -88,7 +88,7 @@ inline IntVec2 anyMPos_2_fieldMPos( const IntVec2 &anyMPos_ ){
  *  这个办法并不完美，但迫不得已...
  * 
  */
-inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ ){
+inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ )noexcept{
     IntVec2 fieldMPos = anyMPos_2_fieldMPos( anyMPos_ );
     return fieldMPos_2_key_inn( fieldMPos );
 }
@@ -100,7 +100,7 @@ inline fieldKey_t anyMPos_2_fieldKey( const IntVec2 &anyMPos_ ){
  * -- 当使用者 确定自己传入的参数就是 fieldMPos, 使用此函数
  *    如果参数不为 fieldMPos，直接报错。
  */
-inline fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ ){
+inline fieldKey_t fieldMPos_2_fieldKey( const IntVec2 &fieldMPos_ )noexcept{
         tprAssert( anyMPos_2_fieldMPos(fieldMPos_) == fieldMPos_ ); //- tmp
     return fieldMPos_2_key_inn( fieldMPos_ );
 }

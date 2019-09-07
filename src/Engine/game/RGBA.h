@@ -39,7 +39,7 @@ public:
         a(a_)
         {}
     
-    inline bool is_near( const RGBA &a_, u8_t off_ )const{
+    inline bool is_near( const RGBA &a_, u8_t off_ ) const noexcept {
         int rr = static_cast<int>(this->r) - static_cast<int>(a_.r);
         int gg = static_cast<int>(this->g) - static_cast<int>(a_.g);
         int bb = static_cast<int>(this->b) - static_cast<int>(a_.b);
@@ -52,7 +52,7 @@ public:
         );
     }
 
-    inline void set( u8_t r_, u8_t g_, u8_t b_, u8_t a_  ){
+    inline void set( u8_t r_, u8_t g_, u8_t b_, u8_t a_  ) noexcept {
         this->r = r_;
         this->g = g_; 
         this->b = b_;
@@ -60,7 +60,7 @@ public:
     }
 
     //-- 支持更复杂的数据 累加 --
-    inline RGBA add( int r_, int g_, int b_, int a_ ) const {
+    inline RGBA add( int r_, int g_, int b_, int a_ ) const noexcept {
         int rr = static_cast<int>(this->r) + r_;
         int gg = static_cast<int>(this->g) + g_;
         int bb = static_cast<int>(this->b) + b_;
@@ -86,10 +86,10 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator==( const RGBA &a_, const RGBA &b_  ){
+inline bool operator==( const RGBA &a_, const RGBA &b_  ) noexcept {
     return ( (a_.r==b_.r) && (a_.g==b_.g) && (a_.b==b_.b) && (a_.a==b_.a) );
 }
-inline bool operator!=( const RGBA &a_, const RGBA &b_  ){
+inline bool operator!=( const RGBA &a_, const RGBA &b_  ) noexcept {
     return ( (a_.r!=b_.r) || (a_.g!=b_.g) || (a_.b!=b_.b) || (a_.a!=b_.a) );
 }
 
@@ -98,7 +98,7 @@ inline bool operator!=( const RGBA &a_, const RGBA &b_  ){
  *                   operator +
  * -----------------------------------------------------------
  */
-inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ){
+inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ) noexcept {
     int rr = static_cast<int>(a_.r) + static_cast<int>(b_.r);
     int gg = static_cast<int>(a_.g) + static_cast<int>(b_.g);
     int bb = static_cast<int>(a_.b) + static_cast<int>(b_.b);
@@ -114,7 +114,7 @@ inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ){
 namespace rgba {//-------- namespace: rgba --------------//
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
-inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ){
+inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ) noexcept {
 
     int rr = static_cast<int>(a_.r) - static_cast<int>(b_.r);
     int gg = static_cast<int>(a_.g) - static_cast<int>(b_.g);
@@ -135,7 +135,7 @@ inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ){
  * 将两个颜色 线性混合
  * param: aPercent_ -- 颜色 a_ 占了多少百分比 [0.0, 1.0]
  */
-inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ){
+inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ) noexcept {
 
     tprAssert( (aPercent_>=0.0) && (aPercent_<=1.0) );
 
@@ -160,7 +160,7 @@ inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ){
  *  假设 a_.a 永远等于 255， 通过 参数 _bPercent，来调节 正片叠底 程度
  * param: bPercent_ -- 正片叠底 的 程度 [0.0, 1.0]
  */
-inline RGBA multiply( const RGBA &a_, const RGBA &b_, double bPercent_ ){
+inline RGBA multiply( const RGBA &a_, const RGBA &b_, double bPercent_ ) noexcept {
 
     tprAssert( (bPercent_>=0.0) && (bPercent_<=1.0) );
 

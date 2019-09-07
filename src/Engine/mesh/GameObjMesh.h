@@ -63,7 +63,7 @@ public:
                             const std::string &actionName_  );
 
     //------------- set -------------//
-    inline void set_pic_renderLayer( RenderLayerType layerType_ ){
+    inline void set_pic_renderLayer( RenderLayerType layerType_ )noexcept{
         this->picRenderLayerType = layerType_;
         if( layerType_ == RenderLayerType::MajorGoes ){
             this->isPicFixedZOff = false;
@@ -73,57 +73,57 @@ public:
             this->picFixedZOff = static_cast<float>(ViewingBox::get_renderLayerZOff(layerType_));
         }
     }
-    inline void set_pposOff( const glm::vec2 &pposOff_ ){
+    inline void set_pposOff( const glm::vec2 &pposOff_ )noexcept{
         this->pposOff = pposOff_;
     }
-    inline void set_off_z( float off_z_ ){
+    inline void set_off_z( float off_z_ )noexcept{
         this->off_z = off_z_;
     }
 
-    inline void set_pic_shader_program( ShaderProgram *sp_ ){
+    inline void set_pic_shader_program( ShaderProgram *sp_ )noexcept{
         tprAssert( this->picMeshUPtr );
         this->picMeshUPtr->set_shader_program( sp_ );
     }
-    inline void set_shadow_shader_program( ShaderProgram *sp_ ){
+    inline void set_shadow_shader_program( ShaderProgram *sp_ )noexcept{
         tprAssert( this->shadowMeshUPtr );
         this->shadowMeshUPtr->set_shader_program( sp_ );
     }
 
     //------------- get -------------//    
-    inline const FramePos &get_currentFramePos() const {
+    inline const FramePos &get_currentFramePos() const noexcept{
         return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
     }   
 
-    inline const GLuint &get_currentTexName_pic() const {
+    inline const GLuint &get_currentTexName_pic() const noexcept{
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
-    inline const GLuint &get_currentTexName_shadow() const {
+    inline const GLuint &get_currentTexName_shadow() const noexcept{
         tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    inline const glm::dvec2 &get_currentRootAnchorDPosOff() const {
+    inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
         return this->animActionPtr->get_currentRootAnchorDPosOff( this->animActionPvtData );
     }
 
-   inline const IntVec2 &get_animAction_pixNum_per_frame() const {
+   inline const IntVec2 &get_animAction_pixNum_per_frame() const noexcept{
         return this->animActionPtr->get_pixNum_per_frame();
     }
-    inline const glm::vec2 &get_pposOff() const {
+    inline const glm::vec2 &get_pposOff() const noexcept{
         return this->pposOff;
     }
-    inline const float &get_off_z() const {
+    inline const float &get_off_z() const noexcept{
         return this->off_z;
     }
-    inline const float &get_picFixedZOff() const {
+    inline const float &get_picFixedZOff() const noexcept{
         return this->picFixedZOff;
     }
 
     //-- 当播放 once 类型动作时，外部代码，通过此函数，来判断，是否播放到最后一帧 --
-    inline bool get_isLastFrame() const {
+    inline bool get_isLastFrame() const noexcept{
         return this->animActionPvtData.isLastFrame;
     }
 
-    inline const GameObj &get_goCRef() const {
+    inline const GameObj &get_goCRef() const noexcept{
         return this->goRef;
     }
 

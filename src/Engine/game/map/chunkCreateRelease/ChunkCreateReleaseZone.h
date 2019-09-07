@@ -36,13 +36,13 @@ public:
         {
             tprAssert( (sideLen_>0) && (sideLen_%2 != 0) );
         }
-    inline int get_offLenMPos() const {
+    inline int get_offLenMPos() const noexcept{
         return this->offLenMPos;
     }
-    inline size_t get_chunks() const {
+    inline size_t get_chunks() const noexcept{
         return cast_2_size_t(this->sideLen * this->sideLen);
     }
-    inline int get_offLen() const {
+    inline int get_offLen() const noexcept{
         return this->offLen;
     }
 private:
@@ -69,11 +69,11 @@ public:
 
     void init( const IntVec2 &playerMPos_ );
 
-    inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineBoxIdx idx_ ) const {
+    inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineBoxIdx idx_ ) const noexcept{
         tprAssert( idx_ != NineBoxIdx::Mid_Mid );
         return this->createZoneOffMPosesSets.at(idx_);
     }
-    inline const std::vector<IntVec2> &get_releaseZoneOffMPoses() const {
+    inline const std::vector<IntVec2> &get_releaseZoneOffMPoses() const noexcept{
         return this->releaseZoneOffMPoses;
     }
 

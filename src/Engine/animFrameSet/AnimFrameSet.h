@@ -72,18 +72,18 @@ public:
                 ColliderType        colliderType_,
                 const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
 
-    inline AnimAction *getnc_animActionPtr( const std::string &actionName_ ){
+    inline AnimAction *getnc_animActionPtr( const std::string &actionName_ )noexcept{
        tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
        return  this->animActions.at(actionName_).get();
     }
 
-    inline const std::vector<GLuint> *get_texNames_pic_ptr() const {
+    inline const std::vector<GLuint> *get_texNames_pic_ptr() const noexcept{
         return &(this->texNames_pic);
     }
-    inline const std::vector<GLuint> *get_texNames_shadow_ptr() const {
+    inline const std::vector<GLuint> *get_texNames_shadow_ptr() const noexcept{
         return &(this->texNames_shadow);
     }
-    inline const std::vector<FramePos> *get_framePoses() const {
+    inline const std::vector<FramePos> *get_framePoses() const noexcept{
         return &(this->framePoses);
     }
 

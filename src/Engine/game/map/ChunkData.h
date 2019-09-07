@@ -26,23 +26,23 @@ public:
     ChunkData() = default;
 
     //-- init --//
-    inline void init_mapEntAltis(){
+    inline void init_mapEntAltis()noexcept{
         this->mapEntAltis.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
     }
 
     //-- set --//
-    inline void set_mapEntAlti( size_t idx_, const MapAltitude &alti_ ){
+    inline void set_mapEntAlti( size_t idx_, const MapAltitude &alti_ )noexcept{
         tprAssert( idx_ < this->mapEntAltis.size() );
         this->mapEntAltis.at(idx_) = alti_;
     }
 
     //-- get --//    
-    inline const MapAltitude &get_mapEntAlti( size_t idx_ ){
+    inline const MapAltitude &get_mapEntAlti( size_t idx_ )noexcept{
         tprAssert( idx_ < this->mapEntAltis.size() );
         return this->mapEntAltis.at(idx_);
     }
 
-    inline const std::vector<MapAltitude> &get_mapEntAltis() const {
+    inline const std::vector<MapAltitude> &get_mapEntAltis() const noexcept{
         return this->mapEntAltis;
     }
 

@@ -47,7 +47,7 @@ public:
 
     void init( const IntVec2 &anyMPos_ );
 
-    inline bool is_land() const {
+    inline bool is_land() const noexcept{
         //return (this->minMapAlti.is_land() &&
         //        this->nodeMapAlti.is_land() );
                     //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
@@ -58,7 +58,7 @@ public:
     }
 
     //------- set -------//    
-    inline void reflesh_min_and_max_altis( const MapAltitude &mapAlti_ ){
+    inline void reflesh_min_and_max_altis( const MapAltitude &mapAlti_ )noexcept{
         if( mapAlti_ < this->minMapAlti ){
             this->minMapAlti = mapAlti_;
         }
@@ -70,50 +70,50 @@ public:
     void set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
 
     //------- get -------//
-    inline const IntVec2& get_mpos() const {
+    inline const IntVec2& get_mpos() const noexcept{
         return this->mcpos.get_mpos();
     }
-    inline const fieldKey_t &get_fieldKey() const {
+    inline const fieldKey_t &get_fieldKey() const noexcept{
         return this->fieldKey;
     }
-    inline const IntVec2& get_ppos() const {
+    inline const IntVec2& get_ppos() const noexcept{
         return this->mcpos.get_ppos();
     }
-    inline const Density &get_density() const {
+    inline const Density &get_density() const noexcept{
         return this->density;
     }
-    inline const sectionKey_t &get_ecoObjKey() const {
+    inline const sectionKey_t &get_ecoObjKey() const noexcept{
         return this->ecoObjKey;
     }
-    inline const fieldBorderSetId_t &get_fieldBorderSetId() const {
+    inline const fieldBorderSetId_t &get_fieldBorderSetId() const noexcept{
         return this->fieldBorderSetId;
     }
-    inline const MapAltitude &get_minMapAlti() const {
+    inline const MapAltitude &get_minMapAlti() const noexcept{
         return this->minMapAlti;
     }
-    inline const MapAltitude &get_maxMapAlti() const {
+    inline const MapAltitude &get_maxMapAlti() const noexcept{
         return this->maxMapAlti;
     }
-    inline const MapAltitude &get_nodeMapAlti() const {
+    inline const MapAltitude &get_nodeMapAlti() const noexcept{
         return this->nodeMapAlti;
     }
-    inline const IntVec2 &get_nodeMPos() const {
+    inline const IntVec2 &get_nodeMPos() const noexcept{
         return this->nodeMPos;
     }
-    inline const IntVec2 &get_nodePPosOff() const {
+    inline const IntVec2 &get_nodePPosOff() const noexcept{
         return this->nodePPosOff;
     }
 
-    inline glm::dvec2 get_nodeDPos() const {
+    inline glm::dvec2 get_nodeDPos() const noexcept{
         IntVec2 p = mpos_2_ppos(this->nodeMPos) + this->nodePPosOff;
         return glm::dvec2{  static_cast<double>(p.x),
                             static_cast<double>(p.y) };
     }
 
-    inline const occupyWeight_t &get_occupyWeight() const {
+    inline const occupyWeight_t &get_occupyWeight() const noexcept{
         return this->occupyWeight;
     }
-    inline const double &get_weight() const {
+    inline const double &get_weight() const noexcept{
         return this->weight;
     }
 

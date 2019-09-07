@@ -27,11 +27,11 @@ enum class QuadType : int {
 };
 
 
-inline int QuadType_2_Idx( QuadType type_ ){
+inline int QuadType_2_Idx( QuadType type_ )noexcept{
     return (int)type_;
 }
 
-inline QuadType QuadIdx_2_Type( int idx_ ){
+inline QuadType QuadIdx_2_Type( int idx_ )noexcept{
     switch(idx_){
         case 0: return QuadType::Left_Bottom;
         case 1: return QuadType::Right_Bottom;
@@ -55,10 +55,10 @@ public:
         is_right_top(val_)
         {}
 
-    inline bool is_all_true() const {
+    inline bool is_all_true() const noexcept{
         return( is_left_bottom && is_right_bottom && is_left_top && is_right_top );
     }
-    inline bool is_all_false() const {
+    inline bool is_all_false() const noexcept{
         return ( (is_left_bottom==false) &&  
                  (is_right_bottom==false) &&
                  (is_left_top==false) &&

@@ -19,7 +19,7 @@
  * signed_integer -> size_t
  * 如果参数为负，直接 tprAssert 退出
  */
-inline size_t assert_and_return_( const char *file_, int line_ ){
+inline size_t assert_and_return_( const char *file_, int line_ )noexcept{
     tprAssert_inn(0, file_,  line_);
     return 0;
 }

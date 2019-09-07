@@ -70,7 +70,7 @@ public:
     inline void set_rgba(   FramePosSemiData *frameSemiDataPtr_, 
                             const RGBA &rgba_, 
                             const glm::dvec2 &pixDPos_ 
-                            ){
+                            )noexcept{
         //-- reset --
         this->rgba = rgba_;
         this->frameSemiDataPtr = frameSemiDataPtr_;
@@ -127,7 +127,7 @@ public:
 
 private:
 
-    inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ ){
+    inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ )noexcept{
         switch( ct_ ){
             case RGBA_ChannelType::R:  return (abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
             case RGBA_ChannelType::G:  return (abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
@@ -145,7 +145,7 @@ private:
     //     目前的临时记录法是：实际像素高度／10。
     //     可以预测，这个方法 可能会在 引入跳跃系统时 带来麻烦
     //
-    inline void set_goAltiRange(){
+    inline void set_goAltiRange()noexcept{
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;
         tprAssert( low < high );
@@ -153,7 +153,7 @@ private:
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
-    inline bool is_in_range( u8_t beCheck_, u8_t low_, u8_t off_ ){
+    inline bool is_in_range( u8_t beCheck_, u8_t low_, u8_t off_ )noexcept{
         return ((beCheck_>=low_) && (beCheck_<(low_+off_)));
     }
 

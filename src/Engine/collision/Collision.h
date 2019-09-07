@@ -47,24 +47,16 @@ public:
 
     //-- only call in go init --
     inline void init_signInMapEnts( const glm::dvec2 &newRootAnchorDPos_,
-                                    F_get_colliPointDPosOffsRef func_1_ ){
+                                    F_get_colliPointDPosOffsRef func_1_ )noexcept{
         this->signInMapEntsUPtr = std::make_unique<SignInMapEnts>();
         this->signInMapEntsUPtr->init_datas( newRootAnchorDPos_, func_1_ );
     }
 
-    inline void set_isDoPass( bool val_ ){
-        this->isDoPass = val_;
-    }
-    inline void set_isBePass( bool val_ ){
-        this->isBePass = val_;
-    }
-    inline bool get_isDoPass() const {
-        return this->isDoPass;
-    }
-    inline bool get_isBePass() const {
-        return this->isBePass;
-    }
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const {
+    inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
+    inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
+    inline bool get_isDoPass() const noexcept{ return this->isDoPass; }
+    inline bool get_isBePass() const noexcept{ return this->isBePass; }
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{
             tprAssert( this->signInMapEntsUPtr );
         return this->signInMapEntsUPtr->get_currentSignINMapEntsRef();
     }

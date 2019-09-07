@@ -32,7 +32,7 @@ enum class GameObjMoveState{
     Movable   = 3  //- 可移动。本go 可启动移动操作。
 };
 
-inline GameObjMoveState str_2_GameObjMoveState( const std::string &name_ ){
+inline GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept{
     if( name_ == std::string{"AbsFixed"} ){
         return GameObjMoveState::AbsFixed;
     }else if( name_ == std::string{"BeMovable"} ){
@@ -51,7 +51,7 @@ enum class GameObjState{
     Waked = 2  //- 活跃状态，主动发起行动。 
 };
 
-inline GameObjState str_2_GameObjState( const std::string &name_ ){
+inline GameObjState str_2_GameObjState( const std::string &name_ )noexcept{
     if( name_ == std::string{"Sleep"} ){
         return GameObjState::Sleep;
     }else if( name_ == std::string{"Waked"} ){
@@ -80,7 +80,7 @@ enum class GameObjFamily{
 
 
 
-inline GameObjFamily str_2_GameObjFamily( const std::string &name_ ){
+inline GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept{
     if( name_ == std::string{"Major"} ){
         return GameObjFamily::Major;
     }else if( name_ == std::string{"MapSurface"} ){

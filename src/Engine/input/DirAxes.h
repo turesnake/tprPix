@@ -37,12 +37,12 @@ public:
             this->consider_threshold_y();
         }
 
-    inline void clear_all(){
+    inline void clear_all()noexcept{
         this->x = 0.0;
         this->y = 0.0;
     }
 
-    inline void set( double x_, double y_ ){
+    inline void set( double x_, double y_ )noexcept{
         tprAssert( (x_>=-1.0) && (x_<=1.0) &&
                 (y_>=-1.0) && (y_<=1.0) );
         this->x = x_;
@@ -52,36 +52,36 @@ public:
     }
 
     //-- 仅用于 InputINS --
-    inline void set_x( double x_ ){
+    inline void set_x( double x_ )noexcept{
         tprAssert( (x_>=-1.0) && (x_<=1.0) );
         this->x = x_;
         this->consider_threshold_x();
     }
-    inline void set_y( double y_ ){
+    inline void set_y( double y_ )noexcept{
         tprAssert( (y_>=-1.0) && (y_<=1.0) );
         this->y = y_;
         this->consider_threshold_y();
     }
 
-    inline const double &get_x() const {
+    inline const double &get_x() const noexcept{
         return this->x;
     }
-    inline const double &get_y() const {
+    inline const double &get_y() const noexcept{
         return this->y;
     }
 
-    inline const glm::dvec2 to_dpos() const {
+    inline const glm::dvec2 to_dpos() const noexcept{
         return glm::dvec2{ this->x, this->y };
     }
 
 
-    inline bool is_zero() const {
+    inline bool is_zero() const noexcept{
         return ( (this->x==0.0) && (this->y==0.0) );
     }
 
 
     //- 目标参数 是否符合 数值范围要求 --
-    static bool is_effectVal( double x_, double y_ ){
+    static bool is_effectVal( double x_, double y_ )noexcept{
         bool ret = false;
         if( (x_>=-1.0) && (x_<=1.0) && 
             (y_>=-1.0) && (y_<=1.0) ){
@@ -96,7 +96,7 @@ public:
 
     //-- 计算单位向量，并调整 xy值 --
     //   确保 朝任何方向的最大速度 是一致的
-    inline void limit_vals(){
+    inline void limit_vals()noexcept{
         if( this->is_zero() ){
             return;
         }
@@ -113,13 +113,13 @@ public:
 private:
 
     //-- 将 阈值内的 微小 波动 清除 --
-    inline void consider_threshold_x(){
+    inline void consider_threshold_x()noexcept{
         if( (this->x >= -DirAxes::threshold) && 
             (this->x <=  DirAxes::threshold)  ){
             this->x = 0.0;
         }
     }
-    inline void consider_threshold_y(){
+    inline void consider_threshold_y()noexcept{
         if( (this->y >= -DirAxes::threshold) && 
             (this->y <=  DirAxes::threshold)  ){
             this->y = 0.0;

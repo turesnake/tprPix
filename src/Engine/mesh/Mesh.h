@@ -36,24 +36,24 @@ public:
     void draw();
 
     //--------------------------//
-    inline void set_shader_program( ShaderProgram *sp_ ){
+    inline void set_shader_program( ShaderProgram *sp_ )noexcept{
         this->shaderPtr = sp_;
     }
-    inline void set_texName( GLuint texName_ ){
+    inline void set_texName( GLuint texName_ )noexcept{
         this->texName = texName_;
     }
-    inline void set_translate( const glm::vec3 &v_ ){
+    inline void set_translate( const glm::vec3 &v_ )noexcept{
         this->translate_val = v_;
         this->isMat4Change = true;
     }
-    inline void set_scale( const glm::vec3 &v_ ){
+    inline void set_scale( const glm::vec3 &v_ )noexcept{
         this->scale_val = v_;
         this->isMat4Change = true;
     }
     
     //------- get -------//
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
-    inline const float &get_render_z() const {
+    inline const float &get_render_z() const noexcept{
         return this->translate_val.z;
     }
 

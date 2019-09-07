@@ -35,7 +35,7 @@ public:
 
     //-- only call in go init --
     inline void init_datas( const glm::dvec2 &newRootAnchorDPos_,
-                            F_get_colliPointDPosOffsRef func_1_ ){
+                            F_get_colliPointDPosOffsRef func_1_ )noexcept{
 
         this->get_colliPointDPosOffsRefFunc = func_1_;                     
         bool out = this->forecast_signINMapEnts( newRootAnchorDPos_ );
@@ -53,12 +53,11 @@ public:
     //      直到确认位移后，才调用 sync_currentSignINMapEnts_from_new()，同步数据
     //-----
     // param: newRootAnchorDPos_ = currentDPos + speedDPos_
-    inline bool forecast_signINMapEnts( const glm::dvec2 &newRootAnchorDPos_ ){
+    inline bool forecast_signINMapEnts( const glm::dvec2 &newRootAnchorDPos_ )noexcept{
     
         if( !this->is_forecast_called ){
             this->is_forecast_called = true;
         }
-                //tprAssert( !this->get_colliPointDPosOffsRefFunc().empty() ); //- tmp
         
         this->futureAdds.clear();
         this->futureDels.clear();
@@ -89,7 +88,7 @@ public:
 
 
     //-- 同步数据 --
-    inline void sync_currentSignINMapEnts_from_future() {
+    inline void sync_currentSignINMapEnts_from_future()noexcept{
         tprAssert( this->is_forecast_called );
         this->is_forecast_called = false;
 
@@ -104,11 +103,11 @@ public:
     }
 
 
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const { return this->currentSignINMapEnts; }
-    inline const std::set<IntVec2> &get_futureSignINMapEntsRef()  const { return this->futureSignINMapEnts; }
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{ return this->currentSignINMapEnts; }
+    inline const std::set<IntVec2> &get_futureSignINMapEntsRef()  const noexcept{ return this->futureSignINMapEnts; }
 
-    inline const std::vector<IntVec2> &get_currentAddsRef() const { return this->currentAdds; }
-    inline const std::vector<IntVec2> &get_currentDelsRef() const { return this->currentDels; }
+    inline const std::vector<IntVec2> &get_currentAddsRef() const noexcept{ return this->currentAdds; }
+    inline const std::vector<IntVec2> &get_currentDelsRef() const noexcept{ return this->currentDels; }
 
 private:
 
@@ -119,14 +118,12 @@ private:
     std::vector<IntVec2> currentAdds {}; //- 每帧移动后，将要被新登记的 mapents
     std::vector<IntVec2> currentDels {}; //- 每帧移动后，将要被取消登记的 mapents
 
-
     //--- future ---//
     // each time call forecast_(), the future datas will be update
     // only sync to current datas when sync_() is called
     std::set<IntVec2> futureSignINMapEnts {};
     std::vector<IntVec2> futureAdds       {}; 
     std::vector<IntVec2> futureDels       {};
-
 
     //----- flags -----//
     bool is_forecast_called {false}; //- 协调 forecast 和 sync 两个函数的 次序。

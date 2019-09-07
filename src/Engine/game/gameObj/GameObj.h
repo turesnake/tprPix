@@ -69,7 +69,7 @@ class GameObj : public std::enable_shared_from_this<GameObj>{
 public:
     //-- factory --
     static std::shared_ptr<GameObj> factory_for_regularGo(    goid_t goid_, 
-                                                            const glm::dvec2 &dpos_ ){
+                                                            const glm::dvec2 &dpos_ )noexcept{
         std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
         goSPtr->init_for_regularGo( dpos_ );
         return goSPtr;
@@ -77,7 +77,7 @@ public:
 
     static std::shared_ptr<GameObj> factory_for_uiGo(    goid_t goid_, 
                                                         const glm::dvec2 &basePointProportion_,
-                                                        const glm::dvec2 &offDPos_ ){
+                                                        const glm::dvec2 &offDPos_ )noexcept{
         std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
         goSPtr->init_for_uiGo( basePointProportion_, offDPos_ );
         return goSPtr;
@@ -85,12 +85,8 @@ public:
 
     size_t reCollect_chunkKeys();
    
-    inline void resize_pvtBinary( size_t size_ ){
-        this->pvtBinary.resize( size_ );
-    }
-    inline u8_t *get_pvtBinaryPtr(){
-        return &(this->pvtBinary.at(0));
-    }
+    inline void resize_pvtBinary( size_t size_ )noexcept{ this->pvtBinary.resize( size_ ); }
+    inline u8_t *get_pvtBinaryPtr()noexcept{ return &(this->pvtBinary.at(0)); }
     
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             const std::string &animFrameSetName_,
@@ -106,7 +102,7 @@ public:
     void signUp_newGO_to_mapEnt();
 
     //-- 目前被 Crawl 使用 --
-    inline void set_direction_and_isFlipOver( const GODirection &dir_ ){
+    inline void set_direction_and_isFlipOver( const GODirection &dir_ )noexcept{
         this->direction = dir_;
         this->isFlipOver = (this->direction==GODirection::Left); 
                         // 在新视觉风格中，可能被取代....
@@ -116,52 +112,40 @@ public:
     //--------- collison ----------//
     //-- isPass 系列flag 也许不放在 collision 模块中...
     //   如果一个 没有加载 collide 组件的 go实例，调用这系列函数，将直接报错...(不是好办法)
-    inline void set_collision_isDoPass( bool b_ ){
-        this->collisionUPtr->set_isDoPass(b_);
-    }
-    inline void set_collision_isBePass( bool b_ ){
-        this->collisionUPtr->set_isBePass(b_);
-    }
-    inline bool get_collision_isDoPass() const {
-        return this->collisionUPtr->get_isDoPass();
-    }
-    inline bool get_collision_isBePass() const {
-        return this->collisionUPtr->get_isBePass();
-    }
-    inline glm::dvec2 detect_collision_for_move( const glm::dvec2 &speedVal_ ){
-        return this->collisionUPtr->detect_for_move( speedVal_ );
-    }
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const {
-        return this->collisionUPtr->get_currentSignINMapEntsRef();
-    }
+    inline void set_collision_isDoPass( bool b_ )noexcept{ this->collisionUPtr->set_isDoPass(b_); }
+    inline void set_collision_isBePass( bool b_ )noexcept{ this->collisionUPtr->set_isBePass(b_); }
+    inline bool get_collision_isDoPass() const noexcept{ return this->collisionUPtr->get_isDoPass(); }
+    inline bool get_collision_isBePass() const noexcept{ return this->collisionUPtr->get_isBePass(); }
+    inline glm::dvec2 detect_collision_for_move( const glm::dvec2 &speedVal_ )noexcept{ return this->collisionUPtr->detect_for_move( speedVal_ ); }
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{ return this->collisionUPtr->get_currentSignINMapEntsRef(); }
 
 
     //--------- rootFramePos ----------//
-    inline const FramePos &get_rootFramePosRef() const {
+    inline const FramePos &get_rootFramePosRef() const noexcept{
             tprAssert( this->rootFramePosPtr );
         return *(this->rootFramePosPtr);
     }
-    inline Circular calc_circular( const CollideFamily &family_ ) const {
+    inline Circular calc_circular( const CollideFamily &family_ ) const noexcept{
         return this->get_rootFramePosRef().calc_circular( this->get_currentDPos(), family_ );
     }
-    inline Capsule calc_capsule( const CollideFamily &family_ ) const {
+    inline Capsule calc_capsule( const CollideFamily &family_ ) const noexcept{
         return this->get_rootFramePosRef().calc_capsule( this->get_currentDPos(), family_ );
     }
 
 
-    inline GoAltiRange get_currentGoAltiRange(){
+    inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_rootFramePosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
 
-    inline const std::set<chunkKey_t> &get_chunkKeysRef(){
+    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{
             tprAssert( this->isMoveCollide ); //- tmp
         return this->chunkKeys;
     }
-    inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const {
+    inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
     }
 
-    inline GameObjMesh &get_goMeshRef( const std::string &name_ ){
+    inline GameObjMesh &get_goMeshRef( const std::string &name_ )noexcept{
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
         return *(this->goMeshs.at(name_).get());
     }
@@ -175,7 +159,7 @@ public:
     F_double        get_pos_alti         {nullptr};
     
 
-    inline void render_all_goMesh(){
+    inline void render_all_goMesh()noexcept{
         for( auto &pairRef : this->goMeshs ){
             pairRef.second->RenderUpdate_auto();
         }
@@ -210,6 +194,8 @@ public:
     
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
     GODirection  direction {GODirection::Left};  //- 朝向
+
+                                //- 未来要被拓展为 8 个方向 
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态

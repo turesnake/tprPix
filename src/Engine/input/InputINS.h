@@ -32,12 +32,12 @@ class InputINS{
 public:
 
     //-- 并不清空 dir --
-    inline void clear_allKeys(){
+    inline void clear_allKeys()noexcept{
         keys   = 0;
         dirAxes.clear_all();
     }
 
-    inline void set_key_from_keyboard( const GameKey &key_ ){
+    inline void set_key_from_keyboard( const GameKey &key_ )noexcept{
         switch( key_ ){
             case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
             case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
@@ -49,7 +49,7 @@ public:
         }
     }
 
-    inline void set_key_from_joystick( const GameKey &key_ ){
+    inline void set_key_from_joystick( const GameKey &key_ )noexcept{
         switch( key_ ){
             //-- 暂时不允许 设置 方向键 button 
             case GameKey::LEFT:   tprAssert(0); break;
@@ -63,16 +63,16 @@ public:
     }
 
 
-    inline void set_dirAxes_from_joystick( double x_, double y_ ){
+    inline void set_dirAxes_from_joystick( double x_, double y_ )noexcept{
         this->dirAxes.set(x_, y_);
     }
 
-    inline void limit_dirAxes(){
+    inline void limit_dirAxes()noexcept{
         this->dirAxes.limit_vals();
     }
 
     //-- 目前被 sceneBegin 使用 --
-    inline bool check_key( const GameKey &key_ ) const {
+    inline bool check_key( const GameKey &key_ ) const noexcept{
         size_t idx = gameKey_2_size_t(key_);
         if(  idx < 32 ){
             return (((keys>>idx) & 1)==1);
@@ -89,7 +89,7 @@ public:
         }
     }
 
-    inline const DirAxes &get_dirAxes() const {
+    inline const DirAxes &get_dirAxes() const noexcept{
         return this->dirAxes;
     }
     

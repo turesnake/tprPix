@@ -35,7 +35,7 @@ enum class MoveType : int {
     Adsorb,  // often used for UIGo, with smooth speed change [no speed upper limit]
 };
 
-inline MoveType str_2_MoveType( const std::string name_ ){
+inline MoveType str_2_MoveType( const std::string name_ )noexcept{
     if( name_ == std::string{"Crawl"} ){
         return MoveType::Crawl;
     }else if( name_ == std::string{"Drag"} ){
@@ -55,17 +55,17 @@ public:
         goRef(goRef_)
         {}
 
-    inline void RenderUpdate(){
+    inline void RenderUpdate()noexcept{
         this->renderUpdateFunc();
     }
 
     //------- flags -------//
-    inline bool is_crawl()  const { return (this->moveType==MoveType::Crawl); }
-    inline bool is_drag()   const { return (this->moveType==MoveType::Drag); }
-    inline bool is_adsorb() const { return (this->moveType==MoveType::Adsorb); }
+    inline bool is_crawl()  const noexcept{ return (this->moveType==MoveType::Crawl); }
+    inline bool is_drag()   const noexcept{ return (this->moveType==MoveType::Drag); }
+    inline bool is_adsorb() const noexcept{ return (this->moveType==MoveType::Adsorb); }
 
     //------- set -------//
-    inline void set_MoveType( MoveType type_ ){
+    inline void set_MoveType( MoveType type_ )noexcept{
         this->moveType = type_;
         switch ( type_ ){
             case MoveType::Crawl:      
@@ -82,12 +82,12 @@ public:
                 return;
         }
     }
-    inline void set_speedLvl( SpeedLevel lv_ ){
+    inline void set_speedLvl( SpeedLevel lv_ )noexcept{
         this->speedLvl = lv_;
     }
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
-    inline void set_drag_targetDPos( const glm::dvec2 &DPos_ ){
+    inline void set_drag_targetDPos( const glm::dvec2 &DPos_ )noexcept{
         tprAssert( this->is_drag() );
         if( DPos_ == this->targetDPos ){
             return;
@@ -95,7 +95,7 @@ public:
         this->targetDPos = DPos_;
         this->isMoving = true;
     }
-    inline void set_adsorb_targetDPos( const glm::dvec2 &DPos_ ){
+    inline void set_adsorb_targetDPos( const glm::dvec2 &DPos_ )noexcept{
         tprAssert( this->is_adsorb() );
         if( DPos_ == this->targetDPos ){
             return;
@@ -105,7 +105,7 @@ public:
     }
 
     //------- get -------//
-    inline const SpeedLevel &get_speedLvl() const {
+    inline const SpeedLevel &get_speedLvl() const noexcept{
         return this->speedLvl;
     }
 

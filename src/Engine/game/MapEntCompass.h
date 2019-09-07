@@ -30,16 +30,16 @@ public:
                     (this->y >= 0) && (this->y < PIXES_PER_MAPENT) ); }
 
     //---- funcs ----//
-    inline void clear_all(){
+    inline void clear_all() noexcept {
         this->x = 0;
         this->y = 0;
     }
 
     //- 只是简单转换为 IntVec2, 在用于 MapCoord 时要注意
-    inline IntVec2 to_IntVec2() const {
+    inline IntVec2 to_IntVec2() const  noexcept {
         return IntVec2{ this->x, this->y };
     } 
-    inline glm::dvec2 to_dpos() const {
+    inline glm::dvec2 to_dpos() const  noexcept {
         return glm::dvec2{ static_cast<double>(this->x), static_cast<double>(this->y) };
     }
 
@@ -52,10 +52,10 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( const MapEntCompass &a_, const MapEntCompass &b_ ){
+inline bool operator == ( const MapEntCompass &a_, const MapEntCompass &b_ ) noexcept {
     return ( (a_.x==b_.x) && (a_.y==b_.y) );
 }
-inline bool operator != ( const MapEntCompass &a_, const MapEntCompass &b_ ){
+inline bool operator != ( const MapEntCompass &a_, const MapEntCompass &b_ ) noexcept {
     return ( (a_.x!=b_.x) || (a_.y!=b_.y) );
 }
 
@@ -64,7 +64,7 @@ inline bool operator != ( const MapEntCompass &a_, const MapEntCompass &b_ ){
  * -----------------------------------------------------------
  * -- 传入一个 ppos，获得这个 ppos，在其mapent 中的位置 
  */
-inline MapEntCompass calc_ppos_compass( const IntVec2 ppos_ ){
+inline MapEntCompass calc_ppos_compass( const IntVec2 ppos_ ) noexcept {
     return MapEntCompass {  ppos_.x%PIXES_PER_MAPENT, 
                             ppos_.y%PIXES_PER_MAPENT };
 }

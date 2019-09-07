@@ -40,38 +40,29 @@ public:
             bitMap.init(bitMapBytes);
         }
 
-    /*
-    inline void init( GameObj *_goPtr ){
-        //this->goPtr = _goPtr;
-        bitMap.init(bitMapBytes);
-    }
-    */
-
-    inline void bind_func( const F_ACTION_SWITCH &func_ ){
+    inline void bind_func( const F_ACTION_SWITCH &func_ )noexcept{
         func = func_;
     }
 
     void call_func( ActionSwitchType type_ );
 
-    inline void clear_bitMap(){
+    inline void clear_bitMap()noexcept{
         bitMap.clear_all();
     }
 
     //-- 登记某个 actionSwitch --
-    inline void signUp( ActionSwitchType type_ ){
+    inline void signUp( ActionSwitchType type_ )noexcept{
         bitMap.signUp( static_cast<u32_t>(type_) );
     }
 
     //-- 检查某个 actionSwitch 是否已登记 --
-    inline bool check( ActionSwitchType type_ ){
+    inline bool check( ActionSwitchType type_ )noexcept{
         return  bitMap.check( static_cast<u32_t>(type_) );
     }
     
 
 private:
-    //GameObj *goPtr {nullptr};
     GameObj   &goRef;
-
 
     BoolBitMap  bitMap  {}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
                             //- 暂定上限为 64-bit

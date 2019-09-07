@@ -28,7 +28,7 @@ public:
     AI_Crab() = default;
 
 
-    inline void init(  ){
+    inline void init(  )noexcept{
         //this->goid = goid_;
     }
 
@@ -36,7 +36,7 @@ public:
     //void logicUpdate();
 
 
-    inline void bind_get_tmpVal_functor( const F_1 &functor_ ){
+    inline void bind_get_tmpVal_functor( const F_1 &functor_ )noexcept{
         this->get_tmpVal_functor = functor_;
     }
 

@@ -26,7 +26,7 @@ public:
     //--- MUST before OpenGL init ---
     static void init();
 
-    static double get_renderLayerZOff( RenderLayerType type_ ){
+    static double get_renderLayerZOff( RenderLayerType type_ )noexcept{
         switch(type_){
             case RenderLayerType::Ground:           return ground_zOff;
             case RenderLayerType::Chunks:           return chunks_zOff;

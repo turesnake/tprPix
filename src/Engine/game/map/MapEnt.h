@@ -152,18 +152,18 @@ public:
         //fst_d2m( _fdme );
     //}
 
-    inline const IntVec2 &get_mpos() const {
+    inline const IntVec2 &get_mpos() const noexcept{
         return this->mcpos.get_mpos();
     }
 
-    inline void insert_2_majorGos( goid_t goid_ ){
+    inline void insert_2_majorGos( goid_t goid_ )noexcept{
         tprAssert( this->majorGos.find(goid_) == this->majorGos.end() );
         this->majorGos.insert({ goid_ });
     }
-    inline const std::unordered_set<goid_t> &get_majorGos() const {
+    inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{
         return this->majorGos;
     }
-    inline void erase_the_onlyOne_from_majorGos( goid_t goid_ ){
+    inline void erase_the_onlyOne_from_majorGos( goid_t goid_ )noexcept{
         size_t eraseNum = this->majorGos.erase(goid_);
         tprAssert( eraseNum == 1 );
     }

@@ -34,16 +34,16 @@ public:
 
     void creat_texName();
 
-    inline void delete_texture(){
+    inline void delete_texture()noexcept{
         glDeleteTextures( 1, &texName );
     }
 
-    inline const GLuint &get_texName() const {
+    inline const GLuint &get_texName() const noexcept{
         return texName;
     }
 
     //- texBuf 数据 是在 job线程中生成的，传递到 主线程后，只需 swap 到此处 --
-    inline void swap_texBuf_from( std::vector<RGBA> &src_ ){
+    inline void swap_texBuf_from( std::vector<RGBA> &src_ )noexcept{
         this->texBuf.swap(src_);
     }
     

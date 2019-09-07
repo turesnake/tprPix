@@ -26,7 +26,7 @@ public:
     void set( double altiVal_from_gpgpu_ );
 
     //-- 仅表达是否为land，很可能为 临水区域 --
-    inline bool is_land() const {
+    inline bool is_land() const noexcept{
         return (this->val >= 0);
     }
 
@@ -38,7 +38,7 @@ public:
     */
 
     //-- tmp 测试用
-    inline bool is_inland_2() const {
+    inline bool is_inland_2() const noexcept{
         return (this->val >= 10);
     }
 
@@ -64,11 +64,11 @@ public:
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
  */
-inline bool operator < ( const MapAltitude &a_, const MapAltitude &b_ ){
+inline bool operator < ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
     return ( a_.val < b_.val );
 }
 
-inline bool operator > ( const MapAltitude &a_, const MapAltitude &b_ ){
+inline bool operator > ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
     return ( a_.val > b_.val );
 }
 

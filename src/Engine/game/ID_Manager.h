@@ -52,7 +52,7 @@ public:
         }
 
     //-- 申请分配一个 新 u8 id --
-    inline u8_t apply_a_u8_id(){
+    inline u8_t apply_a_u8_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U8 );
         this->max_id++;
@@ -61,7 +61,7 @@ public:
     }
 
     //-- 申请分配一个 新 u16 id --
-    inline u16_t apply_a_u16_id(){
+    inline u16_t apply_a_u16_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U16 );
         this->max_id++;
@@ -70,7 +70,7 @@ public:
     }
 
     //-- 申请分配一个 新 u32 id --
-    inline u32_t apply_a_u32_id(){
+    inline u32_t apply_a_u32_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U32 );
         this->max_id++;
@@ -79,7 +79,7 @@ public:
     }
 
     //-- 申请分配一个 新 u64 id --
-    inline u64_t apply_a_u64_id(){
+    inline u64_t apply_a_u64_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U64 );
         this->max_id++;
@@ -87,11 +87,11 @@ public:
         return this->max_id;
     }
 
-    inline void set_max_id( u64_t max_id_ ){
+    inline void set_max_id( u64_t max_id_ ) noexcept {
         this->max_id = max_id_;
     }
 
-    inline u64_t get_max_id() const {
+    inline u64_t get_max_id() const noexcept {
         return this->max_id;
     }
 

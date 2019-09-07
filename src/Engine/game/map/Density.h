@@ -38,12 +38,12 @@ public:
                 const double &_ecoObj_densitySeaLvlOff,
                 const std::vector<double> *_ecoObj_densityDivideValsPtr );
 
-    inline int get_lvl() const {
+    inline int get_lvl() const noexcept{
         return this->lvl;
     }
 
     //-- 主要用于 遍历一些容器 --
-    inline size_t get_idx() const {
+    inline size_t get_idx() const noexcept{
         switch( this->lvl ){
             case -3: return 0;
             case -2: return 1;
@@ -58,18 +58,18 @@ public:
         }
     }
 
-    static size_t get_idxNum(){
+    static size_t get_idxNum()noexcept{
         return 7; //- 一共7档
     }
 
-    static int get_minLvl(){
+    static int get_minLvl()noexcept{
         return Density::minLvl;
     }
-    static int get_maxLvl(){
+    static int get_maxLvl()noexcept{
         return Density::maxLvl;
     }
 
-    static size_t lvl_2_idx( int lvl_ ){
+    static size_t lvl_2_idx( int lvl_ )noexcept{
         switch( lvl_ ){
             case -3: return 0;
             case -2: return 1;

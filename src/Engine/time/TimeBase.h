@@ -33,7 +33,7 @@ public:
     TimeBase() = default;
 
     //--- 在 每一主循环 起始处调用 ---//
-    inline void update_before_all(){
+    inline void update_before_all()noexcept{
         this->frameNum++;
         this->currentTime = glfwGetTime();
         this->deltaTime = this->currentTime - this->lastTime; //-- 更新 deltaTime
@@ -62,13 +62,13 @@ public:
 
     //--- 获得 当前时间 （从 glfw 启动 开始计算）---//
     //  目前仅被用于 random.cpp -> get_new_seed()
-    inline double get_currentTime(){
+    inline double get_currentTime()noexcept{
         return glfwGetTime();
     }
 
     //--- 获得 上一帧的 deltaTime ---//
     //  ...目前未被任何代码使用...
-    inline double get_last_deltaTime() const {
+    inline double get_last_deltaTime() const noexcept{
         return this->deltaTime;
     }
 
@@ -76,24 +76,24 @@ public:
     // 注意，此处的 deltaTime 不是 “上一帧的 dt”，
     // 而是一个 平滑值。专门提供给 其它 模块使用 
     //  ...目前未被任何代码使用...
-    inline double get_smoothDeltaTime() const {
+    inline double get_smoothDeltaTime() const noexcept{
         return this->smoothDeltaTime;
     }
 
     //-- 获得 游戏 总帧数 --//
-    inline u64_t get_frameNum() const {
+    inline u64_t get_frameNum() const noexcept{
         return this->frameNum;
     }
 
     //-- 依靠 db记录的 gameTime 旧值，来重启 gameTime 记录器 --
-    inline void start_record_gameTime( double gameTime_from_db_ ){
+    inline void start_record_gameTime( double gameTime_from_db_ )noexcept{
         this->lastGameTime_from_db = gameTime_from_db_;
         this->begPoint_of_gameTime = this->currentTime;
     }
 
     //-- 获得当前时刻的 gameTime 值 --
     //   此函数可在 游戏运行期 的任何时刻 调用
-    inline double get_gameTime() const {
+    inline double get_gameTime() const noexcept{
         return (this->currentTime - this->begPoint_of_gameTime + 
                 this->lastGameTime_from_db );
     }

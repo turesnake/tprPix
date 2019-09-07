@@ -34,18 +34,18 @@ public:
                 const std::string &lpathFs_ );
 
     //-- 从 着色器程序中 获得 目标变量的 地址
-    inline void add_new_uniform( const std::string &name_ ){
+    inline void add_new_uniform( const std::string &name_ )noexcept{
         tprAssert( this->uniforms.find(name_) == this->uniforms.end() );
         tprAssert( this->is_shaderProgram_set );
         uniforms.insert({ name_, glGetUniformLocation(this->shaderProgram, name_.c_str()) });
     }
 
-    inline GLint get_uniform_location( const std::string &name_ ){
+    inline GLint get_uniform_location( const std::string &name_ )noexcept{
         tprAssert( this->uniforms.find(name_) != this->uniforms.end() );
         return this->uniforms.at(name_);
     }
 
-    inline void use_program(){
+    inline void use_program()noexcept{
         if( this->shaderProgram == shaderProgram_current ){
             return;
         }
@@ -54,7 +54,7 @@ public:
     }
 
     //-- 将 3个矩阵 的值 传输到 着色器程序。
-    inline void send_mat4_model_2_shader( const glm::mat4 &m_ ){
+    inline void send_mat4_model_2_shader( const glm::mat4 &m_ )noexcept{
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "model" ) ), 
                             1, 
@@ -62,7 +62,7 @@ public:
                             static_cast<const GLfloat*>(glm::value_ptr(m_)) );
     }
 
-    inline void send_mat4_view_2_shader( const glm::mat4 &v_ ){
+    inline void send_mat4_view_2_shader( const glm::mat4 &v_ )noexcept{
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "view" ) ),
                             1, 
@@ -70,7 +70,7 @@ public:
                             static_cast<const GLfloat*>(glm::value_ptr(v_)) );
     }
 
-    inline void send_mat4_projection_2_shader( const glm::mat4 &p_ ){
+    inline void send_mat4_projection_2_shader( const glm::mat4 &p_ )noexcept{
         this->use_program();
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "projection" ) ),
                             1, 

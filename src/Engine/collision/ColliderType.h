@@ -23,7 +23,7 @@ enum class ColliderType{
     Capsule,
 };
 
-inline ColliderType str_2_ColliderType( const std::string &name_ ){
+inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
     if( name_ == std::string{"Nil"} ){
         return ColliderType::Nil;
     }
@@ -56,7 +56,7 @@ class Circular{
 public:
     Circular() = default;
 
-    inline Circular calc_new_circular( const glm::dvec2 &dposOff_ ) const {
+    inline Circular calc_new_circular( const glm::dvec2 &dposOff_ ) const noexcept{
         return Circular{ this->dpos+dposOff_, this->radius };    
     }
 
@@ -69,7 +69,7 @@ class Capsule{
 public:
     Capsule() = default;
 
-    inline Capsule calc_new_capsule( const glm::dvec2 &dposOff_ ) const {
+    inline Capsule calc_new_capsule( const glm::dvec2 &dposOff_ ) const noexcept{
         return Capsule{ this->dpos + dposOff_,
                         this->root_2_tail,
                         this->longLen,

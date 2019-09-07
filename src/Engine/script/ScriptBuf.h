@@ -41,55 +41,55 @@
 class ScriptBuf{
 public:
     //============== bool ==============//
-    inline void push_bool( bool b_ ){
+    inline void push_bool( bool b_ )noexcept{
         boolval = b_;
         is_boolval_push = true;
     }
 
-    inline bool pop_bool(){
+    inline bool pop_bool()noexcept{
         tprAssert( is_boolval_push == true );
         is_boolval_push = false;
         return boolval;
     }
 
     //============== int ==============//
-    inline void push_int( int i_ ){
+    inline void push_int( int i_ )noexcept{
         i32val = i_;
         is_i32val_push = true;
     }
 
-    inline int pop_int(){
+    inline int pop_int()noexcept{
         tprAssert( is_i32val_push == true );
         is_i32val_push = false;
         return i32val;
     }
 
     //============== u64_t ==============//
-    inline void push_u64( u64_t u_ ){
+    inline void push_u64( u64_t u_ )noexcept{
         u64val = u_;
         is_u64val_push = true;
     }
 
-    inline u64_t pop_u64(){
+    inline u64_t pop_u64()noexcept{
         tprAssert( is_u64val_push == true );
         is_u64val_push = false;
         return u64val;
     }
 
     //============== string ==============//
-    inline void push_str( std::string str_ ){
+    inline void push_str( std::string str_ )noexcept{
         str = str_;
         is_str_push = true;
     }
 
-    inline std::string pop_str(){
+    inline std::string pop_str()noexcept{
         tprAssert( is_str_push == true );
         is_str_push = false;
         return str; //- copy
     }
 
     //============== binary ==============//
-    inline void push_binary( void *buf_, int len_ ){
+    inline void push_binary( void *buf_, int len_ )noexcept{
         binary.resize(len_);
         memcpy( (void*)&(binary.at(0)),
                 buf_,
@@ -97,7 +97,7 @@ public:
         is_binary_push = true;
     }
 
-    inline void pop_binary( void *buf_, int len_ ){
+    inline void pop_binary( void *buf_, int len_ )noexcept{
         //- 非常严格，buf长度不匹配也将 报错 
         tprAssert( is_binary_push == true );
         is_binary_push = false;

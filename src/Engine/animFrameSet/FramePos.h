@@ -29,9 +29,9 @@ public:
     JData_InCircular() =default;
 
     //----- get -----//
-    inline double get_moveColliRadius() const { return this->moveColliRadius; };
-    inline double get_skillColliRadius() const { return this->skillColliRadius; };
-    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const { return this->colliPointDPosOffs; }
+    inline double get_moveColliRadius() const noexcept{ return this->moveColliRadius; };
+    inline double get_skillColliRadius() const noexcept{ return this->skillColliRadius; };
+    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const noexcept{ return this->colliPointDPosOffs; }
     
     //----- vals -----//
     double  moveColliRadius {};
@@ -46,11 +46,11 @@ public:
     JData_InCapsule() = default;
 
     //----- get -----//
-    inline double get_moveColliRadius()  const { return this->moveColliRadius; };
-    inline double get_skillColliRadius() const { return this->skillColliRadius; };
-    inline double get_longLen()          const { return this->longLen; };
-    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const { return this->colliPointDPosOffs; }
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const { return this->rootAnchor_2_tailAnchor; };
+    inline double get_moveColliRadius()  const noexcept{ return this->moveColliRadius; };
+    inline double get_skillColliRadius() const noexcept{ return this->skillColliRadius; };
+    inline double get_longLen()          const noexcept{ return this->longLen; };
+    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const noexcept{ return this->colliPointDPosOffs; }
+    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const noexcept{ return this->rootAnchor_2_tailAnchor; };
 
     //----- vals -----//
     glm::dvec2  rootAnchor_2_tailAnchor {}; //- only in capsule mode
@@ -69,44 +69,44 @@ public:
         colliderType(colliderType_)
         {}
     //----- set -----//
-    inline void set_lGoAltiRange_onlyOnce( char low_, char high_ ){
+    inline void set_lGoAltiRange_onlyOnce( char low_, char high_ )noexcept{
         tprAssert( !this->isLGoAltiRangeSet );
         this->isLGoAltiRangeSet = true;
         this->lGoAltiRange.set( low_, high_ );
     }
-    inline void set_rootAnchor_onlyOnce( const glm::dvec2 &v_ ){ 
+    inline void set_rootAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{ 
         tprAssert( !this->isRootAnchorSet );
         this->isRootAnchorSet = true;
         this->rootAnchor = v_; 
     }
-    inline void set_tailAnchor_onlyOnce(  const glm::dvec2 &v_ ){ 
+    inline void set_tailAnchor_onlyOnce(  const glm::dvec2 &v_ )noexcept{ 
         tprAssert( !this->isTailAnchorSet );
         this->isTailAnchorSet = true;
         this->tailAnchor = v_; 
     }
-    inline void set_moveColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ ){
+    inline void set_moveColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{
         tprAssert( !this->isMoveColliRadiusAnchorSet );
         this->isMoveColliRadiusAnchorSet = true; 
         this->moveColliRadiusAnchor = v_; 
     }
-    inline void set_skillColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ ){
+    inline void set_skillColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{
         tprAssert( !this->isSkillColliRadiusAnchorSet );
         this->isSkillColliRadiusAnchorSet = true; 
         this->skillColliRadiusAnchor = v_; 
     }
-    inline void pushback_2_colliPoints( const glm::dvec2 &v_ ){
+    inline void pushback_2_colliPoints( const glm::dvec2 &v_ )noexcept{
         this->colliPoints.push_back( v_ );
     }
     //----- get -----//
-    inline const ColliderType &get_colliderType() const { return this->colliderType; };
+    inline const ColliderType &get_colliderType() const noexcept{ return this->colliderType; };
 
-    inline const GoAltiRange &get_lGoAltiRange() const { tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; };
-    inline const glm::dvec2 &get_rootAnchor()    const { tprAssert(this->isRootAnchorSet); return this->rootAnchor; };
-    inline const glm::dvec2 &get_tailAnchor()     const { tprAssert(this->isTailAnchorSet); return this->tailAnchor;  };
-    inline const glm::dvec2 &get_moveColliRadiusAnchor()  const { tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; };
-    inline const glm::dvec2 &get_skillColliRadiusAnchor() const { tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; };
+    inline const GoAltiRange &get_lGoAltiRange() const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; };
+    inline const glm::dvec2 &get_rootAnchor()    const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; };
+    inline const glm::dvec2 &get_tailAnchor()     const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  };
+    inline const glm::dvec2 &get_moveColliRadiusAnchor()  const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; };
+    inline const glm::dvec2 &get_skillColliRadiusAnchor() const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; };
     
-    inline const std::vector<glm::dvec2> &get_colliPointsRef() const { tprAssert(!this->colliPoints.empty()); return this->colliPoints; };
+    inline const std::vector<glm::dvec2> &get_colliPointsRef() const noexcept{ tprAssert(!this->colliPoints.empty()); return this->colliPoints; };
 
 private:
     ColliderType colliderType {};
@@ -138,19 +138,19 @@ public:
     void init_from_semiData( const FramePosSemiData &semiData_ );
 
     //---- get ----//
-    inline const glm::dvec2 &get_rootAnchorDPosOff() const { return this->rootAnchorDPosOff; }
-    inline GoAltiRange get_lGoAltiRange() const { return this->lGoAltiRange; } //- return val
-    inline bool get_isCarryAffect() const { return this->isCarryAffect; }
-    inline const ColliderType &get_colliderType() const { return this->colliderType; }
+    inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
+    inline GoAltiRange get_lGoAltiRange() const noexcept{ return this->lGoAltiRange; } //- return val
+    inline bool get_isCarryAffect() const noexcept{ return this->isCarryAffect; }
+    inline const ColliderType &get_colliderType() const noexcept{ return this->colliderType; }
 
-    inline double get_longLen() const { //- only in capsule
+    inline double get_longLen() const noexcept{ //- only in capsule
         tprAssert(this->capsuleUPtr);
         return this->capsuleUPtr->get_longLen(); 
     }
 
 
     inline Circular calc_circular(  const glm::dvec2 &goCurrentDPos_,
-                                    const CollideFamily &family_ ) const {
+                                    const CollideFamily &family_ ) const noexcept{
         tprAssert( this->circularUPtr );
         double radius {};
         if( family_ == CollideFamily::Move ){
@@ -162,7 +162,7 @@ public:
     }
 
     inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_,
-                                const CollideFamily &family_ ) const {
+                                const CollideFamily &family_ ) const noexcept{
         tprAssert( this->capsuleUPtr );
         double radius {};
         if( family_ == CollideFamily::Move ){

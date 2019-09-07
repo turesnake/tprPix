@@ -42,7 +42,7 @@ enum class EcoSysPlanType : u32_t{
     EndIdx //- 通过此值来计算 最后一个 typeIdx 是多少。
 };
 
-inline size_t ecoSysPlanType_2_size_t( const EcoSysPlanType &type_ ){
+inline size_t ecoSysPlanType_2_size_t( const EcoSysPlanType &type_ )noexcept{
     return static_cast<size_t>(type_);
 }
 
@@ -52,12 +52,12 @@ inline const size_t EcoSysPlanType_MaxIdx { ecoSysPlanType_2_size_t(EcoSysPlanTy
 inline const size_t EcoSysPlanType_Num  { EcoSysPlanType_MaxIdx - EcoSysPlanType_MinIdx + 1 }; //- type 个数
 
 //-- 用来遍历 某些复合容器 --
-inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ ){
+inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ )noexcept{
     return (ecoSysPlanType_2_size_t(type_) - EcoSysPlanType_MinIdx);
 }
 
 
-inline EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ ){
+inline EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept{
     if( str_ == std::string{"Forest"} ){
         return EcoSysPlanType::Forest;
     }else if( str_ == std::string{"DarkForest"} ){
