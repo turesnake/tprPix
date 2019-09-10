@@ -21,9 +21,9 @@
 #include "occupyWeight.h"
 #include "MapAltitude.h"
 #include "Quad.h"
-//#include "FieldBorderSet.h"
 #include "MapField.h"
 #include "ChunkData.h"
+#include "simplexNoise.h"
 
 #include "esrc_shader.h"
 #include "esrc_ecoObj.h"
@@ -31,6 +31,7 @@
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
+#include "esrc_mapSurfaceRandSet.h"
 
 
 #include "tprDebug.h"
@@ -61,9 +62,27 @@ void Chunk::init(){
     // 来分配 zoff 值。 
     //-- 本 chunk 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
+    /*
     IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_CHUNK) );
     IntVec2 oddEven = floorMod( v, 2.0 );
     this->zOff = chunk_inn::zOffs.at( cast_2_size_t(oddEven.y * 2 + oddEven.x) );
+    */
+
+    //------------------------------//
+    //      random vals
+    //------------------------------//
+    this->CDPos = this->mcpos.get_dpos();
+    //this->CDPos /= static_cast<double>(ENTS_PER_CHUNK);//- 看起来没什么意义，而且容易整除
+    this->CDPos *= 0.037; //- 代替上一句，获得多变的 小数 tmp
+    this->CDPos += esrc::get_gameSeed().get_chunk_dposOff();
+    
+    // 7*7 个 field 组成一个 pn晶格
+    double freq = 1.0 / 7.0; //- tmp
+    this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
+
+    this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( this->originPerlin * 333.0 );
+    
+
     
     //------------------------------//
     //  从 chunkData 中 copy: 

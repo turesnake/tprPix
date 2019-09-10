@@ -21,12 +21,14 @@
 #include "MapAltitude.h"
 #include "Density.h"
 #include "ParamBinary.h"
+#include "animSubspeciesId.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 struct WallA_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
 

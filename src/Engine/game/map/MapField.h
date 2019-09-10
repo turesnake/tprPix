@@ -137,12 +137,12 @@ private:
                                 //  区域范围 [-8,8]
                                 //  也许可以被直接实现为 double ...
 
-    glm::dvec2  FDPos {};    //- field-mpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
+    glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
-    double   weight {};  //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
-                      // [just mem] 
+    double   weight {}; //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields

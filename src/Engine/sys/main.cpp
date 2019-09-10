@@ -128,6 +128,7 @@ int main( int argc, char* argv[] ){
     //esrc::load_colliEntSets();       //-- colliEntSets --
 
     load_fieldBorderSets();          //----- fieldBorderSet ----
+    esrc::init_mapSurfaceRandSet();  //----- mapSurfaceRandSet ---
     esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()
     //...
     

@@ -31,6 +31,7 @@
 #include "esrc_thread.h"
 #include "esrc_time.h"
 #include "esrc_window.h"
+#include "esrc_mapSurfaceRandSet.h"
 
 
 #endif

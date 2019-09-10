@@ -26,6 +26,7 @@
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
+#include "mapSurfaceRandEntId_t.h"
 
 #include "tprCast.h"
 
@@ -64,24 +65,13 @@ public:
     }
 
     //------- get -------//
-    inline const IntVec2 &get_mpos() const noexcept{
-        return this->mcpos.get_mpos();
-    }
-    inline const MapCoord &get_mcpos() const noexcept{
-        return this->mcpos;
-    }
-    inline const chunkKey_t &get_key() const noexcept{
-        return this->chunkKey;
-    }
-    inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{
-        return this->fieldKeys;
-    }
-    inline const std::set<goid_t> &get_goIds() const noexcept{
-        return this->goIds;
-    }
-    inline const std::set<goid_t> &get_edgeGoIds() const noexcept{
-        return this->edgeGoIds;
-    }
+    inline const IntVec2 &get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline const MapCoord &get_mcpos() const noexcept{ return this->mcpos; }
+    inline const chunkKey_t &get_key() const noexcept{ return this->chunkKey; }
+    inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{ return this->fieldKeys; }
+    inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
+    inline const std::set<goid_t> &get_edgeGoIds() const noexcept{ return this->edgeGoIds; }
+
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ )noexcept{
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
@@ -118,9 +108,19 @@ private:
                                     // 使用一个容器来 动态保管它们。
 
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys,仅用来辅助 chunk创建
+
+    
+    //--- random vals ---//
+    glm::dvec2  CDPos {};    //- chunk-dpos 除以 ENTS_PER_CHUNK 再累加一个 随机seed
+                             // 这个值仅用来 配合 simplex-noise 函数使用
+
+    double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
+
+    mapSurfaceRandEntId_t mapSurfaceRandEntId {}; //- 指导 field 是否生成／生成什么lvl 的 mapsurface go
+
                                           
 
-    double  zOff {}; //- chunk间存在前后层次，
+    //double  zOff {}; //- chunk间存在前后层次，
 };
 
 

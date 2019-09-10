@@ -24,13 +24,18 @@
 #include "MapAltitude.h"
 #include "Density.h"
 #include "ParamBinary.h"
+#include "animSubspeciesId.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 struct OneEyeBoy_PvtBinary{
-    int   tmp {};
+    animSubspeciesId_t subspeciesId {};
+    int        tmp {};
+    int        timeStep  {10};
+    int        timeCount {};
+    glm::dvec2 moveVec {}; //- 位移向量，确保是 标准向量
 };
 
 

@@ -121,6 +121,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/game/map/*.cpp 
                         src/Engine/game/map/fieldBorderSet/*.cpp 
                         src/Engine/game/map/chunkCreateRelease/*.cpp 
+                        src/Engine/game/map/mapSurfaceRandSet/*.cpp 
                         src/Engine/game/UI/*.cpp 
                         src/Engine/gl/*.cpp 
                         src/Engine/input/*.cpp 
@@ -151,7 +152,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
 
                         src/Script/uiGos/*.cpp
                         )
-
 
 
 
@@ -195,6 +195,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/chunkCreateRelease
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/mapSurfaceRandSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/UI
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input

@@ -95,10 +95,7 @@ void Collision::collect_adjacentBeGos(){
 
                 if( colliState == CollideState::Adjacent ){
                     this->adjacentBeGos.insert({begoid, dogo_2_bego});
-                }else{
-                    //- nothing ...
                 }
-
                 break;
             case ColliderType::Capsule:
 
@@ -107,10 +104,7 @@ void Collision::collect_adjacentBeGos(){
                 
                 if( capOut.first == CollideState::Adjacent ){
                     this->adjacentBeGos.insert({begoid,  capOut.second }); //- 这是不对的
-                }else{
-                    //- nothing
-                }       
-                
+                }      
                 break;
             default:
                 tprAssert(0);

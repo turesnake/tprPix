@@ -19,7 +19,9 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "ParamBinary.h"
 #include "esrc_shader.h" 
+#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -46,6 +48,19 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
     auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
         //pvtBp->lichen_ForestId = gameObjs::apply_a_simpleId( fieldWeight_, 32 );
+
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "mapSurfaceLow_rock", "sml", 10 );
+                                    //- 将通过一个分配方式来 生成 randidx ...
+
+
+    //================ dyParams =================//
+    tprAssert( dyParams_.get_type() == ParamBinaryType::MapSurface );
+    const auto *msParamPtr = reinterpret_cast<const DyParams_MapSurface*>( dyParams_.get_binaryPtr() );
+
+    
+
+
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

@@ -18,6 +18,7 @@
 #include "tprAssert.h"
 #include "esrc_shader.h" 
 #include "esrc_player.h"
+#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -36,12 +37,18 @@ namespace uiGos {//------------- namespace uiGos ----------------
 void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
                                         const ParamBinary &dyParams_ ){
 
+    //================ go.pvtBinary =================//
+    goRef_.resize_pvtBinary( sizeof(Button_SceneBegin_Archive_PvtBinary) );
+    Button_SceneBegin_Archive_PvtBinary  *pvtBp = reinterpret_cast<Button_SceneBegin_Archive_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", "origin", 10 );
+
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                "button_beginScene", 
+                                pvtBp->subspeciesId, 
                                 "new", 
                                 RenderLayerType::UIs, //- 固定zOff值  
                                 &esrc::get_rect_shader(),  // pic shader
@@ -98,6 +105,10 @@ void Button_SceneBegin_Archive::OnRenderUpdate( GameObj &goRef_ ){
  */
 void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    Button_SceneBegin_Archive_PvtBinary  *pvtBp = Button_SceneBegin_Archive::rebind_ptr( goRef_ );
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
@@ -106,11 +117,11 @@ void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
 
     switch( type_ ){
         case ActionSwitchType::ButtonState_1:
-            goMeshRef.bind_animAction( "button_beginScene", "new" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, "new" );
             break;
 
         case ActionSwitchType::ButtonState_2:
-            goMeshRef.bind_animAction( "button_beginScene", "data" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, "data" );
             break;
 
         default:

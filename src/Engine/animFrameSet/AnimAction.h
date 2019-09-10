@@ -76,12 +76,16 @@ class AnimActionParam{
 public:
 
     //-- 常规构造器,且手动设置 timesteps --
-    AnimActionParam(const std::string     &actionName_,
+    AnimActionParam(const std::string &subspeciesName_,
+                    size_t  subspeciesIdx_,
+                    const std::string     &actionName_,
                     const AnimActionType  &type_,
                     bool                   isOrder_,
                     bool                   isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_ ):
+        subspeciesName(subspeciesName_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( type_ ),
         isOrder( isOrder_ ),
@@ -94,12 +98,16 @@ public:
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
-    AnimActionParam(const std::string    &actionName_,
+    AnimActionParam(const std::string &subspeciesName_,
+                    size_t  subspeciesIdx_,
+                    const std::string    &actionName_,
                     const AnimActionType &type_,
                     bool                  isOrder_,
                     bool                  isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep ):
+        subspeciesName(subspeciesName_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( type_ ),
         isOrder( isOrder_ ),
@@ -112,9 +120,13 @@ public:
         }
 
     //-- 单帧action 专用 构造器 --
-    AnimActionParam(    const std::string &actionName_,
-                        size_t  lFrameIdx_,
-                        bool    isOpaque_ ):
+    AnimActionParam(const std::string &subspeciesName_,
+                    size_t  subspeciesIdx_,
+                    const std::string &actionName_,
+                    size_t  lFrameIdx_,
+                    bool    isOpaque_ ):
+        subspeciesName(subspeciesName_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( AnimActionType::Idle ), //- 默认type
         isOrder( true ), //- 随便写一个值，反正用不上
@@ -127,6 +139,8 @@ public:
         }
 
     //===== vals =====//
+    std::string     subspeciesName;
+    size_t          subspeciesIdx;
     std::string     actionName;
     AnimActionType  actionType;
     bool            isOrder;
@@ -142,6 +156,8 @@ public:
 class AnimFrameSet;
 
 
+
+
 //-- 本class 只存储 于 anim-action 有关的 所有静态数据
 //   动态数据 存储在 gomesh.animActionPvtData 中 （每一个 gomesh 独占一份）
 class AnimAction{
@@ -151,7 +167,7 @@ public:
     AnimAction() = default;
 
 
-    void init(  const AnimFrameSet *animFrameSetPtr_,
+    void init(  const AnimFrameSet &animFrameSetRef_,
                 const AnimActionParam &param_,
                 const IntVec2 &pixNum_per_frame_,
                 size_t headIdx_,
@@ -194,8 +210,8 @@ public:
         return this->framePoses_ptr->at(pvtData_.currentFrameIdx);
     }
 
-private:
 
+private:
     inline void update_idle( AnimActionPvtData &pvtData_ ){}
     void update_once( AnimActionPvtData &pvtData_ );
     void update_cycle( AnimActionPvtData &pvtData_ );
@@ -223,6 +239,8 @@ private:
     bool   isOpaque     {};
 
 };
+
+
 
 
 #endif 

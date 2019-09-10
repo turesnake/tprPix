@@ -188,6 +188,12 @@ void check_and_creat_important_dir(){
                                         "fieldBorderSet/",
                                         err_info );
     //---------------------------------//
+    //          path_mapSurfaceRandSet
+    //---------------------------------//
+    path_mapSurfaceRandSet = tprWin::mk_dir( path_textures,
+                                        "mapSurfaceRandSet/",
+                                        err_info );
+    //---------------------------------//
     //           path_jsons
     //---------------------------------//
     path_jsons = tprWin::mk_dir( path_cwd,
@@ -242,6 +248,13 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_fieldBorderSet = tprUnix::mk_dir( path_textures,
                         "fieldBorderSet/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //          path_mapSurfaceRandSet
+    //---------------------------------//
+    path_mapSurfaceRandSet = tprUnix::mk_dir( path_textures,
+                        "mapSurfaceRandSet/",
                         RWXR_XR_X,
                         err_info );
     //---------------------------------//

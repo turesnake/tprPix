@@ -19,6 +19,7 @@
 //#include "tprMath.h"
 #include "esrc_shader.h" 
 #include "esrc_player.h"
+#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -40,15 +41,17 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    //goRef_.resize_pvtBinary( sizeof(PlayerGoCircle_PvtBinary) );
-    //PlayerGoCircle_PvtBinary  *pvtBp = reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    goRef_.resize_pvtBinary( sizeof(PlayerGoCircle_PvtBinary) );
+    PlayerGoCircle_PvtBinary  *pvtBp = reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", "origin", 10 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                "playerGoCircle", 
+                                pvtBp->subspeciesId,
                                 "move_idle", 
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_playerGoCircle_shader(),  // pic shader
@@ -149,7 +152,7 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    //PlayerGoCircle_PvtBinary  *pvtBp = PlayerGoCircle::rebind_ptr( goRef_ );
+    PlayerGoCircle_PvtBinary  *pvtBp = PlayerGoCircle::rebind_ptr( goRef_ );
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -164,11 +167,11 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( "playerGoCircle", "move_idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
             break;
 
         //case ActionSwitchType::selfRotate:
-            //goMeshRef.bind_animAction( "playerGoCircle", "selfRotate" );
+            //goMeshRef.bind_animAction( pvtBp->subspeciesId, "selfRotate" );
         //    break;
 
         default:

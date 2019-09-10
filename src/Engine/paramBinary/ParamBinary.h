@@ -15,11 +15,40 @@
 #include "tprDataType.h" 
 
 
+//-------------------- Engine --------------------//
+#include "MapAltitude.h"
+#include "Density.h"
+#include "MapSurfaceRandSet.h"
+
+
+//-------------------- Script --------------------//
+#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
+
+
+
 enum class ParamBinaryType{
     Nil,
     MapSurface,
-    Tree, //- 临时简陋版
+    Field, //- 临时简陋版
 };
+
+
+
+//-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
+struct DyParams_Field{
+    double       fieldWeight         {};
+	MapAltitude  fieldNodeMapEntAlti {};
+	Density      fieldDensity        {};
+};
+
+
+struct DyParams_MapSurface{
+    MapSurfaceRandLvl  lvl      {};
+    MapSurfaceLowSpec  spec     {};
+    size_t             randIdx  {};
+};
+
+
 
 
 //-- 参数二进制包，目前仅用于 go create 中的 动态参数传递
@@ -28,15 +57,21 @@ class ParamBinary{
 public:
     ParamBinary() = default;
 
-    inline void resize_binary( size_t size_ )noexcept{
-        this->binary.resize(size_);
-    }
+
+    u8_t *init_binary( const ParamBinaryType &type_ );
+
+
+    
     inline const u8_t *get_binaryPtr() const noexcept{
         return &(this->binary.at(0));
     }
+    inline ParamBinaryType get_type() const noexcept{
+        return this->type;
+    }
 
-    ParamBinaryType    type {ParamBinaryType::Nil};
+    
 private:
+    ParamBinaryType    type {ParamBinaryType::Nil};
     std::vector<u8_t>  binary {}; //- 数据本体
 };
 

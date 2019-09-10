@@ -104,7 +104,7 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
-                                    const std::string &animFrameSetName_,
+                                    animSubspeciesId_t subspeciesId_,
                                     const std::string &actionName_,
                                     RenderLayerType    layerType_,
                                     ShaderProgram     *pixShaderPtr_,
@@ -117,7 +117,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
     //-- bind_animAction --//
-    gmesh.bind_animAction( animFrameSetName_, actionName_ ); // Must Before Everything!!!
+    gmesh.bind_animAction( subspeciesId_, actionName_ ); // Must Before Everything!!!
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 

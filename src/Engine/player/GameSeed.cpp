@@ -72,10 +72,13 @@ void GameSeed::init_glm_vec2s(){
     this->densitySeed_pposOff = glm::dvec2(  static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
                                             static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
     //------ field --------//
-    this->field_pposOff =   glm::dvec2(  gameSeed_inn::uDistribution_double(this->randEngine),
+    this->field_dposOff =   glm::dvec2(  gameSeed_inn::uDistribution_double(this->randEngine),
+                                        gameSeed_inn::uDistribution_double(this->randEngine) );
+    //------ chunk --------//
+    this->chunk_dposOff =   glm::dvec2(  gameSeed_inn::uDistribution_double(this->randEngine),
                                         gameSeed_inn::uDistribution_double(this->randEngine) );
     //------ ecoObj --------//
-    this->ecoObjWeight_pposOff =   glm::dvec2(  gameSeed_inn::uDistribution_double(this->randEngine),
+    this->ecoObjWeight_dposOff =   glm::dvec2(  gameSeed_inn::uDistribution_double(this->randEngine),
                                                 gameSeed_inn::uDistribution_double(this->randEngine) );
 }
 

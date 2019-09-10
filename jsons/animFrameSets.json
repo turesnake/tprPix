@@ -11,27 +11,33 @@
             "isPjtSingle": false,
             "isShadowSingle": false,
             "ColliderType": "Nil",
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "pointer",
-                        "type": "singleFrame",
-                        "lFrameIdx": 0,
-                        "isOpaque": true
-                    },
-                    {
-                        "actionName": "new",
-                        "type": "singleFrame",
-                        "lFrameIdx": 1,
-                        "isOpaque": true
-                    },
-                    {
-                        "actionName": "data",
-                        "type": "singleFrame",
-                        "lFrameIdx": 2,
-                        "isOpaque": true
-                    }
-                ]
+            "subspecies": [
+                {
+                    "type": "handle",
+                    "subName": "origin",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionName": "pointer",
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": true
+                        },
+                        {
+                            "actionName": "new",
+                            "type": "singleFrame",
+                            "lFrameIdx": 1,
+                            "isOpaque": true
+                        },
+                        {
+                            "actionName": "data",
+                            "type": "singleFrame",
+                            "lFrameIdx": 2,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
         }
     ]
 },
@@ -47,15 +53,21 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Circular",
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "move_idle",
-                        "type": "singleFrame",
-                        "lFrameIdx": 0,
-                        "isOpaque": true
-                    }
-                ]
+            "subspecies": [
+                {
+                    "type": "handle",
+                    "subName": "origin",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionName": "move_idle",
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
         }
     ]
 },
@@ -71,15 +83,21 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "move_idle",
-                        "type": "singleFrame",
-                        "lFrameIdx": 0,
-                        "isOpaque": false
-                    }
-                ]
+            "subspecies": [
+                {
+                    "type": "handle",
+                    "subName": "origin",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionName": "move_idle",
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": false
+                        } 
+                    ]
+                }
+            ]
         }
     ]
 },
@@ -95,15 +113,88 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Capsule",
-            "AnimActionParams":
-                [
-                    {
-                        "actionName": "move_idle",
-                        "type": "singleFrame",
-                        "lFrameIdx": 0,
-                        "isOpaque": true
-                    }
-                ]
+            "subspecies": [
+                {
+                    "type": "handle",
+                    "subName": "origin",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionName": "move_idle",
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": true
+                        } 
+                    ]
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "mapSurfaceLow_rock",
+    "pngs": [
+        {
+            "path": "/mapSurfaceLow/groundSml.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "subName": "sml",
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
+        },
+
+
+        {
+            "path": "/mapSurfaceLow/groundMid.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "subName": "mid",
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/groundBig.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "subName": "big",
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
         }
     ]
 }

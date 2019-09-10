@@ -8,10 +8,6 @@
 #ifndef TPR_FIELD_BORDER_SET_HANDLE_H
 #define TPR_FIELD_BORDER_SET_HANDLE_H
 
-
 void load_fieldBorderSets();
 
-
-
 #endif 
-

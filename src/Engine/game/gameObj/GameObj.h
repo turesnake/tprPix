@@ -39,8 +39,7 @@
 #include "PubBinary2.h"
 #include "ActionFSM.h"
 #include "chunkKey.h"
-
-//#include "tprDebug.h"
+#include "animSubspeciesId.h"
 
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
@@ -89,7 +88,7 @@ public:
     inline u8_t *get_pvtBinaryPtr()noexcept{ return &(this->pvtBinary.at(0)); }
     
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                            const std::string &animFrameSetName_,
+                            animSubspeciesId_t subspeciesId_,
                             const std::string &actionName_,
                             RenderLayerType    layerType_,
                             ShaderProgram     *pixShaderPtr_,
@@ -131,7 +130,6 @@ public:
     inline Capsule calc_capsule( const CollideFamily &family_ ) const noexcept{
         return this->get_rootFramePosRef().calc_capsule( this->get_currentDPos(), family_ );
     }
-
 
     inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_rootFramePosRef().get_lGoAltiRange() + this->get_pos_alti());

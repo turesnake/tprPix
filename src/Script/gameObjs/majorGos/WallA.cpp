@@ -16,6 +16,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "esrc_shader.h" 
+#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -40,11 +41,13 @@ void WallA::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(WallA_PvtBinary) );
     WallA_PvtBinary  *pvtBp = reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", "origin", 10 ); //- 暂时只有一个 亚种
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                "wallA", 
+                                pvtBp->subspeciesId,
                                 "move_idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
@@ -152,11 +155,11 @@ void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( "wallA", "move_idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
             break;
 
         //case ActionSwitchType::Move_Move:
-        //    goMeshRef.bind_animAction( "wallA", "move_walk" );
+        //    goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_walk" );
         //    break;
 
         default:

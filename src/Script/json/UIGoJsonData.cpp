@@ -47,7 +47,7 @@ void parse_from_uiGoJsonFile(){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, "uiGoJsonDatas.json");
+    std::string path_file = tprGeneral::path_combine(path_jsons, "uiGos.json");
     auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//

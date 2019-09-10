@@ -49,13 +49,13 @@
 #include "FramePos.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
+#include "ID_Manager.h" 
+#include "AnimSubspecies.h"
 
 #include "tprDebug.h"
 
 
-//-- 作为纯粹的 图像资源类，AnimFrameSet 应该被设计得尽可能简洁 --
-//   不负责其他任何数据 
-//   AnimFrameSet 没有 具象as类。
+
 class AnimFrameSet{
 public:
     AnimFrameSet( const std::string &name_ ):
@@ -72,24 +72,31 @@ public:
                 ColliderType        colliderType_,
                 const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
 
-    inline AnimAction *getnc_animActionPtr( const std::string &actionName_ )noexcept{
-       tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
-       return  this->animActions.at(actionName_).get();
-    }
-
     inline const std::vector<GLuint> *get_texNames_pic_ptr() const noexcept{
         return &(this->texNames_pic);
     }
     inline const std::vector<GLuint> *get_texNames_shadow_ptr() const noexcept{
         return &(this->texNames_shadow);
     }
+    //-- 仅被 animAction 调用 --
     inline const std::vector<FramePos> *get_framePoses() const noexcept{
         return &(this->framePoses);
     }
 
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::string &subspeciesName_,
+                                                              size_t             randIdx_ ){
+            tprAssert( this->subspeciesWraps.find(subspeciesName_) != this->subspeciesWraps.end() );
+        auto &sw = this->subspeciesWraps.at( subspeciesName_ );
+        return sw.apply_a_random_animSubspeciesId( randIdx_ );
+    }
+
+
 private:
     void handle_pjt();
     void handle_shadow();
+
+    animSubspeciesId_t apply_a_animSubspeciesId(const std::string &subName_, 
+                                                size_t             subIdx_ );
 
     //======== vals ========//
 
@@ -105,7 +112,11 @@ private:
     //-- each frame --
     std::vector<FramePos>  framePoses {};
 
-    std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
+    //std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
+
+    std::unordered_map<std::string, AnimSubspeciesWrap> subspeciesWraps {}; //- 亚种数据
+                                
+
 };
 
 

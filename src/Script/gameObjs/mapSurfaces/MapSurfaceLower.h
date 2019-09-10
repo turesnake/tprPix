@@ -21,12 +21,14 @@
 #include "MapAltitude.h"
 #include "Density.h"
 #include "ParamBinary.h"
+#include "animSubspeciesId.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
 struct MapSurfaceLower_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
     //size_t   lichen_ForestId {0};
             //- 简单的从 几种款式中，随机挑选一款 [0,7]
     int tmp {};

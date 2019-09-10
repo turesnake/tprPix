@@ -23,15 +23,17 @@
 #include "MapAltitude.h"
 #include "Density.h"
 #include "ParamBinary.h"
+#include "animSubspeciesId.h"
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-/*
+
 struct PlayerGoCircle_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
-*/
+
 
 
 class PlayerGoCircle{
@@ -45,11 +47,10 @@ public:
 private:
 
     //--  每次调用回调函数，都需要做的 指针重绑定 --
-    /*
     inline static  PlayerGoCircle_PvtBinary *rebind_ptr( GameObj &goRef_ ){
         return reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
     }
-    */
+    
 
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

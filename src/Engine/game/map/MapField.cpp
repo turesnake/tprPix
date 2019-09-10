@@ -65,8 +65,10 @@ void MapField::init( const IntVec2 &anyMPos_ ){
 
     //--- fieldFPos ----
     this->FDPos = this->mcpos.get_dpos();
-    this->FDPos /= static_cast<double>(ENTS_PER_FIELD);
-    this->FDPos += esrc::get_gameSeed().get_field_pposOff();
+    //this->FDPos /= static_cast<double>(ENTS_PER_FIELD);//- 看起来没什么意义，而且容易整除
+    this->FDPos *= 0.27; //- 代替上一句，获得多变的 小数 tmp
+    this->FDPos += esrc::get_gameSeed().get_field_dposOff();
+
 
     //--- field.nodeMPos ---
     this->init_nodeMPos_and_nodePPosOff();
@@ -78,8 +80,7 @@ void MapField::init( const IntVec2 &anyMPos_ ){
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
     double freq = 1.0 / 3.0; //- tmp
-    this->originPerlin = simplex_noise2(    this->FDPos.x * freq, 
-                                            this->FDPos.y * freq );  //- [-1.0, 1.0]
+    this->originPerlin = simplex_noise2( this->FDPos * freq );//- [-1.0, 1.0]
 
     //--- weight ---
     this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
@@ -124,15 +125,11 @@ void MapField::init_nodeMPos_and_nodePPosOff(){
     double    pnX   {};
     double    pnY   {};
 
-    pnX = simplex_noise2(   this->FDPos.x * freq, 
-                            this->FDPos.y * freq ); //- [-1.0, 1.0]
+    pnX = simplex_noise2( this->FDPos * freq ); //- [-1.0, 1.0]
+    pnY = simplex_noise2( (this->FDPos + glm::dvec2{70.7,70.7}) * freq ); //- [-1.0, 1.0]
 
-    pnY = simplex_noise2(   (this->FDPos.x + 70.7) * freq, 
-                            (this->FDPos.y + 70.7) * freq ); //- [-1.0, 1.0]
-
-
-    pnX = pnX * 71.0 + 100.0; //- [71.0, 171.0]
-    pnY = pnY * 71.0 + 100.0; //- [71.0, 171.0]
+    pnX = pnX * 71.0 + 100.0; //- [29.0, 171.0]
+    pnY = pnY * 71.0 + 100.0; //- [29.0, 171.0]
         tprAssert( (pnX>0) && (pnY>0) );
 
     //-- nodeMPos --//
@@ -140,24 +137,15 @@ void MapField::init_nodeMPos_and_nodePPosOff(){
     size_t idxX = cast_2_size_t(floor(pnX)) % (ENTS_PER_FIELD-1);
     size_t idxY = cast_2_size_t(floor(pnY)) % (ENTS_PER_FIELD-1);
 
-    this->nodeMPos = this->get_mpos() + IntVec2{ static_cast<int>(idxX), 
+    this->nodeMPos = this->get_mpos() + IntVec2{static_cast<int>(idxX), 
                                                 static_cast<int>(idxY) };
-
     //-- nodePPosOff --//
-    /*
     size_t pposOffRange = 16;  // [-8,8]
     size_t halfPposOffRange = 8;
     size_t pX = cast_2_size_t(floor(pnX)) % pposOffRange;
     size_t pY = cast_2_size_t(floor(pnY)) % pposOffRange;
     this->nodePPosOff.set(  static_cast<int>( pX - halfPposOffRange ),
-                            static_cast<int>( pY - halfPposOffRange ) ); // [-8,8]
-    */
-
-    //-- 测试版
-    // 让 每个go，指向 mapent [1,1] ppos 位置
-    this->nodePPosOff.set( -HALF_PIXES_PER_MAPENT+1, -HALF_PIXES_PER_MAPENT+1 );
-
-    
+                            static_cast<int>( pY - halfPposOffRange ) ); // [-8,8]    
 }
 
 
@@ -173,9 +161,7 @@ void MapField::init_occupyWeight(){
     IntVec2 oddEven = floorMod( v, 2.0 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
-    double Fidx = simplex_noise2(   (this->FDPos.x + 17.1), 
-                                    (this->FDPos.y + 17.1) ) * 30.0 + 60.0; //- [30.0, 90.0]
-
+    double Fidx = simplex_noise2(this->FDPos + glm::dvec2{17.1, 17.1}) * 30.0 + 60.0; //- [30.0, 90.0]
 
     tprAssert( Fidx > 0 );
     size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
@@ -218,7 +204,7 @@ void MapField::assign_field_to_4_ecoObjs(){
     vx = static_cast<double>(this->get_mpos().x) / static_cast<double>(ENTS_PER_CHUNK);
     vy = static_cast<double>(this->get_mpos().y) / static_cast<double>(ENTS_PER_CHUNK);
 
-    const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_pposOff();
+    const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_dposOff();
     vx += field_pposOff.x;
     vy += field_pposOff.y;
     double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,

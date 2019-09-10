@@ -11,7 +11,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "speedLvl": 4,
+    "speedLvl": 3,
     "alti": 0,
     "weight": 5,
     "pub.HP": 170,

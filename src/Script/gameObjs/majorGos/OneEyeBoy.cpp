@@ -16,6 +16,8 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "esrc_shader.h" 
+#include "esrc_gameSeed.h"
+#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -26,6 +28,15 @@ using namespace std::placeholders;
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
+
+
+
+namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------//
+
+    inline std::uniform_int_distribution<int>     uDistribution_int(      3,   50 );
+    inline std::uniform_real_distribution<double> uDistribution_double( -1.3, 1.3 );
+
+}//-------------- namespace: oneEyeBoy_inn end ----------------//
 
 
 
@@ -40,11 +51,13 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(OneEyeBoy_PvtBinary) );
     OneEyeBoy_PvtBinary  *pvtBp = reinterpret_cast<OneEyeBoy_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "oneEyeBoy", "origin", 10 ); //- 暂时只有一个 亚种
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                "oneEyeBoy", 
+                                pvtBp->subspeciesId,
                                 "move_idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
@@ -106,6 +119,36 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
     //-------------------------------------//
     //...
 
+    
+    if( !goRef_.isControlByPlayer ){
+        //-- 简单的随机游走
+        pvtBp->timeCount++;
+
+
+        if( pvtBp->timeStep == 0 ){
+            pvtBp->timeStep = 13;
+        }
+
+        if( (pvtBp->timeCount % pvtBp->timeStep) == 0 ){
+
+            auto &engine = esrc::get_gameSeed().getnc_realRandEngine();
+
+            pvtBp->timeStep = oneEyeBoy_inn::uDistribution_int(engine) + 1; //- 每帧都更新 间隔值
+
+            glm::dvec2 randVec {oneEyeBoy_inn::uDistribution_double(engine),
+                                oneEyeBoy_inn::uDistribution_double(engine) };
+
+            pvtBp->moveVec = glm::normalize( pvtBp->moveVec + randVec );
+            
+        }
+
+        //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
+        goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
+    }
+    
+
+
+
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
@@ -152,11 +195,11 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( "oneEyeBoy", "move_idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
             break;
 
         //case ActionSwitchType::Move_Move:
-        //    goMeshRef.bind_animAction( "oneEyeBoy", "move_walk" );
+        //    goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_walk" );
         //    break;
 
         default:

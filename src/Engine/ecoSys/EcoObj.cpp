@@ -122,7 +122,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     double freq = 1.0 / 3.0; 
     glm::dvec2 fv = this->mcpos.get_dpos();
     fv /= static_cast<double>(ENTS_PER_SECTION);
-    fv += esrc::get_gameSeed().get_ecoObjWeight_pposOff();
+    fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
 
     this->weight = simplex_noise2(  fv.x * freq,
                                     fv.y * freq ) * 100.0; //- [-100.0, 100.0]

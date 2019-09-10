@@ -53,11 +53,14 @@ public:
     inline const glm::dvec2 &get_densitySeed_pposOff() const noexcept{
         return this->densitySeed_pposOff;
     }
-    inline const glm::dvec2 &get_field_pposOff() const noexcept{
-        return this->field_pposOff;
+    inline const glm::dvec2 &get_field_dposOff() const noexcept{
+        return this->field_dposOff;
     }
-    inline const glm::dvec2 &get_ecoObjWeight_pposOff() const noexcept{
-        return this->ecoObjWeight_pposOff;
+    inline const glm::dvec2 &get_chunk_dposOff() const noexcept{
+        return this->chunk_dposOff;
+    }
+    inline const glm::dvec2 &get_ecoObjWeight_dposOff() const noexcept{
+        return this->ecoObjWeight_dposOff;
     }
 
     //======== static ========//
@@ -75,10 +78,13 @@ private:
     glm::dvec2  altiSeed_pposOffMid {};
     glm::dvec2  altiSeed_pposOffSml {};
 
-    //- [-1000, 1000] 之间的 随机数
+    //- [-1000, 1000] 之间的 随机数 --
     glm::dvec2  densitySeed_pposOff {};
-    glm::dvec2  field_pposOff {};
-    glm::dvec2  ecoObjWeight_pposOff {};
+
+    //- [-1000.0, 1000.0] 之间的 随机数 --
+    glm::dvec2  field_dposOff {};
+    glm::dvec2  chunk_dposOff {};
+    glm::dvec2  ecoObjWeight_dposOff {};
 
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 伪随机数引擎实例

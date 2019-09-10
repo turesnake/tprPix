@@ -12,50 +12,57 @@
     "pools":[
         {
             "density.lvl": -3,
-            "applyPercent": 0.4,
+            "applyPercent": 0.7,
             "ecoEnts":[
-                { "specName": "wallA", "num": 5 }
-            ]
-        },
-        {
-            "density.lvl": -2,
-            "applyPercent": 0.2,
-            "ecoEnts":[
-                { "specName": "wallA", "num": 5 }
-            ]
-        },
-        {
-            "density.lvl": -1,
-            "applyPercent": 0.0,
-            "ecoEnts":[
+                { "specName": "wallA", "num": 5 },
                 { "specName": "oneEyeBoy", "num": 5 }
             ]
         },
         {
-            "density.lvl": 0,
-            "applyPercent": 0.2,
+            "density.lvl": -2,
+            "applyPercent": 0.8,
             "ecoEnts":[
-                { "specName": "wallA",   "num": 9 }
+                { "specName": "wallA", "num": 3 },
+                { "specName": "oneEyeBoy", "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": -1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA", "num": 5 },
+                { "specName": "oneEyeBoy", "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": 0,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",   "num": 4 },
+                { "specName": "oneEyeBoy", "num": 6 }
             ]
         },
         {
             "density.lvl": 1,
-            "applyPercent": 0.2,
+            "applyPercent": 0.5,
             "ecoEnts":[
+                { "specName": "wallA",   "num": 2 },
                 { "specName": "oneEyeBoy",   "num": 9 }
             ]
         },
         {
             "density.lvl": 2,
-            "applyPercent": 0.3,
+            "applyPercent": 0.7,
             "ecoEnts":[
-                { "specName": "oneEyeBoy",   "num": 9 }
+                { "specName": "wallA",   "num": 3 },
+                { "specName": "oneEyeBoy",   "num": 8 }
             ]
         },
         {
             "density.lvl": 3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.95,
             "ecoEnts":[
+                { "specName": "wallA",   "num": 2 },
                 { "specName": "oneEyeBoy",   "num": 9 }
             ]
         }

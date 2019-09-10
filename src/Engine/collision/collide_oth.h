@@ -210,19 +210,9 @@ double capsuleCast( const glm::dvec2 &moveVec_,
  */
 inline glm::dvec2 calc_slideMoveVec(   const glm::dvec2 &moveVec_,
                                 const glm::dvec2 &obstructVec_  ) noexcept {
-
-    double cosVal = calc_cos( moveVec_, obstructVec_ );
-    double scale {1.0};
-
-    if( cosVal > 0.5 ){
-        scale += cosVal;
-    }else if( cosVal > 0.0 ){
-        scale += cosVal * 0.5;
-    }
-
+                                    
     double pct = std::abs(calc_innVec(obstructVec_, moveVec_).x) / glm::length(obstructVec_);
-
-    return (moveVec_ - obstructVec_*pct) * scale; //- 偏转后新的 位移向量
+    return (moveVec_ - obstructVec_*pct);
 }
 
 

@@ -49,7 +49,7 @@ void parse_from_goJsonFile(){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, "goJsonDatas.json");
+    std::string path_file = tprGeneral::path_combine(path_jsons, "gameObjs.json");
     auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//

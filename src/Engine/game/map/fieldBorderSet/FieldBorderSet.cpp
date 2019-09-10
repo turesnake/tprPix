@@ -32,8 +32,9 @@ namespace fbs_inn {//-------- namespace: fbs_inn --------------//
 
     //-- 预制件 资源 ---
     std::unordered_map<fieldBorderSetId_t, FieldBorderSet> fieldBorderSets {};
-
     std::vector<fieldBorderSetId_t> fieldBorderSet_ids {};
+
+                                //-- 作为资源，也许要被放到 esrc 区域去
 
 
     //====== funcs =======//

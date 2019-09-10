@@ -37,6 +37,7 @@
 #include "ChildMesh.h"
 #include "AnimAction.h"
 #include "RotateScaleData.h"
+#include "animSubspeciesId.h"
 
 
 //--- need ---//
@@ -59,7 +60,7 @@ public:
 
     void RenderUpdate_auto();
 
-    void bind_animAction(   const std::string &animFrameSetName_,
+    void bind_animAction(   animSubspeciesId_t subspeciesId_,
                             const std::string &actionName_  );
 
     //------------- set -------------//

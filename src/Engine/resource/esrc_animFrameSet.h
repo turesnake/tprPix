@@ -17,10 +17,20 @@
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
+
+
+AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ );
+
+AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ );
+
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 
-AnimAction *getnc_animActionPtr(const std::string &animFrameSetName_,
-                                const std::string &actionName_ );
+animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
+                                                    const std::string  &subspeciesName_,
+                                                    size_t              randIdx_ );
+
+AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
+                                const std::string  &actionName_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -22,6 +22,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprMath.h"
 
 
 class DirAxes{
@@ -33,6 +34,16 @@ public:
         {
             tprAssert( (x_>=-1.0) && (x_<=1.0) &&
                     (y_>=-1.0) && (y_<=1.0) );
+            this->consider_threshold_x();
+            this->consider_threshold_y();
+        }
+    
+    explicit DirAxes( const glm::dvec2 &v_ ):
+        x(v_.x),
+        y(v_.y)
+        {
+            tprAssert( (v_.x>=-1.0) && (v_.x<=1.0) &&
+                    (v_.y>=-1.0) && (v_.y<=1.0) );
             this->consider_threshold_x();
             this->consider_threshold_y();
         }
@@ -50,6 +61,14 @@ public:
         this->consider_threshold_x();
         this->consider_threshold_y();
     }
+    inline void set( const glm::dvec2 &v_ )noexcept{
+        tprAssert( (v_.x>=-1.0) && (v_.x<=1.0) &&
+                (v_.y>=-1.0) && (v_.y<=1.0) );
+        this->x = v_.x;
+        this->y = v_.y;
+        this->consider_threshold_x();
+        this->consider_threshold_y();
+    }
 
     //-- 仅用于 InputINS --
     inline void set_x( double x_ )noexcept{
@@ -63,17 +82,11 @@ public:
         this->consider_threshold_y();
     }
 
-    inline const double &get_x() const noexcept{
-        return this->x;
-    }
-    inline const double &get_y() const noexcept{
-        return this->y;
-    }
-
+    inline const double &get_x() const noexcept{ return this->x; }
+    inline const double &get_y() const noexcept{ return this->y; }
     inline const glm::dvec2 to_dpos() const noexcept{
         return glm::dvec2{ this->x, this->y };
     }
-
 
     inline bool is_zero() const noexcept{
         return ( (this->x==0.0) && (this->y==0.0) );
@@ -114,14 +127,12 @@ private:
 
     //-- 将 阈值内的 微小 波动 清除 --
     inline void consider_threshold_x()noexcept{
-        if( (this->x >= -DirAxes::threshold) && 
-            (this->x <=  DirAxes::threshold)  ){
+        if( is_closeEnough( this->x, 0.0, DirAxes::threshold ) ){
             this->x = 0.0;
         }
     }
     inline void consider_threshold_y()noexcept{
-        if( (this->y >= -DirAxes::threshold) && 
-            (this->y <=  DirAxes::threshold)  ){
+        if( is_closeEnough( this->y, 0.0, DirAxes::threshold ) ){
             this->y = 0.0;
         }
     }

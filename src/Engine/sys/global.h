@@ -35,7 +35,7 @@ inline std::string path_tprLog   {}; //-- .../build/publish/tprLog/
 inline std::string path_animFrameSets {}; //-- .../build/publish/textures/animFrameSets
 inline std::string path_colliEntSet   {}; //-- .../build/publish/textures/colliEntSet
 inline std::string path_fieldBorderSet {}; //-- .../build/publish/textures/fieldBorderSet
-
+inline std::string path_mapSurfaceRandSet {}; //-- .../build/publish/textures/mapSurfaceRandSet
 
 //----------------------------------------------------//
 //                       OS
