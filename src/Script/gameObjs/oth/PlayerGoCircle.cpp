@@ -91,7 +91,6 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//
     
-    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
     //...    
 
     //--- MUST ---

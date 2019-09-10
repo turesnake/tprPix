@@ -84,10 +84,10 @@ public:
     }
 
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::string &subspeciesName_,
-                                                              size_t             randIdx_ ){
+                                                              double             randVal_ ){
             tprAssert( this->subspeciesWraps.find(subspeciesName_) != this->subspeciesWraps.end() );
         auto &sw = this->subspeciesWraps.at( subspeciesName_ );
-        return sw.apply_a_random_animSubspeciesId( randIdx_ );
+        return sw.apply_a_random_animSubspeciesId( randVal_ );
     }
 
 

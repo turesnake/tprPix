@@ -132,7 +132,7 @@
     ]
 },
 {
-    "name": "mapSurfaceLow_rock",
+    "name": "mapSurfaceLow_test",
     "pngs": [
         {
             "path": "/mapSurfaceLow/groundSml.P.png",
@@ -154,8 +154,6 @@
                 }
             ]
         },
-
-
         {
             "path": "/mapSurfaceLow/groundMid.P.png",
             "frameNum.col":  3,

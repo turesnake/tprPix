@@ -22,6 +22,7 @@
 #include "esrc_ecoObj.h"
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
+#include "esrc_mapSurfaceRandSet.h"
 
 
 //-------------------- Script --------------------//
@@ -181,13 +182,13 @@ std::unique_ptr<MapFieldData_In_ChunkCreate> atom_get_mapFieldData_in_chunkCreat
 
 
 /* ===========================================================
- *           atom_create_a_go_in_field       [-READ-]
+ *           atom_create_gos_in_field       [-READ-]
  * -----------------------------------------------------------
  * -1- 根据 field 信息，确定将要生成的 go 类型
  * -2- 计算生成概率
  * -3- 正式执行生成
  */
-void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
+void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
@@ -200,7 +201,31 @@ void atom_create_a_go_in_field( fieldKey_t fieldKey_ ){
     double fract = randV - floor(randV); //- 小数部分
     tprAssert( (fract>=0.0) && (fract<=1.0) );
 
-    //-- 暂时只生成 陆地 go --
+
+    //----- mapsurface go ------//
+    {               
+        mapSurfaceRandEntId_t entId = esrc::get_chunkRef(anyMPos_2_chunkKey(fieldRef.get_mpos())).get_mapSurfaceRandEntId();
+        MapSurfaceRandLvl mapSurfaceLvl = esrc::get_mapSurfaceRandLvl( entId, fieldRef.calc_fieldIdx_in_chunk() );
+
+        if( mapSurfaceLvl != MapSurfaceRandLvl::Nil ){
+
+            //--- dyParam ---//
+            ParamBinary dyParam {};
+            auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
+            mapSurfaceBp->spec = MapSurfaceLowSpec::Test; //- tmp，其实要根据 eco 来分配 ...
+            mapSurfaceBp->lvl = mapSurfaceLvl;
+            mapSurfaceBp->randVal = fieldRef.get_weight();
+
+            //--- goSpecId ---//
+            goSpecId = ssrc::get_goSpecId( "mapSurfaceLower" );
+            gameObjs::create_a_Go(  goSpecId,
+                                    mpos_2_dpos( fieldRef.get_mpos() ), // 这会显得工整，但减少了重叠，未来可修改
+                                    dyParam );
+        }
+    }
+
+
+    //----- land go -----//
     if( fieldRef.is_land() ){
         goSpecId = esrc::atom_ecoObj_apply_a_rand_goSpecId( ecoObjKey,
                                                             fieldRef.get_density().get_idx(),

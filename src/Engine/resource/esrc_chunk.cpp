@@ -143,7 +143,6 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
                 default:
                     break;
             }
-
         }
         
         tprAssert( get_chunkMemState(key_) == ChunkMemState::Active );

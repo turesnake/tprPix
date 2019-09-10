@@ -25,10 +25,10 @@ enum class MapSurfaceLowSpec{
 
 inline std::string MapSurfaceLowSpec_2_str( const MapSurfaceLowSpec &spec_ )noexcept{
     switch (spec_){
-        case MapSurfaceLowSpec::Test:  return "test";
+        case MapSurfaceLowSpec::Test:  return "mapSurfaceLow_test";
         default:
             tprAssert(0);
-            return ""; // never
+            return ""; // never reach
     }
 }
 

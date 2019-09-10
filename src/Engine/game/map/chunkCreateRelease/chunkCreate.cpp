@@ -291,7 +291,7 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     //  为 chunk 中的 8*8 个 field，分配 goes
     //------------------------------//
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
-        esrc::atom_create_a_go_in_field( fieldKey );
+        esrc::atom_create_gos_in_field( fieldKey );
     } //-- each field key end --
 
     //------------------------------//

@@ -54,9 +54,9 @@ AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
 
 animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
                                                     const std::string  &subspeciesName_,
-                                                    size_t              randIdx_ ){
+                                                    double              randVal_ ){
         tprAssert( anim_inn::animFrameSets.find(animFrameSetName_) != anim_inn::animFrameSets.end() );
-    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspeciesId( subspeciesName_, randIdx_ );
+    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspeciesId( subspeciesName_, randVal_ );
 }
 
 

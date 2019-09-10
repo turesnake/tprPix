@@ -20,6 +20,8 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "ParamBinary.h"
+#include "MapSurfaceSpec.h"
+#include "MapSurfaceRandLvl.h"
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 
@@ -43,38 +45,34 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
-    //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
-    auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-
-        //pvtBp->lichen_ForestId = gameObjs::apply_a_simpleId( fieldWeight_, 32 );
-
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "mapSurfaceLow_rock", "sml", 10 );
-                                    //- 将通过一个分配方式来 生成 randidx ...
-
 
     //================ dyParams =================//
     tprAssert( dyParams_.get_type() == ParamBinaryType::MapSurface );
     const auto *msParamPtr = reinterpret_cast<const DyParams_MapSurface*>( dyParams_.get_binaryPtr() );
 
-    
 
 
 
+    //================ go.pvtBinary =================//
+    goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
+    auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+
+ 
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId(MapSurfaceLowSpec_2_str( msParamPtr->spec ),
+                                                                MapSurfaceRandLvl_2_str( msParamPtr->lvl ),
+                                                                msParamPtr->randVal );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
-        /*
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                "lichen_Forest", 
-                                tprGeneral::nameString_combine("", pvtBp->lichen_ForestId, "_idle"),
-                                RenderLayerType::MapSurfaces,
+                                pvtBp->subspeciesId,
+                                "idle",
+                                RenderLayerType::MapSurfaceLower, //- 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );
-        */
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -87,7 +85,6 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//
         
-    //goRef_.bind_goPod_get_colliPointDPosOffsRefFunc();
     //...    
 
     //--- MUST ---

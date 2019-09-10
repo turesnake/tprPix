@@ -36,6 +36,11 @@ mapSurfaceRandEntId_t apply_a_mapSurfaceRandEntId( double randVal_ ){
 }
 
 
+MapSurfaceRandLvl get_mapSurfaceRandLvl(mapSurfaceRandEntId_t entId_, 
+                                        size_t fieldIdx_in_chunk_  ){
+    return mapSurfaceRandSet_inn::mapSurfaceRandSetUPtr->get_mapSurfaceRandLvl(entId_, fieldIdx_in_chunk_);
+}
+
 
 
 }//---------------------- namespace: esrc -------------------------//

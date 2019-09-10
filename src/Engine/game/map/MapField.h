@@ -70,39 +70,19 @@ public:
     void set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
 
     //------- get -------//
-    inline const IntVec2& get_mpos() const noexcept{
-        return this->mcpos.get_mpos();
-    }
-    inline const fieldKey_t &get_fieldKey() const noexcept{
-        return this->fieldKey;
-    }
-    inline const IntVec2& get_ppos() const noexcept{
-        return this->mcpos.get_ppos();
-    }
-    inline const Density &get_density() const noexcept{
-        return this->density;
-    }
-    inline const sectionKey_t &get_ecoObjKey() const noexcept{
-        return this->ecoObjKey;
-    }
-    inline const fieldBorderSetId_t &get_fieldBorderSetId() const noexcept{
-        return this->fieldBorderSetId;
-    }
-    inline const MapAltitude &get_minMapAlti() const noexcept{
-        return this->minMapAlti;
-    }
-    inline const MapAltitude &get_maxMapAlti() const noexcept{
-        return this->maxMapAlti;
-    }
-    inline const MapAltitude &get_nodeMapAlti() const noexcept{
-        return this->nodeMapAlti;
-    }
-    inline const IntVec2 &get_nodeMPos() const noexcept{
-        return this->nodeMPos;
-    }
-    inline const IntVec2 &get_nodePPosOff() const noexcept{
-        return this->nodePPosOff;
-    }
+    inline const IntVec2& get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline const fieldKey_t &get_fieldKey() const noexcept{ return this->fieldKey; }
+    inline const IntVec2& get_ppos() const noexcept{ return this->mcpos.get_ppos(); }
+    inline const Density &get_density() const noexcept{ return this->density; }
+    inline const sectionKey_t &get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
+    inline const fieldBorderSetId_t &get_fieldBorderSetId() const noexcept{ return this->fieldBorderSetId; }
+    inline const MapAltitude &get_minMapAlti() const noexcept{ return this->minMapAlti; }
+    inline const MapAltitude &get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
+    inline const MapAltitude &get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
+    inline const IntVec2 &get_nodeMPos() const noexcept{ return this->nodeMPos; }
+    inline const IntVec2 &get_nodePPosOff() const noexcept{ return this->nodePPosOff; }
+    inline const occupyWeight_t &get_occupyWeight() const noexcept{ return this->occupyWeight; }
+    inline const double &get_weight() const noexcept{ return this->weight; }
 
     inline glm::dvec2 get_nodeDPos() const noexcept{
         IntVec2 p = mpos_2_ppos(this->nodeMPos) + this->nodePPosOff;
@@ -110,13 +90,20 @@ public:
                             static_cast<double>(p.y) };
     }
 
-    inline const occupyWeight_t &get_occupyWeight() const noexcept{
-        return this->occupyWeight;
-    }
-    inline const double &get_weight() const noexcept{
-        return this->weight;
+    inline size_t calc_fieldIdx_in_chunk() const noexcept{
+        IntVec2 off = this->get_mpos() - anyMPos_2_chunkMPos(this->get_mpos());
+        off.x /= ENTS_PER_FIELD;
+        off.y /= ENTS_PER_FIELD;
+
+                {//-- tmp --
+                    int idx = off.y * FIELDS_PER_CHUNK + off.x;
+                    tprAssert( idx >= 0 );
+                }
+
+        return static_cast<size_t>( off.y * FIELDS_PER_CHUNK + off.x );
     }
 
+    
 private:
     void init_nodeMPos_and_nodePPosOff();
     void init_occupyWeight();

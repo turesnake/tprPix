@@ -11,6 +11,7 @@
 
 
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -51,8 +52,8 @@ class AnimSubspeciesWrap{
 public:
     AnimSubspeciesWrap()=default;
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId( size_t randIdx_ ){
-        size_t i = (randIdx_ * 3 + 17) % this->subIdxs.size();
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId( double randVal_ ){
+        size_t i = static_cast<size_t>(floor(randVal_ * 3.1 + 17.7)) % this->subIdxs.size();
         return this->subIds.at( this->subIdxs.at(i) );
     }
 

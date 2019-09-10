@@ -21,6 +21,10 @@ void init_mapSurfaceRandSet();
 mapSurfaceRandEntId_t apply_a_mapSurfaceRandEntId( double randVal_);
 
 
+MapSurfaceRandLvl get_mapSurfaceRandLvl(mapSurfaceRandEntId_t entId_, 
+                                        size_t fieldIdx_in_chunk_  );
+
+
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

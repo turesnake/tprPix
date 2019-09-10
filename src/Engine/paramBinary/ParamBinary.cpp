@@ -17,17 +17,12 @@
  */
 u8_t *ParamBinary::init_binary( const ParamBinaryType &type_ ){
 
-
-    //goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
-    //auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-
     this->type = type_;
 
     switch (type_){
     case ParamBinaryType::Field:
         this->binary.resize( sizeof(DyParams_Field) );
         break;
-
 
     case ParamBinaryType::MapSurface:
         this->binary.resize( sizeof(DyParams_MapSurface) );

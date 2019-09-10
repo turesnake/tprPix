@@ -43,9 +43,9 @@ struct DyParams_Field{
 
 
 struct DyParams_MapSurface{
-    MapSurfaceRandLvl  lvl      {};
-    MapSurfaceLowSpec  spec     {};
-    size_t             randIdx  {};
+    MapSurfaceLowSpec  spec     {}; // "mapSurfaceLow_test"
+    MapSurfaceRandLvl  lvl      {}; // "sml"
+    double             randVal  {}; // field.weight
 };
 
 
@@ -57,11 +57,8 @@ class ParamBinary{
 public:
     ParamBinary() = default;
 
-
     u8_t *init_binary( const ParamBinaryType &type_ );
 
-
-    
     inline const u8_t *get_binaryPtr() const noexcept{
         return &(this->binary.at(0));
     }
