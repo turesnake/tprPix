@@ -196,14 +196,14 @@ void main()
     if( altiLvl >= -2.0 ){
         color = color_sea_2;
         //alpha = 0.88; //-- 一定程度的 半透明
-        alpha = 1.0;
+        alpha = 0.80;
     }else if( altiLvl == -3.0 ){
         color = color_sea_3;
         //alpha = 0.94; //-- 一定程度的 半透明
-        alpha = 1.0;
+        alpha = 0.85;
     }else if( altiLvl == -4.0 ){
         color = color_sea_4;
-        alpha = 1.0;
+        alpha = 0.90;
     }else{ 
         color = color_sea_5;
         alpha = 1.0;

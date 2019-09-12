@@ -57,9 +57,8 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
     auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
- 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId(MapSurfaceLowSpec_2_str( msParamPtr->spec ),
-                                                                MapSurfaceRandLvl_2_str( msParamPtr->lvl ),
+                                                                std::vector<AnimLabel>{ MapSurfaceRandLvl_2_AnimLabel( msParamPtr->lvl ) },
                                                                 msParamPtr->randVal );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//

@@ -47,10 +47,12 @@ void FramePos::init_from_semiData( const FramePosSemiData &semiData_ ){
             }
             cirPtr->colliPointDPosOffs.push_back( glm::dvec2{0.0,0.0} );   //- rootAnchor
 
+                /*
                 cout<< "circular: moveColliRadius = " << cirPtr->moveColliRadius << "\n"
                     << "circular: skillColliRadius = " << cirPtr->skillColliRadius << "\n"
                     << "circular: colliPointDPosOffs.size() = " << cirPtr->colliPointDPosOffs.size() 
                     << endl;
+                */
 
             //---- functors -----//
             this->get_rootAnchor_2_tailAnchor = nullptr;
@@ -77,10 +79,12 @@ void FramePos::init_from_semiData( const FramePosSemiData &semiData_ ){
             capPtr->colliPointDPosOffs.push_back( glm::dvec2{0.0,0.0} );            //- rootAnchor
             capPtr->colliPointDPosOffs.push_back( capPtr->rootAnchor_2_tailAnchor );//- tailAnchor
 
+                /*
                 cout<< "capsule: moveColliRadius = " << capPtr->moveColliRadius << "\n"
                     << "capsule: skillColliRadius = " << capPtr->skillColliRadius << "\n"
                     << "capsule: colliPointDPosOffs.size() = " << capPtr->colliPointDPosOffs.size() 
                     << endl;
+                */
 
             //---- functors -----//
             this->get_rootAnchor_2_tailAnchor= std::bind( &JData_InCapsule::get_rootAnchor_2_tailAnchor, capPtr );

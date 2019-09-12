@@ -41,7 +41,7 @@ void WallA::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(WallA_PvtBinary) );
     WallA_PvtBinary  *pvtBp = reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", "origin", 10 ); //- 暂时只有一个 亚种
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//

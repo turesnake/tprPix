@@ -174,8 +174,9 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     //-------------------//
     for( auto &paramSPtr : animActionParams_ ){
 
-        animSubspeciesId_t subId = this->apply_a_animSubspeciesId(  paramSPtr->subspeciesName,
-                                                                    paramSPtr->subspeciesIdx );
+        animSubspeciesId_t subId = this->subGroup.find_or_insert_a_animSubspeciesId(paramSPtr->animLabels,
+                                                                                    paramSPtr->subspeciesIdx );
+
         AnimSubspecies &subRef = esrc::find_or_insert_new_animSubspecies( subId );
         AnimAction &actionRef = subRef.insert_new_animAction( paramSPtr->actionName );
         actionRef.init( *this,
@@ -183,7 +184,9 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                         afs_inn::pixNum_per_frame,
                         afs_inn::headIdx,
                         isHaveShadow_ );
-    }      
+                    
+    }  
+    this->subGroup.check(); //- MUST !!!    
 }
 
 
@@ -274,30 +277,6 @@ void AnimFrameSet::handle_shadow(){
         }
     }
 }
-
-
-/* ===========================================================
- *              apply_a_animSubspeciesId
- * -----------------------------------------------------------
- * if found, just return. if not, create and return
- */
-animSubspeciesId_t AnimFrameSet::apply_a_animSubspeciesId( const std::string &subName_, 
-                                                            size_t            subIdx_ ){
-        animSubspeciesId_t id {};
-        if( this->subspeciesWraps.find(subName_) == this->subspeciesWraps.end() ){          
-            this->subspeciesWraps.insert({ subName_, AnimSubspeciesWrap{} });
-        }
-        auto &sw = this->subspeciesWraps.at(subName_);
-        if( sw.subIds.find(subIdx_) == sw.subIds.end() ){
-            id = AnimSubspecies::id_manager.apply_a_u32_id();
-            sw.subIds.insert({ subIdx_, id });
-            sw.subIdxs.push_back(subIdx_);
-            return id;
-        }else{
-            return sw.subIds.at(subIdx_);
-        }
-    }
-
 
 
 namespace afs_inn {//----------------- namespace: afs_inn ------------------//

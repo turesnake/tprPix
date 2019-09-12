@@ -47,7 +47,8 @@ void main()
 {
     //prepare();
     //discard;
-    FragColor = vec4( 0.98, 0.96, 0.85, 1.0 );
+    //FragColor = vec4( 0.98, 0.96, 0.85, 1.0 );//- 色1(最浅色)
+    FragColor = vec4( 0.83, 0.81, 0.73, 1.0 );//- 色2
 }
 
 

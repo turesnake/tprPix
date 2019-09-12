@@ -83,20 +83,15 @@ public:
         return &(this->framePoses);
     }
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::string &subspeciesName_,
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
                                                               double             randVal_ ){
-            tprAssert( this->subspeciesWraps.find(subspeciesName_) != this->subspeciesWraps.end() );
-        auto &sw = this->subspeciesWraps.at( subspeciesName_ );
-        return sw.apply_a_random_animSubspeciesId( randVal_ );
+        return this->subGroup.apply_a_random_animSubspeciesId( labels_, randVal_ );
     }
 
 
 private:
     void handle_pjt();
     void handle_shadow();
-
-    animSubspeciesId_t apply_a_animSubspeciesId(const std::string &subName_, 
-                                                size_t             subIdx_ );
 
     //======== vals ========//
 
@@ -112,10 +107,7 @@ private:
     //-- each frame --
     std::vector<FramePos>  framePoses {};
 
-    //std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
-
-    std::unordered_map<std::string, AnimSubspeciesWrap> subspeciesWraps {}; //- 亚种数据
-                                
+    AnimSubspeciesGroup subGroup {};
 
 };
 

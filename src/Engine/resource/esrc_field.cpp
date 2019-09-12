@@ -39,6 +39,9 @@ namespace field_inn {//------------ namespace: field_inn --------------//
     std::unordered_map<fieldKey_t,std::unique_ptr<MapField>> fields {};
     std::shared_mutex  fieldsSharedMutex; //- 读写锁
 
+                        // 是否可以让 fields 变成 主线程专用
+                        // job线程 仅生成数据 ...
+
     //-- 正在创建的 field 表 --
     std::set<fieldKey_t> fieldsBuilding {};
     std::mutex  fieldsBuildingMutex;
@@ -212,7 +215,7 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
             //--- dyParam ---//
             ParamBinary dyParam {};
             auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
-            mapSurfaceBp->spec = MapSurfaceLowSpec::Test; //- tmp，其实要根据 eco 来分配 ...
+            mapSurfaceBp->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             mapSurfaceBp->lvl = mapSurfaceLvl;
             mapSurfaceBp->randVal = fieldRef.get_weight();
 

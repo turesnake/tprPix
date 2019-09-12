@@ -22,6 +22,7 @@
 #include "IntVec.h" 
 #include "RGBA.h" 
 #include "FramePos.h"
+#include "AnimLabel.h"
 
 
 //-- 动作类型 --
@@ -76,15 +77,14 @@ class AnimActionParam{
 public:
 
     //-- 常规构造器,且手动设置 timesteps --
-    AnimActionParam(const std::string &subspeciesName_,
-                    size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string     &actionName_,
                     const AnimActionType  &type_,
                     bool                   isOrder_,
                     bool                   isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
-                    const std::vector<size_t>  &timeSteps_ ):
-        subspeciesName(subspeciesName_),
+                    const std::vector<size_t>  &timeSteps_,
+                    const std::vector<AnimLabel> &labels_ ):
         subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( type_ ),
@@ -95,18 +95,18 @@ public:
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
             this->timeSteps.insert( this->timeSteps.end(), timeSteps_.begin(), timeSteps_.end() );
+            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
-    AnimActionParam(const std::string &subspeciesName_,
-                    size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string    &actionName_,
                     const AnimActionType &type_,
                     bool                  isOrder_,
                     bool                  isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
-                    size_t   _defaultTimeStep ):
-        subspeciesName(subspeciesName_),
+                    size_t   _defaultTimeStep,
+                    const std::vector<AnimLabel> &labels_ ):
         subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( type_ ),
@@ -117,15 +117,15 @@ public:
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
             this->timeSteps.push_back( _defaultTimeStep ); //- 用不上
+            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
 
     //-- 单帧action 专用 构造器 --
-    AnimActionParam(const std::string &subspeciesName_,
-                    size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string &actionName_,
                     size_t  lFrameIdx_,
-                    bool    isOpaque_ ):
-        subspeciesName(subspeciesName_),
+                    bool    isOpaque_,
+                    const std::vector<AnimLabel> &labels_ ):
         subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionType( AnimActionType::Idle ), //- 默认type
@@ -136,10 +136,10 @@ public:
         {
             this->lFrameIdxs.push_back( lFrameIdx_ );
             this->timeSteps.push_back( 6 ); //- 随便写一个值，反正用不上
+            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
 
     //===== vals =====//
-    std::string     subspeciesName;
     size_t          subspeciesIdx;
     std::string     actionName;
     AnimActionType  actionType;
@@ -149,6 +149,7 @@ public:
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
     std::vector<size_t> timeSteps  {}; 
+    std::vector<AnimLabel> animLabels {};
 };
 
 

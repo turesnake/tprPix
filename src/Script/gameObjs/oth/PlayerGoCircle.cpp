@@ -44,7 +44,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(PlayerGoCircle_PvtBinary) );
     PlayerGoCircle_PvtBinary  *pvtBp = reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", "origin", 10 );
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", emptyAnimLabels, 10 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 

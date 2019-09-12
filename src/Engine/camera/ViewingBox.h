@@ -30,9 +30,9 @@ public:
         switch(type_){
             case RenderLayerType::Ground:           return ground_zOff;
             case RenderLayerType::Chunks:           return chunks_zOff;
-            case RenderLayerType::WaterAnim:        return waterAnim_zOff;
             case RenderLayerType::MapSurfaceLower:  return mapSurfaceLower_zOff;
             case RenderLayerType::MapSurfaceUpper:  return mapSurfaceUpper_zOff;
+            case RenderLayerType::WaterAnim:        return waterAnim_zOff;
             case RenderLayerType::UnderGoShadows:   return underGoShadows_zOff;
             case RenderLayerType::GoShadows:        return goShadows_zOff;
             case RenderLayerType::Debug:            return debug_zOff;
@@ -71,14 +71,13 @@ public:
         // ...
         // 在当前版本中，此层为空
 
-    static double  waterAnim_zOff;
-        // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染
-
-
     static double  mapSurfaceLower_zOff;
     static double  mapSurfaceUpper_zOff;
         // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
         // 在未来，也许会放到 waterAnim 下方...
+
+    static double  waterAnim_zOff;
+        // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染
         
     static double  underGoShadows_zOff;
         // 阴影层 下方的一层，
@@ -111,9 +110,9 @@ inline double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
 
 inline double  ViewingBox::ground_zOff           { 10.0 };
 inline double  ViewingBox::chunks_zOff           { 20.0 };
-inline double  ViewingBox::waterAnim_zOff        { 30.0 };
-inline double  ViewingBox::mapSurfaceLower_zOff  { 40.0 };
-inline double  ViewingBox::mapSurfaceUpper_zOff  { 50.0 };
+inline double  ViewingBox::mapSurfaceLower_zOff  { 30.0 };
+inline double  ViewingBox::mapSurfaceUpper_zOff  { 40.0 };
+inline double  ViewingBox::waterAnim_zOff        { 50.0 };
 inline double  ViewingBox::underGoShadows_zOff   { 60.0 };
 inline double  ViewingBox::goShadows_zOff        { 70.0 };
 

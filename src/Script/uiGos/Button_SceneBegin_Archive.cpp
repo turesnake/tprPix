@@ -41,7 +41,7 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
     goRef_.resize_pvtBinary( sizeof(Button_SceneBegin_Archive_PvtBinary) );
     Button_SceneBegin_Archive_PvtBinary  *pvtBp = reinterpret_cast<Button_SceneBegin_Archive_PvtBinary*>(goRef_.get_pvtBinaryPtr());
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", "origin", 10 );
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", emptyAnimLabels, 10 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 

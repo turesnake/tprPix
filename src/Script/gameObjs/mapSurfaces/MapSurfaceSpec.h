@@ -18,6 +18,7 @@
 enum class MapSurfaceLowSpec{
     Nil,
     Test, // 简陋的线框，表示范围
+    WhiteRock,
 };
 
 
@@ -25,7 +26,8 @@ enum class MapSurfaceLowSpec{
 
 inline std::string MapSurfaceLowSpec_2_str( const MapSurfaceLowSpec &spec_ )noexcept{
     switch (spec_){
-        case MapSurfaceLowSpec::Test:  return "mapSurfaceLow_test";
+        case MapSurfaceLowSpec::Test:       return "mapSurfaceLow_test";
+        case MapSurfaceLowSpec::WhiteRock:  return "mapSurfaceLow_whiteRock";
         default:
             tprAssert(0);
             return ""; // never reach

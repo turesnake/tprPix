@@ -13,6 +13,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "AnimLabel.h"
 
 enum class MapSurfaceRandLvl{
     Nil, //- none
@@ -31,6 +32,19 @@ inline std::string MapSurfaceRandLvl_2_str( const MapSurfaceRandLvl &lvl_ )noexc
             return ""; // never reach
     }
 }
+
+inline AnimLabel MapSurfaceRandLvl_2_AnimLabel( const MapSurfaceRandLvl &lvl_  )noexcept{
+    switch (lvl_){
+        case MapSurfaceRandLvl::Sml: return AnimLabel::Sml;
+        case MapSurfaceRandLvl::Mid: return AnimLabel::Mid;
+        case MapSurfaceRandLvl::Big: return AnimLabel::Big;
+        default:
+            tprAssert(0);
+            return AnimLabel::Default; // never reach
+    }
+}
+
+
 
 
 

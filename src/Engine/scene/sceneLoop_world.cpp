@@ -196,7 +196,7 @@ void sceneRenderLoop_world(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_groundCanvas();
-    esrc::draw_waterAnimCanvas();
+    
 
         tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
         tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
@@ -204,6 +204,9 @@ void sceneRenderLoop_world(){
     //-- opaque First, Translucent Second !!! --
     esrc::draw_renderPool_goMeshs_opaque(); 
     esrc::draw_renderPool_goMeshs_translucent(); 
+
+    esrc::draw_waterAnimCanvas();//- 这样，mapsurface gos 就在 water 层下方呈现了... 
+                                //  可能不是最好的办法
 
     // playerGoIndication ...
     //esrc::get_player().get_goRef().render_all_goMesh_for_playerGoIndication();

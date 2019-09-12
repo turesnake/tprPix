@@ -168,6 +168,10 @@ void build_chunkData_main( const Job &job_ ){
             tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD,
                                 chunkMPos.y + h*ENTS_PER_FIELD );
             esrc::atom_try_to_insert_and_init_the_field_ptr( tmpFieldMPos );
+
+                    // 立即暂存所有 field 的 ecoObjKey 
+
+
         }
     } //- each field in 2*2chunks
 

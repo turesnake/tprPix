@@ -1,0 +1,132 @@
+[
+{
+    "name": "mapSurfaceLow_test",
+    "pngs": [
+        {
+            "path": "/mapSurfaceLow/groundSml.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml" ],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/groundMid.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid" ],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/groundBig.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big" ],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionName": "idle",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "mapSurfaceLow_whiteRock",
+    "pngs": [
+        {
+            "path": "/mapSurfaceLow/whiteRock/whiteRockSml1.P.png",
+            "frameNum.col":  8,
+            "frameNum.row":  2,
+            "totalFrameNum": 16,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml" ],
+                    "fstIdx": 0,
+                    "idxNums": 16,
+                    "actionName": "idle",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/whiteRock/whiteRockMid1.P.png",
+            "frameNum.col":  8,
+            "frameNum.row":  2,
+            "totalFrameNum": 11,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid" ],
+                    "fstIdx": 0,
+                    "idxNums": 11,
+                    "actionName": "idle",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/whiteRock/whiteRockBig1.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big" ],
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionName": "idle",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+}
+]
