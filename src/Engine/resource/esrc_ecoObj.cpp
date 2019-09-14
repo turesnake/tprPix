@@ -127,30 +127,16 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
 }
 
 
-/* ===========================================================
- *          atom_get_ecoObj_landColorsPtr     [-READ-]
- * -----------------------------------------------------------
- *    实际数据在 ecosys 实例中（不用担心会不存在）
- *    所以可以在此处，放心地传递 指针
- */
-const std::vector<RGBA> *atom_get_ecoObj_landColorsPtr( sectionKey_t sectionkey_ ){
 
+/* ===========================================================
+ *          atom_ecoObj_apply_a_rand_goSpecData    [-READ-]
+ * -----------------------------------------------------------
+ */
+const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_, size_t densityIdx_, double randV_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
         tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_landColorsPtr();
-}
-
-/* ===========================================================
- *          atom_ecoObj_apply_a_rand_goSpecId    [-READ-]
- * -----------------------------------------------------------
- */
-goSpecId_t atom_ecoObj_apply_a_rand_goSpecId(sectionKey_t sectionkey_, size_t densityIdx_, double randV_ ){
-
-    //--- atom ---//
-    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
-        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-    return ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecId( densityIdx_, randV_  );
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecData( densityIdx_, randV_  );
 }
 
 /* ===========================================================

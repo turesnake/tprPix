@@ -15,7 +15,7 @@
  *                    init_binary
  * -----------------------------------------------------------
  */
-u8_t *ParamBinary::init_binary( const ParamBinaryType &type_ ){
+u8_t *ParamBinary::init_binary( ParamBinaryType type_ ){
 
     this->type = type_;
 

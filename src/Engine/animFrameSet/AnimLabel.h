@@ -93,7 +93,7 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
 using animLabelKey_t = u64_t;
 
 
-inline animLabelKey_t animLabels_2_key( const AnimLabel &a_, const AnimLabel &b_ )noexcept{
+inline animLabelKey_t animLabels_2_key( AnimLabel a_, AnimLabel b_ )noexcept{
 
     if( (a_==AnimLabel::Default) && (b_==AnimLabel::Default) ){
         return 0;

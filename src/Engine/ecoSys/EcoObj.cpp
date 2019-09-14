@@ -30,7 +30,7 @@
 namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 
     std::default_random_engine  rEngine; //-通用 随机数引擎实例
-    inline std::uniform_real_distribution<double> uDistribution_f(-100.0,100.0);
+    inline std::uniform_real_distribution<double> uDistribution_f(0.0,100.0);
     inline std::uniform_int_distribution<int> uDistribution_2(0,1);
     inline std::uniform_int_distribution<int> uDistribution_4(0,3);
 
@@ -129,13 +129,13 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------//
     //   occupyWeight
     //------------------//
-    size_t randV = cast_2_size_t(floor( this->weight * 3 + 757 ));
+    size_t randV = cast_2_size_t(floor( this->weight * 3.1 + 757.3 ));
     this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
     //------------------------------//
     //  landColors / goSpecIdPools
     //------------------------------//
-    this->goSpecIdPools.clear();
-    this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
+    this->goSpecDataPools.clear();
+    this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData>{} );
 }
 
 
@@ -222,17 +222,16 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
 
     //--- 仅 获得 只读指针 ---
-    this->landColorsPtr = targetEcoPlanPtr_->get_landColorsPtr();
     this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();
     this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();
 
     //---- goSpecIdPools 数据 ----
-    goSpecId_t  tmpGoSpecId {};
+    //goSpecId_t  tmpGoSpecId {};
     for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
         //--- 取 8 个元素 ---
         for( int ci=0; ci<8; ci++ ){ 
-            tmpGoSpecId = targetEcoPlanPtr_->apply_a_rand_goSpecId( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
-            this->goSpecIdPools.at(i).push_back( tmpGoSpecId );
+            const auto &goSpecData = targetEcoPlanPtr_->apply_a_rand_goSpecData( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
+            this->goSpecDataPools.at(i).push_back( goSpecData ); // copy
         }
     }
 }

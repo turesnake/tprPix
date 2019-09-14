@@ -42,7 +42,7 @@ enum class SpeedLevel : int {
     LV_17     //- highest speed for crawl mode，can't faster than 1mapEnt/1frame
 };
 
-inline size_t speedLevel_2_size_t( const SpeedLevel &lvl_ )noexcept{
+inline size_t speedLevel_2_size_t( SpeedLevel lvl_ )noexcept{
     return static_cast<size_t>(lvl_);
 }
 
@@ -97,12 +97,12 @@ inline SpeedLevel int_2_SpeedLevel( int num_ )noexcept{
 }
 
 
-inline double SpeedLevel_2_val( const SpeedLevel &lvl_ )noexcept{
+inline double SpeedLevel_2_val( SpeedLevel lvl_ )noexcept{
     return speedTable.at( speedLevel_2_size_t(lvl_) );
 }
 
 
-inline SpeedLevel calc_higher_speedLvl( const SpeedLevel &lvl_ )noexcept{
+inline SpeedLevel calc_higher_speedLvl( SpeedLevel lvl_ )noexcept{
     switch (lvl_){
         case SpeedLevel::LV_0:  return SpeedLevel::LV_1;
         case SpeedLevel::LV_1:  return SpeedLevel::LV_2;
@@ -127,7 +127,7 @@ inline SpeedLevel calc_higher_speedLvl( const SpeedLevel &lvl_ )noexcept{
             return SpeedLevel::LV_0; //- never reach
     }
 }
-inline SpeedLevel calc_lower_speedLvl( const SpeedLevel &lvl_ )noexcept{
+inline SpeedLevel calc_lower_speedLvl( SpeedLevel lvl_ )noexcept{
     switch (lvl_){
         case SpeedLevel::LV_0:  return SpeedLevel::LV_0; // no change
         case SpeedLevel::LV_1:  return SpeedLevel::LV_0;

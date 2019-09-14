@@ -23,6 +23,7 @@
 #include "global.h"
 #include "fileIO.h"
 #include "EcoSysPlan.h"
+#include "AnimLabel.h"
 #include "esrc_ecoSysPlan.h"
 
 
@@ -58,34 +59,7 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
         }
     }
 
-    //--- landColor ---
-    RGBA  color_Forest     { 130, 150, 109, 255 };
-    RGBA  color_DarkForest { 106, 130, 113, 255 };
-    RGBA  color_Plain      { 155, 159, 134, 255 };
-    RGBA  color_Swamp      { 138, 139, 124, 255 };
-    RGBA  color_Desert     { 210, 195, 142, 255 };
-
-    RGBA *str_2_LandColorPtr( const std::string &str_ ){
-        if( str_ == std::string{"color_Forest"} ){
-            return &color_Forest;
-        }else if( str_ == std::string{"color_DarkForest"} ){
-            return &color_DarkForest;
-        }else if( str_ == std::string{"color_Plain"} ){
-            return &color_Plain;
-        }else if( str_ == std::string{"color_Swamp"} ){
-            return &color_Swamp;
-        }else if( str_ == std::string{"color_Desert"} ){
-            return &color_Desert;
-        }else{
-            tprAssert(0);
-            return &color_Forest; //- never reach
-        }
-    }
-
     //----- funcs -----//
-    void parse_landColor( const Value &color_,
-                      EcoSysPlan &ecoPlanREf_ );
-
     void parse_pool(   const Value &cpool_,
                     EcoSysPlan &ecoPlanREf_ );
 
@@ -141,13 +115,8 @@ void parse_from_ecoSysPlansJsonFile(){
 
         auto &ecoPlanRef = esrc::insert_new_ecoSysPlan( ecoPlanType );
 
-        {//--- color ---//
-            const auto &a = json_inn::check_and_get_value( ent, "color", json_inn::JsonValType::Object );
-            espJson_inn::parse_landColor( a, ecoPlanRef );
-        }
-
         ecoPlanRef.init_densityDatas( density_SeaLvlOff, *density_DivValsPtr );
-        ecoPlanRef.init_goSpecIdPools_and_applyPercents();
+        ecoPlanRef.init_goSpecDataPools_and_applyPercents();
 
         {//--- pools ---//
             const auto &a = json_inn::check_and_get_value( ent, "pools", json_inn::JsonValType::Array );
@@ -156,7 +125,7 @@ void parse_from_ecoSysPlansJsonFile(){
             }
         }
 
-        ecoPlanRef.shuffle_goSpecIdPools( fixedSeed );
+        ecoPlanRef.shuffle_goSpecDataPools( fixedSeed );
         ecoPlanRef.chueck_end();
     }
 
@@ -165,70 +134,6 @@ void parse_from_ecoSysPlansJsonFile(){
 
 
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
-
-void parse_landColor( const Value &color_,
-                      EcoSysPlan &ecoPlanREf_ ){
-
-    std::string  landColorType {};
-    {//--- colorType ---//
-        const auto &a = json_inn::check_and_get_value( color_, "colorType", json_inn::JsonValType::String );
-        landColorType = a.GetString();
-    }
-
-    if( landColorType == std::string{"onlyHighLand"} ){
-
-        RGBA *landColorPtr {};
-        {//--- color ---//
-            const auto &a = json_inn::check_and_get_value( color_, "color", json_inn::JsonValType::String );
-            landColorPtr = str_2_LandColorPtr( a.GetString() );
-        }
-        ecoPlanREf_.init_landColor_onlyHighLand( *landColorPtr );
-
-    }else if( landColorType == std::string{"doubleDeep"} ){
-
-        RGBA *landColorPtr {};
-        {//--- color ---//
-            const auto &a = json_inn::check_and_get_value( color_, "color", json_inn::JsonValType::String );
-            landColorPtr = str_2_LandColorPtr( a.GetString() );
-        }
-        ecoPlanREf_.init_landColor_doubleDeep( *landColorPtr );
-
-    }else if( landColorType == std::string{"twoPattern"} ){
-        
-        int   densityHighLvl {};
-        RGBA *landColorHighPtr {};
-        RGBA *landColorLowPtr {};
-        bool  is_goDeep_high {};
-        bool  is_goDeep_low  {};
-        {//--- density.highLvl ---//
-            const auto &a = json_inn::check_and_get_value( color_, "density.highLvl", json_inn::JsonValType::Int );
-            densityHighLvl = a.GetInt();
-        }
-        {//--- color.high ---//
-            const auto &a = json_inn::check_and_get_value( color_, "color.high", json_inn::JsonValType::String );
-            landColorHighPtr = str_2_LandColorPtr( a.GetString() );
-        }
-        {//--- color.low ---//
-            const auto &a = json_inn::check_and_get_value( color_, "color.low", json_inn::JsonValType::String );
-            landColorLowPtr = str_2_LandColorPtr( a.GetString() );
-        }
-        {//--- is_goDeep_high ---//
-            const auto &a = json_inn::check_and_get_value( color_, "is_goDeep_high", json_inn::JsonValType::Bool );
-            is_goDeep_high = a.GetBool();
-        }
-        {//--- is_goDeep_low ---//
-            const auto &a = json_inn::check_and_get_value( color_, "is_goDeep_low", json_inn::JsonValType::Bool );
-            is_goDeep_low = a.GetBool();
-        }
-        ecoPlanREf_.init_landColor_twoPattern( densityHighLvl,
-                                                *landColorHighPtr,
-                                                *landColorLowPtr,
-                                                is_goDeep_high,
-                                                is_goDeep_low );
-    }else{
-        tprAssert(0);
-    }
-}
 
 
 void parse_pool(   const Value &pool_,
@@ -240,6 +145,7 @@ void parse_pool(   const Value &pool_,
     //---
     std::string specName {};
     size_t      num      {};
+    std::vector<AnimLabel> labels {}; //- 允许是空的
 
     {//--- density.lvl ---//
         const auto &a = json_inn::check_and_get_value( pool_, "density.lvl", json_inn::JsonValType::Int );
@@ -257,11 +163,20 @@ void parse_pool(   const Value &pool_,
                 const auto &inna = json_inn::check_and_get_value( ecoEnt, "specName", json_inn::JsonValType::String );
                 specName = inna.GetString();
             }
+            {//--- animLabels ---//
+                labels.clear();
+                const auto &inna = json_inn::check_and_get_value( ecoEnt, "animLabels", json_inn::JsonValType::Array );
+                if( inna.Size() > 0 ){
+                    for( auto &i : inna.GetArray() ){
+                        labels.push_back( str_2_AnimLabel(i.GetString()) );
+                    }
+                }
+            }
             {//--- num ---//
                 const auto &inna = json_inn::check_and_get_value( ecoEnt, "num", json_inn::JsonValType::Uint64 );
                 num = cast_2_size_t(inna.GetUint64());
             }
-            ecoEnts.push_back( std::make_unique<EcoEnt>(specName, num) );
+            ecoEnts.push_back( std::make_unique<EcoEnt>(specName, labels, num) );
         }
     }
     ecoPlanREf_.insert( densityLvl, 

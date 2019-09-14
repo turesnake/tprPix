@@ -83,7 +83,8 @@ void MapField::init( const IntVec2 &anyMPos_ ){
     this->originPerlin = simplex_noise2( this->FDPos * freq );//- [-1.0, 1.0]
 
     //--- weight ---
-    this->weight = this->originPerlin * 100.0; //- [-100.0, 100.0]
+    this->weight  = this->originPerlin * 100.0;        //- [-100.0, 100.0]
+    this->uWeight = (this->originPerlin + 1.0) * 50.0; //- [0.0,    100.0]
 
     //--- fieldBorderSetId ---
     size_t randIdx = cast_2_size_t(floor((this->originPerlin+3.1)*997.0));
@@ -108,6 +109,7 @@ void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &ch
     this->isNodeMapAltiSet = true;
 
     IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
+        tprAssert( (off.x>=0) && (off.y>=0) );
     size_t  idx = cast_2_size_t( off.y * ENTS_PER_CHUNK + off.x );
 
     tprAssert( idx < chunkMapEnts_.size() );

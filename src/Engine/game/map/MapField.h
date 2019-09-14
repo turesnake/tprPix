@@ -30,6 +30,7 @@
 #include "occupyWeight.h"
 #include "fieldBorderSetId_t.h"
 #include "Density.h"
+#include "tprCast.h"
 
 #include "tprDebug.h"
 
@@ -83,6 +84,7 @@ public:
     inline const IntVec2 &get_nodePPosOff() const noexcept{ return this->nodePPosOff; }
     inline const occupyWeight_t &get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline const double &get_weight() const noexcept{ return this->weight; }
+    inline const double &get_uWeight() const noexcept{ return this->uWeight; }
 
     inline glm::dvec2 get_nodeDPos() const noexcept{
         IntVec2 p = mpos_2_ppos(this->nodeMPos) + this->nodePPosOff;
@@ -95,12 +97,8 @@ public:
         off.x /= ENTS_PER_FIELD;
         off.y /= ENTS_PER_FIELD;
 
-                {//-- tmp --
-                    int idx = off.y * FIELDS_PER_CHUNK + off.x;
-                    tprAssert( idx >= 0 );
-                }
-
-        return static_cast<size_t>( off.y * FIELDS_PER_CHUNK + off.x );
+        tprAssert( (off.x>=0) && (off.y>=0) );
+        return cast_2_size_t( off.y * FIELDS_PER_CHUNK + off.x );
     }
 
     
@@ -129,6 +127,7 @@ private:
 
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
     double   weight {}; //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
+    double   uWeight {}; // [0.0, 100.0]
 
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]

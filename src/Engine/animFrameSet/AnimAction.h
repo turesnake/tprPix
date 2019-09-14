@@ -79,7 +79,7 @@ public:
     //-- 常规构造器,且手动设置 timesteps --
     AnimActionParam(size_t  subspeciesIdx_,
                     const std::string     &actionName_,
-                    const AnimActionType  &type_,
+                    AnimActionType         type_,
                     bool                   isOrder_,
                     bool                   isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,
@@ -101,7 +101,7 @@ public:
     //-- 常规构造器,但使用统一值的 timesteps --
     AnimActionParam(size_t  subspeciesIdx_,
                     const std::string    &actionName_,
-                    const AnimActionType &type_,
+                    AnimActionType        type_,
                     bool                  isOrder_,
                     bool                  isOpaque_,
                     const std::vector<size_t>  &lFrameIdxs_,

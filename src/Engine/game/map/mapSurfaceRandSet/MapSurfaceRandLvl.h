@@ -22,7 +22,7 @@ enum class MapSurfaceRandLvl{
     Big
 };
 
-inline std::string MapSurfaceRandLvl_2_str( const MapSurfaceRandLvl &lvl_ )noexcept{
+inline std::string MapSurfaceRandLvl_2_str( MapSurfaceRandLvl lvl_ )noexcept{
     switch (lvl_){
         case MapSurfaceRandLvl::Sml: return "sml";
         case MapSurfaceRandLvl::Mid: return "mid";
@@ -33,7 +33,7 @@ inline std::string MapSurfaceRandLvl_2_str( const MapSurfaceRandLvl &lvl_ )noexc
     }
 }
 
-inline AnimLabel MapSurfaceRandLvl_2_AnimLabel( const MapSurfaceRandLvl &lvl_  )noexcept{
+inline AnimLabel MapSurfaceRandLvl_2_AnimLabel( MapSurfaceRandLvl lvl_  )noexcept{
     switch (lvl_){
         case MapSurfaceRandLvl::Sml: return AnimLabel::Sml;
         case MapSurfaceRandLvl::Mid: return AnimLabel::Mid;
@@ -43,12 +43,6 @@ inline AnimLabel MapSurfaceRandLvl_2_AnimLabel( const MapSurfaceRandLvl &lvl_  )
             return AnimLabel::Default; // never reach
     }
 }
-
-
-
-
-
-
 
 
 #endif 

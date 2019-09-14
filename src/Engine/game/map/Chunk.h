@@ -75,6 +75,7 @@ public:
 
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ )noexcept{
+        tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
             tprAssert( idx < memMapEnts.size() ); //- tmp
         return *(memMapEnts.at(idx).get());

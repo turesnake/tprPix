@@ -56,7 +56,6 @@
 //  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
-    //using F_PUB_BINARY = std::function<void(PubBinaryValType)>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
 
     using F_void         = std::function<void()>;

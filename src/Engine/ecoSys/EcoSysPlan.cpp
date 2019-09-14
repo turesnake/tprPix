@@ -28,86 +28,7 @@ namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//
 
 }//------------- namespace: ecoSysPlan_inn end --------------//
 
-/* ===========================================================
- *        init_landColor_onlyHighLand
- * -----------------------------------------------------------
- * -- landColor 上色方案：
- *    让 density.lvl: 1，2，3 颜色逐渐加深。
- *    其余区域 保持原色 
- */
-void EcoSysPlan::init_landColor_onlyHighLand( const RGBA &baseColor_ ){
 
-    this->landColors.resize( Density::get_idxNum() );
-    //---
-    for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
-        (i <= 0) ?
-            this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_ :
-            this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_.add(  i * ecoSysPlan_inn::off_r, 
-                                                                            i * ecoSysPlan_inn::off_g, 
-                                                                            i * ecoSysPlan_inn::off_b, 
-                                                                            0 );
-    }
-}
-
-
-/* ===========================================================
- *        init_landColor_doubleDeep
- * -----------------------------------------------------------
- * -- landColor 上色方案：
- *    让 density.lvl: 1，  2， 3 颜色逐渐加深。
- *    让 density.lvl: -1，-2，-3 颜色逐渐加深。
- * 适合 密林，仅留下小路通行
- */
-void EcoSysPlan::init_landColor_doubleDeep( const RGBA &baseColor_ ){
-
-    int absI {}; 
-    this->landColors.resize( Density::get_idxNum() );
-    //---
-    for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
-        absI = std::abs(i);
-        this->landColors.at( Density::lvl_2_idx(i) ) = baseColor_.add(  absI * ecoSysPlan_inn::off_r, 
-                                                                        absI * ecoSysPlan_inn::off_g, 
-                                                                        absI * ecoSysPlan_inn::off_b, 
-                                                                        0 );
-    }
-}
-
-
-/* ===========================================================
- *          init_landColor_twoPattern
- * -----------------------------------------------------------
- * -- landColor 上色方案：
- *    所有 密度大于等于 density_.lvl 的走 _color_1。
- *    剩下区域 走 _color_2
- */
-void EcoSysPlan::init_landColor_twoPattern( int density_high_lvl_,
-                                    const RGBA &color_high_,
-                                    const RGBA &color_low_,
-                                    bool  is_goDeep_high_,
-                                    bool  is_goDeep_low_ ){
-
-    int    absI {};
-    this->landColors.resize( Density::get_idxNum() );
-    //---
-    for( int i=Density::get_minLvl(); i<=Density::get_maxLvl(); i++ ){ //- [-3,3]
-        absI = std::abs(i);
-        if( i >= density_high_lvl_ ){ //- high
-            is_goDeep_high_ ?
-                this->landColors.at( Density::lvl_2_idx(i) ) = color_high_.add( absI * ecoSysPlan_inn::off_r, 
-                                                                                absI * ecoSysPlan_inn::off_g, 
-                                                                                absI * ecoSysPlan_inn::off_b, 
-                                                                                0 ) :
-                this->landColors.at( Density::lvl_2_idx(i) ) = color_high_;
-        }else{ //- low
-            is_goDeep_low_ ?
-                this->landColors.at( Density::lvl_2_idx(i) ) = color_low_.add(  absI * ecoSysPlan_inn::off_r, 
-                                                                                absI * ecoSysPlan_inn::off_g, 
-                                                                                absI * ecoSysPlan_inn::off_b, 
-                                                                                0 ) :
-                this->landColors.at( Density::lvl_2_idx(i) ) = color_low_;
-        }
-    }
-}
 
 
 /* ===========================================================
@@ -149,15 +70,15 @@ void EcoSysPlan::init_densityDatas( double densitySeaLvlOff_,
 
 
 /* ===========================================================
- *        init_goSpecIdPools_and_applyPercents
+ *        init_goSpecDataPools_and_applyPercents
  * -----------------------------------------------------------
  */
-void EcoSysPlan::init_goSpecIdPools_and_applyPercents(){
-    tprAssert( (this->is_goSpecIdPools_init==false) && 
+void EcoSysPlan::init_goSpecDataPools_and_applyPercents(){
+    tprAssert( (this->is_goSpecDataPools_init==false) && 
             (this->is_applyPercents_init==false) );
-    this->goSpecIdPools.resize( Density::get_idxNum(), std::vector<goSpecId_t> {} );
+    this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData> {} );
     this->applyPercents.resize( Density::get_idxNum(), 0.0 );
-    this->is_goSpecIdPools_init = true;
+    this->is_goSpecDataPools_init = true;
     this->is_applyPercents_init = true;
 }
 
@@ -176,25 +97,25 @@ void EcoSysPlan::insert( int densityLvl_,
 
     goSpecId_t  id_l {};
     for( const auto &entUPtr : ecoEnts_ ){
-        tprAssert( this->is_goSpecIdPools_init ); //- MUST
-        auto &poolRef = this->goSpecIdPools.at(densityIdx);
+        tprAssert( this->is_goSpecDataPools_init ); //- MUST
+        auto &poolRef = this->goSpecDataPools.at(densityIdx);
         id_l = ssrc::get_goSpecId(entUPtr->specName);
-        poolRef.insert( poolRef.begin(), entUPtr->idNum, id_l );
+        poolRef.insert( poolRef.begin(), entUPtr->idNum, GoSpecData{ id_l, entUPtr->labels } );
     }
 }
 
 
 /* ===========================================================
- *               shuffle_goSpecIdPools
+ *               shuffle_goSpecDataPools
  * -----------------------------------------------------------
  * -- 需要调用者 提供 seed
  *    通过这种方式，来实现真正的 伪随机
  */
-void EcoSysPlan::shuffle_goSpecIdPools( u32_t seed_ ){
+void EcoSysPlan::shuffle_goSpecDataPools( u32_t seed_ ){
 
     std::default_random_engine  rEngine; 
     rEngine.seed( seed_ );
-    for( auto &poolRef : this->goSpecIdPools ){
+    for( auto &poolRef : this->goSpecDataPools ){
         std::shuffle( poolRef.begin(), poolRef.end(), rEngine );
     }
 }

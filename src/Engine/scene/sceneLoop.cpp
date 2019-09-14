@@ -16,7 +16,7 @@
  *                   switch_sceneLoop
  * -----------------------------------------------------------
  */
-void switch_sceneLoop( const SceneLoopType &type_ ){
+void switch_sceneLoop( SceneLoopType type_ ){
 
     switch (type_){
     case SceneLoopType::Begin:

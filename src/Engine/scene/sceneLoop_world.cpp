@@ -153,16 +153,20 @@ void sceneRenderLoop_world(){
     rect_shaderRef.use_program();
     rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
-    //--- playerGoIndication_shader ---
-    ShaderProgram &playerGoIndication_shaderRef = esrc::get_playerGoIndication_shader();
-    playerGoIndication_shaderRef.use_program();
-    playerGoIndication_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    playerGoIndication_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
     //--- playerGoCircle_shader ---
     ShaderProgram &playerGoCircle_shaderRef = esrc::get_playerGoCircle_shader();
     playerGoCircle_shaderRef.use_program();
     playerGoCircle_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
     playerGoCircle_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+
+    //--- mapSurface_shader ---
+    ShaderProgram &mapSurface_shaderRef = esrc::get_mapSurface_shader();
+    mapSurface_shaderRef.use_program();
+    mapSurface_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
+    mapSurface_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+
+
+
 
     //====================================//
     //          -- RENDER --
@@ -177,8 +181,6 @@ void sceneRenderLoop_world(){
     //     mapEntSlices
     //------------------------//
     //...
-
-        //cout << "_._" << endl;
 
     //------------------------//
     //     - shadowMeshs
@@ -207,9 +209,6 @@ void sceneRenderLoop_world(){
 
     esrc::draw_waterAnimCanvas();//- 这样，mapsurface gos 就在 water 层下方呈现了... 
                                 //  可能不是最好的办法
-
-    // playerGoIndication ...
-    //esrc::get_player().get_goRef().render_all_goMesh_for_playerGoIndication();
 
 }
 

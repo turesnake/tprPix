@@ -198,9 +198,8 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
     const auto &fieldRef = *(field_inn::fields.at( fieldKey_ ).get());
 
     sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
-    goSpecId_t     goSpecId {};
 
-    double randV = fieldRef.get_weight() * 0.35 + 313.17; //- 确保大于0
+    double randV = fieldRef.get_uWeight() * 0.35 + 313.17; //- 确保大于0
     double fract = randV - floor(randV); //- 小数部分
     tprAssert( (fract>=0.0) && (fract<=1.0) );
 
@@ -217,10 +216,10 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
             auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
             mapSurfaceBp->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             mapSurfaceBp->lvl = mapSurfaceLvl;
-            mapSurfaceBp->randVal = fieldRef.get_weight();
+            mapSurfaceBp->randVal = fieldRef.get_uWeight();
 
             //--- goSpecId ---//
-            goSpecId = ssrc::get_goSpecId( "mapSurfaceLower" );
+            goSpecId_t goSpecId = ssrc::get_goSpecId( "mapSurfaceLower" );
             gameObjs::create_a_Go(  goSpecId,
                                     mpos_2_dpos( fieldRef.get_mpos() ), // 这会显得工整，但减少了重叠，未来可修改
                                     dyParam );
@@ -230,20 +229,22 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
 
     //----- land go -----//
     if( fieldRef.is_land() ){
-        goSpecId = esrc::atom_ecoObj_apply_a_rand_goSpecId( ecoObjKey,
+        const auto &goSpecData = esrc::atom_ecoObj_apply_a_rand_goSpecData( ecoObjKey,
                                                             fieldRef.get_density().get_idx(),
-                                                            fieldRef.get_weight() );
+                                                            fieldRef.get_uWeight() );
+        const auto &animLabels = goSpecData.get_animLabels();
 
         if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
 
             //--- dyParam ---//
             ParamBinary dyParam {};
             auto *fieldBp = reinterpret_cast<DyParams_Field*>( dyParam.init_binary(ParamBinaryType::Field) );
-            fieldBp->fieldWeight = fieldRef.get_weight();
+            fieldBp->fieldWeight = fieldRef.get_uWeight();
             fieldBp->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
             fieldBp->fieldDensity = fieldRef.get_density();
+            fieldBp->animLabels.insert( fieldBp->animLabels.end(), animLabels.cbegin(), animLabels.cend() );//- maybe empty
 
-            gameObjs::create_a_Go(  goSpecId,
+            gameObjs::create_a_Go(  goSpecData.get_goSpecId(),
                                     fieldRef.get_nodeDPos(),
                                     dyParam );
         }

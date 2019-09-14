@@ -24,7 +24,7 @@ enum class MapSurfaceLowSpec{
 
 
 
-inline std::string MapSurfaceLowSpec_2_str( const MapSurfaceLowSpec &spec_ )noexcept{
+inline std::string MapSurfaceLowSpec_2_str( MapSurfaceLowSpec spec_ )noexcept{
     switch (spec_){
         case MapSurfaceLowSpec::Test:       return "mapSurfaceLow_test";
         case MapSurfaceLowSpec::WhiteRock:  return "mapSurfaceLow_whiteRock";

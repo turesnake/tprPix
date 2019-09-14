@@ -51,10 +51,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
     const double freqMid    { 1.6 };
     const double freqSml    { 4.0 };
 
-    // 暂未被使用...
-    //const double zOffBig  { 0.2 };
-    //const double zOffMid  { 7.5 };
-    //const double zOffSml  { 17.8 };
 
     const glm::dvec2  worldCenter { 0.0, 0.0 };
 
@@ -65,7 +61,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         explicit FieldData( const MapFieldData_In_ChunkCreate &data_,
                             QuadType       quadType_ ){
             this->fieldKey = data_.fieldKey;
-            this->landColorsPtr = esrc::atom_get_ecoObj_landColorsPtr( data_.ecoObjKey );
             this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
                                                     &get_fieldBorderSet( data_.fieldBorderSetId, quadType_) );
             this->densityIdx = data_.densityIdx;
@@ -78,7 +73,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
         //====== vals ======//
         fieldKey_t               fieldKey {};
-        const std::vector<RGBA> *landColorsPtr {};
         FieldBorderSet::quadContainer_t  *quadContainerPtr {}; //-- fieldBorderSet 子扇区容器 --
     private:
         //====== vals ======//

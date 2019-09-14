@@ -47,10 +47,7 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
 
 
     //================ dyParams =================//
-    tprAssert( dyParams_.get_type() == ParamBinaryType::MapSurface );
-    const auto *msParamPtr = reinterpret_cast<const DyParams_MapSurface*>( dyParams_.get_binaryPtr() );
-
-
+    const auto *msParamPtr = cast_2_dyParamBinaryPtr<DyParams_MapSurface>( dyParams_ );
 
 
     //================ go.pvtBinary =================//
@@ -67,7 +64,7 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                                 pvtBp->subspeciesId,
                                 "idle",
                                 RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                                &esrc::get_rect_shader(),  // pic shader
+                                &esrc::get_mapSurface_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible

@@ -18,6 +18,7 @@
 #include "ID_Manager.h" 
 #include "mapSurfaceRandEntId_t.h"
 #include "MapSurfaceRandLvl.h"
+#include "tprCast.h"
 
 
 
@@ -42,7 +43,8 @@ public:
     void load_mapSurfaceRandSets();
 
     inline mapSurfaceRandEntId_t apply_a_mapSurfaceRandEntId( double randVal_ )const noexcept{
-        size_t idx = static_cast<size_t>(floor(randVal_)) % this->ids.size();
+        tprAssert( randVal_ >= 0.0 );
+        size_t idx = cast_2_size_t(floor(randVal_)) % this->ids.size();
         return this->ids.at(idx);
     }
 

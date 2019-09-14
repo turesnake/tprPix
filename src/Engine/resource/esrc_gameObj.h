@@ -29,7 +29,7 @@ void insert_2_goids_active( goid_t id_ );
 void insert_2_goids_inactive( goid_t id_ );
 
 
-std::weak_ptr<GameObj> get_goWPtr( goid_t id_ );
+//std::weak_ptr<GameObj> get_goWPtr( goid_t id_ );
 GameObj &get_goRef( goid_t id_ );
 GameObj *get_goRawPtr( goid_t id_ );
 

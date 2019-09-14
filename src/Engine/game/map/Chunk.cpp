@@ -80,7 +80,7 @@ void Chunk::init(){
     double freq = 1.0 / 7.0; //- tmp
     this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
 
-    this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( this->originPerlin * 333.0 );
+    this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( (this->originPerlin + 13.7) * 333.1 );
 
     
     //------------------------------//

@@ -22,16 +22,5 @@ void main()
         discard;
     }
 
-    vec3 addColor = vec3( 0.87, 0.42, 0.42 );
-
-    texColor.rgb = texColor.rgb * addColor;
-    
-
-    //FragColor = vec4( 0.2, 0.6, 0.9, 1.0 );
-    //FragColor = vec4( texColor.rgb, 0.2 ); //- 半透明
-    //FragColor = vec4( texColor.rgb * 0.5, 1.0);
-    FragColor = vec4( 0.87, 0.42, 0.42, 0.6); //- 实心颜色
-    //FragColor = vec4(  texColor.rgb, 0.9 );
-
-
+    FragColor = vec4( texColor.rgb, 0.4 );
 }

@@ -22,6 +22,8 @@
 #include "GameObjType.h"
 #include "ID_Manager.h" 
 #include "EcoSysPlanType.h"
+#include "AnimLabel.h"
+#include "GoSpecData.h"
 
 class Density;
 
@@ -29,13 +31,20 @@ class Density;
 //-- 在 insert() 函数中做参数 --
 class EcoEnt{
 public:
-    EcoEnt( const std::string &specName_, size_t idNum_ ):
+    EcoEnt( const std::string &specName_, 
+            std::vector<AnimLabel> &labels_,
+            size_t idNum_ ):
         specName(specName_),
         idNum(idNum_)
-        {}
+        {
+            this->labels.swap(labels_);
+        }
     std::string  specName {};
     size_t       idNum    {};
+    std::vector<AnimLabel> labels {};
 };
+
+
 
 
 //-- 一种 生态群落 --
@@ -48,56 +57,35 @@ public:
     inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
     inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
 
-    //--- 几种 landColor 上色方案 --
-    void init_landColor_onlyHighLand( const RGBA &baseColor_ );
-    void init_landColor_doubleDeep( const RGBA   &baseColor_ );
-    void init_landColor_twoPattern( int density_high_lvl_,
-                                    const RGBA &color_high_,
-                                    const RGBA &color_low_,
-                                    bool  is_goDeep_high_,
-                                    bool  is_goDeep_low_ );
-
-    void init_goSpecIdPools_and_applyPercents();
+    void init_goSpecDataPools_and_applyPercents();
 
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
     void insert(int densityLvl_, 
                 double applyPercent_,
                 const std::vector<std::unique_ptr<EcoEnt>> &ecoEnts_ );
-    void shuffle_goSpecIdPools( u32_t seed_ );
+    void shuffle_goSpecDataPools( u32_t seed_ );
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end()noexcept{
-        tprAssert( (this->is_goSpecIdPools_init) && 
+        tprAssert( (this->is_goSpecDataPools_init) && 
                 (this->is_applyPercents_init) &&
                 (this->is_densityDivideVals_init) );
     }
     
-    inline const ecoSysPlanId_t &get_id() const noexcept{
-        return this->id;
-    }
-    inline const EcoSysPlanType &get_type() const noexcept{
-        return this->type;
-    }
-    inline const double &get_densitySeaLvlOff() const noexcept{
-        return this->densitySeaLvlOff;
-    }
+    inline const ecoSysPlanId_t &get_id() const noexcept{ return this->id; }
+    inline const EcoSysPlanType &get_type() const noexcept{ return this->type; }
+    inline const double &get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
-    inline const std::vector<RGBA> *get_landColorsPtr() const noexcept{
-        return &(this->landColors);
-    }
-    inline const std::vector<double> *get_applyPercentsPtr() const noexcept{
-        return &(this->applyPercents);
-    }
-    inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{
-        return &(this->densityDivideVals);
-    }
+    inline const std::vector<double> *get_applyPercentsPtr() const noexcept{ return &(this->applyPercents); }
+    inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return &(this->densityDivideVals); }
 
     //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
-    // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ )noexcept{
+    // param: randV_ -- [0.0, 100.0]
+    inline const GoSpecData &apply_a_rand_goSpecData( size_t densityIdx_, double randV_ )const noexcept{
+            tprAssert( randV_ >= 0.0 );
         size_t randV = cast_2_size_t(floor( randV_ * 1.9 + 701.7 ));
-        auto &pool = this->goSpecIdPools.at( densityIdx_ );
+        auto &pool = this->goSpecDataPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
 
@@ -113,13 +101,12 @@ private:
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
-    std::vector<RGBA>  landColors {};
     std::vector<double> applyPercents {}; //- each entry: [0.0, 1.0]
     std::vector<double> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
-    std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
+    std::vector<std::vector<GoSpecData>> goSpecDataPools {};
     
     //===== flags =====//
-    bool   is_goSpecIdPools_init     {false};
+    bool   is_goSpecDataPools_init     {false};
     bool   is_applyPercents_init     {false};
     bool   is_densityDivideVals_init {false};
 

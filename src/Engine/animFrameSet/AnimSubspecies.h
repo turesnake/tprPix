@@ -25,6 +25,7 @@
 #include "AnimAction.h"
 #include "animSubspeciesId.h"
 #include "AnimLabel.h"
+#include "tprCast.h"
 
 
 //-- 亚种 --
@@ -36,12 +37,12 @@ public:
             this->animActions.reserve(4);
         }
 
-    inline AnimAction &insert_new_animAction( const std::string &actionName_ ){
+    inline AnimAction &insert_new_animAction( const std::string &actionName_ )noexcept{
             tprAssert( this->animActions.find(actionName_) == this->animActions.end() );
         this->animActions.insert({ actionName_, std::make_unique<AnimAction>() });
         return *(this->animActions.at(actionName_).get());
     }
-    inline AnimAction *get_animActionPtr( const std::string &actionName_ ){
+    inline AnimAction *get_animActionPtr( const std::string &actionName_ )noexcept{
             tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
         return this->animActions.at(actionName_).get();
     }
@@ -80,7 +81,7 @@ public:
         if( this->subspeciesIds.size() == 1 ){
             return this->subspeciesIds.begin()->second; //- only one
         }
-        size_t i = static_cast<size_t>(floor(randVal_ * 3.1 + 17.7)) % this->subIdxs.size();
+        size_t i = cast_2_size_t(floor(randVal_ * 3.1 + 17.7)) % this->subIdxs.size();
         return this->subspeciesIds.at( this->subIdxs.at(i) );
     }
 
@@ -109,7 +110,7 @@ public:
         }
 
     inline animSubspeciesId_t find_or_insert_a_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
-                                                                size_t            subIdx_ ){
+                                                                size_t            subIdx_ )noexcept{
         size_t labelSz = labels_.size();
         tprAssert( labelSz <= 2 );
         if( labelSz == 0 ){         return this->find_or_insert_inn( AnimLabel::Default, AnimLabel::Default, subIdx_ );
@@ -119,13 +120,14 @@ public:
     }
 
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(  const std::vector<AnimLabel> &labels_, 
-                                                                double             randVal_ ){
+                                                                double             randVal_ )noexcept{
+            tprAssert( randVal_ >= 0.0 );
         animLabelKey_t key {};
         size_t labelSz = labels_.size();
         tprAssert( labelSz <= 2 );
         if( labelSz == 0 ){        
             //-- 2个 label 都为随机值 --
-            size_t fstI = static_cast<size_t>(floor(randVal_ * 7.7 + 11.1)) % this->labels.size();
+            size_t fstI = cast_2_size_t(floor(randVal_ * 7.7 + 11.1)) % this->labels.size();
             AnimLabel &labelRef = this->labels.at( fstI );
             key = this->apply_random_secKey(this->labelKeys.at(labelRef), randVal_);
 
@@ -158,11 +160,11 @@ public:
 
 private:
 
-    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, double randVal_ ){
+    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, double randVal_ )noexcept{
         if( v_.size() == 1 ){
             return v_.at(0);
         }
-        size_t i = static_cast<size_t>(floor(randVal_ * 5.7 + 13.3)) % v_.size();
+        size_t i = cast_2_size_t(floor(randVal_ * 5.7 + 13.3)) % v_.size();
         return v_.at(i);
     }
 
@@ -197,25 +199,6 @@ private:
     std::unordered_map<AnimLabel, std::vector<animLabelKey_t>> labelKeys {};
     std::unordered_map<animLabelKey_t, AnimSubspeciesSquad> subSquads {};
 };
-
-
-
-//-- 已废弃 --
-
-class AnimSubspeciesWrap{
-public:
-    AnimSubspeciesWrap()=default;
-
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId( double randVal_ ){
-        size_t i = static_cast<size_t>(floor(randVal_ * 3.1 + 17.7)) % this->subIdxs.size();
-        return this->subIds.at( this->subIdxs.at(i) );
-    }
-
-    std::vector<size_t> subIdxs {};
-    std::unordered_map<size_t,animSubspeciesId_t> subIds {}; 
-
-};
-
 
 
 

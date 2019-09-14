@@ -42,7 +42,7 @@ enum class EcoSysPlanType : u32_t{
     EndIdx //- 通过此值来计算 最后一个 typeIdx 是多少。
 };
 
-inline size_t ecoSysPlanType_2_size_t( const EcoSysPlanType &type_ )noexcept{
+inline size_t ecoSysPlanType_2_size_t( EcoSysPlanType type_ )noexcept{
     return static_cast<size_t>(type_);
 }
 
@@ -73,10 +73,6 @@ inline EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept{
         return EcoSysPlanType::Forest; //- never reach
     }
 }
-
-
-
-
 
 
 

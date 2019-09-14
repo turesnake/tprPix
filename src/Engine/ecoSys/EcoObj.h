@@ -22,6 +22,7 @@
 #include "IntVec.h"
 #include "GameObjType.h"
 #include "Density.h"
+#include "GoSpecData.h"
 
 class EcoSysPlan;
 
@@ -44,9 +45,10 @@ public:
     // field 会调用此函数
     // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
     // param: randV_ -- [-100.0, 100.0]
-    inline goSpecId_t apply_a_rand_goSpecId( size_t densityIdx_, double randV_ ) const noexcept{
+    inline const GoSpecData &apply_a_rand_goSpecData( size_t densityIdx_, double randV_ ) const noexcept{
+            tprAssert( randV_ >= 0.0 );
         size_t randV = cast_2_size_t(floor( randV_ * 5.1 + 971.3 ));
-        auto &pool = this->goSpecIdPools.at( densityIdx_ );
+        auto &pool = this->goSpecDataPools.at( densityIdx_ );
         return pool.at( randV % pool.size() );
     }
 
@@ -55,7 +57,6 @@ public:
     inline const EcoSysPlanType &get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
     inline const double &get_applyPercent( const Density &density_ ) const noexcept{ return this->applyPercentsPtr->at(density_.get_idx()); }
     inline const double &get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
-    inline const std::vector<RGBA> *get_landColorsPtr() const noexcept{ return this->landColorsPtr; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
     inline const sectionKey_t &get_sectionKey() const noexcept{ return this->sectionKey; }
     inline const double &get_weight() const noexcept{ return this->weight; }
@@ -93,12 +94,11 @@ private:
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
     //  实际数据 存储在 ecosysPlan 实例中，此处仅保存 只读指针 --
-    const std::vector<RGBA>   *landColorsPtr {};
     const std::vector<double>  *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
     const std::vector<double>  *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
                         
     //-- 独立数据 --
-    std::vector<std::vector<goSpecId_t>> goSpecIdPools {};
+    std::vector<std::vector<GoSpecData>> goSpecDataPools {};
 
     double           densitySeaLvlOff  {0.0}; 
 };
