@@ -94,6 +94,9 @@ void parse_from_animFrameSetJsonFile(){
 
     cout << "   ----- parse_from_animFrameSetJsonFile: start ----- " << endl;
 
+
+    FramePos::prepare_colliPointOffs();
+
     //-----------------------------//
     //         load file
     //-----------------------------//

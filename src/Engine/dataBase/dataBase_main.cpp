@@ -106,8 +106,7 @@ void atom_writeBack_to_table_gameArchive(){
 
     goid_t goid = playerRef.goid;
     GameObj &playerGoRef = playerRef.get_goRef();
-    const glm::dvec2 &dposRef = playerGoRef.get_currentDPos();
-
+    const glm::dvec2 &dposRef = playerGoRef.get_dpos();
     //-- 将新数据 写回 db --
     esrc::get_gameArchive().playerGoId = goid;
     esrc::get_gameArchive().playerGoDPos = dposRef;

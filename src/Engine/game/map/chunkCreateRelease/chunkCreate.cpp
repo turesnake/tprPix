@@ -130,7 +130,7 @@ void build_9_chunks( const IntVec2 &playerMPos_ ){
  */
 void collect_chunks_need_to_be_build_in_update(){
 
-    const glm::dvec2 &playerDPos = esrc::get_player().get_goRef().get_currentDPos();
+    const glm::dvec2 &playerDPos = esrc::get_player().get_goRef().get_dpos();
 
     cb_inn::currentChunkKey = anyDPos_2_chunkKey( playerDPos );
     if( cb_inn::is_first_check ){

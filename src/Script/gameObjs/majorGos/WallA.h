@@ -27,11 +27,6 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-struct WallA_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
-    int   tmp {};
-};
-
 
 class WallA{
 public:
@@ -41,13 +36,7 @@ public:
     static void init_in_autoMod(GameObj &goRef_,
                             const ParamBinary &dyParams_ );
 
-private:
-
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  WallA_PvtBinary *rebind_ptr( GameObj &goRef_ )noexcept{
-        return reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
-                            
+private:                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );
 

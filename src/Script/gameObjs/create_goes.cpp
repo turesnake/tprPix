@@ -47,8 +47,9 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 
     ssrc::call_goInit_func( goSpecId_, goRef, dyParams_ );
 
+    goRef.init_check();
     //------------------------------//
-    goRef.signUp_newGO_to_mapEnt();
+    esrc::signUp_newGO_to_mapEnt( goRef );
     esrc::insert_2_goids_inactive( goid );
             //- 放入 未激活队列会造成 5帧的 显示空缺
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
@@ -82,9 +83,10 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 
     ssrc::call_goInit_func( diskGo_.goSpecId, goRef, dyParams_ );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
-            
+
+    goRef.init_check();
     //------------------------------//
-    goRef.signUp_newGO_to_mapEnt();
+    esrc::signUp_newGO_to_mapEnt( goRef );
     esrc::insert_2_goids_inactive( diskGo_.goid );
             //- 放入 未激活队列会造成 5帧的 显示空缺
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
@@ -121,6 +123,8 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     tprAssert( goRef.family == GameObjFamily::UI );
 
     ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
+
+    goRef.init_check();
     //------------------------------//
     //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
     //  ui 也不存在什么 active 状态
@@ -145,6 +149,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
 
     ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
     
+    goRef.init_check();
     //------------------------------//
     //  uiGo 不用登记到 map 中，目前来看，是被一个 生命周期稳定的 scene 手动管理
     //  ui 也不存在什么 active 状态

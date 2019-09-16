@@ -54,7 +54,7 @@ void ChildMesh::refresh_scale_auto(){
 void ChildMesh::refresh_translate(){
 
     const auto &goRef = this->goMeshRef.get_goCRef();
-    const glm::vec2 &currentFPos = glm_dvec2_2_vec2( goRef.get_currentDPos() );       
+    const glm::vec2 &currentFPos = glm_dvec2_2_vec2( goRef.get_dpos() );       
     
     //- 图元帧 左下角 到 rootAnchor 的 偏移
     glm::vec2 vf = glm_dvec2_2_vec2( this->goMeshRef.get_currentRootAnchorDPosOff() );

@@ -27,14 +27,7 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-struct MapSurfaceLower_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
-    //size_t   lichen_ForestId {0};
-            //- 简单的从 几种款式中，随机挑选一款 [0,7]
-    int tmp {};
-    //===== padding =====//
-    //...
-};
+
 
 
 class MapSurfaceLower{
@@ -45,13 +38,7 @@ public:
     static void init_in_autoMod(GameObj &goRef_,
                             const ParamBinary &dyParams_ );
 
-private:
-
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  MapSurfaceLower_PvtBinary *rebind_ptr( GameObj &goRef_ )noexcept{
-        return reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
-                            
+private:                            
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
     static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );

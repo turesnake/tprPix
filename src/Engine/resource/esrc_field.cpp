@@ -213,7 +213,8 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
 
             //--- dyParam ---//
             ParamBinary dyParam {};
-            auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
+            //auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
+            auto *mapSurfaceBp = dyParam.init_binary<DyParams_MapSurface>( ParamBinaryType::MapSurface );
             mapSurfaceBp->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             mapSurfaceBp->lvl = mapSurfaceLvl;
             mapSurfaceBp->randVal = fieldRef.get_uWeight();
@@ -238,7 +239,9 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
 
             //--- dyParam ---//
             ParamBinary dyParam {};
-            auto *fieldBp = reinterpret_cast<DyParams_Field*>( dyParam.init_binary(ParamBinaryType::Field) );
+            //auto *fieldBp = reinterpret_cast<DyParams_Field*>( dyParam.init_binary(ParamBinaryType::Field) );
+            auto *fieldBp = dyParam.init_binary<DyParams_Field>( ParamBinaryType::Field );
+
             fieldBp->fieldWeight = fieldRef.get_uWeight();
             fieldBp->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
             fieldBp->fieldDensity = fieldRef.get_density();

@@ -74,7 +74,7 @@ void Collision::collect_adjacentBeGos(){
     for( const auto &begoid : this->begoids ){//- each bego
         GameObj &begoRef = esrc::get_goRef( begoid );
 
-        glm::dvec2 dogo_2_bego = begoRef.get_currentDPos() - dogoRef.get_currentDPos();
+        glm::dvec2 dogo_2_bego = begoRef.get_dpos() - dogoRef.get_dpos();
 
         //-- goAltiRange --//
         //  过滤掉，在 altiRange 不会碰撞的 bego --
@@ -211,7 +211,7 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
         return moveVec;
     }
 
-    isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( this->goRef.get_currentDPos() + moveVec );
+    isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( this->goRef.get_dpos() + moveVec );
     //-- 不管 forecast 的结果是否为 true，都要做 碰撞检测 --
     auto out = this->for_move_inn( moveVec ); // MAJOR !!!! 
 
@@ -221,7 +221,7 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
     }
 
     //  还需要再次调用 forecast 函数
-    isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( this->goRef.get_currentDPos() + moveVec );
+    isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( this->goRef.get_dpos() + moveVec );
 
 
     if( isObstruct == false ){
@@ -268,7 +268,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     //---------------------------------------//
     GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
     const auto  &dogoRootFramePosRef = dogoRef.get_rootFramePosRef();
-    glm::dvec2   dogeTargetDPos = dogoRef.get_currentDPos() + moveVec_;
+    glm::dvec2   dogeTargetDPos = dogoRef.get_dpos() + moveVec_;
 
     
         //-- dogo Must be Circular !!! --
@@ -304,7 +304,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
 
     //----------------------------------------//
     //   check each bego，and collect tbegoids
-    Circular dogoCir = dogoRootFramePosRef.calc_circular( dogoRef.get_currentDPos(), CollideFamily::Move );
+    Circular dogoCir = dogoRootFramePosRef.calc_circular( dogoRef.get_dpos(), CollideFamily::Move );
     Circular futureDogoCir = dogoCir.calc_new_circular( moveVec_ ); //- 位于 位移向量的终点
 
     Circular begoCir {};
@@ -459,7 +459,7 @@ void Collision::handle_chunkKeys(){
         //       登记到 主chunk 的 edgegoids 容器中
         //---------------------------//
         goid_t   goid = this->goRef.id;
-        chunkKey_t newChunkKey = anyDPos_2_chunkKey( this->goRef.get_currentDPos() );
+        chunkKey_t newChunkKey = anyDPos_2_chunkKey( this->goRef.get_dpos() );
         Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
         size_t eraseNum {};
 

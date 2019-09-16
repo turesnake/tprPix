@@ -20,6 +20,8 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
+#include "esrc_chunk.h"
+
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -42,12 +44,6 @@ namespace go_inn {//-------- namespace: go_inn --------------//
 
     double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）
     //double activeRange { 4 * 4 * 2048.0 * 2048.0 }; //- 激活圈 半径的平方(未开根号) （4 chunk 尺寸）
-
-
-
-
-
-    
 
 }//------------- namespace: go_inn end --------------//
 
@@ -195,7 +191,7 @@ void realloc_active_goes(){
     for( auto id : go_inn::goids_active ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_dpos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -230,7 +226,7 @@ void realloc_inactive_goes(){
     for( auto id : go_inn::goids_inactive ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_currentDPos();
+        v = get_camera().get_camera2DDPos() - goRef.get_dpos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将进入 激活圈的 go 移动到 激活组 --
@@ -244,6 +240,66 @@ void realloc_inactive_goes(){
         go_inn::goids_active.insert( i );
         go_inn::goids_inactive.erase( i );
     }
+}
+
+
+/* ===========================================================
+ *                 signUp_newGO_to_mapEnt
+ * -----------------------------------------------------------
+ * -- 将 新建go 的 colliEnts 登记到所有对应的 mapent 上去。
+ * 难点：
+ *    有些身处 chunk边缘的 “临界go” 的 collient，可以位于 隔壁chunk
+ *    而这个 隔壁 chunk，可能尚未创建。（此处会引发各种麻烦）
+ *    目前解决方案：
+ *      --- 新建go 跳过这个 collient 的登记工作
+ *      --- 统计自己的 chunkeys,
+ *      --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
+ *      --- 将 本goid，记录到 主chunk goids 容器中
+ */
+void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
+
+    //------------------------------//
+    // --- 记录 go.currentChunkKey
+    // --- 统计自己的 chunkeys
+    // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
+    // --- 将 本goid，记录到 主chunk goids 容器中
+    //------------------------------//
+    Chunk &currentChunkRef = esrc::get_chunkRef( goRef_.currentChunkKey );
+    currentChunkRef.insert_2_goIds( goRef_.id ); //- always
+
+    if( !goRef_.isMoveCollide ){ return; }
+
+    //------------------------------//
+    size_t chunkKeySize = goRef_.reCollect_chunkKeys();
+    if( chunkKeySize > 1 ){
+        currentChunkRef.insert_2_edgeGoIds( goRef_.id );
+    }
+    //------------------------------//
+    //  signUp each collient to mapEnt
+    //------------------------------//
+    chunkKey_t  tmpChunkKey  {}; //- each collient current chunkKey
+        tprAssert( !goRef_.get_currentSignINMapEntsRef().empty() ); //- tmp
+    for( const auto &mpos : goRef_.get_currentSignINMapEntsRef() ){
+
+        tmpChunkKey = anyMPos_2_chunkKey( mpos );
+
+        //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
+        // 此时显然不能去调用 esrc::get_memMapEntRef_in_activeChunk(), 会出错。
+        // 将会暂时 忽略掉这个 collient 的登记工作，
+        // 这个工作，会等到 目标chunk 创建阶段，再补上: 
+        // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
+        auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
+        if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
+            continue;
+        }
+
+        //---- 正式注册 collient 到 mapents 上 -----
+        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+
+        //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
+        mapEntRef.insert_2_majorGos( goRef_.id );
+    }
+
 }
 
 

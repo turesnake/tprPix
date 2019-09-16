@@ -52,6 +52,16 @@ public:
         this->signInMapEntsUPtr->init_datas( newRootAnchorDPos_, func_1_ );
     }
 
+    inline void rebind_signInMapEnts( const glm::dvec2 &newRootAnchorDPos_,
+                                    F_get_colliPointDPosOffsRef func_1_ )noexcept{
+        //this->signInMapEntsUPtr = std::make_unique<SignInMapEnts>();
+        tprAssert( this->signInMapEntsUPtr );
+        this->signInMapEntsUPtr->rebind_datas( newRootAnchorDPos_, func_1_ );
+    }
+
+
+
+
     inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
     inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
     inline bool get_isDoPass() const noexcept{ return this->isDoPass; }

@@ -23,8 +23,17 @@ enum class ActionSwitchType : u32_t{
     Move_Idle, //- 移动中途 停留 时的动画（树木的待机也算）
     Move_Move, //- 移动时的动画
 
-    BeCollide_From_Left,  //- 受到来自左侧的碰撞后，播放的动画
-    BeCollide_From_Right,  //- 受到来自右侧的碰撞后，播放的动画
+    Move_L,
+    Move_LT,
+    Mobe_T,
+    Move_RT,
+    Move_R,
+    Move_RB,
+    Move_B,
+    Move_LB,
+
+    //BeCollide_From_Left,  //- 受到来自左侧的碰撞后，播放的动画
+    //BeCollide_From_Right,  //- 受到来自右侧的碰撞后，播放的动画
     //...
 
 

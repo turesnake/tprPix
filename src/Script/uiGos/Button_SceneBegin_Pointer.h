@@ -27,11 +27,6 @@
 namespace uiGos{//------------- namespace uiGos ----------------
 
 
-struct Button_SceneBegin_Pointer_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
-    int   tmp {};
-};
-
 class Button_SceneBegin_Pointer{
 public:
     Button_SceneBegin_Pointer() = default;
@@ -41,10 +36,6 @@ public:
                                  const ParamBinary &dyParams_ );
 
 private:
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  Button_SceneBegin_Pointer_PvtBinary *rebind_ptr( GameObj &goRef_ ){
-        return reinterpret_cast<Button_SceneBegin_Pointer_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
     static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );

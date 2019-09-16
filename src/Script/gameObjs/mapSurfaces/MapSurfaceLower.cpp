@@ -38,6 +38,15 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
+struct MapSurfaceLower_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    //size_t   lichen_ForestId {0};
+            //- 简单的从 几种款式中，随机挑选一款 [0,7]
+    int tmp {};
+    //===== padding =====//
+    //...
+};
+
 /* ===========================================================
  *                  init_in_autoMod
  * -----------------------------------------------------------
@@ -47,12 +56,10 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
 
 
     //================ dyParams =================//
-    const auto *msParamPtr = cast_2_dyParamBinaryPtr<DyParams_MapSurface>( dyParams_ );
-
+    auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_MapSurface>();
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(MapSurfaceLower_PvtBinary) );
-    auto *pvtBp = reinterpret_cast<MapSurfaceLower_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<MapSurfaceLower_PvtBinary>();
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId(MapSurfaceLowSpec_2_str( msParamPtr->spec ),
                                                                 std::vector<AnimLabel>{ MapSurfaceRandLvl_2_AnimLabel( msParamPtr->lvl ) },
@@ -83,8 +90,6 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
         
     //...    
 
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 
@@ -96,7 +101,7 @@ void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = MapSurfaceLower::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<MapSurfaceLower_PvtBinary>();
 
     //=====================================//
     //              AI
@@ -124,10 +129,12 @@ void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
  */
 void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+        cout << "MapSurfaceLower::OnActionSwitch" << endl;
+
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = MapSurfaceLower::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<MapSurfaceLower_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -145,6 +152,7 @@ void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             //-- 并不报错，什么也不做...
 
     }
+    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
 }
 
 

@@ -11,13 +11,36 @@
 #define TPR_DIRECTION_H
 
 
-//-- 暂时只适用于 go 
-//
-//   未来将被拓展为 8个方向
-//
-enum class GODirection : int{
-    Left  = 1,
-    Right = 2
+//-------------------- Engine --------------------//
+#include "NineBox.h"
+#include "DirAxes.h"
+
+
+
+class GODirection{
+public:
+
+
+
+    inline void calc_newDir( const DirAxes &dieAxes_ ){
+        this->newDir = dirAxes_2_nineBoxIdx(dieAxes_);
+
+
+        
+    }
+
+
+
+
+
+private:
+    
+    NineBoxIdx   oldDir {NineBoxIdx::Mid_Mid};
+    NineBoxIdx   newDir {NineBoxIdx::Mid_Mid};
+
+
+
+
 };
 
 

@@ -35,7 +35,7 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void collect_chunks_need_to_be_release_in_update(){
 
-    const glm::dvec2 &playerDPosRef = esrc::get_player().get_goRef().get_currentDPos();
+    const glm::dvec2 &playerDPosRef = esrc::get_player().get_goRef().get_dpos();
     esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( dpos_2_mpos(playerDPosRef) );
 }
 

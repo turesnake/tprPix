@@ -37,10 +37,10 @@ public:
 
     //------- set -------//
     inline void set_alti( double alti_ )noexcept{ this->alti = alti_; }
-    inline void accum_currentDPos( const glm::dvec2 &addDPos_ )noexcept{ this->currentDPos += addDPos_; }
+    inline void accum_dpos( const glm::dvec2 &addDPos_ )noexcept{ this->currentDPos += addDPos_; }
 
     //------- get -------//
-    inline const glm::dvec2 &get_currentDPos() const noexcept{ return this->currentDPos; }
+    inline const glm::dvec2 &get_dpos() const noexcept{ return this->currentDPos; }
     inline const double &get_alti() const noexcept{ return this->alti; }
 
 private:

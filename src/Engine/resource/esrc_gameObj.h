@@ -48,6 +48,10 @@ void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ );
 void realloc_active_goes();
 void realloc_inactive_goes();
 
+
+
+void signUp_newGO_to_mapEnt( GameObj &goRef_ );
+
 }//---------------------- namespace: esrc -------------------------//
 #endif
 

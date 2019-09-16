@@ -15,7 +15,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "input.h" 
-#include "GODirection.h"
+//#include "GODirection.h"
 #include "GameKey.h"
 #include "esrc_camera.h" 
 #include "esrc_gameObj.h" 
@@ -60,7 +60,7 @@ void Player::bind_go( goid_t goid_ ){
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
-                                                            newGoRef.get_currentDPos(),
+                                                            newGoRef.get_dpos(),
                                                             emptyParamBinary );
         
         //-- playerGoCircle 的数据同步 --

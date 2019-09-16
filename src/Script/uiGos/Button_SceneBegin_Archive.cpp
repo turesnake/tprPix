@@ -30,6 +30,14 @@ using namespace std::placeholders;
 
 namespace uiGos {//------------- namespace uiGos ----------------
 
+
+
+struct Button_SceneBegin_Archive_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    int   tmp {};
+};
+
+
 /* ===========================================================
  *                   init_in_autoMod
  * -----------------------------------------------------------
@@ -38,8 +46,7 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
                                         const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(Button_SceneBegin_Archive_PvtBinary) );
-    Button_SceneBegin_Archive_PvtBinary  *pvtBp = reinterpret_cast<Button_SceneBegin_Archive_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Archive_PvtBinary>();
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", emptyAnimLabels, 10 );
 
@@ -69,9 +76,6 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
     //================ go self vals =================//
 
     //...    
-
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 
@@ -105,10 +109,12 @@ void Button_SceneBegin_Archive::OnRenderUpdate( GameObj &goRef_ ){
  */
 void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+            cout << "Button_SceneBegin_Archive::OnActionSwitch" << endl;
+
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    Button_SceneBegin_Archive_PvtBinary  *pvtBp = Button_SceneBegin_Archive::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Button_SceneBegin_Archive_PvtBinary>();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
@@ -129,6 +135,7 @@ void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
             //-- 并不报错，什么也不做...
 
     }
+    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
 }
 
 

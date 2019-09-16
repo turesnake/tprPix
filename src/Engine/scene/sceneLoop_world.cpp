@@ -68,7 +68,7 @@ void prepare_for_sceneWorld(){
         //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
 
     
-    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_currentDPos() );
+    esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_dpos() );
     input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
@@ -231,7 +231,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     //-----------------//
     //-- 让 camera 对其上1渲染帧 --
     //- 这会造成 camera 的延迟，但不要紧
-    esrc::get_camera().set_targetDPos( playerGoRef.get_currentDPos() );
+    esrc::get_camera().set_targetDPos( playerGoRef.get_dpos() );
 
     //... 暂时没有 处理 剩余功能键的 代码 
 

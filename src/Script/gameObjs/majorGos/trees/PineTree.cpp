@@ -30,11 +30,16 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
-namespace pineTree_inn {//----------- namespace: pineTree_inn ----------------//
+//namespace pineTree_inn {//----------- namespace: pineTree_inn ----------------//
     //inline std::uniform_int_distribution<int>     uDistribution_int(      3,   50 );
     //inline std::uniform_real_distribution<double> uDistribution_double( -1.3, 1.3 );
-}//-------------- namespace: pineTree_inn end ----------------//
+//}//-------------- namespace: pineTree_inn end ----------------//
 
+
+struct PineTree_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    int        tmp {};
+};
 
 
 /* ===========================================================
@@ -48,7 +53,7 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
     const DyParams_Field *msParamPtr {nullptr};
     switch (dyParams_.get_type()){
         case ParamBinaryType::Field:
-            msParamPtr = cast_2_dyParamBinaryPtr<DyParams_Field>( dyParams_ );
+            msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
             break;
         default:
             tprAssert(0); //- 尚未实现
@@ -57,8 +62,7 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
     
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(PineTree_PvtBinary) );
-    PineTree_PvtBinary  *pvtBp = reinterpret_cast<PineTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<PineTree_PvtBinary>();
 
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "pineTree", 
@@ -91,8 +95,6 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//   
 
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 /* ===========================================================
@@ -121,7 +123,7 @@ void PineTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<PineTree_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -148,7 +150,7 @@ void PineTree::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<PineTree_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -162,10 +164,11 @@ void PineTree::OnLogicUpdate( GameObj &goRef_ ){
  */
 void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+        cout << "PineTree::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PineTree_PvtBinary  *pvtBp = PineTree::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<PineTree_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -181,6 +184,8 @@ void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             break;
             tprAssert(0);
     }
+
+    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
 
 
 }

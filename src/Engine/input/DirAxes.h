@@ -23,6 +23,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprMath.h"
+#include "NineBox.h"
 
 
 class DirAxes{
@@ -141,6 +142,63 @@ private:
     double x {0.0}; //- [-1.0, 1.0]
     double y {0.0}; //- [-1.0, 1.0]
 };
+
+
+
+
+inline NineBoxIdx dirAxes_2_nineBoxIdx( const DirAxes &da_ ){
+
+    int x = da_.get_x();
+    int y = da_.get_y();
+
+    if( da_.is_zero() ){
+        return NineBoxIdx::Mid_Mid;
+    }
+
+    if( x == 0.0 ){
+        return (y > 0.0) ?
+             NineBoxIdx::Mid_Top :
+             NineBoxIdx::Mid_Bottom;
+    }
+
+    if( y == 0.0 ){
+        return (x > 0.0) ?
+            NineBoxIdx::Right_Mid :
+            NineBoxIdx::Left_Mid;
+    }
+
+    
+    double rad = atan2( static_cast<double>(y), static_cast<double>(x) ); // (y,x)
+    double eighthPI = 3.1415926 / 8.0;
+    
+    if( (rad < (-7.0 * eighthPI)) || (rad > (7.0 * eighthPI)) ){
+        return NineBoxIdx::Left_Mid;
+
+    }else if( rad < (-5.0 * eighthPI) ){
+        return NineBoxIdx::Left_Bottom;
+
+    }else if( rad < (-3.0 * eighthPI) ){
+        return NineBoxIdx::Mid_Bottom;
+
+    }else if( rad < (-1.0 * eighthPI) ){
+        return NineBoxIdx::Right_Bottom;
+
+    }else if( rad < (1.0 * eighthPI) ){
+        return NineBoxIdx::Right_Mid;
+
+    }else if( rad < (3.0 * eighthPI) ){
+        return NineBoxIdx::Right_Top;
+
+    }else if( rad < (5.0 * eighthPI) ){
+        return NineBoxIdx::Mid_Top;
+
+    }else{
+        return NineBoxIdx::Left_Top;
+    }
+
+}
+
+
 
 
 #endif 

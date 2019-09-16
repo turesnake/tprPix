@@ -353,7 +353,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         //---    
 
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );   
-        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
+        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_dpos() );
 
 
     }else if( inputINS_.check_key(GameKey::DOWN) ){
@@ -367,7 +367,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         //---
 
         GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
-        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_currentDPos() );
+        button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_dpos() );
     }
 
     if( is_input_open == false ){

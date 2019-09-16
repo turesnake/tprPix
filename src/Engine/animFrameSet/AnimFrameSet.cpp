@@ -127,6 +127,9 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                                     IntVec2{1,1},
                                     1,
                                     afs_inn::J_frame_data_ary );
+
+                        //-- 现在，每一 frame J.png 都需要很多 算力，应当复制 现成的数据 ....
+
     }else{
         tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pjt ),
                                     afs_inn::frameNum,
@@ -146,6 +149,11 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                                         IntVec2{1,1},
                                         1,
                                         afs_inn::S_frame_data_ary );
+
+                        //-- 非常的浪费显存。应该指向同一张 shadow ......
+
+
+
         }else{
             tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
                                         afs_inn::frameNum,

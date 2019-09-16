@@ -39,6 +39,14 @@ namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------
 }//-------------- namespace: oneEyeBoy_inn end ----------------//
 
 
+struct OneEyeBoy_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    int        tmp {};
+    int        timeStep  {10};
+    int        timeCount {};
+    glm::dvec2 moveVec {}; //- 位移向量，确保是 标准向量
+};
+
 
 /* ===========================================================
  *                   init_in_autoMod
@@ -48,8 +56,7 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(OneEyeBoy_PvtBinary) );
-    OneEyeBoy_PvtBinary  *pvtBp = reinterpret_cast<OneEyeBoy_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<OneEyeBoy_PvtBinary>();
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "oneEyeBoy", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
@@ -79,8 +86,6 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//   
 
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 /* ===========================================================
@@ -110,7 +115,7 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OneEyeBoy_PvtBinary  *pvtBp = OneEyeBoy::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -167,7 +172,7 @@ void OneEyeBoy::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OneEyeBoy_PvtBinary  *pvtBp = OneEyeBoy::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -181,10 +186,11 @@ void OneEyeBoy::OnLogicUpdate( GameObj &goRef_ ){
  */
 void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+        //cout << "OneEyeBoy::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    OneEyeBoy_PvtBinary  *pvtBp = OneEyeBoy::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -194,6 +200,7 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
             goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
+            //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
             break;
 
         //case ActionSwitchType::Move_Move:
@@ -205,6 +212,8 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             //-- 并不报错，什么也不做...
 
     }
+
+    
 
 
 }

@@ -38,6 +38,8 @@ public:
     double  skillColliRadius {};
     std::vector<glm::dvec2> colliPointDPosOffs {};//- 从 rootAnchor 到各个 colliPoint 的 偏移值 dpos
                                                 //- include rootAnchor and tailAnchor
+
+                                                //  这组点将被 自动生成 ....
 };
 
 
@@ -59,6 +61,8 @@ public:
     double  longLen          {}; // 两 锚点间 距离
     std::vector<glm::dvec2> colliPointDPosOffs {};//- 从 rootAnchor 到各个 colliPoint 的 偏移值 dpos
                                                 //- include rootAnchor and tailAnchor
+
+                                                //  这组点将被 自动生成 ....
 };
 
 
@@ -94,9 +98,11 @@ public:
         this->isSkillColliRadiusAnchorSet = true; 
         this->skillColliRadiusAnchor = v_; 
     }
+    /*
     inline void pushback_2_colliPoints( const glm::dvec2 &v_ )noexcept{
         this->colliPoints.push_back( v_ );
     }
+    */
     //----- get -----//
     inline const ColliderType &get_colliderType() const noexcept{ return this->colliderType; };
 
@@ -106,7 +112,7 @@ public:
     inline const glm::dvec2 &get_moveColliRadiusAnchor()  const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; };
     inline const glm::dvec2 &get_skillColliRadiusAnchor() const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; };
     
-    inline const std::vector<glm::dvec2> &get_colliPointsRef() const noexcept{ tprAssert(!this->colliPoints.empty()); return this->colliPoints; };
+    //inline const std::vector<glm::dvec2> &get_colliPointsRef() const noexcept{ tprAssert(!this->colliPoints.empty()); return this->colliPoints; };
 
 private:
     ColliderType colliderType {};
@@ -115,7 +121,7 @@ private:
     glm::dvec2  tailAnchor  {};
     glm::dvec2  moveColliRadiusAnchor {};
     glm::dvec2  skillColliRadiusAnchor {};
-    std::vector<glm::dvec2> colliPoints {}; // not include root/tail Anchor yet
+    //std::vector<glm::dvec2> colliPoints {}; // not include root/tail Anchor yet   这组点将被 自动生成 ....
     GoAltiRange   lGoAltiRange {};
     //---- flags ----//
     bool isLGoAltiRangeSet {false};
@@ -136,6 +142,8 @@ public:
     FramePos() = default;
 
     void init_from_semiData( const FramePosSemiData &semiData_ );
+
+    static void prepare_colliPointOffs();
 
     //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
@@ -185,6 +193,13 @@ public:
 
     
 private:
+
+    void calc_colliPoints_for_circular( double radius_ );
+    void calc_colliPoints_for_capsule(  double radius_, 
+                                        double longLen_,
+                                        const glm::dvec2 &rootAnchor_2_tailAnchor_ );
+
+
     ColliderType  colliderType {};  // Nil / Circular / Capsule
 
     glm::dvec2  rootAnchorDPosOff  {};

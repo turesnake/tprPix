@@ -29,6 +29,11 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
+struct WallA_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    int   tmp {};
+};
+
 
 /* ===========================================================
  *                   init_in_autoMod
@@ -38,8 +43,7 @@ void WallA::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(WallA_PvtBinary) );
-    WallA_PvtBinary  *pvtBp = reinterpret_cast<WallA_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<WallA_PvtBinary>();
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
@@ -69,8 +73,6 @@ void WallA::init_in_autoMod(GameObj &goRef_,
 
     //================ go self vals =================//   
 
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 /* ===========================================================
@@ -100,7 +102,7 @@ void WallA::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -127,7 +129,7 @@ void WallA::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -141,10 +143,11 @@ void WallA::OnLogicUpdate( GameObj &goRef_ ){
  */
 void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+        cout << "WallA::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    WallA_PvtBinary  *pvtBp = WallA::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -165,6 +168,8 @@ void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             //-- 并不报错，什么也不做...
 
     }
+
+    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
 
 
 }

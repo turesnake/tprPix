@@ -46,11 +46,18 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
     //-- 设置 go 方向 --
     this->newDirAxes = newDirAxes_;
+
+    /*
     if( this->newDirAxes.get_x() < -DirAxes::threshold ){
         this->goRef.set_direction_and_isFlipOver( GODirection::Left );
     }else if(this->newDirAxes.get_x() > DirAxes::threshold ){
         this->goRef.set_direction_and_isFlipOver( GODirection::Right );
     }
+    */
+
+    this->goRef.set_direction_and_isFlipOver( dirAxes_2_nineBoxIdx(newDirAxes_) );
+
+
 }
 
 
@@ -99,7 +106,7 @@ void Move::renderUpdate_crawl(){
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
-    this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move(speedVec) );
+    this->goRef.accum_dpos( this->goRef.detect_collision_for_move(speedVec) );
 
 }
 
@@ -135,7 +142,7 @@ void Move::renderUpdate_drag(){
     // 在 drag 的最后一帧，dposOff 往往会小于 speedV。
     // 此时，应该手动 校准 speedV。
     // 从而让 go 走到指定的位置（而不是走过头）
-    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_currentDPos();
+    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_dpos();
 
     //- 距离过小时直接不 drag 
     if( (std::abs(dposOff.x)<1.0) && (std::abs(dposOff.y)<1.0) ){
@@ -156,9 +163,9 @@ void Move::renderUpdate_drag(){
 
     //---- inn -----//
     if( this->goRef.family == GameObjFamily::UI ){
-        this->goRef.accum_currentDPos( speedVec );
+        this->goRef.accum_dpos( speedVec );
     }else{
-        this->goRef.accum_currentDPos( this->goRef.detect_collision_for_move(speedVec) );
+        this->goRef.accum_dpos( this->goRef.detect_collision_for_move(speedVec) );
     }
     
     if( isLastFrame ){
@@ -179,7 +186,7 @@ void Move::renderUpdate_adsorb(){
         return;
     }
 
-    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_currentDPos();
+    glm::dvec2 dposOff = this->targetDPos - this->goRef.get_dpos();
 
     if( (std::abs(dposOff.x)<0.1) && (std::abs(dposOff.y)<0.1) ){
         this->isMoving = false; //- 放在这里 不够严谨，毕竟本帧还是 移动的。
@@ -189,7 +196,7 @@ void Move::renderUpdate_adsorb(){
     double ProximityRate = 0.3; //- 暂用固定的 接近倍率
     glm::dvec2 speedDPos = dposOff * ProximityRate;
 
-    this->goRef.accum_currentDPos( speedDPos );
+    this->goRef.accum_dpos( speedDPos );
 }
 
 

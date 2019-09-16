@@ -45,7 +45,7 @@ namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     u8_t  G_skillColliRadius  { 250 }; //- 胶囊体中，没有此点，此值将被同步为 moveColliRadius 
 
     //--- B --- 
-    u8_t  B_colliPoint  { 150 }; 
+    u8_t  B_colliPoint  { 150 }; //-- 在未来，会自动生成，将被取消 ....
 
 
     RGBA  uselessColor_1  { 150, 150, 150, 255 };
@@ -107,9 +107,12 @@ public:
             
         //=== B === 
         if( is_near_inner( RGBA_ChannelType::B, pjt_RGBAHandle_2_inn::B_colliPoint ) ){
-            this->frameSemiDataPtr->pushback_2_colliPoints( pixDPos_ );
+            //this->frameSemiDataPtr->pushback_2_colliPoints( pixDPos_ );
             return;
+                        //-- 即将被取消，暂时 do nothing ...
         }
+
+
 
         //...more...
 

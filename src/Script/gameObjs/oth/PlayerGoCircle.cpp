@@ -32,6 +32,11 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
+struct PlayerGoCircle_PvtBinary{
+    animSubspeciesId_t subspeciesId {};
+    int   tmp {};
+};
+
 
 /* ===========================================================
  *                   init_in_autoMod
@@ -41,8 +46,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    goRef_.resize_pvtBinary( sizeof(PlayerGoCircle_PvtBinary) );
-    PlayerGoCircle_PvtBinary  *pvtBp = reinterpret_cast<PlayerGoCircle_PvtBinary*>(goRef_.get_pvtBinaryPtr());
+    auto *pvtBp = goRef_.init_pvtBinary<PlayerGoCircle_PvtBinary>();
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", emptyAnimLabels, 10 );
 
@@ -93,8 +97,6 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     
     //...    
 
-    //--- MUST ---
-    goRef_.init_check();
 }
 
 
@@ -111,7 +113,7 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     /*
     GameObj &playerGoRef = esrc::get_player().get_goRef();
 
-    goRef_.move.set_drag_targetDPos( playerGoRef.get_currentDPos() );
+    goRef_.move.set_drag_targetDPos( playerGoRef.get_dpos() );
 
 
     //-- 每1渲染帧，手动旋转 circle 一个小角度 --
@@ -148,10 +150,12 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
  */
 void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+        cout << "PlayerGoCircle::OnActionSwitch" << endl;
+
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    PlayerGoCircle_PvtBinary  *pvtBp = PlayerGoCircle::rebind_ptr( goRef_ );
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<PlayerGoCircle_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --
@@ -178,6 +182,7 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             //-- 并不报错，什么也不做...
 
     }
+    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
 
 
 }

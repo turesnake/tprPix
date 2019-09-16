@@ -44,6 +44,16 @@ public:
     }
 
 
+    inline void rebind_datas( const glm::dvec2 &newRootAnchorDPos_,
+                            F_get_colliPointDPosOffsRef func_1_ )noexcept{
+
+        this->get_colliPointDPosOffsRefFunc = func_1_;                     
+        bool out = this->forecast_signINMapEnts( newRootAnchorDPos_ );
+            //tprAssert( out );
+        this->sync_currentSignINMapEnts_from_future();
+    }
+
+
     //------------------------------------//
     //--1-- 当一个 regularGo 新生成时，传入参数{0.0,0.0}，制作最初的 SignINMapEnts 数据，
     //      然后 call sync_currentSignINMapEnts_from_new()

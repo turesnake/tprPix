@@ -27,28 +27,14 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-struct PineTree_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
-    int        tmp {};
-
-};
-
-
 class PineTree{
 public:
     PineTree() = default;
-
     //--- 延迟init ---//
     static void init_in_autoMod(GameObj &goRef_,
                             const ParamBinary &dyParams_ );
 
-private:
-
-    //--  每次调用回调函数，都需要做的 指针重绑定 --
-    inline static  PineTree_PvtBinary *rebind_ptr( GameObj &goRef_ )noexcept{
-        return reinterpret_cast<PineTree_PvtBinary*>(goRef_.get_pvtBinaryPtr());
-    }
-                            
+private:                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );
 

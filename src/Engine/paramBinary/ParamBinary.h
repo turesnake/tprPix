@@ -33,25 +33,6 @@ enum class ParamBinaryType{
 };
 
 
-
-//-- 参数二进制包，目前仅用于 go create 中的 动态参数传递
-//   一个很简陋的方案
-class ParamBinary{
-public:
-    ParamBinary() = default;
-    u8_t *init_binary( ParamBinaryType type_ );
-    inline const u8_t *get_binaryPtr() const noexcept{ return &(this->binary.at(0)); }
-    inline ParamBinaryType get_type() const noexcept{ return this->type; }
-private:
-    ParamBinaryType    type {ParamBinaryType::Nil};
-    std::vector<u8_t>  binary {}; //- 数据本体
-};
-
-
-//- 空参数包 -
-inline ParamBinary emptyParamBinary {};
-
-
 //-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
 struct DyParams_Field{
     double       fieldWeight          {};
@@ -68,14 +49,42 @@ struct DyParams_MapSurface{
 };
 
 
+//-- 参数二进制包，目前仅用于 go create 中的 动态参数传递
+//   一个很简陋的方案
+class ParamBinary{
+public:
+    ParamBinary() = default;
+    inline ParamBinaryType get_type() const noexcept{ return this->type; }
 
-template< typename T >
-inline const T*cast_2_dyParamBinaryPtr( const ParamBinary &dyParams_ )noexcept{
-    // 暂时无法检测 dyParams_ 类型 ...
-    return reinterpret_cast<const T*>( dyParams_.get_binaryPtr() );
-}
+    template< typename T >
+    inline T *init_binary( ParamBinaryType type_ )noexcept{
+        this->type = type_;
+        switch (type_){
+        case ParamBinaryType::Field: tprAssert( sizeof(T) == sizeof(DyParams_Field) ); break;
+        case ParamBinaryType::MapSurface: tprAssert( sizeof(T) == sizeof(DyParams_MapSurface) ); break;
+        case ParamBinaryType::Nil:    
+        default:
+            tprAssert(0);
+            break;
+        }
+        this->binary.resize( sizeof(T), 0 );
+        return reinterpret_cast<T*>( &(this->binary.at(0)) );
+    }
+
+    template< typename T >
+    inline const T*get_binaryPtr()const noexcept{
+        tprAssert( sizeof(T) == this->binary.size() );
+        return reinterpret_cast<const T*>( &(this->binary.at(0)) );
+    }
+
+private:
+    ParamBinaryType    type {ParamBinaryType::Nil};
+    std::vector<u8_t>  binary {}; //- 数据本体
+};
 
 
+//- 空参数包 -
+inline ParamBinary emptyParamBinary {};
 
 
 #endif 

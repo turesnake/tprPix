@@ -34,7 +34,7 @@
 #include "GameObjPos.h"
 #include "UIAnchor.h"
 #include "Collision.h"
-#include "GODirection.h"
+//#include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
 #include "ActionFSM.h"
@@ -44,16 +44,11 @@
 
 //--- 最基础的 go 类，就像一个 "伪接口" ----//
 // 具象go类 并不用继承 基础go类，而是 “装配” 一个go实例，
-// 通过  动态绑定 来配置 这个被绑定的 go实例的数据。
 // 通过 function / bind 动态绑定各种回调函数
 // 在 主引擎中，go类 是官方认可的通用类型。也只能通过这个 类来 访问 一切 go实例
 //-------
 //  并不存在孤立的 go实例，每个go实例，都被一个 具象go实例 所"表达“
 //  goid 是全局唯一的。 其外层的 具象go实例 也使用这个 id号
-//-------
-//  go类 与 具象go类：
-//  -- go类实例 负责存储实际的数据
-//  -- 具象go类 只是一个 “装配工厂”，不存在 较长生命周期的 “具象go类实例”
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
@@ -82,10 +77,22 @@ public:
     }
 
     size_t reCollect_chunkKeys();
+
+    void rebind_rootFramePosPtr_and_colleDatas();
    
-    inline void resize_pvtBinary( size_t size_ )noexcept{ this->pvtBinary.resize( size_ ); }
-    inline u8_t *get_pvtBinaryPtr()noexcept{ return &(this->pvtBinary.at(0)); }
-    
+
+    //----- pvtBinary -----//
+    template< typename T >
+    inline T *init_pvtBinary()noexcept{
+        this->pvtBinary.resize( sizeof(T), 0 );
+        return reinterpret_cast<T*>( &(this->pvtBinary.at(0)) );
+    }
+    template< typename T >
+    inline T *get_pvtBinaryPtr()noexcept{
+        tprAssert( sizeof(T) == this->pvtBinary.size() );
+        return reinterpret_cast<T*>( &(this->pvtBinary.at(0)) );
+    }
+
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             animSubspeciesId_t subspeciesId_,
                             const std::string &actionName_,
@@ -97,13 +104,13 @@ public:
 
     void init_check(); //- call in end of go init 
 
-    void signUp_newGO_to_mapEnt();
-
     //-- 目前被 Crawl 使用 --
-    inline void set_direction_and_isFlipOver( const GODirection &dir_ )noexcept{
-        this->direction = dir_;
-        this->isFlipOver = (this->direction==GODirection::Left); 
+    inline void set_direction_and_isFlipOver( NineBoxIdx dir_ )noexcept{
+        //this->direction = dir_;
+        //this->isFlipOver = (this->direction==GODirection::Left); 
                         // 在新视觉风格中，可能被取代....
+
+        this->direction = dir_;
     }
 
 
@@ -124,10 +131,10 @@ public:
         return *(this->rootFramePosPtr);
     }
     inline Circular calc_circular( const CollideFamily &family_ ) const noexcept{
-        return this->get_rootFramePosRef().calc_circular( this->get_currentDPos(), family_ );
+        return this->get_rootFramePosRef().calc_circular( this->get_dpos(), family_ );
     }
     inline Capsule calc_capsule( const CollideFamily &family_ ) const noexcept{
-        return this->get_rootFramePosRef().calc_capsule( this->get_currentDPos(), family_ );
+        return this->get_rootFramePosRef().calc_capsule( this->get_dpos(), family_ );
     }
 
     inline GoAltiRange get_currentGoAltiRange()noexcept{
@@ -150,10 +157,10 @@ public:
     void debug();
 
     //-- pos sys --    
-    F_void_c_dvec2Ref accum_currentDPos  {nullptr};
-    F_void_double   set_pos_alti         {nullptr};
-    F_c_dvec2Ref    get_currentDPos      {nullptr};
-    F_double        get_pos_alti         {nullptr};
+    F_void_c_dvec2Ref accum_dpos  {nullptr};
+    F_void_double     set_pos_alti         {nullptr};
+    F_c_dvec2Ref      get_dpos      {nullptr};
+    F_double          get_pos_alti         {nullptr};
     
 
     inline void render_all_goMesh()noexcept{
@@ -190,9 +197,13 @@ public:
                               //- 暂未被使用
     
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
-    GODirection  direction {GODirection::Left};  //- 朝向
 
-                                //- 未来要被拓展为 8 个方向 
+    //GODirection  direction {GODirection::Left};  //- 朝向
+    NineBoxIdx   direction {NineBoxIdx::Mid_Mid};  //- 角色朝向
+
+                    //- 这个数据只对部分 go 起作用，应该实现为 动态绑定 ...
+                    
+
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
@@ -224,7 +235,8 @@ public:
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
     bool    isControlByPlayer  {false}; 
-    bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
+
+    //bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
                                 //- 注意，这个值不应该由 具象go类手动配置
                                 //  而应由 move／动画播放器 自动改写
                                 // -- gmesh.isFlipOver 决定了 此图元的 静态方向
@@ -290,7 +302,6 @@ private:
 
 //============== static ===============//
 inline ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
-
 
 
 #endif
