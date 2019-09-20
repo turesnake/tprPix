@@ -75,15 +75,46 @@ inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beV
 /* ===========================================================
  *               calc_intersectX 
  * -----------------------------------------------------------
- * 求直线 y=nn 与向量 root_2_tail_ 的交点的 x 值
+ * 求直线 y=y_ 与向量 root_2_tail_ 的交点的 x 值
  */
 inline double calc_intersectX(  const glm::dvec2 &rootPoint_,
                                 const glm::dvec2 &root_2_tail_,
                                 double y_) noexcept {
+        tprAssert( root_2_tail_.y != 0.0 );
     double pct = (rootPoint_.y-y_) / -root_2_tail_.y;    
     return (rootPoint_.x + (root_2_tail_.x * pct)); //- 允许返回 负值（从相交中退出
 }
 
+
+/* ===========================================================
+ *       collideCheck_between_2_arcs_in_same_circular
+ * -----------------------------------------------------------
+ * return:
+ *  -- true:  collide
+ *  -- flase: not collide
+ */
+inline bool collideCheck_between_2_arcs_in_same_circular(   const glm::dvec2 &forward_1_,
+                                                            double halfRadian_1_,
+                                                            const glm::dvec2 &forward_2_,
+                                                            double halfRadian_2_   )noexcept{
+        tprAssert( (halfRadian_1_>=0.0) && (halfRadian_2_>=0.0) );
+    double cosV = calc_cos( forward_1_, forward_2_ ); //- 为负值时，角度大于 90 度
+    double radian = acos(cosV); 
+    return (radian < (halfRadian_1_+halfRadian_2_)) ? true : false;
+}
+
+
+/* ===========================================================
+ *       calc_halfRadian_in_2_intersect_circulars
+ * -----------------------------------------------------------
+ * 2个确认相交的圆（do,be）计算 doCir 相交圆弧 半弧度值
+ */
+inline double calc_halfRadian_in_2_intersect_circulars( double rd_, double rb_, double totalLen_  ){
+
+    tprAssert( (rd_+rb_) > totalLen_ );
+    double cosVal = (rd_*rd_ - rb_*rb_ + totalLen_*totalLen_) / (2.0 * totalLen_ * rd_);
+    return acos(cosVal);
+}
 
 
 /* ===========================================================
@@ -117,6 +148,61 @@ inline CollideState collideState_from_circular_2_circular(  const Circular &dogo
 std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   const Circular &dogoCir_,
                                                             const Capsule  &begoCap_,
                                                             double threshold_ ) noexcept;
+
+
+
+/* ===========================================================
+ *       fastCollideCheck_from_arc_2_circular
+ * -----------------------------------------------------------
+ * return:
+ *  -- true:  collide
+ *  -- flase: not collide
+ */
+inline bool fastCollideCheck_from_arc_2_circular(  const Arc &dogoArc_,
+                                            const Circular &begoCir_,
+                                            double threshold_ ) noexcept{
+    
+    double rd = dogoArc_.radius;
+    double rb = begoCir_.radius;
+    double sum_of_two_raidus = rd + rb;
+    glm::dvec2 offVec = begoCir_.dpos - dogoArc_.dpos;
+    //-- Avoid Radical Sign / 避免开根号 --
+    double lenSquare =  (offVec.x * offVec.x) + (offVec.y * offVec.y);
+    double lenImprecise = lenSquare - (sum_of_two_raidus * sum_of_two_raidus);
+
+    if( is_closeEnough(lenImprecise, 0.0, threshold_*threshold_) ){ // Adjacent
+        return collideCheck_between_2_arcs_in_same_circular(offVec, 
+                                                            0.0,
+                                                            dogoArc_.forward, 
+                                                            dogoArc_.halfRadian );
+    }else if( lenImprecise > 0.0 ){ //Separate
+        return false;
+
+    }else{ //  Intersect
+        double len = sqrt(lenSquare); //- 开根号开销略大...
+        double minRadius = tprMin( rd, rb );
+        double maxRadius = tprMax( rd, rb );
+
+        if( (len+minRadius) <= maxRadius ){ //- 小圆被大圆彻底包含
+            return true; // IMM
+        }
+
+        double halfRadian = calc_halfRadian_in_2_intersect_circulars(rd, rb, len);
+        return collideCheck_between_2_arcs_in_same_circular(offVec, 
+                                                            halfRadian,
+                                                            dogoArc_.forward, 
+                                                            dogoArc_.halfRadian );
+    }
+}
+
+
+
+
+bool fastCollideCheck_from_arc_2_capsule( const Arc &dogoArc_,
+                                        const Capsule &begoCap_,
+                                        double threshold_ );
+
+
 
 
 /* ===========================================================

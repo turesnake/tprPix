@@ -44,10 +44,7 @@
     取 一个 float数 的小数部分
 
 #  float glm::distance( const glm::vec2 &_v1, const glm::vec2 &_v2 );
-    计算两个 向量的 距离，很方便
-    -----
-    真的是 2个向量的 距离吗？？？
-    有待测试
+    没搞明白，暂时不使用...
 
 
 #  double glm::length( const glm::dvec2 &v_ );

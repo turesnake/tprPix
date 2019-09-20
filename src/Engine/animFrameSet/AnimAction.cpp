@@ -26,13 +26,14 @@ using namespace std::placeholders;
  */
 void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
                         const AnimActionParam &param_,
+                        const AnimActionPos *animActionPosPtr_,
                         const IntVec2 &pixNum_per_frame_,
                         size_t headIdx_,
                         bool isHaveShadow_ ){
 
     this->texNames_pic_ptr = animFrameSetRef_.get_texNames_pic_ptr();
     this->texNames_shadow_ptr = animFrameSetRef_.get_texNames_shadow_ptr();
-    this->framePoses_ptr = animFrameSetRef_.get_framePoses();
+    this->animActionPosPtr = animActionPosPtr_;
     this->isHaveShadow = isHaveShadow_;
     this->pixNum_per_frame = pixNum_per_frame_;
     this->totalFrameNum = param_.lFrameIdxs.size();

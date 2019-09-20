@@ -134,7 +134,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
-        this->rootFramePosPtr = &gmesh.get_currentFramePos();
+        this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();
     }
 
     return gmesh;
@@ -146,46 +146,35 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
  */
 void GameObj::init_check(){
 
-    tprAssert( this->rootFramePosPtr );
+    tprAssert( this->rootAnimActionPosPtr );
 
     //-- colliderType and isMoveCollide --
-    // 只有支持 移动碰撞检测的 regularGo
-    // 配合 携带了 非Nil碰撞体 的 rootGoMesh
-    // 才会绑定 以下 functor
+    this->colliDataFromJPtr = this->rootAnimActionPosPtr->get_colliDataFromJPtr();
+
     if( this->isMoveCollide ){
-        tprAssert( this->rootFramePosPtr->get_colliderType() != ColliderType::Nil );
+        tprAssert( this->get_colliderType() != ColliderType::Nil );
         tprAssert( this->goPosUPtr != nullptr );
 
         //-- 主动调用，init signINMapEnts --- MUST!!!
         this->collisionUPtr->init_signInMapEnts( this->get_dpos(),
-                    std::bind( this->rootFramePosPtr->get_colliPointDPosOffsRef ) 
+                    std::bind( &ColliDataFromJ::get_colliPointDPosOffs, this->colliDataFromJPtr )
                     );
     }
     //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...
-
 }
 
 
 /* ===========================================================
- *           rebind_rootFramePosPtr_and_colleDatas
+ *           rebind_rootAnimActionPosPtr
  * -----------------------------------------------------------
- *   目前很不成熟 ！！！！ 将就的状态
+ *          
+ * 
+ *  未完工。。。
  */
-void GameObj::rebind_rootFramePosPtr_and_colleDatas(){
-
+void GameObj::rebind_rootAnimActionPosPtr(){
     //-- 仅在 root gomesh 切换 action 时才被调用 ！！！
     auto &gmesh = *(this->goMeshs.at("root"));
-    this->rootFramePosPtr = &gmesh.get_currentFramePos();
-
-    if( this->isMoveCollide ){
-        tprAssert( this->rootFramePosPtr->get_colliderType() != ColliderType::Nil );
-        tprAssert( this->goPosUPtr != nullptr );
-
-        //-- 主动调用，init signINMapEnts --- MUST!!!
-        this->collisionUPtr->rebind_signInMapEnts( this->get_dpos(),
-                    std::bind( this->rootFramePosPtr->get_colliPointDPosOffsRef ) 
-                    );
-    }
+    this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();
 }
 
 

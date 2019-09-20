@@ -65,18 +65,22 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
     std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ );
 
     void parse_subspecies_in_handleType( const Value &subspeciesEnt_,
-                            std::vector<std::shared_ptr<AnimActionParam>> &params_ );
+                            std::vector<std::shared_ptr<AnimActionParam>> &params_,
+                            bool isPjtSingle_ );
     void parse_subspecies_in_batchType( const Value &subspeciesEnt_,
-                            std::vector<std::shared_ptr<AnimActionParam>> &params_ );
+                            std::vector<std::shared_ptr<AnimActionParam>> &params_,
+                            bool isPjtSingle_ );
 
     void parse_AnimActionParam( size_t  subspeciesIdx_,
                                 const Value &actionParamEnt_,
                                 std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                                const std::vector<AnimLabel> &labels_ );
+                                const std::vector<AnimLabel> &labels_,
+                                bool isPjtSingle_ );
 
     std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_,
-                                                    const std::vector<AnimLabel> &labels_ );
+                                                    const std::vector<AnimLabel> &labels_,
+                                                    bool isPjtSingle_ );
     
     std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_, 
@@ -95,7 +99,7 @@ void parse_from_animFrameSetJsonFile(){
     cout << "   ----- parse_from_animFrameSetJsonFile: start ----- " << endl;
 
 
-    FramePos::prepare_colliPointOffs();
+    AnimActionPos::prepare_colliPointOffs();
 
     //-----------------------------//
     //         load file
@@ -207,9 +211,9 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
             const auto &typeStr = json_inn::check_and_get_value( ent, "type", json_inn::JsonValType::String );
             std::string subType = typeStr.GetString();
             if( subType == "batch" ){
-                afsJson_inn::parse_subspecies_in_batchType( ent, afsPng->actionParams );
+                afsJson_inn::parse_subspecies_in_batchType( ent, afsPng->actionParams, afsPng->isPjtSingle );
             }else if( subType == "handle" ){
-                afsJson_inn::parse_subspecies_in_handleType( ent, afsPng->actionParams );
+                afsJson_inn::parse_subspecies_in_handleType( ent, afsPng->actionParams, afsPng->isPjtSingle );
             }else{
                 tprAssert(0);
             }
@@ -227,7 +231,8 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
  * -----------------------------------------------------------
  */
 void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
-                        std::vector<std::shared_ptr<AnimActionParam>> &params_ ){
+                        std::vector<std::shared_ptr<AnimActionParam>> &params_,
+                        bool isPjtSingle_ ){
 
     
     std::vector<AnimLabel> labels {}; //- 允许是空的
@@ -249,7 +254,7 @@ void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
     {//--- AnimActionParams ---//
         const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "AnimActionParams", json_inn::JsonValType::Array );
         for( auto &ent : a.GetArray() ){//- foreach AnimActionParam
-            afsJson_inn::parse_AnimActionParam( subIdx, ent, params_, labels );
+            afsJson_inn::parse_AnimActionParam( subIdx, ent, params_, labels, isPjtSingle_ );
         }
     }
 }
@@ -260,12 +265,14 @@ void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
  * -----------------------------------------------------------
  */
 void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
-                        std::vector<std::shared_ptr<AnimActionParam>> &params_ ){
+                        std::vector<std::shared_ptr<AnimActionParam>> &params_,
+                        bool isPjtSingle_ ){
     
     std::vector<AnimLabel> labels {}; //- 允许是空的
     std::string actionName {};
     size_t      fstIdx     {};
     size_t      idxNums    {};
+    size_t      jFrameIdx  {};
     bool        isOpaque   {};
 
     {//--- animLabels ---//
@@ -296,7 +303,10 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
     }
 
     for( size_t i=fstIdx; i<fstIdx+idxNums; i++ ){
-        params_.push_back( std::make_shared<AnimActionParam>(i, actionName, i, isOpaque, labels) );
+        isPjtSingle_ ?
+            jFrameIdx = 0 :
+            jFrameIdx = i;
+        params_.push_back( std::make_shared<AnimActionParam>(i, actionName, jFrameIdx, i, isOpaque, labels) );
     }
 
 }
@@ -311,7 +321,8 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
 void parse_AnimActionParam( size_t  subspeciesIdx_,
                             const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                            const std::vector<AnimLabel> &labels_ ){
+                            const std::vector<AnimLabel> &labels_,
+                            bool isPjtSingle_ ){
 
     std::string type {};
 
@@ -321,7 +332,7 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
     }
 
     if( type == "singleFrame" ){
-        params_.push_back( afsJson_inn::singleFrame(subspeciesIdx_, actionParamEnt_, labels_) );
+        params_.push_back( afsJson_inn::singleFrame(subspeciesIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
     }
     else if( type == "multiFrame_SameTimeStep" ){
         params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, true, labels_) );
@@ -339,9 +350,11 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
  */
 std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                 const Value &actionParamEnt_,
-                                                const std::vector<AnimLabel> &labels_ ){
+                                                const std::vector<AnimLabel> &labels_,
+                                                bool isPjtSingle_ ){
 
     std::string actionName {};
+    size_t      jFrameIdx  {};
     size_t      lFrameIdx  {};
     bool        isOpaque   {};
     {//--- actionName ---//
@@ -357,7 +370,11 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
         isOpaque = a.GetBool();
     }
 
-    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, lFrameIdx, isOpaque, labels_ );
+    isPjtSingle_ ?
+        jFrameIdx = 0 :
+        jFrameIdx = lFrameIdx;
+
+    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, jFrameIdx, lFrameIdx, isOpaque, labels_ );
 }
 
 /* ===========================================================
@@ -373,6 +390,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
     AnimActionType      actionType {};
     bool                isOrder {};
     bool                isOpaque   {};
+    size_t              jFrameIdx  {0}; // tmp, 如果某action 有多个 frame，那么 本值一定为 0 ...
     std::vector<size_t> lFrameIdxs {};
     std::vector<size_t> timeSteps {}; //- only for DiffTimeStep
     size_t              timeStep  {}; //- only for SameTimeStep
@@ -410,6 +428,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
+                                                    jFrameIdx,
                                                     lFrameIdxs,
                                                     timeStep,
                                                     labels_ );
@@ -425,6 +444,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
+                                                    jFrameIdx,
                                                     lFrameIdxs,
                                                     timeSteps,
                                                     labels_ );

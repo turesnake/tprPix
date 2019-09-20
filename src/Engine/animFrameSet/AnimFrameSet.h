@@ -46,7 +46,7 @@
 #include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
-#include "FramePos.h"
+#include "AnimActionPos.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
 #include "ID_Manager.h" 
@@ -78,10 +78,6 @@ public:
     inline const std::vector<GLuint> *get_texNames_shadow_ptr() const noexcept{
         return &(this->texNames_shadow);
     }
-    //-- 仅被 animAction 调用 --
-    inline const std::vector<FramePos> *get_framePoses() const noexcept{
-        return &(this->framePoses);
-    }
 
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
                                                               double             randVal_ )noexcept{
@@ -90,7 +86,7 @@ public:
 
 
 private:
-    void handle_pjt();
+    void handle_pjt( const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
     void handle_shadow();
 
     //======== vals ========//
@@ -104,10 +100,17 @@ private:
     std::vector<GLuint> texNames_pic    {}; 
     std::vector<GLuint> texNames_shadow {}; //- 就算没有 shadow数据，也要填写0 来占位
 
-    //-- each frame --
-    std::vector<FramePos>  framePoses {};
+    //-- each animaction --
+    std::unordered_map<animActionPosId_t, std::unique_ptr<AnimActionPos>> animActionPosUPtrs {};
 
     AnimSubspeciesGroup subGroup {};
+
+
+    //======== flags ========//
+    bool isPJTSingleFrame {false}; //- Jpng 是否只有一帧
+                        //- 若为 true，本afs实例下属的所有 animAction，
+                        // 都直接绑定这唯一的一份 AnimActionPos 数据
+    bool isShadowSingleFrame {false};  //- Spng 是否只有一帧
 
 };
 

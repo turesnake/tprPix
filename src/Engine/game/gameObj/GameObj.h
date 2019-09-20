@@ -34,6 +34,7 @@
 #include "GameObjPos.h"
 #include "UIAnchor.h"
 #include "Collision.h"
+#include "ColliDataFromJ.h"
 //#include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
@@ -78,7 +79,7 @@ public:
 
     size_t reCollect_chunkKeys();
 
-    void rebind_rootFramePosPtr_and_colleDatas();
+    void rebind_rootAnimActionPosPtr();
    
 
     //----- pvtBinary -----//
@@ -124,21 +125,23 @@ public:
     inline glm::dvec2 detect_collision_for_move( const glm::dvec2 &speedVal_ )noexcept{ return this->collisionUPtr->detect_for_move( speedVal_ ); }
     inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{ return this->collisionUPtr->get_currentSignINMapEntsRef(); }
 
+    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJPtr->get_colliderType(); }
 
-    //--------- rootFramePos ----------//
-    inline const FramePos &get_rootFramePosRef() const noexcept{
-            tprAssert( this->rootFramePosPtr );
-        return *(this->rootFramePosPtr);
+
+    //--------- rootAnimActionPos ----------//
+    inline const AnimActionPos &get_rootAnimActionPosRef()const noexcept{
+            tprAssert( this->rootAnimActionPosPtr );
+        return *(this->rootAnimActionPosPtr);
     }
-    inline Circular calc_circular( const CollideFamily &family_ ) const noexcept{
-        return this->get_rootFramePosRef().calc_circular( this->get_dpos(), family_ );
+    inline Circular calc_circular( CollideFamily family_ )const noexcept{
+        return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_ );
     }
-    inline Capsule calc_capsule( const CollideFamily &family_ ) const noexcept{
-        return this->get_rootFramePosRef().calc_capsule( this->get_dpos(), family_ );
+    inline Capsule calc_capsule( CollideFamily family_ )const noexcept{
+        return this->colliDataFromJPtr->calc_capsule( this->get_dpos(), family_ );
     }
 
     inline GoAltiRange get_currentGoAltiRange()noexcept{
-        return (this->get_rootFramePosRef().get_lGoAltiRange() + this->get_pos_alti());
+        return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
 
     inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{
@@ -202,6 +205,7 @@ public:
     NineBoxIdx   direction {NineBoxIdx::Mid_Mid};  //- 角色朝向
 
                     //- 这个数据只对部分 go 起作用，应该实现为 动态绑定 ...
+                    //  也许可以被整合进 GODirection 中
                     
 
 
@@ -253,7 +257,7 @@ public:
 
     
     //======== static ========//
-    static ID_Manager  id_manager; //- 负责生产 go_id ( 在.cpp文件中初始化 )
+    static ID_Manager  id_manager; //- 负责生产 go_id
 
 private:
 
@@ -295,9 +299,10 @@ private:
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
 
     std::unique_ptr<Collision> collisionUPtr {nullptr};
+    const ColliDataFromJ      *colliDataFromJPtr {nullptr}; // 一经init，永不改变
 
-    const FramePos *rootFramePosPtr {nullptr}; //- 替代上个成员
 
+    const AnimActionPos *rootAnimActionPosPtr {nullptr};
 };
 
 //============== static ===============//

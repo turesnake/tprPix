@@ -21,7 +21,7 @@
 #include "tprAssert.h"
 #include "IntVec.h" 
 #include "RGBA.h" 
-#include "FramePos.h"
+#include "AnimActionPos.h"
 #include "AnimLabel.h"
 
 
@@ -82,6 +82,7 @@ public:
                     AnimActionType         type_,
                     bool                   isOrder_,
                     bool                   isOpaque_,
+                    size_t                 jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_,
                     const std::vector<AnimLabel> &labels_ ):
@@ -91,6 +92,7 @@ public:
         isOrder( isOrder_ ),
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(true),
+        jFrameIdx(jFrameIdx_),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
@@ -104,6 +106,7 @@ public:
                     AnimActionType        type_,
                     bool                  isOrder_,
                     bool                  isOpaque_,
+                    size_t                jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep,
                     const std::vector<AnimLabel> &labels_ ):
@@ -113,6 +116,7 @@ public:
         isOrder( isOrder_ ),
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
+        jFrameIdx(jFrameIdx_),
         defaultTimeStep(_defaultTimeStep)
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
@@ -123,6 +127,7 @@ public:
     //-- 单帧action 专用 构造器 --
     AnimActionParam(size_t  subspeciesIdx_,
                     const std::string &actionName_,
+                    size_t  jFrameIdx_,
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
                     const std::vector<AnimLabel> &labels_ ):
@@ -132,6 +137,7 @@ public:
         isOrder( true ), //- 随便写一个值，反正用不上
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
+        jFrameIdx(jFrameIdx_),
         defaultTimeStep(6) //- 随便写一个值，反正用不上
         {
             this->lFrameIdxs.push_back( lFrameIdx_ );
@@ -146,6 +152,7 @@ public:
     bool            isOrder;
     bool            isOpaque;                //- 是否为 不透明图元
     bool            isTimeStepsManualSet;    //- 若为 false，参数 timeSteps_ 可为空容器
+    size_t          jFrameIdx;               //- J帧序号，一个还在发展改善中的数值... 暂时手动设置
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
     std::vector<size_t> timeSteps  {}; 
@@ -170,6 +177,7 @@ public:
 
     void init(  const AnimFrameSet &animFrameSetRef_,
                 const AnimActionParam &param_,
+                const AnimActionPos *animActionPosPtr_,
                 const IntVec2 &pixNum_per_frame_,
                 size_t headIdx_,
                 bool isHaveShadow_ );
@@ -196,9 +204,9 @@ public:
     inline const IntVec2 &get_pixNum_per_frame() const noexcept{
         return this->pixNum_per_frame;
     }
-
-    inline const glm::dvec2 &get_currentRootAnchorDPosOff( const AnimActionPvtData &pvtData_ ) const noexcept{
-        return this->framePoses_ptr->at(pvtData_.currentFrameIdx).get_rootAnchorDPosOff();
+    
+    inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
+        return this->animActionPosPtr->get_rootAnchorDPosOff();
     }
 
     inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const noexcept{
@@ -207,9 +215,12 @@ public:
     inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const FramePos &get_currentFramePos( const AnimActionPvtData &pvtData_ ) const noexcept{
-        return this->framePoses_ptr->at(pvtData_.currentFrameIdx);
+
+    
+    inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
+        return *this->animActionPosPtr;
     }
+    
 
 
 private:
@@ -223,7 +234,8 @@ private:
     //-- 从 animFrameSet 中获得的 只读指针 --
     const std::vector<GLuint> *texNames_pic_ptr    {nullptr};
     const std::vector<GLuint> *texNames_shadow_ptr {nullptr};
-    const std::vector<FramePos> *framePoses_ptr     {nullptr};
+
+    const AnimActionPos *animActionPosPtr {nullptr}; // 1-animAction, 1-animActionPos 
 
     AnimActionType   actionType {}; 
 

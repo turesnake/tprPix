@@ -200,7 +200,7 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     switch( type_ ){
         case ActionSwitchType::Move_Idle:
             goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
-            //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
+            //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         //case ActionSwitchType::Move_Move:

@@ -20,7 +20,7 @@
 #include "tprAssert.h"
 #include "RGBA.h"
 #include "GoAltiRange.h" 
-#include "FramePos.h"
+#include "AnimActionPos.h"
 #include "ColliderType.h"
 
 
@@ -31,23 +31,15 @@ namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     //--- A --- 
     u8_t    A_OPAQUE         { 255 }; // alpha
     //--- R --- 
-    //u8_t    R_rootColliEntHead_CarryAffect { 50 };   //- ces with rootAnchor (carry affect)
-    //u8_t    R_rootColliEntHead_NoAffect    { 100 };  //- ces with rootAnchor (no affect)
-                //- 新版本中，一个mesh 只有一个 ces/ceh
-                //  也就是这里的 rootCEH
-
     u8_t    R_rootAnchor    { 255 };
     u8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
-
 
     //--- G --- 
     u8_t  G_moveColliRadius   { 150 };
     u8_t  G_skillColliRadius  { 250 }; //- 胶囊体中，没有此点，此值将被同步为 moveColliRadius 
 
     //--- B --- 
-    u8_t  B_colliPoint  { 150 }; //-- 在未来，会自动生成，将被取消 ....
-
-
+    
     RGBA  uselessColor_1  { 150, 150, 150, 255 };
 
 }//------------ namespace: end ---------//
@@ -64,14 +56,14 @@ public:
         {}    
 
     //-- 忠实地记录从 Jpng 中读取地每像素信息 --
-    // 而不关心实际 ColliderType，这部分由 FramePosSemiData 去完成
-    inline void set_rgba(   FramePosSemiData *frameSemiDataPtr_, 
+    // 而不关心实际 ColliderType，这部分由 AnimActionSemiData 去完成
+    inline void set_rgba(   AnimActionSemiData *semiDataPtr_, 
                             const RGBA &rgba_, 
                             const glm::dvec2 &pixDPos_ 
                             )noexcept{
         //-- reset --
         this->rgba = rgba_;
-        this->frameSemiDataPtr = frameSemiDataPtr_;
+        this->animActionSemiDataPtr = semiDataPtr_;
 
         //=== A ===
         //--- ignore ---
@@ -84,36 +76,28 @@ public:
         //--- rootAnchor ---
         if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_rootAnchor ) ){
             this->set_goAltiRange();
-            this->frameSemiDataPtr->set_rootAnchor_onlyOnce( pixDPos_ );
+            this->animActionSemiDataPtr->set_rootAnchor_onlyOnce( pixDPos_ );
             return;
         }
         //--- isTailAnchor ---
         if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_tailAnchor ) ){
-            this->frameSemiDataPtr->set_tailAnchor_onlyOnce( pixDPos_ );
+            this->animActionSemiDataPtr->set_tailAnchor_onlyOnce( pixDPos_ );
             return;
         }
             
         //=== G ===
         //--- moveColliRadius ---
         if( is_near_inner( RGBA_ChannelType::G, pjt_RGBAHandle_2_inn::G_moveColliRadius ) ){
-            this->frameSemiDataPtr->set_moveColliRadiusAnchor_onlyOnce( pixDPos_ );
+            this->animActionSemiDataPtr->set_moveColliRadiusAnchor_onlyOnce( pixDPos_ );
             return;
         }
         //--- skillColliRadius ---
         if( is_near_inner( RGBA_ChannelType::G, pjt_RGBAHandle_2_inn::G_skillColliRadius ) ){
-            this->frameSemiDataPtr->set_skillColliRadiusAnchor_onlyOnce( pixDPos_ );
+            this->animActionSemiDataPtr->set_skillColliRadiusAnchor_onlyOnce( pixDPos_ );
             return;
         }
             
         //=== B === 
-        if( is_near_inner( RGBA_ChannelType::B, pjt_RGBAHandle_2_inn::B_colliPoint ) ){
-            //this->frameSemiDataPtr->pushback_2_colliPoints( pixDPos_ );
-            return;
-                        //-- 即将被取消，暂时 do nothing ...
-        }
-
-
-
         //...more...
 
         //-- 遇到了 未识别的 颜色 --
@@ -150,7 +134,7 @@ private:
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;
         tprAssert( low < high );
-        this->frameSemiDataPtr->set_lGoAltiRange_onlyOnce( static_cast<char>(low), static_cast<char>(high) );
+        this->animActionSemiDataPtr->set_lGoAltiRange_onlyOnce( static_cast<char>(low), static_cast<char>(high) );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
@@ -160,7 +144,7 @@ private:
 
     //======== vals ========//
     RGBA                 rgba         {}; //- 本模块处理的数据
-    FramePosSemiData    *frameSemiDataPtr {nullptr};
+    AnimActionSemiData  *animActionSemiDataPtr {nullptr};
     int                  off          {}; //- 颜色误差. 为了照顾 std::abs(), 改用 int 类型
 };
 

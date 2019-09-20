@@ -50,13 +50,11 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值 （会被存到 animAction 实例中）
     IntVec2  frameNum         {};  //- 画面中，横排可分为几帧，纵向可分为几帧
     size_t   totalFrameNum    {};  //- 目标png文件中，总 图元帧 个数
-
-    bool  isPJTSingleFrame    {};  //- pjt 每帧数据都是一样的，png也只记录了一帧
-    bool  isShadowSingleFrame {};  //- shadow 每帧数据都是一样的，png也只记录了一帧
-    //bool  isColliCapsule      {};  //- 碰撞体类型: circular / capsule
     ColliderType  colliderType {}; //- 碰撞体类型: nil / circular / capsule
 
     std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
+
+    std::unordered_map<size_t, animActionPosId_t> lAnimActionPosIds {}; //- key: animActionParams_.endIdx
 
     //===== funcs =====//
     void build_three_lpaths( const std::string &lpath_pic_ );
@@ -81,17 +79,45 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     afs_inn::build_three_lpaths( lpath_pic_ );
     afs_inn::frameNum = frameNum_;
     afs_inn::totalFrameNum = totalFrameNum_;
-    afs_inn::isPJTSingleFrame = isPjtSingleFrame_;
-    afs_inn::isShadowSingleFrame = isShadowSingleFrame_;
     afs_inn::colliderType = colliderType_;
-    
+
+    this->isPJTSingleFrame = isPjtSingleFrame_;
+    this->isShadowSingleFrame = isShadowSingleFrame_;
     
     //-------------------//
     //-- 获得本次 insert 的 起始idx
-    size_t lastNums = this->framePoses.size();
-    tprAssert( this->texNames_pic.size() == lastNums );
-    tprAssert( this->texNames_shadow.size() == lastNums );
-    afs_inn::headIdx = lastNums;
+    afs_inn::headIdx = this->texNames_pic.size();
+
+    //----------------------------------------//
+    //          lAnimActionPosUPtrs
+    //----------------------------------------//
+    afs_inn::lAnimActionPosIds.clear();
+    if( this->isPJTSingleFrame ){
+        //--- 所有 actionName,绑定同一个 id ---
+        auto aaPosId = AnimActionPos::id_manager.apply_a_u32_id();
+        this->animActionPosUPtrs.insert({ aaPosId, std::make_unique<AnimActionPos>() });
+        //---
+        for( size_t i=0; i<animActionParams_.size(); i++ ){
+            const AnimActionParam *paramPtr = animActionParams_.at(i).get();
+
+            tprAssert( afs_inn::lAnimActionPosIds.find(i) == afs_inn::lAnimActionPosIds.end() );
+            afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+        }
+
+    }else{
+        //--- 每个 actionName, 绑定各自的 id ---
+
+        for( size_t i=0; i<animActionParams_.size(); i++ ){
+            const AnimActionParam *paramPtr = animActionParams_.at(i).get();
+            //---
+            auto aaPosId = AnimActionPos::id_manager.apply_a_u32_id();
+            this->animActionPosUPtrs.insert({ aaPosId, std::make_unique<AnimActionPos>() });
+            //---
+            tprAssert( afs_inn::lAnimActionPosIds.find(i) == afs_inn::lAnimActionPosIds.end() );
+            afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+        }
+    }
+
 
     //----------------------------------------//
     //  load & divide png数据，存入每个 帧容器中
@@ -121,14 +147,12 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     //-------------------//
     //       Pjt
     //-------------------//
-    if( afs_inn::isPJTSingleFrame ){
+    if( this->isPJTSingleFrame ){
         //--- J.png 只有一帧 --//
         tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pjt ),
                                     IntVec2{1,1},
                                     1,
                                     afs_inn::J_frame_data_ary );
-
-                        //-- 现在，每一 frame J.png 都需要很多 算力，应当复制 现成的数据 ....
 
     }else{
         tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_pjt ),
@@ -137,22 +161,18 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                                     afs_inn::J_frame_data_ary );
     }
     tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
-    this->handle_pjt();
+    this->handle_pjt( animActionParams_ );
 
     //-------------------//
     //      Shadow
     //-------------------//
     if( isHaveShadow_ ){
-        if( afs_inn::isShadowSingleFrame ){
+        if( this->isShadowSingleFrame ){
             //--- S.png 只有一帧 --//
             tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
                                         IntVec2{1,1},
                                         1,
                                         afs_inn::S_frame_data_ary );
-
-                        //-- 非常的浪费显存。应该指向同一张 shadow ......
-
-
 
         }else{
             tmpv2 = load_and_divide_png( tprGeneral::path_combine( path_animFrameSets, afs_inn::lpath_shadow ),
@@ -180,20 +200,27 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
     //-------------------//
     //    animActions
     //-------------------//
-    for( auto &paramSPtr : animActionParams_ ){
 
-        animSubspeciesId_t subId = this->subGroup.find_or_insert_a_animSubspeciesId(paramSPtr->animLabels,
-                                                                                    paramSPtr->subspeciesIdx );
+    for( size_t i=0; i<animActionParams_.size(); i++ ){
+        const AnimActionParam *paramPtr = animActionParams_.at(i).get();
+        //---
+        animSubspeciesId_t subId = this->subGroup.find_or_insert_a_animSubspeciesId(paramPtr->animLabels,
+                                                                                    paramPtr->subspeciesIdx );
 
         AnimSubspecies &subRef = esrc::find_or_insert_new_animSubspecies( subId );
-        AnimAction &actionRef = subRef.insert_new_animAction( paramSPtr->actionName );
+        AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionName );
+
+
+        auto aaposId = afs_inn::lAnimActionPosIds.at( i );
+
         actionRef.init( *this,
-                        *(paramSPtr.get()),
+                        *paramPtr,
+                        this->animActionPosUPtrs.at(aaposId).get(),
                         afs_inn::pixNum_per_frame,
                         afs_inn::headIdx,
                         isHaveShadow_ );
-                    
-    }  
+
+    }
     this->subGroup.check(); //- MUST !!!    
 }
 
@@ -203,48 +230,56 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
  *                   handle_pjt
  * -----------------------------------------------------------
  */
-void AnimFrameSet::handle_pjt(){
+void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ ){
 
     size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
     Pjt_RGBAHandle  jh2 {5};
-
-    for( size_t i=0; i<afs_inn::totalFrameNum; i++ ){
-        this->framePoses.push_back(  FramePos{}  ); //-- 存在问题.... 有关 unique_ptr 和 copy 
-    }
-
     glm::dvec2  pixDPos {}; //- current pix dpos
-    size_t   idx_for_J_frame_data_ary {};
-    size_t   idx_framePoses {};
 
+    if( this->isPJTSingleFrame ){
+        //-- 此时，所有 actionName 都指向同一个 id --
+        auto aaposId = afs_inn::lAnimActionPosIds.begin()->second;
 
-    for( size_t f=0; f<afs_inn::totalFrameNum; f++ ){ //--- each frame ---
-        idx_framePoses = afs_inn::headIdx + f;
-        tprAssert( this->framePoses.size() > idx_framePoses );
-
-        FramePosSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
+        AnimActionSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
             pixDPos.x = static_cast<double>( static_cast<int>(p)%afs_inn::pixNum_per_frame.x );
             pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
-            //-- 通过此装置，实现了 “相同的 pjt数据 只用记录一帧” --
-            //   并不是最优解，会做很多次重复运算，但是是对原有代码改动最少的。
-            afs_inn::isPJTSingleFrame ?
-                    idx_for_J_frame_data_ary=0 :
-                    idx_for_J_frame_data_ary=f;
-
             jh2.set_rgba(   &frameSemiData,
-                            afs_inn::J_frame_data_ary.at(idx_for_J_frame_data_ary).at(p),
+                            afs_inn::J_frame_data_ary.at(0).at(p), //- 只有一帧 
                             pixDPos );
 
         }//------ each frame.pix ------
 
         //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-        this->framePoses.at(idx_framePoses).init_from_semiData( frameSemiData );
+        this->animActionPosUPtrs.at(aaposId)->init_from_semiData( frameSemiData );
 
-    }//-------- each frame -------
+    }else{
+
+        for( size_t i=0; i<animActionParams_.size(); i++ ){
+            const AnimActionParam *paramPtr = animActionParams_.at(i).get();
+            //---
+            auto aaposId = afs_inn::lAnimActionPosIds.at(i);
+            AnimActionSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
+
+            for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
+
+                pixDPos.x = static_cast<double>( static_cast<int>(p)%afs_inn::pixNum_per_frame.x );
+                pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
+
+                jh2.set_rgba(   &frameSemiData,
+                                afs_inn::J_frame_data_ary.at(paramPtr->jFrameIdx).at(p),
+                                pixDPos );
+
+            }//------ each frame.pix ------
+
+            //--- 执行所有 补充性设置， IMPORTANT!!! --- 
+            this->animActionPosUPtrs.at(aaposId)->init_from_semiData( frameSemiData );
+        }
+    }
 }
 
 
@@ -264,7 +299,7 @@ void AnimFrameSet::handle_shadow(){
 
         //-- 通过此装置，实现了 “相同的 pjt数据 只用记录一帧” --
         //   并不是最优解，会做很多次重复运算，但是是对原有代码改动最少的。
-        afs_inn::isShadowSingleFrame ?
+        this->isShadowSingleFrame ?
                 idx_for_S_frame_data_ary=0 :
                 idx_for_S_frame_data_ary=f;
 

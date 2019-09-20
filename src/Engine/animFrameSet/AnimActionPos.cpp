@@ -1,11 +1,11 @@
 /*
- * ======================== FramePos.cpp ==========================
+ * ====================== AnimActionPos.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.08.31
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "FramePos.h"
+#include "AnimActionPos.h"
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -111,7 +111,7 @@ namespace fp_inn {//----------- namespace: fp_inn -------------//
  *               prepare_colliPointOffs
  * -----------------------------------------------------------
  */
-void FramePos::prepare_colliPointOffs(){
+void AnimActionPos::prepare_colliPointOffs(){
 
     //----- colliPointScales_cir_1m1 ------//
     fp_inn::colliPointScales_cir_1m1.push_back( glm::dvec2{ 0.0, 0.0 } );
@@ -168,95 +168,51 @@ void FramePos::prepare_colliPointOffs(){
 }
 
 
-
 /* ===========================================================
  *                  init_from_semiData
  * -----------------------------------------------------------
  */
-void FramePos::init_from_semiData( const FramePosSemiData &semiData_ ){
+void AnimActionPos::init_from_semiData( const AnimActionSemiData &semiData_ ){
 
-        this->colliderType = semiData_.get_colliderType();
         this->rootAnchorDPosOff = semiData_.get_rootAnchor();
         this->lGoAltiRange = semiData_.get_lGoAltiRange();
 
-        if( this->colliderType == ColliderType::Nil ){
-            this->circularUPtr = nullptr;
-            this->capsuleUPtr  = nullptr;
-            //---- functors -----//
-            this->get_rootAnchor_2_tailAnchor = nullptr;
-            this->get_moveColliRadius        = nullptr;
-            this->get_skillColliRadius       = nullptr;
-            this->get_colliPointDPosOffsRef  = nullptr;
+        auto colliderType = semiData_.get_colliderType();
+        if( colliderType == ColliderType::Nil ){
 
-        }else if( this->colliderType == ColliderType::Circular ){
-            this->circularUPtr = std::make_unique<JData_InCircular>();
-            this->capsuleUPtr  = nullptr;
-            JData_InCircular *cirPtr = this->circularUPtr.get();
-            //==
+            std::unique_ptr<ColliDataFromJ_Nil> nilUPtr = std::make_unique<ColliDataFromJ_Nil>();
+            auto *nilPtr = nilUPtr.get();
+            nilPtr->colliderType = ColliderType::Nil;
+            this->colliDataFromJUPtr.reset( nilUPtr.release() );//- move uptr
+
+        }else if( colliderType == ColliderType::Circular ){
+
+            
+            std::unique_ptr<ColliDataFromJ_Circular> cirUPtr = std::make_unique<ColliDataFromJ_Circular>();
+            auto *cirPtr = cirUPtr.get();
+            cirPtr->colliderType = ColliderType::Circular;
             cirPtr->moveColliRadius  = glm::length( semiData_.get_moveColliRadiusAnchor() - this->rootAnchorDPosOff );
             cirPtr->skillColliRadius = glm::length( semiData_.get_skillColliRadiusAnchor() - this->rootAnchorDPosOff );
             //-- colliPoints --
+            this->calc_colliPoints_for_circular( cirPtr, tprMax(cirPtr->moveColliRadius, cirPtr->skillColliRadius));
 
-                        //  这组点将被 自动生成 ....
-            /*
-            for( const auto &i : semiData_.get_colliPointsRef() ){
-                cirPtr->colliPointDPosOffs.push_back( i - this->rootAnchorDPosOff );
-            }
-            cirPtr->colliPointDPosOffs.push_back( glm::dvec2{0.0,0.0} );   //- rootAnchor
-            */
+            cirPtr->makeSure_colliPointDPosOffs_isNotEmpty();
+            this->colliDataFromJUPtr.reset( cirUPtr.release() );//- move uptr
 
-            this->calc_colliPoints_for_circular(tprMax(cirPtr->moveColliRadius, cirPtr->skillColliRadius));
+        }else if( colliderType == ColliderType::Capsule ){
 
 
-
-            //---- functors -----//
-            this->get_rootAnchor_2_tailAnchor = nullptr;
-            this->get_moveColliRadius        = std::bind( &JData_InCircular::get_moveColliRadius, cirPtr );
-            this->get_skillColliRadius       = std::bind( &JData_InCircular::get_skillColliRadius, cirPtr );
-            this->get_colliPointDPosOffsRef  = std::bind( &JData_InCircular::get_colliPointDPosOffs, cirPtr );
-
-                tprAssert( !this->get_colliPointDPosOffsRef().empty() );
-
-
-        }else if( this->colliderType == ColliderType::Capsule ){
-            this->circularUPtr = nullptr;
-            this->capsuleUPtr = std::make_unique<JData_InCapsule>();
-            JData_InCapsule *capPtr = this->capsuleUPtr.get();
-            //==
+            std::unique_ptr<ColliDataFromJ_Capsule> capUPtr = std::make_unique<ColliDataFromJ_Capsule>();
+            auto *capPtr = capUPtr.get();
+            capPtr->colliderType = ColliderType::Capsule;
             capPtr->rootAnchor_2_tailAnchor = semiData_.get_tailAnchor() - this->rootAnchorDPosOff;
             capPtr->moveColliRadius = glm::length( semiData_.get_moveColliRadiusAnchor() - this->rootAnchorDPosOff );
             capPtr->skillColliRadius = capPtr->moveColliRadius;
             capPtr->longLen = glm::length( capPtr->rootAnchor_2_tailAnchor );
-
-
             //-- colliPoints --
-            /*
-            for( const auto &i : semiData_.get_colliPointsRef() ){
-                capPtr->colliPointDPosOffs.push_back( i - this->rootAnchorDPosOff );
-            }
-            capPtr->colliPointDPosOffs.push_back( glm::dvec2{0.0,0.0} );            //- rootAnchor
-            capPtr->colliPointDPosOffs.push_back( capPtr->rootAnchor_2_tailAnchor );//- tailAnchor
-            \*/
-            
-            this->calc_colliPoints_for_capsule( capPtr->moveColliRadius, capPtr->longLen, capPtr->rootAnchor_2_tailAnchor );
-
-
-
-                /*
-                cout<< "capsule: moveColliRadius = " << capPtr->moveColliRadius << "\n"
-                    << "capsule: skillColliRadius = " << capPtr->skillColliRadius << "\n"
-                    << "capsule: colliPointDPosOffs.size() = " << capPtr->colliPointDPosOffs.size() 
-                    << endl;
-                */
-
-            //---- functors -----//
-            this->get_rootAnchor_2_tailAnchor= std::bind( &JData_InCapsule::get_rootAnchor_2_tailAnchor, capPtr );
-            this->get_moveColliRadius        = std::bind( &JData_InCapsule::get_moveColliRadius, capPtr );
-            this->get_skillColliRadius       = std::bind( &JData_InCapsule::get_skillColliRadius, capPtr );
-            this->get_colliPointDPosOffsRef  = std::bind( &JData_InCapsule::get_colliPointDPosOffs, capPtr );
-
-                tprAssert( !this->get_colliPointDPosOffsRef().empty() );
-
+            this->calc_colliPoints_for_capsule( capPtr, capPtr->moveColliRadius, capPtr->longLen, capPtr->rootAnchor_2_tailAnchor );
+            capPtr->makeSure_colliPointDPosOffs_isNotEmpty();
+            this->colliDataFromJUPtr.reset( capUPtr.release() );//- move uptr
 
         }else{
             tprAssert(0);
@@ -268,34 +224,28 @@ void FramePos::init_from_semiData( const FramePosSemiData &semiData_ ){
  *              calc_colliPoints_for_circular
  * -----------------------------------------------------------
  */
-void FramePos::calc_colliPoints_for_circular( double radius_ ){
+void AnimActionPos::calc_colliPoints_for_circular(  ColliDataFromJ_Circular *cirPtr_,
+                                                    double radius_ ){
 
     tprAssert( radius_ > 0.0 );
 
     double radius = radius_ + 10.0; //- 适当向外延伸 
     double scale  = radius / static_cast<double>(PIXES_PER_MAPENT);
 
-    JData_InCircular *cirPtr = this->circularUPtr.get();
-    cirPtr->colliPointDPosOffs.clear();
+    cirPtr_->colliPointDPosOffs.clear();
 
     if( scale <= 1.0 ){
-            //cout << "   1.0" << endl;
         for( const auto &i : fp_inn::colliPointScales_cir_1m1 ){
-            cirPtr->colliPointDPosOffs.push_back( i * radius );
+            cirPtr_->colliPointDPosOffs.push_back( i * radius );
         }
-
     }else if( scale <= 2.0 ){
-            //cout << "   2.0" << endl;
         for( const auto &i : fp_inn::colliPointScales_cir_2m2 ){
-            cirPtr->colliPointDPosOffs.push_back( i * radius );
+            cirPtr_->colliPointDPosOffs.push_back( i * radius );
         }
-
     }else if( scale <= 3.0 ){
-            //cout << "   3.0" << endl;
         for( const auto &i : fp_inn::colliPointScales_cir_3m3 ){
-            cirPtr->colliPointDPosOffs.push_back( i * radius );
+            cirPtr_->colliPointDPosOffs.push_back( i * radius );
         }
-
     }else{
         tprAssert(0); // not support jet
     }
@@ -306,9 +256,10 @@ void FramePos::calc_colliPoints_for_circular( double radius_ ){
  *             calc_colliPoints_for_capsule
  * -----------------------------------------------------------
  */
-void FramePos::calc_colliPoints_for_capsule(double radius_, 
-                                            double longLen_,
-                                            const glm::dvec2 &rootAnchor_2_tailAnchor_ ){
+void AnimActionPos::calc_colliPoints_for_capsule(ColliDataFromJ_Capsule *capPtr_,
+                                                double radius_, 
+                                                double longLen_,
+                                                const glm::dvec2 &rootAnchor_2_tailAnchor_ ){
 
     tprAssert( (radius_>0.0) && (longLen_>0.0) );
     tprAssert( radius_ <= static_cast<double>(PIXES_PER_MAPENT) ); //- 暂不支持更大的 capsule
@@ -340,11 +291,10 @@ void FramePos::calc_colliPoints_for_capsule(double radius_,
     }
 
     //---- 将 临时容器中的 collipoint，旋转一个角度，变成最终值 -----//
-    JData_InCapsule *capPtr = this->capsuleUPtr.get();
-    capPtr->colliPointDPosOffs.clear();
+    capPtr_->colliPointDPosOffs.clear();
 
     for( const auto &i : fp_inn::colliPoints_cap_tmp ){
-        capPtr->colliPointDPosOffs.push_back( rotate_vec(i, rootAnchor_2_tailAnchor_) );
+        capPtr_->colliPointDPosOffs.push_back( rotate_vec(i, rootAnchor_2_tailAnchor_) );
     }
 }
 

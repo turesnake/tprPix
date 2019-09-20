@@ -185,7 +185,7 @@ void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             tprAssert(0);
     }
 
-    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
+    //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
 
 
 }

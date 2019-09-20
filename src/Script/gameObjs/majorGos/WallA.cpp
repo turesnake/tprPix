@@ -169,7 +169,7 @@ void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     }
 
-    //goRef_.rebind_rootFramePosPtr_and_colleDatas(); //- 临时性的方案 ...
+    //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
 
 
 }

@@ -4,9 +4,6 @@
  *                                        CREATE -- 2019.09.01
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *    碰撞模块，暂没想好怎么用
- *    关键性数据 全在 mapEnt 中
- * ----------------------------
  */
 #include "Collision.h"
 
@@ -18,7 +15,7 @@
 #include "tprAssert.h"
 #include "GameObjMesh.h"
 #include "GameObj.h"
-#include "FramePos.h"
+#include "AnimActionPos.h"
 #include "MapCoord.h"
 #include "MapEnt.h"
 #include "collide_oth.h"
@@ -46,7 +43,7 @@ void Collision::collect_adjacentBeGos(){
     GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
 
         //-- dogo Must be Circular !!! --
-        tprAssert( dogoRef.get_rootFramePosRef().get_colliderType() == ColliderType::Circular );
+        tprAssert( dogoRef.get_colliderType() == ColliderType::Circular );
 
     Circular dogoCir = dogoRef.calc_circular( CollideFamily::Move );
 
@@ -87,7 +84,7 @@ void Collision::collect_adjacentBeGos(){
         Circular begoCir {};
         Capsule begoCap  {};
         std::pair<CollideState, glm::dvec2> capOut {};
-        switch ( begoRef.get_rootFramePosRef().get_colliderType() ){
+        switch ( begoRef.get_colliderType() ){
             case ColliderType::Circular:
 
                 begoCir = begoRef.calc_circular( CollideFamily::Move );
@@ -103,7 +100,7 @@ void Collision::collect_adjacentBeGos(){
                 capOut = collideState_from_circular_2_capsule( dogoCir, begoCap, 1.0 );
                 
                 if( capOut.first == CollideState::Adjacent ){
-                    this->adjacentBeGos.insert({begoid,  capOut.second }); //- 这是不对的
+                    this->adjacentBeGos.insert({begoid,  capOut.second });
                 }      
                 break;
             default:
@@ -133,7 +130,7 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
     //--
     for( const auto &pair : this->adjacentBeGos ){
         GameObj &begoRef = esrc::get_goRef( pair.first );
-        const auto &begoColliderType = begoRef.get_rootFramePosRef().get_colliderType();
+        const auto &begoColliderType = begoRef.get_colliderType();
 
         //----- 过滤掉那些 背向而行 的 bego -----
         if( begoColliderType == ColliderType::Circular ){
@@ -267,12 +264,11 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     // 调用本函数，意味着 goRef.isMoveCollide 一定为 true !!!
     //---------------------------------------//
     GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
-    const auto  &dogoRootFramePosRef = dogoRef.get_rootFramePosRef();
     glm::dvec2   dogeTargetDPos = dogoRef.get_dpos() + moveVec_;
 
-    
+
         //-- dogo Must be Circular !!! --
-        tprAssert( dogoRootFramePosRef.get_colliderType() == ColliderType::Circular );
+        tprAssert( dogoRef.get_colliderType() == ColliderType::Circular );
 
 
     //----------------------------------------//
@@ -304,7 +300,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
 
     //----------------------------------------//
     //   check each bego，and collect tbegoids
-    Circular dogoCir = dogoRootFramePosRef.calc_circular( dogoRef.get_dpos(), CollideFamily::Move );
+    Circular dogoCir = dogoRef.calc_circular( CollideFamily::Move );
     Circular futureDogoCir = dogoCir.calc_new_circular( moveVec_ ); //- 位于 位移向量的终点
 
     Circular begoCir {};
@@ -314,8 +310,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     for( const auto &begoid : this->begoids ){//- each bego
 
         GameObj &begoRef = esrc::get_goRef( begoid );
-        const auto &begoRootFramePosRef = begoRef.get_rootFramePosRef();
-        const auto &begoColliderType = begoRootFramePosRef.get_colliderType();
+        const auto &begoColliderType = begoRef.get_colliderType();
 
         //-- goAltiRange --//
         //  过滤掉，在 altiRange 不会碰撞的 bego --

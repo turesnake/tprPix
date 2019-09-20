@@ -21,6 +21,7 @@ enum class ColliderType{
     Nil,      //- not call move collide detect
     Circular,
     Capsule,
+    Arc,      //- only support for skillCollide
 };
 
 inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
@@ -31,6 +32,8 @@ inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
         return ColliderType::Circular;
     }else if( name_ == std::string{"Capsule"} ){
         return ColliderType::Capsule;
+    }else if( name_ == std::string{"Arc"} ){
+        return ColliderType::Arc;
     }else{
         tprAssert(0);
         return ColliderType::Circular; //- never reach
@@ -59,7 +62,7 @@ public:
     inline Circular calc_new_circular( const glm::dvec2 &dposOff_ ) const noexcept{
         return Circular{ this->dpos+dposOff_, this->radius };    
     }
-
+    //----- vals -----//
     glm::dvec2  dpos   {};
     double      radius {};
 };
@@ -68,7 +71,6 @@ public:
 class Capsule{
 public:
     Capsule() = default;
-
     inline Capsule calc_new_capsule( const glm::dvec2 &dposOff_ ) const noexcept{
         return Capsule{ this->dpos + dposOff_,
                         this->root_2_tail,
@@ -76,11 +78,40 @@ public:
                         this->radius };
     }
 
+    inline Circular get_rootCir()const noexcept{
+        return Circular{ this->dpos, this->radius };
+    }
+    inline Circular get_tailCir()const noexcept{
+        return Circular{ this->dpos + this->root_2_tail, this->radius };
+    }
+
+
+
+    //----- vals -----//
     glm::dvec2  dpos        {};
     glm::dvec2  root_2_tail {};
     double      longLen     {};
     double      radius      {};
 };
+
+
+class Arc{
+public:
+    Arc()=default;
+
+
+    //----- vals -----//
+    glm::dvec2  dpos       {};
+    glm::dvec2  forward    {};
+    double      radius     {};
+    double      halfRadian {};// 半弧   
+};
+
+
+
+
+
+
 
 
 

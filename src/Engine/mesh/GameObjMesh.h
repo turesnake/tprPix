@@ -91,8 +91,8 @@ public:
     }
 
     //------------- get -------------//    
-    inline const FramePos &get_currentFramePos() const noexcept{
-        return this->animActionPtr->get_currentFramePos( this->animActionPvtData );
+    inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
+        return this->animActionPtr->get_currentAnimActionPos();
     }   
 
     inline const GLuint &get_currentTexName_pic() const noexcept{
@@ -103,7 +103,7 @@ public:
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
     inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
-        return this->animActionPtr->get_currentRootAnchorDPosOff( this->animActionPvtData );
+        return this->animActionPtr->get_currentRootAnchorDPosOff();
     }
 
    inline const IntVec2 &get_animAction_pixNum_per_frame() const noexcept{
