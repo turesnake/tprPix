@@ -65,6 +65,9 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                                                                 std::vector<AnimLabel>{ MapSurfaceRandLvl_2_AnimLabel( msParamPtr->lvl ) },
                                                                 msParamPtr->randVal );
 
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_direction( NineDirection::Mid );
+
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -83,7 +86,7 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
     
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &MapSurfaceLower::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
             //- 当前 mapSurfaceLower 只有一种动画，就是永久待机...
 
     //================ go self vals =================//
@@ -142,7 +145,7 @@ void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
-        case ActionSwitchType::Move_Idle:
+        case ActionSwitchType::Idle:
             //rootGoMeshRef.bind_animFrameSet( "norman" );
             //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->lichen_ForestId );
             break;

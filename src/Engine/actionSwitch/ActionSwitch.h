@@ -40,15 +40,11 @@ public:
             bitMap.init(bitMapBytes);
         }
 
-    inline void bind_func( const F_ACTION_SWITCH &func_ )noexcept{
-        func = func_;
-    }
+    inline void bind_func( const F_ACTION_SWITCH &func_ )noexcept{ this->func = func_; }
 
     void call_func( ActionSwitchType type_ );
 
-    inline void clear_bitMap()noexcept{
-        bitMap.clear_all();
-    }
+    inline void clear_bitMap()noexcept{ bitMap.clear_all(); }
 
     //-- 登记某个 actionSwitch --
     inline void signUp( ActionSwitchType type_ )noexcept{

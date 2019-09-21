@@ -47,12 +47,14 @@ void WallA::init_in_autoMod(GameObj &goRef_,
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_direction( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 pvtBp->subspeciesId,
-                                "move_idle",
+                                "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -67,8 +69,7 @@ void WallA::init_in_autoMod(GameObj &goRef_,
 
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &WallA::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
 
     //================ go self vals =================//   
@@ -155,8 +156,8 @@ void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
-        case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
+        case ActionSwitchType::Idle:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
             break;
 
         //case ActionSwitchType::Move_Move:

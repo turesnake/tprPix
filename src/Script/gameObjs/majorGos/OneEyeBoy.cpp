@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.01.30
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
- * ----------------------------
  */
 #include "Script/gameObjs/majorGos/OneEyeBoy.h"
 
@@ -38,7 +36,6 @@ namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------
 
 }//-------------- namespace: oneEyeBoy_inn end ----------------//
 
-
 struct OneEyeBoy_PvtBinary{
     animSubspeciesId_t subspeciesId {};
     int        tmp {};
@@ -54,18 +51,39 @@ struct OneEyeBoy_PvtBinary{
  */
 void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
                                 const ParamBinary &dyParams_ ){
+    
+    //================ dyParams =================//
+    double randVal {};
+    const DyParams_Field *msParamPtr {nullptr};
+    switch (dyParams_.get_type()){
+        case ParamBinaryType::Field:
+            msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
+            randVal = msParamPtr->fieldUWeight;
+            break;
+        case ParamBinaryType::Nil:
+            randVal = 17.0; //- 随便写
+            break;
+        default:
+            tprAssert(0); //- 尚未实现
+            break;
+    }
+    
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<OneEyeBoy_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "oneEyeBoy", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+    //pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "oneEyeBoy", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_direction( apply_a_random_direction_without_mid(randVal) ); 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 pvtBp->subspeciesId,
-                                "move_idle",
+                                "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -80,8 +98,8 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
 
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &OneEyeBoy::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Move );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Move );
 
 
     //================ go self vals =================//   
@@ -149,6 +167,7 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
         goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
     }
     
+    
 
 
 
@@ -186,6 +205,10 @@ void OneEyeBoy::OnLogicUpdate( GameObj &goRef_ ){
  */
 void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+
+        // 不应该直接是 input 中的 dir，而要基于 go.dir 来修正
+
+
         //cout << "OneEyeBoy::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
@@ -198,14 +221,15 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
-        case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
-            //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+        case ActionSwitchType::Idle:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
+            goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
-        //case ActionSwitchType::Move_Move:
-        //    goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_walk" );
-        //    break;
+        case ActionSwitchType::Move:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "walk" );
+            goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+            break;
 
         default:
             break;

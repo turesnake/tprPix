@@ -61,9 +61,10 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
 
 
 AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
+                                NineDirection      dir_,
                                 const std::string  &actionName_ ){
         tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
-    return anim_inn::animSubs.at(subId_)->get_animActionPtr( actionName_ );
+    return anim_inn::animSubs.at(subId_)->get_animActionPtr( dir_, actionName_ );
 }
 
 

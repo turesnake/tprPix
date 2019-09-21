@@ -18,19 +18,19 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "actionName": "pointer",
+                            "name": "pointer", "dir": "Mid",
                             "type": "singleFrame",
                             "lFrameIdx": 0,
                             "isOpaque": true
                         },
                         {
-                            "actionName": "new",
+                            "name": "new", "dir": "Mid",
                             "type": "singleFrame",
                             "lFrameIdx": 1,
                             "isOpaque": true
                         },
                         {
-                            "actionName": "data",
+                            "name": "data", "dir": "Mid",
                             "type": "singleFrame",
                             "lFrameIdx": 2,
                             "isOpaque": true

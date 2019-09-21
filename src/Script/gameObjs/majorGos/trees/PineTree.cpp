@@ -64,18 +64,20 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<PineTree_PvtBinary>();
 
-
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "pineTree", 
                                                                 msParamPtr->animLabels,
                                                                 10 );
 
-                                //- 依赖 dyparam 数据 来决定
+                             
+    //----- must before creat_new_goMesh() !!! -----//
+    //goRef_.set_direction( apply_a_random_direction(msParamPtr->fieldUWeight) );
+    goRef_.set_direction( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 pvtBp->subspeciesId,
-                                "move_idle",
+                                "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_rect_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -90,7 +92,7 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
 
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &PineTree::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
 
     //================ go self vals =================//   
@@ -176,8 +178,8 @@ void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
-        case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
+        case ActionSwitchType::Idle:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
             break;
 
         default:

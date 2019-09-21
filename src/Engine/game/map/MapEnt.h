@@ -42,6 +42,7 @@
 //-- 投影地图单位的 一级信息 [disk] --//
 //-  优先查看此信息，如有需要，再通过 id 查找 二级信息。
 //-  -- 调整过字段排序 --
+/*
 struct Fst_diskMapEnt{
 
     u16_t   tex_id {NULLID}; //- 地面材质类型texture
@@ -83,7 +84,7 @@ struct Fst_diskMapEnt{
     //--- padding -----
     u8_t   padding  {0};
 };
-
+*/
 
 //-- 投影地图单位的 二级信息 --//
 //-  存储在一个 内存池中，数量有限。
@@ -107,6 +108,7 @@ struct Fst_diskMapEnt{
 // -- 一个 item go 永不独立存入硬盘。（但可放置 宝箱内）
 // -- 一个 major go 拥有数个 mapent，其中只有一个 head ent
 //     只有这个 head ent 会被记录到 二级信息中，剩余的 常规 ent，会被丢弃。
+/*
 struct Sec_diskMapEnt{
 
     goid_t  major_go   {0}; //- 主体 go id／species (活体，建筑，树...)  
@@ -133,6 +135,7 @@ struct Sec_diskMapEnt{
     //---- padding -----//
     u32_t  padding    {0};
 };
+*/
 
 
 

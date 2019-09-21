@@ -21,7 +21,7 @@
 #include "config.h"
 #include "Chunk.h"
 #include "tprAssert.h"
-#include "NineBox.h"
+#include "NineDirection.h"
 
 
 // only two instances in esrc:
@@ -69,9 +69,9 @@ public:
 
     void init( const IntVec2 &playerMPos_ );
 
-    inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineBoxIdx idx_ ) const noexcept{
-        tprAssert( idx_ != NineBoxIdx::Mid_Mid );
-        return this->createZoneOffMPosesSets.at(idx_);
+    inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineDirection dir_ ) const noexcept{
+        tprAssert( dir_ != NineDirection::Mid );
+        return this->createZoneOffMPosesSets.at(dir_);
     }
     inline const std::vector<IntVec2> &get_releaseZoneOffMPoses() const noexcept{
         return this->releaseZoneOffMPoses;
@@ -101,7 +101,7 @@ private:
     //  key 仅为 player 运动方向
     //  ---
     //  目前版本 固定 3*3 激活圈
-    std::unordered_map<NineBoxIdx, std::vector<IntVec2>> createZoneOffMPosesSets {};
+    std::unordered_map<NineDirection, std::vector<IntVec2>> createZoneOffMPosesSets {};
 
     //- 释放圈 所有 chunk.offMPos
     //  尺寸基于 releaseZone.sideLen

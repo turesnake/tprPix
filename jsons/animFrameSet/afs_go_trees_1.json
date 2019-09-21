@@ -1,0 +1,144 @@
+[
+{
+    "name": "pineTree",
+    "pngs": [
+        {
+            "path": "/pineTree/pineTreeSml.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml", "Dark" ],
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml", "Tint" ],
+                    "fstIdx": 1,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/pineTree/pineTreeFat.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Fat", "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Fat", "Dark" ],
+                    "fstIdx": 2,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/pineTree/pineTreeThin.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Thin", "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Thin", "Dark" ],
+                    "fstIdx": 1,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/pineTree/pineTreeHalfDead.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "HalfDead", "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "HalfDead", "Dark" ],
+                    "fstIdx": 2,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "poplar",
+    "pngs": [
+        {
+            "path": "/poplar/poplar.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [],
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+}
+]

@@ -67,9 +67,6 @@ void init_fields(){
  *      atom_try_to_insert_and_init_the_field_ptr   [-WRITE-]
  * -----------------------------------------------------------
  * 检测是否存在，若不存在，生成之。
- * ----
- * 展示了如何使用 unique_lock 来实现 实例init。
- * ----
  */
 void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
 
@@ -148,7 +145,7 @@ void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitud
 /* ===========================================================
  *           atom_field_set_nodeAlti_2     [-WRITE-]
  * -----------------------------------------------------------
- * -- 仅被 Chunk::init() 使用
+ * only used by Chunk::init()
  */
 void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, 
                                 const std::vector<std::unique_ptr<MemMapEnt>> &_chunkMapEnts ){
@@ -242,7 +239,7 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
             //auto *fieldBp = reinterpret_cast<DyParams_Field*>( dyParam.init_binary(ParamBinaryType::Field) );
             auto *fieldBp = dyParam.init_binary<DyParams_Field>( ParamBinaryType::Field );
 
-            fieldBp->fieldWeight = fieldRef.get_uWeight();
+            fieldBp->fieldUWeight = fieldRef.get_uWeight();
             fieldBp->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
             fieldBp->fieldDensity = fieldRef.get_density();
             fieldBp->animLabels.insert( fieldBp->animLabels.end(), animLabels.cbegin(), animLabels.cend() );//- maybe empty

@@ -12,7 +12,7 @@
 
 
 //-------------------- Engine --------------------//
-#include "NineBox.h"
+#include "NineDirection.h"
 #include "DirAxes.h"
 
 
@@ -23,7 +23,7 @@ public:
 
 
     inline void calc_newDir( const DirAxes &dieAxes_ ){
-        this->newDir = dirAxes_2_nineBoxIdx(dieAxes_);
+        this->newDir = dirAxes_2_nineDirection(dieAxes_);
 
 
         
@@ -35,8 +35,8 @@ public:
 
 private:
     
-    NineBoxIdx   oldDir {NineBoxIdx::Mid_Mid};
-    NineBoxIdx   newDir {NineBoxIdx::Mid_Mid};
+    NineDirection   oldDir {NineDirection::Mid};
+    NineDirection   newDir {NineDirection::Mid};
 
 
 

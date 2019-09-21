@@ -47,17 +47,12 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     //-- 设置 go 方向 --
     this->newDirAxes = newDirAxes_;
 
-    /*
-    if( this->newDirAxes.get_x() < -DirAxes::threshold ){
-        this->goRef.set_direction_and_isFlipOver( GODirection::Left );
-    }else if(this->newDirAxes.get_x() > DirAxes::threshold ){
-        this->goRef.set_direction_and_isFlipOver( GODirection::Right );
-    }
-    */
-
-    this->goRef.set_direction_and_isFlipOver( dirAxes_2_nineBoxIdx(newDirAxes_) );
-
-
+    //-- 当 majorGo 停止移动，其direction 保留原值 --
+    NineDirection newDir = dirAxes_2_nineDirection(newDirAxes_);
+    if( (newDir!=NineDirection::Mid) && (newDir!=goRef.get_direction()) ){
+        goRef.set_direction( newDir );
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); //-  move 其实也有很多种.... 
+    }                       //-- 有点丑陋的实现 ....
 }
 
 
@@ -88,9 +83,9 @@ void Move::renderUpdate_crawl(){
     
     //-- switch Move/Idle animAction --
     if( this->oldDirAxes.is_zero() && (this->newDirAxes.is_zero()==false) ){
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Move );
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); //-  move 其实也有很多种.... 
     }else if( (this->oldDirAxes.is_zero()==false) && this->newDirAxes.is_zero() ){
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Move_Idle );
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Idle );
     }
 
     this->oldDirAxes = this->newDirAxes;

@@ -30,12 +30,12 @@
 
 #include "tprCast.h"
 
-//-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --
-//-- 下面这段，暂时没想起来 它是用来做什么的 ... ---
+//-- 64*64 个 Fst_diskMapEnt 元素.[硬盘态] --  无用
+/*
 struct Fst_diskChunk{
     Fst_diskMapEnt data[ ENTS_PER_CHUNK * ENTS_PER_CHUNK ]; //- 512KB
 };
-
+*/
 
 //-- 64*64 个 mapEnt, 组成一张 chunk  [mem] --
 //  chunk 作为一个整体被存储到硬盘，就像 mc 中的 Field

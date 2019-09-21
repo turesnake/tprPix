@@ -17,7 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "NineBox.h"
+#include "NineDirection.h"
 #include "Chunk.h"
 #include "sectionKey.h"
 #include "esrc_gameObj.h"
@@ -82,7 +82,7 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
     void wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
 
-    NineBoxIdx calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
+    NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
 
 }//-------------- namespace: cb_inn end ----------------//
 
@@ -144,7 +144,7 @@ void collect_chunks_need_to_be_build_in_update(){
         //-- 根据 新chunk 和 旧chunk 的位置关系，可以得知，player 的运动方向
         //   根据这个运动方向，调整 创建周边 chunk 的排序。
         //   从而让 运动方向前方的 chunk，更早被创建。
-        NineBoxIdx moveDir = cb_inn::calc_player_move_dir(  cb_inn::lastChunkKey,
+        NineDirection moveDir = cb_inn::calc_player_move_dir(  cb_inn::lastChunkKey,
                                                             cb_inn::currentChunkKey );
 
         cb_inn::lastChunkKey = cb_inn::currentChunkKey;
@@ -397,13 +397,11 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &
  *                calc_player_move_dir
  * -----------------------------------------------------------
  */
-NineBoxIdx calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
+NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
 
     IntVec2 offMPos = chunkKey_2_mpos(newKey_) - chunkKey_2_mpos(oldKey_);
     offMPos = offMPos.floorDiv( static_cast<double>(ENTS_PER_CHUNK) );
-    //- 想要创建成功，xy值必须在 [-1,1] 区间内
-    NineBox nb { offMPos.x, offMPos.y };
-    return NineBox_XY_2_Idx( nb );
+    return intVec2_2_nineDirection( offMPos );
 }
 
 

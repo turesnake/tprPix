@@ -208,7 +208,7 @@ void AnimFrameSet::insert_a_png(  const std::string &lpath_pic_,
                                                                                     paramPtr->subspeciesIdx );
 
         AnimSubspecies &subRef = esrc::find_or_insert_new_animSubspecies( subId );
-        AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionName );
+        AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionDir, paramPtr->actionName );
 
 
         auto aaposId = afs_inn::lAnimActionPosIds.at( i );

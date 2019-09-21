@@ -172,28 +172,28 @@ void ChunkCreateReleaseZone::init_createZoneOffMPosesSets(){
     IntVec2 right_mid    {  1,  0 };
     IntVec2 right_top    {  1,  1 };
     //--
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Bottom,
+    this->createZoneOffMPosesSets.insert({ NineDirection::LeftBottom,
         std::vector<IntVec2>{ mid_mid, left_bottom, left_mid, mid_bottom, left_top, right_bottom, mid_top, right_mid }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Top,
+    this->createZoneOffMPosesSets.insert({ NineDirection::LeftTop,
         std::vector<IntVec2>{ mid_mid, left_top, mid_top, left_mid, left_bottom, right_top, mid_bottom, right_mid }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Top,
+    this->createZoneOffMPosesSets.insert({ NineDirection::RightTop,
         std::vector<IntVec2>{ mid_mid, right_top, mid_top, right_mid, left_top, right_bottom, left_mid, mid_bottom }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Bottom,
+    this->createZoneOffMPosesSets.insert({ NineDirection::RightBottom,
         std::vector<IntVec2>{ mid_mid, right_bottom, mid_bottom, right_mid, right_top, left_bottom, left_mid, mid_top }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Left_Mid,
+    this->createZoneOffMPosesSets.insert({ NineDirection::Left,
         std::vector<IntVec2>{ mid_mid, left_mid, left_bottom, left_top, mid_bottom, mid_top, right_bottom, right_top }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Mid_Bottom,
+    this->createZoneOffMPosesSets.insert({ NineDirection::Bottom,
         std::vector<IntVec2>{ mid_mid, mid_bottom, left_bottom, right_bottom, left_mid, right_mid, left_top, right_top }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Right_Mid,
+    this->createZoneOffMPosesSets.insert({ NineDirection::Right,
         std::vector<IntVec2>{ mid_mid, right_mid, right_bottom, right_top, mid_bottom, mid_top, left_bottom, left_top }
     });
-    this->createZoneOffMPosesSets.insert({ NineBoxIdx::Mid_Top,
+    this->createZoneOffMPosesSets.insert({ NineDirection::Top,
         std::vector<IntVec2>{ mid_mid, mid_top, left_top, right_top, left_mid, right_mid, left_bottom, right_bottom }
     });
     for( auto &pair : this->createZoneOffMPosesSets ){

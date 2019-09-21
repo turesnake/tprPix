@@ -84,8 +84,9 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
     
     std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_, 
-                                                    bool isSameTimeStep_,
                                                     const std::vector<AnimLabel> &labels_ );
+
+    NineDirection jsonStr_2_ninedirection( const std::string &str_ );
 }//------------- namespace: afsJson_inn end --------------//
 
 
@@ -106,6 +107,8 @@ void parse_from_animFrameSetJsonFile(){
     //-----------------------------//
     std::string path_file {};
     std::vector<std::string> lpath_files {
+        "/animFrameSet/afs_go_mids.json",
+        "/animFrameSet/afs_go_trees_1.json",
         "/animFrameSet/afs_gos_1.json",
         "/animFrameSet/afs_mapSurface_1.json",
         "/animFrameSet/afs_uiGos_1.json",
@@ -269,11 +272,12 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
                         bool isPjtSingle_ ){
     
     std::vector<AnimLabel> labels {}; //- 允许是空的
-    std::string actionName {};
-    size_t      fstIdx     {};
-    size_t      idxNums    {};
-    size_t      jFrameIdx  {};
-    bool        isOpaque   {};
+    std::string   actionName {};
+    NineDirection actionDir {};
+    size_t        fstIdx     {};
+    size_t        idxNums    {};
+    size_t        jFrameIdx  {};
+    bool          isOpaque   {};
 
     {//--- animLabels ---//
         const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "animLabels", json_inn::JsonValType::Array );
@@ -293,9 +297,13 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
         const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "idxNums", json_inn::JsonValType::Uint64 );
         idxNums =  cast_2_size_t(a.GetUint64());
     }
-    {//--- actionName ---//
-        const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "actionName", json_inn::JsonValType::String );
+    {//--- name ---//
+        const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "name", json_inn::JsonValType::String );
         actionName = a.GetString();
+    }
+    {//--- dir ---//
+        const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "dir", json_inn::JsonValType::String );
+        actionDir = jsonStr_2_ninedirection( a.GetString() );
     }
     {//--- isOpaque ---//
         const auto &a = json_inn::check_and_get_value( subspeciesEnt_, "isOpaque", json_inn::JsonValType::Bool );
@@ -306,7 +314,7 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i, actionName, jFrameIdx, i, isOpaque, labels) );
+        params_.push_back( std::make_shared<AnimActionParam>(i, actionName, actionDir, jFrameIdx, i, isOpaque, labels) );
     }
 
 }
@@ -334,10 +342,8 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
     if( type == "singleFrame" ){
         params_.push_back( afsJson_inn::singleFrame(subspeciesIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
     }
-    else if( type == "multiFrame_SameTimeStep" ){
-        params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, true, labels_) );
-    }else if( type == "multiFrame_DiffTimeStep" ){
-        params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, false, labels_) );
+    else if( type == "multiFrame" ){
+        params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, labels_) );
     }else{
         tprAssert(0);
     }
@@ -353,13 +359,18 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                 const std::vector<AnimLabel> &labels_,
                                                 bool isPjtSingle_ ){
 
-    std::string actionName {};
-    size_t      jFrameIdx  {};
-    size_t      lFrameIdx  {};
-    bool        isOpaque   {};
+    std::string   actionName {};
+    NineDirection actionDir {};
+    size_t        jFrameIdx  {};
+    size_t        lFrameIdx  {};
+    bool          isOpaque   {};
     {//--- actionName ---//
-        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName", json_inn::JsonValType::String );
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "name", json_inn::JsonValType::String );
         actionName = a.GetString();
+    }
+    {//--- dir ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "dir", json_inn::JsonValType::String );
+        actionDir = jsonStr_2_ninedirection( a.GetString() );
     }
     {//--- lFrameIdx ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdx", json_inn::JsonValType::Uint64 );
@@ -374,8 +385,9 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, jFrameIdx, lFrameIdx, isOpaque, labels_ );
+    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, actionDir, jFrameIdx, lFrameIdx, isOpaque, labels_ );
 }
+
 
 /* ===========================================================
  *                    multiFrame
@@ -383,21 +395,27 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
  */
 std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                             const Value &actionParamEnt_, 
-                                            bool isSameTimeStep_,
                                             const std::vector<AnimLabel> &labels_ ){
 
     std::string         actionName {};
+    NineDirection       actionDir {};
     AnimActionType      actionType {};
     bool                isOrder {};
     bool                isOpaque   {};
+    bool                isSeries   {}; //- 是否存储为 连续帧
+    bool                isTimeStepSame  {};
     size_t              jFrameIdx  {0}; // tmp, 如果某action 有多个 frame，那么 本值一定为 0 ...
     std::vector<size_t> lFrameIdxs {};
     std::vector<size_t> timeSteps {}; //- only for DiffTimeStep
     size_t              timeStep  {}; //- only for SameTimeStep
 
-    {//--- actionName ---//
-        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionName", json_inn::JsonValType::String );
+    {//--- name ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "name", json_inn::JsonValType::String );
         actionName = a.GetString();
+    }
+    {//--- dir ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "dir", json_inn::JsonValType::String );
+        actionDir = jsonStr_2_ninedirection( a.GetString() );
     }
     {//--- actionType ---//
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "actionType", json_inn::JsonValType::String );
@@ -411,20 +429,49 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
         const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isOpaque", json_inn::JsonValType::Bool );
         isOpaque = a.GetBool();
     }
-    {//--- lFrameIdxs [] ---//
-        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdxs", json_inn::JsonValType::Array );
-        for( SizeType i=0; i<a.Size(); i++ ){//- foreach lFrameIdx
-            lFrameIdxs.push_back( cast_2_size_t(a[i].GetUint64()) );
-        }
+    {//--- isSeries ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isSeries", json_inn::JsonValType::Bool );
+        isSeries = a.GetBool();
     }
-    
-    if( isSameTimeStep_ ){
-        //--- timeStep ---//
-        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeStep", json_inn::JsonValType::Uint64 );
-        timeStep = cast_2_size_t(a.GetUint64());
+    {//--- isTimeStepSame ---//
+        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "isTimeStepSame", json_inn::JsonValType::Bool );
+        isTimeStepSame = a.GetBool();
+    }
+
+    if( isSeries ){//- 动画帧在 png中 连续存储
+        size_t fstFrameIdx {};
+        size_t frameNums   {};
+        {//--- fstFrameIdx ---//
+            const auto &a = json_inn::check_and_get_value( actionParamEnt_, "fstFrameIdx", json_inn::JsonValType::Uint64 );
+            fstFrameIdx = cast_2_size_t(a.GetUint64());
+        }
+        {//--- frameNums ---//
+            const auto &a = json_inn::check_and_get_value( actionParamEnt_, "frameNums", json_inn::JsonValType::Uint64 );
+            frameNums = cast_2_size_t(a.GetUint64());
+        }
+        for( size_t i=0; i<frameNums; i++ ){
+            lFrameIdxs.push_back( fstFrameIdx + i );
+        }
+
+    }else{//- 动画帧在 png中 非连续存储，需要手动收集所有帧 idx
+        {//--- lFrameIdxs [] ---//
+            const auto &a = json_inn::check_and_get_value( actionParamEnt_, "lFrameIdxs", json_inn::JsonValType::Array );
+            for( SizeType i=0; i<a.Size(); i++ ){//- foreach lFrameIdx
+                lFrameIdxs.push_back( cast_2_size_t(a[i].GetUint64()) );
+            }
+        }
+
+    }
+
+    if( isTimeStepSame ){
+        {//--- timeStep ---//
+            const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeStep", json_inn::JsonValType::Uint64 );
+            timeStep = cast_2_size_t(a.GetUint64());
+        }
         //---
         return std::make_shared<AnimActionParam>(   subspeciesIdx_,
                                                     actionName,
+                                                    actionDir,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
@@ -433,14 +480,16 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                                     timeStep,
                                                     labels_ );
     }else{
-        //--- timeSteps [] ---//
-        const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeSteps", json_inn::JsonValType::Array );
-        for( SizeType i=0; i<a.Size(); i++ ){//- foreach timeStep
-            timeSteps.push_back( cast_2_size_t(a[i].GetUint64()) );
+        {//--- timeSteps [] ---//
+            const auto &a = json_inn::check_and_get_value( actionParamEnt_, "timeSteps", json_inn::JsonValType::Array );
+            for( SizeType i=0; i<a.Size(); i++ ){//- foreach timeStep
+                timeSteps.push_back( cast_2_size_t(a[i].GetUint64()) );
+            }
         }
         //---
         return std::make_shared<AnimActionParam>(   subspeciesIdx_,
                                                     actionName,
+                                                    actionDir,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
@@ -451,6 +500,23 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
     }
 }
 
+
+NineDirection jsonStr_2_ninedirection( const std::string &str_ ){
+
+    if(       str_ == "Mid" ){ return NineDirection::Mid;
+    }else if( str_ == "L" ){   return NineDirection::Left;
+    }else if( str_ == "LT" ){  return NineDirection::LeftTop;
+    }else if( str_ == "T" ){   return NineDirection::Top;
+    }else if( str_ == "RT" ){  return NineDirection::RightTop;
+    }else if( str_ == "R" ){   return NineDirection::Right;
+    }else if( str_ == "RB" ){  return NineDirection::RightBottom;
+    }else if( str_ == "B" ){   return NineDirection::Bottom;
+    }else if( str_ == "LB" ){  return NineDirection::LeftBottom;
+    }else{
+        tprAssert(0);
+        return NineDirection::Mid; // never reach
+    }
+}
 
 
 }//------------- namespace: afsJson_inn end --------------//

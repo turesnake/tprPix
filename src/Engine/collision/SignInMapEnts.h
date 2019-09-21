@@ -64,7 +64,17 @@ public:
         //-- update news --
         for( const auto &i : this->get_colliPointDPosOffsRefFunc() ){
             this->futureSignINMapEnts.insert( dpos_2_mpos(i+newRootAnchorDPos_) );
+
+                        //-- 这一步也许可以改成 现场计算:
+                        // 根据 圆心，半径，直接计算出 一个正方形，及其覆盖的所有 mapents
+                        // 由于只会被圆形调用，所以只用实现 圆形一种
+                        // ......
+                        // 当 圆形变得很大时，需要的 collipoints 数量会极具增加
+                        // 反过来，临时计算的问题在于，正方形可能会覆盖过多无效 mapent（处于4个角落的）
+                        // 增加后面对 mapent内 bego 的距离检测运算
+                        // ......
         }
+            
         //-- adds --
         for( const auto &i : this->futureSignINMapEnts ){
             if( this->currentSignINMapEnts.find(i) == this->currentSignINMapEnts.end() ){

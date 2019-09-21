@@ -1,0 +1,196 @@
+[
+{
+    "name": "wallA",
+    "pngs": [
+        {
+            "path": "/wallA/wallA2.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Capsule",
+            "subspecies": [
+                {
+                    "type": "handle",
+                    "animLabels": [],
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "name": "idle", "dir": "Mid",
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": true
+                        } 
+                    ]
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "mushroom",
+    "pngs": [
+        {
+            "path": "/mushroom/mushroomA.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [],
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "rock",
+    "pngs": [
+        {
+            "path": "/rock/rockA.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 5,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big", "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big", "Dark" ],
+                    "fstIdx": 3,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/rock/rockB.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid", "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/rock/rockC.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml", "Dark" ],
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml", "Tint" ],
+                    "fstIdx": 4,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "thorn",
+    "pngs": [
+        {
+            "path": "/thorn/thornA.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Tint" ],
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                },
+                {
+                    "type": "batch",
+                    "animLabels": [ "Dark" ],
+                    "fstIdx": 2,
+                    "idxNums": 1,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+},
+{
+    "name": "treeRoot",
+    "pngs": [
+        {
+            "path": "/treeRoot/treeRoot.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [],
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+}
+]

@@ -116,7 +116,8 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
     //-- bind_animAction --//
-    gmesh.bind_animAction( subspeciesId_, actionName_ ); // Must Before Everything!!!
+    //-- 确保提前设置好了 go.direction ！！！
+    gmesh.bind_animAction( subspeciesId_, this->direction, actionName_ ); // Must Before Everything!!!
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 

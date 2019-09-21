@@ -17,7 +17,7 @@
                     "animLabels": [ "Sml" ],
                     "fstIdx": 0,
                     "idxNums": 3,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": true
                 }
             ]
@@ -37,7 +37,7 @@
                     "animLabels": [ "Mid" ],
                     "fstIdx": 0,
                     "idxNums": 3,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": true
                 }
             ]
@@ -57,7 +57,7 @@
                     "animLabels": [ "Big" ],
                     "fstIdx": 0,
                     "idxNums": 3,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": true
                 }
             ]
@@ -82,7 +82,7 @@
                     "animLabels": [ "Sml" ],
                     "fstIdx": 0,
                     "idxNums": 16,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
@@ -102,7 +102,7 @@
                     "animLabels": [ "Mid" ],
                     "fstIdx": 0,
                     "idxNums": 11,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
@@ -122,7 +122,7 @@
                     "animLabels": [ "Big" ],
                     "fstIdx": 0,
                     "idxNums": 1,
-                    "actionName": "idle",
+                    "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]

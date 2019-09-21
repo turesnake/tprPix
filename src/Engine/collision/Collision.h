@@ -18,7 +18,6 @@
 #include <utility> //pair
 
 //-------------------- Engine --------------------//
-#include "NineBox.h"
 #include "ColliderType.h"
 #include "GameObjPos.h"
 #include "GameObjType.h"

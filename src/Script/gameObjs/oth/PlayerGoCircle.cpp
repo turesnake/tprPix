@@ -50,13 +50,16 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", emptyAnimLabels, 10 );
 
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_direction( NineDirection::Mid );
+
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
                                 pvtBp->subspeciesId,
-                                "move_idle", 
+                                "idle", 
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_playerGoCircle_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -68,7 +71,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
         GameObjMesh &frontGoMesh = goRef_.creat_new_goMesh(
                                 "front", //- gmesh-name
                                 "playerGoCircle", 
-                                "move_idle",
+                                "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_playerGoCircle_shader(),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -90,7 +93,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
 
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &PlayerGoCircle::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Move_Idle );
+    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
     //goRef_.actionSwitch.signUp( ActionSwitchType::selfRotate );
 
     //================ go self vals =================//
@@ -169,8 +172,8 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             // 未完成...
 
     switch( type_ ){
-        case ActionSwitchType::Move_Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_idle" );
+        case ActionSwitchType::Idle:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
             break;
 
         //case ActionSwitchType::selfRotate:

@@ -25,6 +25,7 @@
 #include "AnimAction.h"
 #include "animSubspeciesId.h"
 #include "AnimLabel.h"
+#include "NineDirection.h"
 #include "tprCast.h"
 
 
@@ -32,24 +33,50 @@
 //   保存并管理一组 animAction 实例
 class AnimSubspecies{
 public:
-    AnimSubspecies()
-        {
-            this->animActions.reserve(4);
-        }
+    AnimSubspecies()=default;
 
-    inline AnimAction &insert_new_animAction( const std::string &actionName_ )noexcept{
-            tprAssert( this->animActions.find(actionName_) == this->animActions.end() );
-        this->animActions.insert({ actionName_, std::make_unique<AnimAction>() });
-        return *(this->animActions.at(actionName_).get());
+    inline AnimAction &insert_new_animAction(   NineDirection dir_,
+                                                const std::string &actionName_ )noexcept{
+        if( this->animActions.find(dir_) == this->animActions.end() ){
+            this->animActions.insert({ dir_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} });
+        }
+        auto &container = this->animActions.at(dir_);
+            tprAssert( container.find(actionName_) == container.end() );
+        container.insert({ actionName_, std::make_unique<AnimAction>() });
+        //---
+        if( this->actionsDirs.find(actionName_) == this->actionsDirs.end() ){
+            this->actionsDirs.insert({ actionName_, std::unordered_set<NineDirection>{} });
+        }
+        this->actionsDirs.at(actionName_).insert( dir_ ); //- maybe 
+        //---
+        return *(container.at(actionName_).get());
     }
-    inline AnimAction *get_animActionPtr( const std::string &actionName_ )noexcept{
-            tprAssert( this->animActions.find(actionName_) != this->animActions.end() );
-        return this->animActions.at(actionName_).get();
+    
+
+    AnimAction *get_animActionPtr(   NineDirection dir_,
+                                            const std::string &actionName_ )const noexcept;
+
+    /*
+    inline AnimAction *get_animActionPtr(   NineDirection dir_,
+                                            const std::string &actionName_ )const noexcept{
+        tprAssert( this->animActions.find(dir_) != this->animActions.end() );
+        auto &container = this->animActions.at(dir_);
+        tprAssert( container.find(actionName_) != container.end() );
+        return container.at(actionName_).get();
     }
+    */
+
+    inline const std::unordered_set<NineDirection> &get_actionDirs( const std::string &actionName_ )const noexcept{
+        tprAssert( this->actionsDirs.find(actionName_) != this->actionsDirs.end() );
+        return this->actionsDirs.at(actionName_);
+    }
+    
+
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 id
 private:
-    std::unordered_map<std::string, std::unique_ptr<AnimAction>> animActions {};
+    std::unordered_map<NineDirection, std::unordered_map<std::string, std::unique_ptr<AnimAction>>> animActions {};
+    std::unordered_map<std::string, std::unordered_set<NineDirection>> actionsDirs {};
 };
 //============== static ===============//
 inline ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};

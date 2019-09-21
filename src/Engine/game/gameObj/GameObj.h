@@ -43,7 +43,7 @@
 #include "animSubspeciesId.h"
 
 
-//--- 最基础的 go 类，就像一个 "伪接口" ----//
+//--- 一个仍在建设中的 大杂烩 ----//
 // 具象go类 并不用继承 基础go类，而是 “装配” 一个go实例，
 // 通过 function / bind 动态绑定各种回调函数
 // 在 主引擎中，go类 是官方认可的通用类型。也只能通过这个 类来 访问 一切 go实例
@@ -53,7 +53,6 @@
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
-
     using F_void         = std::function<void()>;
     using F_void_double  = std::function<void( double )>;
     using F_double       = std::function<double()>;
@@ -106,13 +105,15 @@ public:
     void init_check(); //- call in end of go init 
 
     //-- 目前被 Crawl 使用 --
-    inline void set_direction_and_isFlipOver( NineBoxIdx dir_ )noexcept{
+    /*
+    inline void set_direction_and_isFlipOver( NineDirection dir_ )noexcept{
         //this->direction = dir_;
         //this->isFlipOver = (this->direction==GODirection::Left); 
                         // 在新视觉风格中，可能被取代....
 
         this->direction = dir_;
     }
+    */
 
 
     //--------- collison ----------//
@@ -156,6 +157,10 @@ public:
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
         return *(this->goMeshs.at(name_).get());
     }
+
+    inline void set_direction( NineDirection dir_ )noexcept{ this->direction = dir_; }
+    inline NineDirection get_direction()const noexcept{ return this->direction; }; 
+
 
     void debug();
 
@@ -201,12 +206,8 @@ public:
     
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
-    //GODirection  direction {GODirection::Left};  //- 朝向
-    NineBoxIdx   direction {NineBoxIdx::Mid_Mid};  //- 角色朝向
+    
 
-                    //- 这个数据只对部分 go 起作用，应该实现为 动态绑定 ...
-                    //  也许可以被整合进 GODirection 中
-                    
 
 
     //---- go 状态 ----//
@@ -293,6 +294,10 @@ private:
     // only one will be used
     std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
     std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
+
+
+    //GODirection  direction {GODirection::Left};  //- 朝向
+    NineDirection   direction {NineDirection::Mid};  //- 角色朝向
 
 
     //----------- pvtBinary -------------//         

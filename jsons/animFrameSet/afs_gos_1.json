@@ -18,7 +18,7 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "actionName": "move_idle",
+                            "name": "idle", "dir": "Mid",
                             "type": "singleFrame",
                             "lFrameIdx": 0,
                             "isOpaque": true
@@ -48,7 +48,7 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "actionName": "move_idle",
+                            "name": "idle", "dir": "Mid",
                             "type": "singleFrame",
                             "lFrameIdx": 0,
                             "isOpaque": false
@@ -60,336 +60,105 @@
     ]
 },
 {
-    "name": "wallA",
+    "name": "simpleMan",
     "pngs": [
         {
-            "path": "/wallA/wallA2.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
+            "path": "/simpleMan/simpleMan2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  8,
+            "totalFrameNum": 48,
+            "isHaveShadow": true,
             "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Capsule",
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
                     "animLabels": [],
                     "subIdx": 0,
                     "AnimActionParams":[
+                        { "name": "idle", "dir": "L", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "LT", "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
+                        { "name": "idle", "dir": "T", "type": "singleFrame", "lFrameIdx": 12, "isOpaque": true },
+                        { "name": "idle", "dir": "RT", "type": "singleFrame", "lFrameIdx": 18, "isOpaque": true },
+                        { "name": "idle", "dir": "R", "type": "singleFrame", "lFrameIdx": 24, "isOpaque": true },
+                        { "name": "idle", "dir": "RB", "type": "singleFrame", "lFrameIdx": 30, "isOpaque": true },
+                        { "name": "idle", "dir": "B", "type": "singleFrame", "lFrameIdx": 36, "isOpaque": true },
+                        { "name": "idle", "dir": "LB", "type": "singleFrame", "lFrameIdx": 42, "isOpaque": true },
+
                         {
-                            "actionName": "move_idle",
-                            "type": "singleFrame",
-                            "lFrameIdx": 0,
+                            "name": "walk", "dir": "L",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 1, "frameNums" : 5,
                             "isOpaque": true
-                        } 
+                        },
+                        {
+                            "name": "walk", "dir": "LT",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 7, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "T",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 13, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "RT",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 19, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "R",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 25, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "RB",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 31, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "B",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 37, "frameNums" : 5,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "walk", "dir": "LB",
+                            "type": "multiFrame",
+                            "actionType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 4,
+                            "isSeries": true, "fstFrameIdx" : 43, "frameNums" : 5,
+                            "isOpaque": true
+                        }
                     ]
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "pineTree",
-    "pngs": [
-        {
-            "path": "/pineTree/pineTreeSml.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Dark" ],
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Tint" ],
-                    "fstIdx": 1,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                }
-            ]
-        },
-        {
-            "path": "/pineTree/pineTreeFat.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Fat", "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Fat", "Dark" ],
-                    "fstIdx": 2,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                }
-            ]
-        },
-        {
-            "path": "/pineTree/pineTreeThin.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Thin", "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Thin", "Dark" ],
-                    "fstIdx": 1,
-                    "idxNums": 3,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                }
-            ]
-        },
-        {
-            "path": "/pineTree/pineTreeHalfDead.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "HalfDead", "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "HalfDead", "Dark" ],
-                    "fstIdx": 2,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": true
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "poplar",
-    "pngs": [
-        {
-            "path": "/poplar/poplar.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstIdx": 0,
-                    "idxNums": 4,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "mushroom",
-    "pngs": [
-        {
-            "path": "/mushroom/mushroomA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstIdx": 0,
-                    "idxNums": 4,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "rock",
-    "pngs": [
-        {
-            "path": "/rock/rockA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  2,
-            "totalFrameNum": 5,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Dark" ],
-                    "fstIdx": 3,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/rock/rockB.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Mid", "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/rock/rockC.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  2,
-            "totalFrameNum": 6,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Dark" ],
-                    "fstIdx": 0,
-                    "idxNums": 4,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Tint" ],
-                    "fstIdx": 4,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "thorn",
-    "pngs": [
-        {
-            "path": "/thorn/thornA.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Tint" ],
-                    "fstIdx": 0,
-                    "idxNums": 2,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Dark" ],
-                    "fstIdx": 2,
-                    "idxNums": 1,
-                    "actionName": "move_idle",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "treeRoot",
-    "pngs": [
-        {
-            "path": "/treeRoot/treeRoot.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "actionName": "move_idle",
-                    "isOpaque": false
                 }
             ]
         }

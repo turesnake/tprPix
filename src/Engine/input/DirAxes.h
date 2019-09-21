@@ -23,7 +23,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprMath.h"
-#include "NineBox.h"
+#include "NineDirection.h"
 
 
 class DirAxes{
@@ -146,56 +146,39 @@ private:
 
 
 
-inline NineBoxIdx dirAxes_2_nineBoxIdx( const DirAxes &da_ ){
+inline NineDirection dirAxes_2_nineDirection( const DirAxes &da_ ){
 
-    int x = da_.get_x();
-    int y = da_.get_y();
+    double x = da_.get_x();
+    double y = da_.get_y();
 
     if( da_.is_zero() ){
-        return NineBoxIdx::Mid_Mid;
+        return NineDirection::Mid;
     }
 
     if( x == 0.0 ){
         return (y > 0.0) ?
-             NineBoxIdx::Mid_Top :
-             NineBoxIdx::Mid_Bottom;
+             NineDirection::Top :
+             NineDirection::Bottom;
     }
 
     if( y == 0.0 ){
         return (x > 0.0) ?
-            NineBoxIdx::Right_Mid :
-            NineBoxIdx::Left_Mid;
+            NineDirection::Right :
+            NineDirection::Left;
     }
 
-    
     double rad = atan2( static_cast<double>(y), static_cast<double>(x) ); // (y,x)
     double eighthPI = 3.1415926 / 8.0;
     
-    if( (rad < (-7.0 * eighthPI)) || (rad > (7.0 * eighthPI)) ){
-        return NineBoxIdx::Left_Mid;
-
-    }else if( rad < (-5.0 * eighthPI) ){
-        return NineBoxIdx::Left_Bottom;
-
-    }else if( rad < (-3.0 * eighthPI) ){
-        return NineBoxIdx::Mid_Bottom;
-
-    }else if( rad < (-1.0 * eighthPI) ){
-        return NineBoxIdx::Right_Bottom;
-
-    }else if( rad < (1.0 * eighthPI) ){
-        return NineBoxIdx::Right_Mid;
-
-    }else if( rad < (3.0 * eighthPI) ){
-        return NineBoxIdx::Right_Top;
-
-    }else if( rad < (5.0 * eighthPI) ){
-        return NineBoxIdx::Mid_Top;
-
-    }else{
-        return NineBoxIdx::Left_Top;
+    if( (rad < (-7.0 * eighthPI)) || (rad > (7.0 * eighthPI)) ){ return NineDirection::Left;
+    }else if( rad < (-5.0 * eighthPI) ){ return NineDirection::LeftBottom;
+    }else if( rad < (-3.0 * eighthPI) ){ return NineDirection::Bottom;
+    }else if( rad < (-1.0 * eighthPI) ){ return NineDirection::RightBottom;
+    }else if( rad < (1.0 * eighthPI) ){ return NineDirection::Right;
+    }else if( rad < (3.0 * eighthPI) ){ return NineDirection::RightTop;
+    }else if( rad < (5.0 * eighthPI) ){ return NineDirection::Top;
+    }else{                              return NineDirection::LeftTop;
     }
-
 }
 
 

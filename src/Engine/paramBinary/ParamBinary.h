@@ -35,7 +35,7 @@ enum class ParamBinaryType{
 
 //-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
 struct DyParams_Field{
-    double       fieldWeight          {};
+    double       fieldUWeight          {};
 	MapAltitude  fieldNodeMapEntAlti  {};
 	Density      fieldDensity         {};
     std::vector<AnimLabel> animLabels {}; //- maybe empty

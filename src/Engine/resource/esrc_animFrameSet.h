@@ -30,6 +30,7 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
                                                     double              randVal_ );
 
 AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
+                                NineDirection      dir_,
                                 const std::string  &actionName_ );
 
 

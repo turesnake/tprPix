@@ -61,6 +61,7 @@ public:
     void RenderUpdate_auto();
 
     void bind_animAction(   animSubspeciesId_t subspeciesId_,
+                            NineDirection      dir_,
                             const std::string &actionName_  );
 
     //------------- set -------------//
