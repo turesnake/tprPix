@@ -176,8 +176,7 @@ void sceneRenderLoop_begin(){
     rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
     //--- clear RenderPools:
-    esrc::clear_renderPool_goMeshs_opaque();
-    esrc::clear_renderPool_goMeshs_translucent();
+    esrc::clear_all_renderPool();
 
     //------------------------//
     //     - shadowMeshs
@@ -197,8 +196,9 @@ void sceneRenderLoop_begin(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     //-- opaque First, Translucent Second !!! --
-    esrc::draw_renderPool_goMeshs_opaque(); 
-    esrc::draw_renderPool_goMeshs_translucent(); 
+    esrc::get_renderPool(RenderPoolType::Opaque).draw();
+    esrc::get_renderPool(RenderPoolType::Translucent).draw();
+
 
 }
 

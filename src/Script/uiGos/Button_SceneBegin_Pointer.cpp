@@ -49,7 +49,7 @@ void Button_SceneBegin_Pointer::init_in_autoMod(GameObj &goRef_,
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_direction( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
@@ -118,7 +118,7 @@ void Button_SceneBegin_Pointer::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
 
     switch( type_ ){
         case ActionSwitchType::ButtonState_1:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(),  "pointer" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(),  "pointer" );
             break;
         default:
             break;

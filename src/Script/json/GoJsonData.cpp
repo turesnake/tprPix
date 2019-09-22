@@ -34,8 +34,16 @@ using std::cout;
 using std::endl;
 
 
-//namespace goJson_inn {//-------- namespace: goJson_inn --------------//
-//}//------------- namespace: goJson_inn end --------------//
+namespace goJson_inn {//-------- namespace: goJson_inn --------------//
+
+    const std::vector<std::string> lpath_files {
+        "gameObjs/gos.json",
+        "gameObjs/trees.json"
+    };
+
+}//------------- namespace: goJson_inn end --------------//
+
+void parse_single_goJsonFile( const std::string &lPath_file_ );
 
 /* ===========================================================
  *                parse_from_goJsonFile
@@ -50,6 +58,22 @@ void parse_from_goJsonFile(){
     //         load file
     //-----------------------------//
     std::string path_file = tprGeneral::path_combine(path_jsons, "gameObjs.json");
+
+    for( const auto &i : goJson_inn::lpath_files ){
+        parse_single_goJsonFile(i);
+    }
+
+    cout << "   ----- parse_from_goJsonFile: end ----- " << endl;
+}
+
+
+void parse_single_goJsonFile( const std::string &lPath_file_ ){
+
+    //-----------------------------//
+    //         load file
+    //-----------------------------//
+    std::string path_file = tprGeneral::path_combine(path_jsons, lPath_file_);
+
     auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//
@@ -142,10 +166,7 @@ void parse_from_goJsonFile(){
         //------------------------------------//
         ssrc::insert_2_go_specId_names_containers( goJsonData.specID, goJsonData.gameObjType );
         ssrc::insert_2_go_jsonDatas( goJsonData );
-
     }
-
-    cout << "   ----- parse_from_goJsonFile: end ----- " << endl;
 }
 
 

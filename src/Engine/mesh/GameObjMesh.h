@@ -33,11 +33,11 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-//#include "Collision.h" 
 #include "ChildMesh.h"
 #include "AnimAction.h"
 #include "RotateScaleData.h"
 #include "animSubspeciesId.h"
+#include "RenderPool.h"
 
 
 //--- need ---//
@@ -91,6 +91,19 @@ public:
         this->shadowMeshUPtr->set_shader_program( sp_ );
     }
 
+    //-- 通常无需调用下2函数，直接使用默认值即可，mapSurfaceLower 除外 --
+    /*
+    inline void set_renderPoolType_picOpaque( RenderPoolType type_ )noexcept{ 
+        this->renderPoolType_picOpaque = type_; 
+    }
+    inline void set_renderPoolType_picTranslucent( RenderPoolType type_ )noexcept{ 
+        this->renderPoolType_picTranslucent = type_; 
+    }
+    inline void set_renderPoolType_shadow( RenderPoolType type_ )noexcept{ 
+        this->renderPoolType_shadow = type_; 
+    }
+    */
+
     //------------- get -------------//    
     inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
         return this->animActionPtr->get_currentAnimActionPos();
@@ -133,12 +146,8 @@ public:
 
     //======== flags ========//
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据
-                            //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
+                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
-    //bool    isCollide  {true};  //- 本mesh所拥有的 碰撞区 是否参与 碰撞检测
-    //bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
-                                // -- gmesh.isFlipOver 决定了 此图元的 静态方向
-                                // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
     bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
                                     // 仅作用于 pic, [被 ChildMesh 使用]
 
@@ -148,6 +157,13 @@ private:
 
     std::unique_ptr<ChildMesh> picMeshUPtr    {nullptr};
     std::unique_ptr<ChildMesh> shadowMeshUPtr {nullptr}; // 不需要时会被及时释放
+
+    //-- 多数go，可直接使用 默认值 --
+    /*
+    RenderPoolType renderPoolType_picOpaque      {RenderPoolType::Opaque};
+    RenderPoolType renderPoolType_picTranslucent {RenderPoolType::Translucent};
+    RenderPoolType renderPoolType_shadow         {RenderPoolType::Shadow};
+    */
 
     glm::vec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）

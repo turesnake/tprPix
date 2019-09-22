@@ -43,7 +43,7 @@
             "applyPercent": 0.5,
             "ecoEnts":[
                 { "specName": "wallA",     "animLabels":[], "num": 2 },
-                { "specName": "oneEyeBoy", "animLabels":[],   "num": 9 }
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 8 }
             ]
         },
         {
@@ -51,7 +51,7 @@
             "applyPercent": 0.7,
             "ecoEnts":[
                 { "specName": "wallA",    "animLabels":[], "num": 3 },
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 8 }
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 8 }
             ]
         },
         {
@@ -59,7 +59,73 @@
             "applyPercent": 0.95,
             "ecoEnts":[
                 { "specName": "wallA",     "animLabels":[], "num": 2 },
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 9 }
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 }
+            ]
+        }
+    ]
+},
+{
+    "name": "DarkForest_1",
+    "EcoSysPlanType": "Forest",
+    "density.SeaLvlOff": 25.0,
+    "density.DivideType": "default",
+    "fixedSeed": 106,
+    "pools":[
+        {
+            "density.lvl": -3,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "oneEyeBoy", "animLabels":[],  "num": 5 }
+            ]
+        },
+        {
+            "density.lvl": -2,
+            "applyPercent": 0.8,
+            "ecoEnts":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": -1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": 0,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 6 }
+            ]
+        },
+        {
+            "density.lvl": 1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 8 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 1 }
+            ]
+        },
+        {
+            "density.lvl": 2,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 8 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 1 }
+            ]
+        },
+        {
+            "density.lvl": 3,
+            "applyPercent": 0.95,
+            "ecoEnts":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Tint" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 1 }
             ]
         }
     ]

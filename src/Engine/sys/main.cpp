@@ -82,19 +82,19 @@ int main( int argc, char* argv[] ){
     input::init_input();             //---- input -----
 
     esrc::init_time();               //---- timer,logicTimeCircle -----
-    esrc::init_gameSeed();           //---- gameSeed ----
+    esrc::init_gameSeed();
     esrc::init_fields();
-    esrc::init_gameArchive();        //---- gameArchive ----
-    esrc::init_camera();             //---- camera 资源 ----
-    esrc::init_shaders();            //---- shaders 资源 ----
-    //esrc::init_colliEntSet_tables(); //---- ces_tables 资源 ----
+    esrc::init_gameArchive();
+    esrc::init_camera();
+    esrc::init_shaders();
+    esrc::init_renderPools();
     esrc::init_chunks();             //---- chunks 模块的各种资源 ----
     esrc::init_chunkDatas();
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
     esrc::init_gameObjs();
 
-    db::atom_init_dataBase();        //---- dataBase 资源 ----
+    db::atom_init_dataBase();
             //-- tmp...
 
     init_timeLog();  //- debug: timeLog 
@@ -113,23 +113,21 @@ int main( int argc, char* argv[] ){
                 //-- 这里的一些资源，会被推迟到 不同的 scene 中...
 
     //++++++ init ++++++//
-    init_VAOVBO();                   //---- VAO,VBO 资源 ----
+    init_VAOVBO();
 
     GameObj::id_manager.set_max_id( 0 );
 
-    esrc::init_player();             //---- player -----
+    esrc::init_player();
     //... 
 
-    tprDebug::init_debug();             //---- tprDebug 资源 ----
+    tprDebug::init_debug();
 
-    esrc::init_canvases();           //---- canvas 资源 ----
+    esrc::init_canvases();
 
     //++++++ load ++++++//
-    //esrc::load_colliEntSets();       //-- colliEntSets --
-
-    load_fieldBorderSets();          //----- fieldBorderSet ----
-    esrc::init_mapSurfaceRandSet();  //----- mapSurfaceRandSet ---
-    esrc::init_ecoSysPlanes();       //----- ecoSysPlanes 资源 ----- MUST after esrc::behaviour.call_Awakes()
+    load_fieldBorderSets();
+    esrc::init_mapSurfaceRandSet();
+    esrc::init_ecoSysPlanes();       // MUST after esrc::behaviour.call_Awakes()
     //...
     
     //------------------------------------------//

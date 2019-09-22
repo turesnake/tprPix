@@ -29,10 +29,9 @@ public:
     static double get_renderLayerZOff( RenderLayerType type_ )noexcept{
         switch(type_){
             case RenderLayerType::Ground:           return ground_zOff;
-            case RenderLayerType::Chunks:           return chunks_zOff;
             case RenderLayerType::MapSurfaceLower:  return mapSurfaceLower_zOff;
-            case RenderLayerType::MapSurfaceUpper:  return mapSurfaceUpper_zOff;
             case RenderLayerType::WaterAnim:        return waterAnim_zOff;
+            case RenderLayerType::MapSurfaceUpper:  return mapSurfaceUpper_zOff;
             case RenderLayerType::UnderGoShadows:   return underGoShadows_zOff;
             case RenderLayerType::GoShadows:        return goShadows_zOff;
             case RenderLayerType::Debug:            return debug_zOff;
@@ -65,14 +64,9 @@ public:
     static double  ground_zOff;
         // 整个游戏最 “深” 的图层，a canvas，往往涂上一个单一的底色
 
-    static double  chunks_zOff;
-        // 游戏地图 图层。 由无数块 chunk 拼接而成。
-        // 其中 water区域是半透明的，可以看到下层的 waterAnimCanvas 效果
-        // ...
-        // 在当前版本中，此层为空
 
-    static double  mapSurfaceLower_zOff;
-    static double  mapSurfaceUpper_zOff;
+    static double  mapSurfaceLower_zOff; // under water
+    static double  mapSurfaceUpper_zOff; // above water
         // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
         // 在未来，也许会放到 waterAnim 下方...
 
@@ -98,30 +92,6 @@ public:
     static double  UIs_zOff;
         // UIs 专用 图层
 };
-
-
-//-- init is delay to ViewingBox::init() --
-inline IntVec2  ViewingBox::windowSZ { 0, 0 };
-inline IntVec2  ViewingBox::gameSZ   { 0, 0 };
-//inline double ViewingBox::windowSZ_vs_gameSZ {0.0};
-inline bool   ViewingBox::isFullScreen {false};
-
-inline double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
-
-inline double  ViewingBox::ground_zOff           { 10.0 };
-inline double  ViewingBox::chunks_zOff           { 20.0 };
-inline double  ViewingBox::mapSurfaceLower_zOff  { 30.0 };
-inline double  ViewingBox::mapSurfaceUpper_zOff  { 40.0 };
-inline double  ViewingBox::waterAnim_zOff        { 50.0 };
-inline double  ViewingBox::underGoShadows_zOff   { 60.0 };
-inline double  ViewingBox::goShadows_zOff        { 70.0 };
-
-//...
-inline double  ViewingBox::debug_zOff         { 100.0 };
-
-//...
-inline double  ViewingBox::aboveMajorGoes_zOff  { 1890.0 };
-inline double  ViewingBox::UIs_zOff             { 1900.0 };
 
 
 #endif

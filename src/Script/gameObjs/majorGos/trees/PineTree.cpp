@@ -66,12 +66,11 @@ void PineTree::init_in_autoMod(GameObj &goRef_,
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "pineTree", 
                                                                 msParamPtr->animLabels,
-                                                                10 );
+                                                                msParamPtr->fieldUWeight );
 
                              
     //----- must before creat_new_goMesh() !!! -----//
-    //goRef_.set_direction( apply_a_random_direction(msParamPtr->fieldUWeight) );
-    goRef_.set_direction( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -179,7 +178,7 @@ void PineTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
             break;
 
         default:

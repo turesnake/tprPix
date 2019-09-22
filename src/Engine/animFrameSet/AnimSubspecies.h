@@ -52,11 +52,12 @@ public:
         return *(container.at(actionName_).get());
     }
     
-
+    /*
     AnimAction *get_animActionPtr(   NineDirection dir_,
                                             const std::string &actionName_ )const noexcept;
+    */
 
-    /*
+    
     inline AnimAction *get_animActionPtr(   NineDirection dir_,
                                             const std::string &actionName_ )const noexcept{
         tprAssert( this->animActions.find(dir_) != this->animActions.end() );
@@ -64,7 +65,7 @@ public:
         tprAssert( container.find(actionName_) != container.end() );
         return container.at(actionName_).get();
     }
-    */
+    
 
     inline const std::unordered_set<NineDirection> &get_actionDirs( const std::string &actionName_ )const noexcept{
         tprAssert( this->actionsDirs.find(actionName_) != this->actionsDirs.end() );

@@ -48,7 +48,7 @@ void WallA::init_in_autoMod(GameObj &goRef_,
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_direction( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -157,7 +157,7 @@ void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
             break;
 
         //case ActionSwitchType::Move_Move:

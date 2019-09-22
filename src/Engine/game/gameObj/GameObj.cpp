@@ -50,6 +50,8 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     this->collisionUPtr = std::make_unique<Collision>(*this);
 
+                //- 如果是 isMoveCollide == false，是不是可以直接不初始化此 组件 ....
+
     //-----------------------//
     //         oth
     //-----------------------//
@@ -117,7 +119,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- bind_animAction --//
     //-- 确保提前设置好了 go.direction ！！！
-    gmesh.bind_animAction( subspeciesId_, this->direction, actionName_ ); // Must Before Everything!!!
+    gmesh.bind_animAction( subspeciesId_, this->actionDirection, actionName_ ); // Must Before Everything!!!
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 

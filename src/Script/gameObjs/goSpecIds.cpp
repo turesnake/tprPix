@@ -61,7 +61,7 @@ void onGoSpecIds_SignUp(){
     //        tree
     //-------------------//
     //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init_in_autoMod, _1, _2 ) );
-    //ssrc::insert_2_goInit_funcs( "pineTree", std::bind( &gameObjs::PineTree::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "pineTree",       std::bind( &gameObjs::PineTree::init_in_autoMod, _1, _2 ) );
 
     //-------------------//
     //        bush

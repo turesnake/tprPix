@@ -104,17 +104,6 @@ public:
 
     void init_check(); //- call in end of go init 
 
-    //-- 目前被 Crawl 使用 --
-    /*
-    inline void set_direction_and_isFlipOver( NineDirection dir_ )noexcept{
-        //this->direction = dir_;
-        //this->isFlipOver = (this->direction==GODirection::Left); 
-                        // 在新视觉风格中，可能被取代....
-
-        this->direction = dir_;
-    }
-    */
-
 
     //--------- collison ----------//
     //-- isPass 系列flag 也许不放在 collision 模块中...
@@ -158,8 +147,8 @@ public:
         return *(this->goMeshs.at(name_).get());
     }
 
-    inline void set_direction( NineDirection dir_ )noexcept{ this->direction = dir_; }
-    inline NineDirection get_direction()const noexcept{ return this->direction; }; 
+    inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
+    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }; 
 
 
     void debug();
@@ -297,7 +286,7 @@ private:
 
 
     //GODirection  direction {GODirection::Left};  //- 朝向
-    NineDirection   direction {NineDirection::Mid};  //- 角色朝向
+    NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
 
 
     //----------- pvtBinary -------------//         

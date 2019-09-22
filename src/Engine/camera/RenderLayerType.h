@@ -14,9 +14,8 @@
 enum class RenderLayerType{
 
     Ground,
-    Chunks,
-    WaterAnim,
     MapSurfaceLower,
+    WaterAnim,
     MapSurfaceUpper,
     UnderGoShadows,
     GoShadows,

@@ -172,10 +172,8 @@ void sceneRenderLoop_world(){
     //          -- RENDER --
     //    Z-Deep 深的 mesh 必须先渲染
     //====================================//
-
     //--- clear RenderPools:
-    esrc::clear_renderPool_goMeshs_opaque();
-    esrc::clear_renderPool_goMeshs_translucent();
+    esrc::clear_all_renderPool();
 
     //------------------------//
     //     mapEntSlices
@@ -198,18 +196,16 @@ void sceneRenderLoop_world(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_groundCanvas();
-    
 
         tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
         tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
 
     //-- opaque First, Translucent Second !!! --
-    esrc::draw_renderPool_goMeshs_opaque(); 
-    esrc::draw_renderPool_goMeshs_translucent(); 
+    esrc::get_renderPool(RenderPoolType::Opaque).draw();
+    esrc::get_renderPool(RenderPoolType::Translucent).draw();
 
-    esrc::draw_waterAnimCanvas();//- 这样，mapsurface gos 就在 water 层下方呈现了... 
-                                //  可能不是最好的办法
-
+    esrc::draw_waterAnimCanvas();
+    esrc::get_renderPool(RenderPoolType::Shadow).draw(); // 确保最后渲染
 }
 
 

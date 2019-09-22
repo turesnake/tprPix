@@ -5,6 +5,9 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *   go direction
+ * 
+ *         暂无效...
+ * 
  * ----------------------------
  */
 #ifndef TPR_DIRECTION_H
@@ -16,32 +19,22 @@
 #include "DirAxes.h"
 
 
-
+/*
 class GODirection{
 public:
-
-
 
     inline void calc_newDir( const DirAxes &dieAxes_ ){
         this->newDir = dirAxes_2_nineDirection(dieAxes_);
 
-
-        
     }
-
-
-
-
 
 private:
     
     NineDirection   oldDir {NineDirection::Mid};
     NineDirection   newDir {NineDirection::Mid};
 
-
-
-
 };
+*/
 
 
 #endif 

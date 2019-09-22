@@ -5,7 +5,7 @@
 #include "tprDebug.h"
 
 
-
+/*
 AnimAction *AnimSubspecies::get_animActionPtr(   NineDirection dir_,
                                             const std::string &actionName_ )const noexcept{
 
@@ -26,7 +26,7 @@ AnimAction *AnimSubspecies::get_animActionPtr(   NineDirection dir_,
         tprAssert( container.find(actionName_) != container.end() );
         return container.at(actionName_).get();
     }
-
+*/
 
 
 

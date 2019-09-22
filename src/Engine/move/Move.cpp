@@ -49,8 +49,8 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
     //-- 当 majorGo 停止移动，其direction 保留原值 --
     NineDirection newDir = dirAxes_2_nineDirection(newDirAxes_);
-    if( (newDir!=NineDirection::Mid) && (newDir!=goRef.get_direction()) ){
-        goRef.set_direction( newDir );
+    if( (newDir!=NineDirection::Mid) && (newDir!=goRef.get_actionDirection()) ){
+        goRef.set_actionDirection( newDir );
         this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); //-  move 其实也有很多种.... 
     }                       //-- 有点丑陋的实现 ....
 }
@@ -116,6 +116,7 @@ void Move::renderUpdate_drag(){
             //-----------------------------------------
             //-- 这个检测，最好在，所有工作都结束后，
             //   此时的结果最准确
+            /*
             {//-- 打印 当前帧的 ces 区域 --- 
                 tprDebug::clear_mapEntSlices();
                 for( const auto &i : this->goRef.get_currentSignINMapEntsRef() ){
@@ -123,6 +124,7 @@ void Move::renderUpdate_drag(){
                 }
             }
             //-----------------------------------------
+            */
 
     if( this->isMoving == false ){
         return;

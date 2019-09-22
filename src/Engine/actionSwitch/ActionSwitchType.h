@@ -40,7 +40,7 @@ enum class ActionSwitchType : u32_t{
     //...
 
 
-    //selfRotate //- 仅被 PlayerGoCircle 使用 tmp
+    selfRotate, //- 仅被 PlayerGoCircle 使用 tmp
 
     ButtonState_1, //- tmp
     ButtonState_2, //- tmp

@@ -73,14 +73,15 @@ void GameObjMesh::RenderUpdate_auto(){
 
     this->picMeshUPtr->refresh_scale_auto();
     this->picMeshUPtr->refresh_translate();
-
     //  不透明／半透明    
     if( this->animActionPtr->get_isOpaque() ){
-        esrc::insert_2_renderPool_goMeshs_opaque(   this->picMeshUPtr->get_render_z(), 
-                                                    this->picMeshUPtr->getnc_ChildMeshPtr() );
+        esrc::get_renderPool(RenderPoolType::Opaque).insert( 
+                this->picMeshUPtr->get_render_z(), 
+                this->picMeshUPtr->getnc_ChildMeshPtr() );
     }else{
-        esrc::insert_2_renderPool_goMeshs_translucent(  this->picMeshUPtr->get_render_z(), 
-                                                        this->picMeshUPtr->getnc_ChildMeshPtr() );
+        esrc::get_renderPool(RenderPoolType::Translucent).insert( 
+                this->picMeshUPtr->get_render_z(), 
+                this->picMeshUPtr->getnc_ChildMeshPtr() );
     }
 
     //---------------//
@@ -89,15 +90,12 @@ void GameObjMesh::RenderUpdate_auto(){
     if( this->isHaveShadow ){
         this->shadowMeshUPtr->refresh_scale_auto();
         this->shadowMeshUPtr->refresh_translate();
-        // shadow 一律是 半透明的 
-        esrc::insert_2_renderPool_goMeshs_translucent(  this->shadowMeshUPtr->get_render_z(), 
-                                                        this->shadowMeshUPtr->getnc_ChildMeshPtr() );
+        //---
+        esrc::get_renderPool(RenderPoolType::Shadow).insert( 
+                this->shadowMeshUPtr->get_render_z(), 
+                this->shadowMeshUPtr->getnc_ChildMeshPtr() );
     }
 }
-
-
-
-
 
 
 

@@ -17,6 +17,31 @@
 #include "tprDebug.h"
 
 
+//-- init is delay to ViewingBox::init() --
+IntVec2  ViewingBox::windowSZ { 0, 0 };
+IntVec2  ViewingBox::gameSZ   { 0, 0 };
+//double ViewingBox::windowSZ_vs_gameSZ {0.0};
+bool   ViewingBox::isFullScreen {false};
+
+double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
+
+double  ViewingBox::ground_zOff           { 10.0 };
+double  ViewingBox::mapSurfaceLower_zOff  { 20.0 };
+
+double  ViewingBox::waterAnim_zOff        { 30.0 };
+
+double  ViewingBox::mapSurfaceUpper_zOff  { 50.0 };
+double  ViewingBox::underGoShadows_zOff   { 60.0 };
+double  ViewingBox::goShadows_zOff        { 70.0 };
+
+//...
+double  ViewingBox::debug_zOff         { 100.0 };
+
+//...
+double  ViewingBox::aboveMajorGoes_zOff  { 1890.0 };
+double  ViewingBox::UIs_zOff             { 1900.0 };
+
+
 /* ===========================================================
  *                        init
  * -----------------------------------------------------------
@@ -37,7 +62,8 @@ void ViewingBox::init(){
     }
     */
 
-    windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
+    //windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
+    windowSZ_vs_gameSZ_ = srcHeight / 1000.0;
     //windowSZ_vs_gameSZ_ = srcHeight / 4000.0;
 
     ViewingBox::windowSZ.x = windowConfig.windowPixW;

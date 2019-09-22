@@ -77,7 +77,7 @@ void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_direction( apply_a_random_direction_without_mid(randVal) ); 
+    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randVal) ); 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -222,12 +222,12 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         case ActionSwitchType::Move:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "walk" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "walk" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 

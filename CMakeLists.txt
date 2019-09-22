@@ -112,6 +112,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
+                        src/Engine/color/*.cpp 
                         src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
@@ -131,6 +132,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/paramBinary/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
+                        src/Engine/renderPool/*.cpp 
                         src/Engine/resource/*.cpp 
                         src/Engine/scene/*.cpp 
                         src/Engine/script/*.cpp 
@@ -186,6 +188,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
@@ -205,6 +208,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/paramBinary
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/renderPool
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/resource
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/scene
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/script

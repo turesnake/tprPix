@@ -22,6 +22,7 @@
 #include "ParamBinary.h"
 #include "MapSurfaceSpec.h"
 #include "MapSurfaceRandLvl.h"
+#include "RenderPool.h"
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 
@@ -66,19 +67,18 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                                                                 msParamPtr->randVal );
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_direction( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
-        goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle",
-                                RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                                &esrc::get_mapSurface_shader(),  // pic shader
-                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                0.0,  //- off_z
-                                true //- isVisible
-                                );
+        auto &rootGoMeshRef = goRef_.creat_new_goMesh("root", //- gmesh-name
+                                    pvtBp->subspeciesId,
+                                    "idle",
+                                    RenderLayerType::MapSurfaceLower, //- 固定zOff值
+                                    &esrc::get_mapSurface_shader(),  // pic shader
+                                    glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                    0.0,  //- off_z
+                                    true ); //- isVisible
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -121,6 +121,11 @@ void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
     goRef_.render_all_goMesh();
+
+    //auto &rootGoMeshRef = goRef_.get_goMeshRef("root");
+    //rootGoMeshRef
+
+
 }
 
 

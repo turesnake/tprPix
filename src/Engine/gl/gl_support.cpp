@@ -186,7 +186,7 @@ void glad_set(){
     //                绝大部分 图元 都应该属于这个类型
     //     -- 少部分 半透明 图元。单独处理。使用上述的 按次序渲染法，
     //
-    //   确保，先渲染所有的 “非半透明”图元集，后渲染 半透明图元集
+    //   确保，先渲染所有的 实心图元，后渲染 半透明图元
     //
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );

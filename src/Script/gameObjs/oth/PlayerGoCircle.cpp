@@ -51,7 +51,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", emptyAnimLabels, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_direction( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Mid );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
@@ -94,7 +94,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &PlayerGoCircle::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
-    //goRef_.actionSwitch.signUp( ActionSwitchType::selfRotate );
+    goRef_.actionSwitch.signUp( ActionSwitchType::selfRotate );
 
     //================ go self vals =================//
     
@@ -113,7 +113,7 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     //            AI
     //-------------------------------------//
     //...
-    /*
+    
     GameObj &playerGoRef = esrc::get_player().get_goRef();
 
     goRef_.move.set_drag_targetDPos( playerGoRef.get_dpos() );
@@ -127,14 +127,14 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
         rotateDegree.z -= 360.f;
     }
     rootGoMeshRef.rotateScaleData.set_rotateDegree( rotateDegree );
-    */
+    
 
 
 
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    //goRef_.move.RenderUpdate();
+    goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -173,12 +173,12 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_direction(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
             break;
 
-        //case ActionSwitchType::selfRotate:
-            //goMeshRef.bind_animAction( pvtBp->subspeciesId, "selfRotate" );
-        //    break;
+        case ActionSwitchType::selfRotate:
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "selfRotate" );
+            break;
 
         default:
             break;
