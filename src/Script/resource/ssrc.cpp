@@ -40,18 +40,10 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
     std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs {}; 
 
     //--- uiGo ---
-    //std::unordered_map<uiObjSpecId_t, std::string> ui_specId_names {};   //-- 将被废弃...
-    //std::unordered_map<std::string, uiObjSpecId_t> ui_name_specIds {};   //-- 将被废弃...
-
-
     std::unordered_map<goSpecId_t, UIGoJsonData> uiGo_jsonDatas {}; //- new
 
-    std::unordered_map<goSpecId_t, std::string> uiGo_specId_names_2 {}; //- new
-    std::unordered_map<std::string, goSpecId_t> uiGo_name_specIds_2 {}; //- new
-
-
-    //std::unordered_map<uiObjSpecId_t, F_UI_INIT> uiInit_funcs {};  //-- 将被废弃...
-
+    std::unordered_map<goSpecId_t, std::string> uiGo_specId_names {}; //- new
+    std::unordered_map<std::string, goSpecId_t> uiGo_name_specIds {}; //- new
 
     std::unordered_map<goSpecId_t, F_GO_INIT> uiGoInit_funcs {}; //- new
                                                     // 其实可以被整合进 goInit_funcs 中
@@ -77,11 +69,11 @@ void clear_go_specId_names(){
 void clear_go_name_specIds(){
     ssrc_inn::go_name_specIds.clear();
 }
-void clear_uiGo_specId_names_2(){
-    ssrc_inn::uiGo_specId_names_2.clear();
+void clear_uiGo_specId_names(){
+    ssrc_inn::uiGo_specId_names.clear();
 }
-void clear_uiGo_name_specIds_2(){
-    ssrc_inn::uiGo_name_specIds_2.clear();
+void clear_uiGo_name_specIds(){
+    ssrc_inn::uiGo_name_specIds.clear();
 }
 
 
@@ -92,9 +84,9 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
     ssrc_inn::go_name_specIds.insert({ name_, id_ });
 }
 
-void insert_2_uiGo_specId_names_containers_2( goSpecId_t id_, const std::string &name_ ){
-    ssrc_inn::uiGo_specId_names_2.insert({ id_, name_ });
-    ssrc_inn::uiGo_name_specIds_2.insert({ name_, id_ });
+void insert_2_uiGo_specId_names_containers( goSpecId_t id_, const std::string &name_ ){
+    ssrc_inn::uiGo_specId_names.insert({ id_, name_ });
+    ssrc_inn::uiGo_name_specIds.insert({ name_, id_ });
 }
 
 void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ ){
@@ -120,11 +112,11 @@ goSpecId_t get_goSpecId( const std::string &name_ ){
 
 
 goSpecId_t get_uiGoSpecId( const std::string &name_ ){
-        if( ssrc_inn::uiGo_name_specIds_2.find(name_) == ssrc_inn::uiGo_name_specIds_2.end() ){
+        if( ssrc_inn::uiGo_name_specIds.find(name_) == ssrc_inn::uiGo_name_specIds.end() ){
             cout << "can not find name_: " << name_ << endl;
         }
-        tprAssert( ssrc_inn::uiGo_name_specIds_2.find(name_) != ssrc_inn::uiGo_name_specIds_2.end() );
-    return ssrc_inn::uiGo_name_specIds_2.at(name_);
+        tprAssert( ssrc_inn::uiGo_name_specIds.find(name_) != ssrc_inn::uiGo_name_specIds.end() );
+    return ssrc_inn::uiGo_name_specIds.at(name_);
 }
 
 

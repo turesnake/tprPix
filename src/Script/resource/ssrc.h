@@ -76,7 +76,7 @@ const GoJsonData &get_goJsonData( goSpecId_t id_ );
 //-------------------------------//
 //             ui
 //-------------------------------//
-void insert_2_uiGo_specId_names_containers_2( goSpecId_t id_, const std::string &name_ );
+void insert_2_uiGo_specId_names_containers( goSpecId_t id_, const std::string &name_ );
 
 
 //--- 下面这部分 放的很乱... ---
@@ -110,8 +110,8 @@ void clear_goInit_funcs();
 void clear_uiGoInit_funcs();
 void clear_go_specId_names();
 void clear_go_name_specIds();
-void clear_uiGo_specId_names_2();
-void clear_uiGo_name_specIds_2();
+void clear_uiGo_specId_names();
+void clear_uiGo_name_specIds();
 
 
 

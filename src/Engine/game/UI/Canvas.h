@@ -32,24 +32,17 @@
 #include "Mesh.h"
 
 
-
 class Canvas{
 public:
     Canvas() = default;
 
-    void init(  IntVec2 *texSizePtr_,
-                const std::string &lpath_vs_,
-                const std::string &lpath_fs_ );
+    void init(  IntVec2 *texSizePtr_, ShaderProgram *shaderPtr_ );
 
     void draw();
 
     inline void use_shaderProgram()noexcept{
         this->is_binded = true;
-        this->shaderProgram.use_program();
-    }
-    inline void add_new_uniform( const std::string &name_ )noexcept{
-        tprAssert( this->is_binded );
-        this->shaderProgram.add_new_uniform( name_ );
+        this->shaderPtr->use_program();
     }
     inline void set_translate( float x_, float y_, float z_ )noexcept{
         tprAssert( this->is_binded );
@@ -57,23 +50,17 @@ public:
     }
     inline GLint get_uniform_location( const std::string &name_ )noexcept{
         tprAssert( this->is_binded );
-        return this->shaderProgram.get_uniform_location( name_ );
+        return this->shaderPtr->get_uniform_location( name_ );
     }
 
 private:
-
     //===== vals =====//
-    IntVec2   *texSizePtr {}; //- = ViewingBox::screenSZ,
-
+    IntVec2       *texSizePtr {}; //- = ViewingBox::screenSZ,
     Mesh           mesh {};
-
-    ShaderProgram  shaderProgram {};
-            //- Canvas 实例 往往是独一无二的，比如实现 水域动画的。
-            //  这些实例，各自配有独立的 glsl 程序组。
+    ShaderProgram *shaderPtr {nullptr};
 
     //===== flags =====//
-    bool  is_binded {false};    //- 统一 绑定／释放
-
+    bool  is_binded {false};    //- 统一 绑定／释放, 看起来有点笨拙
 };
 
 

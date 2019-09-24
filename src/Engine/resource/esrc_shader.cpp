@@ -9,74 +9,147 @@
  */
 
 //-------------------- CPP --------------------//
+#include <unordered_map>
 #include <memory>
 
 //-------------------- Engine --------------------//
 #include "esrc_shader.h"
+#include "esrc_uniformBlockObj.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 namespace shader_inn {//-------- namespace: shader_inn --------------//
 
-    std::unique_ptr<ShaderProgram> rect_shaderUPtr;
-    std::unique_ptr<ShaderProgram> playerGoCircle_shaderUPtr;
-    std::unique_ptr<ShaderProgram> mapSurface_shaderUPtr;
-
+    std::unordered_map<ShaderType, std::unique_ptr<ShaderProgram>> shaderUPtrs {};
 
 }//------------- namespace: shader_inn end --------------//
 
 
-/* ===========================================================
- *                   get_rect_shader
- * -----------------------------------------------------------
- */
-ShaderProgram &get_rect_shader(){
-    return *(shader_inn::rect_shaderUPtr.get());
+ShaderProgram &get_shaderRef( ShaderType type_ )noexcept{
+    tprAssert( shader_inn::shaderUPtrs.find(type_) != shader_inn::shaderUPtrs.end() );
+    return *(shader_inn::shaderUPtrs.at(type_).get());
 }
-ShaderProgram &get_playerGoCircle_shader(){
-    return *(shader_inn::playerGoCircle_shaderUPtr.get());
+ShaderProgram *get_shaderPtr( ShaderType type_ )noexcept{
+    tprAssert( shader_inn::shaderUPtrs.find(type_) != shader_inn::shaderUPtrs.end() );
+    return shader_inn::shaderUPtrs.at(type_).get();
 }
-ShaderProgram &get_mapSurface_shader(){
-    return *(shader_inn::mapSurface_shaderUPtr.get());
+
+ShaderProgram &insert_new_shader( ShaderType type_ )noexcept{
+    tprAssert( shader_inn::shaderUPtrs.find(type_) == shader_inn::shaderUPtrs.end() );
+    shader_inn::shaderUPtrs.insert({ type_, std::make_unique<ShaderProgram>() });
+    return *(shader_inn::shaderUPtrs.at(type_).get());
 }
 
 
 /* ===========================================================
- *                    init_shaders     [pure]
+ *                    init_shaders 
  * -----------------------------------------------------------
- * -- init 游戏中 所有 shader实例
+ * make sure ubo is inited !!!
  */
 void init_shaders(){
 
-    //---- rect_sahder ----//
-    shader_inn::rect_shaderUPtr = std::make_unique<ShaderProgram>();
-    shader_inn::rect_shaderUPtr->init( "/base.vs", "/base.fs" ); 
-    shader_inn::rect_shaderUPtr->use_program();
-    shader_inn::rect_shaderUPtr->add_new_uniform( "model" );
-    shader_inn::rect_shaderUPtr->add_new_uniform( "view" );
-    shader_inn::rect_shaderUPtr->add_new_uniform( "projection" );
-    shader_inn::rect_shaderUPtr->add_new_uniform( "texture1" );
+    //------ ubos --------//
+    auto &ubo_seeds = esrc::get_uniformBlockObjRef( UBOType::Seeds );
+    auto &ubo_camera = esrc::get_uniformBlockObjRef( UBOType::Camera );
+    auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( UBOType::OriginColorTable );
+    auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( UBOType::UnifiedColorTable );
+    //...
+
+    {//---- originColor_sahder ----//
+        auto &sp = insert_new_shader( ShaderType::OriginColor );
+        //---
+        sp.init( "/originColor.vs", "/originColor.fs" ); //- test
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_originColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_unifiedColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        //...
+    }
+
+    {//---- unifiedColor_sahder ----//
+        auto &sp = insert_new_shader( ShaderType::UnifiedColor );
+        //---
+        sp.init( "/unifiedColor.vs", "/unifiedColor.fs" ); //- test
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_originColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_unifiedColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        //...
+    }
 
 
-    //---- playerGoCircle_sahder ----//
-    shader_inn::playerGoCircle_shaderUPtr = std::make_unique<ShaderProgram>();
-    shader_inn::playerGoCircle_shaderUPtr->init( "/playerGoCircle.vs", "/playerGoCircle.fs" ); 
-    shader_inn::playerGoCircle_shaderUPtr->use_program();
-    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "model" );
-    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "view" );
-    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "projection" );
-    shader_inn::playerGoCircle_shaderUPtr->add_new_uniform( "texture1" );
+    {//---- playerGoCircle_sahder ----//
+        auto &sp = insert_new_shader( ShaderType::PlayerGoCircle );
+        //---
+        sp.init( "/playerGoCircle.vs", "/playerGoCircle.fs" ); 
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+    }
 
 
-    //---- mapSurface_sahder ----//
-    shader_inn::mapSurface_shaderUPtr = std::make_unique<ShaderProgram>();
-    shader_inn::mapSurface_shaderUPtr->init( "/mapSurface.vs", "/mapSurface.fs" ); 
-    shader_inn::mapSurface_shaderUPtr->use_program();
-    shader_inn::mapSurface_shaderUPtr->add_new_uniform( "model" );
-    shader_inn::mapSurface_shaderUPtr->add_new_uniform( "view" );
-    shader_inn::mapSurface_shaderUPtr->add_new_uniform( "projection" );
-    shader_inn::mapSurface_shaderUPtr->add_new_uniform( "texture1" );
+    {//---- mapSurface_sahder ----//
+        auto &sp = insert_new_shader( ShaderType::MapSurface );
+        //---
+        sp.init( "/mapSurface.vs", "/mapSurface.fs" ); 
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+    }
+
+    {//---- canvas: ground ----//
+        auto &sp = insert_new_shader( ShaderType::Ground );
+        //---
+        sp.init( "/groundCanvas.vs",  "/groundCanvas.fs" ); 
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+
+        sp.add_new_uniform( "u_time" ); //- 1-float
+        
+        sp.add_new_uniform( "texSizeW" ); //- 1-float
+        sp.add_new_uniform( "texSizeH" ); //- 1-float
+
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_unifiedColorTable.bind_2_shaderProgram( sp.get_shaderProgramObj() );
+    }
+
+
+    {//---- canvas: water ----//
+        auto &sp = insert_new_shader( ShaderType::Water );
+        //---
+        sp.init( "/waterAnimCanvas.vs", "/waterAnimCanvas.fs" ); 
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+
+        sp.add_new_uniform( "u_time" ); //- 1-float
+
+        sp.add_new_uniform( "texSizeW" ); //- 1-float
+        sp.add_new_uniform( "texSizeH" ); //- 1-float
+
+        //--- ubo --//
+        ubo_seeds.bind_2_shaderProgram( sp.get_shaderProgramObj() );
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+    }
 
 
 }

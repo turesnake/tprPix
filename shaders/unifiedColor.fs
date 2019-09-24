@@ -1,13 +1,13 @@
 /*
- * ====================== groundCanvas.fs ==========================
+ * ===================== unifiedColor.fs ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.08.25
+ *                                        CREATE -- 2019.09.24
  *                                        MODIFY --
  * ----------------------------------------------------------
- *  RenderLayerType::MapSurfaceLower
- *  颜色会跟随 UnifiedColorTable 而更新，但 MapSurfaceLower go 都是半透明的
+ *  RenderLayerType::
+ *  颜色被统一为 unifiedColorTable
  */
- #version 330 core
+#version 330 core
 
 //-- 片段着色器的 主输出：颜色
 out vec4 FragColor;
@@ -18,6 +18,7 @@ in vec2 TexCoord;   //-- 每个pix 在 tecture 上的坐标 [0.0, 1.0] [left_bot
 //-- sampler 系列 是 采样器数据类型。
 //-- 现在，我们创建了 1个 纹理采样器
 uniform sampler2D texture1;
+
 
 //===== UBO =====//
 layout (shared, std140) uniform OriginColorTable {
@@ -53,7 +54,6 @@ layout (shared, std140) uniform UnifiedColorTable {
 vec3 change_color( in vec3 val_ );
 bool closeEnough( in vec3 a_, in vec3 b_ );
 
-
 void main()
 {
     //-- 取得 texture 颜色 --
@@ -67,7 +67,8 @@ void main()
 
     vec3 outColor3 = change_color( texColor.rgb );
 
-    FragColor = vec4( outColor3.rgb, 0.2 );// 需要半透明
+    //FragColor = texColor;
+    FragColor = vec4( outColor3.rgb, texColor.a );
 }
 
 

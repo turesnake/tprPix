@@ -95,7 +95,7 @@ void Chunk::init(){
         for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
             for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
                 entIdx = h * ENTS_PER_CHUNK + w;
-                this->memMapEnts.at(entIdx)->mapAlti = mapEntAltis.at(entIdx);
+                this->memMapEnts.at(entIdx)->set_mapAlti( mapEntAltis.at(entIdx) );
             }
         }
     }
@@ -138,7 +138,7 @@ void Chunk::init_memMapEnts(){
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             auto mapEntUPtr = std::make_unique<MemMapEnt>();
-            mapEntUPtr->mcpos = mcpos + MapCoord{ w, h };
+            mapEntUPtr->set_mcpos( mcpos + MapCoord{w, h} );
             this->memMapEnts.push_back( std::move(mapEntUPtr) ); //-copy
         }
     }

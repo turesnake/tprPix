@@ -1,4 +1,12 @@
-// water anim --
+/*
+ * ====================== waterAnimCanvas.fs ==========================
+ *                          -- tpr --
+ *                                        CREATE -- 2019.03.31
+ *                                        MODIFY --
+ * ----------------------------------------------------------
+ *  RenderLayerType::WaterAnim
+ *  自动生成，水体颜色 随 unifiedColorTable 而变化
+ */
 #version 330 core
 
 //-- 片段着色器的 主输出：颜色
@@ -18,16 +26,28 @@ uniform float u_time; //-- glfwGetTime(); 未做缩放。
                       // 通过 abs(sin(u_time)) 来转换
 
 //---- 用户定制 uniforms -----
-uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
+//uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
 
 //- 对于每个游戏存档，这组值是静态的，只需要传入一次...
 // canvas 本质就是一个 texture，此size（pix）通常等于 gameSZ
 uniform float texSizeW;
 uniform float texSizeH;
-uniform vec2  altiSeed_pposOffSeaLvl;
-uniform vec2  altiSeed_pposOffBig;
-uniform vec2  altiSeed_pposOffMid;
-uniform vec2  altiSeed_pposOffSml;
+
+//===== UBO =====//
+layout (shared, std140) uniform Camera {
+    mat4 view;
+    mat4 projection;
+    vec2 canvasCFPos;
+} camera;
+
+
+layout (shared, std140) uniform Seeds{
+    vec2  altiSeed_pposOffSeaLvl;
+    vec2  altiSeed_pposOffBig;
+    vec2  altiSeed_pposOffMid;
+    vec2  altiSeed_pposOffSml;
+} seeds;
+
 
 
 //============ vals ===========//
@@ -108,7 +128,7 @@ void main()
     // pixCFPos: 以 chunk 为晶格的 fpos
     // 将 显示像素颗粒度，和 游戏中的 同步
     // 如果去掉这组代码，canvas将永远是 最细腻的
-    vec2 pixCFPos = canvasCFPos + lbAlign;
+    vec2 pixCFPos = camera.canvasCFPos + lbAlign;
     
     pixCFPos *= PIXES_PER_CHUNK; //- 晶格边长
     pixCFPos = floor(pixCFPos);
@@ -132,9 +152,9 @@ void main()
     //------------------//
     float altiVal;
     //--- 使用速度最快的 2D-simplex-noise ---
-    float pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
-    float pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
-    float pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+    float pnValBig = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
+    float pnValMid = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
+    float pnValSml = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
 
     float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim, 
                                         pixCFPos.y * freqAnim, 

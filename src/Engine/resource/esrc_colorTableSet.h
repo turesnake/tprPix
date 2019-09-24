@@ -1,23 +1,21 @@
 /*
- * ========================= esrc_shader.h ==========================
+ * ==================== esrc_colorTableSet.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.04.19
+ *                                        CREATE -- 2019.09.23
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_SHADER_H
-#define TPR_ESRC_SHADER_H
+#ifndef TPR_ESRC_COLOR_TABLE_SET_H
+#define TPR_ESRC_COLOR_TABLE_SET_H
 
 //-------------------- Engine --------------------//
-#include "ShaderProgram.h"
-#include "ShaderType.h"
+#include "ColorTable.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-void init_shaders();
 
-ShaderProgram &get_shaderRef( ShaderType type_ )noexcept;
-ShaderProgram *get_shaderPtr( ShaderType type_ )noexcept;
+void init_colorTableSet()noexcept;
+ColorTableSet &get_colorTabelSet()noexcept;
 
 
 }//---------------------- namespace: esrc -------------------------//

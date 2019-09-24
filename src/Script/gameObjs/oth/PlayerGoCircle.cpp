@@ -61,7 +61,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 pvtBp->subspeciesId,
                                 "idle", 
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
-                                &esrc::get_playerGoCircle_shader(),  // pic shader
+                                &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 -500.0,  //- off_z， 沉在所有 MajorGo 后方
                                 true //- isVisible
@@ -73,7 +73,7 @@ void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
                                 "playerGoCircle", 
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
-                                &esrc::get_playerGoCircle_shader(),  // pic shader
+                                &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 500.0,  //- off_z， 浮在所有 MajorGo 前方
                                 true //- isVisible

@@ -57,8 +57,8 @@ void ShaderProgram::init(   const std::string &lpathVs_,
     glGetProgramiv( this->shaderProgram, GL_LINK_STATUS, &success );
     if( !success ){
         glGetProgramInfoLog( this->shaderProgram, 512, nullptr, infoLog );
-        //cout << "ShaderProgram::init: error: \n" 
-        //     << infoLog << endl;
+        cout << "---- ShaderProgram::init: error: ----\n" 
+             << infoLog << endl;
         tprAssert(0);
     }
     //--- 及时释放 ---

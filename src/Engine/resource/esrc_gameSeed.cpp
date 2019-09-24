@@ -16,7 +16,6 @@ namespace gameSeed_inn {//-------- namespace: gameSeed_inn --------------//
     std::unique_ptr<GameSeed> gameSeedUPtr; //- tmp, 游戏种子，
                             //- 暂设为：只有一个种子，且每次运行都重置
 
-
 }//------------- namespace: gameSeed_inn end --------------//
 
 void init_gameSeed(){

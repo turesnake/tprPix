@@ -29,6 +29,8 @@
 #include "GameSeed.h"
 #include "UIAnchor.h"
 
+#include "UBO_Camera.h"
+
 #include "esrc_all.h" //- 所有资源
 
 //-------------------- Script --------------------//
@@ -165,17 +167,18 @@ void sceneRenderLoop_begin(){
 
     //--------------------------------//
     //    camera:: RenderUpdate()
-    //    camera --> shader: view, projection
     //--------------------------------//
     //-- 此时 方向键 并不影响 camera 位移
     esrc::get_camera().RenderUpdate();
-    //--- 
-    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
-    rect_shaderRef.use_program();
-    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
-    //--- clear RenderPools:
+    //--------------------------------//
+    //             ubo
+    //--------------------------------//
+    write_ubo_Camera(); 
+
+    //--------------------------------//
+    //     clear RenderPools
+    //--------------------------------//
     esrc::clear_all_renderPool();
 
     //------------------------//

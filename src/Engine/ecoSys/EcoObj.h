@@ -23,6 +23,7 @@
 #include "GameObjType.h"
 #include "Density.h"
 #include "GoSpecData.h"
+#include "colorTableId.h"
 
 class EcoSysPlan;
 
@@ -85,6 +86,8 @@ private:
 
     ecoSysPlanId_t  ecoSysPlanId {};
     EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
+
+    colorTableId_t  colorTableId {}; // same with ecoPlan.colorTableId
 
     //-- 本 ecoObj mpos 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种

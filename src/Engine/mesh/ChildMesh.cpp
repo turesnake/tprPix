@@ -125,7 +125,6 @@ void ChildMesh::draw(){
     update_mat4_model();
 
     //---------- 将 model矩阵的值传入 某个 着色器程序 ---------
-    //esrc::get_rect_shader().send_mat4_model_2_shader( this->mat4_model );
     tprAssert( this->shaderPtr != nullptr );
     this->shaderPtr->send_mat4_model_2_shader( this->mat4_model );
 

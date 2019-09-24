@@ -26,6 +26,9 @@
 
 #include "tprDebug.h" //- tmp
 
+//-------------------- Script --------------------//
+#include "Script/json/ColorTableJsonData.h" // tmp 不该直接放进来 ...
+
 
 /* ===========================================================
  *                        main
@@ -83,10 +86,11 @@ int main( int argc, char* argv[] ){
 
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
+    esrc::init_colorTableSet();
     esrc::init_fields();
     esrc::init_gameArchive();
     esrc::init_camera();
-    esrc::init_shaders();
+    esrc::init_uniformBlockObjs();
     esrc::init_renderPools();
     esrc::init_chunks();             //---- chunks 模块的各种资源 ----
     esrc::init_chunkDatas();
@@ -104,8 +108,6 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     esrc::start_jobThreads();
 
-
-
     //------------------------------------------//
     //                更多 资源
     //------------------------------------------//
@@ -117,16 +119,20 @@ int main( int argc, char* argv[] ){
 
     GameObj::id_manager.set_max_id( 0 );
 
+    esrc::init_shaders();
     esrc::init_player();
     //... 
 
     tprDebug::init_debug();
 
-    esrc::init_canvases();
+    esrc::init_canvases(); //-must after shader 
 
     //++++++ load ++++++//
     load_fieldBorderSets();
     esrc::init_mapSurfaceRandSet();
+
+    parse_from_colorTableJsonFile(); //- tmp
+
     esrc::init_ecoSysPlanes();       // MUST after esrc::behaviour.call_Awakes()
     //...
     

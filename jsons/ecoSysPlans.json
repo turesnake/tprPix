@@ -2,6 +2,7 @@
 {
     "name": "Line_test_1",
     "EcoSysPlanType": "Forest",
+    "colorTableName": "desert",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "fixedSeed": 43,
@@ -66,7 +67,8 @@
 },
 {
     "name": "DarkForest_1",
-    "EcoSysPlanType": "Forest",
+    "EcoSysPlanType": "DarkForest",
+    "colorTableName": "darkForest",
     "density.SeaLvlOff": 25.0,
     "density.DivideType": "default",
     "fixedSeed": 106,

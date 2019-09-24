@@ -24,7 +24,9 @@
 #include "fileIO.h"
 #include "EcoSysPlan.h"
 #include "AnimLabel.h"
+
 #include "esrc_ecoSysPlan.h"
+#include "esrc_colorTableSet.h"
 
 
 //--------------- Script ------------------//
@@ -60,8 +62,7 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
     }
 
     //----- funcs -----//
-    void parse_pool(   const Value &cpool_,
-                    EcoSysPlan &ecoPlanREf_ );
+    void parse_pool( const Value &cpool_, EcoSysPlan &ecoPlanREf_ );
 
 }//------------- namespace: espJson_inn end --------------//
 
@@ -89,6 +90,7 @@ void parse_from_ecoSysPlansJsonFile(){
 
     //--- tmp-vals ---
     EcoSysPlanType    ecoPlanType {};
+    std::string       colorTableName {};
     double            density_SeaLvlOff {};
     const std::vector<double> *density_DivValsPtr {};
     u32_t             fixedSeed {};
@@ -99,6 +101,10 @@ void parse_from_ecoSysPlansJsonFile(){
         {//--- EcoSysPlanType ---//
             const auto &a = json_inn::check_and_get_value( ent, "EcoSysPlanType", json_inn::JsonValType::String );
             ecoPlanType = str_2_EcoSysPlanType( a.GetString() );
+        }
+        {//--- colorTableName ---//
+            const auto &a = json_inn::check_and_get_value( ent, "colorTableName", json_inn::JsonValType::String );
+            colorTableName = a.GetString();
         }
         {//--- fixedSeed ---//
             const auto &a = json_inn::check_and_get_value( ent, "fixedSeed", json_inn::JsonValType::Uint );
@@ -115,6 +121,7 @@ void parse_from_ecoSysPlansJsonFile(){
 
         auto &ecoPlanRef = esrc::insert_new_ecoSysPlan( ecoPlanType );
 
+        ecoPlanRef.set_colorTableId( esrc::get_colorTabelSet().get_colorTableId(colorTableName) );
         ecoPlanRef.init_densityDatas( density_SeaLvlOff, *density_DivValsPtr );
         ecoPlanRef.init_goSpecDataPools_and_applyPercents();
 

@@ -90,12 +90,7 @@ void parse_from_uiGoJsonFile(){
         //  Now, the uiGoJsonData is inited
         //  insert it into all ssrc::containers
         //------------------------------------//
-        //ssrc::insert_2_go_specId_names_containers( uiGoJsonData.specID, uiGoJsonData.gameObjType );
-        //ssrc::insert_2_go_jsonDatas( uiGoJsonData );
-
-                        //-- 独立的 ui系 容器
-
-        ssrc::insert_2_uiGo_specId_names_containers_2( uiGoJsonData.specID, uiGoJsonData.gameObjType );
+        ssrc::insert_2_uiGo_specId_names_containers( uiGoJsonData.specID, uiGoJsonData.gameObjType );
         ssrc::insert_2_uiGo_jsonDatas( uiGoJsonData );
 
     }

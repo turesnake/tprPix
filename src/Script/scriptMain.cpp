@@ -26,6 +26,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/json/AnimFrameSetJsonData.h"
+#include "Script/json/ColorTableJsonData.h"
 
 
 using namespace std::placeholders;
@@ -46,12 +47,16 @@ void scriptMain(){
     //------- Awakes -------//
 
     esrc::get_behaviour().signUp_Awakes( std::bind( &onGoSpecIds_SignUp ) );
+    //esrc::get_behaviour().signUp_Awakes( std::bind( &parse_from_colorTableJsonFile ) );
 
     //------- Starts -------//
     esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
 
+    
     esrc::get_behaviour().signUp_Starts( std::bind( &parse_from_animFrameSetJsonFile ) ); // MUST after load_colliEntSets()
-                            //  这个函数是不是应该放到 main 中去 ...
+
+                            //  这些 parse函数 是不是应该移动到 main 中去
+                            //  ...
 
 
 }

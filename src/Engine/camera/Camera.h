@@ -14,8 +14,13 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
+//-------------------- C --------------------//
+#include <cmath>
+
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
+#include "FloatVec.h"
+#include "tprAssert.h"
 
 
 class Camera{
@@ -25,10 +30,66 @@ public:
         currentDPos(glm::dvec3(0.0, 0.0, 0.5*ViewingBox::z))
         {}
 
-    void RenderUpdate();
+    inline void RenderUpdate(){
+        if( this->isMoving == false ){
+            return;
+        }
+        
+        glm::dvec2 off { this->targetDPos.x - this->currentDPos.x, 
+                        this->targetDPos.y - this->currentDPos.y };
+        //-- 若非常接近，直接同步 --
+        double criticalVal { 8.0 }; 
+                //-- 适当提高临界值，会让 camera运动变的 “简练”
+                // 同时利于 waterAnimCanvas 中的运算
+        if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
+            this->targetDPos.x = this->currentDPos.x;
+            this->targetDPos.y = this->currentDPos.y;
+                                //- 在足够靠近时，camera放弃继续靠近，但此时并未对齐
+            this->isMoving = false;
+            return;
+        }
 
-    glm::mat4 &update_mat4_view();
-    glm::mat4 &update_mat4_projection();
+        double alignX = this->approachPercent * off.x;
+        double alignY = this->approachPercent * off.y;
+        //-----------
+        this->currentDPos.x += alignX;
+        this->currentDPos.y += alignY;
+        this->currentDPos.z =  -this->currentDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
+    }
+
+
+    inline glm::mat4 &update_mat4_view(){
+        this->mat4_view = glm::lookAt(  glm_dvec3_2_vec3(this->currentDPos), 
+                                        (glm_dvec3_2_vec3(this->currentDPos) + cameraFront), 
+                                        cameraUp );
+        return this->mat4_view;
+    }
+
+
+    inline glm::mat4 &update_mat4_projection(){
+        if( !this->isProjectionSet ){
+            this->isProjectionSet = true; // only once
+        }
+        //-- 在未来，WORK_WIDTH／WORK_HEIGHT 会成为变量（随窗口尺寸而改变）
+        //   所以不推荐，将 ow/oh 写成定值
+        float ow = 0.5f * static_cast<float>(ViewingBox::gameSZ.x);  //- 横向边界半径（像素）
+        float oh = 0.5f * static_cast<float>(ViewingBox::gameSZ.y);  //- 纵向边界半径（像素）
+
+        //------ relative: zNear / zFar --------
+        // 基于 currentDPos, 沿着 cameraFront 方向，推进 zNear_relative，此为近平面
+        // 基于 currentDPos, 沿着 cameraFront 方向，推进 zFar_relative， 此为远平面
+        // 两者都是 定值（无需每帧变化）
+        float zNear_relative  = 0.0f;  //- 负数也接受
+        float zFar_relative   = static_cast<float>(ViewingBox::z);
+
+        this->mat4_projection = glm::ortho( -ow,   //-- 左边界
+                                            ow,   //-- 右边界
+                                            -oh,   //-- 下边界
+                                            oh,   //-- 上边界
+                                            zNear_relative,  //-- 近平面
+                                            zFar_relative ); //-- 远平面
+        return this->mat4_projection;
+    }
 
 
     //-- 瞬移到 某位置 --
@@ -53,17 +114,38 @@ public:
 
     //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
     inline glm::dvec2 get_camera2DDPos() const noexcept{ 
-        return  glm::dvec2{ this->currentDPos.x, 
-                            this->currentDPos.y };  
+        return  glm::dvec2{ this->currentDPos.x, this->currentDPos.y };  
     }
 
     //--- used for render DEEP_Z --
     //-- 注意，此处的 zNear/zFar 是相对世界坐标的 绝对值
-    inline const double &get_zNear() const noexcept{
-        return this->currentDPos.z;
+    inline const double &get_zNear()const noexcept{ return this->currentDPos.z; }
+    inline double get_zFar()const noexcept{ return (this->currentDPos.z - ViewingBox::z); }
+
+    inline bool get_isMoving()const noexcept{ return this->isMoving; }
+    inline bool get_isProjectionSet()const noexcept{ return this->isProjectionSet; }
+
+    //-- only return true in first frame --
+    inline bool get_isFirstFrame()noexcept{ 
+        if( this->isFirstFrame ){
+            this->isFirstFrame = false;
+            return true;
+        }
+        return false;
     }
-    inline double get_zFar() const noexcept{
-        return this->currentDPos.z - ViewingBox::z; 
+
+    inline glm::vec2 calc_canvasFPos()const noexcept{        
+        float w = static_cast<float>(this->currentDPos.x) - (0.5f * static_cast<float>(ViewingBox::gameSZ.x));
+        float h = static_cast<float>(this->currentDPos.y) - (0.5f * static_cast<float>(ViewingBox::gameSZ.y));
+        return glm::vec2{ w, h };
+    }
+
+    //-- canvas.chunk_fpos 
+    inline FloatVec2 calc_canvasCFPos()const noexcept{
+        float w = static_cast<float>(this->currentDPos.x) - (0.5f * static_cast<float>(ViewingBox::gameSZ.x));
+        float h = static_cast<float>(this->currentDPos.y) - (0.5f * static_cast<float>(ViewingBox::gameSZ.y));
+        return FloatVec2{   w / static_cast<float>(PIXES_PER_CHUNK),
+                            h / static_cast<float>(PIXES_PER_CHUNK) };
     }
 
 private:
@@ -87,10 +169,11 @@ private:
     //glm::vec3 worldUp { glm::vec3(0.0f, 1.0f, 0.0f) };     //-- 世界轴的 Up方向，和 cameraUp 有区别。 未被使用...
 
     //===== flags =====//
-    bool   isMoving       {true}; //- 是否在移动
-
+    bool   isMoving        {true}; //- 是否在移动
+    //bool   isMoved         {true}; //- 是否发生过移动， 会触发 ubo 更新
+    bool   isFirstFrame    {true};  //- 游戏第一帧
+    bool   isProjectionSet {false}; //- 目前游戏中，mat4_projection 只需要被传入gl一次 ...
 };
 
-
-
 #endif
+

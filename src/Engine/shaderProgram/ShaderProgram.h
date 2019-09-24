@@ -19,8 +19,10 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 //-------------------- Engine --------------------//
+#include "UniformBlockObj.h"
 #include "tprAssert.h"
 
 
@@ -59,25 +61,10 @@ public:
         glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "model" ) ), 
                             1, 
                             GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(m_)) );
+                            glm::value_ptr(m_) );
     }
 
-    inline void send_mat4_view_2_shader( const glm::mat4 &v_ )noexcept{
-        this->use_program();
-        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "view" ) ),
-                            1, 
-                            GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(v_)) );
-    }
-
-    inline void send_mat4_projection_2_shader( const glm::mat4 &p_ )noexcept{
-        this->use_program();
-        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "projection" ) ),
-                            1, 
-                            GL_FALSE, 
-                            static_cast<const GLfloat*>(glm::value_ptr(p_)) );
-    }
-
+    inline GLuint get_shaderProgramObj()const noexcept{ return this->shaderProgram; }
 
 private:
     void compile( GLuint shaderObj_, const std::string &sbuf_ );

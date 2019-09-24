@@ -211,7 +211,6 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
 /* ===========================================================
  *               copy_datas_from_ecoSysPlan
  * -----------------------------------------------------------
- * -- 
  */
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
 
@@ -220,6 +219,7 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->ecoSysPlanId = targetEcoPlanPtr_->get_id();
     this->ecoSysPlanType = targetEcoPlanPtr_->get_type();
     this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
+    this->colorTableId = targetEcoPlanPtr_->get_colorTableId();
 
     //--- 仅 获得 只读指针 ---
     this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();

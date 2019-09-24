@@ -18,6 +18,7 @@
 #include "esrc_canvas.h"
 #include "esrc_chunk.h"
 #include "esrc_chunkData.h"
+#include "esrc_colorTableSet.h"
 #include "esrc_ecoSysPlan.h"
 #include "esrc_ecoObj.h"
 #include "esrc_field.h"
@@ -30,6 +31,7 @@
 #include "esrc_shader.h"
 #include "esrc_thread.h"
 #include "esrc_time.h"
+#include "esrc_uniformBlockObj.h"
 #include "esrc_window.h"
 #include "esrc_mapSurfaceRandSet.h"
 

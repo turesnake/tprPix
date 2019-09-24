@@ -1,11 +1,11 @@
 /*
- * ====================== playerGoCircle.vs ==========================
+ * ===================== unifiedColor.vs ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.08.19
+ *                                        CREATE -- 2019.09.24
  *                                        MODIFY --
  * ----------------------------------------------------------
- *  RenderLayerType::MajorGoes - 500
- *  未完成，暂时现实 texture 原始颜色
+ *  RenderLayerType::
+ *  颜色被统一为 unifiedColorTable
  */
 #version 330 core
 
@@ -29,7 +29,6 @@ layout (shared, std140) uniform Camera {
     mat4 projection;
     vec2 canvasCFPos;
 } camera;
-
 
 //-- 顶点着色器，只需要 每个顶点 运行一次 --
 //  在我们的 pix 游戏中，所有 图元都是 4个顶点的 矩形。

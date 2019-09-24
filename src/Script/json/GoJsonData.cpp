@@ -41,9 +41,11 @@ namespace goJson_inn {//-------- namespace: goJson_inn --------------//
         "gameObjs/trees.json"
     };
 
+    void parse_single_goJsonFile( const std::string &lPath_file_ );
+
 }//------------- namespace: goJson_inn end --------------//
 
-void parse_single_goJsonFile( const std::string &lPath_file_ );
+
 
 /* ===========================================================
  *                parse_from_goJsonFile
@@ -54,18 +56,54 @@ void parse_from_goJsonFile(){
 
     cout << "   ----- parse_from_goJsonFile: start ----- " << endl;
 
-    //-----------------------------//
-    //         load file
-    //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, "gameObjs.json");
-
     for( const auto &i : goJson_inn::lpath_files ){
-        parse_single_goJsonFile(i);
+        goJson_inn::parse_single_goJsonFile(i);
     }
 
     cout << "   ----- parse_from_goJsonFile: end ----- " << endl;
 }
 
+/* ===========================================================
+ *               assemble_goJsonData_2_go     
+ * -----------------------------------------------------------
+ */
+void assemble_goJsonData_2_newGo( goSpecId_t specID_, 
+                                GameObj &goRef_ ){
+
+    const auto &d = ssrc::get_goJsonData( specID_ );
+
+    goRef_.species   = d.specID;
+    goRef_.parentId  = d.parentID;
+    goRef_.family    = d.family;
+    goRef_.state     = d.state;
+    goRef_.moveState = d.moveState;
+    goRef_.move.set_MoveType( d.moveType );
+
+    goRef_.isTopGo  = d.isTopGo;
+    goRef_.isMoveCollide = d.isMoveCollide;
+    goRef_.set_collision_isDoPass( d.isDoPass );
+    goRef_.set_collision_isBePass( d.isBePass );
+
+    goRef_.move.set_speedLvl( d.speedLvl );
+    goRef_.set_pos_alti( d.alti );
+    goRef_.weight = d.weight;
+
+    //------ pubBinary -------//
+    goRef_.pubBinary.HP = d.pubBinary.HP;
+    goRef_.pubBinary.MP = d.pubBinary.MP;
+
+    //...
+    //------ default -------//
+    goRef_.isDirty = false;
+    goRef_.isControlByPlayer = false;
+    //...
+    //------ tmp -------//
+    goRef_.isActive = true; //- tmp. 是否进入激活圈，应该由 mpos 计算出来 未实现
+    //...
+}
+
+
+namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
 void parse_single_goJsonFile( const std::string &lPath_file_ ){
 
@@ -169,48 +207,5 @@ void parse_single_goJsonFile( const std::string &lPath_file_ ){
     }
 }
 
-
-/* ===========================================================
- *               assemble_goJsonData_2_go     
- * -----------------------------------------------------------
- * -- 
- */
-void assemble_goJsonData_2_newGo( goSpecId_t specID_, 
-                                GameObj &goRef_ ){
-
-    const auto &d = ssrc::get_goJsonData( specID_ );
-
-    goRef_.species   = d.specID;
-    goRef_.parentId  = d.parentID;
-    goRef_.family    = d.family;
-    goRef_.state     = d.state;
-    goRef_.moveState = d.moveState;
-    goRef_.move.set_MoveType( d.moveType );
-
-    goRef_.isTopGo  = d.isTopGo;
-    goRef_.isMoveCollide = d.isMoveCollide;
-    goRef_.set_collision_isDoPass( d.isDoPass );
-    goRef_.set_collision_isBePass( d.isBePass );
-
-    goRef_.move.set_speedLvl( d.speedLvl );
-    goRef_.set_pos_alti( d.alti );
-    goRef_.weight = d.weight;
-
-    //------ pubBinary -------//
-    goRef_.pubBinary.HP = d.pubBinary.HP;
-    goRef_.pubBinary.MP = d.pubBinary.MP;
-
-    //...
-    //------ default -------//
-    goRef_.isDirty = false;
-    goRef_.isControlByPlayer = false;
-    //...
-    //------ tmp -------//
-    goRef_.isActive = true; //- tmp. 是否进入激活圈，应该由 mpos 计算出来 未实现
-    //...
-}
-
-
-
-
+}//------------- namespace: goJson_inn end --------------//
 

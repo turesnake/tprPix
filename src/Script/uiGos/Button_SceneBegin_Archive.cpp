@@ -60,7 +60,7 @@ void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
                                 pvtBp->subspeciesId, 
                                 "new", 
                                 RenderLayerType::UIs, //- 固定zOff值  
-                                &esrc::get_rect_shader(),  // pic shader
+                                &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- off_z， 沉在所有 MajorGo 后方
                                 true //- isVisible

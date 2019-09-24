@@ -14,6 +14,10 @@
 #include "input.h"
 #include "chunkCreate.h"
 #include "chunkRelease.h"
+
+#include "UBO_Seeds.h"
+#include "UBO_Camera.h"
+
 #include "esrc_all.h" //- 所有资源
 
 #include "tprDebug.h"
@@ -72,6 +76,32 @@ void prepare_for_sceneWorld(){
     input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
+
+
+
+    //--------------------------------//
+    //          ubo [one time]
+    //--------------------------------//
+
+    //--- Seeds ---//
+    write_ubo_Seeds();
+    //--- camera ---//
+    write_ubo_Camera();
+
+    {//--- OriginColorTable ---
+        auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( UBOType::OriginColorTable );
+
+        auto &colorTableSetRef = esrc::get_colorTabelSet();
+        auto id = colorTableSetRef.get_colorTableId("origin");
+        auto &originColorTableRef = colorTableSetRef.get_colorTableRef(id);
+
+        ubo_originColorTable.write(0, 
+                            originColorTableRef.get_dataSize(),
+                            originColorTableRef.get_dataPtr<const GLvoid*>() );
+    }
+
+
+
 }
 
 
@@ -145,27 +175,30 @@ void sceneRenderLoop_world(){
 
     //--------------------------------//
     //    camera:: RenderUpdate()
-    //    camera --> shader: view, projection
     //--------------------------------//
     esrc::get_camera().RenderUpdate();
-    //--- rect_shader ---
-    ShaderProgram &rect_shaderRef = esrc::get_rect_shader();
-    rect_shaderRef.use_program();
-    rect_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    rect_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
-    //--- playerGoCircle_shader ---
-    ShaderProgram &playerGoCircle_shaderRef = esrc::get_playerGoCircle_shader();
-    playerGoCircle_shaderRef.use_program();
-    playerGoCircle_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    playerGoCircle_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
 
-    //--- mapSurface_shader ---
-    ShaderProgram &mapSurface_shaderRef = esrc::get_mapSurface_shader();
-    mapSurface_shaderRef.use_program();
-    mapSurface_shaderRef.send_mat4_view_2_shader( esrc::get_camera().update_mat4_view() );
-    mapSurface_shaderRef.send_mat4_projection_2_shader( esrc::get_camera().update_mat4_projection() );
+    //--------------------------------//
+    //             ubo
+    //--------------------------------//
+    {
+        //--- UnifiedColorTable ---//
+        auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( UBOType::UnifiedColorTable );
+        auto &colorTableRef = esrc::get_colorTabelSet().get_colorTableRef( 5 );
+                                    // tmp
+                                    // 应该基于 player 当前所在 ecoobj 
+                                    //
+        ubo_unifiedColorTable.write(   0, 
+                                colorTableRef.get_dataSize(),
+                                colorTableRef.get_dataPtr<const GLvoid*>() );
+                
+                //-- 很多时候，也不需要每帧都 彻底重写数据 --
+                //   而是可以只改写 某一段
 
+        //--- camera ---//
+        write_ubo_Camera(); 
 
+    }
 
 
     //====================================//

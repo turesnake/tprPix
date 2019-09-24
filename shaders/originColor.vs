@@ -1,3 +1,11 @@
+/*
+ * ======================= originColor.vs ==========================
+ *                          -- tpr --
+ *                                        CREATE -- 2019.01.26
+ *                                        MODIFY --
+ * ----------------------------------------------------------
+ *  呈现 texture 原始颜色 
+ */
 #version 330 core
 
 // 由用户程序中 glVertexAttribPointer() 配置  (VAOVBO 模块中) --
@@ -11,8 +19,15 @@ out vec2 TexCoord;  //-- 每个pix 在 tecture 上的坐标 [-1.0,1.0]
 //uniform mat4 transform; //-- 矩阵 变换 变量。
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+//uniform mat4 view;
+//uniform mat4 projection;
+
+//===== UBO =====//
+layout (shared, std140) uniform Camera {
+    mat4 view;
+    mat4 projection;
+    vec2 canvasCFPos;
+} camera;
 
 
 //-- 顶点着色器，只需要 每个顶点 运行一次 --
@@ -20,7 +35,7 @@ uniform mat4 projection;
 //  所以，顶点着色器的 工作负担，要比 片段着色器 轻很多
 void main()
 {
-    gl_Position =  projection * view * model * vec4( aPos, 1.0 ); 
+    gl_Position =  camera.projection * camera.view * model * vec4( aPos, 1.0 ); 
     TexCoord = aTexCoord;
 }
 

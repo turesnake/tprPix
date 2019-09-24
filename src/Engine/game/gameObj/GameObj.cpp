@@ -125,7 +125,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
     gmesh.set_pic_renderLayer( layerType_ ); 
     gmesh.set_pic_shader_program( pixShaderPtr_ );
     if( gmesh.isHaveShadow ){
-        gmesh.set_shadow_shader_program( &esrc::get_rect_shader() ); //- 暂时自动选配 tmp
+        gmesh.set_shadow_shader_program( &esrc::get_shaderRef( ShaderType::UnifiedColor ) ); //- 暂时自动选配 tmp
     }
     
     //-- goMesh pos in go --

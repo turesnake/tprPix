@@ -113,7 +113,7 @@ void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &ch
     size_t  idx = cast_2_size_t( off.y * ENTS_PER_CHUNK + off.x );
 
     tprAssert( idx < chunkMapEnts_.size() );
-    this->nodeMapAlti = chunkMapEnts_.at(idx)->mapAlti;
+    this->nodeMapAlti = chunkMapEnts_.at(idx)->get_mapAlti();
 }
 
 

@@ -61,8 +61,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         explicit FieldData( const MapFieldData_In_ChunkCreate &data_,
                             QuadType       quadType_ ){
             this->fieldKey = data_.fieldKey;
-            this->quadContainerPtr = const_cast<FieldBorderSet::quadContainer_t*>( 
-                                                    &get_fieldBorderSet( data_.fieldBorderSetId, quadType_) );
+            this->quadContainerPtr = &get_fieldBorderSet( data_.fieldBorderSetId, quadType_);
             this->densityIdx = data_.densityIdx;
             this->nodeMPos = data_.nodeMPos;
         }
@@ -73,7 +72,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
         //====== vals ======//
         fieldKey_t               fieldKey {};
-        FieldBorderSet::quadContainer_t  *quadContainerPtr {}; //-- fieldBorderSet 子扇区容器 --
+        const FieldBorderSet::quadContainer_t  *quadContainerPtr {}; //-- fieldBorderSet 子扇区容器 --
     private:
         //====== vals ======//
         size_t                   densityIdx {};
@@ -90,8 +89,8 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
         size_t     pixIdx_in_chunk    {};
         size_t     pixIdx_in_field    {};
         IntVec2    ppos      {};
-        FieldData *fieldDataPtr {nullptr}; 
-    };                          //   可能不需要这个 class 了，新版视觉中，只需要计算一个 pix 的数据
+        //FieldData *fieldDataPtr {nullptr}; 
+    };                       
     
 
 
@@ -321,6 +320,7 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
                 //--------------------------------//
                 // 确定 pix 属于 周边4个field 中的哪一个
                 //--------------------------------//
+                /*
                 count = 0;
                 for( auto &fieldPair : nearby_4_fieldDatas ){ //--- 周边4个 field 信息
                     count++;
@@ -334,6 +334,15 @@ void calc_chunkData(const IntVec2 &chunkMPos_,
                         pixData.fieldDataPtr = const_cast<FieldData*>( &fieldDataRef );
                     }
                 } //--- 周边4个 field 信息 end ---
+                */                      
+
+                                    //- 应该说，这一段没有实现完毕：
+                                    //  现在，field 中每个 mapent 的中点pix 都知道自己属于 哪个 周边 field了
+                                    //  其实可以进一步设置 此 mapent 的 eco 数据
+                                    //
+                                    //  ...
+
+
 
                 //--------------------------------//
                 //  计算 本pix  alti

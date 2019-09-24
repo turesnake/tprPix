@@ -75,7 +75,7 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                                     pvtBp->subspeciesId,
                                     "idle",
                                     RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                                    &esrc::get_mapSurface_shader(),  // pic shader
+                                    &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
                                     glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                     0.0,  //- off_z
                                     true ); //- isVisible

@@ -1,0 +1,73 @@
+[
+  {
+    "colorTableName": "origin",
+    "colors": [
+        { "name": "base_0", "color": [ 240, 240, 240, 255 ] },
+        { "name": "base_1", "color": [ 200, 200, 200, 255 ] },
+        { "name": "base_2", "color": [ 150, 150, 150, 255 ] },
+        { "name": "base_3", "color": [ 120, 120, 120, 255 ] },
+        { "name": "base_4", "color": [ 100, 100, 100, 255 ] },
+        { "name": "base_5", "color": [ 80, 80, 80, 255 ] },
+        { "name": "base_6", "color": [ 50, 50, 50, 255 ] },
+        { "name": "base_7", "color": [ 40, 40, 40, 255 ] },
+        { "name": "ground", "color": [ 0, 0, 0, 0 ] }
+    ]
+  },
+  {
+    "colorTableName": "desert",
+    "colors": [
+        { "name": "base_0", "color": [ 250, 246, 216, 255 ] },
+        { "name": "base_1", "color": [ 213, 209, 186, 255 ] },
+        { "name": "base_2", "color": [ 167, 167, 149, 255 ] },
+        { "name": "base_3", "color": [ 123, 124, 124, 255 ] },
+        { "name": "base_4", "color": [ 102, 101, 97, 255 ] },
+        { "name": "base_5", "color": [ 82, 81, 77, 255 ] },
+        { "name": "base_6", "color": [ 53, 52, 47, 255 ] },
+        { "name": "base_7", "color": [ 41, 39, 37, 255 ] },
+        { "name": "ground", "color": [ 250, 246, 216,255 ] }
+    ]
+  },
+  {
+    "colorTableName": "poplarForest",
+    "colors": [
+        { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
+        { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
+        { "name": "base_2", "color": [ 157, 157, 136, 255 ] },
+        { "name": "base_3", "color": [ 106, 107, 96, 255 ] },
+        { "name": "base_4", "color": [ 82, 81, 76, 255 ] },
+        { "name": "base_5", "color": [ 59, 58, 54, 255 ] },
+        { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
+        { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
+        { "name": "ground", "color": [ 209, 203, 178, 255 ] }
+    ]
+  },
+  {
+    "colorTableName": "darkForest",
+    "colors": [
+        { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
+        { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
+        { "name": "base_2", "color": [ 157, 157, 136, 255 ] },
+        { "name": "base_3", "color": [ 106, 107, 96, 255 ] },
+        { "name": "base_4", "color": [ 82, 81, 76, 255 ] },
+        { "name": "base_5", "color": [ 59, 58, 54, 255 ] },
+        { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
+        { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
+        { "name": "ground", "color": [ 157, 155, 136, 255 ] }
+    ]
+  },
+  {
+    "colorTableName": "blackLand",
+    "colors": [
+        { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
+        { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
+        { "name": "base_2", "color": [ 157, 157, 136, 255 ] },
+        { "name": "base_3", "color": [ 106, 107, 96, 255 ] },
+        { "name": "base_4", "color": [ 82, 81, 76, 255 ] },
+        { "name": "base_5", "color": [ 59, 58, 54, 255 ] },
+        { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
+        { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
+        { "name": "ground", "color": [ 106, 107, 96, 255 ] }
+
+    ]
+  }
+]

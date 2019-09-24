@@ -117,7 +117,7 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
 
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
-    meshRef.set_shader_program( &(esrc::get_rect_shader()) );
+    meshRef.set_shader_program( &(esrc::get_shaderRef(ShaderType::OriginColor)) );
     meshRef.set_scale(glm::vec3{ static_cast<float>(PIXES_PER_MAPENT), 
                                 static_cast<float>(PIXES_PER_MAPENT), 
                                 1.0f });
@@ -144,7 +144,7 @@ void insert_new_pointPic( const glm::vec2 &fpos_ ){
 
     meshRef.init( texName_pointPic );
     meshRef.isVisible = true;
-    meshRef.set_shader_program( &(esrc::get_rect_shader()) );
+    meshRef.set_shader_program( &(esrc::get_shaderRef(ShaderType::OriginColor)) );
     meshRef.set_scale(glm::vec3{ static_cast<float>(pointPicSize.x), 
                                 static_cast<float>(pointPicSize.y), 
                                 1.0f });
