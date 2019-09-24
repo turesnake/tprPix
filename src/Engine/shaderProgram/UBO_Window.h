@@ -1,29 +1,30 @@
 /*
- * ======================= UBO_Seeds.h ==========================
+ * ======================= UBO_Window.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_UBO_SEEDS_H
-#define TPR_UBO_SEEDS_H
+#ifndef TPR_UBO_WINDOW_H
+#define TPR_UBO_WINDOW_H
 
 //-------------------- Engine --------------------//
 #include "FloatVec.h"
 
+
 namespace ubo{//------------- namespace ubo ----------------
 
-// [once]
-struct UBO_Seeds{
-    FloatVec2 altiSeed_pposOffSeaLvl {};
-    FloatVec2 altiSeed_pposOffBig {};
-    FloatVec2 altiSeed_pposOffMid {};
-    FloatVec2 altiSeed_pposOffSml {};
+// [tmp once]
+struct UBO_Window{
+    FloatVec2 gameSZ {}; // equal to ViewingBox::gameSZ
     //....
 };
 
+// only called in:
+// -1- app.init
+// -2- windowSZ changed (never yet...)
+void write_ubo_Window();
 
-void write_ubo_Seeds();
 
 }//------------- namespace ubo: end ----------------
 #endif 

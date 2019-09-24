@@ -17,7 +17,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_uniformBlockObjs()noexcept; //-- must before esrc::init_shaders() !!!
 
-UniformBlockObj &get_uniformBlockObjRef( UBOType type_ )noexcept;
+ubo::UniformBlockObj &get_uniformBlockObjRef( ubo::UBOType type_ )noexcept;
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

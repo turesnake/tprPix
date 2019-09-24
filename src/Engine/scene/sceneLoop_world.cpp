@@ -5,6 +5,9 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *   正式游戏的 sceneLoop
+ * 
+ *        临时版本 ...
+ * 
  * ----------------------------
  */
 #include "sceneLoop.h"
@@ -15,8 +18,7 @@
 #include "chunkCreate.h"
 #include "chunkRelease.h"
 
-#include "UBO_Seeds.h"
-#include "UBO_Camera.h"
+#include "ubo_all.h"
 
 #include "esrc_all.h" //- 所有资源
 
@@ -82,14 +84,12 @@ void prepare_for_sceneWorld(){
     //--------------------------------//
     //          ubo [one time]
     //--------------------------------//
+    ubo::write_ubo_Seeds();
+    ubo::write_ubo_Camera();
 
-    //--- Seeds ---//
-    write_ubo_Seeds();
-    //--- camera ---//
-    write_ubo_Camera();
 
     {//--- OriginColorTable ---
-        auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( UBOType::OriginColorTable );
+        auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::OriginColorTable );
 
         auto &colorTableSetRef = esrc::get_colorTabelSet();
         auto id = colorTableSetRef.get_colorTableId("origin");
@@ -181,9 +181,12 @@ void sceneRenderLoop_world(){
     //--------------------------------//
     //             ubo
     //--------------------------------//
-    {
-        //--- UnifiedColorTable ---//
-        auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( UBOType::UnifiedColorTable );
+    ubo::write_ubo_Camera();
+    ubo::write_ubo_Time();
+
+
+    {    //--- UnifiedColorTable ---//
+        auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
         auto &colorTableRef = esrc::get_colorTabelSet().get_colorTableRef( 5 );
                                     // tmp
                                     // 应该基于 player 当前所在 ecoobj 
@@ -191,15 +194,10 @@ void sceneRenderLoop_world(){
         ubo_unifiedColorTable.write(   0, 
                                 colorTableRef.get_dataSize(),
                                 colorTableRef.get_dataPtr<const GLvoid*>() );
-                
                 //-- 很多时候，也不需要每帧都 彻底重写数据 --
                 //   而是可以只改写 某一段
-
-        //--- camera ---//
-        write_ubo_Camera(); 
-
     }
-
+    
 
     //====================================//
     //          -- RENDER --

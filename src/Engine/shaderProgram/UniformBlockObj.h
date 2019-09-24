@@ -21,7 +21,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
-
+namespace ubo{//------------- namespace ubo ----------------
 
 class UniformBlockObj{
 public:
@@ -64,6 +64,6 @@ private:
 };
 
 
-
+}//------------- namespace ubo: end ----------------
 #endif 
 

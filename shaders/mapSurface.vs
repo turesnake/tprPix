@@ -17,11 +17,7 @@ layout (location = 1) in vec2 aTexCoord; //-- 每个pix 在 tecture 上的坐标
 //-- 输出给 fs 的颜色数据
 out vec2 TexCoord;  //-- 每个pix 在 tecture 上的坐标 [-1.0,1.0]
 
-//uniform mat4 transform; //-- 矩阵 变换 变量。
-
 uniform mat4 model;
-//uniform mat4 view;
-//uniform mat4 projection;
 
 //===== UBO =====//
 layout (shared, std140) uniform Camera {

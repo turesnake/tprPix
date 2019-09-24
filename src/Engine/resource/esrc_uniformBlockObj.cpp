@@ -13,14 +13,13 @@
 #include "tprAssert.h"
 #include "ColorTable.h"
 
-#include "UBO_Seeds.h"
-#include "UBO_Camera.h"
+#include "ubo_all.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace ubo_inn {//-------- namespace: ubo_inn --------------//
  
-    std::unordered_map<UBOType, std::unique_ptr<UniformBlockObj>> uboUPtrs {};
+    std::unordered_map<ubo::UBOType, std::unique_ptr<ubo::UniformBlockObj>> uboUPtrs {};
 
 }//------------- namespace: ubo_inn end --------------//
 
@@ -29,55 +28,73 @@ namespace ubo_inn {//-------- namespace: ubo_inn --------------//
 void init_uniformBlockObjs()noexcept{
 
     {//---------- Seeds ------------//
-        UBOType uboType = UBOType::Seeds;
+        auto uboType = ubo::UBOType::Seeds;
         tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
-        GLuint bindPoint = uboBindPoints.at(uboType);
-        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(UBO_Seeds) );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Seeds) );
         std::string uboName {"Seeds"};
         ubo_inn::uboUPtrs.insert({  uboType, 
-                                    std::make_unique<UniformBlockObj>(bindPoint, dataSize, uboName) });
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
     }
 
     {//---------- Camera ------------//
-        UBOType uboType = UBOType::Camera;
+        auto uboType = ubo::UBOType::Camera;
         tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
-        GLuint bindPoint = uboBindPoints.at(uboType);
-        GLsizeiptr dataSize = static_cast<GLsizeiptr>( UBO_Camera_size );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( ubo::UBO_Camera_size );
         std::string uboName {"Camera"};
         ubo_inn::uboUPtrs.insert({  uboType, 
-                                    std::make_unique<UniformBlockObj>(bindPoint, dataSize, uboName) });
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+    }
+
+    {//---------- Window ------------//
+        auto uboType = ubo::UBOType::Window;
+        tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Window) );
+        std::string uboName {"Window"};
+        ubo_inn::uboUPtrs.insert({  uboType, 
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+    }
+
+    {//---------- Time ------------//
+        auto uboType = ubo::UBOType::Time;
+        tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Time) );
+        std::string uboName {"Time"};
+        ubo_inn::uboUPtrs.insert({  uboType, 
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
     }
 
     {//---------- OriginColorTable ------------//
-        UBOType uboType = UBOType::OriginColorTable;
+        auto uboType = ubo::UBOType::OriginColorTable;
         tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
-        GLuint bindPoint = uboBindPoints.at(uboType);
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>(ColorTable::get_dataSize());
         std::string uboName {"OriginColorTable"};
         ubo_inn::uboUPtrs.insert({  uboType, 
-                                    std::make_unique<UniformBlockObj>(bindPoint, dataSize, uboName) });
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
     }
 
     {//---------- UnifiedColorTable ------------//
-        UBOType uboType = UBOType::UnifiedColorTable;
+        auto uboType = ubo::UBOType::UnifiedColorTable;
         tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
-        GLuint bindPoint = uboBindPoints.at(uboType);
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>(ColorTable::get_dataSize());
         std::string uboName {"UnifiedColorTable"};
         ubo_inn::uboUPtrs.insert({  uboType, 
-                                    std::make_unique<UniformBlockObj>(bindPoint, dataSize, uboName) });
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
     }
 
     //...
 }
 
 
-UniformBlockObj &get_uniformBlockObjRef( UBOType type_ )noexcept{
+ubo::UniformBlockObj &get_uniformBlockObjRef( ubo::UBOType type_ )noexcept{
     tprAssert( ubo_inn::uboUPtrs.find(type_) != ubo_inn::uboUPtrs.end() );
     return *(ubo_inn::uboUPtrs.at(type_).get());
 }
-
-
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -17,12 +17,15 @@
 #include "UniformBlockObj.h"
 #include "FloatVec.h"
 
+namespace ubo{//------------- namespace ubo ----------------
 
 // 1-ubo_instance, 1 enum-obj
 enum class UBOType{
 
     Seeds,
     Camera,
+    Window,
+    Time,
 
     OriginColorTable,
     UnifiedColorTable,
@@ -30,17 +33,24 @@ enum class UBOType{
 };
 
 
-
 inline std::unordered_map<UBOType, GLuint> uboBindPoints {
-
     {UBOType::Seeds,             1 },
     {UBOType::Camera,            2 },
+    {UBOType::Window,            3 },
+    {UBOType::Time,              4 },
 
-    {UBOType::OriginColorTable,  3 },
-    {UBOType::UnifiedColorTable, 4 }
+    {UBOType::OriginColorTable,  5 },
+    {UBOType::UnifiedColorTable, 6 }
     //...
 };
 
+inline GLuint get_bindPoint( UBOType type_ )noexcept{
+    tprAssert( uboBindPoints.find(type_) != uboBindPoints.end() );
+    return uboBindPoints.at(type_);
+}
 
+
+
+}//------------- namespace ubo: end ----------------
 #endif 
 

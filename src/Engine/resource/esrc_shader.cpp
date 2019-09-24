@@ -50,10 +50,12 @@ ShaderProgram &insert_new_shader( ShaderType type_ )noexcept{
 void init_shaders(){
 
     //------ ubos --------//
-    auto &ubo_seeds = esrc::get_uniformBlockObjRef( UBOType::Seeds );
-    auto &ubo_camera = esrc::get_uniformBlockObjRef( UBOType::Camera );
-    auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( UBOType::OriginColorTable );
-    auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( UBOType::UnifiedColorTable );
+    auto &ubo_seeds = esrc::get_uniformBlockObjRef( ubo::UBOType::Seeds );
+    auto &ubo_camera = esrc::get_uniformBlockObjRef( ubo::UBOType::Camera );
+    auto &ubo_window = esrc::get_uniformBlockObjRef( ubo::UBOType::Window );
+    auto &ubo_time = esrc::get_uniformBlockObjRef( ubo::UBOType::Time );
+    auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::OriginColorTable );
+    auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
     //...
 
     {//---- originColor_sahder ----//
@@ -119,15 +121,11 @@ void init_shaders(){
         sp.use_program();
 
         sp.add_new_uniform( "model" );
-        sp.add_new_uniform( "texture1" );
-
-        sp.add_new_uniform( "u_time" ); //- 1-float
         
-        sp.add_new_uniform( "texSizeW" ); //- 1-float
-        sp.add_new_uniform( "texSizeH" ); //- 1-float
-
         //--- ubo --//
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_window.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_unifiedColorTable.bind_2_shaderProgram( sp.get_shaderProgramObj() );
     }
 
@@ -139,16 +137,12 @@ void init_shaders(){
         sp.use_program();
 
         sp.add_new_uniform( "model" );
-        sp.add_new_uniform( "texture1" );
-
-        sp.add_new_uniform( "u_time" ); //- 1-float
-
-        sp.add_new_uniform( "texSizeW" ); //- 1-float
-        sp.add_new_uniform( "texSizeH" ); //- 1-float
 
         //--- ubo --//
         ubo_seeds.bind_2_shaderProgram( sp.get_shaderProgramObj() );
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_window.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
     }
 
 

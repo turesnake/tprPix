@@ -1,29 +1,28 @@
 /*
- * ======================= UBO_Seeds.h ==========================
+ * ======================= UBO_Time.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_UBO_SEEDS_H
-#define TPR_UBO_SEEDS_H
+#ifndef TPR_UBO_TIME_H
+#define TPR_UBO_TIME_H
 
 //-------------------- Engine --------------------//
 #include "FloatVec.h"
 
+
 namespace ubo{//------------- namespace ubo ----------------
 
-// [once]
-struct UBO_Seeds{
-    FloatVec2 altiSeed_pposOffSeaLvl {};
-    FloatVec2 altiSeed_pposOffBig {};
-    FloatVec2 altiSeed_pposOffMid {};
-    FloatVec2 altiSeed_pposOffSml {};
+// [tmp once]
+struct UBO_Time{
+    float currentTime {};
     //....
 };
 
+// called every render frmae
+void write_ubo_Time();
 
-void write_ubo_Seeds();
 
 }//------------- namespace ubo: end ----------------
 #endif 

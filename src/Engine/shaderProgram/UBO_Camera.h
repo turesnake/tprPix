@@ -14,6 +14,8 @@
 //-------------------- Engine --------------------//
 #include "FloatVec.h"
 
+namespace ubo{//------------- namespace ubo ----------------
+
 // struct:
 // glm::mat4  mat4_view        (64)
 // glm::mat4  mat4_projection  (64)
@@ -27,4 +29,5 @@ inline constexpr size_t UBO_Camera_size { 64 + 64 + 8 };
 // -2- camera state changed
 void write_ubo_Camera();
 
+}//------------- namespace ubo: end ----------------
 #endif 

@@ -29,7 +29,7 @@
 #include "GameSeed.h"
 #include "UIAnchor.h"
 
-#include "UBO_Camera.h"
+#include "ubo_all.h"
 
 #include "esrc_all.h" //- 所有资源
 
@@ -144,6 +144,14 @@ void prepare_for_sceneBegin(){
     
     input::bind_inputINS_handleFunc( std::bind( &sc_begin_inn::inputINS_handle_in_sceneBegin, _1 ) );
     switch_sceneLoop( SceneLoopType::Begin );
+
+
+    //--------------------------------//
+    //          ubo [one time]
+    //--------------------------------//
+    ubo::write_ubo_Camera();
+    ubo::write_ubo_Window();
+
 }
 
 
@@ -174,7 +182,8 @@ void sceneRenderLoop_begin(){
     //--------------------------------//
     //             ubo
     //--------------------------------//
-    write_ubo_Camera(); 
+    ubo::write_ubo_Camera(); 
+    ubo::write_ubo_Time();
 
     //--------------------------------//
     //     clear RenderPools

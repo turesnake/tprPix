@@ -16,8 +16,6 @@ layout (location = 1) in vec2 aTexCoord; //-- 每个pix 在 tecture 上的坐标
 out vec2 TexCoord;     //-- 每个pix 在 tecture 上的坐标 [0.0,1.0] [left_bottom]
 
 uniform mat4 model;
-//uniform mat4 view;
-//uniform mat4 projection;
 
 //===== UBO =====//
 layout (shared, std140) uniform Camera {

@@ -16,23 +16,6 @@ out vec4 FragColor;
 in vec2 TexCoord;      //-- 每个pix 在 tecture 上的坐标 [0.0,1.0]-[left_bottom]
 in vec2 u_resolution;  //-- 每个pix 在 window 上的坐标  [-1.0,1.0]
 
-
-//-- sampler 系列 是 采样器数据类型。
-//-- 现在，我们创建了 1个 纹理采样器
-uniform sampler2D texture1; //- 用不到
-
-uniform float u_time; //-- glfwGetTime(); 未做缩放。
-                      // 在一些 必须 [0.0, 1.0] 的使用场合中，
-                      // 通过 abs(sin(u_time)) 来转换
-
-//---- 用户定制 uniforms -----
-//uniform vec2 canvasCFPos; //- 以 chunk 为单位的, canvas左下角 cfpox
-
-//- 对于每个游戏存档，这组值是静态的，只需要传入一次...
-// canvas 本质就是一个 texture，此size（pix）通常等于 gameSZ
-uniform float texSizeW;
-uniform float texSizeH;
-
 //===== UBO =====//
 layout (shared, std140) uniform Camera {
     mat4 view;
@@ -49,6 +32,16 @@ layout (shared, std140) uniform Seeds{
 } seeds;
 
 
+layout (shared, std140) uniform Window {
+    vec2 gameSZ;
+} window;
+
+
+layout (shared, std140) uniform Time {
+    float currentTime; // = glfwGetTime(); 未做缩放。若需要 [0.0, 1.0]，通过 abs(sin(u_time)) 来转换
+} tprTime;
+                
+
 
 //============ vals ===========//
 vec2 lb;      //- [0.0 ,1.0]-[left_bottom]
@@ -62,7 +55,7 @@ vec3  color;
 float alpha;
 
 //float PIXES_PER_CHUNK = 256.0; //- tmp
-float PIXES_PER_CHUNK = 2048.0; //- tmp
+float PIXES_PER_CHUNK = 2048.0; //- tmp  //--- 可被放入 ubo ....
 
 //- 在未来，freq 这组值也会收到 ecosys 影响 --
 float freqSeaLvl = 0.05;
@@ -76,25 +69,22 @@ float zOffBig = 0.2;
 float zOffMid = 7.5;
 float zOffSml = 17.8;
 
+                //--- 可被放入 ubo ....
+
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
 
 
 //-- 水域 5阶颜色 --
-//--- 鲜艳版 ---
-/*
-vec3 color_sea_2 = vec3( 0.21, 0.41, 0.48 );
-vec3 color_sea_3 = vec3( 0.19, 0.32, 0.43 );
-vec3 color_sea_4 = vec3( 0.16, 0.27, 0.37 );
-vec3 color_sea_5 = vec3( 0.13, 0.24, 0.32 );
-vec3 color_sea_6 = vec3( 0.11, 0.21, 0.27 );
-*/
+
 
 //--- sec visual style ----
 vec3 color_sea_2 = vec3( 0.745, 0.753, 0.706 );
 vec3 color_sea_3 = vec3( 0.608, 0.627, 0.596 );
 vec3 color_sea_4 = vec3( 0.521, 0.541, 0.525 );
 vec3 color_sea_5 = vec3( 0.423, 0.443, 0.435 );
+
+        //  在未来，将被 UnifiedColorTable 取代 ....
 
 
 //============ funcs ===========//
@@ -120,7 +110,7 @@ void main()
     //------------------//
     //     time
     //------------------//
-    float tm = u_time * 0.08;
+    float tm = tprTime.currentTime * 0.08;
         //- 理想的 time 值是一个 在 [0.0, n.0] 之间来回运动的值。 
         //  目前仅仅是一个不断变大的值
 
@@ -259,8 +249,8 @@ void prepare(){
     lb = TexCoord;
     //---
     lbAlign = lb;
-    lbAlign.x *= texSizeW/PIXES_PER_CHUNK;
-    lbAlign.y *= texSizeH/PIXES_PER_CHUNK;
+    lbAlign.x *= window.gameSZ.x/PIXES_PER_CHUNK;
+    lbAlign.y *= window.gameSZ.y/PIXES_PER_CHUNK;
 }
 
 

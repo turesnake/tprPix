@@ -12,6 +12,7 @@
 #include "esrc_gameSeed.h"
 #include "esrc_uniformBlockObj.h"
 
+namespace ubo{//------------- namespace ubo ----------------
 
 void write_ubo_Seeds(){
 
@@ -25,10 +26,11 @@ void write_ubo_Seeds(){
     data.altiSeed_pposOffMid = glmDvec2_2_floatVec2( gameSeedRef.get_altiSeed_pposOffMid() );
     data.altiSeed_pposOffSml = glmDvec2_2_floatVec2( gameSeedRef.get_altiSeed_pposOffSml() );
 
-    auto &ubo_seeds = esrc::get_uniformBlockObjRef( UBOType::Seeds );
+    auto &uboRef = esrc::get_uniformBlockObjRef( UBOType::Seeds );
 
-    ubo_seeds.write(0, 
-                    sizeof(UBO_Seeds),
-                    static_cast<const GLvoid*>( &data ) );
+    uboRef.write(  0, 
+                sizeof(UBO_Seeds),
+                static_cast<const GLvoid*>( &data ) );
 }
 
+}//------------- namespace ubo: end ----------------
