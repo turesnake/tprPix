@@ -18,7 +18,7 @@
 
 using occupyWeight_t = int;
 
-occupyWeight_t calc_occupyWeight( const IntVec2 &oddEven_, size_t idx_ );
+occupyWeight_t calc_occupyWeight( IntVec2 oddEven_, size_t idx_ );
 
 #endif
 

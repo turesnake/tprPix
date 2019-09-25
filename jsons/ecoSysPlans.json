@@ -66,6 +66,138 @@
     ]
 },
 {
+    "name": "Line_test_plain",
+    "EcoSysPlanType": "Plain",
+    "colorTableName": "poplarForest",
+    "density.SeaLvlOff": 15.0,
+    "density.DivideType": "default",
+    "fixedSeed": 377,
+    "pools":[
+        {
+            "density.lvl": -3,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],  "num": 5 },
+                { "specName": "oneEyeBoy", "animLabels":[],  "num": 5 }
+            ]
+        },
+        {
+            "density.lvl": -2,
+            "applyPercent": 0.8,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 3 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": -1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],"num": 5 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": 0,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],"num": 4 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 }
+            ]
+        },
+        {
+            "density.lvl": 1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 8 }
+            ]
+        },
+        {
+            "density.lvl": 2,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",    "animLabels":[], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 8 }
+            ]
+        },
+        {
+            "density.lvl": 3,
+            "applyPercent": 0.95,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 }
+            ]
+        }
+    ]
+},
+{
+    "name": "Line_test_swamp",
+    "EcoSysPlanType": "Swamp",
+    "colorTableName": "blackLand",
+    "density.SeaLvlOff": 15.0,
+    "density.DivideType": "default",
+    "fixedSeed": 271,
+    "pools":[
+        {
+            "density.lvl": -3,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],  "num": 5 },
+                { "specName": "oneEyeBoy", "animLabels":[],  "num": 5 }
+            ]
+        },
+        {
+            "density.lvl": -2,
+            "applyPercent": 0.8,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 3 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": -1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],"num": 5 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 7 }
+            ]
+        },
+        {
+            "density.lvl": 0,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[],"num": 4 },
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 }
+            ]
+        },
+        {
+            "density.lvl": 1,
+            "applyPercent": 0.5,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 8 }
+            ]
+        },
+        {
+            "density.lvl": 2,
+            "applyPercent": 0.7,
+            "ecoEnts":[
+                { "specName": "wallA",    "animLabels":[], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 8 }
+            ]
+        },
+        {
+            "density.lvl": 3,
+            "applyPercent": 0.95,
+            "ecoEnts":[
+                { "specName": "wallA",     "animLabels":[], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 }
+            ]
+        }
+    ]
+},
+{
     "name": "DarkForest_1",
     "EcoSysPlanType": "DarkForest",
     "colorTableName": "darkForest",

@@ -37,7 +37,7 @@ public:
         dirAxes.clear_all();
     }
 
-    inline void set_key_from_keyboard( const GameKey &key_ )noexcept{
+    inline void set_key_from_keyboard( GameKey key_ )noexcept{
         switch( key_ ){
             case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
             case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
@@ -49,7 +49,7 @@ public:
         }
     }
 
-    inline void set_key_from_joystick( const GameKey &key_ )noexcept{
+    inline void set_key_from_joystick( GameKey key_ )noexcept{
         switch( key_ ){
             //-- 暂时不允许 设置 方向键 button 
             case GameKey::LEFT:   tprAssert(0); break;
@@ -72,7 +72,7 @@ public:
     }
 
     //-- 目前被 sceneBegin 使用 --
-    inline bool check_key( const GameKey &key_ ) const noexcept{
+    inline bool check_key( GameKey key_ ) const noexcept{
         size_t idx = gameKey_2_size_t(key_);
         if(  idx < 32 ){
             return (((keys>>idx) & 1)==1);

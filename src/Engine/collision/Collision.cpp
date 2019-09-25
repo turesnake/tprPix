@@ -40,7 +40,7 @@ void Collision::collect_adjacentBeGos(){
 
     // 调用本函数，意味着 goRef.isMoveCollide 一定为 true !!!
     //---------------------------------------//
-    GameObj     &dogoRef = this->goRef; //- 碰撞检测 主动发起方
+    GameObj &dogoRef = this->goRef; //- 碰撞检测 主动发起方
 
         //-- dogo Must be Circular !!! --
         tprAssert( dogoRef.get_colliderType() == ColliderType::Circular );
@@ -130,7 +130,7 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
     //--
     for( const auto &pair : this->adjacentBeGos ){
         GameObj &begoRef = esrc::get_goRef( pair.first );
-        const auto &begoColliderType = begoRef.get_colliderType();
+        const auto begoColliderType = begoRef.get_colliderType();
 
         //----- 过滤掉那些 背向而行 的 bego -----
         if( begoColliderType == ColliderType::Circular ){
@@ -148,7 +148,7 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
         glm::dvec2 innVec = calc_innVec( moveVec_, pair.second );
 
         //-- 几乎和 位移 同方向
-        if( is_closeEnough(innVec.y, 0.0, 0.01) ){
+        if( is_closeEnough<double>(innVec.y, 0.0, 0.01) ){
             return glm::dvec2{0.0, 0.0}; //- 正面遭遇阻挡，位移彻底被阻挡. 
         }
         //--
@@ -310,7 +310,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     for( const auto &begoid : this->begoids ){//- each bego
 
         GameObj &begoRef = esrc::get_goRef( begoid );
-        const auto &begoColliderType = begoRef.get_colliderType();
+        const auto begoColliderType = begoRef.get_colliderType();
 
         //-- goAltiRange --//
         //  过滤掉，在 altiRange 不会碰撞的 bego --
@@ -388,7 +388,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     double tMin = this->tbegoids.begin()->first; //- min
     for( const auto &tbego : this->tbegoids ){
 
-        if( !is_closeEnough(tbego.first, tMin, 0.01) ){
+        if( !is_closeEnough<double>(tbego.first, tMin, 0.01) ){
             continue;
         }
 

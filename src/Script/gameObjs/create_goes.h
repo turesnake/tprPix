@@ -17,7 +17,6 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
-#include "MapAltitude.h"
 #include "Density.h"
 #include "DiskGameObj.h"
 #include "ParamBinary.h"

@@ -36,7 +36,7 @@
  * -----------------------------------------------------------
  * --  放在前面，因为会被 class MapCoord 用到
  */
-inline IntVec2 mpos_2_ppos( const IntVec2 &mpos_ ) noexcept {
+inline IntVec2 mpos_2_ppos( IntVec2 mpos_ ) noexcept {
     return (mpos_*PIXES_PER_MAPENT);
 }
 
@@ -46,7 +46,7 @@ public:
     //---- constructor -----//
     MapCoord() = default;
     //-- 只支持 mpos初始化，若想用 ppos来初始化，先用 anyPPos_2_mpos() 转换
-    explicit MapCoord( const IntVec2 &mpos_ ):
+    explicit MapCoord( IntVec2 mpos_ ):
         mpos(mpos_),
         ppos( mpos * PIXES_PER_MAPENT )
         {}
@@ -62,7 +62,7 @@ public:
     }
 
     //----- set ------//
-    inline void set_by_mpos( const IntVec2 &mpos_ ) noexcept {
+    inline void set_by_mpos( IntVec2 mpos_ ) noexcept {
         this->mpos = mpos_;
         this->ppos = mpos_2_ppos( this->mpos );
     }
@@ -76,7 +76,7 @@ public:
     //   需要一组更加 完备的函数
     //   -------
     //   还是需要使用 这个 严谨版
-    inline void set_by_ppos_( const IntVec2 &ppos_ ) noexcept {
+    inline void set_by_ppos_( IntVec2 ppos_ ) noexcept {
             tprAssert( (ppos_.x%PIXES_PER_MAPENT==0) && (ppos_.y%PIXES_PER_MAPENT==0) );
         this->ppos = ppos_;
         this->mpos = floorDiv( this->ppos, static_cast<double>(PIXES_PER_MAPENT) );
@@ -88,7 +88,7 @@ public:
     }
 
     //-- 宽松版，目前仅被 gameObj_mem.cpp -> signUp_newGO_to_mapEnt() 使用 --
-    inline void set_by_anyPPos( const IntVec2 &anyPPos_ ) noexcept {
+    inline void set_by_anyPPos( IntVec2 anyPPos_ ) noexcept {
         this->mpos = anyPPos_.floorDiv( static_cast<double>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
     }
@@ -98,18 +98,18 @@ public:
     }
     
 
-    inline void accum_mpos( const IntVec2 &mposOff_ ) noexcept {
+    inline void accum_mpos( IntVec2 mposOff_ ) noexcept {
         this->mpos += mposOff_;
         this->ppos = mpos_2_ppos( this->mpos );
     }
 
 
     //--- get ---
-    inline const IntVec2 &get_mpos() const noexcept {
+    inline IntVec2 get_mpos() const noexcept {
         return this->mpos;
     }
 
-    inline const IntVec2 &get_ppos() const noexcept {
+    inline IntVec2 get_ppos() const noexcept {
         return this->ppos;
     }
     inline glm::dvec2 get_midDPos() const noexcept { //- ppos of the mid_box
@@ -174,12 +174,12 @@ inline MapCoord operator - ( const MapCoord &a_, const MapCoord &b_ ) noexcept {
  * -----------------------------------------------------------
  * -- 参数 ppos_ 必须对齐于 mapent坐标系
  */
-inline IntVec2 ppos_2_mpos( const IntVec2 &ppos_ ) noexcept {
+inline IntVec2 ppos_2_mpos( IntVec2 ppos_ ) noexcept {
     tprAssert( (ppos_.x%PIXES_PER_MAPENT==0) && (ppos_.y%PIXES_PER_MAPENT==0) );
     return floorDiv( ppos_, static_cast<double>(PIXES_PER_MAPENT) );
 }
 
-inline IntVec2 anyPPos_2_mpos( const IntVec2 &anyPPos_ ) noexcept {
+inline IntVec2 anyPPos_2_mpos( IntVec2 anyPPos_ ) noexcept {
     return floorDiv( anyPPos_, static_cast<double>(PIXES_PER_MAPENT) );
 }
 
@@ -218,7 +218,7 @@ inline glm::dvec2 calc_dpos_from_mpos_and_pposOff( const IntVec2 mpos_, const In
                         static_cast<double>(ppos.y) };
 }
 
-inline glm::dvec2 mpos_2_dpos( const IntVec2 &mpos_ ) noexcept {
+inline glm::dvec2 mpos_2_dpos( IntVec2 mpos_ ) noexcept {
     return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT),
                         static_cast<double>(mpos_.y * PIXES_PER_MAPENT) };
 }
@@ -229,7 +229,7 @@ inline glm::dvec2 mpos_2_dpos( const IntVec2 &mpos_ ) noexcept {
  * -----------------------------------------------------------
  * -- 获得 mapent 中间pixel 的 ppos 
  */
-inline IntVec2 mpos_2_midPPos( const IntVec2 &mpos_ ) noexcept {
+inline IntVec2 mpos_2_midPPos( IntVec2 mpos_ ) noexcept {
     return IntVec2{ mpos_.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
                     mpos_.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
 }
@@ -241,7 +241,7 @@ inline IntVec2 mpos_2_midPPos( const IntVec2 &mpos_ ) noexcept {
  * 计算两个 ppos 的距离（快速版，不开根号）
  * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
  */
-inline int calc_fast_ppos_distance( const IntVec2 &aPPos_, const IntVec2 &bPPos_ ) noexcept {
+inline int calc_fast_ppos_distance( IntVec2 aPPos_, IntVec2 bPPos_ ) noexcept {
     IntVec2 off = aPPos_ - bPPos_;
         //-- 没有做 溢出检测...
     return (off.x*off.x + off.y*off.y);
@@ -254,7 +254,7 @@ inline int calc_fast_ppos_distance( const IntVec2 &aPPos_, const IntVec2 &bPPos_
  * 和上一个函数并没有本质区别。
  * 返回的结果，只是一个 “含糊的距离概念” [主要用来 生成 cell-noise]
  */
-inline int calc_fast_mpos_distance( const IntVec2 &aMPos_, const IntVec2 &bMPos_ ) noexcept {
+inline int calc_fast_mpos_distance( IntVec2 aMPos_, IntVec2 bMPos_ ) noexcept {
     IntVec2 off = aMPos_ - bMPos_;
         //-- 没有做 溢出检测...
     return (off.x*off.x + off.y*off.y);

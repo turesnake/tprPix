@@ -51,13 +51,7 @@ public:
         //---
         return *(container.at(actionName_).get());
     }
-    
-    /*
-    AnimAction *get_animActionPtr(   NineDirection dir_,
-                                            const std::string &actionName_ )const noexcept;
-    */
-
-    
+        
     inline AnimAction *get_animActionPtr(   NineDirection dir_,
                                             const std::string &actionName_ )const noexcept{
         tprAssert( this->animActions.find(dir_) != this->animActions.end() );

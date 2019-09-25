@@ -54,7 +54,7 @@ namespace mapField_inn {//----------- namespace: mapField_inn ---------------//
  * param: _mpos      -- 此 field 中的任意 mapent.mpos 
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
-void MapField::init( const IntVec2 &anyMPos_ ){
+void MapField::init( IntVec2 anyMPos_ ){
 
     //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(anyMPos_) );
@@ -71,7 +71,7 @@ void MapField::init( const IntVec2 &anyMPos_ ){
 
 
     //--- field.nodeMPos ---
-    this->init_nodeMPos_and_nodePPosOff();
+    this->init_nodeMPos_and_nodeDPosOff();
 
     //--- assign_field_to_4_ecoObjs ---
     //  顺带把 this->density 也初始化了
@@ -118,10 +118,10 @@ void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &ch
 
 
 /* ===========================================================
- *                init_nodeMPos_and_nodePPosOff
+ *                init_nodeMPos_and_nodeDPosOff
  * -----------------------------------------------------------
  */
-void MapField::init_nodeMPos_and_nodePPosOff(){
+void MapField::init_nodeMPos_and_nodeDPosOff(){
 
     double    freq  { 13.0 };
     double    pnX   {};
@@ -141,13 +141,14 @@ void MapField::init_nodeMPos_and_nodePPosOff(){
 
     this->nodeMPos = this->get_mpos() + IntVec2{static_cast<int>(idxX), 
                                                 static_cast<int>(idxY) };
-    //-- nodePPosOff --//
-    size_t pposOffRange = 16;  // [-8,8]
-    size_t halfPposOffRange = 8;
-    size_t pX = cast_2_size_t(floor(pnX)) % pposOffRange;
-    size_t pY = cast_2_size_t(floor(pnY)) % pposOffRange;
-    this->nodePPosOff.set(  static_cast<int>( pX - halfPposOffRange ),
-                            static_cast<int>( pY - halfPposOffRange ) ); // [-8,8]    
+    //-- nodeDPosOff --//
+    size_t pposOffRange { PIXES_PER_MAPENT - 10 }; //- 54
+
+    size_t pX = cast_2_size_t(floor(pnX * 137.0)) % pposOffRange;
+    size_t pY = cast_2_size_t(floor(pnY + 137.0)) % pposOffRange;
+
+    this->nodeDPosOff = {   static_cast<double>( pX ),
+                            static_cast<double>( pY ) }; // [ 0.0, 54.0 ]     
 }
 
 
@@ -176,6 +177,7 @@ void MapField::init_occupyWeight(){
 /* ===========================================================
  *          assign_field_to_4_ecoObjs
  * -----------------------------------------------------------
+ *   针对新版本，现在的 边缘可能有些太碎了 ß
  */
 void MapField::assign_field_to_4_ecoObjs(){
 
@@ -195,13 +197,20 @@ void MapField::assign_field_to_4_ecoObjs(){
     double         vx        {};
     double         vy        {};
     IntVec2       mposOff   {};
-    double         freqBig   { 0.9 };
-    double         freqSml   { 2.3 };
+    //double         freqBig   { 0.9 };
+    double         freqBig   { 0.3 }; //- 值越小，ecoObj 边界越平滑
+
+                        //-- 临时测试出来的值 ...
+
     double         pnVal     {}; //- 围绕 0 波动的 随机值
     double         off       {};
     size_t        count     {};
 
-    double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
+    //double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
+    double targetDistance = 0.8 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
+
+                                //-- 临时测试出来的值 ...
+
 
     vx = static_cast<double>(this->get_mpos().x) / static_cast<double>(ENTS_PER_CHUNK);
     vy = static_cast<double>(this->get_mpos().y) / static_cast<double>(ENTS_PER_CHUNK);
@@ -210,10 +219,10 @@ void MapField::assign_field_to_4_ecoObjs(){
     vx += field_pposOff.x;
     vy += field_pposOff.y;
     double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
-    double pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
-                                        (vy + 144.41) * freqSml ) * 5; // [-x.0, x.0]
-    pnVal = pnValBig + pnValSml;
+                                        (vy + 151.15) * freqBig ) * 20; // [-x.0, x.0]
+
+
+    pnVal = pnValBig;
     if( pnVal > 20.0 ){
         pnVal = 20.0;
     }

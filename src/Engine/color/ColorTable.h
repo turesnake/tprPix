@@ -1,7 +1,7 @@
 /*
  * ======================= ColorTable.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.09.021
+ *                                        CREATE -- 2019.09.21
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *  数组色卡，管理 游戏世界 中的所有颜色 
@@ -59,8 +59,11 @@ public:
         return static_cast<PtrType>( &(this->data.at(0)) );
     }
 
+    inline std::vector<FloatVec4> &getnc_dataRef()noexcept{ return this->data; }
+    inline const std::vector<FloatVec4> &get_dataRef()const noexcept{ return this->data; }
+
     inline void insert_a_color(const std::string &name_, 
-                                    const FloatVec4 &color_ )noexcept{
+                                const FloatVec4 &color_ )noexcept{
         tprAssert( colorTableEntNames.find(name_) != colorTableEntNames.end() );
         tprAssert( this->isSets.find(name_) == this->isSets.end() );
         this->data.at(colorTableEntNames.at(name_)) = color_;
@@ -73,6 +76,17 @@ public:
         }
     }
 
+    //- Must called in init --
+    inline void init_all_color_white()noexcept{
+        tprAssert( this->isSets.empty() );
+        for( const auto &pair : colorTableEntNames ){
+            tprAssert( this->isSets.find(pair.first) == this->isSets.end() );
+            this->isSets.insert( pair.first );
+            //---
+            this->data.at(pair.second) = { 1.0, 1.0, 1.0, 1.0 };//- white
+        }
+    }
+
     //======== static ========//
     inline static size_t get_dataSize()noexcept{ 
         return (colorTableEntNames.size()*sizeof(FloatVec4)); 
@@ -81,7 +95,7 @@ public:
     static ID_Manager  id_manager;
 private:
     std::vector<FloatVec4> data {}; // colorTable
-    std::unordered_set<std::string> isSets {};
+    std::unordered_set<std::string> isSets {}; // just used in json-read
 };
 //============== static ===============//
 inline ID_Manager  ColorTable::id_manager { ID_TYPE::U32, 0};
@@ -116,7 +130,10 @@ public:
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
         return *(this->colorTableUPtrs.at(id_).get());
     };
-
+    inline const ColorTable *get_colorTablePtr( colorTableId_t id_ )const noexcept{
+            tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
+        return this->colorTableUPtrs.at(id_).get();
+    };
 
 private:
     inline bool isFindIn_name_ids( const std::string name_ )const noexcept{
@@ -130,6 +147,38 @@ private:
             // 1~n:  ent 
 };
 
+//-- 维护一个动态的 ColorTable 实例，表示当前帧的 世界颜色 --
+//   可以让它趋近于某种目标色
+class CurrentColorTable{
+public:
+    CurrentColorTable()
+        {
+            this->data.init_all_color_white();
+        }
+
+    inline void rebind_target( const ColorTable *targetPtr_ )noexcept{
+        if( this->targetColorTablePtr != targetPtr_ ){
+            this->targetColorTablePtr = targetPtr_;
+            this->isWorking = true;
+        }
+    }
+
+    void update()noexcept;
+
+    inline const ColorTable &get_colorTableRef()const noexcept{
+        return this->data;
+    };
+
+    inline bool get_isWorking()const noexcept{ return this->isWorking; }
+
+private:
+    ColorTable data {};
+    const ColorTable *targetColorTablePtr {nullptr};
+
+    //===== flags =====//
+    bool isWorking {true}; // 本色是否正在趋近于 目标色
+
+};
 
 
 

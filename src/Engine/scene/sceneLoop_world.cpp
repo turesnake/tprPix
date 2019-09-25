@@ -59,7 +59,6 @@ namespace sc_world_inn {//-------------- namespace: sc_world_inn ---------------
  */
 void prepare_for_sceneWorld(){
 
-
     //-- 合理的流程应该是：
     //  先 读取 player 数据，还有更多 全局性数据
     //  然后根据这些数据，来 build chunks
@@ -80,27 +79,11 @@ void prepare_for_sceneWorld(){
     switch_sceneLoop( SceneLoopType::World );
 
 
-
     //--------------------------------//
     //          ubo [one time]
     //--------------------------------//
     ubo::write_ubo_Seeds();
     ubo::write_ubo_Camera();
-
-
-    {//--- OriginColorTable ---
-        auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::OriginColorTable );
-
-        auto &colorTableSetRef = esrc::get_colorTabelSet();
-        auto id = colorTableSetRef.get_colorTableId("origin");
-        auto &originColorTableRef = colorTableSetRef.get_colorTableRef(id);
-
-        ubo_originColorTable.write(0, 
-                            originColorTableRef.get_dataSize(),
-                            originColorTableRef.get_dataPtr<const GLvoid*>() );
-    }
-
-
 
 }
 
@@ -163,7 +146,6 @@ void sceneLogicLoop_world(){
                     // 在未来，需要实现一个专门的平衡器，来分配 本帧 的工作
                     // 确保主线程的工作 不拥堵
                     // ...
-
 }
 
 
@@ -183,21 +165,8 @@ void sceneRenderLoop_world(){
     //--------------------------------//
     ubo::write_ubo_Camera();
     ubo::write_ubo_Time();
+    ubo::update_and_write_ubo_UnifiedColorTable();
 
-
-    {    //--- UnifiedColorTable ---//
-        auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
-        auto &colorTableRef = esrc::get_colorTabelSet().get_colorTableRef( 5 );
-                                    // tmp
-                                    // 应该基于 player 当前所在 ecoobj 
-                                    //
-        ubo_unifiedColorTable.write(   0, 
-                                colorTableRef.get_dataSize(),
-                                colorTableRef.get_dataPtr<const GLvoid*>() );
-                //-- 很多时候，也不需要每帧都 彻底重写数据 --
-                //   而是可以只改写 某一段
-    }
-    
 
     //====================================//
     //          -- RENDER --
@@ -241,8 +210,8 @@ void sceneRenderLoop_world(){
 
 
 
-
 namespace sc_world_inn {//-------------- namespace: sc_world_inn ------------------//
+
 
 
 /* ===========================================================
@@ -325,17 +294,5 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
 
 
 }//------------------ namespace: sc_world_inn end ------------------//
-
-
-
-
-
-
-
-
-
-
-
-
 
 

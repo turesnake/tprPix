@@ -47,14 +47,10 @@ public:
         return  const_cast<ChildMesh*>(this);
     }
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
-    inline const float &get_render_z() const noexcept{
-        return this->translate_val.z;
-    }
+    inline float get_render_z()const noexcept{ return this->translate_val.z; }
 
     //-- 外部 debug 用
-    inline const glm::vec3 &get_translate_val() const noexcept{
-        return this->translate_val;
-    }
+    inline const glm::vec3 &get_translate_val()const noexcept{ return this->translate_val; }
     
 private:
     void update_mat4_model(); //-- 重新计算 model矩阵

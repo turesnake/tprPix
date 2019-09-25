@@ -50,7 +50,7 @@ void chunks_debug(){
 }
 
 
-void init_chunkCreateReleaseZone( const IntVec2 &playerMPos_ ){
+void init_chunkCreateReleaseZone( IntVec2 playerMPos_ ){
     chunk_inn::chunkCreateReleaseZoneUPtr->init( playerMPos_ );
 }
 
@@ -104,7 +104,7 @@ void erase_from_chunks( chunkKey_t chunkKey_ ){
  * -- 找到对应的 mapEnt, 将其指针返回出去
  *    当目标 chunkMemState 不为 Active，直接报错
  */
-MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ ){
+MemMapEnt &get_memMapEntRef_in_activeChunk( IntVec2 anyMPos_ ){
 
     //-- 计算 目标 chunk 的 key --
     chunkKey_t    chunkKey = anyMPos_2_chunkKey( anyMPos_ );
@@ -126,7 +126,6 @@ MemMapEnt &get_memMapEntRef_in_activeChunk( const IntVec2 &anyMPos_ ){
  */
 Chunk &get_chunkRef( chunkKey_t key_ ){
 
-        
         if( get_chunkMemState(key_) != ChunkMemState::Active ){
             IntVec2 chunkMPos = chunkKey_2_mpos(key_);
             cout << "kkkkkkkkk---chunkMPos: " << chunkMPos.x 
@@ -134,12 +133,11 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
                 << endl;
 
             switch (get_chunkMemState(key_)){
-                case ChunkMemState::NotExist: cout << "NotExist"; break;
-                case ChunkMemState::Active: cout << "Active"; break;
-                case ChunkMemState::OnCreating: cout << "OnCreating"; break;
-                case ChunkMemState::OnReleasing: cout << "OnReleasing"; break;
-                case ChunkMemState::WaitForRelease: cout << "WaitForRelease"; break;
-            
+                case ChunkMemState::NotExist: cout << "NotExist" << endl; break;
+                case ChunkMemState::Active: cout << "Active" << endl; break;
+                case ChunkMemState::OnCreating: cout << "OnCreating" << endl; break;
+                case ChunkMemState::OnReleasing: cout << "OnReleasing" << endl; break;
+                case ChunkMemState::WaitForRelease: cout << "WaitForRelease" << endl; break;
                 default:
                     break;
             }

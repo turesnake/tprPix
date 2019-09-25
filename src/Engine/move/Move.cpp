@@ -113,19 +113,6 @@ void Move::renderUpdate_crawl(){
  */
 void Move::renderUpdate_drag(){
 
-            //-----------------------------------------
-            //-- 这个检测，最好在，所有工作都结束后，
-            //   此时的结果最准确
-            /*
-            {//-- 打印 当前帧的 ces 区域 --- 
-                tprDebug::clear_mapEntSlices();
-                for( const auto &i : this->goRef.get_currentSignINMapEntsRef() ){
-                    tprDebug::insert_new_mapEntSlice( MapCoord{i} );
-                }
-            }
-            //-----------------------------------------
-            */
-
     if( this->isMoving == false ){
         return;
     }

@@ -41,16 +41,16 @@ public:
 
     void init();
 
-    inline void insert_2_goIds( const goid_t &id_ )noexcept{
+    inline void insert_2_goIds( goid_t id_ )noexcept{
         this->goIds.insert(id_);
     }
-    inline size_t erase_from_goIds( const goid_t &id_ )noexcept{
+    inline size_t erase_from_goIds( goid_t id_ )noexcept{
         return this->goIds.erase(id_);
     }
-    inline void insert_2_edgeGoIds( const goid_t &id_ )noexcept{
+    inline void insert_2_edgeGoIds( goid_t id_ )noexcept{
         this->edgeGoIds.insert(id_);
     }
-    inline size_t erase_from_edgeGoIds( const goid_t &id_ )noexcept{
+    inline size_t erase_from_edgeGoIds( goid_t id_ )noexcept{
         return this->edgeGoIds.erase(id_);
     }
 
@@ -61,9 +61,9 @@ public:
     }
 
     //------- get -------//
-    inline const IntVec2 &get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline IntVec2  get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
     inline const MapCoord &get_mcpos() const noexcept{ return this->mcpos; }
-    inline const chunkKey_t &get_key() const noexcept{ return this->chunkKey; }
+    inline chunkKey_t get_key() const noexcept{ return this->chunkKey; }
     inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{ return this->fieldKeys; }
     inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
     inline const std::set<goid_t> &get_edgeGoIds() const noexcept{ return this->edgeGoIds; }
@@ -88,8 +88,8 @@ public:
 
 private:
     void init_memMapEnts();
-    size_t get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ );
-    size_t get_pixIdx_in_chunk( const IntVec2 &anyPPos_ );
+    size_t get_mapEntIdx_in_chunk( IntVec2 anyMPos_ );
+    size_t get_pixIdx_in_chunk( IntVec2 anyPPos_ );
 
     chunkKey_t  chunkKey {};
     MapCoord    mcpos    {}; //- [left-bottom]

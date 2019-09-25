@@ -11,8 +11,11 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-
+//-------------------- C --------------------//
 #include <cmath>
+
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
 
 
 #ifndef TPR_PI
@@ -34,9 +37,11 @@ inline T tprMax( T a_, T b_ )noexcept{
     return ((a_ >= b_) ? a_ : b_);
 }
 
-
-inline bool is_closeEnough( double a_, double b_, double threshold_=0.01 ) noexcept {
-    return ( std::abs(a_-b_) < threshold_ );
+//-- just need overload "<" --
+template< typename T >
+inline bool is_closeEnough( T a_, T b_, T threshold_ )noexcept{
+    return ((a_ < b_) ? ((b_-a_) < threshold_) :
+                        ((a_-b_) < threshold_));
 }
 
 

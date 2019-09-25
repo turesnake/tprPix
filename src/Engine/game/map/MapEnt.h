@@ -42,7 +42,7 @@ public:
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos; }
 
-    inline const IntVec2 &get_mpos() const noexcept{ return this->mcpos.get_mpos();}
+    inline IntVec2 get_mpos() const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude get_mapAlti() const noexcept{ return this->mapAlti; };
 
     inline void insert_2_majorGos( goid_t goid_ )noexcept{

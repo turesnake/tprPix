@@ -116,7 +116,6 @@ void prepare_for_sceneBegin(){
     GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
     GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
 
-
     //----------------------------//
     //            db
     //----------------------------//
@@ -144,13 +143,6 @@ void prepare_for_sceneBegin(){
     
     input::bind_inputINS_handleFunc( std::bind( &sc_begin_inn::inputINS_handle_in_sceneBegin, _1 ) );
     switch_sceneLoop( SceneLoopType::Begin );
-
-
-    //--------------------------------//
-    //          ubo [one time]
-    //--------------------------------//
-    ubo::write_ubo_Camera();
-    ubo::write_ubo_Window();
 
 }
 
@@ -210,7 +202,6 @@ void sceneRenderLoop_begin(){
     //-- opaque First, Translucent Second !!! --
     esrc::get_renderPool(RenderPoolType::Opaque).draw();
     esrc::get_renderPool(RenderPoolType::Translucent).draw();
-
 
 }
 

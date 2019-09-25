@@ -27,7 +27,7 @@ using namespace std::placeholders;
 void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
                         const AnimActionParam &param_,
                         const AnimActionPos *animActionPosPtr_,
-                        const IntVec2 &pixNum_per_frame_,
+                        IntVec2 pixNum_per_frame_,
                         size_t headIdx_,
                         bool isHaveShadow_ ){
 

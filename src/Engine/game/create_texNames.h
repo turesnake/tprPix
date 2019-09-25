@@ -29,8 +29,8 @@
  * param: frame_data_ary_  -- 图形数据本体
  * param: texNamesBuf_ -- 最终生成的 texNames 存入此容器
  */
-inline void create_texNames(size_t texNum_,
-                            const IntVec2 &imgWH_,
+inline void create_texNames(size_t  texNum_,
+                            IntVec2 imgWH_,
                             const std::vector<std::vector<RGBA>> &frame_data_ary_,
                             std::vector<GLuint> &texNamesBuf_ ){
 
@@ -71,7 +71,7 @@ inline void create_texNames(size_t texNum_,
  * param: imgWH_     -- 目标texture 的 宽度长度
  * param: imgDataPtr_  -- 图形数据本体
  */
-inline GLuint create_a_texName( const IntVec2 &imgWH_,
+inline GLuint create_a_texName( IntVec2 imgWH_,
                              const GLvoid  *imgDataPtr_ ){
 
     GLuint texName {};
@@ -107,7 +107,7 @@ inline GLuint create_a_texName( const IntVec2 &imgWH_,
  * -----------------------------------------------------------
  * param: imgWH_     -- 目标texture 的 宽度长度
  */
-inline GLuint create_a_empty_texName( const IntVec2 &imgWH_ ){
+inline GLuint create_a_empty_texName( IntVec2  imgWH_ ){
     GLuint texName {};
     //-- 申请 _texNum个 tex实例，并获得其 names
     glGenTextures( 1, &texName );

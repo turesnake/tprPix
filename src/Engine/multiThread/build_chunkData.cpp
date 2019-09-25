@@ -66,7 +66,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
             this->nodeMPos = data_.nodeMPos;
         }
 
-        inline bool is_equal_2_nodeMPos( const IntVec2 &mpos_ ) const {
+        inline bool is_equal_2_nodeMPos( IntVec2 mpos_ ) const {
             return (this->nodeMPos == mpos_);
         }
 
@@ -82,7 +82,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     class PixData{
     public:
-        inline void init( const IntVec2 &ppos_ ){
+        inline void init( IntVec2 ppos_ ){
             this->ppos = ppos_;
         }
         //====== vals ======//
@@ -108,9 +108,9 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
     };
 
     //===== funcs =====//
-    double calc_pixAlti( const IntVec2 &pixPPos_ );
+    double calc_pixAlti( IntVec2 pixPPos_ );
 
-    void calc_chunkData(    const IntVec2 &chunkMPos_, 
+    void calc_chunkData(    IntVec2 chunkMPos_, 
                             ChunkData &chunkDataRef_ ); 
                 //- 在未来，要改名
 
@@ -191,7 +191,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
  * ---
  * 这部分算法，应当和 waterAnimCanvas 中的完全一致
  */
-double calc_pixAlti( const IntVec2 &pixPPos_ ){
+double calc_pixAlti( IntVec2 pixPPos_ ){
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
     glm::dvec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();
@@ -249,7 +249,7 @@ double calc_pixAlti( const IntVec2 &pixPPos_ ){
  * -----------------------------------------------------------
  * -- 生成 chunkData 中数据
  */
-void calc_chunkData(const IntVec2 &chunkMPos_, 
+void calc_chunkData(IntVec2 chunkMPos_, 
                     ChunkData &chunkDataRef_ ){
 
     IntVec2    tmpFieldMPos {};

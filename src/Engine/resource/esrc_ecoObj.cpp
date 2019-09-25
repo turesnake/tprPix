@@ -36,7 +36,7 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 }//---------------- namespace: ecoObj_inn end --------------//
 
 
-void init_ecoObjs(){
+void init_ecoObjs()noexcept{
     ecoObj_inn::ecoObjs.reserve(10000);
 }
 
@@ -46,7 +46,7 @@ void init_ecoObjs(){
  * 一步到位地实现 任意 ecoObj 实例 的创建
  * 此函数 只应在 主线程（唯一写入者） 中被执行 
  */
-void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ ){
+void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ )noexcept{
 
     //=== lock ===//
     std::unique_lock<std::shared_mutex> ul( ecoObj_inn::sharedMutex ); //- write -
@@ -108,7 +108,7 @@ void atom_try_to_inert_and_init_a_ecoObj( sectionKey_t ecoObjKey_ ){
  * -- 更加精细的 元素数据 只读访问 接口 [值传递]
  * 仅用于 field 实例 创建阶段
  */
-std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t sectionkey_ ){
+std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept{
 
     std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly {};
     {//--- atom ---//
@@ -132,7 +132,9 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  *          atom_ecoObj_apply_a_rand_goSpecData    [-READ-]
  * -----------------------------------------------------------
  */
-const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_, size_t densityIdx_, double randV_ ){
+const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_, 
+                                                    size_t densityIdx_, 
+                                                    double randV_ )noexcept{
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
         tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
@@ -144,13 +146,25 @@ const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_, 
  * -----------------------------------------------------------
  * -- 更加精细的 元素数据 只读访问 接口
  */
-double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, const Density &_density ){
-
+double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, Density density_ )noexcept{
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
         tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( _density );
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( density_ );
 }
+
+
+colorTableId_t atom_ecoObj_get_colorTableId( sectionKey_t sectionkey_ )noexcept{
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_colorTableId();
+}
+
+
+
+
+
 
 }//---------------------- namespace: esrc -------------------------//
 

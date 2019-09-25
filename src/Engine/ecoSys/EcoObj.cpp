@@ -53,7 +53,7 @@ namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
  * -- 将被 atom_try_to_inert_and_init_a_ecoObj() 调用
  */
 void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t targetKey_,
-                                                    std::vector<sectionKey_t> &container_ ){
+                                            std::vector<sectionKey_t> &container_ ){
     //-- 获得 (2*2 section) 单元 左下角 mpos --
     int sideLen { 2*ENTS_PER_SECTION };
     IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(targetKey_), static_cast<double>(sideLen) ) * sideLen;
@@ -89,8 +89,8 @@ void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
  *                   init_for_regular
  * -----------------------------------------------------------
  */
-void EcoObj::init_for_regular( sectionKey_t sectionKey_,
-                                    const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
+void EcoObj::init_for_regular(  sectionKey_t sectionKey_,
+                                const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
 
     this->init_fstOrder( sectionKey_ );
     this->init_for_no_node_ecoObj( nearby_four_ecoSysPlanIds_ );

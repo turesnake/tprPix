@@ -53,9 +53,7 @@ public:
     
     //------- get -------//
     //- 通过 translate_val.z 值 来给 待渲染的 meshs 排序 --
-    inline const float &get_render_z() const noexcept{
-        return this->translate_val.z;
-    }
+    inline float get_render_z()const noexcept{ return this->translate_val.z; }
 
     //======== flags ========//
     bool   isVisible  {false};

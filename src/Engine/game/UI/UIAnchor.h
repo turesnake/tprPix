@@ -56,18 +56,10 @@ public:
     }
 
     //----- get -----//
-    inline const glm::dvec2 &get_dpos() const noexcept{
-        return this->currentDPos;
-    }
-    inline const double &get_alti() const noexcept{
-        return this->alti;
-    }
-    inline const glm::dvec2 &get_basePointProportion() const noexcept{
-        return this->basePointProportion;
-    }
-    inline const glm::dvec2 &get_offDPos() const noexcept{
-        return this->offDPos;
-    }
+    inline const glm::dvec2 &get_dpos() const noexcept{ return this->currentDPos; }
+    inline double           get_alti()const noexcept{ return this->alti; }
+    inline const glm::dvec2 &get_basePointProportion() const noexcept{ return this->basePointProportion; }
+    inline const glm::dvec2 &get_offDPos() const noexcept{ return this->offDPos; }
 
 private:
     inline void check_basePointProportion( const glm::dvec2 &basePointProportion_ )noexcept{

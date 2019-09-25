@@ -19,7 +19,6 @@
 #include "EcoObj.h"
 #include "random.h"
 #include "occupyWeight.h"
-#include "MapAltitude.h"
 #include "Quad.h"
 #include "MapField.h"
 #include "ChunkData.h"
@@ -151,7 +150,7 @@ void Chunk::init_memMapEnts(){
  * -----------------------------------------------------------
  * -- 传入任意 mpos，获得其在 本chunk 中的 idx（访问 vector 用）
  */
-size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ ){
+size_t Chunk::get_mapEntIdx_in_chunk( IntVec2 anyMPos_ ){
     IntVec2 mposOff = anyMPos_ - this->mcpos.get_mpos();
     int w = mposOff.x;
     int h = mposOff.y;
@@ -166,7 +165,7 @@ size_t Chunk::get_mapEntIdx_in_chunk( const IntVec2 &anyMPos_ ){
  * -----------------------------------------------------------
  * -- 传入任意 ppos 绝对值，获得 此pix 在 本chunk 中的 idx（访问 mapTex 用）
  */
-size_t Chunk::get_pixIdx_in_chunk( const IntVec2 &anyPPos_ ){
+size_t Chunk::get_pixIdx_in_chunk( IntVec2 anyPPos_ ){
     IntVec2 pposOff = anyPPos_ - this->mcpos.get_ppos();
     int w = pposOff.x;
     int h = pposOff.y;

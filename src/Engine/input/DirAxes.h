@@ -83,8 +83,8 @@ public:
         this->consider_threshold_y();
     }
 
-    inline const double &get_x() const noexcept{ return this->x; }
-    inline const double &get_y() const noexcept{ return this->y; }
+    inline double get_x() const noexcept{ return this->x; }
+    inline double get_y() const noexcept{ return this->y; }
     inline const glm::dvec2 to_dpos() const noexcept{
         return glm::dvec2{ this->x, this->y };
     }
@@ -128,12 +128,12 @@ private:
 
     //-- 将 阈值内的 微小 波动 清除 --
     inline void consider_threshold_x()noexcept{
-        if( is_closeEnough( this->x, 0.0, DirAxes::threshold ) ){
+        if( is_closeEnough<double>( this->x, 0.0, DirAxes::threshold ) ){
             this->x = 0.0;
         }
     }
     inline void consider_threshold_y()noexcept{
-        if( is_closeEnough( this->y, 0.0, DirAxes::threshold ) ){
+        if( is_closeEnough<double>( this->y, 0.0, DirAxes::threshold ) ){
             this->y = 0.0;
         }
     }

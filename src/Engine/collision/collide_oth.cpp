@@ -56,7 +56,7 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
         threshold *= threshold;
     }
 
-    if( is_closeEnough(len, 0.0, threshold) ){
+    if( is_closeEnough<double>(len, 0.0, threshold) ){
         return { CollideState::Adjacent, self_2_oth };
     }else if( len < 0.0 ){
         return { CollideState::Intersect, self_2_oth };
@@ -100,7 +100,7 @@ bool fastCollideCheck_from_arc_2_capsule( const Arc &dogoArc_,
         double len = std::abs(capRoot_2_arcRootInn.y);
         
 
-        if( is_closeEnough(len, sum_of_two_raidus, threshold_) ){// Adjacent
+        if( is_closeEnough<double>(len, sum_of_two_raidus, threshold_) ){// Adjacent
 
             return collideCheck_between_2_arcs_in_same_circular(shortV, 
                                                             0.0,

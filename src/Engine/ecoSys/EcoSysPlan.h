@@ -75,10 +75,10 @@ public:
                 (this->is_densityDivideVals_init) );
     }
     
-    inline const ecoSysPlanId_t &get_id()const noexcept{ return this->id; }
-    inline const EcoSysPlanType &get_type()const noexcept{ return this->type; }
-    inline colorTableId_t get_colorTableId()const noexcept{ return this->colorTableId; };
-    inline const double &get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
+    inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
+    inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
+    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; };
+    inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
     inline const std::vector<double> *get_applyPercentsPtr() const noexcept{ return &(this->applyPercents); }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return &(this->densityDivideVals); }

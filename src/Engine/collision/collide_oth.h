@@ -130,7 +130,7 @@ inline CollideState collideState_from_circular_2_circular(  const Circular &dogo
     //-- Avoid Radical Sign / 避免开根号 --
     double off = (offVec.x * offVec.x) + (offVec.y * offVec.y) -
                 (sum_of_two_raidus * sum_of_two_raidus);
-    if( is_closeEnough(off, 0.0, threshold_*threshold_) ){
+    if( is_closeEnough<double>(off, 0.0, threshold_*threshold_) ){
         return CollideState::Adjacent;
     }else if( off < 0.0 ){
         return CollideState::Intersect;
@@ -170,7 +170,7 @@ inline bool fastCollideCheck_from_arc_2_circular(  const Arc &dogoArc_,
     double lenSquare =  (offVec.x * offVec.x) + (offVec.y * offVec.y);
     double lenImprecise = lenSquare - (sum_of_two_raidus * sum_of_two_raidus);
 
-    if( is_closeEnough(lenImprecise, 0.0, threshold_*threshold_) ){ // Adjacent
+    if( is_closeEnough<double>(lenImprecise, 0.0, threshold_*threshold_) ){ // Adjacent
         return collideCheck_between_2_arcs_in_same_circular(offVec, 
                                                             0.0,
                                                             dogoArc_.forward, 

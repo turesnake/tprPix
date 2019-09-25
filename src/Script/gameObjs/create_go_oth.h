@@ -66,7 +66,7 @@ inline size_t apply_a_simpleId( double fieldWeight_, size_t _totalNum )noexcept{
  *             apply_treeAge_by_density  tmp
  * -----------------------------------------------------------
  */
-inline int apply_treeAge_by_density( const Density &_density )noexcept{
+inline int apply_treeAge_by_density( Density _density )noexcept{
     switch( _density.get_lvl() ){
         case -3: return 3; //- tmp
         case -2: return 2; //- tmp

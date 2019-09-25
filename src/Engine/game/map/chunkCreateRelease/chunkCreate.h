@@ -26,7 +26,7 @@
 namespace chunkCreate {//------- namespace: chunkCreate ----------//
     
 
-void build_9_chunks( const IntVec2 &playerMPos_ );
+void build_9_chunks( IntVec2 playerMPos_ );
 void collect_chunks_need_to_be_build_in_update();
 
 

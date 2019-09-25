@@ -29,7 +29,7 @@
 //-- 从 png文件 读取的 半成品数据 --
 class AnimActionSemiData{
 public:
-    AnimActionSemiData( const ColliderType &colliderType_ ):
+    AnimActionSemiData( ColliderType colliderType_ ):
         colliderType(colliderType_)
         {}
     //----- set -----//
@@ -59,9 +59,9 @@ public:
         this->skillColliRadiusAnchor = v_; 
     }
     //----- get -----//
-    inline const ColliderType &get_colliderType() const noexcept{ return this->colliderType; };
+    inline ColliderType get_colliderType() const noexcept{ return this->colliderType; };
 
-    inline const GoAltiRange &get_lGoAltiRange() const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; };
+    inline GoAltiRange get_lGoAltiRange() const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; };
     inline const glm::dvec2 &get_rootAnchor()    const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; };
     inline const glm::dvec2 &get_tailAnchor()     const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  };
     inline const glm::dvec2 &get_moveColliRadiusAnchor()  const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; };

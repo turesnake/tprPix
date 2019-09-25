@@ -27,7 +27,7 @@
  *                        init
  * -----------------------------------------------------------
  */
-void ChunkCreateReleaseZone::init( const IntVec2 &playerMPos_ ){
+void ChunkCreateReleaseZone::init( IntVec2 playerMPos_ ){
 
     //-------------------------//
     // 装填 old-chunkkeys 容器
@@ -51,7 +51,7 @@ void ChunkCreateReleaseZone::init( const IntVec2 &playerMPos_ ){
  * -----------------------------------------------------------
  * main
  */
-void ChunkCreateReleaseZone::refresh_and_collect_chunks_need_to_be_release( const IntVec2 &playerMPos_ ){
+void ChunkCreateReleaseZone::refresh_and_collect_chunks_need_to_be_release( IntVec2 playerMPos_ ){
 
     //------------------------//
     //   check  createZone

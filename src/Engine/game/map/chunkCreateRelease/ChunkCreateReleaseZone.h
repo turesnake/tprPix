@@ -67,7 +67,7 @@ public:
             this->init_releaseZoneOffMPoses();
         }
 
-    void init( const IntVec2 &playerMPos_ );
+    void init( IntVec2 playerMPos_ );
 
     inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineDirection dir_ ) const noexcept{
         tprAssert( dir_ != NineDirection::Mid );
@@ -77,7 +77,7 @@ public:
         return this->releaseZoneOffMPoses;
     }
 
-    void refresh_and_collect_chunks_need_to_be_release( const IntVec2 &playerMPos_ ); // major-func
+    void refresh_and_collect_chunks_need_to_be_release( IntVec2 playerMPos_ ); // major-func
 
 private:
     void init_createZoneOffMPosesSets();

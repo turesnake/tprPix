@@ -32,8 +32,8 @@
  *          pixNum_per_frame
  */
 IntVec2 load_and_divide_png( const std::string &path_,
-                          const IntVec2 &frameNum_,
-                          size_t         totalFrameNum_,
+                            IntVec2     frameNum_,
+                            size_t      totalFrameNum_,
         std::vector< std::vector<RGBA>> &frame_data_ary_ ){
 
     //------------------------------//

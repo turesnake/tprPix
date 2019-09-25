@@ -53,7 +53,7 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- bind new go --//
         tprAssert( goid_ != NULLID );
-        GameObj &newGoRef = esrc::get_goRef( goid_ );
+        auto &newGoRef = esrc::get_goRef( goid_ );
         newGoRef.isControlByPlayer = true;
         this->goid = goid_;
 

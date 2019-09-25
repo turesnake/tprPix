@@ -46,7 +46,7 @@ class MapField{
 public:
     MapField() = default;
 
-    void init( const IntVec2 &anyMPos_ );
+    void init( IntVec2 anyMPos_ );
 
     inline bool is_land() const noexcept{
         //return (this->minMapAlti.is_land() &&
@@ -59,7 +59,7 @@ public:
     }
 
     //------- set -------//    
-    inline void reflesh_min_and_max_altis( const MapAltitude &mapAlti_ )noexcept{
+    inline void reflesh_min_and_max_altis( MapAltitude mapAlti_ )noexcept{
         if( mapAlti_ < this->minMapAlti ){
             this->minMapAlti = mapAlti_;
         }
@@ -71,25 +71,23 @@ public:
     void set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
 
     //------- get -------//
-    inline const IntVec2& get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
-    inline const fieldKey_t &get_fieldKey() const noexcept{ return this->fieldKey; }
-    inline const IntVec2& get_ppos() const noexcept{ return this->mcpos.get_ppos(); }
-    inline const Density &get_density() const noexcept{ return this->density; }
-    inline const sectionKey_t &get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
-    inline const fieldBorderSetId_t &get_fieldBorderSetId() const noexcept{ return this->fieldBorderSetId; }
-    inline const MapAltitude &get_minMapAlti() const noexcept{ return this->minMapAlti; }
-    inline const MapAltitude &get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
-    inline const MapAltitude &get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
-    inline const IntVec2 &get_nodeMPos() const noexcept{ return this->nodeMPos; }
-    inline const IntVec2 &get_nodePPosOff() const noexcept{ return this->nodePPosOff; }
-    inline const occupyWeight_t &get_occupyWeight() const noexcept{ return this->occupyWeight; }
-    inline const double &get_weight() const noexcept{ return this->weight; }
-    inline const double &get_uWeight() const noexcept{ return this->uWeight; }
+    inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline IntVec2      get_ppos() const noexcept{ return this->mcpos.get_ppos(); }
+    inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
+    inline MapAltitude  get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
+    inline MapAltitude  get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
+    inline IntVec2      get_nodeMPos() const noexcept{ return this->nodeMPos; }
+    inline fieldKey_t   get_fieldKey() const noexcept{ return this->fieldKey; }
+    inline Density      get_density() const noexcept{ return this->density; }
+    inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
+    inline fieldBorderSetId_t   get_fieldBorderSetId() const noexcept{ return this->fieldBorderSetId; }
+    inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
+    inline double       get_weight() const noexcept{ return this->weight; }
+    inline double       get_uWeight() const noexcept{ return this->uWeight; }
+
 
     inline glm::dvec2 get_nodeDPos() const noexcept{
-        IntVec2 p = mpos_2_ppos(this->nodeMPos) + this->nodePPosOff;
-        return glm::dvec2{  static_cast<double>(p.x),
-                            static_cast<double>(p.y) };
+        return (mpos_2_dpos(this->nodeMPos) + this->nodeDPosOff);
     }
 
     inline size_t calc_fieldIdx_in_chunk() const noexcept{
@@ -101,9 +99,8 @@ public:
         return cast_2_size_t( off.y * FIELDS_PER_CHUNK + off.x );
     }
 
-    
 private:
-    void init_nodeMPos_and_nodePPosOff();
+    void init_nodeMPos_and_nodeDPosOff();
     void init_occupyWeight();
     void assign_field_to_4_ecoObjs();
 
@@ -117,10 +114,10 @@ private:
     IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
                                 //- 绝对 mpos 坐标。
                                 //  实际上，为了避免相邻 field 的 go紧密相连，
-                                //  nodeMPos 只在 [0,3] 之间分配
-    IntVec2     nodePPosOff {}; //- 对 nodeMPos 的一个补充，用于在map 种植 go 时，pos更加随机性
-                                //  区域范围 [-8,8]
-                                //  也许可以被直接实现为 double ...
+                                //  nodeMPos 只在 {0,1,2} 之间分配
+
+    glm::dvec2  nodeDPosOff {}; //- 对 nodeMPos 的一个补充，用于在map 种植 go 时，pos更加随机性
+                                //  [ 0.0, 54.0 ]
 
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
@@ -128,7 +125,6 @@ private:
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
     double   weight {}; //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
     double   uWeight {}; // [0.0, 100.0]
-
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields

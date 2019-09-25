@@ -186,7 +186,7 @@ public:
     void init(  const AnimFrameSet &animFrameSetRef_,
                 const AnimActionParam &param_,
                 const AnimActionPos *animActionPosPtr_,
-                const IntVec2 &pixNum_per_frame_,
+                IntVec2 pixNum_per_frame_,
                 size_t headIdx_,
                 bool isHaveShadow_ );
 
@@ -209,7 +209,7 @@ public:
     inline bool get_isOpaque() const noexcept{
         return this->isOpaque;
     }
-    inline const IntVec2 &get_pixNum_per_frame() const noexcept{
+    inline IntVec2 get_pixNum_per_frame() const noexcept{
         return this->pixNum_per_frame;
     }
     
@@ -217,10 +217,10 @@ public:
         return this->animActionPosPtr->get_rootAnchorDPosOff();
     }
 
-    inline const GLuint &get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const noexcept{
+    inline GLuint get_currentTexName_pic( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->texNames_pic_ptr->at(pvtData_.currentFrameIdx);
     }
-    inline const GLuint &get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const noexcept{
+    inline GLuint get_currentTexName_shadow( const AnimActionPvtData &pvtData_ ) const noexcept{
         return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
 

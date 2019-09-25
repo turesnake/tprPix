@@ -30,7 +30,7 @@ enum class NineDirection{
 inline size_t nineDirectionSize {9};
 
 
-inline NineDirection intVec2_2_nineDirection( const IntVec2 &v_ ) noexcept {
+inline NineDirection intVec2_2_nineDirection( IntVec2 v_ ) noexcept {
     if( v_.y < 0 ){
         if( v_.x<0 ){          return NineDirection::LeftBottom;
         }else if( v_.x==0 ){   return NineDirection::Bottom;

@@ -33,40 +33,19 @@ public:
 
     void init( u32_t baseSeed_ );
 
+    inline std::default_random_engine &getnc_realRandEngine()noexcept{ return this->realRandEngine; }
+    inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const noexcept{ return this->altiSeed_pposOffSeaLvl; }
+    inline const glm::dvec2 &get_altiSeed_pposOffBig() const noexcept{ return this->altiSeed_pposOffBig; }
+    inline const glm::dvec2 &get_altiSeed_pposOffMid() const noexcept{ return this->altiSeed_pposOffMid; }
+    inline const glm::dvec2 &get_altiSeed_pposOffSml() const noexcept{ return this->altiSeed_pposOffSml; }
 
-    inline std::default_random_engine &getnc_realRandEngine()noexcept{
-        return this->realRandEngine;
-    }
-    inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const noexcept{
-        return this->altiSeed_pposOffSeaLvl;
-    }
-    inline const glm::dvec2 &get_altiSeed_pposOffBig() const noexcept{
-        return this->altiSeed_pposOffBig;
-    }
-    inline const glm::dvec2 &get_altiSeed_pposOffMid() const noexcept{
-        return this->altiSeed_pposOffMid;
-    }
-    inline const glm::dvec2 &get_altiSeed_pposOffSml() const noexcept{
-        return this->altiSeed_pposOffSml;
-    }
-
-    inline const glm::dvec2 &get_densitySeed_pposOff() const noexcept{
-        return this->densitySeed_pposOff;
-    }
-    inline const glm::dvec2 &get_field_dposOff() const noexcept{
-        return this->field_dposOff;
-    }
-    inline const glm::dvec2 &get_chunk_dposOff() const noexcept{
-        return this->chunk_dposOff;
-    }
-    inline const glm::dvec2 &get_ecoObjWeight_dposOff() const noexcept{
-        return this->ecoObjWeight_dposOff;
-    }
+    inline const glm::dvec2 &get_densitySeed_pposOff() const noexcept{ return this->densitySeed_pposOff; }
+    inline const glm::dvec2 &get_field_dposOff() const noexcept{ return this->field_dposOff; }
+    inline const glm::dvec2 &get_chunk_dposOff() const noexcept{ return this->chunk_dposOff; }
+    inline const glm::dvec2 &get_ecoObjWeight_dposOff() const noexcept{ return this->ecoObjWeight_dposOff; }
 
     //======== static ========//
-    static u32_t apply_new_baseSeed()noexcept{
-        return get_new_seed();
-    }
+    static u32_t apply_new_baseSeed()noexcept{ return get_new_seed(); }
 
 private:
     //======== vals ========//

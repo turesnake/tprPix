@@ -109,10 +109,10 @@ public:
         return this->animActionPtr->get_currentAnimActionPos();
     }   
 
-    inline const GLuint &get_currentTexName_pic() const noexcept{
+    inline GLuint get_currentTexName_pic() const noexcept{
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
-    inline const GLuint &get_currentTexName_shadow() const noexcept{
+    inline GLuint get_currentTexName_shadow() const noexcept{
         tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
@@ -120,16 +120,16 @@ public:
         return this->animActionPtr->get_currentRootAnchorDPosOff();
     }
 
-   inline const IntVec2 &get_animAction_pixNum_per_frame() const noexcept{
+   inline IntVec2 get_animAction_pixNum_per_frame() const noexcept{
         return this->animActionPtr->get_pixNum_per_frame();
     }
     inline const glm::vec2 &get_pposOff() const noexcept{
         return this->pposOff;
     }
-    inline const float &get_off_z() const noexcept{
+    inline float get_off_z()const noexcept{
         return this->off_z;
     }
-    inline const float &get_picFixedZOff() const noexcept{
+    inline float get_picFixedZOff() const noexcept{
         return this->picFixedZOff;
     }
 

@@ -21,7 +21,6 @@
 #include "GameObj.h"
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
-#include "MapAltitude.h"
 #include "Density.h"
 #include "ParamBinary.h"
 #include "animSubspeciesId.h"

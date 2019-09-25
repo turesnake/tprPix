@@ -41,7 +41,7 @@ public:
 
     //------- get -------//
     inline const glm::dvec2 &get_dpos() const noexcept{ return this->currentDPos; }
-    inline const double &get_alti() const noexcept{ return this->alti; }
+    inline double           get_alti() const noexcept{ return this->alti; }
 
 private:
     glm::dvec2   currentDPos  {}; // rootAnchor 本点 当前dpos，(无需对齐与mapent)

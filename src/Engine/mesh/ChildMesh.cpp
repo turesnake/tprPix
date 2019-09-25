@@ -35,7 +35,7 @@ namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------
  * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 &p = this->goMeshRef.get_animAction_pixNum_per_frame();
+    const IntVec2 p = this->goMeshRef.get_animAction_pixNum_per_frame();
 
     this->scale_frameSZ.x = static_cast<float>(p.x);
     this->scale_frameSZ.y = static_cast<float>(p.y);

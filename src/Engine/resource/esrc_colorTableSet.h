@@ -16,6 +16,9 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_colorTableSet()noexcept;
 ColorTableSet &get_colorTabelSet()noexcept;
+CurrentColorTable &get_currentColorTabel()noexcept;
+
+void rebind_currentColorTabel_target( colorTableId_t id_ )noexcept;
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -37,7 +37,7 @@ namespace ow_inn {//-------- namespace: ow_inn --------------//
  * param: oddEven_ -- 目标点在map 中的 坐标奇偶性，必须是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
  * param: randIdx_ -- 从 occupyWeights 子容器中 选择具体值。
  */
-occupyWeight_t calc_occupyWeight( const IntVec2 &oddEven_, size_t randIdx_ ){
+occupyWeight_t calc_occupyWeight( IntVec2 oddEven_, size_t randIdx_ ){
 
     tprAssert( (oddEven_.x>=0) && (oddEven_.x<=1) && 
             (oddEven_.y>=0) && (oddEven_.y<=1) );

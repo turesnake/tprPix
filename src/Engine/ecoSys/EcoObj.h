@@ -53,15 +53,16 @@ public:
         return pool.at( randV % pool.size() );
     }
 
-    inline const IntVec2& get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
-    inline const ecoSysPlanId_t &get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
-    inline const EcoSysPlanType &get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
-    inline const double &get_applyPercent( const Density &density_ ) const noexcept{ return this->applyPercentsPtr->at(density_.get_idx()); }
-    inline const double &get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
+    inline IntVec2          get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline ecoSysPlanId_t   get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
+    inline EcoSysPlanType   get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
+    inline double           get_applyPercent( Density density_ ) const noexcept{ return this->applyPercentsPtr->at(density_.get_idx()); }
+    inline double           get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
+    inline sectionKey_t     get_sectionKey() const noexcept{ return this->sectionKey; }
+    inline double           get_weight() const noexcept{ return this->weight; }
+    inline occupyWeight_t   get_occupyWeight() const noexcept{ return this->occupyWeight; }
+    inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
-    inline const sectionKey_t &get_sectionKey() const noexcept{ return this->sectionKey; }
-    inline const double &get_weight() const noexcept{ return this->weight; }
-    inline const occupyWeight_t &get_occupyWeight() const noexcept{ return this->occupyWeight; }
 
     //======== static funcs ========// 
     static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 
@@ -97,8 +98,8 @@ private:
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
     //  实际数据 存储在 ecosysPlan 实例中，此处仅保存 只读指针 --
-    const std::vector<double>  *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
-    const std::vector<double>  *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
+    const std::vector<double> *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
+    const std::vector<double> *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
                         
     //-- 独立数据 --
     std::vector<std::vector<GoSpecData>> goSpecDataPools {};

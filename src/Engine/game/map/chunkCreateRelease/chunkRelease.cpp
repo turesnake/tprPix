@@ -22,7 +22,7 @@ namespace chunkRelease {//------- namespace: chunkRelease ----------//
 namespace cr_inn {//----------- namespace: cr_inn ----------------//
 
 
-    void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
+    void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
 
 
 }//-------------- namespace: cr_inn end ----------------//
@@ -35,7 +35,7 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void collect_chunks_need_to_be_release_in_update(){
 
-    const glm::dvec2 &playerDPosRef = esrc::get_player().get_goRef().get_dpos();
+    const auto &playerDPosRef = esrc::get_player().get_goRef().get_dpos();
     esrc::get_chunkCreateReleaseZoneRef().refresh_and_collect_chunks_need_to_be_release( dpos_2_mpos(playerDPosRef) );
 }
 
@@ -107,7 +107,7 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  * edgeGo 在本chunk 上的登记，以及 非edgeGo 在本chunk 上的登记，就不用注销了
  * 在后面 一股脑删除即可
  */
-void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
+void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
 
     chunkKey_t tmpChunkKey  {};
     //--

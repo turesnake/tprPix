@@ -68,7 +68,7 @@ void init_fields(){
  * -----------------------------------------------------------
  * 检测是否存在，若不存在，生成之。
  */
-void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
+void atom_try_to_insert_and_init_the_field_ptr( IntVec2 fieldMPos_ ){
 
     fieldKey_t fieldKey = fieldMPos_2_fieldKey( fieldMPos_ );
     //--- lock---//
@@ -99,7 +99,7 @@ void atom_try_to_insert_and_init_the_field_ptr( const IntVec2 &fieldMPos_ ){
  * -----------------------------------------------------------
  * 遍历 chunk 中所有 field， 直接删除这些实例
  */
-void atom_erase_all_fields_in_chunk( const IntVec2 &chunkMPos_ ){
+void atom_erase_all_fields_in_chunk( IntVec2 chunkMPos_ ){
 
     //--- lock---//
     std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
@@ -132,7 +132,7 @@ void atom_erase_all_fields_in_chunk( const IntVec2 &chunkMPos_ ){
  *           atom_field_reflesh_min_and_max_altis     [-WRITE-]
  * -----------------------------------------------------------
  */
-void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, const MapAltitude &alti_ ){
+void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, MapAltitude alti_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
@@ -194,7 +194,7 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
     const auto &fieldRef = *(field_inn::fields.at( fieldKey_ ).get());
 
-    sectionKey_t   ecoObjKey = fieldRef.get_ecoObjKey();
+    sectionKey_t ecoObjKey = fieldRef.get_ecoObjKey();
 
     double randV = fieldRef.get_uWeight() * 0.35 + 313.17; //- 确保大于0
     double fract = randV - floor(randV); //- 小数部分
@@ -270,10 +270,7 @@ const MapField &atom_get_field( fieldKey_t fieldKey_ ){
 namespace field_inn {//------------ namespace: field_inn --------------//
 
 
-/* ===========================================================
- *              fieldsBuilding funcs
- * -----------------------------------------------------------
- */
+
 void insert_2_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );

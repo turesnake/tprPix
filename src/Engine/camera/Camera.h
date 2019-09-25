@@ -119,11 +119,10 @@ public:
 
     //--- used for render DEEP_Z --
     //-- 注意，此处的 zNear/zFar 是相对世界坐标的 绝对值
-    inline const double &get_zNear()const noexcept{ return this->currentDPos.z; }
-    inline double get_zFar()const noexcept{ return (this->currentDPos.z - ViewingBox::z); }
-
-    inline bool get_isMoving()const noexcept{ return this->isMoving; }
-    inline bool get_isProjectionSet()const noexcept{ return this->isProjectionSet; }
+    inline double   get_zNear()const noexcept{ return this->currentDPos.z; }
+    inline double   get_zFar()const noexcept{ return (this->currentDPos.z - ViewingBox::z); }
+    inline bool     get_isMoving()const noexcept{ return this->isMoving; }
+    inline bool     get_isProjectionSet()const noexcept{ return this->isProjectionSet; }
 
     //-- only return true in first frame --
     inline bool get_isFirstFrame()noexcept{ 

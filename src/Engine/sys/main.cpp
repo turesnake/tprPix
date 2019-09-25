@@ -20,10 +20,11 @@
 #include "fieldBorderSet_Handle.h"
 #include "dataBase.h"
 #include "sceneLoop.h"
-#include "esrc_all.h" //- 所有资源
+
+#include "esrc_all.h"
+#include "ubo_all.h"
 
 #include "timeLog.h" // debug_tmp
-
 #include "tprDebug.h" //- tmp
 
 //-------------------- Script --------------------//
@@ -112,8 +113,6 @@ int main( int argc, char* argv[] ){
     //                更多 资源
     //------------------------------------------//
 
-                //-- 这里的一些资源，会被推迟到 不同的 scene 中...
-
     //++++++ init ++++++//
     init_VAOVBO();
 
@@ -140,6 +139,13 @@ int main( int argc, char* argv[] ){
     //        Behaviour.Starts
     //------------------------------------------//
     esrc::get_behaviour().call_Starts();
+
+    //------------------------------------------//
+    //            ubo [one time]
+    //------------------------------------------//
+    ubo::write_ubo_Camera();
+    ubo::write_ubo_Window();
+    ubo::write_ubo_OriginColorTable();
 
     //------------------------------------------//
     //           bind first scene

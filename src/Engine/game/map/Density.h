@@ -34,9 +34,9 @@ public:
             tprAssert( (lvl_>=Density::minLvl) && (lvl_<=Density::maxLvl) );
         }
 
-    void set(   const IntVec2 &_fieldMPos, 
-                const double &_ecoObj_densitySeaLvlOff,
-                const std::vector<double> *_ecoObj_densityDivideValsPtr );
+    void set(   IntVec2 fieldMPos_, 
+                double ecoObj_densitySeaLvlOff_,
+                const std::vector<double> *ecoObj_densityDivideValsPtr_ );
 
     inline int get_lvl() const noexcept{
         return this->lvl;

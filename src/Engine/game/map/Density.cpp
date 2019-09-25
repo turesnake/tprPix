@@ -28,8 +28,8 @@ int Density::maxLvl {3};
  * -----------------------------------------------------------
  * 根据 ecoObj 预设的方案 来配置 density.lvl
  */
-void Density::set( const IntVec2 &fieldMPos_, 
-                    const double &ecoObj_densitySeaLvlOff_,
+void Density::set(  IntVec2 fieldMPos_, 
+                    double ecoObj_densitySeaLvlOff_,
                     const std::vector<double> *ecoObj_densityDivideValsPtr_ ){
     //-----------//
     //   seaLvl

@@ -77,9 +77,9 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     bool         is_first_check  {true}; 
 
     //===== funcs =====//
-    void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
+    void chunkBuild_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
     void build_one_chunk( chunkKey_t chunkKey_ );
-    void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ );
+    void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
     void wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
 
     NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
@@ -98,7 +98,7 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
  *    这个名字有待修改，现在，不是固定生成 9个，具体数目由 chunkCreateZone 决定
  * 
  */
-void build_9_chunks( const IntVec2 &playerMPos_ ){
+void build_9_chunks( IntVec2 playerMPos_ ){
 
     esrc::init_chunkCreateReleaseZone( playerMPos_ );
     //---------
@@ -308,7 +308,7 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
  * 三步：第一步：
  * 根据 目标chunk 制作成job，发送到 jobQue 
  */
-void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
+void chunkBuild_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
     //------------------------------//
     //           [1]
     // 创建 周边 4个 ecoObj 实例
@@ -359,7 +359,7 @@ void chunkBuild_1_push_job( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
  * ---
  * 这是一道 补充工作
  */
-void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, const IntVec2 &chunkMPos_ ){
+void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
 
     IntVec2    tmpChunkMPos {};
     chunkKey_t tmpChunkKey  {};

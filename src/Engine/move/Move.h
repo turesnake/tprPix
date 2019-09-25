@@ -105,9 +105,7 @@ public:
     }
 
     //------- get -------//
-    inline const SpeedLevel &get_speedLvl() const noexcept{
-        return this->speedLvl;
-    }
+    inline SpeedLevel get_speedLvl()const noexcept{ return this->speedLvl; }
 
 
 
