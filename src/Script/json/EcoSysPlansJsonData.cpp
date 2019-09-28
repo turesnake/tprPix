@@ -27,10 +27,10 @@
 
 #include "esrc_ecoSysPlan.h"
 #include "esrc_colorTableSet.h"
-
+#include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/json/EcoSysPlansJsonData.h"
+#include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
 
@@ -136,6 +136,7 @@ void parse_from_ecoSysPlansJsonFile(){
         ecoPlanRef.chueck_end();
     }
 
+    esrc::insertState("json_ecoSysPlan");
     cout << "   ----- parse_from_ecoSysPlansJsonFile: end ----- " << endl;
 }
 

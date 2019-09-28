@@ -17,7 +17,6 @@
 #include "TimeCircle.h" 
 #include "VAOVBO.h" 
 #include "chunkCreate.h"
-#include "fieldBorderSet_Handle.h"
 #include "dataBase.h"
 #include "sceneLoop.h"
 
@@ -28,7 +27,7 @@
 #include "tprDebug.h" //- tmp
 
 //-------------------- Script --------------------//
-#include "Script/json/ColorTableJsonData.h" // tmp 不该直接放进来 ...
+#include "Script/json/json_all.h"
 
 
 /* ===========================================================
@@ -76,6 +75,12 @@ int main( int argc, char* argv[] ){
     esrc::call_scriptMain();
 
     //------------------------------------------//
+    //        init before Awake
+    //------------------------------------------//
+    parse_from_goJsonFile();
+    parse_from_uiGoJsonFile();
+
+    //------------------------------------------//
     //        Behaviour.Awakes
     //------------------------------------------//
     esrc::get_behaviour().call_Awakes();
@@ -83,17 +88,19 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           不依赖任何外部代码的资源
     //------------------------------------------//
-    input::init_input();             //---- input -----
-
+    input::init_input();
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
+
     esrc::init_colorTableSet();
+    parse_from_colorTableJsonFile();
+
     esrc::init_fields();
     esrc::init_gameArchive();
     esrc::init_camera();
     esrc::init_uniformBlockObjs();
     esrc::init_renderPools();
-    esrc::init_chunks();             //---- chunks 模块的各种资源 ----
+    esrc::init_chunks();
     esrc::init_chunkDatas();
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
@@ -113,27 +120,22 @@ int main( int argc, char* argv[] ){
     //                更多 资源
     //------------------------------------------//
 
-    //++++++ init ++++++//
     init_VAOVBO();
 
     GameObj::id_manager.set_max_id( 0 );
 
     esrc::init_shaders();
     esrc::init_player();
-    //... 
 
     tprDebug::init_debug();
+    esrc::init_canvases();
 
-    esrc::init_canvases(); //-must after shader 
-
-    //++++++ load ++++++//
-    load_fieldBorderSets();
     esrc::init_mapSurfaceRandSet();
 
-    parse_from_colorTableJsonFile(); //- tmp
 
-    esrc::init_ecoSysPlanes();       // MUST after esrc::behaviour.call_Awakes()
-    //...
+    esrc::init_ecoSysPlanes();
+
+    parse_from_animFrameSetJsonFile();
     
     //------------------------------------------//
     //        Behaviour.Starts
@@ -141,16 +143,18 @@ int main( int argc, char* argv[] ){
     esrc::get_behaviour().call_Starts();
 
     //------------------------------------------//
-    //            ubo [one time]
+    //            ubo [only once]
     //------------------------------------------//
     ubo::write_ubo_Camera();
     ubo::write_ubo_Window();
     ubo::write_ubo_OriginColorTable();
-
+    ubo::write_ubo_GroundColorTable();
+    
     //------------------------------------------//
     //           bind first scene
     //------------------------------------------//
     prepare_for_sceneBegin();
+    
 
     //========================================================//
     //                 main render loop

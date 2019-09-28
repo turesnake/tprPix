@@ -13,9 +13,11 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "esrc_ecoObj.h"
 #include "config.h"
 #include "sectionKey.h"
+
+#include "esrc_ecoObj.h"
+#include "esrc_state.h"
 
 //#include "tprDebug.h"
 
@@ -38,6 +40,7 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
 
 void init_ecoObjs()noexcept{
     ecoObj_inn::ecoObjs.reserve(10000);
+    esrc::insertState("ecoObj");
 }
 
 /* ===========================================================
@@ -118,6 +121,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
         readOnly.second.sectionKey = ecoObjRef.get_sectionKey();
+        readOnly.second.colorTableId = ecoObjRef.get_colorTableId();
         readOnly.second.densitySeaLvlOff = ecoObjRef.get_densitySeaLvlOff();
         readOnly.second.densityDivideValsPtr = ecoObjRef.get_densityDivideValsPtr();
         //...

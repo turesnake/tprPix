@@ -13,9 +13,10 @@
 #include <memory>
 
 //-------------------- Engine --------------------//
+#include "config.h"
 #include "tprAssert.h"
 #include "esrc_chunkData.h"
-#include "config.h"
+#include "esrc_state.h"
 
 
 
@@ -41,6 +42,7 @@ namespace chunkD_inn {//------------ namespace: chunkD_inn --------------//
 
 void init_chunkDatas(){
     chunkD_inn::chunkDatas.reserve(100);
+    esrc::insertState("chunkData");
 }
 
 /* ===========================================================
@@ -49,11 +51,11 @@ void init_chunkDatas(){
  * 通常由 job线程 调用
  */
 ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
-    auto chunkDataUPtr = std::make_unique<ChunkData>();
+    auto chunkDataUPtr = std::make_unique<ChunkData>(chunkKey_);
     //--- atom ---//
     {
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
-            tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) == false ); //- MUST NOT EXIST
+        tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) == false ); //- MUST NOT EXIST
         chunkD_inn::chunkDatas.insert({ chunkKey_, std::move(chunkDataUPtr) });
         return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
     }

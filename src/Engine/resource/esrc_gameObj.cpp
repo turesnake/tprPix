@@ -21,6 +21,7 @@
 #include "tprAssert.h"
 
 #include "esrc_chunk.h"
+#include "esrc_state.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -52,6 +53,7 @@ void init_gameObjs(){
     go_inn::gameObjs.reserve(10000);
     go_inn::goids_active.reserve(10000);
     go_inn::goids_inactive.reserve(10000);
+    esrc::insertState("gameObj");
 }
 
 
@@ -284,7 +286,7 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
         tmpChunkKey = anyMPos_2_chunkKey( mpos );
 
         //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
-        // 此时显然不能去调用 esrc::get_memMapEntRef_in_activeChunk(), 会出错。
+        // 此时显然不能去调用 esrc::getnc_memMapEntRef(), 会出错。
         // 将会暂时 忽略掉这个 collient 的登记工作，
         // 这个工作，会等到 目标chunk 创建阶段，再补上: 
         // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
@@ -294,7 +296,7 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
         }
 
         //---- 正式注册 collient 到 mapents 上 -----
-        auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+        auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
 
         //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
         mapEntRef.insert_2_majorGos( goRef_.id );

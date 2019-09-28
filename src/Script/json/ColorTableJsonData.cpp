@@ -24,9 +24,10 @@
 #include "fileIO.h"
 
 #include "esrc_colorTableSet.h"
+#include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/json/ColorTableJsonData.h"
+#include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
 
@@ -58,10 +59,13 @@ void parse_from_colorTableJsonFile(){
 
     cout << "   ----- parse_from_colorTableJsonFile: start ----- " << endl;
 
+    tprAssert( esrc::is_setState("colorTableSet") );
+
     for( const auto &i : colorTableJson_inn::lpath_files ){
         colorTableJson_inn::parse_single_colorTableJsonFile(i);
     }
 
+    esrc::insertState("json_colorTableSet");
     cout << "   ----- parse_from_colorTableJsonFile: end ----- " << endl;
 }
 
@@ -135,11 +139,6 @@ void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
         const auto &colorTableRef = colorTableSetRef.get_colorTable( strPair.first );
     }
     */
-
-
-
-
-
 }
 
 

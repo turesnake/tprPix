@@ -29,6 +29,8 @@ enum class UBOType{
 
     OriginColorTable,
     UnifiedColorTable,
+    GroundColorTable,
+    ColorTableId,
     //...
 };
 
@@ -40,7 +42,9 @@ inline std::unordered_map<UBOType, GLuint> uboBindPoints {
     {UBOType::Time,              4 },
 
     {UBOType::OriginColorTable,  5 },
-    {UBOType::UnifiedColorTable, 6 }
+    {UBOType::UnifiedColorTable, 6 },
+    {UBOType::GroundColorTable,  7 },
+    {UBOType::ColorTableId,      8 },
     //...
 };
 

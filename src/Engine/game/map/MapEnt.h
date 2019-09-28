@@ -28,6 +28,11 @@
 #include "MapAltitude.h"
 #include "GameObjType.h"
 
+#include "sectionKey.h"
+#include "colorTableId.h"
+#include "Density.h"
+
+
 
 //-- 投影地图单位的信息 64*64 pixes --
 class MemMapEnt{
@@ -38,20 +43,25 @@ public:
             this->majorGos.reserve(10);
         }
 
-
-    inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
-    inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos; }
-
-    inline IntVec2 get_mpos() const noexcept{ return this->mcpos.get_mpos();}
-    inline MapAltitude get_mapAlti() const noexcept{ return this->mapAlti; };
-
     inline void insert_2_majorGos( goid_t goid_ )noexcept{
         tprAssert( this->majorGos.find(goid_) == this->majorGos.end() );
         this->majorGos.insert({ goid_ });
     }
-    inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{
-        return this->majorGos;
-    }
+
+    
+    inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos; }
+    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; };
+    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
+    inline void set_density(Density d_)noexcept{ this->density = d_; }
+    inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
+
+
+    inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
+    inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; };
+    inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorRableId; }
+
+
+    inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{return this->majorGos; }
     inline void erase_the_onlyOne_from_majorGos( goid_t goid_ )noexcept{
         size_t eraseNum = this->majorGos.erase(goid_);
         tprAssert( eraseNum == 1 );
@@ -62,11 +72,10 @@ private:
 
     MapAltitude   mapAlti     {}; //- 本 mapent 中点pix 的 alti
 
-    //EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
-
-            //-- 这个值暂时未被配置，尽管在理想态，每个 mapent，应该知道自己的 eco 类型
-            //   mapent 的 ecotype 信息是否有用 ???
-            //   ....
+    sectionKey_t        ecoObjKey {};
+    colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
+    Density             density {};
+    
 
     std::unordered_set<goid_t> majorGos {};
 

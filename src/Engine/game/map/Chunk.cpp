@@ -23,6 +23,7 @@
 #include "MapField.h"
 #include "ChunkData.h"
 #include "simplexNoise.h"
+#include "create_goes.h"
 
 #include "esrc_shader.h"
 #include "esrc_ecoObj.h"
@@ -35,18 +36,10 @@
 
 #include "tprDebug.h"
 
-//-------------------- Script --------------------//
-#include "Script/gameObjs/create_goes.h"
 
 
-namespace chunk_inn {//-------- namespace: chunk_inn --------------//
-    
-    //-- 根据 奇偶性，来分配每个 chunk 的 zOff值 --
-    const std::vector<double> zOffs{
-        0.1, 0.2, 0.3, 0.4
-    };
-
-}//------------- namespace: chunk_inn end --------------//
+//namespace chunk_inn {//-------- namespace: chunk_inn --------------//
+//}//------------- namespace: chunk_inn end --------------//
 
 
 /* ===========================================================
@@ -57,69 +50,57 @@ void Chunk::init(){
 
     this->init_memMapEnts();
 
-    // 根据 本chunk 在 2*2 chunk 中的位置
-    // 来分配 zoff 值。 
-    //-- 本 chunk 在 世界坐标中的 奇偶性 --
-    // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
-    /*
-    IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_CHUNK) );
-    IntVec2 oddEven = floorMod( v, 2.0 );
-    this->zOff = chunk_inn::zOffs.at( cast_2_size_t(oddEven.y * 2 + oddEven.x) );
-    */
-
     //------------------------------//
     //      random vals
     //------------------------------//
-    this->CDPos = this->mcpos.get_dpos();
-    //this->CDPos /= static_cast<double>(ENTS_PER_CHUNK);//- 看起来没什么意义，而且容易整除
-    this->CDPos *= 0.037; //- 代替上一句，获得多变的 小数 tmp
-    this->CDPos += esrc::get_gameSeed().get_chunk_dposOff();
+    this->CDPos = this->mcpos.get_dpos() * 0.037 + esrc::get_gameSeed().get_chunk_dposOff();
     
-    // 7*7 个 field 组成一个 pn晶格
-    double freq = 1.0 / 7.0; //- tmp
+    double freq = 1.0 / 7.0; //- tmp 7*7 个 field 组成一个 pn晶格
     this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
 
     this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( (this->originPerlin + 13.7) * 333.1 );
 
-    
     //------------------------------//
-    //  从 chunkData 中 copy: 
-    //  mapEntAltis / fieldKeys
+    //       read chunkData
     //------------------------------//
     auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( this->chunkKey );
-    {
-        const auto &mapEntAltis = chunkDataRef.get_mapEntAltis();
-            tprAssert( mapEntAltis.size() == this->memMapEnts.size() ); //- tmp
-        size_t entIdx {};
-        for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
-            for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
-                entIdx = h * ENTS_PER_CHUNK + w;
-                this->memMapEnts.at(entIdx)->set_mapAlti( mapEntAltis.at(entIdx) );
-            }
+    
+    //----- mapents -------//
+    size_t entIdx {};
+    for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
+
+            entIdx = h * ENTS_PER_CHUNK + w;
+            auto &mapEnt = this->getnc_mapEntRef( entIdx );
+            const auto &mapEntInn = chunkDataRef.getnc_mapEntInnRef( IntVec2{w,h} );
+            mapEntInn.write_2_mapEnt( mapEnt );
+
         }
     }
 
-    //------------------------//
-    //      fieldKeys
-    //  设置 field.nodeMapAlti
-    //------------------------//
-    IntVec2       tmpFieldMpos {};
-    fieldKey_t    tmpFieldKey  {};
+    //----- fields -------//
+    IntVec2     fieldNodeOff {};
+    fieldKey_t  fieldKey {};
     this->fieldKeys.clear();
     this->fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
-            tmpFieldMpos = this->get_mpos() + IntVec2{  w*ENTS_PER_FIELD,
-                                                        h*ENTS_PER_FIELD };
-            tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMpos);
-            this->fieldKeys.push_back( tmpFieldKey );
-            //----
-            esrc::atom_field_set_nodeAlti_2( tmpFieldKey, this->memMapEnts );
-                            //- 在这里，直接传递 容器引用，很粗暴。
-                            //  可以做的更精细一些
-        }
-    }
 
+    for( const auto &pair : chunkDataRef.get_fieldDatas() ){//- each fieldData
+
+        fieldKey = pair.first;
+        this->fieldKeys.push_back(fieldKey);
+        //--
+        const auto &fieldRef = esrc::atom_get_field(fieldKey);
+        fieldNodeOff = fieldRef.get_nodeMPos() - anyMPos_2_chunkMPos(fieldRef.get_mpos());
+        const auto &mapEntInnRef = chunkDataRef.getnc_mapEntInnRef( fieldNodeOff );
+
+        esrc::atom_write_2_field_from_jobData(  fieldKey,
+                                                mapEntInnRef.ecoObjKey,
+                                                mapEntInnRef.colorRableId,
+                                                mapEntInnRef.density,
+                                                mapEntInnRef.alti,
+                                                pair.second->minFieldAlti,
+                                                pair.second->maxFieldAlti );
+    }
 }
 
 

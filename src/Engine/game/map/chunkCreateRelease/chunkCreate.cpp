@@ -20,6 +20,8 @@
 #include "NineDirection.h"
 #include "Chunk.h"
 #include "sectionKey.h"
+#include "create_goes.h"
+
 #include "esrc_gameObj.h"
 #include "esrc_field.h"
 #include "esrc_chunk.h"
@@ -287,15 +289,15 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     cb_inn::signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_, chunkMPos );
 
     //------------------------------//
-    //            [5]
-    //  为 chunk 中的 8*8 个 field，分配 goes
+    //            [6]
+    //  为 chunk 中的 8*8 个 field，分配 all kind of goes
     //------------------------------//
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
-        esrc::atom_create_gos_in_field( fieldKey );
+        create_gos_in_field( fieldKey, chunkRef.get_key() );
     } //-- each field key end --
 
     //------------------------------//
-    //            [6]
+    //            [7]
     //  生成 刷怪笼（基于field）
     //          tmp...
     //------------------------------//
@@ -381,7 +383,7 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
-                            auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                            auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
                             mapEntRef.insert_2_majorGos(   goRef.id );
                         }
                     }
@@ -403,9 +405,6 @@ NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
     offMPos = offMPos.floorDiv( static_cast<double>(ENTS_PER_CHUNK) );
     return intVec2_2_nineDirection( offMPos );
 }
-
-
-
 
 
 }//-------------- namespace: cb_inn end ----------------//

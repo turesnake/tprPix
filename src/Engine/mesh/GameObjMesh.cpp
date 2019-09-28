@@ -98,5 +98,26 @@ void GameObjMesh::RenderUpdate_auto(){
 }
 
 
+/* ===========================================================
+ *                RenderUpdate_ground
+ * -----------------------------------------------------------
+ * GroundGo 专用
+ */
+void GameObjMesh::RenderUpdate_ground(){
+
+    tprAssert( (!this->isHaveShadow) && (this->isVisible) );
+    tprAssert( this->colorTableId != MaxColorTableId ); // tmp
+    //---------------//
+    //      pic
+    //---------------//
+    this->picMeshUPtr->refresh_scale_auto();
+    this->picMeshUPtr->refresh_translate(); 
+    //-- 暂不区分，是否半透明 --
+    esrc::get_groundRenderPool().insert( 
+                this->colorTableId, // 暂未检测其是否被设置 ...
+                this->picMeshUPtr->get_render_z(), 
+                this->picMeshUPtr->getnc_ChildMeshPtr() );
+}
+
 
 

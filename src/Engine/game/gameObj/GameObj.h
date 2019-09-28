@@ -165,6 +165,13 @@ public:
             pairRef.second->RenderUpdate_auto();
         }
     }
+    //-- now, just used in GroundGo --
+    inline void render_all_groundGoMesh()noexcept{
+        for( auto &pairRef : this->goMeshs ){
+            pairRef.second->RenderUpdate_ground();
+        }
+    }
+    
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...

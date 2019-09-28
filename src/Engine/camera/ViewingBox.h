@@ -29,6 +29,7 @@ public:
     static double get_renderLayerZOff( RenderLayerType type_ )noexcept{
         switch(type_){
             case RenderLayerType::Ground:           return ground_zOff;
+            case RenderLayerType::GroundGo:         return groundGo_zOff;
             case RenderLayerType::MapSurfaceLower:  return mapSurfaceLower_zOff;
             case RenderLayerType::WaterAnim:        return waterAnim_zOff;
             case RenderLayerType::MapSurfaceUpper:  return mapSurfaceUpper_zOff;
@@ -64,6 +65,8 @@ public:
     static double  ground_zOff;
         // 整个游戏最 “深” 的图层，a canvas，往往涂上一个单一的底色
 
+    static double  groundGo_zOff;
+        
 
     static double  mapSurfaceLower_zOff; // under water
     static double  mapSurfaceUpper_zOff; // above water

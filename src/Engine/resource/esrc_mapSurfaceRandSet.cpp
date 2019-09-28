@@ -12,7 +12,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -27,6 +27,7 @@ namespace mapSurfaceRandSet_inn {//-------- namespace: mapSurfaceRandSet_inn ---
 void init_mapSurfaceRandSet(){
     mapSurfaceRandSet_inn::mapSurfaceRandSetUPtr = std::make_unique<MapSurfaceRandSet>();
     mapSurfaceRandSet_inn::mapSurfaceRandSetUPtr->load_mapSurfaceRandSets();
+    esrc::insertState("mapSurfaceRandSet");
 }
 
 

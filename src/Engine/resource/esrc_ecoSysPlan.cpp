@@ -17,7 +17,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
-#include "Script/json/EcoSysPlansJsonData.h"
+#include "Script/json/json_all.h"
 
 //#include "tprDebug.h" //- tmp
 

@@ -7,7 +7,7 @@
  */
 #include "esrc_gameSeed.h"
 #include <memory>
-
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -21,6 +21,7 @@ namespace gameSeed_inn {//-------- namespace: gameSeed_inn --------------//
 void init_gameSeed(){
     gameSeed_inn::gameSeedUPtr = std::make_unique<GameSeed>();
     // not yet call gameSeed.init()...
+    esrc::insertState("gameSeed");
 }
 
 

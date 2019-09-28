@@ -13,6 +13,8 @@
 #include "tprAssert.h"
 #include "ColorTable.h"
 
+#include "esrc_state.h"
+
 #include "ubo_all.h"
 
 
@@ -24,7 +26,6 @@ namespace ubo_inn {//-------- namespace: ubo_inn --------------//
 }//------------- namespace: ubo_inn end --------------//
 
 
-//-- must before esrc::init_shaders() !!! ---
 void init_uniformBlockObjs()noexcept{
 
     {//---------- Seeds ------------//
@@ -87,7 +88,28 @@ void init_uniformBlockObjs()noexcept{
                                     std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
     }
 
+    {//---------- GroundColorTable ------------//
+        auto uboType = ubo::UBOType::GroundColorTable;
+        tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(FloatVec4) * 20 );// shader 中手写了 [20]数组，丑陋的方案...
+        std::string uboName {"GroundColorTable"};
+        ubo_inn::uboUPtrs.insert({  uboType, 
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+    }
+
+    {//---------- ColorTableId ------------//
+        auto uboType = ubo::UBOType::ColorTableId;
+        tprAssert( ubo_inn::uboUPtrs.find(uboType) == ubo_inn::uboUPtrs.end() );
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = sizeof(colorTableId_t);
+        std::string uboName {"ColorTableId"};
+        ubo_inn::uboUPtrs.insert({  uboType, 
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+    }
+
     //...
+    esrc::insertState("ubo");
 }
 
 

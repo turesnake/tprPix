@@ -21,7 +21,6 @@
 #include "random.h"
 #include "IntVec.h"
 #include "EcoObj.h"
-#include "FieldBorderSet.h"
 #include "simplexNoise.h"
 #include "MapEnt.h"
 
@@ -32,18 +31,8 @@
 #include "tprDebug.h"
 
 
-namespace mapField_inn {//----------- namespace: mapField_inn ---------------//
-
-
-    //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
-    const std::vector<IntVec2> quadSectionKeyOffs {
-        IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_SECTION, 0 },
-        IntVec2{ 0, ENTS_PER_SECTION },
-        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
-    };
-
-}//-------------- namespace: mapField_inn end ---------------//
+//namespace field_inn {//----------- namespace: mapField_inn ---------------//
+//}//-------------- namespace: mapField_inn end ---------------//
 
 
 
@@ -56,65 +45,29 @@ namespace mapField_inn {//----------- namespace: mapField_inn ---------------//
  */
 void MapField::init( IntVec2 anyMPos_ ){
 
-    //--- field.mcpos ---
     this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(anyMPos_) );
-
-    //--- field.fieldKey ---
     this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
 
-
     //--- fieldFPos ----
-    this->FDPos = this->mcpos.get_dpos();
-    //this->FDPos /= static_cast<double>(ENTS_PER_FIELD);//- 看起来没什么意义，而且容易整除
-    this->FDPos *= 0.27; //- 代替上一句，获得多变的 小数 tmp
-    this->FDPos += esrc::get_gameSeed().get_field_dposOff();
-
+    this->FDPos = this->mcpos.get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
 
     //--- field.nodeMPos ---
     this->init_nodeMPos_and_nodeDPosOff();
 
-    //--- assign_field_to_4_ecoObjs ---
-    //  顺带把 this->density 也初始化了
-    this->assign_field_to_4_ecoObjs();
-
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
-    double freq = 1.0 / 3.0; //- tmp
+    const double freq = 1.0 / 3.0; //- tmp
     this->originPerlin = simplex_noise2( this->FDPos * freq );//- [-1.0, 1.0]
 
     //--- weight ---
     this->weight  = this->originPerlin * 100.0;        //- [-100.0, 100.0]
-    this->uWeight = (this->originPerlin + 1.0) * 50.0; //- [0.0,    100.0]
-
-    //--- fieldBorderSetId ---
-    size_t randIdx = cast_2_size_t(floor((this->originPerlin+3.1)*997.0));
-    this->fieldBorderSetId = apply_a_fieldBorderSetId( randIdx );
+    this->uWeight = blender_the_perlinNoise( this->originPerlin, 699.7, 97 ); //[0.0, 97.0]
 
     //--- occupyWeight ---
     this->init_occupyWeight();
-
-    //--- density ---
-    // 已在 this->assign_field_to_4_ecoObjs(); 中被初始化
 }
 
 
-
-/* ===========================================================
- *                   set_nodeAlti_2
- * -----------------------------------------------------------
- */
-void MapField::set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ ){
-
-    tprAssert( this->isNodeMapAltiSet == false );
-    this->isNodeMapAltiSet = true;
-
-    IntVec2 off = this->nodeMPos - anyMPos_2_chunkMPos( this->get_mpos() );
-        tprAssert( (off.x>=0) && (off.y>=0) );
-    size_t  idx = cast_2_size_t( off.y * ENTS_PER_CHUNK + off.x );
-
-    tprAssert( idx < chunkMapEnts_.size() );
-    this->nodeMapAlti = chunkMapEnts_.at(idx)->get_mapAlti();
-}
 
 
 /* ===========================================================
@@ -171,92 +124,5 @@ void MapField::init_occupyWeight(){
 
     this->occupyWeight = calc_occupyWeight( oddEven, randIdx );
 }
-
-
-
-/* ===========================================================
- *          assign_field_to_4_ecoObjs
- * -----------------------------------------------------------
- *   针对新版本，现在的 边缘可能有些太碎了 ß
- */
-void MapField::assign_field_to_4_ecoObjs(){
-
-    //--- reset nearFour_ecoObjPtrs ---//
-    sectionKey_t sectionKey = anyMPos_2_sectionKey( this->get_mpos() );
-    IntVec2      sectionMPos = sectionKey_2_mpos( sectionKey );
-    
-    // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
-    std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {}; 
-
-    sectionKey_t   tmpKey {};
-    for( const auto &whOff : mapField_inn::quadSectionKeyOffs ){
-        tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
-        nearFour_ecoObjDatas.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
-    }
-
-    double         vx        {};
-    double         vy        {};
-    IntVec2       mposOff   {};
-    //double         freqBig   { 0.9 };
-    double         freqBig   { 0.3 }; //- 值越小，ecoObj 边界越平滑
-
-                        //-- 临时测试出来的值 ...
-
-    double         pnVal     {}; //- 围绕 0 波动的 随机值
-    double         off       {};
-    size_t        count     {};
-
-    //double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
-    double targetDistance = 0.8 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
-
-                                //-- 临时测试出来的值 ...
-
-
-    vx = static_cast<double>(this->get_mpos().x) / static_cast<double>(ENTS_PER_CHUNK);
-    vy = static_cast<double>(this->get_mpos().y) / static_cast<double>(ENTS_PER_CHUNK);
-
-    const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_dposOff();
-    vx += field_pposOff.x;
-    vy += field_pposOff.y;
-    double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 20; // [-x.0, x.0]
-
-
-    pnVal = pnValBig;
-    if( pnVal > 20.0 ){
-        pnVal = 20.0;
-    }
-    if( pnVal < -20.0 ){
-        pnVal = -20.0;
-    }
-    // now, pnVal: [-20.0, 20.0]
-
-    count = 0;
-    for( auto &ecoDataPair : nearFour_ecoObjDatas ){
-        count++;
-        const auto &ecoReadOnly = ecoDataPair.second;
-
-        if( count != nearFour_ecoObjDatas.size()){ //- 前3个 eco
-
-            mposOff = this->get_mpos() - sectionKey_2_mpos( ecoReadOnly.sectionKey );
-            off = static_cast<double>(sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y )); // [ ~ 90.0 ~ ]
-            off += pnVal * 0.7; // [-x.0, x.0] + 90.0
-
-            if( off < targetDistance ){ //- tmp
-                this->ecoObjKey = ecoReadOnly.sectionKey;
-                this->density.set( this->get_mpos(), 
-                                    ecoReadOnly.densitySeaLvlOff,
-                                    ecoReadOnly.densityDivideValsPtr );
-                break;
-            }
-        }else{ //- 第四个 eco
-            this->ecoObjKey = ecoReadOnly.sectionKey;
-            this->density.set( this->get_mpos(), 
-                                    ecoReadOnly.densitySeaLvlOff,
-                                    ecoReadOnly.densityDivideValsPtr );
-        }
-    }
-}
-
 
 

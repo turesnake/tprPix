@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/create_goes.h"
+#include "create_goes.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -16,8 +16,7 @@
 #include "Script/gameObjs/allGoes.h"
 #include "Script/resource/ssrc.h"
 
-#include "Script/json/GoJsonData.h"
-#include "Script/json/UIGoJsonData.h"
+#include "Script/json/json_all.h"
 
 #include "tprDebug.h"
 

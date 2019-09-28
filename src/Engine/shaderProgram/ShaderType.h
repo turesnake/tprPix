@@ -14,8 +14,9 @@ enum class ShaderType{
     Ground,
     Water,
     //---
-    OriginColor,  //-
-    UnifiedColor, //-
+    OriginColor,
+    UnifiedColor,
+    GroundColor,
     //---
     PlayerGoCircle,
     MapSurface

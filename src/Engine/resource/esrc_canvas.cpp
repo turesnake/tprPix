@@ -15,6 +15,7 @@
 #include "esrc_gameSeed.h"
 
 #include "esrc_shader.h"
+#include "esrc_state.h"
 
 //#include "tprDebug.h" //- tmp
 
@@ -34,6 +35,8 @@ namespace canvas_inn {//-------- namespace: canvas_inn --------------//
  */
 void init_canvases(){
 
+    tprAssert( esrc::is_setState("shader") );
+
     canvas_inn::groundCanvasUPtr = std::make_unique<Canvas>();
     canvas_inn::waterAnimCanvasUPtr = std::make_unique<Canvas>();
 
@@ -48,6 +51,8 @@ void init_canvases(){
     //------------------//
     canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::gameSZ),
                             esrc::get_shaderPtr(ShaderType::Water) );
+
+    esrc::insertState("canvas");
 }
 
 /* ===========================================================

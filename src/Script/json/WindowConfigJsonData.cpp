@@ -20,8 +20,10 @@
 #include "global.h"
 #include "fileIO.h"
 
+#include "esrc_state.h"
+
 //--------------- Script ------------------//
-#include "Script/json/WindowConfigJsonData.h"
+#include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
 
 using namespace rapidjson;
@@ -69,6 +71,7 @@ WindowConfigJsonData parse_from_windowConfigJsonFile(){
 
     cout << "   ----- parse_from_windowConfigJsonFile: end ----- " << endl;
 
+    esrc::insertState("json_windowConfig");
     return windowConfig;
 }
 

@@ -61,7 +61,7 @@ void Collision::collect_adjacentBeGos(){
             continue; //- skip
         }
 
-        for( const auto &begoid : esrc::get_memMapEntRef_in_activeChunk(iMPos).get_majorGos() ){//- each bego
+        for( const auto &begoid : esrc::getnc_memMapEntRef(iMPos).get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             this->begoids.insert( begoid );
         }
@@ -229,12 +229,12 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
             this->signInMapEntsUPtr->sync_currentSignINMapEnts_from_future();
             //-- adds --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
-                auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
                 mapEntRef.insert_2_majorGos( this->goRef.id );
             }
             //-- dels --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
-                auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
                 mapEntRef.erase_the_onlyOne_from_majorGos( this->goRef.id );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
             }
@@ -285,7 +285,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
             return { true, glm::dvec2{0.0, 0.0} }; //- IMM!!!
         }
 
-        const auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( iMPos );
+        const auto &mapEntRef = esrc::getnc_memMapEntRef( iMPos );
         for( const auto &begoid : mapEntRef.get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             if( this->adjacentBeGos.find(begoid) != this->adjacentBeGos.end() ){ continue; }//-- skip old adjacent bego --

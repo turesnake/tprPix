@@ -53,9 +53,6 @@
 //-- 一个 section，占有 1024*1024 pixel
 #define PIXES_PER_SECTION (CHUNKS_PER_SECTION*PIXES_PER_CHUNK)
 
-//-- 一个 fieldBorderSet 预制件，占有 64*64 pix
-#define PIXES_PER_FIELD_BORDER_SET (2*PIXES_PER_FIELD)
-
 //-- camera.viewingBox z_deep
 #define VIEWING_BOX_Z_DEEP  2000
 

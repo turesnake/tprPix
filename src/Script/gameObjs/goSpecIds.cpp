@@ -15,13 +15,14 @@
 //-------------------- Engine --------------------//
 #include "GameObjType.h" //- goSpecId_t
 
+#include "esrc_state.h"
+
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
 #include "Script/gameObjs/allGoes.h"
 #include "Script/uiGos/allUIGoes.h"
 
-#include "Script/json/GoJsonData.h"
-#include "Script/json/UIGoJsonData.h"
+#include "Script/json/json_all.h"
 
 
 
@@ -42,13 +43,10 @@ void onGoSpecIds_SignUp(){
 
     goSpecId_t   id {};
 
-    ssrc::clear_goInit_funcs();
-    ssrc::clear_go_specId_names();
-    ssrc::clear_go_name_specIds();
-
     //==================================//
-    parse_from_goJsonFile();
-    parse_from_uiGoJsonFile();
+    tprAssert( esrc::is_setState("json_gameObj") );
+    tprAssert( esrc::is_setState("json_uiGo") );
+
 
     //================ Goes ==================//
     //ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2 ) );
@@ -56,6 +54,7 @@ void onGoSpecIds_SignUp(){
     ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init_in_autoMod, _1, _2 ) );
 
     ssrc::insert_2_goInit_funcs( "wallA",          std::bind( &gameObjs::WallA::init_in_autoMod, _1, _2 ) );
+
 
     //-------------------//
     //        tree
@@ -77,7 +76,9 @@ void onGoSpecIds_SignUp(){
     //-------------------//
     //        oth
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "playerGoCircle", std::bind( &gameObjs::PlayerGoCircle::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "playerGoCircle",  std::bind( &gameObjs::PlayerGoCircle::init_in_autoMod, _1, _2 ) );
+
+    ssrc::insert_2_goInit_funcs( "groundGo",        std::bind( &gameObjs::GroundGo::init_in_autoMod, _1, _2 ) );
 
      //...
 

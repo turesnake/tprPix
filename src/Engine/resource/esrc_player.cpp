@@ -7,6 +7,7 @@
  */
 #include "esrc_player.h"
 #include <memory>
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -19,6 +20,7 @@ namespace player_inn {//-------- namespace: player_inn --------------//
 
 void init_player(){
     player_inn::playerUPtr = std::make_unique<Player>();
+    esrc::insertState("player");
 }
 
 

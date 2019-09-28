@@ -1,20 +1,18 @@
 /*
- * ================== UBO_UnifiedColorTable.cpp =====================
+ * ================== UBO_ColorTable.cpp =====================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.25
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "UBO_UnifiedColorTable.h"
-
+#include "ubo_all.h"
 
 //-------------------- Engine --------------------//
-
 #include "esrc_colorTableSet.h"
 #include "esrc_uniformBlockObj.h"
 #include "esrc_player.h"
 #include "esrc_field.h"
-#include "esrc_ecoObj.h"
+#include "esrc_chunk.h"
 
 #include "esrc_time.h"
 
@@ -22,8 +20,10 @@
 
 namespace ubo{//------------- namespace ubo ----------------
 
-namespace ubo_unifiedColorTable_inn{//------------- namespace ubo ----------------
+namespace ubo_colorTable_inn{//------------- namespace ubo ----------------
     colorTableId_t currentColorTableId {99999};
+
+
 }//------------- namespace ubo: end ----------------
 
 
@@ -42,6 +42,27 @@ void write_ubo_OriginColorTable(){
 }
 
 
+// called only once, at app.init 
+void write_ubo_GroundColorTable(){
+
+    auto &colorTableSetRef = esrc::get_colorTabelSet();
+    //---
+    auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
+    ubo.write(0, 
+            colorTableSetRef.get_groundColor_dataSize(),
+            colorTableSetRef.get_groundColor_dataPtr<const GLvoid*>() );
+}
+
+
+void write_ubo_colorTableId( colorTableId_t id_ ){
+
+    auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::ColorTableId );
+    ubo.write(0, 
+            sizeof(colorTableId_t),
+            static_cast<const GLvoid*>(&id_) );
+}
+
+
 //-- called each render frame --
 void update_and_write_ubo_UnifiedColorTable(){
 
@@ -49,15 +70,21 @@ void update_and_write_ubo_UnifiedColorTable(){
     //  check if rebind targetColorTable
     //--------------------------//
     auto &goRef = esrc::get_player().get_goRef();
-    const auto &fieldRef = esrc::atom_get_field( anyDPos_2_fieldKey(goRef.get_dpos()) );
-    colorTableId_t id = esrc::atom_ecoObj_get_colorTableId( fieldRef.get_ecoObjKey() );
-
+    const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef.get_dpos()) );
+    colorTableId_t id = mapEntRef.get_colorTableId();
 
     // 最简方案，仅在 playergo 跨越 ecoObj 时，才绑定新 colorTable --
-    if( id != ubo_unifiedColorTable_inn::currentColorTableId ){
-        ubo_unifiedColorTable_inn::currentColorTableId = id;
+    if( id != ubo_colorTable_inn::currentColorTableId ){
+        ubo_colorTable_inn::currentColorTableId = id;
         esrc::rebind_currentColorTabel_target( id );
     }
+
+        // 改进，不会立即切换到新的 id
+        // 而是设置一个延时期，当读取到新的 id时，启动延时器，比如1～2秒
+        //  若发现 playergo 再次将 id 改回旧id，说明此时，playergo 在两个 eco 间来回横跳
+        //  此时将立即重置延时器，
+        //  只有那些读完延时器 的新id，才会被真的执行 color切换
+        //  ...
 
     //--------------------------//
     //         update
@@ -69,11 +96,7 @@ void update_and_write_ubo_UnifiedColorTable(){
         return;
     }
 
-        cout << "  -- [] -- "
-            << id << "; "
-            << esrc::get_timer().get_currentTime() 
-            << endl;
-
+    
     //--------------------------//
     //        write
     //--------------------------//

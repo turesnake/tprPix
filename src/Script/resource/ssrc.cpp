@@ -15,8 +15,7 @@
 
 
 //--------------- Script ------------------//
-#include "Script/json/GoJsonData.h"
-#include "Script/json/UIGoJsonData.h"
+#include "Script/json/json_all.h"
 
 #include "tprDebug.h" 
 

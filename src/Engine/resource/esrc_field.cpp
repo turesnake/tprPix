@@ -23,11 +23,11 @@
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
 #include "esrc_mapSurfaceRandSet.h"
-
+#include "esrc_state.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
-#include "Script/gameObjs/create_goes.h"
+
 
 
 #include "tprDebug.h"
@@ -60,6 +60,7 @@ namespace field_inn {//------------ namespace: field_inn --------------//
 
 void init_fields(){
     field_inn::fields.reserve(10000);
+    esrc::insertState("field");
 }
 
 
@@ -128,126 +129,30 @@ void atom_erase_all_fields_in_chunk( IntVec2 chunkMPos_ ){
 }
 
 
+
 /* ===========================================================
- *           atom_field_reflesh_min_and_max_altis     [-WRITE-]
+ *           atom_write_2_field_from_jobData     [-WRITE-]
  * -----------------------------------------------------------
+ * data from ChunkData, write to field 
  */
-void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, MapAltitude alti_ ){
+void atom_write_2_field_from_jobData(   fieldKey_t fieldKey_, 
+                                    sectionKey_t ecoObjkey_,
+                                    colorTableId_t id_,
+                                    Density d_,
+                                    MapAltitude nodeAlti_,
+                                    MapAltitude minAlti_,
+                                    MapAltitude maxAlti_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        field_inn::fields.at(fieldKey_)->reflesh_min_and_max_altis( alti_ );
-    }
-}
-
-
-
-/* ===========================================================
- *           atom_field_set_nodeAlti_2     [-WRITE-]
- * -----------------------------------------------------------
- * only used by Chunk::init()
- */
-void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, 
-                                const std::vector<std::unique_ptr<MemMapEnt>> &_chunkMapEnts ){
-    {//--- atom ---//
-        std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
-        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        field_inn::fields.at(fieldKey_)->set_nodeAlti_2( _chunkMapEnts );
-    }
-}
-
-
-/* ===========================================================
- *       atom_get_mapFieldData_in_chunkCreate     [-READ-]
- * -----------------------------------------------------------
- * only used by job-thread: build_chunkData.cpp
- */
-std::unique_ptr<MapFieldData_In_ChunkCreate> atom_get_mapFieldData_in_chunkCreate( fieldKey_t fieldKey_ ){
-
-    auto uptr = std::make_unique<MapFieldData_In_ChunkCreate>();
-    {//--- atom ---//
-        std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-            tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-        const auto &field = *(field_inn::fields.at( fieldKey_ ).get());
-        uptr->occupyWeight = field.get_occupyWeight();
-        uptr->fieldKey = field.get_fieldKey();
-        uptr->ecoObjKey = field.get_ecoObjKey();
-        uptr->densityIdx = field.get_density().get_idx();
-        uptr->fieldBorderSetId = field.get_fieldBorderSetId();
-        uptr->nodeMPos = field.get_nodeMPos();
-    }
-    return uptr;
-}
-
-
-
-/* ===========================================================
- *           atom_create_gos_in_field       [-READ-]
- * -----------------------------------------------------------
- * -1- 根据 field 信息，确定将要生成的 go 类型
- * -2- 计算生成概率
- * -3- 正式执行生成
- */
-void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
-    //--- atom ---//
-    std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-    const auto &fieldRef = *(field_inn::fields.at( fieldKey_ ).get());
-
-    sectionKey_t ecoObjKey = fieldRef.get_ecoObjKey();
-
-    double randV = fieldRef.get_uWeight() * 0.35 + 313.17; //- 确保大于0
-    double fract = randV - floor(randV); //- 小数部分
-    tprAssert( (fract>=0.0) && (fract<=1.0) );
-
-
-    //----- mapsurface go ------//
-    {               
-        mapSurfaceRandEntId_t entId = esrc::get_chunkRef(anyMPos_2_chunkKey(fieldRef.get_mpos())).get_mapSurfaceRandEntId();
-        MapSurfaceRandLvl mapSurfaceLvl = esrc::get_mapSurfaceRandLvl( entId, fieldRef.calc_fieldIdx_in_chunk() );
-
-        if( mapSurfaceLvl != MapSurfaceRandLvl::Nil ){
-
-            //--- dyParam ---//
-            ParamBinary dyParam {};
-            //auto *mapSurfaceBp = reinterpret_cast<DyParams_MapSurface*>( dyParam.init_binary(ParamBinaryType::MapSurface) );
-            auto *mapSurfaceBp = dyParam.init_binary<DyParams_MapSurface>( ParamBinaryType::MapSurface );
-            mapSurfaceBp->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
-            mapSurfaceBp->lvl = mapSurfaceLvl;
-            mapSurfaceBp->randVal = fieldRef.get_uWeight();
-
-            //--- goSpecId ---//
-            goSpecId_t goSpecId = ssrc::get_goSpecId( "mapSurfaceLower" );
-            gameObjs::create_a_Go(  goSpecId,
-                                    mpos_2_dpos( fieldRef.get_mpos() ), // 这会显得工整，但减少了重叠，未来可修改
-                                    dyParam );
-        }
-    }
-
-
-    //----- land go -----//
-    if( fieldRef.is_land() ){
-        const auto &goSpecData = esrc::atom_ecoObj_apply_a_rand_goSpecData( ecoObjKey,
-                                                            fieldRef.get_density().get_idx(),
-                                                            fieldRef.get_uWeight() );
-        const auto &animLabels = goSpecData.get_animLabels();
-
-        if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
-
-            //--- dyParam ---//
-            ParamBinary dyParam {};
-            //auto *fieldBp = reinterpret_cast<DyParams_Field*>( dyParam.init_binary(ParamBinaryType::Field) );
-            auto *fieldBp = dyParam.init_binary<DyParams_Field>( ParamBinaryType::Field );
-
-            fieldBp->fieldUWeight = fieldRef.get_uWeight();
-            fieldBp->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
-            fieldBp->fieldDensity = fieldRef.get_density();
-            fieldBp->animLabels.insert( fieldBp->animLabels.end(), animLabels.cbegin(), animLabels.cend() );//- maybe empty
-
-            gameObjs::create_a_Go(  goSpecData.get_goSpecId(),
-                                    fieldRef.get_nodeDPos(),
-                                    dyParam );
-        }
+        auto *fieldPtr = field_inn::fields.at(fieldKey_).get();
+        //---
+        fieldPtr->set_ecoObjKey( ecoObjkey_ );
+        fieldPtr->set_colorTableId( id_ );
+        fieldPtr->set_density( d_ );
+        fieldPtr->set_nodeMapAlti( nodeAlti_ );
+        fieldPtr->set_minAlti( minAlti_ );
+        fieldPtr->set_maxAlti( maxAlti_ );
     }
 }
 
@@ -260,7 +165,7 @@ void atom_create_gos_in_field( fieldKey_t fieldKey_ ){
 const MapField &atom_get_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
-        tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
+    tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
     return *(field_inn::fields.at( fieldKey_ ).get());
 }
 
@@ -274,7 +179,7 @@ namespace field_inn {//------------ namespace: field_inn --------------//
 void insert_2_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-            tprAssert( fieldsBuilding.find(fieldKey_) == fieldsBuilding.end() );
+        tprAssert( fieldsBuilding.find(fieldKey_) == fieldsBuilding.end() );
         fieldsBuilding.insert( fieldKey_ );
     }
 }

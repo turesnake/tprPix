@@ -17,6 +17,7 @@
 #include "config.h"
 #include "chunkCreate.h"
 #include "esrc_renderPool.h"
+#include "esrc_state.h"
 
 #include "tprDebug.h"
 
@@ -40,6 +41,7 @@ void init_chunks(){
     chunk_inn::chunkCreateReleaseZoneUPtr = std::make_unique<ChunkCreateReleaseZone>( 3, 7 );
                                                                 // 也许应该改为 3,9
     //...
+    esrc::insertState("chunk");
 }
 
 
@@ -98,24 +100,18 @@ void erase_from_chunks( chunkKey_t chunkKey_ ){
 
 
 /* ===========================================================
- *          get_memMapEntRef_in_activeChunk     [严格版]
+ *               getnc_memMapEntRef
  * -----------------------------------------------------------
  * -- 根据参数 _mcpos, 找到其所在的 chunk, 从 chunk.memMapEnts
  * -- 找到对应的 mapEnt, 将其指针返回出去
  *    当目标 chunkMemState 不为 Active，直接报错
  */
-MemMapEnt &get_memMapEntRef_in_activeChunk( IntVec2 anyMPos_ ){
+MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
 
-    //-- 计算 目标 chunk 的 key --
-    chunkKey_t    chunkKey = anyMPos_2_chunkKey( anyMPos_ );
-    //-- 获得 目标 mapEnt 在 chunk内部的 相对mpos
+    chunkKey_t chunkKey = anyMPos_2_chunkKey( anyMPos_ );
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
-
-    if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
-        tprAssert(0);
-    }
-
-    return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef_by_lMPosOff( lMPosOff );
+    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );
+    return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef( lMPosOff );
 }
 
 

@@ -7,6 +7,7 @@
  */
 #include "esrc_gameArchive.h"
 #include <memory>
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -24,6 +25,7 @@ namespace gameArchive_inn {//-------- namespace: gameArchive_inn --------------/
 
 void init_gameArchive(){
     gameArchive_inn::gameArchiveUPtr = std::make_unique<GameArchive>();
+    esrc::insertState("gameArchive");
 }
 
 

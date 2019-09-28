@@ -6,8 +6,8 @@
  * ----------------------------------------------------------
  */
 #include "esrc_behaviour.h"
-
 #include <memory>
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace behaviour_inn {//------------------ namespace: behaviour_inn -------------------------//
@@ -16,7 +16,9 @@ namespace behaviour_inn {//------------------ namespace: behaviour_inn ---------
 
 void init_behaviour(){
     behaviour_inn::behaviourPtr = std::make_unique<Behaviour>();
+    esrc::insertState("behaviour");
 }
+
 
 Behaviour &get_behaviour(){
     return *(behaviour_inn::behaviourPtr.get());

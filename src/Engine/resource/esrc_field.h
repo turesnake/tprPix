@@ -15,19 +15,21 @@
 //-------------------- Engine --------------------//
 #include "MapField.h"
 #include "fieldKey.h"
-#include "MapFieldData_In_ChunkCreate.h"
+
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_fields();
 
 void atom_try_to_insert_and_init_the_field_ptr( IntVec2 fieldMPos_ );
-void atom_field_reflesh_min_and_max_altis(fieldKey_t fieldKey_, MapAltitude alti_ );
 
-void atom_field_set_nodeAlti_2( fieldKey_t fieldKey_, const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
-
-std::unique_ptr<MapFieldData_In_ChunkCreate> atom_get_mapFieldData_in_chunkCreate( fieldKey_t fieldKey_ );
-void atom_create_gos_in_field( fieldKey_t fieldKey_ );
+void atom_write_2_field_from_jobData(   fieldKey_t fieldKey_, 
+                                    sectionKey_t ecoObjkey_,
+                                    colorTableId_t id_,
+                                    Density d_,
+                                    MapAltitude nodeAlti_,
+                                    MapAltitude minAlti_,
+                                    MapAltitude maxAlti_ );
 
 void atom_erase_all_fields_in_chunk( IntVec2 chunkMPos_ );
 

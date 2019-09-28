@@ -17,6 +17,8 @@
 #include "Script/gameObjs/oth/PlayerGoCircle.h"
 #include "Script/gameObjs/majorGos/WallA.h"
 
+
+
 //---------- Script : gameObjs : majorGos : trees -------------//
 //#include "Script/gameObjs/majorGos/trees/OakTree.h"
 #include "Script/gameObjs/majorGos/trees/PineTree.h"
@@ -28,6 +30,8 @@
 
 //---------- Script : gameObjs : mapSurface --------------------//
 #include "Script/gameObjs/mapSurfaces/MapSurfaceLower.h"
+
+#include "Script/gameObjs/oth/GroundGo.h"
 
 
 

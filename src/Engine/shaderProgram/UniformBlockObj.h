@@ -59,7 +59,7 @@ public:
 private:
     GLuint ubo {};
     GLuint bindPoint {};
-    GLsizeiptr dataSize {}; //- 也许会被拆分为 n * ent 
+    GLsizeiptr dataSize {}; //- 也许会被拆分为 n * ent, 但 本class 并不关心
     std::string uboName {};
 };
 

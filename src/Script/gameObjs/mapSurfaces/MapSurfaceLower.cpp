@@ -23,12 +23,14 @@
 #include "MapSurfaceSpec.h"
 #include "MapSurfaceRandLvl.h"
 #include "RenderPool.h"
+#include "create_go_oth.h"
+
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
-#include "Script/gameObjs/create_go_oth.h"
+
 
 
 using namespace std::placeholders;
@@ -137,8 +139,9 @@ void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
  */
 void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+    tprAssert(0);
+    
         cout << "MapSurfaceLower::OnActionSwitch" << endl;
-
     //=====================================//
     //            ptr rebind
     //-------------------------------------//

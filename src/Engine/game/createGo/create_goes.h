@@ -21,6 +21,11 @@
 #include "DiskGameObj.h"
 #include "ParamBinary.h"
 #include "UIAnchor.h"
+#include "chunkKey.h"
+
+
+
+void create_gos_in_field( fieldKey_t fieldKey_, chunkKey_t chunkKey_ );
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
@@ -49,9 +54,6 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
                     const UIAnchor &uiAnchor_,
                     const ParamBinary &dyParams_ );
-
-
-
 
 }//------------- namespace uiGos: end ----------------
 

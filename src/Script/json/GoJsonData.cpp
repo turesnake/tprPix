@@ -22,8 +22,10 @@
 #include "global.h"
 #include "fileIO.h"
 
+#include "esrc_state.h"
+
 //--------------- Script ------------------//
-#include "Script/json/GoJsonData.h"
+#include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
 
@@ -60,6 +62,7 @@ void parse_from_goJsonFile(){
         goJson_inn::parse_single_goJsonFile(i);
     }
 
+    esrc::insertState("json_gameObj");
     cout << "   ----- parse_from_goJsonFile: end ----- " << endl;
 }
 

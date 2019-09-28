@@ -7,7 +7,7 @@
  */
 #include "esrc_colorTableSet.h"
 #include <memory>
-
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace cts_inn {//------------------ namespace: cts_inn -------------------------//
@@ -21,6 +21,7 @@ namespace cts_inn {//------------------ namespace: cts_inn ---------------------
 void init_colorTableSet()noexcept{
     cts_inn::colorTableSetUPtr = std::make_unique<ColorTableSet>();
     cts_inn::currentColorTableUPtr = std::make_unique<CurrentColorTable>();
+    esrc::insertState("colorTableSet");
 }
 
 ColorTableSet &get_colorTabelSet()noexcept{

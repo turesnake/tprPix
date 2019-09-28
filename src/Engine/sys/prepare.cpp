@@ -182,12 +182,6 @@ void check_and_creat_important_dir(){
                                     "colliEntSet/",
                                     err_info );
     //---------------------------------//
-    //          path_fieldBorderSet
-    //---------------------------------//
-    path_fieldBorderSet = tprWin::mk_dir( path_textures,
-                                        "fieldBorderSet/",
-                                        err_info );
-    //---------------------------------//
     //          path_mapSurfaceRandSet
     //---------------------------------//
     path_mapSurfaceRandSet = tprWin::mk_dir( path_textures,
@@ -241,13 +235,6 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_colliEntSet = tprUnix::mk_dir( path_textures,
                         "colliEntSet/",
-                        RWXR_XR_X,
-                        err_info );
-    //---------------------------------//
-    //          path_fieldBorderSet
-    //---------------------------------//
-    path_fieldBorderSet = tprUnix::mk_dir( path_textures,
-                        "fieldBorderSet/",
                         RWXR_XR_X,
                         err_info );
     //---------------------------------//

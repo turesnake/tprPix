@@ -35,8 +35,6 @@ AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
 }
 
 
-
-
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
         tprAssert( anim_inn::animFrameSets.find(name_) == anim_inn::animFrameSets.end() );
     anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });

@@ -118,9 +118,9 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/ecoSys/*.cpp
                         src/Engine/fileIO/*.cpp
                         src/Engine/game/*.cpp 
+                        src/Engine/game/createGo/*.cpp 
                         src/Engine/game/gameObj/*.cpp 
                         src/Engine/game/map/*.cpp 
-                        src/Engine/game/map/fieldBorderSet/*.cpp 
                         src/Engine/game/map/chunkCreateRelease/*.cpp 
                         src/Engine/game/map/mapSurfaceRandSet/*.cpp 
                         src/Engine/game/UI/*.cpp 
@@ -129,6 +129,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
+                        src/Engine/multiThread/chunkCreate/*.cpp 
                         src/Engine/paramBinary/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
@@ -194,9 +195,9 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/createGo
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/fieldBorderSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/chunkCreateRelease
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/mapSurfaceRandSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/UI
@@ -205,6 +206,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/chunkCreate
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/paramBinary
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random

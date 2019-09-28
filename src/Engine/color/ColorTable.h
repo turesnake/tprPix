@@ -87,6 +87,10 @@ public:
         }
     }
 
+    inline const FloatVec4 &get_groundColor()const noexcept{
+        return this->data.at(colorTableEntNames.at("ground"));
+    }
+
     //======== static ========//
     inline static size_t get_dataSize()noexcept{ 
         return (colorTableEntNames.size()*sizeof(FloatVec4)); 
@@ -113,6 +117,9 @@ public:
         //---
         this->name_ids.insert({ name_, id });
         this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
+        //--- groundColor ---
+        auto *ctPtr = this->colorTableUPtrs.at(id).get();
+        this->groundColorTable.push_back( ctPtr->get_groundColor() );        
         //---
         return *(this->colorTableUPtrs.at(id).get());
     }
@@ -126,6 +133,11 @@ public:
         return this->name_ids.at(colorTableName_);
     }
 
+    inline const std::unordered_map<std::string, colorTableId_t> &
+    get_name_idsRef()const noexcept{
+        return this->name_ids;
+    }
+
     inline const ColorTable &get_colorTableRef( colorTableId_t id_ )const noexcept{
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
         return *(this->colorTableUPtrs.at(id_).get());
@@ -135,6 +147,17 @@ public:
         return this->colorTableUPtrs.at(id_).get();
     };
 
+    //----- groundColor -----//
+    template< typename PtrType >
+    inline PtrType get_groundColor_dataPtr()const noexcept{
+        return static_cast<PtrType>( &(this->groundColorTable.at(0)) );
+    }
+
+    inline size_t get_groundColor_dataSize()const noexcept{ 
+        return (this->groundColorTable.size() * sizeof(FloatVec4));
+    }
+
+
 private:
     inline bool isFindIn_name_ids( const std::string name_ )const noexcept{
         return (this->name_ids.find(name_) != this->name_ids.end());
@@ -143,9 +166,13 @@ private:
     //----- vals -----//
     std::unordered_map<std::string, colorTableId_t> name_ids {};
     std::unordered_map<colorTableId_t, std::unique_ptr<ColorTable>> colorTableUPtrs {};
+    std::vector<FloatVec4> groundColorTable {}; // idx by colorTableId
             // 0:    origin colorTable
             // 1~n:  ent 
 };
+
+
+
 
 //-- 维护一个动态的 ColorTable 实例，表示当前帧的 世界颜色 --
 //   可以让它趋近于某种目标色
@@ -179,10 +206,6 @@ private:
     bool isWorking {true}; // 本色是否正在趋近于 目标色
 
 };
-
-
-
-
 
 #endif 
 

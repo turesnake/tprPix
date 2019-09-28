@@ -14,6 +14,8 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "esrc_state.h"
+
 
 #include "tprDebug.h"
 
@@ -50,6 +52,7 @@ void init_chunkMemStates(){
     chunk_inn::chunkKeys_onCreating.reserve(1000);
     chunk_inn::chunkKeys_active.reserve(1000);
     chunk_inn::chunkKeys_onReleasing.reserve(1000);
+    esrc::insertState("chunkMemState");
 }
 
 void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ){

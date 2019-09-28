@@ -121,7 +121,7 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
 
                 if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
                     //---- 正式从 mapEnt 上清除登记 -----
-                    auto &mapEntRef = esrc::get_memMapEntRef_in_activeChunk( mpos );
+                    auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
                     mapEntRef.erase_the_onlyOne_from_majorGos( goRef.id );
                 }
             }

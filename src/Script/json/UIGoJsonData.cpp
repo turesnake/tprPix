@@ -22,8 +22,10 @@
 #include "global.h"
 #include "fileIO.h"
 
+#include "esrc_state.h"
+
 //--------------- Script ------------------//
-#include "Script/json/UIGoJsonData.h"
+#include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
 #include "Script/resource/ssrc.h" 
 
@@ -95,6 +97,7 @@ void parse_from_uiGoJsonFile(){
 
     }
 
+    esrc::insertState("json_uiGo");
     cout << "   ----- parse_from_uiGoJsonFile: end ----- " << endl;
 }
 

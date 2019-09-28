@@ -20,11 +20,12 @@
 #include "esrc_camera.h" 
 #include "esrc_gameObj.h" 
 #include "ParamBinary.h"
+#include "create_goes.h"
 
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
-#include "Script/gameObjs/create_goes.h"
+
 
 
 using namespace std::placeholders;

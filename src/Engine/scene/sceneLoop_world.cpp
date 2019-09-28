@@ -82,7 +82,7 @@ void prepare_for_sceneWorld(){
     //--------------------------------//
     //          ubo [one time]
     //--------------------------------//
-    ubo::write_ubo_Seeds();
+    ubo::write_ubo_Seeds(); // Must in SceneWorld
     ubo::write_ubo_Camera();
 
 }

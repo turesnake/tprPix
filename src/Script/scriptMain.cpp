@@ -25,8 +25,7 @@
 #include "esrc_behaviour.h" 
 
 //-------------------- Script --------------------//
-#include "Script/json/AnimFrameSetJsonData.h"
-#include "Script/json/ColorTableJsonData.h"
+#include "Script/json/json_all.h"
 
 
 using namespace std::placeholders;
@@ -53,7 +52,7 @@ void scriptMain(){
     esrc::get_behaviour().signUp_Starts( std::bind( &onStart_test ) );
 
     
-    esrc::get_behaviour().signUp_Starts( std::bind( &parse_from_animFrameSetJsonFile ) ); // MUST after load_colliEntSets()
+    //esrc::get_behaviour().signUp_Starts( std::bind( &parse_from_animFrameSetJsonFile ) );
 
                             //  这些 parse函数 是不是应该移动到 main 中去
                             //  ...

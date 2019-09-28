@@ -16,6 +16,7 @@
 class EcoObj_ReadOnly{
 public:
     sectionKey_t   sectionKey       {};
+    colorTableId_t colorTableId     {};
     double         densitySeaLvlOff {};
     const std::vector<double> *densityDivideValsPtr {};
 };

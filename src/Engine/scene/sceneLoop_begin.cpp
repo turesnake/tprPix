@@ -28,6 +28,7 @@
 #include "GameArchive.h"
 #include "GameSeed.h"
 #include "UIAnchor.h"
+#include "create_goes.h"
 
 #include "ubo_all.h"
 
@@ -35,7 +36,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h"
-#include "Script/gameObjs/create_goes.h"
+
 //#include "Script/UIs/create_UIs.h"
 
 

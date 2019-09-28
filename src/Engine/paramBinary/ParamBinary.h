@@ -10,6 +10,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <set>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -21,6 +22,7 @@
 #include "MapSurfaceRandSet.h"
 #include "AnimLabel.h"
 
+#include "Job_ChunkCreate.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
@@ -30,6 +32,7 @@ enum class ParamBinaryType{
     Nil,
     MapSurface,
     Field, //- 临时简陋版
+    GroundGo
 };
 
 
@@ -49,6 +52,23 @@ struct DyParams_MapSurface{
 };
 
 
+/*
+struct DyParams_EcoBorderEnt{
+    const std::vector<glm::vec2> *borderPointsPtr {nullptr}; //- base on field-midMPos
+    double             fieldUWeight          {};
+    //...
+};
+*/
+
+struct DyParams_GroundGo{
+    double      fieldUWeight     {};
+    const Job_Field  *job_fieldPtr     {nullptr};
+};
+
+
+
+
+
 //-- 参数二进制包，目前仅用于 go create 中的 动态参数传递
 //   一个很简陋的方案
 class ParamBinary{
@@ -62,6 +82,7 @@ public:
         switch (type_){
         case ParamBinaryType::Field: tprAssert( sizeof(T) == sizeof(DyParams_Field) ); break;
         case ParamBinaryType::MapSurface: tprAssert( sizeof(T) == sizeof(DyParams_MapSurface) ); break;
+        case ParamBinaryType::GroundGo: tprAssert( sizeof(T) == sizeof(DyParams_GroundGo) ); break;
         case ParamBinaryType::Nil:    
         default:
             tprAssert(0);

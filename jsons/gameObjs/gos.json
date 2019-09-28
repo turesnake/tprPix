@@ -54,6 +54,24 @@
     "pub.MP": "nil"
   },
   {
+    "gameObjType": "groundGo",
+    "specID": 3002,
+    "parentID": 0,
+    "family": "GroundGo",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isMoveCollide": false,
+    "isDoPass": false,
+    "isBePass": true,
+    "speedLvl": 0,
+    "alti": 0,
+    "weight": 1,
+    "pub.HP": "nil",
+    "pub.MP": "nil"
+  },
+  {
     "gameObjType": "wallA",
     "specID": 25,
     "parentID": 0,

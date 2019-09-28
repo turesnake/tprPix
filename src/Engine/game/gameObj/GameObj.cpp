@@ -48,6 +48,12 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     //    collision
     //-----------------------//
+    /*
+    this->collisionUPtr = (this->isMoveCollide) ? 
+                                std::make_unique<Collision>(*this) :
+                                nullptr;
+    */
+
     this->collisionUPtr = std::make_unique<Collision>(*this);
 
                 //- 如果是 isMoveCollide == false，是不是可以直接不初始化此 组件 ....

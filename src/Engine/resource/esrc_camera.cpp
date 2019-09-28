@@ -7,7 +7,7 @@
  */
 #include "esrc_camera.h"
 #include <memory>
-
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace camera_inn {//------------------ namespace: camera_inn -------------------------//
@@ -16,6 +16,7 @@ namespace camera_inn {//------------------ namespace: camera_inn ---------------
 
 void init_camera(){
     camera_inn::cameraUPtr = std::make_unique<Camera>();
+    esrc::insertState("camera");
 }
 
 Camera &get_camera(){

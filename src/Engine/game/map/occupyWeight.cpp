@@ -48,11 +48,5 @@ occupyWeight_t calc_occupyWeight( IntVec2 oddEven_, size_t randIdx_ ){
 
     size_t idx = randIdx_ % container.size(); //- mod
     return container.at(idx);
-
-    //return container.at(0); //- 测试
 }
-
-
-
-
 

@@ -69,8 +69,8 @@ enum class GameObjFamily{
     Major   = 1, //- 主go： 活体，树，建筑...
     //Item    = 2, //- 道具go： 武器，药剂
     //Surface = 3  //- 表面go： 液体，火焰...
-
     MapSurface, //- 包含 lower/upper 
+    GroundGo,
 
     Oth,   // 暂时只有 playerGoCircle
 
@@ -85,6 +85,8 @@ inline GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept{
         return GameObjFamily::Major;
     }else if( name_ == std::string{"MapSurface"} ){
         return GameObjFamily::MapSurface;
+    }else if( name_ == std::string{"GroundGo"} ){
+        return GameObjFamily::GroundGo;
     }else if( name_ == std::string{"Oth"} ){
         return GameObjFamily::Oth;
     }else if( name_ == std::string{"UI"} ){

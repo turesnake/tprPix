@@ -35,6 +35,5 @@ void CurrentColorTable::update()noexcept{
         if( isClose ){
             this->isWorking = false;
         }
-
 }
 

@@ -128,5 +128,70 @@
             ]
         }
     ]
+},
+{
+    "name": "groundGo",
+    "pngs": [
+        {
+            "path": "/ground/groundMapEnt.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml" ],
+                    "fstIdx": 0,
+                    "idxNums": 6,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/ground/groundHalfField.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid" ],
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "/ground/groundField.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big" ],
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
 }
 ]

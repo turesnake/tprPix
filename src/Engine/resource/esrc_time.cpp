@@ -7,7 +7,7 @@
  */
 #include "esrc_time.h"
 #include <memory>
-
+#include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -21,6 +21,7 @@ namespace time_inn {//-------- namespace: time_inn  --------------//
 void init_time(){
     time_inn::timerUPtr = std::make_unique<TimeBase>();
     time_inn::logicTimeCircleUPtr = std::make_unique<TimeCircle>( *(time_inn::timerUPtr.get()), 5 );
+    esrc::insertState("time");
 }
 
 TimeBase &get_timer(){

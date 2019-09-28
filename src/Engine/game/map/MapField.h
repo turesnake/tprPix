@@ -28,9 +28,9 @@
 #include "RGBA.h"
 #include "MapAltitude.h"
 #include "occupyWeight.h"
-#include "fieldBorderSetId_t.h"
 #include "Density.h"
 #include "tprCast.h"
+#include "colorTableId.h"
 
 #include "tprDebug.h"
 
@@ -59,20 +59,24 @@ public:
     }
 
     //------- set -------//    
-    inline void reflesh_min_and_max_altis( MapAltitude mapAlti_ )noexcept{
-        if( mapAlti_ < this->minMapAlti ){
-            this->minMapAlti = mapAlti_;
+    inline void reflesh_min_max_altis( MapAltitude minAlti_, MapAltitude maxAlti_ )noexcept{
+        if( minAlti_ < this->minMapAlti ){
+            this->minMapAlti = minAlti_;
         }
-        if( mapAlti_ > this->maxMapAlti ){
-            this->maxMapAlti = mapAlti_;
+        if( maxAlti_ > this->maxMapAlti ){
+            this->maxMapAlti = maxAlti_;
         }
     }
 
-    void set_nodeAlti_2( const std::vector<std::unique_ptr<MemMapEnt>> &chunkMapEnts_ );
+    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; };
+    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
+    inline void set_density(Density d_)noexcept{ this->density = d_; }
+    inline void set_nodeMapAlti(MapAltitude alti_)noexcept{ this->nodeMapAlti = alti_; }
+    inline void set_minAlti(MapAltitude alti_)noexcept{ this->minMapAlti = alti_; }
+    inline void set_maxAlti(MapAltitude alti_)noexcept{ this->maxMapAlti = alti_; }
 
     //------- get -------//
     inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
-    inline IntVec2      get_ppos() const noexcept{ return this->mcpos.get_ppos(); }
     inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
     inline MapAltitude  get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
     inline MapAltitude  get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
@@ -80,12 +84,16 @@ public:
     inline fieldKey_t   get_fieldKey() const noexcept{ return this->fieldKey; }
     inline Density      get_density() const noexcept{ return this->density; }
     inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
-    inline fieldBorderSetId_t   get_fieldBorderSetId() const noexcept{ return this->fieldBorderSetId; }
+    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorRableId; }
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline double       get_weight() const noexcept{ return this->weight; }
     inline double       get_uWeight() const noexcept{ return this->uWeight; }
 
-
+    inline glm::dvec2 get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
+    
+    inline glm::dvec2 get_midDPos()const noexcept{ 
+        return (this->mcpos.get_dpos() + MapField::halfDPosOff); 
+    }
     inline glm::dvec2 get_nodeDPos() const noexcept{
         return (mpos_2_dpos(this->nodeMPos) + this->nodeDPosOff);
     }
@@ -99,10 +107,12 @@ public:
         return cast_2_size_t( off.y * FIELDS_PER_CHUNK + off.x );
     }
 
+    //===== static =====//
+    static const glm::dvec2 halfDPosOff; // field 中点 距左下角 offset
+
 private:
     void init_nodeMPos_and_nodeDPosOff();
     void init_occupyWeight();
-    void assign_field_to_4_ecoObjs();
 
     //====== vals =======//
     //----- 一阶数据 / first order data ------//
@@ -122,18 +132,16 @@ private:
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
-    double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
-    double   weight {}; //- 根据 perlin 生成的 权重值。[-100.0, 100.0]
-    double   uWeight {}; // [0.0, 100.0]
+    double   originPerlin {}; //- perlin 原始值，分布集中在接近 0.0 的区域  [-1.0, 1.0]
+    double   weight {};       //- 仅仅是对 originPerlin 的放大，未能改善分布问题 [-100.0, 100.0]
+    double   uWeight {};      //- 打乱后的随机值，分布更均匀 [0.0, 97.0]
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields
                             //- [just mem] 
 
-    fieldBorderSetId_t  fieldBorderSetId {}; 
-
     sectionKey_t        ecoObjKey {};
-
+    colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
     Density             density {};
     
     //----- 三阶数据 / third order data ------//
@@ -149,8 +157,11 @@ private:
 
     //===== flags =====//
     bool  isNodeMapAltiSet {false}; // tmp 只能被设置一次
-
 };
+//===== static =====//
+inline const glm::dvec2 MapField::halfDPosOff {
+    static_cast<double>(ENTS_PER_FIELD * PIXES_PER_MAPENT) * 0.5,
+    static_cast<double>(ENTS_PER_FIELD * PIXES_PER_MAPENT) * 0.5 };
 
 
 

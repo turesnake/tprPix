@@ -70,12 +70,18 @@ public:
     inline mapSurfaceRandEntId_t get_mapSurfaceRandEntId() const noexcept { return this->mapSurfaceRandEntId; };
 
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt &getnc_mapEntRef_by_lMPosOff( const IntVec2 &lMPosOff_ )noexcept{
+    inline MemMapEnt &getnc_mapEntRef( const IntVec2 &lMPosOff_ )noexcept{
         tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
-            tprAssert( idx < memMapEnts.size() ); //- tmp
-        return *(memMapEnts.at(idx).get());
+        tprAssert( idx < this->memMapEnts.size() ); //- tmp
+        return *(this->memMapEnts.at(idx).get());
     }
+
+    inline MemMapEnt &getnc_mapEntRef( size_t idx_ )noexcept{
+        tprAssert( idx_ < this->memMapEnts.size() ); //- tmp
+        return *(this->memMapEnts.at(idx_).get());
+    }
+
     
     //======== flags ========//
     bool     is_memMapEnts_set              {false};
@@ -115,9 +121,7 @@ private:
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
 
     mapSurfaceRandEntId_t mapSurfaceRandEntId {}; //- 指导 field 是否生成／生成什么lvl 的 mapsurface go
-                                          
-
-    //double  zOff {}; //- chunk间存在前后层次，
+                                        
 };
 
 
