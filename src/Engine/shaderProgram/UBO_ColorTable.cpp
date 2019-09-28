@@ -48,9 +48,10 @@ void write_ubo_GroundColorTable(){
     auto &colorTableSetRef = esrc::get_colorTabelSet();
     //---
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
-    ubo.write( sizeof(FloatVec4), // skip fst ent !!!
+    ubo.write( 0,
             colorTableSetRef.get_groundColor_dataSize(),
             colorTableSetRef.get_groundColor_dataPtr<const GLvoid*>() );
+            // 实际上，在传入的数据中，[0]号元素是空的，[1]是origin，不会被访问到，
 }
 
 

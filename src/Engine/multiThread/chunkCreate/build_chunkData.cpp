@@ -222,40 +222,6 @@ void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
         chunkData_.apply_field_job_groundGoEnts( fieldKey );
 
     }//-- each field key end --
-
-
-    //------------------------//
-    //     ent.isBorder
-    //------------------------//
-    /*
-    for( const auto &fieldKey : fieldKeys ){ //- each field key
-
-        tmpFieldMPos = fieldKey_2_mpos(fieldKey);
-
-        for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
-            for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
-
-                tmpEntMPos = tmpFieldMPos + IntVec2{ew, eh};
-                mposOff = tmpEntMPos - chunkMPos_;
-
-                //--- skip unborder ent ---//
-                if( chunkData_.is_borderMapEnt(mposOff) ){
-                    Job_MapEntInn &mapEntInnRef = chunkData_.getnc_mapEntInnRef(mposOff);
-                    mapEntInnRef.isBorder = true;
-                }
-            }
-        }
-    }
-    */
-
-    //------------------------//
-    //    
-    //------------------------//
-
-
-
-
-
 }
 
 
@@ -279,21 +245,15 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
 
     double         vx        {};
     double         vy        {};
-    IntVec2       mposOff   {};
-    double         freqBig   { 0.9 };
-    //double         freqBig   { 0.3 }; //- 值越小，ecoObj 边界越平滑
-                        //-- 临时测试出来的值 ...
-
-    float         freqSml   { 2.3f };
+    IntVec2        mposOff   {};
+    double         freqBig   { 0.9 }; //- 值越小，ecoObj 边界越平滑
+    float          freqSml   { 2.3f };
 
     double         pnVal     {}; //- 围绕 0 波动的 随机值
     double         off       {};
     size_t        count     {};
 
-    //double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
-    double targetDistance = 0.8 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
-
-                                //-- 临时测试出来的值 ...
+    double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
 
     vx = static_cast<double>(mapEnt_.mpos.x) / static_cast<double>(ENTS_PER_CHUNK);
     vy = static_cast<double>(mapEnt_.mpos.y) / static_cast<double>(ENTS_PER_CHUNK);
@@ -301,7 +261,6 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
     const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_dposOff();
     vx += field_pposOff.x;
     vy += field_pposOff.y;
-
                     //-- 一个简单的偏移值，也许未来可以为其 改名字 ...
                     //   毕竟，现在和 mapent 关联了 ...
 
