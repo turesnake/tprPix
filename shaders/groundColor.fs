@@ -18,9 +18,6 @@ in vec2 TexCoord;   //-- 每个pix 在 tecture 上的坐标 [0.0, 1.0] [left_bot
 //-- 现在，我们创建了 1个 纹理采样器
 uniform sampler2D texture1;
 
-
-//uniform int colorTableId; // 索引 groundColorTable
-
 //===== UBO =====//
 layout (shared, std140) uniform GroundColorTable {
     vec4 colors[32];  //-- 务必大于 json 中 colorTable 个数 -- 
@@ -43,7 +40,8 @@ void main()
     }
 
     vec4 targetColor = groundColorTable.colors[colorTableId.id];
-    FragColor = vec4( targetColor.rgb, 0.5 );
+    FragColor = vec4( targetColor.rgb, 0.6 );
+    //FragColor = vec4( 0.2, 1.0, 0.7, 0.3 );
 }
 
 

@@ -132,13 +132,6 @@ void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
     }
     colorTableSetRef.final_check();
 
-
-    //--- debug ----
-    /*
-    for( const auto &strPair : colorTableEntNames ){
-        const auto &colorTableRef = colorTableSetRef.get_colorTable( strPair.first );
-    }
-    */
 }
 
 

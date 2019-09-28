@@ -10,6 +10,8 @@
 //------------------- Engine --------------------//
 #include "esrc_time.h"
 
+#include "tprDebug.h"
+
 
 void CurrentColorTable::update()noexcept{
 
@@ -35,5 +37,18 @@ void CurrentColorTable::update()noexcept{
         if( isClose ){
             this->isWorking = false;
         }
+}
+
+
+void ColorTableSet::debug()noexcept{
+
+    cout << "  === ColorTableSet ===" << endl;
+    for( const auto &pair : this->name_ids ){
+
+        cout << "  name: " << pair.first
+            << ", colorTableId: " << pair.second
+            << endl;
+    }
+
 }
 

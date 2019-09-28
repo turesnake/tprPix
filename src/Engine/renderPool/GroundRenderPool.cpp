@@ -11,6 +11,7 @@
 //-------------------- Engine --------------------//
 #include "esrc_colorTableSet.h"
 
+#include "ubo_all.h"
 
 #include "tprDebug.h"
 
@@ -19,30 +20,26 @@ void GroundRenderPool::init()noexcept{
 
     auto &colorTableSet = esrc::get_colorTabelSet();
     for( const auto &pair : colorTableSet.get_name_idsRef() ){
-        this->pools.insert({ pair.second, std::multimap<float, ChildMesh*>{} });
-    }
-}
-
-
-
-void GroundRenderPool::insert( colorTableId_t id_, float off_z_, ChildMesh *meshPtr_ )noexcept{
-
-        if( this->pools.find(id_) == this->pools.end() ){
-            cout << "   colorTableId = " << id_ << endl;
+        if( pair.first == "origin" ){ // skip
+           continue; 
         }
+        this->pools.insert({ pair.second, std::multimap<float, ChildMesh*>{} });
 
-        tprAssert( this->pools.find(id_) != this->pools.end() );
-        this->pools.at(id_).insert({ off_z_, meshPtr_ });
+    }
+    cout << endl;
 }
+
 
 void GroundRenderPool::draw()noexcept{
 
     for( const auto &pair : this->pools ){
 
+        if( pair.second.empty() ){
+            continue; // skip
+        }
 
         //-- 每次渲染前，要先改写 uniform 值
-
-
+        ubo::write_ubo_colorTableId( pair.first );
 
         //- 先渲染 pos.z 值大的（近处优先）
         for( auto it = pair.second.rbegin(); 

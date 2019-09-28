@@ -48,7 +48,7 @@ void write_ubo_GroundColorTable(){
     auto &colorTableSetRef = esrc::get_colorTabelSet();
     //---
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
-    ubo.write(0, 
+    ubo.write( sizeof(FloatVec4), // skip fst ent !!!
             colorTableSetRef.get_groundColor_dataSize(),
             colorTableSetRef.get_groundColor_dataPtr<const GLvoid*>() );
 }

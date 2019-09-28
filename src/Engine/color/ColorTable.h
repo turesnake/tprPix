@@ -112,20 +112,25 @@ public:
 
     inline ColorTable &apply_new_colorTable( const std::string &name_ )noexcept{
         tprAssert( !this->isFindIn_name_ids(name_) );
-        colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();
+        colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
         tprAssert( this->colorTableUPtrs.find(id) == this->colorTableUPtrs.end() );
         //---
         this->name_ids.insert({ name_, id });
-        this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
-        //--- groundColor ---
-        auto *ctPtr = this->colorTableUPtrs.at(id).get();
-        this->groundColorTable.push_back( ctPtr->get_groundColor() );        
+        this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });        
         //---
         return *(this->colorTableUPtrs.at(id).get());
     }
 
-    inline void final_check()const noexcept{
+    inline void final_check()noexcept{
         tprAssert( this->isFindIn_name_ids("origin") );// Must Have!!!
+        //--- ground color table ---//
+        //-- fst ent will be skip --
+        this->groundColorTable.resize( this->colorTableUPtrs.size() + 1 );
+        for( const auto &pair : this->colorTableUPtrs ){
+            this->groundColorTable.at(pair.first) = pair.second->get_groundColor();
+        }
+        //---
+        this->debug();
     }
 
     inline colorTableId_t get_colorTableId( const std::string &colorTableName_ )const noexcept{
@@ -157,18 +162,26 @@ public:
         return (this->groundColorTable.size() * sizeof(FloatVec4));
     }
 
+    //--- JUST used in TEST !!!!!!!
+    inline const std::vector<FloatVec4> &get_groundColorTable_test()const noexcept{
+        return this->groundColorTable;
+    }
+
 
 private:
     inline bool isFindIn_name_ids( const std::string name_ )const noexcept{
         return (this->name_ids.find(name_) != this->name_ids.end());
     }
 
+    void debug()noexcept;
+
     //----- vals -----//
     std::unordered_map<std::string, colorTableId_t> name_ids {};
     std::unordered_map<colorTableId_t, std::unique_ptr<ColorTable>> colorTableUPtrs {};
     std::vector<FloatVec4> groundColorTable {}; // idx by colorTableId
-            // 0:    origin colorTable
-            // 1~n:  ent 
+            // 0:    empty, skip it !!!
+            // 1:    origin colorTable
+            // 2~n:  ent 
 };
 
 

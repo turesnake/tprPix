@@ -27,18 +27,13 @@ public:
             this->init();
         }
 
-    //-- Must after esrc::init_colorTableSet !!!
     void init()noexcept;
-
-    /*
+    
     inline void insert( colorTableId_t id_, float off_z_, ChildMesh *meshPtr_ )noexcept{
         tprAssert( this->pools.find(id_) != this->pools.end() );
         this->pools.at(id_).insert({ off_z_, meshPtr_ });
     }
-    */
     
-    void insert( colorTableId_t id_, float off_z_, ChildMesh *meshPtr_ )noexcept;
-
 
     inline void clear()noexcept{ 
         for( auto &pair : this->pools ){
@@ -49,7 +44,6 @@ public:
     void draw()noexcept;
 
 private:
-    //std::multimap<float, ChildMesh*> pool {};
 
     std::unordered_map<colorTableId_t, std::multimap<float, ChildMesh*>> pools {};
 };

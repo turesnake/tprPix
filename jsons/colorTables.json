@@ -10,7 +10,7 @@
         { "name": "base_5", "color": [ 80, 80, 80, 255 ] },
         { "name": "base_6", "color": [ 50, 50, 50, 255 ] },
         { "name": "base_7", "color": [ 40, 40, 40, 255 ] },
-        { "name": "ground", "color": [ 0, 0, 0, 0 ] }
+        { "name": "ground", "color": [ 100, 0, 0, 0 ] }
     ]
   },
   {

@@ -196,6 +196,7 @@ void sceneRenderLoop_world(){
     //        draw call
     //>>>>>>>>>>>>>>>>>>>>>>>>//
     esrc::draw_groundCanvas();
+    esrc::get_groundRenderPool().draw();
 
         tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
         tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear

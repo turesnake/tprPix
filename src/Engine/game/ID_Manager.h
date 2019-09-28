@@ -51,7 +51,6 @@ public:
             }
         }
 
-    //-- 申请分配一个 新 u8 id --
     inline u8_t apply_a_u8_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U8 );
@@ -60,7 +59,6 @@ public:
         return static_cast<u8_t>(this->max_id);
     }
 
-    //-- 申请分配一个 新 u16 id --
     inline u16_t apply_a_u16_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U16 );
@@ -69,7 +67,6 @@ public:
         return static_cast<u16_t>(this->max_id);
     }
 
-    //-- 申请分配一个 新 u32 id --
     inline u32_t apply_a_u32_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U32 );
@@ -78,7 +75,6 @@ public:
         return static_cast<u32_t>(this->max_id);
     }
 
-    //-- 申请分配一个 新 u64 id --
     inline u64_t apply_a_u64_id() noexcept {
         
         tprAssert( this->id_scope == ID_TYPE::U64 );

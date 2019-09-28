@@ -280,10 +280,11 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
     double         vx        {};
     double         vy        {};
     IntVec2       mposOff   {};
-    //double         freqBig   { 0.9 };
-    double         freqBig   { 0.3 }; //- 值越小，ecoObj 边界越平滑
-
+    double         freqBig   { 0.9 };
+    //double         freqBig   { 0.3 }; //- 值越小，ecoObj 边界越平滑
                         //-- 临时测试出来的值 ...
+
+    float         freqSml   { 2.3f };
 
     double         pnVal     {}; //- 围绕 0 波动的 随机值
     double         off       {};
@@ -305,9 +306,11 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
                     //   毕竟，现在和 mapent 关联了 ...
 
     double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 20; // [-x.0, x.0]
+                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
+    float pnValSml = simplex_noise2(    (vx + 244.41f) * freqSml,
+                                        (vy + 144.41f) * freqSml ) * 5; // [-x.0, x.0]
 
-    pnVal = pnValBig;
+    pnVal = pnValBig + pnValSml;
     if( pnVal > 20.0 ){
         pnVal = 20.0;
     }
