@@ -32,6 +32,7 @@
 #include "esrc_thread.h"
 #include "esrc_time.h"
 #include "esrc_uniformBlockObj.h"
+#include "esrc_VAOVBO.h"
 #include "esrc_window.h"
 #include "esrc_mapSurfaceRandSet.h"
 

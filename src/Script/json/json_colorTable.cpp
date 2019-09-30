@@ -1,5 +1,5 @@
 /*
- * ================= ColorTableJsonData.cpp =====================
+ * ================= json_colorTable.cpp =====================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.23
  *                                        MODIFY -- 
@@ -41,7 +41,7 @@ using std::endl;
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
-        "colorTables.json",
+        "/colorTables/colorTables.json",
     };
 
     void parse_single_colorTableJsonFile( const std::string &lPath_file_ );

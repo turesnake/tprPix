@@ -15,6 +15,7 @@
 #include "ShaderProgram.h" //-- each GameObjMesh instance,will bind a shader
 #include "ViewingBox.h"
 
+
 //--- need ---//
 class GameObjMesh;
 class GameObj;
@@ -27,7 +28,11 @@ public:
     ChildMesh( bool isPic_, GameObjMesh &goMeshRef_ ):
         goMeshRef(goMeshRef_),
         isPic(isPic_)
-        {}
+        {
+            this->init();
+        }
+
+    void init()noexcept;
 
     void draw();
 
@@ -57,8 +62,9 @@ private:
 
     //======== vals ========//
     GameObjMesh    &goMeshRef;
-
     ShaderProgram  *shaderPtr  {nullptr}; 
+    GLuint          VAO  {};        // simple copy from esrc_VAOVBO
+    GLsizei         pointNums {};   // glDrawArrays() param
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model = glm::mat4(1.0); //-- 每个 物体obj 都私有一个 模型矩阵
                           //-- 自动初始化为 标准矩阵

@@ -1,1 +1,6 @@
-# some tool_scripts in blender and photoshop
+# some tool_scripts
+# include:
+# ----
+# blender
+# photoshop
+# 3d.obj -> json

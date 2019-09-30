@@ -1,5 +1,5 @@
 /*
- * ================== EcoSysPlansJsonData.cpp ===================
+ * ================== json_ecoSysPlan.cpp ===================
  *                          -- tpr --
  *                                        创建 -- 2019.07.07
  *                                        修改 -- 
@@ -43,6 +43,10 @@ using std::endl;
 
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
+    const std::vector<std::string> lpath_files {
+        "ecoSysPlans/ecoSysPlans.json"
+    };
+
     //--- densityDivideVals ---
     std::vector<double> densityDivideVals_default 
         { -65.0, -40.0, -15.0, 15.0, 40.0, 65.0 }; //- 较为均匀的分布
@@ -62,7 +66,9 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
     }
 
     //----- funcs -----//
+    void parse_from_single_ecoSysPlansJsonFile( const std::string &lPath_file_ );
     void parse_pool( const Value &cpool_, EcoSysPlan &ecoPlanREf_ );
+
 
 }//------------- namespace: espJson_inn end --------------//
 
@@ -76,10 +82,23 @@ void parse_from_ecoSysPlansJsonFile(){
 
     cout << "   ----- parse_from_ecoSysPlansJsonFile: start ----- " << endl;
 
+    for( const auto &i : espJson_inn::lpath_files ){
+        espJson_inn::parse_from_single_ecoSysPlansJsonFile(i);
+    }
+
+    esrc::insertState("json_ecoSysPlan");
+    cout << "   ----- parse_from_ecoSysPlansJsonFile: end ----- " << endl;
+}
+
+namespace espJson_inn {//-------- namespace: espJson_inn --------------//
+
+void parse_from_single_ecoSysPlansJsonFile( const std::string &lPath_file_ ){
+
+    
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, "ecoSysPlans.json");
+    std::string path_file = tprGeneral::path_combine(path_jsons, lPath_file_);
     auto jsonBufUPtr = read_a_file( path_file );
 
     //-----------------------------//
@@ -135,13 +154,7 @@ void parse_from_ecoSysPlansJsonFile(){
         ecoPlanRef.shuffle_goSpecDataPools( fixedSeed );
         ecoPlanRef.chueck_end();
     }
-
-    esrc::insertState("json_ecoSysPlan");
-    cout << "   ----- parse_from_ecoSysPlansJsonFile: end ----- " << endl;
 }
-
-
-namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
 
 void parse_pool(   const Value &pool_,

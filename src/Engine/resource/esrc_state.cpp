@@ -29,6 +29,7 @@ mapSurfaceRandSet
 player
 shader
 time
+VAOVBO
 ubo
 
 json_animFrameSet

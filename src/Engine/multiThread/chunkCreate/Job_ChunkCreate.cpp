@@ -191,8 +191,8 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
         uWeight = entPtr->uWeight;
 
         ( this->isHaveBorderEnt ) ?
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( Job_GroundGoEntType::Field,       fposOff, colorTableId, uWeight )) :
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( Job_GroundGoEntType::SimpleField, fposOff, colorTableId, uWeight ));
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::Field,       fposOff, colorTableId, uWeight )) :
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::SimpleField, fposOff, colorTableId, uWeight ));
         
         return; // !!!
     }
@@ -219,7 +219,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
             colorTableId = entPtr->colorRableId;
             uWeight = entPtr->uWeight;
 
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( Job_GroundGoEntType::HalfField, fposOff, colorTableId, uWeight ));
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, fposOff, colorTableId, uWeight ));
             continue; // !!!
         }
 
@@ -236,7 +236,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
                 colorTableId = entPtr->colorRableId;
                 uWeight = entPtr->uWeight;
 
-                this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( Job_GroundGoEntType::Mapent, fposOff, colorTableId, uWeight ));
+                this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, fposOff, colorTableId, uWeight ));
             }
         }
     }

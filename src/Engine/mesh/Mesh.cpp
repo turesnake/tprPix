@@ -12,13 +12,11 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "VAOVBO.h" 
+#include "esrc_VAOVBO.h" 
 
 //#include "tprDebug.h" 
 
 //namespace mesh_inn {//------------------ namespace: mesh_inn ---------------------//
-    //-- z轴常量，用在 glm::rotate 函数中。
-    //const glm::vec3 axle_z( 0.0f, 0.0f, 1.0f ); //- 未被使用...
 //}//--------------------- namespace: mesh_inn end ------------------------//
 
 
@@ -29,6 +27,8 @@
 void Mesh::init( GLuint texName_ ){
     this->texName = texName_;
     this->isMat4Change = true;
+    this->VAO = esrc::get_VAO();                // copy and hold
+    this->pointNums = esrc::get_pointNums();    // copy and hold 
 }
 
 
@@ -61,10 +61,10 @@ void Mesh::draw(){
     glBindTexture(GL_TEXTURE_2D, this->texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------
-    glBindVertexArray( VAO );
+    glBindVertexArray( this->VAO );
 
     //----------- 正式绘制 ----------
-    glDrawArrays( GL_TRIANGLES, 0, 6 ); //-- 绘制 图元(rect). 不依赖 EBO 的写法
+    glDrawArrays( GL_TRIANGLES, 0, this->pointNums );
 }
 
 

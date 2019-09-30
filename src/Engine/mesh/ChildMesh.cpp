@@ -11,7 +11,7 @@
 #include "tprAssert.h"
 #include "GameObj.h"
 #include "GameObjMesh.h"
-#include "VAOVBO.h" 
+#include "esrc_VAOVBO.h" 
 #include "esrc_camera.h"
 #include "esrc_shader.h"
 
@@ -26,6 +26,12 @@ namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------
     const glm::vec3 axis_z( 0.0f, 0.0f, 1.0f );
 
 }//--------------------- namespace: childMesh_inn end ------------------------//
+
+
+void ChildMesh::init()noexcept{
+    this->VAO = esrc::get_VAO();                // copy and hold
+    this->pointNums = esrc::get_pointNums();    // copy and hold 
+}
 
 
 /* ===========================================================
@@ -136,10 +142,10 @@ void ChildMesh::draw(){
     glBindTexture(GL_TEXTURE_2D, texName ); //- 绑定纹理单元
 
     //----------- 绑定 本Model对象 的 VAO ----------
-    glBindVertexArray( VAO );
+    glBindVertexArray( this->VAO );
 
     //----------- 正式绘制 ----------
-    glDrawArrays( GL_TRIANGLES, 0, 6 ); //-- 绘制 图元(rect). 不依赖 EBO 的写法
+    glDrawArrays( GL_TRIANGLES, 0, this->pointNums );
 }
 
 
@@ -162,7 +168,6 @@ void ChildMesh::update_mat4_model(){
 
     this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
    
-
     //--------------------------------//
     //            rotate
     //--------------------------------//

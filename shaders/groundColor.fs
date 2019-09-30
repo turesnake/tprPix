@@ -31,6 +31,7 @@ layout (shared, std140) uniform ColorTableId {
 void main()
 {
     //-- 取得 texture 颜色 --
+    
     vec4 texColor = texture(texture1, TexCoord);
 
     //-- 半透明度小于 0.05 的像素直接不渲染 --
@@ -38,6 +39,7 @@ void main()
     if( texColor.a < 0.05 ){
         discard;
     }
+    
 
     vec4 targetColor = groundColorTable.colors[colorTableId.id];
     FragColor = vec4( targetColor.rgb, 0.6 );

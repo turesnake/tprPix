@@ -26,9 +26,6 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-
-
-
 class GroundGo{
 public:
     //--- 延迟init ---//

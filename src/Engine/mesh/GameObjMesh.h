@@ -53,8 +53,15 @@ class GameObj;
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
 class GameObjMesh{
 public:
-    explicit GameObjMesh( GameObj &goRef_ ):
-        goRef(goRef_)
+    explicit GameObjMesh(   GameObj         &goRef_,
+                            const glm::vec2 pposOff_,
+                            double          off_z_,
+                            bool            isVisible_
+                             ):
+        isVisible(isVisible_),
+        goRef(goRef_),
+        pposOff(pposOff_),
+        off_z(off_z_)
         {
             // picMeshUPtr,shadowMeshUPtr 将被延迟到 bind_animAction() 中创建销毁
         }
@@ -77,8 +84,6 @@ public:
             this->picFixedZOff = static_cast<float>(ViewingBox::get_renderLayerZOff(layerType_));
         }
     }
-    inline void set_pposOff( const glm::vec2 &pposOff_ )noexcept{ this->pposOff = pposOff_; }
-    inline void set_off_z( float off_z_ )noexcept{ this->off_z = off_z_; }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
 
     inline void set_pic_shader_program( ShaderProgram *sp_ )noexcept{
@@ -106,13 +111,14 @@ public:
         return this->animActionPtr->get_currentRootAnchorDPosOff();
     }
 
-   inline IntVec2 get_animAction_pixNum_per_frame() const noexcept{
+    inline IntVec2 get_animAction_pixNum_per_frame() const noexcept{
         return this->animActionPtr->get_pixNum_per_frame();
     }
     inline const glm::vec2 &get_pposOff()const noexcept{ return this->pposOff; }
     inline float get_off_z()const noexcept{ return this->off_z; }
     inline float get_picFixedZOff() const noexcept{ return this->picFixedZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
+
 
     //-- 当播放 once 类型动作时，外部代码，通过此函数，来判断，是否播放到最后一帧 --
     inline bool get_isLastFrame() const noexcept{
@@ -128,10 +134,13 @@ public:
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
                                     // 仅作用于 pic, [被 ChildMesh 使用]
+    //bool    isRegularVAOVBO {true}; // 绝大多数 gomesh 选择 true，使用一个 rect，配合 tex来显示图元
+                                    // groundGo meshs 除外，它们使用 triangleFan 不绑定 tex
+                                    // 会影响 childMesh 的行为
 
 private:
     //======== vals ========//
-    GameObj      &goRef;
+    GameObj    &goRef;
 
     std::unique_ptr<ChildMesh> picMeshUPtr    {nullptr};
     std::unique_ptr<ChildMesh> shadowMeshUPtr {nullptr}; // 不需要时会被及时释放
@@ -155,7 +164,6 @@ private:
 
     AnimAction        *animActionPtr {nullptr};
     AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
-
 
     colorTableId_t  colorTableId { MaxColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
 };                           

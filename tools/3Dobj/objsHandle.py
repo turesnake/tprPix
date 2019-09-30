@@ -7,17 +7,26 @@ class ObjEnt(object):
 
     def __init__(self):
         self.objName = ""
-        self.points = []
+        self.type = ""
+        self.pointSets = [] # [][][]
 
     # param: buf_   str
     def handle(self, buf_ ):
         tmpPoints = [] # [][]
-        tmpFaces = []  # []
+        tmpFaces = []  # [][]
         for line in buf_:
             self.handle_line( line, tmpPoints, tmpFaces )
 
-        for idx in tmpFaces:
-            self.points.append( tmpPoints[idx] )
+        # triangle-fan headPoint
+        fanHead = [ 0.0, 0.0, 0.0 ]
+        #for idx in tmpFaces:
+        #    self.points.append( tmpPoints[idx] )
+        for face in tmpFaces:
+            points = [] # [][]
+            points.append( fanHead ) # points[0]
+            for idx in face:
+                points.append( tmpPoints[idx] )
+            self.pointSets.append( points )
 
 
     # param: line_   str
@@ -29,35 +38,42 @@ class ObjEnt(object):
         # only once
         if( words[0] == "o" ):
             assert len(words) == 2
-            self.objName = parse_obj_name( words[1] )
+            self.parse_obj_name( words[1] )
             return
         
         # several times
         if( words[0] == "v" ):
             del words[0]    
-            point = [] # xyz: 3 float
+            point = [] # [] xyz: 3 float
             for i in words:
                 point.append( float(i) )
+            point[len(point)-1] = 0.0  # z is always 0.0
             points_.append( point )
             return
 
         # only once
         if( words[0] == "f" ):
             del words[0]
+            face = [] # []
             for word in words:
                 nums = word.split("/")
-                faces_.append( int(nums[0]) - 1 ) # align to 0
+                face.append( int(nums[0]) - 1 ) # align to 0
+            faces_.append( face )
+
+
+    # param:  "HalfField_001_Plane.001"
+    def parse_obj_name( self, objName_ ):
+        words = objName_.split("_")
+        assert len(words) == 3
+        words.pop() # erase last ent
+        self.type    = words[0]  #  "HalfField"
+        self.objName = words[1]  #  "001"
+        #--- check type ---#
+        assert self.type=="Field" or self.type=="HalfField" or self.type=="MapEnt"
 
 #--------------------------------
 
-# param:  "x_xx_xxx.1_Plane.001"
-# return: "x_xx_xxx.1"
-def parse_obj_name( objName_ ):
-    underLine = "_"
-    tmps = objName_.split(underLine)
-    tmps.pop() # erase last ent
-    out = underLine.join(tmps) # "x_xx_xxx.1"
-    return out
+
 
 
 # detect if a line is useful
@@ -81,7 +97,7 @@ def is_have_target_head( line_, word_ ):
 
 
 
-
+# param: filePath_ str
 def read_a_objFile( filePath_ ):
 
     f = open( filePath_, "r" )
@@ -150,7 +166,8 @@ if __name__=="__main__":
     for objEnt in objEnts:
         dic = { "tmp" : 1 } # tmp val
         dic["objName"] = objEnt.objName
-        dic["points"] = objEnt.points
+        dic["type"]    = objEnt.type
+        dic["pointSets"]  = objEnt.pointSets
         del dic["tmp"] # no need 
         jsonData.append( dic )
     jsonDataBuf = json.dumps(jsonData)

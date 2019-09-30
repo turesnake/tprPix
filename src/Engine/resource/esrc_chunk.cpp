@@ -110,6 +110,12 @@ MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
 
     chunkKey_t chunkKey = anyMPos_2_chunkKey( anyMPos_ );
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
+
+        //-- Frequent Bugs --
+        if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
+            esrc::chunkMemState_debug( chunkKey, "esrc::getnc_memMapEntRef(): " );
+        }
+
     tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );
     return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef( lMPosOff );
 }

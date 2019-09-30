@@ -16,20 +16,15 @@
 //-------------------- Engine --------------------//
 #include "sectionKey.h"
 #include "colorTableId.h"
+#include "groundGoEntType.h"
 
 
-enum class Job_GroundGoEntType{
-    Mapent,    
-    HalfField,
-    Field,       // 相邻异色mapent，所以沿用 多边形 mesh
-    SimpleField, // 相邻mapents 皆为同色，本身被简化为一个 正方形（减少计算
-};
 
 
 //-- 每个实例，都会变成 GroundGo 的一个 mesh
 class Job_GroundGoEnt{
 public:
-    Job_GroundGoEnt(   Job_GroundGoEntType    type_,
+    Job_GroundGoEnt(   GroundGoEntType  type_,
                     const glm::vec2     fposOff_,
                     colorTableId_t      id_,
                     double              uWeight_ ):
@@ -39,7 +34,7 @@ public:
         uWeight(uWeight_)
         {}
 
-    Job_GroundGoEntType     groundType;
+    GroundGoEntType         groundType;
     glm::vec2               fposOff; // base on field-midDPos
     //---
     //sectionKey_t          ecoObjKey;

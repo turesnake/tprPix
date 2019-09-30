@@ -62,9 +62,10 @@ private:
     void update_mat4_model(); //-- 重新计算 model矩阵
 
     //======== vals ========//
-    GLuint         texName     {0};
-    ShaderProgram  *shaderPtr  {nullptr}; 
-
+    GLuint          texName     {0};
+    ShaderProgram  *shaderPtr   {nullptr}; 
+    GLuint          VAO         {}; // simple copy from esrc_VAOVBO
+    GLsizei         pointNums   {};   // glDrawArrays() param
     //+++++++++ 与 图元 矩阵计算 有关的 变量 ++++++++++++
     glm::mat4 mat4_model = glm::mat4(1.0); //-- 每个 物体obj 都私有一个 模型矩阵
                           //-- 自动初始化为 标准矩阵

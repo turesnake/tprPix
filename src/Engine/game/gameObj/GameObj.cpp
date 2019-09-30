@@ -111,16 +111,22 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
  * -- 在这个函数结束hou，仅剩下一件事要做： gomesh.bind_animAction( "god", "jump" );
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
-                                    animSubspeciesId_t subspeciesId_,
-                                    const std::string &actionName_,
-                                    RenderLayerType    layerType_,
-                                    ShaderProgram     *pixShaderPtr_,
-                                    const glm::vec2   pposOff_,
-                                    double             off_z_,
-                                    bool              isVisible_ ){
+                                    animSubspeciesId_t  subspeciesId_,
+                                    const std::string   &actionName_,
+                                    RenderLayerType     layerType_,
+                                    ShaderProgram       *pixShaderPtr_,
+                                    const glm::vec2     pposOff_,
+                                    double              off_z_,
+                                    bool                isVisible_ ){
+
 
     tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
-    this->goMeshs.insert({ name_, std::make_unique<GameObjMesh>(*this) }); 
+    this->goMeshs.insert({ 
+        name_, 
+        std::make_unique<GameObjMesh>(  *this,
+                                        pposOff_,
+                                        off_z_,
+                                        isVisible_ ) }); 
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));
 
     //-- bind_animAction --//
@@ -134,13 +140,6 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
         gmesh.set_shadow_shader_program( &esrc::get_shaderRef( ShaderType::UnifiedColor ) ); //- 暂时自动选配 tmp
     }
     
-    //-- goMesh pos in go --
-    gmesh.set_pposOff(pposOff_);
-    gmesh.set_off_z( static_cast<float>(off_z_));
-
-    //-- flags --//
-    gmesh.isVisible = isVisible_;
-
     //-- rootColliEntHeadPtr --//
     if( name_ == std::string{"root"} ){
         this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();

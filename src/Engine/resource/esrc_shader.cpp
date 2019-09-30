@@ -100,7 +100,6 @@ void init_shaders(){
 
         sp.add_new_uniform( "model" );
         sp.add_new_uniform( "texture1" );
-        //sp.add_new_uniform( "colorTableId" );
         //--- ubo --//
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
         //ubo_originColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());

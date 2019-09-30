@@ -15,7 +15,6 @@
 #include "gl_funcs.h"
 #include "input.h" 
 #include "TimeCircle.h" 
-#include "VAOVBO.h" 
 #include "chunkCreate.h"
 #include "dataBase.h"
 #include "sceneLoop.h"
@@ -91,6 +90,7 @@ int main( int argc, char* argv[] ){
     input::init_input();
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
+    esrc::init_VAOVBO();
 
     esrc::init_colorTableSet();
     parse_from_colorTableJsonFile();
@@ -117,10 +117,10 @@ int main( int argc, char* argv[] ){
     esrc::start_jobThreads();
 
     //------------------------------------------//
-    //                更多 资源
+    //           more resources
     //------------------------------------------//
+    
 
-    init_VAOVBO();
 
     GameObj::id_manager.set_max_id( 0 );
 
@@ -226,7 +226,7 @@ int main( int argc, char* argv[] ){
     //--------------------------------------------------------//
     // 测试阶段，删不删无所谓
     db::atom_close_dataBase();          //------ 关闭 sqlite db -----
-    delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
+    esrc::delete_VAOVBO();           //------ 删除 全局唯一 VAO，VBO -----
     
     //...
 

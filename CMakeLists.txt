@@ -113,7 +113,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/color/*.cpp 
-                        src/Engine/tprDebug/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/ecoSys/*.cpp
                         src/Engine/fileIO/*.cpp
@@ -140,6 +139,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/shaderProgram/*.cpp 
                         src/Engine/sys/*.cpp
                         src/Engine/time/*.cpp 
+                        src/Engine/tprDebug/*.cpp 
                         src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
@@ -191,7 +191,6 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
@@ -217,6 +216,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/shaderProgram
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/sys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/time
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/VAOVBO
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Script

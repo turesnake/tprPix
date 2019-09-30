@@ -10,7 +10,6 @@
 #include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
-
 namespace time_inn {//-------- namespace: time_inn  --------------//
 
     std::unique_ptr<TimeBase> timerUPtr;

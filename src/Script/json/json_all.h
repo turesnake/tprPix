@@ -17,7 +17,7 @@ void parse_from_colorTableJsonFile();
 void parse_from_ecoSysPlansJsonFile();
 
 //------------------------------//
-//    WindowConfigJsonData
+//    json_windowConfig
 //------------------------------//
 class WindowConfigJsonData{
 public:
@@ -31,7 +31,7 @@ WindowConfigJsonData parse_from_windowConfigJsonFile();
 
 
 //------------------------------//
-//        GoJsonData
+//        json_gameObj
 //------------------------------//
 class GoJsonData{
 public:
@@ -70,7 +70,7 @@ void assemble_goJsonData_2_newGo( goSpecId_t specID_,
                                 GameObj &goRef_ );
 
 //------------------------------//
-//        UIGoJsonData
+//        json_UIGo
 //------------------------------//
 class UIGoJsonData{
 public:

@@ -26,6 +26,32 @@ inline FloatVec2 glmDvec2_2_floatVec2( const glm::dvec2 dv_ ){
 }
 
 
+
+
+//-- used for ubo --
+struct FloatVec3{
+    float x {0.0f};
+    float y {0.0f};
+    float z {0.0f};
+
+    //--- operator += ... ---//
+    inline FloatVec3& operator += ( const FloatVec3 &a_ ) noexcept {
+        this->x += a_.x;
+        this->y += a_.y;
+        this->z += a_.z;
+        return *this;
+    }
+    inline FloatVec3& operator *= ( float s_ ) noexcept {
+        this->x *= s_;
+        this->y *= s_;
+        this->z *= s_;
+        return *this;
+    }
+};
+
+
+
+
 //-- used for ubo --
 struct FloatVec4{
     float r {0.0f};

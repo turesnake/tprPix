@@ -4,8 +4,8 @@
  *                                        CREATE -- 2018.12.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   本游戏只有一份 VAO，VBO。
- *   所有的 mesh/goMesh 都应该包含 本文件，直接使用里面的 VAO,VBO
+ *   used for most of meshs/goMeshs
+ *   excep groundGo meshs
  * ----------------------------
  */
 #ifndef TPR_VAO_VBO_H
@@ -13,10 +13,26 @@
 //=== *** glad FIRST, glfw SECEND *** ===
 #include <glad/glad.h>  
 
-inline GLuint VAO  {0}; //- obj id
-inline GLuint VBO  {0}; //- obj id
 
-void init_VAOVBO();    //- 创建 VAO, VBO
-void delete_VAOVBO();  //- 删除 VAO, VBO
+class VAOVBO{
+public:
+    VAOVBO()=default;
 
-#endif
+    ~VAOVBO(){
+        glDeleteVertexArrays( 1, &this->VAO );
+        glDeleteBuffers(      1, &this->VBO );
+    }
+
+    void init(const GLvoid *pointsPtr_, GLsizeiptr  vboSize_ )noexcept;
+
+    // can be copy and hold by caller
+    inline GLuint get_VAO()const noexcept{ return this->VAO; }
+
+private:
+    GLuint VAO  {}; //- obj id
+    GLuint VBO  {}; //- obj id
+};
+
+
+#endif 
+

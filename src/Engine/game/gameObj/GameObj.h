@@ -35,7 +35,6 @@
 #include "UIAnchor.h"
 #include "Collision.h"
 #include "ColliDataFromJ.h"
-//#include "GODirection.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
 #include "ActionFSM.h"
@@ -94,13 +93,13 @@ public:
     }
 
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                            animSubspeciesId_t subspeciesId_,
-                            const std::string &actionName_,
-                            RenderLayerType    layerType_,
-                            ShaderProgram     *pixShaderPtr_,
-                            const glm::vec2   pposOff_,
-                            double             off_z_,
-                            bool              isVisible_ );
+                            animSubspeciesId_t  subspeciesId_,
+                            const std::string   &actionName_,
+                            RenderLayerType     layerType_,
+                            ShaderProgram       *pixShaderPtr_,
+                            const glm::vec2     pposOff_ = glm::vec2{0.0,0.0},
+                            double              off_z_ = 0.0,
+                            bool                isVisible_ = true );
 
     void init_check(); //- call in end of go init 
 
@@ -254,7 +253,7 @@ public:
 
     
     //======== static ========//
-    static ID_Manager  id_manager; //- 负责生产 go_id
+    static ID_Manager  id_manager;
 
 private:
 
@@ -307,7 +306,7 @@ private:
 };
 
 //============== static ===============//
-inline ID_Manager  GameObj::id_manager { ID_TYPE::U64, 1};
+inline ID_Manager  GameObj::id_manager { ID_TYPE::U64, 0};
 
 
 #endif
