@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_BUTTON_SCENE_BEGIN_POINTER_2_H
-#define TPR_BUTTON_SCENE_BEGIN_POINTER_2_H
+#ifndef TPR_UI_BUTTON_SCENE_BEGIN_POINTER_2_H
+#define TPR_UI_BUTTON_SCENE_BEGIN_POINTER_2_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -28,12 +28,8 @@ namespace uiGos{//------------- namespace uiGos ----------------
 
 class Button_SceneBegin_Pointer{
 public:
-    Button_SceneBegin_Pointer() = default;
-
     //--- 延迟init ---//
-    static void init_in_autoMod( GameObj &goRef_,
-                                 const ParamBinary &dyParams_ );
-
+    static void init_in_autoMod( GameObj &goRef_, const ParamBinary &dyParams_ );
 private:
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

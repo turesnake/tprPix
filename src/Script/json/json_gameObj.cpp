@@ -40,6 +40,7 @@ namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
         "gameObjs/gos.json",
+        "gameObjs/oth.json",
         "gameObjs/trees.json"
     };
 

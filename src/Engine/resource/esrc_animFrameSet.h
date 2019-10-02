@@ -38,6 +38,11 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
 void set_emptyPixId( animSubspeciesId_t id_ )noexcept;
 animSubspeciesId_t get_emptyPixId()noexcept;
 
+void set_fieldRimId( animSubspeciesId_t id_ )noexcept;
+animSubspeciesId_t get_fieldRimId()noexcept;
+
+
+
 }//---------------------- namespace: esrc -------------------------//
 #endif
 

@@ -28,11 +28,8 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class PineTree{
 public:
-    PineTree() = default;
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_,
-                            const ParamBinary &dyParams_ );
-
+    static void init_in_autoMod(GameObj &goRef_,const ParamBinary &dyParams_ );
 private:                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );

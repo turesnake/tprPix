@@ -81,7 +81,7 @@ public:
     inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
     inline MapAltitude  get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
     inline MapAltitude  get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
-    inline IntVec2      get_nodeMPos() const noexcept{ return this->nodeMPos; }
+    //inline IntVec2      get_nodeMPos() const noexcept{ return this->nodeMPos; }
     inline fieldKey_t   get_fieldKey() const noexcept{ return this->fieldKey; }
     inline Density      get_density() const noexcept{ return this->density; }
     inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
@@ -96,7 +96,8 @@ public:
         return (this->mcpos.get_dpos() + MapField::halfDPosOff); 
     }
     inline glm::dvec2 get_nodeDPos() const noexcept{
-        return (mpos_2_dpos(this->nodeMPos) + this->nodeDPosOff);
+        //return (mpos_2_dpos(this->nodeMPos) + this->nodeDPosOff);
+        return (this->get_dpos() + this->nodeDPosOff);
     }
 
     inline size_t calc_fieldIdx_in_chunk() const noexcept{
@@ -122,13 +123,8 @@ private:
                                 // anyMPos_2_fieldMPos() 
     fieldKey_t  fieldKey {}; 
 
-    IntVec2     nodeMPos {};    //- 距离场点 mpos (4*4 mapent 中的一个点) （均匀距离场）
-                                //- 绝对 mpos 坐标。
-                                //  实际上，为了避免相邻 field 的 go紧密相连，
-                                //  nodeMPos 只在 {0,1,2} 之间分配
 
-    glm::dvec2  nodeDPosOff {}; //- 对 nodeMPos 的一个补充，用于在map 种植 go 时，pos更加随机性
-                                //  [ 0.0, 54.0 ]
+    glm::dvec2  nodeDPosOff {}; //- field 内的一个随机点 
 
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用

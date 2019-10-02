@@ -8,8 +8,8 @@
  * 
  * ----------------------------
  */
-#ifndef TPR_ONE_EYE_BOY_H
-#define TPR_ONE_EYE_BOY_H
+#ifndef TPR_GO_ONE_EYE_BOY_H
+#define TPR_GO_ONE_EYE_BOY_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -31,12 +31,8 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class OneEyeBoy{
 public:
-    OneEyeBoy() = default;
-
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_,
-                            const ParamBinary &dyParams_ );
-
+    static void init_in_autoMod(GameObj &goRef_, const ParamBinary &dyParams_ );
 private:                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );

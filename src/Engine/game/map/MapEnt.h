@@ -67,6 +67,7 @@ public:
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorRableId; }
     inline double           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }
+    inline Density          get_density()const noexcept{ return this->density; }
 
 
     inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{return this->majorGos; }

@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_WALL_A_H
-#define TPR_WALL_A_H
+#ifndef TPR_GO_WALL_A_H
+#define TPR_GO_WALL_A_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -29,8 +29,6 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class WallA{
 public:
-    WallA() = default;
-
     //--- 延迟init ---//
     static void init_in_autoMod(GameObj &goRef_,
                             const ParamBinary &dyParams_ );

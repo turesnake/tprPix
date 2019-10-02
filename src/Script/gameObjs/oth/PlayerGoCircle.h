@@ -7,8 +7,8 @@
  *   
  * ----------------------------
  */
-#ifndef TPR_PLAYER_GO_CIRCLE_H
-#define TPR_PLAYER_GO_CIRCLE_H
+#ifndef TPR_GO_PLAYER_GO_CIRCLE_H
+#define TPR_GO_PLAYER_GO_CIRCLE_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -30,12 +30,8 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class PlayerGoCircle{
 public:
-    PlayerGoCircle() = default;
-
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_,
-                            const ParamBinary &dyParams_ );
-
+    static void init_in_autoMod(GameObj &goRef_, const ParamBinary &dyParams_ );
 private:
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

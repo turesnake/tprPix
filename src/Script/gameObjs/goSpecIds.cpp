@@ -80,6 +80,8 @@ void onGoSpecIds_SignUp(){
 
     ssrc::insert_2_goInit_funcs( "groundGo",        std::bind( &gameObjs::GroundGo::init_in_autoMod, _1, _2 ) );
 
+    ssrc::insert_2_goInit_funcs( "fieldRim",        std::bind( &gameObjs::FieldRim::init_in_autoMod, _1, _2 ) );
+
      //...
 
     //================ UIGoes ==================//

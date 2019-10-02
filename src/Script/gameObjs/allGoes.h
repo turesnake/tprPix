@@ -33,6 +33,8 @@
 
 #include "Script/gameObjs/oth/GroundGo.h"
 
+#include "Script/gameObjs/oth/FieldRim.h"
+
 
 
 #endif

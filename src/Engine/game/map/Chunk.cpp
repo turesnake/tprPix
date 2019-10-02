@@ -90,7 +90,7 @@ void Chunk::init(){
         this->fieldKeys.push_back(fieldKey);
         //--
         const auto &fieldRef = esrc::atom_get_field(fieldKey);
-        fieldNodeOff = fieldRef.get_nodeMPos() - anyMPos_2_chunkMPos(fieldRef.get_mpos());
+        fieldNodeOff = dpos_2_mpos( fieldRef.get_nodeDPos() ) - anyMPos_2_chunkMPos(fieldRef.get_mpos());
         const auto &mapEntInnRef = chunkDataRef.getnc_mapEntInnRef( fieldNodeOff );
 
         esrc::atom_write_2_field_from_jobData(  fieldKey,

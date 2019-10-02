@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_MAP_SURFACE_LOWER_H
-#define TPR_MAP_SURFACE_LOWER_H
+#ifndef TPR_GO_MAP_SURFACE_LOWER_H
+#define TPR_GO_MAP_SURFACE_LOWER_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -31,12 +31,8 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class MapSurfaceLower{
 public:
-    MapSurfaceLower() = default;
-
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_,
-                            const ParamBinary &dyParams_ );
-
+    static void init_in_autoMod(GameObj &goRef_, const ParamBinary &dyParams_ );
 private:                            
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

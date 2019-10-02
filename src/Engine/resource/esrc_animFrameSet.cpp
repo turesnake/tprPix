@@ -24,8 +24,9 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
     std::unordered_map<std::string, std::unique_ptr<AnimFrameSet>> animFrameSets {};
     std::unordered_map<animSubspeciesId_t, std::unique_ptr<AnimSubspecies>> animSubs {};
 
-    //- 特殊mesh，直接存储其 id 号
+    //======= special ids =========//
     animSubspeciesId_t emptyPixId {};
+    animSubspeciesId_t fieldRimId {};
 
 
 }//--------------- namespace: anim_inn end -----------------//
@@ -70,15 +71,22 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
 }
 
 
+
+
+//======= special ids =========//
 void set_emptyPixId( animSubspeciesId_t id_ )noexcept{
     anim_inn::emptyPixId = id_;
 }
-
-
 animSubspeciesId_t get_emptyPixId()noexcept{
     return anim_inn::emptyPixId;
 }
 
+void set_fieldRimId( animSubspeciesId_t id_ )noexcept{
+    anim_inn::fieldRimId = id_;
+}
+animSubspeciesId_t get_fieldRimId()noexcept{
+    return anim_inn::fieldRimId;
+}
 
 
 

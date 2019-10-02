@@ -1,12 +1,12 @@
 /*
- * ===================== GroundGo.h ==========================
+ * ======================== FieldRim.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.08.28
- *                                        MODIFY --
+ *                                        CREATE -- 2019.10.03
+ *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GO_GROUND_GO_H
-#define TPR_GO_GROUND_GO_H
+#ifndef TPR_GO_FIELD_RIM_H
+#define TPR_GO_FIELD_RIM_H
 
 //-------------------- CPP --------------------//
 #include <string>
@@ -26,10 +26,10 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-class GroundGo{
+class FieldRim{
 public:
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_, const ParamBinary &dyParams_ );
+    static void init_in_autoMod( GameObj &goRef_, const ParamBinary &dyParams_ );
 private:                            
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 
