@@ -76,37 +76,21 @@ void GroundGo::init_in_autoMod(GameObj &goRef_,
     goRef_.set_actionDirection( NineDirection::Mid );
 
     animSubspeciesId_t subspeciesId {};
-    size_t nameIdx  {0};
+    std::string     meshName {};
+    size_t          nameIdx  {0};
 
     const Job_GroundGoEnt *jgEntPtr {nullptr};
     const auto &container = msParamPtr->job_fieldPtr->get_job_groundGoEnts();
 
 
-    //------ "root" mesj --------//
-    auto it = container.cbegin();
-
-    jgEntPtr = it->get();
-    subspeciesId = esrc::apply_a_random_animSubspeciesId(   
-                "groundGo",
-                std::vector<AnimLabel>{ groundGo_inn::Job_GroundGoEntType_2_AnimLabel(jgEntPtr->groundType) },
-                msParamPtr->fieldUWeight + jgEntPtr->uWeight
-                );
-
-    auto &rootMeshRef = goRef_.creat_new_goMesh("root", //- gmesh-name
-                            subspeciesId,
-                            "idle",
-                            RenderLayerType::GroundGo, //- 固定zOff值
-                            &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader
-                            jgEntPtr->fposOff,
-                            0.0,  //- off_z
-                            true //- isVisible
-                            ); 
-    rootMeshRef.set_colorTableId( jgEntPtr->colorTableId );
-    
-
-    //------ oth mesh ------//
-    for( ; it != container.cend(); it++ ){
-        nameIdx++;
+    //------ meshs ------//
+    for( auto it = container.cbegin(); it != container.cend(); it++ ){
+        if( it == container.cbegin() ){
+            meshName = "root";
+        }else{
+            nameIdx++;
+            meshName = tprGeneral::nameString_combine("ent", nameIdx, "");
+        }
 
         jgEntPtr = it->get();
         subspeciesId = esrc::apply_a_random_animSubspeciesId(   
@@ -115,7 +99,7 @@ void GroundGo::init_in_autoMod(GameObj &goRef_,
                     msParamPtr->fieldUWeight  + jgEntPtr->uWeight
                     );
 
-        auto &goMeshRef = goRef_.creat_new_goMesh(tprGeneral::nameString_combine("ent", nameIdx, ""), //- gmesh-name
+        auto &goMeshRef = goRef_.creat_new_goMesh( meshName, //- gmesh-name
                                 subspeciesId,
                                 "idle",
                                 RenderLayerType::GroundGo, //- 固定zOff值

@@ -22,7 +22,7 @@
 #include "esrc_time.h" 
 #include "esrc_chunk.h" 
 #include "esrc_chunkData.h"
-#include "esrc_mapSurfaceRandSet.h"
+#include "esrc_mapSurfaceRand.h"
 
 
 //-------------------- Script --------------------//
@@ -35,7 +35,7 @@
  * only called in chunkCreate
  * all kinds of gos 
  */
-void create_gos_in_field( fieldKey_t fieldKey_, chunkKey_t chunkKey_ ){
+void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
 
     const auto &fieldRef = esrc::atom_get_field(fieldKey_);
 
@@ -45,35 +45,10 @@ void create_gos_in_field( fieldKey_t fieldKey_, chunkKey_t chunkKey_ ){
     double fract = randV - floor(randV); //- 小数部分
     tprAssert( (fract>=0.0) && (fract<=1.0) );
 
-
-    //----- ecoBorderEnt go ------//
-    /*
-    {
-        auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkKey_ );
-        if( !chunkDataRef.is_borderPointsEmpty(fieldKey_) ){
-
-            //--- dyParam ---//
-            ParamBinary dyParam {};
-            auto *BinaryPtr = dyParam.init_binary<DyParams_EcoBorderEnt>( ParamBinaryType::EcoBorderEnt );
-            BinaryPtr->fieldUWeight = fieldRef.get_uWeight();
-            BinaryPtr->borderPointsPtr = chunkDataRef.get_borderPointsPtr(fieldKey_);
-
-            //--- 
-            gameObjs::create_a_Go(  ssrc::get_goSpecId( "ecoBorderEnt" ),
-                                    fieldRef.get_midDPos(),
-                                    dyParam );
-        }
-
-    }
-    */
-
     //----- ground go ------//
     {
         fieldKey_t  fieldKey {};
-
-        //---
-        auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkKey_ );
-
+        auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkRef_.get_key() );
         //--- dyParam ---//
         ParamBinary dyParam {};
         auto *BinaryPtr = dyParam.init_binary<DyParams_GroundGo>( ParamBinaryType::GroundGo );
@@ -86,27 +61,27 @@ void create_gos_in_field( fieldKey_t fieldKey_, chunkKey_t chunkKey_ ){
     }
 
 
-
     //----- mapsurface go ------//
     {               
-        mapSurfaceRandEntId_t entId = esrc::get_chunkRef(anyMPos_2_chunkKey(fieldRef.get_mpos())).get_mapSurfaceRandEntId();
-        MapSurfaceRandLvl mapSurfaceLvl = esrc::get_mapSurfaceRandLvl( entId, fieldRef.calc_fieldIdx_in_chunk() );
+        auto entId = chunkRef_.get_mapSurfaceRandEntId();
+        const auto &outPair = esrc::get_mapSurfaceRandEntData( entId, fieldRef.calc_fieldIdx_in_chunk() );
+        const auto &mapSurfaceLvl = outPair.first;
+        const auto &dposOff = outPair.second;
 
-        if( mapSurfaceLvl != MapSurfaceRandLvl::Nil ){
-
+        if( mapSurfaceLvl != mapSurface::RandEntLvl::Nil ){
             //--- dyParam ---//
             ParamBinary dyParam {};
             auto *BinaryPtr = dyParam.init_binary<DyParams_MapSurface>( ParamBinaryType::MapSurface );
             BinaryPtr->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             BinaryPtr->lvl = mapSurfaceLvl;
             BinaryPtr->randVal = fieldRef.get_uWeight();
-
             //--- 
             gameObjs::create_a_Go(  ssrc::get_goSpecId( "mapSurfaceLower" ),
-                                    fieldRef.get_dpos(), // 这会显得工整，但减少了重叠，未来可修改
+                                    fieldRef.get_dpos() + dposOff,
                                     dyParam );
         }
     }
+    
 
 
     //----- land go -----//

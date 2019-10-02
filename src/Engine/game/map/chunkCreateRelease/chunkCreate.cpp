@@ -293,7 +293,7 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     //  为 chunk 中的 8*8 个 field，分配 all kind of goes
     //------------------------------//
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
-        create_gos_in_field( fieldKey, chunkRef.get_key() );
+        create_gos_in_field( fieldKey, chunkRef );
     } //-- each field key end --
 
     //------------------------------//

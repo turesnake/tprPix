@@ -78,6 +78,7 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     parse_from_goJsonFile();
     parse_from_uiGoJsonFile();
+    
 
     //------------------------------------------//
     //        Behaviour.Awakes
@@ -136,6 +137,7 @@ int main( int argc, char* argv[] ){
     esrc::init_ecoSysPlanes();
 
     parse_from_animFrameSetJsonFile();
+    parse_from_mapSurfaceRandMeshJsonFile();
     
     //------------------------------------------//
     //        Behaviour.Starts

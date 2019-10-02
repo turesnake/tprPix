@@ -34,7 +34,7 @@
 #include "esrc_uniformBlockObj.h"
 #include "esrc_VAOVBO.h"
 #include "esrc_window.h"
-#include "esrc_mapSurfaceRandSet.h"
+#include "esrc_mapSurfaceRand.h"
 
 
 #endif

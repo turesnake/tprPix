@@ -1,0 +1,10 @@
+{
+    "entLvl": "Field_1f1",
+    "data":
+    [
+        [{"dpos": [-0.1, 8.2], "meshLvl": "2m2"}, {"dpos": [68.1, -88.6], "meshLvl": "1m1"}, {"dpos": [-84.4, -56.2], "meshLvl": "1m1"}],
+        [{"dpos": [-0.7, 28.6], "meshLvl": "2m2"}, {"dpos": [52.5, -64.0], "meshLvl": "1m1"}, {"dpos": [-90.5, -92.3], "meshLvl": "1m1"}],
+        [{"dpos": [-32.4, -38.7], "meshLvl": "2m2"}, {"dpos": [73.2, 88.6], "meshLvl": "1m1"}, {"dpos": [-33.2, 78.9], "meshLvl": "1m1"}]
+
+    ]
+}

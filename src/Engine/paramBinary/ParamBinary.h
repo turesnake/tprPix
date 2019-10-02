@@ -19,7 +19,7 @@
 //-------------------- Engine --------------------//
 #include "MapAltitude.h"
 #include "Density.h"
-#include "MapSurfaceRandSet.h"
+#include "MapSurfaceRandEnt.h"
 #include "AnimLabel.h"
 
 #include "Job_ChunkCreate.h"
@@ -46,9 +46,9 @@ struct DyParams_Field{
 
 
 struct DyParams_MapSurface{
-    MapSurfaceLowSpec  spec     {}; // "mapSurfaceLow_test"
-    MapSurfaceRandLvl  lvl      {}; // "sml"
-    double             randVal  {}; // field.weight
+    MapSurfaceLowSpec       spec     {}; // "mapSurfaceLow_test"
+    mapSurface::RandEntLvl  lvl      {}; // "Field_1f1"
+    double                  randVal  {}; // field.weight
 };
 
 

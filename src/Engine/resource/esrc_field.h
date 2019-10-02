@@ -29,7 +29,9 @@ void atom_write_2_field_from_jobData(   fieldKey_t fieldKey_,
                                     Density d_,
                                     MapAltitude nodeAlti_,
                                     MapAltitude minAlti_,
-                                    MapAltitude maxAlti_ );
+                                    MapAltitude maxAlti_,
+                                    bool        isCrossEcoObj_,
+                                    bool        isCrossColorTable_ );
 
 void atom_erase_all_fields_in_chunk( IntVec2 chunkMPos_ );
 

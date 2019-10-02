@@ -31,7 +31,7 @@
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
 #include "esrc_chunkData.h"
-#include "esrc_mapSurfaceRandSet.h"
+#include "esrc_mapSurfaceRand.h"
 
 
 #include "tprDebug.h"
@@ -99,7 +99,9 @@ void Chunk::init(){
                                                 mapEntInnRef.density,
                                                 mapEntInnRef.alti,
                                                 pair.second->minFieldAlti,
-                                                pair.second->maxFieldAlti );
+                                                pair.second->maxFieldAlti,
+                                                pair.second->is_crossEcoObj(),
+                                                pair.second->is_crossColorTable() );
     }
 }
 

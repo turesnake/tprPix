@@ -11,7 +11,13 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
-using mapSurfaceRandEntId_t = u32_t;
+namespace mapSurface {//------------------ namespace: mapSurface -------------------------//
 
+using randEntId_t = u32_t;
+
+
+
+
+}//---------------------- namespace: mapSurface -------------------------//
 #endif 
 

@@ -15,6 +15,7 @@
 void parse_from_animFrameSetJsonFile();
 void parse_from_colorTableJsonFile();
 void parse_from_ecoSysPlansJsonFile();
+void parse_from_mapSurfaceRandMeshJsonFile();
 
 //------------------------------//
 //    json_windowConfig

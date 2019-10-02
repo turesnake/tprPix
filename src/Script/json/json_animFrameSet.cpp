@@ -49,6 +49,7 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
         "/animFrameSet/afs_go_trees_1.json",
         "/animFrameSet/afs_gos_1.json",
         "/animFrameSet/afs_mapSurface_1.json",
+        "/animFrameSet/afs_groundGos.json",
         "/animFrameSet/afs_uiGos_1.json",
     };
 
@@ -159,6 +160,11 @@ void parse_from_animFrameSetJsonFile(){
 
     }
 
+    //-------- emptyPixId ----------//
+    animSubspeciesId_t id = esrc::apply_a_random_animSubspeciesId( "emptyPix", emptyAnimLabels, 1);
+    esrc::set_emptyPixId( id );
+    
+    //-------------
     esrc::insertState("json_animFrameSet");
     cout << "   ----- parse_from_animFrameSetJsonFile: end ----- " << endl;
 }

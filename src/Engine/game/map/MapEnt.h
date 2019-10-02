@@ -54,11 +54,19 @@ public:
     inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
+    inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
+
+    inline void set_perlin( double originPerlin_, double uWeight_ ){
+        this->originPerlin = originPerlin_;
+        this->uWeight = uWeight_;
+    }
 
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; };
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorRableId; }
+    inline double           get_uWeight()const noexcept{ return this->uWeight; }
+    inline bool             get_isBorder()const noexcept{ return this->isBorder; }
 
 
     inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{return this->majorGos; }
@@ -75,7 +83,11 @@ private:
     sectionKey_t        ecoObjKey {};
     colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
     Density             density {};
-    
+
+    double  originPerlin {}; // [-1.0, 1.0]
+    double  uWeight      {}; // [0.0, 97.0]
+
+    bool    isBorder     {false}; // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 
     std::unordered_set<goid_t> majorGos {};
 

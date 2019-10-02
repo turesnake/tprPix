@@ -34,6 +34,10 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
                                 const std::string  &actionName_ );
 
 
+//-- special SubspeciesId --
+void set_emptyPixId( animSubspeciesId_t id_ )noexcept;
+animSubspeciesId_t get_emptyPixId()noexcept;
+
 }//---------------------- namespace: esrc -------------------------//
 #endif
 

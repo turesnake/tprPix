@@ -61,12 +61,6 @@ bool ChunkData::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
             //-- skip outEnt --
             tmpOffV = offV + IntVec2{i,j}; // [0,33]
 
-            /*
-            if( (tmpOffV.x<0) || (tmpOffV.x>=ENTS_PER_CHUNK) || 
-                (tmpOffV.y<0) || (tmpOffV.y>=ENTS_PER_CHUNK) ){
-                continue;
-            }
-            */
             tprAssert(  (tmpOffV.x>=0) && (tmpOffV.x<ENTS_PER_CHUNK+2) &&
                         (tmpOffV.y>=0) && (tmpOffV.y<ENTS_PER_CHUNK+2) ); //- [0,34]
 

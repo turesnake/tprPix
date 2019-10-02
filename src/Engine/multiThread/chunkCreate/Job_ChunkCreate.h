@@ -45,10 +45,13 @@ public:
     Density             density {};
     MapAltitude         alti {};
 
-    double  uWeight {}; //[0.0, 97.0]
+    double  originPerlin {}; // [-1.0, 1.0]
+    double  uWeight      {}; // [0.0, 97.0]
 
     bool  isBorder {false}; //- 是否为 eco边缘go
-                            //  其实放在这里 意义不大 ...
+
+                             // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
+                              
 
     void write_2_mapEnt( MemMapEnt &entRef_ )const noexcept;
 
@@ -96,6 +99,8 @@ public:
         this->halfFields.at(hIdx).insert( entPtr_->colorRableId ); // maybe
         //--- field container ---
         this->fields.insert( entPtr_->colorRableId ); // maybe
+        //--- ecoObjKey container ---
+        this->ecoObjKeys.insert( entPtr_->ecoObjKey ); // maybe
     }
 
     void apply_job_groundGoEnts()noexcept;
@@ -103,6 +108,14 @@ public:
     inline const std::vector<std::unique_ptr<Job_GroundGoEnt>> &get_job_groundGoEnts()const noexcept{
         return this->groundGoEnts;
     }
+
+    inline bool is_crossEcoObj()const noexcept{
+        return (this->ecoObjKeys.size() > 1);
+    }
+    inline bool is_crossColorTable()const noexcept{
+        return (this->fields.size() > 1);
+    }
+
 
     MapAltitude  minFieldAlti {};  
     MapAltitude  maxFieldAlti {};
@@ -121,12 +134,13 @@ private:
     //=== datas just used for inner calc ===
     std::vector<std::vector<Job_MapEntInn*>> mapEntPtrs {}; // 二维数组 [h,w]
     //-- 在未来，元素type 会被改成 colorTableId_t ---
+    std::set<sectionKey_t> ecoObjKeys {};
     std::set<colorTableId_t> fields {};
     std::vector<std::set<colorTableId_t>> halfFields {}; // 4 containers
             // leftBottom, rightBottom, leftTop, rightTop
 
     //===== flags =====//
-    bool isHaveBorderEnt {false}; //- 只要发现 border
+    bool isHaveBorderEnt    {false}; //- 只要发现 border
 };
 
 

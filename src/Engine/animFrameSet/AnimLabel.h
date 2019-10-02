@@ -37,6 +37,17 @@ enum class AnimLabel : u32_t{
     Thin,
     HalfDead, //- tmp
 
+    //    将被废弃 .....
+    Field_1f1,
+    Field_2f2,
+    Field_3f3,
+
+    //--- used for mapSurface RandEnt
+    MapEnt_1m1,
+    MapEnt_2m2,
+    MapEnt_3m3,
+    MapEnt_4m4
+
     //...
 };
 
@@ -57,6 +68,15 @@ inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{
     case 6:  return AnimLabel::Fat;
     case 7:  return AnimLabel::Thin;
     case 8:  return AnimLabel::HalfDead;
+
+    case 9:   return AnimLabel::Field_1f1;
+    case 10:  return AnimLabel::Field_2f2;
+    case 11:  return AnimLabel::Field_3f3;
+
+    case 12:  return AnimLabel::MapEnt_1m1;
+    case 13:  return AnimLabel::MapEnt_2m2;
+    case 14:  return AnimLabel::MapEnt_3m3;
+    case 15:  return AnimLabel::MapEnt_4m4;
     //.......
     default:
         tprAssert(0);
@@ -78,6 +98,17 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
     }else if( str_ == "Fat" ){      return AnimLabel::Fat;
     }else if( str_ == "Thin" ){     return AnimLabel::Thin;
     }else if( str_ == "HalfDead" ){ return AnimLabel::HalfDead;
+    }
+
+    else if(  str_ == "Field_1f1" ){ return AnimLabel::Field_1f1;
+    }else if( str_ == "Field_2f2" ){ return AnimLabel::Field_2f2;
+    }else if( str_ == "Field_3f3" ){ return AnimLabel::Field_3f3;
+    }
+
+    else if(  str_ == "MapEnt_1m1" ){ return AnimLabel::MapEnt_1m1;
+    }else if( str_ == "MapEnt_2m2" ){ return AnimLabel::MapEnt_2m2;
+    }else if( str_ == "MapEnt_3m3" ){ return AnimLabel::MapEnt_3m3;
+    }else if( str_ == "MapEnt_4m4" ){ return AnimLabel::MapEnt_4m4;
     }
 
     else{

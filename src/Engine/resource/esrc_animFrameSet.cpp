@@ -24,6 +24,10 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
     std::unordered_map<std::string, std::unique_ptr<AnimFrameSet>> animFrameSets {};
     std::unordered_map<animSubspeciesId_t, std::unique_ptr<AnimSubspecies>> animSubs {};
 
+    //- 特殊mesh，直接存储其 id 号
+    animSubspeciesId_t emptyPixId {};
+
+
 }//--------------- namespace: anim_inn end -----------------//
 
 
@@ -64,6 +68,19 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
         tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
     return anim_inn::animSubs.at(subId_)->get_animActionPtr( dir_, actionName_ );
 }
+
+
+void set_emptyPixId( animSubspeciesId_t id_ )noexcept{
+    anim_inn::emptyPixId = id_;
+}
+
+
+animSubspeciesId_t get_emptyPixId()noexcept{
+    return anim_inn::emptyPixId;
+}
+
+
+
 
 
 }//---------------------- namespace: esrc end -------------------------//

@@ -21,11 +21,10 @@
 #include "DiskGameObj.h"
 #include "ParamBinary.h"
 #include "UIAnchor.h"
-#include "chunkKey.h"
+#include "Chunk.h"
 
 
-
-void create_gos_in_field( fieldKey_t fieldKey_, chunkKey_t chunkKey_ );
+void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ );
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

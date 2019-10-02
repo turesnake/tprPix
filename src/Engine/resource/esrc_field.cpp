@@ -22,7 +22,7 @@
 #include "esrc_ecoObj.h"
 #include "esrc_gameObj.h" 
 #include "esrc_chunk.h" 
-#include "esrc_mapSurfaceRandSet.h"
+#include "esrc_mapSurfaceRand.h"
 #include "esrc_state.h"
 
 //-------------------- Script --------------------//
@@ -141,7 +141,9 @@ void atom_write_2_field_from_jobData(   fieldKey_t fieldKey_,
                                     Density d_,
                                     MapAltitude nodeAlti_,
                                     MapAltitude minAlti_,
-                                    MapAltitude maxAlti_ ){
+                                    MapAltitude maxAlti_,
+                                    bool        isCrossEcoObj_,
+                                    bool        isCrossColorTable_ ){
     {//--- atom ---//
         std::unique_lock<std::shared_mutex> ul( field_inn::fieldsSharedMutex ); //- write -
         tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
@@ -153,6 +155,8 @@ void atom_write_2_field_from_jobData(   fieldKey_t fieldKey_,
         fieldPtr->set_nodeMapAlti( nodeAlti_ );
         fieldPtr->set_minAlti( minAlti_ );
         fieldPtr->set_maxAlti( maxAlti_ );
+        fieldPtr->set_isCrossEcoObj( isCrossEcoObj_ );
+        fieldPtr->set_isCrossColorTable( isCrossColorTable_ );
     }
 }
 

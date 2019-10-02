@@ -26,7 +26,9 @@
 #include "create_go_oth.h"
 
 #include "esrc_shader.h" 
+#include "esrc_chunk.h"
 #include "esrc_animFrameSet.h"
+#include "esrc_mapSurfaceRand.h"
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc.h" 
@@ -39,16 +41,20 @@ using namespace std::placeholders;
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
+namespace msl_inn {//------------------ namespace: msl_inn ---------------------//
 
 
-struct MapSurfaceLower_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
-    //size_t   lichen_ForestId {0};
-            //- 简单的从 几种款式中，随机挑选一款 [0,7]
-    int tmp {};
-    //===== padding =====//
-    //...
-};
+    struct MapSurfaceLower_PvtBinary{
+        //animSubspeciesId_t subspeciesId {};
+        //size_t   lichen_ForestId {0};
+                //- 简单的从 几种款式中，随机挑选一款 [0,7]
+        int tmp {};
+        //===== padding =====//
+        //...
+    };
+
+
+}//--------------------- namespace: msl_inn end ------------------------//
 
 /* ===========================================================
  *                  init_in_autoMod
@@ -62,25 +68,56 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
     auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_MapSurface>();
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<MapSurfaceLower_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<msl_inn::MapSurfaceLower_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId(MapSurfaceLowSpec_2_str( msParamPtr->spec ),
-                                                                std::vector<AnimLabel>{ MapSurfaceRandLvl_2_AnimLabel( msParamPtr->lvl ) },
-                                                                msParamPtr->randVal );
+    animSubspeciesId_t subspeciesId {};
+    double          entRandVal      {}; // not field randVal
+    size_t          meshNameCount  {0};
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
 
-    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-        //-- 制作唯一的 mesh 实例: "root" --
-        auto &rootGoMeshRef = goRef_.creat_new_goMesh("root", //- gmesh-name
-                                    pvtBp->subspeciesId,
-                                    "idle",
-                                    RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                                    &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
-                                    glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                    0.0,  //- off_z
-                                    true ); //- isVisible
+    const auto &randMesh = esrc::get_a_mapSurfaceRandMeshData( msParamPtr->lvl, msParamPtr->randVal );
+    const auto &randMeshDatas = randMesh.get_data();
+
+    //------ root mesh ------//
+    // a special invisible mesh. 
+    // case oth meshs will be erase.
+    goRef_.creat_new_goMesh( "root", //- gmesh-name
+                            esrc::get_emptyPixId(),
+                            "idle",
+                            RenderLayerType::MapSurfaceLower, //- 固定zOff值
+                            &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                            glm::dvec2{0.0, 0.0}, //- pposoff
+                            0.0,  //- off_z
+                            false ); //- isVisible
+
+    //------ oth meshs ------//
+    for( auto it = randMeshDatas.cbegin(); it!= randMeshDatas.cend(); it++ ){
+        meshNameCount++;
+        
+        const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos() + it->dposOff) );
+
+            //--- 临时且简陋的检测，未来会被强化 -----
+            if( mapEntRef.get_isBorder() ){
+                continue;
+            }
+
+        subspeciesId = esrc::apply_a_random_animSubspeciesId(   
+                                    MapSurfaceLowSpec_2_str( msParamPtr->spec ), // "mapSurfaceLow_whiteRock"
+                                    std::vector<AnimLabel>{ mapSurface::mapSurfaceRandMeshLvl_2_AnimLabel( it->meshLvl ) }, // MapEnt_1m1
+                                    mapEntRef.get_uWeight() 
+                                    );
+
+        goRef_.creat_new_goMesh(tprGeneral::nameString_combine("m", meshNameCount, ""), //- gmesh-name
+                                subspeciesId,
+                                "idle",
+                                RenderLayerType::MapSurfaceLower, //- 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                                it->dposOff, //- pposoff
+                                0.0,  //- off_z
+                                true ); //- isVisible
+    }
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -88,13 +125,8 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
     
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &MapSurfaceLower::OnActionSwitch,  _1, _2 ) );
-    goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
-            //- 当前 mapSurfaceLower 只有一种动画，就是永久待机...
 
     //================ go self vals =================//
-        
-    //...    
-
 }
 
 
@@ -103,31 +135,11 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
  * -----------------------------------------------------------
  */
 void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<MapSurfaceLower_PvtBinary>();
-
-    //=====================================//
-    //              AI
-    //-------------------------------------//
-    //...
-
-    //=====================================//
-    //         更新 位移系统
-    //-------------------------------------//
-    //goRef_.move.RenderUpdate();
-            // 目前来看，永远也不会 移动...
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
     goRef_.render_all_goMesh();
-
-    //auto &rootGoMeshRef = goRef_.get_goMeshRef("root");
-    //rootGoMeshRef
-
-
 }
 
 
@@ -138,32 +150,7 @@ void MapSurfaceLower::OnRenderUpdate( GameObj &goRef_ ){
  * -- 会被 动作状态机 取代...
  */
 void MapSurfaceLower::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
     tprAssert(0);
-    
-        cout << "MapSurfaceLower::OnActionSwitch" << endl;
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<MapSurfaceLower_PvtBinary>();
-    //=====================================//
-
-    //-- 获得所有 goMesh 的访问权 --
-    //GameObjMesh &rootGoMeshRef = goRef_.goMeshs.at("root");
-
-    //-- 处理不同的 actionSwitch 分支 --
-    switch( type_ ){
-        case ActionSwitchType::Idle:
-            //rootGoMeshRef.bind_animFrameSet( "norman" );
-            //rootGoMeshRef.getnc_animFrameIdxHandle().bind_idle( pvtBp->lichen_ForestId );
-            break;
-
-        default:
-            break;
-            //-- 并不报错，什么也不做...
-
-    }
-    //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
 }
 
 

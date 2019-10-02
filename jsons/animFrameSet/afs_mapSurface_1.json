@@ -14,7 +14,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Sml" ],
+                    "animLabels": [ "Field_1f1" ],
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -34,7 +34,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Mid" ],
+                    "animLabels": [ "Field_2f2" ],
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -54,7 +54,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Big" ],
+                    "animLabels": [ "Field_3f3" ],
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -68,95 +68,10 @@
     "name": "mapSurfaceLow_whiteRock",
     "pngs": [
         {
-            "path": "/mapSurfaceLow/whiteRock/whiteRockSml1.P.png",
-            "frameNum.col":  8,
-            "frameNum.row":  2,
-            "totalFrameNum": 16,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Nil",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml" ],
-                    "fstIdx": 0,
-                    "idxNums": 16,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/mapSurfaceLow/whiteRock/whiteRockMid1.P.png",
-            "frameNum.col":  8,
-            "frameNum.row":  2,
-            "totalFrameNum": 11,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Nil",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Mid" ],
-                    "fstIdx": 0,
-                    "idxNums": 11,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/mapSurfaceLow/whiteRock/whiteRockBig1.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Nil",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big" ],
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "groundGo",
-    "pngs": [
-        {
-            "path": "/ground/groundMapEnt.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  2,
-            "totalFrameNum": 6,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Nil",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml" ],
-                    "fstIdx": 0,
-                    "idxNums": 6,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": true
-                }
-            ]
-        },
-        {
-            "path": "/ground/groundHalfField.P.png",
+            "path": "/mapSurfaceLow/whiteRock/1m1.P.png",
             "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
@@ -164,19 +79,19 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Mid" ],
+                    "animLabels": [ "MapEnt_1m1" ],
                     "fstIdx": 0,
-                    "idxNums": 4,
+                    "idxNums": 8,
                     "name": "idle", "dir": "Mid",
-                    "isOpaque": true
+                    "isOpaque": false
                 }
             ]
         },
         {
-            "path": "/ground/groundField.P.png",
+            "path": "/mapSurfaceLow/whiteRock/2m2.P.png",
             "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
@@ -184,11 +99,51 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Big" ],
+                    "animLabels": [ "MapEnt_2m2" ],
                     "fstIdx": 0,
-                    "idxNums": 4,
+                    "idxNums": 8,
                     "name": "idle", "dir": "Mid",
-                    "isOpaque": true
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/whiteRock/3m3.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_3m3" ],
+                    "fstIdx": 0,
+                    "idxNums": 8,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mapSurfaceLow/whiteRock/4m4.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_4m4" ],
+                    "fstIdx": 0,
+                    "idxNums": 8,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
                 }
             ]
         }

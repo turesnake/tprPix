@@ -9,7 +9,6 @@
  */
 #ifndef TPR_MAP_FIELD_H
 #define TPR_MAP_FIELD_H
-
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
@@ -74,6 +73,8 @@ public:
     inline void set_nodeMapAlti(MapAltitude alti_)noexcept{ this->nodeMapAlti = alti_; }
     inline void set_minAlti(MapAltitude alti_)noexcept{ this->minMapAlti = alti_; }
     inline void set_maxAlti(MapAltitude alti_)noexcept{ this->maxMapAlti = alti_; }
+    inline void set_isCrossEcoObj( bool b_ )noexcept{ this->isCrossEcoObj = b_; }
+    inline void set_isCrossColorTable( bool b_ )noexcept{ this->isCrossColorTable = b_; }
 
     //------- get -------//
     inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
@@ -156,7 +157,9 @@ private:
     MapAltitude  nodeMapAlti {}; //- nodeMPos 点的 alti 值
 
     //===== flags =====//
-    bool  isNodeMapAltiSet {false}; // tmp 只能被设置一次
+    bool  isNodeMapAltiSet      {false}; // tmp 只能被设置一次
+    bool  isCrossEcoObj         {false}; // 境内是否跨越 数个 ecoobj
+    bool  isCrossColorTable     {false}; // 境内是否跨越 数个 colortable
 };
 //===== static =====//
 inline const glm::dvec2 MapField::halfDPosOff {
