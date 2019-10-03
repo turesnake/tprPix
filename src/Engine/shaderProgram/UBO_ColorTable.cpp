@@ -37,7 +37,7 @@ void write_ubo_OriginColorTable(){
     //---
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::OriginColorTable );
     ubo.write(0, 
-            originColorTableRef.get_dataSize(),
+            static_cast<GLsizeiptr>(originColorTableRef.get_dataSize()),
             originColorTableRef.get_dataPtr<const GLvoid*>() );
 }
 
@@ -49,7 +49,7 @@ void write_ubo_GroundColorTable(){
     //---
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
     ubo.write( 0,
-            colorTableSetRef.get_groundColor_dataSize(),
+            static_cast<GLsizeiptr>(colorTableSetRef.get_groundColor_dataSize()),
             colorTableSetRef.get_groundColor_dataPtr<const GLvoid*>() );
             // 实际上，在传入的数据中，[0]号元素是空的，[1]是origin，不会被访问到，
 }
@@ -59,7 +59,7 @@ void write_ubo_colorTableId( colorTableId_t id_ ){
 
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::ColorTableId );
     ubo.write(0, 
-            sizeof(colorTableId_t),
+            static_cast<GLsizeiptr>(sizeof(colorTableId_t)),
             static_cast<const GLvoid*>(&id_) );
 }
 
@@ -105,7 +105,7 @@ void update_and_write_ubo_UnifiedColorTable(){
 
     auto &ubo = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
     ubo.write(  0, 
-                colorTableRef.get_dataSize(),
+                static_cast<GLsizeiptr>(colorTableRef.get_dataSize()),
                 colorTableRef.get_dataPtr<const GLvoid*>() );
                 //-- 很多时候，也不需要每帧都 彻底重写数据 --
                 //   而是可以只改写 某一段

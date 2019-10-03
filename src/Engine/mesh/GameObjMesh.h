@@ -61,7 +61,7 @@ public:
         isVisible(isVisible_),
         goRef(goRef_),
         pposOff(pposOff_),
-        off_z(off_z_)
+        off_z( static_cast<float>(off_z_))
         {
             // picMeshUPtr,shadowMeshUPtr 将被延迟到 bind_animAction() 中创建销毁
         }

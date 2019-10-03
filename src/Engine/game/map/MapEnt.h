@@ -49,8 +49,8 @@ public:
     }
 
     
-    inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos; }
-    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; };
+    inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos_; }
+    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
     inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
@@ -63,7 +63,7 @@ public:
 
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
-    inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; };
+    inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorRableId; }
     inline double           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }

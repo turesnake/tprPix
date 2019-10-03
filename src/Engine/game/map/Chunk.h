@@ -67,7 +67,7 @@ public:
     inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{ return this->fieldKeys; }
     inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
     inline const std::set<goid_t> &get_edgeGoIds() const noexcept{ return this->edgeGoIds; }
-    inline mapSurface::randEntId_t get_mapSurfaceRandEntId() const noexcept { return this->mapSurfaceRandEntId; };
+    inline mapSurface::randEntId_t get_mapSurfaceRandEntId() const noexcept { return this->mapSurfaceRandEntId; }
 
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt &getnc_mapEntRef( const IntVec2 &lMPosOff_ )noexcept{

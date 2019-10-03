@@ -19,6 +19,11 @@ using namespace std::placeholders;
 
 #include "tprDebug.h" //- tmp
 
+
+//============== static ===============//
+ID_Manager  GameObj::id_manager { ID_TYPE::U64, 0};
+
+
 /* ===========================================================
  *                   init_for_regularGo
  * -----------------------------------------------------------

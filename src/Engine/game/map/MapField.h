@@ -67,7 +67,7 @@ public:
         }
     }
 
-    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; };
+    inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
     inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_nodeMapAlti(MapAltitude alti_)noexcept{ this->nodeMapAlti = alti_; }
@@ -81,7 +81,6 @@ public:
     inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
     inline MapAltitude  get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
     inline MapAltitude  get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
-    //inline IntVec2      get_nodeMPos() const noexcept{ return this->nodeMPos; }
     inline fieldKey_t   get_fieldKey() const noexcept{ return this->fieldKey; }
     inline Density      get_density() const noexcept{ return this->density; }
     inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
@@ -89,16 +88,13 @@ public:
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline double       get_weight() const noexcept{ return this->weight; }
     inline double       get_uWeight() const noexcept{ return this->uWeight; }
-
-    inline glm::dvec2 get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
+    inline glm::dvec2   get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
+    inline glm::dvec2   get_nodeDPos() const noexcept{ return this->nodeDPos; }
     
     inline glm::dvec2 get_midDPos()const noexcept{ 
         return (this->mcpos.get_dpos() + MapField::halfDPosOff); 
     }
-    inline glm::dvec2 get_nodeDPos() const noexcept{
-        //return (mpos_2_dpos(this->nodeMPos) + this->nodeDPosOff);
-        return (this->get_dpos() + this->nodeDPosOff);
-    }
+    
 
     inline size_t calc_fieldIdx_in_chunk() const noexcept{
         IntVec2 off = this->get_mpos() - anyMPos_2_chunkMPos(this->get_mpos());
@@ -113,7 +109,7 @@ public:
     static const glm::dvec2 halfDPosOff; // field 中点 距左下角 offset
 
 private:
-    void init_nodeMPos_and_nodeDPosOff();
+    void init_nodeDPos();
     void init_occupyWeight();
 
     //====== vals =======//
@@ -124,7 +120,7 @@ private:
     fieldKey_t  fieldKey {}; 
 
 
-    glm::dvec2  nodeDPosOff {}; //- field 内的一个随机点 
+    glm::dvec2  nodeDPos {}; //- field 内的一个随机点 ,绝对值
 
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
@@ -157,10 +153,7 @@ private:
     bool  isCrossEcoObj         {false}; // 境内是否跨越 数个 ecoobj
     bool  isCrossColorTable     {false}; // 境内是否跨越 数个 colortable
 };
-//===== static =====//
-inline const glm::dvec2 MapField::halfDPosOff {
-    static_cast<double>(ENTS_PER_FIELD * PIXES_PER_MAPENT) * 0.5,
-    static_cast<double>(ENTS_PER_FIELD * PIXES_PER_MAPENT) * 0.5 };
+
 
 
 

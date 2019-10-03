@@ -12,6 +12,11 @@
 #include "GameObj.h"
 
 
+//-------- static --------//
+//-- 在游戏运行期间，此值不会被改变
+size_t ActionSwitch::bitMapBytes = 8;
+
+
 void ActionSwitch::call_func( ActionSwitchType type_ ){
     if( this->func == nullptr ){
         return;

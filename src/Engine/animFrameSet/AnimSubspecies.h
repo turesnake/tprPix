@@ -4,7 +4,6 @@
  *                                        CREATE -- 2019.09.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
  */
 #ifndef TPR_ANIM_SUB_SPECIES_H
 #define TPR_ANIM_SUB_SPECIES_H
@@ -73,8 +72,6 @@ private:
     std::unordered_map<NineDirection, std::unordered_map<std::string, std::unique_ptr<AnimAction>>> animActions {};
     std::unordered_map<std::string, std::unordered_set<NineDirection>> actionsDirs {};
 };
-//============== static ===============//
-inline ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
 
 
 

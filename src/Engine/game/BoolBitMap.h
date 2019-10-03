@@ -13,6 +13,9 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
+//------------------- Libs --------------------//
+#include "tprDataType.h" 
+
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
@@ -53,8 +56,6 @@ private:
     static u32_t bitsPerByte;
 };
 
-//-------- static --------//
-inline u32_t BoolBitMap::bitsPerByte {8};
 
 #endif 
 

@@ -1,14 +1,12 @@
 /*
- * ===================== AnimSubspecies.cpp ==========================
+ * ======================== AnimLabel.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "AnimSubspecies.h"
+#include "AnimLabel.h"
 
 
-//============== static ===============//
-ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
-
+const std::vector<AnimLabel> emptyAnimLabels {}; //- Must Keep Empty !!!
 

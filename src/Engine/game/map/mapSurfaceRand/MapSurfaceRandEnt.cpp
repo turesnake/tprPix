@@ -38,6 +38,9 @@ namespace msRGBAH_inn{//---------- namespace ---------//
 }//------------ namespace: end ---------//
 
 
+//======== static ========//
+ID_Manager  RandEnt::id_manager { ID_TYPE::U32, 0};
+std::pair<RandEntLvl,glm::dvec2> RandEnt::nilEntData { RandEntLvl::Nil, glm::dvec2{0.0,0.0} };
 
 /* ===========================================================
  *                load_mapSurfaceRandSets

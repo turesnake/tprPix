@@ -61,8 +61,6 @@ private:
     //===== static =====//
     static const IntVec2 pixesPerHalfMapent;
 }; 
-//===== static =====//
-inline const IntVec2 Job_MapEntInn::pixesPerHalfMapent {HALF_PIXES_PER_MAPENT, HALF_PIXES_PER_MAPENT};
 
 
 
@@ -86,11 +84,11 @@ public:
         tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
                     (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
 
-        size_t entIdx = cast_2_size_t(mposOff_.y * ENTS_PER_FIELD + mposOff_.x);
+        //size_t entIdx = cast_2_size_t(mposOff_.y * ENTS_PER_FIELD + mposOff_.x);
         size_t hIdx = Job_Field::get_halfFieldIdx(mposOff_);
 
         //--- mapEntPtrs ---
-        this->mapEntPtrs.at(mposOff_.y).at(mposOff_.x) = entPtr_;
+        this->mapEntPtrs.at(static_cast<size_t>(mposOff_.y)).at(static_cast<size_t>(mposOff_.x)) = entPtr_;
         //--- is have border ent ---
         if( (entPtr_->isBorder) && (!this->isHaveBorderEnt) ){
             this->isHaveBorderEnt = true;

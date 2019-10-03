@@ -101,8 +101,6 @@ private:
     std::vector<FloatVec4> data {}; // colorTable
     std::unordered_set<std::string> isSets {}; // just used in json-read
 };
-//============== static ===============//
-inline ID_Manager  ColorTable::id_manager { ID_TYPE::U32, 0};
 
 
 
@@ -146,11 +144,11 @@ public:
     inline const ColorTable &get_colorTableRef( colorTableId_t id_ )const noexcept{
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
         return *(this->colorTableUPtrs.at(id_).get());
-    };
+    }
     inline const ColorTable *get_colorTablePtr( colorTableId_t id_ )const noexcept{
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
         return this->colorTableUPtrs.at(id_).get();
-    };
+    }
 
     //----- groundColor -----//
     template< typename PtrType >
@@ -207,7 +205,7 @@ public:
 
     inline const ColorTable &get_colorTableRef()const noexcept{
         return this->data;
-    };
+    }
 
     inline bool get_isWorking()const noexcept{ return this->isWorking; }
 

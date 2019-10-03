@@ -44,23 +44,48 @@ public:
 };
 
 
+
 class ColliDataFromJ_Nil : public ColliDataFromJ{
 public:
     ColliDataFromJ_Nil() =default;
 
     //----- get -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
-    //-----
-    inline double get_moveColliRadius() const override{ tprAssert(0) }; //- not exist
-    inline double get_skillColliRadius() const override{ tprAssert(0) }; //- not exist
-    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ tprAssert(0) }
-    inline double get_longLen()const override{ tprAssert(0) }; //- not exist
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ tprAssert(0) };//- not exist
-    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ tprAssert(0) };//- not exist
-    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ tprAssert(0) };//- not exist
+    //---- not exist funcs ----//
+    inline double get_moveColliRadius() const override{  //- not exist
+        tprAssert(0); 
+        return 0.0; 
+    }
+    inline double get_skillColliRadius() const override{  //- not exist
+        tprAssert(0); 
+        return 0.0; 
+    }
+    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{  //- not exist
+        tprAssert(0); 
+        return this->emptyVec;
+    }
+    inline double get_longLen()const override{  //- not exist
+        tprAssert(0);
+        return 0.0;
+    }
+    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{  //- not exist
+        tprAssert(0); 
+        return this->emptyDvec2;
+    }
+    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
+        tprAssert(0); 
+        return Circular{};
+    }
+    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{  //- not exist
+        tprAssert(0); 
+        return Capsule{};
+    }
 
     //----- vals -----//
     ColliderType  colliderType {}; //- nil/cir/cap  一经初始，用不改变
+    //---
+    glm::dvec2              emptyDvec2 {};
+    std::vector<glm::dvec2> emptyVec {};
 };
 
 
@@ -87,19 +112,31 @@ public:
 
     //----- get virtual -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
-    inline double get_moveColliRadius() const override{ return this->moveColliRadius; };
-    inline double get_skillColliRadius() const override{ return this->skillColliRadius; };
+    inline double get_moveColliRadius() const override{ return this->moveColliRadius; }
+    inline double get_skillColliRadius() const override{ return this->skillColliRadius; }
     inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return this->colliPointDPosOffs; }
-    //----
-    inline double get_longLen()const override{ tprAssert(0) }; //- not exist
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ tprAssert(0) };//- not exist
-    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ tprAssert(0) };//- not exist
+
+    //---- not exist funcs ----//
+    inline double get_longLen()const override{  //- not exist
+        tprAssert(0); 
+        return 0.0;
+    }
+    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ //- not exist
+        tprAssert(0); 
+        return this->emptyDvec2;
+    }
+    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
+        tprAssert(0); 
+        return Capsule{};
+    }
 
     //----- vals -----//
     ColliderType  colliderType {}; //- nil/cir/cap  一经初始，用不改变
     double  moveColliRadius {};
     double  skillColliRadius {};
     std::vector<glm::dvec2> colliPointDPosOffs {};//- 移动碰撞检测点，会被自动生成
+    //---
+    glm::dvec2  emptyDvec2 {};
 };
 
 
@@ -127,13 +164,18 @@ public:
 
     //----- get virtual -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
-    inline double get_moveColliRadius()  const override{ return this->moveColliRadius; };
-    inline double get_skillColliRadius() const override{ return this->skillColliRadius; };
+    inline double get_moveColliRadius()  const override{ return this->moveColliRadius; }
+    inline double get_skillColliRadius() const override{ return this->skillColliRadius; }
     inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return this->colliPointDPosOffs; }
     //----
-    inline double get_longLen()const override{ return this->longLen; };
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ return this->rootAnchor_2_tailAnchor; };
-    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ tprAssert(0) };//- not exist
+    inline double get_longLen()const override{ return this->longLen; }
+    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ return this->rootAnchor_2_tailAnchor; }
+
+    //---- not exist funcs ----//
+    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
+        tprAssert(0); 
+        return Circular{};
+    }
 
     //----- vals -----//
     ColliderType  colliderType {}; //- nil/cir/cap  一经初始，用不改变

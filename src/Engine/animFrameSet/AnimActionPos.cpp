@@ -107,6 +107,10 @@ namespace fp_inn {//----------- namespace: fp_inn -------------//
 
 }//--------------- namespace: fp_inn end -----------------//
 
+
+//============== static ===============//
+ID_Manager  AnimActionPos::id_manager { ID_TYPE::U32, 1};
+
 /* ===========================================================
  *               prepare_colliPointOffs
  * -----------------------------------------------------------
@@ -264,7 +268,7 @@ void AnimActionPos::calc_colliPoints_for_capsule(ColliDataFromJ_Capsule *capPtr_
     tprAssert( (radius_>0.0) && (longLen_>0.0) );
     tprAssert( radius_ <= static_cast<double>(PIXES_PER_MAPENT) ); //- 暂不支持更大的 capsule
     double radius = radius_ + 20.0; //- 适当向外衍生
-    double scale = radius / static_cast<double>(PIXES_PER_MAPENT);
+    //double scale = radius / static_cast<double>(PIXES_PER_MAPENT);
 
     double blockNum = ceil(longLen_ / static_cast<double>(PIXES_PER_MAPENT)); //- capsule中间的长方体,被切成几块
     double step = longLen_ / blockNum; //- 切割后，每段间距
@@ -285,8 +289,8 @@ void AnimActionPos::calc_colliPoints_for_capsule(ColliDataFromJ_Capsule *capPtr_
 
     for( int i=0; i <= static_cast<int>(blockNum); i++ ){
         cutOff.x = static_cast<double>(i) * step;
-        for( const auto &i : fp_inn::scales_cap_midVertical ){
-            fp_inn::colliPoints_cap_tmp.push_back( (i*radius) + cutOff );
+        for( const auto &val : fp_inn::scales_cap_midVertical ){
+            fp_inn::colliPoints_cap_tmp.push_back( (val*radius) + cutOff );
         }
     }
 

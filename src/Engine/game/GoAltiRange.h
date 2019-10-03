@@ -71,20 +71,13 @@ public:
     char  high {0}; //- high >= low (其实相等是没什么意义的)
 };
 
-//-- static --
-inline char GoAltiRange::jumpLimit = 45;
-inline u8_t GoAltiRange::diskAlti_item    = 254;
-inline u8_t GoAltiRange::diskAlti_surface = 253;
-            //- 原本是 255/254; 但这样就会与 AnimFrameSet 中的 rootAnchor 信息冲突
-            //- 故暂时下调1，改为 254/253
-            //  在未来。随着 碰撞系统的不断完善。 surface_go/item_go 这组设计很可能会被取代...
-
 
 //-- item / surface --//
-inline const GoAltiRange goAltiRange_item    {  static_cast<char>(GoAltiRange::diskAlti_item), 
-                                            static_cast<char>(GoAltiRange::diskAlti_item) };
-inline const GoAltiRange goAltiRange_surface {  static_cast<char>(GoAltiRange::diskAlti_surface), 
-                                            static_cast<char>(GoAltiRange::diskAlti_surface) };
+extern const GoAltiRange goAltiRange_item;
+extern const GoAltiRange goAltiRange_surface;
+
+
+
 
 
 /* ===========================================================

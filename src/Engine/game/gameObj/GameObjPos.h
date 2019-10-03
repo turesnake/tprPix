@@ -30,9 +30,7 @@ public:
     GameObjPos() = default;
 
     inline void init( const glm::dvec2 &dpos_ )noexcept{
-        //- 假定每个 animFrame 的 rootAnchor，都放在其 mapent 的中点上 -
-        this->currentDPos.x = dpos_.x +  static_cast<double>(HALF_PIXES_PER_MAPENT);
-        this->currentDPos.y = dpos_.y + static_cast<double>(HALF_PIXES_PER_MAPENT);
+        this->currentDPos = dpos_;
     }
 
     //------- set -------//

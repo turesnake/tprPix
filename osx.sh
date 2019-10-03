@@ -47,7 +47,8 @@ cp -R ${DIR_src_jsons}     ${DIR_dst_jsons}
 
 #------------- build cpp/c# ----------------
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+#cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Debug ..
 make
 cd ..
 

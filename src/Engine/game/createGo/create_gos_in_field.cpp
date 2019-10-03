@@ -78,19 +78,19 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
             //--- 
             gameObjs::create_a_Go(  ssrc::get_goSpecId( "mapSurfaceLower" ),
                                     fieldRef.get_dpos() + dposOff,
+                                    //fieldRef.get_midDPos(),
                                     dyParam );
         }
     }
 
-    //----- fieldRim go ------//
+    //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate {true};
     if( isFieldRimGoCreate ){
         gameObjs::create_a_Go(  ssrc::get_goSpecId( "fieldRim" ),
-                                fieldRef.get_dpos(),
+                                fieldRef.get_midDPos(),
                                 emptyParamBinary );
     }
     
-
 
     //----- land go -----//
     if( fieldRef.is_land() ){
@@ -107,10 +107,14 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
             BinaryPtr->fieldUWeight = fieldRef.get_uWeight();
             BinaryPtr->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
             BinaryPtr->fieldDensity = fieldRef.get_density();
-            BinaryPtr->animLabels.insert( BinaryPtr->animLabels.end(), animLabels.cbegin(), animLabels.cend() );//- maybe empty
+
+            for( const auto &ent : animLabels ){
+                BinaryPtr->animLabels.push_back( ent );
+            }
 
             gameObjs::create_a_Go(  goSpecData.get_goSpecId(),
                                     fieldRef.get_nodeDPos(),
+                                    //fieldRef.get_midDPos(),
                                     dyParam );
         }
     }

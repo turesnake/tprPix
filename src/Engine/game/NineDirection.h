@@ -27,7 +27,7 @@ enum class NineDirection{
     Bottom      = 7,
     LeftBottom  = 8
 };
-inline size_t nineDirectionSize {9};
+extern size_t nineDirectionSize;
 
 
 inline NineDirection intVec2_2_nineDirection( IntVec2 v_ ) noexcept {

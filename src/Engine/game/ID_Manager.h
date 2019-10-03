@@ -4,9 +4,6 @@
  *                                        CREATE -- 2018.12.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   通用的 id 管理器
- * 
- * ----------------------------
  */
 #ifndef TPR_ID_MANAGER_H
 #define TPR_ID_MANAGER_H
@@ -19,7 +16,8 @@
 
 
 //-- id 默认从 1 开始增长。0号id 被保留，表示空id --
-inline constexpr int NULLID = 0;
+//extern const int NULLID;
+#define NULLID 0
         //-- int 类型有麻烦...
 
 

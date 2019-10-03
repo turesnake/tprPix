@@ -26,7 +26,7 @@ public:
             this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
     inline goSpecId_t get_goSpecId()const noexcept{ return this->specId; }
-    inline const std::vector<AnimLabel> &get_animLabels()const noexcept{ return this->animLabels; };
+    inline const std::vector<AnimLabel> &get_animLabels()const noexcept{ return this->animLabels; }
 private:
     goSpecId_t specId {};
     std::vector<AnimLabel> animLabels {};

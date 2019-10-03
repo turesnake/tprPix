@@ -1,14 +1,13 @@
 /*
- * ===================== AnimSubspecies.cpp ==========================
+ * ======================= BoolBitMap.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "AnimSubspecies.h"
+#include "BoolBitMap.h"
 
-
-//============== static ===============//
-ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
+//===== static =====//
+u32_t BoolBitMap::bitsPerByte {8};
 
 

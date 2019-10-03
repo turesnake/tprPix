@@ -27,7 +27,7 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-void init_VAOVBO()noexcept;
+void init_VAOVBO();
 void delete_VAOVBO()noexcept;
 
 GLuint get_VAO()noexcept;

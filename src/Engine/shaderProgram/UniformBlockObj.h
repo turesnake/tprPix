@@ -34,7 +34,7 @@ public:
         {
             glGenBuffers(1, &this->ubo);
             glBindBuffer(GL_UNIFORM_BUFFER, this->ubo);
-            glBufferData(GL_UNIFORM_BUFFER, this->dataSize, NULL, GL_STATIC_DRAW); // 分配n字节的内存
+            glBufferData(GL_UNIFORM_BUFFER, this->dataSize, nullptr, GL_STATIC_DRAW); // 分配n字节的内存
             glBindBuffer(GL_UNIFORM_BUFFER, 0);//- release bind
             glBindBufferBase(GL_UNIFORM_BUFFER, this->bindPoint, this->ubo); // set bindPoint
         }

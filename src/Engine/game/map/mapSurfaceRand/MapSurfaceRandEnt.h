@@ -42,10 +42,6 @@ public:
     static ID_Manager  id_manager;
     static std::pair<RandEntLvl,glm::dvec2> nilEntData; // retVal in RandEntSet::get_mapSurfaceRandEntData()
 };
-//======== static ========//
-inline ID_Manager  RandEnt::id_manager { ID_TYPE::U32, 0};
-inline std::pair<RandEntLvl,glm::dvec2> RandEnt::nilEntData { RandEntLvl::Nil, glm::dvec2{0.0,0.0} };
-
 
 
 class RandEntSet{

@@ -158,7 +158,7 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
  *  -- true:  collide
  *  -- flase: not collide
  */
-inline bool fastCollideCheck_from_arc_2_circular(  const Arc &dogoArc_,
+inline bool fastCollideCheck_from_arc_2_circular(  const ArcLine &dogoArc_,
                                             const Circular &begoCir_,
                                             double threshold_ ) noexcept{
     
@@ -198,7 +198,7 @@ inline bool fastCollideCheck_from_arc_2_circular(  const Arc &dogoArc_,
 
 
 
-bool fastCollideCheck_from_arc_2_capsule( const Arc &dogoArc_,
+bool fastCollideCheck_from_arc_2_capsule( const ArcLine &dogoArc_,
                                         const Capsule &begoCap_,
                                         double threshold_ );
 

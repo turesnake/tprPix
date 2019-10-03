@@ -59,6 +59,11 @@ class Circular{
 public:
     Circular() = default;
 
+    Circular( const glm::dvec2 &dpos_, double radius_ ):
+        dpos(dpos_),
+        radius(radius_)
+        {}
+
     inline Circular calc_new_circular( const glm::dvec2 &dposOff_ ) const noexcept{
         return Circular{ this->dpos+dposOff_, this->radius };    
     }
@@ -71,6 +76,17 @@ public:
 class Capsule{
 public:
     Capsule() = default;
+
+    Capsule(    const glm::dvec2 &dpos_,
+                const glm::dvec2 &root_2_tail_,
+                double          longLen_,
+                double          radius_):
+        dpos(dpos_),
+        root_2_tail(root_2_tail_),
+        longLen(longLen_),
+        radius(radius_)
+        {}
+
     inline Capsule calc_new_capsule( const glm::dvec2 &dposOff_ ) const noexcept{
         return Capsule{ this->dpos + dposOff_,
                         this->root_2_tail,
@@ -85,8 +101,6 @@ public:
         return Circular{ this->dpos + this->root_2_tail, this->radius };
     }
 
-
-
     //----- vals -----//
     glm::dvec2  dpos        {};
     glm::dvec2  root_2_tail {};
@@ -95,10 +109,19 @@ public:
 };
 
 
-class Arc{
+class ArcLine{
 public:
-    Arc()=default;
+    ArcLine()=default;
 
+    ArcLine(const glm::dvec2    &dpos_,
+            const glm::dvec2    &forward_,
+            double              radius_,
+            double              halfRadian_):
+        dpos(dpos_),
+        forward(forward_),
+        radius(radius_),
+        halfRadian(halfRadian_)
+        {}
 
     //----- vals -----//
     glm::dvec2  dpos       {};

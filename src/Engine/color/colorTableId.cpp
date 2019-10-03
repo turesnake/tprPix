@@ -1,14 +1,11 @@
 /*
- * ===================== AnimSubspecies.cpp ==========================
+ * ===================== colorTableId.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "AnimSubspecies.h"
+#include "colorTableId.h"
 
-
-//============== static ===============//
-ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
-
-
+const colorTableId_t MaxColorTableId { static_cast<colorTableId_t>(-1) };
+        //-- never reach

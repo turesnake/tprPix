@@ -34,6 +34,11 @@
 //namespace field_inn {//----------- namespace: mapField_inn ---------------//
 //}//-------------- namespace: mapField_inn end ---------------//
 
+//===== static =====//
+const glm::dvec2 MapField::halfDPosOff {
+            static_cast<double>( PIXES_PER_FIELD ) * 0.5,
+            static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
+
 /* ===========================================================
  *                    init
  * -----------------------------------------------------------
@@ -50,7 +55,7 @@ void MapField::init( IntVec2 anyMPos_ ){
     this->FDPos = this->mcpos.get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
 
     //--- field.nodeMPos ---
-    this->init_nodeMPos_and_nodeDPosOff();
+    this->init_nodeDPos();
 
     //--- originPerlin ---
     // 3*3 个 field 组成一个 pn晶格
@@ -69,69 +74,31 @@ void MapField::init( IntVec2 anyMPos_ ){
 
 
 /* ===========================================================
- *                init_nodeMPos_and_nodeDPosOff
+ *                init_nodeDPos
  * -----------------------------------------------------------
- * 
- *         nodeDPosOff 存在问题 ..... 
- *                     调试中 .....
- * 
  */
-void MapField::init_nodeMPos_and_nodeDPosOff(){
+void MapField::init_nodeDPos(){
 
-    double    freq  { 13.0 };
+    double    freq  { 7.0 };
     double    pnX   {};
     double    pnY   {};
 
-    const glm::dvec2 yModifier { 70.7,70.7 };
+    const glm::dvec2 yModifier { 370.1, 1971.7 };
 
     pnX = simplex_noise2( this->FDPos * freq ); //- [-1.0, 1.0]
-    pnY = simplex_noise2( (this->FDPos + yModifier) * freq ); //- [-1.0, 1.0]
+    pnY = simplex_noise2( (this->FDPos+yModifier) * freq ); //- [-1.0, 1.0]
+    //- perlin is too close to center, do some balance
+    pnX *= 1.2;
+    pnY *= 1.2;
+    if(         pnX >=  1.0 ){ pnX =  0.99; }
+    else if(    pnX <= -1.0 ){ pnX = -0.99; }
+    if(         pnY >=  1.0 ){ pnY =  0.99; }
+    else if(    pnY <= -1.0 ){ pnY = -0.99; }
 
-    pnX = pnX * 71.0 + 100.0; //- [29.0, 171.0]
-    pnY = pnY * 71.0 + 100.0; //- [29.0, 171.0]
-        tprAssert( (pnX>0) && (pnY>0) );
+    double scaleX = MapField::halfDPosOff.x - 16.0; // not too close between two field-gos
+    double scaleY = MapField::halfDPosOff.y - 4.0; 
 
-    //-- nodeMPos --//
-    //-- [0,3] 
-    //size_t idxX = cast_2_size_t(floor(pnX)) % (ENTS_PER_FIELD-1);
-    //size_t idxY = cast_2_size_t(floor(pnY)) % (ENTS_PER_FIELD-1);
-
-    size_t idxX = cast_2_size_t(floor(pnX)) % (ENTS_PER_FIELD);
-    size_t idxY = cast_2_size_t(floor(pnY)) % (ENTS_PER_FIELD);
-
-    //this->nodeMPos = this->get_mpos() + IntVec2{static_cast<int>(idxX), 
-    //                                            static_cast<int>(idxY) };
-
-    //-- nodeDPosOff --//
-    //size_t pposOffRange { PIXES_PER_MAPENT - 10 }; //- 54
-    size_t pposOffRange { 40 };
-
-    //size_t pX = cast_2_size_t(floor(pnX + 971.0)) % pposOffRange;
-    //size_t pY = cast_2_size_t(floor(pnY + 137.0)) % pposOffRange;
-    size_t pX  = 0;
-    size_t pY  = 1;
-
-    //this->nodeDPosOff = {   static_cast<double>( pX ),
-    //                        static_cast<double>( pY ) }; // [ 0.0, 54.0 ] 
-    //this->nodeDPosOff = glm::dvec2{0.0, 0.0};    
-
-                //- 尝试允许 node 在整个 field 内分布，会获得较好的 视觉效果
-                //  临时版，有待修整 .....
-                //  目前 nodeDPosOff 被设为0了
-
-
-    glm::dvec2 v = glm::dvec2{  static_cast<double>(idxX * PIXES_PER_MAPENT + pX  ),  
-                                static_cast<double>(idxY * PIXES_PER_MAPENT + pY  ) };
-
-            double limit = static_cast<double>( PIXES_PER_FIELD );
-
-            tprAssert( (v.x>=0.0) && (v.x<limit) &&
-                        (v.y>=0.0) && (v.y<limit) );
-
-
-    this->nodeDPosOff = v;
-
-
+    this->nodeDPos = this->get_dpos() + MapField::halfDPosOff + glm::dvec2{ pnX*scaleX, pnY*scaleY };
 
 }
 

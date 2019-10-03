@@ -57,7 +57,7 @@ public:
 
     inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
     inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
-    inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; };
+    inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
 
     void init_goSpecDataPools_and_applyPercents();
 
@@ -77,7 +77,7 @@ public:
     
     inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
     inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
-    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; };
+    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
     inline const std::vector<double> *get_applyPercentsPtr() const noexcept{ return &(this->applyPercents); }
@@ -93,7 +93,7 @@ public:
     }
 
     //======== static ========//
-    static ID_Manager  id_manager; //- 负责生产 ecoSysPlanId ( 在.cpp文件中初始化 )
+    static ID_Manager  id_manager;
     
 private:
     //======== vals ========//
@@ -116,8 +116,6 @@ private:
     bool   is_densityDivideVals_init {false};
 
 };
-//============== static ===============//
-inline ID_Manager  EcoSysPlan::id_manager { ID_TYPE::U32, 1};
 
 #endif 
 

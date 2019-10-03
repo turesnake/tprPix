@@ -1,14 +1,10 @@
 /*
- * ===================== AnimSubspecies.cpp ==========================
+ * ===================== NineDirection.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "AnimSubspecies.h"
+#include "NineDirection.h"
 
-
-//============== static ===============//
-ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
-
-
+size_t nineDirectionSize {9};

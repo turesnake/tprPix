@@ -9,6 +9,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "esrc_state.h"
@@ -36,8 +37,8 @@ namespace VAOVBO_inn {//------------------ namespace: VAOVBO_inn ---------------
 
 }//--------------------- namespace: VAOVBO_inn end ------------------------//
 
-void init_VAOVBO()noexcept{
-    VAOVBO_inn::VAOVBOUPtr = std::make_unique<VAOVBO>();
+void init_VAOVBO(){
+    VAOVBO_inn::VAOVBOUPtr = std::make_unique<class VAOVBO>();
     VAOVBO_inn::VAOVBOUPtr->init(  static_cast<const GLvoid *>(&(VAOVBO_inn::rectPoints.at(0))) ,
                                 VAOVBO_inn::VBO_size );
     esrc::insertState("VAOVBO");

@@ -59,13 +59,13 @@ public:
         this->skillColliRadiusAnchor = v_; 
     }
     //----- get -----//
-    inline ColliderType get_colliderType() const noexcept{ return this->colliderType; };
+    inline ColliderType get_colliderType() const noexcept{ return this->colliderType; }
 
-    inline GoAltiRange get_lGoAltiRange() const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; };
-    inline const glm::dvec2 &get_rootAnchor()    const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; };
-    inline const glm::dvec2 &get_tailAnchor()     const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  };
-    inline const glm::dvec2 &get_moveColliRadiusAnchor()  const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; };
-    inline const glm::dvec2 &get_skillColliRadiusAnchor() const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; };
+    inline GoAltiRange      get_lGoAltiRange()const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; }
+    inline const glm::dvec2 &get_rootAnchor()const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; }
+    inline const glm::dvec2 &get_tailAnchor()const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  }
+    inline const glm::dvec2 &get_moveColliRadiusAnchor()const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; }
+    inline const glm::dvec2 &get_skillColliRadiusAnchor()const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; }
 
 private:
     ColliderType colliderType {};
@@ -103,7 +103,7 @@ public:
     inline const ColliDataFromJ *get_colliDataFromJPtr()const noexcept{ 
         tprAssert( this->colliDataFromJUPtr );
         return this->colliDataFromJUPtr.get();
-    };
+    }
 
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 animActionPos_id
@@ -128,8 +128,6 @@ private:
 
     std::unique_ptr<ColliDataFromJ> colliDataFromJUPtr {nullptr};
 };
-//============== static ===============//
-inline ID_Manager  AnimActionPos::id_manager { ID_TYPE::U32, 1};
 
 
 #endif 

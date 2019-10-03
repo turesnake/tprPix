@@ -13,6 +13,10 @@
 #include "tprDebug.h"
 
 
+//============== static ===============//
+ID_Manager  ColorTable::id_manager { ID_TYPE::U32, 0};
+
+
 void CurrentColorTable::update()noexcept{
 
     if( !this->isWorking ){

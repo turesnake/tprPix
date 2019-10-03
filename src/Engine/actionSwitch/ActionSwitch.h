@@ -71,9 +71,6 @@ private:
                     //  这个值将不断扩大  
 };
 
-//-------- static --------//
-//-- 在游戏运行期间，此值不会被改变
-inline size_t ActionSwitch::bitMapBytes {8};
 
 
 #endif 

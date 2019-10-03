@@ -13,7 +13,8 @@
 
 using colorTableId_t = u32_t;
 
-inline const colorTableId_t MaxColorTableId { static_cast<colorTableId_t>(-1) };
+
+extern const colorTableId_t MaxColorTableId;
         //-- never reach
 
 #endif 

@@ -118,7 +118,7 @@ void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
                         tprAssert( a[i].IsInt() );
                         iChannel = a[i].GetInt();
                         tprAssert( (iChannel>=0) && (iChannel<=255) );
-                        fChannels[i] = static_cast<float>(iChannel) / 255.0;
+                        fChannels[i] = static_cast<float>(iChannel) / 255.0f;
                     }
                     colorVal.r = fChannels[0];
                     colorVal.g = fChannels[1];

@@ -147,7 +147,7 @@ public:
     }
 
     inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
-    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }; 
+    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
 
 
     void debug();
@@ -305,8 +305,6 @@ private:
     const AnimActionPos *rootAnimActionPosPtr {nullptr};
 };
 
-//============== static ===============//
-inline ID_Manager  GameObj::id_manager { ID_TYPE::U64, 0};
 
 
 #endif

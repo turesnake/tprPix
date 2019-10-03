@@ -241,13 +241,13 @@ void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &co
 void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
                                 Job_MapEntInn &mapEnt_ ){
 
-    sectionKey_t sectionKey = anyMPos_2_sectionKey( mapEnt_.mpos );
+    //sectionKey_t sectionKey = anyMPos_2_sectionKey( mapEnt_.mpos );
 
     double         vx        {};
     double         vy        {};
     IntVec2        mposOff   {};
     double         freqBig   { 0.9 }; //- 值越小，ecoObj 边界越平滑
-    float          freqSml   { 2.3f };
+    double         freqSml   { 2.3 };
 
     double         pnVal     {}; //- 围绕 0 波动的 随机值
     double         off       {};
@@ -265,9 +265,9 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
                     //   毕竟，现在和 mapent 关联了 ...
 
     double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 17; // [-x.0, x.0]
-    float pnValSml = simplex_noise2(    (vx + 244.41f) * freqSml,
-                                        (vy + 144.41f) * freqSml ) * 5; // [-x.0, x.0]
+                                        (vy + 151.15) * freqBig ) * 17.0; // [-x.0, x.0]
+    double pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
+                                        (vy + 144.41) * freqSml ) * 5.0; // [-x.0, x.0]
 
     pnVal = pnValBig + pnValSml;
     if( pnVal > 20.0 ){

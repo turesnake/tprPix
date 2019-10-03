@@ -86,6 +86,8 @@ namespace job_cc_inn {//----------- namespace: job_cc_inn ----------------//
 }//-------------- namespace: job_cc_inn end ----------------//
 
 
+//===== static =====//
+const IntVec2 Job_MapEntInn::pixesPerHalfMapent {HALF_PIXES_PER_MAPENT, HALF_PIXES_PER_MAPENT};
 
 
 void Job_MapEntInn::init( IntVec2 mpos_ )noexcept{
@@ -215,7 +217,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
         if( halfSetRef.size() == 1 ){
 
             const auto &wh = halfWHs.back(); 
-            entPtr = this->mapEntPtrs.at(wh.y).at(wh.x);
+            entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
             fposOff = halfDposOff;
             //ecoObjKey = entPtr->ecoObjKey;
             colorTableId = entPtr->colorRableId;
@@ -231,7 +233,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
 
                 innIdx = h * HALF_ENTS_PER_FIELD + w;
                 const auto &wh = halfWHs.at(innIdx);
-                entPtr = this->mapEntPtrs.at(wh.y).at(wh.x);
+                entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 
                 fposOff = halfDposOff + job_cc_inn::mapentDposOffs.at(innIdx);
                 //ecoObjKey = entPtr->ecoObjKey;

@@ -52,14 +52,6 @@ struct DyParams_MapSurface{
 };
 
 
-/*
-struct DyParams_EcoBorderEnt{
-    const std::vector<glm::vec2> *borderPointsPtr {nullptr}; //- base on field-midMPos
-    double             fieldUWeight          {};
-    //...
-};
-*/
-
 struct DyParams_GroundGo{
     double      fieldUWeight     {};
     const Job_Field  *job_fieldPtr     {nullptr};
@@ -105,8 +97,7 @@ private:
 
 
 //- 空参数包 -
-inline ParamBinary emptyParamBinary {};
-
+extern ParamBinary emptyParamBinary;
 
 #endif 
 

@@ -73,7 +73,7 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   cons
  *            fastCollideCheck_from_arc_2_capsule
  * -----------------------------------------------------------
  */
-bool fastCollideCheck_from_arc_2_capsule( const Arc &dogoArc_,
+bool fastCollideCheck_from_arc_2_capsule( const ArcLine &dogoArc_,
                                         const Capsule &begoCap_,
                                         double threshold_ ){
     

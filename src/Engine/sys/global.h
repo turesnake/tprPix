@@ -22,19 +22,19 @@
 //----------------------------------------------------//
 //                     file
 //----------------------------------------------------//
-inline int         fd_cwd {};   //-- 项目 主目录 fd
+extern int         fd_cwd;   //-- 项目 主目录 fd
 
-inline std::string path_cwd {}; //-- exe 所在目录的 path
+extern std::string path_cwd; //-- exe 所在目录的 path
                 
-inline std::string path_dataBase {};  //-- .../build/publish/dataBase/
-inline std::string path_shaders {}; //-- .../build/publish/shaders/
-inline std::string path_textures {}; //-- .../build/publish/textures/
-inline std::string path_jsons    {}; //-- .../build/publish/jsons/
-inline std::string path_tprLog   {}; //-- .../build/publish/tprLog/
+extern std::string path_dataBase;  //-- .../build/publish/dataBase/
+extern std::string path_shaders; //-- .../build/publish/shaders/
+extern std::string path_textures; //-- .../build/publish/textures/
+extern std::string path_jsons; //-- .../build/publish/jsons/
+extern std::string path_tprLog; //-- .../build/publish/tprLog/
 
-inline std::string path_animFrameSets {}; //-- .../build/publish/textures/animFrameSets
-inline std::string path_colliEntSet   {}; //-- .../build/publish/textures/colliEntSet
-inline std::string path_mapSurfaceRandSet {}; //-- .../build/publish/textures/mapSurfaceRandSet
+extern std::string path_animFrameSets; //-- .../build/publish/textures/animFrameSets
+extern std::string path_colliEntSet; //-- .../build/publish/textures/colliEntSet
+extern std::string path_mapSurfaceRandSet; //-- .../build/publish/textures/mapSurfaceRandSet
 
 //----------------------------------------------------//
 //                       OS
@@ -44,7 +44,7 @@ inline std::string path_mapSurfaceRandSet {}; //-- .../build/publish/textures/ma
 #define OS_APPLE 1
 #define OS_UNIX  2
 #define OS_WIN32 3
-inline int current_OS {};
+extern int current_OS;
 
 
 #endif

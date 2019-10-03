@@ -26,9 +26,6 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-
-
-
 class MapSurfaceLower{
 public:
     //--- 延迟init ---//

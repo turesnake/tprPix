@@ -4,7 +4,6 @@
  *                                        CREATE -- 2019.09.12
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
  */
 #ifndef TPR_ANIM_LABEL_H
 #define TPR_ANIM_LABEL_H
@@ -51,7 +50,7 @@ enum class AnimLabel : u32_t{
     //...
 };
 
-inline const std::vector<AnimLabel> emptyAnimLabels {}; //- Must Keep Empty !!!
+extern const std::vector<AnimLabel> emptyAnimLabels; //- Must Keep Empty !!!
 
 
 inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{

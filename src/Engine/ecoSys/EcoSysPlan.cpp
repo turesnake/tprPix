@@ -29,6 +29,8 @@ namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//
 }//------------- namespace: ecoSysPlan_inn end --------------//
 
 
+//============== static ===============//
+ID_Manager  EcoSysPlan::id_manager { ID_TYPE::U32, 0};
 
 
 /* ===========================================================
