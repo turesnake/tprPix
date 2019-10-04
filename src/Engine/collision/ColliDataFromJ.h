@@ -62,7 +62,7 @@ public:
     }
     inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{  //- not exist
         tprAssert(0); 
-        return this->emptyVec;
+        return ColliDataFromJ_Nil::emptyVec;
     }
     inline double get_longLen()const override{  //- not exist
         tprAssert(0);
@@ -70,7 +70,7 @@ public:
     }
     inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{  //- not exist
         tprAssert(0); 
-        return this->emptyDvec2;
+        return ColliDataFromJ_Nil::emptyDvec2;
     }
     inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
@@ -83,9 +83,10 @@ public:
 
     //----- vals -----//
     ColliderType  colliderType {}; //- nil/cir/cap  一经初始，用不改变
-    //---
-    glm::dvec2              emptyDvec2 {};
-    std::vector<glm::dvec2> emptyVec {};
+
+    //===== static =====//
+    static glm::dvec2              emptyDvec2;
+    static std::vector<glm::dvec2> emptyVec;
 };
 
 
@@ -123,7 +124,7 @@ public:
     }
     inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ //- not exist
         tprAssert(0); 
-        return this->emptyDvec2;
+        return ColliDataFromJ_Circular::emptyDvec2;
     }
     inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
@@ -135,8 +136,9 @@ public:
     double  moveColliRadius {};
     double  skillColliRadius {};
     std::vector<glm::dvec2> colliPointDPosOffs {};//- 移动碰撞检测点，会被自动生成
-    //---
-    glm::dvec2  emptyDvec2 {};
+
+    //===== static =====//
+    static glm::dvec2  emptyDvec2;
 };
 
 

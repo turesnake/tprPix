@@ -21,7 +21,7 @@ void init_behaviour(){
 
 
 Behaviour &get_behaviour(){
-    return *(behaviour_inn::behaviourPtr.get());
+    return *(behaviour_inn::behaviourPtr);
 }
 
 

@@ -44,8 +44,8 @@ public:
         }
 
     inline void insert_2_majorGos( goid_t goid_ )noexcept{
-        tprAssert( this->majorGos.find(goid_) == this->majorGos.end() );
-        this->majorGos.insert({ goid_ });
+        auto outPair = this->majorGos.insert( goid_ );
+        tprAssert( outPair.second );
     }
 
     

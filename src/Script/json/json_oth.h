@@ -16,8 +16,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-namespace json_inn {//-------- namespace: json_inn --------------//
-
+namespace json{//------------- namespace json ----------------
 
 float get_float( const rapidjson::Value &val_ );
 double get_double( const rapidjson::Value &val_ );
@@ -42,6 +41,7 @@ const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
                                             const std::string &name_,
                                             JsonValType jsonValType_ );
 
-}//------------- namespace: json_inn end --------------//
+
+}//------------- namespace json: end ----------------
 #endif 
 

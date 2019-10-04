@@ -57,7 +57,7 @@ void init_chunkCreateReleaseZone( IntVec2 playerMPos_ ){
 }
 
 ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
-    return *(chunk_inn::chunkCreateReleaseZoneUPtr.get());
+    return *(chunk_inn::chunkCreateReleaseZoneUPtr);
 }
 
 //- only used for esrc_chunkMemState -
@@ -71,18 +71,19 @@ bool find_from_chunks( chunkKey_t chunkKey_ ){
  *             insert_and_init_new_chunk
  * -----------------------------------------------------------
  * 创建 chunk实例，放入 全局容器，且初始化它
- * 仅被 check_and_build_sections.cpp -> build_one_chunk() 调用
+ * 仅被 check_and_build_sections.cpp -> create_one_chunk() 调用
  */
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
+    auto outPair = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>() });
+    tprAssert( outPair.second );
+    Chunk &chunkRef = *(outPair.first->second);
 
-    auto chunkUPtr = std::make_unique<Chunk>();
-    chunkUPtr->set_by_chunkKey(chunkKey_);
-    chunkUPtr->init();
+    chunkRef.set_by_chunkKey(chunkKey_);
+    chunkRef.init();
 
-    chunk_inn::chunks.insert({ chunkKey_, std::move(chunkUPtr) });
     esrc::move_chunkKey_from_onCreating_2_active(chunkKey_);  
                             // Now, the chunkState is Active !!! 
-    return *(chunk_inn::chunks.at(chunkKey_).get());
+    return chunkRef;
 }
 
 
@@ -138,7 +139,7 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
                 }
         
         tprAssert( get_chunkMemState(key_) == ChunkMemState::Active );
-    return *(chunk_inn::chunks.at(key_).get());
+    return *(chunk_inn::chunks.at(key_));
 }
 
 /* ===========================================================
@@ -148,7 +149,7 @@ Chunk &get_chunkRef( chunkKey_t key_ ){
  */
 Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
         tprAssert( get_chunkMemState(key_) == ChunkMemState::OnReleasing );
-    return *(chunk_inn::chunks.at(key_).get());
+    return *(chunk_inn::chunks.at(key_));
 }
 
 

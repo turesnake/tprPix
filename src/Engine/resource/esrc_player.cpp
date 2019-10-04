@@ -25,7 +25,7 @@ void init_player(){
 
 
 Player &get_player(){
-    return *(player_inn::playerUPtr.get());
+    return *(player_inn::playerUPtr);
 }
 
 }//---------------------- namespace: esrc -------------------------//

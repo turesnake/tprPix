@@ -36,16 +36,15 @@ public:
 
     inline AnimAction &insert_new_animAction(   NineDirection dir_,
                                                 const std::string &actionName_ )noexcept{
-        if( this->animActions.find(dir_) == this->animActions.end() ){
-            this->animActions.insert({ dir_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} });
-        }
+        // if target key is existed, nothing will happen
+        this->animActions.insert({ dir_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} }); // maybe
+
         auto &container = this->animActions.at(dir_);
-            tprAssert( container.find(actionName_) == container.end() );
-        container.insert({ actionName_, std::make_unique<AnimAction>() });
+        auto outPair = container.insert({ actionName_, std::make_unique<AnimAction>() });
+        tprAssert( outPair.second );
         //---
-        if( this->actionsDirs.find(actionName_) == this->actionsDirs.end() ){
-            this->actionsDirs.insert({ actionName_, std::unordered_set<NineDirection>{} });
-        }
+        // if target key is existed, nothing will happen
+        this->actionsDirs.insert({ actionName_, std::unordered_set<NineDirection>{} }); //- maybe
         this->actionsDirs.at(actionName_).insert( dir_ ); //- maybe 
         //---
         return *(container.at(actionName_).get());

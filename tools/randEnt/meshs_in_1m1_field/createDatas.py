@@ -13,8 +13,8 @@ from tools import *
 
 #------------ INPUT ------------#
 #  need user input:
-entNums_1 = 2
-entNums_2 = 1
+entNums_1 = 1
+entNums_2 = 2
 entNums_3 = 0
 
 

@@ -89,8 +89,8 @@ void atom_try_to_insert_and_init_the_field_ptr( IntVec2 fieldMPos_ ){
 
     //--- lock ---//
     ul.lock();
-        tprAssert( field_inn::is_find_in_fields_(fieldKey) == false ); //- MUST NOT EXIST
-    field_inn::fields.insert({ fieldKey, std::move(fieldUPtr) }); //- copy
+    auto outPair = field_inn::fields.insert({ fieldKey, std::move(fieldUPtr) });
+    tprAssert( outPair.second ); //- MUST NOT EXIST
     field_inn::erase_from_fieldsBuilding( fieldKey );    
 }
 
@@ -170,7 +170,7 @@ const MapField &atom_get_field( fieldKey_t fieldKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( field_inn::fieldsSharedMutex ); //- read -
     tprAssert( field_inn::is_find_in_fields_(fieldKey_) ); //- MUST EXIST
-    return *(field_inn::fields.at( fieldKey_ ).get());
+    return *(field_inn::fields.at( fieldKey_ ));
 }
 
 
@@ -183,8 +183,8 @@ namespace field_inn {//------------ namespace: field_inn --------------//
 void insert_2_fieldsBuilding( fieldKey_t fieldKey_ ){
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( fieldsBuildingMutex );
-        tprAssert( fieldsBuilding.find(fieldKey_) == fieldsBuilding.end() );
-        fieldsBuilding.insert( fieldKey_ );
+        auto outPair = fieldsBuilding.insert( fieldKey_ );
+        tprAssert( outPair.second );
     }
 }
 bool is_in_fieldsBuilding( fieldKey_t fieldKey_ ){

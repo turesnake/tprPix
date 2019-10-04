@@ -25,11 +25,11 @@ void init_colorTableSet()noexcept{
 }
 
 ColorTableSet &get_colorTabelSet()noexcept{
-    return *(cts_inn::colorTableSetUPtr.get());
+    return *(cts_inn::colorTableSetUPtr);
 }
 
 CurrentColorTable &get_currentColorTabel()noexcept{
-    return *(cts_inn::currentColorTableUPtr.get());
+    return *(cts_inn::currentColorTableUPtr);
 }
 
 

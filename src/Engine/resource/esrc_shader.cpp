@@ -29,7 +29,7 @@ namespace shader_inn {//-------- namespace: shader_inn --------------//
 
 ShaderProgram &get_shaderRef( ShaderType type_ )noexcept{
     tprAssert( shader_inn::shaderUPtrs.find(type_) != shader_inn::shaderUPtrs.end() );
-    return *(shader_inn::shaderUPtrs.at(type_).get());
+    return *(shader_inn::shaderUPtrs.at(type_));
 }
 ShaderProgram *get_shaderPtr( ShaderType type_ )noexcept{
     tprAssert( shader_inn::shaderUPtrs.find(type_) != shader_inn::shaderUPtrs.end() );
@@ -37,9 +37,9 @@ ShaderProgram *get_shaderPtr( ShaderType type_ )noexcept{
 }
 
 ShaderProgram &insert_new_shader( ShaderType type_ )noexcept{
-    tprAssert( shader_inn::shaderUPtrs.find(type_) == shader_inn::shaderUPtrs.end() );
-    shader_inn::shaderUPtrs.insert({ type_, std::make_unique<ShaderProgram>() });
-    return *(shader_inn::shaderUPtrs.at(type_).get());
+    auto outPair = shader_inn::shaderUPtrs.insert({ type_, std::make_unique<ShaderProgram>() });
+    tprAssert( outPair.second );
+    return *(outPair.first->second);
 }
 
 

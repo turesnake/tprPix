@@ -30,7 +30,7 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
 
 
     //-- 资源持续整个游戏生命期，不用释放
-    std::unordered_map<goSpecId_t, GoJsonData> go_jsonDatas {};
+    std::unordered_map<goSpecId_t, json::GoJsonData> go_jsonDatas {};
 
     std::unordered_map<goSpecId_t, std::string> go_specId_names {};
     std::unordered_map<std::string, goSpecId_t> go_name_specIds {};
@@ -39,7 +39,7 @@ namespace ssrc_inn {//------------------ namespace: ssrc_inn -------------------
     std::unordered_map<goSpecId_t, F_GO_INIT> goInit_funcs {}; 
 
     //--- uiGo ---
-    std::unordered_map<goSpecId_t, UIGoJsonData> uiGo_jsonDatas {}; //- new
+    std::unordered_map<goSpecId_t, json::UIGoJsonData> uiGo_jsonDatas {}; //- new
 
     std::unordered_map<goSpecId_t, std::string> uiGo_specId_names {}; //- new
     std::unordered_map<std::string, goSpecId_t> uiGo_name_specIds {}; //- new
@@ -79,21 +79,27 @@ void clear_uiGo_name_specIds(){
 
 
 void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &name_ ){
-    ssrc_inn::go_specId_names.insert({ id_, name_ });
-    ssrc_inn::go_name_specIds.insert({ name_, id_ });
+    auto out1 = ssrc_inn::go_specId_names.insert({ id_, name_ });
+    auto out2 = ssrc_inn::go_name_specIds.insert({ name_, id_ });
+    tprAssert( out1.second );
+    tprAssert( out2.second );
 }
 
 void insert_2_uiGo_specId_names_containers( goSpecId_t id_, const std::string &name_ ){
-    ssrc_inn::uiGo_specId_names.insert({ id_, name_ });
-    ssrc_inn::uiGo_name_specIds.insert({ name_, id_ });
+    auto out1 = ssrc_inn::uiGo_specId_names.insert({ id_, name_ });
+    auto out2 = ssrc_inn::uiGo_name_specIds.insert({ name_, id_ });
+    tprAssert( out1.second );
+    tprAssert( out2.second );
 }
 
-void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ ){
-    ssrc_inn::go_jsonDatas.insert({ goJsonData_.specID, goJsonData_ }); //- copy 不考虑性能
+void insert_2_go_jsonDatas( const json::GoJsonData &goJsonData_ ){
+    auto outPair = ssrc_inn::go_jsonDatas.insert({ goJsonData_.specID, goJsonData_ }); //- copy 不考虑性能
+    tprAssert( outPair.second );
 }
 
-void insert_2_uiGo_jsonDatas( const UIGoJsonData &uiGoJsonData_ ){
-    ssrc_inn::uiGo_jsonDatas.insert({ uiGoJsonData_.specID, uiGoJsonData_ }); //- copy 不考虑性能
+void insert_2_uiGo_jsonDatas( const json::UIGoJsonData &uiGoJsonData_ ){
+    auto outPair = ssrc_inn::uiGo_jsonDatas.insert({ uiGoJsonData_.specID, uiGoJsonData_ }); //- copy 不考虑性能
+    tprAssert( outPair.second );
 }
 
 
@@ -123,13 +129,13 @@ goSpecId_t get_uiGoSpecId( const std::string &name_ ){
  *                     get_goJsonData
  * -----------------------------------------------------------
  */
-const GoJsonData &get_goJsonData( goSpecId_t id_ ){
+const json::GoJsonData &get_goJsonData( goSpecId_t id_ ){
         tprAssert( ssrc_inn::go_jsonDatas.find(id_) != ssrc_inn::go_jsonDatas.end() );
     return ssrc_inn::go_jsonDatas.at(id_);
 }
 
 
-const UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ ){
+const json::UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ ){
         tprAssert( ssrc_inn::uiGo_jsonDatas.find(id_) != ssrc_inn::uiGo_jsonDatas.end() );
     return ssrc_inn::uiGo_jsonDatas.at(id_);
 }
@@ -173,14 +179,16 @@ void call_uiGoInit_func(  goSpecId_t id_,
 void insert_2_goInit_funcs( const std::string &goTypeName_,
                             const F_GO_INIT &functor_ ){
     goSpecId_t id = ssrc::get_goSpecId( goTypeName_ );
-    ssrc_inn::goInit_funcs.insert({ id, functor_ });
+    auto outPair = ssrc_inn::goInit_funcs.insert({ id, functor_ });
+    tprAssert( outPair.second );
 }
 
 
 void insert_2_uiGoInit_funcs( const std::string &goTypeName_,
                             const F_GO_INIT &functor_ ){
     goSpecId_t id = ssrc::get_uiGoSpecId( goTypeName_ );
-    ssrc_inn::uiGoInit_funcs.insert({ id, functor_ });
+    auto outPair = ssrc_inn::uiGoInit_funcs.insert({ id, functor_ });
+    tprAssert( outPair.second );
 }
 
 

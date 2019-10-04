@@ -59,12 +59,14 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
     auto ecoPlanUPtr = std::make_unique<EcoSysPlan>();
     ecoPlanUPtr->set_id( ecoPlanId );
     ecoPlanUPtr->set_type( type_ );
-        tprAssert( ecoPlan_inn::ecoSysPlanes.find(ecoPlanId) == ecoPlan_inn::ecoSysPlanes.end() );//- must not exist
-    ecoPlan_inn::ecoSysPlanes.insert({ ecoPlanId, std::move(ecoPlanUPtr) }); //- copy
+
+    auto outPair = ecoPlan_inn::ecoSysPlanes.insert({ ecoPlanId, std::move(ecoPlanUPtr) });
+    tprAssert( outPair.second );//- must not exist
+
     ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_)).push_back(ecoPlanId);
     ecoPlan_inn::ecoSysPlanIds.push_back(ecoPlanId);
 
-    return *(ecoPlan_inn::ecoSysPlanes.at(ecoPlanId).get());
+    return *(outPair.first->second);
 }
 
 
@@ -114,7 +116,7 @@ void init_ecoSysPlanes(){
     //ecoPlan_inn::init_Desert_1();
     //ecoPlan_inn::init_Desert_2();
 
-    parse_from_ecoSysPlansJsonFile();
+    json::parse_from_ecoSysPlansJsonFile();
     
     //---------------------//
     //   shuffle ecoSysPlanIds

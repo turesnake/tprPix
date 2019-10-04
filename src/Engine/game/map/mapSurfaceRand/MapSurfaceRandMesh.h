@@ -73,7 +73,7 @@ public:
         tprAssert( this->dataUPtrs.find(lvl_) != this->dataUPtrs.end() );
         auto &vecRef = this->dataUPtrs.at(lvl_);
         vecRef.push_back( std::make_unique<RandMesh>() );
-        return *(vecRef.back().get());
+        return *(vecRef.back());
     }
 
 
@@ -83,7 +83,7 @@ public:
         //---
         double absVal = std::abs(randVal_ * 3.17 + 160.71);
         size_t idx = cast_2_size_t(floor(absVal)) % vecRef.size();
-        return *(vecRef.at(idx).get());
+        return *(vecRef.at(idx));
     }
 
 

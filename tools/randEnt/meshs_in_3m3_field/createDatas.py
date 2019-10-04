@@ -15,9 +15,9 @@ from tools import *
 #------------ INPUT ------------#
 #  need user input:
 entNums_1 = 0
-entNums_2 = 5
-entNums_3 = 2
-entNums_4 = 4
+entNums_2 = 4
+entNums_3 = 6
+entNums_4 = 2
 
 #------------ global Vals ------------#
 PIXES_PER_MAPENT = 64

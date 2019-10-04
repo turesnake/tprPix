@@ -25,9 +25,7 @@ const std::vector<double> speedTable{
     4.0*8.0,   //- LV_13
     4.5*8.0,   //- LV_14
     5.0*8.0,   //- LV_15
-    6.0*8.0,   //- LV_16
-    7.0*8.0    //- LV_17 : crawl 的最高速度，不能超过 1帧1mapent
-               //  值7.5 会在 ubuntu 中出问题。暂改为 7.0 
+    6.0*8.0,   //- LV_16 : crawl 的最高速度，不能超过 1帧1mapent
 };
 
 

@@ -87,7 +87,7 @@ void RandEntSet::load_mapSurfaceRandSets(){
         id = RandEnt::id_manager.apply_a_u32_id();
         this->entUPtrs.insert({ id, std::make_unique<RandEnt>() });
         this->ids.push_back(id);
-        auto &entRef = *(this->entUPtrs.at(id).get());
+        auto &entRef = *(this->entUPtrs.at(id));
         //---
         // in png, each_pix map to each_mapent_in_chunk
         for( size_t fh=0; fh<FIELDS_PER_CHUNK; fh++ ){

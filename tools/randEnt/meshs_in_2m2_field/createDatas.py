@@ -13,10 +13,10 @@ from tools import *
 
 #------------ INPUT ------------#
 #  need user input:
-entNums_1 = 0
-entNums_2 = 4
+entNums_1 = 2
+entNums_2 = 3
 entNums_3 = 2
-entNums_4 = 0
+entNums_4 = 1
 
 #------------ global Vals ------------#
 PIXES_PER_MAPENT = 64

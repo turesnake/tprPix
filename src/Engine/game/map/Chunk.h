@@ -74,12 +74,12 @@ public:
         tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
         tprAssert( idx < this->memMapEnts.size() ); //- tmp
-        return *(this->memMapEnts.at(idx).get());
+        return *(this->memMapEnts.at(idx));
     }
 
     inline MemMapEnt &getnc_mapEntRef( size_t idx_ )noexcept{
         tprAssert( idx_ < this->memMapEnts.size() ); //- tmp
-        return *(this->memMapEnts.at(idx_).get());
+        return *(this->memMapEnts.at(idx_));
     }
 
     

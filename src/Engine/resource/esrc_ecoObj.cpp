@@ -117,7 +117,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
-        const auto &ecoObjRef = *(ecoObj_inn::ecoObjs.at(sectionkey_).get());
+        const auto &ecoObjRef = *(ecoObj_inn::ecoObjs.at(sectionkey_));
         readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
         readOnly.second.sectionKey = ecoObjRef.get_sectionKey();

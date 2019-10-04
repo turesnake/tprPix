@@ -65,9 +65,9 @@ public:
     inline void insert_a_color(const std::string &name_, 
                                 const FloatVec4 &color_ )noexcept{
         tprAssert( colorTableEntNames.find(name_) != colorTableEntNames.end() );
-        tprAssert( this->isSets.find(name_) == this->isSets.end() );
         this->data.at(colorTableEntNames.at(name_)) = color_;
-        this->isSets.insert( name_ );
+        auto outPair = this->isSets.insert( name_ );
+        tprAssert( outPair.second );
     }
 
     inline void final_check()const noexcept{
@@ -80,8 +80,8 @@ public:
     inline void init_all_color_white()noexcept{
         tprAssert( this->isSets.empty() );
         for( const auto &pair : colorTableEntNames ){
-            tprAssert( this->isSets.find(pair.first) == this->isSets.end() );
-            this->isSets.insert( pair.first );
+            auto outPair = this->isSets.insert( pair.first );
+            tprAssert( outPair.second );
             //---
             this->data.at(pair.second) = { 1.0, 1.0, 1.0, 1.0 };//- white
         }
@@ -111,12 +111,12 @@ public:
     inline ColorTable &apply_new_colorTable( const std::string &name_ )noexcept{
         tprAssert( !this->isFindIn_name_ids(name_) );
         colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
-        tprAssert( this->colorTableUPtrs.find(id) == this->colorTableUPtrs.end() );
         //---
         this->name_ids.insert({ name_, id });
-        this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });        
+        auto outPair = this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
+        tprAssert( outPair.second );
         //---
-        return *(this->colorTableUPtrs.at(id).get());
+        return *(outPair.first->second);
     }
 
     inline void final_check()noexcept{
@@ -143,7 +143,7 @@ public:
 
     inline const ColorTable &get_colorTableRef( colorTableId_t id_ )const noexcept{
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );
-        return *(this->colorTableUPtrs.at(id_).get());
+        return *(this->colorTableUPtrs.at(id_));
     }
     inline const ColorTable *get_colorTablePtr( colorTableId_t id_ )const noexcept{
             tprAssert( this->colorTableUPtrs.find(id_) != this->colorTableUPtrs.end() );

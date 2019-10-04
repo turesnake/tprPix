@@ -35,7 +35,7 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
-
+namespace json{//------------- namespace json ----------------
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
@@ -130,65 +130,65 @@ void parse_single_goJsonFile( const std::string &lPath_file_ ){
         GoJsonData  goJsonData {};
 
         {//--- gameObjType ---//
-            const auto &a = json_inn::check_and_get_value( ent, "gameObjType", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "gameObjType", JsonValType::String );
             goJsonData.gameObjType = a.GetString();
         }
         {//--- specID ---//
-            const auto &a = json_inn::check_and_get_value( ent, "specID", json_inn::JsonValType::Uint );
+            const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
             goJsonData.specID = static_cast<goSpecId_t>( a.GetUint() );
         }
         {//--- parentID ---//
-            const auto &a = json_inn::check_and_get_value( ent, "parentID", json_inn::JsonValType::Uint64 );
+            const auto &a = check_and_get_value( ent, "parentID", JsonValType::Uint64 );
             goJsonData.parentID = static_cast<goid_t>( a.GetUint64() );
         }
         {//--- family ---//
-            const auto &a = json_inn::check_and_get_value( ent, "family", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "family", JsonValType::String );
             goJsonData.family = str_2_GameObjFamily( a.GetString() );
         }
         {//--- state ---//
-            const auto &a = json_inn::check_and_get_value( ent, "state", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "state", JsonValType::String );
             goJsonData.state = str_2_GameObjState( a.GetString() );
         }
         {//--- moveState ---//
-            const auto &a = json_inn::check_and_get_value( ent, "moveState", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "moveState", JsonValType::String );
             goJsonData.moveState = str_2_GameObjMoveState( a.GetString() );
         }
         {//--- moveType ---//
-            const auto &a = json_inn::check_and_get_value( ent, "moveType", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
             goJsonData.moveType = str_2_MoveType( a.GetString() );
         }
         {//--- isTopGo ---//
-            const auto &a = json_inn::check_and_get_value( ent, "isTopGo", json_inn::JsonValType::Bool );
+            const auto &a = check_and_get_value( ent, "isTopGo", JsonValType::Bool );
             goJsonData.isTopGo = a.GetBool();
         }
         {//--- isMoveCollide ---//
-            const auto &a = json_inn::check_and_get_value( ent, "isMoveCollide", json_inn::JsonValType::Bool );
+            const auto &a = check_and_get_value( ent, "isMoveCollide", JsonValType::Bool );
             goJsonData.isMoveCollide = a.GetBool();
         }
         {//--- isDoPass ---//
-            const auto &a = json_inn::check_and_get_value( ent, "isDoPass", json_inn::JsonValType::Bool );
+            const auto &a = check_and_get_value( ent, "isDoPass", JsonValType::Bool );
             goJsonData.isDoPass = a.GetBool();
         }
         {//--- isBePass ---//
-            const auto &a = json_inn::check_and_get_value( ent, "isBePass", json_inn::JsonValType::Bool );
+            const auto &a = check_and_get_value( ent, "isBePass", JsonValType::Bool );
             goJsonData.isBePass = a.GetBool();
         }
         {//--- speedLvl ---//
-            const auto &a = json_inn::check_and_get_value( ent, "speedLvl", json_inn::JsonValType::Int );
+            const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
             goJsonData.speedLvl = int_2_SpeedLevel( a.GetInt() );
         }
         {//--- alti ---//
-            const auto &a = json_inn::check_and_get_value( ent, "alti", json_inn::JsonValType::Number );
-            goJsonData.alti = json_inn::get_double( a );
+            const auto &a = check_and_get_value( ent, "alti", JsonValType::Number );
+            goJsonData.alti = get_double( a );
         }
         {//--- weight ---//
-            const auto &a = json_inn::check_and_get_value( ent, "weight", json_inn::JsonValType::Number );
-            goJsonData.weight = json_inn::get_double( a );
+            const auto &a = check_and_get_value( ent, "weight", JsonValType::Number );
+            goJsonData.weight = get_double( a );
         }
         {//--- pub.HP ---//
             tprAssert( ent.HasMember("pub.HP") );
             const Value &a = ent["pub.HP"];
-            std::pair<bool,int> pair = json_inn::get_nullable_int( a );
+            std::pair<bool,int> pair = get_nullable_int( a );
             (pair.first) ?
                 goJsonData.pubBinary.HP = pair.second :
                 goJsonData.pubBinary.HP = -999; //- tmp
@@ -196,7 +196,7 @@ void parse_single_goJsonFile( const std::string &lPath_file_ ){
         {//--- pub.MP ---//
             tprAssert( ent.HasMember("pub.MP") );
             const Value &a = ent["pub.MP"];
-            std::pair<bool,int> pair = json_inn::get_nullable_int( a );
+            std::pair<bool,int> pair = get_nullable_int( a );
             (pair.first) ?
                 goJsonData.pubBinary.MP = pair.second :
                 goJsonData.pubBinary.MP = -999; //- tmp
@@ -212,4 +212,5 @@ void parse_single_goJsonFile( const std::string &lPath_file_ ){
 }
 
 }//------------- namespace: goJson_inn end --------------//
+}//------------- namespace json: end ----------------
 

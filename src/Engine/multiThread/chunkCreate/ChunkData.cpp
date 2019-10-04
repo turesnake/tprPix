@@ -23,7 +23,8 @@ void ChunkData::init( chunkKey_t chunkKey_ )noexcept{
         for( size_t w=0; w<FIELDS_PER_CHUNK; w++ ){
             tmpFieldMPos = chunkMPos + IntVec2{w*ENTS_PER_FIELD, h*ENTS_PER_FIELD};
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
-            this->fieldDatas.insert({ tmpFieldKey, std::make_unique<Job_Field>() });
+            auto outPair = this->fieldDatas.insert({ tmpFieldKey, std::make_unique<Job_Field>() });
+            tprAssert( outPair.second );
         }
     }
 }

@@ -143,7 +143,7 @@ public:
 
     inline GameObjMesh &get_goMeshRef( const std::string &name_ )noexcept{
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
-        return *(this->goMeshs.at(name_).get());
+        return *(this->goMeshs.at(name_));
     }
 
     inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }

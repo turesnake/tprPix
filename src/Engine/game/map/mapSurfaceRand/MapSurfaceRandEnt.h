@@ -59,7 +59,7 @@ public:
     inline const std::pair<RandEntLvl,glm::dvec2> &
     get_randEntData( randEntId_t entId_, size_t fieldIdx_in_chunk_  )const noexcept{
         tprAssert( this->entUPtrs.find(entId_) != this->entUPtrs.end() );
-        auto &entRef = *(this->entUPtrs.at(entId_).get());
+        auto &entRef = *(this->entUPtrs.at(entId_));
         if( entRef.datas.find(fieldIdx_in_chunk_) == entRef.datas.end() ){
             return RandEnt::nilEntData;
         }else{

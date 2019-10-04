@@ -19,7 +19,7 @@
 using namespace rapidjson;
 
 
-namespace json_inn {//-------- namespace: json_inn --------------//
+namespace json{//------------- namespace json ----------------
 
 
 /* ===========================================================
@@ -98,6 +98,4 @@ const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
 
 
 
-
-
-}//------------- namespace: json_inn end --------------//
+}//------------- namespace json: end ----------------

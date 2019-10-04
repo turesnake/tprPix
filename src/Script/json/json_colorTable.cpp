@@ -37,7 +37,7 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
-
+namespace json{//------------- namespace json ----------------
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
@@ -96,21 +96,21 @@ void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
         std::vector<float> fChannels {};
 
         {//--- colorTableName ---//
-            const auto &a = json_inn::check_and_get_value( ent, "colorTableName", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "colorTableName", JsonValType::String );
             colorTableName = a.GetString();
         }
 
         ColorTable &colorTableRef = colorTableSetRef.apply_new_colorTable( colorTableName );
 
         {//--- colors ---//
-            const auto &colors = json_inn::check_and_get_value( ent, "colors", json_inn::JsonValType::Array );
+            const auto &colors = check_and_get_value( ent, "colors", JsonValType::Array );
             for( auto &colorEnt : colors.GetArray() ){//- foreach colorEnt
                 {//--- colorName ---//
-                    const auto &a = json_inn::check_and_get_value( colorEnt, "name", json_inn::JsonValType::String );
+                    const auto &a = check_and_get_value( colorEnt, "name", JsonValType::String );
                     colorName = a.GetString();
                 }
                 {//--- color ---//
-                    const auto &a = json_inn::check_and_get_value( colorEnt, "color", json_inn::JsonValType::Array );
+                    const auto &a = check_and_get_value( colorEnt, "color", JsonValType::Array );
                     tprAssert( a.Size() == 4 );
                     //-- read colorVal --
                     fChannels.resize( 4, 0.0f );
@@ -136,3 +136,4 @@ void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
 
 
 }//------------- namespace: colorTableJson_inn end --------------//
+}//------------- namespace json: end ----------------

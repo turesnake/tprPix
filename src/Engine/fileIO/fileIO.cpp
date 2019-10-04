@@ -30,9 +30,9 @@ std::unique_ptr<std::string> read_a_file( const std::string &filePath_ ){
     auto bufUPtr = std::make_unique<std::string>();
     //-- read files --
 #if defined TPR_OS_WIN32_
-    tprWin::file_load( filePath_, *(bufUPtr.get()) );
+    tprWin::file_load( filePath_, *bufUPtr );
 #elif defined TPR_OS_UNIX_
-    tprUnix::file_load( filePath_, *(bufUPtr.get()) );
+    tprUnix::file_load( filePath_, *bufUPtr );
 #endif
     return bufUPtr;
 }

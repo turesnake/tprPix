@@ -13,12 +13,13 @@
 #include "chunkKey.h"
 
 
-//-- job.argBinary --
-struct ArgBinary_Build_ChunkData{
-    chunkKey_t  chunkKey {};
+// POD
+// job.argBinary
+struct ArgBinary_Create_ChunkData{
+    chunkKey_t  chunkKey;
 };
 
-void build_chunkData_main( const Job &job_ );
+void create_chunkData_main( const Job &job_ );
 
 
 

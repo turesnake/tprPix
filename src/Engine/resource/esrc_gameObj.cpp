@@ -76,7 +76,7 @@ std::weak_ptr<GameObj> get_goWPtr( goid_t id_ ){
  */
 GameObj &get_goRef( goid_t id_ ){
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
-    return *(go_inn::gameObjs.at(id_).get());
+    return *(go_inn::gameObjs.at(id_));
 }
 
 
@@ -120,13 +120,13 @@ std::unordered_set<goid_t> &get_goids_inactive(){
 }
 
 void insert_2_goids_active( goid_t id_ ){
-        tprAssert( go_inn::goids_active.find(id_) == go_inn::goids_active.end() );//- tmp
-    go_inn::goids_active.insert( id_ );
+    auto outPair = go_inn::goids_active.insert( id_ );
+    tprAssert( outPair.second );
 }
 
 void insert_2_goids_inactive( goid_t id_ ){
-        tprAssert( go_inn::goids_inactive.find(id_) == go_inn::goids_inactive.end() );//- tmp
-    go_inn::goids_inactive.insert( id_ );
+    auto outPair = go_inn::goids_inactive.insert( id_ );
+    tprAssert( outPair.second );
 }
 
 /* ===========================================================
@@ -138,10 +138,9 @@ void insert_2_goids_inactive( goid_t id_ ){
  *     新实例的 id 号
  */
 goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
-
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-        tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
-    go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
+    auto outPair = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
+    tprAssert( outPair.second );
     return goid;
 }
 
@@ -154,8 +153,8 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
                         const glm::dvec2 &offDPos_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-        tprAssert( go_inn::gameObjs.find(goid) == go_inn::gameObjs.end() );//- must not exist        
-    go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
+    auto outPair = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
+    tprAssert( outPair.second );
     return goid;
 }
 
@@ -169,9 +168,8 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
 void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ ){
-
-        tprAssert( go_inn::gameObjs.find(goid_) == go_inn::gameObjs.end() );//- must not exist
-    go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
+    auto outPair = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
+    tprAssert( outPair.second );
 }
 
 /* ===========================================================

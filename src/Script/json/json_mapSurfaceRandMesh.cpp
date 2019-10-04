@@ -38,7 +38,7 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
-
+namespace json{//------------- namespace json ----------------
 namespace msrm_inn {//-------- namespace: msrm_inn --------------//
 
     const std::vector<std::string> lpath_files {
@@ -103,11 +103,11 @@ void parse_single_mapSurfaceRandMeshJsonFile( const std::string &lPath_file_ ){
 
     tprAssert( doc.IsObject() );
     {//--- entLvl ---//
-        const auto &a = json_inn::check_and_get_value( doc, "entLvl", json_inn::JsonValType::String );
+        const auto &a = check_and_get_value( doc, "entLvl", JsonValType::String );
         entLvl = mapSurface::str_2_randEntLvl( a.GetString() );
     }
     //--- data ---//
-    const auto &data = json_inn::check_and_get_value( doc, "data", json_inn::JsonValType::Array );
+    const auto &data = check_and_get_value( doc, "data", JsonValType::Array );
 
     for( auto &points : data.GetArray() ){
         tprAssert( points.IsArray() );
@@ -116,11 +116,11 @@ void parse_single_mapSurfaceRandMeshJsonFile( const std::string &lPath_file_ ){
 
         for( auto &point : points.GetArray() ){
             {//--- meshLvl ---//
-                const auto &a = json_inn::check_and_get_value( point, "meshLvl", json_inn::JsonValType::String );
+                const auto &a = check_and_get_value( point, "meshLvl", JsonValType::String );
                 meshLvl = str_2_randMeshLvl_from_json( a.GetString() );
             }
             {//--- dpos ---//
-                const auto &a = json_inn::check_and_get_value( point, "dpos", json_inn::JsonValType::Array );
+                const auto &a = check_and_get_value( point, "dpos", JsonValType::Array );
                 tprAssert( a[0].IsDouble() );
                 tprAssert( a[1].IsDouble() );
                 dposOff.x = a[0].GetDouble();
@@ -152,3 +152,4 @@ mapSurface::RandMeshLvl str_2_randMeshLvl_from_json( const std::string &str_ )no
 
 
 }//------------- namespace: msrm_inn end --------------//
+}//------------- namespace json: end ----------------

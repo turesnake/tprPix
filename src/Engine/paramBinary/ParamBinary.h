@@ -36,25 +36,28 @@ enum class ParamBinaryType{
 };
 
 
+// POD
 //-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
 struct DyParams_Field{
-    double       fieldUWeight          {};
-	MapAltitude  fieldNodeMapEntAlti  {};
-	Density      fieldDensity         {};
-    std::vector<AnimLabel> animLabels {}; //- maybe empty
+    double       fieldUWeight;
+	MapAltitude  fieldNodeMapEntAlti;
+	Density      fieldDensity;
+    std::vector<AnimLabel> animLabels; //- maybe empty
 };
 
 
+// POD
 struct DyParams_MapSurface{
-    MapSurfaceLowSpec       spec     {}; // "mapSurfaceLow_test"
-    mapSurface::RandEntLvl  lvl      {}; // "Field_1f1"
-    double                  randVal  {}; // field.weight
+    MapSurfaceLowSpec       spec; // "mapSurfaceLow_test"
+    mapSurface::RandEntLvl  lvl; // "Field_1f1"
+    double                  randVal; // field.weight
 };
 
 
+// POD
 struct DyParams_GroundGo{
-    double      fieldUWeight     {};
-    const Job_Field  *job_fieldPtr     {nullptr};
+    double      fieldUWeight;
+    const Job_Field  *job_fieldPtr;
 };
 
 

@@ -84,7 +84,7 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
     }
 
     //----- fieldRim go [-DEBUG-] ------//
-    bool isFieldRimGoCreate {true};
+    bool isFieldRimGoCreate { true };
     if( isFieldRimGoCreate ){
         gameObjs::create_a_Go(  ssrc::get_goSpecId( "fieldRim" ),
                                 fieldRef.get_midDPos(),

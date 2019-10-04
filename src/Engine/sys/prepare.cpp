@@ -69,6 +69,8 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
 }//------------ namespace: prepare_inn end ------------//
 
 
+extern void check_POD();
+
 
 /*===========================================================
  *                      prepare  
@@ -96,6 +98,12 @@ void prepare( char *exeDirPath_ ){
     //  检测 是否为 本程序的 首次运行
     //----------------------------//
     //check_fst_run();
+
+
+    //----------------------------//
+    //  is target class a POD ?
+    //----------------------------//
+    check_POD();
 
     return;
 }

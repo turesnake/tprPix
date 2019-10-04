@@ -43,11 +43,11 @@ void init_renderPools()noexcept{
 
 RenderPool &get_renderPool( RenderPoolType type_ )noexcept{
     tprAssert( renderP_inn::renderPoolUPtrs.find(type_) != renderP_inn::renderPoolUPtrs.end() );
-    return *(renderP_inn::renderPoolUPtrs.at(type_).get());
+    return *(renderP_inn::renderPoolUPtrs.at(type_));
 }
 
 GroundRenderPool &get_groundRenderPool()noexcept{
-    return *(renderP_inn::groundRenderPoolUPtr.get());
+    return *(renderP_inn::groundRenderPoolUPtr);
 }
 
 

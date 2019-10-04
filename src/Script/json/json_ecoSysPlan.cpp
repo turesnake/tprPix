@@ -41,6 +41,7 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
+namespace json{//------------- namespace json ----------------
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
@@ -118,23 +119,23 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &lPath_file_ ){
     for( auto &ent : doc.GetArray() ){
 
         {//--- EcoSysPlanType ---//
-            const auto &a = json_inn::check_and_get_value( ent, "EcoSysPlanType", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "EcoSysPlanType", JsonValType::String );
             ecoPlanType = str_2_EcoSysPlanType( a.GetString() );
         }
         {//--- colorTableName ---//
-            const auto &a = json_inn::check_and_get_value( ent, "colorTableName", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "colorTableName", JsonValType::String );
             colorTableName = a.GetString();
         }
         {//--- fixedSeed ---//
-            const auto &a = json_inn::check_and_get_value( ent, "fixedSeed", json_inn::JsonValType::Uint );
+            const auto &a = check_and_get_value( ent, "fixedSeed", JsonValType::Uint );
             fixedSeed = a.GetUint();
         }
         {//--- density.SeaLvlOff ---//
-            const auto &a = json_inn::check_and_get_value( ent, "density.SeaLvlOff", json_inn::JsonValType::Double );
+            const auto &a = check_and_get_value( ent, "density.SeaLvlOff", JsonValType::Double );
             density_SeaLvlOff = a.GetDouble();
         }
         {//--- density.DivideType ---//
-            const auto &a = json_inn::check_and_get_value( ent, "density.DivideType", json_inn::JsonValType::String );
+            const auto &a = check_and_get_value( ent, "density.DivideType", JsonValType::String );
             density_DivValsPtr = espJson_inn::str_2_DensityDivideValsPtr( a.GetString() );
         }
 
@@ -145,7 +146,7 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &lPath_file_ ){
         ecoPlanRef.init_goSpecDataPools_and_applyPercents();
 
         {//--- pools ---//
-            const auto &a = json_inn::check_and_get_value( ent, "pools", json_inn::JsonValType::Array );
+            const auto &a = check_and_get_value( ent, "pools", JsonValType::Array );
             for( auto &pool : a.GetArray() ){
                 espJson_inn::parse_pool( pool, ecoPlanRef );
             }
@@ -169,24 +170,24 @@ void parse_pool(   const Value &pool_,
     std::vector<AnimLabel> labels {}; //- 允许是空的
 
     {//--- density.lvl ---//
-        const auto &a = json_inn::check_and_get_value( pool_, "density.lvl", json_inn::JsonValType::Int );
+        const auto &a = check_and_get_value( pool_, "density.lvl", JsonValType::Int );
         densityLvl = a.GetInt();
     }
     {//--- applyPercent ---//
-        const auto &a = json_inn::check_and_get_value( pool_, "applyPercent", json_inn::JsonValType::Double );
+        const auto &a = check_and_get_value( pool_, "applyPercent", JsonValType::Double );
         applyPercent = a.GetDouble();
     }
     {//--- ecoEnts ---//
-        const auto &a = json_inn::check_and_get_value( pool_, "ecoEnts", json_inn::JsonValType::Array );
+        const auto &a = check_and_get_value( pool_, "ecoEnts", JsonValType::Array );
         for( auto &ecoEnt : a.GetArray() ){
 
             {//--- specName ---//
-                const auto &inna = json_inn::check_and_get_value( ecoEnt, "specName", json_inn::JsonValType::String );
+                const auto &inna = check_and_get_value( ecoEnt, "specName", JsonValType::String );
                 specName = inna.GetString();
             }
             {//--- animLabels ---//
                 labels.clear();
-                const auto &inna = json_inn::check_and_get_value( ecoEnt, "animLabels", json_inn::JsonValType::Array );
+                const auto &inna = check_and_get_value( ecoEnt, "animLabels", JsonValType::Array );
                 if( inna.Size() > 0 ){
                     for( auto &i : inna.GetArray() ){
                         labels.push_back( str_2_AnimLabel(i.GetString()) );
@@ -194,7 +195,7 @@ void parse_pool(   const Value &pool_,
                 }
             }
             {//--- num ---//
-                const auto &inna = json_inn::check_and_get_value( ecoEnt, "num", json_inn::JsonValType::Uint64 );
+                const auto &inna = check_and_get_value( ecoEnt, "num", JsonValType::Uint64 );
                 num = cast_2_size_t(inna.GetUint64());
             }
             ecoEnts.push_back( std::make_unique<EcoEnt>(specName, labels, num) );
@@ -209,3 +210,4 @@ void parse_pool(   const Value &pool_,
 
 
 }//------------- namespace: espJson_inn end --------------//
+}//------------- namespace json: end ----------------

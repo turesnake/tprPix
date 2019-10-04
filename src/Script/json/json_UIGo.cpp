@@ -35,7 +35,7 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
-
+namespace json{//------------- namespace json ----------------
 namespace uiJson_inn {//-------- namespace: uiJson_inn --------------//
 
     const std::vector<std::string> lpath_files {
@@ -75,27 +75,27 @@ void parse_from_uiGoJsonFile(){
             UIGoJsonData  uiGoJsonData {};
 
             {//--- gameObjType ---//
-                const auto &a = json_inn::check_and_get_value( ent, "gameObjType", json_inn::JsonValType::String );
+                const auto &a = check_and_get_value( ent, "gameObjType", JsonValType::String );
                 uiGoJsonData.gameObjType = a.GetString();
             }
             {//--- specID ---//
-                const auto &a = json_inn::check_and_get_value( ent, "specID", json_inn::JsonValType::Uint );
+                const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
                 uiGoJsonData.specID = static_cast<goSpecId_t>( a.GetUint() );
             }
             {//--- parentID ---//
-                const auto &a = json_inn::check_and_get_value( ent, "parentID", json_inn::JsonValType::Uint64 );
+                const auto &a = check_and_get_value( ent, "parentID", JsonValType::Uint64 );
                 uiGoJsonData.parentID = static_cast<goid_t>( a.GetUint64() );
             }
             {//--- family ---//
-                const auto &a = json_inn::check_and_get_value( ent, "family", json_inn::JsonValType::String );
+                const auto &a = check_and_get_value( ent, "family", JsonValType::String );
                 uiGoJsonData.family = str_2_GameObjFamily( a.GetString() );
             }
             {//--- moveType ---//
-                const auto &a = json_inn::check_and_get_value( ent, "moveType", json_inn::JsonValType::String );
+                const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
                 uiGoJsonData.moveType = str_2_MoveType( a.GetString() );
             }
             {//--- speedLvl ---//
-                const auto &a = json_inn::check_and_get_value( ent, "speedLvl", json_inn::JsonValType::Int );
+                const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
                 uiGoJsonData.speedLvl = int_2_SpeedLevel( a.GetInt() );
             }
 
@@ -150,5 +150,5 @@ void assemble_uiGoJsonData_2_newUIGo( goSpecId_t specID_,
 
 
 
-
+}//------------- namespace json: end ----------------
 

@@ -79,10 +79,10 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     bool         is_first_check  {true}; 
 
     //===== funcs =====//
-    void chunkBuild_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
-    void build_one_chunk( chunkKey_t chunkKey_ );
+    void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
+    void create_one_chunk( chunkKey_t chunkKey_ );
     void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
-    void wait_until_target_chunk_builded( chunkKey_t chunkKey_ );
+    void wait_until_target_chunk_created( chunkKey_t chunkKey_ );
 
     NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
 
@@ -91,16 +91,11 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
 
 /* ===========================================================
- *                 build_9_chunks  [tmp]
+ *                 create_9_chunks  [tmp]
  * -----------------------------------------------------------
- * 游戏最开始，一口气 创建 周边9个 chunk
- * -------
- *    非常临时随意的写法，在未来修改
- * 
- *    这个名字有待修改，现在，不是固定生成 9个，具体数目由 chunkCreateZone 决定
- * 
+ * 游戏最开始，一口气 创建 周边 n个 chunk （暂定为 9 个）
  */
-void build_9_chunks( IntVec2 playerMPos_ ){
+void create_9_chunks( IntVec2 playerMPos_ ){
 
     esrc::init_chunkCreateReleaseZone( playerMPos_ );
     //---------
@@ -115,8 +110,8 @@ void build_9_chunks( IntVec2 playerMPos_ ){
 
             chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
-            cb_inn::chunkBuild_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
-            cb_inn::wait_until_target_chunk_builded(chunkKey);
+            cb_inn::chunkCreate_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
+            cb_inn::wait_until_target_chunk_created(chunkKey);
                         // 此处禁止优化，必须逐个创建，逐个确认
         }
     }
@@ -124,13 +119,13 @@ void build_9_chunks( IntVec2 playerMPos_ ){
 
 
 /* ===========================================================
- *    collect_chunks_need_to_be_build_in_update
+ *    collect_chunks_need_to_be_create_in_update
  * -----------------------------------------------------------
  * 在游戏运行时，定期检查 玩家位置。及时生成 新的 chunk
  * 确保，玩家周边 9个chunk 始终存在
  * -------
  */
-void collect_chunks_need_to_be_build_in_update(){
+void collect_chunks_need_to_be_create_in_update(){
 
     const glm::dvec2 &playerDPos = esrc::get_player().get_goRef().get_dpos();
 
@@ -165,7 +160,7 @@ void collect_chunks_need_to_be_build_in_update(){
             auto chunkState = esrc::get_chunkMemState( tmpChunkKey );
             switch (chunkState){
                 case ChunkMemState::NotExist:
-                    cb_inn::chunkBuild_1_push_job( tmpChunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
+                    cb_inn::chunkCreate_1_push_job( tmpChunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
                     break;
                 case ChunkMemState::OnCreating:
                 case ChunkMemState::Active:
@@ -194,7 +189,7 @@ void collect_chunks_need_to_be_build_in_update(){
 
 
 /* ===========================================================
- *     chunkBuild_3_receive_data_and_build_one_chunk
+ *     chunkCreate_3_receive_data_and_create_one_chunk
  * -----------------------------------------------------------
  * 三步：第三步：
  *  （第二步 由 job线程 完成）
@@ -202,7 +197,7 @@ void collect_chunks_need_to_be_build_in_update(){
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
  */
-std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk(){
+std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
     //-- 没有需要 生成的 chunk 时，直接退出 --
     if( esrc::atom_is_chunkDataFlags_empty() ){
@@ -213,7 +208,7 @@ std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk(){
     chunkKey_t chunkKey = esrc::atom_pop_from_chunkDataFlags();
     
         //-- 正式生成这个 chunk 实例
-        cb_inn::build_one_chunk( chunkKey );
+        cb_inn::create_one_chunk( chunkKey );
                 //-- 实际上，目前的 job线程 是空的，
                 //   所有运算 都在这个 函数中...
 
@@ -228,11 +223,11 @@ std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk(){
 namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
 /* ===========================================================
- *            wait_until_target_chunk_builded   
+ *            wait_until_target_chunk_created 
  * -----------------------------------------------------------
- * 被用于 build_9_chunks()
+ * be called by create_9_chunks()
  */
-void wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
+void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 
     std::pair<bool,chunkKey_t> pairRet {};
     while( true ){
@@ -241,7 +236,7 @@ void wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
         }
-        pairRet = chunkBuild_3_receive_data_and_build_one_chunk();
+        pairRet = chunkCreate_3_receive_data_and_create_one_chunk();
         tprAssert( pairRet.first );
         if( pairRet.second == chunkKey_ ){
             return;
@@ -251,10 +246,10 @@ void wait_until_target_chunk_builded( chunkKey_t chunkKey_ ){
 
 
 /* ===========================================================
- *                   build_one_chunk
+ *                   create_one_chunk
  * -----------------------------------------------------------
  */
-void build_one_chunk( chunkKey_t chunkKey_ ){
+void create_one_chunk( chunkKey_t chunkKey_ ){
 
             //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
 
@@ -264,7 +259,7 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
     //           [1]
     // 创建 周边 4个 ecoObj 实例
     //------------------------------//
-    //-- 已被移到 chunkBuild_1_push_job() 中
+    //-- 已被移到 chunkCreate_1_push_job() 中
 
     //------------------------------//
     //            [2]
@@ -305,19 +300,17 @@ void build_one_chunk( chunkKey_t chunkKey_ ){
 
 
 /* ===========================================================
- *              chunkBuild_1_push_job
+ *              chunkCreate_1_push_job
  * -----------------------------------------------------------
  * 三步：第一步：
  * 根据 目标chunk 制作成job，发送到 jobQue 
  */
-void chunkBuild_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
+void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
     //------------------------------//
     //           [1]
     // 创建 周边 4个 ecoObj 实例
     //------------------------------//
-    //  在最坏的情况下，这部分会一口气 创建 5个 ecoObj 实例（1个渲染帧内）
-    //  而且是在 主线程上计算。如果 ecoObj 实例 创建成本不高，
-    //  那么还可以接受
+    //  在最坏的情况下，这部分会一口气 在主线程上， 创建 5个 ecoObj 实例（1个渲染帧内）
     std::set<sectionKey_t> sectionKeys {}; //- 为了去除重复
     IntVec2 tmpSectionMPos {};
     for( const auto &iOff : nearby_4_chunkMPosOffs ){
@@ -333,15 +326,16 @@ void chunkBuild_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
     //--------------------------//
     //       push job
     //--------------------------//
-    ArgBinary_Build_ChunkData arg {};
+    ArgBinary_Create_ChunkData arg {};
     arg.chunkKey = chunkKey_;
     //----------
     auto jobSPtr = std::make_shared<Job>();
-    jobSPtr->jobType = JobType::Build_ChunkData;
-    jobSPtr->argBinary.resize( sizeof(ArgBinary_Build_ChunkData), 0 );
+    jobSPtr->jobType = JobType::Create_ChunkData;
+    jobSPtr->argBinary.resize( sizeof(ArgBinary_Create_ChunkData), 0 );
     memcpy( (void*)&(jobSPtr->argBinary.at(0)),
             (void*)&arg,
-            sizeof(ArgBinary_Build_ChunkData) );
+            sizeof(ArgBinary_Create_ChunkData) );
+            // Only Support POD
     //----------
     esrc::atom_push_back_2_jobQue( jobSPtr );
     //--------------------------//

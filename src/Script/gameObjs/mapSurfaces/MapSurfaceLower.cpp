@@ -104,7 +104,9 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
             }
 
             //-- 试验，仅在 density 中段 种石块 --
+            
             int absDensityLvl = std::abs( mapEntRef.get_density().get_lvl() );
+            /*
             if( absDensityLvl > 1 ){
                 continue;
             }else if( absDensityLvl == 1 ){
@@ -113,6 +115,14 @@ void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
                     continue;
                 }
             }
+            */
+            if( absDensityLvl != 1 ){
+                continue;
+            }
+
+
+
+
 
         subspeciesId = esrc::apply_a_random_animSubspeciesId(   
                                     MapSurfaceLowSpec_2_str( msParamPtr->spec ), // "mapSurfaceLow_whiteRock"

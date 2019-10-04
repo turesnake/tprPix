@@ -26,7 +26,7 @@ void init_gameSeed(){
 
 
 GameSeed &get_gameSeed(){
-    return *(gameSeed_inn::gameSeedUPtr.get());
+    return *(gameSeed_inn::gameSeedUPtr);
 }
 
 

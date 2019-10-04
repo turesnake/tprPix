@@ -30,7 +30,7 @@ void init_gameArchive(){
 
 
 GameArchive &get_gameArchive(){
-    return *(gameArchive_inn::gameArchiveUPtr.get());
+    return *(gameArchive_inn::gameArchiveUPtr);
 }
 
 

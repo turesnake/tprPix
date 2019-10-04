@@ -76,8 +76,8 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //        init before Awake
     //------------------------------------------//
-    parse_from_goJsonFile();
-    parse_from_uiGoJsonFile();
+    json::parse_from_goJsonFile();
+    json::parse_from_uiGoJsonFile();
     
 
     //------------------------------------------//
@@ -94,7 +94,7 @@ int main( int argc, char* argv[] ){
     esrc::init_VAOVBO();
 
     esrc::init_colorTableSet();
-    parse_from_colorTableJsonFile();
+    json::parse_from_colorTableJsonFile();
 
     esrc::init_fields();
     esrc::init_gameArchive();
@@ -136,8 +136,8 @@ int main( int argc, char* argv[] ){
 
     esrc::init_ecoSysPlanes();
 
-    parse_from_animFrameSetJsonFile();
-    parse_from_mapSurfaceRandMeshJsonFile();
+    json::parse_from_animFrameSetJsonFile();
+    json::parse_from_mapSurfaceRandMeshJsonFile();
     
     //------------------------------------------//
     //        Behaviour.Starts

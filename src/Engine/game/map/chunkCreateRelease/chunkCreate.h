@@ -26,12 +26,12 @@
 namespace chunkCreate {//------- namespace: chunkCreate ----------//
     
 
-void build_9_chunks( IntVec2 playerMPos_ );
-void collect_chunks_need_to_be_build_in_update();
+void create_9_chunks( IntVec2 playerMPos_ );
+void collect_chunks_need_to_be_create_in_update();
 
 
 //-- 基于多线程的 新模块 --
-std::pair<bool,chunkKey_t> chunkBuild_3_receive_data_and_build_one_chunk();
+std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk();
 
 
 }//----------------- namespace: chunkCreate: end -------------------//

@@ -22,6 +22,10 @@
 #include <string>
 
 
+//-------------------- Engine --------------------//
+#include "tprAssert.h"
+
+
 //- 节点状态 --
 class ActionState{
 public:
@@ -50,9 +54,12 @@ public:
     inline ActionState *insert_new_state( const std::string &name_ )noexcept{
         // ***| INSERT FIRST, INIT LATER  |***
         ActionState state {};
-        states.insert({ name_, state }); //- copy
+        auto outPair = states.insert({ name_, state }); //- copy
+        tprAssert( outPair.second );
+
         // init...
-        return &(states.at(name_));
+        
+        return &(outPair.first->second);
     }
 
 

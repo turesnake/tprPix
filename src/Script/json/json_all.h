@@ -11,6 +11,8 @@
 //-------------------- Engine --------------------//
 #include "GameObj.h"
 
+namespace json{//------------- namespace json ----------------
+
 //------------------------------//
 void parse_from_animFrameSetJsonFile();
 void parse_from_colorTableJsonFile();
@@ -97,5 +99,6 @@ void assemble_uiGoJsonData_2_newUIGo( goSpecId_t specID_,
                                     GameObj &goRef_ );
 
 
+}//------------- namespace json: end ----------------
 #endif 
 

@@ -24,12 +24,12 @@ void init_time(){
 }
 
 TimeBase &get_timer(){
-    return *(time_inn::timerUPtr.get());
+    return *(time_inn::timerUPtr);
 }
 
 
 TimeCircle &get_logicTimeCircle(){
-    return *(time_inn::logicTimeCircleUPtr.get());
+    return *(time_inn::logicTimeCircleUPtr);
 }
 
 

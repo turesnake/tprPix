@@ -33,24 +33,23 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 
 AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
-    if( anim_inn::animSubs.find(id_) == anim_inn::animSubs.end() ){
-        anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
-    }
-    return *(anim_inn::animSubs.at(id_).get());
+    // if target key is existed, insert will not happen. but still ret target ent-it
+    auto outPair = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
+    return *(outPair.first->second);
 }
 
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
-        tprAssert( anim_inn::animFrameSets.find(name_) == anim_inn::animFrameSets.end() );
-    anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
-    return *(anim_inn::animFrameSets.at(name_).get());
+    auto outPair = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
+    tprAssert( outPair.second );
+    return *(outPair.first->second);
 }
 
 
 
 AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
         tprAssert( anim_inn::animSubs.find(id_) != anim_inn::animSubs.end() );
-    return *(anim_inn::animSubs.at(id_).get());
+    return *(anim_inn::animSubs.at(id_));
 }
 
 

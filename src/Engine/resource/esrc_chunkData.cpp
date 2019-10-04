@@ -55,9 +55,9 @@ ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
     //--- atom ---//
     {
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write
-        tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) == false ); //- MUST NOT EXIST
-        chunkD_inn::chunkDatas.insert({ chunkKey_, std::move(chunkDataUPtr) });
-        return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
+        auto outPair = chunkD_inn::chunkDatas.insert({ chunkKey_, std::move(chunkDataUPtr) });
+        tprAssert( outPair.second ); //- MUST NOT EXIST
+        return *(outPair.first->second);
     }
 }
 
@@ -84,7 +84,7 @@ ChunkData &atom_getnc_chunkDataCRef( chunkKey_t chunkKey_ ){
     {//--- atom ---//
         std::shared_lock<std::shared_mutex> sl( chunkD_inn::sharedMutex ); //- read
             tprAssert( chunkD_inn::is_find_in_chunkDatas_(chunkKey_) ); //- MUST EXIST
-        return *(chunkD_inn::chunkDatas.at(chunkKey_).get());
+        return *(chunkD_inn::chunkDatas.at(chunkKey_));
     }
 }
 

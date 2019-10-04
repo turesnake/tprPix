@@ -45,8 +45,8 @@ void ShaderProgram::init(   const std::string &lpathVs_,
     GLuint v_shader = glCreateShader( GL_VERTEX_SHADER );
     GLuint f_shader = glCreateShader( GL_FRAGMENT_SHADER );
 
-    compile( v_shader, *(vsbufUPtr.get()) );
-    compile( f_shader, *(fsbufUPtr.get()) );
+    compile( v_shader, *vsbufUPtr );
+    compile( f_shader, *fsbufUPtr );
 
     this->shaderProgram = glCreateProgram();
     glAttachShader( this->shaderProgram, v_shader );

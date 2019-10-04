@@ -71,8 +71,9 @@ void collect_deltaTime(double deltaTime_){
 
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
 
-    auto tfUPtr = std::make_unique<FrameData>( timeLog_inn::idx, deltaTime_, frame );
-    timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, std::move(tfUPtr) });
+    auto outPair = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
+                                        std::make_unique<FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
+    tprAssert( outPair.second );
 
     timeLog_inn::idx++;
 }
@@ -94,7 +95,7 @@ void process_and_echo_timeLog(){
     size_t maxIdx {};
 
     for( auto &pair : timeLog_inn::frameRawDatas ){
-        auto &tf = *(pair.second.get());
+        auto &tf = *(pair.second);
         if( tf.frame > maxFrame ){
             maxFrame = tf.frame;
             maxIdx = tf.idx;
@@ -155,7 +156,7 @@ void process_and_echo_timeLog(){
         //------------------------//
         writeFile << "~~~~~~~~~~~~~~~~~~~~ frameRawDatas: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         for( auto &pair : timeLog_inn::frameRawDatas ){
-            auto &tf = *(pair.second.get());
+            auto &tf = *(pair.second);
             writeFile << "" << tf.idx
                 << ": deltaTime: " << tf.deltaTime
                 << "; frame: " << tf.frame
@@ -177,7 +178,7 @@ void sort_frame_idxs(){
     for( auto &pair : frameRawDatas ){
         auto &tmpIdx = pair.first;
         auto &tmpFrame = pair.second->frame;
-        frame_idxs.insert({ tmpFrame, tmpIdx });
+        frame_idxs.insert({ tmpFrame, tmpIdx });// multi
     }
 }
 

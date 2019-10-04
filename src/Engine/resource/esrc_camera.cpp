@@ -20,7 +20,7 @@ void init_camera(){
 }
 
 Camera &get_camera(){
-    return *(camera_inn::cameraUPtr.get());
+    return *(camera_inn::cameraUPtr);
 }
 
 

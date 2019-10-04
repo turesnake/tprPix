@@ -32,6 +32,10 @@ using namespace rapidjson;
 using std::cout;
 using std::endl;
 
+
+namespace json{//------------- namespace json ----------------
+
+
 /* ===========================================================
  *                parse_from_windowConfigJsonFile
  * -----------------------------------------------------------
@@ -57,15 +61,15 @@ WindowConfigJsonData parse_from_windowConfigJsonFile(){
 
     tprAssert( doc.IsObject() );
     {//--- windowPixW ---//
-        const auto &a = json_inn::check_and_get_value( doc, "windowPixW", json_inn::JsonValType::Int );
+        const auto &a = check_and_get_value( doc, "windowPixW", JsonValType::Int );
         windowConfig.windowPixW = a.GetInt();
     }
     {//--- windowPixH ---//
-        const auto &a = json_inn::check_and_get_value( doc, "windowPixH", json_inn::JsonValType::Int );
+        const auto &a = check_and_get_value( doc, "windowPixH", JsonValType::Int );
         windowConfig.windowPixH = a.GetInt();
     }
     {//--- isFullScreen ---//
-        const auto &a = json_inn::check_and_get_value( doc, "isFullScreen", json_inn::JsonValType::Bool );
+        const auto &a = check_and_get_value( doc, "isFullScreen", JsonValType::Bool );
         windowConfig.isFullScreen = a.GetBool();
     }
 
@@ -75,3 +79,5 @@ WindowConfigJsonData parse_from_windowConfigJsonFile(){
     return windowConfig;
 }
 
+
+}//------------- namespace json: end ----------------

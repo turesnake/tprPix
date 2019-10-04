@@ -124,15 +124,14 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     double              off_z_,
                                     bool                isVisible_ ){
 
+    auto outPair = this->goMeshs.insert({name_, 
+                                        std::make_unique<GameObjMesh>(  *this,
+                                                                        pposOff_,
+                                                                        off_z_,
+                                                                        isVisible_ ) }); 
+    tprAssert( outPair.second );
 
-    tprAssert( this->goMeshs.find(name_) == this->goMeshs.end() );
-    this->goMeshs.insert({ 
-        name_, 
-        std::make_unique<GameObjMesh>(  *this,
-                                        pposOff_,
-                                        off_z_,
-                                        isVisible_ ) }); 
-    GameObjMesh &gmesh = *(this->goMeshs.at(name_));
+    GameObjMesh &gmesh = *(this->goMeshs.at(name_));    
 
     //-- bind_animAction --//
     //-- 确保提前设置好了 go.direction ！！！
@@ -207,7 +206,7 @@ size_t GameObj::reCollect_chunkKeys(){
         tprAssert( this->isMoveCollide ); //- tmp
     this->chunkKeys.clear();
     for( const auto &mpos : this->get_currentSignINMapEntsRef() ){
-        this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); //- copy
+        this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); // maybe
     }
     return this->chunkKeys.size();
 }

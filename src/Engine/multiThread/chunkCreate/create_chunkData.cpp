@@ -1,5 +1,5 @@
 /*
- * =================== build_chunkData.cpp =======================
+ * =================== create_chunkData.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.25
  *                                        MODIFY -- 
@@ -71,20 +71,21 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
 /* ===========================================================
- *                build_chunkData_main
+ *                create_chunkData_main
  * -----------------------------------------------------------
- * 在未来，这个函数需要写进 atom 函数中。
+ * 在未来，这个函数需要写进 atom 函数中 ...
  */
-void build_chunkData_main( const Job &job_ ){
+void create_chunkData_main( const Job &job_ ){
 
     //-------------------//
     //   job.argBinary
     //-------------------//
-    tprAssert( job_.argBinary.size() == sizeof(ArgBinary_Build_ChunkData) );
-    ArgBinary_Build_ChunkData arg {};
+    tprAssert( job_.argBinary.size() == sizeof(ArgBinary_Create_ChunkData) );
+    ArgBinary_Create_ChunkData arg {};
     memcpy( (void*)&arg,
             (void*)&(job_.argBinary.at(0)),
-            sizeof(ArgBinary_Build_ChunkData) );
+            sizeof(ArgBinary_Create_ChunkData) );
+            // Only Support POD
 
     IntVec2 chunkMPos = chunkKey_2_mpos( arg.chunkKey );
 
@@ -93,7 +94,7 @@ void build_chunkData_main( const Job &job_ ){
     // 收集 周边 4个 sectionKey
     // 创建它们的 第一阶段数据 ( section / ecoObj )
     //------------------------------//
-    // 已经在 主线程 chunkBuild_1_push_job() 中 提前完成
+    // 已经在 主线程 chunkCreate_1_push_job() 中 提前完成
     // 反正再糟糕也不过是，1帧内创建 5 个 ecoObj 实例
     // 这个开销可以接受
 
@@ -233,15 +234,14 @@ void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &co
     container_.clear();
     for( const auto &whOff : bcd_inn::quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
-        container_.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
+        auto outPair = container_.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
+        tprAssert( outPair.second );
     }
 }
 
 
 void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
                                 Job_MapEntInn &mapEnt_ ){
-
-    //sectionKey_t sectionKey = anyMPos_2_sectionKey( mapEnt_.mpos );
 
     double         vx        {};
     double         vy        {};

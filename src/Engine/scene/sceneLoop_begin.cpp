@@ -267,7 +267,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
 
                 //--- 先 生成 chunks 基础数据 --
-                chunkCreate::build_9_chunks( newGoMPos );
+                chunkCreate::create_9_chunks( newGoMPos );
                         //-- 在未来，需要读取 db::table_chunks 的数据，来辅助生成 chunks
                         //   这部分，应该写进 chunk build 流程中 ...
 
@@ -326,7 +326,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 tprAssert( glm::length(diskGo.dpos - targetGameArchive.playerGoDPos) < 1.0 ); //- tmp
             
             //--- 先生成 chunks --
-            chunkCreate::build_9_chunks( dpos_2_mpos( targetGameArchive.playerGoDPos ) );
+            chunkCreate::create_9_chunks( dpos_2_mpos( targetGameArchive.playerGoDPos ) );
             
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...

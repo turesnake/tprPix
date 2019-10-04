@@ -31,7 +31,7 @@ public:
     
     inline void insert( colorTableId_t id_, float off_z_, ChildMesh *meshPtr_ )noexcept{
         tprAssert( this->pools.find(id_) != this->pools.end() );
-        this->pools.at(id_).insert({ off_z_, meshPtr_ });
+        this->pools.at(id_).insert({ off_z_, meshPtr_ });// multi
     }
     
 

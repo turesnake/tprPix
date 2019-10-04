@@ -32,12 +32,14 @@
 
 #include "Density.h"
 
+//--------------- Script ------------------//
+#include "Script/json/json_all.h"
 
 
 class GameObj;
 class UIObj;
-class GoJsonData;
-class UIGoJsonData;
+//class json::GoJsonData;
+//class json::UIGoJsonData;
 
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
@@ -66,10 +68,10 @@ bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
 void insert_2_goInit_funcs( const std::string &goTypeName_,
                             const F_GO_INIT &functor_ );
 
-void insert_2_go_jsonDatas( const GoJsonData &goJsonData_ );
+void insert_2_go_jsonDatas( const json::GoJsonData &goJsonData_ );
 
 
-const GoJsonData &get_goJsonData( goSpecId_t id_ );
+const json::GoJsonData &get_goJsonData( goSpecId_t id_ );
 
 
 //-------------------------------//
@@ -84,10 +86,10 @@ using F_UI_INIT = std::function<void(   UIObj*,
                                         const glm::vec2 & )>;
 
 
-void insert_2_uiGo_jsonDatas( const UIGoJsonData &uiGoJsonData_ );
+void insert_2_uiGo_jsonDatas( const json::UIGoJsonData &uiGoJsonData_ );
 
 
-const UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ );
+const json::UIGoJsonData &get_uiGoJsonData( goSpecId_t id_ );
 
 
 bool find_from_uiGoInit_funcs( goSpecId_t goSpecId_ );
