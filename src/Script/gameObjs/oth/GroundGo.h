@@ -19,7 +19,7 @@
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
 #include "Density.h"
-#include "ParamBinary.h"
+#include "DyParam.h"
 #include "animSubspeciesId.h"
 
 
@@ -29,7 +29,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 class GroundGo{
 public:
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_, const ParamBinary &dyParams_ );
+    static void init_in_autoMod(GameObj &goRef_, const DyParam &dyParams_ );
 private:                            
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

@@ -70,11 +70,9 @@ void init_timeLog(){
 void collect_deltaTime(double deltaTime_){
 
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
-
     auto outPair = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
                                         std::make_unique<FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
     tprAssert( outPair.second );
-
     timeLog_inn::idx++;
 }
 
@@ -144,7 +142,7 @@ void process_and_echo_timeLog(){
                             << "; idx: " << tmpIdx
                             << ";\n";
                 times++;
-                if( times > 50 ){
+                if( times > 100 ){ // only print 100-ents
                     break;
                 }
             }
@@ -154,6 +152,8 @@ void process_and_echo_timeLog(){
         //------------------------//
         //    frameRawDatas
         //------------------------//
+
+        /*
         writeFile << "~~~~~~~~~~~~~~~~~~~~ frameRawDatas: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
         for( auto &pair : timeLog_inn::frameRawDatas ){
             auto &tf = *(pair.second);
@@ -164,6 +164,7 @@ void process_and_echo_timeLog(){
         }
         writeFile << "~~~~~~~~~~~~~~~~~~~~ frameRawDatas: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
                 << endl;  
+        */
 
 
     }

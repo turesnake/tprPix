@@ -19,7 +19,7 @@
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
 #include "Density.h"
-#include "ParamBinary.h"
+#include "DyParam.h"
 #include "animSubspeciesId.h"
 
 
@@ -31,7 +31,7 @@ class WallA{
 public:
     //--- 延迟init ---//
     static void init_in_autoMod(GameObj &goRef_,
-                            const ParamBinary &dyParams_ );
+                            const DyParam &dyParams_ );
 
 private:                            
     static void bind( GameObj &goRef_ );

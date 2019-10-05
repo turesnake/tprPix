@@ -27,7 +27,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObjType.h"
-#include "ParamBinary.h"
+#include "dyParams.h"
 
 
 #include "Density.h"
@@ -54,12 +54,12 @@ void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &nam
 
 //-- map自动生成器 使用的 goInit函数 ---
 using F_GO_INIT = std::function<void(   GameObj&,
-                                        const ParamBinary &dyParams_ )>;
+                                        const DyParam &dyParams_ )>;
 
 
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-                        const ParamBinary &dyParams_  );
+                        const DyParam &dyParams_  );
 
 
 bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
@@ -97,7 +97,7 @@ bool find_from_uiGoInit_funcs( goSpecId_t goSpecId_ );
 
 void call_uiGoInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-                        const ParamBinary &dyParams_  );
+                        const DyParam &dyParams_  );
 
 
 void insert_2_uiGoInit_funcs( const std::string &goTypeName_,

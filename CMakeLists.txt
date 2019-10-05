@@ -114,6 +114,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/collision/*.cpp 
                         src/Engine/color/*.cpp 
                         src/Engine/dataBase/*.cpp 
+                        src/Engine/dynamicParam/*.cpp 
                         src/Engine/ecoSys/*.cpp
                         src/Engine/fileIO/*.cpp
                         src/Engine/game/*.cpp 
@@ -129,7 +130,6 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
                         src/Engine/multiThread/chunkCreate/*.cpp 
-                        src/Engine/paramBinary/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/renderPool/*.cpp 
@@ -191,6 +191,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dynamicParam
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
@@ -206,7 +207,6 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/chunkCreate
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/paramBinary
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/renderPool

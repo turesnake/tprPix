@@ -57,7 +57,7 @@ public:
                         this->smoothDeltaTime -= this->step;
         }
         //-----------
-        collect_deltaTime(this->deltaTime); //- tmp
+        collect_deltaTime(this->deltaTime); //- debug
     }
 
     //--- 获得 当前时间 （从 glfw 启动 开始计算）---//

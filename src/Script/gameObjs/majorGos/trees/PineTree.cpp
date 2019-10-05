@@ -47,17 +47,17 @@ struct PineTree_PvtBinary{
  * -----------------------------------------------------------
  */
 void PineTree::init_in_autoMod(GameObj &goRef_,
-                                const ParamBinary &dyParams_ ){
+                                const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};
-    switch (dyParams_.get_type()){
-        case ParamBinaryType::Field:
-            msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-            break;
-        default:
-            tprAssert(0); //- 尚未实现
-            break;
+    //---
+    size_t typeHash = dyParams_.get_typeHash();
+    if( typeHash == typeid(DyParams_Field).hash_code() ){
+        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
+
+    }else{
+        tprAssert(0); //- 尚未实现
     }
     
 

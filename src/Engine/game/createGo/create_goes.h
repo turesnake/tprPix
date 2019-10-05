@@ -19,7 +19,7 @@
 #include "IntVec.h"
 #include "Density.h"
 #include "DiskGameObj.h"
-#include "ParamBinary.h"
+#include "dyParams.h"
 #include "UIAnchor.h"
 #include "Chunk.h"
 
@@ -32,12 +32,12 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const glm::dvec2 &dpos_,
-                    const ParamBinary &dyParams_ );
+                    const DyParam &dyParams_ );
 
 
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                         const glm::dvec2 &dpos_,
-                        const ParamBinary &dyParams_  );
+                        const DyParam &dyParams_  );
 
 }//------------- namespace gameObjs: end ----------------
 
@@ -47,12 +47,12 @@ namespace uiGos{//------------- namespace uiGos ----------------
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
-                    const ParamBinary &dyParams_ );
+                    const DyParam &dyParams_ );
 
 
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
                     const UIAnchor &uiAnchor_,
-                    const ParamBinary &dyParams_ );
+                    const DyParam &dyParams_ );
 
 }//------------- namespace uiGos: end ----------------
 

@@ -19,7 +19,7 @@
 #include "GameObjMesh.h"
 #include "AnimFrameSet.h"
 #include "Density.h"
-#include "ParamBinary.h"
+#include "dyParams.h"
 #include "animSubspeciesId.h"
 
 
@@ -29,7 +29,7 @@ namespace uiGos{//------------- namespace uiGos ----------------
 class Button_SceneBegin_Pointer{
 public:
     //--- 延迟init ---//
-    static void init_in_autoMod( GameObj &goRef_, const ParamBinary &dyParams_ );
+    static void init_in_autoMod( GameObj &goRef_, const DyParam &dyParams_ );
 private:
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

@@ -129,11 +129,9 @@ int main( int argc, char* argv[] ){
     esrc::init_player();
 
     tprDebug::init_debug();
+    
     esrc::init_canvases();
-
     esrc::init_mapSurfaceRandSet();
-
-
     esrc::init_ecoSysPlanes();
 
     json::parse_from_animFrameSetJsonFile();

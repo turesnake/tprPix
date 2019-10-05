@@ -43,7 +43,7 @@ struct Button_SceneBegin_Archive_PvtBinary{
  * -----------------------------------------------------------
  */
 void Button_SceneBegin_Archive::init_in_autoMod(GameObj &goRef_,
-                                        const ParamBinary &dyParams_ ){
+                                        const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Archive_PvtBinary>();

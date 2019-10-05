@@ -50,23 +50,24 @@ struct OneEyeBoy_PvtBinary{
  * -----------------------------------------------------------
  */
 void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
-                                const ParamBinary &dyParams_ ){
+                                const DyParam &dyParams_ ){
     
     //================ dyParams =================//
     double randVal {};
     const DyParams_Field *msParamPtr {nullptr};
-    switch (dyParams_.get_type()){
-        case ParamBinaryType::Field:
-            msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-            randVal = msParamPtr->fieldUWeight;
-            break;
-        case ParamBinaryType::Nil:
-            randVal = 17.0; //- 随便写
-            break;
-        default:
-            tprAssert(0); //- 尚未实现
-            break;
+    //---    
+    size_t typeHash = dyParams_.get_typeHash();
+    if( dyParams_.is_Nil() ){
+        randVal = 17.0; //- 随便写
+
+    }else if( typeHash == typeid(DyParams_Field).hash_code() ){
+        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
+        randVal = msParamPtr->fieldUWeight;
+
+    }else{
+        tprAssert(0); //- 尚未实现
     }
+
     
 
     //================ go.pvtBinary =================//

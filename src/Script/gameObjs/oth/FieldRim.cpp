@@ -19,7 +19,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "ParamBinary.h"
+#include "DyParam.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
 
@@ -54,7 +54,7 @@ namespace fr_inn {//------------------ namespace: fr_inn ---------------------//
  * -----------------------------------------------------------
  */
 void FieldRim::init_in_autoMod(GameObj &goRef_,
-                                const ParamBinary &dyParams_ ){
+                                const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     //================ go.pvtBinary =================//

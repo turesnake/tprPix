@@ -20,7 +20,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "ParamBinary.h"
+#include "DyParam.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "groundGoEntType.h"
@@ -62,7 +62,7 @@ namespace groundGo_inn {//------------------ namespace: groundGo_inn -----------
  * -----------------------------------------------------------
  */
 void GroundGo::init_in_autoMod(GameObj &goRef_,
-                                const ParamBinary &dyParams_ ){
+                                const DyParam &dyParams_ ){
 
 
     //================ dyParams =================//

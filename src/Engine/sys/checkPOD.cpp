@@ -10,9 +10,11 @@
 //-------------------- CPP --------------------//
 #include <type_traits>
 
+#include <any>
+
 
 //-------------------- Engine --------------------//
-#include "ParamBinary.h"
+#include "dyParams.h"
 
 
 #include <iostream>
@@ -46,16 +48,9 @@ void print_pod_info( const std::string &str_ ){
  */
 void check_POD(){
 
+    //print_pod_info<MapAltitude>("MapAltitude");
 
-    print_pod_info<MapAltitude>("MapAltitude");
-
-
-
-
-
-
-
-
+    // 暂未被使用 ...
 
 }
 

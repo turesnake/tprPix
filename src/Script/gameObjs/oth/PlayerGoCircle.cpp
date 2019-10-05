@@ -16,7 +16,6 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-//#include "tprMath.h"
 #include "esrc_shader.h" 
 #include "esrc_player.h"
 #include "esrc_animFrameSet.h"
@@ -43,7 +42,7 @@ struct PlayerGoCircle_PvtBinary{
  * -----------------------------------------------------------
  */
 void PlayerGoCircle::init_in_autoMod(GameObj &goRef_,
-                                const ParamBinary &dyParams_ ){
+                                const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<PlayerGoCircle_PvtBinary>();

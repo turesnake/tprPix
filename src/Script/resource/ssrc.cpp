@@ -160,14 +160,14 @@ bool find_from_uiGoInit_funcs( goSpecId_t goSpecId_ ){
  */
 void call_goInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-                        const ParamBinary &dyParams_  ){
+                        const DyParam &dyParams_  ){
     ssrc_inn::goInit_funcs.at(id_)( goRef_, dyParams_ );
 }
 
 
 void call_uiGoInit_func(  goSpecId_t id_,
                         GameObj &goRef_,
-                        const ParamBinary &dyParams_  ){
+                        const DyParam &dyParams_  ){
     ssrc_inn::uiGoInit_funcs.at(id_)( goRef_, dyParams_ );
 }
 

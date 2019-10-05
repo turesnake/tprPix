@@ -7,12 +7,13 @@
  */
 
 
+
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "esrc_field.h"
 #include "config.h"
 #include "chunkKey.h"
-#include "ParamBinary.h"
+#include "dyParams.h"
 #include "GameObj.h"
 #include "create_goes.h"
 
@@ -50,10 +51,12 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
         fieldKey_t  fieldKey {};
         auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkRef_.get_key() );
         //--- dyParam ---//
-        ParamBinary dyParam {};
-        auto *BinaryPtr = dyParam.init_binary<DyParams_GroundGo>( ParamBinaryType::GroundGo );
-        BinaryPtr->fieldUWeight = fieldRef.get_uWeight();
-        BinaryPtr->job_fieldPtr = chunkDataRef.get_job_fieldPtr(fieldKey_);
+        DyParam dyParam {};
+        auto gUPtr = std::make_unique<DyParams_GroundGo>();
+        gUPtr->fieldUWeight = fieldRef.get_uWeight();
+        gUPtr->job_fieldPtr = chunkDataRef.get_job_fieldPtr(fieldKey_);
+        dyParam.insert_ptr<DyParams_GroundGo>( gUPtr.get() );
+
         //--- 
         gameObjs::create_a_Go(  ssrc::get_goSpecId( "groundGo" ),
                                     fieldRef.get_midDPos(),
@@ -70,11 +73,13 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
 
         if( mapSurfaceLvl != mapSurface::RandEntLvl::Nil ){
             //--- dyParam ---//
-            ParamBinary dyParam {};
-            auto *BinaryPtr = dyParam.init_binary<DyParams_MapSurface>( ParamBinaryType::MapSurface );
-            BinaryPtr->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
-            BinaryPtr->lvl = mapSurfaceLvl;
-            BinaryPtr->randVal = fieldRef.get_uWeight();
+            DyParam dyParam {};     
+            auto mUPtr = std::make_unique<DyParams_MapSurface>();
+            mUPtr->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
+            mUPtr->lvl = mapSurfaceLvl;
+            mUPtr->randVal = fieldRef.get_uWeight();
+            dyParam.insert_ptr<DyParams_MapSurface>( mUPtr.get() );
+
             //--- 
             gameObjs::create_a_Go(  ssrc::get_goSpecId( "mapSurfaceLower" ),
                                     fieldRef.get_dpos() + dposOff,
@@ -88,7 +93,7 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
     if( isFieldRimGoCreate ){
         gameObjs::create_a_Go(  ssrc::get_goSpecId( "fieldRim" ),
                                 fieldRef.get_midDPos(),
-                                emptyParamBinary );
+                                emptyDyParam );
     }
     
 
@@ -102,16 +107,17 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
         if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
 
             //--- dyParam ---//
-            ParamBinary dyParam {};
-            auto *BinaryPtr = dyParam.init_binary<DyParams_Field>( ParamBinaryType::Field );
-            BinaryPtr->fieldUWeight = fieldRef.get_uWeight();
-            BinaryPtr->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
-            BinaryPtr->fieldDensity = fieldRef.get_density();
-
+            DyParam dyParam {};
+            auto fUPtr = std::make_unique<DyParams_Field>();
+            fUPtr->fieldUWeight = fieldRef.get_uWeight();
+            fUPtr->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
+            fUPtr->fieldDensity = fieldRef.get_density();
             for( const auto &ent : animLabels ){
-                BinaryPtr->animLabels.push_back( ent );
+                fUPtr->animLabels.push_back( ent );
             }
+            dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );
 
+            //---
             gameObjs::create_a_Go(  goSpecData.get_goSpecId(),
                                     fieldRef.get_nodeDPos(),
                                     //fieldRef.get_midDPos(),

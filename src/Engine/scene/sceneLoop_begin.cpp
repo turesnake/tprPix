@@ -98,19 +98,19 @@ void prepare_for_sceneBegin(){
 
     sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_pointer_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
     //---
     sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
 
     sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(1),
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
     
     sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(2),
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
 
     GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
     GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
@@ -277,12 +277,12 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoDPos,
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
 
                 //- 测试用go
                 gameObjs::create_a_Go(  newGoSpecId,
                                         secGoDPos,
-                                        emptyParamBinary );
+                                        emptyDyParam );
 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
@@ -333,7 +333,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
             gameObjs::rebind_a_disk_Go( diskGo,
                                         targetGameArchive.playerGoDPos,
-                                        emptyParamBinary );
+                                        emptyDyParam );
 
             //-- player --
             esrc::get_player().bind_go( targetGameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --

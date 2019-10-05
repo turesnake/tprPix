@@ -19,7 +19,7 @@
 #include "GameKey.h"
 #include "esrc_camera.h" 
 #include "esrc_gameObj.h" 
-#include "ParamBinary.h"
+#include "dyParams.h"
 #include "create_goes.h"
 
 
@@ -62,7 +62,7 @@ void Player::bind_go( goid_t goid_ ){
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
                                                             newGoRef.get_dpos(),
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
@@ -103,7 +103,7 @@ void Player::bind_go( goid_t goid_ ){
     if( this->goid == NULLID ){
         this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
                                                             IntVec2{0,0},
-                                                            emptyParamBinary );
+                                                            emptyDyParam );
     }
     */
 

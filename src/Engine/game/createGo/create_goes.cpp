@@ -32,7 +32,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  */
 goid_t create_a_Go( goSpecId_t goSpecId_,
                     const glm::dvec2 &dpos_,
-                    const ParamBinary &dyParams_ ){
+                    const DyParam &dyParams_ ){
 
     goid_t goid = esrc::insert_new_regularGo( dpos_ );
     GameObj &goRef = esrc::get_goRef( goid );
@@ -66,7 +66,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
  */
 void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
                         const glm::dvec2 &dpos_,
-                        const ParamBinary &dyParams_  ){
+                        const DyParam &dyParams_  ){
 
     esrc::insert_a_diskGo( diskGo_.goid, dpos_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
@@ -109,7 +109,7 @@ namespace uiGos{//------------- namespace uiGos ----------------
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
-                    const ParamBinary &dyParams_ ){
+                    const DyParam &dyParams_ ){
 
     goid_t goid = esrc::insert_new_uiGo( basePointProportion_, offDPos_ );
     GameObj &goRef = esrc::get_goRef( goid );
@@ -133,7 +133,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
 
 goid_t create_a_UIGo( goSpecId_t goSpecId_,
                     const UIAnchor &uiAnchor_,
-                    const ParamBinary &dyParams_ ){
+                    const DyParam &dyParams_ ){
 
     goid_t goid = esrc::insert_new_uiGo(uiAnchor_.get_basePointProportion(), 
                                         uiAnchor_.get_offDPos() );

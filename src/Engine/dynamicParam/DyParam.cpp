@@ -1,11 +1,10 @@
 /*
- * ===================== ParamBinary.cpp ==========================
+ * ======================== DyParam.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#include "ParamBinary.h"
+#include "DyParam.h"
 
-//- 空参数包 -
-ParamBinary emptyParamBinary {};
+DyParam emptyDyParam {};
