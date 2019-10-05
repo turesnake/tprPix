@@ -23,6 +23,7 @@
 #include "ubo_all.h"
 
 #include "timeLog.h" // debug_tmp
+#include "speedLog.h" // debug_tmp
 #include "tprDebug.h" //- tmp
 
 //-------------------- Script --------------------//
@@ -110,7 +111,9 @@ int main( int argc, char* argv[] ){
     db::atom_init_dataBase();
             //-- tmp...
 
-    init_timeLog();  //- debug: timeLog 
+    tprDebug::init_timeLog();
+    tprDebug::init_speedLog();
+    tprDebug::init_debug();
 
     //------------------------------------------//
     //            启动 job线程组
@@ -120,7 +123,6 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           more resources
     //------------------------------------------//
-    
 
 
     GameObj::id_manager.set_max_id( 0 );
@@ -128,7 +130,7 @@ int main( int argc, char* argv[] ){
     esrc::init_shaders();
     esrc::init_player();
 
-    tprDebug::init_debug();
+    
     
     esrc::init_canvases();
     esrc::init_mapSurfaceRandSet();
@@ -233,7 +235,8 @@ int main( int argc, char* argv[] ){
     //---------------------------------------------//
     //             timeLog debug
     //---------------------------------------------//
-    process_and_echo_timeLog();
+    tprDebug::process_and_echo_timeLog();
+    tprDebug::process_and_echo_speedLog();
 
     //---------------------------------------------//
     //                glfw Terminate

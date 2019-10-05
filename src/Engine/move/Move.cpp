@@ -26,8 +26,10 @@
 #include "esrc_time.h"
 #include "esrc_chunk.h"
 
+#include "speedLog.h"
 
 #include "tprDebug.h" 
+
 
 
 /* ===========================================================
@@ -103,6 +105,12 @@ void Move::renderUpdate_crawl(){
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
+    glm::dvec2 actuallySpped = this->goRef.detect_collision_for_move(speedVec);
+
+    if( this->goRef.isControlByPlayer ){
+        tprDebug::collect_playerSpeed( actuallySpped ); // debug
+    }
+
     this->goRef.accum_dpos( this->goRef.detect_collision_for_move(speedVec) );
 
 }

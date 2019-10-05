@@ -12,13 +12,11 @@
 
 //------------------- CPP --------------------//
 #include <utility>
-#include <vector>
 #include <unordered_map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <memory>
-#include <map>
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
@@ -33,47 +31,48 @@ using std::cout;
 using std::endl;
 
 
-//-- data in one frame --
-class FrameData{
-public:
-    FrameData( size_t idx_, double deltaTime_, size_t frame_ ):
-        idx(idx_),
-        deltaTime(deltaTime_),
-        frame(frame_)
-        {}
-    //===== vals =====//
-    size_t idx;
-    double deltaTime;
-    size_t frame;
-};
 
 
+namespace tprDebug {//---------- namespace: tprDebug --------------//
 namespace timeLog_inn {//------------ namespace: timeLog_inn --------------//
+
+    //-- data in one frame --
+    class FrameData{
+    public:
+        FrameData( size_t idx_, double deltaTime_, size_t frame_ ):
+            idx(idx_),
+            deltaTime(deltaTime_),
+            frame(frame_)
+            {}
+        //===== vals =====//
+        size_t idx;
+        double deltaTime;
+        size_t frame;
+    };
 
     size_t   idx {};
     std::unordered_map< size_t, std::unique_ptr<FrameData>> frameRawDatas {};
+    
 
-    //-- sorted containers ---//
-    std::multimap<size_t,size_t> frame_idxs {};
-
-
-    //----- funcs -----//
-    void sort_frame_idxs();
     
 }//---------------- namespace: timeLog_inn end --------------//
 
 void init_timeLog(){
     timeLog_inn::idx = 0;
-    timeLog_inn::frameRawDatas.reserve(100000); //- support 20 mins
+    timeLog_inn::frameRawDatas.reserve( 100000 ); //- support 20 mins
 }
 
 void collect_deltaTime(double deltaTime_){
-
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
     auto outPair = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
-                                        std::make_unique<FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
+                                        std::make_unique<timeLog_inn::FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
     tprAssert( outPair.second );
     timeLog_inn::idx++;
+}
+
+
+size_t get_frameIdx(){
+    return timeLog_inn::idx;
 }
 
 
@@ -104,6 +103,14 @@ void process_and_echo_timeLog(){
         }
     }
 
+    //----- sort rankingList ------//
+    std::multimap<size_t,size_t> rankingList {};
+    for( auto &pair : timeLog_inn::frameRawDatas ){
+        auto &tmpIdx = pair.first;
+        auto &tmpFrame = pair.second->frame;
+        rankingList.insert({ tmpFrame, tmpIdx });// multi
+    }
+
 
     //--------------------------//
     //    write to file
@@ -127,15 +134,13 @@ void process_and_echo_timeLog(){
 
 
         //------------------------//
-        //    frame_idxs
+        //    rankingList
         //------------------------//
         {
-            writeFile << "~~~~~~~~~~~~~~~~~~~~ frame_idxs: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-
-            timeLog_inn::sort_frame_idxs();
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
             size_t times {0};
-            for( const auto &pair : timeLog_inn::frame_idxs ){
+            for( const auto &pair : rankingList ){
                 const auto &tmpFrame = pair.first;
                 const auto &tmpIdx = pair.second;
                 writeFile   << "frame: " << tmpFrame
@@ -146,7 +151,7 @@ void process_and_echo_timeLog(){
                     break;
                 }
             }
-            writeFile << "~~~~~~~~~~~~~~~~~~~~ frame_idxs: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
                     << endl; 
         }
         //------------------------//
@@ -166,27 +171,11 @@ void process_and_echo_timeLog(){
                 << endl;  
         */
 
-
-    }
-}
-
-
-namespace timeLog_inn {//------------ namespace: timeLog_inn --------------//
-
-void sort_frame_idxs(){
-
-    frame_idxs.clear();
-    for( auto &pair : frameRawDatas ){
-        auto &tmpIdx = pair.first;
-        auto &tmpFrame = pair.second->frame;
-        frame_idxs.insert({ tmpFrame, tmpIdx });// multi
     }
 }
 
 
 
-}//---------------- namespace: timeLog_inn end --------------//
-
-
+}//-------------------- namespace: tprDebug end --------------//
 
 

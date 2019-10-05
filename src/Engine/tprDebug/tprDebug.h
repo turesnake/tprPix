@@ -40,8 +40,5 @@ void draw_renderPool_pointPics();
 
 
 }//-------------------- namespace: tprDebug end --------------//
-
-
-
 #endif 
 
