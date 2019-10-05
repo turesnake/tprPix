@@ -326,16 +326,10 @@ void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
     //--------------------------//
     //       push job
     //--------------------------//
-    ArgBinary_Create_ChunkData arg {};
-    arg.chunkKey = chunkKey_;
-    //----------
     auto jobSPtr = std::make_shared<Job>();
-    jobSPtr->jobType = JobType::Create_ChunkData;
-    jobSPtr->argBinary.resize( sizeof(ArgBinary_Create_ChunkData), 0 );
-    memcpy( (void*)&(jobSPtr->argBinary.at(0)),
-            (void*)&arg,
-            sizeof(ArgBinary_Create_ChunkData) );
-            // Only Support POD
+    jobSPtr->set_jobType( JobType::Create_ChunkData );
+    auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_ChunkData>();
+    paramPtr->chunkKey = chunkKey_;
     //----------
     esrc::atom_push_back_2_jobQue( jobSPtr );
     //--------------------------//

@@ -80,14 +80,9 @@ void create_chunkData_main( const Job &job_ ){
     //-------------------//
     //   job.argBinary
     //-------------------//
-    tprAssert( job_.argBinary.size() == sizeof(ArgBinary_Create_ChunkData) );
-    ArgBinary_Create_ChunkData arg {};
-    memcpy( (void*)&arg,
-            (void*)&(job_.argBinary.at(0)),
-            sizeof(ArgBinary_Create_ChunkData) );
-            // Only Support POD
+    const auto *jobParamPtr = job_.get_param<ArgBinary_Create_ChunkData>();
 
-    IntVec2 chunkMPos = chunkKey_2_mpos( arg.chunkKey );
+    IntVec2 chunkMPos = chunkKey_2_mpos( jobParamPtr->chunkKey );
 
     //------------------------------//
     //           [1]
@@ -117,7 +112,7 @@ void create_chunkData_main( const Job &job_ ){
     //--------------------------//
     //       chunkData
     //--------------------------//
-    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( arg.chunkKey );
+    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( jobParamPtr->chunkKey );
     bcd_inn::calc_chunkData( chunkMPos, chunkDataRef );
 
 
@@ -125,7 +120,7 @@ void create_chunkData_main( const Job &job_ ){
     //-- chunkData 数据计算完成后，向 状态表 添加一个元素
     //   以此来提醒 主线程，这个 chunk 数据准备好了
     //--------------------------//
-    esrc::atom_push_back_2_chunkDataFlags( arg.chunkKey );
+    esrc::atom_push_back_2_chunkDataFlags( jobParamPtr->chunkKey );
 }
 
 

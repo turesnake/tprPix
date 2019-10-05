@@ -12,17 +12,37 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <any>
 
 //-------------------- Libs --------------------//
 #include "tprDataType.h"
 
 //-------------------- Engine --------------------//
 #include "JobType.h"
+#include "tprAssert.h"
 
 class Job{
 public:
-    JobType           jobType    {JobType::Null};
-    std::vector<u8_t> argBinary  {}; //- 相关参数
+
+    template<typename T>
+    inline T *init_param()noexcept{
+        this->param = T {};
+        return std::any_cast<T>( &(this->param) );
+    }
+
+    template<typename T>
+    inline const T *get_param()const noexcept{
+        tprAssert( this->param.has_value() );
+        tprAssert( this->param.type().hash_code() == typeid(T).hash_code() );
+        return std::any_cast<T>( &(this->param) );
+    }
+
+    inline void set_jobType( JobType type_ ){ this->jobType = type_; }
+    inline JobType get_jobType()const noexcept{ return this->jobType; }
+
+private:
+    JobType     jobType    {JobType::Null};
+    std::any    param     {0};
 };
 
 

@@ -17,6 +17,9 @@ void init_speedLog();
 void collect_playerSpeed( const glm::dvec2 &speedV_ );
 void process_and_echo_speedLog();
 
+void collect_cameraSpeed( const glm::dvec2 &speedV_ );
+
+
 }//-------------------- namespace: tprDebug end --------------//
 #endif 
 

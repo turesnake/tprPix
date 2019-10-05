@@ -108,7 +108,7 @@ std::shared_ptr<Job> atom_pop_from_jobQue(){
         //- 此句 jobQue.empty() 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的
         if( jobQue_inn::jobQue.empty() ){
             //-- 说明并没有获取job，仅仅是时间到了
-            jobSPtr->jobType = JobType::JustTimeOut;
+            jobSPtr->set_jobType( JobType::JustTimeOut );
         }else{
             jobSPtr = jobQue_inn::jobQue.front();
             jobQue_inn::jobQue.pop_front();

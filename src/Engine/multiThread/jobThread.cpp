@@ -47,7 +47,7 @@ void jobThread_main(){
         jobSPtr = esrc::atom_pop_from_jobQue(); //- copy
 
         //-- handle the job --//
-        switch (jobSPtr->jobType){
+        switch ( jobSPtr->get_jobType() ){
         case JobType::JustTimeOut:
             //--仅仅说明，单次读取时间到，请再走一次while循环
             //  只有这样，才能保证 不会被 pop 函数永久阻塞
