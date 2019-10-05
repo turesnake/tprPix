@@ -98,8 +98,10 @@ void MapField::init_nodeDPos(){
     double scaleX = MapField::halfDPosOff.x - 16.0; // not too close between two field-gos
     double scaleY = MapField::halfDPosOff.y - 4.0; 
 
-    this->nodeDPos = this->get_dpos() + MapField::halfDPosOff + glm::dvec2{ pnX*scaleX, pnY*scaleY };
+    pnX = floor(pnX*scaleX); //- align to pix
+    pnY = floor(pnY*scaleY); //- align to pix
 
+    this->nodeDPos = this->get_dpos() + MapField::halfDPosOff + glm::dvec2{pnX, pnY};
 }
 
 

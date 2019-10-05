@@ -119,8 +119,7 @@ private:
                                 // anyMPos_2_fieldMPos() 
     fieldKey_t  fieldKey {}; 
 
-
-    glm::dvec2  nodeDPos {}; //- field 内的一个随机点 ,绝对值
+    glm::dvec2  nodeDPos {}; //- field 内的一个随机点 ,绝对距离 Must align to pix
 
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用

@@ -14,10 +14,10 @@ from tools import *
 
 #------------ INPUT ------------#
 #  need user input:
-entNums_1 = 0
-entNums_2 = 4
-entNums_3 = 6
-entNums_4 = 2
+entNums_1 = 2
+entNums_2 = 2
+entNums_3 = 5
+entNums_4 = 3
 
 #------------ global Vals ------------#
 PIXES_PER_MAPENT = 64
@@ -114,8 +114,10 @@ if __name__=="__main__":
         y = cir.dpos.y - windowRadius
         #dpos.append( '%.1f' % x )
         #dpos.append( '%.1f' % y )
-        dpos.append( float('%.1f' % x) )
-        dpos.append( float('%.1f' % y) )
+        #dpos.append( float('%.1f' % x) )
+        #dpos.append( float('%.1f' % y) )
+        dpos.append( int(x) )
+        dpos.append( int(y) )
 
         dic = { "tmp" : 1 } # tmp val
         dic["dpos"] = dpos

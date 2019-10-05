@@ -13,8 +13,8 @@ from tools import *
 
 #------------ INPUT ------------#
 #  need user input:
-entNums_1 = 1
-entNums_2 = 2
+entNums_1 = 3
+entNums_2 = 1
 entNums_3 = 0
 
 
@@ -108,8 +108,10 @@ if __name__=="__main__":
         y = cir.dpos.y - windowRadius
         #dpos.append( '%.1f' % x )
         #dpos.append( '%.1f' % y )
-        dpos.append( float('%.1f' % x) )
-        dpos.append( float('%.1f' % y) )
+        #dpos.append( float('%.1f' % x) )
+        #dpos.append( float('%.1f' % y) )
+        dpos.append( int(x) )
+        dpos.append( int(y) )
 
         dic = { "tmp" : 1 } # tmp val
         dic["dpos"] = dpos

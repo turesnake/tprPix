@@ -121,10 +121,11 @@ void parse_single_mapSurfaceRandMeshJsonFile( const std::string &lPath_file_ ){
             }
             {//--- dpos ---//
                 const auto &a = check_and_get_value( point, "dpos", JsonValType::Array );
-                tprAssert( a[0].IsDouble() );
-                tprAssert( a[1].IsDouble() );
-                dposOff.x = a[0].GetDouble();
-                dposOff.y = a[1].GetDouble();
+                // base dpos is IntVec2, align to pixes
+                tprAssert( a[0].IsInt() );
+                tprAssert( a[1].IsInt() );
+                dposOff.x = static_cast<double>(a[0].GetInt());
+                dposOff.y = static_cast<double>(a[1].GetInt());
             }
             //--- mposOff ---//
             mposOff = dpos_2_mpos( dposOff + halfField ); // offset from field LeftBottom

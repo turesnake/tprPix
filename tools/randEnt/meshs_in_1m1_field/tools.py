@@ -38,6 +38,9 @@ def apply_new_randVec2( radius_ ):
     x = x * isNegaX
     y = y * isNegaY
     #---
+    x = int(x) # align to pix
+    y = int(y) # align to pix
+    #---
     v = Vec2( x, y )
     return v
     #------------------#

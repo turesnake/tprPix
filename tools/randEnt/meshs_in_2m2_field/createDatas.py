@@ -15,8 +15,8 @@ from tools import *
 #  need user input:
 entNums_1 = 2
 entNums_2 = 3
-entNums_3 = 2
-entNums_4 = 1
+entNums_3 = 3
+entNums_4 = 0
 
 #------------ global Vals ------------#
 PIXES_PER_MAPENT = 64
@@ -110,8 +110,10 @@ if __name__=="__main__":
         y = cir.dpos.y - windowRadius
         #dpos.append( '%.1f' % x )
         #dpos.append( '%.1f' % y )
-        dpos.append( float('%.1f' % x) )
-        dpos.append( float('%.1f' % y) )
+        #dpos.append( float('%.1f' % x) )
+        #dpos.append( float('%.1f' % y) )
+        dpos.append( int(x) )
+        dpos.append( int(y) )
 
         dic = { "tmp" : 1 } # tmp val
         dic["dpos"] = dpos
