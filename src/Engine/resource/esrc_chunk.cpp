@@ -74,12 +74,9 @@ bool find_from_chunks( chunkKey_t chunkKey_ ){
  * 仅被 check_and_build_sections.cpp -> create_one_chunk() 调用
  */
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
-    auto outPair = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>() });
+    auto outPair = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>( chunkKey_ ) });
     tprAssert( outPair.second );
     Chunk &chunkRef = *(outPair.first->second);
-
-    chunkRef.set_by_chunkKey(chunkKey_);
-    chunkRef.init();
 
     esrc::move_chunkKey_from_onCreating_2_active(chunkKey_);  
                             // Now, the chunkState is Active !!! 

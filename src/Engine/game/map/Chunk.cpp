@@ -78,31 +78,17 @@ void Chunk::init(){
         }
     }
 
-    //----- fields -------//
-    IntVec2     fieldNodeOff {};
-    fieldKey_t  fieldKey {};
-    this->fieldKeys.clear();
-    this->fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
-
-    for( const auto &pair : chunkDataRef.get_fieldDatas() ){//- each fieldData
-
-        fieldKey = pair.first;
-        this->fieldKeys.push_back(fieldKey);
-        //--
-        const auto &fieldRef = esrc::atom_get_field(fieldKey);
-        fieldNodeOff = dpos_2_mpos( fieldRef.get_nodeDPos() ) - anyMPos_2_chunkMPos(fieldRef.get_mpos());
-        const auto &mapEntInnRef = chunkDataRef.getnc_mapEntInnRef( fieldNodeOff );
-
-        esrc::atom_write_2_field_from_jobData(  fieldKey,
-                                                mapEntInnRef.ecoObjKey,
-                                                mapEntInnRef.colorRableId,
-                                                mapEntInnRef.density,
-                                                mapEntInnRef.alti,
-                                                pair.second->minFieldAlti,
-                                                pair.second->maxFieldAlti,
-                                                pair.second->is_crossEcoObj(),
-                                                pair.second->is_crossColorTable() );
-    }
+    //----- fieldKeys -------//
+    IntVec2     fieldMPos   {};
+    fieldKey_t  fieldKey    {};
+    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk
+            fieldMPos = this->get_mpos() + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+            fieldKey = fieldMPos_2_fieldKey( fieldMPos );
+            //---
+            this->fieldKeys.push_back(fieldKey);
+        }
+    } //- each field in chunk
 }
 
 

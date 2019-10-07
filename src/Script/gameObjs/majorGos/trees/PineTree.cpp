@@ -43,11 +43,10 @@ struct PineTree_PvtBinary{
 
 
 /* ===========================================================
- *                   init_in_autoMod
+ *                      init
  * -----------------------------------------------------------
  */
-void PineTree::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
+void PineTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};

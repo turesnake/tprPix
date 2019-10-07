@@ -10,8 +10,13 @@
 //--------------- CPP ------------------//
 #include <string>
 
+//--------------- Libs ------------------//
+#include "tprGeneral.h"
+
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "global.h"
+#include "fileIO.h"
 
 #include "tprDebug.h" 
 
@@ -96,6 +101,32 @@ const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
     return a;
 }
 
+
+/* ===========================================================
+ *               collect_fileNames
+ * -----------------------------------------------------------
+ */
+void collect_fileNames( const std::string &dirName_,
+                        const std::string &headFileName_,
+                        std::vector<std::string> &container_ ){
+    std::string pathDir = tprGeneral::path_combine(path_jsons, dirName_);
+    //-----------------------------//
+    //         load file
+    //-----------------------------//
+    std::string path_file = tprGeneral::path_combine(pathDir, headFileName_);
+    auto jsonBufUPtr = read_a_file( path_file );
+    //-----------------------------//
+    //      parce JSON data
+    //-----------------------------//
+    Document doc;
+    doc.Parse( jsonBufUPtr->c_str() );
+
+    tprAssert( doc.IsArray() );
+    for( auto &ent : doc.GetArray() ){
+        tprAssert( ent.IsString() );
+        container_.push_back( tprGeneral::path_combine(pathDir, ent.GetString()) );
+    }
+}
 
 
 }//------------- namespace json: end ----------------

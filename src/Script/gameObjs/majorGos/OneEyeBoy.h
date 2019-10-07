@@ -32,7 +32,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 class OneEyeBoy{
 public:
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_, const DyParam &dyParams_ );
+    static void init(GameObj &goRef_, const DyParam &dyParams_ );
 private:                            
     static void bind( GameObj &goRef_ );
     static void rebind( GameObj &goRef_ );

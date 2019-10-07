@@ -276,6 +276,14 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
 
     //------------------------------//
     //            [4]
+    // 将 chunkData 中的 fields，移动到 主容器
+    //------------------------------//
+    auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkKey_ );
+    esrc::move_fieldUPtrs( chunkDataRef.get_fields() );
+
+
+    //------------------------------//
+    //            [5]
     // 遍历周边 8 个chunk，如果某一chunk 已经存在
     // 遍历此chunk 的 所有 edgeGoIds, 如果某个 edgeGo，其 collient 位于本chunk
     // 则将这些 collients 登记到 对应的 mapent 上

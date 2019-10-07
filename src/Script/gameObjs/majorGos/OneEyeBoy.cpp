@@ -46,11 +46,10 @@ struct OneEyeBoy_PvtBinary{
 
 
 /* ===========================================================
- *                   init_in_autoMod
+ *                   init
  * -----------------------------------------------------------
  */
-void OneEyeBoy::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
+void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
     //================ dyParams =================//
     double randVal {};

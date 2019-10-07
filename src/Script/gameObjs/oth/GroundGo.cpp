@@ -58,11 +58,10 @@ namespace groundGo_inn {//------------------ namespace: groundGo_inn -----------
 
 
 /* ===========================================================
- *                  init_in_autoMod
+ *                  init
  * -----------------------------------------------------------
  */
-void GroundGo::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
+void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ dyParams =================//

@@ -37,9 +37,12 @@
 //  chunk 作为一个整体被存储到硬盘，就像 mc 中的 Field
 class Chunk{
 public:
-    Chunk() = default;
-
-    void init();
+    Chunk( chunkKey_t chunkKey_ ):
+        chunkKey(chunkKey_),
+        mcpos(chunkKey_2_mpos(chunkKey_))
+        {
+            this->init();
+        }
 
     inline void insert_2_goIds( goid_t id_ )noexcept{
         this->goIds.insert(id_);
@@ -52,12 +55,6 @@ public:
     }
     inline size_t erase_from_edgeGoIds( goid_t id_ )noexcept{
         return this->edgeGoIds.erase(id_);
-    }
-
-    //------- set -------//
-    inline void set_by_chunkKey( chunkKey_t chunkKey_ )noexcept{
-        this->chunkKey = chunkKey_;
-        this->mcpos.set_by_mpos( chunkKey_2_mpos(chunkKey_) );
     }
 
     //------- get -------//
@@ -93,6 +90,7 @@ public:
                                //  此部分功能未实现
 
 private:
+    void init();
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( IntVec2 anyMPos_ );
     size_t get_pixIdx_in_chunk( IntVec2 anyPPos_ );

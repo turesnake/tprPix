@@ -51,7 +51,7 @@ public:
     
     inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos_; }
     inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
-    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
+    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorTableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
@@ -64,7 +64,7 @@ public:
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
-    inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorRableId; }
+    inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
     inline double           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }
     inline Density          get_density()const noexcept{ return this->density; }
@@ -82,7 +82,7 @@ private:
     MapAltitude   mapAlti     {}; //- 本 mapent 中点pix 的 alti
 
     sectionKey_t        ecoObjKey {};
-    colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
+    colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};
 
     double  originPerlin {}; // [-1.0, 1.0]

@@ -10,24 +10,48 @@
 #include "ChunkData.h"
 
 
-void ChunkData::init( chunkKey_t chunkKey_ )noexcept{
+void ChunkData::init()noexcept{
 
     this->mapEntInns.resize( (ENTS_PER_CHUNK+2) * (ENTS_PER_CHUNK+2) );// 34*34 mapents
     this->fieldDatas.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
+    this->fields.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
 
-    IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey_);
-    IntVec2 tmpFieldMPos {};
+    IntVec2     tmpFieldMPos {};
     fieldKey_t  tmpFieldKey {};
-
     for( size_t h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( size_t w=0; w<FIELDS_PER_CHUNK; w++ ){
-            tmpFieldMPos = chunkMPos + IntVec2{w*ENTS_PER_FIELD, h*ENTS_PER_FIELD};
+            tmpFieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
-            auto outPair = this->fieldDatas.insert({ tmpFieldKey, std::make_unique<Job_Field>() });
-            tprAssert( outPair.second );
+            //---
+            auto outPair1 = this->fieldDatas.insert({ tmpFieldKey, std::make_unique<Job_Field>() });
+            tprAssert( outPair1.second );
+            //---
+            auto outPair2 = this->fields.insert({ tmpFieldKey, std::make_unique<MapField>(tmpFieldMPos) });
+            tprAssert( outPair2.second );
         }
     }
 }
+
+
+void ChunkData::write_2_field_from_jobData(){
+
+    IntVec2     fieldMPos   {};
+    fieldKey_t  fieldKey    {};    
+    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk
+            fieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+            fieldKey = fieldMPos_2_fieldKey( fieldMPos );
+            //---
+            auto &jobField = *(this->fieldDatas.at(fieldKey).get());
+            auto &field    = *(this->fields.at(fieldKey).get());
+            //---
+            field.set_isCrossEcoObj( jobField.is_crossEcoObj() );
+            field.set_isCrossColorTable( jobField.is_crossColorTable() );
+        }
+    }
+}
+
+
 
 
 // param: mposOff_ [0, 31]
@@ -40,9 +64,8 @@ bool ChunkData::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
     size_t idx = cast_2_size_t(offV.y * (ENTS_PER_CHUNK+2) + offV.x);
     tprAssert( idx < this->mapEntInns.size() );
 
-
     //---
-    //colorTableId_t selfColorId = this->mapEntInns.at(idx).colorRableId;
+    //colorTableId_t selfColorId = this->mapEntInns.at(idx).colorTableId;
     //colorTableId_t tmpColorId {};
 
     sectionKey_t selfEcoKey = this->mapEntInns.at(idx).ecoObjKey;

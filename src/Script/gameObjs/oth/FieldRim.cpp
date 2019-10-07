@@ -50,11 +50,10 @@ namespace fr_inn {//------------------ namespace: fr_inn ---------------------//
 }//--------------------- namespace: fr_inn end ------------------------//
 
 /* ===========================================================
- *                  init_in_autoMod
+ *                  init
  * -----------------------------------------------------------
  */
-void FieldRim::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
+void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     //================ go.pvtBinary =================//

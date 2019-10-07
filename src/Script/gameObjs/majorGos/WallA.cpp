@@ -36,11 +36,10 @@ struct WallA_PvtBinary{
 
 
 /* ===========================================================
- *                   init_in_autoMod
+ *                   init
  * -----------------------------------------------------------
  */
-void WallA::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
+void WallA::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<WallA_PvtBinary>();

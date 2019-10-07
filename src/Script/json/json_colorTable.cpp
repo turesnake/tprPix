@@ -40,11 +40,7 @@ using std::endl;
 namespace json{//------------- namespace json ----------------
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//
 
-    const std::vector<std::string> lpath_files {
-        "/colorTables/colorTables.json",
-    };
-
-    void parse_single_colorTableJsonFile( const std::string &lPath_file_ );
+    void parse_single_colorTableJsonFile( const std::string &path_file_ );
 
 }//------------- namespace: colorTableJson_inn end --------------//
 
@@ -61,7 +57,10 @@ void parse_from_colorTableJsonFile(){
 
     tprAssert( esrc::is_setState("colorTableSet") );
 
-    for( const auto &i : colorTableJson_inn::lpath_files ){
+    std::vector<std::string> path_files {};
+    collect_fileNames( "colorTables", "files.json", path_files );
+    //---
+    for( const auto &i : path_files ){
         colorTableJson_inn::parse_single_colorTableJsonFile(i);
     }
 
@@ -71,12 +70,11 @@ void parse_from_colorTableJsonFile(){
 
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//
 
-void parse_single_colorTableJsonFile( const std::string &lPath_file_ ){
+void parse_single_colorTableJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, lPath_file_);
-    auto jsonBufUPtr = read_a_file( path_file );
+    auto jsonBufUPtr = read_a_file( path_file_ );
 
     //-----------------------------//
     //      parce JSON data

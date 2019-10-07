@@ -41,7 +41,7 @@ public:
     IntVec2    midPPos      {}; // 中间点
 
     sectionKey_t        ecoObjKey {};
-    colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
+    colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};
     MapAltitude         alti {};
 
@@ -94,9 +94,9 @@ public:
             this->isHaveBorderEnt = true;
         }
         //--- half field container ---
-        this->halfFields.at(hIdx).insert( entPtr_->colorRableId ); // maybe
+        this->halfFields.at(hIdx).insert( entPtr_->colorTableId ); // maybe
         //--- field container ---
-        this->fields.insert( entPtr_->colorRableId ); // maybe
+        this->fields.insert( entPtr_->colorTableId ); // maybe
         //--- ecoObjKey container ---
         this->ecoObjKeys.insert( entPtr_->ecoObjKey ); // maybe
     }
@@ -113,10 +113,6 @@ public:
     inline bool is_crossColorTable()const noexcept{
         return (this->fields.size() > 1);
     }
-
-
-    MapAltitude  minFieldAlti {};  
-    MapAltitude  maxFieldAlti {};
 
 private:
 

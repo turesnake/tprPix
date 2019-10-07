@@ -39,7 +39,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
-    json::assemble_goJsonData_2_newGo( goSpecId_, goRef );
+    json::assemble_jsonData_2_newGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
         tprAssert( goRef.family != GameObjFamily::UI );
@@ -74,7 +74,7 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
         tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
 
     //-- set some static datas from JSON --
-    json::assemble_goJsonData_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
+    json::assemble_jsonData_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
                     //-- 临时措施
                     //   在未来，已经组装 从 数据库取出的数据，而不是从 json 中
                     //   至少有一部分吧
@@ -116,7 +116,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
-    json::assemble_uiGoJsonData_2_newUIGo( goSpecId_, goRef );
+    json::assemble_jsonData_2_newUIGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
@@ -141,7 +141,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     
     //-- set some static datas from JSON --
         tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
-    json::assemble_uiGoJsonData_2_newUIGo( goSpecId_, goRef );
+    json::assemble_jsonData_2_newUIGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );

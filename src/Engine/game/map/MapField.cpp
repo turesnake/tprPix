@@ -46,9 +46,8 @@ const glm::dvec2 MapField::halfDPosOff {
  * param: _mpos      -- 此 field 中的任意 mapent.mpos 
  * param: _chunkMPos -- 此 field 所属的 chunk mpos
  */
-void MapField::init( IntVec2 anyMPos_ ){
+void MapField::init(){
 
-    this->mcpos.set_by_mpos( anyMPos_2_fieldMPos(anyMPos_) );
     this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
 
     //--- fieldFPos ----

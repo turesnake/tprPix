@@ -50,8 +50,8 @@ void init_chunkDatas(){
  * -----------------------------------------------------------
  * 通常由 job线程 调用
  */
-ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_ ){
-    auto chunkDataUPtr = std::make_unique<ChunkData>(chunkKey_);
+ChunkData &atom_insert_new_chunkData( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
+    auto chunkDataUPtr = std::make_unique<ChunkData>(chunkKey_, chunkMPos_);
     //--- atom ---//
     {
         std::unique_lock<std::shared_mutex> ul( chunkD_inn::sharedMutex ); //- write

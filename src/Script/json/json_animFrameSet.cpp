@@ -44,16 +44,7 @@ using std::endl;
 namespace json{//------------- namespace json ----------------
 namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
 
-    const std::vector<std::string> lpath_files {
-        "/animFrameSet/afs_go_mids.json",
-        "/animFrameSet/afs_go_trees_1.json",
-        "/animFrameSet/afs_gos_1.json",
-        "/animFrameSet/afs_groundGos.json",
-        "/animFrameSet/afs_mapSurface_1.json",
-        "/animFrameSet/afs_oth.json",
-        "/animFrameSet/afs_uiGos_1.json",
-    };
-
+  
     class AFSPng{
     public:
         std::string path {};
@@ -72,6 +63,7 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
         std::vector<std::shared_ptr<AFSPng>> afsPngs {};
     };
 
+    //===== funcs =====//
     std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ );
 
     void parse_subspecies_in_handleType( const Value &subspeciesEnt_,
@@ -109,6 +101,9 @@ void parse_from_animFrameSetJsonFile(){
 
     cout << "   ----- parse_from_animFrameSetJsonFile: start ----- " << endl;
 
+    std::vector<std::string> path_files {};
+    collect_fileNames( "animFrameSet", "files.json", path_files );
+    //---
     AnimActionPos::prepare_colliPointOffs();
 
     //-----------------------------//
@@ -116,11 +111,9 @@ void parse_from_animFrameSetJsonFile(){
     //-----------------------------//
     std::string path_file {};
 
-    for( const auto &lpath : afsJson_inn::lpath_files ){
+    for( const auto &path : path_files ){
 
-        path_file = tprGeneral::path_combine(path_jsons, lpath);
-
-        auto jsonBufUPtr = read_a_file( path_file );
+        auto jsonBufUPtr = read_a_file( path );
 
         //-----------------------------//
         //      parce JSON data
@@ -174,6 +167,8 @@ void parse_from_animFrameSetJsonFile(){
 
 
 namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
+
+
 
 /* ===========================================================
  *                    parse_AFSPng

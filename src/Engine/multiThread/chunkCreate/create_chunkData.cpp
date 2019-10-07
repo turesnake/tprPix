@@ -35,6 +35,7 @@
 
 #include "Job_ChunkCreate.h"
 
+
 /*
 #include <iostream>
 #include <string>
@@ -57,15 +58,12 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
     //===== funcs =====//
-    void calc_chunkData(    IntVec2 chunkMPos_, 
-                            ChunkData &chunkData_ ); 
-
+    void calc_chunkData( ChunkData &chunkData_ ); 
     void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
                                         IntVec2 anyMPos_ );
-    
-    void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
+    void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
                                         Job_MapEntInn &mapEnt_ );
-
+    
 }//-------------- namespace: bcd_inn end ----------------//
 
 
@@ -84,37 +82,25 @@ void create_chunkData_main( const Job &job_ ){
 
     IntVec2 chunkMPos = chunkKey_2_mpos( jobParamPtr->chunkKey );
 
+    //--------------------------//
+    //      create chunkData
+    //--------------------------//
+    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( jobParamPtr->chunkKey, chunkMPos );
+
     //------------------------------//
-    //           [1]
     // 收集 周边 4个 sectionKey
     // 创建它们的 第一阶段数据 ( section / ecoObj )
     //------------------------------//
     // 已经在 主线程 chunkCreate_1_push_job() 中 提前完成
-    // 反正再糟糕也不过是，1帧内创建 5 个 ecoObj 实例
-    // 这个开销可以接受
 
-    //------------------------------//
-    //            [2]
-    //  集中生成 周边 4chunk 的 所有 fields
-    //------------------------------//
-    IntVec2  tmpFieldMPos {};
-    for( int h=0; h<FIELDS_PER_CHUNK*2; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK*2; w++ ){ //- each field in 2*2chunks
-            tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD,
-                                chunkMPos.y + h*ENTS_PER_FIELD );
-            esrc::atom_try_to_insert_and_init_the_field_ptr( tmpFieldMPos );
-                    // just try, if target-field is in building in other thread
-                    // do nothing and return;
-                    // so. do not get_fiele_ref in job thread
-        }
-    } //- each field in 2*2chunks
 
     //--------------------------//
-    //       chunkData
+    //      calc chunkData
     //--------------------------//
-    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( jobParamPtr->chunkKey );
-    bcd_inn::calc_chunkData( chunkMPos, chunkDataRef );
+    bcd_inn::calc_chunkData( chunkDataRef );
 
+
+    
 
     //--------------------------//
     //-- chunkData 数据计算完成后，向 状态表 添加一个元素
@@ -127,19 +113,19 @@ void create_chunkData_main( const Job &job_ ){
 namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
-
 /* ===========================================================
  *                 calc_chunkData
  * -----------------------------------------------------------
  */
-void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
+void calc_chunkData( ChunkData &chunkData_ ){
 
+    IntVec2 chunkMPos = chunkData_.get_chunkMPos();
     //------------------------//
     //  nearFour_ecoObjDatas
     //------------------------//
     // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
     std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {};
-    bcd_inn::colloect_nearFour_ecoObjDatas( nearFour_ecoObjDatas, chunkMPos_ );
+    bcd_inn::colloect_nearFour_ecoObjDatas( nearFour_ecoObjDatas, chunkMPos );
                 // 并不精确，chunk 外延的一圈 mapents，它们的 nearFour_ecoObj 数据不是当前这个值
                 // 这是一种简化办法。最终效果近似即可
 
@@ -152,8 +138,8 @@ void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
 
             mposOff = IntVec2{ w, h };
             Job_MapEntInn &mapEntRef = chunkData_.getnc_mapEntInnRef(mposOff);
-            mapEntRef.init( chunkMPos_ + mposOff );
-            bcd_inn::assign_mapent_to_4_ecoObjs( nearFour_ecoObjDatas, mapEntRef );
+            mapEntRef.init( chunkMPos + mposOff );
+            assign_mapent_to_nearFour_ecoObjs( nearFour_ecoObjDatas, mapEntRef );
         }
     }
 
@@ -162,21 +148,33 @@ void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
     //------------------------//
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，only used inner
     fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK ); // reserve FIRST !!!
-    IntVec2    tmpFieldMpos {};
+
+    IntVec2    tmpFieldMPos {};
+    fieldKey_t tmpFieldKey {};
+    IntVec2    fieldNodeOff {};
+
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
-            tmpFieldMpos.set(   chunkMPos_.x + w*ENTS_PER_FIELD, 
-                                chunkMPos_.y + h*ENTS_PER_FIELD );
-            fieldKeys.push_back( fieldMPos_2_fieldKey(tmpFieldMpos) );
+            tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD, 
+                                chunkMPos.y + h*ENTS_PER_FIELD );
+            tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
+            fieldKeys.push_back(tmpFieldKey);
+
+            //--- copy nodeMapEnt datas to field --
+            auto &field = chunkData_.getnc_fieldRef(tmpFieldKey);
+            fieldNodeOff = dpos_2_mpos( field.get_nodeDPos() ) - anyMPos_2_chunkMPos(field.get_mpos());
+            const auto &mapEntInnRef = chunkData_.getnc_mapEntInnRef( fieldNodeOff );
+            field.set_ecoObjKey( mapEntInnRef.ecoObjKey );
+            field.set_colorTableId( mapEntInnRef.colorTableId );
+            field.set_density( mapEntInnRef.density );
+            field.set_nodeMapAlti( mapEntInnRef.alti );
         }
     }
 
     //------------
-    IntVec2    tmpFieldMPos {};
-    IntVec2    tmpEntMPos {};
-    
-    MapAltitude  minFieldAlti {};  
-    MapAltitude  maxFieldAlti {};
+    IntVec2         tmpEntMPos {};
+    MapAltitude     minFieldAlti {};  
+    MapAltitude     maxFieldAlti {};
 
     //--- just 32 * 32 mapents in a chunk ---
     for( const auto &fieldKey : fieldKeys ){ //- each field key
@@ -190,27 +188,16 @@ void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
-                mposOff = tmpEntMPos - chunkMPos_;
+                mposOff = tmpEntMPos - chunkMPos;
 
                 Job_MapEntInn &mapEntRef = chunkData_.getnc_mapEntInnRef(mposOff);
                 //----- field min/max alti -----
-                if( mapEntRef.alti < minFieldAlti ){
-                    minFieldAlti = mapEntRef.alti;
-                }
-                if( mapEntRef.alti > maxFieldAlti ){
-                    maxFieldAlti = mapEntRef.alti;
-                }
-
+                if( mapEntRef.alti < minFieldAlti ){ minFieldAlti = mapEntRef.alti; }
+                if( mapEntRef.alti > maxFieldAlti ){ maxFieldAlti = mapEntRef.alti; }
                 //--- skip unborder ent ---//
-                if( chunkData_.is_borderMapEnt(mposOff) ){
-                    mapEntRef.isBorder = true;
-                }else{
-                    mapEntRef.isBorder = false;
-                }
-
+                mapEntRef.isBorder = chunkData_.is_borderMapEnt(mposOff);
                 //--- insert entInnPtr ---//
                 chunkData_.insert_a_entInnPtr_2_field( fieldKey, IntVec2{ew, eh}, &mapEntRef );
-
             }
         }//- each ent in field end -- 
         //----- field data -----//
@@ -218,7 +205,12 @@ void calc_chunkData(IntVec2 chunkMPos_, ChunkData &chunkData_ ){
         chunkData_.apply_field_job_groundGoEnts( fieldKey );
 
     }//-- each field key end --
+
+
+    chunkData_.write_2_field_from_jobData();
 }
+
+
 
 
 // 不需要每次都调用，只需要在 sectionMPos 发生改变时调用 --
@@ -235,9 +227,9 @@ void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &co
 }
 
 
-void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
-                                Job_MapEntInn &mapEnt_ ){
 
+void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
+                                        Job_MapEntInn &mapEnt_ ){
     double         vx        {};
     double         vy        {};
     IntVec2        mposOff   {};
@@ -285,28 +277,22 @@ void assign_mapent_to_4_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &conta
             off += pnVal * 0.7; // [-x.0, x.0] + 90.0
 
             if( off < targetDistance ){ //- tmp
-
                 mapEnt_.ecoObjKey = ecoReadOnly.sectionKey;
-                mapEnt_.colorRableId = ecoReadOnly.colorTableId;
-                mapEnt_.density.set( mapEnt_.mpos, 
+                mapEnt_.colorTableId = ecoReadOnly.colorTableId;
+                mapEnt_.density.set(mapEnt_.mpos, 
                                     ecoReadOnly.densitySeaLvlOff,
                                     ecoReadOnly.densityDivideValsPtr );
-                break;
+                break; // MUST 
             }
         }else{ //- 第四个 eco
             mapEnt_.ecoObjKey = ecoReadOnly.sectionKey;
-            mapEnt_.colorRableId = ecoReadOnly.colorTableId;
-            mapEnt_.density.set( mapEnt_.mpos, 
-                                    ecoReadOnly.densitySeaLvlOff,
-                                    ecoReadOnly.densityDivideValsPtr );
+            mapEnt_.colorTableId = ecoReadOnly.colorTableId;
+            mapEnt_.density.set(mapEnt_.mpos, 
+                                ecoReadOnly.densitySeaLvlOff,
+                                ecoReadOnly.densityDivideValsPtr );
         }
     }
 }
-
-
-
-
-
 
 
 

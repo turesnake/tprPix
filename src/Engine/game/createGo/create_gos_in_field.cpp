@@ -38,7 +38,7 @@
  */
 void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
 
-    const auto &fieldRef = esrc::atom_get_field(fieldKey_);
+    const auto &fieldRef = esrc::get_field(fieldKey_);
 
     sectionKey_t ecoObjKey = fieldRef.get_ecoObjKey();
 
@@ -96,7 +96,6 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
                                 emptyDyParam );
     }
     
-
     //----- land go -----//
     if( fieldRef.is_land() ){
         const auto &goSpecData = esrc::atom_ecoObj_apply_a_rand_goSpecData( ecoObjKey,

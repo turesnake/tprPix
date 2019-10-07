@@ -13,6 +13,9 @@
 #include "MapEnt.h"
 #include "random.h"
 
+
+
+
 #include "esrc_gameSeed.h"
 
 
@@ -105,7 +108,7 @@ void Job_MapEntInn::init( IntVec2 mpos_ )noexcept{
 
 void Job_MapEntInn::write_2_mapEnt( MemMapEnt &entRef_ )const noexcept{
     entRef_.set_ecoObjKey( this->ecoObjKey );
-    entRef_.set_colorTableId( this->colorRableId );
+    entRef_.set_colorTableId( this->colorTableId );
     entRef_.set_density( this->density );
     entRef_.set_mapAlti( this->alti );
     entRef_.set_perlin( this->originPerlin, this->uWeight );
@@ -220,7 +223,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
             entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
             fposOff = halfDposOff;
             //ecoObjKey = entPtr->ecoObjKey;
-            colorTableId = entPtr->colorRableId;
+            colorTableId = entPtr->colorTableId;
             uWeight = entPtr->uWeight;
 
             this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, fposOff, colorTableId, uWeight ));
@@ -237,7 +240,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
 
                 fposOff = halfDposOff + job_cc_inn::mapentDposOffs.at(innIdx);
                 //ecoObjKey = entPtr->ecoObjKey;
-                colorTableId = entPtr->colorRableId;
+                colorTableId = entPtr->colorTableId;
                 uWeight = entPtr->uWeight;
 
                 this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, fposOff, colorTableId, uWeight ));

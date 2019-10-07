@@ -49,45 +49,45 @@ void onGoSpecIds_SignUp(){
 
 
     //================ Goes ==================//
-    //ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init_in_autoMod, _1, _2 ) );
-    //ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init_in_autoMod, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "norman",         std::bind( &gameObjs::Norman::init, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init, _1, _2 ) );
 
-    ssrc::insert_2_goInit_funcs( "wallA",          std::bind( &gameObjs::WallA::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "wallA",          std::bind( &gameObjs::WallA::init, _1, _2 ) );
 
 
     //-------------------//
     //        tree
     //-------------------//
-    //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init_in_autoMod, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "pineTree",       std::bind( &gameObjs::PineTree::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "pineTree",       std::bind( &gameObjs::PineTree::init, _1, _2 ) );
 
     //-------------------//
     //        bush
     //-------------------//
-    //ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init_in_autoMod, _1, _2 ) );
+    //ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init, _1, _2 ) );
 
     //-------------------//
     //    mapSurface
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "mapSurfaceLower",      std::bind( &gameObjs::MapSurfaceLower::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "mapSurfaceLower",      std::bind( &gameObjs::MapSurfaceLower::init, _1, _2 ) );
 
 
     //-------------------//
     //        oth
     //-------------------//
-    ssrc::insert_2_goInit_funcs( "playerGoCircle",  std::bind( &gameObjs::PlayerGoCircle::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "playerGoCircle",  std::bind( &gameObjs::PlayerGoCircle::init, _1, _2 ) );
 
-    ssrc::insert_2_goInit_funcs( "groundGo",        std::bind( &gameObjs::GroundGo::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "groundGo",        std::bind( &gameObjs::GroundGo::init, _1, _2 ) );
 
-    ssrc::insert_2_goInit_funcs( "fieldRim",        std::bind( &gameObjs::FieldRim::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "fieldRim",        std::bind( &gameObjs::FieldRim::init, _1, _2 ) );
 
      //...
 
     //================ UIGoes ==================//
 
-    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_archive_2", std::bind( &uiGos::Button_SceneBegin_Archive::init_in_autoMod, _1, _2 ) );
-    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_pointer_2", std::bind( &uiGos::Button_SceneBegin_Pointer::init_in_autoMod, _1, _2 ) );
+    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_archive_2", std::bind( &uiGos::Button_SceneBegin_Archive::init, _1, _2 ) );
+    ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_pointer_2", std::bind( &uiGos::Button_SceneBegin_Pointer::init, _1, _2 ) );
 
 
 

@@ -41,13 +41,7 @@ using std::endl;
 namespace json{//------------- namespace json ----------------
 namespace msrm_inn {//-------- namespace: msrm_inn --------------//
 
-    const std::vector<std::string> lpath_files {
-        "/mapSurface/mapSurface_meshs_1f1.json",
-        "/mapSurface/mapSurface_meshs_2f2.json",
-        "/mapSurface/mapSurface_meshs_3f3.json"
-    };
-
-    void parse_single_mapSurfaceRandMeshJsonFile( const std::string &lPath_file_ );
+    void parse_single_mapSurfaceRandMeshJsonFile( const std::string &path_file_ );
     mapSurface::RandMeshLvl str_2_randMeshLvl_from_json( const std::string &str_ )noexcept;
 
 }//------------- namespace: msrm_inn end --------------//
@@ -65,7 +59,11 @@ void parse_from_mapSurfaceRandMeshJsonFile(){
 
     esrc::is_setState("mapSurfaceRandSet");
 
-    for( const auto &i : msrm_inn::lpath_files ){
+
+    std::vector<std::string> path_files {};
+    collect_fileNames( "mapSurface", "files.json", path_files );
+    //---
+    for( const auto &i : path_files ){
         msrm_inn::parse_single_mapSurfaceRandMeshJsonFile(i);
     }
 
@@ -78,12 +76,11 @@ void parse_from_mapSurfaceRandMeshJsonFile(){
 namespace msrm_inn {//-------- namespace: msrm_inn --------------//
 
 
-void parse_single_mapSurfaceRandMeshJsonFile( const std::string &lPath_file_ ){
+void parse_single_mapSurfaceRandMeshJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, lPath_file_);
-    auto jsonBufUPtr = read_a_file( path_file );
+    auto jsonBufUPtr = read_a_file( path_file_ );
 
     //-----------------------------//
     //      parce JSON data

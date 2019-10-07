@@ -69,7 +69,7 @@ public:
 };
 
 void parse_from_goJsonFile();
-void assemble_goJsonData_2_newGo( goSpecId_t specID_, 
+void assemble_jsonData_2_newGo( goSpecId_t specID_, 
                                 GameObj &goRef_ );
 
 //------------------------------//
@@ -95,7 +95,7 @@ public:
 };
 
 void parse_from_uiGoJsonFile();
-void assemble_uiGoJsonData_2_newUIGo( goSpecId_t specID_, 
+void assemble_jsonData_2_newUIGo( goSpecId_t specID_, 
                                     GameObj &goRef_ );
 
 

@@ -31,7 +31,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 class PlayerGoCircle{
 public:
     //--- 延迟init ---//
-    static void init_in_autoMod(GameObj &goRef_, const DyParam &dyParams_ );
+    static void init(GameObj &goRef_, const DyParam &dyParams_ );
 private:
     //--- callback ---//
     static void OnRenderUpdate( GameObj &goRef_ ); 

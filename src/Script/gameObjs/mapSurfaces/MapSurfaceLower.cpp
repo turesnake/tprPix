@@ -57,12 +57,10 @@ namespace msl_inn {//------------------ namespace: msl_inn ---------------------
 }//--------------------- namespace: msl_inn end ------------------------//
 
 /* ===========================================================
- *                  init_in_autoMod
+ *                  init
  * -----------------------------------------------------------
  */
-void MapSurfaceLower::init_in_autoMod(GameObj &goRef_,
-                                const DyParam &dyParams_ ){
-
+void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_MapSurface>();

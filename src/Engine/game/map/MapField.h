@@ -43,9 +43,12 @@ class MemMapEnt;
 //  ------
 class MapField{
 public:
-    MapField() = default;
-
-    void init( IntVec2 anyMPos_ );
+    MapField( IntVec2 anyMPos_ ):
+        mcpos( anyMPos_2_fieldMPos(anyMPos_) )
+        {
+            this->init();
+        }
+        
 
     inline bool is_land() const noexcept{
         //return (this->minMapAlti.is_land() &&
@@ -68,7 +71,7 @@ public:
     }
 
     inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
-    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorRableId = id_; }
+    inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorTableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_nodeMapAlti(MapAltitude alti_)noexcept{ this->nodeMapAlti = alti_; }
     inline void set_minAlti(MapAltitude alti_)noexcept{ this->minMapAlti = alti_; }
@@ -84,12 +87,13 @@ public:
     inline fieldKey_t   get_fieldKey() const noexcept{ return this->fieldKey; }
     inline Density      get_density() const noexcept{ return this->density; }
     inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
-    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorRableId; }
+    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline double       get_weight() const noexcept{ return this->weight; }
     inline double       get_uWeight() const noexcept{ return this->uWeight; }
     inline glm::dvec2   get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
-    inline glm::dvec2   get_nodeDPos() const noexcept{ return this->nodeDPos; }
+
+    inline const glm::dvec2 &get_nodeDPos() const noexcept{ return this->nodeDPos; }
     
     inline glm::dvec2 get_midDPos()const noexcept{ 
         return (this->mcpos.get_dpos() + MapField::halfDPosOff); 
@@ -109,6 +113,7 @@ public:
     static const glm::dvec2 halfDPosOff; // field 中点 距左下角 offset
 
 private:
+    void init();
     void init_nodeDPos();
     void init_occupyWeight();
 
@@ -133,7 +138,7 @@ private:
                             //- [just mem] 
 
     sectionKey_t        ecoObjKey {};
-    colorTableId_t      colorRableId {}; // same as ecoObj.colorTableId
+    colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};
     
     //----- 三阶数据 / third order data ------//

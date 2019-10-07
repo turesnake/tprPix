@@ -38,13 +38,7 @@ using std::endl;
 namespace json{//------------- namespace json ----------------
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
-    const std::vector<std::string> lpath_files {
-        "gameObjs/gos.json",
-        "gameObjs/oth.json",
-        "gameObjs/trees.json"
-    };
-
-    void parse_single_goJsonFile( const std::string &lPath_file_ );
+    void parse_single_goJsonFile( const std::string &path_file_ );
 
 }//------------- namespace: goJson_inn end --------------//
 
@@ -59,7 +53,11 @@ void parse_from_goJsonFile(){
 
     cout << "   ----- parse_from_goJsonFile: start ----- " << endl;
 
-    for( const auto &i : goJson_inn::lpath_files ){
+
+    std::vector<std::string> path_files {};
+    collect_fileNames( "gameObjs", "files.json", path_files );
+
+    for( const auto &i : path_files ){
         goJson_inn::parse_single_goJsonFile(i);
     }
 
@@ -68,10 +66,10 @@ void parse_from_goJsonFile(){
 }
 
 /* ===========================================================
- *               assemble_goJsonData_2_go     
+ *              assemble_jsonData_2_newGo    
  * -----------------------------------------------------------
  */
-void assemble_goJsonData_2_newGo( goSpecId_t specID_, 
+void assemble_jsonData_2_newGo( goSpecId_t specID_, 
                                 GameObj &goRef_ ){
 
     const auto &d = ssrc::get_goJsonData( specID_ );
@@ -109,14 +107,12 @@ void assemble_goJsonData_2_newGo( goSpecId_t specID_,
 
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
-void parse_single_goJsonFile( const std::string &lPath_file_ ){
+void parse_single_goJsonFile( const std::string &path_file_ ){
 
     //-----------------------------//
     //         load file
     //-----------------------------//
-    std::string path_file = tprGeneral::path_combine(path_jsons, lPath_file_);
-
-    auto jsonBufUPtr = read_a_file( path_file );
+    auto jsonBufUPtr = read_a_file( path_file_ );
 
     //-----------------------------//
     //      parce JSON data

@@ -82,7 +82,7 @@ void release_one_chunk(){
     //         fields
     // 删除所有 field 实例
     //------------------------------//
-    esrc::atom_erase_all_fields_in_chunk( chunkMPos );
+    esrc::erase_all_fields_in_chunk( chunkMPos );
 
     //------------------------------//
     //         chunk

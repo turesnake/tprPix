@@ -23,15 +23,24 @@
 #include "chunkKey.h"
 #include "Job_ChunkCreate.h"
 
+#include "MapField.h"
+
 
 
 class ChunkData{
 public:
-    ChunkData( chunkKey_t chunkKey_ )
+    ChunkData( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ):
+        chunkKey(chunkKey_),
+        chunkMPos(chunkMPos_)
         {
-            this->init( chunkKey_ );
+            this->init();
         }
-    void init( chunkKey_t chunkKey_ )noexcept;
+
+    void write_2_field_from_jobData();
+
+
+    inline chunkKey_t   get_chunkKey()const noexcept{ return this->chunkKey; }
+    inline IntVec2      get_chunkMPos()const noexcept{ return this->chunkMPos; }
 
     //- param: offset from chunk.mpos [-1,32]
     inline Job_MapEntInn &getnc_mapEntInnRef( IntVec2 mposOff_ )noexcept{
@@ -61,10 +70,10 @@ public:
     
 
     inline void set_field_min_max_altis( fieldKey_t fieldKey_, MapAltitude min_, MapAltitude max_ )noexcept{
-        tprAssert( this->fieldDatas.find(fieldKey_) != this->fieldDatas.end() );
-        auto *fieldPtr = this->fieldDatas.at(fieldKey_).get();
-        fieldPtr->minFieldAlti = min_;
-        fieldPtr->maxFieldAlti = max_;
+        tprAssert( this->fields.find(fieldKey_) != this->fields.end() );
+        auto *fieldPtr = this->fields.at(fieldKey_).get();
+        fieldPtr->set_minAlti( min_ );
+        fieldPtr->set_maxAlti( max_ );
     }
 
     inline const std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> &get_fieldDatas()const noexcept{
@@ -76,9 +85,33 @@ public:
         return this->fieldDatas.at(fieldKey_).get();
     }
 
+    inline MapField &getnc_fieldRef( fieldKey_t fieldKey_ )noexcept{
+        tprAssert( this->fields.find(fieldKey_) != this->fields.end() );
+        return *(this->fields.at(fieldKey_));
+    }
+
+    inline std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> &
+    get_fields()noexcept{ return this->fields; }
+
+
 private:
+    void init()noexcept;
+    //------
+
+    chunkKey_t chunkKey     {};
+    IntVec2    chunkMPos    {};
+
+
     std::vector<Job_MapEntInn> mapEntInns {};// [34 * 34 mapents] 朝四周外凸了 1-mapent
+
+
     std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> fieldDatas {};
+                        //-- 将被取代
+
+
+    std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> fields {};
+                        // 在 job线程 直接创建 field 实例
+                        // 最后一股脑传递给 主线程
 };
 
 

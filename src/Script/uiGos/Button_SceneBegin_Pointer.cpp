@@ -36,11 +36,10 @@ struct Button_SceneBegin_Pointer_PvtBinary{
 
 
 /* ===========================================================
- *                   init_in_autoMod
+ *                   init
  * -----------------------------------------------------------
  */
-void Button_SceneBegin_Pointer::init_in_autoMod(GameObj &goRef_,
-                                        const DyParam &dyParams_ ){
+void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Pointer_PvtBinary>();
