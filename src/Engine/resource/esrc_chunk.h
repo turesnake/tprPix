@@ -8,6 +8,9 @@
 #ifndef TPR_ESRC_CHUNK_H
 #define TPR_ESRC_CHUNK_H
 
+//-------------------- CPP --------------------//
+#include <string>
+
 //-------------------- Engine --------------------//
 #include "Chunk.h" 
 #include "chunkKey.h"

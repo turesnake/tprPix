@@ -1,10 +1,10 @@
 /*
- * =================== create_chunkData.cpp =======================
+ * =================== create_job_chunk.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.25
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *  job: build chunkData
+ *  job: build job_chunk
  * ----------------------------
  */
 //--- glm - 0.9.9.5 ---
@@ -28,12 +28,13 @@
 #include "tprCast.h"
 #include "random.h"
 
-#include "esrc_chunkData.h"
+#include "esrc_job_chunk.h"
 #include "esrc_gameSeed.h"
 #include "esrc_field.h"
 #include "esrc_ecoObj.h"
 
-#include "Job_ChunkCreate.h"
+#include "Job_MapEnt.h"
+#include "Job_Field.h"
 
 
 /*
@@ -58,34 +59,34 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
     //===== funcs =====//
-    void calc_chunkData( ChunkData &chunkData_ ); 
+    void calc_job_chunk( Job_Chunk &job_chunk_ ); 
     void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
                                         IntVec2 anyMPos_ );
     void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
-                                        Job_MapEntInn &mapEnt_ );
+                                        Job_MapEnt &mapEnt_ );
     
 }//-------------- namespace: bcd_inn end ----------------//
 
 
 
 /* ===========================================================
- *                create_chunkData_main
+ *                create_job_chunk_main
  * -----------------------------------------------------------
  * 在未来，这个函数需要写进 atom 函数中 ...
  */
-void create_chunkData_main( const Job &job_ ){
+void create_job_chunk_main( const Job &job_ ){
 
     //-------------------//
     //   job.argBinary
     //-------------------//
-    const auto *jobParamPtr = job_.get_param<ArgBinary_Create_ChunkData>();
+    const auto *jobParamPtr = job_.get_param<ArgBinary_Create_Job_Chunk>();
 
     IntVec2 chunkMPos = chunkKey_2_mpos( jobParamPtr->chunkKey );
 
     //--------------------------//
-    //      create chunkData
+    //      create job_chunk
     //--------------------------//
-    ChunkData &chunkDataRef = esrc::atom_insert_new_chunkData( jobParamPtr->chunkKey, chunkMPos );
+    Job_Chunk &job_chunkRef = esrc::atom_insert_new_job_chunk( jobParamPtr->chunkKey, chunkMPos );
 
     //------------------------------//
     // 收集 周边 4个 sectionKey
@@ -95,18 +96,18 @@ void create_chunkData_main( const Job &job_ ){
 
 
     //--------------------------//
-    //      calc chunkData
+    //      calc job_chunk
     //--------------------------//
-    bcd_inn::calc_chunkData( chunkDataRef );
+    bcd_inn::calc_job_chunk( job_chunkRef );
 
 
     
 
     //--------------------------//
-    //-- chunkData 数据计算完成后，向 状态表 添加一个元素
+    //-- job_chunk 数据计算完成后，向 状态表 添加一个元素
     //   以此来提醒 主线程，这个 chunk 数据准备好了
     //--------------------------//
-    esrc::atom_push_back_2_chunkDataFlags( jobParamPtr->chunkKey );
+    esrc::atom_push_back_2_job_chunkFlags( jobParamPtr->chunkKey );
 }
 
 
@@ -114,12 +115,12 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
 /* ===========================================================
- *                 calc_chunkData
+ *                 calc_job_chunk
  * -----------------------------------------------------------
  */
-void calc_chunkData( ChunkData &chunkData_ ){
+void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
-    IntVec2 chunkMPos = chunkData_.get_chunkMPos();
+    IntVec2 chunkMPos = job_chunkRef_.get_chunkMPos();
     //------------------------//
     //  nearFour_ecoObjDatas
     //------------------------//
@@ -130,14 +131,14 @@ void calc_chunkData( ChunkData &chunkData_ ){
                 // 这是一种简化办法。最终效果近似即可
 
     //------------------------//
-    //   chunkData.mapEntInns
+    //   job_chunk.mapEntInns
     //------------------------//
     IntVec2    mposOff {};
     for( int h=-1; h<=ENTS_PER_CHUNK; h++ ){
         for( int w=-1; w<=ENTS_PER_CHUNK; w++ ){ // 34*34 mapent 
 
             mposOff = IntVec2{ w, h };
-            Job_MapEntInn &mapEntRef = chunkData_.getnc_mapEntInnRef(mposOff);
+            Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
             mapEntRef.init( chunkMPos + mposOff );
             assign_mapent_to_nearFour_ecoObjs( nearFour_ecoObjDatas, mapEntRef );
         }
@@ -154,20 +155,21 @@ void calc_chunkData( ChunkData &chunkData_ ){
     IntVec2    fieldNodeOff {};
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in 8*8
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
             tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD, 
                                 chunkMPos.y + h*ENTS_PER_FIELD );
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             fieldKeys.push_back(tmpFieldKey);
 
             //--- copy nodeMapEnt datas to field --
-            auto &field = chunkData_.getnc_fieldRef(tmpFieldKey);
+            auto &field = job_chunkRef_.getnc_fieldRef(tmpFieldKey);
             fieldNodeOff = dpos_2_mpos( field.get_nodeDPos() ) - anyMPos_2_chunkMPos(field.get_mpos());
-            const auto &mapEntInnRef = chunkData_.getnc_mapEntInnRef( fieldNodeOff );
+            const auto &mapEntInnRef = job_chunkRef_.getnc_mapEntInnRef( fieldNodeOff );
             field.set_ecoObjKey( mapEntInnRef.ecoObjKey );
             field.set_colorTableId( mapEntInnRef.colorTableId );
             field.set_density( mapEntInnRef.density );
             field.set_nodeMapAlti( mapEntInnRef.alti );
+            field.set_perlin( mapEntInnRef.originPerlin, mapEntInnRef.uWeight );
         }
     }
 
@@ -190,24 +192,32 @@ void calc_chunkData( ChunkData &chunkData_ ){
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
                 mposOff = tmpEntMPos - chunkMPos;
 
-                Job_MapEntInn &mapEntRef = chunkData_.getnc_mapEntInnRef(mposOff);
+                Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
                 //----- field min/max alti -----
                 if( mapEntRef.alti < minFieldAlti ){ minFieldAlti = mapEntRef.alti; }
                 if( mapEntRef.alti > maxFieldAlti ){ maxFieldAlti = mapEntRef.alti; }
                 //--- skip unborder ent ---//
-                mapEntRef.isBorder = chunkData_.is_borderMapEnt(mposOff);
+                mapEntRef.isBorder = job_chunkRef_.is_borderMapEnt(mposOff);
                 //--- insert entInnPtr ---//
-                chunkData_.insert_a_entInnPtr_2_field( fieldKey, IntVec2{ew, eh}, &mapEntRef );
+                job_chunkRef_.insert_a_entInnPtr_2_field( fieldKey, IntVec2{ew, eh}, &mapEntRef );
             }
         }//- each ent in field end -- 
         //----- field data -----//
-        chunkData_.set_field_min_max_altis( fieldKey, minFieldAlti, maxFieldAlti );// only once
-        chunkData_.apply_field_job_groundGoEnts( fieldKey );
+        job_chunkRef_.set_field_min_max_altis( fieldKey, minFieldAlti, maxFieldAlti );// only once
+        job_chunkRef_.apply_field_job_groundGoEnts( fieldKey );
 
     }//-- each field key end --
 
+    job_chunkRef_.write_2_field_from_jobData();
+    // Now，the Fields all inited !!!
 
-    chunkData_.write_2_field_from_jobData();
+
+    //------------------------//
+    //  job_field.goSpecDatas
+    //------------------------//
+    job_chunkRef_.create_field_goSpecDatas();
+
+
 }
 
 
@@ -229,7 +239,7 @@ void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &co
 
 
 void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
-                                        Job_MapEntInn &mapEnt_ ){
+                                        Job_MapEnt &mapEnt_ ){
     double         vx        {};
     double         vy        {};
     IntVec2        mposOff   {};

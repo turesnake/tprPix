@@ -1,0 +1,8 @@
+{
+    "type": "Sml3",
+    "points":
+    [
+        [ {"dpos": [-30, 14], "BodySize": "Sml" }, {"dpos": [ 40, -100], "BodySize": "Sml" }, {"dpos": [ -70, -10], "BodySize": "Sml" } ],
+        [ {"dpos": [ 15, 24], "BodySize": "Sml" }, {"dpos": [ -10, -54], "BodySize": "Sml" }, {"dpos": [ 60, -50], "BodySize": "Sml" } ]
+    ]
+}

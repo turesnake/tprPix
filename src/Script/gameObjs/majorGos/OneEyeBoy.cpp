@@ -52,16 +52,16 @@ struct OneEyeBoy_PvtBinary{
 void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
     //================ dyParams =================//
-    double randVal {};
+    size_t randUVal {};
     const DyParams_Field *msParamPtr {nullptr};
     //---    
     size_t typeHash = dyParams_.get_typeHash();
     if( dyParams_.is_Nil() ){
-        randVal = 17.0; //- 随便写
+        randUVal = 17; //- 随便写
 
     }else if( typeHash == typeid(DyParams_Field).hash_code() ){
         msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-        randVal = msParamPtr->fieldUWeight;
+        randUVal = msParamPtr->uWeight;
 
     }else{
         tprAssert(0); //- 尚未实现
@@ -77,7 +77,7 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randVal) ); 
+    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) ); 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

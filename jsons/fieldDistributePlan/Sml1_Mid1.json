@@ -1,0 +1,21 @@
+{
+    "type": "Sml1_Mid1",
+    "points":
+    [
+        [{"dpos": [64, 51], "BodySize": "Mid"}, {"dpos": [-10, -71], "BodySize": "Sml"}],
+        [{"dpos": [-64, 51], "BodySize": "Mid"}, {"dpos": [10, -71], "BodySize": "Sml"}],
+        [{"dpos": [64, -51], "BodySize": "Mid"}, {"dpos": [-10, 71], "BodySize": "Sml"}],
+        [{"dpos": [-64, -51], "BodySize": "Mid"}, {"dpos": [10, 71], "BodySize": "Sml"}],
+
+        [{"BodySize": "Mid", "dpos": [56, -62]}, {"BodySize": "Sml", "dpos": [-63, 19]}],
+        [{"BodySize": "Mid", "dpos": [-56, -62]}, {"BodySize": "Sml", "dpos": [63, 19]}],
+        [{"BodySize": "Mid", "dpos": [56, 62]}, {"BodySize": "Sml", "dpos": [-63, -19]}],
+        [{"BodySize": "Mid", "dpos": [-56, 62]}, {"BodySize": "Sml", "dpos": [63, -19]}],
+
+        [{"BodySize": "Sml", "dpos": [62, -51]}, {"BodySize": "Mid", "dpos": [-39, 42]}],
+        [{"BodySize": "Sml", "dpos": [-62, -51]}, {"BodySize": "Mid", "dpos": [39, 42]}],
+        [{"BodySize": "Sml", "dpos": [62, 51]}, {"BodySize": "Mid", "dpos": [-39, -42]}],
+        [{"BodySize": "Sml", "dpos": [-62, 51]}, {"BodySize": "Mid", "dpos": [39, -42]}]
+
+    ]
+}

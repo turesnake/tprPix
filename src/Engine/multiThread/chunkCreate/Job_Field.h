@@ -1,12 +1,12 @@
 /*
- * ========================== Job_ChunkCreate.h =======================
+ * ========================== Job_Field.h =======================
  *                          -- tpr --
- *                                        CREATE -- 2019.09.26
+ *                                        CREATE -- 2019.10.08
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_JOB_CHUNK_CREATE_H
-#define TPR_JOB_CHUNK_CREATE_H
+#ifndef TPR_JOB_FIELD_H
+#define TPR_JOB_FIELD_H
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
@@ -16,52 +16,24 @@
 #include <set>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
-#include "config.h"
-#include "IntVec.h"
-#include "sectionKey.h"
-#include "fieldKey.h"
-#include "colorTableId.h"
-#include "Density.h"
-#include "MapAltitude.h"
-
-#include "Job_GroundGoEnt.h"
+#include "Job_MapEnt.h"
 
 
-class MemMapEnt;
-
-
-class Job_MapEntInn{
+// datas to support the field_gos create in main-thread 
+class Job_GoData{
 public:
-    
-    void init( IntVec2 mpos_ )noexcept;
-    //====== vals ======//
-    IntVec2    mpos         {};
-    IntVec2    midPPos      {}; // 中间点
-
-    sectionKey_t        ecoObjKey {};
-    colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
-    Density             density {};
-    MapAltitude         alti {};
-
-    double  originPerlin {}; // [-1.0, 1.0]
-    double  uWeight      {}; // [0.0, 97.0]
-
-    bool  isBorder {false}; //- 是否为 eco边缘go
-
-                             // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
-                              
-
-    void write_2_mapEnt( MemMapEnt &entRef_ )const noexcept;
-
-private:
-    double calc_pixAlti( IntVec2 pixPPos_ )noexcept;
-
-    //===== static =====//
-    static const IntVec2 pixesPerHalfMapent;
-}; 
-
+    Job_GoData( const GoSpecData *goSpecDataPtr_, 
+                const Job_MapEnt *job_mapEntPtr_,
+                const glm::dvec2 &dposOff_):
+        goSpecDataPtr(goSpecDataPtr_),
+        job_mapEntPtr(job_mapEntPtr_),
+        dposOff(dposOff_)
+        {}
+    //----- vals -----//
+    const GoSpecData    *goSpecDataPtr {nullptr};
+    const Job_MapEnt *job_mapEntPtr {nullptr};
+    glm::dvec2           dposOff       {};
+};
 
 
 
@@ -80,7 +52,7 @@ public:
 
     
     // param: mposOff_ base on field.mpos
-    inline void insert_a_entInnPtr( IntVec2 mposOff_, Job_MapEntInn *entPtr_ )noexcept{
+    inline void insert_a_entInnPtr( IntVec2 mposOff_, Job_MapEnt *entPtr_ )noexcept{
         tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
                     (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
 
@@ -114,6 +86,18 @@ public:
         return (this->fields.size() > 1);
     }
 
+    inline void push_back_2_job_goDatas(const GoSpecData        *goSpecDataPtr_, 
+                                        const Job_MapEnt     *job_mapEntPtr_,
+                                        const glm::dvec2        &dposOff_ )noexcept{
+        this->job_goDatas.emplace_back( goSpecDataPtr_, job_mapEntPtr_, dposOff_ );
+    }
+
+    inline const std::vector<Job_GoData> &get_job_goDatas()const noexcept{
+        return this->job_goDatas;
+    }
+
+
+
 private:
 
     inline static size_t get_halfFieldIdx( IntVec2 mposOff_ )noexcept{
@@ -125,8 +109,12 @@ private:
     std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
 
 
+    std::vector<Job_GoData> job_goDatas {}; // datas need to be create in main-thread
+
+
+
     //=== datas just used for inner calc ===
-    std::vector<std::vector<Job_MapEntInn*>> mapEntPtrs {}; // 二维数组 [h,w]
+    std::vector<std::vector<Job_MapEnt*>> mapEntPtrs {}; // 二维数组 [h,w]
     //-- 在未来，元素type 会被改成 colorTableId_t ---
     std::set<sectionKey_t> ecoObjKeys {};
     std::set<colorTableId_t> fields {};
@@ -136,7 +124,6 @@ private:
     //===== flags =====//
     bool isHaveBorderEnt    {false}; //- 只要发现 border
 };
-
 
 
 #endif 

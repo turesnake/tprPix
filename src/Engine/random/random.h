@@ -30,17 +30,17 @@ u32_t get_new_seed();
 //  执行一次 取模运算，生成一组更均匀的 随机数 
 //-- param:
 //  noise_:  [-1.0, 1.0]
-//  scale_:  [0.0, 10000.0]
-//  modBase: some prime number [0, 1000]
-inline double blender_the_perlinNoise(  double noise_, 
+//  scale_:  [0.0, 100000.0]
+//  modBase: some prime number [0, 10000]
+inline size_t blender_the_perlinNoise(  double noise_, 
                                         double scale_,
                                         size_t modBase_ ){
     tprAssert(  (noise_>=-1.0) && (noise_<=1.0) &&
                 (scale_>0.0) &&
                 (scale_ > static_cast<double>(modBase_) * 2.0) );
-    double weight = (noise_+1.0) * scale_ + 123.79; // [0.0, scale_*2.0]
+    double weight = (noise_+1.0) * scale_ + 76123.79; // [0.0, scale_*2.0]
     size_t neo = cast_2_size_t(floor(weight)) % modBase_;
-    return static_cast<double>(neo); // [0.0, modBase_]
+    return neo; // [0, modBase_]
 }
 
 

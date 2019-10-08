@@ -127,7 +127,7 @@ void AnimActionPos::prepare_colliPointOffs(){
                                                     fp_inn::scales_45_degree.cbegin(), 
                                                     fp_inn::scales_45_degree.cend() );
 
-        cout << "   colliPointScales_cir_1m1.size() = " << fp_inn::colliPointScales_cir_1m1.size() << endl;
+        //cout << "   colliPointScales_cir_1m1.size() = " << fp_inn::colliPointScales_cir_1m1.size() << endl;
 
     //----- colliPointScales_cir_2m2 ------//
     //-- 直接继承 2m2 的数据，缩小为 1/2 ----
@@ -149,7 +149,7 @@ void AnimActionPos::prepare_colliPointOffs(){
                                                     fp_inn::scales_2m2_oth.cend() );
 
 
-        cout << "   colliPointScales_cir_2m2.size() = " << fp_inn::colliPointScales_cir_2m2.size() << endl;
+        //cout << "   colliPointScales_cir_2m2.size() = " << fp_inn::colliPointScales_cir_2m2.size() << endl;
 
     //----- colliPointScales_cir_3m3 ------//
     //-- 直接继承 2m2 的数据，缩小为 2/3 ----
@@ -167,7 +167,7 @@ void AnimActionPos::prepare_colliPointOffs(){
                                                     fp_inn::scales_3m3_oth.cend() );
 
 
-    cout << "   colliPointScales_cir_3m3.size() = " << fp_inn::colliPointScales_cir_3m3.size() << endl;
+    //cout << "   colliPointScales_cir_3m3.size() = " << fp_inn::colliPointScales_cir_3m3.size() << endl;
 
 }
 

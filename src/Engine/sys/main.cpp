@@ -80,6 +80,7 @@ int main( int argc, char* argv[] ){
     json::parse_from_goJsonFile();
     json::parse_from_uiGoJsonFile();
     
+    
 
     //------------------------------------------//
     //        Behaviour.Awakes
@@ -94,6 +95,9 @@ int main( int argc, char* argv[] ){
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
 
+    esrc::init_fieldDistributePlanSet();
+    json::parse_from_fieldDistributePlanJsonFile();
+    
     esrc::init_colorTableSet();
     json::parse_from_colorTableJsonFile();
 
@@ -103,7 +107,7 @@ int main( int argc, char* argv[] ){
     esrc::init_uniformBlockObjs();
     esrc::init_renderPools();
     esrc::init_chunks();
-    esrc::init_chunkDatas();
+    esrc::init_job_chunks();
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
     esrc::init_gameObjs();

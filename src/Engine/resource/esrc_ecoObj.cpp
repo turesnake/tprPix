@@ -136,6 +136,7 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
  *          atom_ecoObj_apply_a_rand_goSpecData    [-READ-]
  * -----------------------------------------------------------
  */
+/*
 const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_, 
                                                     size_t densityIdx_, 
                                                     double randV_ )noexcept{
@@ -144,18 +145,35 @@ const GoSpecData &atom_ecoObj_apply_a_rand_goSpecData(sectionKey_t sectionkey_,
         tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
     return ecoObj_inn::ecoObjs.at(sectionkey_)->apply_a_rand_goSpecData( densityIdx_, randV_  );
 }
+*/
+
+
+const DensityPool &atom_ecoObj_get_densityPool(sectionKey_t sectionkey_, size_t densityIdx_ )noexcept{
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_densityPool( densityIdx_ );
+}
+
+
+
+
+
+
 
 /* ===========================================================
  *          atom_ecoObj_get_applyPercent     [-READ-]
  * -----------------------------------------------------------
  * -- 更加精细的 元素数据 只读访问 接口
  */
+/*
 double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, Density density_ )noexcept{
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
         tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
     return ecoObj_inn::ecoObjs.at(sectionkey_)->get_applyPercent( density_ );
 }
+*/
 
 
 colorTableId_t atom_ecoObj_get_colorTableId( sectionKey_t sectionkey_ )noexcept{

@@ -16,11 +16,11 @@
 // POD
 // job.argBinary
 // use std::any to pass
-struct ArgBinary_Create_ChunkData{
+struct ArgBinary_Create_Job_Chunk{
     chunkKey_t  chunkKey;
 };
 
-void create_chunkData_main( const Job &job_ );
+void create_job_chunk_main( const Job &job_ );
 
 
 

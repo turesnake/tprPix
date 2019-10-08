@@ -38,8 +38,6 @@
 
 class GameObj;
 class UIObj;
-//class json::GoJsonData;
-//class json::UIGoJsonData;
 
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//

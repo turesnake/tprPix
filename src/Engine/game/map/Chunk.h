@@ -117,6 +117,7 @@ private:
                              // 这个值仅用来 配合 simplex-noise 函数使用
 
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
+    size_t   uWeight      {}; // [0, 9999]
 
     mapSurface::randEntId_t mapSurfaceRandEntId {}; //- 指导 field 是否生成／生成什么lvl 的 mapsurface go
                                         

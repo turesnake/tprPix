@@ -22,7 +22,7 @@
 #include "esrc_gameObj.h" 
 #include "esrc_time.h" 
 #include "esrc_chunk.h" 
-#include "esrc_chunkData.h"
+#include "esrc_job_chunk.h"
 #include "esrc_mapSurfaceRand.h"
 
 
@@ -36,33 +36,26 @@
  * only called in chunkCreate
  * all kinds of gos 
  */
-void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
+void create_gos_in_field(   fieldKey_t      fieldKey_, 
+                            const Chunk     &chunkRef_,
+                            const Job_Chunk &job_chunkRef_ ){
 
     const auto &fieldRef = esrc::get_field(fieldKey_);
-
-    sectionKey_t ecoObjKey = fieldRef.get_ecoObjKey();
-
-    double randV = fieldRef.get_uWeight() * 0.35 + 313.17; //- 确保大于0
-    double fract = randV - floor(randV); //- 小数部分
-    tprAssert( (fract>=0.0) && (fract<=1.0) );
+    const auto *job_fieldPtr = job_chunkRef_.get_job_fieldPtr(fieldKey_);
 
     //----- ground go ------//
     {
-        fieldKey_t  fieldKey {};
-        auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkRef_.get_key() );
         //--- dyParam ---//
         DyParam dyParam {};
         auto gUPtr = std::make_unique<DyParams_GroundGo>();
         gUPtr->fieldUWeight = fieldRef.get_uWeight();
-        gUPtr->job_fieldPtr = chunkDataRef.get_job_fieldPtr(fieldKey_);
+        gUPtr->job_fieldPtr = job_fieldPtr;
         dyParam.insert_ptr<DyParams_GroundGo>( gUPtr.get() );
-
         //--- 
         gameObjs::create_a_Go(  ssrc::get_goSpecId( "groundGo" ),
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
-
 
     //----- mapsurface go ------//
     {               
@@ -77,9 +70,8 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
             auto mUPtr = std::make_unique<DyParams_MapSurface>();
             mUPtr->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             mUPtr->lvl = mapSurfaceLvl;
-            mUPtr->randVal = fieldRef.get_uWeight();
+            mUPtr->randUVal = fieldRef.get_uWeight();
             dyParam.insert_ptr<DyParams_MapSurface>( mUPtr.get() );
-
             //--- 
             gameObjs::create_a_Go(  ssrc::get_goSpecId( "mapSurfaceLower" ),
                                     fieldRef.get_dpos() + dposOff,
@@ -97,36 +89,24 @@ void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ ){
     }
     
     //----- land go -----//
-    if( fieldRef.is_land() ){
-        const auto &goSpecData = esrc::atom_ecoObj_apply_a_rand_goSpecData( ecoObjKey,
-                                                            fieldRef.get_density().get_idx(),
-                                                            fieldRef.get_uWeight() );
-        const auto &animLabels = goSpecData.get_animLabels();
-
-        if( fract <= esrc::atom_ecoObj_get_applyPercent( ecoObjKey, fieldRef.get_density()) ){
-
-            //--- dyParam ---//
-            DyParam dyParam {};
-            auto fUPtr = std::make_unique<DyParams_Field>();
-            fUPtr->fieldUWeight = fieldRef.get_uWeight();
-            fUPtr->fieldNodeMapEntAlti = fieldRef.get_nodeMapAlti(); //- tmp 有问题
-            fUPtr->fieldDensity = fieldRef.get_density();
-            for( const auto &ent : animLabels ){
-                fUPtr->animLabels.push_back( ent );
-            }
-            dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );
-
-            //---
-            gameObjs::create_a_Go(  goSpecData.get_goSpecId(),
-                                    fieldRef.get_nodeDPos(),
-                                    //fieldRef.get_midDPos(),
-                                    dyParam );
+    for( const auto &i : job_fieldPtr->get_job_goDatas() ){
+        const auto &animLabels = i.goSpecDataPtr->get_animLabels();
+        //--- dyParam ---//
+        DyParam dyParam {};
+        auto fUPtr = std::make_unique<DyParams_Field>();
+        fUPtr->uWeight = i.job_mapEntPtr->uWeight;
+        fUPtr->mapEntAlti = i.job_mapEntPtr->alti;
+        fUPtr->mapEntDensity = i.job_mapEntPtr->density;
+        for( const auto &ent : animLabels ){
+            fUPtr->animLabels.push_back( ent );
         }
+        dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );
+        //---
+        gameObjs::create_a_Go(  i.goSpecDataPtr->get_goSpecId(),
+                                fieldRef.get_midDPos() + i.dposOff,
+                                dyParam );
     }
+
 }
-
-
-
-
 
 

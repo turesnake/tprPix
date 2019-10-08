@@ -25,7 +25,10 @@
 #include "GoSpecData.h"
 #include "colorTableId.h"
 
+#include "DensityPool.h"
+
 class EcoSysPlan;
+
 
 //- 一个在游戏地图上存在的 实实在在的区域。
 //- 在游戏世界中，每个 section左下角，都放置一个 EcoSysPlan 数据集 
@@ -42,24 +45,24 @@ public:
 
     void init_fstOrder( sectionKey_t sectionKey_ );
 
-    //-- 核心函数 --
-    // field 会调用此函数
-    // 如果自己是 “纯实例“，周边 ecoObj实例，也会调用此函数
-    // param: randV_ -- [-100.0, 100.0]
-    inline const GoSpecData &apply_a_rand_goSpecData( size_t densityIdx_, double randV_ ) const noexcept{
-            tprAssert( randV_ >= 0.0 );
-        size_t randV = cast_2_size_t(floor( randV_ * 5.1 + 971.3 ));
-        auto &pool = this->goSpecDataPools.at( densityIdx_ );
-        return pool.at( randV % pool.size() );
+
+    const DensityPool &get_densityPool( size_t densityIdx_ )const noexcept{
+        /*
+        tprAssert( densityIdx_ < this->densityPools.size() ); // tmp
+        return *(this->densityPools.at(densityIdx_));
+        */
+
+        tprAssert( densityIdx_ < this->densityPoolsPtr->size() ); // tmp
+        return *(this->densityPoolsPtr->at(densityIdx_));
     }
+
 
     inline IntVec2          get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
     inline ecoSysPlanId_t   get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
     inline EcoSysPlanType   get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
-    inline double           get_applyPercent( Density density_ ) const noexcept{ return this->applyPercentsPtr->at(density_.get_idx()); }
     inline double           get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     inline sectionKey_t     get_sectionKey() const noexcept{ return this->sectionKey; }
-    inline double           get_weight() const noexcept{ return this->weight; }
+    inline size_t           get_uWeight() const noexcept{ return this->uWeight; }
     inline occupyWeight_t   get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
@@ -77,9 +80,8 @@ private:
     //======== vals ========//
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
-
-    double weight {};  //- 根据 simplexNoise 生成的 权重值。[-100.0, 100.0]
-                      // [just mem] 
+                      
+    size_t uWeight {}; // [0, 9999]
 
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields
@@ -98,11 +100,22 @@ private:
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
     //  实际数据 存储在 ecosysPlan 实例中，此处仅保存 只读指针 --
-    const std::vector<double> *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
+    //const std::vector<double> *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
+
+                    //- 已被放入 densitypool ...
+
+
     const std::vector<double> *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
                         
+
     //-- 独立数据 --
-    std::vector<std::vector<GoSpecData>> goSpecDataPools {};
+    //std::vector<std::unique_ptr<DensityPool>> densityPools {};
+    const std::vector<std::unique_ptr<DensityPool>> *densityPoolsPtr {nullptr};
+
+                            // 暂时没有确定，是否重分配 densitypools 数据
+                            // ...
+
+
 
     double           densitySeaLvlOff  {0.0}; 
 };

@@ -1,0 +1,39 @@
+{
+    "type": "Sml2",
+    "points":
+    [
+        [{"BodySize": "Sml", "dpos": [10, 45]}, {"BodySize": "Sml", "dpos": [-56, -54]}],
+        [{"BodySize": "Sml", "dpos": [-10, 45]}, {"BodySize": "Sml", "dpos": [56, -54]}],
+
+        [{"BodySize": "Sml", "dpos": [5, -83]}, {"BodySize": "Sml", "dpos": [72, 66]}],
+        [{"BodySize": "Sml", "dpos": [-5, -83]}, {"BodySize": "Sml", "dpos": [-72, 66]}],
+
+        [{"BodySize": "Sml", "dpos": [3, -65]}, {"BodySize": "Sml", "dpos": [43, 51]}],
+        [{"BodySize": "Sml", "dpos": [-3, -65]}, {"BodySize": "Sml", "dpos": [-43, 51]}],
+
+        [{"BodySize": "Sml", "dpos": [78, 50]}, {"BodySize": "Sml", "dpos": [-74, -11]}],
+        [{"BodySize": "Sml", "dpos": [-78, 50]}, {"BodySize": "Sml", "dpos": [74, -11]}],
+
+        [{"BodySize": "Sml", "dpos": [-79, -20]}, {"BodySize": "Sml", "dpos": [-10, 80]}],
+        [{"BodySize": "Sml", "dpos": [79, -20]}, {"BodySize": "Sml", "dpos": [10, 80]}],
+        [{"BodySize": "Sml", "dpos": [-79, 20]}, {"BodySize": "Sml", "dpos": [-10, -80]}],
+        [{"BodySize": "Sml", "dpos": [79, 20]}, {"BodySize": "Sml", "dpos": [10, -80]}],
+
+        [{"BodySize": "Sml", "dpos": [-18, -78]}, {"BodySize": "Sml", "dpos": [-55, 61]}],
+        [{"BodySize": "Sml", "dpos": [18, -78]}, {"BodySize": "Sml", "dpos": [55, 61]}],
+
+        [{"BodySize": "Sml", "dpos": [-76, -70]}, {"BodySize": "Sml", "dpos": [58, -15]}],
+        [{"BodySize": "Sml", "dpos": [76, -70]}, {"BodySize": "Sml", "dpos": [-58, -15]}],
+        [{"BodySize": "Sml", "dpos": [-76, 70]}, {"BodySize": "Sml", "dpos": [58, 15]}],
+        [{"BodySize": "Sml", "dpos": [76, 70]}, {"BodySize": "Sml", "dpos": [-58, 15]}],
+
+        [{"BodySize": "Sml", "dpos": [-74, 10]}, {"BodySize": "Sml", "dpos": [23, -70]}],
+        [{"BodySize": "Sml", "dpos": [74, 10]}, {"BodySize": "Sml", "dpos": [-23, -70]}],
+
+        [{"BodySize": "Sml", "dpos": [52, -51]}, {"BodySize": "Sml", "dpos": [-82, -15]}],
+
+        [{"BodySize": "Sml", "dpos": [41, -37]}, {"BodySize": "Sml", "dpos": [-77, 0]}],
+        [{"BodySize": "Sml", "dpos": [-41, -37]}, {"BodySize": "Sml", "dpos": [77, 0]}]
+
+    ]
+}

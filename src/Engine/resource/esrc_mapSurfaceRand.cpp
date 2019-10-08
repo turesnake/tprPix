@@ -34,8 +34,8 @@ void init_mapSurfaceRandSet(){
 }
 
 
-mapSurface::randEntId_t apply_a_mapSurfaceRandEntId( double randVal_ ){
-    return msr_inn::randEntSetUPtr->apply_a_randEntId(randVal_);
+mapSurface::randEntId_t apply_a_mapSurfaceRandEntId( size_t randUVal_ ){
+    return msr_inn::randEntSetUPtr->apply_a_randEntId(randUVal_);
 }
 
 
@@ -51,8 +51,8 @@ mapSurface::RandMesh &apply_new_mapSurfaceRandMeshData( mapSurface::RandEntLvl l
 
 
 const mapSurface::RandMesh &
-get_a_mapSurfaceRandMeshData( mapSurface::RandEntLvl lvl_, double randVal_ )noexcept{
-    return msr_inn::randMeshSetUPtr->get_a_randMeshData( lvl_, randVal_ );
+get_a_mapSurfaceRandMeshData( mapSurface::RandEntLvl lvl_, size_t randUVal_ )noexcept{
+    return msr_inn::randMeshSetUPtr->get_a_randMeshData( lvl_, randUVal_ );
 }
 
 

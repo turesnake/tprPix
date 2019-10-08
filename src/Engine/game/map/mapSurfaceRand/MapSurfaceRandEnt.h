@@ -50,9 +50,9 @@ public:
 
     void load_mapSurfaceRandSets();
 
-    inline randEntId_t apply_a_randEntId( double randVal_ )const noexcept{
-        tprAssert( randVal_ >= 0.0 );
-        size_t idx = cast_2_size_t(floor(randVal_)) % this->ids.size();
+    inline randEntId_t apply_a_randEntId( size_t randUVal_ )const noexcept{
+        
+        size_t idx = (randUVal_ * 5 + 77601) % this->ids.size();
         return this->ids.at(idx);
     }
 

@@ -24,9 +24,9 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ );
 
 EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ );
 
-ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObjWeight_ );
+ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, size_t ecoObjUWeight_ );
 
-ecoSysPlanId_t apply_a_rand_ecoSysPlanId( double ecoObjWeight_ );
+ecoSysPlanId_t apply_a_rand_ecoSysPlanId( size_t ecoObjUWeight_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

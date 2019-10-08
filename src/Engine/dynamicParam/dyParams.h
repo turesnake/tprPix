@@ -22,7 +22,7 @@
 #include "MapSurfaceRandEnt.h"
 #include "AnimLabel.h"
 
-#include "Job_ChunkCreate.h"
+#include "Job_Field.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
@@ -31,9 +31,9 @@
 
 //-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
 struct DyParams_Field{
-    double       fieldUWeight;
-	MapAltitude  fieldNodeMapEntAlti;
-	Density      fieldDensity;
+    size_t       uWeight;
+	MapAltitude  mapEntAlti;
+	Density      mapEntDensity;
     std::vector<AnimLabel> animLabels; //- maybe empty
 };
 
@@ -42,13 +42,13 @@ struct DyParams_Field{
 struct DyParams_MapSurface{
     MapSurfaceLowSpec       spec; // "mapSurfaceLow_test"
     mapSurface::RandEntLvl  lvl; // "Field_1f1"
-    double                  randVal; // field.weight
+    size_t                  randUVal; // field.uWeight
 };
 
 
 
 struct DyParams_GroundGo{
-    double      fieldUWeight;
+    size_t      fieldUWeight;
     const Job_Field  *job_fieldPtr;
 };
 

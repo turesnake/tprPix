@@ -111,7 +111,8 @@ MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
 
         //-- Frequent Bugs --
         if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
-            esrc::chunkMemState_debug( chunkKey, "esrc::getnc_memMapEntRef(): " );
+            std::string info = "\nesrc::getnc_memMapEntRef(): ";
+            esrc::chunkMemState_debug( chunkKey, info );
         }
 
     tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );

@@ -35,7 +35,8 @@
 //}//-------------- namespace: mapField_inn end ---------------//
 
 //===== static =====//
-const glm::dvec2 MapField::halfDPosOff {
+const double MapField::halfField { static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
+const glm::dvec2 MapField::halfFieldVec2 {
             static_cast<double>( PIXES_PER_FIELD ) * 0.5,
             static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
 
@@ -57,13 +58,7 @@ void MapField::init(){
     this->init_nodeDPos();
 
     //--- originPerlin ---
-    // 3*3 个 field 组成一个 pn晶格
-    const double freq = 1.0 / 3.0; //- tmp
-    this->originPerlin = simplex_noise2( this->FDPos * freq );//- [-1.0, 1.0]
-
-    //--- weight ---
-    this->weight  = this->originPerlin * 100.0;        //- [-100.0, 100.0]
-    this->uWeight = blender_the_perlinNoise( this->originPerlin, 699.7, 97 ); //[0.0, 97.0]
+    // inited in calc_job_chunk()...
 
     //--- occupyWeight ---
     this->init_occupyWeight();
@@ -94,13 +89,13 @@ void MapField::init_nodeDPos(){
     if(         pnY >=  1.0 ){ pnY =  0.99; }
     else if(    pnY <= -1.0 ){ pnY = -0.99; }
 
-    double scaleX = MapField::halfDPosOff.x - 16.0; // not too close between two field-gos
-    double scaleY = MapField::halfDPosOff.y - 4.0; 
+    double scaleX = MapField::halfField - 16.0; // not too close between two field-gos
+    double scaleY = MapField::halfField - 4.0; 
 
     pnX = floor(pnX*scaleX); //- align to pix
     pnY = floor(pnY*scaleY); //- align to pix
 
-    this->nodeDPos = this->get_dpos() + MapField::halfDPosOff + glm::dvec2{pnX, pnY};
+    this->nodeDPos = this->get_dpos() + MapField::halfFieldVec2 + glm::dvec2{pnX, pnY};
 }
 
 

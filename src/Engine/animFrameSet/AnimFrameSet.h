@@ -80,8 +80,8 @@ public:
     }
 
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
-                                                              double             randVal_ )noexcept{
-        return this->subGroup.apply_a_random_animSubspeciesId( labels_, randVal_ );
+                                                              size_t randUVal_ )noexcept{
+        return this->subGroup.apply_a_random_animSubspeciesId( labels_, randUVal_ );
     }
 
 

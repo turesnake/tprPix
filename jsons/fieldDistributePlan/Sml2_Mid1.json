@@ -1,0 +1,23 @@
+{
+    "type": "Sml2_Mid1",
+    "points":
+    [
+        [{"dpos": [60, -63], "BodySize": "Mid"}, {"dpos": [-1, 70], "BodySize": "Sml"}, {"dpos": [-77, -40], "BodySize": "Sml"}],
+        [{"dpos": [-60, -63], "BodySize": "Mid"}, {"dpos": [1, 70], "BodySize": "Sml"}, {"dpos": [77, -40], "BodySize": "Sml"}],
+        [{"dpos": [60, 63], "BodySize": "Mid"}, {"dpos": [-1, -70], "BodySize": "Sml"}, {"dpos": [-77, 40], "BodySize": "Sml"}],
+        [{"dpos": [-60, 63], "BodySize": "Mid"}, {"dpos": [1, -70], "BodySize": "Sml"}, {"dpos": [77, 40], "BodySize": "Sml"}],
+
+
+        [{"BodySize": "Mid", "dpos": [-59, 63]}, {"BodySize": "Sml", "dpos": [79, 25]}, {"BodySize": "Sml", "dpos": [-56, -81]}],
+        [{"BodySize": "Mid", "dpos": [59, 63]}, {"BodySize": "Sml", "dpos": [-79, 25]}, {"BodySize": "Sml", "dpos": [56, -81]}],
+        [{"BodySize": "Mid", "dpos": [-59, -63]}, {"BodySize": "Sml", "dpos": [79, -25]}, {"BodySize": "Sml", "dpos": [-56, 81]}],
+        [{"BodySize": "Mid", "dpos": [59, -63]}, {"BodySize": "Sml", "dpos": [-79, -25]}, {"BodySize": "Sml", "dpos": [56, 81]}],
+
+
+        [{"BodySize": "Mid", "dpos": [-64, -58]}, {"BodySize": "Sml", "dpos": [68, 58]}, {"BodySize": "Sml", "dpos": [80, -62]}],
+        [{"BodySize": "Mid", "dpos": [64, -58]}, {"BodySize": "Sml", "dpos": [-68, 58]}, {"BodySize": "Sml", "dpos": [-80, -62]}],
+        [{"BodySize": "Mid", "dpos": [-64, 58]}, {"BodySize": "Sml", "dpos": [68, -58]}, {"BodySize": "Sml", "dpos": [80, 62]}],
+        [{"BodySize": "Mid", "dpos": [64, 58]}, {"BodySize": "Sml", "dpos": [-68, -58]}, {"BodySize": "Sml", "dpos": [-80, 62]}]
+        
+    ]
+}

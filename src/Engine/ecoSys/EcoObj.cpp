@@ -76,7 +76,7 @@ void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
     this->init_fstOrder( sectionKey_ );
 
     tprAssert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
-    EcoSysPlan *ecoSysPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_rand_ecoSysPlanId(this->weight) );
+    EcoSysPlan *ecoSysPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_rand_ecoSysPlanId(this->uWeight) );
     //------------------------//
     //  确定 targetEcoPlanPtr 后, 正式 分配数据
     //------------------------//
@@ -124,18 +124,28 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     fv /= static_cast<double>(ENTS_PER_SECTION);
     fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
 
-    this->weight = simplex_noise2(  fv.x * freq,
-                                    fv.y * freq ) * 100.0; //- [-100.0, 100.0]
+    double originPerlin = simplex_noise2( fv.x * freq, fv.y * freq ); //- [-1.0, 1.0]
+
+    this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
+
     //------------------//
     //   occupyWeight
     //------------------//
-    size_t randV = cast_2_size_t(floor( this->weight * 3.1 + 757.3 ));
-    this->occupyWeight = calc_occupyWeight( this->oddEven, randV );
+    this->occupyWeight = calc_occupyWeight( this->oddEven, this->uWeight );
     //------------------------------//
-    //  landColors / goSpecIdPools
+    //       densityPools
     //------------------------------//
-    this->goSpecDataPools.clear();
-    this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData>{} );
+    //this->goSpecDataPools.clear();
+    //this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData>{} );
+
+    //this->densityPools.resize( Density::get_idxNum(), nullptr );
+
+    /*
+    for( size_t i=0; i<Density::get_idxNum(); i++ ){
+        this->densityPools.push_back( std::move(nullptr) );
+    }
+    */
+
 }
 
 
@@ -154,7 +164,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
 
     EcoSysPlanType   ecoPlanType {};
 
-    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
+    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->uWeight) ); //- 实现了伪随机
 
     //------------------------//
     //          右下
@@ -166,7 +176,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
         (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
     }
     //------------------------//
     //          左上
@@ -178,7 +188,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
         (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
                 ecoPlanType = node_1_Ptr->get_type() :
                 ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
     }
     //------------------------//
     //          右上
@@ -198,7 +208,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
                 tprAssert(0);
                 ecoPlanType = node_1_Ptr->get_type(); // never reach
         }
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->weight)) );
+        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
     }
 
     //------------------------//
@@ -214,7 +224,7 @@ void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_fo
  */
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
 
-    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->weight) ); //- 实现了伪随机
+    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->uWeight) ); //- 实现了伪随机
 
     this->ecoSysPlanId = targetEcoPlanPtr_->get_id();
     this->ecoSysPlanType = targetEcoPlanPtr_->get_type();
@@ -222,11 +232,14 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->colorTableId = targetEcoPlanPtr_->get_colorTableId();
 
     //--- 仅 获得 只读指针 ---
-    this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();
+    //this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();
     this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();
 
     //---- goSpecIdPools 数据 ----
-    //goSpecId_t  tmpGoSpecId {};
+    //
+    //      此段不能删！！！！！
+    //
+    /*
     for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
         //--- 取 8 个元素 ---
         for( int ci=0; ci<8; ci++ ){ 
@@ -234,5 +247,22 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
             this->goSpecDataPools.at(i).push_back( goSpecData ); // copy
         }
     }
+    */
+
+
+    //-- 最直接的方案，全盘复制 densityPools 数据。  超级临时 版本 ！！！！！！
+
+    auto &ecoPlanContainer = targetEcoPlanPtr_->get_densityPools();
+
+    /*
+    for( size_t i=0; i<this->densityPools.size(); i++ ){
+        this->densityPools.at(i) = std::make_unique<DensityPool>( *(ecoPlanContainer.at(i)) ); // 值复制 。。。
+    }
+    */
+    this->densityPoolsPtr = &ecoPlanContainer;  
+                
+                //-- 在没确定 ecoobj densitypool 分配方式之前
+                //   先用指针，临时借用 ecoplan 的数据
+                // ...
 }
 

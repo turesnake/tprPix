@@ -23,8 +23,12 @@
 #include "UIAnchor.h"
 #include "Chunk.h"
 
+//--- need ---//
+class Job_Chunk;
 
-void create_gos_in_field( fieldKey_t fieldKey_, const Chunk &chunkRef_ );
+void create_gos_in_field(   fieldKey_t fieldKey_, 
+                            const Chunk &chunkRef_,
+                            const Job_Chunk &job_chunkRef_ );
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

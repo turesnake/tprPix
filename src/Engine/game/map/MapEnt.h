@@ -56,7 +56,7 @@ public:
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
 
-    inline void set_perlin( double originPerlin_, double uWeight_ ){
+    inline void set_perlin( double originPerlin_, size_t uWeight_ ){
         this->originPerlin = originPerlin_;
         this->uWeight = uWeight_;
     }
@@ -65,7 +65,7 @@ public:
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
-    inline double           get_uWeight()const noexcept{ return this->uWeight; }
+    inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }
     inline Density          get_density()const noexcept{ return this->density; }
 
@@ -86,7 +86,7 @@ private:
     Density             density {};
 
     double  originPerlin {}; // [-1.0, 1.0]
-    double  uWeight      {}; // [0.0, 97.0]
+    size_t  uWeight      {}; // [0, 9999]
 
     bool    isBorder     {false}; // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 

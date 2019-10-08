@@ -53,9 +53,9 @@ void jobThread_main(){
             //  只有这样，才能保证 不会被 pop 函数永久阻塞
             //  进而才能 合理地 终止 本job线程
             break;
-        case JobType::Create_ChunkData:
+        case JobType::Create_Job_Chunk:
             //....
-            create_chunkData_main( *jobSPtr );
+            create_job_chunk_main( *jobSPtr );
             break;
         
         default:

@@ -1,0 +1,8 @@
+{
+    "type": "Mid1",
+    "points":
+    [
+        [ {"dpos": [ 10, 18], "BodySize": "Mid" } ],
+        [ {"dpos": [ -35, -34], "BodySize": "Mid" } ]
+    ]
+}

@@ -77,12 +77,11 @@ public:
     }
 
 
-    inline const RandMesh &get_a_randMeshData( RandEntLvl lvl_, double randVal_ )const noexcept{
+    inline const RandMesh &get_a_randMeshData( RandEntLvl lvl_, size_t randUVal_ )const noexcept{
         tprAssert( this->dataUPtrs.find(lvl_) != this->dataUPtrs.end() );
         auto &vecRef = this->dataUPtrs.at(lvl_);
         //---
-        double absVal = std::abs(randVal_ * 3.17 + 160.71);
-        size_t idx = cast_2_size_t(floor(absVal)) % vecRef.size();
+        size_t idx = (randUVal_ + 197519) % vecRef.size();
         return *(vecRef.at(idx));
     }
 

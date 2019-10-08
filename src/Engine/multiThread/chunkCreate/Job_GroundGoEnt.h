@@ -27,7 +27,7 @@ public:
     Job_GroundGoEnt(   GroundGoEntType  type_,
                     const glm::vec2     fposOff_,
                     colorTableId_t      id_,
-                    double              uWeight_ ):
+                    size_t              uWeight_ ):
         groundType(type_),
         fposOff(fposOff_),
         colorTableId(id_),
@@ -39,7 +39,7 @@ public:
     //---
     //sectionKey_t          ecoObjKey;
     colorTableId_t          colorTableId;
-    double                  uWeight; //[0.0, 97.0]
+    size_t                  uWeight; //[0.0, 9999]
 };
 
 #endif 

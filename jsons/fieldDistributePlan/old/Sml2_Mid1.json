@@ -1,0 +1,8 @@
+{
+    "type": "Sml2_Mid1",
+    "points":
+    [
+        [ {"dpos": [ 30, -14], "BodySize": "Sml" }, {"dpos": [ -40, 100], "BodySize": "Sml" }, {"dpos": [ 70, -10], "BodySize": "Mid" } ],
+        [ {"dpos": [ 35, 24], "BodySize": "Sml" }, {"dpos": [  -10, -54], "BodySize": "Sml" }, {"dpos": [ -60, 50], "BodySize": "Mid" } ]
+    ]
+}

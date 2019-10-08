@@ -11,6 +11,7 @@
 //-------------------- Engine --------------------//
 #include "GameObj.h"
 
+
 namespace json{//------------- namespace json ----------------
 
 //------------------------------//
@@ -18,6 +19,7 @@ void parse_from_animFrameSetJsonFile();
 void parse_from_colorTableJsonFile();
 void parse_from_ecoSysPlansJsonFile();
 void parse_from_mapSurfaceRandMeshJsonFile();
+void parse_from_fieldDistributePlanJsonFile();
 
 //------------------------------//
 //    json_windowConfig
@@ -44,10 +46,10 @@ public:
     goid_t            parentID {NULLID};
 
     //----- enum -----//
-    GameObjFamily     family {};
-    GameObjState      state  {};
-    GameObjMoveState  moveState {};
-    MoveType          moveType {};
+    GameObjFamily       family {};
+    GameObjState        state  {};
+    GameObjMoveState    moveState {};
+    MoveType            moveType {};
 
     //----- bool -----//
     bool    isTopGo  {};

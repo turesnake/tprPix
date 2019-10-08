@@ -95,11 +95,11 @@ public:
         }
     }
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId( double randVal_ )const noexcept{
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId( size_t randUVal_ )const noexcept{
         if( this->subspeciesIds.size() == 1 ){
             return this->subspeciesIds.begin()->second; //- only one
         }
-        size_t i = cast_2_size_t(floor(randVal_ * 3.1 + 17.7)) % this->subIdxs.size();
+        size_t i = (randUVal_ + 66179) % this->subIdxs.size();
         return this->subspeciesIds.at( this->subIdxs.at(i) );
     }
 
@@ -137,27 +137,28 @@ public:
         }
     }
 
+    // param: randUVal_ [0, 9999]
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(  const std::vector<AnimLabel> &labels_, 
-                                                                double             randVal_ )noexcept{
-            tprAssert( randVal_ >= 0.0 );
+                                                                size_t randUVal_ )noexcept{
+            
         animLabelKey_t key {};
         size_t labelSz = labels_.size();
         tprAssert( labelSz <= 2 );
         if( labelSz == 0 ){        
             //-- 2个 label 都为随机值 --
-            size_t fstI = cast_2_size_t(floor(randVal_ * 7.7 + 11.1)) % this->labels.size();
+            size_t fstI = (randUVal_ * 2 + 35157) % this->labels.size();
             AnimLabel &labelRef = this->labels.at( fstI );
-            key = this->apply_random_secKey(this->labelKeys.at(labelRef), randVal_);
+            key = this->apply_random_secKey(this->labelKeys.at(labelRef), randUVal_);
 
         }else if( labelSz == 1 ){  
             //-- 第2个 label 为随机值 --
-            key = this->apply_random_secKey(this->labelKeys.at(labels_.at(0)), randVal_);
+            key = this->apply_random_secKey(this->labelKeys.at(labels_.at(0)), randUVal_);
         }else{       
             //-- 2个 label 都为具体值 --
             key = animLabels_2_key(labels_.at(0), labels_.at(1));
         }
         auto &subSquadRef = this->subSquads.at(key);
-        return subSquadRef.apply_a_random_animSubspeciesId( randVal_ );
+        return subSquadRef.apply_a_random_animSubspeciesId( randUVal_ );
     }
 
 
@@ -178,11 +179,11 @@ public:
 
 private:
 
-    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, double randVal_ )noexcept{
+    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, size_t randUVal_ )noexcept{
         if( v_.size() == 1 ){
             return v_.at(0);
         }
-        size_t i = cast_2_size_t(floor(randVal_ * 5.7 + 13.3)) % v_.size();
+        size_t i = (randUVal_ * 7 + 103171) % v_.size();
         return v_.at(i);
     }
 

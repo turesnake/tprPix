@@ -69,13 +69,12 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
     auto *pvtBp = goRef_.init_pvtBinary<msl_inn::MapSurfaceLower_PvtBinary>();
 
     animSubspeciesId_t subspeciesId {};
-    double          entRandVal      {}; // not field randVal
     size_t          meshNameCount  {0};
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
 
-    const auto &randMesh = esrc::get_a_mapSurfaceRandMeshData( msParamPtr->lvl, msParamPtr->randVal );
+    const auto &randMesh = esrc::get_a_mapSurfaceRandMeshData( msParamPtr->lvl, msParamPtr->randUVal );
     const auto &randMeshDatas = randMesh.get_data();
 
     //------ root mesh ------//
@@ -117,9 +116,6 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
             if( absDensityLvl != 1 ){
                 continue;
             }
-
-
-
 
 
         subspeciesId = esrc::apply_a_random_animSubspeciesId(   

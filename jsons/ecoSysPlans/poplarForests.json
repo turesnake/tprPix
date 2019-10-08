@@ -7,75 +7,171 @@
     "density.DivideType": "default",
     "fixedSeed": 43,
     "pools":[
+
         {
+            "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
             "applyPercent": 0.99,
-            "ecoEnts":[
+            "fieldDistributeTypes":[
+                {"Big1": 2},
+                {"Mid2": 7},
+                {"Sml2_Mid1": 2},
+                {"Sml1_Mid1": 2}
+            ],
+            "ecoEnts_Sml":[
                 { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 },
-                { "specName": "pineTree", "animLabels":[ "Fat", "Tint" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 6 }
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 5 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 1 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 5 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 1 }
+            ],
+            "ecoEnts_Big":[
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 5 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Tint" ], "num": 1 }
             ]
         },
-        {
-            "density.lvl": -2,
-            "applyPercent": 0.99,
-            "ecoEnts":[
-                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 4 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 6 }
 
+        {
+            "annotate": "====================[ -2 ]====================",
+            "density.lvl": -2,
+            "applyPercent": 0.8,
+            "fieldDistributeTypes":[
+                {"Mid2": 3 },
+                {"Mid1": 1 },
+                {"Sml2_Mid1": 1 },
+                {"Sml1_Mid1":2 },
+                {"Sml2": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 7 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 1 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 4 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 1 }
             ]
         },
+
         {
+            "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
             "applyPercent": 0.3,
-            "ecoEnts":[
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 2 },
+            "fieldDistributeTypes":[
+                {"Mid1": 1 },
+                {"Sml1_Mid1":2 },
+                {"Sml3": 4 },
+                {"Sml2": 1 },
+                {"Sml1": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 5 }
+            ],
+            "ecoEnts_Mid":[
                 { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 4 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 3 }
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 1 }
             ]
         },
+
         {
+            "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
             "applyPercent": 0.6,
-            "ecoEnts":[
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 }
+            "fieldDistributeTypes":[
+                {"Mid1": 3 },
+                {"Sml1": 4 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 7 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 4 }
             ]
         },
+        
         {
+            "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
             "applyPercent": 0.2,
-            "ecoEnts":[
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 6 }
+            "fieldDistributeTypes":[
+                {"Mid1": 1 },
+                {"Sml1_Mid1":2 },
+                {"Sml3": 5 },
+                {"Sml2": 2 },
+                {"Sml1": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 2 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 5 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 4 }
             ]
         },
+
         {
+            "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
             "applyPercent": 0.99,
-            "ecoEnts":[
-                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 6 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 6 }
+            "fieldDistributeTypes":[
+                {"Mid2": 3 },
+                {"Mid1": 1 },
+                {"Sml2_Mid1": 1 },
+                {"Sml1_Mid1":2 },
+                {"Sml2": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 3 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 7 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 4 }
             ]
         },
+
         {
+            "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
             "applyPercent": 0.99,
-            "ecoEnts":[
-                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 },
-                { "specName": "pineTree", "animLabels":[ "Fat", "Tint" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 6 }
+            "fieldDistributeTypes":[
+                {"Big1": 2},
+                {"Mid2": 7},
+                {"Sml2_Mid1": 2},
+                {"Sml1_Mid1": 2}
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Tint" ], "num": 9 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Tint" ], "num": 5 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Tint" ], "num": 5 }
+            ],
+            "ecoEnts_Big":[
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Tint" ], "num": 5 }
             ]
         }
     ]
 }
-
-
 
 
 ]

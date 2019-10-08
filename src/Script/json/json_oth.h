@@ -10,6 +10,7 @@
 
 //--------------- CPP ------------------//
 #include <utility>
+#include <vector>
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"

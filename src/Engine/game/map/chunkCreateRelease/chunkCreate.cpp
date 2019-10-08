@@ -28,7 +28,7 @@
 #include "esrc_player.h"
 #include "esrc_ecoObj.h"
 #include "esrc_jobQue.h"
-#include "esrc_chunkData.h"
+#include "esrc_job_chunk.h"
 
 #include "jobs_all.h"
 #include "Job.h"
@@ -193,27 +193,27 @@ void collect_chunks_need_to_be_create_in_update(){
  * -----------------------------------------------------------
  * 三步：第三步：
  *  （第二步 由 job线程 完成）
- * 每一渲染帧，检查 esrc::chunkDataFlags, 从中取出一个 已经计算好 chunkData 的 chunk，
+ * 每一渲染帧，检查 esrc::job_chunkFlags, 从中取出一个 已经计算好 job_chunk 的 chunk，
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
  */
 std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
     //-- 没有需要 生成的 chunk 时，直接退出 --
-    if( esrc::atom_is_chunkDataFlags_empty() ){
+    if( esrc::atom_is_job_chunkFlags_empty() ){
         return std::pair<bool,chunkKey_t>{ false, 0 };
     }
 
-    //-- 从 已经制作好 chunkData 的队列中，取出一个 chunk
-    chunkKey_t chunkKey = esrc::atom_pop_from_chunkDataFlags();
+    //-- 从 已经制作好 job_chunk 的队列中，取出一个 chunk
+    chunkKey_t chunkKey = esrc::atom_pop_from_job_chunkFlags();
     
         //-- 正式生成这个 chunk 实例
         cb_inn::create_one_chunk( chunkKey );
                 //-- 实际上，目前的 job线程 是空的，
                 //   所有运算 都在这个 函数中...
 
-    //-- 及时删除 chunkData 数据本体 --
-    esrc::atom_erase_from_chunkDatas( chunkKey ); //- MUST !!!  
+    //-- 及时删除 job_chunk 数据本体 --
+    esrc::atom_erase_from_job_chunks( chunkKey ); //- MUST !!!  
     return std::pair<bool,chunkKey_t>{ true, chunkKey };
 }
 
@@ -232,7 +232,7 @@ void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
     std::pair<bool,chunkKey_t> pairRet {};
     while( true ){
         //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
-        if( esrc::atom_is_chunkDataFlags_empty() ){
+        if( esrc::atom_is_job_chunkFlags_empty() ){
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
         }
@@ -276,10 +276,10 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
 
     //------------------------------//
     //            [4]
-    // 将 chunkData 中的 fields，移动到 主容器
+    // 将 job_chunk 中的 fields，移动到 主容器
     //------------------------------//
-    auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( chunkKey_ );
-    esrc::move_fieldUPtrs( chunkDataRef.get_fields() );
+    auto &job_chunkRef = esrc::atom_getnc_job_chunkRef( chunkKey_ );
+    esrc::move_fieldUPtrs( job_chunkRef.get_fields() );
 
 
     //------------------------------//
@@ -296,7 +296,7 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
     //  为 chunk 中的 8*8 个 field，分配 all kind of goes
     //------------------------------//
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
-        create_gos_in_field( fieldKey, chunkRef );
+        create_gos_in_field( fieldKey, chunkRef, job_chunkRef );
     } //-- each field key end --
 
     //------------------------------//
@@ -335,8 +335,8 @@ void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
     //       push job
     //--------------------------//
     auto jobSPtr = std::make_shared<Job>();
-    jobSPtr->set_jobType( JobType::Create_ChunkData );
-    auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_ChunkData>();
+    jobSPtr->set_jobType( JobType::Create_Job_Chunk );
+    auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_Job_Chunk>();
     paramPtr->chunkKey = chunkKey_;
     //----------
     esrc::atom_push_back_2_jobQue( jobSPtr );

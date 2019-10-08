@@ -19,6 +19,7 @@
 //-- 仅用于 ecoObj -> create a go 
 class GoSpecData{
 public:
+    GoSpecData()=default;
     GoSpecData( goSpecId_t specId_,
                 const std::vector<AnimLabel> &labels_ ):
         specId(specId_)

@@ -19,7 +19,7 @@ void init_mapSurfaceRandSet();
 
 
 
-mapSurface::randEntId_t apply_a_mapSurfaceRandEntId( double randVal_);
+mapSurface::randEntId_t apply_a_mapSurfaceRandEntId( size_t randUVal_);
 
 
 const std::pair<mapSurface::RandEntLvl,glm::dvec2> & 
@@ -29,7 +29,7 @@ get_mapSurfaceRandEntData(mapSurface::randEntId_t entId_, size_t fieldIdx_in_chu
 mapSurface::RandMesh &apply_new_mapSurfaceRandMeshData( mapSurface::RandEntLvl lvl_ )noexcept;
 
 const mapSurface::RandMesh &
-get_a_mapSurfaceRandMeshData( mapSurface::RandEntLvl lvl_, double randVal_ )noexcept;
+get_a_mapSurfaceRandMeshData( mapSurface::RandEntLvl lvl_, size_t randUVal_ )noexcept;
 
 
 

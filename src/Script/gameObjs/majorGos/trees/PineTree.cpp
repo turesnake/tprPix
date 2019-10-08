@@ -65,7 +65,7 @@ void PineTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "pineTree", 
                                                                 msParamPtr->animLabels,
-                                                                msParamPtr->fieldUWeight );
+                                                                msParamPtr->uWeight );
 
                              
     //----- must before creat_new_goMesh() !!! -----//

@@ -56,8 +56,11 @@ public:
                     //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
                     //  地图上种植的树木个数会大幅度减少
                     //  未修改...
-        return ( this->nodeMapAlti.is_inland_2() );
+        //return ( this->nodeMapAlti.is_inland_2() );
                     //- 尝试解决 水域中生成树的 bug
+
+        return (this->maxMapAlti.is_land());
+
     }
 
     //------- set -------//    
@@ -79,6 +82,11 @@ public:
     inline void set_isCrossEcoObj( bool b_ )noexcept{ this->isCrossEcoObj = b_; }
     inline void set_isCrossColorTable( bool b_ )noexcept{ this->isCrossColorTable = b_; }
 
+    inline void set_perlin( double originPerlin_, size_t uWeight_ )noexcept{
+        this->originPerlin = originPerlin_;
+        this->uWeight = uWeight_;
+    }
+
     //------- get -------//
     inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
     inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
@@ -89,14 +97,13 @@ public:
     inline sectionKey_t         get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
-    inline double       get_weight() const noexcept{ return this->weight; }
-    inline double       get_uWeight() const noexcept{ return this->uWeight; }
+    inline size_t       get_uWeight() const noexcept{ return this->uWeight; }
     inline glm::dvec2   get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
 
     inline const glm::dvec2 &get_nodeDPos() const noexcept{ return this->nodeDPos; }
     
     inline glm::dvec2 get_midDPos()const noexcept{ 
-        return (this->mcpos.get_dpos() + MapField::halfDPosOff); 
+        return (this->mcpos.get_dpos() + MapField::halfFieldVec2); 
     }
     
 
@@ -110,7 +117,8 @@ public:
     }
 
     //===== static =====//
-    static const glm::dvec2 halfDPosOff; // field 中点 距左下角 offset
+    static const double halfField;
+    static const glm::dvec2 halfFieldVec2; // field 中点 距左下角 offset
 
 private:
     void init();
@@ -130,8 +138,7 @@ private:
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
     double   originPerlin {}; //- perlin 原始值，分布集中在接近 0.0 的区域  [-1.0, 1.0]
-    double   weight {};       //- 仅仅是对 originPerlin 的放大，未能改善分布问题 [-100.0, 100.0]
-    double   uWeight {};      //- 打乱后的随机值，分布更均匀 [0.0, 97.0]
+    size_t   uWeight {};      //- 打乱后的随机值，分布更均匀 [0, 9999]
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields

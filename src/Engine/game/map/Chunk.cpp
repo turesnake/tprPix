@@ -21,7 +21,7 @@
 #include "occupyWeight.h"
 #include "Quad.h"
 #include "MapField.h"
-#include "ChunkData.h"
+#include "Job_Chunk.h"
 #include "simplexNoise.h"
 #include "create_goes.h"
 
@@ -30,7 +30,7 @@
 #include "esrc_camera.h"
 #include "esrc_field.h"
 #include "esrc_gameSeed.h"
-#include "esrc_chunkData.h"
+#include "esrc_job_chunk.h"
 #include "esrc_mapSurfaceRand.h"
 
 
@@ -57,13 +57,14 @@ void Chunk::init(){
     
     double freq = 1.0 / 7.0; //- tmp 7*7 个 field 组成一个 pn晶格
     this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
+    this->uWeight = blender_the_perlinNoise( this->originPerlin, 791613.7, 10000 ); //[0, 9999]
 
-    this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( (this->originPerlin + 13.7) * 333.1 );
+    this->mapSurfaceRandEntId = esrc::apply_a_mapSurfaceRandEntId( this->uWeight );
 
     //------------------------------//
-    //       read chunkData
+    //       read job_chunk
     //------------------------------//
-    auto &chunkDataRef = esrc::atom_getnc_chunkDataCRef( this->chunkKey );
+    auto &job_chunkRef = esrc::atom_getnc_job_chunkRef( this->chunkKey );
     
     //----- mapents -------//
     size_t entIdx {};
@@ -72,7 +73,7 @@ void Chunk::init(){
 
             entIdx = h * ENTS_PER_CHUNK + w;
             auto &mapEnt = this->getnc_mapEntRef( entIdx );
-            const auto &mapEntInn = chunkDataRef.getnc_mapEntInnRef( IntVec2{w,h} );
+            const auto &mapEntInn = job_chunkRef.getnc_mapEntInnRef( IntVec2{w,h} );
             mapEntInn.write_2_mapEnt( mapEnt );
 
         }

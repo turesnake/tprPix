@@ -38,21 +38,13 @@ namespace ecoPlan_inn {//-------- namespace: ecoPlan_inn --------------//
 }//------------- namespace: ecoPlan_inn end --------------//
 
 
-/* ===========================================================
- *                  get_ecoSysPlanPtr
- * -----------------------------------------------------------
- */
 EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ ){
         tprAssert( ecoPlan_inn::ecoSysPlanes.find(ecoId_) != ecoPlan_inn::ecoSysPlanes.end() ); //- tmp
     return ecoPlan_inn::ecoSysPlanes.at(ecoId_).get();
 }
 
 
-/* ===========================================================
- *                  insert_new_ecoSysPlan
- * -----------------------------------------------------------
- * -- 仅用于本文件内部
- */
+
 EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
 
     ecoSysPlanId_t ecoPlanId = EcoSysPlan::id_manager.apply_a_u32_id();
@@ -75,10 +67,9 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
  * -----------------------------------------------------------
  * -- 指定了 type，在此基础上，分配一个 变种id
  */
-ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObjWeight_ ){
-    size_t randV = cast_2_size_t(floor( ecoObjWeight_ * 2.7 + 907.9 ));
+ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, size_t ecoObjUWeight_ ){
     auto &container = ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_));    
-    return container.at( randV % container.size() );
+    return container.at( (ecoObjUWeight_ * 3 + 707013) % container.size() );
 }
 
 
@@ -86,9 +77,8 @@ ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, double ecoObj
  *              apply_a_rand_ecoSysPlanId
  * -----------------------------------------------------------
  */
-ecoSysPlanId_t apply_a_rand_ecoSysPlanId( double ecoObjWeight_ ){
-    size_t randV = cast_2_size_t(floor( ecoObjWeight_ * 7.1 + 977.3 ));
-    size_t idx = randV % ecoPlan_inn::ecoSysPlanIds.size();
+ecoSysPlanId_t apply_a_rand_ecoSysPlanId( size_t ecoObjUWeight_ ){
+    size_t idx = (ecoObjUWeight_ + 337791) % ecoPlan_inn::ecoSysPlanIds.size();
     return ecoPlan_inn::ecoSysPlanIds.at(idx);
 }
 

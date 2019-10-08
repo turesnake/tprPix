@@ -17,7 +17,7 @@ behaviour
 camera
 canvas
 chunk
-chunkData
+job_chunk
 chunkMemState
 colorTableSet
 ecoObj

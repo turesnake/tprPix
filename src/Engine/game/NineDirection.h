@@ -66,18 +66,20 @@ inline NineDirection idx_2_nineDirection( size_t idx_ )noexcept{
     }
 }
 
-
+/*
 inline NineDirection apply_a_random_direction( double randV_ )noexcept{
         tprAssert( randV_ >= 0.0 );
     size_t idx = cast_2_size_t(randV_ * 13.7 + 71.9) % nineDirectionSize;
     return idx_2_nineDirection(idx);
 }
+*/
 
 
 //-- 不包含 Mid --
-inline NineDirection apply_a_random_direction_without_mid( double randV_ )noexcept{
-        tprAssert( randV_ >= 0.0 );
-    size_t idx = cast_2_size_t(randV_ * 13.7 + 71.9) % (nineDirectionSize-1);
+// param: randUVal_ [0, 9999]
+inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noexcept{
+        
+    size_t idx = (randUVal_ * 3 + 90179) % (nineDirectionSize-1);
     idx++; // 不含 0
     return idx_2_nineDirection(idx);
 }
