@@ -35,7 +35,7 @@
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
 #include "Script/json/json_oth.h"
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 
 
 using namespace rapidjson;

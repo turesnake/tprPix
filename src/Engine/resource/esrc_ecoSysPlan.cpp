@@ -16,7 +16,7 @@
 #include "esrc_ecoSysPlan.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 #include "Script/json/json_all.h"
 
 //#include "tprDebug.h" //- tmp

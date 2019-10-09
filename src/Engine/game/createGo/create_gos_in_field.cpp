@@ -27,7 +27,7 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 
 
 /* ===========================================================

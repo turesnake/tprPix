@@ -31,7 +31,7 @@
 #include "esrc_mapSurfaceRand.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 
 
 

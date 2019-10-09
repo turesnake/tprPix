@@ -35,7 +35,7 @@
 #include "esrc_all.h" //- 所有资源
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h"
+#include "Script/resource/ssrc_all.h"
 
 //#include "Script/UIs/create_UIs.h"
 

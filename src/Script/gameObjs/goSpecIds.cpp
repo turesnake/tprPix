@@ -18,7 +18,7 @@
 #include "esrc_state.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 #include "Script/gameObjs/allGoes.h"
 #include "Script/uiGos/allUIGoes.h"
 

@@ -22,7 +22,7 @@
                 },
                 {
                     "type": "batch",
-                    "animLabels": [ "Sml", "Tint" ],
+                    "animLabels": [ "Sml", "Light" ],
                     "fstIdx": 1,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -42,7 +42,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Fat", "Tint" ],
+                    "animLabels": [ "Fat", "Light" ],
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -70,7 +70,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Thin", "Tint" ],
+                    "animLabels": [ "Thin", "Light" ],
                     "fstIdx": 0,
                     "idxNums": 1,
                     "name": "idle", "dir": "Mid",
@@ -98,7 +98,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "HalfDead", "Tint" ],
+                    "animLabels": [ "HalfDead", "Light" ],
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",

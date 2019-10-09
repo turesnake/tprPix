@@ -29,7 +29,7 @@ enum class AnimLabel : u32_t{
     Mid,
     Big,
     //---
-    Tint,
+    Light,
     Dark,
     //---
     Fat,
@@ -61,7 +61,7 @@ inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{
     case 2:  return AnimLabel::Mid;
     case 3:  return AnimLabel::Big;
 
-    case 4:  return AnimLabel::Tint;
+    case 4:  return AnimLabel::Light;
     case 5:  return AnimLabel::Dark;
 
     case 6:  return AnimLabel::Fat;
@@ -91,7 +91,7 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
     }else if( str_ == "Mid" ){      return AnimLabel::Mid;
     }else if( str_ == "Big" ){      return AnimLabel::Big;
 
-    }else if( str_ == "Tint" ){    return AnimLabel::Tint;
+    }else if( str_ == "Light" ){    return AnimLabel::Light;
     }else if( str_ == "Dark" ){     return AnimLabel::Dark;
 
     }else if( str_ == "Fat" ){      return AnimLabel::Fat;

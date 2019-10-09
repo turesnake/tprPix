@@ -30,7 +30,7 @@
 #include "esrc_VAOVBO.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc.h" 
+#include "Script/resource/ssrc_all.h" 
 
 
 
