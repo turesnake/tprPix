@@ -4,33 +4,18 @@
  *                                        CREATE -- 2019.08.19
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   
- * ----------------------------
  */
 #ifndef TPR_GO_PLAYER_GO_CIRCLE_H
 #define TPR_GO_PLAYER_GO_CIRCLE_H
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <functional>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObj.h"
-#include "GameObjMesh.h"
-#include "AnimFrameSet.h"
-#include "Density.h"
 #include "DyParam.h"
-#include "animSubspeciesId.h"
-
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
 class PlayerGoCircle{
 public:
-    //--- 延迟init ---//
     static void init(GameObj &goRef_, const DyParam &dyParams_ );
 private:
     //--- callback ---//

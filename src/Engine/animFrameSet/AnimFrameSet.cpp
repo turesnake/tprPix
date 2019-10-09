@@ -304,8 +304,14 @@ void AnimFrameSet::handle_shadow(){
                 idx_for_S_frame_data_ary=f;
 
         RGBA &rgbaRef = afs_inn::S_frame_data_ary.at(idx_for_S_frame_data_ary).at(p);
-        if( rgbaRef.is_near(color_shadow, 5) == false ){
-            continue; //- next frame.pix
+
+        //if( rgbaRef.is_near(color_shadow, 5) == false ){
+        //    continue; //- next frame.pix
+        //}
+
+        //- 折中版，只要达到一定透明度，一律算作 shadow pix
+        if( rgbaRef.a < 200 ){
+            continue;
         }
         
         //-- 将 shadow pix 改为需要的颜色 --//

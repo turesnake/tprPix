@@ -22,6 +22,8 @@
 #include "DyParam.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
+#include "Density.h"
+#include "animSubspeciesId.h"
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"

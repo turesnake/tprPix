@@ -13,6 +13,9 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "Density.h"
+#include "animSubspeciesId.h"
+
 #include "esrc_shader.h" 
 #include "esrc_gameSeed.h"
 #include "esrc_animFrameSet.h"
@@ -166,6 +169,7 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
         //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
         goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
     }
+    
     
     
 

@@ -18,14 +18,25 @@
 #include "Script/gameObjs/majorGos/WallA.h"
 
 
+//---------- Script : gameObjs : bush --------------------//
+//#include "Script/gameObjs/bush/Wheat.h"
+#include "Script/gameObjs/majorGos/bushs/Thorn.h"
+#include "Script/gameObjs/majorGos/bushs/Mushroom.h"
+#include "Script/gameObjs/majorGos/bushs/Aloe.h"
+#include "Script/gameObjs/majorGos/bushs/BushC.h"
+#include "Script/gameObjs/majorGos/bushs/GrassA.h"
+#include "Script/gameObjs/majorGos/bushs/WhiteFlower.h"
+
 
 //---------- Script : gameObjs : majorGos : trees -------------//
 //#include "Script/gameObjs/majorGos/trees/OakTree.h"
 #include "Script/gameObjs/majorGos/trees/PineTree.h"
+#include "Script/gameObjs/majorGos/trees/PoplarTree.h"
 
 
-//---------- Script : gameObjs : bush --------------------//
-//#include "Script/gameObjs/bush/Wheat.h"
+//---------- Script : gameObjs : majorGos : rocks -------------//
+#include "Script/gameObjs/majorGos/rocks/Rock.h"
+
 
 
 //---------- Script : gameObjs : mapSurface --------------------//

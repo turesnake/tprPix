@@ -14,6 +14,7 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 //-------------------- tpr --------------------//
 #include "tprGeneral.h"
@@ -24,6 +25,8 @@
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "groundGoEntType.h"
+#include "Density.h"
+#include "animSubspeciesId.h"
 
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"

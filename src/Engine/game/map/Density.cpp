@@ -36,6 +36,10 @@ void Density::set(  IntVec2 fieldMPos_,
     //-----------//
     double seaLvlOff = ecoObj_densitySeaLvlOff_; //- [-20.0, 20.0]
     double freqSeaLvl = 0.003125 * 0.5; //- 10*10 个 chunk，构成一个 perlin 晶格
+
+        freqSeaLvl *= 3.0; // 更加密集 [3.0,5.0]
+                           // 世界能变得更加盆景化，
+
     double pnValSeaLvl = simplex_noise2( fieldMPos_.x * freqSeaLvl, 
                                         fieldMPos_.y * freqSeaLvl ) * 15.0 + seaLvlOff; // [-20.0, 20.0]
     //-----------//
@@ -43,6 +47,10 @@ void Density::set(  IntVec2 fieldMPos_,
     //-----------//
     const glm::dvec2 &densitySeed_pposOff = esrc::get_gameSeed().get_densitySeed_pposOff();
     double freq = 0.03125 * 0.5; //- 1*1 个 chunk，构成一个 perlin 晶格
+
+        freq *= 3.0; // 更加密集 [3.0,5.0]
+                    // 世界能变得更加盆景化，
+
     double x = static_cast<double>(fieldMPos_.x) + densitySeed_pposOff.x;
     double y = static_cast<double>(fieldMPos_.y) + densitySeed_pposOff.y;
     y *= 1.3; //- 在纵向上适当压缩

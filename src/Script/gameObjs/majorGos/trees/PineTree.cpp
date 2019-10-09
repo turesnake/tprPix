@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.09.13
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
- * ----------------------------
  */
 #include "Script/gameObjs/majorGos/trees/PineTree.h"
 
@@ -14,6 +12,9 @@
 #include <string>
 
 //-------------------- Engine --------------------//
+#include "Density.h"
+#include "animSubspeciesId.h"
+
 #include "tprAssert.h"
 #include "esrc_shader.h" 
 #include "esrc_gameSeed.h"

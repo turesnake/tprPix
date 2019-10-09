@@ -18,20 +18,28 @@
                 {"Sml2_Mid1": 2},
                 {"Sml1_Mid1": 2}
             ],
-            "ecoEnts_Sml":[
+            "ecoEnts_Big":[
+                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 5 },
+                { "specName": "pineTree", "animLabels":[ "Fat", "Light" ], "num": 1 },
+
+                { "specName": "rock", "animLabels":[ "Big", "Dark" ], "num": 1 }
+            ],
+            "ecoEnts_Mid":[
                 { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 9 },
                 { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 1 },
                 { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 5 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 }
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 },
+
+
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
             ],
-            "ecoEnts_Mid":[
+            "ecoEnts_Sml":[
                 { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 5 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 }
-            ],
-            "ecoEnts_Big":[
-                { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 5 },
-                { "specName": "pineTree", "animLabels":[ "Fat", "Light" ], "num": 1 }
+                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 },
+
+                { "specName": "rock", "animLabels":[ "Sml", "Dark" ], "num": 1 }
             ]
+            
         },
 
         {
@@ -45,16 +53,27 @@
                 {"Sml1_Mid1":2 },
                 {"Sml2": 1 }
             ],
-            "ecoEnts_Sml":[
-                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 3 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 7 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 }
-            ],
+            
             "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
+
+                
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
+                { "specName": "aloe", "animLabels":[], "num": 1 },               
+                { "specName": "bushC", "animLabels":[], "num": 1 },    
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 }
+            ],
+            "ecoEnts_Sml":[
                 { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 4 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 },
+                
+                { "specName": "bushC", "animLabels":[], "num": 3 },
+                { "specName": "aloe", "animLabels":[], "num": 1 }
+
+
             ]
+
         },
 
         {
@@ -68,14 +87,18 @@
                 {"Sml2": 1 },
                 {"Sml1": 1 }
             ],
-            "ecoEnts_Sml":[
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 5 }
-            ],
+            
             "ecoEnts_Mid":[
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 4 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                
+
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
+                { "specName": "aloe", "animLabels":[], "num": 1 },               
+                { "specName": "bushC", "animLabels":[], "num": 1 },    
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 }
+               
             ]
         },
 
@@ -87,16 +110,19 @@
                 {"Mid1": 3 },
                 {"Sml1": 4 }
             ],
-            "ecoEnts_Sml":[
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 3 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 7 }
-            ],
+            
             "ecoEnts_Mid":[
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 4 }
+                
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
+                { "specName": "aloe", "animLabels":[], "num": 1 },               
+                { "specName": "bushC", "animLabels":[], "num": 1 },    
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 }
+            ],
+
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 6 }
+                
+
             ]
         },
         
@@ -111,14 +137,20 @@
                 {"Sml2": 2 },
                 {"Sml1": 1 }
             ],
-            "ecoEnts_Sml":[
-                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 2 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 5 }
-            ],
+            
             "ecoEnts_Mid":[
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 4 }
+               
+
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
+                { "specName": "aloe", "animLabels":[], "num": 1 },               
+                { "specName": "bushC", "animLabels":[], "num": 1 },    
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 }
+
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "oneEyeBoy", "animLabels":[], "num": 1 }
+                
+
             ]
         },
 
@@ -133,15 +165,23 @@
                 {"Sml1_Mid1":2 },
                 {"Sml2": 1 }
             ],
-            "ecoEnts_Sml":[
+            
+            "ecoEnts_Mid":[
                 { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
                 { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 3 },
                 { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 7 }
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 7 },
+
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
             ],
-            "ecoEnts_Mid":[
+            "ecoEnts_Sml":[
                 { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 4 }
+                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 2 },
+
+                { "specName": "bushC", "animLabels":[], "num": 2 },
+                { "specName": "rock", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 } 
+
             ]
         },
 
@@ -155,20 +195,28 @@
                 {"Sml2_Mid1": 2},
                 {"Sml1_Mid1": 2}
             ],
-            "ecoEnts_Sml":[
-                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 9 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 5 }
-            ],
-            "ecoEnts_Mid":[
-                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 5 }
-            ],
+            
             "ecoEnts_Big":[
                 { "specName": "pineTree", "animLabels":[ "Fat", "Dark" ], "num": 1 },
                 { "specName": "pineTree", "animLabels":[ "Fat", "Light" ], "num": 5 }
+            ],
+            "ecoEnts_Mid":[
+                { "specName": "pineTree", "animLabels":[ "Thin", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Thin", "Light" ], "num": 9 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 5 },
+
+                { "specName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
+            ],
+            "ecoEnts_Sml":[
+                { "specName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 3 },
+
+                { "specName": "bushC", "animLabels":[], "num": 2 },
+                { "specName": "rock", "animLabels":[ "Sml", "Dark" ], "num": 1 },
+                { "specName": "grassA", "animLabels":[ "Dark" ], "num": 1 }  
             ]
+            
         }
     ]
 }

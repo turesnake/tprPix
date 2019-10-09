@@ -123,8 +123,14 @@ void collect_fileNames( const std::string &dirName_,
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
-        tprAssert( ent.IsString() );
-        container_.push_back( tprGeneral::path_combine(pathDir, ent.GetString()) );
+        tprAssert( ent.IsObject() );
+        auto it = ent.MemberBegin(); // only one ent
+        tprAssert( it->value.IsBool() );
+        if( it->value.GetBool() ){
+            container_.push_back( tprGeneral::path_combine(pathDir, it->name.GetString()) );
+        }
+        //tprAssert( ent.IsString() );
+        //container_.push_back( tprGeneral::path_combine(pathDir, ent.GetString()) );
     }
 }
 

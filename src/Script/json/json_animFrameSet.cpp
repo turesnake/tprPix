@@ -102,7 +102,7 @@ void parse_from_animFrameSetJsonFile(){
     cout << "   ----- parse_from_animFrameSetJsonFile: start ----- " << endl;
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "animFrameSet", "files.json", path_files );
+    collect_fileNames( "animFrameSet", "_files.json", path_files );
     //---
     AnimActionPos::prepare_colliPointOffs();
 

@@ -87,7 +87,7 @@ void parse_from_ecoSysPlansJsonFile(){
     cout << "   ----- parse_from_ecoSysPlansJsonFile: start ----- " << endl;
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "ecoSysPlans", "files.json", path_files );
+    collect_fileNames( "ecoSysPlans", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         espJson_inn::parse_from_single_ecoSysPlansJsonFile(i);

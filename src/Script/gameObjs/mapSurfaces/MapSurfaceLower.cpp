@@ -13,13 +13,15 @@
 //-------------------- CPP --------------------//
 #include <functional>
 #include <string>
+#include <vector>
 
 //-------------------- tpr --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "DyParam.h"
+#include "Density.h"
+#include "animSubspeciesId.h"
 #include "MapSurfaceSpec.h"
 #include "MapSurfaceRandLvl.h"
 #include "RenderPool.h"

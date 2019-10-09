@@ -1,39 +1,34 @@
 [
 {
-    "name": "wallA",
+    "name": "aloe",
     "pngs": [
         {
-            "path": "/wallA/wallA2.P.png",
-            "frameNum.col":  1,
+            "path": "/bush/aloe.P.png",
+            "frameNum.col":  3,
             "frameNum.row":  1,
-            "totalFrameNum": 1,
+            "totalFrameNum": 3,
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
-            "ColliderType": "Capsule",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
-                    "type": "handle",
+                    "type": "batch",
                     "animLabels": [],
-                    "subIdx": 0,
-                    "AnimActionParams":[
-                        {
-                            "name": "idle", "dir": "Mid",
-                            "type": "singleFrame",
-                            "lFrameIdx": 0,
-                            "isOpaque": true
-                        } 
-                    ]
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
                 }
             ]
         }
     ]
 },
 {
-    "name": "mushroom",
+    "name": "whiteFlower",
     "pngs": [
         {
-            "path": "/mushroom/mushroomA.P.png",
+            "path": "/bush/whiteFlower.P.png",
             "frameNum.col":  4,
             "frameNum.row":  1,
             "totalFrameNum": 4,
@@ -55,38 +50,10 @@
     ]
 },
 {
-    "name": "rock",
+    "name": "bushC",
     "pngs": [
         {
-            "path": "/rock/rockA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  2,
-            "totalFrameNum": 5,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Light" ],
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Dark" ],
-                    "fstIdx": 3,
-                    "idxNums": 2,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/rock/rockB.P.png",
+            "path": "/bush/bushC.P.png",
             "frameNum.col":  3,
             "frameNum.row":  1,
             "totalFrameNum": 3,
@@ -97,19 +64,24 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Mid", "Light" ],
+                    "animLabels": [],
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
-        },
+        }
+    ]
+},
+{
+    "name": "grassA",
+    "pngs": [
         {
-            "path": "/rock/rockC.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  2,
-            "totalFrameNum": 6,
+            "path": "/bush/grassA.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -117,16 +89,16 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Sml", "Dark" ],
+                    "animLabels": [ "Dark" ],
                     "fstIdx": 0,
-                    "idxNums": 4,
+                    "idxNums": 2,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 },
                 {
                     "type": "batch",
-                    "animLabels": [ "Sml", "Light" ],
-                    "fstIdx": 4,
+                    "animLabels": [ "Light" ],
+                    "fstIdx": 2,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
@@ -167,30 +139,9 @@
             ]
         }
     ]
-},
-{
-    "name": "treeRoot",
-    "pngs": [
-        {
-            "path": "/treeRoot/treeRoot.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
 }
+
+
+
 ]
+

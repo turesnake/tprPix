@@ -42,6 +42,8 @@ namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     
     RGBA  uselessColor_1  { 150, 150, 150, 255 };
 
+    RGBA  uselessColor_2  { 0, 0, 150, 255 }; // 蓝幕底色，直接忽略
+
 }//------------ namespace: end ---------//
 
 //-- 只在 animFrameSet 资源被加载时 才被调用，对性能无要求 --
@@ -68,7 +70,8 @@ public:
         //=== A ===
         //--- ignore ---
         if( (is_near_inner(RGBA_ChannelType::A, pjt_RGBAHandle_2_inn::A_OPAQUE)==false) ||
-            (this->rgba.is_near( pjt_RGBAHandle_2_inn::uselessColor_1, 5)==true) ){
+            (this->rgba.is_near( pjt_RGBAHandle_2_inn::uselessColor_1, 5)==true) ||
+            (this->rgba.is_near( pjt_RGBAHandle_2_inn::uselessColor_2, 5)==true) ){
             return;
         }
 

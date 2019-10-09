@@ -60,12 +60,25 @@ void onGoSpecIds_SignUp(){
     //        tree
     //-------------------//
     //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "pineTree",       std::bind( &gameObjs::PineTree::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "pineTree",        std::bind( &gameObjs::PineTree::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "poplarTree",      std::bind( &gameObjs::PoplarTree::init, _1, _2 ) );
 
     //-------------------//
     //        bush
     //-------------------//
     //ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "thorn",           std::bind( &gameObjs::Thorn::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "mushroom",        std::bind( &gameObjs::Mushroom::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "aloe",            std::bind( &gameObjs::Aloe::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "bushC",           std::bind( &gameObjs::BushC::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "grassA",          std::bind( &gameObjs::GrassA::init, _1, _2 ) );
+    ssrc::insert_2_goInit_funcs( "whiteFlower",     std::bind( &gameObjs::WhiteFlower::init, _1, _2 ) );
+
+
+    //-------------------//
+    //        rock
+    //-------------------//
+    ssrc::insert_2_goInit_funcs( "rock",       std::bind( &gameObjs::Rock::init, _1, _2 ) );
 
     //-------------------//
     //    mapSurface
@@ -77,15 +90,12 @@ void onGoSpecIds_SignUp(){
     //        oth
     //-------------------//
     ssrc::insert_2_goInit_funcs( "playerGoCircle",  std::bind( &gameObjs::PlayerGoCircle::init, _1, _2 ) );
-
     ssrc::insert_2_goInit_funcs( "groundGo",        std::bind( &gameObjs::GroundGo::init, _1, _2 ) );
-
     ssrc::insert_2_goInit_funcs( "fieldRim",        std::bind( &gameObjs::FieldRim::init, _1, _2 ) );
 
      //...
 
     //================ UIGoes ==================//
-
     ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_archive_2", std::bind( &uiGos::Button_SceneBegin_Archive::init, _1, _2 ) );
     ssrc::insert_2_uiGoInit_funcs( "button_sceneBegin_pointer_2", std::bind( &uiGos::Button_SceneBegin_Pointer::init, _1, _2 ) );
 

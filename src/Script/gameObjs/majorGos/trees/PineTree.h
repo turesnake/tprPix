@@ -8,20 +8,9 @@
 #ifndef TPR_GO_PINE_TREE_H
 #define TPR_GO_PINE_TREE_H
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <functional>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObj.h"
-#include "GameObjMesh.h"
-#include "AnimFrameSet.h"
-#include "Density.h"
 #include "DyParam.h"
-#include "animSubspeciesId.h"
-
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 

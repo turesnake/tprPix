@@ -1,0 +1,13 @@
+[
+    {"afs_oth.json": true },
+
+    {"/gos/01.json": true },
+    {"/gos/bushs.json": true },
+    {"/gos/groundGos.json": true },
+    {"/gos/mapSurfaces.json": true },
+    {"/gos/mids.json": true },
+    {"/gos/rocks.json": true },
+    {"/gos/trees.json": true },
+    
+    {"/uiGos/01.json": true }
+]
