@@ -134,10 +134,10 @@ void process_and_echo_timeLog(){
 
 
         //------------------------//
-        //    rankingList
+        // rankingList: Minframes
         //------------------------//
         {
-            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Minframes: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 
             size_t times {0};
             for( const auto &pair : rankingList ){
@@ -151,9 +151,35 @@ void process_and_echo_timeLog(){
                     break;
                 }
             }
-            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Minframes: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
                     << endl; 
         }
+
+        //------------------------//
+        // rankingList: Maxframes
+        //------------------------//
+        {
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Maxframes: Begin ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
+            size_t times {0};
+            for( auto it=rankingList.rbegin(); it!=rankingList.rend(); it++  ){
+                const auto &tmpFrame = it->first;
+                const auto &tmpIdx = it->second;
+                writeFile   << "frame: " << tmpFrame
+                            << "; idx: " << tmpIdx
+                            << ";\n";
+                times++;
+                if( times > 100 ){ // only print 100-ents
+                    break;
+                }
+            }
+            writeFile << "~~~~~~~~~~~~~~~~~~~~ rankingList: Maxframes: End ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+                    << endl; 
+        }
+
+
+
+
         //------------------------//
         //    frameRawDatas
         //------------------------//

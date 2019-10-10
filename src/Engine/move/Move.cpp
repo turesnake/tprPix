@@ -41,7 +41,6 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     //-----------//
     //  isMoving
     //-----------//
-    // 虽然设置了 isMoving，但暂时并未起作用
     newDirAxes.is_zero() ?
         this->isMoving = false :
         this->isMoving = true;
@@ -53,7 +52,8 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     NineDirection newDir = dirAxes_2_nineDirection(newDirAxes_);
     if( (newDir!=NineDirection::Mid) && (newDir!=goRef.get_actionDirection()) ){
         goRef.set_actionDirection( newDir );
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); //-  move 其实也有很多种.... 
+        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
+                            //-- 在未来，move 其实也有很多种.... 
     }                       //-- 有点丑陋的实现 ....
 }
 

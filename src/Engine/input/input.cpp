@@ -147,7 +147,7 @@ void processInput( GLFWwindow *windowPtr_ ){
     //------------------------//
     _inn::inputINS.clear_allKeys(); //- 0
 
-    //mousePos_2_dir(); //-- 目前暂时不识别 mouse 输入...
+    //mousePos_2_dir(); //-- 目前暂不识别 mouse 输入...
 
     for( const auto &ipair : _inn::keyboardTable_runtime ){ //-- each gameKey
         //-- 跳过 没有被按下的 --

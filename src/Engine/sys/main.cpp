@@ -180,7 +180,19 @@ int main( int argc, char* argv[] ){
         glClearColor( 0.25f, 0.24f, 0.25f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT ); 
         //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
+        
+        //--------------------------------//
+        //            input   
+        //--------------------------------//
+        //-- 目前版本 非常简陋
+        input::processInput( esrc::get_windowPtr() );
 
+        //--------------------------------//
+        //       scene Logic loop      
+        //--------------------------------//
+        sceneLogicLoopFunc();
+
+        /*
         //================================//
         // input/AI/LogicUpdate fps is steady,
         // Affected by TimeBase::logicUpdateTimeLimit
@@ -192,13 +204,16 @@ int main( int argc, char* argv[] ){
             //            input   
             //--------------------------------//
             //-- 目前版本 非常简陋
-            input::processInput( esrc::get_windowPtr() );
+            //input::processInput( esrc::get_windowPtr() );
 
             //--------------------------------//
             //       scene Logic loop      
             //--------------------------------//
             sceneLogicLoopFunc();
         }
+        */
+                        // 暂时停用，排查卡顿原因中 ...
+
 
         //================================//
         //       scene Render loop       
@@ -213,7 +228,6 @@ int main( int argc, char* argv[] ){
         //--------------------------------//
 		glfwPollEvents();          //-- handle all events in event queue
 		glfwSwapBuffers( esrc::get_windowPtr() );
-
 
     }//------------ while render loop end --------------------//
     db::atom_writeBack_to_table_gameArchive();
@@ -239,6 +253,7 @@ int main( int argc, char* argv[] ){
     //---------------------------------------------//
     //             timeLog debug
     //---------------------------------------------//
+
     tprDebug::process_and_echo_timeLog();
     tprDebug::process_and_echo_speedLog();
 
