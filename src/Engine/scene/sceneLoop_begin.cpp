@@ -272,8 +272,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                         //   这部分，应该写进 chunk build 流程中 ...
 
                 //-- db::table_goes --
-                //goSpecId_t newGoSpecId = ssrc::get_goSpecId( "norman" );
-                goSpecId_t newGoSpecId = ssrc::get_goSpecId( "oneEyeBoy" );
+                //goSpecId_t newGoSpecId = ssrc::str_2_goSpecId( "norman" );
+                goSpecId_t newGoSpecId = ssrc::str_2_goSpecId( "oneEyeBoy" );
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoDPos,

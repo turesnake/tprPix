@@ -19,20 +19,23 @@
 
 
 //--------------- Script ------------------//
+#include "Script/gameObjs/GameObjSpec.h"
 #include "Script/resource/ssrc_oth.h"
 #include "Script/json/json_all.h"
 
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
 
 
+GameObjSpec &create_new_goSpec( goSpecId_t id_ )noexcept;
+const GameObjSpec &get_goSpecRef( goSpecId_t id_ )noexcept; // support multi-thread
+GameObjSpec &getnc_goSpecRef( goSpecId_t id_ )noexcept;
+
 
 void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &name_ );
 
-goSpecId_t get_goSpecId( const std::string &name_ );
+goSpecId_t str_2_goSpecId( const std::string &name_ );
 
-void insert_2_go_jsonDatas( const json::GoJsonData &goJsonData_ );
 
-const json::GoJsonData &get_goJsonData( goSpecId_t id_ );
 
 bool find_from_goInit_funcs( goSpecId_t goSpecId_ );
 

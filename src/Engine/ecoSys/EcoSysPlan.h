@@ -29,28 +29,12 @@
 #include "DensityPool.h"
 
 
+//--------------- Script ------------------//
+#include "Script/json/json_multiGoMesh.h"
+
 
 
 class Density;
-
-
-//-- 在 insert() 函数中做参数 --
-class EcoEnt{
-public:
-    EcoEnt( const std::string &specName_, 
-            std::vector<AnimLabel> &labels_,
-            size_t idNum_ ):
-        specName(specName_),
-        idNum(idNum_)
-        {
-            this->labels.swap(labels_);
-        }
-    std::string  specName {};
-    size_t       idNum    {};
-    std::vector<AnimLabel> labels {};
-};
-
-
 
 
 //-- 一种 生态群落 --

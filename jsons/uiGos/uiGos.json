@@ -1,6 +1,6 @@
 [
   {
-    "gameObjType": "button_sceneBegin_archive_2",
+    "goSpecName": "button_sceneBegin_archive_2",
     "specID": 10001,
     "parentID": 0,
     "family": "UI",
@@ -8,7 +8,7 @@
     "speedLvl": 0
   },
   {
-    "gameObjType": "button_sceneBegin_pointer_2",
+    "goSpecName": "button_sceneBegin_pointer_2",
     "specID": 10002,
     "parentID": 0,
     "family": "UI",

@@ -18,6 +18,7 @@ camera
 canvas
 chunk
 job_chunk
+json_multiGoMesh
 chunkMemState
 colorTableSet
 ecoObj

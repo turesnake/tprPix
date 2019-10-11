@@ -1,0 +1,31 @@
+[
+
+{
+    "goSpecName": "mushroom",
+    "rootAnimFrameSetName": "mushroom",
+    "goMeshSets":[
+        {
+            "type": "",
+            "isSameGoSpec": true,
+            "goMeshs":[
+                { "dpos": [0, 0], "animLabels":[] },
+                { "dpos": [40, 55], "animLabels":[] },
+                { "dpos": [-58, 15], "animLabels":[] },
+                { "dpos": [55, -55], "animLabels":[] }
+            ]
+        },
+        {
+            "type": "",
+            "isSameGoSpec": false,
+            "goMeshs":[
+                { "animFrameSetName": "mushroom", "dpos": [0, 0], "animLabels":[] },
+                { "animFrameSetName": "mushroom", "dpos": [40, 55], "animLabels":[] }
+            ]
+        }
+
+    
+    ]
+}
+
+]
+

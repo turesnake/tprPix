@@ -38,7 +38,7 @@ using std::endl;
 namespace json{//------------- namespace json ----------------
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
-    void parse_single_goJsonFile( const std::string &path_file_ );
+    void parse_single_jsonFile( const std::string &path_file_ );
 
 }//------------- namespace: goJson_inn end --------------//
 
@@ -58,7 +58,7 @@ void parse_from_goJsonFile(){
     collect_fileNames( "gameObjs", "_files.json", path_files );
 
     for( const auto &i : path_files ){
-        goJson_inn::parse_single_goJsonFile(i);
+        goJson_inn::parse_single_jsonFile(i);
     }
 
     esrc::insertState("json_gameObj");
@@ -66,13 +66,13 @@ void parse_from_goJsonFile(){
 }
 
 /* ===========================================================
- *              assemble_jsonData_2_newGo    
+ *              assemble_goSpec_2_newGo    
  * -----------------------------------------------------------
  */
-void assemble_jsonData_2_newGo( goSpecId_t specID_, 
+void assemble_goSpec_2_newGo( goSpecId_t specID_, 
                                 GameObj &goRef_ ){
 
-    const auto &d = ssrc::get_goJsonData( specID_ );
+    const auto &d = ssrc::get_goSpecRef( specID_ );
 
     goRef_.species   = d.specID;
     goRef_.parentId  = d.parentID;
@@ -107,7 +107,7 @@ void assemble_jsonData_2_newGo( goSpecId_t specID_,
 
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
-void parse_single_goJsonFile( const std::string &path_file_ ){
+void parse_single_jsonFile( const std::string &path_file_ ){
 
     //-----------------------------//
     //         load file
@@ -123,87 +123,90 @@ void parse_single_goJsonFile( const std::string &path_file_ ){
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
-        GoJsonData  goJsonData {};
+        //GoJsonData  goJsonData {};
 
-        {//--- gameObjType ---//
-            const auto &a = check_and_get_value( ent, "gameObjType", JsonValType::String );
-            goJsonData.gameObjType = a.GetString();
-        }
+        goSpecId_t  specId {};
         {//--- specID ---//
             const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
-            goJsonData.specID = static_cast<goSpecId_t>( a.GetUint() );
+            specId = static_cast<goSpecId_t>( a.GetUint() );
+        }
+
+        auto &goSpecRef = ssrc::create_new_goSpec( specId );
+        goSpecRef.specID = specId;
+
+        {//--- goSpecName ---//
+            const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
+            goSpecRef.goSpecName = a.GetString();
         }
         {//--- parentID ---//
             const auto &a = check_and_get_value( ent, "parentID", JsonValType::Uint64 );
-            goJsonData.parentID = static_cast<goid_t>( a.GetUint64() );
+            goSpecRef.parentID = static_cast<goid_t>( a.GetUint64() );
         }
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
-            goJsonData.family = str_2_GameObjFamily( a.GetString() );
+            goSpecRef.family = str_2_GameObjFamily( a.GetString() );
         }
         {//--- state ---//
             const auto &a = check_and_get_value( ent, "state", JsonValType::String );
-            goJsonData.state = str_2_GameObjState( a.GetString() );
+            goSpecRef.state = str_2_GameObjState( a.GetString() );
         }
         {//--- moveState ---//
             const auto &a = check_and_get_value( ent, "moveState", JsonValType::String );
-            goJsonData.moveState = str_2_GameObjMoveState( a.GetString() );
+            goSpecRef.moveState = str_2_GameObjMoveState( a.GetString() );
         }
         {//--- moveType ---//
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
-            goJsonData.moveType = str_2_MoveType( a.GetString() );
+            goSpecRef.moveType = str_2_MoveType( a.GetString() );
         }
         {//--- isTopGo ---//
             const auto &a = check_and_get_value( ent, "isTopGo", JsonValType::Bool );
-            goJsonData.isTopGo = a.GetBool();
+            goSpecRef.isTopGo = a.GetBool();
         }
         {//--- isMoveCollide ---//
             const auto &a = check_and_get_value( ent, "isMoveCollide", JsonValType::Bool );
-            goJsonData.isMoveCollide = a.GetBool();
+            goSpecRef.isMoveCollide = a.GetBool();
         }
         {//--- isDoPass ---//
             const auto &a = check_and_get_value( ent, "isDoPass", JsonValType::Bool );
-            goJsonData.isDoPass = a.GetBool();
+            goSpecRef.isDoPass = a.GetBool();
         }
         {//--- isBePass ---//
             const auto &a = check_and_get_value( ent, "isBePass", JsonValType::Bool );
-            goJsonData.isBePass = a.GetBool();
+            goSpecRef.isBePass = a.GetBool();
+        }
+        {//--- animFrameSetName ---//
+            const auto &a = check_and_get_value( ent, "animFrameSetName", JsonValType::String );
+            goSpecRef.animFrameSetName = a.GetString();
         }
         {//--- speedLvl ---//
             const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
-            goJsonData.speedLvl = int_2_SpeedLevel( a.GetInt() );
+            goSpecRef.speedLvl = int_2_SpeedLevel( a.GetInt() );
         }
         {//--- alti ---//
             const auto &a = check_and_get_value( ent, "alti", JsonValType::Number );
-            goJsonData.alti = get_double( a );
+            goSpecRef.alti = get_double( a );
         }
         {//--- weight ---//
             const auto &a = check_and_get_value( ent, "weight", JsonValType::Number );
-            goJsonData.weight = get_double( a );
+            goSpecRef.weight = get_double( a );
         }
         {//--- pub.HP ---//
             tprAssert( ent.HasMember("pub.HP") );
             const Value &a = ent["pub.HP"];
             std::pair<bool,int> pair = get_nullable_int( a );
-            (pair.first) ?
-                goJsonData.pubBinary.HP = pair.second :
-                goJsonData.pubBinary.HP = -999; //- tmp
+            goSpecRef.pubBinary.HP = (pair.first) ? pair.second : -999; //- tmp
         }
         {//--- pub.MP ---//
             tprAssert( ent.HasMember("pub.MP") );
             const Value &a = ent["pub.MP"];
             std::pair<bool,int> pair = get_nullable_int( a );
-            (pair.first) ?
-                goJsonData.pubBinary.MP = pair.second :
-                goJsonData.pubBinary.MP = -999; //- tmp
+            goSpecRef.pubBinary.MP = (pair.first) ? pair.second : -999; //- tmp
         }
 
         //====================================//
-        //  Now, the goJsonData is inited
-        //  insert it into all ssrc::containers
+        //  insert it into oth ssrc::containers
         //------------------------------------//
-        ssrc::insert_2_go_specId_names_containers( goJsonData.specID, goJsonData.gameObjType );
-        ssrc::insert_2_go_jsonDatas( goJsonData );
+        ssrc::insert_2_go_specId_names_containers( goSpecRef.specID, goSpecRef.goSpecName );
     }
 }
 

@@ -129,6 +129,8 @@ void parse_single_jsonFile( const std::string &path_file_,
                 const auto &a = check_and_get_value( ent, "dpos", JsonValType::Array );
                 const auto &pos = a.GetArray();
                 tprAssert( pos.Size() == 2 );
+                tprAssert( pos[0].IsInt() );
+                tprAssert( pos[1].IsInt() );
                 dposOff.x = static_cast<double>(pos[0].GetInt());
                 dposOff.y = static_cast<double>(pos[1].GetInt());
 

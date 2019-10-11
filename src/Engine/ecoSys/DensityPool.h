@@ -22,7 +22,7 @@
 #include "FieldDistributeType.h"
 
 //--- need ---//
-class EcoEnt;
+//class EcoEnt;
 class FieldDistributePlan;
 
 
@@ -36,7 +36,9 @@ public:
         this->types.insert( this->types.begin(), nums_, type_ );
     }
 
-    void insert_goSpecData( BodySize bodySize_, const EcoEnt &ecoEnt_ )noexcept;
+
+
+    void insert_goSpecData( BodySize bodySize_,  std::unique_ptr<GoSpecData> uptr_  )noexcept;
 
 
 
@@ -46,7 +48,6 @@ public:
         for( auto &pair : this->goSpecDatas ){
             std::shuffle( pair.second.begin(), pair.second.end(), engine_ );
         }
-
     }
 
     inline void set_applyPercent( double percent_ )noexcept{ this->applyPercent = percent_; }
@@ -68,7 +69,7 @@ public:
         size_t randIdx = randUVal_ * 11 + 99173;
         tprAssert( this->goSpecDatas.find(bodySize_) != this->goSpecDatas.end() );
         const auto &vec = this->goSpecDatas.at(bodySize_);
-        return &(vec.at(randIdx % vec.size()));
+        return vec.at(randIdx % vec.size()).get();
     }
 
 
@@ -77,7 +78,7 @@ private:
     
     std::vector<FieldDistributeType> types {};
 
-    std::unordered_map<BodySize, std::vector<GoSpecData>> goSpecDatas {};
+    std::unordered_map<BodySize, std::vector<std::unique_ptr<GoSpecData>>> goSpecDatas {};
 
 };
 

@@ -59,9 +59,9 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "rock", 
-                                                                msParamPtr->animLabels,
-                                                                msParamPtr->uWeight );
+    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
+    tprAssert( job_goMeshs.size() == 1 );
+    pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
@@ -73,7 +73,7 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                job_goMeshs.begin()->fposOff, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );

@@ -30,26 +30,24 @@
 
 
 //-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
-struct DyParams_Field{
-    size_t       uWeight;
-	MapAltitude  mapEntAlti;
-	Density      mapEntDensity;
-    std::vector<AnimLabel> animLabels; //- maybe empty
+struct DyParams_Field{    
+    size_t                          mapEntUWeight {};
+    const std::vector<Job_GoMesh> *job_goMeshsPtr {nullptr}; // support multi gomeshs
 };
 
 
 
 struct DyParams_MapSurface{
-    MapSurfaceLowSpec       spec; // "mapSurfaceLow_test"
-    mapSurface::RandEntLvl  lvl; // "Field_1f1"
-    size_t                  randUVal; // field.uWeight
+    MapSurfaceLowSpec       spec {}; // "mapSurfaceLow_test"
+    mapSurface::RandEntLvl  lvl  {}; // "Field_1f1"
+    size_t                  randUVal {}; // field.uWeight
 };
 
 
 
 struct DyParams_GroundGo{
-    size_t      fieldUWeight;
-    const Job_Field  *job_fieldPtr;
+    size_t      fieldUWeight  {};
+    const Job_Field  *job_fieldPtr {};
 };
 
 

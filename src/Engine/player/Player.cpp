@@ -60,7 +60,7 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
-        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
+        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::str_2_goSpecId("playerGoCircle"),
                                                             newGoRef.get_dpos(),
                                                             emptyDyParam );
         
@@ -101,7 +101,7 @@ void Player::bind_go( goid_t goid_ ){
     //-- 若是第一次调用，生成 playerGoCircle 实例 --//
     /*
     if( this->goid == NULLID ){
-        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::get_goSpecId("playerGoCircle"),
+        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::str_2_goSpecId("playerGoCircle"),
                                                             IntVec2{0,0},
                                                             emptyDyParam );
     }

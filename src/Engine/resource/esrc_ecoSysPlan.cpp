@@ -38,6 +38,24 @@ namespace ecoPlan_inn {//-------- namespace: ecoPlan_inn --------------//
 }//------------- namespace: ecoPlan_inn end --------------//
 
 
+void init_ecoSysPlanes(){
+
+    ecoPlan_inn::ecoSysPlanIds_in_type.resize( EcoSysPlanType_Num );
+    //---------------------//
+    json::parse_from_ecoSysPlansJsonFile();
+    
+    //---------------------//
+    //   shuffle ecoSysPlanIds
+    //---------------------//
+    std::default_random_engine randEngine; 
+    randEngine.seed(431); //- 提供固定seed
+    std::shuffle(   ecoPlan_inn::ecoSysPlanIds.begin(), 
+                    ecoPlan_inn::ecoSysPlanIds.end(),
+                    randEngine );
+}
+
+
+
 EcoSysPlan *get_ecoSysPlanPtr( ecoSysPlanId_t ecoId_ ){
         tprAssert( ecoPlan_inn::ecoSysPlanes.find(ecoId_) != ecoPlan_inn::ecoSysPlanes.end() ); //- tmp
     return ecoPlan_inn::ecoSysPlanes.at(ecoId_).get();
@@ -83,40 +101,8 @@ ecoSysPlanId_t apply_a_rand_ecoSysPlanId( size_t ecoObjUWeight_ ){
 }
 
 
-/* ===========================================================
- *                      init_ecoSysPlanes
- * -----------------------------------------------------------
- * -- 在游戏初始化阶段，被调用。
- * -- 统一初始化 所有 EcoSysPlan 资源
- *    不追求性能
- */
-void init_ecoSysPlanes(){
 
-    ecoPlan_inn::ecoSysPlanes.clear();
-    ecoPlan_inn::ecoSysPlanIds_in_type.clear();
-    ecoPlan_inn::ecoSysPlanIds_in_type.resize( EcoSysPlanType_Num );
-    ecoPlan_inn::ecoSysPlanIds.clear();
-    //---------------------//
-    
-    //ecoPlan_inn::init_Forest_1();
-    //ecoPlan_inn::init_Forest_2();
-    //ecoPlan_inn::init_DarkForest_1();
-    //ecoPlan_inn::init_Plain_1();
-    //ecoPlan_inn::init_Swamp_1();
-    //ecoPlan_inn::init_Desert_1();
-    //ecoPlan_inn::init_Desert_2();
 
-    json::parse_from_ecoSysPlansJsonFile();
-    
-    //---------------------//
-    //   shuffle ecoSysPlanIds
-    //---------------------//
-    std::default_random_engine randEngine; 
-    randEngine.seed(431); //- 提供固定seed
-    std::shuffle(   ecoPlan_inn::ecoSysPlanIds.begin(), 
-                    ecoPlan_inn::ecoSysPlanIds.end(),
-                    randEngine );
-}
 
 
 }//---------------------- namespace: esrc -------------------------//

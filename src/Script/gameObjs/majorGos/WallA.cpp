@@ -44,6 +44,8 @@ struct WallA_PvtBinary{
  */
 void WallA::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
+    // dyParams_ 未使用
+
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<WallA_PvtBinary>();
 

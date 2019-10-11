@@ -119,6 +119,7 @@ void parse_single_mapSurfaceRandMeshJsonFile( const std::string &path_file_ ){
             {//--- dpos ---//
                 const auto &a = check_and_get_value( point, "dpos", JsonValType::Array );
                 // base dpos is IntVec2, align to pixes
+                tprAssert( a.Size() == 2 );
                 tprAssert( a[0].IsInt() );
                 tprAssert( a[1].IsInt() );
                 dposOff.x = static_cast<double>(a[0].GetInt());

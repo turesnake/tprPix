@@ -16,21 +16,57 @@
 #include "GameObjType.h"
 
 
+//--------------- Script ------------------//
+#include "Script/json/json_multiGoMesh.h"
+
+
 //-- 仅用于 ecoObj -> create a go 
+
+        //  这个名字太糟糕了，应该被修改
+
 class GoSpecData{
 public:
-    GoSpecData()=default;
-    GoSpecData( goSpecId_t specId_,
-                const std::vector<AnimLabel> &labels_ ):
-        specId(specId_)
+    GoSpecData( goSpecId_t rootGoSpecId_,
+                bool       isMultiGoMesh_,
+                std::vector<AnimLabel> &animLabels_):
+        rootGoSpecId(rootGoSpecId_),
+        isMultiGoMesh(isMultiGoMesh_)
         {
-            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
+            tprAssert( !isMultiGoMesh_ );
+            this->animLabels.swap( animLabels_ );
         }
-    inline goSpecId_t get_goSpecId()const noexcept{ return this->specId; }
-    inline const std::vector<AnimLabel> &get_animLabels()const noexcept{ return this->animLabels; }
+
+    GoSpecData( goSpecId_t rootGoSpecId_,
+                bool       isMultiGoMesh_,
+                json::MultiGoMeshType multiGoMeshType_):
+        rootGoSpecId(rootGoSpecId_),
+        isMultiGoMesh(isMultiGoMesh_),
+        multiGoMeshType(multiGoMeshType_)
+        {
+            tprAssert( isMultiGoMesh_ );
+        }
+
+    //----- get -----//
+    inline goSpecId_t   get_rootGoSpecId()const noexcept{ return this->rootGoSpecId; }
+    inline bool         get_isMultiGoMesh()const noexcept{ return this->isMultiGoMesh; }
+
+    inline const std::vector<AnimLabel> &get_animLabels()const noexcept{ 
+        tprAssert( !this->isMultiGoMesh );
+        return this->animLabels; 
+    }
+
+    inline json::MultiGoMeshType get_multiGoMeshType()const noexcept{
+        tprAssert( this->isMultiGoMesh );
+        return this->multiGoMeshType;
+    }
+
+
 private:
-    goSpecId_t specId {};
-    std::vector<AnimLabel> animLabels {};
+    goSpecId_t              rootGoSpecId {};
+
+    bool                    isMultiGoMesh;
+    std::vector<AnimLabel>  animLabels {};
+    json::MultiGoMeshType   multiGoMeshType {};
 };
 
 

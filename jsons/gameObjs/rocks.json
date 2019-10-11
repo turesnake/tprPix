@@ -1,6 +1,6 @@
 [
   {
-    "gameObjType": "rock",
+    "goSpecName": "rock",
     "specID": 7501,
     "parentID": 0,
     "family": "Major",
@@ -11,6 +11,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
+    "animFrameSetName":"rock",
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,

@@ -109,7 +109,7 @@ void EcoSysPlan::insert( int densityLvl_, std::unique_ptr<DensityPool> &densityP
         tprAssert( this->is_goSpecDataPools_init ); //- MUST
         //auto &poolRef = this->goSpecDataPools.at(densityIdx);
         auto &densityPool = this->densityPools.at(densityIdx);
-        id_l = ssrc::get_goSpecId(entUPtr->specName);
+        id_l = ssrc::str_2_goSpecId(entUPtr->goSpecName);
         poolRef.insert( poolRef.begin(), entUPtr->idNum, GoSpecData{ id_l, entUPtr->labels } );
     }
     */

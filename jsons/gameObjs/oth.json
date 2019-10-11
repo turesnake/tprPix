@@ -1,6 +1,6 @@
 [
   {
-    "gameObjType": "fieldRim",
+    "goSpecName": "fieldRim",
     "specID": 19001,
     "parentID": 0,
     "family": "MapSurface",
@@ -11,6 +11,7 @@
     "isMoveCollide": false,
     "isDoPass": false,
     "isBePass": true,
+    "animFrameSetName":"auto",
     "speedLvl": 0,
     "alti": 0,
     "weight": 1,

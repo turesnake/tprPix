@@ -16,14 +16,10 @@
 #include "esrc_field.h"
 #include "esrc_chunk.h"
 
-
-
 namespace chunkRelease {//------- namespace: chunkRelease ----------//
 namespace cr_inn {//----------- namespace: cr_inn ----------------//
 
-
     void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
-
 
 }//-------------- namespace: cr_inn end ----------------//
 

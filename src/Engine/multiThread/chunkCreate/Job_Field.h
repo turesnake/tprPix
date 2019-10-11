@@ -17,22 +17,33 @@
 
 //-------------------- Engine --------------------//
 #include "Job_MapEnt.h"
+#include "animSubspeciesId.h"
+
+
+class Job_GoMesh{
+public:
+    Job_GoMesh( animSubspeciesId_t  id_,
+                const glm::vec2     &fposOff_ ):
+        subspecId(id_),
+        fposOff(fposOff_)
+        {}
+    //----- vals -----//
+    animSubspeciesId_t  subspecId {};
+    glm::vec2           fposOff   {}; // gomesh-dposoff based on go
+};
+
+
 
 
 // datas to support the field_gos create in main-thread 
 class Job_GoData{
 public:
-    Job_GoData( const GoSpecData *goSpecDataPtr_, 
-                const Job_MapEnt *job_mapEntPtr_,
-                const glm::dvec2 &dposOff_):
-        goSpecDataPtr(goSpecDataPtr_),
-        job_mapEntPtr(job_mapEntPtr_),
-        dposOff(dposOff_)
-        {}
-    //----- vals -----//
-    const GoSpecData    *goSpecDataPtr {nullptr};
-    const Job_MapEnt *job_mapEntPtr {nullptr};
-    glm::dvec2           dposOff       {};
+    
+    goSpecId_t              goSpecId {};
+    glm::dvec2              goDposOff {}; // go-dposoff based on field-middpos
+    size_t                  mapEntUWeight {};
+
+    std::vector<Job_GoMesh> job_goMeshs {};
 };
 
 
@@ -86,11 +97,14 @@ public:
         return (this->fields.size() > 1);
     }
 
-    inline void push_back_2_job_goDatas(const GoSpecData        *goSpecDataPtr_, 
-                                        const Job_MapEnt     *job_mapEntPtr_,
-                                        const glm::dvec2        &dposOff_ )noexcept{
-        this->job_goDatas.emplace_back( goSpecDataPtr_, job_mapEntPtr_, dposOff_ );
+
+    inline Job_GoData &insert_new_job_goData()noexcept{
+        this->job_goDatas.push_back( Job_GoData{} );
+        auto &target = this->job_goDatas.back();
+        return target;
     }
+
+
 
     inline const std::vector<Job_GoData> &get_job_goDatas()const noexcept{
         return this->job_goDatas;

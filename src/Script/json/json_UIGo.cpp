@@ -125,9 +125,9 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
 
         UIGoJsonData  uiGoJsonData {};
 
-        {//--- gameObjType ---//
-            const auto &a = check_and_get_value( ent, "gameObjType", JsonValType::String );
-            uiGoJsonData.gameObjType = a.GetString();
+        {//--- goSpecName ---//
+            const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
+            uiGoJsonData.goSpecName = a.GetString();
         }
         {//--- specID ---//
             const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
@@ -154,7 +154,7 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
         //  Now, the uiGoJsonData is inited
         //  insert it into all ssrc::containers
         //------------------------------------//
-        ssrc::insert_2_uiGo_specId_names_containers( uiGoJsonData.specID, uiGoJsonData.gameObjType );
+        ssrc::insert_2_uiGo_specId_names_containers( uiGoJsonData.specID, uiGoJsonData.goSpecName );
         ssrc::insert_2_uiGo_jsonDatas( uiGoJsonData );
 
     }

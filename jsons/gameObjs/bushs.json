@@ -1,6 +1,6 @@
 [
     {
-        "gameObjType": "thorn",
+        "goSpecName": "thorn",
         "specID": 18001,
         "parentID": 0,
         "family": "Major",
@@ -11,6 +11,7 @@
         "isMoveCollide": true,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"thorn",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
@@ -18,7 +19,7 @@
         "pub.MP": 50
     },
     {
-        "gameObjType": "mushroom",
+        "goSpecName": "mushroom",
         "specID": 18002,
         "parentID": 0,
         "family": "Major",
@@ -26,9 +27,10 @@
         "moveState": "AbsFixed",
         "moveType": "Crawl",
         "isTopGo": true,
-        "isMoveCollide": true,
+        "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"mushroom",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
@@ -36,7 +38,7 @@
         "pub.MP": 50
     },
     {
-        "gameObjType": "aloe",
+        "goSpecName": "aloe",
         "specID": 18003,
         "parentID": 0,
         "family": "Major",
@@ -47,6 +49,7 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"aloe",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
@@ -54,7 +57,7 @@
         "pub.MP": 50
     },
     {
-        "gameObjType": "bushC",
+        "goSpecName": "bushC",
         "specID": 18004,
         "parentID": 0,
         "family": "Major",
@@ -65,6 +68,7 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"bushC",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
@@ -72,7 +76,7 @@
         "pub.MP": 50
     },
     {
-        "gameObjType": "grassA",
+        "goSpecName": "grassA",
         "specID": 18005,
         "parentID": 0,
         "family": "Major",
@@ -83,6 +87,7 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"grassA",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
@@ -90,7 +95,7 @@
         "pub.MP": 50
     },
     {
-        "gameObjType": "whiteFlower",
+        "goSpecName": "whiteFlower",
         "specID": 18006,
         "parentID": 0,
         "family": "Major",
@@ -101,6 +106,7 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
+        "animFrameSetName":"whiteFlower",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,

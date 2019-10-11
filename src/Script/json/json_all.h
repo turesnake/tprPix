@@ -20,6 +20,7 @@ void parse_from_colorTableJsonFile();
 void parse_from_ecoSysPlansJsonFile();
 void parse_from_mapSurfaceRandMeshJsonFile();
 void parse_from_fieldDistributePlanJsonFile();
+void parse_from_multiGoMeshJsonFile();
 
 //------------------------------//
 //    json_windowConfig
@@ -38,40 +39,8 @@ WindowConfigJsonData parse_from_windowConfigJsonFile();
 //------------------------------//
 //        json_gameObj
 //------------------------------//
-class GoJsonData{
-public:
-
-    std::string       gameObjType {};
-    goSpecId_t        specID {};
-    goid_t            parentID {NULLID};
-
-    //----- enum -----//
-    GameObjFamily       family {};
-    GameObjState        state  {};
-    GameObjMoveState    moveState {};
-    MoveType            moveType {};
-
-    //----- bool -----//
-    bool    isTopGo  {};
-    bool    isMoveCollide {};
-    bool    isDoPass {};
-    bool    isBePass {};
-    //bool    isActive {}; //- 是否进入激活圈
-    //bool    isDirty  {};
-    //bool    isControlByPlayer {};
-
-    //----- numbers -----//
-    SpeedLevel  speedLvl {};
-    double       alti   {};
-    double       weight {};
-    //...
-
-    //std::unordered_map<PubBinaryValType,int> pubVals {};
-    PubBinary2   pubBinary {};
-};
-
 void parse_from_goJsonFile();
-void assemble_jsonData_2_newGo( goSpecId_t specID_, 
+void assemble_goSpec_2_newGo( goSpecId_t specID_, 
                                 GameObj &goRef_ );
 
 //------------------------------//
@@ -80,7 +49,7 @@ void assemble_jsonData_2_newGo( goSpecId_t specID_,
 class UIGoJsonData{
 public:
 
-    std::string       gameObjType {};
+    std::string       goSpecName {};
     goSpecId_t        specID {};
     goid_t            parentID {NULLID};
 
@@ -99,6 +68,26 @@ public:
 void parse_from_uiGoJsonFile();
 void assemble_jsonData_2_newUIGo( goSpecId_t specID_, 
                                     GameObj &goRef_ );
+
+
+
+//------------------------------//
+//        json_GoMesh
+//------------------------------//
+/*
+class GoMeshJsonData{
+public:
+
+};
+*/
+
+
+
+
+
+
+
+
 
 
 }//------------- namespace json: end ----------------

@@ -52,7 +52,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         gUPtr->job_fieldPtr = job_fieldPtr;
         dyParam.insert_ptr<DyParams_GroundGo>( gUPtr.get() );
         //--- 
-        gameObjs::create_a_Go(  ssrc::get_goSpecId( "groundGo" ),
+        gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "groundGo" ),
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
@@ -73,7 +73,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
             mUPtr->randUVal = fieldRef.get_uWeight();
             dyParam.insert_ptr<DyParams_MapSurface>( mUPtr.get() );
             //--- 
-            gameObjs::create_a_Go(  ssrc::get_goSpecId( "mapSurfaceLower" ),
+            gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "mapSurfaceLower" ),
                                     fieldRef.get_dpos() + dposOff,
                                     //fieldRef.get_midDPos(),
                                     dyParam );
@@ -83,28 +83,36 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
-        gameObjs::create_a_Go(  ssrc::get_goSpecId( "fieldRim" ),
+        gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "fieldRim" ),
                                 fieldRef.get_midDPos(),
                                 emptyDyParam );
     }
     
     //----- land go -----//
     for( const auto &i : job_fieldPtr->get_job_goDatas() ){
-        const auto &animLabels = i.goSpecDataPtr->get_animLabels();
+        //const auto &animLabels = i.goSpecDataPtr->get_animLabels();
+
         //--- dyParam ---//
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Field>();
-        fUPtr->uWeight = i.job_mapEntPtr->uWeight;
-        fUPtr->mapEntAlti = i.job_mapEntPtr->alti;
+
+        //fUPtr->uWeight = i.job_mapEntPtr->uWeight;
+        //fUPtr->mapEntAlti = i.job_mapEntPtr->alti;
+        /*
         fUPtr->mapEntDensity = i.job_mapEntPtr->density;
         for( const auto &ent : animLabels ){
-            fUPtr->animLabels.push_back( ent );
+            fUPtr->animLabels.push_back( ent );// copy
         }
+        */
+        fUPtr->job_goMeshsPtr = &(i.job_goMeshs);
+
         dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );
         //---
-        gameObjs::create_a_Go(  i.goSpecDataPtr->get_goSpecId(),
-                                fieldRef.get_midDPos() + i.dposOff,
+
+        gameObjs::create_a_Go(  i.goSpecId,
+                                fieldRef.get_midDPos() + i.goDposOff,
                                 dyParam );
+
     }
 
 }

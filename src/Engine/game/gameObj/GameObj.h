@@ -9,7 +9,6 @@
  */
 #ifndef TPR_GAME_OBJ_H
 #define TPR_GAME_OBJ_H
-
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
@@ -297,6 +296,9 @@ private:
 
     //----------- pvtBinary -------------//         
     std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
+
+                                        // 应该被升级为 typeid / std::any 实现的 更为安全的 存储方式
+                                        // 。。。
 
     std::unique_ptr<Collision> collisionUPtr {nullptr};
     const ColliDataFromJ      *colliDataFromJPtr {nullptr}; // 一经init，永不改变

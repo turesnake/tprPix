@@ -24,14 +24,17 @@
 #include "tprDebug.h"
 
 
-void DensityPool::insert_goSpecData( BodySize bodySize_, const EcoEnt &ecoEnt_ )noexcept{
+void DensityPool::insert_goSpecData( BodySize bodySize_, std::unique_ptr<GoSpecData> uptr_ )noexcept{
+
     if( this->goSpecDatas.find(bodySize_) == this->goSpecDatas.end() ){
-        this->goSpecDatas.insert({ bodySize_, std::vector<GoSpecData>{} });
+        this->goSpecDatas.insert({ bodySize_, std::vector<std::unique_ptr<GoSpecData>>{} });
     }
     auto &pool = this->goSpecDatas.at(bodySize_);
     //--
-    goSpecId_t goSpecId = ssrc::get_goSpecId(ecoEnt_.specName);
-    pool.insert( pool.begin(), ecoEnt_.idNum, GoSpecData{goSpecId, ecoEnt_.labels} );
+    pool.push_back( std::move(uptr_) );
+
+    //goSpecId_t goSpecId = ssrc::str_2_goSpecId(ecoEnt_.goSpecName);
+    //pool.insert( pool.begin(), ecoEnt_.idNum, GoSpecData{goSpecId, ecoEnt_.labels} ); // 不能这么写 
 }
 
 

@@ -1,6 +1,6 @@
 [
   {
-    "gameObjType": "pineTree",
+    "goSpecName": "pineTree",
     "specID": 2001,
     "parentID": 0,
     "family": "Major",
@@ -11,6 +11,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
+    "animFrameSetName":"pineTree",
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,
@@ -18,7 +19,7 @@
     "pub.MP": 50
   },
   {
-    "gameObjType": "poplarTree",
+    "goSpecName": "poplarTree",
     "specID": 2002,
     "parentID": 0,
     "family": "Major",
@@ -29,6 +30,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
+    "animFrameSetName":"poplarTree",
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,

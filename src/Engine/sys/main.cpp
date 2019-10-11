@@ -80,7 +80,6 @@ int main( int argc, char* argv[] ){
     json::parse_from_goJsonFile();
     json::parse_from_uiGoJsonFile();
     
-    
 
     //------------------------------------------//
     //        Behaviour.Awakes
@@ -95,11 +94,14 @@ int main( int argc, char* argv[] ){
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
 
+    //esrc::init_json_multiGoMesh();
+
     esrc::init_fieldDistributePlanSet();
     json::parse_from_fieldDistributePlanJsonFile();
     
     esrc::init_colorTableSet();
     json::parse_from_colorTableJsonFile();
+    
 
     esrc::init_fields();
     esrc::init_gameArchive();
@@ -127,14 +129,10 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           more resources
     //------------------------------------------//
-
-
     GameObj::id_manager.set_max_id( 0 );
 
     esrc::init_shaders();
     esrc::init_player();
-
-    
     
     esrc::init_canvases();
     esrc::init_mapSurfaceRandSet();
@@ -142,6 +140,8 @@ int main( int argc, char* argv[] ){
 
     json::parse_from_animFrameSetJsonFile();
     json::parse_from_mapSurfaceRandMeshJsonFile();
+
+    json::parse_from_multiGoMeshJsonFile();
     
     //------------------------------------------//
     //        Behaviour.Starts

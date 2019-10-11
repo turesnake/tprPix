@@ -27,6 +27,8 @@
 #include "AnimLabel.h"
 #include "BodySize.h"
 
+#include "GoSpecData.h"
+
 
 #include "esrc_ecoSysPlan.h"
 #include "esrc_colorTableSet.h"
@@ -68,10 +70,12 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
     //----- funcs -----//
     void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ );
-    void parse_pool( const Value &densityPool_, EcoSysPlan &ecoPlanREf_ );
-    void parse_ecoEnt(  const Value &densityPool_, 
-                        const std::string &name_, 
-                        std::vector<std::unique_ptr<EcoEnt>> &container_ );
+    void parse_pool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ );
+    void parse_ecoEnt(  const Value         &densityPoolVal_, 
+                        BodySize            size_,
+                        const std::string   &name_, 
+                        DensityPool         &densityPoolRef_
+                        );
 
 
 }//------------- namespace: espJson_inn end --------------//
@@ -85,6 +89,8 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 void parse_from_ecoSysPlansJsonFile(){
 
     cout << "   ----- parse_from_ecoSysPlansJsonFile: start ----- " << endl;
+
+    esrc::is_setState("json_gameObj");
 
     std::vector<std::string> path_files {};
     collect_fileNames( "ecoSysPlans", "_files.json", path_files );
@@ -166,7 +172,7 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
 
 
 
-void parse_pool( const Value &densityPool_, EcoSysPlan &ecoPlanREf_ ){
+void parse_pool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
 
     int                 densityLvl {};
     FieldDistributeType distype {};
@@ -175,17 +181,16 @@ void parse_pool( const Value &densityPool_, EcoSysPlan &ecoPlanREf_ ){
     auto densityPoolUPtr = std::make_unique<DensityPool>();
 
     {//--- density.lvl ---//
-        const auto &a = check_and_get_value( densityPool_, "density.lvl", JsonValType::Int );
+        const auto &a = check_and_get_value( densityPoolVal_, "density.lvl", JsonValType::Int );
         densityLvl = a.GetInt();
     }
     {//--- applyPercent ---//
-        const auto &a = check_and_get_value( densityPool_, "applyPercent", JsonValType::Double );
-        //applyPercent = a.GetDouble();
+        const auto &a = check_and_get_value( densityPoolVal_, "applyPercent", JsonValType::Double );
         densityPoolUPtr->set_applyPercent( a.GetDouble() );
     }
 
     //--- fieldDistributeTypes ---//
-    const auto &types = check_and_get_value( densityPool_, "fieldDistributeTypes", JsonValType::Array );
+    const auto &types = check_and_get_value( densityPoolVal_, "fieldDistributeTypes", JsonValType::Array );
     size_t times {};
     for( auto &type : types.GetArray() ){
         tprAssert( type.IsObject() );
@@ -202,30 +207,16 @@ void parse_pool( const Value &densityPool_, EcoSysPlan &ecoPlanREf_ ){
     }
         
     //--- ecoEnts ---//
-    std::vector<std::unique_ptr<EcoEnt>> ecoEnts {};
-
     for( const auto &bodySize : bodySizes ){
         switch (bodySize){
             case BodySize::Sml:
-                ecoEnts.clear();
-                parse_ecoEnt( densityPool_, "ecoEnts_Sml", ecoEnts );
-                for( const auto &uptr : ecoEnts ){
-                    densityPoolUPtr->insert_goSpecData(bodySize, *uptr);
-                }
+                parse_ecoEnt( densityPoolVal_, BodySize::Sml, "ecoEnts_Sml", *densityPoolUPtr );
                 break;
             case BodySize::Mid:
-                ecoEnts.clear();
-                parse_ecoEnt( densityPool_, "ecoEnts_Mid", ecoEnts );
-                for( const auto &uptr : ecoEnts ){
-                    densityPoolUPtr->insert_goSpecData(bodySize, *uptr);
-                }
+                parse_ecoEnt( densityPoolVal_, BodySize::Mid, "ecoEnts_Mid", *densityPoolUPtr );
                 break;
             case BodySize::Big:
-                ecoEnts.clear();
-                parse_ecoEnt( densityPool_, "ecoEnts_Big", ecoEnts );
-                for( const auto &uptr : ecoEnts ){
-                    densityPoolUPtr->insert_goSpecData(bodySize, *uptr);
-                }
+                parse_ecoEnt( densityPoolVal_, BodySize::Big, "ecoEnts_Big", *densityPoolUPtr );
                 break;
             case BodySize::NotCare:
             default:
@@ -240,21 +231,35 @@ void parse_pool( const Value &densityPool_, EcoSysPlan &ecoPlanREf_ ){
 
 
 
-void parse_ecoEnt(  const Value &densityPool_, 
-                    const std::string &name_,
-                    std::vector<std::unique_ptr<EcoEnt>> &container_ ){
+void parse_ecoEnt(  const Value         &densityPoolVal_, 
+                    BodySize            size_,
+                    const std::string   &name_,
+                    DensityPool         &densityPoolRef_
+                    ){
 
-    std::string             specName    {};
+    goSpecId_t              rootGoSpecId {};
     size_t                  num         {};
     std::vector<AnimLabel>  labels      {}; //- 允许是空的
+    MultiGoMeshType         multiGoMeshType {};
 
-    const auto &ecoEntsVal = check_and_get_value( densityPool_, name_, JsonValType::Array );
+    bool isFind_animLabels          {false};
+    bool isFind_MultiGoMeshType     {false};
+
+    const auto &ecoEntsVal = check_and_get_value( densityPoolVal_, name_, JsonValType::Array );
     for( auto &ecoEnt : ecoEntsVal.GetArray() ){
-        {//--- specName ---//
-            const auto &a = check_and_get_value( ecoEnt, "specName", JsonValType::String );
-            specName = a.GetString();
+
+        //--- clear ---//
+        isFind_animLabels = false;
+        isFind_MultiGoMeshType = false;
+
+        {//--- goSpecName ---//
+            const auto &a = check_and_get_value( ecoEnt, "goSpecName", JsonValType::String );
+            rootGoSpecId = ssrc::str_2_goSpecId( a.GetString() );
         }
-        {//--- animLabels ---//
+
+        //--- animLabels ---//
+        if( ecoEnt.HasMember("animLabels") ){
+            isFind_animLabels = true;
             const auto &a = check_and_get_value( ecoEnt, "animLabels", JsonValType::Array );
             if( a.Size() > 0 ){
                 for( auto &i : a.GetArray() ){
@@ -262,11 +267,34 @@ void parse_ecoEnt(  const Value &densityPool_,
                 }
             }
         }
+        //--- MultiGoMeshType ---//
+        if( ecoEnt.HasMember("MultiGoMeshType") ){
+            isFind_MultiGoMeshType = true;
+            const auto &a = check_and_get_value( ecoEnt, "MultiGoMeshType", JsonValType::String );
+            multiGoMeshType = str_2_multiGoMeshType( a.GetString() );
+        }
+
+        tprAssert( isFind_animLabels ^ isFind_MultiGoMeshType );
+
         {//--- num ---//
             const auto &a = check_and_get_value( ecoEnt, "num", JsonValType::Uint64 );
             num = cast_2_size_t(a.GetUint64());
         }
-        container_.push_back( std::make_unique<EcoEnt>(specName, labels, num) );
+
+        //---- goSpecData ----//
+        std::unique_ptr<GoSpecData> goSpecDataUPtr {nullptr};
+        if( !isFind_MultiGoMeshType ){
+            goSpecDataUPtr = std::make_unique<GoSpecData>(  rootGoSpecId, 
+                                                            isFind_MultiGoMeshType,
+                                                            labels );
+        }else{
+            goSpecDataUPtr = std::make_unique<GoSpecData>(  rootGoSpecId, 
+                                                            isFind_MultiGoMeshType, 
+                                                            multiGoMeshType);
+        }
+
+        densityPoolRef_.insert_goSpecData( size_, std::move(goSpecDataUPtr) );
+
     }
 }
 

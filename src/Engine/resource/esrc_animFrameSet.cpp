@@ -53,7 +53,7 @@ AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
 }
 
 
-
+// support multi-thread
 animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
                                                     const std::vector<AnimLabel> &labels_,
                                                     size_t              randUVal_ ){

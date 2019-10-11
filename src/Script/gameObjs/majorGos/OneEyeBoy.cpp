@@ -53,6 +53,9 @@ struct OneEyeBoy_PvtBinary{
  * -----------------------------------------------------------
  */
 void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
+
+    //================ go.pvtBinary =================//
+    auto *pvtBp = goRef_.init_pvtBinary<OneEyeBoy_PvtBinary>();
     
     //================ dyParams =================//
     size_t randUVal {};
@@ -62,9 +65,16 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
+        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+
     }else if( typeHash == typeid(DyParams_Field).hash_code() ){
         msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-        randUVal = msParamPtr->uWeight;
+
+        randUVal = 33; //- 随便写
+
+        const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
+        tprAssert( job_goMeshs.size() == 1 );
+        pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
 
     }else{
         tprAssert(0); //- 尚未实现
@@ -72,15 +82,14 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     
 
-    //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<OneEyeBoy_PvtBinary>();
+    
 
-    //pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "oneEyeBoy", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+
+    //pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) ); 
+    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

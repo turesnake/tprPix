@@ -79,12 +79,6 @@ public:
         fieldPtr->set_maxAlti( max_ );
     }
 
-    /*
-    inline std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> &getnc_fieldDatas()noexcept{
-        return this->job_fields;
-    }
-    */
-
     inline const Job_Field *get_job_fieldPtr( fieldKey_t fieldKey_ )const noexcept{
         tprAssert( this->job_fields.find(fieldKey_) != this->job_fields.end() );
         return this->job_fields.at(fieldKey_).get();
