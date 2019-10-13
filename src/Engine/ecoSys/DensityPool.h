@@ -66,7 +66,7 @@ public:
 
     // param: randUVal_ [0, 9999]
     inline const GoSpecData *apply_a_goSpecDataPtr( BodySize bodySize_, size_t randUVal_  )const noexcept{
-        size_t randIdx = randUVal_ * 11 + 99173;
+        size_t randIdx = randUVal_ + 99173;
         tprAssert( this->goSpecDatas.find(bodySize_) != this->goSpecDatas.end() );
         const auto &vec = this->goSpecDatas.at(bodySize_);
         return vec.at(randIdx % vec.size()).get();

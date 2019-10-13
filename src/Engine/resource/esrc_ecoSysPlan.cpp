@@ -87,7 +87,7 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
  */
 ecoSysPlanId_t apply_a_ecoSysPlanId_by_type( EcoSysPlanType type_, size_t ecoObjUWeight_ ){
     auto &container = ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_));    
-    return container.at( (ecoObjUWeight_ * 3 + 707013) % container.size() );
+    return container.at( (ecoObjUWeight_ + 707013) % container.size() );
 }
 
 

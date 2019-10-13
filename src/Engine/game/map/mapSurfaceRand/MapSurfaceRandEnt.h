@@ -52,7 +52,7 @@ public:
 
     inline randEntId_t apply_a_randEntId( size_t randUVal_ )const noexcept{
         
-        size_t idx = (randUVal_ * 5 + 77601) % this->ids.size();
+        size_t idx = (randUVal_ + 677601) % this->ids.size();
         return this->ids.at(idx);
     }
 

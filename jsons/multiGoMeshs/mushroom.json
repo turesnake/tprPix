@@ -1,31 +1,283 @@
 [
 
-{
-    "goSpecName": "mushroom",
-    "rootAnimFrameSetName": "mushroom",
-    "goMeshSets":[
-        {
-            "type": "",
-            "isSameGoSpec": true,
-            "goMeshs":[
-                { "dpos": [0, 0], "animLabels":[] },
-                { "dpos": [40, 55], "animLabels":[] },
-                { "dpos": [-58, 15], "animLabels":[] },
-                { "dpos": [55, -55], "animLabels":[] }
-            ]
-        },
-        {
-            "type": "",
-            "isSameGoSpec": false,
-            "goMeshs":[
-                { "animFrameSetName": "mushroom", "dpos": [0, 0], "animLabels":[] },
-                { "animFrameSetName": "mushroom", "dpos": [40, 55], "animLabels":[] }
-            ]
-        }
-
+    {
+        "goSpecName": "mushroom",
+        "rootAnimFrameSetName": "mushroom",
+        "goMeshSets":[
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [15, 50], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-70, -5], "animLabels":[ "Mid" ] },
+                    {  "dpos": [60, -25], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-45, -15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-115, -5], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, -65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, -85], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-40, 70], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [15, -35], "animLabels":[ "Mid" ] },
+                    {  "dpos": [45, 20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-60, 75], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-45, 45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-90, -7], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-65, -15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-5, -65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-25, 110], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [10, 90], "animLabels":[ "Mid" ] },
+                    {  "dpos": [80, 30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [10, -45], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-20, -10], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-55, 40], "animLabels":[ "Sml" ] },
+                    {  "dpos": [25, 70], "animLabels":[ "Sml" ] },
+                    {  "dpos": [115, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-75, 25], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-15, 60], "animLabels":[ "Mid" ] },
+                    {  "dpos": [70, -5], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-60, -35], "animLabels":[ "Mid" ] },
+                    {  "dpos": [45, -15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [95, 45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, -65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, -85], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-70, 50], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [15, -35], "animLabels":[ "Mid" ] },
+                    {  "dpos": [45, 20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, 55], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-90, -7], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-65, -25], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-5, -65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [75, -20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Big",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-10, -100], "animLabels":[ "Big" ] },
+                    {  "dpos": [-120, -20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, 50], "animLabels":[ "Mid" ] },
+                    {  "dpos": [30, -40], "animLabels":[ "Sml" ] },
+                    {  "dpos": [40, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-70, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-150, -40], "animLabels":[ "Sml" ] }
+                    
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    { "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    { "dpos": [30, 45], "animLabels":[ "Mid" ] },
+                    { "dpos": [-58, 25], "animLabels":[ "Mid" ] },
+                    { "dpos": [-20, -15], "animLabels":[ "Sml" ] },
+                    { "dpos": [45, -35], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [20, -65], "animLabels":[ "Big" ] },
+                    {  "dpos": [-60, -10], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-30, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [55, 15], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-40, -15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [25, -30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-10, -40], "animLabels":[ "Sml" ] },
+                    {  "dpos": [65, 20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-30, -30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [45, -10], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-5, -45], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-50, -15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [20, -40], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-15, -35], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [-10, 80], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-70, 15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [60, -10], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-35, -15], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [15, 65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, 70], "animLabels":[ "Sml" ] },
+                    {  "dpos": [90, -10], "animLabels":[ "Sml" ] },
+                    {  "dpos": [65, -35], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-45, -5], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, -20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-65, -30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, -45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-75, -55], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, -65], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-45, 30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-15, 55], "animLabels":[ "Sml" ] },
+                    {  "dpos": [45, -15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [70, -5], "animLabels":[ "Sml" ] },
+                    {  "dpos": [40, 65], "animLabels":[ "Sml" ] },
+                    {  "dpos": [15, -55], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [75, 55], "animLabels":[ "Mid" ] },
+                    {  "dpos": [65, 30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [40, 45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, 115], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-35, 65], "animLabels":[ "Mid" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [35, 15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [15, -25], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big" ] },
+                    {  "dpos": [15, -28], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-50, -15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [35, 20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [60, 15], "animLabels":[ "Mid" ] },
+                    {  "dpos": [25, -40], "animLabels":[ "Mid" ] },
+                    {  "dpos": [40, 0], "animLabels":[ "Sml" ] }
+                    
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-55, -20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [15, -30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-10, -40], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, -5], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, -25], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [50, 15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, 55], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Sml",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-25, -10], "animLabels":[ "Sml" ] },
+                    {  "dpos": [15, -40], "animLabels":[ "Sml" ] },
+                    {  "dpos": [40, -15], "animLabels":[ "Sml" ] }
+                ]
+            }
     
-    ]
-}
+        
+        ]
+    }
 
 ]
 

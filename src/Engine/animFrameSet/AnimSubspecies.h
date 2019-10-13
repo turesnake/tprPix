@@ -99,7 +99,7 @@ public:
         if( this->subspeciesIds.size() == 1 ){
             return this->subspeciesIds.begin()->second; //- only one
         }
-        size_t i = (randUVal_ + 66179) % this->subIdxs.size();
+        size_t i = (randUVal_ + 366179) % this->subIdxs.size();
         return this->subspeciesIds.at( this->subIdxs.at(i) );
     }
 
@@ -146,7 +146,7 @@ public:
         tprAssert( labelSz <= 2 );
         if( labelSz == 0 ){        
             //-- 2个 label 都为随机值 --
-            size_t fstI = (randUVal_ * 2 + 35157) % this->labels.size();
+            size_t fstI = (randUVal_ + 735157) % this->labels.size();
             AnimLabel &labelRef = this->labels.at( fstI );
             key = this->apply_random_secKey(this->labelKeys.at(labelRef), randUVal_);
 
@@ -183,7 +183,7 @@ private:
         if( v_.size() == 1 ){
             return v_.at(0);
         }
-        size_t i = (randUVal_ * 7 + 103171) % v_.size();
+        size_t i = (randUVal_ + 103171) % v_.size();
         return v_.at(i);
     }
 

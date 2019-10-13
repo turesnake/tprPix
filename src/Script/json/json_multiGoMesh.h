@@ -31,14 +31,18 @@ namespace json{//------------- namespace json ----------------
 enum class MultiGoMeshType {
     Default, // not belong to any type
 
-    Mid  // tmp
+    Sml,
+    Mid,
+    Big,
     //...
 };
 
 
 inline MultiGoMeshType str_2_multiGoMeshType( const std::string &str_ )noexcept{
     if( (str_=="") || (str_=="Default") ){  return MultiGoMeshType::Default;
+    }else if( str_ == "Sml" ){              return MultiGoMeshType::Sml;
     }else if( str_ == "Mid" ){              return MultiGoMeshType::Mid;
+    }else if( str_ == "Big" ){              return MultiGoMeshType::Big;
     }
     //...
     else{
@@ -102,11 +106,11 @@ public:
         size_t              idx {};
         jsonGoMeshSetId_t   id {};  
         if( type_ == MultiGoMeshType::Default ){
-            idx = (randUVal_ * 9 + 52375) % this->allIds.size(); // apply a id directly from all ids
+            idx = (randUVal_ + 152375) % this->allIds.size(); // apply a id directly from all ids
             id = this->allIds.at( idx );
         }else{
             tprAssert( this->ids.find(type_) != this->ids.end() );
-            idx = (randUVal_ * 9 + 52375) % this->ids.at(type_).size(); // from target idPool
+            idx = (randUVal_ + 152375) % this->ids.at(type_).size(); // from target idPool
             id = this->ids.at(type_).at( idx );
         }
         //--- ret ---//

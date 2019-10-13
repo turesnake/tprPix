@@ -33,10 +33,30 @@
     "name": "mushroom",
     "pngs": [
         {
-            "path": "/mushroom/mushroomA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
+            "path": "/mushroom/mushroom_Sml1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  5,
+            "totalFrameNum": 29,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml" ],
+                    "fstIdx": 0,
+                    "idxNums": 29,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mushroom/mushroom_Mid1.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 20,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -44,9 +64,29 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [],
+                    "animLabels": [ "Mid" ],
                     "fstIdx": 0,
-                    "idxNums": 4,
+                    "idxNums": 20,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+        {
+            "path": "/mushroom/mushroom_Big1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  3,
+            "totalFrameNum": 11,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big" ],
+                    "fstIdx": 0,
+                    "idxNums": 11,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }

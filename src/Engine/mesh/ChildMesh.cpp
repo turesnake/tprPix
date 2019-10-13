@@ -90,9 +90,12 @@ void ChildMesh::refresh_translate(){
                                         //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
         }
     }else{
-        this->translate_val.y = currentFPos.y - vf.y;
-                                    //-- shadow 的 y值 并不随着 pposOff 而变化。
-                                    //   这样才能实现： go跳起来腾空个了。而阴影没有跟着也“抬高”
+        this->translate_val.y = currentFPos.y + pposOff.y - vf.y;
+                                    //-- 若是类似 mushroom 这种 multiGoMeshs-go，
+                                    //   其 阴影应当 添加 pposOff.y
+                                    //-- 若是 go身上绑定的 子mesh，其 pposOff.y 不应被累加
+                                    //   在未来，这个变化，应当通过一个 flags 来控制
+                                    //   并允许外部选配 ...
         this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff) + off_zRef;
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   而且始终 “相对 camera.viewingBox 静止”

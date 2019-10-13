@@ -79,7 +79,7 @@ inline NineDirection apply_a_random_direction( double randV_ )noexcept{
 // param: randUVal_ [0, 9999]
 inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noexcept{
         
-    size_t idx = (randUVal_ * 3 + 90179) % (nineDirectionSize-1);
+    size_t idx = (randUVal_ + 590179) % (nineDirectionSize-1);
     idx++; // 不含 0
     return idx_2_nineDirection(idx);
 }

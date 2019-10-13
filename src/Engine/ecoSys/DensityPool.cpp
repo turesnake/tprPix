@@ -41,7 +41,7 @@ void DensityPool::insert_goSpecData( BodySize bodySize_, std::unique_ptr<GoSpecD
 
 // param: randUVal_ [0, 9999]
 const FieldDistributePlan &DensityPool::apply_a_fieldDistributePlan( size_t randUVal_ )const noexcept{
-    size_t randIdx = randUVal_ * 3 + 37173;
+    size_t randIdx = randUVal_ + 1937173;
     auto type = this->types.at( randIdx % this->types.size() );
     auto &planSet = esrc::get_fieldDistributePlanSet();
     return planSet.apply_a_fieldDistributePlan(type, randIdx);

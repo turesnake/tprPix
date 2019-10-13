@@ -64,7 +64,7 @@ public:
     inline const FieldDistributePlan &apply_a_fieldDistributePlan( FieldDistributeType type_, size_t randUVal_ )const noexcept{
         //tprAssert( this->is_find_type(type_) );
         auto &container = this->plans.at(type_);
-        size_t idx = (randUVal_*3+197507) % container.size();
+        size_t idx = (randUVal_+297507) % container.size();
         return *(container.at(idx));
     }
 
