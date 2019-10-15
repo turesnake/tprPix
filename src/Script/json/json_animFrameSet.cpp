@@ -112,7 +112,6 @@ void parse_from_animFrameSetJsonFile(){
     std::string path_file {};
 
     for( const auto &path : path_files ){
-
         auto jsonBufUPtr = read_a_file( path );
 
         //-----------------------------//
@@ -277,6 +276,7 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
     std::vector<AnimLabel> labels {}; //- 允许是空的
     std::string   actionName {};
     NineDirection actionDir {};
+    size_t        fstSubIdx  {};
     size_t        fstIdx     {};
     size_t        idxNums    {};
     size_t        jFrameIdx  {};
@@ -292,6 +292,10 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
         }
     }
 
+    {//--- fstSubIdx ---//
+        const auto &a = check_and_get_value( subspeciesEnt_, "fstSubIdx", JsonValType::Uint64 );
+        fstSubIdx =  cast_2_size_t(a.GetUint64());
+    }
     {//--- fstIdx ---//
         const auto &a = check_and_get_value( subspeciesEnt_, "fstIdx", JsonValType::Uint64 );
         fstIdx =  cast_2_size_t(a.GetUint64());
@@ -313,11 +317,12 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
         isOpaque = a.GetBool();
     }
 
+    //---
     for( size_t i=fstIdx; i<fstIdx+idxNums; i++ ){
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i, actionName, actionDir, jFrameIdx, i, isOpaque, labels) );
+        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, jFrameIdx, i, isOpaque, labels) );
     }
 
 }

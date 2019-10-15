@@ -3,10 +3,10 @@
     "name": "rock",
     "pngs": [
         {
-            "path": "/rock/rockA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  2,
-            "totalFrameNum": 5,
+            "path": "/rock/rock_big3.P.png",
+            "frameNum.col":  7,
+            "frameNum.row":  7,
+            "totalFrameNum": 49,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -15,26 +15,20 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Big", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Dark" ],
-                    "fstIdx": 3,
-                    "idxNums": 2,
+                    "idxNums": 49,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
         },
+        
         {
-            "path": "/rock/rockB.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
+            "path": "/rock/rock_mid2.P.png",
+            "frameNum.col":  7,
+            "frameNum.row":  5,
+            "totalFrameNum": 32,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -43,36 +37,30 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Mid", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 3,
+                    "idxNums": 32,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
         },
         {
-            "path": "/rock/rockC.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  2,
-            "totalFrameNum": 6,
-            "isHaveShadow": true,
+            "path": "/rock/rock_sml.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  4,
+            "totalFrameNum": 22,
+            "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": false,
             "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [ "Sml", "Dark" ],
-                    "fstIdx": 0,
-                    "idxNums": 4,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
                     "animLabels": [ "Sml", "Light" ],
-                    "fstIdx": 4,
-                    "idxNums": 2,
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 22,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }

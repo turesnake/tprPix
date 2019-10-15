@@ -1,0 +1,122 @@
+[
+
+    {
+        "goSpecName": "rock",
+        "rootAnimFrameSetName": "rock",
+        "goMeshSets":[
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [60, 95], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [110, 105], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-140, 35], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [45, -95], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [130, -50], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [-130, 70], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [-155, 30], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-30, -110], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [-30, -90], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-70, -110], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-135, 40], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [70, -100], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [30, -120], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [100, 110], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [145, 85], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [-135, 55], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [90, 100], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-105, -75], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [115, -80], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [60, -110], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [125, 80], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-130, -45], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [-80, -75], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [-115, -105], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-30, -115], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [70, 115], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [130, 45], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-140, 15], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [-40, 115], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [-150, 15], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-130, -35], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [125, -45], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [85, -95], "animLabels":[ "Sml", "Light" ] }
+                ]
+            },
+            {
+                "type": "Mid",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [-5, -95], "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [50, -115], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-20, -140], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-135, -25], "animLabels":[ "Sml", "Light" ] },
+                    {  "dpos": [-155, -50], "animLabels":[ "Sml", "Light" ] }
+                ]
+            }
+            
+    
+        
+        ]
+    }
+
+]
+

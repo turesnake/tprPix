@@ -66,9 +66,7 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();
-   
     const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-
 
     std::string         goMeshName {};
     size_t              meshNameCount {0};

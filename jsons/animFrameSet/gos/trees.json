@@ -15,6 +15,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Sml", "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 1,
                     "name": "idle", "dir": "Mid",
@@ -23,6 +24,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Sml", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 1,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -43,6 +45,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Fat", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -51,6 +54,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Fat", "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 2,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -71,6 +75,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Thin", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 1,
                     "name": "idle", "dir": "Mid",
@@ -79,6 +84,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Thin", "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 1,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -99,6 +105,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "HalfDead", "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -107,6 +114,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "HalfDead", "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 2,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -132,6 +140,7 @@
                 {
                     "type": "batch",
                     "animLabels": [],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 4,
                     "name": "idle", "dir": "Mid",

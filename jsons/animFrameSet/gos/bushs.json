@@ -15,6 +15,7 @@
                 {
                     "type": "batch",
                     "animLabels": [],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -40,6 +41,7 @@
                 {
                     "type": "batch",
                     "animLabels": [],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 4,
                     "name": "idle", "dir": "Mid",
@@ -65,6 +67,7 @@
                 {
                     "type": "batch",
                     "animLabels": [],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -90,6 +93,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -98,6 +102,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 2,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -123,6 +128,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Light" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
@@ -131,6 +137,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Dark" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 2,
                     "idxNums": 1,
                     "name": "idle", "dir": "Mid",

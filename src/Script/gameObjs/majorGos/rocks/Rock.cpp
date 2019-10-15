@@ -11,6 +11,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- tpr --------------------//
+#include "tprGeneral.h"
+
 //-------------------- Engine --------------------//
 #include "Density.h"
 #include "animSubspeciesId.h"
@@ -56,27 +59,43 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0); //- 尚未实现
     }
 
-    //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
 
-    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-    tprAssert( job_goMeshs.size() == 1 );
-    pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
 
-    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-        //-- 制作唯一的 mesh 实例: "root" --
-        goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
+
+    //================ go.pvtBinary =================//
+    auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
+    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
+
+    std::string         goMeshName {};
+    size_t              meshNameCount {0};
+    animSubspeciesId_t  subspeciesId {};
+
+    for( auto it=job_goMeshs.cbegin(); it!=job_goMeshs.cend(); it++ ){// each job_goMesh
+
+        //--- goMesh name ---//
+        if( it == job_goMeshs.cbegin() ){
+            goMeshName = "root";
+        }else{
+            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
+            meshNameCount++;
+        }
+
+        subspeciesId = it->subspecId;
+
+        goRef_.creat_new_goMesh(goMeshName,
+                                subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                job_goMeshs.begin()->fposOff, //- pposoff
+                                //glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                it->fposOff,
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );
+    }
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

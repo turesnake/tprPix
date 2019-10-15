@@ -15,6 +15,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Field_1f1" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -35,6 +36,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Field_2f2" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -55,6 +57,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Field_3f3" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 3,
                     "name": "idle", "dir": "Mid",
@@ -80,6 +83,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_1m1" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 8,
                     "name": "idle", "dir": "Mid",
@@ -100,6 +104,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_2m2" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 8,
                     "name": "idle", "dir": "Mid",
@@ -120,6 +125,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_3m3" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 8,
                     "name": "idle", "dir": "Mid",
@@ -140,6 +146,7 @@
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_4m4" ],
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 8,
                     "name": "idle", "dir": "Mid",
