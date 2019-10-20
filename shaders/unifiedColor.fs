@@ -72,36 +72,18 @@ void main()
 }
 
 
-
 vec3 change_color( in vec3 val_ ){
-    if(       closeEnough( val_, originColorTable.base_0.rgb) ){
-        val_ = unifiedColorTable.base_0.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_1.rgb) ){
-        val_ = unifiedColorTable.base_1.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_2.rgb) ){
-        val_ = unifiedColorTable.base_2.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_3.rgb) ){
-        val_ = unifiedColorTable.base_3.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_4.rgb) ){
-        val_ = unifiedColorTable.base_4.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_5.rgb) ){
-        val_ = unifiedColorTable.base_5.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_6.rgb) ){
-        val_ = unifiedColorTable.base_6.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_7.rgb) ){
-        val_ = unifiedColorTable.base_7.rgb;
+    if(       closeEnough( val_, originColorTable.base_0.rgb) ){ return unifiedColorTable.base_0.rgb;
+    }else if( closeEnough( val_, originColorTable.base_1.rgb) ){ return unifiedColorTable.base_1.rgb;
+    }else if( closeEnough( val_, originColorTable.base_2.rgb) ){ return unifiedColorTable.base_2.rgb;
+    }else if( closeEnough( val_, originColorTable.base_3.rgb) ){ return unifiedColorTable.base_3.rgb;
+    }else if( closeEnough( val_, originColorTable.base_4.rgb) ){ return unifiedColorTable.base_4.rgb;
+    }else if( closeEnough( val_, originColorTable.base_5.rgb) ){ return unifiedColorTable.base_5.rgb;
+    }else if( closeEnough( val_, originColorTable.base_6.rgb) ){ return unifiedColorTable.base_6.rgb;
+    }else if( closeEnough( val_, originColorTable.base_7.rgb) ){ return unifiedColorTable.base_7.rgb;
     }else{
-        //discard;
-        // ...
+        return val_; // e.g. shadows
     }
-    return val_;
 }
 
 

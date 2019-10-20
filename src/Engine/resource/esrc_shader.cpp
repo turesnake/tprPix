@@ -62,7 +62,20 @@ void init_shaders(){
     auto &ubo_colorTableId = esrc::get_uniformBlockObjRef( ubo::UBOType::ColorTableId );
     //...
 
-    {//---- originColor_sahder ----//
+    {//---- shadow ----//
+        auto &sp = insert_new_shader( ShaderType::Shadow );
+        //---
+        sp.init( "/shadow.vs", "/shadow.fs" );
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        //...
+    }
+
+    {//---- originColor_shader ----//
         auto &sp = insert_new_shader( ShaderType::OriginColor );
         //---
         sp.init( "/originColor.vs", "/originColor.fs" );
@@ -77,7 +90,7 @@ void init_shaders(){
         //...
     }
 
-    {//---- unifiedColor_sahder ----//
+    {//---- unifiedColor_shader ----//
         auto &sp = insert_new_shader( ShaderType::UnifiedColor );
         //---
         sp.init( "/unifiedColor.vs", "/unifiedColor.fs" );
@@ -92,7 +105,23 @@ void init_shaders(){
         //...
     }
 
-    {//---- GroundColor_sahder ----//
+    {//---- GroundBasedColor ----//
+        auto &sp = insert_new_shader( ShaderType::GroundBasedColor );
+        //---
+        sp.init( "/groundBasedColor.vs", "/groundBasedColor.fs" );
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        sp.add_new_uniform( "groundLikeColorIdx" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_unifiedColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        //...
+    }
+
+
+    {//---- GroundColor_shader ----//
         auto &sp = insert_new_shader( ShaderType::GroundColor );
         //---
         sp.init( "/groundColor.vs", "/groundColor.fs" );
@@ -102,15 +131,13 @@ void init_shaders(){
         sp.add_new_uniform( "texture1" );
         //--- ubo --//
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        //ubo_originColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        //ubo_unifiedColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_groundColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_colorTableId.bind_2_shaderProgram(sp.get_shaderProgramObj());
         //...
     }
 
 
-    {//---- playerGoCircle_sahder ----//
+    {//---- playerGoCircle_shader ----//
         auto &sp = insert_new_shader( ShaderType::PlayerGoCircle );
         //---
         sp.init( "/playerGoCircle.vs", "/playerGoCircle.fs" ); 
@@ -123,7 +150,7 @@ void init_shaders(){
     }
 
 
-    {//---- mapSurface_sahder ----//
+    {//---- mapSurface_shader ----//
         auto &sp = insert_new_shader( ShaderType::MapSurface );
         //---
         sp.init( "/mapSurface.vs", "/mapSurface.fs" ); 
@@ -166,6 +193,9 @@ void init_shaders(){
         ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
     }
 
+    
+
+    //=====//
     esrc::insertState("shader");
 }
 

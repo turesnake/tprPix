@@ -42,8 +42,8 @@ void main()
     
 
     vec4 targetColor = groundColorTable.colors[colorTableId.id];
-    FragColor = vec4( targetColor.rgb, 0.6 );
-    //FragColor = vec4( 0.2, 1.0, 0.7, 0.3 );
+    FragColor = vec4( targetColor.rgb, 0.8 );
+        // 故意设置为 半透明，这样，当从一个 eco 进入另一个 eco，ground color 会发生轻微的变化
 }
 
 

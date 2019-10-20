@@ -75,6 +75,8 @@ void onGoSpecIds_SignUp(){
     ssrc::insert_2_goInit_funcs( "whiteFlower",     std::bind( &gameObjs::WhiteFlower::init, _1, _2 ) );
 
 
+    ssrc::insert_2_goInit_funcs( "grass",     std::bind( &gameObjs::Grass::init, _1, _2 ) );
+
     //-------------------//
     //        rock
     //-------------------//

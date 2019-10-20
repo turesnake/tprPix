@@ -24,6 +24,7 @@
 #include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
+#include "functorTypes.h"
 #include "GameObjType.h" 
 #include "GameObjMesh.h" 
 #include "ID_Manager.h" 
@@ -39,9 +40,10 @@
 #include "ActionFSM.h"
 #include "chunkKey.h"
 #include "animSubspeciesId.h"
+#include "DyBinary.h"
 
 
-//--- 一个仍在建设中的 大杂烩 ----//
+//--- 一个仍在建设中的 丑陋的 大杂烩 ----//
 // 具象go类 并不用继承 基础go类，而是 “装配” 一个go实例，
 // 通过 function / bind 动态绑定各种回调函数
 // 在 主引擎中，go类 是官方认可的通用类型。也只能通过这个 类来 访问 一切 go实例
@@ -51,11 +53,11 @@
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
-    using F_void         = std::function<void()>;
-    using F_void_double  = std::function<void( double )>;
-    using F_double       = std::function<double()>;
-    using F_c_dvec2Ref   = std::function<const glm::dvec2 &()>;
-    using F_void_c_dvec2Ref = std::function<void(const glm::dvec2 &)>;
+    //using F_void         = std::function<void()>;
+    //using F_void_double  = std::function<void( double )>;
+    //using F_double       = std::function<double()>;
+    //using F_c_dvec2Ref   = std::function<const glm::dvec2 &()>;
+    //using F_void_c_dvec2Ref = std::function<void(const glm::dvec2 &)>;
 
 public:
     //-- factory --
@@ -82,15 +84,14 @@ public:
     //----- pvtBinary -----//
     template< typename T >
     inline T *init_pvtBinary()noexcept{
-        this->pvtBinary.resize( sizeof(T), 0 );
-        return reinterpret_cast<T*>( &(this->pvtBinary.at(0)) );
+        return this->pvtBinary.init<T>();
     }
     template< typename T >
     inline T *get_pvtBinaryPtr()noexcept{
-        tprAssert( sizeof(T) == this->pvtBinary.size() );
-        return reinterpret_cast<T*>( &(this->pvtBinary.at(0)) );
+        return this->pvtBinary.get<T>();
     }
 
+    //----- goMesh -----//
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             animSubspeciesId_t  subspeciesId_,
                             const std::string   &actionName_,
@@ -145,6 +146,10 @@ public:
         return *(this->goMeshs.at(name_));
     }
 
+    inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &
+    get_goMeshs()noexcept{ return this->goMeshs; }
+
+
     inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
     inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
 
@@ -152,10 +157,10 @@ public:
     void debug();
 
     //-- pos sys --    
-    F_void_c_dvec2Ref accum_dpos  {nullptr};
-    F_void_double     set_pos_alti         {nullptr};
-    F_c_dvec2Ref      get_dpos      {nullptr};
-    F_double          get_pos_alti         {nullptr};
+    F_P_c_dvec2Ref      accum_dpos  {nullptr};
+    F_R_void_P_double   set_pos_alti         {nullptr};
+    F_R_c_dvec2Ref      get_dpos      {nullptr};
+    F_R_double          get_pos_alti         {nullptr};
     
 
     inline void render_all_goMesh()noexcept{
@@ -200,9 +205,6 @@ public:
     
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
-    
-
-
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
@@ -211,12 +213,12 @@ public:
     //--- move sys ---//
     Move         move;
 
-
     ActionSwitch    actionSwitch; //-- 将被 ActionFSM 取代...
     ActionFSM       actionFSM {}; //- 尚未完工...
 
     //PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
-    PubBinary2      pubBinary {};  //- 简易版，存储所有元素
+    PubBinary2      pubBinary {};  //- 简易版，存储所有元素, 仅用于测试 ...
+                                // in future, use DyBinary
 
     //InputINS        inputINS  {}; //- gameKeys 指令组
 
@@ -235,14 +237,6 @@ public:
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
     bool    isControlByPlayer  {false}; 
 
-    //bool    isFlipOver {false}; //- 图形左右翻转： false==不翻==向右； true==翻==向左；
-                                //- 注意，这个值不应该由 具象go类手动配置
-                                //  而应由 move／动画播放器 自动改写
-                                // -- gmesh.isFlipOver 决定了 此图元的 静态方向
-                                // -- go.isFlipOver    决定了 此图元 的动态方向，比如走动时
-                                // ----
-
-                                // 在新视觉风格中，可能被取代....
 
     bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
                                     //  取代 rootGoMesh.isCollide 
@@ -290,15 +284,12 @@ private:
     std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
 
 
-    //GODirection  direction {GODirection::Left};  //- 朝向
     NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
 
 
-    //----------- pvtBinary -------------//         
-    std::vector<u8_t>  pvtBinary {};  //- 只存储 具象go类 内部使用的 各种变量
+    //----------- pvtBinary -------------//             
+    DyBinary    pvtBinary {};//- 只存储 具象go类 内部使用的 各种变量
 
-                                        // 应该被升级为 typeid / std::any 实现的 更为安全的 存储方式
-                                        // 。。。
 
     std::unique_ptr<Collision> collisionUPtr {nullptr};
     const ColliDataFromJ      *colliDataFromJPtr {nullptr}; // 一经init，永不改变

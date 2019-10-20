@@ -18,12 +18,11 @@
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 #include "GameObj.h"
+#include "functorTypes.h"
 
 
 class AI_Crab{
 public:
-    using F_1 = std::function<int()>;
-
 
     AI_Crab() = default;
 
@@ -36,7 +35,7 @@ public:
     //void logicUpdate();
 
 
-    inline void bind_get_tmpVal_functor( const F_1 &functor_ )noexcept{
+    inline void bind_get_tmpVal_functor( const F_R_int &functor_ )noexcept{
         this->get_tmpVal_functor = functor_;
     }
 

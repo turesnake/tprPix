@@ -113,8 +113,13 @@ void ChildMesh::refresh_translate(){
  */
 void ChildMesh::draw(){
 
-    if( this->goMeshRef.isVisible == false ){
+    if( !this->goMeshRef.isVisible ){
         return;
+    }
+
+    //---------- call back -------------
+    if( this->before_drawCall ){
+        this->before_drawCall();
     }
 
     //---------- refresh texName -------------
@@ -122,11 +127,7 @@ void ChildMesh::draw(){
     if( this->isPic ){
         texName=this->goMeshRef.get_currentTexName_pic();
     }else{
-        //--- 若没有 shadow，直接跳过本次 draw-call --- IMPORTANT !!!!!
-        if( this->goMeshRef.isHaveShadow == false ){
-            return;
-        }
-        //------
+        tprAssert( this->goMeshRef.isHaveShadow );
         texName=this->goMeshRef.get_currentTexName_shadow();
     }
 

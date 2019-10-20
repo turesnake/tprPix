@@ -14,7 +14,10 @@
 #include "tprAssert.h"
 #include "tprCast.h"
 #include "AnimFrameSet.h"
+
 #include "esrc_time.h"
+
+#include "tprDebug.h"
 
 
 using namespace std::placeholders;
@@ -111,8 +114,8 @@ void AnimAction::update_once( AnimActionPvtData &pvtData_ ){
     
         pvtData_.currentIdx_for_frameIdxs++;
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
-        pvtData_.currentTimeStep = AnimAction::adjust_currentTimeStep_by_smoothDeltaTime(
-                                        this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs) );
+        pvtData_.currentTimeStep = this->adjust_currentTimeStep(
+                                        this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs), pvtData_ );
     }
 }
 
@@ -135,23 +138,29 @@ void AnimAction::update_cycle( AnimActionPvtData &pvtData_ ){
                 pvtData_.currentIdx_for_frameIdxs++;
 
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
-        pvtData_.currentTimeStep = AnimAction::adjust_currentTimeStep_by_smoothDeltaTime(
-                                    this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs) );
+        pvtData_.currentTimeStep = this->adjust_currentTimeStep(
+                                    this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs), pvtData_ );
     }
 }
 
 
 
 /* ===========================================================
- *    adjust_currentTimeStep_by_smoothDeltaTime   [static]
+ *    adjust_currentTimeStep   [static]
  * -----------------------------------------------------------
  * 目前默认，excel数据中记录的 timeSteps，以 60pfs 为基准
  * return:
- *     调整过的 currentTimeStep
+ *     调整过的 currentTimeStep 
  */
-size_t AnimAction::adjust_currentTimeStep_by_smoothDeltaTime( size_t currentTimeStep_ ){
+size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimActionPvtData &pvtData_ ){
 
+    double playSpeedScale = (pvtData_.reset_playSpeedScale==nullptr) ? 1.0 : pvtData_.reset_playSpeedScale();
+    double v = (1.0 / 60.0) * static_cast<double>(currentTimeStep_) * playSpeedScale;
     double smoothDeltaTime = esrc::get_timer().get_smoothDeltaTime();
-    constexpr double mid = (1.0 / 60.0) * 5.0;
-    return cast_2_size_t( floor( mid / smoothDeltaTime ) );
+    size_t step = cast_2_size_t( floor( v / smoothDeltaTime ) );
+    //-- limit: [1, 100] --
+    if( step < 1 ){     step = 1; }
+    if( step > 100 ){   step = 100; }
+    return step;
 }
+

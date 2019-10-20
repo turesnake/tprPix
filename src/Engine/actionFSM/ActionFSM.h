@@ -24,15 +24,15 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "functorTypes.h"
 
 
 //- 节点状态 --
 class ActionState{
 public:
-    using F_TMP = std::function<void()>;
 
-    F_TMP  enterFunc {nullptr}; //- 入口函数 
-    F_TMP  exitFunc  {nullptr}; //- 出口函数
+    F_void  enterFunc {nullptr}; //- 入口函数 
+    F_void  exitFunc  {nullptr}; //- 出口函数
 
 };
 

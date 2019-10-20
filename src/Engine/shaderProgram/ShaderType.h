@@ -11,16 +11,20 @@
 
 enum class ShaderType{
 
+    Shadow,
+    //---
     Ground,
     Water,
     //---
     OriginColor,
     UnifiedColor,
+    GroundBasedColor,
     GroundColor,
     //---
     PlayerGoCircle,
     MapSurface
-
+    //-- gos --
+    
 };
 
 

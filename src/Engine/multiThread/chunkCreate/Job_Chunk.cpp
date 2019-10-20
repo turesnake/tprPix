@@ -11,13 +11,20 @@
 
 
 //-------------------- Engine --------------------//
-#include "esrc_ecoObj.h"
+#include "simplexNoise.h"
 
+#include "esrc_ecoObj.h"
 #include "esrc_animFrameSet.h" // tmp
 
 //-------------------- Script --------------------//
 #include "Script/resource/ssrc_gameObj.h" // tmp
 #include "Script/json/json_multiGoMesh.h"
+
+namespace jobChunk_inn {//----------- namespace: jobChunk_inn ----------------//
+
+    size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept;
+
+}//-------------- namespace: jobChunk_inn end ----------------//
 
 
 void Job_Chunk::init()noexcept{
@@ -120,6 +127,7 @@ void Job_Chunk::create_field_goSpecDatas(){
     fieldKey_t      tmpFieldKey {};
     size_t          randUValOff {};
     animSubspeciesId_t subSpecId {};
+    size_t             windDelayIdx {};
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
@@ -160,10 +168,14 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     if( !goSpecDataPtr->get_isMultiGoMesh() ){
                         //--- single gomesh ---//
-                        subSpecId = esrc::apply_a_random_animSubspeciesId(  goSpecRef.animFrameSetName, // "mushroom"
+                        subSpecId = esrc::apply_a_random_animSubspeciesId(  goSpecRef.animFrameSetName, // e.g. "mushroom"
                                                                             goSpecDataPtr->get_animLabels(),
                                                                             mapEntInnRef.uWeight );
-                        job_goData.job_goMeshs.push_back( Job_GoMesh{ subSpecId, glm::vec2{0.0f, 0.0f} } );
+                        windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff ); // goMeshDPosOff is 0
+
+                        job_goData.job_goMeshs.push_back( Job_GoMesh{   subSpecId, 
+                                                                        glm::vec2{0.0f,0.0f},
+                                                                        windDelayIdx } );
 
                     }else{
                         //--- multi gomeshs ---//
@@ -181,7 +193,11 @@ void Job_Chunk::create_field_goSpecDatas(){
                             subSpecId = esrc::apply_a_random_animSubspeciesId(  jgomesh.animFrameSetName,
                                                                                 jgomesh.animLabels,
                                                                                 mapEntInnRef.uWeight + randUValOff );
-                            job_goData.job_goMeshs.push_back( Job_GoMesh{ subSpecId, jgomesh.dposOff } );
+                            windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff + jgomesh.dposOff );
+                                                                        
+                            job_goData.job_goMeshs.push_back( Job_GoMesh{   subSpecId, 
+                                                                            jgomesh.dposOff,
+                                                                            windDelayIdx } );
                         }
                     }
                 }
@@ -193,7 +209,34 @@ void Job_Chunk::create_field_goSpecDatas(){
 
 
 
+namespace jobChunk_inn {//----------- namespace: jobChunk_inn ----------------//
 
+
+//- 在完善的实现中，所有go 类型，都要标准自己是否受到 windClock 影响
+//  对于那些不受影响的，直接放弃此值的生成
+//  ...
+//  目前，统一为所有 gomesh 生成此值
+size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept{
+
+    // 延迟帧数半径
+    double rad = 60;
+
+    double freq = 1.0 / ( static_cast<double>(PIXES_PER_MAPENT) * 7.0 ); // 麦浪分布圈，2*2 fields
+    double x = dpos_.x * freq;
+    double y = dpos_.y * freq;
+
+    double perlin = simplex_noise2( x, y ); // [-1.0, 1.0]
+
+    size_t delay = cast_2_size_t(std::abs(perlin+1.0 * rad)); // [0. 120]
+    return delay;
+    
+        // 目前的 麦浪效果并不理想，只能说凑合着用
+        //
+}
+
+
+
+}//-------------- namespace: jobChunk_inn end ----------------//
 
 
 

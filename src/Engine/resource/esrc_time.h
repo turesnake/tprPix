@@ -11,12 +11,15 @@
 //-------------------- Engine --------------------//
 #include "TimeBase.h" 
 #include "TimeCircle.h" 
+#include "WindClock.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
-void init_time();
-TimeBase &get_timer();
-TimeCircle &get_logicTimeCircle();
+
+void init_time()noexcept;
+TimeBase &get_timer()noexcept;
+TimeCircle &get_logicTimeCircle()noexcept;
+WindClock &get_windClock()noexcept;
 
 
 }//---------------------- namespace: esrc -------------------------//

@@ -15,7 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
-#include "esrc_funcTypes.h"
+
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -35,6 +35,7 @@ GameObj *get_goRawPtr( goid_t id_ );
 
 bool is_go_active(goid_t id_  ); //- tmp
 
+using F_GOID_GOPTR = std::function<void(goid_t, GameObj&)>;
 
 void foreach_goids_active( F_GOID_GOPTR fp_ );
 void foreach_goids_inactive( F_GOID_GOPTR fp_ );

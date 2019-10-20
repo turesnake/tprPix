@@ -14,8 +14,8 @@
 
 namespace gameSeed_inn {//----------- namespace: gameSeed_inn ----------------//
 
-    inline std::uniform_int_distribution<int>    uDistribution_altiSeed(-1000, 1000);
-    inline std::uniform_real_distribution<double> uDistribution_double(-1000.0, 1000.0);
+    std::uniform_int_distribution<int>    uDistribution_altiSeed(-1000, 1000);
+    std::uniform_real_distribution<double> uDistribution_double(-1000.0, 1000.0);
 
 
 }//-------------- namespace: gameSeed_inn end ----------------//

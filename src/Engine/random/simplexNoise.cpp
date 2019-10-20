@@ -74,7 +74,7 @@ double dotV2( double ax_, double ay_, double bx_, double by_ ){
  *                   simplex_noise2
  * -----------------------------------------------------------
  *  和 glsl 中 同名函数，内容完全一致 
- *  return 【-1.0， 1.0】
+ *  return [-1.0， 1.0]
  */
 double simplex_noise2( double x_, double y_ ){
     return simplex_noise2( glm::dvec2{x_, y_} );

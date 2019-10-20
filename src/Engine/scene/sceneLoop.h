@@ -11,6 +11,8 @@
 //-------------------- CPP --------------------//
 #include <functional> 
 
+//-------------------- Engine --------------------//
+#include "functorTypes.h"
 
 
 enum class SceneLoopType : int{
@@ -21,11 +23,8 @@ enum class SceneLoopType : int{
 };
 
 
-using F_SceneLoop = std::function<void(void)>;
-//inline F_SceneLoop sceneLoopFunc {nullptr};
-
-inline F_SceneLoop sceneRenderLoopFunc {nullptr};
-inline F_SceneLoop sceneLogicLoopFunc {nullptr};
+inline F_void sceneRenderLoopFunc {nullptr};
+inline F_void sceneLogicLoopFunc {nullptr};
 
 
 void prepare_for_sceneBegin();

@@ -124,9 +124,15 @@ void parse_single_colorTableJsonFile( const std::string &path_file_ ){
                     colorVal.a = fChannels[3];
                 }
                 colorTableRef.insert_a_color( colorName, colorVal );
-            }
-            colorTableRef.final_check();
+            } 
         }
+        {//--- groundColorCloseTo ---//
+            const auto &a = check_and_get_value( ent, "groundColorCloseTo", JsonValType::String );
+            colorTableRef.set_groundLikeColorIdx( a.GetString() );
+        }
+
+
+        colorTableRef.final_check();
     }
     colorTableSetRef.final_check();
 

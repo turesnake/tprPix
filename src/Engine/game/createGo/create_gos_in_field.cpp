@@ -90,20 +90,10 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     
     //----- land go -----//
     for( const auto &i : job_fieldPtr->get_job_goDatas() ){
-        //const auto &animLabels = i.goSpecDataPtr->get_animLabels();
 
         //--- dyParam ---//
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Field>();
-
-        //fUPtr->uWeight = i.job_mapEntPtr->uWeight;
-        //fUPtr->mapEntAlti = i.job_mapEntPtr->alti;
-        /*
-        fUPtr->mapEntDensity = i.job_mapEntPtr->density;
-        for( const auto &ent : animLabels ){
-            fUPtr->animLabels.push_back( ent );// copy
-        }
-        */
         fUPtr->job_goMeshsPtr = &(i.job_goMeshs);
 
         dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );

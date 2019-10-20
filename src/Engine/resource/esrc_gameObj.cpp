@@ -41,7 +41,7 @@ namespace go_inn {//-------- namespace: go_inn --------------//
                             // ---
                             // 在目前实现中，只有 active 的go 才会被渲染....
                             
-    FUNC_V_V  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
+    F_void  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
     double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）
     //double activeRange { 4 * 4 * 2048.0 * 2048.0 }; //- 激活圈 半径的平方(未开根号) （4 chunk 尺寸）

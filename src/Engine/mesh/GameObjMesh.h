@@ -39,6 +39,8 @@
 #include "animSubspeciesId.h"
 #include "RenderPool.h"
 #include "colorTableId.h"
+#include "DyBinary.h"
+#include "functorTypes.h"
 
 
 //--- need ---//
@@ -94,12 +96,18 @@ public:
         tprAssert( this->shadowMeshUPtr );
         this->shadowMeshUPtr->set_shader_program( sp_ );
     }
+    inline void bind_reset_playSpeedScale( F_R_double functor_ )noexcept{
+        this->animActionPvtData.reset_playSpeedScale = functor_;
+    }
+    inline void bind_pic_before_drawCall( F_void f_ ){
+        tprAssert( this->picMeshUPtr );
+        this->picMeshUPtr->bind_before_drawCall( f_ );
+    }
 
     //------------- get -------------//    
     inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
         return this->animActionPtr->get_currentAnimActionPos();
     }   
-
     inline GLuint get_currentTexName_pic() const noexcept{
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
@@ -118,11 +126,23 @@ public:
     inline float get_off_z()const noexcept{ return this->off_z; }
     inline float get_picFixedZOff() const noexcept{ return this->picFixedZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
+    inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
 
 
-    //-- 当播放 once 类型动作时，外部代码，通过此函数，来判断，是否播放到最后一帧 --
-    inline bool get_isLastFrame() const noexcept{
-        return this->animActionPvtData.isLastFrame;
+
+    inline std::pair<AnimActionType, AnimActionState> get_animAction_state()const noexcept{
+        auto type = this->animActionPtr->get_animActionType();
+        switch (type){
+            case AnimActionType::Idle:  return { type, AnimActionState::Stop };
+            case AnimActionType::Cycle: return { type, AnimActionState::Working };
+            case AnimActionType::Once:
+                return ((this->animActionPvtData.isLastFrame) ?
+                        std::pair<AnimActionType, AnimActionState>{ type, AnimActionState::Stop } :
+                        std::pair<AnimActionType, AnimActionState>{ type, AnimActionState::Working });
+            default:
+                tprAssert(0);
+                return { AnimActionType::Idle, AnimActionState::Stop }; // never reach
+        }
     }
 
     
@@ -166,6 +186,8 @@ private:
     AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 
     colorTableId_t  colorTableId { MaxColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
+
+    DyBinary   pvtBinary  {}; // store dynamic datas
 };                           
 
 

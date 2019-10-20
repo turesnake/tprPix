@@ -17,20 +17,21 @@
 #include <cmath>
 
 //------------------- CPP --------------------// 
-//#include <thread>
-//#include <chrono>
+#include <functional>
+#include <vector>
 
 //------------------- Libs --------------------// 
 #include "tprDataType.h"
 
 //------------------- Engine --------------------// 
 #include "timeLog.h"
+#include "functorTypes.h"
 
 
 //--- 最基础的时间类,singleton ---//
 class TimeBase{
 public:
-    TimeBase() = default;
+    TimeBase()=default;
 
     //--- 在 每一主循环 起始处调用 ---//
     inline void update_before_all()noexcept{
@@ -56,34 +57,35 @@ public:
             (off > 0) ? this->smoothDeltaTime += this->step :
                         this->smoothDeltaTime -= this->step;
         }
+        //--- windClock ---
+        for( auto &f : this->updates ){
+            f();
+        }
+
         //-----------
         tprDebug::collect_deltaTime(this->deltaTime); //- debug
     }
 
+
+    inline void insert_update_functor( F_void update_ ){
+        this->updates.push_back( update_ );
+    }
+
     //--- 获得 当前时间 （从 glfw 启动 开始计算）---//
     //  目前仅被用于 random.cpp -> get_new_seed()
-    inline double get_currentTime()noexcept{
-        return glfwGetTime();
-    }
+    inline double get_currentTime()noexcept{ return glfwGetTime(); }
 
     //--- 获得 上一帧的 deltaTime ---//
     //  ...目前未被任何代码使用...
-    inline double get_last_deltaTime() const noexcept{
-        return this->deltaTime;
-    }
+    inline double get_last_deltaTime() const noexcept{ return this->deltaTime; }
 
     //--- 获得 平滑处理过的 deltaTime ---//
     // 注意，此处的 deltaTime 不是 “上一帧的 dt”，
     // 而是一个 平滑值。专门提供给 其它 模块使用 
     //  ...目前未被任何代码使用...
-    inline double get_smoothDeltaTime() const noexcept{
-        return this->smoothDeltaTime;
-    }
+    inline double get_smoothDeltaTime() const noexcept{ return this->smoothDeltaTime; }
 
-    //-- 获得 游戏 总帧数 --//
-    inline u64_t get_frameNum() const noexcept{
-        return this->frameNum;
-    }
+    inline u64_t get_frameNum()const noexcept{ return this->frameNum; } //-- 获得 游戏 总帧数 --//
 
     //-- 依靠 db记录的 gameTime 旧值，来重启 gameTime 记录器 --
     inline void start_record_gameTime( double gameTime_from_db_ )noexcept{
@@ -98,9 +100,14 @@ public:
                 this->lastGameTime_from_db );
     }
 
+    //===== static =====//
     static double logicUpdateTimeLimit;
 
 private:
+
+    std::vector<F_void> updates {}; // oth mods
+
+    //----- vals -----//
     u64_t  frameNum {0}; //- 游戏运行后的 总帧数
 
     //-- deltaTime --

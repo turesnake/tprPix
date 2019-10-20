@@ -114,6 +114,13 @@ MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
             std::string info = "\nesrc::getnc_memMapEntRef(): ";
             esrc::chunkMemState_debug( chunkKey, info );
         }
+        // 本函数 常常出错。
+        //
+        // 一个最主要的症状就是，目标 chunk not exist 
+        //
+        // 为了彻查错误，建议在未来，制作一个 debug 版
+        // 直到 bug 彻底消失
+        // ...
 
     tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );
     return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef( lMPosOff );

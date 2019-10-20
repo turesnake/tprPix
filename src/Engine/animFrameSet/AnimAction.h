@@ -24,7 +24,13 @@
 #include "RGBA.h" 
 #include "AnimActionPos.h"
 #include "AnimLabel.h"
+#include "functorTypes.h"
 
+
+enum class AnimActionState{
+    Stop,   // always for idle, and part of Once
+    Working // always for Cycle, and part of Once
+};
 
 //-- 动作类型 --
 enum class AnimActionType{
@@ -59,6 +65,9 @@ public:
     size_t   updates {};     //- 切换一次帧后，记录 调用 update() 的次数
     //-- flags --//
     bool     isLastFrame {false}; //- 仅用于 Once 模式
+
+    //--- functor ---//
+    F_R_double  reset_playSpeedScale {nullptr};
 };
 
 
@@ -175,13 +184,12 @@ class AnimFrameSet;
 
 
 //-- 本class 只存储 于 anim-action 有关的 所有静态数据
+//   纯粹的静态数据，不允许存储任何与 gomesh相关的动态数据 ！！！！
 //   动态数据 存储在 gomesh.animActionPvtData 中 （每一个 gomesh 独占一份）
 class AnimAction{
     using F_UPDATE = std::function<void(AnimActionPvtData &)>;
-
 public:
     AnimAction() = default;
-
 
     void init(  const AnimFrameSet &animFrameSetRef_,
                 const AnimActionParam &param_,
@@ -190,9 +198,8 @@ public:
                 size_t headIdx_,
                 bool isHaveShadow_ );
 
-    F_UPDATE  update {nullptr};
-
-
+    F_UPDATE                update {nullptr};
+    
     //- 当 gomesh 切换 animAction 时
     //  通过此函数，来重置自己的 pvtdata 值 --
     inline void reset_pvtData( AnimActionPvtData &pvtData_ )noexcept{
@@ -201,17 +208,12 @@ public:
         pvtData_.currentTimeStep = this->timeSteps.at(0);
         pvtData_.isLastFrame = false;
     }
-
+    
     //----- get -----//
-    inline bool get_isHaveShadow() const noexcept{
-        return this->isHaveShadow;
-    }
-    inline bool get_isOpaque() const noexcept{
-        return this->isOpaque;
-    }
-    inline IntVec2 get_pixNum_per_frame() const noexcept{
-        return this->pixNum_per_frame;
-    }
+    inline bool get_isHaveShadow() const noexcept{ return this->isHaveShadow; }
+    inline bool get_isOpaque() const noexcept{ return this->isOpaque; }
+    inline IntVec2 get_pixNum_per_frame() const noexcept{ return this->pixNum_per_frame; }
+    inline AnimActionType get_animActionType()const noexcept{ return this->actionType; }
     
     inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
         return this->animActionPosPtr->get_rootAnchorDPosOff();
@@ -224,11 +226,9 @@ public:
         return this->texNames_shadow_ptr->at(pvtData_.currentFrameIdx);
     }
 
-    
     inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
         return *this->animActionPosPtr;
     }
-    
 
 
 private:
@@ -236,7 +236,7 @@ private:
     void update_once( AnimActionPvtData &pvtData_ );
     void update_cycle( AnimActionPvtData &pvtData_ );
 
-    static size_t adjust_currentTimeStep_by_smoothDeltaTime( size_t currentTimeStep_ );
+    size_t adjust_currentTimeStep( size_t currentTimeStep_, AnimActionPvtData &pvtData_ );
 
     //===== vals =====//
     //-- 从 animFrameSet 中获得的 只读指针 --

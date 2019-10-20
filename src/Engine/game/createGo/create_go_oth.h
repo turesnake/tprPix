@@ -86,6 +86,22 @@ inline int apply_treeAge_by_density( Density _density )noexcept{
 }
 
 
+
+inline size_t apply_randUVal_in_range( size_t randUVal_, size_t begVal_, size_t endVal_,
+                                        bool isIncludebeg_=true, 
+                                        bool isIncludeEnd_=true  )noexcept{
+    size_t fst = isIncludebeg_ ? begVal_ : (begVal_+1); // include fst
+    size_t lst = isIncludeEnd_ ? endVal_ : (endVal_-1); // include lst
+    size_t off = lst - fst + 1; // include lst
+    size_t ret = ((randUVal_+25533) % off) + fst;
+    return ret;
+}
+
+
+
+
+
+
 }//------------- namespace gameObjs: end ----------------
 #endif 
 

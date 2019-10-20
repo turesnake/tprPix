@@ -47,6 +47,9 @@
 #include "Script/gameObjs/oth/FieldRim.h"
 
 
+#include "Script/gameObjs/majorGos/Grass.h"
+
+
 
 #endif
 

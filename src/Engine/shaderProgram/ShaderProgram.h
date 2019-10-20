@@ -58,7 +58,7 @@ public:
     //-- 将 3个矩阵 的值 传输到 着色器程序。
     inline void send_mat4_model_2_shader( const glm::mat4 &m_ )noexcept{
         this->use_program();
-        glUniformMatrix4fv( static_cast<GLint>( this->get_uniform_location( "model" ) ), 
+        glUniformMatrix4fv( this->get_uniform_location( "model" ), 
                             1, 
                             GL_FALSE, 
                             glm::value_ptr(m_) );

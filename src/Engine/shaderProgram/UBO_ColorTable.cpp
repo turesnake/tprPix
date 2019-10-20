@@ -96,7 +96,6 @@ void update_and_write_ubo_UnifiedColorTable(){
     if( !currentColorTableRef.get_isWorking() ){
         return;
     }
-
     
     //--------------------------//
     //        write

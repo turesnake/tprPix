@@ -51,14 +51,15 @@
             ],
             "ecoEnts_Mid":[                
                 { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
-
-                { "goSpecName": "aloe", "animLabels":[], "num": 5 }
+                { "goSpecName": "aloe", "animLabels":[], "num": 5 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
 
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "whiteFlower", "animLabels":[], "num": 4 },
                 { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 }
+                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 3 }
 
             ]
         },
@@ -73,12 +74,14 @@
                 {"Sml1": 3 }
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
             ],
             "ecoEnts_Sml":[
 
                 { "goSpecName": "whiteFlower", "animLabels":[], "num": 2 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 }
+                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
             ]
         },
 
@@ -91,11 +94,13 @@
                 {"Sml1": 11 }
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 6 }
+                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 6 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
             ]
         },
         
@@ -112,13 +117,15 @@
             ],
             "ecoEnts_Mid":[
 
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 2 },
                 { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
                 { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 }
+                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
 
             ]
         },

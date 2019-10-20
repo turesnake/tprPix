@@ -42,7 +42,7 @@ public:
 
 private:
     JobType     jobType    {JobType::Null};
-    std::any    param     {0};
+    std::any    param;
 };
 
 

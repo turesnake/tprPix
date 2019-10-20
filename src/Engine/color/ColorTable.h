@@ -70,6 +70,11 @@ public:
         tprAssert( outPair.second );
     }
 
+    inline void set_groundLikeColorIdx( const std::string &name_ )noexcept{
+        tprAssert( colorTableEntNames.find(name_) != colorTableEntNames.end() );
+        this->groundLikeColorIdx = colorTableEntNames.at(name_);
+    }
+
     inline void final_check()const noexcept{
         for( const auto &pair : colorTableEntNames ){
             tprAssert( this->isSets.find(pair.first) != this->isSets.end() );
@@ -91,6 +96,10 @@ public:
         return this->data.at(colorTableEntNames.at("ground"));
     }
 
+    inline size_t get_groundLikeColorIdx()const noexcept{
+        return this->groundLikeColorIdx;
+    }
+
     //======== static ========//
     inline static size_t get_dataSize()noexcept{ 
         return (colorTableEntNames.size()*sizeof(FloatVec4)); 
@@ -100,6 +109,7 @@ public:
 private:
     std::vector<FloatVec4> data {}; // colorTable
     std::unordered_set<std::string> isSets {}; // just used in json-read
+    size_t groundLikeColorIdx {}; // the colorEntIdx similar to groundColor
 };
 
 
@@ -187,6 +197,8 @@ private:
 
 //-- 维护一个动态的 ColorTable 实例，表示当前帧的 世界颜色 --
 //   可以让它趋近于某种目标色
+//   通常是 playergo 所在dpos 的 eco 的色表（或者正在过度向这个色表的中间色）
+//   
 class CurrentColorTable{
 public:
     CurrentColorTable()

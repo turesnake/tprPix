@@ -13,8 +13,8 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-double simplex_noise2( const glm::dvec2 &v_ );
-double simplex_noise2( double x_, double y_ );
+double simplex_noise2( const glm::dvec2 &v_ ); // return [-1.0， 1.0]
+double simplex_noise2( double x_, double y_ ); // return [-1.0， 1.0]
 
 #endif 
 

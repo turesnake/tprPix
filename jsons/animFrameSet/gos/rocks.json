@@ -3,10 +3,10 @@
     "name": "rock",
     "pngs": [
         {
-            "path": "/rock/rock_big3.P.png",
-            "frameNum.col":  7,
-            "frameNum.row":  7,
-            "totalFrameNum": 49,
+            "path": "/rock/rock_big5.P.png",
+            "frameNum.col":  9,
+            "frameNum.row":  5,
+            "totalFrameNum": 45,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -17,7 +17,7 @@
                     "animLabels": [ "Big", "Light" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 49,
+                    "idxNums": 45,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }

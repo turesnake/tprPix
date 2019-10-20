@@ -28,6 +28,7 @@ enum class AnimLabel : u32_t{
     Sml,
     Mid,
     Big,
+    Huge,
     //---
     Light,
     Dark,
@@ -60,22 +61,23 @@ inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{
     case 1:  return AnimLabel::Sml;
     case 2:  return AnimLabel::Mid;
     case 3:  return AnimLabel::Big;
+    case 4:  return AnimLabel::Huge;
 
-    case 4:  return AnimLabel::Light;
-    case 5:  return AnimLabel::Dark;
+    case 5:  return AnimLabel::Light;
+    case 6:  return AnimLabel::Dark;
 
-    case 6:  return AnimLabel::Fat;
-    case 7:  return AnimLabel::Thin;
-    case 8:  return AnimLabel::HalfDead;
+    case 7:  return AnimLabel::Fat;
+    case 8:  return AnimLabel::Thin;
+    case 9:  return AnimLabel::HalfDead;
 
-    case 9:   return AnimLabel::Field_1f1;
-    case 10:  return AnimLabel::Field_2f2;
-    case 11:  return AnimLabel::Field_3f3;
+    case 10:   return AnimLabel::Field_1f1;
+    case 11:  return AnimLabel::Field_2f2;
+    case 12:  return AnimLabel::Field_3f3;
 
-    case 12:  return AnimLabel::MapEnt_1m1;
-    case 13:  return AnimLabel::MapEnt_2m2;
-    case 14:  return AnimLabel::MapEnt_3m3;
-    case 15:  return AnimLabel::MapEnt_4m4;
+    case 13:  return AnimLabel::MapEnt_1m1;
+    case 14:  return AnimLabel::MapEnt_2m2;
+    case 15:  return AnimLabel::MapEnt_3m3;
+    case 16:  return AnimLabel::MapEnt_4m4;
     //.......
     default:
         tprAssert(0);
@@ -90,6 +92,7 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
     }else if( str_ == "Sml" ){      return AnimLabel::Sml;
     }else if( str_ == "Mid" ){      return AnimLabel::Mid;
     }else if( str_ == "Big" ){      return AnimLabel::Big;
+    }else if( str_ == "Huge" ){      return AnimLabel::Huge;
 
     }else if( str_ == "Light" ){    return AnimLabel::Light;
     }else if( str_ == "Dark" ){     return AnimLabel::Dark;

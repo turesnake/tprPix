@@ -11,7 +11,8 @@
         { "name": "base_6", "color": [ 50, 50, 50, 255 ] },
         { "name": "base_7", "color": [ 40, 40, 40, 255 ] },
         { "name": "ground", "color": [ 100, 0, 0, 0 ] }
-    ]
+    ],
+    "groundColorCloseTo": "base_7"
   },
   {
     "colorTableName": "desert",
@@ -25,7 +26,8 @@
         { "name": "base_6", "color": [ 53, 52, 47, 255 ] },
         { "name": "base_7", "color": [ 41, 39, 37, 255 ] },
         { "name": "ground", "color": [ 250, 246, 216,255 ] }
-    ]
+    ],
+    "groundColorCloseTo": "base_0"
   },
   {
     "colorTableName": "poplarForest",
@@ -39,7 +41,8 @@
         { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
         { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
         { "name": "ground", "color": [ 209, 203, 178, 255 ] }
-    ]
+    ],
+    "groundColorCloseTo": "base_1"
   },
   {
     "colorTableName": "darkForest",
@@ -53,7 +56,8 @@
         { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
         { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
         { "name": "ground", "color": [ 157, 155, 136, 255 ] }
-    ]
+    ],
+    "groundColorCloseTo": "base_2"
   },
   {
     "colorTableName": "blackLand",
@@ -67,7 +71,7 @@
         { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
         { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
         { "name": "ground", "color": [ 106, 107, 96, 255 ] }
-
-    ]
+    ],
+    "groundColorCloseTo": "base_3"
   }
 ]

@@ -15,6 +15,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "functorTypes.h"
 #include "SpeedLevel.h"
 #include "MapCoord.h"
 #include "DirAxes.h"
@@ -49,7 +50,6 @@ inline MoveType str_2_MoveType( const std::string name_ )noexcept{
 }
 
 class Move{
-    using F_Void = std::function< void() >;
 public:
     explicit Move( GameObj &goRef_ ):
         goRef(goRef_)
@@ -130,7 +130,7 @@ private:
                                 //  一种很简陋，但有效的办法
 
     //------- functor -------//
-    F_Void renderUpdateFunc {nullptr}; //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
+    F_void renderUpdateFunc {nullptr}; //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
 
     //===== flags =====//
     bool   isMoving {false};
