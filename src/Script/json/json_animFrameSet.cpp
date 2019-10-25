@@ -318,11 +318,11 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
     }
 
     //---
-    for( size_t i=fstIdx; i<fstIdx+idxNums; i++ ){
+    for( size_t i=0; i<idxNums; i++ ){
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, jFrameIdx, i, isOpaque, labels) );
+        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, jFrameIdx, i+fstIdx, isOpaque, labels) );
     }
 
 }

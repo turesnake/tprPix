@@ -117,7 +117,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     size_t groundLikeColorIdx = esrc::get_colorTabelSet().get_colorTableRef(colorTableId).get_groundLikeColorIdx();
     pvtBp->groundLikeColorIdx = static_cast<GLint>(groundLikeColorIdx);
 
-        cout << "pvtBp->groundLikeColorIdx: " << pvtBp->groundLikeColorIdx << endl;
+        //cout << "pvtBp->groundLikeColorIdx: " << pvtBp->groundLikeColorIdx << endl;
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};
