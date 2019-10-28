@@ -40,7 +40,7 @@
         { "name": "base_5", "color": [ 59, 58, 54, 255 ] },
         { "name": "base_6", "color": [ 43, 42, 38, 255 ] },
         { "name": "base_7", "color": [ 32, 31, 30, 255 ] },
-        { "name": "ground", "color": [ 209, 203, 178, 255 ] }
+        { "name": "ground", "color": [ 209, 205, 178, 255 ] }
     ],
     "groundColorCloseTo": "base_1"
   },

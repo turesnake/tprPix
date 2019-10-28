@@ -41,6 +41,15 @@ GameObj &Player::get_goRef() const {
 }
 
 
+void Player::set_speedLvl( SpeedLevel lvl_ )noexcept{
+
+    auto &playerGoRef = esrc::get_goRef( this->goid );
+    auto &cirGoRef = esrc::get_goRef( this->playerGoCircle_goid );
+    playerGoRef.move.set_speedLvl( lvl_ );
+    cirGoRef.move.set_speedLvl( lvl_ );
+}
+
+
 /* ===========================================================
  *                   bind_go
  * -----------------------------------------------------------

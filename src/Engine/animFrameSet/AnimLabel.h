@@ -46,7 +46,10 @@ enum class AnimLabel : u32_t{
     MapEnt_1m1,
     MapEnt_2m2,
     MapEnt_3m3,
-    MapEnt_4m4
+    MapEnt_4m4,
+
+    //---
+    Dead,
 
     //...
 };
@@ -78,6 +81,8 @@ inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{
     case 14:  return AnimLabel::MapEnt_2m2;
     case 15:  return AnimLabel::MapEnt_3m3;
     case 16:  return AnimLabel::MapEnt_4m4;
+
+    case 17:  return AnimLabel::Dead;
     //.......
     default:
         tprAssert(0);
@@ -111,6 +116,9 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
     }else if( str_ == "MapEnt_2m2" ){ return AnimLabel::MapEnt_2m2;
     }else if( str_ == "MapEnt_3m3" ){ return AnimLabel::MapEnt_3m3;
     }else if( str_ == "MapEnt_4m4" ){ return AnimLabel::MapEnt_4m4;
+    }
+
+    else if( str_ == "Dead" ){ return AnimLabel::Dead;
     }
 
     else{

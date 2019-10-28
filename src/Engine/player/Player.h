@@ -33,6 +33,8 @@ public:
     void handle_inputINS( const InputINS &inputINS_ );
     GameObj &get_goRef() const;
 
+    void set_speedLvl( SpeedLevel lvl_ )noexcept;
+
     //======== vals ========//
     goid_t    goid   {NULLID}; 
                     // 不再长期持有 goPtr，而是持有 goid，随用随取。

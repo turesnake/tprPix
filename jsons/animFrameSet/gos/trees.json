@@ -151,7 +151,30 @@
                 }
                 
             ]
+        },
+        {
+            "path": "/pineTree/pineTree_dead1.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Dead", "Dark" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
         }
+
+        
 
         
         

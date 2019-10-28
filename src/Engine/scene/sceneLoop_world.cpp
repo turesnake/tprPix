@@ -262,14 +262,14 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
         SpeedLevel newLvl = calc_higher_speedLvl(lvl);
-        playerGoRef.move.set_speedLvl( newLvl );
+        playerRef.set_speedLvl( newLvl );
             cout << " + " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl; 
     }
     if( (isOld_B_press==false) && (isNew_B_press) ){
         SpeedLevel newLvl = calc_lower_speedLvl(lvl);
-        playerGoRef.move.set_speedLvl( newLvl );
+        playerRef.set_speedLvl( newLvl );
             cout << " - " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl;
@@ -280,8 +280,6 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
         
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){
-        //-- 暂时什么都不做 ...
-
         esrc::chunks_debug();
 
     }

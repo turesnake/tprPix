@@ -82,8 +82,8 @@ public:
                 return;
         }
     }
-    inline void set_speedLvl( SpeedLevel lv_ )noexcept{
-        this->speedLvl = lv_;
+    inline void set_speedLvl( SpeedLevel lvl_ )noexcept{
+        this->speedLvl = lvl_;
     }
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
