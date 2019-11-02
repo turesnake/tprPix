@@ -3,42 +3,10 @@
     "name": "pineTree",
     "pngs": [
         {
-            "path": "/pineTree/pineTreeSml.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Dark" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": true
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Light" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 1,
-                    "idxNums": 2,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": true
-                }
-                
-            ]
-        },
-        
-        {
             "path": "/pineTree/pineTree1_7_sml.P.png",
-            "frameNum.col":  2,
+            "frameNum.col":  3,
             "frameNum.row":  2,
-            "totalFrameNum": 4,
+            "totalFrameNum": 6,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -47,18 +15,18 @@
                 {
                     "type": "batch",
                     "animLabels": [ "Sml", "Light" ],
-                    "fstSubIdx": 2,
+                    "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 2,
+                    "idxNums": 3,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": true
                 },
                 {
                     "type": "batch",
                     "animLabels": [ "Sml", "Dark" ],
-                    "fstSubIdx": 1,
-                    "fstIdx": 2,
-                    "idxNums": 2,
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": true
                 }

@@ -16,8 +16,10 @@
 #include "tprAssert.h"
 #include "config.h"
 #include "chunkCreate.h"
+
 #include "esrc_renderPool.h"
 #include "esrc_state.h"
+#include "esrc_player.h"
 
 #include "tprDebug.h"
 
@@ -110,17 +112,22 @@ MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
 
         //-- Frequent Bugs --
+        // 本函数常常报错
+        //
+        //  一个主要的症状就是: chunk: not exist 
+        //  暂未查明 致病原因...
+        //
         if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
-            std::string info = "\nesrc::getnc_memMapEntRef(): ";
-            esrc::chunkMemState_debug( chunkKey, info );
+            
+            IntVec2 playerMPos = dpos_2_mpos(esrc::get_player().get_goRef().get_dpos());
+
+            cout << "ERROR: esrc::getnc_memMapEntRef():"
+                << "\n    targetMPos: " << anyMPos_.x << ", " << anyMPos_.y 
+                << "\n    playerGoMPos:" << playerMPos.x << ", " << playerMPos.y
+                << endl;
+            esrc::chunkMemState_debug( chunkKey, "" );
         }
-        // 本函数 常常出错。
-        //
-        // 一个最主要的症状就是，目标 chunk not exist 
-        //
-        // 为了彻查错误，建议在未来，制作一个 debug 版
-        // 直到 bug 彻底消失
-        // ...
+        
 
     tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );
     return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef( lMPosOff );

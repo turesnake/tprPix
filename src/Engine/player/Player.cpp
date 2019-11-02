@@ -76,9 +76,6 @@ void Player::bind_go( goid_t goid_ ){
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
         playerGoCircleRef.move.set_speedLvl( newGoRef.move.get_speedLvl() ); //- 同步 speedLv
-                                        //-- 当 go 自行加速，这个同步就失效了 ...
-                                        //   未修改 ...
-        
 
     }else{
         //-- 解绑旧go --//
@@ -95,8 +92,6 @@ void Player::bind_go( goid_t goid_ ){
         this->goid = goid_;
 
         //-- reset playerGoCircle mpos --//
-
-
 
 
     }

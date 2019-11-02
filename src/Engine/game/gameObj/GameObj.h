@@ -53,11 +53,6 @@
 class GameObj : public std::enable_shared_from_this<GameObj>{
     using F_GO         = std::function<void( GameObj& )>;
     using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
-    //using F_void         = std::function<void()>;
-    //using F_void_double  = std::function<void( double )>;
-    //using F_double       = std::function<double()>;
-    //using F_c_dvec2Ref   = std::function<const glm::dvec2 &()>;
-    //using F_void_c_dvec2Ref = std::function<void(const glm::dvec2 &)>;
 
 public:
     //-- factory --
