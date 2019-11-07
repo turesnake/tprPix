@@ -64,10 +64,12 @@ public:
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
+    inline sectionKey_t     get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
     inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }
     inline Density          get_density()const noexcept{ return this->density; }
+    
 
 
     inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{return this->majorGos; }

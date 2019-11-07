@@ -33,7 +33,7 @@ void chunks_debug();
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ );
 void erase_from_chunks( chunkKey_t chunkKey_ );
 
-MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ );
+MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_, const std::string &funcName_ );
 
 
 Chunk &get_chunkRef( chunkKey_t key_ );

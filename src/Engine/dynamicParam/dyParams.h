@@ -38,7 +38,6 @@ struct DyParams_Field{
 
 
 struct DyParams_MapSurface{
-    MapSurfaceLowSpec       spec {}; // "mapSurfaceLow_test"
     mapSurface::RandEntLvl  lvl  {}; // "Field_1f1"
     size_t                  randUVal {}; // field.uWeight
 };

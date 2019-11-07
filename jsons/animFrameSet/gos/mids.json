@@ -33,10 +33,10 @@
     "name": "mushroom",
     "pngs": [
         {
-            "path": "/mushroom/mushroom_Sml2.P.png",
-            "frameNum.col":  10,
-            "frameNum.row":  5,
-            "totalFrameNum": 48,
+            "path": "/mushroom/mushroom_sml.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  2,
+            "totalFrameNum": 10,
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
@@ -47,14 +47,14 @@
                     "animLabels": [ "Sml" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 48,
+                    "idxNums": 10,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
         },
         {
-            "path": "/mushroom/mushroom_Mid1.P.png",
+            "path": "/mushroom/mushroom_mid.P.png",
             "frameNum.col":  5,
             "frameNum.row":  4,
             "totalFrameNum": 20,
@@ -75,7 +75,7 @@
             ]
         },
         {
-            "path": "/mushroom/mushroom_Big1.P.png",
+            "path": "/mushroom/mushroom_big.P.png",
             "frameNum.col":  4,
             "frameNum.row":  3,
             "totalFrameNum": 11,

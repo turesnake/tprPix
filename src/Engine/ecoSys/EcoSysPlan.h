@@ -31,6 +31,7 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_multiGoMesh.h"
+#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
 
 
 
@@ -47,6 +48,8 @@ public:
     inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
     inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
+    inline void set_mapSurfaceLowSpec( MapSurfaceLowSpec spec_ )noexcept{ this->mapSurfaceLowSpec = spec_; }
+
 
     void init_goSpecDataPools_and_applyPercents();
 
@@ -68,6 +71,7 @@ public:
     inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
     inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
+    inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
     inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
     //inline const std::vector<double> *get_applyPercentsPtr() const noexcept{ return &(this->applyPercents); }
@@ -85,7 +89,6 @@ public:
     }
     */
 
-    
     //-- 临时版本 .........
     inline const std::vector<std::unique_ptr<DensityPool>> &
     get_densityPools()const noexcept{
@@ -102,7 +105,10 @@ private:
     ecoSysPlanId_t      id      {};
     EcoSysPlanType      type    {EcoSysPlanType::Forest};
     colorTableId_t      colorTableId {};
+    MapSurfaceLowSpec   mapSurfaceLowSpec {};
     double              densitySeaLvlOff  {0.0}; 
+
+    
     
 
     //-- field.nodeAlit.val > 30;

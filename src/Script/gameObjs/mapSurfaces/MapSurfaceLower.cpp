@@ -29,6 +29,7 @@
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
+#include "esrc_ecoObj.h"
 #include "esrc_animFrameSet.h"
 #include "esrc_mapSurfaceRand.h"
 
@@ -64,6 +65,8 @@ namespace msl_inn {//------------------ namespace: msl_inn ---------------------
  */
 void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
+    std::string funcName = "MapSurfaceLower::init()";
+
     //================ dyParams =================//
     auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_MapSurface>();
 
@@ -95,7 +98,7 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
     for( auto it = randMeshDatas.cbegin(); it!= randMeshDatas.cend(); it++ ){
         meshNameCount++;
         
-        const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos() + it->dposOff) );
+        const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos() + it->dposOff), funcName );
 
             //--- 临时且简陋的检测，未来会被强化 -----
             if( mapEntRef.get_isBorder() ){
@@ -105,12 +108,12 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
             //-- 试验，仅在 density 中段 种石块 --
             
             int absDensityLvl = std::abs( mapEntRef.get_density().get_lvl() );
-            if( absDensityLvl != 1 ){
+            if( !((absDensityLvl==1) || (absDensityLvl==2)) ){
                 continue;
             }
 
         subspeciesId = esrc::apply_a_random_animSubspeciesId(   
-                                    MapSurfaceLowSpec_2_str( msParamPtr->spec ), // "mapSurfaceLow_whiteRock"
+                                    MapSurfaceLowSpec_2_str( esrc::atom_ecoObj_get_mapSurfaceLowSpec( mapEntRef.get_ecoObjKey() ) ), // "mapSurfaceLow_dforest"
                                     std::vector<AnimLabel>{ mapSurface::mapSurfaceRandMeshLvl_2_AnimLabel( it->meshLvl ) }, // MapEnt_1m1
                                     mapEntRef.get_uWeight() 
                                     );

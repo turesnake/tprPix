@@ -53,6 +53,7 @@ void Collision::collect_adjacentBeGos(){
     //----------------------------------------//
     //      初步收集 所有有效 begoid
     //  不包含 dogo 自己，不包含 旧的 adjacentBeGos 中的 bego
+    std::string funcName = "collect_adjacentBeGos()";
     for( const auto &iMPos : this->signInMapEntsUPtr->get_currentSignINMapEntsRef() ){
         //- 当发现某个 addEnt 处于非 Active 的 chunk。
         //  直接跳过，最简单的处理手段
@@ -61,7 +62,7 @@ void Collision::collect_adjacentBeGos(){
             continue; //- skip
         }
 
-        for( const auto &begoid : esrc::getnc_memMapEntRef(iMPos).get_majorGos() ){//- each bego
+        for( const auto &begoid : esrc::getnc_memMapEntRef(iMPos, funcName).get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             this->begoids.insert( begoid );
         }
@@ -183,6 +184,8 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
  */ 
 glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
 
+    std::string funcName = "detect_for_move()";
+
 
     {//-- 简陋的检测，位移距离 不大于 1mapent --
     //-- Avoid Radical Sign / 避免开根号 --
@@ -229,12 +232,12 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
             this->signInMapEntsUPtr->sync_currentSignINMapEnts_from_future();
             //-- adds --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
                 mapEntRef.insert_2_majorGos( this->goRef.id );
             }
             //-- dels --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
                 mapEntRef.erase_the_onlyOne_from_majorGos( this->goRef.id );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
             }
@@ -257,6 +260,8 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
  *    glm::dvec2 -- 修正后的位移向量（ 原值／t／偏向 ）
  */  
 std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ ){
+
+    std::string funcName = "for_move_inn";
 
         //- only for debug
         double currentTime = esrc::get_timer().get_currentTime();
@@ -285,7 +290,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
             return { true, glm::dvec2{0.0, 0.0} }; //- IMM!!!
         }
 
-        const auto &mapEntRef = esrc::getnc_memMapEntRef( iMPos );
+        const auto &mapEntRef = esrc::getnc_memMapEntRef( iMPos, funcName );
         for( const auto &begoid : mapEntRef.get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             if( this->adjacentBeGos.find(begoid) != this->adjacentBeGos.end() ){ continue; }//-- skip old adjacent bego --

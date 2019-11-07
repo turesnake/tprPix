@@ -359,6 +359,8 @@ void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
  */
 void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
 
+    std::string funcName = "signUp_nearby_chunks_edgeGo_2_mapEnt()";
+
     IntVec2    tmpChunkMPos {};
     chunkKey_t tmpChunkKey  {};
     for( const auto &iOff : nearby_8_chunkMPosOffs ){
@@ -379,7 +381,7 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
-                            auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
+                            auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
                             mapEntRef.insert_2_majorGos(   goRef.id );
                         }
                     }

@@ -1,11 +1,11 @@
 /*
- * ======================= Aloe.cpp ==========================
+ * ======================= BushOth.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/majorGos/bushs/Aloe.h"
+#include "Script/gameObjs/majorGos/bushs/BushOth.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -29,11 +29,11 @@ using namespace std::placeholders;
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
-//namespace Aloe_inn {//----------- namespace: Aloe_inn ----------------//
-//}//-------------- namespace: Aloe_inn end ----------------//
+//namespace BushC_inn {//----------- namespace: BushC_inn ----------------//
+//}//-------------- namespace: BushC_inn end ----------------//
 
 
-struct Aloe_PvtBinary{
+struct BushOth_PvtBinary{
     animSubspeciesId_t subspeciesId {};
     int        tmp {};
 };
@@ -43,7 +43,7 @@ struct Aloe_PvtBinary{
  *                      init
  * -----------------------------------------------------------
  */
-void Aloe::init(GameObj &goRef_, const DyParam &dyParams_ ){
+void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};
@@ -57,14 +57,11 @@ void Aloe::init(GameObj &goRef_, const DyParam &dyParams_ ){
     }
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<Aloe_PvtBinary>();
-
-   
+    auto *pvtBp = goRef_.init_pvtBinary<BushOth_PvtBinary>();
 
     const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
     tprAssert( job_goMeshs.size() == 1 );
     pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
-    
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
@@ -83,11 +80,11 @@ void Aloe::init(GameObj &goRef_, const DyParam &dyParams_ ){
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Aloe::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &Aloe::OnLogicUpdate,   _1 );
+    goRef_.RenderUpdate = std::bind( &BushOth::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &BushOth::OnLogicUpdate,   _1 );
 
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Aloe::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &BushOth::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
 
@@ -101,7 +98,7 @@ void Aloe::init(GameObj &goRef_, const DyParam &dyParams_ ){
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Aloe::bind( GameObj &goRef_ ){
+void BushOth::bind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
@@ -110,18 +107,18 @@ void Aloe::bind( GameObj &goRef_ ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Aloe::rebind( GameObj &goRef_ ){
+void BushOth::rebind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Aloe::OnRenderUpdate( GameObj &goRef_ ){
+void BushOth::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Aloe_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<BushOth_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -144,11 +141,11 @@ void Aloe::OnRenderUpdate( GameObj &goRef_ ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Aloe::OnLogicUpdate( GameObj &goRef_ ){
+void BushOth::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Aloe_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<BushOth_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -160,13 +157,13 @@ void Aloe::OnLogicUpdate( GameObj &goRef_ ){
  * -----------------------------------------------------------
  * -- 
  */
-void Aloe::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void BushOth::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "Aloe::OnActionSwitch" << endl;
+        cout << "BushOth::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<Aloe_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<BushOth_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

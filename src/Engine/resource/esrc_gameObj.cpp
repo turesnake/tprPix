@@ -259,6 +259,8 @@ void realloc_inactive_goes(){
  */
 void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
 
+    std::string funcName = "signUp_newGO_to_mapEnt";
+
     //------------------------------//
     // --- 记录 go.currentChunkKey
     // --- 统计自己的 chunkeys
@@ -295,7 +297,7 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
         }
 
         //---- 正式注册 collient 到 mapents 上 -----
-        auto &mapEntRef = esrc::getnc_memMapEntRef( mpos );
+        auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
 
         //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
         mapEntRef.insert_2_majorGos( goRef_.id );

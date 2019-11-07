@@ -3,6 +3,7 @@
     "name": "DarkForest_1",
     "EcoSysPlanType": "DarkForest",
     "colorTableName": "darkForest",
+    "MapSurfaceLowSpec":"DForest",
     "density.SeaLvlOff": 25.0,
     "density.DivideType": "default",
     "fixedSeed": 106,
@@ -19,17 +20,17 @@
                 {"Sml1_Mid1": 4}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 13 },
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 13 },
                 { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 11 }
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 11 }
                 
             ],
             "ecoEnts_Sml":[
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 },
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Sml" ], "num": 1 }
                 
 
 
@@ -50,32 +51,31 @@
             ],
 
             "ecoEnts_Big":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 1 }
             ],
             
             "ecoEnts_Mid":[
-                { "goSpecName": "aloe", "animLabels":[], "num": 3 },               
-                { "goSpecName": "bushC", "animLabels":[], "num": 3 },    
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 3 },
+                            
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },    
+               
 
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Mid", "num": 3 },
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Sml", "num": 3 },
 
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 9 },
 
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 5 }
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 5 }
                 
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 },
+                { "goSpecName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
              
                 
-                { "goSpecName": "bushC", "animLabels":[], "num": 3 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
+               
 
-                { "goSpecName": "pineTree", "animLabels":[ "Dead", "Dark" ], "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
 
 
             ]
@@ -101,13 +101,14 @@
             ],
             
             "ecoEnts_Mid":[
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },               
-                { "goSpecName": "bushC", "animLabels":[], "num": 1 },    
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 1 },
+                           
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },    
+            
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 11 }
 
             ],
             "ecoEnts_Sml":[
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
                
@@ -125,14 +126,14 @@
             ],
 
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 },
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
             
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },               
-                { "goSpecName": "bushC", "animLabels":[], "num": 1 },    
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 1 },
+                       
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },    
+            
 
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Sml", "num": 1 },
@@ -141,6 +142,7 @@
             ],
 
             "ecoEnts_Sml":[
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 7 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
                 
@@ -161,18 +163,20 @@
                 {"Sml1": 1 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 },
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
             
             "ecoEnts_Mid":[
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },               
-                { "goSpecName": "bushC", "animLabels":[], "num": 1 },    
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 1 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 9 },
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                     
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },    
+            
+                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 9 }
+                
 
             ],
             "ecoEnts_Sml":[
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 },
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Sml", "num": 1 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
@@ -192,28 +196,28 @@
                 {"Sml1_Mid1":2 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 11 },
-                { "goSpecName": "mushroom", "MultiGoMeshType":"Big", "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 11 },
+                { "goSpecName": "mushroom", "MultiGoMeshType":"Big", "num": 1 },
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 3 }
 
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 13 },
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 13 },
                 
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
                 
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 3 },
 
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Mid", "num": 7 },
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Sml", "num": 7 } 
             ],
             "ecoEnts_Sml":[
           
-                { "goSpecName": "bushC", "animLabels":[], "num": 3 },
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 1 },
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
+         
 
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 },
+                { "goSpecName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
                     
-                { "goSpecName": "pineTree", "animLabels":[ "Dead", "Dark" ], "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
             ]
         },
 
@@ -229,26 +233,25 @@
             ],
             
             "ecoEnts_Big":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 11 }
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 11 },
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 2 }
                
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "pineTree", "animLabels":[ "Mid", "Dark" ], "num": 19 },
+                { "goSpecName": "pineTree", "animLabels":[ "Mid" ], "num": 19 },
                 
-
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 3 },
+                { "goSpecName": "bushOth", "animLabels":[], "num": 2 },
                 { "goSpecName": "mushroom", "MultiGoMeshType":"Mid", "num": 13 }
             ],
             "ecoEnts_Sml":[
               
 
-                { "goSpecName": "bushC", "animLabels":[], "num": 3 },
-                { "goSpecName": "grassA", "animLabels":[ "Dark" ], "num": 1 },
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 },
+              
 
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Dark" ], "num": 1 },
-                { "goSpecName": "pineTree", "animLabels":[ "Sml", "Light" ], "num": 1 },
+                { "goSpecName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
 
-                { "goSpecName": "pineTree", "animLabels":[ "Dead", "Dark" ], "num": 1 }
+                { "goSpecName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
                 
             ]
             

@@ -22,10 +22,8 @@
 //#include "Script/gameObjs/bush/Wheat.h"
 #include "Script/gameObjs/majorGos/bushs/Thorn.h"
 #include "Script/gameObjs/majorGos/bushs/Mushroom.h"
-#include "Script/gameObjs/majorGos/bushs/Aloe.h"
-#include "Script/gameObjs/majorGos/bushs/BushC.h"
-#include "Script/gameObjs/majorGos/bushs/GrassA.h"
-#include "Script/gameObjs/majorGos/bushs/WhiteFlower.h"
+#include "Script/gameObjs/majorGos/bushs/BushOth.h"
+
 
 
 //---------- Script : gameObjs : majorGos : trees -------------//

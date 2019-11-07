@@ -122,6 +122,7 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
     //--- tmp-vals ---
     EcoSysPlanType              ecoPlanType {};
     std::string                 colorTableName {};
+    MapSurfaceLowSpec           mapSurfaceLowSpec {};
     double                      density_SeaLvlOff {};
     const std::vector<double>   *density_DivValsPtr {};
     u32_t                       fixedSeed {};
@@ -136,6 +137,10 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         {//--- colorTableName ---//
             const auto &a = check_and_get_value( eco, "colorTableName", JsonValType::String );
             colorTableName = a.GetString();
+        }
+        {//--- mapSurfaceLowSpec ---//
+            const auto &a = check_and_get_value( eco, "MapSurfaceLowSpec", JsonValType::String );
+            mapSurfaceLowSpec = str_2_MapSurfaceLowSpec( a.GetString() );
         }
         {//--- fixedSeed ---//
             const auto &a = check_and_get_value( eco, "fixedSeed", JsonValType::Uint );
@@ -153,6 +158,7 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         auto &ecoPlanRef = esrc::insert_new_ecoSysPlan( ecoPlanType );
 
         ecoPlanRef.set_colorTableId( esrc::get_colorTabelSet().get_colorTableId(colorTableName) );
+        ecoPlanRef.set_mapSurfaceLowSpec( mapSurfaceLowSpec );
         ecoPlanRef.init_densityDatas( density_SeaLvlOff, *density_DivValsPtr );
         ecoPlanRef.init_goSpecDataPools_and_applyPercents();
 

@@ -1,38 +1,13 @@
 [
+
 {
-    "name": "aloe",
+    "name": "bushOth",
     "pngs": [
         {
-            "path": "/bush/aloe.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "whiteFlower",
-    "pngs": [
-        {
-            "path": "/bush/whiteFlower.P.png",
+            "path": "/bush/bush_oth.P.png",
             "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
+            "frameNum.row":  2,
+            "totalFrameNum": 7,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -43,7 +18,7 @@
                     "animLabels": [],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 4,
+                    "idxNums": 7,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
@@ -51,67 +26,8 @@
         }
     ]
 },
-{
-    "name": "bushC",
-    "pngs": [
-        {
-            "path": "/bush/bushC.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
-{
-    "name": "grassA",
-    "pngs": [
-        {
-            "path": "/bush/grassA.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
-            "totalFrameNum": 4,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Dark" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 2,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                },
-                {
-                    "type": "batch",
-                    "animLabels": [ "Light" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 2,
-                    "idxNums": 2,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
-},
+
+
 {
     "name": "thorn",
     "pngs": [

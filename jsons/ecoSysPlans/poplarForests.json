@@ -3,6 +3,7 @@
     "name": "poplarForest_1",
     "EcoSysPlanType": "Forest",
     "colorTableName": "poplarForest",
+    "MapSurfaceLowSpec":"Forest",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "fixedSeed": 43,
@@ -24,13 +25,11 @@
 
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 },
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 }
+               
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 }
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
 
 
             ]
@@ -42,22 +41,27 @@
             "density.lvl": -2,
             "applyPercent": 0.4,
             "fieldDistributeTypes":[
+                {"Big1": 1},
                 {"Mid1": 1 },
                 {"Sml2_Mid1": 1 },
                 {"Sml1_Mid1":1 },
                 {"Sml2": 2 },
                 {"Sml1": 5 }
             ],
+            "ecoEnts_Big":[
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+
+            ],
+
             "ecoEnts_Mid":[                
                 { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 5 },
+               
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 4 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+              
+                
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 3 }
 
             ]
@@ -68,18 +72,21 @@
             "density.lvl": -1,
             "applyPercent": 0.4,
             "fieldDistributeTypes":[
+                {"Big1": 1},
                 {"Sml3": 1 },
                 {"Sml2": 4 },
                 {"Sml1": 3 }
             ],
+            "ecoEnts_Big":[
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+            ],
+
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 2 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
+                
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
             ]
         },
@@ -89,11 +96,15 @@
             "density.lvl": 0,
             "applyPercent": 0.4,
             "fieldDistributeTypes":[
+                {"Big1": 1},
                 {"Mid1": 1 },
                 {"Sml1": 11 }
             ],
+            "ecoEnts_Big":[
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+            ],
+
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
                 
             ],
@@ -108,22 +119,24 @@
             "density.lvl": 1,
             "applyPercent": 0.2,
             "fieldDistributeTypes":[
+                {"Big1": 1},
                 {"Mid1": 1 },
                 {"Sml1_Mid1":2 },
                 {"Sml3": 5 },
                 {"Sml2": 2 },
                 {"Sml1": 1 }
             ],
-            "ecoEnts_Mid":[
+            "ecoEnts_Big":[
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+            ],
 
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
+            "ecoEnts_Mid":[
                 { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 2 },
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+
+               
                 { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
 
             ]
@@ -146,15 +159,12 @@
  
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 9 },
-                    
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "poplarTree", "animLabels":[], "num": 9 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 }
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
+               
                 
             ]
             
@@ -165,9 +175,14 @@
             "density.lvl": 3,
             "applyPercent": 0.99,
             "fieldDistributeTypes":[
+                {"Big1": 1},
                 {"Mid2": 13},
                 {"Sml2_Mid1": 4},
                 {"Sml1_Mid1": 7}
+            ],
+
+            "ecoEnts_Big":[
+                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
@@ -176,9 +191,7 @@
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 4 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 }
+                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
 
                 
             ]

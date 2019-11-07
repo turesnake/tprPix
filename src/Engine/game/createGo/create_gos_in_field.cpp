@@ -68,17 +68,16 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
             //--- dyParam ---//
             DyParam dyParam {};     
             auto mUPtr = std::make_unique<DyParams_MapSurface>();
-            mUPtr->spec = MapSurfaceLowSpec::WhiteRock; //- tmp，其实要根据 eco 来分配 ...
             mUPtr->lvl = mapSurfaceLvl;
             mUPtr->randUVal = fieldRef.get_uWeight();
             dyParam.insert_ptr<DyParams_MapSurface>( mUPtr.get() );
             //--- 
             gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "mapSurfaceLower" ),
                                     fieldRef.get_dpos() + dposOff,
-                                    //fieldRef.get_midDPos(),
                                     dyParam );
         }
     }
+    
 
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { false };

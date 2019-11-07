@@ -3,10 +3,10 @@
     "name": "rock",
     "pngs": [
         {
-            "path": "/rock/rock_big5.P.png",
-            "frameNum.col":  9,
-            "frameNum.row":  5,
-            "totalFrameNum": 45,
+            "path": "/rock/rock_big2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  4,
+            "totalFrameNum": 22,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -17,7 +17,7 @@
                     "animLabels": [ "Big", "Light" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 45,
+                    "idxNums": 22,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
@@ -26,9 +26,9 @@
         
         {
             "path": "/rock/rock_mid2.P.png",
-            "frameNum.col":  7,
-            "frameNum.row":  5,
-            "totalFrameNum": 32,
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 19,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -39,33 +39,13 @@
                     "animLabels": [ "Mid", "Light" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 32,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        },
-        {
-            "path": "/rock/rock_sml.P.png",
-            "frameNum.col":  6,
-            "frameNum.row":  4,
-            "totalFrameNum": 22,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Sml", "Light" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 22,
+                    "idxNums": 19,
                     "name": "idle", "dir": "Mid",
                     "isOpaque": false
                 }
             ]
         }
+        
     ]
 }
 ]

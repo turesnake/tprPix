@@ -1,5 +1,5 @@
 /*
- * ========================= BushC.h ==========================
+ * ========================= BushOth.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.09
  *                                        MODIFY -- 
@@ -14,7 +14,7 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-class BushC{
+class BushOth{
 public:
     static void init(GameObj &goRef_,const DyParam &dyParams_ );
 private:                            

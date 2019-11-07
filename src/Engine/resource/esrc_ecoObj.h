@@ -1,5 +1,5 @@
 /*
- * ========================= esrc_eco.h ==========================
+ * ========================= esrc_ecoObj.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.19
  *                                        MODIFY --
@@ -19,6 +19,9 @@
 #include "EcoObj_ReadOnly.h"
 #include "GoSpecData.h"
 
+//--------------- Script ------------------//
+#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
+
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -33,6 +36,8 @@ std::pair<occupyWeight_t, EcoObj_ReadOnly> atom_get_ecoObj_readOnly( sectionKey_
 //double atom_ecoObj_get_applyPercent( sectionKey_t sectionkey_, Density density_ )noexcept;
 
 const DensityPool &atom_ecoObj_get_densityPool(sectionKey_t sectionkey_, size_t densityIdx_ )noexcept;
+MapSurfaceLowSpec atom_ecoObj_get_mapSurfaceLowSpec( sectionKey_t sectionkey_ )noexcept;
+
 
 colorTableId_t atom_ecoObj_get_colorTableId( sectionKey_t sectionkey_ )noexcept;
 

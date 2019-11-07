@@ -69,10 +69,11 @@ void onGoSpecIds_SignUp(){
     //ssrc::insert_2_goInit_funcs( "wheat",              std::bind( &gameObjs::Wheat::init, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "thorn",           std::bind( &gameObjs::Thorn::init, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "mushroom",        std::bind( &gameObjs::Mushroom::init, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "aloe",            std::bind( &gameObjs::Aloe::init, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "bushC",           std::bind( &gameObjs::BushC::init, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "grassA",          std::bind( &gameObjs::GrassA::init, _1, _2 ) );
-    ssrc::insert_2_goInit_funcs( "whiteFlower",     std::bind( &gameObjs::WhiteFlower::init, _1, _2 ) );
+
+    
+    ssrc::insert_2_goInit_funcs( "bushOth",           std::bind( &gameObjs::BushOth::init, _1, _2 ) );
+    
+  
 
 
     ssrc::insert_2_goInit_funcs( "grass",     std::bind( &gameObjs::Grass::init, _1, _2 ) );

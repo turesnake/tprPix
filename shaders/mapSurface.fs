@@ -65,9 +65,10 @@ void main()
         discard;
     }
 
-    vec3 outColor3 = change_color( texColor.rgb );
+    //vec3 outColor3 = change_color( texColor.rgb );
+    //FragColor = vec4( outColor3.rgb, 0.2 );// 需要半透明
 
-    FragColor = vec4( outColor3.rgb, 0.2 );// 需要半透明
+    FragColor = vec4( texColor.rgb, 1.0 );
 }
 
 

@@ -5,12 +5,12 @@
         
         {
             "path": "/grass/grass_mid1.P.png",
-            "frameNum.col":  2,
-            "frameNum.row":  5,
-            "totalFrameNum": 10,
-            "isHaveShadow": false,
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
             "isPjtSingle": true,
-            "isShadowSingle": true,
+            "isShadowSingle": false,
             "ColliderType": "Circular",
             "subspecies": [
                 {
@@ -24,26 +24,8 @@
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7, 7,8,8,9,9 ],
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 10,
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_2", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,   6,6,5,5,6,6,7,7,     8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,   6,7,6,5,4,3,4,5,     6,7,8,9 ],
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_3", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,   6,5,6,7,   8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,   6,5,4,5,   6,7,8,9 ],
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6, 7,7,7,7, 8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
                             "isOpaque": true
                         }
                         
@@ -51,64 +33,15 @@
                 }
             ]
         },
-        {
-            "path": "/grass/grass_mid2.P.png",
-            "frameNum.col":  2,
-            "frameNum.row":  5,
-            "totalFrameNum": 10,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "handle",
-                    "animLabels": [ "Mid" ],
-                    "subIdx": 1,
-                    "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        {
-                            "name": "wind_1", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7, 7,8,8,9,9 ],
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 10,
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_2", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,   6,6,5,5,6,6,7,7,     8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,   6,7,6,5,4,3,4,5,     6,7,8,9 ],
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_3", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,   6,5,6,7,   8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,   6,5,4,5,   6,7,8,9 ],
-                            "isOpaque": true
-                        }
-                        
-                    ]
-                }
-            ]
-        },
-
 
         {
             "path": "/grass/grass_sml1.P.png",
-            "frameNum.col":  2,
-            "frameNum.row":  5,
-            "totalFrameNum": 10,
-            "isHaveShadow": false,
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
             "isPjtSingle": true,
-            "isShadowSingle": true,
+            "isShadowSingle": false,
             "ColliderType": "Circular",
             "subspecies": [
                 {
@@ -122,29 +55,11 @@
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7, 7,8,8,9,9 ],
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 10,
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_2", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,   6,6,5,5,6,6,7,7,    8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,   6,7,6,5,4,3,4,5,    6,7,8,9 ],
-                            "isOpaque": true
-                        },
-                        {
-                            "name": "wind_3", "dir": "Mid",
-                            "type": "multiFrame",
-                            "actionType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,6,6,7,7,     6,5,6,7,   8,8,9,9 ],
-                            "isSeries": false, "lFrameIdxs" :       [ 0,1,2,3,4,5,     6,5,4,5,   6,7,8,9 ],
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6, 7,7,7,7, 8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
                             "isOpaque": true
                         }
-                        
+                    
                     ]
                 }
             ]

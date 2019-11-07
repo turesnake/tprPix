@@ -156,7 +156,12 @@ const DensityPool &atom_ecoObj_get_densityPool(sectionKey_t sectionkey_, size_t 
 }
 
 
-
+MapSurfaceLowSpec atom_ecoObj_get_mapSurfaceLowSpec( sectionKey_t sectionkey_ )noexcept{
+    //--- atom ---//
+    std::shared_lock<std::shared_mutex> sl( ecoObj_inn::sharedMutex ); //- read -
+        tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
+    return ecoObj_inn::ecoObjs.at(sectionkey_)->get_mapSurfaceLowSpec();
+}
 
 
 

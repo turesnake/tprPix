@@ -99,6 +99,8 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
  */
 void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
+    std::string funcName = "Grass::init()";
+
     //-- simple way ...
     if( grass_inn::isFstCalled ){
         grass_inn::isFstCalled = false;
@@ -113,7 +115,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<grass_inn::Grass_PvtBinary>();
 
-    colorTableId_t colorTableId = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos()) ).get_colorTableId();
+    colorTableId_t colorTableId = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos()), funcName ).get_colorTableId();
     size_t groundLikeColorIdx = esrc::get_colorTabelSet().get_colorTableRef(colorTableId).get_groundLikeColorIdx();
     pvtBp->groundLikeColorIdx = static_cast<GLint>(groundLikeColorIdx);
 
@@ -161,7 +163,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::GroundBasedColor),  // pic shader
+                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 //glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 it->fposOff,
                                 0.0,  //- off_z
@@ -289,8 +291,8 @@ void init()noexcept{
     //=== windAnimActionName pool ===//
     windAnimActionName_pool.reserve(50);
     windAnimActionName_pool.insert( windAnimActionName_pool.end(), 17, "wind_1" );
-    windAnimActionName_pool.insert( windAnimActionName_pool.end(), 1, "wind_2" );
-    windAnimActionName_pool.insert( windAnimActionName_pool.end(), 5, "wind_3" );
+    //windAnimActionName_pool.insert( windAnimActionName_pool.end(), 1, "wind_2" );
+    //windAnimActionName_pool.insert( windAnimActionName_pool.end(), 5, "wind_3" );
     windAnimActionName_pool.insert( windAnimActionName_pool.end(), 1, "idle" );
     std::shuffle( windAnimActionName_pool.begin(), windAnimActionName_pool.end(), randEngine );
     windAnimActionName_poolIdx = 0;

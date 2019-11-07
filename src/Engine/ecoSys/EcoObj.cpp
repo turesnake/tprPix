@@ -230,6 +230,8 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->ecoSysPlanType = targetEcoPlanPtr_->get_type();
     this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
     this->colorTableId = targetEcoPlanPtr_->get_colorTableId();
+    this->mapSurfaceLowSpec = targetEcoPlanPtr_->get_mapSurfaceLowSpec();
+
 
     //--- 仅 获得 只读指针 ---
     //this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();

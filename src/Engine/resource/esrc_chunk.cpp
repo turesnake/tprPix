@@ -106,7 +106,7 @@ void erase_from_chunks( chunkKey_t chunkKey_ ){
  * -- 找到对应的 mapEnt, 将其指针返回出去
  *    当目标 chunkMemState 不为 Active，直接报错
  */
-MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
+MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_, const std::string &funcName_ ){
 
     chunkKey_t chunkKey = anyMPos_2_chunkKey( anyMPos_ );
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
@@ -121,7 +121,7 @@ MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_ ){
             
             IntVec2 playerMPos = dpos_2_mpos(esrc::get_player().get_goRef().get_dpos());
 
-            cout << "ERROR: esrc::getnc_memMapEntRef():"
+            cout << "ERROR: esrc::getnc_memMapEntRef(): " << funcName_
                 << "\n    targetMPos: " << anyMPos_.x << ", " << anyMPos_.y 
                 << "\n    playerGoMPos:" << playerMPos.x << ", " << playerMPos.y
                 << endl;

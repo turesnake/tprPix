@@ -37,27 +37,9 @@
         "pub.HP": 170,
         "pub.MP": 50
     },
+
     {
-        "goSpecName": "aloe",
-        "specID": 18003,
-        "parentID": 0,
-        "family": "Major",
-        "state": "Waked",
-        "moveState": "AbsFixed",
-        "moveType": "Crawl",
-        "isTopGo": true,
-        "isMoveCollide": false,
-        "isDoPass": false,
-        "isBePass": false,
-        "animFrameSetName":"aloe",
-        "speedLvl": 0,
-        "alti": 0,
-        "weight": 50,
-        "pub.HP": 170,
-        "pub.MP": 50
-    },
-    {
-        "goSpecName": "bushC",
+        "goSpecName": "bushOth",
         "specID": 18004,
         "parentID": 0,
         "family": "Major",
@@ -68,51 +50,15 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": false,
-        "animFrameSetName":"bushC",
-        "speedLvl": 0,
-        "alti": 0,
-        "weight": 50,
-        "pub.HP": 170,
-        "pub.MP": 50
-    },
-    {
-        "goSpecName": "grassA",
-        "specID": 18005,
-        "parentID": 0,
-        "family": "Major",
-        "state": "Waked",
-        "moveState": "AbsFixed",
-        "moveType": "Crawl",
-        "isTopGo": true,
-        "isMoveCollide": false,
-        "isDoPass": false,
-        "isBePass": false,
-        "animFrameSetName":"grassA",
-        "speedLvl": 0,
-        "alti": 0,
-        "weight": 50,
-        "pub.HP": 170,
-        "pub.MP": 50
-    },
-    {
-        "goSpecName": "whiteFlower",
-        "specID": 18006,
-        "parentID": 0,
-        "family": "Major",
-        "state": "Waked",
-        "moveState": "AbsFixed",
-        "moveType": "Crawl",
-        "isTopGo": true,
-        "isMoveCollide": false,
-        "isDoPass": false,
-        "isBePass": false,
-        "animFrameSetName":"whiteFlower",
+        "animFrameSetName":"bushOth",
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
         "pub.HP": 170,
         "pub.MP": 50
     }
+ 
+
 
 
 ]
