@@ -64,7 +64,6 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
         //----- vals -----//
         size_t     windClockCheckStepCount {}; // count down
         size_t     oldWindClockCount {0};
-        GLint      groundLikeColorIdx {};
     private:
         std::unordered_map<std::string, animSubspeciesId_t> goMeshSubSpecIds {};
     };
@@ -87,8 +86,6 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
     size_t  apply_a_goMesh_windDelayStep()noexcept;
     size_t  apply_a_go_windDelayStep()noexcept;
     const std::string &apply_a_windAnimActionName()noexcept;
-
-    void before_drawCall( const Grass_PvtBinary *pvtBp_ )noexcept;
 
 }//-------------- namespace: grass_inn end ----------------//
 
@@ -114,12 +111,6 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<grass_inn::Grass_PvtBinary>();
-
-    colorTableId_t colorTableId = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos()), funcName ).get_colorTableId();
-    size_t groundLikeColorIdx = esrc::get_colorTabelSet().get_colorTableRef(colorTableId).get_groundLikeColorIdx();
-    pvtBp->groundLikeColorIdx = static_cast<GLint>(groundLikeColorIdx);
-
-        //cout << "pvtBp->groundLikeColorIdx: " << pvtBp->groundLikeColorIdx << endl;
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};
@@ -176,7 +167,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
         goMeshRef.bind_reset_playSpeedScale( std::bind( &WindClock::get_playSpeedScale,
                                                         &windClockRef,
                                                         it->windDelayIdx ) );
-        goMeshRef.bind_pic_before_drawCall(std::bind( &grass_inn::before_drawCall, pvtBp )); // call back
+        //goMeshRef.bind_pic_before_drawCall(std::bind( &grass_inn::before_drawCall, pvtBp )); // call back
     }
 
         
@@ -323,14 +314,6 @@ const std::string &apply_a_windAnimActionName()noexcept{
         windAnimActionName_poolIdx = 0;
     }
     return windAnimActionName_pool.at( windAnimActionName_poolIdx );
-}
-
-//--- call back ---
-void before_drawCall( const Grass_PvtBinary *pvtBp_ )noexcept{
-    auto &shaderRef = esrc::get_shaderRef( ShaderType::GroundBasedColor );
-    shaderRef.use_program();
-    glUniform1i(    shaderRef.get_uniform_location( "groundLikeColorIdx" ), 
-                    pvtBp_->groundLikeColorIdx );
 }
 
 

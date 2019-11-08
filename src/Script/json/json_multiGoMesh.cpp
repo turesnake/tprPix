@@ -113,13 +113,15 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         }
 
 
-        {//--- rootAnimFrameSetName ---//
-            const auto &a = check_and_get_value( ent, "rootAnimFrameSetName", JsonValType::String );
-            rootAnimFrameSetName = a.GetString();
-        }
+        
         //--- goMeshSets ---//
         const auto &goMeshSets = check_and_get_value( ent, "goMeshSets", JsonValType::Array );
         for( auto &goMeshSet : goMeshSets.GetArray() ){
+
+            //--- skip annotate ---//
+            if( goMeshSet.HasMember( "annotate" ) ){
+                continue;
+            }
 
             MultiGoMeshType type    {};
             bool            isSameGoSpec    {};
@@ -127,6 +129,10 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             {//--- type ---//
                 const auto &a = check_and_get_value( goMeshSet, "type", JsonValType::String );
                 type = str_2_multiGoMeshType( a.GetString() );
+            }
+            {//--- rootAnimFrameSetName ---//
+                const auto &a = check_and_get_value( goMeshSet, "rootAnimFrameSetName", JsonValType::String );
+                rootAnimFrameSetName = a.GetString();
             }
 
             auto &json_goMeshSet = goSpecRef.multiGoMeshUPtr->create_new_json_goMeshSet( type );

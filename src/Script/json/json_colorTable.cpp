@@ -126,11 +126,6 @@ void parse_single_colorTableJsonFile( const std::string &path_file_ ){
                 colorTableRef.insert_a_color( colorName, colorVal );
             } 
         }
-        {//--- groundColorCloseTo ---//
-            const auto &a = check_and_get_value( ent, "groundColorCloseTo", JsonValType::String );
-            colorTableRef.set_groundLikeColorIdx( a.GetString() );
-        }
-
 
         colorTableRef.final_check();
     }

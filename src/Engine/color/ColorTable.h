@@ -70,10 +70,6 @@ public:
         tprAssert( outPair.second );
     }
 
-    inline void set_groundLikeColorIdx( const std::string &name_ )noexcept{
-        tprAssert( colorTableEntNames.find(name_) != colorTableEntNames.end() );
-        this->groundLikeColorIdx = colorTableEntNames.at(name_);
-    }
 
     inline void final_check()const noexcept{
         for( const auto &pair : colorTableEntNames ){
@@ -96,10 +92,6 @@ public:
         return this->data.at(colorTableEntNames.at("ground"));
     }
 
-    inline size_t get_groundLikeColorIdx()const noexcept{
-        return this->groundLikeColorIdx;
-    }
-
     //======== static ========//
     inline static size_t get_dataSize()noexcept{ 
         return (colorTableEntNames.size()*sizeof(FloatVec4)); 
@@ -109,7 +101,6 @@ public:
 private:
     std::vector<FloatVec4> data {}; // colorTable
     std::unordered_set<std::string> isSets {}; // just used in json-read
-    size_t groundLikeColorIdx {}; // the colorEntIdx similar to groundColor
 };
 
 

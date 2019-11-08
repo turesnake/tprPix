@@ -18,7 +18,6 @@ enum class ShaderType{
     //---
     OriginColor,
     UnifiedColor,
-    GroundBasedColor,
     GroundColor,
     //---
     PlayerGoCircle,

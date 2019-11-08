@@ -105,22 +105,6 @@ void init_shaders(){
         //...
     }
 
-    {//---- GroundBasedColor ----//
-        auto &sp = insert_new_shader( ShaderType::GroundBasedColor );
-        //---
-        sp.init( "/groundBasedColor.vs", "/groundBasedColor.fs" );
-        sp.use_program();
-
-        sp.add_new_uniform( "model" );
-        sp.add_new_uniform( "texture1" );
-        sp.add_new_uniform( "groundLikeColorIdx" );
-        //--- ubo --//
-        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        ubo_unifiedColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        //...
-    }
-
-
     {//---- GroundColor_shader ----//
         auto &sp = insert_new_shader( ShaderType::GroundColor );
         //---

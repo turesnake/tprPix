@@ -49,10 +49,6 @@ layout (shared, std140) uniform UnifiedColorTable {
 } unifiedColorTable;
 
 
-//===== funcs =====//
-vec3 change_color( in vec3 val_ );
-bool closeEnough( in vec3 a_, in vec3 b_ );
-
 
 void main()
 {
@@ -65,55 +61,8 @@ void main()
         discard;
     }
 
-    //vec3 outColor3 = change_color( texColor.rgb );
-    //FragColor = vec4( outColor3.rgb, 0.2 );// 需要半透明
-
     FragColor = vec4( texColor.rgb, 1.0 );
 }
 
 
-
-vec3 change_color( in vec3 val_ ){
-    if(       closeEnough( val_, originColorTable.base_0.rgb) ){
-        val_ = unifiedColorTable.base_0.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_1.rgb) ){
-        val_ = unifiedColorTable.base_1.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_2.rgb) ){
-        val_ = unifiedColorTable.base_2.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_3.rgb) ){
-        val_ = unifiedColorTable.base_3.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_4.rgb) ){
-        val_ = unifiedColorTable.base_4.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_5.rgb) ){
-        val_ = unifiedColorTable.base_5.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_6.rgb) ){
-        val_ = unifiedColorTable.base_6.rgb;
-
-    }else if( closeEnough( val_, originColorTable.base_7.rgb) ){
-        val_ = unifiedColorTable.base_7.rgb;
-    }else{
-        //discard;
-        // ...
-    }
-    return val_;
-}
-
-
-bool closeEnough( in vec3 a_, in vec3 b_ ){
-    float threshold = 0.01;
-    vec3 off = abs(a_ - b_);
-    if( (off.r <= threshold) &&
-        (off.g <= threshold) &&
-        (off.b <= threshold) ){
-        return true;
-    }else{
-        return false;
-    }
-}
 

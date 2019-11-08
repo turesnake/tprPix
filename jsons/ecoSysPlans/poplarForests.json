@@ -56,13 +56,13 @@
             "ecoEnts_Mid":[                
                 { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
                
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
 
             ],
             "ecoEnts_Sml":[
               
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 3 }
 
             ]
         },
@@ -82,12 +82,12 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
             ],
             "ecoEnts_Sml":[
 
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
             ]
         },
 
@@ -105,12 +105,12 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 6 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 1 }
             ]
         },
         
@@ -131,13 +131,13 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Mid", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 1 }
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 2 },
 
                
-                { "goSpecName": "grass", "MultiGoMeshType":"Sml", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 1 }
 
             ]
         },

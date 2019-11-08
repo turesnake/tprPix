@@ -35,6 +35,15 @@ enum class MultiGoMeshType {
     Mid,
     Big,
     //...
+
+    DForest_Sml,
+    DForest_Mid,
+    DForest_Big,
+
+    Forest_Sml,
+    Forest_Mid,
+    Forest_Big,
+
 };
 
 
@@ -44,6 +53,17 @@ inline MultiGoMeshType str_2_multiGoMeshType( const std::string &str_ )noexcept{
     }else if( str_ == "Mid" ){              return MultiGoMeshType::Mid;
     }else if( str_ == "Big" ){              return MultiGoMeshType::Big;
     }
+
+    else if( str_  == "DForest_Sml" ){              return MultiGoMeshType::DForest_Sml;
+    }else if( str_ == "DForest_Mid" ){              return MultiGoMeshType::DForest_Mid;
+    }else if( str_ == "DForest_Big" ){              return MultiGoMeshType::DForest_Big;
+    }
+
+    else if( str_  == "Forest_Sml" ){               return MultiGoMeshType::Forest_Sml;
+    }else if( str_ == "Forest_Mid" ){               return MultiGoMeshType::Forest_Mid;
+    }else if( str_ == "Forest_Big" ){               return MultiGoMeshType::Forest_Big;
+    }
+
     //...
     else{
         tprAssert(0);

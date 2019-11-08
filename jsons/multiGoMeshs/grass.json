@@ -2,10 +2,13 @@
 
     {
         "goSpecName": "grass",
-        "rootAnimFrameSetName": "grass",
         "goMeshSets":[
+
+            {"annotate": "====================== DForest ======================"},
+
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
@@ -14,7 +17,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
@@ -23,7 +27,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
@@ -33,7 +38,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -43,7 +49,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -53,7 +60,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -62,7 +70,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
@@ -71,7 +80,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
@@ -80,7 +90,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
@@ -89,7 +100,8 @@
                 ]
             },
             {
-                "type": "Sml",
+                "type": "DForest_Sml",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
@@ -101,7 +113,8 @@
 
 
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
@@ -112,7 +125,8 @@
                 ]
             },
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
@@ -124,7 +138,8 @@
                 ]
             },
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [40, 25], "animLabels":[ "Mid" ] },
@@ -134,7 +149,8 @@
                 ]
             },
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [-30, 25], "animLabels":[ "Mid" ] },
@@ -145,7 +161,8 @@
             },
 
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -157,7 +174,8 @@
                 ]
             },
             {
-                "type": "Mid",
+                "type": "DForest_Mid",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -171,7 +189,8 @@
 
             
             {
-                "type": "Big",
+                "type": "DForest_Big",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [30, -10], "animLabels":[ "Mid" ] },
@@ -189,7 +208,8 @@
                 ]
             },
             {
-                "type": "Big",
+                "type": "DForest_Big",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [-30, -10], "animLabels":[ "Mid" ] },
@@ -207,7 +227,8 @@
                 ]
             },
             {
-                "type": "Big",
+                "type": "DForest_Big",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -228,7 +249,8 @@
                 ]
             },
             {
-                "type": "Big",
+                "type": "DForest_Big",
+                "rootAnimFrameSetName": "grass_dforest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -249,7 +271,296 @@
                 ]
             },
             {
-                "type": "Big",
+                "type": "DForest_Big",
+                "rootAnimFrameSetName": "grass_dforest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+
+                    {  "dpos": [40,80], "animLabels":[ "Sml" ] },
+                    {  "dpos": [50,60], "animLabels":[ "Sml" ] },
+                    
+                    {  "dpos": [-70, 70], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-90, 90], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-60, 50], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-110, -30], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-100, 0], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-10, -80], "animLabels":[ "Mid" ] },
+                    {  "dpos": [0, -60], "animLabels":[ "Sml" ] }
+                ]
+            },
+            
+            {"annotate": "====================== Forest ======================"},
+
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [10, -30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, 20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-10, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-15, 30], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [20, -25], "animLabels":[ "Sml" ] },
+                    {  "dpos": [40, 35], "animLabels":[ "Sml" ] },
+                    {  "dpos": [70, 15], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-20, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [30, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-55, -45], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-55, 35], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-25, -30], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [48, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, -45], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [25, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [45, 30], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-25, 45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, 20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [25, -45], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-35, -20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Sml",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [15, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-55, -10], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-35, -40], "animLabels":[ "Sml" ] }
+                ]
+            },
+
+
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-20, -25], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-35, 40], "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, -55], "animLabels":[ "Sml" ] },
+                    {  "dpos": [50, 20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0,  0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [30, 25], "animLabels":[ "Mid" ] },
+                    {  "dpos": [35, -35], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-20, 55], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-70, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-100, 10], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [40, 25], "animLabels":[ "Mid" ] },
+                    {  "dpos": [20, 50], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-30, -20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-15, -45], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [-30, 25], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-10, 50], "animLabels":[ "Sml" ] },
+                    {  "dpos": [30, -20], "animLabels":[ "Mid" ] },
+                    {  "dpos": [15, -45], "animLabels":[ "Sml" ] }
+                ]
+            },
+
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [55, 20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-80, 35], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-65, 60], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-5, -30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-35, -55], "animLabels":[ "Mid" ] }
+                ]
+            },
+            {
+                "type": "Forest_Mid",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-55, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [80, -35], "animLabels":[ "Mid" ] },
+                    {  "dpos": [65, -60], "animLabels":[ "Sml" ] },
+                    {  "dpos": [5, 30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, 55], "animLabels":[ "Mid" ] }
+                ]
+            },
+
+            
+            {
+                "type": "Forest_Big",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [30, -10], "animLabels":[ "Mid" ] },
+                    {  "dpos": [40, 15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [55, -30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [5, -60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-15, 80], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-35, 100], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-85, 45], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-70, 60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-110, 0], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-100, -20], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Big",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [-30, -10], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, 15], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-55, -30], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-5, -60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [15, 80], "animLabels":[ "Sml" ] },
+                    {  "dpos": [35, 100], "animLabels":[ "Mid" ] },
+                    {  "dpos": [85, 45], "animLabels":[ "Mid" ] },
+                    {  "dpos": [70, 60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [90, -60], "animLabels":[ "Sml" ] },
+                    {  "dpos": [80, -80], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Big",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-20, 15], "animLabels":[ "Sml" ] },
+                    
+                    {  "dpos": [70, 90], "animLabels":[ "Mid" ] },
+                    {  "dpos": [40, 105], "animLabels":[ "Sml" ] },
+                    {  "dpos": [55, 60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-40, 50], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-65, 70], "animLabels":[ "Sml" ] },
+                    
+                    {  "dpos": [-35, -40], "animLabels":[ "Mid" ] },
+                    {  "dpos": [25, -60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [110, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [90, -40], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Big",
+                "rootAnimFrameSetName": "grass_forest",
+                "isSameGoSpec": true,
+                "goMeshs":[
+                    {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
+                    {  "dpos": [20, 15], "animLabels":[ "Sml" ] },
+                    
+                    {  "dpos": [-70, 90], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-40, 105], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-55, 60], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [40, 50], "animLabels":[ "Mid" ] },
+                    {  "dpos": [65, 70], "animLabels":[ "Sml" ] },
+                    
+                    {  "dpos": [35, -50], "animLabels":[ "Mid" ] },
+                    {  "dpos": [-25, -70], "animLabels":[ "Sml" ] },
+
+                    {  "dpos": [-110, -20], "animLabels":[ "Sml" ] },
+                    {  "dpos": [-90, -40], "animLabels":[ "Sml" ] }
+                ]
+            },
+            {
+                "type": "Forest_Big",
+                "rootAnimFrameSetName": "grass_forest",
                 "isSameGoSpec": true,
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
@@ -268,7 +579,6 @@
                     {  "dpos": [0, -60], "animLabels":[ "Sml" ] }
                 ]
             }
-            
             
             
     
