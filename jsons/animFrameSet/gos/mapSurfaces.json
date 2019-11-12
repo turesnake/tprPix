@@ -3,7 +3,7 @@
     "name": "mapSurfaceLow_test",
     "pngs": [
         {
-            "path": "/mapSurfaceLow/groundSml.P.png",
+            "path": "/mapSurfaceLow/test/groundSml.P.png",
             "frameNum.col":  3,
             "frameNum.row":  1,
             "totalFrameNum": 3,
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "path": "/mapSurfaceLow/groundMid.P.png",
+            "path": "/mapSurfaceLow/test/groundMid.P.png",
             "frameNum.col":  3,
             "frameNum.row":  1,
             "totalFrameNum": 3,
@@ -45,7 +45,7 @@
             ]
         },
         {
-            "path": "/mapSurfaceLow/groundBig.P.png",
+            "path": "/mapSurfaceLow/test/groundBig.P.png",
             "frameNum.col":  3,
             "frameNum.row":  1,
             "totalFrameNum": 3,
