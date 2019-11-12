@@ -1,0 +1,24 @@
+[
+  {
+    "goSpecName": "cactus",
+    "specID": 2301,
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": false,
+    "animFrameSetName":"cactus",
+    "speedLvl": 0,
+    "alti": 0,
+    "weight": 50,
+    "pub.HP": 170,
+    "pub.MP": 50
+  }
+
+
+
+]

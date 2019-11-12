@@ -260,7 +260,7 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
 void init()noexcept{
     std::default_random_engine  randEngine;
     randEngine.seed( get_new_seed() );
-    std::uniform_int_distribution<size_t> uDistribution_goMesh( 1, 13 ); // can't begin with 0
+    std::uniform_int_distribution<size_t> uDistribution_goMesh( 1, 9 ); // can't begin with 0
     //std::uniform_int_distribution<size_t> uDistribution_go(     10, 40 );
     std::uniform_int_distribution<size_t> uDistribution_go(     1, 5 );
     
@@ -283,7 +283,6 @@ void init()noexcept{
     windAnimActionName_pool.reserve(50);
     windAnimActionName_pool.insert( windAnimActionName_pool.end(), 17, "wind_1" );
     //windAnimActionName_pool.insert( windAnimActionName_pool.end(), 1, "wind_2" );
-    //windAnimActionName_pool.insert( windAnimActionName_pool.end(), 5, "wind_3" );
     windAnimActionName_pool.insert( windAnimActionName_pool.end(), 1, "idle" );
     std::shuffle( windAnimActionName_pool.begin(), windAnimActionName_pool.end(), randEngine );
     windAnimActionName_poolIdx = 0;

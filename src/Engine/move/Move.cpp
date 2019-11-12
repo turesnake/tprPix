@@ -110,9 +110,7 @@ void Move::renderUpdate_crawl(){
     if( this->goRef.isControlByPlayer ){
         tprDebug::collect_playerSpeed( actuallySpped ); // debug
     }
-
-    this->goRef.accum_dpos( this->goRef.detect_collision_for_move(speedVec) );
-
+    this->goRef.accum_dpos( actuallySpped );
 }
 
 

@@ -20,6 +20,8 @@ enum class MapSurfaceLowSpec{
     Test, // 简陋的线框，表示范围
     DForest, // 
     Forest,
+    Savannah,
+    Desert,
 };
 
 
@@ -28,6 +30,8 @@ inline MapSurfaceLowSpec str_2_MapSurfaceLowSpec( const std::string &str_ )noexc
     }else if( str_  == "Test" ){        return MapSurfaceLowSpec::Test;
     }else if( str_  == "DForest" ){     return MapSurfaceLowSpec::DForest;
     }else if( str_  == "Forest" ){      return MapSurfaceLowSpec::Forest;
+    }else if( str_  == "Savannah" ){    return MapSurfaceLowSpec::Savannah;
+    }else if( str_  == "Desert" ){      return MapSurfaceLowSpec::Desert;
     }else{
         tprAssert(0);
         return MapSurfaceLowSpec::Nil;
@@ -40,7 +44,9 @@ inline std::string MapSurfaceLowSpec_2_str( MapSurfaceLowSpec spec_ )noexcept{
     switch (spec_){
         case MapSurfaceLowSpec::Test:       return "mapSurfaceLow_test";
         case MapSurfaceLowSpec::DForest:    return "mapSurfaceLow_dforest";
-        case MapSurfaceLowSpec::Forest:    return "mapSurfaceLow_forest";
+        case MapSurfaceLowSpec::Forest:     return "mapSurfaceLow_forest";
+        case MapSurfaceLowSpec::Savannah:   return "mapSurfaceLow_savannah";
+        case MapSurfaceLowSpec::Desert:     return "mapSurfaceLow_desert";
         default:
             tprAssert(0);
             return ""; // never reach

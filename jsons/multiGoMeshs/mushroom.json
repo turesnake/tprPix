@@ -2,11 +2,10 @@
 
     {
         "goSpecName": "mushroom",
+        "style": "SameGoSpec",
         "goMeshSets":[
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [25, 70], "animLabels":[ "Mid" ] },
@@ -21,9 +20,7 @@
             },
 
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [35, -35], "animLabels":[ "Mid" ] },
@@ -37,9 +34,7 @@
                 ]
             },
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [10, 90], "animLabels":[ "Mid" ] },
@@ -53,9 +48,7 @@
                 ]
             },
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-15, 60], "animLabels":[ "Mid" ] },
@@ -69,9 +62,7 @@
                 ]
             },
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [15, -65], "animLabels":[ "Mid" ] },
@@ -84,9 +75,7 @@
                 ]
             },
             {
-                "type": "Big",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_3",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-10, -100], "animLabels":[ "Mid" ] },
@@ -100,9 +89,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     { "dpos": [0, 0], "animLabels":[ "Big" ] },
                     { "dpos": [55, 45], "animLabels":[ "Mid" ] },
@@ -112,9 +99,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [20, -70], "animLabels":[ "Mid" ] },
@@ -124,9 +109,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-70, -25], "animLabels":[ "Mid" ] },
@@ -136,9 +119,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-55, -40], "animLabels":[ "Mid" ] },
@@ -147,9 +128,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-75, -15], "animLabels":[ "Mid" ] },
@@ -158,9 +137,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [-10, 80], "animLabels":[ "Sml" ] },
@@ -170,9 +147,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [15, 65], "animLabels":[ "Sml" ] },
@@ -184,9 +159,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [-65, -30], "animLabels":[ "Mid" ] },
@@ -196,9 +169,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [-45, 30], "animLabels":[ "Mid" ] },
@@ -210,9 +181,7 @@
                 ]
             },
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [75, 55], "animLabels":[ "Mid" ] },
@@ -224,9 +193,7 @@
             },
 
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [55, 25], "animLabels":[ "Mid" ] },
@@ -235,9 +202,7 @@
             },
 
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big" ] },
                     {  "dpos": [25, -48], "animLabels":[ "Mid" ] },
@@ -247,9 +212,7 @@
             },
 
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [70, 25], "animLabels":[ "Mid" ] },
@@ -259,9 +222,7 @@
                 ]
             },
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [-55, -20], "animLabels":[ "Mid" ] },
@@ -270,9 +231,7 @@
                 ]
             },
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [-50, -5], "animLabels":[ "Sml" ] },
@@ -280,9 +239,7 @@
                 ]
             },
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [50, 15], "animLabels":[ "Sml" ] },
@@ -290,9 +247,7 @@
                 ]
             },
             {
-                "type": "Sml",
-                "rootAnimFrameSetName": "mushroom",
-                "isSameGoSpec": true,
+                "type": "type_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Mid" ] },
                     {  "dpos": [-35, -10], "animLabels":[ "Sml" ] },
@@ -302,7 +257,19 @@
             }
     
         
+        ],
+
+        "plans":[
+            {
+                "rootAnimFrameSetName": "mushroom",
+                "types":{
+                    "type_1": "Sml",
+                    "type_2": "Mid",
+                    "type_3": "Big"
+                }
+            }
         ]
+
     }
 
 ]

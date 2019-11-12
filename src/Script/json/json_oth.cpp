@@ -81,6 +81,10 @@ std::pair<bool, int> get_nullable_int( const Value &val_ ){
 const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
                                             const std::string &name_,
                                             JsonValType jsonValType_ ){
+        // debug ...
+        if( !val_.HasMember(name_.c_str()) ){
+            cout << "ERROR: name_ = " << name_ << endl;
+        }
     tprAssert( val_.HasMember(name_.c_str()) );
     const Value &a = val_[name_.c_str()];
     switch (jsonValType_){

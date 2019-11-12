@@ -76,7 +76,29 @@
     "name": "poplarTree",
     "pngs": [
         {
-            "path": "/poplar/poplar.P.png",
+            "path": "/poplar/poplar_sml.P.png",
+            "frameNum.col":  2,
+            "frameNum.row":  1,
+            "totalFrameNum": 2,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Sml" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+
+        {
+            "path": "/poplar/poplar_mid.P.png",
             "frameNum.col":  4,
             "frameNum.row":  1,
             "totalFrameNum": 4,
@@ -87,7 +109,7 @@
             "subspecies": [
                 {
                     "type": "batch",
-                    "animLabels": [],
+                    "animLabels": [ "Mid" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 4,
@@ -95,7 +117,55 @@
                     "isOpaque": false
                 }
             ]
+        },
+
+        {
+            "path": "/poplar/poplar_mid2.P.png",
+            "frameNum.col":  2,
+            "frameNum.row":  1,
+            "totalFrameNum": 2,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid" ],
+                    "fstSubIdx": 4,
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
+        },
+
+        {
+            "path": "/poplar/poplar_dead.P.png",
+            "frameNum.col":  2,
+            "frameNum.row":  1,
+            "totalFrameNum": 2,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Dead" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 2,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": false
+                }
+            ]
         }
+
+
+
+
     ]
 }
 ]

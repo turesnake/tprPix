@@ -60,6 +60,9 @@ void onGoSpecIds_SignUp(){
     //        tree
     //-------------------//
     //ssrc::insert_2_goInit_funcs( "oakTree",  std::bind( &gameObjs::OakTree::init, _1, _2 ) );
+
+    ssrc::insert_2_goInit_funcs( "cactus",        std::bind( &gameObjs::Cactus::init, _1, _2 ) );
+
     ssrc::insert_2_goInit_funcs( "pineTree",        std::bind( &gameObjs::PineTree::init, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "poplarTree",      std::bind( &gameObjs::PoplarTree::init, _1, _2 ) );
 

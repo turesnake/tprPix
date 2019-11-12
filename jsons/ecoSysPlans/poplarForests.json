@@ -1,9 +1,9 @@
 [
 {
-    "name": "poplarForest_1",
+    "name": "PoplarForest_1",
     "EcoSysPlanType": "Forest",
     "colorTableName": "poplarForest",
-    "MapSurfaceLowSpec":"Forest",
+    "MapSurfaceLowSpec":"Savannah",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "fixedSeed": 43,
@@ -12,24 +12,22 @@
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.6,
+            "applyPercent": 0.2,
             "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Sml2_Mid1": 7 }
+                {"Sml2":1 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
 
-                { "goSpecName": "thorn", "animLabels":[ "Light" ], "num": 5 },
-                { "goSpecName": "thorn", "animLabels":[ "Dark" ], "num": 1 }
 
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 }
+               
+
                
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
+
+                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 3 }
 
 
             ]
@@ -39,30 +37,24 @@
         {
             "annotate": "====================[ -2 ]====================",
             "density.lvl": -2,
-            "applyPercent": 0.4,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
                 {"Big1": 1},
-                {"Mid1": 1 },
                 {"Sml2_Mid1": 1 },
                 {"Sml1_Mid1":1 },
-                {"Sml2": 2 },
-                {"Sml1": 5 }
+                {"Sml2": 2 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
-
+                
             ],
 
-            "ecoEnts_Mid":[                
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 },
+            "ecoEnts_Mid":[               
                
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
-
+               
             ],
             "ecoEnts_Sml":[
               
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 3 }
 
             ]
         },
@@ -70,101 +62,96 @@
         {
             "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
-            "applyPercent": 0.4,
+            "applyPercent": 0.9,
             "fieldDistributeTypes":[
                 {"Big1": 1},
-                {"Sml3": 1 },
-                {"Sml2": 4 },
-                {"Sml1": 3 }
+                {"Mid2": 7},
+                {"Sml2_Mid1": 9},
+                {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
+                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
+                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
-
-                
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 3 }
+                { "goSpecName": "bushOth", "animLabels":[], "num": 11 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 3 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
             ]
         },
 
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.4,
+            "applyPercent": 0.99,
             "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Mid1": 1 },
-                {"Sml1": 11 }
+                {"Big1": 3},
+                {"Mid2": 13},
+                {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
                 { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 1 }
+                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
+                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 6 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 1 }
+                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 11 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 }
             ]
         },
         
         {
             "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
-            "applyPercent": 0.2,
+            "applyPercent": 0.9,
             "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Mid1": 1 },
-                {"Sml1_Mid1":2 },
-                {"Sml3": 5 },
-                {"Sml2": 2 },
-                {"Sml1": 1 }
-            ],
-            "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                {"Mid2": 7},
+                {"Sml2_Mid1": 7},
+                {"Sml3":7 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Mid", "num": 1 }
+                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
+                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
+                { "goSpecName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
+
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 2 },
-
-               
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_Sml", "num": 1 }
-
+                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 13 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
             ]
         },
 
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.6,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
                 {"Big1": 1},
-                {"Mid2": 13 },
-                {"Mid1": 13 },
                 {"Sml2_Mid1": 7 },
-                {"Sml1_Mid1":7 },
-                {"Sml2": 5 }
+                {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+               
  
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 9 }
+
+                
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
-               
+                
                 
             ]
             
@@ -173,26 +160,22 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.99,
+            "applyPercent": 0.2,
             "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Mid2": 13},
-                {"Sml2_Mid1": 4},
-                {"Sml1_Mid1": 7}
+                {"Sml1": 1}
             ],
 
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 },
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 1 }
 
+                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 }
+
+            
                 
             ]
         }

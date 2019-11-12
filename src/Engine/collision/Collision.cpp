@@ -184,7 +184,7 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
  */ 
 glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
 
-    std::string funcName = "detect_for_move()";
+    
 
 
     {//-- 简陋的检测，位移距离 不大于 1mapent --
@@ -229,15 +229,18 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
         //-- update adds/dels --
         if( isSignINMapEntsChanged == true ){
 
+            std::string error_info_1 = "detect_for_move(): adds:";
+            std::string error_info_2 = "detect_for_move(): dels:";
+
             this->signInMapEntsUPtr->sync_currentSignINMapEnts_from_future();
             //-- adds --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, error_info_1 );
                 mapEntRef.insert_2_majorGos( this->goRef.id );
             }
             //-- dels --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
+                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, error_info_2 );
                 mapEntRef.erase_the_onlyOne_from_majorGos( this->goRef.id );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
             }

@@ -1,5 +1,6 @@
 [
     {"bushs.json": true },
+    {"cactus.json": true },
     {"gos.json": true },
     {"grass.json": true },
     {"oth.json": true },

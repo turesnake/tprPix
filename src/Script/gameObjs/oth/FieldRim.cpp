@@ -69,7 +69,8 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
                             esrc::get_fieldRimId(),
                             "idle",
                             RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                            &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                            //&esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                            &esrc::get_shaderRef(ShaderType::Shadow ),  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff
                             0.5,  //- off_z
                             true ); //- isVisible

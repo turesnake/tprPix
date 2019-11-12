@@ -2,12 +2,11 @@
 
     {
         "goSpecName": "rock",
+        "style": "SameGoSpec",
         "goMeshSets":[
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [110, 85], "animLabels":[ "Mid", "Light" ] },
@@ -17,9 +16,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [110, -50], "animLabels":[ "Mid", "Light" ] },
@@ -30,9 +27,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [-30, -90], "animLabels":[ "Mid", "Light" ] },
@@ -42,9 +37,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [70, -80], "animLabels":[ "Mid", "Light" ] },
@@ -53,9 +46,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [75, 110], "animLabels":[ "Mid", "Light" ] },
@@ -64,9 +55,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [-145, 65], "animLabels":[ "Mid", "Light" ] },
@@ -76,9 +65,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [115, -80], "animLabels":[ "Mid", "Light" ] },
@@ -89,9 +76,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [-40, 115], "animLabels":[ "Mid", "Light" ] },
@@ -102,9 +87,7 @@
             },
 
             {
-                "type": "Mid",
-                "rootAnimFrameSetName": "rock",
-                "isSameGoSpec": true,
+                "type": "type_2",
                 "goMeshs":[
                     {  "dpos": [0, 0], "animLabels":[ "Big", "Light" ] },
                     {  "dpos": [70, -105], "animLabels":[ "Mid", "Light" ] },
@@ -114,7 +97,18 @@
             }
             
         
+        ],
+
+
+        "plans":[
+            {
+                "rootAnimFrameSetName": "rock",
+                "types":{
+                    "type_2": "Mid"
+                }
+            }
         ]
+
     }
 
 ]

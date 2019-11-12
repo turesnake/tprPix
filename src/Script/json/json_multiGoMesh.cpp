@@ -25,7 +25,6 @@
 #include "fileIO.h"
 
 #include "esrc_state.h"
-//#include "esrc_json_multiGoMesh.h"
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
@@ -45,10 +44,77 @@ namespace jmgm_inn {//-------- namespace: jmgm_inn --------------//
 
     void parse_single_jsonFile( const std::string &path_file_ );
 
+    const std::unordered_map<std::string, MultiGoMeshType> str_multiGoMeshTypes{
+        { "",        MultiGoMeshType::Default },
+        { "Default", MultiGoMeshType::Default },
+
+        { "Sml",    MultiGoMeshType::Sml },
+        { "Mid",    MultiGoMeshType::Mid },
+        { "Big",    MultiGoMeshType::Big },
+        
+        { "DForest_Sml",    MultiGoMeshType::DForest_Sml },
+        { "DForest_Mid",    MultiGoMeshType::DForest_Mid },
+        { "DForest_Big",    MultiGoMeshType::DForest_Big },
+
+        { "Forest_1_Sml",    MultiGoMeshType::Forest_1_Sml },
+        { "Forest_1_Mid",    MultiGoMeshType::Forest_1_Mid },
+        { "Forest_1_Big",    MultiGoMeshType::Forest_1_Big },
+
+        { "Savannah_1_Sml",    MultiGoMeshType::Savannah_1_Sml },
+        { "Savannah_1_Mid",    MultiGoMeshType::Savannah_1_Mid },
+        { "Savannah_1_Big",    MultiGoMeshType::Savannah_1_Big }
+        //...
+    };
+
+
+
+    class Json_GoMesh_Tmp{
+    public:
+        glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
+        std::vector<AnimLabel>  animLabels {};
+    };
+
+
+    class Json_GoMeshSet_Tmp{
+    public:
+        Json_GoMeshSet_Tmp()=default;
+        //---
+        std::string type {};
+        std::vector<Json_GoMesh_Tmp> gomeshs {};
+    };
+
+
+    class Json_MultiGoMesh_Tmp{
+    public:
+        Json_MultiGoMesh_Tmp()=default;
+        //---
+        std::vector<Json_GoMeshSet_Tmp> gomeshSets {};
+    };
+
+
+
+
 }//------------- namespace: jmgm_inn end --------------//
 
 //======== static ========//
 ID_Manager  Json_GoMeshSet::id_manager { ID_TYPE::U32, 0};
+
+
+
+
+MultiGoMeshType str_2_multiGoMeshType( const std::string &str_ )noexcept{
+
+    if( jmgm_inn::str_multiGoMeshTypes.find(str_) == jmgm_inn::str_multiGoMeshTypes.end() ){
+        cout << "str_ = " << str_ << endl;
+    }
+
+
+    tprAssert( jmgm_inn::str_multiGoMeshTypes.find(str_) != jmgm_inn::str_multiGoMeshTypes.end() );
+    return jmgm_inn::str_multiGoMeshTypes.at(str_);
+}
+
+
+
 
 
 
@@ -93,7 +159,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
 
     std::string     goSpecName {};
-    std::string     rootAnimFrameSetName {};
+    std::string     style {};
     goSpecId_t      goSpecId {};
     
 
@@ -105,57 +171,34 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             goSpecName = a.GetString();
             goSpecId =  ssrc::str_2_goSpecId( goSpecName );
         }
-        
 
-        auto &goSpecRef = ssrc::getnc_goSpecRef( goSpecId );
-        if( goSpecRef.multiGoMeshUPtr == nullptr ){
-            goSpecRef.multiGoMeshUPtr = std::make_unique<json::Json_MultiGoMesh>();
+        {//--- style ---//
+            const auto &a = check_and_get_value( ent, "style", JsonValType::String );
+            style = a.GetString();
+            tprAssert( style == "SameGoSpec" );
+                // -1-: SameGoSpec
+                // -2-: IndependentGoSpec -- not implement yet 
+                //      ...
         }
 
-
-        
+        Json_MultiGoMesh_Tmp  json_MultiGoMesh_Tmp {};
+            
         //--- goMeshSets ---//
         const auto &goMeshSets = check_and_get_value( ent, "goMeshSets", JsonValType::Array );
         for( auto &goMeshSet : goMeshSets.GetArray() ){
-
-            //--- skip annotate ---//
-            if( goMeshSet.HasMember( "annotate" ) ){
-                continue;
-            }
-
-            MultiGoMeshType type    {};
-            bool            isSameGoSpec    {};
+            
+            Json_GoMeshSet_Tmp json_GoMeshSet_Tmp {};
 
             {//--- type ---//
                 const auto &a = check_and_get_value( goMeshSet, "type", JsonValType::String );
-                type = str_2_multiGoMeshType( a.GetString() );
-            }
-            {//--- rootAnimFrameSetName ---//
-                const auto &a = check_and_get_value( goMeshSet, "rootAnimFrameSetName", JsonValType::String );
-                rootAnimFrameSetName = a.GetString();
-            }
-
-            auto &json_goMeshSet = goSpecRef.multiGoMeshUPtr->create_new_json_goMeshSet( type );
-
-            {//--- isSameGoSpec ---//
-                const auto &a = check_and_get_value( goMeshSet, "isSameGoSpec", JsonValType::Bool );
-                isSameGoSpec = a.GetBool();
+                json_GoMeshSet_Tmp.type = a.GetString();
             }
 
             //--- goMeshs ---//
             const auto &goMeshs = check_and_get_value( goMeshSet, "goMeshs", JsonValType::Array );
             for( auto &goMesh : goMeshs.GetArray() ){ // each goMesh ent
 
-                Json_GoMesh json_goMesh {};
-
-                //--- animFrameSetName ---//
-                if( isSameGoSpec ){
-                    json_goMesh.animFrameSetName = rootAnimFrameSetName;
-                }else{
-                    const auto &a = check_and_get_value( goMesh, "animFrameSetName", JsonValType::String );
-                    json_goMesh.animFrameSetName = a.GetString();
-                }
-
+                Json_GoMesh_Tmp json_GoMesh_Tmp {};
 
                 {//--- dpos ---//
                     const auto &a = check_and_get_value( goMesh, "dpos", JsonValType::Array );
@@ -163,8 +206,8 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                     tprAssert( a.Size() == 2 );
                     tprAssert( a[0].IsInt() );
                     tprAssert( a[1].IsInt() );
-                    json_goMesh.dposOff.x = static_cast<double>(a[0].GetInt());
-                    json_goMesh.dposOff.y = static_cast<double>(a[1].GetInt());
+                    json_GoMesh_Tmp.dposOff.x = static_cast<double>(a[0].GetInt());
+                    json_GoMesh_Tmp.dposOff.y = static_cast<double>(a[1].GetInt());
                 }
 
                 {//--- animLabels ---//
@@ -172,14 +215,64 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                     if( a.Size() > 0 ){
                         for( auto &ent : a.GetArray() ){//- foreach AnimLabel
                             tprAssert( ent.IsString() );
-                            json_goMesh.animLabels.push_back( str_2_AnimLabel(ent.GetString()) );
+                            json_GoMesh_Tmp.animLabels.push_back( str_2_AnimLabel(ent.GetString()) );
                         }
                     }
                 }
+                json_GoMeshSet_Tmp.gomeshs.push_back( json_GoMesh_Tmp ); // copy
+            }
+            json_MultiGoMesh_Tmp.gomeshSets.push_back( json_GoMeshSet_Tmp ); // copy
+        }
 
-                json_goMeshSet.gomeshs.push_back( json_goMesh );
+        
+        //--- plans ---//
+        std::string     rootAnimFrameSetName {};
+        std::unordered_map<std::string, std::string> typesMap {};
+
+        const auto &plans = check_and_get_value( ent, "plans", JsonValType::Array );
+        for( auto &plan : plans.GetArray() ){ // each plan
+
+            {//--- rootAnimFrameSetName ---//
+                const auto &a = check_and_get_value( plan, "rootAnimFrameSetName", JsonValType::String );
+                rootAnimFrameSetName = a.GetString();
             }
 
+            //--- types ---//
+            typesMap.clear();
+            const auto &types = check_and_get_value( plan, "types", JsonValType::Object );
+            for( auto &typeEnt : types.GetObject() ){ // each plan
+                typesMap.insert({ typeEnt.name.GetString(), typeEnt.value.GetString() });
+            }
+
+
+            //============
+            auto &goSpecRef = ssrc::getnc_goSpecRef( goSpecId );
+            if( goSpecRef.multiGoMeshUPtr == nullptr ){
+                goSpecRef.multiGoMeshUPtr = std::make_unique<json::Json_MultiGoMesh>();
+            }
+
+            for( const auto &json_GoMeshSet_TmpRef : json_MultiGoMesh_Tmp.gomeshSets ){
+
+                tprAssert( typesMap.find(json_GoMeshSet_TmpRef.type) != typesMap.end() );
+                std::string realTypeVal = typesMap.at(json_GoMeshSet_TmpRef.type);
+
+                auto &json_goMeshSet = goSpecRef.multiGoMeshUPtr->create_new_json_goMeshSet( 
+                            str_2_multiGoMeshType( realTypeVal ));
+
+            
+                for( const auto &json_GoMesh_TmpRef : json_GoMeshSet_TmpRef.gomeshs ){
+                    
+                    Json_GoMesh json_goMesh {};
+                    //---
+                    json_goMesh.animFrameSetName = rootAnimFrameSetName;
+                    json_goMesh.dposOff = json_GoMesh_TmpRef.dposOff;
+                    for( const auto &animLabelEnt : json_GoMesh_TmpRef.animLabels ){
+                        json_goMesh.animLabels.push_back( animLabelEnt ); // copy
+                    }
+                    //---
+                    json_goMeshSet.gomeshs.push_back( json_goMesh );
+                }
+            }
         }
 
     }
