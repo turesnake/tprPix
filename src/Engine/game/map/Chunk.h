@@ -67,11 +67,11 @@ public:
     inline mapSurface::randEntId_t get_mapSurfaceRandEntId() const noexcept { return this->mapSurfaceRandEntId; }
 
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
-    inline MemMapEnt &getnc_mapEntRef( const IntVec2 &lMPosOff_ )noexcept{
+    inline MemMapEnt *getnc_mapEntPtr( const IntVec2 &lMPosOff_ )noexcept{
         tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );
         size_t idx = cast_2_size_t( lMPosOff_.y*ENTS_PER_CHUNK + lMPosOff_.x );
         tprAssert( idx < this->memMapEnts.size() ); //- tmp
-        return *(this->memMapEnts.at(idx));
+        return this->memMapEnts.at(idx).get();
     }
 
     inline MemMapEnt &getnc_mapEntRef( size_t idx_ )noexcept{

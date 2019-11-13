@@ -60,9 +60,21 @@ namespace jmgm_inn {//-------- namespace: jmgm_inn --------------//
         { "Forest_1_Mid",    MultiGoMeshType::Forest_1_Mid },
         { "Forest_1_Big",    MultiGoMeshType::Forest_1_Big },
 
+        { "Forest_WhiteFlower_Sml",    MultiGoMeshType::Forest_WhiteFlower_Sml },
+        { "Forest_WhiteFlower_Mid",    MultiGoMeshType::Forest_WhiteFlower_Mid },
+        { "Forest_WhiteFlower_Big",    MultiGoMeshType::Forest_WhiteFlower_Big },
+
+        { "Forest_LowWhiteFlower_Sml",    MultiGoMeshType::Forest_LowWhiteFlower_Sml },
+        { "Forest_LowWhiteFlower_Mid",    MultiGoMeshType::Forest_LowWhiteFlower_Mid },
+        { "Forest_LowWhiteFlower_Big",    MultiGoMeshType::Forest_LowWhiteFlower_Big },
+
         { "Savannah_1_Sml",    MultiGoMeshType::Savannah_1_Sml },
         { "Savannah_1_Mid",    MultiGoMeshType::Savannah_1_Mid },
-        { "Savannah_1_Big",    MultiGoMeshType::Savannah_1_Big }
+        { "Savannah_1_Big",    MultiGoMeshType::Savannah_1_Big },
+
+        { "Desert_1_Sml",    MultiGoMeshType::Desert_1_Sml },
+        { "Desert_1_Mid",    MultiGoMeshType::Desert_1_Mid },
+        { "Desert_1_Big",    MultiGoMeshType::Desert_1_Big }
         //...
     };
 

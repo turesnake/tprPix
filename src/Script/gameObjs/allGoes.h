@@ -29,6 +29,7 @@
 //---------- Script : gameObjs : majorGos : trees -------------//
 //#include "Script/gameObjs/majorGos/trees/OakTree.h"
 #include "Script/gameObjs/majorGos/trees/Cactus.h"
+#include "Script/gameObjs/majorGos/trees/FigTree.h"
 #include "Script/gameObjs/majorGos/trees/PineTree.h"
 #include "Script/gameObjs/majorGos/trees/PoplarTree.h"
 

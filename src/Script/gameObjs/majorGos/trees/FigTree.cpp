@@ -1,11 +1,11 @@
 /*
- * ========================= Cactus.cpp ==========================
+ * ========================= FigTree.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.11.12
+ *                                        CREATE -- 2019.11.14
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/majorGos/trees/Cactus.h"
+#include "Script/gameObjs/majorGos/trees/FigTree.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -31,11 +31,11 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
-//namespace cactus_inn {//----------- namespace: cactus_inn ----------------//
-//}//-------------- namespace: cactus_inn end ----------------//
+//namespace figTree_inn {//----------- namespace: figTree_inn ----------------//
+//}//-------------- namespace: figTree_inn end ----------------//
 
 
-struct Cactus_PvtBinary{
+struct FigTree_PvtBinary{
     animSubspeciesId_t subspeciesId {};
     int        tmp {};
 };
@@ -45,7 +45,7 @@ struct Cactus_PvtBinary{
  *                      init
  * -----------------------------------------------------------
  */
-void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
+void FigTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     const DyParams_Field *msParamPtr {nullptr};
@@ -60,7 +60,7 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<Cactus_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<FigTree_PvtBinary>();
 
     const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
     tprAssert( job_goMeshs.size() == 1 );
@@ -84,11 +84,11 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &Cactus::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &Cactus::OnLogicUpdate,   _1 );
+    goRef_.RenderUpdate = std::bind( &FigTree::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &FigTree::OnLogicUpdate,   _1 );
 
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &Cactus::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &FigTree::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
 
@@ -102,7 +102,7 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void Cactus::bind( GameObj &goRef_ ){
+void FigTree::bind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
@@ -111,18 +111,18 @@ void Cactus::bind( GameObj &goRef_ ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void Cactus::rebind( GameObj &goRef_ ){
+void FigTree::rebind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void Cactus::OnRenderUpdate( GameObj &goRef_ ){
+void FigTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<Cactus_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<FigTree_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -145,11 +145,11 @@ void Cactus::OnRenderUpdate( GameObj &goRef_ ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void Cactus::OnLogicUpdate( GameObj &goRef_ ){
+void FigTree::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<Cactus_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<FigTree_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -161,13 +161,13 @@ void Cactus::OnLogicUpdate( GameObj &goRef_ ){
  * -----------------------------------------------------------
  * -- 
  */
-void Cactus::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void FigTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "Cactus::OnActionSwitch" << endl;
+        cout << "FigTree::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<Cactus_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<FigTree_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

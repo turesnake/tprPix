@@ -18,6 +18,7 @@
     "pub.HP": 170,
     "pub.MP": 50
   },
+
   {
     "goSpecName": "poplarTree",
     "specID": 2002,
@@ -36,5 +37,28 @@
     "weight": 50,
     "pub.HP": 170,
     "pub.MP": 50
+  },
+
+  {
+    "goSpecName": "figTree",
+    "specID": 2003,
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": false,
+    "animFrameSetName":"figTree",
+    "speedLvl": 0,
+    "alti": 0,
+    "weight": 50,
+    "pub.HP": 170,
+    "pub.MP": 50
   }
+
+
+
 ]

@@ -105,8 +105,6 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
  */
 void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
 
-    std::string funcName = "quit_edgeGos_from_mapEnt()";
-
     chunkKey_t tmpChunkKey  {};
     //--
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
@@ -119,8 +117,9 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
 
                 if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
                     //---- 正式从 mapEnt 上清除登记 -----
-                    auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, funcName );
-                    mapEntRef.erase_the_onlyOne_from_majorGos( goRef.id );
+                    auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+                    tprAssert( mapEntPair.first == ChunkMemState::Active );
+                    mapEntPair.second->erase_the_onlyOne_from_majorGos( goRef.id );
                 }
             }
         }

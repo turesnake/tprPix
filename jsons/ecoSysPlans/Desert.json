@@ -102,8 +102,10 @@
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 1 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 11 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Desert_1_Mid", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Desert_1_Sml", "num": 11 }
+
+
             ]
         },
         

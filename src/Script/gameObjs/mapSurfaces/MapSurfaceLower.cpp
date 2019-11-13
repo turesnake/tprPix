@@ -65,8 +65,6 @@ namespace msl_inn {//------------------ namespace: msl_inn ---------------------
  */
 void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
-    std::string funcName = "MapSurfaceLower::init()";
-
     //================ dyParams =================//
     auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_MapSurface>();
 
@@ -98,7 +96,9 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
     for( auto it = randMeshDatas.cbegin(); it!= randMeshDatas.cend(); it++ ){
         meshNameCount++;
         
-        const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef_.get_dpos() + it->dposOff), funcName );
+        auto mapEntPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(goRef_.get_dpos() + it->dposOff) );
+        tprAssert( mapEntPair.first == ChunkMemState::Active );
+        const auto &mapEntRef = *(mapEntPair.second);
 
             //--- 临时且简陋的检测，未来会被强化 -----
             if( mapEntRef.get_isBorder() ){

@@ -79,8 +79,12 @@
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "bushOth", "animLabels":[], "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 7 },
+
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
+
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 2 }
             ]
         },
 
@@ -104,8 +108,15 @@
             ],
             "ecoEnts_Sml":[
                 { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 },
+                
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 11 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 },
+
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+
             ]
         },
         
@@ -128,7 +139,11 @@
             "ecoEnts_Sml":[
                 { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
                 { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 13 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 },
+
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 1 },
+
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
             ]
         },
 

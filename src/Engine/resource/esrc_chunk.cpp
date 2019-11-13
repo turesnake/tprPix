@@ -100,37 +100,22 @@ void erase_from_chunks( chunkKey_t chunkKey_ ){
 
 
 /* ===========================================================
- *               getnc_memMapEntRef
+ *               getnc_memMapEntPtr
  * -----------------------------------------------------------
  * -- 根据参数 _mcpos, 找到其所在的 chunk, 从 chunk.memMapEnts
  * -- 找到对应的 mapEnt, 将其指针返回出去
- *    当目标 chunkMemState 不为 Active，直接报错
  */
-MemMapEnt &getnc_memMapEntRef( IntVec2 anyMPos_, const std::string &funcName_ ){
+std::pair<ChunkMemState, MemMapEnt*> getnc_memMapEntPtr( IntVec2 anyMPos_ ){
 
     chunkKey_t chunkKey = anyMPos_2_chunkKey( anyMPos_ );
+    //---
+    auto chunkMemState = get_chunkMemState(chunkKey);
+    if( chunkMemState != ChunkMemState::Active ){
+        return {chunkMemState, nullptr}; // let caller handle the exception
+    } 
+    //---
     IntVec2  lMPosOff = get_chunk_lMPosOff( anyMPos_ );
-
-        //-- Frequent Bugs --
-        // 本函数常常报错
-        //
-        //  一个主要的症状就是: chunk: not exist 
-        //  暂未查明 致病原因...
-        //
-        if( get_chunkMemState(chunkKey) != ChunkMemState::Active ){
-            
-            IntVec2 playerMPos = dpos_2_mpos(esrc::get_player().get_goRef().get_dpos());
-
-            cout << "ERROR: esrc::getnc_memMapEntRef(): " << funcName_
-                << "\n    targetMPos: " << anyMPos_.x << ", " << anyMPos_.y 
-                << "\n    playerGoMPos:" << playerMPos.x << ", " << playerMPos.y
-                << endl;
-            esrc::chunkMemState_debug( chunkKey, "" );
-        }
-        
-
-    tprAssert( get_chunkMemState(chunkKey) == ChunkMemState::Active );
-    return chunk_inn::chunks.at(chunkKey)->getnc_mapEntRef( lMPosOff );
+    return { chunkMemState, chunk_inn::chunks.at(chunkKey)->getnc_mapEntPtr(lMPosOff) };
 }
 
 

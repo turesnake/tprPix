@@ -44,9 +44,21 @@ enum class MultiGoMeshType {
     Forest_1_Mid,
     Forest_1_Big,
 
+    Forest_WhiteFlower_Sml,
+    Forest_WhiteFlower_Mid,
+    Forest_WhiteFlower_Big,
+
+    Forest_LowWhiteFlower_Sml,
+    Forest_LowWhiteFlower_Mid,
+    Forest_LowWhiteFlower_Big,
+
     Savannah_1_Sml,
     Savannah_1_Mid,
     Savannah_1_Big,
+
+    Desert_1_Sml,
+    Desert_1_Mid,
+    Desert_1_Big,
 
 };
 

@@ -25,7 +25,7 @@
 #include "esrc_time.h"
 
 
-//#include "tprDebug.h"
+#include "tprDebug.h"
 
 
 
@@ -62,7 +62,9 @@ void Collision::collect_adjacentBeGos(){
             continue; //- skip
         }
 
-        for( const auto &begoid : esrc::getnc_memMapEntRef(iMPos, funcName).get_majorGos() ){//- each bego
+        auto mapEntPair = esrc::getnc_memMapEntPtr( iMPos );
+        tprAssert( mapEntPair.first == ChunkMemState::Active );
+        for( const auto &begoid : mapEntPair.second->get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             this->begoids.insert( begoid );
         }
@@ -184,9 +186,6 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
  */ 
 glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
 
-    
-
-
     {//-- 简陋的检测，位移距离 不大于 1mapent --
     //-- Avoid Radical Sign / 避免开根号 --
         double moveLen =  moveVec_.x*moveVec_.x + moveVec_.y*moveVec_.y;
@@ -229,20 +228,26 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
         //-- update adds/dels --
         if( isSignINMapEntsChanged == true ){
 
-            std::string error_info_1 = "detect_for_move(): adds:";
-            std::string error_info_2 = "detect_for_move(): dels:";
-
             this->signInMapEntsUPtr->sync_currentSignINMapEnts_from_future();
             //-- adds --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, error_info_1 );
-                mapEntRef.insert_2_majorGos( this->goRef.id );
+                auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+                tprAssert( mapEntPair.first == ChunkMemState::Active );
+                mapEntPair.second->insert_2_majorGos( this->goRef.id );
             }
             //-- dels --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
-                auto &mapEntRef = esrc::getnc_memMapEntRef( mpos, error_info_2 );
-                mapEntRef.erase_the_onlyOne_from_majorGos( this->goRef.id );
+                auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );  
+
+                //-- 有时，目标 mapent 所在 chunk，已经 not exist 了 
+                if( mapEntPair.first == ChunkMemState::Active ){
+                    mapEntPair.second->erase_the_onlyOne_from_majorGos( this->goRef.id );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
+                }else{
+                    //-- debug --
+                    cout << "++++ Collision::detect_for_move: catch not Active Chunk!!!" << endl;
+                }
+                    
             }
         }
     
@@ -263,8 +268,6 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
  *    glm::dvec2 -- 修正后的位移向量（ 原值／t／偏向 ）
  */  
 std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ ){
-
-    std::string funcName = "for_move_inn";
 
         //- only for debug
         double currentTime = esrc::get_timer().get_currentTime();
@@ -293,8 +296,9 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
             return { true, glm::dvec2{0.0, 0.0} }; //- IMM!!!
         }
 
-        const auto &mapEntRef = esrc::getnc_memMapEntRef( iMPos, funcName );
-        for( const auto &begoid : mapEntRef.get_majorGos() ){//- each bego
+        auto mapEntPair = esrc::getnc_memMapEntPtr( iMPos );
+        tprAssert( mapEntPair.first == ChunkMemState::Active );
+        for( const auto &begoid : mapEntPair.second->get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
             if( this->adjacentBeGos.find(begoid) != this->adjacentBeGos.end() ){ continue; }//-- skip old adjacent bego --
             this->begoids.insert( begoid );

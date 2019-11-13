@@ -1,12 +1,12 @@
 /*
- * ========================= Cactus.h ==========================
+ * ========================= FigTree.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.11.12
+ *                                        CREATE -- 2019.11.14
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GO_CACTUS_H
-#define TPR_GO_CACTUS_H
+#ifndef TPR_GO_FIG_TREE_H
+#define TPR_GO_FIG_TREE_H
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
@@ -15,7 +15,7 @@
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-class Cactus{
+class FigTree{
 public:
     static void init(GameObj &goRef_,const DyParam &dyParams_ );
 private:                            

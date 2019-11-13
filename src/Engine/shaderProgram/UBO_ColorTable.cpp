@@ -67,14 +67,14 @@ void write_ubo_colorTableId( colorTableId_t id_ ){
 //-- called each render frame --
 void update_and_write_ubo_UnifiedColorTable(){
 
-    std::string funcName = "update_and_write_ubo_UnifiedColorTable()";
-
     //--------------------------//
     //  check if rebind targetColorTable
     //--------------------------//
     auto &goRef = esrc::get_player().get_goRef();
-    const auto &mapEntRef = esrc::getnc_memMapEntRef( dpos_2_mpos(goRef.get_dpos()), funcName );
-    colorTableId_t id = mapEntRef.get_colorTableId();
+
+    auto mapEntPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(goRef.get_dpos()) );
+    tprAssert( mapEntPair.first == ChunkMemState::Active );
+    colorTableId_t id = mapEntPair.second->get_colorTableId();
 
     // 最简方案，仅在 playergo 跨越 ecoObj 时，才绑定新 colorTable --
     if( id != ubo_colorTable_inn::currentColorTableId ){

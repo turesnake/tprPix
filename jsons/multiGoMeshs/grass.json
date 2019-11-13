@@ -267,13 +267,42 @@
                 }
             },
             {
+                "rootAnimFrameSetName": "grass_forest_whiteFlower",
+                "types":{
+                    "type_1": "Forest_WhiteFlower_Sml",
+                    "type_2": "Forest_WhiteFlower_Mid",
+                    "type_3": "Forest_WhiteFlower_Big"
+                }
+            },
+            {
+                "rootAnimFrameSetName": "grass_forest_lowWhiteFlower",
+                "types":{
+                    "type_1": "Forest_LowWhiteFlower_Sml",
+                    "type_2": "Forest_LowWhiteFlower_Mid",
+                    "type_3": "Forest_LowWhiteFlower_Big"
+                }
+            },
+
+            {
                 "rootAnimFrameSetName": "grass_savannah_1",
                 "types":{
                     "type_1": "Savannah_1_Sml",
                     "type_2": "Savannah_1_Mid",
                     "type_3": "Savannah_1_Big"
                 }
+            },
+
+            {
+                "rootAnimFrameSetName": "grass_desert_1",
+                "types":{
+                    "type_1": "Desert_1_Sml",
+                    "type_2": "Desert_1_Mid",
+                    "type_3": "Desert_1_Big"
+                }
             }
+
+
+
         ]
 
     }
