@@ -31,7 +31,13 @@ class SignInMapEnts{
     using F_get_colliPointDPosOffsRef = std::function<const std::vector<glm::dvec2> &()>;
 public:
 
-    SignInMapEnts() = default;
+    SignInMapEnts()
+        {
+            if( !SignInMapEnts::isStaticInit ){
+                SignInMapEnts::isStaticInit = true;
+                SignInMapEnts::init_for_static();
+            }
+        }
 
 
     //-- only call in go init --
@@ -43,6 +49,7 @@ public:
         tprAssert( out );
         this->sync_currentSignINMapEnts_from_future();
     }
+
 
     //------------------------------------//
     //--1-- 当一个 regularGo 新生成时，传入参数{0.0,0.0}，制作最初的 SignINMapEnts 数据，
@@ -65,15 +72,6 @@ public:
         //-- update news --
         for( const auto &i : this->get_colliPointDPosOffsRefFunc() ){
             this->futureSignINMapEnts.insert( dpos_2_mpos(i+newRootAnchorDPos_) );
-
-                        //-- 这一步也许可以改成 现场计算:
-                        // 根据 圆心，半径，直接计算出 一个正方形，及其覆盖的所有 mapents
-                        // 由于只会被圆形调用，所以只用实现 圆形一种
-                        // ......
-                        // 当 圆形变得很大时，需要的 collipoints 数量会极具增加
-                        // 反过来，临时计算的问题在于，正方形可能会覆盖过多无效 mapent（处于4个角落的）
-                        // 增加后面对 mapent内 bego 的距离检测运算
-                        // ......
         }
             
         //-- adds --
@@ -123,6 +121,9 @@ private:
 
     F_get_colliPointDPosOffsRef  get_colliPointDPosOffsRefFunc {nullptr};
 
+
+    static void init_for_static()noexcept;
+
     //--- current ---//
     std::set<IntVec2> currentSignINMapEnts {};  //- 每一帧移动后，go都会及时更新自己当前登记的 mapents
     std::vector<IntVec2> currentAdds {}; //- 每帧移动后，将要被新登记的 mapents
@@ -139,6 +140,10 @@ private:
     bool is_forecast_called {false}; //- 协调 forecast 和 sync 两个函数的 次序。
                                     // forecast 可以被调用多次
                                     // 每次调用 sync 之前，forecast 至少要被调用一次
+
+    //===== static =====//
+    static bool isStaticInit;
+
 
 };
 

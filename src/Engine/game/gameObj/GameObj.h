@@ -117,12 +117,13 @@ public:
             tprAssert( this->rootAnimActionPosPtr );
         return *(this->rootAnimActionPosPtr);
     }
-    inline Circular calc_circular( CollideFamily family_ )const noexcept{
-        return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_ );
+    inline Circular calc_circular( CollideFamily family_, bool is_for_dogo_=false )const noexcept{
+        return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_, is_for_dogo_ );
     }
     inline Square calc_square()const noexcept{
         return this->colliDataFromJPtr->calc_square( this->get_dpos() );
     }
+    
 
     inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());

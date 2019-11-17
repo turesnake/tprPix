@@ -94,8 +94,6 @@ public:
 
     void init_from_semiData( const AnimActionSemiData &semiData_ );
 
-    static void prepare_colliPointOffs();
-
     //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
     inline GoAltiRange get_lGoAltiRange() const noexcept{ return this->lGoAltiRange; } //- return val
@@ -109,10 +107,6 @@ public:
     static ID_Manager  id_manager; //- 负责生产 animActionPos_id
 
 private:
-
-    void calc_colliPoints_for_circular( ColliDataFromJ_Circular *cirPtr_,
-                                        double radius_ );
-
     glm::dvec2  rootAnchorDPosOff  {};
                         //-- 最原始的数据，从 图元帧左下角ppos，到 rootAnchor点的 fposOff
                         //-- *** 不用对齐于 mapEnt ***

@@ -285,7 +285,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
 
-
+                /*
                 {//--- 临时生成一排篱笆 
                     const auto &artifactCoordRef = esrc::get_artifactCoordRef();
 
@@ -310,9 +310,8 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                                                 entOutDPos,
                                                 emptyDyParam );
                     }
-
-
                 }
+                */
 
 
 
