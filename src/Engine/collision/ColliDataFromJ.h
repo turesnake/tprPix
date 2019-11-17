@@ -37,10 +37,8 @@ public:
     virtual const std::vector<glm::dvec2> &get_colliPointDPosOffs()const =0;
     //--- only support in circular ---
     virtual Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ ) const = 0;
-    //--- only support in capsule ---
-    virtual double get_longLen()const =0;
-    virtual const glm::dvec2 &get_rootAnchor_2_tailAnchor()const =0;
-    virtual Capsule calc_capsule(   const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const =0;
+    //--- only support in square ---
+    virtual Square calc_square( const glm::dvec2 &goCurrentDPos_ ) const = 0;
 };
 
 
@@ -64,21 +62,14 @@ public:
         tprAssert(0); 
         return ColliDataFromJ_Nil::emptyVec;
     }
-    inline double get_longLen()const override{  //- not exist
-        tprAssert(0);
-        return 0.0;
-    }
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{  //- not exist
-        tprAssert(0); 
-        return ColliDataFromJ_Nil::emptyDvec2;
-    }
     inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
         return Circular{};
     }
-    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{  //- not exist
+    
+    inline Square calc_square( const glm::dvec2 &goCurrentDPos_ )const override{  //- not exist
         tprAssert(0); 
-        return Capsule{};
+        return Square{};
     }
 
     //----- vals -----//
@@ -118,17 +109,9 @@ public:
     inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return this->colliPointDPosOffs; }
 
     //---- not exist funcs ----//
-    inline double get_longLen()const override{  //- not exist
+    inline Square calc_square( const glm::dvec2 &goCurrentDPos_ )const override{  //- not exist
         tprAssert(0); 
-        return 0.0;
-    }
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ //- not exist
-        tprAssert(0); 
-        return ColliDataFromJ_Circular::emptyDvec2;
-    }
-    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
-        tprAssert(0); 
-        return Capsule{};
+        return Square{};
     }
 
     //----- vals -----//
@@ -142,38 +125,33 @@ public:
 };
 
 
-class ColliDataFromJ_Capsule : public ColliDataFromJ{
+class ColliDataFromJ_Square : public ColliDataFromJ{
 public:
-    ColliDataFromJ_Capsule() = default;
-
-    inline void makeSure_colliPointDPosOffs_isNotEmpty()const noexcept{
-        tprAssert( !this->colliPointDPosOffs.empty() );
-    }
-
-
-    inline Capsule calc_capsule(const glm::dvec2 &goCurrentDPos_, CollideFamily family_)const override{
-        double radius {};
-        if( family_ == CollideFamily::Move ){
-            radius = this->moveColliRadius;
-        }else{
-            radius = this->skillColliRadius;
+    ColliDataFromJ_Square()
+        {
+            if( !ColliDataFromJ_Square::isStaticInit ){
+                ColliDataFromJ_Square::isStaticInit = true;
+                ColliDataFromJ_Square::init_for_static(); // only once
+            }
         }
-        return Capsule{ goCurrentDPos_, 
-                        this->rootAnchor_2_tailAnchor,
-                        this->longLen,
-                        radius };
-    }
 
-    //----- get virtual -----//
+    //----- get -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
-    inline double get_moveColliRadius()  const override{ return this->moveColliRadius; }
-    inline double get_skillColliRadius() const override{ return this->skillColliRadius; }
-    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return this->colliPointDPosOffs; }
-    //----
-    inline double get_longLen()const override{ return this->longLen; }
-    inline const glm::dvec2 &get_rootAnchor_2_tailAnchor() const override{ return this->rootAnchor_2_tailAnchor; }
+    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return ColliDataFromJ_Square::colliPointDPosOffs; }
+
+    inline Square calc_square( const glm::dvec2 &goCurrentDPos_ )const override{ 
+        return Square{ goCurrentDPos_ };
+    }
 
     //---- not exist funcs ----//
+    inline double get_moveColliRadius() const override{  //- not exist
+        tprAssert(0); 
+        return 0.0; 
+    }
+    inline double get_skillColliRadius() const override{  //- not exist
+        tprAssert(0); 
+        return 0.0; 
+    }
     inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
         return Circular{};
@@ -181,12 +159,17 @@ public:
 
     //----- vals -----//
     ColliderType  colliderType {}; //- nil/cir/cap  一经初始，用不改变
-    glm::dvec2  rootAnchor_2_tailAnchor {}; //- only in capsule mode
-    double  moveColliRadius {};
-    double  skillColliRadius {}; // eque to moveColliRadius
-    double  longLen          {}; // 两 锚点间 距离
-    std::vector<glm::dvec2> colliPointDPosOffs {};//- 移动碰撞检测点，会被自动生成
+
+    //===== static =====//
+    static glm::dvec2               emptyDvec2;
+    static std::vector<glm::dvec2>  colliPointDPosOffs;//- 移动碰撞检测点，唯一的一套
+    static bool                     isStaticInit;
+
+private:
+    void init_for_static()noexcept;
 };
+
+
 
 #endif 
 

@@ -1,13 +1,11 @@
 /*
- * ========================= WallA.cpp ==========================
+ * ========================= Fence.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2019.11.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
- * ----------------------------
  */
-#include "Script/gameObjs/majorGos/WallA.h"
+#include "Script/gameObjs/majorGos/artifacts/Fence.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -32,7 +30,7 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
-struct WallA_PvtBinary{
+struct Fence_PvtBinary{
     animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
@@ -42,14 +40,14 @@ struct WallA_PvtBinary{
  *                   init
  * -----------------------------------------------------------
  */
-void WallA::init(GameObj &goRef_,const DyParam &dyParams_ ){
+void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     // dyParams_ 未使用
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<WallA_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<Fence_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "wallA", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "fence", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
@@ -68,11 +66,11 @@ void WallA::init(GameObj &goRef_,const DyParam &dyParams_ ){
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &WallA::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &WallA::OnLogicUpdate,   _1 );
+    goRef_.RenderUpdate = std::bind( &Fence::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &Fence::OnLogicUpdate,   _1 );
 
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &WallA::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &Fence::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
 
@@ -86,7 +84,7 @@ void WallA::init(GameObj &goRef_,const DyParam &dyParams_ ){
  * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void WallA::bind( GameObj &goRef_ ){
+void Fence::bind( GameObj &goRef_ ){
 }
 
 
@@ -96,18 +94,18 @@ void WallA::bind( GameObj &goRef_ ){
  * -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void WallA::rebind( GameObj &goRef_ ){
+void Fence::rebind( GameObj &goRef_ ){
 }
 
 /* ===========================================================
  *                      OnRenderUpdate
  * -----------------------------------------------------------
  */
-void WallA::OnRenderUpdate( GameObj &goRef_ ){
+void Fence::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -117,7 +115,7 @@ void WallA::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goRef_.move.RenderUpdate();
+    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -130,11 +128,11 @@ void WallA::OnRenderUpdate( GameObj &goRef_ ){
  *                        OnLogicUpdate
  * -----------------------------------------------------------
  */
-void WallA::OnLogicUpdate( GameObj &goRef_ ){
+void Fence::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
     //=====================================//
 
     // 什么也没做...
@@ -146,13 +144,14 @@ void WallA::OnLogicUpdate( GameObj &goRef_ ){
  * -----------------------------------------------------------
  * -- 
  */
-void WallA::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "WallA::OnActionSwitch" << endl;
+        cout << "Fence::OnActionSwitch" << endl;
+        tprAssert(0);
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<WallA_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
     //=====================================//
 
     //-- 获得所有 goMesh 的访问权 --

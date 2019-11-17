@@ -19,11 +19,12 @@
 #include "MapCoord.h"
 #include "MapEnt.h"
 #include "collide_oth.h"
+
 #include "esrc_chunk.h"
 #include "esrc_gameObj.h"
 
 #include "esrc_time.h"
-
+#include "esrc_customCoord.h"
 
 #include "tprDebug.h"
 
@@ -50,9 +51,15 @@ void Collision::collect_adjacentBeGos(){
 
     this->adjacentBeGos.clear();
     this->begoids.clear();
+    this->begoids_withOut_artifact.clear();
+    this->artifactBegoids.clear();
+
     //----------------------------------------//
     //      初步收集 所有有效 begoid
     //  不包含 dogo 自己，不包含 旧的 adjacentBeGos 中的 bego
+
+    const auto &artifactCoordRef = esrc::get_artifactCoordRef();
+
     std::string funcName = "collect_adjacentBeGos()";
     for( const auto &iMPos : this->signInMapEntsUPtr->get_currentSignINMapEntsRef() ){
         //- 当发现某个 addEnt 处于非 Active 的 chunk。
@@ -64,14 +71,70 @@ void Collision::collect_adjacentBeGos(){
 
         auto mapEntPair = esrc::getnc_memMapEntPtr( iMPos );
         tprAssert( mapEntPair.first == ChunkMemState::Active );
+        // 目前，只有开启了 isMoveCollide 的，才会被收集到
+        // 未来会被修改 ...
         for( const auto &begoid : mapEntPair.second->get_majorGos() ){//- each bego
             if( begoid == dogoRef.id ){continue;}//-- skip self --
+
+
             this->begoids.insert( begoid );
+
+            GameObj &begoRef = esrc::get_goRef( begoid );
+            if( begoRef.get_colliderType() == ColliderType::Square ){
+
+                glm::dvec2 innDPos = artifactCoordRef.calc_innDPos( begoRef.get_dpos() );
+                                        //-- 在未来，建筑单位要永久存储自己的 innmpos 和 key
+                                        //   ...
+
+                this->artifactBegoids.insert({ mpos_2_key( dpos_2_mpos(innDPos) ), begoid });
+            }else{
+                this->begoids_withOut_artifact.insert( begoid );
+            }
+
+                    //-- 折中方案, 同时存储进 3个 容器中
+                    //...
         }
     }
 
     //----------------------------------------//
-    for( const auto &begoid : this->begoids ){//- each bego
+    // 优先处理所有 人造物begos
+
+    bool isFindAdjacentArtifact {false};
+
+    for( const auto &iPair : this->artifactBegoids ){//- each artifact-bego
+        GameObj &begoRef = esrc::get_goRef( iPair.second );
+        tprAssert( begoRef.get_colliderType() == ColliderType::Square );
+
+        glm::dvec2 dogo_2_bego = begoRef.get_dpos() - dogoRef.get_dpos();
+
+        //-- goAltiRange --//
+        //  过滤掉，在 altiRange 不会碰撞的 bego --
+        if( !is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange()) ){
+            continue;
+        }
+
+        //-- 仅仅计算 dogo,bego 距离，看是否相邻 -- 
+        Square begoSqu = begoRef.calc_square();
+        if( collideState_from_circular_2_square_simple( dogoCir, begoSqu, 0.2) == CollideState::Adjacent ){
+            isFindAdjacentArtifact = true;
+            break;
+        }
+    }
+
+    //- 一旦确认 dogo 与某个 人造物单位相邻，则将所有人造物单位看作一个整体
+    //  统一计算出，这个整体，作用于 dogo 的墙壁法向量
+    if( isFindAdjacentArtifact ){
+
+
+
+
+
+    }
+
+
+
+    //----------------------------------------//
+    for( const auto &begoid : this->begoids_withOut_artifact ){//- each bego without artifacts
         GameObj &begoRef = esrc::get_goRef( begoid );
 
         glm::dvec2 dogo_2_bego = begoRef.get_dpos() - dogoRef.get_dpos();
@@ -83,34 +146,15 @@ void Collision::collect_adjacentBeGos(){
         }
 
         //-- 仅仅计算 dogo,bego 距离，看是否相邻 --
-        CollideState  colliState {CollideState::Separate};
-        Circular begoCir {};
-        Capsule begoCap  {};
-        std::pair<CollideState, glm::dvec2> capOut {};
-        switch ( begoRef.get_colliderType() ){
-            case ColliderType::Circular:
+        tprAssert( begoRef.get_colliderType() == ColliderType::Circular );
 
-                begoCir = begoRef.calc_circular( CollideFamily::Move );
-                colliState = collideState_from_circular_2_circular( dogoCir, begoCir, 1.0);
+        Circular begoCir = begoRef.calc_circular( CollideFamily::Move );
 
-                if( colliState == CollideState::Adjacent ){
-                    this->adjacentBeGos.insert({begoid, dogo_2_bego});
-                }
-                break;
-            case ColliderType::Capsule:
-
-                begoCap = begoRef.calc_capsule( CollideFamily::Move );
-                capOut = collideState_from_circular_2_capsule( dogoCir, begoCap, 1.0 );
-                
-                if( capOut.first == CollideState::Adjacent ){
-                    this->adjacentBeGos.insert({begoid,  capOut.second });
-                }      
-                break;
-            default:
-                tprAssert(0);
-                break;
+        if( collideState_from_circular_2_circular( dogoCir, begoCir, 1.0) == CollideState::Adjacent ){
+            this->adjacentBeGos.insert({begoid, dogo_2_bego});
         }
     }//- each bego
+
 }
 
 /* ===========================================================
@@ -140,8 +184,8 @@ glm::dvec2 Collision::detect_adjacentBeGos( const glm::dvec2 &moveVec_ ){
             if( is_dogoCircular_leave_begoCircular(moveVec_, dogoCir, begoRef.calc_circular(CollideFamily::Move) ) ){
                 continue;
             }
-        }else if( begoColliderType == ColliderType::Capsule ){
-            if( is_dogoCircular_leave_begoCapsule(moveVec_, dogoCir, begoRef.calc_capsule(CollideFamily::Move)) ){
+        }else if( begoColliderType == ColliderType::Square ){
+            if( is_dogoCircular_leave_begoSquare(moveVec_, dogoCir, begoRef.calc_square()) ){
                 continue;
             }
         }else{
@@ -269,7 +313,7 @@ glm::dvec2 Collision::detect_for_move( const glm::dvec2 &moveVec_ ){
  */  
 std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ ){
 
-        //- only for debug
+        //- for debug
         double currentTime = esrc::get_timer().get_currentTime();
 
     // 调用本函数，意味着 goRef.isMoveCollide 一定为 true !!!
@@ -316,7 +360,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
     Circular futureDogoCir = dogoCir.calc_new_circular( moveVec_ ); //- 位于 位移向量的终点
 
     Circular begoCir {};
-    Capsule  begoCap {};
+    Square   begoSqu {};
     this->tbegoids.clear();
     //--
     for( const auto &begoid : this->begoids ){//- each bego
@@ -332,7 +376,7 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
 
         //-- 做二级碰撞检测，如果 targetPoint 确认发生碰撞，再计算出碰撞值 t --
         CollideState colliState {CollideState::Separate};
-        std::pair<CollideState, glm::dvec2> capOut {};
+        std::pair<CollideState, glm::dvec2> squOut {};
         switch ( begoColliderType ){
             case ColliderType::Circular:
 
@@ -343,45 +387,50 @@ std::pair<bool,glm::dvec2> Collision::for_move_inn( const glm::dvec2 &moveVec_ )
                 }
 
                 colliState = collideState_from_circular_2_circular( futureDogoCir, begoCir, 0.1 );
-                if( colliState ==  CollideState::Intersect ){ //- 相交
-                    double t = circularCast( moveVec_, dogoCir, begoCir ); //- 进一步计算出 t值， 并将 t值 存入 容器...
-                    this->tbegoids.insert({ t, begoRef.id });
-
+                if( colliState ==  CollideState::Separate ){ //- 相离
+                    //-- do nothing ...
                 }else if( colliState ==  CollideState::Adjacent ){ //- 相临                        
                         this->tbegoids.insert({ 1.0, begoRef.id }); //- 说明本次 位移的终点，正好和 bego相邻
                         
-                }else if( colliState ==  CollideState::Separate ){ //- 相离
-                    //-- do nothing ...
-                }else{
-                    tprAssert(0);
-                }
-
-                break;
-            case ColliderType::Capsule:
-
-                begoCap = begoRef.calc_capsule( CollideFamily::Move );
-                //-- 剔除 背向而行 --
-                if( is_dogoCircular_leave_begoCapsule( moveVec_, dogoCir, begoCap ) ){
-                    continue;
-                }
-                
-
-                capOut = collideState_from_circular_2_capsule( futureDogoCir, begoCap, 1.0 );
-                if( capOut.first ==  CollideState::Intersect ){ //- 相交
-                    //- 进一步计算出 t值， 并将 t值 存入 容器...
-                    double t = capsuleCast( moveVec_, dogoCir, begoCap );
+                }else if( colliState ==  CollideState::Intersect ){ //- 相交
+                    double t = circularCast( moveVec_, dogoCir, begoCir ); //- 进一步计算出 t值， 并将 t值 存入 容器...
                     this->tbegoids.insert({ t, begoRef.id });
 
-                }else if( capOut.first ==  CollideState::Adjacent ){ //- 相临
-                        this->tbegoids.insert({ 1.0, begoRef.id }); //- 说明本次 位移的终点，正好和 bego相邻
-                    
-                }else if( capOut.first ==  CollideState::Separate ){ //- 相离
-                    //-- do nothing ...
                 }else{
                     tprAssert(0);
                 }
+                break;
+
+            case ColliderType::Square:
+
+                begoSqu = begoRef.calc_square();
+
+                //-- 剔除 背向而行 --
+                if( is_dogoCircular_leave_begoSquare( moveVec_, dogoCir, begoSqu ) ){
+                    continue;
+                }
+
+                squOut = collideState_from_circular_2_square( futureDogoCir, begoSqu, 0.2 );
+                if( squOut.first ==  CollideState::Separate ){ //- 相离
+                    //-- do nothing ...
+                }else if( squOut.first ==  CollideState::Adjacent ){ //- 相临                        
+                    this->tbegoids.insert({ 1.0, begoRef.id }); //- 说明本次 位移的终点，正好和 bego相邻
+                        
+                }else if( squOut.first ==  CollideState::Intersect ){ //- 相交
+
+                    //double t = squareCast( moveVec_, dogoCir, begoSqu ); //- 进一步计算出 t值， 并将 t值 存入 容器...
+                    //this->tbegoids.insert({ t, begoRef.id });
+
+                    this->tbegoids.insert({ 0.2, begoRef.id });
+                
+                }else{
+                    tprAssert(0);
+                }
+                //*/
 
                 break;
+
+
             default:
                 tprAssert(0);
                 break;

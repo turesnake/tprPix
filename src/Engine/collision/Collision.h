@@ -23,6 +23,8 @@
 #include "GameObjType.h"
 #include "SignInMapEnts.h"
 
+#include "mapEntKey.h"
+
 
 //--- need ---//
 class GameObj;
@@ -83,8 +85,21 @@ private:
                             // --2-- self_2_oth
                             // 相邻go 是触发 ”滑动式位移“ 的唯一途径
 
+    //--- 这三个容器是 折中方案 --
+    //  未来做精简 ...
     std::unordered_set<goid_t> begoids {}; //- 从 signInMapEnts 中收集的 半有效 begoids
+
+    std::unordered_set<goid_t> begoids_withOut_artifact {}; //- 从 signInMapEnts 中收集的 半有效 begoids
+                                            //  不包含 人造物go
+    std::unordered_map<mapEntKey_t, goid_t> artifactBegoids {};
+                                            //- 从 signInMapEnts 中收集的 半有效 begoids
+                                            //  仅包含 人造物go
+                                            //  key: mapEntKey 位于 artifactCoord 坐标系
+                                            
+
     std::multimap<double,goid_t> tbegoids {}; //- 确认发生碰撞的 begos，将被收集起来，按照 t 值排序
+
+    
 
 
     //======== flags ========//

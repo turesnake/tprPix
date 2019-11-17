@@ -26,6 +26,8 @@
 #include "speedLog.h" // debug_tmp
 #include "tprDebug.h" //- tmp
 
+#include "CustomCoord.h" //- tmp
+
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
 
@@ -89,6 +91,7 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           不依赖任何外部代码的资源
     //------------------------------------------//
+    esrc::init_customCoord();
     input::init_input();
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();

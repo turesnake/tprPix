@@ -12,6 +12,7 @@
 
 /* exist strs: -----
 colorTableSet
+customCoord
 renderPool
 behaviour
 camera

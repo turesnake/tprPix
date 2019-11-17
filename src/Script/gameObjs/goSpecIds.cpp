@@ -53,8 +53,11 @@ void onGoSpecIds_SignUp(){
     //ssrc::insert_2_goInit_funcs( "bigMan",         std::bind( &gameObjs::BigMan::init, _1, _2 ) );
     ssrc::insert_2_goInit_funcs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init, _1, _2 ) );
 
-    ssrc::insert_2_goInit_funcs( "wallA",          std::bind( &gameObjs::WallA::init, _1, _2 ) );
 
+    //-------------------//
+    //     artifacts
+    //-------------------//
+    ssrc::insert_2_goInit_funcs( "fence",      std::bind( &gameObjs::Fence::init, _1, _2 ) );
 
     //-------------------//
     //        tree

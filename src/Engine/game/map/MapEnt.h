@@ -92,7 +92,12 @@ private:
 
     bool    isBorder     {false}; // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 
-    std::unordered_set<goid_t> majorGos {};
+    std::unordered_set<goid_t> majorGos {}; // 只有启用 碰撞检测的，才会被登记于此。
+                                            // 目前这道实现是不完善的
+
+                                            // 对于那些关闭了 isMoveCollide，但是支持 技能碰撞检测的 go
+                                            // 也应该提供 容器来登记
+                                            // ...
 
 };
 

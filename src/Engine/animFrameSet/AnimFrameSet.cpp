@@ -50,7 +50,7 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值 （会被存到 animAction 实例中）
     IntVec2  frameNum         {};  //- 画面中，横排可分为几帧，纵向可分为几帧
     size_t   totalFrameNum    {};  //- 目标png文件中，总 图元帧 个数
-    ColliderType  colliderType {}; //- 碰撞体类型: nil / circular / capsule
+    ColliderType  colliderType {}; //- 碰撞体类型: nil / circular / square
 
     std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
 

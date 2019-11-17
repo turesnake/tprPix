@@ -1,29 +1,24 @@
 [
 {
-    "name": "PoplarForest_1",
-    "EcoSysPlanType": "Forest",
-    "colorTableName": "poplarForest",
-    "MapSurfaceLowSpec":"Savannah",
+    "name": "Test",
+    "EcoSysPlanType": "Desert",
+    "colorTableName": "desert",
+    "MapSurfaceLowSpec":"Desert",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
-    "fixedSeed": 43,
+    "fixedSeed": 3117,
     "pools":[
 
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
-                {"Sml3":1 }
+                {"Sml2":1 }
             ],
             "ecoEnts_Big":[
-
-
             ],
             "ecoEnts_Mid":[
-               
-
-               
             ],
             "ecoEnts_Sml":[
 
@@ -41,28 +36,21 @@
             "fieldDistributeTypes":[
                 {"Big1": 1},
                 {"Sml2_Mid1": 1 },
-                {"Sml1_Mid1":1 },
                 {"Sml2": 2 }
             ],
             "ecoEnts_Big":[
-                
             ],
 
             "ecoEnts_Mid":[               
-               
-               
             ],
             "ecoEnts_Sml":[
-              
-                
-
             ]
         },
 
         {
             "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
                 {"Big1": 1},
                 {"Mid2": 7},
@@ -70,31 +58,26 @@
                 {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Big", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpecName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
+                { "goSpecName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 7 },
-
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
-
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 2 }
+                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 3 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
             ]
         },
 
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.99,
+            "applyPercent": 0.1,
             "fieldDistributeTypes":[
                 {"Big1": 3},
-                {"Mid2": 13},
+                {"Mid1": 7},
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
@@ -102,20 +85,15 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpecName": "fence", "animLabels":[ ], "num": 1 },
+
+                { "goSpecName": "cactus", "animLabels":[ "Mid" ], "num": 7 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 },
-                
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Desert_1_Mid", "num": 1 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Desert_1_Sml", "num": 11 }
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
 
             ]
         },
@@ -123,7 +101,7 @@
         {
             "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
                 {"Mid2": 7},
                 {"Sml2_Mid1": 7},
@@ -131,19 +109,8 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
-
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 13 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 },
-
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 1 },
-
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
             ]
         },
 
@@ -156,18 +123,11 @@
                 {"Sml2_Mid1": 7 },
                 {"Sml3": 3 }
             ],
-            "ecoEnts_Big":[
-               
- 
+            "ecoEnts_Big":[ 
             ],
             "ecoEnts_Mid":[
-
-                
-
             ],
-            "ecoEnts_Sml":[
-                
-                
+            "ecoEnts_Sml":[                
             ]
             
         },
@@ -175,23 +135,18 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
-                {"Sml3": 1}
+                {"Sml1": 1}
             ],
 
             "ecoEnts_Big":[
             ],
 
             "ecoEnts_Mid":[
-
             ],
             "ecoEnts_Sml":[
-
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 }
-
-            
-                
             ]
         }
     ]

@@ -1,12 +1,12 @@
 /*
- * ========================= WallA.h ==========================
+ * ========================= Fence.h ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.08.06
+ *                                        CREATE -- 2019.11.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GO_WALL_A_H
-#define TPR_GO_WALL_A_H
+#ifndef TPR_GO_FENCE_H
+#define TPR_GO_FENCE_H
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
@@ -14,7 +14,7 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-class WallA{
+class Fence{
 public:
     static void init(GameObj &goRef_, const DyParam &dyParams_ );
 private:                            

@@ -25,7 +25,8 @@
 
 
 
-
+// 第二版被大大简化
+// 全局的 dogo 拥有统一的 位移碰撞检测半径: 24.0 已确保所有 dogo 都能在 1*1单位的 人造物通道内通行
 class SignInMapEnts{
     using F_get_colliPointDPosOffsRef = std::function<const std::vector<glm::dvec2> &()>;
 public:

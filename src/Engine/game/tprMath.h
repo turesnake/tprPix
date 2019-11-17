@@ -61,8 +61,12 @@ inline glm::dvec2 rotate_vec( const glm::dvec2 &beVec_, const glm::dvec2 &rotate
                         (n.y * t.x) + (n.x * t.y) };
 }
 
-
-
+//- 四舍五入
+inline double tprRound( double num_ ){
+    return (num_>0.0) ? 
+        floor( num_ + 0.5 ) :
+        ceil( num_ - 0.5 );
+}
 
 
 

@@ -1,34 +1,5 @@
 [
-{
-    "name": "wallA",
-    "pngs": [
-        {
-            "path": "/wallA/wallA2.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Capsule",
-            "subspecies": [
-                {
-                    "type": "handle",
-                    "animLabels": [],
-                    "subIdx": 0,
-                    "AnimActionParams":[
-                        {
-                            "name": "idle", "dir": "Mid",
-                            "type": "singleFrame",
-                            "lFrameIdx": 0,
-                            "isOpaque": true
-                        } 
-                    ]
-                }
-            ]
-        }
-    ]
-},
+
 {
     "name": "mushroom",
     "pngs": [
@@ -96,31 +67,6 @@
             ]
         }
     ]
-},
-{
-    "name": "treeRoot",
-    "pngs": [
-        {
-            "path": "/treeRoot/treeRoot.P.png",
-            "frameNum.col":  3,
-            "frameNum.row":  1,
-            "totalFrameNum": 3,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
-                {
-                    "type": "batch",
-                    "animLabels": [],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 3,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": false
-                }
-            ]
-        }
-    ]
 }
+
 ]

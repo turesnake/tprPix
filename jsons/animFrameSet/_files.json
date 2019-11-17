@@ -2,6 +2,9 @@
     {"afs_oth.json": true },
 
     {"/gos/01.json": true },
+
+    {"/gos/artifacts/fence.json": true },
+
     {"/gos/bushs.json": true },
     {"/gos/cactus.json": true },
     {"/gos/grass.json": true },

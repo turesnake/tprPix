@@ -112,10 +112,6 @@ private:
 
     void calc_colliPoints_for_circular( ColliDataFromJ_Circular *cirPtr_,
                                         double radius_ );
-    void calc_colliPoints_for_capsule(  ColliDataFromJ_Capsule *capPtr_,
-                                        double radius_, 
-                                        double longLen_,
-                                        const glm::dvec2 &rootAnchor_2_tailAnchor_ );
 
     glm::dvec2  rootAnchorDPosOff  {};
                         //-- 最原始的数据，从 图元帧左下角ppos，到 rootAnchor点的 fposOff

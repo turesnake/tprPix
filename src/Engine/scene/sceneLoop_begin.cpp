@@ -260,7 +260,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             // tmp...
 
                 //-- 随便定个 mpos 
-                IntVec2    newGoMPos    { 0,0 };
+                IntVec2    newGoMPos    { -5,0 };
                 glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
 
                 glm::dvec2 secGoDPos { 150.0, 00.0 }; //- 测试用go
@@ -278,14 +278,47 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoDPos,
                                                             emptyDyParam );
-
                 //- 测试用go
-                gameObjs::create_a_Go(  newGoSpecId,
-                                        secGoDPos,
-                                        emptyDyParam );
-
+                //gameObjs::create_a_Go(  newGoSpecId,
+                //                        secGoDPos,
+                //                        emptyDyParam );
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
+
+
+                {//--- 临时生成一排篱笆 
+                    const auto &artifactCoordRef = esrc::get_artifactCoordRef();
+
+                    goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
+
+                    IntVec2 fenceBegMPos {0, 0};
+                    for( int i=0; i<10; i++ ){
+                        glm::dvec2 entInnDPos = mpos_2_dpos( fenceBegMPos + IntVec2{i, 0} );
+                        glm::dvec2 entOutDPos = artifactCoordRef.calc_outDPos( entInnDPos );
+
+                        entOutDPos.x = tprRound( entOutDPos.x );
+                        entOutDPos.y = tprRound( entOutDPos.y );
+
+
+                        cout << "entOutDPos: " << entOutDPos.x
+                            << ", " << entOutDPos.y 
+                            << "; round: " << tprRound( entOutDPos.x )
+                            << ", " << tprRound( entOutDPos.y )
+                            << endl;
+
+                        gameObjs::create_a_Go(  fenceGoSpecId,
+                                                entOutDPos,
+                                                emptyDyParam );
+                    }
+
+
+                }
+
+
+
+
+
+
                 //-- db::table_gameArchive --
                 
                 esrc::get_gameArchive() = GameArchive {   archiveId, 

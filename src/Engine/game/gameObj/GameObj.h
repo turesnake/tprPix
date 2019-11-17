@@ -120,8 +120,8 @@ public:
     inline Circular calc_circular( CollideFamily family_ )const noexcept{
         return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_ );
     }
-    inline Capsule calc_capsule( CollideFamily family_ )const noexcept{
-        return this->colliDataFromJPtr->calc_capsule( this->get_dpos(), family_ );
+    inline Square calc_square()const noexcept{
+        return this->colliDataFromJPtr->calc_square( this->get_dpos() );
     }
 
     inline GoAltiRange get_currentGoAltiRange()noexcept{
@@ -234,10 +234,17 @@ public:
 
 
     bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
-                                    //  取代 rootGoMesh.isCollide 
-                                    //  若为 false，也不需要 登记到 mapent 上
+                                    //  若为 false，不需要 登记到 mapent 上
                                     //  值为 false 的go，会被 精简掉 大量代码
                                     //  uiGo 一律为 false。部分 regularGo 也可为 false（游戏世界中的ui元素）
+                                    //  ---
+                                    //  若想支持运行时改写，
+                                    //  则需要在 启用时，将 本go 登记到 对应的所有 mapents 上
+                                    //  在关闭时，将 对应 mapents 上的记录 清除
+                                    //  尚未实现 ...
+
+                                    //  目前来看，这个概念并不完善
+                                    //  不参与移动碰撞检测，（可被穿过） 但参与 技能碰撞检测的go，怎么办？
 
     
     //======== static ========//

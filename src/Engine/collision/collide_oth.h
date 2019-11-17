@@ -22,6 +22,7 @@
 #include "tprMath.h"
 
 
+
 /* ===========================================================
  *                     isPass_Check
  * -----------------------------------------------------------
@@ -75,15 +76,48 @@ inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beV
 /* ===========================================================
  *               calc_intersectX 
  * -----------------------------------------------------------
- * 求直线 y=y_ 与向量 root_2_tail_ 的交点的 x 值
+ * 求直线 y=y_ 与向量 root_2_tail_ 所在直线的交点，的 x 值
+ * 
+ *    将被弃用 。。。。。
  */
 inline double calc_intersectX(  const glm::dvec2 &rootPoint_,
                                 const glm::dvec2 &root_2_tail_,
                                 double y_) noexcept {
         tprAssert( root_2_tail_.y != 0.0 );
-    double pct = (rootPoint_.y-y_) / -root_2_tail_.y;    
-    return (rootPoint_.x + (root_2_tail_.x * pct)); //- 允许返回 负值（从相交中退出
+    double pct = (rootPoint_.y - y_) / -root_2_tail_.y;    
+    return (rootPoint_.x + (root_2_tail_.x * pct)); //- 允许返回 反方向的值（从相交中退出
 }
+
+/*
+// 求直线 x=x_ 与向量 root_2_tail_ 所在直线的交点，的 y 值
+inline double calc_intersectY(  const glm::dvec2 &rootPoint_,
+                                const glm::dvec2 &root_2_tail_,
+                                double x_) noexcept {
+        tprAssert( root_2_tail_.x != 0.0 );       
+    double pct = (rootPoint_.x - x_) / -root_2_tail_.x; 
+    return ( rootPoint_.y + (root_2_tail_.y * pct) ); //- 允许返回 反方向的值（从相交中退出
+}
+*/
+
+/* ===========================================================
+ *               calc_percent_in_yLine
+ * -----------------------------------------------------------
+ * 求直线 y=y_ 与向量 root_2_tail_ 所在直线的交点，的 x 值
+ */
+inline double calc_percent_in_yLine(    const glm::dvec2 &rootPoint_,
+                                        const glm::dvec2 &root_2_tail_,
+                                        double y_) noexcept {
+        tprAssert( root_2_tail_.y != 0.0 );
+    return  (rootPoint_.y - y_) / -root_2_tail_.y;  //允许为负值，表示 相交点，在位移向量的 反向延长线上 
+}
+// 求直线 x=x_ 与向量 root_2_tail_ 所在直线的交点，的 y 值
+inline double calc_percent_in_xLine(    const glm::dvec2 &rootPoint_,
+                                        const glm::dvec2 &root_2_tail_,
+                                        double x_) noexcept {
+        tprAssert( root_2_tail_.x != 0.0 );       
+    return (rootPoint_.x - x_) / -root_2_tail_.x; //允许为负值，表示 相交点，在位移向量的 反向延长线上 
+}
+
 
 
 /* ===========================================================
@@ -140,13 +174,14 @@ inline CollideState collideState_from_circular_2_circular(  const Circular &dogo
 }
 
 
-/* ===========================================================
- *         collideState_from_circular_2_capsule
- * -----------------------------------------------------------
- * just check if dogoCir is collide with begoCap
- */
-std::pair<CollideState, glm::dvec2> collideState_from_circular_2_capsule(   const Circular &dogoCir_,
-                                                            const Capsule  &begoCap_,
+
+std::pair<CollideState, glm::dvec2> collideState_from_circular_2_square(   const Circular &dogoCir_,
+                                                    const Square   &begoSqu_,
+                                                    double threshold_ )noexcept;
+
+
+CollideState collideState_from_circular_2_square_simple(    const Circular &dogoCir_,
+                                                            const Square   &begoSqu_,
                                                             double threshold_ ) noexcept;
 
 
@@ -198,13 +233,6 @@ inline bool fastCollideCheck_from_arc_2_circular(  const ArcLine &dogoArc_,
 
 
 
-bool fastCollideCheck_from_arc_2_capsule( const ArcLine &dogoArc_,
-                                        const Capsule &begoCap_,
-                                        double threshold_ );
-
-
-
-
 /* ===========================================================
  *               is_dogoCircular_leave_begoCircular
  * -----------------------------------------------------------
@@ -219,36 +247,12 @@ inline bool is_dogoCircular_leave_begoCircular( const glm::dvec2 &moveVec_,
 }
 
 
-/* ===========================================================
- *               is_dogoCircular_leave_begoCapsule
- * -----------------------------------------------------------
- * -- 特别适合在 moveRoot 相邻于 capsule 时 的判断
- *    当 两者相离，本函数的判断会 把一些 背离 判断为 false
- */
-inline bool is_dogoCircular_leave_begoCapsule(  const glm::dvec2 &moveVec_, 
+inline bool is_dogoCircular_leave_begoSquare(   const glm::dvec2 &moveVec_,
                                                 const Circular &dogoCir_,
-                                                const Capsule  &begoCap_
-                                                ) noexcept {
-    glm::dvec2 capRoot_2_cirRoot = dogoCir_.dpos - begoCap_.dpos;
-    //-- capsule 坐标系体内的 move 两端点值 --
-    glm::dvec2 cirRootInn = calc_innVec( begoCap_.root_2_tail, capRoot_2_cirRoot );
-    glm::dvec2 moveVecInn = calc_innVec( begoCap_.root_2_tail, moveVec_ );
-
-    if( cirRootInn.x < 0.0 ){
-        return is_dogoCircular_leave_begoCircular(  moveVecInn, 
-                                                    Circular{ cirRootInn, dogoCir_.radius },
-                                                    Circular{ glm::dvec2{}, begoCap_.radius } );
-    }else if( cirRootInn.x > begoCap_.longLen ){
-        return is_dogoCircular_leave_begoCircular(  moveVecInn, 
-                                                    Circular{ cirRootInn, dogoCir_.radius },
-                                                    Circular{ glm::dvec2{begoCap_.longLen, 0.0}, begoCap_.radius } );
-    }else{
-        if( cirRootInn.y > 0.0 ){
-            return ( moveVecInn.y >= 0.0 );
-        }else{
-            return ( moveVecInn.y <= 0.0 );
-        }
-    }
+                                                const Square &begoSqu_ ) noexcept {
+    glm::dvec2 dogo_2_bego = begoSqu_.dpos - dogoCir_.dpos;
+    double cosVal = calc_cos( moveVec_, dogo_2_bego );
+    return (cosVal <= 0.0) ? true : false;
 }
 
 
@@ -276,15 +280,10 @@ inline double circularCast( const glm::dvec2 &moveVec_,
 }
 
 
-/* ===========================================================
- *                   capsuleCast  
- * -----------------------------------------------------------
- *  return:
- *    t is a scale
- */
-double capsuleCast( const glm::dvec2 &moveVec_,
+double squareCast(  const glm::dvec2 &moveVec_,
                     const Circular &dogoCir_,
-                    const Capsule  &begoCap_ ) noexcept ;
+                    const Square &begoSqu_  ) noexcept;
+
 
 
 

@@ -15,7 +15,9 @@
 //#include "Script/gameObjs/majorGos/BigMan.h"
 #include "Script/gameObjs/majorGos/OneEyeBoy.h"
 #include "Script/gameObjs/oth/PlayerGoCircle.h"
-#include "Script/gameObjs/majorGos/WallA.h"
+
+//---------- Script : gameObjs : artifacts -------------//
+#include "Script/gameObjs/majorGos/artifacts/Fence.h"
 
 
 //---------- Script : gameObjs : bush --------------------//
