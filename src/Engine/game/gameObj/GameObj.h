@@ -149,6 +149,9 @@ public:
     inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
     inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
 
+    //-- false 值的，需要对齐到 像素
+    inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); }
+
 
     void debug();
 
@@ -204,7 +207,7 @@ public:
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
-    GameObjMoveState  moveState {GameObjMoveState::BeMovable}; //- 运动状态
+    GameObjMoveState  moveState {GameObjMoveState::AbsFixed}; //- 运动状态
     
     //--- move sys ---//
     Move         move;
@@ -246,7 +249,6 @@ public:
 
                                     //  目前来看，这个概念并不完善
                                     //  不参与移动碰撞检测，（可被穿过） 但参与 技能碰撞检测的go，怎么办？
-
     
     //======== static ========//
     static ID_Manager  id_manager;
@@ -288,7 +290,8 @@ private:
 
 
     NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
-
+                                    // 这个值，指 go 在 window 坐标系上的 朝向（视觉上看到的朝向）
+                                    // 而不是在 worldCoord 中的朝向
 
     //----------- pvtBinary -------------//             
     DyBinary    pvtBinary {};//- 只存储 具象go类 内部使用的 各种变量

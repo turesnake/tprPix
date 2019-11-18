@@ -27,8 +27,10 @@ using goSpecId_t = u32_t; //- gameObj species id type
 
 //-- go move state／运动状态 --
 enum class GameObjMoveState{
-    AbsFixed  = 1, //- 固定于地面，绝对静止
+    AbsFixed  = 1, //- 固定于地面，绝对静止。 需要对齐于 像素
     BeMovable = 2, //- 静止，但可被移动（通过外部 forse 施加的影响）
+                    // 从未被使用，将被废弃 ...
+
     Movable   = 3  //- 可移动。本go 可启动移动操作。
 };
 
@@ -74,8 +76,7 @@ enum class GameObjFamily{
 
     Oth,   // 暂时只有 playerGoCircle
 
-    UI,   // 被合并进 GO 的 UIGO 类
-
+    UI,   // 被合并进 GO 的 UIGO 类， 无需执行 worldCoord 转换
 };
 
 

@@ -79,7 +79,7 @@ void PineTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                job_goMeshs.begin()->fposOff, //- pposoff
+                                job_goMeshs.begin()->dposOff, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );
@@ -124,7 +124,7 @@ void PineTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<PineTree_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<PineTree_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -134,7 +134,7 @@ void PineTree::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
-    goRef_.move.RenderUpdate();
+    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         

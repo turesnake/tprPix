@@ -1,15 +1,15 @@
 /*
- * ====================== CustomCoord.cpp ==========================
+ * ====================== Coordinate.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.11.16
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "CustomCoord.h"
+#include "Coordinate.h"
 
 
 
-void CustomCoord::init()noexcept{
+void Coordinate::init()noexcept{
 
     // 在 inn坐标系内，正方形 四条边的 边向量
     std::unordered_map<NineDirection, glm::dvec2> lineVecs_in_innCoord {
@@ -24,6 +24,9 @@ void CustomCoord::init()noexcept{
         glm::dvec2 normalVecOut { -lineVecOut.y, lineVecOut.x }; // 边的法向量（朝向立方体外侧）
         this->normalVecs_in_outCoord.insert( { pair.first, normalVecOut } );
     }
+
+    //--- rightHand ---
+    this->rightHand = glm::normalize( this->calc_outDPos( glm::dvec2{ 1.0, 0.0 } ) );
 }
 
 

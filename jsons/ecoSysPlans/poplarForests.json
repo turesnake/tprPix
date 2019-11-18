@@ -12,7 +12,7 @@
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.7,
             "fieldDistributeTypes":[
                 {"Sml3":1 }
             ],
@@ -175,7 +175,7 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.7,
             "fieldDistributeTypes":[
                 {"Sml3": 1}
             ],

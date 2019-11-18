@@ -106,7 +106,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::GroundGo, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader
-                                jgEntPtr->fposOff,
+                                jgEntPtr->dposOff,
                                 0.0,  //- off_z
                                 true //- isVisible
                                 ); 

@@ -74,7 +74,7 @@
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.1,
+            "applyPercent": 0.0,
             "fieldDistributeTypes":[
                 {"Big1": 3},
                 {"Mid1": 7},

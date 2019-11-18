@@ -38,6 +38,9 @@ void write_ubo_Camera(){
     }
     //--- canvasCFPos ---//
     FloatVec2 canvasCFPos = cameraRef.calc_canvasCFPos();
+
+
+    
     uboRef.write( 128, 8, static_cast<const GLvoid*>(&canvasCFPos) );
 }
 

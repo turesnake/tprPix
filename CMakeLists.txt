@@ -113,6 +113,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/color/*.cpp 
+                        src/Engine/coordinate/*.cpp 
                         src/Engine/dataBase/*.cpp 
                         src/Engine/dynamicParam/*.cpp 
                         src/Engine/ecoSys/*.cpp
@@ -192,6 +193,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/coordinate
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dynamicParam
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys

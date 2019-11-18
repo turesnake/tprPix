@@ -79,7 +79,7 @@ void PoplarTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                job_goMeshs.begin()->fposOff, //- pposoff
+                                job_goMeshs.begin()->dposOff, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );

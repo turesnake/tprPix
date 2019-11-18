@@ -19,5 +19,5 @@
 //double Square::unifiedRadius { static_cast<double>(HALF_PIXES_PER_MAPENT) }; // 32.0
 
 
-double Square::unifiedRadius { static_cast<double>(HALF_PIXES_PER_MAPENT) + 4.0 }; // 32.0
+double Square::unifiedRadius { static_cast<double>(HALF_PIXES_PER_MAPENT) * 2.0 }; // 32.0
 

@@ -59,7 +59,7 @@ void Job_MapEnt::write_2_mapEnt( MemMapEnt &entRef_ )const noexcept{
  * -----------------------------------------------------------
  * 计算单个pix 的 alti
  * ---
- * 这部分算法，应当和 waterAnimCanvas 中的完全一致
+ * 这部分算法，应当和 waterAnimCanvas 中的完全一致!!!
  */
 double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
 
@@ -84,11 +84,17 @@ double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
             //------------------//
             //     seaLvl
             //------------------//
+            seaLvl = simplex_noise2( pixCFPos * jobMP_inn::freqSeaLvl ) * 50.0; // [-50.0, 50.0]
+
+            /*-------
             pixDistance = glm::distance( pixCFPos, jobMP_inn::worldCenter );
             pixDistance /= 10.0;
-            //--------
-            seaLvl = simplex_noise2( pixCFPos * jobMP_inn::freqSeaLvl ) * 50.0; // [-50.0, 50.0]
             seaLvl += pixDistance;
+            */
+                // 暂时不改写 seaLvl 值，这样，无论走多远，世界的 水陆分布还是原来的比例
+                // 如果开启这个设置，玩家向四周探索时，世界中的水域会变多，直到没有陆地
+
+                
             if( seaLvl < 0.0 ){ //- land
                 seaLvl *= 0.3;  // [-15.0, 50.0]
             }
@@ -96,9 +102,18 @@ double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
             //    alti.val
             //------------------//
             //--- 使用速度最快的 2D-simplex-noise ---
+            
             pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * jobMP_inn::freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
             pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * jobMP_inn::freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
             pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * jobMP_inn::freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+            
+            /*
+            pnValBig = simplex_noise2( pixCFPos * jobMP_inn::freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
+            pnValMid = simplex_noise2( pixCFPos * jobMP_inn::freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
+            pnValSml = simplex_noise2( pixCFPos * jobMP_inn::freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+            */
+
+
             //---------
             altiVal = floor(pnValBig + pnValMid + pnValSml);
 

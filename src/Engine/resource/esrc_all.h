@@ -17,7 +17,7 @@
 #include "esrc_camera.h"
 #include "esrc_canvas.h"
 #include "esrc_chunk.h"
-#include "esrc_customCoord.h"
+#include "esrc_coordinate.h"
 #include "esrc_job_chunk.h"
 #include "esrc_colorTableSet.h"
 #include "esrc_ecoSysPlan.h"

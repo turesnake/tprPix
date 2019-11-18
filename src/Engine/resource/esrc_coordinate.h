@@ -1,23 +1,23 @@
 /*
- * ========================= esrc_customCoord.h ==========================
+ * ========================= esrc_coordinate.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.11.15
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
-#ifndef TPR_ESRC_CUSTOM_COORD_H
-#define TPR_ESRC_CUSTOM_COORD_H
+#ifndef TPR_ESRC_COORDINATE_H
+#define TPR_ESRC_COORDINATE_H
 
 //-------------------- Engine --------------------//
-#include "CustomCoord.h"
+#include "Coordinate.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
-void init_customCoord();
+void init_coordinate();
 
-const CustomCoord &get_artifactCoordRef()noexcept;
+const Coordinate &get_worldCoordRef()noexcept;
 
 
 }//---------------------- namespace: esrc -------------------------//

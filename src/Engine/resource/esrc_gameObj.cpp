@@ -43,9 +43,14 @@ namespace go_inn {//-------- namespace: go_inn --------------//
                             
     F_void  goSpecIds_SignUp  {nullptr}; //- goSpecIds 注册函数对象
 
-    double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）
-    //double activeRange { 2 * 2 * 2048.0 * 2048.0 }; // （2 chunk 尺寸）
-    //double activeRange { 4 * 4 * 2048.0 * 2048.0 }; //- 激活圈 半径的平方(未开根号) （4 chunk 尺寸）
+    //double activeRange { 2048.0 * 2048.0 }; // （1 chunk 尺寸）这个尺寸已经非常大了
+    double activeRange { 2048.0 * 2048.0 * 0.7 };
+                        // 这个尺寸很不错，缩小比例建议设置在 (0.45, 0.8) 之间
+                        // 0.45: 画面边缘已经出现破绽
+                        // 0.65  active go 数量维持在 300左右，（绝大部分为 地景
+
+    //double activeRange { 2048.0 * 2048.0 * 4 };
+
 
 }//------------- namespace: go_inn end --------------//
 
@@ -55,6 +60,15 @@ void init_gameObjs(){
     go_inn::goids_active.reserve(10000);
     go_inn::goids_inactive.reserve(10000);
     esrc::insertState("gameObj");
+}
+
+void debug_for_gameObjs()noexcept{
+
+    cout << "esrc_gameObjs:"
+        << "\n    gameObjs: " << go_inn::gameObjs.size() 
+        << "\n    gos_active: " << go_inn::goids_active.size()
+        << "\n    gos_inactive: " << go_inn::goids_inactive.size() 
+        << endl;
 }
 
 

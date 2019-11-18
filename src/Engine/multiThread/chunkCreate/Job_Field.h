@@ -23,16 +23,16 @@
 class Job_GoMesh{
 public:
     Job_GoMesh( animSubspeciesId_t  id_,
-                const glm::vec2     &fposOff_,
+                const glm::dvec2    &dposOff_,
                 size_t              windDelayIdx_
                 ):
         subspecId(id_),
-        fposOff(fposOff_),
+        dposOff(dposOff_),
         windDelayIdx(windDelayIdx_)
         {}
     //----- vals -----//
     animSubspeciesId_t  subspecId {};
-    glm::vec2           fposOff   {}; // gomesh-dposoff based on go
+    glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
     size_t              windDelayIdx {}; // only used in windClock
 };
 

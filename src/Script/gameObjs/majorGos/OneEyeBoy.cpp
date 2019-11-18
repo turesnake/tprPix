@@ -98,7 +98,7 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );
@@ -178,6 +178,7 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
         //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
         goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
     }
+    
     
     
     

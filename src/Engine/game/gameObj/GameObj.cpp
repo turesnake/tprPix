@@ -14,6 +14,7 @@
 #include "Chunk.h"
 #include "esrc_chunk.h"
 #include "esrc_shader.h"
+#include "esrc_coordinate.h"
 
 using namespace std::placeholders;
 
@@ -173,6 +174,7 @@ void GameObj::init_check(){
                     );
     }
     //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...
+
 }
 
 
@@ -215,9 +217,17 @@ size_t GameObj::reCollect_chunkKeys(){
 
 void GameObj::debug(){
 
+    auto outPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(this->get_dpos()) );
+    tprAssert( outPair.first == ChunkMemState::Active );
+
+    cout << "mapEnt.lvl: " << outPair.second->get_mapAlti().lvl
+        << endl;
+
+    /*
     cout << "sizeof(go) = " << sizeof( *this )
         << "; sizeof(GO) = " << sizeof( GameObj )
         << endl;
+    */
 
 }
 

@@ -13,6 +13,8 @@
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
 
+#include "esrc_state.h"
+
 
 #include "tprDebug.h"
 
@@ -39,8 +41,8 @@ double  ViewingBox::goShadows_zOff        { 70.0 };
 double  ViewingBox::debug_zOff         { 100.0 };
 
 //...
-double  ViewingBox::aboveMajorGoes_zOff  { 1890.0 };
-double  ViewingBox::UIs_zOff             { 1900.0 };
+double  ViewingBox::aboveMajorGoes_zOff  { 9890.0 };
+double  ViewingBox::UIs_zOff             { 9900.0 };
 
 
 /* ===========================================================
@@ -63,9 +65,9 @@ void ViewingBox::init(){
     }
     */
 
-    //windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
+    windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
     //windowSZ_vs_gameSZ_ = srcHeight / 1000.0;
-    windowSZ_vs_gameSZ_ = srcHeight / 1200.0;
+    //windowSZ_vs_gameSZ_ = srcHeight / 4400.0;
                     // eque to windowConfig val 1920:1200 
 
     ViewingBox::windowSZ.x = windowConfig.windowPixW;
@@ -76,6 +78,9 @@ void ViewingBox::init(){
 
 
     ViewingBox::isFullScreen = windowConfig.isFullScreen;
+
+    //---
+    esrc::insertState( "viewingBox" );
 
     //---------
             cout<< " ViewingBox:\n"

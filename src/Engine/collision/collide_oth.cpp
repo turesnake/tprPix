@@ -13,16 +13,11 @@
 //-------------------- Engine --------------------//
 #include "NineDirection.h"
 
-#include "esrc_customCoord.h"
+#include "esrc_coordinate.h"
 
 
-namespace colliOth_inn {//----------- namespace: colliOth_inn ----------------//
-
-    
-
-}//-------------- namespace: colliOth_inn end ----------------//
-
-
+//namespace colliOth_inn {//----------- namespace: colliOth_inn ----------------//
+//}//-------------- namespace: colliOth_inn end ----------------//
 
 
 /* ===========================================================
@@ -37,10 +32,10 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_square(   const
                                                     double threshold_ ) noexcept {
     
     // 简化模型，暂把 dogocir 也看作一个 square
-    const auto &artifactCoord = esrc::get_artifactCoordRef();
+    const auto &worldCoord = esrc::get_worldCoordRef();
     //---
     double     sum_of_two_raidus = dogoCir_.radius + begoSqu_.radius;
-    glm::dvec2 bego_2_dogoInn = artifactCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
+    glm::dvec2 bego_2_dogoInn = worldCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
 
     double bigRadius = sum_of_two_raidus + threshold_; // 相邻 和 相离的边界
 
@@ -52,19 +47,19 @@ std::pair<CollideState, glm::dvec2> collideState_from_circular_2_square(   const
 
     }else if( is_closeEnough<double>( bego_2_dogoInn.x, -sum_of_two_raidus, threshold_ ) ){
         //== inn Left ==
-        return { CollideState::Adjacent, artifactCoord.get_normalVec_in_outCoord(NineDirection::Left) * -1.0 };
+        return { CollideState::Adjacent, worldCoord.get_normalVec_in_outCoord(NineDirection::Left) * -1.0 };
 
     }else if( is_closeEnough<double>( bego_2_dogoInn.x, sum_of_two_raidus, threshold_ ) ){
         //== inn Right ==
-        return { CollideState::Adjacent, artifactCoord.get_normalVec_in_outCoord(NineDirection::Right) * -1.0 };
+        return { CollideState::Adjacent, worldCoord.get_normalVec_in_outCoord(NineDirection::Right) * -1.0 };
 
     }else if( is_closeEnough<double>( bego_2_dogoInn.y, -sum_of_two_raidus, threshold_ ) ){
         //== inn Bottom ==
-        return { CollideState::Adjacent, artifactCoord.get_normalVec_in_outCoord(NineDirection::Bottom) * -1.0 };
+        return { CollideState::Adjacent, worldCoord.get_normalVec_in_outCoord(NineDirection::Bottom) * -1.0 };
 
     }else if( is_closeEnough<double>( bego_2_dogoInn.y, sum_of_two_raidus, threshold_ ) ){
         //== inn Top ==
-        return { CollideState::Adjacent, artifactCoord.get_normalVec_in_outCoord(NineDirection::Top) * -1.0 };
+        return { CollideState::Adjacent, worldCoord.get_normalVec_in_outCoord(NineDirection::Top) * -1.0 };
 
     }else{
         return {CollideState::Intersect, glm::dvec2{0.0, 0.0} }; // pair.second is useless
@@ -77,10 +72,10 @@ CollideState collideState_from_circular_2_square_simple(    const Circular &dogo
                                                             const Square   &begoSqu_,
                                                             double threshold_ ) noexcept {
     // 简化模型，暂把 dogocir 也看作一个 square
-    const auto &artifactCoord = esrc::get_artifactCoordRef();
+    const auto &worldCoord = esrc::get_worldCoordRef();
     //---
     double     sum_of_two_raidus = dogoCir_.radius + begoSqu_.radius;
-    glm::dvec2 bego_2_dogoInn = artifactCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
+    glm::dvec2 bego_2_dogoInn = worldCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
 
     double bigRadius = sum_of_two_raidus + threshold_; // 相邻 和 相离的边界
 
@@ -115,11 +110,11 @@ double squareCast(  const glm::dvec2 &moveVec_,
                     const Square &begoSqu_  ) noexcept{
 
     // 简化模型，暂把 dogocir 看作一个 square
-    const auto &artifactCoord = esrc::get_artifactCoordRef();
+    const auto &worldCoord = esrc::get_worldCoordRef();
     //---
     double     sum_of_two_raidus = dogoCir_.radius + begoSqu_.radius;
-    glm::dvec2 moveVecInn = artifactCoord.calc_innDPos( moveVec_ );
-    glm::dvec2 bego_2_dogoInn = artifactCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
+    glm::dvec2 moveVecInn = worldCoord.calc_innDPos( moveVec_ );
+    glm::dvec2 bego_2_dogoInn = worldCoord.calc_innDPos( dogoCir_.dpos - begoSqu_.dpos );
 
 
     //-- 计算 位移向量 与 bego 的哪条边相交 --
@@ -134,7 +129,7 @@ double squareCast(  const glm::dvec2 &moveVec_,
                     NineDirection::Bottom;
     }else{
 
-        glm::dvec2 moveTargetInn = artifactCoord.calc_innDPos( dogoCir_.dpos + moveVec_ );
+        glm::dvec2 moveTargetInn = worldCoord.calc_innDPos( dogoCir_.dpos + moveVec_ );
         glm::dvec2 moveTarget_2_corner {};
 
         if( bego_2_dogoInn.y > 0.0 ){

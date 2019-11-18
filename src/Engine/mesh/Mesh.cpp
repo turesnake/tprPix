@@ -14,6 +14,8 @@
 #include "tprAssert.h"
 #include "esrc_VAOVBO.h" 
 
+#include "esrc_coordinate.h"
+
 //#include "tprDebug.h" 
 
 //namespace mesh_inn {//------------------ namespace: mesh_inn ---------------------//
@@ -79,8 +81,13 @@ void Mesh::update_mat4_model(){
     // 请确保，输入函数的 translate 值，已经叠加了 go 的 pos。
 
     //-- 修正：图元帧 左下角 -> 中心
-    this->translate_val.x += this->scale_val.x * 0.5f;
-    this->translate_val.y += this->scale_val.y * 0.5f;
+    const auto &worldCoord = esrc::get_worldCoordRef();
+
+    glm::dvec2 innDPos {    static_cast<double>( this->translate_val.x + this->scale_val.x * 0.5f ),
+                            static_cast<double>( this->translate_val.y + this->scale_val.y * 0.5f ) };
+    glm::dvec2 outDPos = worldCoord.calc_outDPos( innDPos );
+    this->translate_val.x = static_cast<float>( outDPos.x );
+    this->translate_val.y = static_cast<float>( outDPos.y );
 
     this->mat4_model = glm::translate( glm::mat4(1.0), this->translate_val );
 

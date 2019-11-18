@@ -12,8 +12,10 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "GameObj.h"
 #include "esrc_animFrameSet.h"
 #include "esrc_renderPool.h"
+#include "esrc_camera.h"
 
 using namespace std::placeholders;
 
@@ -63,6 +65,14 @@ void GameObjMesh::RenderUpdate_auto(){
     //  animAction
     //---------------//
     this->animActionPtr->update( this->animActionPvtData );
+
+    //---------------//
+    //  camera renderScope
+    //---------------//
+    glm::dvec2 goMeshDPos = this->goRef.get_dpos() + this->pposOff;
+    if( !esrc::get_camera().is_in_renderScope(goMeshDPos) ){
+        return;
+    }
 
     //---------------//
     //      pic

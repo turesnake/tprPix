@@ -283,7 +283,10 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
         
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){
-        esrc::chunks_debug();
+        //esrc::chunks_debug();
+
+        esrc::debug_for_gameObjs();
+        esrc::debug_for_renderPools();
 
     }
 

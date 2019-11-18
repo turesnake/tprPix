@@ -28,20 +28,19 @@ public:
     Camera():
         targetDPos(glm::dvec2(0.0, 0.0)),
         currentDPos(glm::dvec3(0.0, 0.0, 0.5*ViewingBox::z))
-        {}
+        {
+            this->init();
+        }
 
+    
 
     void RenderUpdate();
 
+    bool is_in_renderScope( const glm::dvec2 &dpos_ )const noexcept;
 
-    inline glm::mat4 &update_mat4_view(){
-        this->mat4_view = glm::lookAt(  glm_dvec3_2_vec3(this->currentDPos), 
-                                        (glm_dvec3_2_vec3(this->currentDPos) + cameraFront), 
-                                        cameraUp );
-        return this->mat4_view;
-    }
+    glm::mat4 &update_mat4_view();
 
-
+    
     inline glm::mat4 &update_mat4_projection(){
         if( !this->isProjectionSet ){
             this->isProjectionSet = true; // only once
@@ -66,6 +65,7 @@ public:
                                             zFar_relative ); //-- 远平面
         return this->mat4_projection;
     }
+    
 
 
     //-- 瞬移到 某位置 --
@@ -115,15 +115,13 @@ public:
         return glm::vec2{ w, h };
     }
 
-    //-- canvas.chunk_fpos 
-    inline FloatVec2 calc_canvasCFPos()const noexcept{
-        float w = static_cast<float>(this->currentDPos.x) - (0.5f * static_cast<float>(ViewingBox::gameSZ.x));
-        float h = static_cast<float>(this->currentDPos.y) - (0.5f * static_cast<float>(ViewingBox::gameSZ.y));
-        return FloatVec2{   w / static_cast<float>(PIXES_PER_CHUNK),
-                            h / static_cast<float>(PIXES_PER_CHUNK) };
-    }
+    //-- canvas.chunk_fpos [left-bottom] 
+    FloatVec2 calc_canvasCFPos()const noexcept;
+   
 
 private:
+    void init()noexcept;
+
     //------ 观察／投影 矩阵 -----
     glm::mat4 mat4_view       = glm::mat4(1.0); //-- 观察矩阵，默认初始化为 单位矩阵
     glm::mat4 mat4_projection = glm::mat4(1.0); //-- 投影矩阵，默认初始化为 单位矩阵

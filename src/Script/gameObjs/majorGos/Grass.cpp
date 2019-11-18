@@ -155,8 +155,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                //glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                it->fposOff,
+                                it->dposOff, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );

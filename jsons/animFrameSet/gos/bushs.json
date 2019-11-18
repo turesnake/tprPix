@@ -20,7 +20,7 @@
                     "fstIdx": 0,
                     "idxNums": 7,
                     "name": "idle", "dir": "Mid",
-                    "isOpaque": false
+                    "isOpaque": true
                 }
             ]
         }
@@ -48,7 +48,7 @@
                     "fstIdx": 0,
                     "idxNums": 2,
                     "name": "idle", "dir": "Mid",
-                    "isOpaque": false
+                    "isOpaque": true
                 },
                 {
                     "type": "batch",
@@ -57,7 +57,7 @@
                     "fstIdx": 2,
                     "idxNums": 1,
                     "name": "idle", "dir": "Mid",
-                    "isOpaque": false
+                    "isOpaque": true
                 }
             ]
         }

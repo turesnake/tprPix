@@ -13,7 +13,7 @@
 
 #include "esrc_state.h"
 
-//#include "tprDebug.h" //- tmp
+#include "tprDebug.h" //- tmp
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -38,6 +38,17 @@ void init_renderPools()noexcept{
     renderP_inn::groundRenderPoolUPtr = std::make_unique<GroundRenderPool>();
 
     esrc::insertState("renderPool");
+}
+
+
+void debug_for_renderPools()noexcept{
+
+    cout << "renderPools:"
+        << "\n  Opaque size: " << get_renderPool(RenderPoolType::Opaque).get_poolSize()
+        << "\n  Translucent size: " << get_renderPool(RenderPoolType::Translucent).get_poolSize()
+        << "\n  Shadow size: " << get_renderPool(RenderPoolType::Shadow).get_poolSize()
+        << endl;
+
 }
 
 

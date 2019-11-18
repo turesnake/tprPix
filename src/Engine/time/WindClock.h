@@ -45,7 +45,7 @@ public:
     inline double get_playSpeedScale( size_t offIdx_=0 )const noexcept{ 
         size_t idx = (this->playSpeedScalePoolIdx + offIdx_) % this->playSpeedScalePool.size();
         return this->playSpeedScalePool.at(idx);
-    };
+    }
 
 
 private:

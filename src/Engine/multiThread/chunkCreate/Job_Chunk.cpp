@@ -174,7 +174,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                         windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff ); // goMeshDPosOff is 0
 
                         job_goData.job_goMeshs.push_back( Job_GoMesh{   subSpecId, 
-                                                                        glm::vec2{0.0f,0.0f},
+                                                                        glm::dvec2{0.0, 0.0},
                                                                         windDelayIdx } );
 
                     }else{

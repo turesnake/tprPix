@@ -84,6 +84,8 @@ public:
 
     inline double get_x() const noexcept{ return this->x; }
     inline double get_y() const noexcept{ return this->y; }
+    inline double get_origin_x() const noexcept{ return this->origin_x; }
+    inline double get_origin_y() const noexcept{ return this->origin_y; }
     inline const glm::dvec2 to_dpos() const noexcept{
         return glm::dvec2{ this->x, this->y };
     }
@@ -105,20 +107,10 @@ public:
         }
         return ret;
     }
+    
+    //   修正 
+    void limit_vals()noexcept;
 
-
-    //-- 计算单位向量，并调整 xy值 --
-    //   确保 朝任何方向的最大速度 是一致的
-    inline void limit_vals()noexcept{
-        if( this->is_zero() ){
-            return;
-        }
-        glm::dvec2 normal = glm::normalize( glm::dvec2{ this->x, this->y } );
-        if( (std::abs(normal.x) < std::abs(this->x)) || (std::abs(normal.y) < std::abs(this->y))  ){
-            this->x = normal.x;
-            this->y = normal.y;
-        }
-    }
 
     //===== static =====//
     static constexpr double threshold = 0.005; //- 阈值，[-0.01, 0.01] 区间的信号不识别
@@ -140,15 +132,24 @@ private:
     //===== vals =====//
     double x {0.0}; //- [-1.0, 1.0]
     double y {0.0}; //- [-1.0, 1.0]
+
+    //-- 当 游戏世界坐标系，不等同于 window 坐标系时，
+    // 使用下面这组值，来保存 每一次在 limit_vals() 中，修正方向前的数据
+    // 仅用于 dirAxes_2_nineDirection() 中
+    double origin_x {0.0}; //- [-1.0, 1.0]
+    double origin_y {0.0}; //- [-1.0, 1.0]
+
 };
 
 
 
+inline NineDirection dirAxes_2_nineDirection( const DirAxes &da_ )noexcept{
 
-inline NineDirection dirAxes_2_nineDirection( const DirAxes &da_ ){
-
-    double x = da_.get_x();
-    double y = da_.get_y();
+    //- 使用 修正方向前的值，这样，就能跳过 worldCoord 的影响
+    // 现在，玩家输入的 left 方向，就能让 go 显示 left 方向，同时向 window left 方向移动
+    // 而不是 worldCoord 坐标系中的 left 方向
+    double x = da_.get_origin_x();
+    double y = da_.get_origin_y();
 
     if( da_.is_zero() ){
         return NineDirection::Mid;

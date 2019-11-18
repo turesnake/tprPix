@@ -287,18 +287,11 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 /*
                 {//--- 临时生成一排篱笆 
-                    const auto &artifactCoordRef = esrc::get_artifactCoordRef();
-
                     goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
 
                     IntVec2 fenceBegMPos {0, 0};
                     for( int i=0; i<10; i++ ){
-                        glm::dvec2 entInnDPos = mpos_2_dpos( fenceBegMPos + IntVec2{i, 0} );
-                        glm::dvec2 entOutDPos = artifactCoordRef.calc_outDPos( entInnDPos );
-
-                        entOutDPos.x = tprRound( entOutDPos.x );
-                        entOutDPos.y = tprRound( entOutDPos.y );
-
+                        glm::dvec2 entOutDPos = mpos_2_dpos( fenceBegMPos + IntVec2{i, 0} );
 
                         cout << "entOutDPos: " << entOutDPos.x
                             << ", " << entOutDPos.y 
@@ -312,6 +305,22 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                     }
                 }
                 */
+                /*
+                {//--- 临时生成一排篱笆 
+
+                    goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
+
+                    IntVec2 fenceBegMPos {2, 0};
+
+                        glm::dvec2 entOutDPos = mpos_2_dpos( fenceBegMPos );
+
+                        gameObjs::create_a_Go(  fenceGoSpecId,
+                                                entOutDPos,
+                                                emptyDyParam );
+                    
+                }
+                */
+                
 
 
 

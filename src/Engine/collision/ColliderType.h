@@ -22,7 +22,7 @@ enum class ColliderType{
 
     Circular,
     Arc,      //- only support for skillCollide
-    Square,   //- axnometric square in artifactCoord
+    Square,
 };
 
 inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
@@ -106,8 +106,7 @@ public:
     glm::dvec2  dpos       {};
     double      radius     {}; // 未来可以被取消 ...
     //----- static -----//
-    // 本游戏中的 square 仅用于 artifactCoord 坐标系
-    // 暂时只有一个 半径值，就是 在 artifactCoord 坐标系内的 
+    // 暂时只有一个 半径值，所有实例 都使用此值
     static double unifiedRadius;
 };
 

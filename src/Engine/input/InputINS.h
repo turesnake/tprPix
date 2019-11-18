@@ -38,6 +38,8 @@ public:
     }
 
     inline void set_key_from_keyboard( GameKey key_ )noexcept{
+        // 此时，针对 dirAxes 的设置是 不正确的
+        // 需要后续的 limit_dirAxes() 做一次修正
         switch( key_ ){
             case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
             case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
@@ -64,12 +66,16 @@ public:
 
 
     inline void set_dirAxes_from_joystick( double x_, double y_ )noexcept{
+        // 此时，针对 dirAxes 的设置是 不正确的
+        // 需要后续的 limit_dirAxes() 做一次修正
         this->dirAxes.set(x_, y_);
     }
 
+    
     inline void limit_dirAxes()noexcept{
         this->dirAxes.limit_vals();
     }
+    
 
     //-- 目前被 sceneBegin 使用 --
     inline bool check_key( GameKey key_ ) const noexcept{

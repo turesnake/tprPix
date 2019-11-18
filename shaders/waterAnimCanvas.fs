@@ -44,11 +44,11 @@ layout (shared, std140) uniform Time {
 
 
 //============ vals ===========//
-vec2 lb;      //- [0.0 ,1.0]-[left_bottom]
+//vec2 lb;      //- [0.0 ,1.0]-[left_bottom]
 vec2 lbAlign; //- 对齐过的 lb，首先，校准了 y值比例（毕竟window可能不是正方形）
               //  其次，1个单位 lbAlign，等于 chunk-ppos 尺寸，而不是 canvas尺寸
 
-vec2 mid = vec2(0.4, 0.4); //- 和 lb 同体系，canvas中心坐标
+//vec2 mid = vec2(0.4, 0.4); //- 和 lb 同体系，canvas中心坐标
 //-------
 
 vec3  color;
@@ -56,6 +56,7 @@ float alpha;
 
 //float PIXES_PER_CHUNK = 256.0; //- tmp
 float PIXES_PER_CHUNK = 2048.0; //- tmp  //--- 可被放入 ubo ....
+float ENTS_PER_CHUNK = 32.0;
 
 //- 在未来，freq 这组值也会收到 ecosys 影响 --
 float freqSeaLvl = 0.05;
@@ -70,6 +71,13 @@ float zOffMid = 7.5;
 float zOffSml = 17.8;
 
                 //--- 可被放入 ubo ....
+
+
+vec2 xP = vec2( 0.794119, -0.607763 );
+vec2 yP = vec2( 0.794119,0.607763 );
+float denominator = 0.965272;
+
+                //-- 应该被放入 ubo ！！！
 
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
@@ -97,6 +105,8 @@ float simplex_noise2( float _x, float _y );
 float simplex_noise2( vec2 v );
 float simplex_noise3( float _x, float _y, float _z );
 
+vec2 calc_innFPos( vec2 outFPos_ );
+vec2 calc_outFPos( vec2 innFPos_ );
 
 /* ====================================================
  *                      main
@@ -120,19 +130,30 @@ void main()
     // 如果去掉这组代码，canvas将永远是 最细腻的
     vec2 pixCFPos = camera.canvasCFPos + lbAlign;
     
+    
     pixCFPos *= PIXES_PER_CHUNK; //- 晶格边长
     pixCFPos = floor(pixCFPos);
-    pixCFPos =  pixCFPos / PIXES_PER_CHUNK;;
+    pixCFPos =  pixCFPos / PIXES_PER_CHUNK;
+
+        //--------- 坐标系转换 ---------//
+        // 变成 轴测图 坐标系
+        pixCFPos = calc_innFPos( pixCFPos );
     
 
     //------------------//
     //     seaLvl
     //------------------//
+    seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
+
+    /*----------
     float pixDistance = length( pixCFPos - 0 );//- 暂时假设，(0,0) 为世界中心
     pixDistance /= 10.0; //- 每10个chunk，递增一级
-    //-------
-    seaLvl = simplex_noise2( pixCFPos * freqSeaLvl ) * 50.0; // [-50.0, 50.0]
     seaLvl += pixDistance;
+    */
+        // 暂时不改写 seaLvl 值，这样，无论走多远，世界的 水陆分布还是原来的比例
+        // 如果开启这个设置，玩家向四周探索时，世界中的水域会变多，直到没有陆地
+
+
     if( seaLvl < 0.0 ){ //- land
         seaLvl *= 0.3;  // [-15.0, 100.0]
     }
@@ -142,10 +163,11 @@ void main()
     //------------------//
     float altiVal;
     //--- 使用速度最快的 2D-simplex-noise ---
+    
     float pnValBig = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffBig) * freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
     float pnValMid = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffMid) * freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
     float pnValSml = simplex_noise2( (pixCFPos + seeds.altiSeed_pposOffSml) * freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
-
+    
     float pnValAnim = simplex_noise3(   pixCFPos.x * freqAnim, 
                                         pixCFPos.y * freqAnim, 
                                         tm );
@@ -219,18 +241,13 @@ void main()
         alpha = 1.0;
     }
 
-    //------------------//
-    //   distance: lb -> mid
-    //------------------//
-    float distanceMid = length(lb - mid );
-    distanceMid *= distanceMid;
     
     //discard;
 
     FragColor = vec4( color, alpha );
+    //FragColor = vec4( 0.5, 0.3, 0.2, 0.2 );
     //FragColor = vec4( 0.1, 0.1, 0.1, 0.0 );
     //FragColor = vec4( color, alpha ); //- rgba.alpha MUST be 1.0 !!!
-    //FragColor = vec4( lb.xxy, 1.0 ); //- rgba.alpha MUST be 1.0 !!!
 }
 
 
@@ -246,7 +263,7 @@ void prepare(){
     //    初始化 lb, lt
     //--------------------------//
     //-- 左下坐标系 [0.0,1.0]
-    lb = TexCoord;
+    vec2 lb = TexCoord;
     //---
     lbAlign = lb;
     lbAlign.x *= window.gameSZ.x/PIXES_PER_CHUNK;
@@ -390,5 +407,19 @@ float simplex_noise3( float _x, float _y, float _z ){
   return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
                                 dot(p2,x2), dot(p3,x3) ) );
 }
+
+
+
+vec2 calc_innFPos( vec2 outFPos_ ){
+    return vec2(    (yP.y * outFPos_.x - yP.x * outFPos_.y) / denominator,
+                    (xP.x * outFPos_.y - xP.y * outFPos_.x) / denominator );
+}   
+vec2 calc_outFPos( vec2 innFPos_ ){
+    return vec2(    xP.x * innFPos_.x + yP.x * innFPos_.y,
+                    xP.y * innFPos_.x + yP.y * innFPos_.y );
+}
+
+
+
 
 

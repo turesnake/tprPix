@@ -59,7 +59,7 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                glm::vec2{ 0.0f, 0.0f }, //- pposoff
+                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );

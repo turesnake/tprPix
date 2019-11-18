@@ -12,10 +12,11 @@
 
 /* exist strs: -----
 colorTableSet
-customCoord
+coordinate
 renderPool
 behaviour
 camera
+viewingBox
 canvas
 chunk
 job_chunk

@@ -11,7 +11,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "batch",

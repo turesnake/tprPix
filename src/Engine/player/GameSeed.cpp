@@ -68,6 +68,12 @@ void GameSeed::init_glm_vec2s(){
     this->altiSeed_pposOffSml = glm::dvec2(  static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
                                             static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );
 
+                    //-- 未来需要添加一道限制，
+                    // 确保 玩家一定出生在陆地上，如果没有，则重新生成。
+                    // ...
+
+
+
     //------ densitySeed --------//
     this->densitySeed_pposOff = glm::dvec2(  static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)),
                                             static_cast<double>(gameSeed_inn::uDistribution_altiSeed(this->randEngine)) );

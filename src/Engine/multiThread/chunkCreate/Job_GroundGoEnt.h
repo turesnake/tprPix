@@ -25,17 +25,17 @@
 class Job_GroundGoEnt{
 public:
     Job_GroundGoEnt(   GroundGoEntType  type_,
-                    const glm::vec2     fposOff_,
+                    const glm::dvec2    dposOff_,
                     colorTableId_t      id_,
                     size_t              uWeight_ ):
         groundType(type_),
-        fposOff(fposOff_),
+        dposOff(dposOff_),
         colorTableId(id_),
         uWeight(uWeight_)
         {}
 
     GroundGoEntType         groundType;
-    glm::vec2               fposOff; // base on field-midDPos
+    glm::dvec2              dposOff; // base on field-midDPos
     //---
     //sectionKey_t          ecoObjKey;
     colorTableId_t          colorTableId;

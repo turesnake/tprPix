@@ -49,6 +49,3 @@ const FieldDistributePlan &DensityPool::apply_a_fieldDistributePlan( size_t rand
 
 
 
-
-
-

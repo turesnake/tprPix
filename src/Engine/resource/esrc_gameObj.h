@@ -1,3 +1,4 @@
+
 /*
  * ========================= esrc_gameObj.h ==========================
  *                          -- tpr --
@@ -21,6 +22,8 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_gameObjs();
+
+void debug_for_gameObjs()noexcept;
 
 std::unordered_set<goid_t> &get_goids_active();
 std::unordered_set<goid_t> &get_goids_inactive();

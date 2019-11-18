@@ -56,24 +56,6 @@ inline double calc_cos( const glm::dvec2 &a_, const glm::dvec2 &b_ ) noexcept {
 
 
 /* ===========================================================
- *                  calc_innVec      
- * -----------------------------------------------------------
- * 计算 目标向量 beVec_ 在 基向量 baseVec_ 体内的 向量值
- * 旋转 基向量，使其躺平到 x轴，对齐与 0 点
- * 返回新坐标系中的 目标向量值
- */
-inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beVec_ ) noexcept {
-
-        tprAssert( !((baseVec_.x==0.0) && (baseVec_.y==0.0)) );
-    glm::dvec2 n = glm::normalize( baseVec_ );
-    const glm::dvec2 &t = beVec_;
-    //- mutex 
-    return glm::dvec2 { (n.x * t.x) + (n.y * t.y),
-                       -(n.y * t.x) + (n.x * t.y) }; //- 注意，要使用反向角度的 矩阵
-}
-
-
-/* ===========================================================
  *               calc_intersectX 
  * -----------------------------------------------------------
  * 求直线 y=y_ 与向量 root_2_tail_ 所在直线的交点，的 x 值

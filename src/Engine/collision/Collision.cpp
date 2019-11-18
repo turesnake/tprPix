@@ -24,7 +24,7 @@
 #include "esrc_gameObj.h"
 
 #include "esrc_time.h"
-#include "esrc_customCoord.h"
+#include "esrc_coordinate.h"
 
 #include "tprDebug.h"
 
@@ -58,7 +58,7 @@ void Collision::collect_adjacentBeGos(){
     //      初步收集 所有有效 begoid
     //  不包含 dogo 自己，不包含 旧的 adjacentBeGos 中的 bego
 
-    const auto &artifactCoordRef = esrc::get_artifactCoordRef();
+    const auto &worldCoordRef = esrc::get_worldCoordRef();
 
     std::string funcName = "collect_adjacentBeGos()";
     for( const auto &iMPos : this->signInMapEntsUPtr->get_currentSignINMapEntsRef() ){
@@ -82,7 +82,7 @@ void Collision::collect_adjacentBeGos(){
             GameObj &begoRef = esrc::get_goRef( begoid );
             if( begoRef.get_colliderType() == ColliderType::Square ){
 
-                glm::dvec2 innDPos = artifactCoordRef.calc_innDPos( begoRef.get_dpos() );
+                glm::dvec2 innDPos = worldCoordRef.calc_innDPos( begoRef.get_dpos() );
                                         //-- 在未来，建筑单位要永久存储自己的 innmpos 和 key
                                         //   ...
 

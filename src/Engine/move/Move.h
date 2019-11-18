@@ -106,7 +106,7 @@ public:
 
     //------- get -------//
     inline SpeedLevel get_speedLvl()const noexcept{ return this->speedLvl; }
-
+    inline bool get_isMoving()const noexcept{ return this->isMoving; }
 
 
 private:

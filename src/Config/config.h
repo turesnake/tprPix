@@ -54,7 +54,7 @@
 #define PIXES_PER_SECTION (CHUNKS_PER_SECTION*PIXES_PER_CHUNK)
 
 //-- camera.viewingBox z_deep
-#define VIEWING_BOX_Z_DEEP  2000
+#define VIEWING_BOX_Z_DEEP  10000
 
 
 

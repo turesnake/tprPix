@@ -10,7 +10,7 @@
 //------------------- Engine --------------------//
 #include "calc_colliPoints.h"
 
-#include "esrc_customCoord.h"
+#include "esrc_coordinate.h"
 
 
 //===== static =====//
@@ -41,7 +41,7 @@ void ColliDataFromJ_Circular::init_for_static()noexcept{
 
 void ColliDataFromJ_Square::init_for_static()noexcept{
 
-    const auto &artifactCoordRef = esrc::get_artifactCoordRef();
+    const auto &worldCoordRef = esrc::get_worldCoordRef();
 
     glm::dvec2 innDPos {};
     glm::dvec2 outDPos {};
@@ -53,7 +53,7 @@ void ColliDataFromJ_Square::init_for_static()noexcept{
             innDPos.x = i * Square::unifiedRadius;
             innDPos.y = j * Square::unifiedRadius;
             
-            outDPos = artifactCoordRef.calc_outDPos( innDPos );
+            outDPos = worldCoordRef.calc_outDPos( innDPos );
             ColliDataFromJ_Square::colliPointDPosOffs.push_back( outDPos );
         }
     }

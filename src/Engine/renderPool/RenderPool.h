@@ -54,6 +54,8 @@ public:
         }
     }
 
+    inline size_t get_poolSize()const noexcept{ return this->pool.size(); }
+
 private:
     std::multimap<float, ChildMesh*> pool {};
     bool isOpaque;

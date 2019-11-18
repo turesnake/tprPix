@@ -18,6 +18,8 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 //-- Must after esrc::init_colorTableSet !!!
 void init_renderPools()noexcept;
 
+void debug_for_renderPools()noexcept;
+
 RenderPool &get_renderPool( RenderPoolType type_ )noexcept;
 GroundRenderPool &get_groundRenderPool()noexcept;
 

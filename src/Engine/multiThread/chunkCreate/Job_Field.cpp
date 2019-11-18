@@ -74,8 +74,7 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 // 自动检测 4*4 容器，通过 分形思路，分配 groundGo 实例
 void Job_Field::apply_job_groundGoEnts()noexcept{
 
-    glm::vec2       fposOff     {}; // base on field-midDPos
-    //sectionKey_t    ecoObjKey   {};
+    glm::dvec2      dposOff     {}; // base on field-midDPos
     colorTableId_t  colorTableId {};
     size_t          uWeight {};
 
@@ -87,14 +86,14 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
 
         entPtr = this->mapEntPtrs.at(HALF_ENTS_PER_FIELD).at(HALF_ENTS_PER_FIELD);
 
-        fposOff = glm::vec2{0.0, 0.0};
+        dposOff = glm::dvec2{0.0, 0.0};
         //ecoObjKey = *this->fields.begin();
         colorTableId = *this->fields.begin();
         uWeight = entPtr->uWeight;
 
         ( this->isHaveBorderEnt ) ?
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::Field,       fposOff, colorTableId, uWeight )) :
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::SimpleField, fposOff, colorTableId, uWeight ));
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::Field,       dposOff, colorTableId, uWeight )) :
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::SimpleField, dposOff, colorTableId, uWeight ));
         
         return; // !!!
     }
@@ -116,12 +115,12 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
 
             const auto &wh = halfWHs.back(); 
             entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
-            fposOff = halfDposOff;
+            dposOff = halfDposOff;
             //ecoObjKey = entPtr->ecoObjKey;
             colorTableId = entPtr->colorTableId;
             uWeight = entPtr->uWeight;
 
-            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, fposOff, colorTableId, uWeight ));
+            this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, dposOff, colorTableId, uWeight ));
             continue; // !!!
         }
 
@@ -133,12 +132,12 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
                 const auto &wh = halfWHs.at(innIdx);
                 entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 
-                fposOff = halfDposOff + jobF_inn::mapentDposOffs.at(innIdx);
+                dposOff = halfDposOff + jobF_inn::mapentDposOffs.at(innIdx);
                 //ecoObjKey = entPtr->ecoObjKey;
                 colorTableId = entPtr->colorTableId;
                 uWeight = entPtr->uWeight;
 
-                this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, fposOff, colorTableId, uWeight ));
+                this->groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, dposOff, colorTableId, uWeight ));
             }
         }
     }

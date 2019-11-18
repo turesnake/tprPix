@@ -51,6 +51,7 @@ inline bool is_closeEnough( T a_, T b_, T threshold_ )noexcept{
  * 将向量 beVec_ 沿0点旋转一个角度， 角度就是 rotateVec_ 与 x轴正方向的夹角
  * 返回旋转后的 向量
  */
+/*
 inline glm::dvec2 rotate_vec( const glm::dvec2 &beVec_, const glm::dvec2 &rotateVec_ ) noexcept {
 
         tprAssert( !((rotateVec_.x==0.0) && (rotateVec_.y==0.0)) );
@@ -60,12 +61,43 @@ inline glm::dvec2 rotate_vec( const glm::dvec2 &beVec_, const glm::dvec2 &rotate
     return glm::dvec2 { (n.x * t.x) - (n.y * t.y),
                         (n.y * t.x) + (n.x * t.y) };
 }
+*/
+
+
+/* ===========================================================
+ *                  calc_innVec      
+ * -----------------------------------------------------------
+ * 计算 目标向量 beVec_ 在 基向量 baseVec_ 体内的 向量值
+ * 旋转 基向量，使其躺平到 x轴，对齐与 0 点
+ * 返回新坐标系中的 目标向量值(向量长度不变)
+ */
+inline glm::dvec2 calc_innVec( const glm::dvec2 &baseVec_, const glm::dvec2 &beVec_ ) noexcept {
+
+        tprAssert( !((baseVec_.x==0.0) && (baseVec_.y==0.0)) );
+    glm::dvec2 n = glm::normalize( baseVec_ );
+    const glm::dvec2 &t = beVec_;
+    //- mutex 
+    return glm::dvec2 { (n.x * t.x) + (n.y * t.y),
+                       -(n.y * t.x) + (n.x * t.y) }; //- 注意，要使用反向角度的 矩阵
+}
+
+
+
 
 //- 四舍五入
 inline double tprRound( double num_ ){
     return (num_>0.0) ? 
         floor( num_ + 0.5 ) :
         ceil( num_ - 0.5 );
+}
+inline float tprRound( float num_ ){
+    return (num_>0.0f) ? 
+        floor( num_ + 0.5f ) :
+        ceil( num_ - 0.5f );
+}
+inline glm::dvec2 tprRound( const glm::dvec2 &v_ ){
+    return glm::dvec2{  tprRound(v_.x),
+                        tprRound(v_.y) };
 }
 
 
