@@ -99,15 +99,13 @@ public:
     void init_check(); //- call in end of go init 
 
 
-    //--------- collison ----------//
-    //-- isPass 系列flag 也许不放在 collision 模块中...
-    //   如果一个 没有加载 collide 组件的 go实例，调用这系列函数，将直接报错...(不是好办法)
-    inline void set_collision_isDoPass( bool b_ )noexcept{ this->collisionUPtr->set_isDoPass(b_); }
-    inline void set_collision_isBePass( bool b_ )noexcept{ this->collisionUPtr->set_isBePass(b_); }
-    inline bool get_collision_isDoPass() const noexcept{ return this->collisionUPtr->get_isDoPass(); }
-    inline bool get_collision_isBePass() const noexcept{ return this->collisionUPtr->get_isBePass(); }
-    inline glm::dvec2 detect_collision_for_move( const glm::dvec2 &speedVal_ )noexcept{ return this->collisionUPtr->detect_for_move( speedVal_ ); }
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{ return this->collisionUPtr->get_currentSignINMapEntsRef(); }
+
+
+    inline Collision &get_collisionRef()noexcept{ 
+            tprAssert( this->collisionUPtr ); // tmp
+        return *(this->collisionUPtr); 
+    }
+
 
     inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJPtr->get_colliderType(); }
 
@@ -117,8 +115,8 @@ public:
             tprAssert( this->rootAnimActionPosPtr );
         return *(this->rootAnimActionPosPtr);
     }
-    inline Circular calc_circular( CollideFamily family_, bool is_for_dogo_=false )const noexcept{
-        return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_, is_for_dogo_ );
+    inline Circular calc_circular( CollideFamily family_ )const noexcept{
+        return this->colliDataFromJPtr->calc_circular( this->get_dpos(), family_ );
     }
     inline Square calc_square()const noexcept{
         return this->colliDataFromJPtr->calc_square( this->get_dpos() );
@@ -129,10 +127,8 @@ public:
         return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
 
-    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{
-            tprAssert( this->isMoveCollide ); //- tmp
-        return this->chunkKeys;
-    }
+    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
+
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
     }
@@ -249,6 +245,10 @@ public:
 
                                     //  目前来看，这个概念并不完善
                                     //  不参与移动碰撞检测，（可被穿过） 但参与 技能碰撞检测的go，怎么办？
+
+                                    //  尽可能减少 它在 移动碰撞检测之外的 作用 ！！！！！
+
+                                    
     
     //======== static ========//
     static ID_Manager  id_manager;
@@ -268,14 +268,12 @@ private:
 
     //====== vals =====//
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
+                                        // only used for majorGos
                                         // 通过 reCollect_chunkKeys() 来更新。
-                                        // 在 本go 生成时，以及 rootCES 每一次步进时，都要更新这个 容器数据
-
-                                        // isMoveCollide == false 的go，此容器永远为空
-
+                                        // 在 本go 生成时，以及 每一次移动时，都要更新这个 容器数据
 
     // - rootGoMesh  -- name = “root”; 核心goMesh;
-    // - childGoMesh -- 剩下的goMesh
+    // - childGoMesh -- 剩下的goMesh，名字随意
     std::unordered_map<std::string, std::unique_ptr<GameObjMesh>>  goMeshs {};
                             //- go实例 与 GoMesh实例 强关联
                             // 大部分go不会卸载／增加自己的 GoMesh实例
@@ -290,12 +288,11 @@ private:
 
 
     NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
-                                    // 这个值，指 go 在 window 坐标系上的 朝向（视觉上看到的朝向）
+                                    // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
 
     //----------- pvtBinary -------------//             
     DyBinary    pvtBinary {};//- 只存储 具象go类 内部使用的 各种变量
-
 
     std::unique_ptr<Collision> collisionUPtr {nullptr};
     const ColliDataFromJ      *colliDataFromJPtr {nullptr}; // 一经init，永不改变

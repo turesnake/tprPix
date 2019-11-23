@@ -14,8 +14,10 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-
 void calc_colliPoints_for_circular(  std::vector<glm::dvec2> &container_, double radius_ );
+
+const std::vector<glm::dvec2> &get_colliPointDPosOffsRef_for_cirDogo()noexcept;
+
 
 #endif 
 

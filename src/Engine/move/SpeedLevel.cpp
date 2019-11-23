@@ -28,4 +28,3 @@ const std::vector<double> speedTable{
     6.0*8.0,   //- LV_16 : crawl 的最高速度，不能超过 1帧1mapent
 };
 
-

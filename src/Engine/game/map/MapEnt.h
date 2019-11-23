@@ -27,6 +27,7 @@
 #include "EcoSysPlanType.h"
 #include "MapAltitude.h"
 #include "GameObjType.h"
+#include "ColliderType.h"
 
 #include "sectionKey.h"
 #include "colorTableId.h"
@@ -38,14 +39,49 @@
 class MemMapEnt{
 public:
     //-- 临时测试用 
-    MemMapEnt()
-        {
-            this->majorGos.reserve(10);
-        }
+    MemMapEnt()=default;
 
-    inline void insert_2_majorGos( goid_t goid_ )noexcept{
+     
+    inline void insert_2_circular_goids( goid_t goid_, ColliderType colliType_ )noexcept{
+
+        tprAssert( colliType_ == ColliderType::Circular );
+        auto outPair1 = this->majorGos_circular.insert( goid_ );
+        tprAssert( outPair1.second );
+        //-- 
+        auto outPair3 = this->majorGos.insert( goid_ );
+        tprAssert( outPair3.second );
+    }
+
+
+    inline void erase_from_circular_goids( goid_t goid_, ColliderType colliType_ )noexcept{
+
+        tprAssert( colliType_ == ColliderType::Circular );        
+        size_t eraseNum = this->majorGos_circular.erase(goid_);
+        tprAssert( eraseNum == 1 );
+        //--
+        eraseNum = this->majorGos.erase(goid_);
+        tprAssert( eraseNum == 1 );
+    }
+
+    inline void set_square_goid( goid_t goid_, ColliderType colliType_ )noexcept{ 
+
+        tprAssert( colliType_ == ColliderType::Square );
+        this->majorGo_square = goid_; //- 可能会覆盖原有数据
+        //--
         auto outPair = this->majorGos.insert( goid_ );
         tprAssert( outPair.second );
+    }
+
+    //- 当一个 squGo 被杀死时，才会被调用
+    //  自动释放一个 chunk 时，并不会调用此函数
+    inline void erase_square_goid( goid_t goid_, ColliderType colliType_ )noexcept{
+
+        tprAssert( colliType_ == ColliderType::Square );
+        tprAssert( goid_ == this->majorGo_square );
+        this->majorGo_square = 0; // null
+        //--
+        size_t eraseNum = this->majorGos.erase(goid_);
+        tprAssert( eraseNum == 1 );
     }
 
     
@@ -55,6 +91,7 @@ public:
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
+
 
     inline void set_perlin( double originPerlin_, size_t uWeight_ ){
         this->originPerlin = originPerlin_;
@@ -69,14 +106,13 @@ public:
     inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
     inline bool             get_isBorder()const noexcept{ return this->isBorder; }
     inline Density          get_density()const noexcept{ return this->density; }
+
     
+    inline const std::unordered_set<goid_t>     &get_goids()const noexcept{return this->majorGos; }
+    inline const std::unordered_set<goid_t>     &get_circular_goids()const noexcept{return this->majorGos_circular; }
+    inline goid_t                               get_square_goid()const noexcept{ return this->majorGo_square; }
 
-
-    inline const std::unordered_set<goid_t> &get_majorGos() const noexcept{return this->majorGos; }
-    inline void erase_the_onlyOne_from_majorGos( goid_t goid_ )noexcept{
-        size_t eraseNum = this->majorGos.erase(goid_);
-        tprAssert( eraseNum == 1 );
-    }
+    
     
 private:
     MapCoord  mcpos {}; //- 本 mapent 世界坐标值 
@@ -92,12 +128,14 @@ private:
 
     bool    isBorder     {false}; // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 
-    std::unordered_set<goid_t> majorGos {}; // 只有启用 碰撞检测的，才会被登记于此。
-                                            // 目前这道实现是不完善的
-
-                                            // 对于那些关闭了 isMoveCollide，但是支持 技能碰撞检测的 go
-                                            // 也应该提供 容器来登记
-                                            // ...
+    // 支持 move/skill 碰撞检测
+    std::unordered_set<goid_t>  majorGos {}; // cir + squ 
+    std::unordered_set<goid_t>  majorGos_circular {};
+    goid_t                      majorGo_square {}; // only one
+                                    // 一个 mapent 其实还允许出现类似 mapsurface 的 地板go
+                                    // 但是它们不是 majorGo，不参与游戏交互。
+                                    // 所以不会被登记到 mapent 中
+    
 
 };
 

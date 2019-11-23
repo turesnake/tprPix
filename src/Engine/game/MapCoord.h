@@ -41,6 +41,9 @@ inline IntVec2 mpos_2_ppos( IntVec2 mpos_ ) noexcept {
 }
 
 //-- [left-bottom] --
+// 管理 mapent 的坐标数据，可以很快转换为各种 类型
+// 这个 class 的使用正在被弱化
+// 也许会在未来被取消，彻底打散为一些 独立的 函数
 class MapCoord{
 public:
     //---- constructor -----//
@@ -87,7 +90,7 @@ public:
         this->mpos = floorDiv( this->ppos, static_cast<double>(PIXES_PER_MAPENT) );
     }
 
-    //-- 宽松版，目前仅被 gameObj_mem.cpp -> signUp_newGO_to_mapEnt() 使用 --
+    //-- 宽松版，目前仅被 gameObj_mem.cpp -> signUp_newGO_to_chunk_and_mapEnt() 使用 --
     inline void set_by_anyPPos( IntVec2 anyPPos_ ) noexcept {
         this->mpos = anyPPos_.floorDiv( static_cast<double>(PIXES_PER_MAPENT) );
         this->ppos = mpos_2_ppos( this->mpos );
@@ -113,14 +116,12 @@ public:
         return this->ppos;
     }
     inline glm::dvec2 get_midDPos() const noexcept { //- ppos of the mid_box
-        IntVec2 ppos_l = mpos_2_ppos( this->mpos );
-        return glm::dvec2{   static_cast<double>(ppos_l.x + HALF_PIXES_PER_MAPENT),
-                            static_cast<double>(ppos_l.y + HALF_PIXES_PER_MAPENT) };
+        return glm::dvec2{  static_cast<double>(this->ppos.x + HALF_PIXES_PER_MAPENT),
+                            static_cast<double>(this->ppos.y + HALF_PIXES_PER_MAPENT) };
     }
     inline glm::dvec2 get_dpos() const noexcept {
-        IntVec2 ppos_l = mpos_2_ppos( this->mpos );
-        return glm::dvec2{ static_cast<double>(ppos_l.x), 
-                          static_cast<double>(ppos_l.y) };
+        return glm::dvec2{ static_cast<double>(this->ppos.x), 
+                          static_cast<double>(this->ppos.y) };
     }
 
     //-- 仅用于 crawl --
@@ -183,11 +184,7 @@ inline IntVec2 anyPPos_2_mpos( IntVec2 anyPPos_ ) noexcept {
     return floorDiv( anyPPos_, static_cast<double>(PIXES_PER_MAPENT) );
 }
 
-/* ===========================================================
- *                   dpos_2_mcpos  [宽松]    IMPORTANT !!!
- * -----------------------------------------------------------
- * -- 参数 dpos_ 可以为任意值。 无需对齐于 mapent坐标系
- */
+
 inline MapCoord dpos_2_mcpos( const glm::dvec2 &dpos_ ) noexcept {
     //-- double除法
     double fx = dpos_.x / static_cast<double>(PIXES_PER_MAPENT);
@@ -197,6 +194,7 @@ inline MapCoord dpos_2_mcpos( const glm::dvec2 &dpos_ ) noexcept {
                         static_cast<int>(floor(fy)) };
 }
 
+//-- 当 dpos 无限接近 mapent 边界时，这个返回值就会非常不精确...
 inline IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ) noexcept {
     //-- double除法
     double fx = dpos_.x / static_cast<double>(PIXES_PER_MAPENT);
@@ -230,9 +228,16 @@ inline glm::dvec2 mpos_2_dpos( IntVec2 mpos_ ) noexcept {
  * -- 获得 mapent 中间pixel 的 ppos 
  */
 inline IntVec2 mpos_2_midPPos( IntVec2 mpos_ ) noexcept {
-    return IntVec2{ mpos_.x*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT,
-                    mpos_.y*PIXES_PER_MAPENT + MID_PPOS_IDX_IN_MAPENT };
+    return IntVec2{ mpos_.x*PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT,
+                    mpos_.y*PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT };
 }
+
+
+inline glm::dvec2 mpos_2_midDPos( IntVec2 mpos_ ) noexcept {
+    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT),
+                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT) };
+}
+
 
 
 /* ===========================================================

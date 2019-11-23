@@ -287,7 +287,7 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
     // 遍历周边 8 个chunk，如果某一chunk 已经存在
     // 遍历此chunk 的 所有 edgeGoIds, 如果某个 edgeGo，其 collient 位于本chunk
     // 则将这些 collients 登记到 对应的 mapent 上
-    // 针对 GameObj::signUp_newGO_to_mapEnt() 的一个补充
+    // 针对 GameObj::signUp_newGO_to_chunk_and_mapEnt() 的一个补充
     //------------------------------//
     cb_inn::signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_, chunkMPos );
 
@@ -373,15 +373,16 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
             for( auto &goid : chunkRef.get_edgeGoIds() ){//- foreach edgeGoId
 
                 auto &goRef = esrc::get_goRef(goid);
+                tprAssert( goRef.get_colliderType() == ColliderType::Circular );
                 if( goRef.find_in_chunkKeys(chunkKey_) ){
                     
-                    for( const auto &mpos : goRef.get_currentSignINMapEntsRef() ){ 
+                    for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){ 
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
                             auto outPair = esrc::getnc_memMapEntPtr(mpos);
                             tprAssert( outPair.first == ChunkMemState::Active );
-                            outPair.second->insert_2_majorGos( goRef.id );
+                            outPair.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
                         }
                     }
 

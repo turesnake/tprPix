@@ -10,6 +10,9 @@
 #ifndef TPR_SPEED_LEVEL_H
 #define TPR_SPEED_LEVEL_H
 
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
 //------------------- CPP --------------------//
 #include <vector>
 
@@ -18,6 +21,7 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "config.h"
 
 
 //--  18 level --
@@ -128,6 +132,18 @@ inline SpeedLevel calc_lower_speedLvl( SpeedLevel lvl_ )noexcept{
             tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
     }
+}
+
+
+inline glm::dvec2 limit_moveSpeed( const glm::dvec2 &speedV_ )noexcept{
+
+    // Avoid Radical Sign / 避免开根号 --
+    double moveLen =  speedV_.x*speedV_.x + speedV_.y*speedV_.y;
+    if( moveLen < static_cast<double>(PIXES_PER_MAPENT*PIXES_PER_MAPENT) ){
+        return speedV_;
+    }
+    //-- max legal speed vec --
+    return glm::normalize(speedV_) * SpeedLevel_2_val(SpeedLevel::LV_16);
 }
 
 

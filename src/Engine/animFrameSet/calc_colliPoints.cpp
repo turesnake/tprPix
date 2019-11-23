@@ -12,6 +12,8 @@
 #include "config.h"
 #include "tprAssert.h"
 
+#include "ColliderType.h"
+
 
 namespace calc_colli_inn {//----------- namespace: calc_colli_inn -------------//
 
@@ -71,7 +73,7 @@ namespace calc_colli_inn {//----------- namespace: calc_colli_inn -------------/
     std::vector<glm::dvec2> colliPointScales_cir_3m3 {};
 
     //-- 移动碰撞检测时，所有 dogo 使用统一半径的 碰撞体
-    //std::vector<glm::dvec2> colliPoints_for_dogo_cir {};
+    std::vector<glm::dvec2> colliPointDPosOffs_for_cirDogo {};
 
 
     bool isInit {false};
@@ -82,6 +84,10 @@ namespace calc_colli_inn {//----------- namespace: calc_colli_inn -------------/
 
 }//--------------- namespace: calc_colli_inn end -----------------//
 
+
+const std::vector<glm::dvec2> &get_colliPointDPosOffsRef_for_cirDogo()noexcept{
+    return calc_colli_inn::colliPointDPosOffs_for_cirDogo;
+}
 
 
 /* ===========================================================
@@ -120,11 +126,6 @@ void calc_colliPoints_for_circular(  std::vector<glm::dvec2> &container_, double
         tprAssert(0); // not support jet
     }
 }
-
-
-
-
-
 
 
 
@@ -176,6 +177,9 @@ void init(){
                                                     calc_colli_inn::scales_3m3_oth.cbegin(), 
                                                     calc_colli_inn::scales_3m3_oth.cend() );
 
+
+    //=== colliPointDPosOffs_for_cirDogo ===//
+    calc_colliPoints_for_circular( calc_colli_inn::colliPointDPosOffs_for_cirDogo, Circular::radius_for_dogo );
 
 }
 

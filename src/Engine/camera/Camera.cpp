@@ -35,7 +35,7 @@ void Camera::init()noexcept{
         //---
         tprAssert( esrc::is_setState("viewingBox") );
 
-        camera_inn::limit_top       = 600.0 + 100.0;
+        camera_inn::limit_top       = 600.0 + 200.0;
         camera_inn::limit_bottom    = -(600.0 + 500.0);
         camera_inn::limit_left      = -(960.0 + 200.0);
         camera_inn::limit_right     = 960.0 + 200.0;
@@ -52,17 +52,15 @@ void Camera::RenderUpdate(){
         return;
     }
         
-    glm::dvec2 off { this->targetDPos.x - this->currentDPos.x, 
-                    this->targetDPos.y - this->currentDPos.y };
+    glm::dvec2 off = this->targetDPos - this->currentDPos;
 
     //-- 若非常接近，直接同步 --
     double criticalVal { 8.0 }; 
                 //-- 适当提高临界值，会让 camera运动变的 “简练”
-                // 同时利于 waterAnimCanvas 中的运算
+                // 同时减弱 低像素画面在缓慢移动时的 抖动感
     
     if( (std::abs(off.x)<=criticalVal) && (std::abs(off.y)<=criticalVal) ){
-        this->targetDPos.x = this->currentDPos.x;
-        this->targetDPos.y = this->currentDPos.y;
+        this->targetDPos = this->currentDPos;
                                 //- 在足够靠近时，camera放弃继续靠近，但此时并未对齐
         this->isMoving = false;
         return;
@@ -72,10 +70,16 @@ void Camera::RenderUpdate(){
     double alignX = this->approachPercent * off.x;
     double alignY = this->approachPercent * off.y;
 
-        //-----------
     this->currentDPos.x += alignX;
     this->currentDPos.y += alignY;
-    this->currentDPos.z =  -this->currentDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
+
+    //--- coord transform 
+    const auto &worldCoord = esrc::get_worldCoordRef();
+    glm::dvec2 outDPos = worldCoord.calc_outDPos( this->currentDPos );
+
+    this->renderDPos.x = outDPos.x;
+    this->renderDPos.y = outDPos.y;
+    this->renderDPos.z = -outDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
 
     //--- debug ---//
     tprDebug::collect_cameraSpeed( glm::dvec2{alignX, alignY} );
@@ -85,27 +89,17 @@ void Camera::RenderUpdate(){
 
 glm::mat4 &Camera::update_mat4_view(){
 
-    const auto &worldCoord = esrc::get_worldCoordRef();
-
-    glm::dvec2 innDPos { this->currentDPos.x, this->currentDPos.y };
-    glm::dvec2 outDPos = worldCoord.calc_outDPos( innDPos );
-
-    glm::dvec3 tmpDPos {outDPos.x,
-                        outDPos.y,
-                        this->currentDPos.z };
-
-    this->mat4_view = glm::lookAt(  glm_dvec3_2_vec3(tmpDPos), 
-                                    (glm_dvec3_2_vec3(tmpDPos) + cameraFront), 
+    this->mat4_view = glm::lookAt(  glm_dvec3_2_vec3(this->renderDPos), 
+                                    (glm_dvec3_2_vec3(this->renderDPos) + cameraFront), 
                                     cameraUp );
     return this->mat4_view;
-
 }
 
 
 
 FloatVec2 Camera::calc_canvasCFPos()const noexcept{
 
-    //-- 测试，将世界坐标系，转换成 人造物坐标系
+    //-- coord transform
     const auto &worldCoord = esrc::get_worldCoordRef();
     glm::dvec2 innDPos {    this->currentDPos.x,
                             this->currentDPos.y };
@@ -129,7 +123,7 @@ bool Camera::is_in_renderScope( const glm::dvec2 &dpos_ )const noexcept{
 
     const auto &worldCoord = esrc::get_worldCoordRef();
 
-    glm::dvec2 off = worldCoord.calc_outDPos( dpos_ - this->get_camera2DDPos() );
+    glm::dvec2 off = worldCoord.calc_outDPos( dpos_ - this->currentDPos );
 
     if( (off.x > camera_inn::limit_left) && (off.x < camera_inn::limit_right) && 
         (off.y > camera_inn::limit_bottom) && (off.y < camera_inn::limit_top) ){

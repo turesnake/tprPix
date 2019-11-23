@@ -48,7 +48,7 @@
  */
 void Chunk::init(){
 
-    this->init_memMapEnts();
+    this->init_memMapEnts();    
 
     //------------------------------//
     //      random vals
@@ -100,18 +100,14 @@ void Chunk::init(){
  * --- 除此之外，这些 mapent 数据都是空的
  */
 void Chunk::init_memMapEnts(){
-    if( this->is_memMapEnts_set ){
-        return;
-    }
     this->memMapEnts.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK ); // reserve FIRST
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             auto mapEntUPtr = std::make_unique<MemMapEnt>();
             mapEntUPtr->set_mcpos( mcpos + MapCoord{w, h} );
-            this->memMapEnts.push_back( std::move(mapEntUPtr) ); //-copy
+            this->memMapEnts.push_back( std::move(mapEntUPtr) ); //-move
         }
     }
-    this->is_memMapEnts_set = true;
 }
 
 

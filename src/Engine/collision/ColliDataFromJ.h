@@ -36,7 +36,7 @@ public:
     virtual double get_skillColliRadius()const =0;
     virtual const std::vector<glm::dvec2> &get_colliPointDPosOffs()const =0;
     //--- only support in circular ---
-    virtual Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_, bool is_for_dogo_ ) const = 0;
+    virtual Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ ) const = 0;
     //--- only support in square ---
     virtual Square calc_square( const glm::dvec2 &goCurrentDPos_ ) const = 0;
 };
@@ -62,7 +62,7 @@ public:
         tprAssert(0); 
         return ColliDataFromJ_Nil::emptyVec;
     }
-    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_, bool is_for_dogo_ )const override{ //- not exist
+    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
         return Circular{};
     }
@@ -85,25 +85,17 @@ public:
 
 class ColliDataFromJ_Circular : public ColliDataFromJ{
 public:
-    ColliDataFromJ_Circular()
-        {
-            if( !ColliDataFromJ_Circular::isStaticInit ){
-                ColliDataFromJ_Circular::isStaticInit = true;
-                ColliDataFromJ_Circular::init_for_static();
-            }
-        }
+    ColliDataFromJ_Circular()=default;
 
     inline void makeSure_colliPointDPosOffs_isNotEmpty()const noexcept{
         tprAssert( !this->colliPointDPosOffs.empty() );
     }
 
 
-    inline Circular calc_circular(const glm::dvec2 &goCurrentDPos_, CollideFamily family_, bool is_for_dogo_ )const override{
+    inline Circular calc_circular(const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{
         double radius {};
         if( family_ == CollideFamily::Move ){
-            radius = is_for_dogo_ ? 
-                        ColliDataFromJ_Circular::moveColliRadius_for_dogo :
-                        this->moveColliRadius;
+            radius = this->moveColliRadius;
         }else{
             radius = this->skillColliRadius;
         }
@@ -129,12 +121,7 @@ public:
     std::vector<glm::dvec2> colliPointDPosOffs {};//- 移动碰撞检测点，会被自动生成
 
     //===== static =====//
-    static double      moveColliRadius_for_dogo; // 统一半径：24.0
     static glm::dvec2  emptyDvec2;
-    static bool        isStaticInit;
-    static std::vector<glm::dvec2> colliPointDPosOffs_for_dogo;//- 所有 dogo 使用统一半径的 碰撞体
-private:
-    static void init_for_static()noexcept;
 };
 
 
@@ -165,7 +152,7 @@ public:
         tprAssert(0); 
         return 0.0; 
     }
-    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_, bool is_for_dogo_ )const override{ //- not exist
+    inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
         return Circular{};
     }

@@ -19,10 +19,8 @@ std::vector<glm::dvec2> ColliDataFromJ_Nil::emptyVec   {};
 
 
 //--- circular ---
-double      ColliDataFromJ_Circular::moveColliRadius_for_dogo {24.0}; // Must small than HALF_PIXES_PER_MAPENT
 glm::dvec2  ColliDataFromJ_Circular::emptyDvec2 {};
-bool        ColliDataFromJ_Circular::isStaticInit {false};
-std::vector<glm::dvec2> ColliDataFromJ_Circular::colliPointDPosOffs_for_dogo {};
+
 
 
 //--- square ---
@@ -32,10 +30,6 @@ std::vector<glm::dvec2> ColliDataFromJ_Square::colliPointDPosOffs {};
 
 
 
-void ColliDataFromJ_Circular::init_for_static()noexcept{
-    calc_colliPoints_for_circular(  ColliDataFromJ_Circular::colliPointDPosOffs_for_dogo, 
-                                    ColliDataFromJ_Circular::moveColliRadius_for_dogo );
-}
 
 
 

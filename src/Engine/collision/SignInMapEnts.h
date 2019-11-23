@@ -24,43 +24,35 @@
 #include "MapCoord.h"
 
 
-
-// 第二版被大大简化
-// 全局的 dogo 拥有统一的 位移碰撞检测半径: 24.0 已确保所有 dogo 都能在 1*1单位的 人造物通道内通行
+// 仅有 majorGo: cir 会用到本实例
+// arc 压根不参与 moveCollide
+// squ 压根不移动
 class SignInMapEnts{
     using F_get_colliPointDPosOffsRef = std::function<const std::vector<glm::dvec2> &()>;
 public:
 
-    SignInMapEnts()
-        {
-            if( !SignInMapEnts::isStaticInit ){
-                SignInMapEnts::isStaticInit = true;
-                SignInMapEnts::init_for_static();
-            }
+    SignInMapEnts(  const glm::dvec2 &newGoDPos_,
+                    F_get_colliPointDPosOffsRef func_1_ ):
+        get_colliPointDPosOffsRefFunc(func_1_)
+        {                    
+            bool out = this->forecast_signINMapEnts( newGoDPos_ );
+            tprAssert( out );
+            this->sync_currentSignINMapEnts_from_future();
         }
 
-
-    //-- only call in go init --
-    inline void init_datas( const glm::dvec2 &newRootAnchorDPos_,
-                            F_get_colliPointDPosOffsRef func_1_ )noexcept{
-
-        this->get_colliPointDPosOffsRefFunc = func_1_;                     
-        bool out = this->forecast_signINMapEnts( newRootAnchorDPos_ );
-        tprAssert( out );
-        this->sync_currentSignINMapEnts_from_future();
-    }
-
-
     //------------------------------------//
-    //--1-- 当一个 regularGo 新生成时，传入参数{0.0,0.0}，制作最初的 SignINMapEnts 数据，
+    // 使用位置：
+    //--1-- 当一个 majorGo 新生成时，传入参数 go.dpos，制作最初的 SignINMapEnts 数据，
     //      然后 call sync_currentSignINMapEnts_from_new()
     //--2-- 每一移动帧, 调用此函数来生成 addsDels,
     //      然后做碰撞检测。在此期间，这个函数可能被调用多次，但都不会改写 currentSignINMapEnts
     //      ----
     //      直到确认位移后，才调用 sync_currentSignINMapEnts_from_new()，同步数据
     //-----
-    // param: newRootAnchorDPos_ = currentDPos + speedDPos_
-    inline bool forecast_signINMapEnts( const glm::dvec2 &newRootAnchorDPos_ )noexcept{
+    // param: newRootAnchorDPos_ = currentDPos + moveVec
+    // ret:
+    //    adds/dels 是否发生了变化 
+    inline bool forecast_signINMapEnts( const glm::dvec2 &newGoDPos_ )noexcept{
     
         if( !this->is_forecast_called ){
             this->is_forecast_called = true;
@@ -71,7 +63,7 @@ public:
         this->futureSignINMapEnts.clear();
         //-- update news --
         for( const auto &i : this->get_colliPointDPosOffsRefFunc() ){
-            this->futureSignINMapEnts.insert( dpos_2_mpos(i+newRootAnchorDPos_) );
+            this->futureSignINMapEnts.insert( dpos_2_mpos(i+newGoDPos_) );
         }
             
         //-- adds --
@@ -87,11 +79,7 @@ public:
             }
         }
         //-- return --
-        if( this->futureAdds.empty() && this->futureDels.empty() ){
-            return false;
-        }else{
-            return true;
-        }
+        return (!this->futureAdds.empty()) || (!this->futureDels.empty());
     }
 
 
@@ -107,7 +95,7 @@ public:
         this->currentAdds.swap( this->futureAdds );
         this->currentDels.swap( this->futureDels );
         this->currentSignINMapEnts.swap( this->futureSignINMapEnts ); 
-        //-- new容器 会在下次 调用 forecast_signINMapEnts 时自动清理 --
+        //-- swap 后的 future容器 会在下次 调用 forecast_signINMapEnts 时自动清理 --
     }
 
 
@@ -120,9 +108,6 @@ public:
 private:
 
     F_get_colliPointDPosOffsRef  get_colliPointDPosOffsRefFunc {nullptr};
-
-
-    static void init_for_static()noexcept;
 
     //--- current ---//
     std::set<IntVec2> currentSignINMapEnts {};  //- 每一帧移动后，go都会及时更新自己当前登记的 mapents
@@ -140,10 +125,6 @@ private:
     bool is_forecast_called {false}; //- 协调 forecast 和 sync 两个函数的 次序。
                                     // forecast 可以被调用多次
                                     // 每次调用 sync 之前，forecast 至少要被调用一次
-
-    //===== static =====//
-    static bool isStaticInit;
-
 
 };
 

@@ -83,8 +83,8 @@ void assemble_goSpec_2_newGo( goSpecId_t specID_,
 
     goRef_.isTopGo  = d.isTopGo;
     goRef_.isMoveCollide = d.isMoveCollide;
-    goRef_.set_collision_isDoPass( d.isDoPass );
-    goRef_.set_collision_isBePass( d.isBePass );
+    goRef_.get_collisionRef().set_isDoPass( d.isDoPass );
+    goRef_.get_collisionRef().set_isBePass( d.isBePass );
 
     goRef_.move.set_speedLvl( d.speedLvl );
     goRef_.set_pos_alti( d.alti );

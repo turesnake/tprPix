@@ -110,8 +110,9 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
         auto &goRef = esrc::get_goRef(goid);
+        tprAssert( goRef.get_colliderType() == ColliderType::Circular );
 
-        for( const auto &mpos : goRef.get_currentSignINMapEntsRef() ){
+        for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
             tmpChunkKey = anyMPos_2_chunkKey(mpos);
             if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
 
@@ -119,7 +120,7 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
                     //---- 正式从 mapEnt 上清除登记 -----
                     auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
                     tprAssert( mapEntPair.first == ChunkMemState::Active );
-                    mapEntPair.second->erase_the_onlyOne_from_majorGos( goRef.id );
+                    mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
                 }
             }
         }

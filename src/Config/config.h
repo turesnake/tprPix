@@ -31,8 +31,6 @@
 
 #define PIXES_PER_MAPENT  64
 #define HALF_PIXES_PER_MAPENT 32
-//-- 求 mpos 中间pixel的 ppos 时用到
-#define MID_PPOS_IDX_IN_MAPENT 32
 
 
 //-- 一个 chunk，占有 32*32 mapents

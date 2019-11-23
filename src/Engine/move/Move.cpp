@@ -64,19 +64,7 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
  */
 void Move::renderUpdate_crawl(){
 
-            //-----------------------------------------
-            //-- 这个检测，最好在，所有工作都结束后，
-            //   此时的结果最准确
-            /*
-            {//-- 打印 当前帧的 ces 区域 --- 
-                tprDebug::clear_mapEntSlices();
-                for( const auto &i : this->goRef.get_currentSignINMapEntsRef() ){
-                    tprDebug::insert_new_mapEntSlice( MapCoord{i} );
-                }
-            }
-            */
-            //-----------------------------------------
-
+        
     //----------------------------//
     //    oldDirAxes & newDirAxes
     //   switch Move/Idle animAction
@@ -105,11 +93,14 @@ void Move::renderUpdate_crawl(){
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
-    glm::dvec2 actuallySpped = this->goRef.detect_collision_for_move(speedVec);
+    glm::dvec2 actuallySpped = ( this->goRef.family == GameObjFamily::Major ) ?
+                                    this->goRef.get_collisionRef().detect_moveCollide(speedVec) :
+                                    speedVec;
 
     if( this->goRef.isControlByPlayer ){
         tprDebug::collect_playerSpeed( actuallySpped ); // debug
     }
+
     this->goRef.accum_dpos( actuallySpped );
 }
 
@@ -154,12 +145,12 @@ void Move::renderUpdate_drag(){
     }
 
     //---- inn -----//
-    if( this->goRef.family == GameObjFamily::UI ){
-        this->goRef.accum_dpos( speedVec );
-    }else{
-        this->goRef.accum_dpos( this->goRef.detect_collision_for_move(speedVec) );
-    }
-    
+    glm::dvec2 actuallySpped = ( this->goRef.family == GameObjFamily::Major ) ?
+                                    this->goRef.get_collisionRef().detect_moveCollide(speedVec) :
+                                    speedVec;
+
+    this->goRef.accum_dpos( actuallySpped );
+
     if( isLastFrame ){
         this->isMoving = false;
                 //- 放在这里 不够严谨，毕竟本帧还是 移动的。

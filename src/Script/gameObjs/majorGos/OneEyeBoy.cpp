@@ -80,11 +80,6 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0); //- 尚未实现
     }
 
-    
-
-    
-
-
     //pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
 
@@ -178,6 +173,8 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
         //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
         goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
     }
+    
+    
     
     
     

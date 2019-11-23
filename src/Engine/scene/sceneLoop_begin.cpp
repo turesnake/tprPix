@@ -260,7 +260,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
             // tmp...
 
                 //-- 随便定个 mpos 
-                IntVec2    newGoMPos    { -5,0 };
+                IntVec2    newGoMPos    { 0,0 };
                 glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
 
                 glm::dvec2 secGoDPos { 150.0, 00.0 }; //- 测试用go
@@ -278,33 +278,49 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoDPos,
                                                             emptyDyParam );
-                //- 测试用go
-                //gameObjs::create_a_Go(  newGoSpecId,
-                //                        secGoDPos,
-                //                        emptyDyParam );
+
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
 
-                /*
+                
                 {//--- 临时生成一排篱笆 
                     goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
 
-                    IntVec2 fenceBegMPos {0, 0};
+                    std::set<IntVec2> fenceMap {}; // 篱笆放置蓝图
                     for( int i=0; i<10; i++ ){
-                        glm::dvec2 entOutDPos = mpos_2_dpos( fenceBegMPos + IntVec2{i, 0} );
+                        
+                        fenceMap.insert( IntVec2{ i, 9 } );
+                        fenceMap.insert( IntVec2{ 0, i } );
+                        fenceMap.insert( IntVec2{ 9, i } );
 
+                        if( ((i!=4) && (i!=5) && (i!=6))  ){
+                            fenceMap.insert( IntVec2{ i, 0 } );
+                        }
+
+
+
+                    }
+
+                    IntVec2 fenceBegMPos {-4, -4};
+                    for( const auto &impos : fenceMap ){
+                        glm::dvec2 entOutDPos = mpos_2_midDPos( fenceBegMPos + impos );
+                                                    // 务必 生长在 mapent mid 处 ！！！
+                        /*
                         cout << "entOutDPos: " << entOutDPos.x
                             << ", " << entOutDPos.y 
                             << "; round: " << tprRound( entOutDPos.x )
                             << ", " << tprRound( entOutDPos.y )
                             << endl;
+                        */
 
                         gameObjs::create_a_Go(  fenceGoSpecId,
                                                 entOutDPos,
                                                 emptyDyParam );
                     }
                 }
-                */
+                
+                
+
                 /*
                 {//--- 临时生成一排篱笆 
 

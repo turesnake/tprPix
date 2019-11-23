@@ -53,8 +53,6 @@ public:
     static IntVec2  windowSZ; //- 屏幕尺寸（像素）（在mac屏中，实际窗口尺寸可能为此值的2倍）
     static IntVec2  gameSZ;      //- 游戏像素尺寸
 
-    //static double windowSZ_vs_gameSZ; //- 取代原本的 PIXES_PER_GAMEPIX 一值
-
     static bool  isFullScreen;  //- 是否开启全屏模式
                                 //  尚未完工，此值必须确保为 false
 

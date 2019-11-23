@@ -48,7 +48,7 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
 
     goRef.init_check();
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goRef );
+    esrc::signUp_newGO_to_chunk_and_mapEnt( goRef );
     esrc::insert_2_goids_inactive( goid );
             //- 放入 未激活队列会造成 5帧的 显示空缺
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
@@ -85,7 +85,7 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 
     goRef.init_check();
     //------------------------------//
-    esrc::signUp_newGO_to_mapEnt( goRef );
+    esrc::signUp_newGO_to_chunk_and_mapEnt( goRef );
     esrc::insert_2_goids_inactive( diskGo_.goid );
             //- 放入 未激活队列会造成 5帧的 显示空缺
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...

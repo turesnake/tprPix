@@ -22,7 +22,6 @@
 //-- init is delay to ViewingBox::init() --
 IntVec2  ViewingBox::windowSZ { 0, 0 };
 IntVec2  ViewingBox::gameSZ   { 0, 0 };
-//double ViewingBox::windowSZ_vs_gameSZ {0.0};
 bool   ViewingBox::isFullScreen {false};
 
 double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
@@ -57,13 +56,6 @@ void ViewingBox::init(){
     double srcHeight = static_cast<double>(windowConfig.windowPixH);
 
     double windowSZ_vs_gameSZ_ {};
-    /*
-    if( srcHeight <= 720.0 ){
-        windowSZ_vs_gameSZ = 1.0;
-    }else{
-        windowSZ_vs_gameSZ = srcHeight / 720.0;
-    }
-    */
 
     windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
     //windowSZ_vs_gameSZ_ = srcHeight / 1000.0;

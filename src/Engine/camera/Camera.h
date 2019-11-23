@@ -27,7 +27,8 @@ class Camera{
 public:
     Camera():
         targetDPos(glm::dvec2(0.0, 0.0)),
-        currentDPos(glm::dvec3(0.0, 0.0, 0.5*ViewingBox::z))
+        currentDPos(glm::dvec2(0.0, 0.0)),
+        renderDPos(glm::dvec3(0.0, 0.0, 0.5 * ViewingBox::z ))
         {
             this->init();
         }
@@ -88,15 +89,17 @@ public:
         this->approachPercent = approachPercent_;
     }
 
-    //-- 由于 本游戏为 纯2D，所以不关心 camera 的 z轴值 --
-    inline glm::dvec2 get_camera2DDPos() const noexcept{ 
-        return  glm::dvec2{ this->currentDPos.x, this->currentDPos.y };  
+
+    inline glm::dvec2 get_currentDPos() const noexcept{  
+        return this->currentDPos;
     }
 
     //--- used for render DEEP_Z --
     //-- 注意，此处的 zNear/zFar 是相对世界坐标的 绝对值
-    inline double   get_zNear()const noexcept{ return this->currentDPos.z; }
-    inline double   get_zFar()const noexcept{ return (this->currentDPos.z - ViewingBox::z); }
+    inline double   get_zNear()const noexcept{ return this->renderDPos.z; }
+    inline double   get_zFar()const noexcept{ return (this->renderDPos.z - ViewingBox::z); }
+
+
     inline bool     get_isMoving()const noexcept{ return this->isMoving; }
     inline bool     get_isProjectionSet()const noexcept{ return this->isProjectionSet; }
 
@@ -127,8 +130,11 @@ private:
     glm::mat4 mat4_projection = glm::mat4(1.0); //-- 投影矩阵，默认初始化为 单位矩阵
 
     //------ 坐标向量 -------
+    //- in worldCoord -
     glm::dvec2 targetDPos; 
-    glm::dvec3 currentDPos; 
+    glm::dvec2 currentDPos;
+    //- in renderCoord/windowCoord -
+    glm::dvec3 renderDPos;
 
     double  approachPercent {0.1};  //- camera运动的 “接近比率”
 

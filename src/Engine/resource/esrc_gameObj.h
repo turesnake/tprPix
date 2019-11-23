@@ -10,6 +10,7 @@
 #define TPR_ESRC_GAME_OBJ_H
 
 //-------------------- CPP --------------------//
+#include <string>
 #include <functional> 
 #include <unordered_map>
 #include <unordered_set> 
@@ -31,9 +32,7 @@ std::unordered_set<goid_t> &get_goids_inactive();
 void insert_2_goids_active( goid_t id_ );
 void insert_2_goids_inactive( goid_t id_ );
 
-
-//std::weak_ptr<GameObj> get_goWPtr( goid_t id_ );
-GameObj &get_goRef( goid_t id_ );
+GameObj &get_goRef( goid_t id_, const std::string str_="" );
 GameObj *get_goRawPtr( goid_t id_ );
 
 bool is_go_active(goid_t id_  ); //- tmp
@@ -54,7 +53,7 @@ void realloc_inactive_goes();
 
 
 
-void signUp_newGO_to_mapEnt( GameObj &goRef_ );
+void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ );
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

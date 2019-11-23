@@ -11,7 +11,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -42,7 +42,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -84,7 +84,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -115,7 +115,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -157,7 +157,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -188,7 +188,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -230,7 +230,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -261,7 +261,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -303,7 +303,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -334,7 +334,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -376,7 +376,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",
@@ -407,7 +407,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Nil",
+            "ColliderType": "Circular",
             "subspecies": [
                 {
                     "type": "handle",

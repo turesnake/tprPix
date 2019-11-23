@@ -11,6 +11,7 @@
 #include "esrc_coordinate.h"
 #include "tprMath.h"
 
+#include "tprDebug.h"
 
 
 void DirAxes::limit_vals()noexcept{
@@ -28,6 +29,18 @@ void DirAxes::limit_vals()noexcept{
     //   若不做这道修正，玩家输入的方向，将沿着 world坐标系 去运行
     const auto &worldCoordRef = esrc::get_worldCoordRef();
     glm::dvec2 v = calc_innVec( worldCoordRef.get_rightHand(), this->to_dpos() );
+
+                        //-- 这个计算存在问题，计算出来的值 无法真的 横平竖直地运动，而是存在一个微小的偏转角
+                        //   ...
+
+            /*
+            cout << "origin: " << origin_x
+                << ", " << origin_y 
+                << "; newV: " << v.x 
+                << ", " << v.y 
+                << endl;
+            */
+
     //--
     this->origin_x = this->x;
     this->origin_y = this->y;

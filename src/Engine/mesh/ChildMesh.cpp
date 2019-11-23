@@ -65,32 +65,24 @@ void ChildMesh::refresh_translate(){
     const auto &goRef = this->goMeshRef.get_goCRef();
 
     const glm::dvec2 &currentDPos = goRef.get_dpos();
-    const glm::dvec2 &rf = this->goMeshRef.get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
-    const glm::dvec2 &pposOff = this->goMeshRef.get_pposOff();
+    const glm::dvec2 &rOff = this->goMeshRef.get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
+    const glm::dvec2 &goMeshPPosOff = this->goMeshRef.get_pposOff();
     double goAlti = goRef.get_pos_alti();
-
-    glm::dvec2 innDPos {};
-    glm::dvec2 outDPos {};
+    double off_z = this->goMeshRef.get_off_z();
 
     bool isNeedCoordTransform = goRef.family != GameObjFamily::UI; // 只有 uiGo 不需要坐标系转换
-    bool isNeedAlign2Pix = !goRef.get_isMoving(); // 所有不在移动的go，都需要对齐于像素
+    bool isNeedAlign2Pix = !goRef.get_isMoving(); // 所有不在移动的go，都需要对齐像素
 
-    //--- set translate_val ---//
-    innDPos.x = currentDPos.x + pposOff.x;
-
-    double off_zRef = this->goMeshRef.get_off_z();
+    // 坐标系转换: worldCoord -> outCoord
+    // 仅作用于 dpos，剩余的 rOff / goMeshPPosOff / goAlti 都不应参与此运算
+    glm::dvec2 outDPos = isNeedCoordTransform ? 
+                            worldCoord.calc_outDPos( currentDPos ) : 
+                            currentDPos;
 
     if( this->isPic == true ){
-        innDPos.y = currentDPos.y + pposOff.y + goAlti;
-
-        //---
-        outDPos = isNeedCoordTransform ? 
-                    worldCoord.calc_outDPos( innDPos ) : // 坐标系转换: worldCoord -> outCoord
-                    innDPos;
-
-        //-- rf 不应参与上方的 坐标系变形 --
-        this->translate_val.x = static_cast<float>( outDPos.x - rf.x );
-        this->translate_val.y = static_cast<float>( outDPos.y - rf.y );
+        //-- rOff / goMeshPPosOff / goAlti 都不应参与上方的 坐标系转换 --
+        this->translate_val.x = static_cast<float>( outDPos.x + goMeshPPosOff.x - rOff.x );
+        this->translate_val.y = static_cast<float>( outDPos.y + goMeshPPosOff.y - rOff.y + goAlti );
 
         if( isNeedAlign2Pix ){
             this->translate_val.x = tprRound( this->translate_val.x );
@@ -100,46 +92,39 @@ void ChildMesh::refresh_translate(){
                                     
         if( goMeshRef.isPicFixedZOff ){
             this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + 
-                                    goMeshRef.get_picFixedZOff() + off_zRef);
+                                    goMeshRef.get_picFixedZOff() + off_z);
         }else{
-            this->translate_val.z = static_cast<float>( -(currentDPos.y + pposOff.y) + off_zRef );
+            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + off_z );
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负， 摄像机朝向 z轴 负方向
-                                        // -2- 没有算入 rf.y; 因为这个值只代表：
+                                        // -2- 没有算入 rOff.y; 因为这个值只代表：
                                         //     图元 和 根锚点的 偏移
                                         //     而 z值 仅仅记录 GameObjMesh锚点 在 游戏世界中的位置
         }
     }else{
-        innDPos.y = currentDPos.y + pposOff.y;
-                                    //-- 若是类似 mushroom 这种 multiGoMeshs-go，
-                                    //   其 阴影应当 添加 pposOff.y
-                                    //-- 若是 go身上绑定的 子mesh，其 pposOff.y 不应被累加
-                                    //   在未来，这个变化，应当通过一个 flags 来控制
-                                    //   并允许外部选配 ...
-            
-        //---
-        outDPos = isNeedCoordTransform ? 
-                    worldCoord.calc_outDPos( innDPos ) : // 坐标系转换: worldCoord -> outCoord
-                    innDPos;
+        //-- rOff / pposOff / goAlti 都不应参与上方的 坐标系转换 --
+        this->translate_val.x = static_cast<float>( outDPos.x + goMeshPPosOff.x - rOff.x );
+        this->translate_val.y = static_cast<float>( outDPos.y + goMeshPPosOff.y - rOff.y );
 
-        //-- rf 不应参与上方的 坐标系变形 --
-        this->translate_val.x = static_cast<float>( outDPos.x - rf.x );
-        this->translate_val.y = static_cast<float>( outDPos.y - rf.y );
+                                    //-- 若是类似 mushroom 这种 multiGoMeshs-go，
+                                    //   其 阴影应当 添加 goMeshPPosOff.y
+                                    //-- 若是 go身上绑定的 子mesh，其 goMeshPPosOff.y 不应被累加
+                                    //   在未来，这个变化，应当通过一个 flags 来控制
+                                    //   以便外部选配 ...
 
         if( isNeedAlign2Pix ){
             this->translate_val.x = tprRound( this->translate_val.x );
             this->translate_val.y = tprRound( this->translate_val.y );
         }
 
-        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff + off_zRef);
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff + off_z);
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
-                                    //   而且始终 “相对 camera.viewingBox 静止”
+                                    //   且始终 相对 camera.viewingBox 静止
     }
             //-- 未来拓展：
             //  应当为 每个go 设置一个随机的 z深度 base值
             //  在此 z_base 基础上，再做 深度加减
             //  从而避免同一 z深度的 图元 在渲染时 碰撞
-
 }
 
 

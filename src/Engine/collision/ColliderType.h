@@ -18,11 +18,24 @@
 #include "tprAssert.h"
 
 enum class ColliderType{
-    Nil,      //- not call move collide detect
+    Nil,
+    //---
+    Circular,   // 最全最复杂的 碰撞体，所有 活体go。只能用此类型
+                // 参与 moveCollide, 也参与 skillCollide
+                // 唯一可以 移动 的类型，
+                // 拥有自定义 碰撞圆半径，以便别的go，碰到它
+                // 当扮演 dogo 时，则使用一个统一的 标准半径值
+                // 每次移动，都需要及时更新自己的 mapent 登记信息 
 
-    Circular,
-    Arc,      //- only support for skillCollide
-    Square,
+    Square,     // 专用于 静态地景go。
+                // 参与 moveCollide, 不参与 skillCollide
+                // 无法移动，碰撞区就是一个 完整的 mapent
+
+    Arc,        //  参与 skillCollide，
+                //  可以移动，但不参与 moveCollide
+                //  不会被登记到 mapent 上
+
+
 };
 
 inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
@@ -66,6 +79,8 @@ public:
     //----- vals -----//
     glm::dvec2  dpos   {};
     double      radius {};
+    //----- static -----//
+    static double radius_for_dogo; // 扮演 dogo 时，使用一个标准值 24.0 
 };
 
 
@@ -106,8 +121,7 @@ public:
     glm::dvec2  dpos       {};
     double      radius     {}; // 未来可以被取消 ...
     //----- static -----//
-    // 暂时只有一个 半径值，所有实例 都使用此值
-    static double unifiedRadius;
+    static double unifiedRadius; // 唯一且统一的半径值
 };
 
 

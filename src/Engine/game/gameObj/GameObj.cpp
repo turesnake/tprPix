@@ -54,15 +54,9 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     //    collision
     //-----------------------//
-    /*
-    this->collisionUPtr = (this->isMoveCollide) ? 
+    this->collisionUPtr = (this->family == GameObjFamily::Major) ?
                                 std::make_unique<Collision>(*this) :
                                 nullptr;
-    */
-
-    this->collisionUPtr = std::make_unique<Collision>(*this);
-
-                //- 如果是 isMoveCollide == false，是不是可以直接不初始化此 组件 ....
 
     //-----------------------//
     //         oth
@@ -156,25 +150,30 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 /* ===========================================================
  *                    init_check
  * -----------------------------------------------------------
+ * 收尾工作，杂七杂八
  */
 void GameObj::init_check(){
 
     tprAssert( this->rootAnimActionPosPtr );
-
-    //-- colliderType and isMoveCollide --
     this->colliDataFromJPtr = this->rootAnimActionPosPtr->get_colliDataFromJPtr();
 
-    if( this->isMoveCollide ){
-        tprAssert( this->get_colliderType() != ColliderType::Nil );
+    //---
+    if( this->family == GameObjFamily::Major ){
+
         tprAssert( this->goPosUPtr != nullptr );
 
-        //-- 主动调用，init signINMapEnts --- MUST!!!
-        this->collisionUPtr->init_signInMapEnts( this->get_dpos(),
-                    std::bind( &ColliDataFromJ::get_colliPointDPosOffs, this->colliDataFromJPtr )
-                    );
-    }
-    //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...
+        //- 参与 moveCollide 的仅有 majorGo: Cir 
+        if( this->get_colliderType() == ColliderType::Circular  ){
+            //-- 主动调用，init signINMapEnts --- MUST!!!
+            this->collisionUPtr->init_signInMapEnts_for_cirGo( this->get_dpos(),
+                        std::bind( &ColliDataFromJ::get_colliPointDPosOffs, this->colliDataFromJPtr ) );
+        }
 
+
+
+    }
+
+    //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...
 }
 
 
@@ -198,18 +197,27 @@ void GameObj::rebind_rootAnimActionPosPtr(){
  * 遍历当前 goPos 中每个 colliEnt，收集其所在 chunkKeys
  * ---
  * 此函数 只是单纯记录 本go相关的所有 chunk key 信息。
- * 此过程中并不访问 chunk实例 本事。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
- * ---
- * 目前只在2处位置执行：
- * -1- GameObj::signUp_newGO_to_mapEnt()
- * -2- Move::renderUpdate_inn()
+ * 此过程中并不访问 chunk实例 本身。所有，就算相关 chunk 尚未创建，也不影响本函数的执行。
  */
 size_t GameObj::reCollect_chunkKeys(){
-        tprAssert( this->isMoveCollide ); //- tmp
+
+    tprAssert( this->family == GameObjFamily::Major );
+
     this->chunkKeys.clear();
-    for( const auto &mpos : this->get_currentSignINMapEntsRef() ){
-        this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); // maybe
+
+    auto colliType = this->get_colliderType();
+    if( colliType == ColliderType::Circular ){
+        for( const auto &mpos : this->get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
+            this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); // maybe
+        }
+
+    }else if( colliType == ColliderType::Square ){
+        this->chunkKeys.insert( anyMPos_2_chunkKey( dpos_2_mpos(this->get_dpos()) ) ); // only one
+
+    }else{
+        tprAssert(0);
     }
+    //---
     return this->chunkKeys.size();
 }
 

@@ -89,7 +89,15 @@ std::weak_ptr<GameObj> get_goWPtr( goid_t id_ ){
  * -- 返回 go实例 引用
  * -- 通过此接口，外部只有权 读取改写 go实例，无权删除 go实例，无法长期持有 go实例指针
  */
-GameObj &get_goRef( goid_t id_ ){
+GameObj &get_goRef( goid_t id_, const std::string str_ ){
+
+        //-- debug 
+        if( go_inn::gameObjs.find(id_) == go_inn::gameObjs.end() ){
+            cout << "ERROR:get_goRef(): " << str_
+                << "\n    goid = " << id_ 
+                << endl;
+        }
+
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
     return *(go_inn::gameObjs.at(id_));
 }
@@ -206,7 +214,7 @@ void realloc_active_goes(){
     for( auto id : go_inn::goids_active ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_dpos();
+        v = get_camera().get_currentDPos() - goRef.get_dpos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将离开 激活圈的 go 移动到 激活组 --
@@ -241,7 +249,7 @@ void realloc_inactive_goes(){
     for( auto id : go_inn::goids_inactive ){
         GameObj &goRef = esrc::get_goRef(id);
 
-        v = get_camera().get_camera2DDPos() - goRef.get_dpos();
+        v = get_camera().get_currentDPos() - goRef.get_dpos();
 
         distance = (v.x * v.x) + (v.y * v.y);
         //-- 将进入 激活圈的 go 移动到 激活组 --
@@ -259,7 +267,7 @@ void realloc_inactive_goes(){
 
 
 /* ===========================================================
- *                 signUp_newGO_to_mapEnt
+ *                 signUp_newGO_to_chunk_and_mapEnt
  * -----------------------------------------------------------
  * -- 将 新建go 的 colliEnts 登记到所有对应的 mapent 上去。
  * 难点：
@@ -270,8 +278,10 @@ void realloc_inactive_goes(){
  *      --- 统计自己的 chunkeys,
  *      --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
  *      --- 将 本goid，记录到 主chunk goids 容器中
+ * 
+ * -- 目前仅用于 create_a_Go() 系列函数
  */
-void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
+void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
     //------------------------------//
     // --- 记录 go.currentChunkKey
@@ -282,37 +292,63 @@ void signUp_newGO_to_mapEnt( GameObj &goRef_ ){
     Chunk &currentChunkRef = esrc::get_chunkRef( goRef_.currentChunkKey );
     currentChunkRef.insert_2_goIds( goRef_.id ); //- always
 
-    if( !goRef_.isMoveCollide ){ return; }
-
-    //------------------------------//
-    size_t chunkKeySize = goRef_.reCollect_chunkKeys();
-    if( chunkKeySize > 1 ){
-        currentChunkRef.insert_2_edgeGoIds( goRef_.id );
+    //----------------//
+    if( goRef_.family != GameObjFamily::Major ){
+        return;
     }
-    //------------------------------//
-    //  signUp each collient to mapEnt
-    //------------------------------//
-    chunkKey_t  tmpChunkKey  {}; //- each collient current chunkKey
-        tprAssert( !goRef_.get_currentSignINMapEntsRef().empty() ); //- tmp
-    for( const auto &mpos : goRef_.get_currentSignINMapEntsRef() ){
 
-        tmpChunkKey = anyMPos_2_chunkKey( mpos );
+    size_t      chunkKeySize = goRef_.reCollect_chunkKeys();
+    chunkKey_t  tmpChunkKey  {};
 
-        //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
-        // 此时显然不能去调用 esrc::getnc_memMapEntPtr(), 会出错。
-        // 将会暂时 忽略掉这个 collient 的登记工作，
-        // 这个工作，会等到 目标chunk 创建阶段，再补上: 
-        // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
-        auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
-        if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
-            continue;
-        }
+    auto colliType = goRef_.get_colliderType();
+    if( colliType == ColliderType::Square ){
 
-        //---- 正式注册 collient 到 mapents 上 -----
+        //-- 目前暂时只支持 1*1mapent 尺寸的 人造物单元
+        //   所以完全不用关心 chunk.edgeGoids 的问题
+        //   最简设计：
+
+        auto mpos = dpos_2_mpos( goRef_.get_dpos() );
+
+        //---- 正式注册 go 到 mapents 上 -----
         auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
         tprAssert( mapEntPair.first == ChunkMemState::Active );
-        //-- 并不检测 当前 mapent 中是否有 重合的 go。而是直接 将数据 存入 mapent
-        mapEntPair.second->insert_2_majorGos( goRef_.id );
+        mapEntPair.second->set_square_goid( goRef_.id, colliType );
+        
+
+    }else if( colliType == ColliderType::Circular ){
+
+        if( chunkKeySize > 1 ){
+            currentChunkRef.insert_2_edgeGoIds( goRef_.id );
+        }
+        //------------------------------//
+        //  signUp each collient to mapEnt
+        //------------------------------//
+        
+        const auto &currentSignINMapEntsRef = goRef_.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo();
+        tprAssert( !currentSignINMapEntsRef.empty() ); //- tmp
+        for( const auto &mpos : currentSignINMapEntsRef ){
+
+            tmpChunkKey = anyMPos_2_chunkKey( mpos );
+
+            //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
+            // 此时显然不能去调用 esrc::getnc_memMapEntPtr(), 会出错。
+            // 将会暂时 忽略掉这个 collient 的登记工作，
+            // 这个工作，会等到 目标chunk 创建阶段，再补上: 
+            // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
+            auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
+            if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
+                continue;
+            }
+
+            //---- 正式注册 go 到 mapents 上 -----
+            auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+            tprAssert( mapEntPair.first == ChunkMemState::Active );
+            mapEntPair.second->insert_2_circular_goids( goRef_.id, colliType );
+        }
+
+    }else{
+        // do nothing !
+        return;
     }
 
 }

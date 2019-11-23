@@ -44,18 +44,10 @@ public:
             this->init();
         }
 
-    inline void insert_2_goIds( goid_t id_ )noexcept{
-        this->goIds.insert(id_);
-    }
-    inline size_t erase_from_goIds( goid_t id_ )noexcept{
-        return this->goIds.erase(id_);
-    }
-    inline void insert_2_edgeGoIds( goid_t id_ )noexcept{
-        this->edgeGoIds.insert(id_);
-    }
-    inline size_t erase_from_edgeGoIds( goid_t id_ )noexcept{
-        return this->edgeGoIds.erase(id_);
-    }
+    inline void     insert_2_goIds( goid_t id_ )noexcept{ this->goIds.insert(id_); }
+    inline size_t   erase_from_goIds( goid_t id_ )noexcept{ return this->goIds.erase(id_); }
+    inline void     insert_2_edgeGoIds( goid_t id_ )noexcept{ this->edgeGoIds.insert(id_); }
+    inline size_t   erase_from_edgeGoIds( goid_t id_ )noexcept{ return this->edgeGoIds.erase(id_); }
 
     //------- get -------//
     inline IntVec2  get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
@@ -80,15 +72,7 @@ public:
     }
 
     
-    //======== flags ========//
-    bool     is_memMapEnts_set              {false};
-
-    bool     is_dirty  {false};//- 如果目标chunk上的 伪随机go数据，发生变化
-                               //- 则被释放为 dirty.
-                               //  下次生成此chunk时，不能直接使用 伪随机数，
-                               //  还要参考 改动表 中的数据
-                               //  此部分功能未实现
-
+    
 private:
     void init();
     void init_memMapEnts();
@@ -120,7 +104,14 @@ private:
     size_t   uWeight      {}; // [0, 9999]
 
     mapSurface::randEntId_t mapSurfaceRandEntId {}; //- 指导 field 是否生成／生成什么lvl 的 mapsurface go
-                                        
+
+
+    //======== flags ========//
+    bool     is_dirty  {false};//- 如果目标chunk上的 伪随机go数据，发生变化
+                               //- 则被释放为 dirty.
+                               //  下次生成此chunk时，不能直接使用 伪随机数，
+                               //  还要参考 改动表 中的数据
+                               //  此部分功能未实现    
 };
 
 

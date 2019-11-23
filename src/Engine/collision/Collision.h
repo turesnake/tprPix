@@ -4,8 +4,6 @@
  *                                        CREATE -- 2019.09.01
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *  第三版
- * ---------
  */
 #ifndef TPR_COLLISION_2_H
 #define TPR_COLLISION_2_H
@@ -22,6 +20,7 @@
 #include "GameObjPos.h"
 #include "GameObjType.h"
 #include "SignInMapEnts.h"
+#include "NineDirection.h"
 
 #include "mapEntKey.h"
 
@@ -41,23 +40,33 @@ class Collision{
 public:
     Collision( GameObj &goRef_ ):
         goRef(goRef_)
-        {}
+        {
+            if( !Collision::isStaticInit ){
+                Collision::isStaticInit = true;
+                Collision::init_for_static();
+            }
+        }
+        
 
-    glm::dvec2 detect_for_move( const glm::dvec2 &moveVec_ );
+    glm::dvec2 detect_moveCollide( const glm::dvec2 &moveVec_ ); // tmp
 
 
     //-- only call in go init --
-    inline void init_signInMapEnts( const glm::dvec2 &newRootAnchorDPos_,
-                                    F_get_colliPointDPosOffsRef func_1_ )noexcept{
-        this->signInMapEntsUPtr = std::make_unique<SignInMapEnts>();
-        this->signInMapEntsUPtr->init_datas( newRootAnchorDPos_, func_1_ );
+    inline void init_signInMapEnts_for_cirGo(   const glm::dvec2 &newGoDPos_,
+                                                F_get_colliPointDPosOffsRef func_1_ )noexcept{
+
+        this->signInMapEntsUPtr = std::make_unique<SignInMapEnts>( newGoDPos_, func_1_ );
+
     }
 
     inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
     inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
     inline bool get_isDoPass() const noexcept{ return this->isDoPass; }
     inline bool get_isBePass() const noexcept{ return this->isBePass; }
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef() const noexcept{
+
+
+    //-- 所有调用此函数的 ，一律为 cir go
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef_for_cirGo() const noexcept{
             tprAssert( this->signInMapEntsUPtr );
         return this->signInMapEntsUPtr->get_currentSignINMapEntsRef();
     }
@@ -65,51 +74,72 @@ public:
 
 private:
 
-    void collect_adjacentBeGos();
-    glm::dvec2 detect_adjacentBeGos( const glm::dvec2 &moveVec_ );
 
-    void handle_chunkKeys();
+    std::pair<bool, glm::dvec2> collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ );
+    std::pair<bool, glm::dvec2> collect_IntersectBegos_and_truncate_moveVec( const glm::dvec2 &moveVec_ );
 
-    
-    std::pair<bool, glm::dvec2> for_move_inn( const glm::dvec2 &moveVec_ );
+    void reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )noexcept;
 
 
     //======== vals ========//
     GameObj    &goRef;
 
-    std::unique_ptr<SignInMapEnts> signInMapEntsUPtr {nullptr};
-
-    //-- 以下容器，仅在函数内部使用 --
-    std::unordered_map<goid_t, glm::dvec2> adjacentBeGos {}; // 相邻begos
-                            // --1-- begoid
-                            // --2-- self_2_oth
-                            // 相邻go 是触发 ”滑动式位移“ 的唯一途径
-
-    //--- 这三个容器是 折中方案 --
-    //  未来做精简 ...
-    std::unordered_set<goid_t> begoids {}; //- 从 signInMapEnts 中收集的 半有效 begoids
-
-    std::unordered_set<goid_t> begoids_withOut_artifact {}; //- 从 signInMapEnts 中收集的 半有效 begoids
-                                            //  不包含 人造物go
-    std::unordered_map<mapEntKey_t, goid_t> artifactBegoids {};
-                                            //- 从 signInMapEnts 中收集的 半有效 begoids
-                                            //  仅包含 人造物go
-                                            //  key: mapEntKey 位于 artifactCoord 坐标系
-                                            
-
-    std::multimap<double,goid_t> tbegoids {}; //- 确认发生碰撞的 begos，将被收集起来，按照 t 值排序
+    std::unique_ptr<SignInMapEnts> signInMapEntsUPtr {nullptr}; // only for cirGo
 
     
-
-
     //======== flags ========//
-    //  下方这组 可能存在 逻辑漏洞，但先这么用着... 
     bool  isDoPass  {false};//- 当自己为 主动go 时，是否穿过 被动go；
                             //  如果本go 是 “穿透箭”。可将此值设置为 true
                             //  此时，本go 将无视 被动go 的状态，移动穿过一切 被动go
     bool  isBePass  {false};//- 当自己为 被动go 时，是否允许 主动go 穿过自己；
                             //  如果本go 是 “草”／“腐蚀液”，可将此值 设置为 true
-                            //  此时，本go 将无法阻止任何 go 从自己身上 穿过
+                            //  此时，本go 将允许任何 go 从自己身上 穿过
+
+                // 推荐用法：
+                //-- 对于 草这种允许被dogo穿过，自己又无法移动的。 isBePass=true， isDoPass 随意（无效）
+                //-- 对于 常规生物，2值都设置为 false
+                //-- 对于 允许别人穿过自己，但自己无法穿透任意墙壁的 dogo，类似 mc中的羊，isDoPass=false, isBePass=true
+                //    一些小动物，npc 特别适合这种
+                //-- 对于 带穿透属性的 箭矢，isDoPass=true， isBePass 随意（无效）
+
+    //===== static =====//
+    static void init_for_static()noexcept;
+
+    static void build_a_scanBody(   const glm::dvec2 &moveVec_,
+                                    const glm::dvec2 &dogoDPos_,
+                                    std::vector<IntVec2> &mapEnts_ );
+
+
+    //---
+    static bool isStaticInit;
+
+    static std::vector<glm::dvec2> obstructNormalVecs;
+                            // moveCollide 第一阶段，在 dogo起始位置，所有与之 相邻 的bego，
+                            // 对 dogo 施与的 阻挡法向量集（墙壁法向量集）
+                            // 用来修正 moveVec
+
+    static std::set<NineDirection> confirmedAdjacentMapEnts;
+                            // 确认会发生 碰撞的 相邻 mapents [0,2]
+
+    static std::unordered_map<goid_t, glm::dvec2> adjacentCirBeGos; // 相邻关系的 cir_begos
+                            // --1-- begoid
+                            // --2-- obstructNormalVec
+                            // 相邻go 是触发 ”滑动式位移“ 的唯一途径
+
+    static std::unordered_set<goid_t> begoids_circular; 
+    static std::unordered_set<goid_t> begoids; 
+                            //- 从 signInMapEnts 中收集的 半有效 begoids
+
+    static std::vector<IntVec2> mapEnts_in_scanBody;
+                            // 用于 squ_begos 碰撞检测
+                            // 与 粗略扫掠体 相交的 mapents 
+
+
+
+    static std::multiset<double> tVals; 
+                            //- 确认发生碰撞的 begos，将被收集起来，按照 t 值排序
+
+
 };
 
 
