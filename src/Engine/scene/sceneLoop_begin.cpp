@@ -296,10 +296,14 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                         if( ((i!=4) && (i!=5) && (i!=6))  ){
                             fenceMap.insert( IntVec2{ i, 0 } );
                         }
-
-
-
                     }
+                    fenceMap.insert( IntVec2{ 2, 4 } );
+                    fenceMap.insert( IntVec2{ 2, 5 } );
+                    fenceMap.insert( IntVec2{ 2, 6 } );
+                    fenceMap.insert( IntVec2{ 2, 7 } );
+
+
+
 
                     IntVec2 fenceBegMPos {-4, -4};
                     for( const auto &impos : fenceMap ){

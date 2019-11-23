@@ -76,6 +76,23 @@ void write_ubo_Window();
 
 
 //-------------------------//
+//    UBO_WorldCoord
+//-------------------------//
+// [once]
+struct UBO_WorldCoord{
+    FloatVec2   xVec {};
+    FloatVec2   yVec {};
+    float       denominator {};
+    //....
+};
+
+// only called in init
+void write_ubo_WorldCoord();
+
+
+
+
+//-------------------------//
 //  UBO_ColorTable
 //-------------------------//
 void write_ubo_OriginColorTable();

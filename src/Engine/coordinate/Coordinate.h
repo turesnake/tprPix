@@ -22,10 +22,10 @@
 
 class Coordinate{
 public:
-    Coordinate( const glm::dvec2 &x_, const glm::dvec2 &y_ ):
-        xP(x_),
-        yP(y_),
-        denominator( xP.x * yP.y - xP.y * yP.x )
+    Coordinate( const glm::dvec2 &xVec_, const glm::dvec2 &yVec_ ):
+        xVec(xVec_),
+        yVec(yVec_),
+        denominator( xVec.x * yVec.y - xVec.y * yVec.x )
         {
             this->init();
         }
@@ -33,15 +33,15 @@ public:
     //-- 将外部世界坐标系的值，转换成 客制坐标系内的 对应值
     inline glm::dvec2 calc_innDPos( const glm::dvec2 &outDPos_ )const noexcept{
         return glm::dvec2{
-            (this->yP.y * outDPos_.x - this->yP.x * outDPos_.y) / this->denominator,
-            (this->xP.x * outDPos_.y - this->xP.y * outDPos_.x) / this->denominator
+            (this->yVec.y * outDPos_.x - this->yVec.x * outDPos_.y) / this->denominator,
+            (this->xVec.x * outDPos_.y - this->xVec.y * outDPos_.x) / this->denominator
         };
     }
 
     //-- 将客制坐标系内的 值，转换成 外部世界坐标的 对应值
     inline glm::dvec2 calc_outDPos( const glm::dvec2 &innDPos_ )const noexcept{
-        return glm::dvec2{  this->xP.x * innDPos_.x + this->yP.x * innDPos_.y,
-                            this->xP.y * innDPos_.x + this->yP.y * innDPos_.y };
+        return glm::dvec2{  this->xVec.x * innDPos_.x + this->yVec.x * innDPos_.y,
+                            this->xVec.y * innDPos_.x + this->yVec.y * innDPos_.y };
     }
 
     inline const glm::dvec2 &get_normalVec_in_outCoord( NineDirection dir_ )const noexcept{
@@ -51,12 +51,15 @@ public:
 
     //----- get -----//
     inline const glm::dvec2 &get_rightHand()const noexcept{ return this->rightHand; }
+    inline const glm::dvec2 &get_xVec()const noexcept{ return this->xVec; }
+    inline const glm::dvec2 &get_yVec()const noexcept{ return this->yVec; }
+    inline double            get_denominator()const noexcept{ return this->denominator; }
 
 private:
     void init()noexcept;
     //----- vals -----//
-    glm::dvec2  xP;
-    glm::dvec2  yP;
+    glm::dvec2  xVec;
+    glm::dvec2  yVec;
     double      denominator; // in order to make the calc easy
 
     glm::dvec2 rightHand {}; // 本坐标系 x方向 单位向量，在 outCoord 中的值

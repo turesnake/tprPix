@@ -88,18 +88,9 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
     //===================//
     //   moveCollide
     //===================//
-    Collision::obstructNormalVecs.clear();
-    Collision::adjacentCirBeGos.clear();
-    Collision::begoids.clear();
-    Collision::begoids_circular.clear();
-    Collision::confirmedAdjacentMapEnts.clear();
-    Collision::tVals.clear();
 
-    //----------------
-    // 第一阶段
-
-                //cout << "moveVec(1): " << moveVec_.x << ", " << moveVec_.y << endl;
-
+    //----------------//
+    //    第一阶段
     auto outPair1 = this->collect_AdjacentBegos_and_deflect_moveVec( moveVec_ );
     // dogo 在 起始阶段就被 阻挡了，完全无法移动
     if( !outPair1.first ){
@@ -107,7 +98,8 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
     }
     moveVec = outPair1.second;
 
-    //---
+    //----------------//
+    //    第二阶段
     auto outPair2 = this->collect_IntersectBegos_and_truncate_moveVec( moveVec ); // MAJOR !!!! 
     //--- 如果确认 dogo 完全无法移动，直接退出 ---
     if( !outPair2.first ){
@@ -119,8 +111,6 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
     this->reSignUp_dogo_to_chunk_and_mapents( moveVec );
     return moveVec;
 }
-
-
 
 
 
@@ -138,41 +128,32 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
  */
 std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ ){
 
-    GameObj &dogoRef = this->goRef;
+    GameObj     &dogoRef = this->goRef;
     const auto &dogoDPos = dogoRef.get_dpos();
-    IntVec2  dogoMPos = dpos_2_mpos(dogoDPos);
+    IntVec2     dogoMPos = dpos_2_mpos(dogoDPos);
+    IntVec2     mpos {};
 
-            /*
-            cout << "dogoDPos: " << dogoDPos.x << ", " << dogoDPos.y 
-                << ";  dogoMPos: " << dogoMPos.x << ", " << dogoMPos.y 
-                << endl;
-            */
-            
-
-
-    IntVec2 mpos {};
+    //---
+    Collision::confirmedAdjacentMapEnts.clear();
+    Collision::adjacentCirBeGos.clear();
+    Collision::obstructNormalVecs.clear();
 
     //===================//
     //   square begos
     //===================//
     // 所有 squ begos，需要被当作一个整体来看待
-
     for( const auto &dir : collect_Adjacent_nearbyMapEnts( dogoDPos, dogoMPos ) ){ // all Adjacent mapents
-
-                //cout << "dir: " << nineDirection_2_str(dir) << ", ";
 
         mpos = dogoMPos + nineDirection_2_mposOff(dir); 
 
-                //cout << "mpos: " << mpos.x << ", " << mpos.y << "; ";
-
-        //- 当发现某个 addEnt 处于非 Active 的 chunk。
+        //- 当发现某个 ent 处于非 Active 的 chunk。
         //  直接跳过，最简单的处理手段
         auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
         if( mapEntPair.first != ChunkMemState::Active ){
             continue; //- skip
         }
 
-        //----- empty -----//
+        //----- empty bego -----//
         goid_t squ_goid = mapEntPair.second->get_square_goid();
         if( squ_goid == 0 ){
             continue;
@@ -189,13 +170,10 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
             continue;
         }
 
+        //----- collect Adjacent mapents -----//
         auto outPair = Collision::confirmedAdjacentMapEnts.insert( dir );
         tprAssert( outPair.second );
     }
-
-            //cout << endl;
-
-            //cout << "confirmedAdjacentMapEnts.size(): " << confirmedAdjacentMapEnts.size() << endl;
 
     //---
     if( !Collision::confirmedAdjacentMapEnts.empty() ){
@@ -205,32 +183,22 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
                                             dogoMPos,
                                             Collision::confirmedAdjacentMapEnts );
 
-
-            //cout << "obstructNormalVec: " << obstructNormalVec.x << ", " << obstructNormalVec.y << endl;
-
-
         //-- 过滤掉 背向而行的 可能性 --
         if( !is_dogo_leave_begoSquares_easy(moveVec_, obstructNormalVec) ){
             Collision::obstructNormalVecs.push_back( obstructNormalVec );
         }
-
-
-
-
     }
-
-            //cout << "obstructNormalVecs.size(1): " << Collision::obstructNormalVecs.size() << endl;
 
     //===================//
     //   circular begos
     //===================//
     //  初步收集 所有有效 begoid
     //  不包含 dogo 自己
-
+    Collision::begoids_circular.clear();
     for( const auto &colliPointDPosOff : get_colliPointDPosOffsRef_for_cirDogo() ){
         mpos = dpos_2_mpos( dogoDPos + colliPointDPosOff );
 
-        //- 当发现某个 addEnt 处于非 Active 的 chunk。
+        //- 当发现某个 ent 处于非 Active 的 chunk。
         //  直接跳过，最简单的处理手段
         auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
         if( mapEntPair.first != ChunkMemState::Active ){
@@ -256,7 +224,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
             continue;
         }
 
-        //-- 仅仅计算 dogo,bego 距离，看是否相邻 --
+        //-- calc and collect Adjacent begos --
         Circular begoCir = begoRef.calc_circular( CollideFamily::Move );
         auto colliState = collideState_from_circular_2_circular( dogoDPos, begoCir, 1.0);
         if( colliState == CollideState::Adjacent ){
@@ -299,7 +267,6 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
     //   calc deflectmoveVec
     //===================//
     if( Collision::obstructNormalVecs.empty() ){
-        //cout << "sum::empty..." << endl;
         return { true, moveVec_ };  //- 也许存在相邻go，但完全不影响位移
     }
 
@@ -307,13 +274,9 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
     for( const auto &i : Collision::obstructNormalVecs ){
         sum += i;
     }
-            //cout << "sum = " << sum.x << ", " << sum.y << endl;
+
     //---- 现在，sum指向 总阻力向量 的反方向 ----
-
     glm::dvec2 newMoveVec = calc_slideMoveVec(moveVec_, sum );
-
-            //cout << "newMoveVec: " << newMoveVec.x << ", " << newMoveVec.y << endl;
-
     return { true, newMoveVec }; // 修正了方向后的 新位移
 }
 
@@ -332,15 +295,17 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
     const auto  &dogoDPos = dogoRef.get_dpos();
     IntVec2     dogoMPos = dpos_2_mpos(dogoDPos);
     glm::dvec2  dogeTargetDPos = dogoDPos + moveVec_;
-    IntVec2 mpos {};
+    IntVec2     mpos {};
+
+    Collision::tVals.clear();
 
     //===================//
     //   square begos
     //===================//
-    Collision::build_a_scanBody( moveVec_, dogoDPos, Collision::mapEnts_in_scanBody );
+    Collision::build_a_scanBody( moveVec_, dogoDPos );
     for( const auto &impos : Collision::mapEnts_in_scanBody ){    
 
-        //- 当发现某个 addEnt 处于非 Active 的 chunk。
+        //- 当发现某个 ent 处于非 Active 的 chunk。
         //  直接跳过，最简单的处理手段
         auto mapEntPair = esrc::getnc_memMapEntPtr( impos );
         if( mapEntPair.first != ChunkMemState::Active ){
@@ -349,12 +314,10 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
 
         goid_t squ_goid = mapEntPair.second->get_square_goid();
         if( squ_goid == 0 ){
-            continue;
+            continue; //- skip
         }
 
         GameObj &begoRef = esrc::get_goRef( squ_goid, "-1-" );
-
-                        //tprAssert( begoRef.get_colliderType() == ColliderType::Square ); // tmp
 
         //----- isMoveCollide -----//
         //      bego.isBePass
@@ -362,30 +325,18 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
         if( (!begoRef.isMoveCollide) || 
             begoRef.get_collisionRef().get_isBePass() ||
             (!is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange())) ){
-            continue;
+            continue; //- skip
         }
 
         //-- 剔除 背向而行 --
-        if( is_dogo_leave_begoSquares_2( moveVec_, dogoDPos, dogoMPos, impos ) ){
-            //cout << "   del: " << impos.x << ", " << impos.y << endl;
-            continue;
+        if( is_dogo_leave_begoSquares_2( moveVec_, dogoDPos, dogoMPos, impos ) ){ // 严谨版
+            continue; //- skip
         }
 
         //-- 现在确认 bego 为 有效碰撞bego:        
-
-        //-- 无需把 所有 squ-bego 看成整体
-        //   逐个检测每个 bego，计算出 t 值，
-        //   收集起来
+        //   逐个检测每个 bego，计算并收集 t 值，
         auto outPair = cast_with_mapent( moveVec_, dogoDPos, impos );
         if( outPair.first ){
-
-                /*
-                cout << "== impos: " << impos.x << ", " << impos.y 
-                    << "; t: " << outPair.second
-                    <<endl;
-                */
-                
-
             Collision::tVals.insert( outPair.second );
         }
     }
@@ -395,7 +346,6 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
     //===================//
     //  初步收集 所有有效 begoid
     //  不包含 dogo 自己，不包含 adjacentCirBeGos 中的 bego
-
     Collision::begoids.clear();
 
     for( const auto &colliPointDPosOff : get_colliPointDPosOffsRef_for_cirDogo() ){
@@ -417,15 +367,10 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
 
     //----------------------------------------//
     //   check each bego，and collect tbegoids
-
     Circular begoCir {};
-    
-    //--
     for( const auto &begoid : Collision::begoids ){//- each bego (cirs)
 
         GameObj &begoRef = esrc::get_goRef( begoid, "-4-" );
-
-                        //tprAssert( begoRef.get_colliderType() == ColliderType::Circular ); // tmp
 
         //----- isMoveCollide -----//
         //      bego.isBePass
@@ -443,28 +388,23 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
         if( is_dogoCircular_leave_begoCircular( moveVec_, dogoDPos, begoCir ) ){
             continue;
         }
-        
 
         auto colliState = collideState_from_circular_2_circular( dogeTargetDPos, begoCir, 0.1 );
         if( colliState ==  CollideState::Intersect ){
             double t = circularCast( moveVec_, dogoDPos, begoCir ); //- 进一步计算出 t值， 并将 t值 存入 容器...
             Collision::tVals.insert( t );
         }
-           
     }//- each bego
 
 
     //------ 没有 tVals 就直接 return -------//
     if( Collision::tVals.empty() ){
-            //cout << "tVals.empty()" << endl;
         return { true, moveVec_ };//- 没有发生碰撞
     }
 
     //----------------------------------------//
     //-- 找出最小的 t值 （允许重复）
     double tMin = *Collision::tVals.begin(); //- min
-
-            //cout << "tMin = " << tMin  << "\n"<< endl;
 
     if( is_closeEnough<double>( tMin, 0.0, 0.0001 ) ){
         return  { false, glm::dvec2{ 0.0, 0.0 }  };
@@ -553,9 +493,8 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
  * -----------------------------------------------------------
  * 收集 扫掠体 内的所有 mapents
  */  
-void Collision::build_a_scanBody(  const glm::dvec2 &moveVec_,
-                        const glm::dvec2 &dogoDPos_,
-                        std::vector<IntVec2> &mapEnts_ ){
+void Collision::build_a_scanBody(   const glm::dvec2 &moveVec_,
+                                    const glm::dvec2 &dogoDPos_ ){
     
     glm::dvec2 dogoTargetDPos = dogoDPos_ + moveVec_;
 
@@ -582,9 +521,11 @@ void Collision::build_a_scanBody(  const glm::dvec2 &moveVec_,
     }
 
     //-------------------------//
-    //  如果某条边，临近 mapent 边界，收缩其值
-    //  以此 减少 扫掠体内包含的 mapents 个数
-    //  相邻关系 的 mp， 是不需要做检测的
+    //  如果某条边，临近 mapent 边界，主动收缩此边的值
+    //  以此来 减少 扫掠体内包含的 mapents 个数
+    //  与扫掠体 呈相邻关系 的 mp， 是不需要做检测的
+    //  --
+    //  目前可以把 扫掠体收集的 mapents 数量控制在 1～4 个（高峰为6个）
     //-------------------------//
     double mpSideLen = static_cast<double>(PIXES_PER_MAPENT);
     double threshold = 0.5; // Adjacent
@@ -613,12 +554,12 @@ void Collision::build_a_scanBody(  const glm::dvec2 &moveVec_,
     IntVec2 mp_leftBottom = dpos_2_mpos( glm::dvec2{ leftLine, bottomLine } );
     IntVec2 mp_rightTop   = dpos_2_mpos( glm::dvec2{ rightLine, topLine } );
 
-    mapEnts_.clear();
+    Collision::mapEnts_in_scanBody.clear();
     IntVec2 mpos {};
     for( int j=mp_leftBottom.y; j<=mp_rightTop.y; j++ ){
         for( int i=mp_leftBottom.x; i<=mp_rightTop.x; i++ ){
             mpos.set( i, j );
-            mapEnts_.push_back( mpos );
+            Collision::mapEnts_in_scanBody.push_back( mpos );
         }
     }
 }

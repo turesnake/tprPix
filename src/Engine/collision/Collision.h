@@ -46,7 +46,6 @@ public:
                 Collision::init_for_static();
             }
         }
-        
 
     glm::dvec2 detect_moveCollide( const glm::dvec2 &moveVec_ ); // tmp
 
@@ -73,7 +72,6 @@ public:
 
 
 private:
-
 
     std::pair<bool, glm::dvec2> collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ );
     std::pair<bool, glm::dvec2> collect_IntersectBegos_and_truncate_moveVec( const glm::dvec2 &moveVec_ );
@@ -106,8 +104,7 @@ private:
     static void init_for_static()noexcept;
 
     static void build_a_scanBody(   const glm::dvec2 &moveVec_,
-                                    const glm::dvec2 &dogoDPos_,
-                                    std::vector<IntVec2> &mapEnts_ );
+                                    const glm::dvec2 &dogoDPos_ );
 
 
     //---
@@ -133,8 +130,6 @@ private:
     static std::vector<IntVec2> mapEnts_in_scanBody;
                             // 用于 squ_begos 碰撞检测
                             // 与 粗略扫掠体 相交的 mapents 
-
-
 
     static std::multiset<double> tVals; 
                             //- 确认发生碰撞的 begos，将被收集起来，按照 t 值排序

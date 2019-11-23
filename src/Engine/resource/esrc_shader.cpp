@@ -56,6 +56,7 @@ void init_shaders(){
     auto &ubo_camera = esrc::get_uniformBlockObjRef( ubo::UBOType::Camera );
     auto &ubo_window = esrc::get_uniformBlockObjRef( ubo::UBOType::Window );
     auto &ubo_time = esrc::get_uniformBlockObjRef( ubo::UBOType::Time );
+    auto &ubo_worldCoord = esrc::get_uniformBlockObjRef( ubo::UBOType::WorldCoord );
     auto &ubo_originColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::OriginColorTable );
     auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
     auto &ubo_groundColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
@@ -175,6 +176,7 @@ void init_shaders(){
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_window.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_worldCoord.bind_2_shaderProgram(sp.get_shaderProgramObj());
     }
 
     

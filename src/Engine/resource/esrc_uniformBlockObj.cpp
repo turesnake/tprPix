@@ -68,6 +68,16 @@ void init_uniformBlockObjs()noexcept{
         tprAssert( outPair.second );                            
     }
 
+    {//---------- WorldCoord ------------//
+        auto uboType = ubo::UBOType::WorldCoord;
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_WorldCoord) );
+        std::string uboName {"WorldCoord"};
+        auto outPair = ubo_inn::uboUPtrs.insert({  uboType, 
+                                    std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        tprAssert( outPair.second );                            
+    }
+
     {//---------- OriginColorTable ------------//
         auto uboType = ubo::UBOType::OriginColorTable;
         GLuint bindPoint = ubo::get_bindPoint(uboType);

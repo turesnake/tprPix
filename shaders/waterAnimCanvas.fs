@@ -40,6 +40,13 @@ layout (shared, std140) uniform Window {
 layout (shared, std140) uniform Time {
     float currentTime; // = glfwGetTime(); 未做缩放。若需要 [0.0, 1.0]，通过 abs(sin(u_time)) 来转换
 } tprTime;
+
+
+layout (shared, std140) uniform WorldCoord {
+    vec2    xVec;
+    vec2    yVec;
+    float   denominator;
+} worldCoord;
                 
 
 
@@ -71,14 +78,6 @@ float zOffMid = 7.5;
 float zOffSml = 17.8;
 
                 //--- 可被放入 ubo ....
-
-
-vec2 xP = vec2( 0.794119, -0.607763 );
-vec2 yP = vec2( 0.794119,0.607763 );
-float denominator = 0.965272;
-
-                //-- 应该被放入 ubo ！！！
-
 
 float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线生成
 
@@ -411,12 +410,12 @@ float simplex_noise3( float _x, float _y, float _z ){
 
 
 vec2 calc_innFPos( vec2 outFPos_ ){
-    return vec2(    (yP.y * outFPos_.x - yP.x * outFPos_.y) / denominator,
-                    (xP.x * outFPos_.y - xP.y * outFPos_.x) / denominator );
+    return vec2(    (worldCoord.yVec.y * outFPos_.x - worldCoord.yVec.x * outFPos_.y) / worldCoord.denominator,
+                    (worldCoord.xVec.x * outFPos_.y - worldCoord.xVec.y * outFPos_.x) / worldCoord.denominator );
 }   
 vec2 calc_outFPos( vec2 innFPos_ ){
-    return vec2(    xP.x * innFPos_.x + yP.x * innFPos_.y,
-                    xP.y * innFPos_.x + yP.y * innFPos_.y );
+    return vec2(    worldCoord.xVec.x * innFPos_.x + worldCoord.yVec.x * innFPos_.y,
+                    worldCoord.xVec.y * innFPos_.x + worldCoord.yVec.y * innFPos_.y );
 }
 
 

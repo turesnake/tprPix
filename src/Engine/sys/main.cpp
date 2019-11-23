@@ -154,6 +154,7 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     ubo::write_ubo_Camera();
     ubo::write_ubo_Window();
+    ubo::write_ubo_WorldCoord();
     ubo::write_ubo_OriginColorTable();
     ubo::write_ubo_GroundColorTable();
     

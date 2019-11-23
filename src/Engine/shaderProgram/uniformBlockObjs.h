@@ -26,6 +26,7 @@ enum class UBOType{
     Camera,
     Window,
     Time,
+    WorldCoord,
 
     OriginColorTable,
     UnifiedColorTable,
@@ -40,11 +41,12 @@ inline std::unordered_map<UBOType, GLuint> uboBindPoints {
     {UBOType::Camera,            2 },
     {UBOType::Window,            3 },
     {UBOType::Time,              4 },
+    {UBOType::WorldCoord,        5 },
 
-    {UBOType::OriginColorTable,  5 },
-    {UBOType::UnifiedColorTable, 6 },
-    {UBOType::GroundColorTable,  7 },
-    {UBOType::ColorTableId,      8 },
+    {UBOType::OriginColorTable,  6 },
+    {UBOType::UnifiedColorTable, 7 },
+    {UBOType::GroundColorTable,  8 },
+    {UBOType::ColorTableId,      9 },
     //...
 };
 
