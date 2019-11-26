@@ -7,6 +7,9 @@
  */
 #include "Job_Field.h"
 
+//-------------------- Engine --------------------//s
+#include "esrc_coordinate.h"
+
 
 namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 
@@ -39,7 +42,20 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
         }
     };
 
-    const std::vector<glm::dvec2> halfFieldDposOffs{
+    std::vector<glm::dvec2> halfFieldDposOffs {};
+    std::vector<glm::dvec2> mapentDposOffs {};
+
+}//-------------- namespace: jobF_inn end ----------------//
+
+//===== static =====//
+bool Job_Field::isStaticInit {false};
+
+
+void Job_Field::init_for_static()noexcept{
+
+    const auto &worldCoorldRef = esrc::get_worldCoordRef();
+
+    const std::vector<glm::dvec2> origin_halfFieldDposOffs{
         glm::dvec2{ -static_cast<double>(PIXES_PER_MAPENT),
                     -static_cast<double>(PIXES_PER_MAPENT) },// 0
 
@@ -53,7 +69,12 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
                      static_cast<double>(PIXES_PER_MAPENT) }// 3
     };
 
-    const std::vector<glm::dvec2> mapentDposOffs{
+    for( const auto &off : origin_halfFieldDposOffs ){
+        jobF_inn::halfFieldDposOffs.push_back( worldCoorldRef.calc_outDPos( off ) );
+    }
+
+    //-----
+    const std::vector<glm::dvec2> origin_mapentDposOffs{
         glm::dvec2{ -static_cast<double>(HALF_PIXES_PER_MAPENT),
                     -static_cast<double>(HALF_PIXES_PER_MAPENT) },// 0
 
@@ -67,7 +88,11 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
                      static_cast<double>(HALF_PIXES_PER_MAPENT) }// 3
     };
 
-}//-------------- namespace: jobF_inn end ----------------//
+    for( const auto &off : origin_mapentDposOffs ){
+        jobF_inn::mapentDposOffs.push_back( worldCoorldRef.calc_outDPos( off ) );
+    }
+}
+
 
 
 

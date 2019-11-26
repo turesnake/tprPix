@@ -211,7 +211,6 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     job_chunkRef_.write_2_field_from_jobData();
     // Now，the Fields all inited !!!
 
-
     //------------------------//
     //  job_field.goSpecDatas
     //------------------------//

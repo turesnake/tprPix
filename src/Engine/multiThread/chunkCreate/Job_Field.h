@@ -56,6 +56,11 @@ class Job_Field{
 public:
     Job_Field()
         {
+            //===== static =====//
+            if( !Job_Field::isStaticInit ){
+                Job_Field::isStaticInit = true;
+                Job_Field::init_for_static();
+            }
             //-- 二维数组 --
             this->mapEntPtrs.resize( ENTS_PER_FIELD ); // h
             for( auto &c : this->mapEntPtrs ){
@@ -141,6 +146,11 @@ private:
 
     //===== flags =====//
     bool isHaveBorderEnt    {false}; //- 只要发现 border
+
+
+    //===== static =====//
+    static void init_for_static()noexcept;
+    static bool isStaticInit;
 };
 
 

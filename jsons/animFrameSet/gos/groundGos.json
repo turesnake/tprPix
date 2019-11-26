@@ -25,8 +25,8 @@
         },
         {
             "path": "/ground/groundHalfField.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
+            "frameNum.col":  2,
+            "frameNum.row":  2,
             "totalFrameNum": 4,
             "isHaveShadow": false,
             "isPjtSingle": true,
@@ -46,8 +46,8 @@
         },
         {
             "path": "/ground/groundField.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  1,
+            "frameNum.col":  2,
+            "frameNum.row":  2,
             "totalFrameNum": 4,
             "isHaveShadow": false,
             "isPjtSingle": true,
