@@ -281,27 +281,34 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
-
                 
                 {//--- 临时生成一排篱笆 
                     goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
 
-                    std::set<IntVec2> fenceMap {}; // 篱笆放置蓝图
-                    for( int i=0; i<10; i++ ){
-                        
-                        fenceMap.insert( IntVec2{ i, 9 } );
-                        fenceMap.insert( IntVec2{ 0, i } );
-                        fenceMap.insert( IntVec2{ 9, i } );
+                    int sideLen = 4 * 1;
 
+                    std::set<IntVec2> fenceMap {}; // 篱笆放置蓝图
+                    for( int i=0; i<sideLen; i++ ){
+                        
+                        fenceMap.insert( IntVec2{ i, sideLen-1 } );
+                        fenceMap.insert( IntVec2{ 0, i } );
+                        fenceMap.insert( IntVec2{ sideLen-1, i } );
+
+                        /*
                         if( ((i!=4) && (i!=5) && (i!=6))  ){
                             fenceMap.insert( IntVec2{ i, 0 } );
                         }
+                        */
+                        if( i != 2 ){
+                            fenceMap.insert( IntVec2{ i, 0 } );
+                        }
                     }
+                    /*
                     fenceMap.insert( IntVec2{ 2, 4 } );
                     fenceMap.insert( IntVec2{ 2, 5 } );
                     fenceMap.insert( IntVec2{ 2, 6 } );
                     fenceMap.insert( IntVec2{ 2, 7 } );
-
+                    */
 
 
 

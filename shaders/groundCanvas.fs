@@ -38,6 +38,6 @@ layout (shared, std140) uniform UnifiedColorTable {
 void main()
 {
     //FragColor = vec4( unifiedColorTable.ground.rgb, 1.0 );
-    FragColor = vec4( 0.7, 0.2, 0.2, 1.0 );
+    FragColor = vec4( 0.2, 0.2, 0.2, 1.0 );
 }
 

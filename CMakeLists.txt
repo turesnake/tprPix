@@ -118,15 +118,13 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/dynamicParam/*.cpp 
                         src/Engine/ecoSys/*.cpp
                         src/Engine/fileIO/*.cpp
-                        src/Engine/game/*.cpp 
-                        src/Engine/game/createGo/*.cpp 
-                        src/Engine/game/gameObj/*.cpp 
-                        src/Engine/game/map/*.cpp 
-                        src/Engine/game/map/chunkCreateRelease/*.cpp 
-                        src/Engine/game/map/mapSurfaceRand/*.cpp 
-                        src/Engine/game/UI/*.cpp 
+                        src/Engine/gameObj/*.cpp 
+                        src/Engine/gameObj/createGo/*.cpp 
                         src/Engine/gl/*.cpp 
                         src/Engine/input/*.cpp 
+                        src/Engine/map/*.cpp 
+                        src/Engine/map/chunkCreateRelease/*.cpp 
+                        src/Engine/map/mapSurfaceRand/*.cpp 
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
@@ -140,7 +138,9 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/shaderProgram/*.cpp 
                         src/Engine/sys/*.cpp
                         src/Engine/time/*.cpp 
+                        src/Engine/tools/*.cpp 
                         src/Engine/tprDebug/*.cpp 
+                        src/Engine/UI/*.cpp 
                         src/Engine/VAOVBO/*.cpp 
                         
                         src/Script/*.cpp 
@@ -198,15 +198,13 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dynamicParam
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/createGo
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/gameObj
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/chunkCreateRelease
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/map/mapSurfaceRand
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/game/UI
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/chunkCreateRelease
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/mapSurfaceRand
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
@@ -220,7 +218,9 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/shaderProgram
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/sys
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/time
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tools
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/UI
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/VAOVBO
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Script

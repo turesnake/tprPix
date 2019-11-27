@@ -47,12 +47,23 @@ void init_coordinate(){
     
     //------------- 30-degrees --------------//
     //- 外部测量得值
-    double radian_x = atan( 954.0 / 2156.0 );
-    glm::dvec2 xVec {   cos( radian_x ), 
-                        sin( radian_x ) };
-    double radian_y = atan( 1652.0 / 1245.0 );
-    glm::dvec2 yVec {   -1.0 * cos( radian_y ), 
-                        sin( radian_y ) };
+    double xVec_x = 2156.0;
+    double xVec_y = 954.0;
+    double yVec_x = 1245.0;
+    double yVec_y = 1652.0;
+
+    double xLen = sqrt( xVec_x*xVec_x + xVec_y*xVec_y );
+    double yLen = sqrt( yVec_x*yVec_x + yVec_y*yVec_y );
+    double pct = yLen / xLen; // yVec长度要被适当压缩
+
+    double scale = 1.04; // 一个修正值，让坐标系的尺寸，匹配与 美术资源的尺寸
+
+    double radian_x = atan( xVec_y / xVec_x );
+    glm::dvec2 xVec {  scale * cos(radian_x), 
+                       scale * sin(radian_x) };
+    double radian_y = atan( yVec_y / yVec_x );
+    glm::dvec2 yVec {   -1.0 * pct * scale * cos(radian_y), 
+                               pct * scale * sin(radian_y) };
 
     //---
     coord_inn::worldCoordUPtr = std::make_unique<Coordinate>( xVec, yVec );
