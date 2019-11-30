@@ -44,8 +44,6 @@ public:
     EcoObj() = default;
 
     void init_for_node( sectionKey_t sectionKey_ );
-    void init_for_regular(  sectionKey_t sectionKey_,
-                            const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ );
 
     void init_fstOrder( sectionKey_t sectionKey_ );
 
@@ -78,9 +76,6 @@ public:
                
 private:
     void copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPtr_ );
-
-    //--- 只能被 非node 实例调用 --
-    void init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ );
     
     //======== vals ========//
     sectionKey_t  sectionKey {};

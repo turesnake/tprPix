@@ -23,9 +23,9 @@
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
 //- only used for esrc_chunkMemState -
-extern bool find_from_chunks( chunkKey_t chunkKey_ );
+//extern bool find_from_chunks( chunkKey_t chunkKey_ );
 
-namespace chunk_inn {//------------ namespace: chunk_inn --------------//
+namespace chunkMS_inn {//------------ namespace: chunkMS_inn --------------//
 
     //-- 为了提高 get_chunkMemState() 的速度，而设置的中间层
     // 只要是出现在以下子容器中的 chunkkey，一定也在 chunkMemStates 中
@@ -34,6 +34,7 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
     std::unordered_map<chunkKey_t,ChunkMemState> chunkMemStates {};
 
     // 注意，当处于 onCreating 时，chunk实例尚未存在于 chunks 中
+    std::unordered_set<chunkKey_t>     chunkKeys_waitForCreate {};  //- WaitForCreate
     std::unordered_set<chunkKey_t>     chunkKeys_onCreating {};  //- OnCreating
     std::unordered_set<chunkKey_t>     chunkKeys_active {};      //- Active
     std::deque<chunkKey_t>             chunkKeys_waitForRelease {}; //- WaitForRelease
@@ -44,14 +45,17 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
     // 如果 非dirty，则被直接移入 chunkKeys_waitForRelease 容器
     // ...
 
-}//---------------- namespace: chunk_inn end --------------//
+}//---------------- namespace: chunkMS_inn end --------------//
 
 
-void init_chunkMemStates(){
-    chunk_inn::chunkMemStates.reserve(1000);
-    chunk_inn::chunkKeys_onCreating.reserve(1000);
-    chunk_inn::chunkKeys_active.reserve(1000);
-    chunk_inn::chunkKeys_onReleasing.reserve(1000);
+void init_chunkMemStates()noexcept{
+    chunkMS_inn::chunkMemStates.reserve(1000);
+    //---
+    chunkMS_inn::chunkKeys_waitForCreate.reserve(100);
+    chunkMS_inn::chunkKeys_onCreating.reserve(100);
+    chunkMS_inn::chunkKeys_active.reserve(100);
+    chunkMS_inn::chunkKeys_onReleasing.reserve(100);
+    //---
     esrc::insertState("chunkMemState");
 }
 
@@ -60,6 +64,7 @@ void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ){
     cout << "" << str_ << ": ";
     switch (state){
         case ChunkMemState::NotExist: cout << " NotExist" << endl; break;
+        case ChunkMemState::WaitForCreate: cout << " NotExist" << endl; break;
         case ChunkMemState::OnCreating: cout << " OnCreating" << endl; break;
         case ChunkMemState::Active: cout << " Active" << endl; break;
         case ChunkMemState::WaitForRelease: cout << " WaitForRelease" << endl; break;
@@ -70,63 +75,93 @@ void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ){
 
 //- only used by esrc_chunk -
 void chunkStates_debug(){
-    cout << "\nchunkKeys_onCreating.size() = " << chunk_inn::chunkKeys_onCreating.size()
-        << "\nchunkKeys_active.size() = " << chunk_inn::chunkKeys_active.size()
-        << "\nchunks_waitForRelease.size() = " << chunk_inn::chunkKeys_waitForRelease.size()
-        << "\nchunks_onReleasing.size() = " << chunk_inn::chunkKeys_onReleasing.size()
+    cout << "\nchunkKeys_onCreating.size() = " << chunkMS_inn::chunkKeys_onCreating.size()
+        << "\nchunkKeys_active.size() = " << chunkMS_inn::chunkKeys_active.size()
+        << "\nchunks_waitForRelease.size() = " << chunkMS_inn::chunkKeys_waitForRelease.size()
+        << "\nchunks_onReleasing.size() = " << chunkMS_inn::chunkKeys_onReleasing.size()
         << endl;
 }
 
 //- only used by esrc_chunk -
-const std::unordered_set<chunkKey_t> &get_chunkKeys_active(){
-    return chunk_inn::chunkKeys_active;
+const std::unordered_set<chunkKey_t> &get_chunkKeys_active()noexcept{
+    return chunkMS_inn::chunkKeys_active;
 }
 
 
-void insert_2_chunkKeys_onCreating( chunkKey_t chunkKey_ ){
+void insert_chunkKey_2_waitForCreate( chunkKey_t chunkKey_ )noexcept{
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::NotExist ); // MUST
-    chunk_inn::chunkKeys_onCreating.insert(chunkKey_);
-    chunk_inn::chunkMemStates.insert({ chunkKey_, ChunkMemState::OnCreating });
+    chunkMS_inn::chunkKeys_waitForCreate.insert( chunkKey_ );
+    chunkMS_inn::chunkMemStates.insert({ chunkKey_, ChunkMemState::WaitForCreate });
 }
 
 
-void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ ){
+
+void insert_chunkKey_2_onCreating( chunkKey_t chunkKey_ )noexcept{
+
+                if( get_chunkMemState(chunkKey_) != ChunkMemState::NotExist ){
+                    chunkMemState_debug( chunkKey_,  "insert_chunkKey_2_onCreating()" );
+                }
+
+        tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::NotExist ); // MUST
+
+    chunkMS_inn::chunkKeys_onCreating.insert(chunkKey_);
+    chunkMS_inn::chunkMemStates.insert({ chunkKey_, ChunkMemState::OnCreating });
+}
+
+
+const std::unordered_set<chunkKey_t> &get_chunkKeys_waitForCreate()noexcept{
+    return chunkMS_inn::chunkKeys_waitForCreate;
+}
+
+
+
+void move_chunkKey_from_waitForCreate_2_onCreating( chunkKey_t chunkKey_ )noexcept{
+        tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::WaitForCreate ); // MUST
+    size_t eraseNum = chunkMS_inn::chunkKeys_waitForCreate.erase(chunkKey_);
+    tprAssert( eraseNum == 1);
+    chunkMS_inn::chunkKeys_onCreating.insert(chunkKey_);
+    chunkMS_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::OnCreating;
+}
+
+
+
+void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ )noexcept{
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnCreating ); // MUST
-    size_t eraseNum = chunk_inn::chunkKeys_onCreating.erase(chunkKey_);
+    size_t eraseNum = chunkMS_inn::chunkKeys_onCreating.erase(chunkKey_);
     tprAssert( eraseNum == 1);
-    chunk_inn::chunkKeys_active.insert(chunkKey_);
-    chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::Active;
+    chunkMS_inn::chunkKeys_active.insert(chunkKey_);
+    chunkMS_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::Active;
 }
 
 
-void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ ){
+void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ )noexcept{
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::Active ); // MUST
-    size_t eraseNum = chunk_inn::chunkKeys_active.erase(chunkKey_);
+    size_t eraseNum = chunkMS_inn::chunkKeys_active.erase(chunkKey_);
     tprAssert( eraseNum == 1);
-    chunk_inn::chunkKeys_waitForRelease.push_back(chunkKey_);
-    chunk_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::WaitForRelease;
+    chunkMS_inn::chunkKeys_waitForRelease.push_back(chunkKey_);
+    chunkMS_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::WaitForRelease;
 }
 
-std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing(){
+std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept{
         
-    if( chunk_inn::chunkKeys_waitForRelease.empty() ){
-        return std::pair<bool,chunkKey_t>{ false, 0 };
+    if( chunkMS_inn::chunkKeys_waitForRelease.empty() ){
+        return { false, 0 };
     }
-    chunkKey_t key = chunk_inn::chunkKeys_waitForRelease.front();
-    chunk_inn::chunkKeys_waitForRelease.pop_front();
-        tprAssert( chunk_inn::chunkKeys_onReleasing.find(key) == chunk_inn::chunkKeys_onReleasing.end() );
-    chunk_inn::chunkKeys_onReleasing.insert(key);
-    chunk_inn::chunkMemStates.at(key) = ChunkMemState::OnReleasing;
-    return std::pair<bool,chunkKey_t>{ true, key };
+    chunkKey_t key = chunkMS_inn::chunkKeys_waitForRelease.front();
+    chunkMS_inn::chunkKeys_waitForRelease.pop_front();
+        tprAssert( chunkMS_inn::chunkKeys_onReleasing.find(key) == chunkMS_inn::chunkKeys_onReleasing.end() );
+    chunkMS_inn::chunkKeys_onReleasing.insert(key);
+    chunkMS_inn::chunkMemStates.at(key) = ChunkMemState::OnReleasing;
+    return { true, key };
 }
 
 //- only used by esrc_chunk -
-void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ ){
+void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ )noexcept{
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
     size_t eraseNum {};
-    eraseNum = chunk_inn::chunkKeys_onReleasing.erase(chunkKey_);
+    eraseNum = chunkMS_inn::chunkKeys_onReleasing.erase(chunkKey_);
     tprAssert( eraseNum == 1 );
-    eraseNum = chunk_inn::chunkMemStates.erase(chunkKey_);
+    eraseNum = chunkMS_inn::chunkMemStates.erase(chunkKey_);
     tprAssert( eraseNum == 1 );
 }
 
@@ -134,11 +169,10 @@ void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ ){
 /* ===========================================================
  *                  get_chunkMemState
  * -----------------------------------------------------------
- * 高速版
  */
-ChunkMemState get_chunkMemState( chunkKey_t chunkKey_ ){    
-    if( chunk_inn::chunkMemStates.find(chunkKey_) != chunk_inn::chunkMemStates.end() ){
-        return chunk_inn::chunkMemStates.at(chunkKey_);
+ChunkMemState get_chunkMemState( chunkKey_t chunkKey_ )noexcept{    
+    if( chunkMS_inn::chunkMemStates.find(chunkKey_) != chunkMS_inn::chunkMemStates.end() ){
+        return chunkMS_inn::chunkMemStates.at(chunkKey_);
     }else{
         return ChunkMemState::NotExist;
     }

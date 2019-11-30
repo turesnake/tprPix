@@ -54,8 +54,11 @@ void jobThread_main(){
             //  进而才能 合理地 终止 本job线程
             break;
         case JobType::Create_Job_Chunk:
-            //....
             create_job_chunk_main( *jobSPtr );
+            break;
+
+        case JobType::Create_Job_EcoObj:
+            create_job_ecoObj_main( *jobSPtr );
             break;
         
         default:

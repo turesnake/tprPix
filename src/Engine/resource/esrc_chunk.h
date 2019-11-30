@@ -37,7 +37,7 @@ void erase_from_chunks( chunkKey_t chunkKey_ );
 std::pair<ChunkMemState, MemMapEnt*> getnc_memMapEntPtr( IntVec2 anyMPos_ );
 
 
-Chunk &get_chunkRef( chunkKey_t key_ );
+std::pair<ChunkMemState, Chunk*> get_chunkPtr( chunkKey_t key_ );
 Chunk &get_chunkRef_onReleasing( chunkKey_t key_ );
 
 

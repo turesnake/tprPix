@@ -11,7 +11,7 @@
 //-------------------- Engine --------------------//
 #include "Job.h"
 #include "chunkKey.h"
-
+#include "sectionKey.h"
 
 // POD
 // job.argBinary
@@ -21,6 +21,17 @@ struct ArgBinary_Create_Job_Chunk{
 };
 
 void create_job_chunk_main( const Job &job_ );
+
+
+
+// POD
+// job.argBinary
+// use std::any to pass
+struct ArgBinary_Create_Job_EcoObj{
+    sectionKey_t  ecoObjKey;
+};
+
+void create_job_ecoObj_main( const Job &job_ );
 
 
 

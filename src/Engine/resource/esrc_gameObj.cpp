@@ -289,7 +289,10 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
     // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
-    Chunk &currentChunkRef = esrc::get_chunkRef( goRef_.currentChunkKey );
+    auto outPair = esrc::get_chunkPtr( goRef_.currentChunkKey );
+    tprAssert( outPair.first == ChunkMemState::Active );
+    Chunk &currentChunkRef = *(outPair.second);
+
     currentChunkRef.insert_2_goIds( goRef_.id ); //- always
 
     //----------------//
@@ -336,7 +339,9 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
             // 这个工作，会等到 目标chunk 创建阶段，再补上: 
             // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
             auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
-            if( (chunkState==ChunkMemState::NotExist) || (chunkState==ChunkMemState::OnCreating) ){
+            if( (chunkState==ChunkMemState::NotExist) || 
+                (chunkState==ChunkMemState::WaitForCreate) ||
+                (chunkState==ChunkMemState::OnCreating) ){
                 continue;
             }
 

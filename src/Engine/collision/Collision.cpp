@@ -461,10 +461,15 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
     //-- 检查本go 的 新chunk，如果发生变化，释放旧chunk 中的 goids, edgeGoIds
     //     登记到 新chunk 的 goids
     chunkKey_t newChunkKey = anyDPos_2_chunkKey( dogoRef.get_dpos() + moveVec_ );
-    Chunk &newChunkRef = esrc::get_chunkRef( newChunkKey );
+    auto outPair1 = esrc::get_chunkPtr( newChunkKey );
+    tprAssert( outPair1.first == ChunkMemState::Active );
+    Chunk &newChunkRef = *(outPair1.second);
 
     if( newChunkKey != dogoRef.currentChunkKey ){
-        Chunk &oldChunkRef = esrc::get_chunkRef( dogoRef.currentChunkKey );
+        auto outPair2 = esrc::get_chunkPtr( dogoRef.currentChunkKey );
+        tprAssert( outPair2.first == ChunkMemState::Active );
+        Chunk &oldChunkRef = *(outPair2.second);
+
         size_t eraseNum = oldChunkRef.erase_from_goIds( dogoRef.id );
         tprAssert( eraseNum == 1 );
         oldChunkRef.erase_from_edgeGoIds( dogoRef.id ); // maybe 

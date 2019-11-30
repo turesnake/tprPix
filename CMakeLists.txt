@@ -110,6 +110,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/affect/*.cpp
                         src/Engine/AI/*.cpp
                         src/Engine/animFrameSet/*.cpp 
+                        src/Engine/blueprint/*.cpp 
                         src/Engine/camera/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/color/*.cpp 
@@ -129,6 +130,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
                         src/Engine/multiThread/chunkCreate/*.cpp 
+                        src/Engine/multiThread/ecoObjCreate/*.cpp 
                         src/Engine/player/*.cpp 
                         src/Engine/random/*.cpp 
                         src/Engine/renderPool/*.cpp 
@@ -190,6 +192,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/affect
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/AI
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/blueprint
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
@@ -209,6 +212,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/chunkCreate
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/ecoObjCreate
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/renderPool

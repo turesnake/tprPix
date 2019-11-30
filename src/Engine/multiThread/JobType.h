@@ -14,7 +14,8 @@ enum class JobType : int{
     Null = 0,
     JustTimeOut = 1, //- 不是 job 类型，而是告诉 job线程：
                      //  “本次返回仅仅是因为 时间到了，请再次尝试 提取job”
-    Create_Job_Chunk
+    Create_Job_Chunk,
+    Create_Job_EcoObj,
 };
 
 

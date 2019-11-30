@@ -313,14 +313,10 @@ void AnimFrameSet::handle_shadow(){
         }
         
         //-- 将 shadow pix 改为需要的颜色 --//
-
-            // 一个临时的简陋的方案...
-            // 在推荐方案中，为 shadow 专门配备一个 fs着色器，具体颜色在 着色器程序中调整
-
         rgbaRef.r = 0;
         rgbaRef.g = 5;
         rgbaRef.b = 10;
-        rgbaRef.a = 70;
+        rgbaRef.a = 255; // opaque
         }
     }
 }

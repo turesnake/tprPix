@@ -28,6 +28,7 @@ void main()
         discard;
     }
 
-    FragColor = texColor; // tmp
+    //FragColor = vec4( texColor.xyz, 0.27 ); // 旧版值
+    FragColor = vec4( texColor.xyz, 0.22 );
 }
 

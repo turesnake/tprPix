@@ -113,8 +113,8 @@ void ChunkCreateReleaseZone::refresh_and_collect_chunks_need_to_be_release( IntV
         chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
         newChunkKeysPtr->insert(chunkKey);
     }
-            tprAssert( newChunkKeysPtr->size() == this->releaseZone.get_chunks() ); //- tmp
-            tprAssert( oldChunkKeysPtr->size() == this->releaseZone.get_chunks() ); //- tmp
+            tprAssert( newChunkKeysPtr->size() == this->releaseZone.get_chunkNums() ); //- tmp
+            tprAssert( oldChunkKeysPtr->size() == this->releaseZone.get_chunkNums() ); //- tmp
     
     //------------------------//
     //  遍历 old-set 元素，如果某元素不在 new-set 中
@@ -128,8 +128,9 @@ void ChunkCreateReleaseZone::refresh_and_collect_chunks_need_to_be_release( IntV
                 case ChunkMemState::NotExist:
                     // do nothing
                     break;
+                case ChunkMemState::WaitForCreate:
                 case ChunkMemState::OnCreating:
-                    // 想要删除的居然在新建 ？？？ 直接报错
+                    // 想要删除的居然在新建(或等待新建) ？？？ 直接报错
                     tprAssert(0);
                     break;
                 case ChunkMemState::Active:

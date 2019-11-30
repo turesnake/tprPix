@@ -117,6 +117,10 @@ void sceneLogicLoop_world(){
             );
             break;
         case 2:
+            //--- 定期 检查玩家所在 section
+            //  并将需要新建的 ecoObjs 收集到 队列中
+            chunkCreate::collect_ecoObjs_need_to_be_create();
+
             //--- 定期 检查玩家所在 chunk
             //  并将需要新建的 chunks 收集到 队列中
             chunkCreate::collect_chunks_need_to_be_create_in_update();
@@ -126,6 +130,10 @@ void sceneLogicLoop_world(){
             //--- 定期 检查玩家所在 chunk
             // 当发现 chunkReleaseZone 发生位移时，将需要 释放的chunk 排入队列
             chunkRelease::collect_chunks_need_to_be_release_in_update();
+
+            //-- 释放距离过远的 ecoobj 
+            esrc::del_ecoObjs_tooFarAway();
+
             break;
         case 4:
             esrc::realloc_active_goes(); //- tmp
@@ -133,6 +141,17 @@ void sceneLogicLoop_world(){
         default:
             tprAssert(0);
     }
+
+    //--------------------------------//
+    // 及时将 已在 job线程中 创建完成的 ecoObj
+    // move 到 总容器
+    //--------------------------------//
+    esrc::atom_move_all_ecoObjUptrs_from_job_2_esrc();
+
+    //--------------------------------//
+    // 及时将符合要求的 chunk 送入创建队列
+    //--------------------------------//
+    chunkCreate::create_chunks_from_waitingQue();
 
     //--------------------------------//
     //  每一帧，最多装配生成一个 chunk 实例（如果有）

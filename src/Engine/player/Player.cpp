@@ -149,8 +149,6 @@ void Player::handle_inputINS( const InputINS &inputINS_ ){
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
-    //this->goPtr->inputINS = _inputINS; //- copy 
-
     GameObj &goRef = esrc::get_goRef( this->goid );
     goRef.move.set_newCrawlDirAxes( inputINS_.get_dirAxes() );
 }

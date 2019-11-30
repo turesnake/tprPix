@@ -230,7 +230,7 @@ void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &co
     container_.clear();
     for( const auto &whOff : bcd_inn::quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
-        auto outPair = container_.insert( esrc::atom_get_ecoObj_readOnly( tmpKey ) );
+        auto outPair = container_.insert( esrc::get_ecoObj_readOnly( tmpKey ) );
         tprAssert( outPair.second );
     }
 }

@@ -32,24 +32,22 @@ public:
     explicit ChunkZone( int sideLen_ ): //- based on chunk
         sideLen(sideLen_),
         offLen(sideLen_/2),
-        offLenMPos(offLen*ENTS_PER_CHUNK)
+        offLenMPos(offLen*ENTS_PER_CHUNK),
+        chunkNums( cast_2_size_t(sideLen_*sideLen_) )
         {
             tprAssert( (sideLen_>0) && (sideLen_%2 != 0) );
         }
-    inline int get_offLenMPos() const noexcept{
-        return this->offLenMPos;
-    }
-    inline size_t get_chunks() const noexcept{
-        return cast_2_size_t(this->sideLen * this->sideLen);
-    }
-    inline int get_offLen() const noexcept{
-        return this->offLen;
-    }
+
+    inline int get_offLenMPos() const noexcept{ return this->offLenMPos; }
+    inline int get_offLen() const noexcept{ return this->offLen; }
+    inline size_t get_chunkNums() const noexcept{ return this->chunkNums; }
+    
 private:
     //===== vals =====//
     int         sideLen     {}; //- alin to chunks
     int         offLen      {}; //- alin to chunks
     int         offLenMPos  {}; //- 半边长, alin to chunk-mpos
+    size_t      chunkNums   {};
 };
 
 

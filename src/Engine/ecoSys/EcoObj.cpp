@@ -75,27 +75,12 @@ void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
 
     this->init_fstOrder( sectionKey_ );
 
-    tprAssert( (this->oddEven.x==0) && (this->oddEven.y==0) ); //- must be node 
     EcoSysPlan *ecoSysPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_rand_ecoSysPlanId(this->uWeight) );
     //------------------------//
     //  确定 targetEcoPlanPtr 后, 正式 分配数据
     //------------------------//
     this->copy_datas_from_ecoSysPlan( ecoSysPlanPtr );
 }
-
-
-
-/* ===========================================================
- *                   init_for_regular
- * -----------------------------------------------------------
- */
-void EcoObj::init_for_regular(  sectionKey_t sectionKey_,
-                                const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
-
-    this->init_fstOrder( sectionKey_ );
-    this->init_for_no_node_ecoObj( nearby_four_ecoSysPlanIds_ );
-}
-
 
 
 /* ===========================================================
@@ -148,74 +133,6 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
 
 }
 
-
-/* ===========================================================
- *                init_for_no_node_ecoObj
- * -----------------------------------------------------------
- * -- 完成后半段初始化。 仅用于 非 node 实例
- */
-void EcoObj::init_for_no_node_ecoObj( const std::vector<sectionKey_t> &nearby_four_ecoSysPlanIds_ ){
-
-    EcoSysPlan *node_1_Ptr       {nullptr};
-    EcoSysPlan *node_2_Ptr       {nullptr};
-    EcoSysPlan *node_3_Ptr       {nullptr};
-    EcoSysPlan *node_4_Ptr       {nullptr};
-    EcoSysPlan *targetEcoPlanPtr {nullptr};
-
-    EcoSysPlanType   ecoPlanType {};
-
-    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->uWeight) ); //- 实现了伪随机
-
-    //------------------------//
-    //          右下
-    //------------------------//
-    if( (oddEven.x==1) && (oddEven.y==0) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(1)) );
-
-        (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
-                ecoPlanType = node_1_Ptr->get_type() :
-                ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
-    }
-    //------------------------//
-    //          左上
-    //------------------------//
-    else if( (oddEven.x==0) && (oddEven.y==1) ){
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(2)) );
-
-        (ecoObj_inn::uDistribution_2(ecoObj_inn::rEngine)==0) ?
-                ecoPlanType = node_1_Ptr->get_type() :
-                ecoPlanType = node_2_Ptr->get_type();
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
-    }
-    //------------------------//
-    //          右上
-    //------------------------//
-    else{
-        node_1_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(0)) );
-        node_2_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(1)) );
-        node_3_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(2)) );
-        node_4_Ptr = esrc::get_ecoSysPlanPtr( static_cast<ecoSysPlanId_t>(nearby_four_ecoSysPlanIds_.at(3)) );
-
-        switch( ecoObj_inn::uDistribution_4(ecoObj_inn::rEngine) ){
-            case 0: ecoPlanType = node_1_Ptr->get_type(); break;
-            case 1: ecoPlanType = node_2_Ptr->get_type(); break;
-            case 2: ecoPlanType = node_3_Ptr->get_type(); break;
-            case 3: ecoPlanType = node_4_Ptr->get_type(); break;
-            default:
-                tprAssert(0);
-                ecoPlanType = node_1_Ptr->get_type(); // never reach
-        }
-        targetEcoPlanPtr = esrc::get_ecoSysPlanPtr( esrc::apply_a_ecoSysPlanId_by_type(ecoPlanType, this->uWeight) );
-    }
-
-    //------------------------//
-    //  确定 targetEcoPlanPtr 后, 正式 分配数据
-    //------------------------//
-    this->copy_datas_from_ecoSysPlan( targetEcoPlanPtr );
-}
 
 
 /* ===========================================================

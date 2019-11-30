@@ -25,6 +25,7 @@
 //
 enum class ChunkMemState : int{
     NotExist,
+    WaitForCreate,
     OnCreating,
     Active,
     WaitForRelease,

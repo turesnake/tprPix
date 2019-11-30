@@ -29,6 +29,7 @@
 #include "esrc_ecoObj.h"
 #include "esrc_jobQue.h"
 #include "esrc_job_chunk.h"
+#include "esrc_job_ecoObj.h"
 
 #include "jobs_all.h"
 #include "Job.h"
@@ -48,14 +49,6 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
         IntVec2{ ENTS_PER_SECTION, 0 },
         IntVec2{ 0, ENTS_PER_SECTION },
         IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
-    };
-
-    //- 周边4个 chunk mpos 偏移，[left-bottom]
-    const std::vector<IntVec2> nearby_4_chunkMPosOffs {
-        IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_CHUNK, 0 },
-        IntVec2{ 0, ENTS_PER_CHUNK },
-        IntVec2{ ENTS_PER_CHUNK, ENTS_PER_CHUNK }
     };
 
 
@@ -78,36 +71,81 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     chunkKey_t   currentChunkKey {}; //- 此次检测时，玩家所在 chunk.key
     bool         is_first_check  {true}; 
 
+
+
+
+
+
     //===== funcs =====//
     void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
     void create_one_chunk( chunkKey_t chunkKey_ );
     void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
     void wait_until_target_chunk_created( chunkKey_t chunkKey_ );
 
+    void push_chunk_2_jobQue( chunkKey_t chunkKey_ );
+    //void push_ecoObj_2_jobQue( sectionKey_t ecoObjKey_ );
+    bool is_chunk_near4EcoObjs_all_active(  IntVec2 chunkMPos_, bool isInnCall_ );
+
     NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
 
 }//-------------- namespace: cb_inn end ----------------//
 
 
+extern void push_ecoObj_2_jobQue( sectionKey_t ecoObjKey_ );
 
-/* ===========================================================
- *                 create_9_chunks  [tmp]
- * -----------------------------------------------------------
- * 游戏最开始，一口气 创建 周边 n个 chunk （暂定为 9 个）
+
+
+/* 游戏最开始，一口气 创建 周边 n个 chunk （暂定为 9 个）
  */
 void create_9_chunks( IntVec2 playerMPos_ ){
 
     esrc::init_chunkCreateReleaseZone( playerMPos_ );
     //---------
     IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( playerMPos_ );
-    IntVec2     tmpChunkMPos {};
-    chunkKey_t  chunkKey     {};
+    IntVec2     playerSectionMPos = anyMPos_2_sectionMPos( playerMPos_ );
 
+    IntVec2         tmpChunkMPos {};
+    IntVec2         tmpSectionMPos {};
+    chunkKey_t      chunkKey     {};
+    sectionKey_t    ecoObjKey {};
+
+    //----------------------------//
+    // 一次性生成 周边 5*5 个 ecoObj
+    //----------------------------//
+    //-- 收集 所有 ecoObjKeys --
+    //   并将它们压入 job 线程
+    for( int h=-2; h<=2; h++ ){
+        for( int w=-2; w<=2; w++ ){            
+            tmpSectionMPos = playerSectionMPos + IntVec2{ w*ENTS_PER_SECTION, h*ENTS_PER_SECTION };
+            ecoObjKey = sectionMPos_2_sectionKey( tmpSectionMPos );
+            //--
+            push_ecoObj_2_jobQue( ecoObjKey );
+            esrc::insert_ecoObjKey_2_onCreating( ecoObjKey );
+        }
+    }
+    //-- 不停检查，直到 25个 ecoobj 全部创建完成 --
+    size_t finishedNum {0};
+    size_t tmpNum {};
+    while( true ){
+        //-- 收集所有 已在 job线程中 创建完毕的 ecoobjs --
+        tmpNum = esrc::atom_move_all_ecoObjUptrs_from_job_2_esrc();
+
+        finishedNum += tmpNum;
+        if( finishedNum == 25 ){
+            break;
+        }
+        //--
+        std::this_thread::sleep_for( std::chrono::milliseconds(5) ); // 待机一段时间
+    }
+
+
+    //----------------------------//
+    // 一次性生成 周边 3*3 个 chunk
+    //----------------------------//
     for( int h=-1; h<=1; h++ ){
-        for( int w=-1; w<=1; w++ ){ //- 统一生成 周边 5*5 个 chunk
-            tmpChunkMPos.set(   playerChunkMPos.x + w*ENTS_PER_CHUNK,
-                                playerChunkMPos.y + h*ENTS_PER_CHUNK );
-
+        for( int w=-1; w<=1; w++ ){
+            tmpChunkMPos = playerChunkMPos + IntVec2{   w*ENTS_PER_CHUNK,
+                                                        h*ENTS_PER_CHUNK };          
             chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkCreate_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
@@ -118,10 +156,7 @@ void create_9_chunks( IntVec2 playerMPos_ ){
 }
 
 
-/* ===========================================================
- *    collect_chunks_need_to_be_create_in_update
- * -----------------------------------------------------------
- * 在游戏运行时，定期检查 玩家位置。及时生成 新的 chunk
+/* 在游戏运行时，定期检查 玩家位置。及时生成 新的 chunk
  * 确保，玩家周边 9个chunk 始终存在
  * -------
  */
@@ -162,18 +197,17 @@ void collect_chunks_need_to_be_create_in_update(){
                 case ChunkMemState::NotExist:
                     cb_inn::chunkCreate_1_push_job( tmpChunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
                     break;
+
+                case ChunkMemState::WaitForCreate:
+                            cout << "find chunk: WaitForCreate" << endl;
+                    // do nothing
                 case ChunkMemState::OnCreating:
                 case ChunkMemState::Active:
                     // do nothing
                     break;
                 case ChunkMemState::WaitForRelease:
-                    // 需要新建的 chunk 居然在 释放队列中，一定是参数设置出了问题 [严格版本]
-                    // 目前的选择是直接报错
-                    tprAssert(0);
-                    break;
-
                 case ChunkMemState::OnReleasing:
-                    // 需要新建的 chunk 居然正在被释放中，一定是参数设置出了问题
+                    // 需要新建的 chunk 居然在 释放队列中(或正在被释放)，一定是参数设置出了问题 [严格版本]
                     // 目前的选择是直接报错
                     tprAssert(0);
                     break;
@@ -188,11 +222,8 @@ void collect_chunks_need_to_be_create_in_update(){
 
 
 
-/* ===========================================================
- *     chunkCreate_3_receive_data_and_create_one_chunk
- * -----------------------------------------------------------
- * 三步：第三步：
- *  （第二步 由 job线程 完成）
+/* 第三步：
+ * （第二步 由 job线程 完成）
  * 每一渲染帧，检查 esrc::job_chunkFlags, 从中取出一个 已经计算好 job_chunk 的 chunk，
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
@@ -219,13 +250,39 @@ std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
 
 
+/* 如今，ecoobj 也要在 job线程中被创建，这会导致，很多 chunk 无法被第一时间创建
+ * 这些 chunk 要呆在 等待容器里，直到相关 ecoobj 都被创建完成后，才能开始被创建
+ * 每帧都要调用此函数，以便在第一时间 创建 chunk 
+ * 也许会有性能损失 ...
+ */
+void create_chunks_from_waitingQue(){
+
+    const auto &chunkKeys_waitForCreate = esrc::get_chunkKeys_waitForCreate();
+    if( chunkKeys_waitForCreate.empty() ){
+        return;
+    }
+    //---
+    std::set<chunkKey_t> chunkKeys {};
+    bool isAllEcoObjActive {};
+    for( const auto &key : chunkKeys_waitForCreate ){
+        isAllEcoObjActive = cb_inn::is_chunk_near4EcoObjs_all_active( chunkKey_2_mpos(key), false );
+        if( isAllEcoObjActive ){
+            chunkKeys.insert( key );
+        }
+    }
+    //---
+    for( const auto &key : chunkKeys ){
+        cb_inn::push_chunk_2_jobQue( key );
+        esrc::move_chunkKey_from_waitForCreate_2_onCreating( key );
+    }
+}
+
+
 
 namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
-/* ===========================================================
- *            wait_until_target_chunk_created 
- * -----------------------------------------------------------
- * be called by create_9_chunks()
+
+/* only be called by create_9_chunks()
  */
 void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 
@@ -245,9 +302,9 @@ void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 }
 
 
-/* ===========================================================
- *                   create_one_chunk
- * -----------------------------------------------------------
+
+
+/* job 线程完成工作后，在主线程中完成的 最后一步
  */
 void create_one_chunk( chunkKey_t chunkKey_ ){
 
@@ -307,51 +364,119 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
 }
 
 
-/* ===========================================================
- *              chunkCreate_1_push_job
- * -----------------------------------------------------------
- * 三步：第一步：
+/* 三步：第一步：
  * 根据 目标chunk 制作成job，发送到 jobQue 
  */
 void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
-    //------------------------------//
-    //           [1]
-    // 创建 周边 4个 ecoObj 实例
-    //------------------------------//
-    //  在最坏的情况下，这部分会一口气 在主线程上， 创建 5个 ecoObj 实例（1个渲染帧内）
-    std::set<sectionKey_t> sectionKeys {}; //- 为了去除重复
-    IntVec2 tmpSectionMPos {};
-    for( const auto &iOff : nearby_4_chunkMPosOffs ){
-        tmpSectionMPos = anyMPos_2_sectionMPos( iOff + chunkMPos_ );
-        for( const auto &jOff : nearby_4_sectionMPosOffs ){
-            sectionKeys.insert( sectionMPos_2_sectionKey( tmpSectionMPos + jOff ) );
+
+    // 只能惰性地，临时将需要的 ecoObjs 压入 job线程
+    // 想要提高效率，还得在另一个地方，主动将更多 ecoobjs 压入 job线程
+
+    // 检测 目标 chunk 依赖的 4个 ecoobj，是否已经 Active。    
+    bool isAllEcoObjActive = is_chunk_near4EcoObjs_all_active( chunkMPos_, true );
+
+    if( !isAllEcoObjActive ){
+        // 如果周边4个 ecoobj 并未完全生成，chunk 将进入 等待队列
+        esrc::insert_chunkKey_2_waitForCreate( chunkKey_ );
+
+    }else{
+        // push job
+        push_chunk_2_jobQue( chunkKey_ );
+        esrc::insert_chunkKey_2_onCreating( chunkKey_ );//  进入被 build流程的 chunk 需要被登记 防止被重复创建
+    }    
+}
+
+
+
+/* 收集 chunk 周边4 ecoobjkeys，
+ * 并检测它们，是否都已经被生成
+ * param: isInnCall_: 本函数在两处地方被调用
+ *    -- chunkCreate_1_push_job (inn)  
+ *    -- create_chunks_from_waitingQue (out)
+ */
+bool is_chunk_near4EcoObjs_all_active(  IntVec2 chunkMPos_, bool isInnCall_ ){
+    
+    std::set<sectionKey_t> ecoObjKeys {};
+    IntVec2 currentSectionMPos = anyMPos_2_sectionMPos( chunkMPos_ );
+    for( const auto &jOff : nearby_4_sectionMPosOffs ){
+        ecoObjKeys.insert( sectionMPos_2_sectionKey( currentSectionMPos + jOff ) );
+    }
+    tprAssert( ecoObjKeys.size() == 4 ); // tmp
+    //---
+    bool ret {true};
+    for( const auto &key : ecoObjKeys ){
+        auto state = esrc::get_ecoObjMemState(key);
+        if( state != EcoObjMemState::Active ){
+            ret = false;
+            if( isInnCall_ ){
+                break; // 当为外部态检测时，并不负责 ecoobj 的 创建
+            }
+        }
+
+        switch( state ){
+            case EcoObjMemState::OnCreating:
+                // do nothing
+                break;
+
+            case EcoObjMemState::OnReleasing:
+                tprAssert(0);
+                break;
+
+            case EcoObjMemState::NotExist:
+
+                // 将 目标 ecoObj 压入 job 队列
+                push_ecoObj_2_jobQue( key );
+                esrc::insert_ecoObjKey_2_onCreating( key );
+            
+            default:
+                break;
         }
     }
-    for( auto &key : sectionKeys ){
-        esrc::atom_try_to_inert_and_init_a_ecoObj( key );
-    }
+    return ret;
+}
 
-    //--------------------------//
-    //       push job
-    //--------------------------//
+
+
+
+//-- 调用完本函数后，还应该处理 chunkMemState  
+void push_chunk_2_jobQue( chunkKey_t chunkKey_ ){
+
     auto jobSPtr = std::make_shared<Job>();
     jobSPtr->set_jobType( JobType::Create_Job_Chunk );
     auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_Job_Chunk>();
     paramPtr->chunkKey = chunkKey_;
     //----------
     esrc::atom_push_back_2_jobQue( jobSPtr );
-    //--------------------------//
-    //  进入被 build流程的 chunk 需要被登记
-    //  防止被重复创建
-    //--------------------------//
-    esrc::insert_2_chunkKeys_onCreating( chunkKey_ );
 }
 
 
-/* ===========================================================
- *        signUp_nearby_chunks_edgeGo_2_mapEnt
- * -----------------------------------------------------------
- * 主动访问 本chunk 的周边 8 个chunk 的 edgeGoIds，
+
+//-- 调用完本函数后，还应该处理 ecoObjMemState  
+/*
+void push_ecoObj_2_jobQue( sectionKey_t ecoObjKey_ ){
+
+    auto jobSPtr = std::make_shared<Job>();
+    jobSPtr->set_jobType( JobType::Create_Job_EcoObj );
+    auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_Job_EcoObj>();
+    paramPtr->ecoObjKey = ecoObjKey_;
+    //----------
+    esrc::atom_push_back_2_jobQue( jobSPtr );
+}
+*/
+
+
+
+
+NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
+
+    IntVec2 offMPos = chunkKey_2_mpos(newKey_) - chunkKey_2_mpos(oldKey_);
+    offMPos = offMPos.floorDiv( static_cast<double>(ENTS_PER_CHUNK) );
+    return intVec2_2_nineDirection( offMPos );
+}
+
+
+
+/* 主动访问 本chunk 的周边 8 个chunk 的 edgeGoIds，
  * 如果某个 edgeGo，与本chunk 有关系。
  * 就将这个 edgeGO 的 特定 colliEnts，登记到 本chunk 的 对应 mapent 上
  * ---
@@ -367,8 +492,9 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
 
         if( ChunkMemState::Active == esrc::get_chunkMemState(tmpChunkKey) ){
             
-            auto &chunkRef = esrc::get_chunkRef( tmpChunkKey );
-                                    //- 此函数内部也会做一道检测，且只允许 active 状态
+            auto outPair1 = esrc::get_chunkPtr( tmpChunkKey );
+            tprAssert( outPair1.first == ChunkMemState::Active );
+            auto &chunkRef = *(outPair1.second);
 
             for( auto &goid : chunkRef.get_edgeGoIds() ){//- foreach edgeGoId
 
@@ -380,9 +506,9 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
-                            auto outPair = esrc::getnc_memMapEntPtr(mpos);
-                            tprAssert( outPair.first == ChunkMemState::Active );
-                            outPair.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
+                            auto outPair2 = esrc::getnc_memMapEntPtr(mpos);
+                            tprAssert( outPair2.first == ChunkMemState::Active );
+                            outPair2.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
                         }
                     }
 
@@ -393,16 +519,8 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
 }
 
 
-/* ===========================================================
- *                calc_player_move_dir
- * -----------------------------------------------------------
- */
-NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
 
-    IntVec2 offMPos = chunkKey_2_mpos(newKey_) - chunkKey_2_mpos(oldKey_);
-    offMPos = offMPos.floorDiv( static_cast<double>(ENTS_PER_CHUNK) );
-    return intVec2_2_nineDirection( offMPos );
-}
+
 
 
 }//-------------- namespace: cb_inn end ----------------//

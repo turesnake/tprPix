@@ -53,6 +53,7 @@ void release_one_chunk(){
 
     chunkKey_t chunkKey = popRet.second;
     auto &chunkRef = esrc::get_chunkRef_onReleasing( chunkKey ); 
+
     IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey);
     
     //------------------------------//

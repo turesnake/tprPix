@@ -24,6 +24,7 @@ json_multiGoMesh
 chunkMemState
 colorTableSet
 ecoObj
+ecoObjMemState
 field
 gameArchive
 gameObj

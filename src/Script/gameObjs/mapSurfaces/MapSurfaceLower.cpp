@@ -113,7 +113,7 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
             }
 
         subspeciesId = esrc::apply_a_random_animSubspeciesId(   
-                                    MapSurfaceLowSpec_2_str( esrc::atom_ecoObj_get_mapSurfaceLowSpec( mapEntRef.get_ecoObjKey() ) ), // "mapSurfaceLow_dforest"
+                                    MapSurfaceLowSpec_2_str( esrc::get_ecoObjRef(mapEntRef.get_ecoObjKey()).get_mapSurfaceLowSpec() ), // "mapSurfaceLow_dforest"
                                     std::vector<AnimLabel>{ mapSurface::mapSurfaceRandMeshLvl_2_AnimLabel( it->meshLvl ) }, // MapEnt_1m1
                                     mapEntRef.get_uWeight() 
                                     );

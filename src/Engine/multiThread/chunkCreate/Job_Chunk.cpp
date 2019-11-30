@@ -141,7 +141,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                 ecoObjKey = fieldRef.get_ecoObjKey();
 
-                const auto &densityPool = esrc::atom_ecoObj_get_densityPool(ecoObjKey, fieldRef.get_density().get_idx() );
+                const auto &densityPool = esrc::get_ecoObjRef(ecoObjKey).get_densityPool( fieldRef.get_density().get_idx() );
 
                 const auto &fieldDistributePlan = densityPool.apply_a_fieldDistributePlan( fieldRef.get_uWeight() );
 

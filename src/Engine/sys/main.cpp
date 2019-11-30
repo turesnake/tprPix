@@ -111,6 +111,7 @@ int main( int argc, char* argv[] ){
     esrc::init_renderPools();
     esrc::init_chunks();
     esrc::init_job_chunks();
+    esrc::init_ecoObjMemStates();
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
     esrc::init_gameObjs();

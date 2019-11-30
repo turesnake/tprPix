@@ -39,7 +39,7 @@ extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
 
 
 void init_chunks(){
-    chunk_inn::chunks.reserve(1000);
+    chunk_inn::chunks.reserve(100);
     chunk_inn::chunkCreateReleaseZoneUPtr = std::make_unique<ChunkCreateReleaseZone>( 3, 7 );
                                                                 // 也许应该改为 3,9
     //...
@@ -62,17 +62,8 @@ ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
     return *(chunk_inn::chunkCreateReleaseZoneUPtr);
 }
 
-//- only used for esrc_chunkMemState -
-bool find_from_chunks( chunkKey_t chunkKey_ ){
-    return (chunk_inn::chunks.find(chunkKey_)!=chunk_inn::chunks.end());
-}
 
-
-
-/* ===========================================================
- *             insert_and_init_new_chunk
- * -----------------------------------------------------------
- * 创建 chunk实例，放入 全局容器，且初始化它
+/* 创建 chunk实例，放入 全局容器，且初始化它
  * 仅被 check_and_build_sections.cpp -> create_one_chunk() 调用
  */
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
@@ -86,10 +77,7 @@ Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
 }
 
 
-/* ===========================================================
- *             erase_from_chunks
- * -----------------------------------------------------------
- */
+
 void erase_from_chunks( chunkKey_t chunkKey_ ){
         tprAssert( get_chunkMemState(chunkKey_) == ChunkMemState::OnReleasing );
     size_t eraseNum = chunk_inn::chunks.erase(chunkKey_);
@@ -99,11 +87,8 @@ void erase_from_chunks( chunkKey_t chunkKey_ ){
 
 
 
-/* ===========================================================
- *               getnc_memMapEntPtr
- * -----------------------------------------------------------
- * -- 根据参数 _mcpos, 找到其所在的 chunk, 从 chunk.memMapEnts
- * -- 找到对应的 mapEnt, 将其指针返回出去
+/* 根据参数 _mcpos, 找到其所在的 chunk, 从 chunk.memMapEnts
+ * 找到对应的 mapEnt, 将其指针返回出去
  */
 std::pair<ChunkMemState, MemMapEnt*> getnc_memMapEntPtr( IntVec2 anyMPos_ ){
 
@@ -120,29 +105,17 @@ std::pair<ChunkMemState, MemMapEnt*> getnc_memMapEntPtr( IntVec2 anyMPos_ ){
 
 
 
-/* ===========================================================
- *                 get_chunkRef
- * -----------------------------------------------------------
- */
-Chunk &get_chunkRef( chunkKey_t key_ ){
 
+std::pair<ChunkMemState, Chunk*> get_chunkPtr( chunkKey_t key_ ){
 
-                if( get_chunkMemState(key_) != ChunkMemState::Active ){
-                    IntVec2 chunkMPos = chunkKey_2_mpos(key_);
-                    cout << "\nERROR: get_chunkRef; chunkMPos: " << chunkMPos.x 
-                        << ", " << chunkMPos.y 
-                        << endl;
-                    chunkMemState_debug( key_, "" );
-                }
-        
-        tprAssert( get_chunkMemState(key_) == ChunkMemState::Active );
-    return *(chunk_inn::chunks.at(key_));
+    auto state = get_chunkMemState(key_);
+    return (state == ChunkMemState::Active) ?
+                std::pair<ChunkMemState, Chunk*> { state, chunk_inn::chunks.at(key_).get() } :
+                std::pair<ChunkMemState, Chunk*> { state, nullptr }; // let caller handle the exception
+                
 }
 
-/* ===========================================================
- *              get_chunkRef_onReleasing
- * -----------------------------------------------------------
- * 仅在 chunkRelease::release_one_chunk() 中被调用
+/* 仅在 chunkRelease::release_one_chunk() 中被调用
  */
 Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
         tprAssert( get_chunkMemState(key_) == ChunkMemState::OnReleasing );

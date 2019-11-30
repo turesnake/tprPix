@@ -332,30 +332,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 
                 
 
-                /*
-                {//--- 临时生成一排篱笆 
-
-                    goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
-
-                    IntVec2 fenceBegMPos {2, 0};
-
-                        glm::dvec2 entOutDPos = mpos_2_dpos( fenceBegMPos );
-
-                        gameObjs::create_a_Go(  fenceGoSpecId,
-                                                entOutDPos,
-                                                emptyDyParam );
-                    
-                }
-                */
-                
-
-
-
-
-
-
-                //-- db::table_gameArchive --
-                
+                //-- db::table_gameArchive --                
                 esrc::get_gameArchive() = GameArchive {   archiveId, 
                                                     target_baseSeed,
                                                     newGoId,
