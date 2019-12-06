@@ -15,6 +15,7 @@ colorTableSet
 coordinate
 renderPool
 behaviour
+blueprint
 camera
 viewingBox
 canvas

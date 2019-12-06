@@ -56,7 +56,7 @@ void parse_from_uiGoJsonFile(){
 
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "uiGos", "_files.json", path_files );
+    collect_fileNames( path_jsons, "uiGos", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         uiJson_inn::parse_single_uiGoJsonFile(i);

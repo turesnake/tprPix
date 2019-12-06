@@ -22,7 +22,11 @@
 #include "MapSurfaceRandEnt.h"
 #include "AnimLabel.h"
 
+#include "GoDataForCreate.h"
+
 #include "Job_Field.h"
+
+
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
@@ -35,6 +39,11 @@ struct DyParams_Field{
     const std::vector<Job_GoMesh> *job_goMeshsPtr {nullptr}; // support multi gomeshs
 };
 
+
+struct DyParams_Blueprint{    
+    size_t                  mapEntUWeight {}; // 其实是 mapEntKey 
+    const GoDataForCreate   *goDataPtr {};
+};
 
 
 struct DyParams_MapSurface{

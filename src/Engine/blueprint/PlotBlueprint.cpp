@@ -1,0 +1,42 @@
+/*
+ * ======================= PlotBlueprint.cpp =======================
+ *                          -- tpr --
+ *                                        CREATE -- 2019.12.02
+ *                                        MODIFY -- 
+ * ----------------------------------------------------------
+ */
+#include "PlotBlueprint.h"
+
+
+namespace blueprint {//------------------ namespace: blueprint start ---------------------//
+
+//============== static ===============//
+ID_Manager                                          PlotBlueprint::id_manager { ID_TYPE::U32, 0};
+std::unordered_map<std::string, plotBlueprintId_t>  PlotBlueprint::name_2_ids {};
+std::unordered_map<plotBlueprintId_t, std::unique_ptr<PlotBlueprint>> PlotBlueprint::plotUPtrs {};
+
+
+void PlotBlueprint::init_for_static()noexcept{
+    PlotBlueprint::name_2_ids.reserve(1000);
+    PlotBlueprint::plotUPtrs.reserve(1000);
+}
+
+
+/* [static]
+ * 外部禁止 自行创建 Plot 实例，必须通过此函数
+ */
+plotBlueprintId_t PlotBlueprint::init_new_plot( const std::string &name_ ){
+    //-- name_2_ids
+    plotBlueprintId_t id = PlotBlueprint::id_manager.apply_a_u32_id();
+    auto outPair1 = PlotBlueprint::name_2_ids.insert({ name_, id });
+    tprAssert( outPair1.second );
+    //-- plotUPtrs 
+    auto outPair2 = PlotBlueprint::plotUPtrs.insert({ id, std::make_unique<PlotBlueprint>() });
+    tprAssert( outPair2.second );
+    //--
+    return id;
+}
+
+
+}//--------------------- namespace: blueprint end ------------------------//
+

@@ -19,6 +19,8 @@
 #include "dataBase.h"
 #include "sceneLoop.h"
 
+#include "blueprint.h"
+
 #include "esrc_all.h"
 #include "ubo_all.h"
 
@@ -138,12 +140,16 @@ int main( int argc, char* argv[] ){
     
     esrc::init_canvases();
     esrc::init_mapSurfaceRandSet();
-    esrc::init_ecoSysPlanes();
 
     json::parse_from_animFrameSetJsonFile();
     json::parse_from_mapSurfaceRandMeshJsonFile();
 
     json::parse_from_multiGoMeshJsonFile();
+
+    blueprint::init_blueprint();
+
+    esrc::init_ecoSysPlanes();
+    
     
     //------------------------------------------//
     //        Behaviour.Starts

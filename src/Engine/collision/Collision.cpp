@@ -74,15 +74,11 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
     glm::dvec2 moveVec = limit_moveSpeed( moveVec_ );
 
     //----- dogo.isDoPass -----//
-    // dogo can pass any begos
-    if( dogoRef.get_collisionRef().get_isDoPass() ){
+    //      isMoveCollide = false
+    if( dogoRef.get_collisionRef().get_isDoPass() ||
+        (!dogoRef.isMoveCollide) ){                    
         this->reSignUp_dogo_to_chunk_and_mapents( moveVec );
         return moveVec; 
-    }
-
-    if( !dogoRef.isMoveCollide ){
-        this->reSignUp_dogo_to_chunk_and_mapents( moveVec );
-        return moveVec;
     }
 
     //===================//
@@ -437,8 +433,13 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
             //-- adds --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
                 auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
-                tprAssert( mapEntPair.first == ChunkMemState::Active );
-                mapEntPair.second->insert_2_circular_goids( dogoRef.id, dogoRef.get_colliderType() );
+                //-- 有时，目标 mapent 所在 chunk，尚未 active 了，暂时直接忽略
+                if( mapEntPair.first == ChunkMemState::Active ){
+                    mapEntPair.second->insert_2_circular_goids( dogoRef.id, dogoRef.get_colliderType() );
+                }else{
+                    //-- debug --
+                    cout << "++++ Collision::detect_for_move: catch not Active Chunk in adds!!!" << endl;
+                }
             }
             //-- dels --
             for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
@@ -449,7 +450,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
                 }else{
                     //-- debug --
-                    cout << "++++ Collision::detect_for_move: catch not Active Chunk!!!" << endl;
+                    cout << "++++ Collision::detect_for_move: catch not Active Chunk in dels!!!" << endl;
                 }
                     
             }

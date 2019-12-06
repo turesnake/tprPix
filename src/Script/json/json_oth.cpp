@@ -110,10 +110,11 @@ const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
  *               collect_fileNames
  * -----------------------------------------------------------
  */
-void collect_fileNames( const std::string &dirName_,
+void collect_fileNames( const std::string &headPath_,
+                        const std::string &dirName_,
                         const std::string &headFileName_,
                         std::vector<std::string> &container_ ){
-    std::string pathDir = tprGeneral::path_combine(path_jsons, dirName_);
+    std::string pathDir = tprGeneral::path_combine(headPath_, dirName_);
     //-----------------------------//
     //         load file
     //-----------------------------//

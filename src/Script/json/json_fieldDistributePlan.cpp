@@ -64,7 +64,7 @@ void parse_from_fieldDistributePlanJsonFile(){
     auto &planSetRef = esrc::get_fieldDistributePlanSet();
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "fieldDistributePlan", "_files.json", path_files );
+    collect_fileNames( path_jsons, "fieldDistributePlan", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         fdpJson_inn::parse_single_jsonFile( i, planSetRef );

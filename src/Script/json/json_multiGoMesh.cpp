@@ -143,7 +143,7 @@ void parse_from_multiGoMeshJsonFile(){
 
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "multiGoMeshs", "_files.json", path_files );
+    collect_fileNames( path_jsons, "multiGoMeshs", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         jmgm_inn::parse_single_jsonFile(i);

@@ -25,6 +25,7 @@
 #include "AnimLabel.h"
 #include "GoSpecData.h"
 #include "colorTableId.h"
+#include "blueprint.h"
 
 #include "DensityPool.h"
 
@@ -50,13 +51,15 @@ public:
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
     inline void set_mapSurfaceLowSpec( MapSurfaceLowSpec spec_ )noexcept{ this->mapSurfaceLowSpec = spec_; }
 
+    inline void pushBack_new_villageBlueprintId( blueprint::villageBlueprintId_t id_ )noexcept{
+        this->villageIds.push_back(id_);
+    }
 
     void init_goSpecDataPools_and_applyPercents();
 
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
     void insert( int densityLvl_, std::unique_ptr<DensityPool> &densityPoolUPtr_ );
-
 
 
     void shuffle_goSpecDataPools( u32_t seed_ );
@@ -94,6 +97,11 @@ public:
     get_densityPools()const noexcept{
         return this->densityPools;
     }
+
+    inline const std::vector<blueprint::villageBlueprintId_t> &
+    get_villageBlueprintIds()const noexcept{
+        return this->villageIds;
+    }
     
 
 
@@ -120,6 +128,12 @@ private:
     //std::vector<std::vector<GoSpecData>> goSpecDataPools {};
 
     std::vector<std::unique_ptr<DensityPool>> densityPools {};
+
+    //----- blueprints -----//
+    std::vector<blueprint::villageBlueprintId_t> villageIds {};
+                        // village 也应该具备 尺寸区别
+                        // 并且用不同尺寸的容器来存储
+                        // 未实现  ...
 
     
     //===== flags =====//

@@ -1,0 +1,21 @@
+{
+    "annotation": "试验性质的 村级蓝图，四个整齐排列的 2m2 yards",
+
+    "villageName": "v_1",
+
+    "pngLPath": "/v_1/v_1.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": true,
+            "isRoad": false,
+            "yardNames":[ "2m2_1" ]
+        }
+
+        
+    ]
+}

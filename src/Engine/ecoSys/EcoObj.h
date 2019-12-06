@@ -10,6 +10,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -24,6 +25,10 @@
 #include "Density.h"
 #include "GoSpecData.h"
 #include "colorTableId.h"
+//#include "BoolBitMap.h"
+#include "GoDataForCreate.h"
+#include "mapEntKey.h"
+#include "blueprint.h"
 
 #include "DensityPool.h"
 
@@ -43,7 +48,7 @@ class EcoObj{
 public:
     EcoObj() = default;
 
-    void init_for_node( sectionKey_t sectionKey_ );
+    void init( sectionKey_t sectionKey_ );
 
     void init_fstOrder( sectionKey_t sectionKey_ );
 
@@ -58,7 +63,6 @@ public:
         return *(this->densityPoolsPtr->at(densityIdx_));
     }
 
-
     inline IntVec2              get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
     inline ecoSysPlanId_t       get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
     inline EcoSysPlanType       get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
@@ -69,6 +73,16 @@ public:
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
+
+
+    inline std::optional<const GoDataForCreate*> find_goDataForCreatePtr( mapEntKey_t key_ )const noexcept{
+        if( this->goDatasForCreate.find(key_) == this->goDatasForCreate.end() ){
+            return std::nullopt;
+        }else{
+            return { this->goDatasForCreate.at(key_).get() };
+        }
+    }
+    
 
     //======== static funcs ========// 
     static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 
@@ -81,11 +95,12 @@ private:
     sectionKey_t  sectionKey {};
     MapCoord      mcpos  {}; //- [left-bottom]
                       
-    size_t uWeight {}; // [0, 9999]
 
+    size_t          uWeight {}; // [0, 9999]
     occupyWeight_t  occupyWeight {0}; //- 抢占权重。 [0,15]
                             //- 数值越高，此 ecosys 越强势，能占据更多fields
                             //- [just mem] 
+
 
     ecoSysPlanId_t  ecoSysPlanId {};
     EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
@@ -115,10 +130,16 @@ private:
 
                             // 暂时没有确定，是否重分配 densitypools 数据
                             // ...
-
-
-
     double           densitySeaLvlOff  {0.0}; 
+
+
+    //----- blueprint datas -----//
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> goDatasForCreate {};
+                            // mapEntKey 是游戏世界中的 绝对值
+
+    blueprint::villageBlueprintId_t villageBlueprintId {};
+
+
 };
 
 

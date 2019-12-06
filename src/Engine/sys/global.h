@@ -31,6 +31,7 @@ extern std::string path_shaders; //-- .../build/publish/shaders/
 extern std::string path_textures; //-- .../build/publish/textures/
 extern std::string path_jsons; //-- .../build/publish/jsons/
 extern std::string path_tprLog; //-- .../build/publish/tprLog/
+extern std::string path_blueprintDatas; //-- .../build/publish/blueprintDatas/
 
 extern std::string path_animFrameSets; //-- .../build/publish/textures/animFrameSets
 extern std::string path_colliEntSet; //-- .../build/publish/textures/colliEntSet

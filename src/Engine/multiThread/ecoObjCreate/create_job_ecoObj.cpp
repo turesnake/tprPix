@@ -82,26 +82,14 @@ void create_job_ecoObj_main( const Job &job_ ){
     //--------------------------//
     //    正式 创建 ecoobj 数据
     //--------------------------//
-    ecoObjRef.init_for_node( jobParamPtr->ecoObjKey );
-
-                
-                
-                //  未来还有更多 ...
-
-
-    
+    ecoObjRef.init( jobParamPtr->ecoObjKey );
+   
     //--------------------------//
     //-- job_ecoObj 数据计算完成后，向 状态表 添加一个元素
     //   以此来提醒 主线程，这个 ecoObj 数据准备好了
     //--------------------------//
     esrc::atom_insert_2_job_ecoObjFlags( jobParamPtr->ecoObjKey );
 }
-
-
-
-
-
-
 
 
 namespace cjeo_inn {//----------- namespace: cjeo_inn ----------------//

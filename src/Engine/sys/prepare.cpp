@@ -207,6 +207,12 @@ void check_and_creat_important_dir(){
     path_tprLog = tprWin::mk_dir( path_cwd,
                                 "tprLog/",
                                 err_info );
+    //---------------------------------//
+    //      path_blueprintDatas
+    //---------------------------------//
+    path_blueprintDatas = tprWin::mk_dir( path_cwd,
+                                "blueprintDatas/",
+                                err_info );
 
 #elif defined TPR_OS_UNIX_
 
@@ -264,6 +270,13 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_tprLog = tprUnix::mk_dir( path_cwd,
                         "tprLog/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //           path_blueprintDatas
+    //---------------------------------//
+    path_blueprintDatas = tprUnix::mk_dir( path_cwd,
+                        "blueprintDatas/",
                         RWXR_XR_X,
                         err_info );
 

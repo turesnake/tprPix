@@ -325,10 +325,7 @@ void AnimFrameSet::handle_shadow(){
 namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
 
-/* ===========================================================
- *                 build_three_lpaths
- * -----------------------------------------------------------
- */
+
 void build_three_lpaths( const std::string &lpath_pic_ ){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 

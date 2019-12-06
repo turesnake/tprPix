@@ -11,6 +11,7 @@
 #define TPR_BOOL_BIT_MAP_H
 
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <vector>
 
 //------------------- Libs --------------------//
@@ -20,6 +21,7 @@
 #include "tprAssert.h"
 
 
+
 //- each bit:
 //  0: false
 //  1: true
@@ -27,8 +29,14 @@ class BoolBitMap{
 public:
     BoolBitMap() = default;
 
-    inline void init( size_t bytes_ )noexcept{
-        bitMap.resize( bytes_ );
+    inline void resize( size_t w_, size_t h_=1 )noexcept{
+        this->wLen = w_;
+        this->hLen = h_;
+        this->totalNum = w_ * h_;
+        //--
+        size_t bytes = ceil( static_cast<double>(this->totalNum) / 
+                            static_cast<double>(BoolBitMap::BITS_PER_BYTE) );
+        bitMap.resize( bytes );
     }
 
     inline void clear_all()noexcept{
@@ -37,23 +45,47 @@ public:
         }
     }
 
-    inline void signUp( u32_t idx_ )noexcept{
-        tprAssert( (idx_/bitsPerByte) < bitMap.size() );
-        u8_t &bitRef = bitMap.at( idx_/bitsPerByte );
-        bitRef = bitRef | static_cast<u8_t>(1 << (idx_%bitsPerByte));
+    inline void signUp( size_t w_, size_t h_ )noexcept{
+        tprAssert( (w_<this->wLen) && (h_<this->hLen) );
+        size_t idx = h_ * this->wLen + w_;
+        //---
+        tprAssert( (idx/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
+        u8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE );
+        bitRef = bitRef | static_cast<u8_t>(1 << (idx%BoolBitMap::BITS_PER_BYTE));
+    }
+    inline void signUp( size_t idx_ )noexcept{
+        tprAssert( idx_ < this->totalNum );
+        //---
+        tprAssert( (idx_/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
+        u8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE );
+        bitRef = bitRef | static_cast<u8_t>(1 << (idx_%BoolBitMap::BITS_PER_BYTE));
     }
 
-    inline bool check( u32_t idx_ )noexcept{
-        tprAssert( (idx_/bitsPerByte) < bitMap.size() );
-        const u8_t &bitRef = bitMap.at( idx_/bitsPerByte ); 
-        return  ( ((bitRef>>(idx_%bitsPerByte)) & 1)==1 );
+    inline bool check( size_t w_, size_t h_ )noexcept{
+        tprAssert( (w_<this->wLen) && (h_<this->hLen) );
+        size_t idx = h_ * this->wLen + w_;
+        //---
+        tprAssert( (idx/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
+        const u8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE ); 
+        return  ( ((bitRef>>(idx%BoolBitMap::BITS_PER_BYTE)) & 1)==1 );
+    }
+    inline bool check( size_t idx_ )noexcept{
+        tprAssert( idx_ < this->totalNum );
+        //---
+        tprAssert( (idx_/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
+        const u8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE ); 
+        return  ( ((bitRef>>(idx_%BoolBitMap::BITS_PER_BYTE)) & 1)==1 );
     }
 
 private:
     std::vector<u8_t> bitMap {}; 
 
+    size_t  wLen {};
+    size_t  hLen {};
+    size_t  totalNum {};
+
     //======== static ========//
-    static u32_t bitsPerByte;
+    static size_t BITS_PER_BYTE;
 };
 
 

@@ -1,0 +1,28 @@
+{
+    "annotation": "几颗草，围绕一个篱笆",
+
+    "plotName": "bush_1",
+
+    "pngLPath": "/bush_1/bush_1.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpecName": "bushOth", "animLabels":[] }
+            ]
+        },
+
+        {
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpecName": "fence", "animLabels":[] }
+            ]
+        }
+    ]
+}

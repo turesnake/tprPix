@@ -1,0 +1,37 @@
+{
+    "annotation": "试验性质的yard蓝图，一组篱笆，一个 plot变量，两颗bush",
+
+    "yardName": "2m2_1",
+
+    "pngLPath": "/2m2_1/2m2_1.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": true,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpecName": "fence", "animLabels":[] }
+            ]
+        },
+
+        {
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": true,
+            "isPlotBlueprint": true,
+            "plotNames":[ "bush_1" ]
+        },
+
+        {
+            "type": "V_3",
+            "isAllInstanceUseSamePlan": true,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpecName": "bushOth", "animLabels":[] }
+            ]
+        }
+    ]
+}

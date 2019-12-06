@@ -41,6 +41,7 @@
 #include "chunkKey.h"
 #include "animSubspeciesId.h"
 #include "DyBinary.h"
+#include "BrokenLvl.h"
 
 
 //--- 一个仍在建设中的 丑陋的 大杂烩 ----//
@@ -219,7 +220,6 @@ public:
 
     chunkKey_t      currentChunkKey {}; //- 本go 当前所在 chunk key
                                         //  在 本go被创建，以及每次move时，被更新
-    
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
@@ -231,7 +231,6 @@ public:
                             //- 当它跟着 mapSection 存入硬盘时，会被转换为 go_species 信息。
                             //- 以便少存储 一份 go实例，节省 硬盘空间。
     bool    isControlByPlayer  {false}; 
-
 
     bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
                                     //  若为 false，不需要 登记到 mapent 上
@@ -247,8 +246,6 @@ public:
                                     //  不参与移动碰撞检测，（可被穿过） 但参与 技能碰撞检测的go，怎么办？
 
                                     //  尽可能减少 它在 移动碰撞检测之外的 作用 ！！！！！
-
-                                    
     
     //======== static ========//
     static ID_Manager  id_manager;
@@ -286,10 +283,15 @@ private:
     std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
     std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
 
-
     NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
                                     // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
+
+    BrokenLvl       brokenLvl   {BrokenLvl::Lvl_0}; // 破损等级，0为完好。
+                                    // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，
+                                    // 进一步会影响其 外貌
+                                    // 未实现 ...
+
 
     //----------- pvtBinary -------------//             
     DyBinary    pvtBinary {};//- 只存储 具象go类 内部使用的 各种变量

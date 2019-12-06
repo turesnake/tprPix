@@ -8,6 +8,6 @@
 #include "BoolBitMap.h"
 
 //===== static =====//
-u32_t BoolBitMap::bitsPerByte {8};
+size_t BoolBitMap::BITS_PER_BYTE {8};
 
 

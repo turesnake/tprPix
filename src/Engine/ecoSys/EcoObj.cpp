@@ -46,9 +46,7 @@ namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 }//------------- namespace: ecoObj_inn end --------------//
 
 
-/* ===========================================================
- *          calc_nearFour_node_ecoObjKey   [static] 
- * -----------------------------------------------------------
+/* [static] 
  * 生成 目标ecoObjKey 周边 4个 node key 的值，写入 参数容器中
  * -- 将被 atom_try_to_inert_and_init_a_ecoObj() 调用
  */
@@ -66,12 +64,7 @@ void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t targetKey_,
 
 
 
-
-/* ===========================================================
- *                    init_for_node
- * -----------------------------------------------------------
- */
-void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
+void EcoObj::init( sectionKey_t sectionKey_ ){
 
     this->init_fstOrder( sectionKey_ );
 
@@ -83,10 +76,7 @@ void EcoObj::init_for_node( sectionKey_t sectionKey_ ){
 }
 
 
-/* ===========================================================
- *                      init_fstOrder
- * -----------------------------------------------------------
- * -- 仅初始化几个 最简单的数据
+/* 仅初始化几个 最简单的数据
  */
 void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
 
@@ -134,11 +124,6 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
 }
 
 
-
-/* ===========================================================
- *               copy_datas_from_ecoSysPlan
- * -----------------------------------------------------------
- */
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
 
     ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->uWeight) ); //- 实现了伪随机
@@ -183,5 +168,22 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
                 //-- 在没确定 ecoobj densitypool 分配方式之前
                 //   先用指针，临时借用 ecoplan 的数据
                 // ...
+
+    //--- blueprint ---//
+    auto &villageIds = targetEcoPlanPtr_->get_villageBlueprintIds();
+    this->villageBlueprintId = villageIds.at( (this->uWeight + 7337507) % villageIds.size() );
+                        // 临时性的 分配法
+
+
+    //=======================//
+    //   goDatasForCreate
+    //=======================//
+    // 一次性生成 所有 人造物 godata 
+    blueprint::build_ecoObj_goDatasForCreate( this->villageBlueprintId,
+                                                this->mcpos.get_mpos(),
+                                                this->uWeight,
+                                                this->goDatasForCreate );
+    
+
 }
 

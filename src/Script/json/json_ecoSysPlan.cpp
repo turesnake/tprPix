@@ -27,6 +27,8 @@
 #include "AnimLabel.h"
 #include "BodySize.h"
 
+#include "blueprint.h"
+
 #include "GoSpecData.h"
 
 
@@ -91,9 +93,10 @@ void parse_from_ecoSysPlansJsonFile(){
     cout << "   ----- parse_from_ecoSysPlansJsonFile: start ----- " << endl;
 
     esrc::is_setState("json_gameObj");
+    esrc::is_setState("blueprint");
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "ecoSysPlans", "_files.json", path_files );
+    collect_fileNames( path_jsons, "ecoSysPlans", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         espJson_inn::parse_from_single_ecoSysPlansJsonFile(i);
@@ -128,7 +131,7 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
     u32_t                       fixedSeed {};
 
     tprAssert( doc.IsArray() );
-    for( auto &eco : doc.GetArray() ){
+    for( const auto &eco : doc.GetArray() ){
 
         {//--- EcoSysPlanType ---//
             const auto &a = check_and_get_value( eco, "EcoSysPlanType", JsonValType::String );
@@ -164,8 +167,17 @@ void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
 
         {//--- pools ---//
             const auto &a = check_and_get_value( eco, "pools", JsonValType::Array );
-            for( auto &densityPool : a.GetArray() ){
+            for( const auto &densityPool : a.GetArray() ){
                 espJson_inn::parse_pool( densityPool, ecoPlanRef );
+            }
+        }
+
+        {//--- villageBlueprintPool ---//
+            const auto &a = check_and_get_value( eco, "villageBlueprintPool", JsonValType::Array );
+            for( const auto &villageName : a.GetArray() ){
+                tprAssert( villageName.IsString() );
+                auto id = blueprint::str_2_villageBlueprintId( villageName.GetString() );
+                ecoPlanRef.pushBack_new_villageBlueprintId( id );
             }
         }
 
@@ -198,7 +210,7 @@ void parse_pool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
     //--- fieldDistributeTypes ---//
     const auto &types = check_and_get_value( densityPoolVal_, "fieldDistributeTypes", JsonValType::Array );
     size_t times {};
-    for( auto &type : types.GetArray() ){
+    for( const auto &type : types.GetArray() ){
         tprAssert( type.IsObject() );
         auto it = type.MemberBegin(); // only one ent
 
@@ -252,7 +264,7 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
     bool isFind_MultiGoMeshType     {false};
 
     const auto &ecoEntsVal = check_and_get_value( densityPoolVal_, name_, JsonValType::Array );
-    for( auto &ecoEnt : ecoEntsVal.GetArray() ){
+    for( const auto &ecoEnt : ecoEntsVal.GetArray() ){
 
         //--- clear ---//
         isFind_animLabels = false;
@@ -268,7 +280,7 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
             isFind_animLabels = true;
             const auto &a = check_and_get_value( ecoEnt, "animLabels", JsonValType::Array );
             if( a.Size() > 0 ){
-                for( auto &i : a.GetArray() ){
+                for( const auto &i : a.GetArray() ){
                     labels.push_back( str_2_AnimLabel(i.GetString()) );
                 }
             }

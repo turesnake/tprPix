@@ -57,9 +57,9 @@ void ViewingBox::init(){
 
     double windowSZ_vs_gameSZ_ {};
 
-    windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
+    //windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
     //windowSZ_vs_gameSZ_ = srcHeight / 1000.0;
-    //windowSZ_vs_gameSZ_ = srcHeight / 4000.0;
+    windowSZ_vs_gameSZ_ = srcHeight / 4000.0;
                     // eque to windowConfig val 1920:1200 
 
     ViewingBox::windowSZ.x = windowConfig.windowPixW;

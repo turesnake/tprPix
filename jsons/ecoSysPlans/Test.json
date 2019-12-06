@@ -149,7 +149,9 @@
                 { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 }
             ]
         }
-    ]
+    ],
+
+    "villageBlueprintPool":[ "v_1" ]
 }
 
 

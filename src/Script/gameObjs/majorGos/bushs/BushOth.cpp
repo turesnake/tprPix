@@ -46,12 +46,30 @@ struct BushOth_PvtBinary{
 void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
-    const DyParams_Field *msParamPtr {nullptr};
+
+    glm::dvec2          goMeshDPosOff {};
+    animSubspeciesId_t  subSpecId   {};
+
     //---
     size_t typeHash = dyParams_.get_typeHash();
     if( typeHash == typeid(DyParams_Field).hash_code() ){
-        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
+        const DyParams_Field *msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
 
+        const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
+        tprAssert( job_goMeshs.size() == 1 );
+        subSpecId = job_goMeshs.begin()->subspecId;
+        goMeshDPosOff = job_goMeshs.begin()->dposOff;
+
+
+    }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
+        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+
+        goMeshDPosOff = glm::dvec2{0.0, 0.0};
+        subSpecId = bpParamPtr->goDataPtr->subspecId;
+
+        // 剩余数据 暂时 没有使用 
+        // ...
+    
     }else{
         tprAssert(0); //- 尚未实现
     }
@@ -59,9 +77,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<BushOth_PvtBinary>();
 
-    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-    tprAssert( job_goMeshs.size() == 1 );
-    pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
+    pvtBp->subspeciesId = subSpecId;
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
@@ -73,7 +89,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                job_goMeshs.begin()->dposOff, //- pposoff
+                                goMeshDPosOff, //- pposoff
                                 0.0,  //- off_z
                                 true //- isVisible
                                 );

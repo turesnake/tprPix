@@ -58,7 +58,7 @@ void parse_from_colorTableJsonFile(){
     tprAssert( esrc::is_setState("colorTableSet") );
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "colorTables", "_files.json", path_files );
+    collect_fileNames( path_jsons, "colorTables", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         colorTableJson_inn::parse_single_colorTableJsonFile(i);

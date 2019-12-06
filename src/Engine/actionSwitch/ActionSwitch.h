@@ -37,7 +37,9 @@ public:
     ActionSwitch( GameObj &goRef_ ):
         goRef(goRef_)
         {
-            bitMap.init(bitMapBytes);
+            bitMap.resize( 64,1 ); // bitMap容器 占了 64 个元素
+                                    //- 随着 ActionSwitchType 种类的增多，
+                                    //  这个值将不断扩大  
         }
 
     inline void bind_func( const F_ACTION_SWITCH &func_ )noexcept{ this->func = func_; }
@@ -48,12 +50,12 @@ public:
 
     //-- 登记某个 actionSwitch --
     inline void signUp( ActionSwitchType type_ )noexcept{
-        bitMap.signUp( static_cast<u32_t>(type_) );
+        bitMap.signUp( static_cast<size_t>(type_) ); // can't use cast_2_siz_t
     }
 
     //-- 检查某个 actionSwitch 是否已登记 --
     inline bool check( ActionSwitchType type_ )noexcept{
-        return  bitMap.check( static_cast<u32_t>(type_) );
+        return  bitMap.check( static_cast<size_t>(type_) ); // can't use cast_2_siz_t
     }
     
 
@@ -63,12 +65,7 @@ private:
     BoolBitMap  bitMap  {}; //- 位图，记录了本实例 注册了哪几个类型的 actionSwitch
                             //- 暂定上限为 64-bit
     //--- functor ----//
-    F_ACTION_SWITCH  func {nullptr};
-
-    //======== static ========//
-    static size_t bitMapBytes; //- bitMap容器 占用多少 字节
-                    //- 随着 ActionSwitchType 种类的增多，
-                    //  这个值将不断扩大  
+    F_ACTION_SWITCH  func {nullptr}; 
 };
 
 

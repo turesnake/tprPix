@@ -285,7 +285,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                 {//--- 临时生成一排篱笆 
                     goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
 
-                    int sideLen = 4 * 1;
+                    int sideLen = 4 * 3;
 
                     std::set<IntVec2> fenceMap {}; // 篱笆放置蓝图
                     for( int i=0; i<sideLen; i++ ){
@@ -294,36 +294,15 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                         fenceMap.insert( IntVec2{ 0, i } );
                         fenceMap.insert( IntVec2{ sideLen-1, i } );
 
-                        /*
-                        if( ((i!=4) && (i!=5) && (i!=6))  ){
-                            fenceMap.insert( IntVec2{ i, 0 } );
-                        }
-                        */
-                        if( i != 2 ){
+                        if( (i!=2) || (i!=3) ){
                             fenceMap.insert( IntVec2{ i, 0 } );
                         }
                     }
-                    /*
-                    fenceMap.insert( IntVec2{ 2, 4 } );
-                    fenceMap.insert( IntVec2{ 2, 5 } );
-                    fenceMap.insert( IntVec2{ 2, 6 } );
-                    fenceMap.insert( IntVec2{ 2, 7 } );
-                    */
 
-
-
-                    IntVec2 fenceBegMPos {-4, -4};
+                    IntVec2 fenceBegMPos {1, 1};
                     for( const auto &impos : fenceMap ){
                         glm::dvec2 entOutDPos = mpos_2_midDPos( fenceBegMPos + impos );
                                                     // 务必 生长在 mapent mid 处 ！！！
-                        /*
-                        cout << "entOutDPos: " << entOutDPos.x
-                            << ", " << entOutDPos.y 
-                            << "; round: " << tprRound( entOutDPos.x )
-                            << ", " << tprRound( entOutDPos.y )
-                            << endl;
-                        */
-
                         gameObjs::create_a_Go(  fenceGoSpecId,
                                                 entOutDPos,
                                                 emptyDyParam );

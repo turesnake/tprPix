@@ -19,6 +19,8 @@
 #include "Job_MapEnt.h"
 #include "animSubspeciesId.h"
 
+#include "GoDataForCreate.h"
+
 
 class Job_GoMesh{
 public:
@@ -76,7 +78,6 @@ public:
         tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
                     (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
 
-        //size_t entIdx = cast_2_size_t(mposOff_.y * ENTS_PER_FIELD + mposOff_.x);
         size_t hIdx = Job_Field::get_halfFieldIdx(mposOff_);
 
         //--- mapEntPtrs ---
@@ -113,10 +114,17 @@ public:
         return target;
     }
 
+    inline void insert_2_blueprint_goDatas( const GoDataForCreate *ptr_ )noexcept{
+        this->blueprint_goDatas.push_back( ptr_ );
+    }
 
 
     inline const std::vector<Job_GoData> &get_job_goDatas()const noexcept{
         return this->job_goDatas;
+    }
+
+    inline const std::vector<const GoDataForCreate*> &get_blueprint_goDatas()const noexcept{
+        return this->blueprint_goDatas;
     }
 
 
@@ -132,8 +140,11 @@ private:
     std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
 
 
-    std::vector<Job_GoData> job_goDatas {}; // datas need to be create in main-thread
+    std::vector<Job_GoData> job_goDatas {}; // 需要在 map 中生成的 go 实例 （旧版本）
 
+
+    // 彻底绕开 旧分配方案 的 蓝图分配方式
+    std::vector<const GoDataForCreate*> blueprint_goDatas {};
 
 
     //=== datas just used for inner calc ===

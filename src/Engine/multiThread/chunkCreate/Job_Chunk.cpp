@@ -12,6 +12,7 @@
 
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
+#include "mapEntKey.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_animFrameSet.h" // tmp
@@ -129,6 +130,9 @@ void Job_Chunk::create_field_goSpecDatas(){
     animSubspeciesId_t subSpecId {};
     size_t             windDelayIdx {};
 
+    IntVec2         tmpEntMPos {};
+    mapEntKey_t     tmpMapEntKey {};
+
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
             tmpFieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
@@ -140,9 +144,12 @@ void Job_Chunk::create_field_goSpecDatas(){
             if( fieldRef.is_land() ){ // skip water-field
 
                 ecoObjKey = fieldRef.get_ecoObjKey();
+                EcoObj &ecoObjRef = esrc::get_ecoObjRef(ecoObjKey);
 
-                const auto &densityPool = esrc::get_ecoObjRef(ecoObjKey).get_densityPool( fieldRef.get_density().get_idx() );
-
+                //----------------------//
+                //     旧版 分配方案
+                //----------------------//
+                const auto &densityPool = ecoObjRef.get_densityPool( fieldRef.get_density().get_idx() );
                 const auto &fieldDistributePlan = densityPool.apply_a_fieldDistributePlan( fieldRef.get_uWeight() );
 
                 for( const auto &pair : fieldDistributePlan.get_points() ){ // each point 
@@ -201,6 +208,23 @@ void Job_Chunk::create_field_goSpecDatas(){
                         }
                     }
                 }
+
+                //----------------------//
+                //  生成 蓝图用 go数据
+                //----------------------//
+                for( int j=0; j<ENTS_PER_FIELD; j++ ){
+                    for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent
+
+                        tmpEntMPos = tmpFieldMPos + IntVec2{ i, j };
+                        tmpMapEntKey = mpos_2_key( tmpEntMPos );
+
+                        if( auto ret=ecoObjRef.find_goDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
+                            job_fieldRef.insert_2_blueprint_goDatas( ret.value() );
+                        }
+                    }
+                }
+
+
             }
         }
     }

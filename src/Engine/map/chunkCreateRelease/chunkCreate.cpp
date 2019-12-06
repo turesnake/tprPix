@@ -72,10 +72,6 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     bool         is_first_check  {true}; 
 
 
-
-
-
-
     //===== funcs =====//
     void chunkCreate_1_push_job( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
     void create_one_chunk( chunkKey_t chunkKey_ );
@@ -83,7 +79,6 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     void wait_until_target_chunk_created( chunkKey_t chunkKey_ );
 
     void push_chunk_2_jobQue( chunkKey_t chunkKey_ );
-    //void push_ecoObj_2_jobQue( sectionKey_t ecoObjKey_ );
     bool is_chunk_near4EcoObjs_all_active(  IntVec2 chunkMPos_, bool isInnCall_ );
 
     NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ );
@@ -103,29 +98,31 @@ void create_9_chunks( IntVec2 playerMPos_ ){
     //---------
     IntVec2     playerChunkMPos = anyMPos_2_chunkMPos( playerMPos_ );
     IntVec2     playerSectionMPos = anyMPos_2_sectionMPos( playerMPos_ );
-
-    IntVec2         tmpChunkMPos {};
-    IntVec2         tmpSectionMPos {};
-    chunkKey_t      chunkKey     {};
-    sectionKey_t    ecoObjKey {};
-
     //----------------------------//
     // 一次性生成 周边 5*5 个 ecoObj
     //----------------------------//
     //-- 收集 所有 ecoObjKeys --
     //   并将它们压入 job 线程
+    std::set<sectionKey_t> near_25_ecoObjKeys {};
     for( int h=-2; h<=2; h++ ){
         for( int w=-2; w<=2; w++ ){            
-            tmpSectionMPos = playerSectionMPos + IntVec2{ w*ENTS_PER_SECTION, h*ENTS_PER_SECTION };
-            ecoObjKey = sectionMPos_2_sectionKey( tmpSectionMPos );
-            //--
-            push_ecoObj_2_jobQue( ecoObjKey );
-            esrc::insert_ecoObjKey_2_onCreating( ecoObjKey );
+            IntVec2 tmpSectionMPos = playerSectionMPos + IntVec2{ w*ENTS_PER_SECTION, h*ENTS_PER_SECTION };
+            sectionKey_t ecoObjKey = sectionMPos_2_sectionKey( tmpSectionMPos );
+            near_25_ecoObjKeys.insert( ecoObjKey );            
         }
     }
+
+    //-- 全部 压入 job线程
+    tprAssert( near_25_ecoObjKeys.size() == 25 );
+    for( const auto &key : near_25_ecoObjKeys ){
+        push_ecoObj_2_jobQue( key );
+        esrc::insert_ecoObjKey_2_onCreating( key );
+    }
+
     //-- 不停检查，直到 25个 ecoobj 全部创建完成 --
     size_t finishedNum {0};
     size_t tmpNum {};
+    
     while( true ){
         //-- 收集所有 已在 job线程中 创建完毕的 ecoobjs --
         tmpNum = esrc::atom_move_all_ecoObjUptrs_from_job_2_esrc();
@@ -138,15 +135,17 @@ void create_9_chunks( IntVec2 playerMPos_ ){
         std::this_thread::sleep_for( std::chrono::milliseconds(5) ); // 待机一段时间
     }
 
+        cout << "5*5 ecoobjs create Done! " << endl;
+
 
     //----------------------------//
     // 一次性生成 周边 3*3 个 chunk
     //----------------------------//
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){
-            tmpChunkMPos = playerChunkMPos + IntVec2{   w*ENTS_PER_CHUNK,
+            IntVec2 tmpChunkMPos = playerChunkMPos + IntVec2{   w*ENTS_PER_CHUNK,
                                                         h*ENTS_PER_CHUNK };          
-            chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
+            chunkKey_t chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkCreate_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
             cb_inn::wait_until_target_chunk_created(chunkKey);
@@ -448,23 +447,6 @@ void push_chunk_2_jobQue( chunkKey_t chunkKey_ ){
     //----------
     esrc::atom_push_back_2_jobQue( jobSPtr );
 }
-
-
-
-//-- 调用完本函数后，还应该处理 ecoObjMemState  
-/*
-void push_ecoObj_2_jobQue( sectionKey_t ecoObjKey_ ){
-
-    auto jobSPtr = std::make_shared<Job>();
-    jobSPtr->set_jobType( JobType::Create_Job_EcoObj );
-    auto *paramPtr = jobSPtr->init_param<ArgBinary_Create_Job_EcoObj>();
-    paramPtr->ecoObjKey = ecoObjKey_;
-    //----------
-    esrc::atom_push_back_2_jobQue( jobSPtr );
-}
-*/
-
-
 
 
 NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){

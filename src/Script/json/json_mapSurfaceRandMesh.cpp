@@ -61,7 +61,7 @@ void parse_from_mapSurfaceRandMeshJsonFile(){
 
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "mapSurface", "_files.json", path_files );
+    collect_fileNames( path_jsons, "mapSurface", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
         msrm_inn::parse_single_mapSurfaceRandMeshJsonFile(i);

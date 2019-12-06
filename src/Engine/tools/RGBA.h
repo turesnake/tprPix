@@ -111,6 +111,70 @@ inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ) noexcept {
 }
 
 
+class HSV{
+public:
+    double h {}; // [0.0,360.0] degree
+    double s {}; // [0.0,1.0] pct
+    double v {}; // [0.0,1.0] pct
+};
+
+
+/* 计算结果精度有限：
+ *   -- h    存在 +- 2.0 以内的误差，当明度较低时，误差会变大
+ *   -- s/v  存在 +- 0.2 以内的误差
+ */
+inline HSV rgb_2_hsv( RGBA in_){
+
+    double ir = static_cast<double>(in_.r) / 255.0; // [0.0, 1.0]
+    double ig = static_cast<double>(in_.g) / 255.0; // [0.0, 1.0]
+    double ib = static_cast<double>(in_.b) / 255.0; // [0.0, 1.0]
+    // ignore alpha 
+
+    HSV         out {};
+    double      min {}; 
+    double      max {};
+    double      delta {};
+    //---
+    min = ir < ig ? ir : ig;
+    min = min  < ib ? min  : ib;
+
+    max = ir > ig ? ir : ig;
+    max = max  > ib ? max  : ib;
+
+    out.v = max;                                // v
+    delta = max - min;
+    if (delta < 0.00001)
+    {
+        out.s = 0.0;
+        out.h = 0.0; // undefined, maybe nan?
+        return out;
+    }
+    if( max > 0.0 ) { // NOTE: if Max is == 0, this divide would cause a crash
+        out.s = (delta / max);                  // s
+    } else {
+        // if max is 0, then r = g = b = 0              
+        // s = 0, h is undefined
+        out.s = 0.0;
+        out.h = NAN;                            // its now undefined
+        return out;
+    }
+    if( ir >= max )                           // > is bogus, just keeps compilor happy
+        out.h = ( ig - ib ) / delta;        // between yellow & magenta
+    else
+    if( ig >= max )
+        out.h = 2.0 + ( ib - ir ) / delta;  // between cyan & yellow
+    else
+        out.h = 4.0 + ( ir - ig ) / delta;  // between magenta & cyan
+
+    out.h *= 60.0;                              // degrees
+
+    if( out.h < 0.0 )
+        out.h += 360.0;
+
+    return out;
+}
+
+
 namespace rgba {//-------- namespace: rgba --------------//
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
@@ -153,10 +217,7 @@ inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ) noe
 }
 
 
-/* ===========================================================
- *                   multiply
- * -----------------------------------------------------------
- *  简易版 正片叠底
+/* 简易版 正片叠底
  *  假设 a_.a 永远等于 255， 通过 参数 _bPercent，来调节 正片叠底 程度
  * param: bPercent_ -- 正片叠底 的 程度 [0.0, 1.0]
  */

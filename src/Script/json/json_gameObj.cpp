@@ -55,7 +55,7 @@ void parse_from_goJsonFile(){
 
 
     std::vector<std::string> path_files {};
-    collect_fileNames( "gameObjs", "_files.json", path_files );
+    collect_fileNames( path_jsons, "gameObjs", "_files.json", path_files );
 
     for( const auto &i : path_files ){
         goJson_inn::parse_single_jsonFile(i);

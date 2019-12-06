@@ -35,6 +35,9 @@
  * -----------------------------------------------------------
  * only called in chunkCreate
  * all kinds of gos 
+ * 
+ *    当蓝图系统建立完成后，这个函数中的一些地方将进行大调整
+ * 
  */
 void create_gos_in_field(   fieldKey_t      fieldKey_, 
                             const Chunk     &chunkRef_,
@@ -87,7 +90,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 emptyDyParam );
     }
     
-    //----- land go -----//
+    //----- land majorGo in old-style -----//
     for( const auto &i : job_fieldPtr->get_job_goDatas() ){
 
         //--- dyParam ---//
@@ -103,6 +106,40 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 dyParam );
 
     }
+
+    //----- land majorGo in blueprint -----//
+    //-- 暂时不关 蓝图 和 旧分配方案之间的冲突
+    //   在未来，旧方案可能会被彻底 替代
+    
+
+        size_t num = job_fieldPtr->get_blueprint_goDatas().size();
+        if( num != 0 ){
+            cout << "blueprint: field_gos: " << num 
+                << endl;
+        }
+
+
+
+    for( const auto goDataPtr : job_fieldPtr->get_blueprint_goDatas() ){
+
+        // dir / brokenLvl 这2个数据 暂时未被使用
+        // ...
+
+        //--- dyParam ---//
+        DyParam dyParam {};
+        auto fUPtr = std::make_unique<DyParams_Blueprint>();
+        fUPtr->goDataPtr = goDataPtr;
+        fUPtr->mapEntUWeight = 12345;   // tmp, 随便写一个值
+
+        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
+        //---
+
+        gameObjs::create_a_Go(  goDataPtr->goSpecId,
+                                mpos_2_midDPos(goDataPtr->mpos),
+                                dyParam ); 
+
+    }
+
 
 }
 
