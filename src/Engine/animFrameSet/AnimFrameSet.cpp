@@ -329,12 +329,13 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 void build_three_lpaths( const std::string &lpath_pic_ ){
     //- 注释 以 lpath_pic = "/animal/dog_ack_01.P.png" 为例
 
-    std::string lst {}; //- tmp, 尾部字符串，不停地被截断
-
+    //--------------------//
+    //    lpath_pic
+    //--------------------//
     lpath_pic = lpath_pic_;
 
     //--------------------//
-    //    生成 lpath_pjt
+    //    lpath_pjt
     //--------------------//
     auto point_idx = lpath_pic.find( '.', 0 ); //- 指向第一个 '.'
     auto lastIt = lpath_pic.begin();
@@ -344,7 +345,7 @@ void build_three_lpaths( const std::string &lpath_pic_ ){
     lpath_pjt += ".J.png";
 
     //--------------------//
-    //    生成 lpath_shadow
+    //    lpath_shadow
     //--------------------//
     //- lpath_shadow 暂时等于 "/animal/dog_ack_01"
     lpath_shadow.assign( lpath_pic.begin(), lastIt );

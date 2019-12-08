@@ -57,8 +57,27 @@
     "pub.MP": "nil"
   },
   {
-    "goSpecName": "groundGo",
+    "goSpecName": "floorGo",
     "specID": 3002,
+    "parentID": 0,
+    "family": "MapSurface",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isMoveCollide": false,
+    "isDoPass": false,
+    "isBePass": true,
+    "animFrameSetName":"floorGo_test",
+    "speedLvl": 0,
+    "alti": 0,
+    "weight": 1,
+    "pub.HP": "nil",
+    "pub.MP": "nil"
+  },
+  {
+    "goSpecName": "groundGo",
+    "specID": 3003,
     "parentID": 0,
     "family": "GroundGo",
     "state": "Waked",

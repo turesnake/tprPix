@@ -45,10 +45,12 @@ struct BushOth_PvtBinary{
  */
 void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
-    //================ dyParams =================//
+    //================ go.pvtBinary =================//
+    auto *pvtBp = goRef_.init_pvtBinary<BushOth_PvtBinary>();
 
+
+    //================ dyParams =================//
     glm::dvec2          goMeshDPosOff {};
-    animSubspeciesId_t  subSpecId   {};
 
     //---
     size_t typeHash = dyParams_.get_typeHash();
@@ -57,7 +59,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
         tprAssert( job_goMeshs.size() == 1 );
-        subSpecId = job_goMeshs.begin()->subspecId;
+        pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
         goMeshDPosOff = job_goMeshs.begin()->dposOff;
 
 
@@ -65,7 +67,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
 
         goMeshDPosOff = glm::dvec2{0.0, 0.0};
-        subSpecId = bpParamPtr->goDataPtr->subspecId;
+        pvtBp->subspeciesId = bpParamPtr->goDataPtr->subspecId;
 
         // 剩余数据 暂时 没有使用 
         // ...
@@ -73,11 +75,6 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     }else{
         tprAssert(0); //- 尚未实现
     }
-
-    //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<BushOth_PvtBinary>();
-
-    pvtBp->subspeciesId = subSpecId;
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );

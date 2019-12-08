@@ -218,13 +218,23 @@ void Job_Chunk::create_field_goSpecDatas(){
                         tmpEntMPos = tmpFieldMPos + IntVec2{ i, j };
                         tmpMapEntKey = mpos_2_key( tmpEntMPos );
 
-                        if( auto ret=ecoObjRef.find_goDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
-                            job_fieldRef.insert_2_blueprint_goDatas( ret.value() );
+                        //--  再筛选掉 水域之外的 mp-go --
+                        mposOff = tmpEntMPos - this->chunkMPos;
+                        auto &mapEntInnRef = this->getnc_mapEntInnRef( mposOff );
+                        if( !mapEntInnRef.alti.is_land() ){
+                            continue;
+                        }
+
+                        //-- majorGos --
+                        if( auto ret=ecoObjRef.find_majorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
+                            job_fieldRef.insert_2_blueprint_majorGoDatas( ret.value() );
+                        }
+                        //-- floorGos --
+                        if( auto ret=ecoObjRef.find_floorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
+                            job_fieldRef.insert_2_blueprint_floorGoDatas( ret.value() );
                         }
                     }
                 }
-
-
             }
         }
     }

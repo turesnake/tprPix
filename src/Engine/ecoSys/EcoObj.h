@@ -75,11 +75,18 @@ public:
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
 
 
-    inline std::optional<const GoDataForCreate*> find_goDataForCreatePtr( mapEntKey_t key_ )const noexcept{
-        if( this->goDatasForCreate.find(key_) == this->goDatasForCreate.end() ){
+    inline std::optional<const GoDataForCreate*> find_majorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
+        if( this->majorGoDatasForCreate.find(key_) == this->majorGoDatasForCreate.end() ){
             return std::nullopt;
         }else{
-            return { this->goDatasForCreate.at(key_).get() };
+            return { this->majorGoDatasForCreate.at(key_).get() };
+        }
+    }
+    inline std::optional<const GoDataForCreate*> find_floorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
+        if( this->floorGoDatasForCreate.find(key_) == this->floorGoDatasForCreate.end() ){
+            return std::nullopt;
+        }else{
+            return { this->floorGoDatasForCreate.at(key_).get() };
         }
     }
     
@@ -134,7 +141,8 @@ private:
 
 
     //----- blueprint datas -----//
-    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> goDatasForCreate {};
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> majorGoDatasForCreate {};
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> floorGoDatasForCreate {};
                             // mapEntKey 是游戏世界中的 绝对值
 
     blueprint::villageBlueprintId_t villageBlueprintId {};

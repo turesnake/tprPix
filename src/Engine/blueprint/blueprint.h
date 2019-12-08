@@ -31,7 +31,8 @@ villageBlueprintId_t str_2_villageBlueprintId( const std::string &name_ )noexcep
 void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                                     IntVec2  ecoObjMPos_,
                                     size_t   ecoObjUWeight_,
-                                    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &outContainer_ );
+                                    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &majorGoDatasForCreate_,
+                                    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &floorGoDatasForCreate_ );
 
 
 }//--------------------- namespace: blueprint end ------------------------//

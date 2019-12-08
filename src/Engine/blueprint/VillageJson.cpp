@@ -82,7 +82,6 @@ void parse_from_single_villageJsonFile( const std::string &path_file_ ){
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
     
-
     //---
     tprAssert( doc.IsObject() );
     {//--- villageName ---//
@@ -116,7 +115,7 @@ void parse_from_single_villageJsonFile( const std::string &path_file_ ){
     }
 
     // 读取解析 png 数据，
-    IntVec2 frameSizeByMapEnt = parse_png( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, true );
+    IntVec2 frameSizeByMapEnt = parse_png( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Village );
     tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) && 
                 (frameSizeByMapEnt.y == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) );
 
@@ -150,8 +149,11 @@ void parse_from_single_villageJsonFile( const std::string &path_file_ ){
                 varTypeDatasUPtr->insert_2_yardIds( YardBlueprint::str_2_yardBlueprintId(ent.GetString()) );
             }
         }
+
+
+
         varTypeDatasUPtr->init_check();
-        villageRef.insert_2_varTypeUPtrs( varTypeIdx, std::move(varTypeDatasUPtr) );
+        villageRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
     }
 
     villageRef.init_check();

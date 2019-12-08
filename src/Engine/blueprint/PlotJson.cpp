@@ -121,7 +121,7 @@ void parse_from_single_plotJsonFile( const std::string &path_file_ ){
     }
 
     // 读取解析 png 数据，
-    IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, false );
+    IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Plot );
     plotRef.set_sizeByMapEnt( frameSizeByMapEnt );
 
 
@@ -167,7 +167,7 @@ void parse_from_single_plotJsonFile( const std::string &path_file_ ){
         }
 
         varTypeDatasUPtr->init_check();
-        plotRef.insert_2_varTypeUPtrs( varTypeIdx, std::move(varTypeDatasUPtr) );
+        plotRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
     }
 
     plotRef.init_check();

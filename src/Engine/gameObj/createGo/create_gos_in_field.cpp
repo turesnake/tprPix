@@ -61,6 +61,8 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     }
 
     //----- mapsurface go ------//
+    //   直接取消，方便在未来，被全面取代为 蓝图模式
+    /*
     {               
         auto entId = chunkRef_.get_mapSurfaceRandEntId();
         const auto &outPair = esrc::get_mapSurfaceRandEntData( entId, fieldRef.calc_fieldIdx_in_chunk() );
@@ -80,6 +82,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                     dyParam );
         }
     }
+    */
     
 
     //----- fieldRim go [-DEBUG-] ------//
@@ -110,17 +113,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     //----- land majorGo in blueprint -----//
     //-- 暂时不关 蓝图 和 旧分配方案之间的冲突
     //   在未来，旧方案可能会被彻底 替代
-    
-
-        size_t num = job_fieldPtr->get_blueprint_goDatas().size();
-        if( num != 0 ){
-            cout << "blueprint: field_gos: " << num 
-                << endl;
-        }
-
-
-
-    for( const auto goDataPtr : job_fieldPtr->get_blueprint_goDatas() ){
+    for( const auto goDataPtr : job_fieldPtr->get_blueprint_majorGoDatas() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
         // ...
@@ -135,10 +128,35 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         //---
 
         gameObjs::create_a_Go(  goDataPtr->goSpecId,
-                                mpos_2_midDPos(goDataPtr->mpos),
+                                goDataPtr->dpos,
                                 dyParam ); 
 
     }
+
+    for( const auto goDataPtr : job_fieldPtr->get_blueprint_floorGoDatas() ){
+
+        // dir / brokenLvl 这2个数据 暂时未被使用
+        // ...
+
+        //--- dyParam ---//
+        DyParam dyParam {};
+        auto fUPtr = std::make_unique<DyParams_Blueprint>();
+        fUPtr->goDataPtr = goDataPtr;
+        fUPtr->mapEntUWeight = 12345;   // tmp, 随便写一个值
+
+        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
+        //---
+
+        gameObjs::create_a_Go(  goDataPtr->goSpecId,
+                                goDataPtr->dpos,
+                                dyParam ); 
+
+    }
+
+
+
+
+
 
 
 }

@@ -38,31 +38,11 @@ public:
     //----- get -----//
     inline bool get_isRoad()const noexcept{ return this->isRoad; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-
-
-    inline yardBlueprintId_t apply_a_yardBlueprintId( size_t uWeight_ )noexcept{
-        if( this->isAllInstanceUseSamePlan ){
-            //-- 统一值 只生成一次，并永久保留
-            if( !this->isUnifiedValsset ){
-                this->isUnifiedValsset = true;
-                this->unifiedYardId = this->yardIds.at( (uWeight_ + 7876117) % this->yardIds.size() );
-            }
-            //-- 直接获得 统一值
-            return this->unifiedYardId;
-        }else{
-            //-- 每次都独立分配 yardId --
-            return this->yardIds.at( (uWeight_ + 7876117) % this->yardIds.size() );
-        }
-    }
-    
-
+    inline const std::vector<yardBlueprintId_t> &get_yardIds()const noexcept{ return this->yardIds; }
 private:
     std::vector<yardBlueprintId_t> yardIds {};
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
-    bool isRoad {}; // 本变量是否为一个 道路单位 
-    //---
-    yardBlueprintId_t unifiedYardId {99};
-    bool isUnifiedValsset       {false};    
+    bool isRoad {}; // 本变量是否为一个 道路单位  
 };
 
 
@@ -75,30 +55,32 @@ public:
     VillageBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
 
-    inline void insert_2_varTypeUPtrs(  VariableTypeIdx typeIdx_, 
+    inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Village> uptr_ )noexcept{
-        auto outPair = this->varTypeUPtrs.insert({ typeIdx_, std::move(uptr_) });
-        tprAssert( outPair.second );
+        auto outPair1 = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( outPair1.second );
+        auto outPair2 = this->varTypes.insert( typeIdx_ );
+        tprAssert( outPair2.second );
     }
 
     inline void init_check()const noexcept{
         tprAssert( !this->mapDatas.empty() );
-        tprAssert( !this->varTypeUPtrs.empty() );
+        tprAssert( !this->varTypeDatas.empty() );
     }
 
-
+    //- 仅用于 读取 json数据 时 -
     inline std::vector<MapData> &getnc_mapDatasRef()noexcept{ return this->mapDatas; }
 
+    inline const std::set<VariableTypeIdx> &get_varTypes()const noexcept{ return this->varTypes; }
 
     inline const MapData &apply_a_random_mapData( size_t uWeight_ )const noexcept{
         return this->mapDatas.at( (uWeight_ + 3731577) % this->mapDatas.size() );
     }
 
-    inline VarTypeDatas_Village &get_varTypeDatas_Village( VariableTypeIdx type_ )noexcept{
-        tprAssert( this->varTypeUPtrs.find(type_) != this->varTypeUPtrs.end() );
-        return *(this->varTypeUPtrs.at(type_));
+    inline const VarTypeDatas_Village *get_varTypeDataPtr_Village( VariableTypeIdx type_ )const noexcept{
+        tprAssert( this->varTypeDatas.find(type_) != this->varTypeDatas.end() );
+        return this->varTypeDatas.at(type_).get();
     }
-
 
     //===== static =====//
     static void init_for_static()noexcept;
@@ -116,9 +98,9 @@ public:
 
 
 private:
-
     std::vector<MapData> mapDatas {}; // 存在 png 中的 mp-go 数据，有若干帧，可随机挑选
-    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Village>> varTypeUPtrs {}; // 类型数据
+    std::set<VariableTypeIdx> varTypes {};
+    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Village>> varTypeDatas {}; // 类型数据
 
     //===== static =====//
     static ID_Manager  id_manager;

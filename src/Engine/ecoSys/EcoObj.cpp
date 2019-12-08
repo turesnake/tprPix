@@ -182,7 +182,8 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     blueprint::build_ecoObj_goDatasForCreate( this->villageBlueprintId,
                                                 this->mcpos.get_mpos(),
                                                 this->uWeight,
-                                                this->goDatasForCreate );
+                                                this->majorGoDatasForCreate,
+                                                this->floorGoDatasForCreate );
     
 
 }

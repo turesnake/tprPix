@@ -23,6 +23,13 @@
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
 
+enum class BlueprintType{
+    Plot,
+    Yard,
+    Village
+};
+
+
 // 为了简化实现，yard 强制规定，必须为 正方形 
 enum class YardSize{
     _1m1=1,
@@ -67,9 +74,15 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
                     const std::string &pngPath_M_,
                     IntVec2 frameNum_,
                     size_t totalFrameNum_,
-                    bool isVillage_ );
+                    BlueprintType blueprintType_ );
 
 
+class YardBlueprint;
+
+IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
+                        const std::string &pngPath_M_,
+                        IntVec2 frameNum_,
+                        size_t totalFrameNum_ );
 
 }//--------------------- namespace: blueprint end ------------------------//
 #endif 

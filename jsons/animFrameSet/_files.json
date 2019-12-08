@@ -7,6 +7,7 @@
 
     {"/gos/bushs.json": true },
     {"/gos/cactus.json": true },
+    {"/gos/floorGos.json": true },
     {"/gos/grass.json": true },
     {"/gos/groundGos.json": true },
     {"/gos/mapSurfaces.json": true },

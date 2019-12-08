@@ -82,6 +82,9 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
     std::string pngPath_M {};
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
+
+    bool isHaveMajorGos {};
+    bool isHaveFloorGos {};
     
 
     //---
@@ -94,6 +97,7 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
     //--- yard ---
     auto yardId = YardBlueprint::init_new_yard( yardName );
     auto &yardRef = YardBlueprint::get_yardBlueprintRef( yardId );
+
 
 
     {//--- pngLPath ---//
@@ -115,18 +119,34 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
         totalFrameNum =  cast_2_size_t(a.GetUint64());
         tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
     }
+    {//--- isHaveMajorGos ---//
+        const auto &a = json::check_and_get_value( doc, "isHaveMajorGos", json::JsonValType::Bool );
+        isHaveMajorGos = a.GetBool();
+    }
+    {//--- isHaveFloorGos ---//
+        const auto &a = json::check_and_get_value( doc, "isHaveFloorGos", json::JsonValType::Bool );
+        isHaveFloorGos = a.GetBool();
+    }
+
+    //-- 至少一个值 为 true --
+    tprAssert( isHaveMajorGos || isHaveFloorGos );
+    yardRef.set_isHaveMajorGos( isHaveMajorGos );
+    yardRef.set_isHaveFloorGos( isHaveFloorGos );
+    
 
     // 读取解析 png 数据，
-    IntVec2 frameSizeByMapEnt = parse_png( yardRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, false );
+    IntVec2 frameSizeByMapEnt = parse_png_for_yard( yardRef, pngPath_M, frameNum, totalFrameNum );
     yardRef.set_sizeByField( frameSizeByMapEnt );
+
+
+    VariableTypeIdx varTypeIdx {}; 
+    bool isAllInstanceUseSamePlan {};
+    bool isFloorGo {};
 
     //--- varTypes ---//
     const auto &varTypes = json::check_and_get_value( doc, "varTypes", json::JsonValType::Array );
     for( auto &varType : varTypes.GetArray() ){
         tprAssert( varType.IsObject() );
-
-        VariableTypeIdx varTypeIdx {};          
-        std::unique_ptr<VarTypeDatas_Yard> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Yard>();
 
         {//--- type ---//
             const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
@@ -134,48 +154,101 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
         }
         {//--- isAllInstanceUseSamePlan ---//
             const auto &a = json::check_and_get_value( varType, "isAllInstanceUseSamePlan", json::JsonValType::Bool );
-            varTypeDatasUPtr->set_isAllInstanceUseSamePlan( a.GetBool() );
+            isAllInstanceUseSamePlan = a.GetBool();
         }
-        {//--- isPlotBlueprint ---//
-            const auto &a = json::check_and_get_value( varType, "isPlotBlueprint", json::JsonValType::Bool );
-            varTypeDatasUPtr->set_isPlotBlueprint( a.GetBool() );
+        {//--- isFloorGo ---//
+            const auto &a = json::check_and_get_value( varType, "isFloorGo", json::JsonValType::Bool );
+            isFloorGo = a.GetBool();
         }
 
-        if( varTypeDatasUPtr->get_isPlotBlueprint() ){
-            //--- plotNames ---//
-            const auto &plotNames = json::check_and_get_value( varType, "plotNames", json::JsonValType::Array );
-            for( auto &ent : plotNames.GetArray() ){
-                tprAssert( ent.IsString() );
-                varTypeDatasUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(ent.GetString()) );
+        if( !isFloorGo ){
+            //----------------//
+            //    FloorGo
+            //----------------//
+            std::unique_ptr<VarTypeDatas_Yard_MajorGo> varTypeDatas_majorGoUPtr = std::make_unique<VarTypeDatas_Yard_MajorGo>();
+            varTypeDatas_majorGoUPtr->set_isAllInstanceUseSamePlan( isAllInstanceUseSamePlan );
+
+            {//--- isPlotBlueprint ---//
+                const auto &a = json::check_and_get_value( varType, "isPlotBlueprint", json::JsonValType::Bool );
+                varTypeDatas_majorGoUPtr->set_isPlotBlueprint( a.GetBool() );
             }
 
-        }else{
-            //--- goSpecPool ---//
-            const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
-            for( auto &ent : goSpecPool.GetArray() ){
-
-                std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
-
-                {//--- goSpecName ---//
-                    const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                    goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+            if( varTypeDatas_majorGoUPtr->get_isPlotBlueprint() ){
+                //--- plotNames ---//
+                const auto &plotNames = json::check_and_get_value( varType, "plotNames", json::JsonValType::Array );
+                for( auto &ent : plotNames.GetArray() ){
+                    tprAssert( ent.IsString() );
+                    varTypeDatas_majorGoUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(ent.GetString()) );
                 }
-                {//--- animLabels ---//
-                    const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
-                    if( a.Size() > 0 ){
-                        for( auto &label : a.GetArray() ){//- foreach AnimLabel
-                            tprAssert( label.IsString() );
-                            goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+
+            }else{
+                //--- goSpecPool ---//
+                const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
+                for( auto &ent : goSpecPool.GetArray() ){
+
+                    std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+                    {//--- goSpecName ---//
+                        const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
+                        goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                    }
+                    {//--- animLabels ---//
+                        const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
+                        if( a.Size() > 0 ){
+                            for( auto &label : a.GetArray() ){//- foreach AnimLabel
+                                tprAssert( label.IsString() );
+                                goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+                            }
                         }
                     }
+                    //-- goSpecUPtr 创建完毕 --
+                    varTypeDatas_majorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
                 }
-                //-- goSpecUPtr 创建完毕 --
-                varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
             }
+
+            varTypeDatas_majorGoUPtr->init_check();
+            yardRef.insert_2_majorGo_varTypeDatas( varTypeIdx, std::move(varTypeDatas_majorGoUPtr) );
+
+        }else{
+            //----------------//
+            //    MajoeGo
+            //----------------//
+            std::unique_ptr<VarTypeDatas_Yard_FloorGo> varTypeDatas_floorGoUPtr = std::make_unique<VarTypeDatas_Yard_FloorGo>();
+            varTypeDatas_floorGoUPtr->set_isAllInstanceUseSamePlan( isAllInstanceUseSamePlan );
+
+            {//--- FloorGoSize ---//
+                const auto &a = json::check_and_get_value( varType, "FloorGoSize", json::JsonValType::String );
+                varTypeDatas_floorGoUPtr->set_floorGoSize( str_2_FloorGoSize(a.GetString()) );
+            }
+
+            {//--- goSpecPool ---//
+                const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
+                for( auto &ent : goSpecPool.GetArray() ){
+
+                    std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+                    {//--- goSpecName ---//
+                        const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
+                        goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                    }
+                    {//--- animLabels ---//
+                        const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
+                        if( a.Size() > 0 ){
+                            for( auto &label : a.GetArray() ){//- foreach AnimLabel
+                                tprAssert( label.IsString() );
+                                goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+                            }
+                        }
+                    }
+                    //-- goSpecUPtr 创建完毕 --
+                    varTypeDatas_floorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
+                }
+            }
+            varTypeDatas_floorGoUPtr->init_check();
+            yardRef.insert_2_floorGo_varTypeDatas( varTypeIdx, std::move(varTypeDatas_floorGoUPtr) );
+
         }
 
-        varTypeDatasUPtr->init_check();
-        yardRef.insert_2_varTypeUPtrs( varTypeIdx, std::move(varTypeDatasUPtr) );
     }
 
     yardRef.init_check();

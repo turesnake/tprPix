@@ -114,8 +114,11 @@ public:
         return target;
     }
 
-    inline void insert_2_blueprint_goDatas( const GoDataForCreate *ptr_ )noexcept{
-        this->blueprint_goDatas.push_back( ptr_ );
+    inline void insert_2_blueprint_majorGoDatas( const GoDataForCreate *ptr_ )noexcept{
+        this->blueprint_majorGoDatas.push_back( ptr_ );
+    }
+    inline void insert_2_blueprint_floorGoDatas( const GoDataForCreate *ptr_ )noexcept{
+        this->blueprint_floorGoDatas.push_back( ptr_ );
     }
 
 
@@ -123,8 +126,11 @@ public:
         return this->job_goDatas;
     }
 
-    inline const std::vector<const GoDataForCreate*> &get_blueprint_goDatas()const noexcept{
-        return this->blueprint_goDatas;
+    inline const std::vector<const GoDataForCreate*> &get_blueprint_majorGoDatas()const noexcept{
+        return this->blueprint_majorGoDatas;
+    }
+    inline const std::vector<const GoDataForCreate*> &get_blueprint_floorGoDatas()const noexcept{
+        return this->blueprint_floorGoDatas;
     }
 
 
@@ -144,8 +150,8 @@ private:
 
 
     // 彻底绕开 旧分配方案 的 蓝图分配方式
-    std::vector<const GoDataForCreate*> blueprint_goDatas {};
-
+    std::vector<const GoDataForCreate*> blueprint_majorGoDatas {};
+    std::vector<const GoDataForCreate*> blueprint_floorGoDatas {};
 
     //=== datas just used for inner calc ===
     std::vector<std::vector<Job_MapEnt*>> mapEntPtrs {}; // 二维数组 [h,w]

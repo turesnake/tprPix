@@ -46,18 +46,14 @@ yardBlueprintId_t YardBlueprint::init_new_yard( const std::string &name_ ){
 
 YardBlueprint &YardBlueprint::get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept{
 
-    
-
     if( YardBlueprint::yardUPtrs.find(id_) == YardBlueprint::yardUPtrs.end() ){
         cout << "yardId = " << id_
             << "; YardBlueprint::yardUPtrs.size() = " << YardBlueprint::yardUPtrs.size()
             << endl;
     }
 
-
     tprAssert( YardBlueprint::yardUPtrs.find(id_) != YardBlueprint::yardUPtrs.end() );
     return *(YardBlueprint::yardUPtrs.at(id_));
-
 
 }
 

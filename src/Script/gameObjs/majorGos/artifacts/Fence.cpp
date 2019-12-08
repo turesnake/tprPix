@@ -42,12 +42,21 @@ struct Fence_PvtBinary{
  */
 void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
-    // dyParams_ 未使用
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Fence_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "fence", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+    //================ dyParams =================//
+
+    size_t typeHash = dyParams_.get_typeHash();
+    if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
+        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+
+        pvtBp->subspeciesId = bpParamPtr->goDataPtr->subspecId;
+    }else{
+        tprAssert(0);
+    }
+
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );

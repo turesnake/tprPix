@@ -23,12 +23,16 @@
 #include "ID_Manager.h"
 
 
+//-------------------- Script --------------------//
+#include "Script/gameObjs/mapSurfaces/FloorGoSize.h" // tmp
+
+
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
 
-class VarTypeDatas_Yard{
+class VarTypeDatas_Yard_MajorGo{
 public:
-    VarTypeDatas_Yard()=default;
+    VarTypeDatas_Yard_MajorGo()=default;
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
     inline void set_isPlotBlueprint( bool b_ )noexcept{ this->isPlotBlueprint = b_; }
@@ -46,50 +50,45 @@ public:
     //----- get -----//
     inline bool get_isPlotBlueprint()const noexcept{ return this->isPlotBlueprint; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-
-    //-- 以下 2 函数，只有一个被使用
-    inline const GoSpec &apply_a_goSpec( size_t uWeight_ )noexcept{
-        tprAssert( !this->isPlotBlueprint );
-        if( this->isAllInstanceUseSamePlan ){
-            //-- 统一值 只生成一次，并永久保留
-            if( !this->isUnifiedValsset ){
-                this->isUnifiedValsset = true;
-                this->unifiedGoSpecPtr = this->goSpecPool.at( (uWeight_ + 751446131) % this->goSpecPool.size() ).get();
-            }
-            //-- 直接获得 统一值
-            return *(this->unifiedGoSpecPtr);
-        }else{
-            //-- 每次都独立分配 yardId --
-            return *(this->goSpecPool.at( (uWeight_ + 751446131) % this->goSpecPool.size() ));
-        }
-    }
-    inline plotBlueprintId_t apply_a_plotBlueprintId( size_t uWeight_ )noexcept{
-        tprAssert( this->isPlotBlueprint );
-        if( this->isAllInstanceUseSamePlan ){
-            //-- 统一值 只生成一次，并永久保留
-            if( !this->isUnifiedValsset ){
-                this->isUnifiedValsset = true;
-                this->unifiedPlotId = this->plotIds.at( (uWeight_ + 751446131) % this->plotIds.size() );
-            }
-            //-- 直接获得 统一值
-            return this->unifiedPlotId;
-        }else{
-            //-- 每次都独立分配 yardId --
-            return this->plotIds.at( (uWeight_ + 751446131) % this->plotIds.size() );
-        }
-    }
-
+    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; } 
+    inline const std::vector<plotBlueprintId_t> &get_plotIds()const noexcept{ return this->plotIds; }
 private:
     //-- 以下 2 容器，只有一个被使用
     std::vector<std::unique_ptr<GoSpec>> goSpecPool {};
     std::vector<plotBlueprintId_t>       plotIds {};
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
-    bool isPlotBlueprint {}; // 本变量是否为一个 plot
-    //-- 以下 2 数据，只有一个被使用
-    GoSpec              *unifiedGoSpecPtr   {nullptr};
-    plotBlueprintId_t   unifiedPlotId       {};
-    bool                isUnifiedValsset    {false};    
+    bool isPlotBlueprint {}; // 本变量是否为一个 plot 
 };
+
+
+
+
+class VarTypeDatas_Yard_FloorGo{
+public:
+    VarTypeDatas_Yard_FloorGo()=default;
+    //----- set -----//
+    inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
+    inline void set_floorGoSize( FloorGoSize size_ )noexcept{ this->floorGoSize = size_; };
+    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_ )noexcept{ this->goSpecPool.push_back( std::move( uptr_ ) ); }
+
+    inline void init_check()const noexcept{
+        tprAssert( !this->goSpecPool.empty() );
+    }
+
+    //----- get -----//
+    inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
+    inline FloorGoSize get_floorGoSize()const noexcept{ return this->floorGoSize; }
+    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; } 
+private:
+    //-- 以下 2 容器，只有一个被使用
+    std::vector<std::unique_ptr<GoSpec>> goSpecPool {};
+    bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
+    FloorGoSize floorGoSize {};
+};
+
+
+
+
 
 
 
@@ -100,48 +99,82 @@ public:
     YardBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
 
-    inline void insert_2_varTypeUPtrs(  VariableTypeIdx typeIdx_, 
-                                        std::unique_ptr<VarTypeDatas_Yard> uptr_ )noexcept{
-        auto outPair = this->varTypeUPtrs.insert({ typeIdx_, std::move(uptr_) });
-        tprAssert( outPair.second );
+    inline void insert_2_majorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
+                                                std::unique_ptr<VarTypeDatas_Yard_MajorGo> uptr_ )noexcept{
+        auto outPair1 = this->majorGo_varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( outPair1.second );
+        auto outPair2 = this->majorGo_varTypes.insert( typeIdx_ );
+        tprAssert( outPair2.second );
     }
+
+    inline void insert_2_floorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
+                                                std::unique_ptr<VarTypeDatas_Yard_FloorGo> uptr_ )noexcept{
+        auto outPair1 = this->floorGo_varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( outPair1.second );
+        auto outPair2 = this->floorGo_varTypes.insert( typeIdx_ );
+        tprAssert( outPair2.second );
+    }
+
+
+    inline void set_isHaveMajorGos( bool b_ )noexcept{ this->isHaveMajorGos = b_; }
+    inline void set_isHaveFloorGos( bool b_ )noexcept{ this->isHaveFloorGos = b_; }
 
     inline void set_sizeByField( IntVec2 sizeByMapEnt_ )noexcept{ 
         this->sizeByFild = sizeByMapEnt_2_yardSize( sizeByMapEnt_ );
     }
 
     inline void init_check()const noexcept{
-        tprAssert( !this->mapDatas.empty() );
-        tprAssert( !this->varTypeUPtrs.empty() );
+        if( this->isHaveMajorGos ){
+            tprAssert(  !this->majorGo_mapDatas.empty() &&
+                        !this->majorGo_varTypes.empty() &&
+                        !this->majorGo_varTypeDatas.empty() );
+        }
+        if( this->isHaveFloorGos ){
+            tprAssert(  !this->floorGo_mapDatas.empty() &&
+                        !this->floorGo_varTypes.empty() &&
+                        !this->floorGo_varTypeDatas.empty() );
+        }
     }
 
-    inline std::vector<MapData> &getnc_mapDatasRef()noexcept{ return this->mapDatas; }
+    //- 仅用于 读取 json数据 时 -
+    inline bool get_isHaveMajorGos()const noexcept{ return this->isHaveMajorGos; }
+    inline bool get_isHaveFloorGos()const noexcept{ return this->isHaveFloorGos; }
 
-    inline const MapData &apply_a_random_mapData( size_t uWeight_ )const noexcept{
-        return this->mapDatas.at( (uWeight_ + 86887311) % this->mapDatas.size() );
+    inline MapData &create_new_majorGo_mapData()noexcept{
+        this->majorGo_mapDatas.push_back( MapData{} );
+        return this->majorGo_mapDatas.back();
+    }
+    inline MapData &create_new_floorGo_mapData()noexcept{
+        this->floorGo_mapDatas.push_back( MapData{} );
+        return this->floorGo_mapDatas.back();
     }
 
-    inline VarTypeDatas_Yard &get_varTypeDatas_Yard( VariableTypeIdx type_ )noexcept{
-        tprAssert( this->varTypeUPtrs.find(type_) != this->varTypeUPtrs.end() );
-        return *(this->varTypeUPtrs.at(type_));
+    inline const std::set<VariableTypeIdx> &get_majorGo_varTypes()const noexcept{ return this->majorGo_varTypes; }
+    inline const std::set<VariableTypeIdx> &get_floorGo_varTypes()const noexcept{ return this->floorGo_varTypes; }
+
+    inline const MapData &apply_a_random_majorGo_mapData( size_t uWeight_ )const noexcept{
+        return this->majorGo_mapDatas.at( (uWeight_ + 86887311) % this->majorGo_mapDatas.size() );
     }
+    inline const MapData &apply_a_random_floorGo_mapData( size_t uWeight_ )const noexcept{
+        return this->floorGo_mapDatas.at( (uWeight_ + 906117317) % this->floorGo_mapDatas.size() );
+    }
+
+    inline const VarTypeDatas_Yard_MajorGo *get_majorGo_varTypeDataPtr_Yard( VariableTypeIdx type_ )const noexcept{
+        tprAssert( this->majorGo_varTypeDatas.find(type_) != this->majorGo_varTypeDatas.end() );
+        return this->majorGo_varTypeDatas.at(type_).get();
+    }
+
+    inline const VarTypeDatas_Yard_FloorGo *get_floorGo_varTypeDataPtr_Yard( VariableTypeIdx type_ )const noexcept{
+        tprAssert( this->floorGo_varTypeDatas.find(type_) != this->floorGo_varTypeDatas.end() );
+        return this->floorGo_varTypeDatas.at(type_).get();
+    }
+
 
     //===== static =====//
     static void init_for_static()noexcept;
     static yardBlueprintId_t init_new_yard( const std::string &name_ );
 
-
-    /*
-    inline static YardBlueprint &get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept{
-        tprAssert( YardBlueprint::yardUPtrs.find(id_) != YardBlueprint::yardUPtrs.end() );
-        return *(YardBlueprint::yardUPtrs.at(id_));
-    }
-    */
-
-
     static YardBlueprint &get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept;
-
-
 
     inline static yardBlueprintId_t str_2_yardBlueprintId( const std::string &name_ )noexcept{
         tprAssert( YardBlueprint::name_2_ids.find(name_) != YardBlueprint::name_2_ids.end() );
@@ -151,8 +184,21 @@ public:
 private:
     YardSize sizeByFild {}; // yard 尺寸，以 field 为单位
 
-    std::vector<MapData> mapDatas {}; // 存在 png 中的 mp-go 数据，有若干帧，可随机挑选
-    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard>> varTypeUPtrs {}; // 类型数据
+    // major-gos
+    std::vector<MapData> majorGo_mapDatas {}; 
+    std::set<VariableTypeIdx> majorGo_varTypes {};
+    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_MajorGo>> majorGo_varTypeDatas {};
+
+    // floor-gos
+    std::vector<MapData> floorGo_mapDatas {};
+    std::set<VariableTypeIdx> floorGo_varTypes {};
+    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
+
+
+
+    //- 至少有一个为 true
+    bool isHaveMajorGos {}; // 是否有 常规go 数据
+    bool isHaveFloorGos {};   // 是否有 地板 数据
 
     //===== static =====//
     static ID_Manager  id_manager;

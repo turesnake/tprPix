@@ -8,6 +8,9 @@
 #ifndef TPR_GO_DATA_FOR_CREATE_H
 #define TPR_GO_DATA_FOR_CREATE_H
 
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
 
 //------------------- Engine --------------------//
 #include "GameObjType.h"
@@ -29,7 +32,8 @@ public:
     animSubspeciesId_t      subspecId {};  // 亚种数据，直接在 ecoobj 阶段生成，依靠 mapEntKey,而不是 mapEnt.uWeight 
     NineDirection           direction {NineDirection::Mid};  //- 角色 动画朝向
     BrokenLvl               brokenLvl {BrokenLvl::Lvl_0};
-    IntVec2                 mpos    {};
+    //IntVec2                 mpos    {}; // 绝对地址
+    glm::dvec2              dpos      {}; // 绝对地址
 };
 
 

@@ -13,6 +13,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <set>
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -73,29 +74,10 @@ public:
 
     //----- get -----//
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-
-    inline const GoSpec &apply_a_goSpec( size_t uWeight_ )noexcept{
-        if( this->isAllInstanceUseSamePlan ){
-            //-- 统一值 只生成一次，并永久保留
-            if( !this->isUnifiedValsset ){
-                this->isUnifiedValsset = true;
-                this->unifiedGoSpecPtr = this->goSpecPool.at( (uWeight_ + 3556177) % this->goSpecPool.size() ).get();
-            }
-            //-- 直接获得 统一值
-            return *(this->unifiedGoSpecPtr);
-        }else{
-            //-- 每次都独立分配 yardId --
-            return *(this->goSpecPool.at( (uWeight_ + 3556177) % this->goSpecPool.size() ));
-        }
-    }
-
+    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; }
 private:
     std::vector<std::unique_ptr<GoSpec>> goSpecPool {}; // 可有 1～n 种，禁止为 0 种
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
-    //---
-    GoSpec  *unifiedGoSpecPtr   {nullptr};
-    bool    isUnifiedValsset    {false}; 
-
 };
 
 
@@ -106,30 +88,33 @@ class PlotBlueprint{
 public:
     PlotBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
-    
-
-    inline void insert_2_varTypeUPtrs(  VariableTypeIdx typeIdx_, 
+    inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Plot> uptr_ )noexcept{
-        auto outPair = this->varTypeUPtrs.insert({ typeIdx_, std::move(uptr_) });
-        tprAssert( outPair.second );
+        auto outPair1 = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( outPair1.second );
+        auto outPair2 = this->varTypes.insert( typeIdx_ );
+        tprAssert( outPair2.second );
     }
 
     inline void set_sizeByMapEnt( IntVec2 val_ )noexcept{ this->sizeByMapEnt = val_; }
 
     inline void init_check()const noexcept{
         tprAssert( !this->mapDatas.empty() );
-        tprAssert( !this->varTypeUPtrs.empty() );
+        tprAssert( !this->varTypeDatas.empty() );
     }
 
+    //- 仅用于 读取 json数据 时 -
     inline std::vector<MapData> &getnc_mapDatasRef()noexcept{ return this->mapDatas; }
+
+    inline const std::set<VariableTypeIdx> &get_varTypes()const noexcept{ return this->varTypes; }
 
     inline const MapData &apply_a_random_mapData( size_t uWeight_ )const noexcept{
         return this->mapDatas.at( (uWeight_ + 1844477191) % this->mapDatas.size() );
     }
 
-    inline VarTypeDatas_Plot &get_varTypeDatas_Plot( VariableTypeIdx type_ )noexcept{
-        tprAssert( this->varTypeUPtrs.find(type_) != this->varTypeUPtrs.end() );
-        return *(this->varTypeUPtrs.at(type_));
+    inline const VarTypeDatas_Plot *get_varTypeDataPtr_Plot( VariableTypeIdx type_ )const noexcept{
+        tprAssert( this->varTypeDatas.find(type_) != this->varTypeDatas.end() );
+        return this->varTypeDatas.at(type_).get();
     }
 
     //===== static =====//
@@ -149,10 +134,9 @@ public:
 private:
     IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位
 
-
     std::vector<MapData> mapDatas {}; // 存在 png 中的 mp-go 数据，有若干帧，可随机挑选
-    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Plot>> varTypeUPtrs {}; // 类型数据
-
+    std::set<VariableTypeIdx> varTypes {};
+    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Plot>> varTypeDatas {}; // 类型数据
 
     //======== static ========//
     static ID_Manager  id_manager;

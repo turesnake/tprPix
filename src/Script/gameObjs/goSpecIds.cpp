@@ -95,6 +95,7 @@ void onGoSpecIds_SignUp(){
     //-------------------//
     ssrc::insert_2_goInit_funcs( "mapSurfaceLower",      std::bind( &gameObjs::MapSurfaceLower::init, _1, _2 ) );
 
+    ssrc::insert_2_goInit_funcs( "floorGo",      std::bind( &gameObjs::FloorGo::init, _1, _2 ) );
 
     //-------------------//
     //        oth
