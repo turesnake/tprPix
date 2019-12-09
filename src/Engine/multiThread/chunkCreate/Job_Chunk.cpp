@@ -164,8 +164,8 @@ void Job_Chunk::create_field_goSpecDatas(){
                         continue;
                     }
 
-                    const auto *goSpecDataPtr = densityPool.apply_a_goSpecDataPtr( pair.first, mapEntInnRef.uWeight );
-                    const auto &goSpecRef = ssrc::get_goSpecRef( goSpecDataPtr->get_rootGoSpecId() );
+                    const GoSpecData *goSpecDataPtr = densityPool.apply_a_goSpecDataPtr( pair.first, mapEntInnRef.uWeight );
+                    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goSpecDataPtr->get_rootGoSpecId() );
                         
                     auto &job_goData = job_fieldRef.insert_new_job_goData();
                     job_goData.goDposOff = pair.second;
@@ -175,7 +175,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     if( !goSpecDataPtr->get_isMultiGoMesh() ){
                         //--- single gomesh ---//
-                        subSpecId = esrc::apply_a_random_animSubspeciesId(  goSpecRef.animFrameSetName, // e.g. "mushroom"
+                        subSpecId = esrc::apply_a_random_animSubspeciesId(  goSpecDataPtr->get_afsName(),  // e.g. "mushroom"
                                                                             goSpecDataPtr->get_animLabels(),
                                                                             mapEntInnRef.uWeight );
                         windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff ); // goMeshDPosOff is 0
@@ -186,9 +186,9 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     }else{
                         //--- multi gomeshs ---//
-                        tprAssert( goSpecRef.multiGoMeshUPtr );
+                        tprAssert( goSpecFromJsonRef.multiGoMeshUPtr );
 
-                        const auto &json_GoMeshSetRef = goSpecRef.multiGoMeshUPtr->apply_a_json_goMeshSet( 
+                        const auto &json_GoMeshSetRef = goSpecFromJsonRef.multiGoMeshUPtr->apply_a_json_goMeshSet( 
                                             goSpecDataPtr->get_multiGoMeshType(), 
                                             mapEntInnRef.uWeight
                                             );
@@ -197,7 +197,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                         for( const auto &jgomesh : json_GoMeshSetRef.gomeshs ){ // each json_goMesh
                             randUValOff += 17;
 
-                            subSpecId = esrc::apply_a_random_animSubspeciesId(  jgomesh.animFrameSetName,
+                            subSpecId = esrc::apply_a_random_animSubspeciesId(  jgomesh.animFrameSetName, // 将被取代 ...
                                                                                 jgomesh.animLabels,
                                                                                 mapEntInnRef.uWeight + randUValOff );
                             windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff + jgomesh.dposOff );

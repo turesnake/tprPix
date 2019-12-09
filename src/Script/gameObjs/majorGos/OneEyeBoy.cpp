@@ -80,9 +80,6 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0); //- 尚未实现
     }
 
-    //pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
-
-
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
 

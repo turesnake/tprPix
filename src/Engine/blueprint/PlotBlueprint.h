@@ -53,8 +53,9 @@ public:
 //- 确定一个 go 物种 的最基本数据
 class GoSpec{
 public:
-    goSpecId_t              goSpecId {};
-    std::vector<AnimLabel>  animLabels   {}; //- 允许是空的
+    goSpecId_t              goSpecId    {};
+    std::string             afsName     {};
+    std::vector<AnimLabel>  animLabels  {}; //- 允许是空的
 };
 
 

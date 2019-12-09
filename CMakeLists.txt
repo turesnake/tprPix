@@ -123,6 +123,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/gameObj/createGo/*.cpp 
                         src/Engine/gl/*.cpp 
                         src/Engine/input/*.cpp 
+                        src/Engine/json/*.cpp 
                         src/Engine/map/*.cpp 
                         src/Engine/map/chunkCreateRelease/*.cpp 
                         src/Engine/map/mapSurfaceRand/*.cpp 
@@ -205,6 +206,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/json
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/chunkCreateRelease
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/mapSurfaceRand

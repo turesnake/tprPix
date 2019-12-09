@@ -27,7 +27,7 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 3 }
+                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
 
 
             ]
@@ -70,21 +70,21 @@
                 {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 7 },
+                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 11 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 7 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 2 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 2 }
             ]
         },
 
@@ -98,24 +98,24 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock", "afsName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 },
+                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 7 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 1 },
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 11 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
 
             ]
         },
@@ -131,19 +131,19 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
-                { "goSpecName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "animLabels":[], "num": 7 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 13 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 },
+                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 13 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 1 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 1 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
             ]
         },
 
@@ -188,13 +188,16 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 }
+                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
 
             
                 
             ]
         }
-    ]
+    ],
+
+    "villageBlueprintPool":[ "v_1" ]
+    
 }
 
 

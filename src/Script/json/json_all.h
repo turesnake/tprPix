@@ -46,6 +46,8 @@ void assemble_goSpec_2_newGo( goSpecId_t specID_,
 //------------------------------//
 //        json_UIGo
 //------------------------------//
+// 将来也应该被 独立为一个 h文件 
+// 并且 通过 static，自己管理自己的 实例资源
 class UIGoJsonData{
 public:
 

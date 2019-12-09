@@ -11,7 +11,7 @@
     "isMoveCollide": false,
     "isDoPass": false,
     "isBePass": true,
-    "animFrameSetName":"auto",
+    "afsNames": [],
     "speedLvl": 0,
     "alti": 0,
     "weight": 1,

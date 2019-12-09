@@ -24,12 +24,13 @@
 #include "fileIO.h"
 #include "MapSurfaceRandLvl.h"
 
+#include "json_oth.h"
+
 #include "esrc_state.h"
 #include "esrc_mapSurfaceRand.h"
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc_all.h" 
 
 using namespace rapidjson;

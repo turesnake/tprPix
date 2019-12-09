@@ -24,11 +24,12 @@
 #include "global.h"
 #include "fileIO.h"
 
+#include "json_oth.h"
+
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc_all.h" 
 
 
@@ -258,9 +259,9 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
 
             //============
-            auto &goSpecRef = ssrc::getnc_goSpecRef( goSpecId );
-            if( goSpecRef.multiGoMeshUPtr == nullptr ){
-                goSpecRef.multiGoMeshUPtr = std::make_unique<json::Json_MultiGoMesh>();
+            auto &goSpecFromJsonRef = GoSpecFromJson::getnc_goSpecFromJsonRef( goSpecId );
+            if( goSpecFromJsonRef.multiGoMeshUPtr == nullptr ){
+                goSpecFromJsonRef.multiGoMeshUPtr = std::make_unique<json::Json_MultiGoMesh>();
             }
 
             for( const auto &json_GoMeshSet_TmpRef : json_MultiGoMesh_Tmp.gomeshSets ){
@@ -268,7 +269,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                 tprAssert( typesMap.find(json_GoMeshSet_TmpRef.type) != typesMap.end() );
                 std::string realTypeVal = typesMap.at(json_GoMeshSet_TmpRef.type);
 
-                auto &json_goMeshSet = goSpecRef.multiGoMeshUPtr->create_new_json_goMeshSet( 
+                auto &json_goMeshSet = goSpecFromJsonRef.multiGoMeshUPtr->create_new_json_goMeshSet( 
                             str_2_multiGoMeshType( realTypeVal ));
 
             

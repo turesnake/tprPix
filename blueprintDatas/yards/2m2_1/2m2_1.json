@@ -19,7 +19,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "fence", "animLabels":[] }
+                { "goSpecName": "fence", "afsName": "fence", "animLabels":[] }
             ]
         },
 
@@ -39,7 +39,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "bushOth", "animLabels":[] }
+                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[] }
             ]
         },
 
@@ -50,7 +50,7 @@
             "FloorGoSize": "MapEnt_2m2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "animLabels":[ "MapEnt_2m2" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_2m2" ] }
             ]
         },
 
@@ -61,7 +61,7 @@
             "FloorGoSize": "MapEnt_3m3",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "animLabels":[ "MapEnt_3m3" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_3m3" ] }
             ]
         },
 
@@ -72,7 +72,7 @@
             "FloorGoSize": "MapEnt_4m4",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "animLabels":[ "MapEnt_4m4" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_4m4" ] }
             ]
         }
 

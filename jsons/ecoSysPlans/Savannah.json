@@ -22,7 +22,7 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 3 }
+                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
 
 
             ]
@@ -57,16 +57,16 @@
                 {"Sml3": 13 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Big", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Big", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
+                { "goSpecName": "figTree", "afsName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 3 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
             ]
         },
 
@@ -79,17 +79,17 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock", "afsName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
+                { "goSpecName": "figTree", "afsName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
                
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 11 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 11 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 1 }
             ]
         },
         
@@ -103,13 +103,13 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
+                { "goSpecName": "figTree", "afsName": "figTree", "animLabels":[ "Mid" ], "num": 11 }
 
             ],
             "ecoEnts_Sml":[
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 13 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 13 },
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
             ]
         },
 
@@ -123,16 +123,16 @@
                 {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
  
             ],
             "ecoEnts_Mid":[
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 9 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 9 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
+                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
                 
             ]
             
@@ -154,13 +154,16 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 1 }
+                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
 
             
                 
             ]
         }
-    ]
+    ],
+
+    "villageBlueprintPool":[ "v_1" ]
+    
 }
 
 

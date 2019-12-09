@@ -13,7 +13,7 @@
             "type": "V_1",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "bushOth", "animLabels":[] }
+                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[] }
             ]
         },
 
@@ -21,7 +21,7 @@
             "type": "V_2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "fence", "animLabels":[] }
+                { "goSpecName": "fence", "afsName": "fence", "animLabels":[] }
             ]
         }
     ]

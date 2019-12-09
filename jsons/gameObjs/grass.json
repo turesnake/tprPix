@@ -11,7 +11,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": true,
-    "animFrameSetName":"grass",
+    "afsNames": [ "grass" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 5,

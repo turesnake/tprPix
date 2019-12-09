@@ -26,7 +26,7 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_gameObj.h" // tmp
+//#include "Script/resource/ssrc_gameObj.h" // tmp
 
 
 #include "tprDebug.h"
@@ -229,8 +229,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     //goDRef.mpos = mpos_;
     goDRef.dpos = dpos_;
 
-    const auto &goSpecRef = ssrc::get_goSpecRef( goDRef.goSpecId );
-    goDRef.subspecId = esrc::apply_a_random_animSubspeciesId(   goSpecRef.animFrameSetName, // e.g. "mushroom"
+    goDRef.subspecId = esrc::apply_a_random_animSubspeciesId(   goSpecRef_.afsName, // e.g. "mushroom"
                                                                 goSpecRef_.animLabels,
                                                                 cast_2_size_t(key_) );
 

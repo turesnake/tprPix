@@ -71,8 +71,9 @@ public:
     inline size_t               get_uWeight() const noexcept{ return this->uWeight; }
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
-    inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
+
+    inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
 
 
     inline std::optional<const GoDataForCreate*> find_majorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
@@ -113,7 +114,8 @@ private:
     EcoSysPlanType  ecoSysPlanType  {EcoSysPlanType::Forest};
 
     colorTableId_t  colorTableId {}; // same with ecoPlan.colorTableId
-    MapSurfaceLowSpec   mapSurfaceLowSpec {};
+
+    MapSurfaceLowSpec   mapSurfaceLowSpec {}; // 将被取代 ...
 
     //-- 本 ecoObj mpos 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种

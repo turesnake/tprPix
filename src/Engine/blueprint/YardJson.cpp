@@ -21,11 +21,13 @@
 #include "fileIO.h"
 #include "tprCast.h"
 #include "blueprint_oth.h"
+#include "GoSpecFromJson.h"
+
+#include "json_oth.h"
 
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/json/json_oth.h" // tmp
 #include "Script/resource/ssrc_gameObj.h" // tmp
 
 
@@ -192,6 +194,12 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
                         goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
                     }
+                    {//--- afsName ---//
+                        const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
+                        std::string afsName = a.GetString();
+                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                        goSpecUPtr->afsName = afsName;
+                    }
                     {//--- animLabels ---//
                         const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
                         if( a.Size() > 0 ){
@@ -230,6 +238,12 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
                     {//--- goSpecName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
                         goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                    }
+                    {//--- afsName ---//
+                        const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
+                        std::string afsName = a.GetString();
+                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                        goSpecUPtr->afsName = afsName;
                     }
                     {//--- animLabels ---//
                         const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );

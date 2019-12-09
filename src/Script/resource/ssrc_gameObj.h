@@ -17,19 +17,15 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
 
+//--------------- Engine ------------------//
+#include "GoSpecFromJson.h"
 
 //--------------- Script ------------------//
-#include "Script/gameObjs/GameObjSpec.h"
 #include "Script/resource/ssrc_oth.h"
 #include "Script/json/json_all.h"
 
+
 namespace ssrc {//------------------ namespace: ssrc -------------------------//
-
-
-GameObjSpec &create_new_goSpec( goSpecId_t id_ )noexcept;
-const GameObjSpec &get_goSpecRef( goSpecId_t id_ )noexcept; // support multi-thread
-GameObjSpec &getnc_goSpecRef( goSpecId_t id_ )noexcept;
-
 
 void insert_2_go_specId_names_containers( goSpecId_t id_, const std::string &name_ );
 

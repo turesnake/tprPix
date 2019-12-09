@@ -11,7 +11,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "animFrameSetName":"fence",
+    "afsNames": [ "fence" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,

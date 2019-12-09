@@ -21,10 +21,11 @@
 #include "tprCast.h"
 #include "blueprint_oth.h"
 
+#include "json_oth.h"
+
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/json/json_oth.h" // tmp
 #include "Script/resource/ssrc_gameObj.h" // tmp
 
 

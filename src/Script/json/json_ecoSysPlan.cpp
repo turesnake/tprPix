@@ -26,9 +26,8 @@
 #include "EcoSysPlan.h"
 #include "AnimLabel.h"
 #include "BodySize.h"
-
+#include "json_oth.h"
 #include "blueprint.h"
-
 #include "GoSpecData.h"
 
 
@@ -38,7 +37,6 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc_all.h" 
 
 
@@ -258,10 +256,12 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
     goSpecId_t              rootGoSpecId {};
     size_t                  num         {};
     std::vector<AnimLabel>  labels      {}; //- 允许是空的
+    std::string afsName             {};
     MultiGoMeshType         multiGoMeshType {};
 
     bool isFind_animLabels          {false};
     bool isFind_MultiGoMeshType     {false};
+    
 
     const auto &ecoEntsVal = check_and_get_value( densityPoolVal_, name_, JsonValType::Array );
     for( const auto &ecoEnt : ecoEntsVal.GetArray() ){
@@ -273,6 +273,11 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
         {//--- goSpecName ---//
             const auto &a = check_and_get_value( ecoEnt, "goSpecName", JsonValType::String );
             rootGoSpecId = ssrc::str_2_goSpecId( a.GetString() );
+        }
+        {//--- afsName ---//
+            const auto &a = check_and_get_value( ecoEnt, "afsName", JsonValType::String );
+            afsName = a.GetString();
+            tprAssert( GoSpecFromJson::is_find_in_afsNames(rootGoSpecId, afsName) );
         }
 
         //--- animLabels ---//
@@ -304,10 +309,12 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
         if( !isFind_MultiGoMeshType ){
             goSpecDataUPtr = std::make_unique<GoSpecData>(  rootGoSpecId, 
                                                             isFind_MultiGoMeshType,
+                                                            afsName,
                                                             labels );
         }else{
             goSpecDataUPtr = std::make_unique<GoSpecData>(  rootGoSpecId, 
                                                             isFind_MultiGoMeshType, 
+                                                            afsName,
                                                             multiGoMeshType);
         }
 

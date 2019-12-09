@@ -2,7 +2,7 @@
     { "Desert.json": false },
     { "Savannah.json": false },
     { "PoplarForests.json": false },
-    { "DarkForests.json": false },
+    { "DarkForests.json": true },
 
-    { "Test.json": true }
+    { "Test.json": false }
 ]

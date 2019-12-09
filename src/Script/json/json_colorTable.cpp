@@ -23,12 +23,13 @@
 #include "global.h"
 #include "fileIO.h"
 
+#include "json_oth.h"
+
 #include "esrc_colorTableSet.h"
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc_all.h" 
 
 using namespace rapidjson;

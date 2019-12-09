@@ -27,12 +27,14 @@
 #include "AnimFrameSet.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
+
+#include "json_oth.h"
+
 #include "esrc_animFrameSet.h"
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/json/json_oth.h"
 #include "Script/resource/ssrc_all.h" 
 
 using namespace rapidjson;
