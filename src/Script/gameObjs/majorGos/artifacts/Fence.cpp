@@ -15,12 +15,13 @@
 #include "tprAssert.h"
 #include "Density.h"
 #include "animSubspeciesId.h"
+#include "dyParams.h"
 
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
+
 
 using namespace std::placeholders;
 
@@ -69,7 +70,7 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                0.0,  //- off_z
+                                0.0,  //- zOff
                                 true //- isVisible
                                 );
         

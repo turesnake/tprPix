@@ -24,7 +24,6 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 
 using namespace std::placeholders;
 
@@ -64,7 +63,7 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 RenderLayerType::UIs, //- 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
-                                0.0,  //- off_z， 沉在所有 MajorGo 后方
+                                0.0,  //- zOff， 沉在所有 MajorGo 后方
                                 true //- isVisible
                                 );
         

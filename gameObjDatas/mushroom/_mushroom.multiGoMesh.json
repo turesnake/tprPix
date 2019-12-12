@@ -1,0 +1,64 @@
+[
+
+    {
+        "goSpecName": "mushroom",
+        "goMeshSets":[
+            {
+                "type": "type_3",
+                "goMeshs":[
+                    {  "dpos": [0, 0], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Big" ] },
+                    {  "dpos": [25, 70], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    {  "dpos": [-70, -5], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    {  "dpos": [70, -35], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    {  "dpos": [-45, -35], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] },
+                    {  "dpos": [-110, -15], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] },
+                    {  "dpos": [10, -80], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] },
+                    {  "dpos": [-10, -95], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] },
+                    {  "dpos": [-40, 70], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] }
+                ]
+            },
+
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    { "dpos": [0, 0], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Big" ] },
+                    { "dpos": [55, 45], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    { "dpos": [-58, 25], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    { "dpos": [-30, -25], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] },
+                    { "dpos": [45, -35], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] }
+                ]
+            },
+            
+
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    {  "dpos": [0, 0], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Big" ] },
+                    {  "dpos": [55, 25], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid" ] },
+                    {  "dpos": [15, -45], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Sml" ] }
+                ]
+            }
+
+            
+    
+        
+        ],
+
+        "plans":[
+            {
+                "afsTypes":{
+                    "afs_1": "mushroom"
+                },
+                "types":{
+                    "type_1": "Sml",
+                    "type_2": "Mid",
+                    "type_3": "Big"
+                }
+            }
+        ]
+
+    }
+
+]
+

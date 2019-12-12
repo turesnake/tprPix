@@ -27,15 +27,13 @@
 #include "groundGoEntType.h"
 #include "Density.h"
 #include "animSubspeciesId.h"
+#include "dyParams.h"
 
 #include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 #include "esrc_VAOVBO.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
-
-
 
 using namespace std::placeholders;
 
@@ -107,7 +105,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 RenderLayerType::GroundGo, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader
                                 jgEntPtr->dposOff,
-                                0.0,  //- off_z
+                                0.0,  //- zOff
                                 true //- isVisible
                                 ); 
         goMeshRef.set_colorTableId( jgEntPtr->colorTableId );

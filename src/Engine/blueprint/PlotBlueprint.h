@@ -146,7 +146,7 @@ private:
 };
 
 
-void parse_from_plotJsonFiles();
+void parse_plotJsonFiles();
 
 
 

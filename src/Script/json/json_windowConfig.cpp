@@ -38,13 +38,13 @@ namespace json{//------------- namespace json ----------------
 
 
 /* ===========================================================
- *                parse_from_windowConfigJsonFile
+ *                parse_windowConfigJsonFile
  * -----------------------------------------------------------
  * Do Not Worry About Performance !!!
  */
-WindowConfigJsonData parse_from_windowConfigJsonFile(){
+WindowConfigJsonData parse_windowConfigJsonFile(){
 
-    cout << "   ----- parse_from_windowConfigJsonFile: start ----- " << endl;
+    cout << "   ----- parse_windowConfigJsonFile: start ----- " << endl;
 
     //-----------------------------//
     //         load file
@@ -74,7 +74,7 @@ WindowConfigJsonData parse_from_windowConfigJsonFile(){
         windowConfig.isFullScreen = a.GetBool();
     }
 
-    cout << "   ----- parse_from_windowConfigJsonFile: end ----- " << endl;
+    cout << "   ----- parse_windowConfigJsonFile: end ----- " << endl;
 
     esrc::insertState("json_windowConfig");
     return windowConfig;

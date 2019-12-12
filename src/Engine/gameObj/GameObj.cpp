@@ -116,13 +116,13 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     RenderLayerType     layerType_,
                                     ShaderProgram       *pixShaderPtr_,
                                     const glm::vec2     pposOff_,
-                                    double              off_z_,
+                                    double              zOff_,
                                     bool                isVisible_ ){
 
     auto outPair = this->goMeshs.insert({name_, 
                                         std::make_unique<GameObjMesh>(  *this,
                                                                         pposOff_,
-                                                                        off_z_,
+                                                                        zOff_,
                                                                         isVisible_ ) }); 
     tprAssert( outPair.second );
 

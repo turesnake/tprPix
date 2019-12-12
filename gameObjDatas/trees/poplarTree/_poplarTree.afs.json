@@ -1,0 +1,76 @@
+[
+    {
+        "name": "poplarTree",
+        "pngs": [
+            {
+                "path": "poplar_sml.P.png",
+                "frameNum.col":  2,
+                "frameNum.row":  1,
+                "totalFrameNum": 2,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [ "Sml" ],
+                        "fstSubIdx": 0,
+                        "fstIdx": 0,
+                        "idxNums": 2,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            },
+    
+            {
+                "path": "poplar_mid.P.png",
+                "frameNum.col":  4,
+                "frameNum.row":  1,
+                "totalFrameNum": 4,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [ "Mid" ],
+                        "fstSubIdx": 0,
+                        "fstIdx": 0,
+                        "idxNums": 4,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            },
+    
+            {
+                "path": "poplar_dead.P.png",
+                "frameNum.col":  2,
+                "frameNum.row":  1,
+                "totalFrameNum": 2,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [ "Dead" ],
+                        "fstSubIdx": 0,
+                        "fstIdx": 0,
+                        "idxNums": 2,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            }
+    
+    
+    
+    
+        ]
+    }
+]

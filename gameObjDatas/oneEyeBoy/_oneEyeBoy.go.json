@@ -1,0 +1,24 @@
+[
+    {
+        "goSpecName": "oneEyeBoy",
+        "specID": 20,
+        "parentID": 0,
+        "family": "Major",
+        "state": "Waked",
+        "moveState": "Movable",
+        "moveType": "Crawl",
+        "isTopGo": true,
+        "isMoveCollide": true,
+        "isDoPass": false,
+        "isBePass": false,
+        "afsNames": [ "simpleMan" ],
+        "speedLvl": 3,
+        "alti": 0,
+        "weight": 5,
+        "pub.HP": 170,
+        "pub.MP": 50,
+
+        "afs_lPath": "_simpleMan.afs.json",
+        "multiGoMesh_lPath": ""
+      }
+]

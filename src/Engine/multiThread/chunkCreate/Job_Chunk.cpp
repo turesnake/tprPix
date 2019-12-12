@@ -13,13 +13,16 @@
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
 #include "mapEntKey.h"
+#include "MultiGoMesh.h"
+
+#include "GoSpecFromJson.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_animFrameSet.h" // tmp
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_gameObj.h" // tmp
-#include "Script/json/json_multiGoMesh.h"
+
+
 
 namespace jobChunk_inn {//----------- namespace: jobChunk_inn ----------------//
 
@@ -194,7 +197,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                                             );
 
                         randUValOff = 0;
-                        for( const auto &jgomesh : json_GoMeshSetRef.gomeshs ){ // each json_goMesh
+                        for( const auto &jgomesh : json_GoMeshSetRef.gomeshs ){ // each json goMesh
                             randUValOff += 17;
 
                             subSpecId = esrc::apply_a_random_animSubspeciesId(  jgomesh.animFrameSetName, // 将被取代 ...

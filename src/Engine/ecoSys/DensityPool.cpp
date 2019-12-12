@@ -17,10 +17,6 @@
 #include "esrc_fieldDistributePlan.h"
 
 
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
-
-
 #include "tprDebug.h"
 
 

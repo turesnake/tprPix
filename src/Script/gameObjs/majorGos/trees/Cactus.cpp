@@ -14,6 +14,7 @@
 //-------------------- Engine --------------------//
 #include "Density.h"
 #include "animSubspeciesId.h"
+#include "dyParams.h"
 
 #include "tprAssert.h"
 #include "esrc_shader.h" 
@@ -21,7 +22,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
+
 
 using namespace std::placeholders;
 
@@ -78,7 +79,7 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 job_goMeshs.begin()->dposOff, //- pposoff
-                                0.0,  //- off_z
+                                0.0,  //- zOff
                                 true //- isVisible
                                 );
         

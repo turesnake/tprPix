@@ -1,5 +1,5 @@
 /*
- * ======================= PlotJson.cpp =======================
+ * ======================= plotJson.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.12.03
  *                                        MODIFY -- 
@@ -29,7 +29,6 @@
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/resource/ssrc_gameObj.h" // tmp
 
 
 
@@ -43,14 +42,14 @@ using std::endl;
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace plotJson_inn {//-------- namespace: plotJson_inn --------------//
 
-    void parse_from_single_plotJsonFile( const std::string &path_file_ );
+    void parse_single_plotJsonFile( const std::string &path_file_ );
 
 }//------------- namespace: plotJson_inn end --------------//
 
 
-void parse_from_plotJsonFiles(){
+void parse_plotJsonFiles(){
 
-    cout << "   ----- parse_from_plotJsonFiles: start ----- " << endl;
+    cout << "   ----- parse_plotJsonFiles: start ----- " << endl;
 
 
     esrc::is_setState("json_gameObj"); // MUST
@@ -60,10 +59,10 @@ void parse_from_plotJsonFiles(){
     json::collect_fileNames( path_blueprintDatas, "plots", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
-        plotJson_inn::parse_from_single_plotJsonFile(i);
+        plotJson_inn::parse_single_plotJsonFile(i);
     }
 
-    cout << "   ----- parse_from_plotJsonFiles: end ----- " << endl;
+    cout << "   ----- parse_plotJsonFiles: end ----- " << endl;
 }
 
 
@@ -73,7 +72,7 @@ namespace plotJson_inn {//-------- namespace: plotJson_inn --------------//
 
 
 
-void parse_from_single_plotJsonFile( const std::string &path_file_ ){
+void parse_single_plotJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//
@@ -153,7 +152,7 @@ void parse_from_single_plotJsonFile( const std::string &path_file_ ){
 
                 {//--- goSpecName ---//
                     const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                    goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                    goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
                 }
                 {//--- afsName ---//
                     const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );

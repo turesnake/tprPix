@@ -16,7 +16,6 @@
 #include "esrc_ecoSysPlan.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 #include "Script/json/json_all.h"
 
 //#include "tprDebug.h" //- tmp
@@ -42,7 +41,7 @@ void init_ecoSysPlanes(){
 
     ecoPlan_inn::ecoSysPlanIds_in_type.resize( EcoSysPlanType_Num );
     //---------------------//
-    json::parse_from_ecoSysPlansJsonFile();
+    json::parse_ecoSysPlansJsonFile();
     
     //---------------------//
     //   shuffle ecoSysPlanIds

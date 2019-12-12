@@ -1,0 +1,55 @@
+[
+    {
+        "name": "figTree",
+        "pngs": [
+            
+    
+            {
+                "path": "figTree_mid.P.png",
+                "frameNum.col":  2,
+                "frameNum.row":  1,
+                "totalFrameNum": 2,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [ "Mid" ],
+                        "fstSubIdx": 0,
+                        "fstIdx": 0,
+                        "idxNums": 2,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            },
+    
+            {
+                "path": "figTree2_mid.P.png",
+                "frameNum.col":  2,
+                "frameNum.row":  1,
+                "totalFrameNum": 2,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [ "Mid" ],
+                        "fstSubIdx": 2,
+                        "fstIdx": 0,
+                        "idxNums": 2,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            }
+    
+    
+    
+        ]
+    }
+]

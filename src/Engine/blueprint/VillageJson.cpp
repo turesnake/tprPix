@@ -1,5 +1,5 @@
 /*
- * ======================= VillageJson.cpp =======================
+ * ======================= villageJson.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.12.04
  *                                        MODIFY -- 
@@ -26,7 +26,6 @@
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/resource/ssrc_gameObj.h" // tmp
 
 
 
@@ -40,24 +39,24 @@ using std::endl;
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace villageJson_inn {//-------- namespace: villageJson_inn --------------//
 
-    void parse_from_single_villageJsonFile( const std::string &path_file_ );
+    void parse_single_villageJsonFile( const std::string &path_file_ );
 
 }//------------- namespace: villageJson_inn end --------------//
 
 
-void parse_from_villageJsonFiles(){
+void parse_villageJsonFiles(){
 
-    cout << "   ----- parse_from_villageJsonFiles: start ----- " << endl;
+    cout << "   ----- parse_villageJsonFiles: start ----- " << endl;
 
 
     std::vector<std::string> path_files {};
     json::collect_fileNames( path_blueprintDatas, "villages", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
-        villageJson_inn::parse_from_single_villageJsonFile(i);
+        villageJson_inn::parse_single_villageJsonFile(i);
     }
 
-    cout << "   ----- parse_from_villageJsonFiles: end ----- " << endl;
+    cout << "   ----- parse_villageJsonFiles: end ----- " << endl;
 }
 
 
@@ -66,7 +65,7 @@ void parse_from_villageJsonFiles(){
 namespace villageJson_inn {//-------- namespace: villageJson_inn --------------//
 
 
-void parse_from_single_villageJsonFile( const std::string &path_file_ ){
+void parse_single_villageJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//

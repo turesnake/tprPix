@@ -58,13 +58,13 @@ class GameObjMesh{
 public:
     explicit GameObjMesh(   GameObj         &goRef_,
                             const glm::dvec2 &pposOff_,
-                            double          off_z_,
+                            double          zOff_,
                             bool            isVisible_
                              ):
         isVisible(isVisible_),
         goRef(goRef_),
         pposOff( tprRound(pposOff_) ), // Must align to pix
-        off_z( off_z_)
+        zOff( zOff_)
         {
             // picMeshUPtr,shadowMeshUPtr 将被延迟到 bind_animAction() 中创建销毁
         }
@@ -124,7 +124,7 @@ public:
         return this->animActionPtr->get_pixNum_per_frame();
     }
     inline const glm::dvec2 &get_pposOff()const noexcept{ return this->pposOff; }
-    inline double get_off_z()const noexcept{ return this->off_z; }
+    inline double get_zOff()const noexcept{ return this->zOff; }
     inline double get_picFixedZOff() const noexcept{ return this->picFixedZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
     inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
@@ -172,13 +172,13 @@ private:
                     //   若本 GameObjMesh实例 是 root GameObjMesh。此值必须为0 (不强制...)  
                     //   此值必须 对齐于 像素
 
-    double     off_z {0.0};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
-                    //- 此处的 off_z 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh off_z +0.1
+    double     zOff {0.0};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
+                    //- 此处的 zOff 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh zOff +0.1
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
                     // 这个值 已经被累加到 z值中.
                     // ----
-                    // 如果想要一个浮在所有 MajorGo 前方的图像，可以设置 off_z 为 500.0
+                    // 如果想要一个浮在所有 MajorGo 前方的图像，可以设置 zOff 为 500.0
                     // 如果想要一个 沉在所有 MajorGo 后方的图像，可设置为 -500.0
 
     double            picFixedZOff {}; //- 方便快速访问

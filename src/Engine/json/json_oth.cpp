@@ -114,7 +114,18 @@ void collect_fileNames( const std::string &headPath_,
                         const std::string &dirName_,
                         const std::string &headFileName_,
                         std::vector<std::string> &container_ ){
-    std::string pathDir = tprGeneral::path_combine(headPath_, dirName_);
+                            
+    // headPath_ / dirName_ 合成 目录的 绝对path
+    std::string pathDir {};
+    tprAssert( (headPath_!="") || (dirName_!="") );
+    if( headPath_ == "" ){
+        pathDir = dirName_;
+    }else if( dirName_ == "" ){
+        pathDir = headPath_;
+    }else{
+        pathDir = tprGeneral::path_combine(headPath_, dirName_);
+    }
+
     //-----------------------------//
     //         load file
     //-----------------------------//

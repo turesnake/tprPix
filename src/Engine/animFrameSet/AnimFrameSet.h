@@ -4,7 +4,6 @@
  *                                        CREATE -- 2018.11.23
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   资源类
  *   存储一个 动画动作 的所有 帧text names
  *   以及每一帧 的 投影单位集
  *   本游戏只支持 png 图片格式。
@@ -49,12 +48,12 @@
 #include "AnimActionPos.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
-#include "ID_Manager.h" 
 #include "AnimSubspecies.h"
 
 #include "tprDebug.h"
 
 
+using afsId_t = u32_t; //- animFrameSet id type
 
 class AnimFrameSet{
 public:
@@ -63,7 +62,7 @@ public:
         {}
 
     void insert_a_png(
-                const std::string &lpath_pic_, 
+                const std::string  &path_pic_, 
                 IntVec2             frameNum_,
                 size_t              totalFrameNum_,
                 bool                isHaveShadow_,
@@ -80,8 +79,8 @@ public:
     }
 
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
-                                                              size_t randUVal_ )noexcept{
-        return this->subGroup.apply_a_random_animSubspeciesId( labels_, randUVal_ );
+                                                              size_t uWeight_ )noexcept{
+        return this->subGroup.apply_a_random_animSubspeciesId( labels_, uWeight_ );
     }
 
 
@@ -111,9 +110,18 @@ private:
                         //- 若为 true，本afs实例下属的所有 animAction，
                         // 都直接绑定这唯一的一份 AnimActionPos 数据
     bool isShadowSingleFrame {false};  //- Spng 是否只有一帧
-
 };
 
+
+
+namespace json{//------------- namespace json ----------------
+    void parse_animFrameSetJsonFile();
+                // go 相关的 afs数据，应该被 各个 go 独立管理，
+                // 不再由此函数 统一加载
+
+    void parse_single_animFrameSetJsonFile( const std::string &path_file_ );
+
+}//------------- namespace json: end ----------------s
 
 #endif
 

@@ -84,7 +84,7 @@ public:
             this->subspeciesIds.reserve(4);
         }
 
-    inline animSubspeciesId_t find_or_insert( size_t subIdx_ )noexcept{
+    inline animSubspeciesId_t find_or_create( size_t subIdx_ )noexcept{
         if( this->subspeciesIds.find(subIdx_) == this->subspeciesIds.end() ){
             animSubspeciesId_t id = AnimSubspecies::id_manager.apply_a_u32_id();
             this->subspeciesIds.insert({ subIdx_, id });
@@ -95,11 +95,11 @@ public:
         }
     }
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId( size_t randUVal_ )const noexcept{
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId( size_t uWeight_ )const noexcept{
         if( this->subspeciesIds.size() == 1 ){
             return this->subspeciesIds.begin()->second; //- only one
         }
-        size_t i = (randUVal_ + 366179) % this->subIdxs.size();
+        size_t i = (uWeight_ + 366179) % this->subIdxs.size();
         return this->subspeciesIds.at( this->subIdxs.at(i) );
     }
 
@@ -127,38 +127,38 @@ public:
             this->subSquads.reserve(4);
         }
 
-    inline animSubspeciesId_t find_or_insert_a_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
+    inline animSubspeciesId_t find_or_create_a_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
                                                                 size_t            subIdx_ )noexcept{
         size_t labelSz = labels_.size();
         tprAssert( labelSz <= 2 );
-        if( labelSz == 0 ){         return this->find_or_insert_inn( AnimLabel::Default, AnimLabel::Default, subIdx_ );
-        }else if( labelSz == 1 ){   return this->find_or_insert_inn( labels_.at(0), AnimLabel::Default, subIdx_ );
-        }else{                      return this->find_or_insert_inn( labels_.at(0), labels_.at(1), subIdx_ );
+        if( labelSz == 0 ){         return this->find_or_create_inn( AnimLabel::Default, AnimLabel::Default, subIdx_ );
+        }else if( labelSz == 1 ){   return this->find_or_create_inn( labels_.at(0), AnimLabel::Default, subIdx_ );
+        }else{                      return this->find_or_create_inn( labels_.at(0), labels_.at(1), subIdx_ );
         }
     }
 
-    // param: randUVal_ [0, 9999]
+    // param: uWeight_ [0, 9999]
     inline animSubspeciesId_t apply_a_random_animSubspeciesId(  const std::vector<AnimLabel> &labels_, 
-                                                                size_t randUVal_ )noexcept{
+                                                                size_t uWeight_ )noexcept{
             
         animLabelKey_t key {};
         size_t labelSz = labels_.size();
         tprAssert( labelSz <= 2 );
         if( labelSz == 0 ){        
             //-- 2个 label 都为随机值 --
-            size_t fstI = (randUVal_ + 735157) % this->labels.size();
+            size_t fstI = (uWeight_ + 735157) % this->labels.size();
             AnimLabel &labelRef = this->labels.at( fstI );
-            key = this->apply_random_secKey(this->labelKeys.at(labelRef), randUVal_);
+            key = this->apply_random_secKey(this->labelKeys.at(labelRef), uWeight_);
 
         }else if( labelSz == 1 ){  
             //-- 第2个 label 为随机值 --
-            key = this->apply_random_secKey(this->labelKeys.at(labels_.at(0)), randUVal_);
+            key = this->apply_random_secKey(this->labelKeys.at(labels_.at(0)), uWeight_);
         }else{       
             //-- 2个 label 都为具体值 --
             key = animLabels_2_key(labels_.at(0), labels_.at(1));
         }
         auto &subSquadRef = this->subSquads.at(key);
-        return subSquadRef.apply_a_random_animSubspeciesId( randUVal_ );
+        return subSquadRef.apply_a_random_animSubspeciesId( uWeight_ );
     }
 
 
@@ -179,16 +179,16 @@ public:
 
 private:
 
-    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, size_t randUVal_ )noexcept{
+    inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, size_t uWeight_ )noexcept{
         if( v_.size() == 1 ){
             return v_.at(0);
         }
-        size_t i = (randUVal_ + 103171) % v_.size();
+        size_t i = (uWeight_ + 103171) % v_.size();
         return v_.at(i);
     }
 
     
-    inline animSubspeciesId_t find_or_insert_inn( AnimLabel fstLabel_, AnimLabel secLabel_, size_t subIdx_ )noexcept{
+    inline animSubspeciesId_t find_or_create_inn( AnimLabel fstLabel_, AnimLabel secLabel_, size_t subIdx_ )noexcept{
         
         animLabelKey_t key = animLabels_2_key( fstLabel_, secLabel_ );
 
@@ -211,7 +211,7 @@ private:
                 secV.push_back( key );
             }
         }
-        return this->subSquads.at(key).find_or_insert( subIdx_ );
+        return this->subSquads.at(key).find_or_create( subIdx_ );
     }
 
     std::vector<AnimLabel> labels {};

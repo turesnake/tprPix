@@ -50,7 +50,7 @@ double  ViewingBox::UIs_zOff             { 9900.0 };
  */
 void ViewingBox::init(){
 
-    json::WindowConfigJsonData windowConfig = json::parse_from_windowConfigJsonFile();
+    json::WindowConfigJsonData windowConfig = json::parse_windowConfigJsonFile();
 
     double srcWidth  = static_cast<double>(windowConfig.windowPixW);
     double srcHeight = static_cast<double>(windowConfig.windowPixH);

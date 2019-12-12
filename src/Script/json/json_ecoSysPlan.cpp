@@ -30,6 +30,8 @@
 #include "blueprint.h"
 #include "GoSpecData.h"
 
+#include "GoSpecFromJson.h"
+
 
 #include "esrc_ecoSysPlan.h"
 #include "esrc_colorTableSet.h"
@@ -37,7 +39,6 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/resource/ssrc_all.h" 
 
 
 using namespace rapidjson;
@@ -69,7 +70,7 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
     }
 
     //----- funcs -----//
-    void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ );
+    void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ );
     void parse_pool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ );
     void parse_ecoEnt(  const Value         &densityPoolVal_, 
                         BodySize            size_,
@@ -81,14 +82,11 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 }//------------- namespace: espJson_inn end --------------//
 
 
-/* ===========================================================
- *             parse_from_ecoSysPlansJsonFile
- * -----------------------------------------------------------
- * Do Not Worry About Performance !!!
+/* Do Not Worry About Performance !!!
  */
-void parse_from_ecoSysPlansJsonFile(){
+void parse_ecoSysPlansJsonFile(){
 
-    cout << "   ----- parse_from_ecoSysPlansJsonFile: start ----- " << endl;
+    cout << "   ----- parse_ecoSysPlansJsonFile: start ----- " << endl;
 
     esrc::is_setState("json_gameObj");
     esrc::is_setState("blueprint");
@@ -97,18 +95,18 @@ void parse_from_ecoSysPlansJsonFile(){
     collect_fileNames( path_jsons, "ecoSysPlans", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
-        espJson_inn::parse_from_single_ecoSysPlansJsonFile(i);
+        espJson_inn::parse_single_ecoSysPlansJsonFile(i);
     }
 
     esrc::insertState("json_ecoSysPlan");
-    cout << "   ----- parse_from_ecoSysPlansJsonFile: end ----- " << endl;
+    cout << "   ----- parse_ecoSysPlansJsonFile: end ----- " << endl;
 }
 
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
 
 
 
-void parse_from_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
+void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//
@@ -257,7 +255,7 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
     size_t                  num         {};
     std::vector<AnimLabel>  labels      {}; //- 允许是空的
     std::string afsName             {};
-    MultiGoMeshType         multiGoMeshType {};
+    multiGoMeshTypeId_t     multiGoMeshType {};
 
     bool isFind_animLabels          {false};
     bool isFind_MultiGoMeshType     {false};
@@ -272,7 +270,7 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
 
         {//--- goSpecName ---//
             const auto &a = check_and_get_value( ecoEnt, "goSpecName", JsonValType::String );
-            rootGoSpecId = ssrc::str_2_goSpecId( a.GetString() );
+            rootGoSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
         }
         {//--- afsName ---//
             const auto &a = check_and_get_value( ecoEnt, "afsName", JsonValType::String );
@@ -294,7 +292,7 @@ void parse_ecoEnt(  const Value         &densityPoolVal_,
         if( ecoEnt.HasMember("MultiGoMeshType") ){
             isFind_MultiGoMeshType = true;
             const auto &a = check_and_get_value( ecoEnt, "MultiGoMeshType", JsonValType::String );
-            multiGoMeshType = str_2_multiGoMeshType( a.GetString() );
+            multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
         }
 
         tprAssert( isFind_animLabels ^ isFind_MultiGoMeshType );

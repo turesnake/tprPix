@@ -24,7 +24,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
+
 
 using namespace std::placeholders;
 
@@ -64,7 +64,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                -500.0,  //- off_z， 沉在所有 MajorGo 后方
+                                -500.0,  //- zOff， 沉在所有 MajorGo 后方
                                 true //- isVisible
                                 );
         /*
@@ -76,7 +76,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                500.0,  //- off_z， 浮在所有 MajorGo 前方
+                                500.0,  //- zOff， 浮在所有 MajorGo 前方
                                 true //- isVisible
                                 );
         */

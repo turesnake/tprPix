@@ -1,0 +1,34 @@
+[
+
+    {
+        "goSpecName": "rock",
+        "goMeshSets":[
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {  "dpos": [0, 0], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Big", "Light" ] },
+                    {  "dpos": [110, 85], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [-140, 35], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid", "Light" ] },
+                    {  "dpos": [45, -95], "zOff": 0.0, "afsType": "afs_1", "animLabels":[ "Mid", "Light" ] }
+                ]
+            }
+
+        ],
+
+
+        "plans":[
+            {
+                "afsTypes":{
+                    "afs_1": "rock"
+                },
+                "types":{
+                    "type_2": "Mid"
+                }
+            }
+        ]
+
+    }
+
+]
+

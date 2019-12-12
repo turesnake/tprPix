@@ -23,6 +23,7 @@
 #include "create_go_oth.h"
 #include "random.h"
 #include "simplexNoise.h"
+#include "dyParams.h"
 
 #include "esrc_time.h"
 #include "esrc_shader.h" 
@@ -33,7 +34,7 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
+
 
 using namespace std::placeholders;
 
@@ -156,7 +157,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 it->dposOff, //- pposoff
-                                0.0,  //- off_z
+                                0.0,  //- zOff
                                 true //- isVisible
                                 );
 

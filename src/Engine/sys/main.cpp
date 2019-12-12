@@ -21,6 +21,9 @@
 
 #include "blueprint.h"
 
+#include "GoSpecFromJson.h"
+#include "UIGoSpecFromJson.h"
+
 #include "esrc_all.h"
 #include "ubo_all.h"
 
@@ -74,13 +77,16 @@ int main( int argc, char* argv[] ){
     //          call_scriptMain
     //------------------------------------------//
     esrc::init_behaviour();
+
+    esrc::init_coordinate();
+
     esrc::call_scriptMain();
 
     //------------------------------------------//
     //        init before Awake
     //------------------------------------------//
-    json::parse_from_goJsonFile();
-    json::parse_from_uiGoJsonFile();
+    json::parse_goJsonFile();
+    json::parse_uiGoJsonFile();
     
 
     //------------------------------------------//
@@ -91,19 +97,17 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           不依赖任何外部代码的资源
     //------------------------------------------//
-    esrc::init_coordinate();
+    
     input::init_input();
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
 
-    //esrc::init_json_multiGoMesh();
-
     esrc::init_fieldDistributePlanSet();
-    json::parse_from_fieldDistributePlanJsonFile();
+    json::parse_fieldDistributePlanJsonFile();
     
     esrc::init_colorTableSet();
-    json::parse_from_colorTableJsonFile();
+    json::parse_colorTableJsonFile();
     
 
     esrc::init_fields();
@@ -141,10 +145,10 @@ int main( int argc, char* argv[] ){
     esrc::init_canvases();
     esrc::init_mapSurfaceRandSet();
 
-    json::parse_from_animFrameSetJsonFile();
-    json::parse_from_mapSurfaceRandMeshJsonFile();
+    json::parse_animFrameSetJsonFile(); // tmp
+    json::parse_mapSurfaceRandMeshJsonFile();
 
-    json::parse_from_multiGoMeshJsonFile();
+    //json::parse_multiGoMeshJsonFile();
 
     blueprint::init_blueprint();
 

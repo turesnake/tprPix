@@ -27,11 +27,13 @@
 #include "colorTableId.h"
 #include "blueprint.h"
 
+#include "MultiGoMesh.h"
+
 #include "DensityPool.h"
 
 
 //--------------- Script ------------------//
-#include "Script/json/json_multiGoMesh.h"
+
 #include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
 
 

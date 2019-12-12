@@ -68,7 +68,7 @@ void ChildMesh::refresh_translate(){
     const glm::dvec2 &rOff = this->goMeshRef.get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
     const glm::dvec2 &goMeshPPosOff = this->goMeshRef.get_pposOff();
     double goAlti = goRef.get_pos_alti();
-    double off_z = this->goMeshRef.get_off_z();
+    double zOff = this->goMeshRef.get_zOff();
 
     bool isNeedCoordTransform = goRef.family != GameObjFamily::UI; // 只有 uiGo 不需要坐标系转换
     bool isNeedAlign2Pix = !goRef.get_isMoving(); // 所有不在移动的go，都需要对齐像素
@@ -92,9 +92,9 @@ void ChildMesh::refresh_translate(){
                                     
         if( goMeshRef.isPicFixedZOff ){
             this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + 
-                                    goMeshRef.get_picFixedZOff() + off_z);
+                                    goMeshRef.get_picFixedZOff() + zOff);
         }else{
-            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + off_z );
+            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + zOff );
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负， 摄像机朝向 z轴 负方向
                                         // -2- 没有算入 rOff.y; 因为这个值只代表：
@@ -117,7 +117,7 @@ void ChildMesh::refresh_translate(){
             this->translate_val.y = tprRound( this->translate_val.y );
         }
 
-        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff + off_z);
+        this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + ViewingBox::goShadows_zOff + zOff);
                                     //-- 对于 shadow 来说，z值 是跟随 camera 而变化的
                                     //   且始终 相对 camera.viewingBox 静止
     }

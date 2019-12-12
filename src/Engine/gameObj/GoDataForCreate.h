@@ -22,18 +22,23 @@
 
 
 // 生成一个go实例，需要的基本数据
-// 它们将印象一个 go 的外貌
-// 比如存储在 ecoObj 中的 mp-go 数据
+// - 在 ecoobj 生成阶段，此数据被创建，并永久存储在 ecoobj 中
+// - 以 const 指针 的形式，被传递到 job chunk/filed, 以及 具象go类中
+// 所以，不用担心此数据的 容量
 class GoDataForCreate{
 public:
     GoDataForCreate()=default;
+
     //---
     goSpecId_t              goSpecId {};
     animSubspeciesId_t      subspecId {};  // 亚种数据，直接在 ecoobj 阶段生成，依靠 mapEntKey,而不是 mapEnt.uWeight 
     NineDirection           direction {NineDirection::Mid};  //- 角色 动画朝向
     BrokenLvl               brokenLvl {BrokenLvl::Lvl_0};
-    //IntVec2                 mpos    {}; // 绝对地址
     glm::dvec2              dpos      {}; // 绝对地址
+
+
+
+
 };
 
 

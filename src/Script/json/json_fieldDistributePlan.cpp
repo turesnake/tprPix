@@ -31,7 +31,6 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/resource/ssrc_all.h" 
 
 using namespace rapidjson;
 
@@ -50,14 +49,11 @@ namespace fdpJson_inn {//-------- namespace: fdpJson_inn --------------//
 
 
 
-/* ===========================================================
- *                parse_from_fieldDistributePlanJsonFile
- * -----------------------------------------------------------
- * Do Not Worry About Performance !!!
+/* Do Not Worry About Performance !!!
  */
-void parse_from_fieldDistributePlanJsonFile(){
+void parse_fieldDistributePlanJsonFile(){
 
-    cout << "   ----- parse_from_fieldDistributePlanGoJsonFile: start ----- " << endl;
+    cout << "   ----- parse_fieldDistributePlanGoJsonFile: start ----- " << endl;
 
     esrc::is_setState("fieldDistributePlanSet");
 
@@ -75,7 +71,7 @@ void parse_from_fieldDistributePlanJsonFile(){
     planSetRef.final_check();
 
     esrc::insertState("json_fieldDistributePlan");
-    cout << "   ----- parse_from_fieldDistributePlanGoJsonFile: end ----- " << endl;
+    cout << "   ----- parse_fieldDistributePlanGoJsonFile: end ----- " << endl;
 }
 
 

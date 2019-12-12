@@ -178,12 +178,6 @@ void check_and_creat_important_dir(){
                                 "textures/",
                                 err_info );
     //---------------------------------//
-    //          path_animFrameSets
-    //---------------------------------//
-    path_animFrameSets = tprWin::mk_dir( path_textures,
-                                    "animFrameSets/",
-                                    err_info );
-    //---------------------------------//
     //          path_colliEntSet
     //---------------------------------//
     path_colliEntSet = tprWin::mk_dir( path_textures,
@@ -213,6 +207,12 @@ void check_and_creat_important_dir(){
     path_blueprintDatas = tprWin::mk_dir( path_cwd,
                                 "blueprintDatas/",
                                 err_info );
+    //---------------------------------//
+    //      path_gameObjDatas
+    //---------------------------------//
+    path_gameObjDatas = tprWin::mk_dir( path_cwd,
+                                "gameObjDatas/",
+                                err_info );
 
 #elif defined TPR_OS_UNIX_
 
@@ -235,13 +235,6 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_textures = tprUnix::mk_dir( path_cwd,
                         "textures/",
-                        RWXR_XR_X,
-                        err_info );
-    //---------------------------------//
-    //          path_animFrameSets
-    //---------------------------------//
-    path_animFrameSets = tprUnix::mk_dir( path_textures,
-                        "animFrameSets/",
                         RWXR_XR_X,
                         err_info );
     //---------------------------------//
@@ -277,6 +270,13 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_blueprintDatas = tprUnix::mk_dir( path_cwd,
                         "blueprintDatas/",
+                        RWXR_XR_X,
+                        err_info );
+    //---------------------------------//
+    //           path_gameObjDatas
+    //---------------------------------//
+    path_gameObjDatas = tprUnix::mk_dir( path_cwd,
+                        "gameObjDatas/",
                         RWXR_XR_X,
                         err_info );
 

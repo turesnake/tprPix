@@ -208,7 +208,7 @@ private:
 };
 
 
-void parse_from_yardJsonFiles();
+void parse_yardJsonFiles();
 
 
 

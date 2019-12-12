@@ -21,6 +21,16 @@
 #include "tprAssert.h"
 
 
+
+class GameObj;
+class UIObj;
+class DyParam; 
+
+
+//-- map自动生成器 使用的 uiInit函数 ---
+using F_GO_INIT = std::function<void(GameObj&, const DyParam &dyParams_)>;
+
+
 using goid_t     = u64_t; //- gameObj id type
 using goSpecId_t = u32_t; //- gameObj species id type
 

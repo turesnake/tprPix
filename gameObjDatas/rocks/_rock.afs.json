@@ -1,0 +1,51 @@
+[
+{
+    "name": "rock",
+    "pngs": [
+        {
+            "path": "rock_big2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  4,
+            "totalFrameNum": 22,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Big", "Light" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 22,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        
+        {
+            "path": "rock_mid2.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 19,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Mid", "Light" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 19,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+        
+    ]
+}
+]

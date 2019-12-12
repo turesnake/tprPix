@@ -35,8 +35,8 @@ public:
         isOpaque(isOpaque_)
         {}
 
-    inline void insert( float off_z_, ChildMesh *meshPtr_ )noexcept{
-        this->pool.insert({ off_z_, meshPtr_ });// multi
+    inline void insert( float zOff_, ChildMesh *meshPtr_ )noexcept{
+        this->pool.insert({ zOff_, meshPtr_ });// multi
     }
 
     inline void clear()noexcept{ this->pool.clear(); }

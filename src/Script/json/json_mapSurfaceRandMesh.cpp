@@ -31,7 +31,6 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/resource/ssrc_all.h" 
 
 using namespace rapidjson;
 
@@ -49,14 +48,11 @@ namespace msrm_inn {//-------- namespace: msrm_inn --------------//
 
 
 
-/* ===========================================================
- *           parse_from_mapSurfaceRandMeshJsonFile
- * -----------------------------------------------------------
- * Do Not Worry About Performance !!!
+/* Do Not Worry About Performance !!!
  */
-void parse_from_mapSurfaceRandMeshJsonFile(){
+void parse_mapSurfaceRandMeshJsonFile(){
 
-    cout << "   ----- parse_from_mapSurfaceRandMeshJsonFile: start ----- " << endl;
+    cout << "   ----- parse_mapSurfaceRandMeshJsonFile: start ----- " << endl;
 
     esrc::is_setState("mapSurfaceRandSet");
 
@@ -69,7 +65,7 @@ void parse_from_mapSurfaceRandMeshJsonFile(){
     }
 
     esrc::insertState("json_mapSurfaceRandMesh");
-    cout << "   ----- parse_from_mapSurfaceRandMeshJsonFile: end ----- " << endl;
+    cout << "   ----- parse_mapSurfaceRandMeshJsonFile: end ----- " << endl;
 }
 
 

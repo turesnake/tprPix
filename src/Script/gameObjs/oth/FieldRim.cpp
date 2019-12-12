@@ -31,7 +31,6 @@
 #include "esrc_mapSurfaceRand.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 
 
 using namespace std::placeholders;
@@ -72,7 +71,7 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
                             //&esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
                             &esrc::get_shaderRef(ShaderType::Shadow ),  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff
-                            0.5,  //- off_z
+                            0.5,  //- zOff
                             true ); //- isVisible
 
 

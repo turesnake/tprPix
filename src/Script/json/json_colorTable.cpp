@@ -30,7 +30,7 @@
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
-#include "Script/resource/ssrc_all.h" 
+
 
 using namespace rapidjson;
 
@@ -47,14 +47,11 @@ namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn ---------
 
 
 
-/* ===========================================================
- *                parse_from_colorTableJsonFile
- * -----------------------------------------------------------
- * Do Not Worry About Performance !!!
+/* Do Not Worry About Performance !!!
  */
-void parse_from_colorTableJsonFile(){
+void parse_colorTableJsonFile(){
 
-    cout << "   ----- parse_from_colorTableJsonFile: start ----- " << endl;
+    cout << "   ----- parse_colorTableJsonFile: start ----- " << endl;
 
     tprAssert( esrc::is_setState("colorTableSet") );
 
@@ -66,7 +63,7 @@ void parse_from_colorTableJsonFile(){
     }
 
     esrc::insertState("json_colorTableSet");
-    cout << "   ----- parse_from_colorTableJsonFile: end ----- " << endl;
+    cout << "   ----- parse_colorTableJsonFile: end ----- " << endl;
 }
 
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//

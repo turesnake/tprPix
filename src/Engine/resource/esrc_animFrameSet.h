@@ -27,7 +27,7 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 
 animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
                                                     const std::vector<AnimLabel> &labels_,
-                                                    size_t              randUVal_ );
+                                                    size_t              uWeight_ );
 
 AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
                                 NineDirection      dir_,

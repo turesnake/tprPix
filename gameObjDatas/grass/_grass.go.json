@@ -1,0 +1,24 @@
+[
+  {
+    "goSpecName": "grass",
+    "specID": 7602,
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isTopGo": true,
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": true,
+    "afsNames": [ "grass" ],
+    "speedLvl": 0,
+    "alti": 0,
+    "weight": 5,
+    "pub.HP": 100,
+    "pub.MP": 10,
+
+    "afs_lPath": "_grass.afs.json",
+    "multiGoMesh_lPath": "_grass.multiGoMesh.json"
+  }
+]

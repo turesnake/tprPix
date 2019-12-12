@@ -94,6 +94,22 @@ std::string path_combine( const char *_pa, const char *_pb ){
 
 
 
+std::string get_dirPath( const std::string &path_ ){
+
+    // 默认 参数 path_ 是用 "/" 分隔的 路径名
+    // 不做检测 ...
+    size_t slashIdx = path_.find_last_of("/");
+    auto itEnd = path_.begin(); // 临时指向头部
+    std::advance( itEnd, slashIdx ); //- 将迭代器 itS 前移. advance 并不防止 溢出
+
+    std::string dirPath {};
+    dirPath.assign( path_.begin(), itEnd );
+    //---
+    return dirPath;
+}
+
+
+
 
 
 

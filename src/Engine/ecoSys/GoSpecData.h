@@ -15,9 +15,10 @@
 #include "AnimLabel.h"
 #include "GameObjType.h"
 
+#include "MultiGoMesh.h"
+
 
 //--------------- Script ------------------//
-#include "Script/json/json_multiGoMesh.h"
 
 
 //-- 仅用于 ecoObj -> create a go 
@@ -44,7 +45,7 @@ public:
     GoSpecData( goSpecId_t rootGoSpecId_,
                 bool       isMultiGoMesh_,
                 const std::string &afsName_,
-                json::MultiGoMeshType multiGoMeshType_):
+                multiGoMeshTypeId_t multiGoMeshType_):
         rootGoSpecId(rootGoSpecId_),
         isMultiGoMesh(isMultiGoMesh_),
         afsName(afsName_),
@@ -64,7 +65,7 @@ public:
         return this->animLabels; 
     }
 
-    inline json::MultiGoMeshType get_multiGoMeshType()const noexcept{
+    inline multiGoMeshTypeId_t get_multiGoMeshType()const noexcept{
         tprAssert( this->isMultiGoMesh );
         return this->multiGoMeshType;
     }
@@ -77,7 +78,7 @@ private:
 
     std::string             afsName    {};
     std::vector<AnimLabel>  animLabels {};
-    json::MultiGoMeshType   multiGoMeshType {};
+    multiGoMeshTypeId_t     multiGoMeshType {};
 };
 
 

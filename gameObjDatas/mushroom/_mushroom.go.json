@@ -1,0 +1,24 @@
+[
+    {
+        "goSpecName": "mushroom",
+        "specID": 18002,
+        "parentID": 0,
+        "family": "Major",
+        "state": "Waked",
+        "moveState": "AbsFixed",
+        "moveType": "Crawl",
+        "isTopGo": true,
+        "isMoveCollide": false,
+        "isDoPass": false,
+        "isBePass": true,
+        "afsNames": [ "mushroom" ],
+        "speedLvl": 0,
+        "alti": 0,
+        "weight": 50,
+        "pub.HP": 170,
+        "pub.MP": 50,
+
+        "afs_lPath": "_mushroom.afs.json",
+        "multiGoMesh_lPath": "_mushroom.multiGoMesh.json"
+    }
+]

@@ -1,0 +1,345 @@
+[
+{
+    "name": "mapSurfaceLow_test",
+    "pngs": [
+        {
+            "path": "test/groundSml.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Field_1f1" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "test/groundMid.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Field_2f2" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "test/groundBig.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "Field_3f3" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "name": "mapSurfaceLow_dforest",
+    "pngs": [
+        {
+            "path": "dforest/1m1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  2,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_1m1" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 12,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "dforest/2m2.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_2m2" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 8,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "dforest/3m3.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_3m3" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 6,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "dforest/4m4.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_4m4" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "name": "mapSurfaceLow_savannah",
+    "pngs": [
+        {
+            "path": "savannah/1m1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  2,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_1m1" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 12,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "savannah/2m2.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_2m2" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 8,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "savannah/3m3.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_3m3" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 6,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "savannah/4m4.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_4m4" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+
+
+{
+    "name": "mapSurfaceLow_desert",
+    "pngs": [
+        {
+            "path": "desert/1m1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  2,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_1m1" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 12,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "desert/2m2.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  2,
+            "totalFrameNum": 8,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_2m2" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 8,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "desert/3m3.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_3m3" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 6,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "desert/4m4.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  1,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecies": [
+                {
+                    "type": "batch",
+                    "animLabels": [ "MapEnt_4m4" ],
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "name": "idle", "dir": "Mid",
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+}
+
+
+
+
+]

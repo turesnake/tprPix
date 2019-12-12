@@ -16,6 +16,7 @@
 #include "dyParams.h"
 #include "GameObj.h"
 #include "create_goes.h"
+#include "GoSpecFromJson.h"
 
 #include "esrc_field.h"
 #include "esrc_ecoObj.h"
@@ -25,9 +26,6 @@
 #include "esrc_job_chunk.h"
 #include "esrc_mapSurfaceRand.h"
 
-
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 
 
 /* ===========================================================
@@ -55,7 +53,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         gUPtr->job_fieldPtr = job_fieldPtr;
         dyParam.insert_ptr<DyParams_GroundGo>( gUPtr.get() );
         //--- 
-        gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "groundGo" ),
+        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId( "groundGo" ),
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
@@ -88,7 +86,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { true };
     if( isFieldRimGoCreate ){
-        gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "fieldRim" ),
+        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId( "fieldRim" ),
                                 fieldRef.get_midDPos(),
                                 emptyDyParam );
     }

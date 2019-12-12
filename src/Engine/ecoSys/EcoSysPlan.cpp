@@ -15,8 +15,6 @@
 #include "Density.h"
 #include "random.h"
 
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 
 
 namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//

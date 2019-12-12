@@ -15,17 +15,12 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "input.h" 
-//#include "GODirection.h"
 #include "GameKey.h"
 #include "esrc_camera.h" 
 #include "esrc_gameObj.h" 
 #include "dyParams.h"
 #include "create_goes.h"
-
-
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h"
-
+#include "GoSpecFromJson.h"
 
 
 using namespace std::placeholders;
@@ -69,7 +64,7 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
-        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::str_2_goSpecId("playerGoCircle"),
+        this->playerGoCircle_goid = gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId("playerGoCircle"),
                                                             newGoRef.get_dpos(),
                                                             emptyDyParam );
         

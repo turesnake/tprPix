@@ -26,7 +26,6 @@
 
 
 //-------------------- Script --------------------//
-//#include "Script/resource/ssrc_gameObj.h" // tmp
 
 
 #include "tprDebug.h"
@@ -50,9 +49,9 @@ void init_blueprint()noexcept{
     YardBlueprint::init_for_static();
     VillageBlueprint::init_for_static();
     //---
-    parse_from_plotJsonFiles();
-    parse_from_yardJsonFiles();
-    parse_from_villageJsonFiles();
+    parse_plotJsonFiles();
+    parse_yardJsonFiles();
+    parse_villageJsonFiles();
     //---
     esrc::insertState("blueprint");
 }
@@ -207,9 +206,6 @@ namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
 
-
-
-
 void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                 mapEntKey_t key_,
                                 const glm::dvec2  &dpos_, // 让外部计算好
@@ -225,8 +221,6 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     goDRef.brokenLvl = mapDataEntRef_.brokenLvl;
     goDRef.goSpecId = goSpecRef_.goSpecId;
 
-    //goDRef.mpos = mapEntKey_2_mpos( key_ );
-    //goDRef.mpos = mpos_;
     goDRef.dpos = dpos_;
 
     goDRef.subspecId = esrc::apply_a_random_animSubspeciesId(   goSpecRef_.afsName, // e.g. "mushroom"
@@ -234,6 +228,9 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
                                                                 cast_2_size_t(key_) );
 
 }
+
+
+
     
 }//-------------- namespace: blueP_inn end ----------------//
 }//--------------------- namespace: blueprint end ------------------------//

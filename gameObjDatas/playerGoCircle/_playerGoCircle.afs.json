@@ -1,0 +1,32 @@
+[
+    {
+        "name": "playerGoCircle",
+        "pngs": [
+            {
+                "path": "playerGoCircle2.P.png",
+                "frameNum.col":  1,
+                "frameNum.row":  1,
+                "totalFrameNum": 1,
+                "isHaveShadow": false,
+                "isPjtSingle": true,
+                "isShadowSingle": true,
+                "ColliderType": "Nil",
+                "subspecies": [
+                    {
+                        "type": "handle",
+                        "animLabels": [],
+                        "subIdx": 0,
+                        "AnimActionParams":[
+                            {
+                                "name": "idle", "dir": "Mid",
+                                "type": "singleFrame",
+                                "lFrameIdx": 0,
+                                "isOpaque": false
+                            } 
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

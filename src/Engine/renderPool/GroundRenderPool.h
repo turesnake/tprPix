@@ -29,9 +29,9 @@ public:
 
     void init()noexcept;
     
-    inline void insert( colorTableId_t id_, float off_z_, ChildMesh *meshPtr_ )noexcept{
+    inline void insert( colorTableId_t id_, float zOff_, ChildMesh *meshPtr_ )noexcept{
         tprAssert( this->pools.find(id_) != this->pools.end() );
-        this->pools.at(id_).insert({ off_z_, meshPtr_ });// multi
+        this->pools.at(id_).insert({ zOff_, meshPtr_ });// multi
     }
     
 

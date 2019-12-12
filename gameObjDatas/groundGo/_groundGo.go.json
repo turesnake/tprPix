@@ -1,0 +1,24 @@
+[
+    {
+        "goSpecName": "groundGo",
+        "specID": 3003,
+        "parentID": 0,
+        "family": "GroundGo",
+        "state": "Waked",
+        "moveState": "AbsFixed",
+        "moveType": "Crawl",
+        "isTopGo": true,
+        "isMoveCollide": false,
+        "isDoPass": false,
+        "isBePass": true,
+        "afsNames": [],
+        "speedLvl": 0,
+        "alti": 0,
+        "weight": 1,
+        "pub.HP": "nil",
+        "pub.MP": "nil",
+
+        "afs_lPath": "_groundGo.afs.json",
+        "multiGoMesh_lPath": ""
+    }
+]

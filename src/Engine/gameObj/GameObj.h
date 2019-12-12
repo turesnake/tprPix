@@ -94,7 +94,7 @@ public:
                             RenderLayerType     layerType_,
                             ShaderProgram       *pixShaderPtr_,
                             const glm::vec2     pposOff_ = glm::vec2{0.0,0.0},
-                            double              off_z_ = 0.0,
+                            double              zOff_ = 0.0,
                             bool                isVisible_ = true );
 
     void init_check(); //- call in end of go init 
@@ -302,6 +302,10 @@ private:
 
     const AnimActionPos *rootAnimActionPosPtr {nullptr};
 };
+
+
+
+
 
 
 

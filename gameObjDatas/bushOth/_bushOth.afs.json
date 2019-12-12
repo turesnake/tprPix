@@ -1,0 +1,28 @@
+[
+    {
+        "name": "bushOth",
+        "pngs": [
+            {
+                "path": "bush_oth.P.png",
+                "frameNum.col":  4,
+                "frameNum.row":  2,
+                "totalFrameNum": 7,
+                "isHaveShadow": true,
+                "isPjtSingle": true,
+                "isShadowSingle": false,
+                "ColliderType": "Circular",
+                "subspecies": [
+                    {
+                        "type": "batch",
+                        "animLabels": [],
+                        "fstSubIdx": 0,
+                        "fstIdx": 0,
+                        "idxNums": 7,
+                        "name": "idle", "dir": "Mid",
+                        "isOpaque": true
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -23,7 +23,8 @@ std::string nameString_combine(   const std::string &_prefix,
                                         size_t _idx,
                                         const std::string &_suffix );
 
-
+// 获得路径名中，目标文件所在的 上一级目录 的 path
+std::string get_dirPath( const std::string &path_ );
 
 
 

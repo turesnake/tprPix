@@ -1,19 +1,5 @@
 [
-    {"afs_oth.json": true },
+    {"emptyPix/_emptyPix.afs.json": true },
 
-    {"/gos/01.json": true },
-
-    {"/gos/artifacts/fence.json": true },
-
-    {"/gos/bushs.json": true },
-    {"/gos/cactus.json": true },
-    {"/gos/floorGos.json": true },
-    {"/gos/grass.json": true },
-    {"/gos/groundGos.json": true },
-    {"/gos/mapSurfaces.json": true },
-    {"/gos/mids.json": true },
-    {"/gos/rocks.json": true },
-    {"/gos/trees.json": true },
-    
-    {"/uiGos/01.json": true }
+    {"uiGos/button_beginScene/_button_beginScene.afs.json": true }
 ]

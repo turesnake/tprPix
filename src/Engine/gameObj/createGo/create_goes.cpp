@@ -9,12 +9,14 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "GoSpecFromJson.h"
+#include "UIGoSpecFromJson.h"
+
 #include "esrc_gameObj.h" 
 
 
 //--------------- Script ------------------//
 #include "Script/gameObjs/allGoes.h"
-#include "Script/resource/ssrc_all.h"
 
 #include "Script/json/json_all.h"
 
@@ -38,13 +40,13 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
-        tprAssert( ssrc::find_from_goInit_funcs(goSpecId_) );
-    json::assemble_goSpec_2_newGo( goSpecId_, goRef );
+        tprAssert( GoSpecFromJson::find_from_initFuncs(goSpecId_) );
+    GoSpecFromJson::assemble_2_newGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
         tprAssert( goRef.family != GameObjFamily::UI );
 
-    ssrc::call_goInit_func( goSpecId_, goRef, dyParams_ );
+    GoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
 
     goRef.init_check();
     //------------------------------//
@@ -71,16 +73,16 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
     esrc::insert_a_diskGo( diskGo_.goid, dpos_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
-        tprAssert( ssrc::find_from_goInit_funcs(diskGo_.goSpecId) );
+        tprAssert( GoSpecFromJson::find_from_initFuncs(diskGo_.goSpecId) );
 
     //-- set some static datas from JSON --
-    json::assemble_goSpec_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
+    GoSpecFromJson::assemble_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
                     //-- 临时措施
-                    //   在未来，已经组装 从 数据库取出的数据，而不是从 json 中
+                    //   在未来，已经组装 从 数据库取出的数据，而不是从 GoSpecFromJson 中
                     //   至少有一部分吧
                     //   ...
 
-    ssrc::call_goInit_func( diskGo_.goSpecId, goRef, dyParams_ );
+    GoSpecFromJson::call_initFunc( diskGo_.goSpecId, goRef, dyParams_ );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
 
     goRef.init_check();
@@ -115,13 +117,13 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --
-        tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
-    json::assemble_jsonData_2_newUIGo( goSpecId_, goRef );
+        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpecId_) );
+    UIGoSpecFromJson::assemble_2_newUIGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
+    UIGoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
 
     goRef.init_check();
     //------------------------------//
@@ -140,13 +142,13 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --
-        tprAssert( ssrc::find_from_uiGoInit_funcs(goSpecId_) );
-    json::assemble_jsonData_2_newUIGo( goSpecId_, goRef );
+        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpecId_) );
+    UIGoSpecFromJson::assemble_2_newUIGo( goSpecId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    ssrc::call_uiGoInit_func( goSpecId_, goRef, dyParams_ );
+    UIGoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
     
     goRef.init_check();
     //------------------------------//

@@ -26,6 +26,8 @@
 #include "MapSurfaceRandLvl.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
+#include "dyParams.h"
+
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
@@ -34,7 +36,6 @@
 #include "esrc_mapSurfaceRand.h"
 
 //-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h" 
 
 
 
@@ -89,7 +90,7 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
                             RenderLayerType::MapSurfaceLower, //- 固定zOff值
                             &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff
-                            0.0,  //- off_z
+                            0.0,  //- zOff
                             false ); //- isVisible
 
     //------ oth meshs ------//
@@ -124,7 +125,7 @@ void MapSurfaceLower::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 RenderLayerType::MapSurfaceLower, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
                                 it->dposOff, //- pposoff
-                                0.0,  //- off_z
+                                0.0,  //- zOff
                                 true ); //- isVisible
     }
 

@@ -30,14 +30,13 @@
 #include "UIAnchor.h"
 #include "create_goes.h"
 
+#include "GoSpecFromJson.h"
+#include "UIGoSpecFromJson.h"
+
 #include "ubo_all.h"
 
 #include "esrc_all.h" //- 所有资源
 
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h"
-
-//#include "Script/UIs/create_UIs.h"
 
 
 using namespace std::placeholders;
@@ -96,19 +95,19 @@ void prepare_for_sceneBegin(){
     //  最简陋的实现，tmp...
     IntVec2 initPPosOff {-HALF_PIXES_PER_MAPENT, -HALF_PIXES_PER_MAPENT};
 
-    sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_pointer_2"), 
+    sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_pointer_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyDyParam );
     //---
-    sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyDyParam );
 
-    sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(1),
                                                             emptyDyParam );
     
-    sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(ssrc::get_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(2),
                                                             emptyDyParam );
 
@@ -273,7 +272,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 //-- db::table_goes --
                 //goSpecId_t newGoSpecId = ssrc::str_2_goSpecId( "norman" );
-                goSpecId_t newGoSpecId = ssrc::str_2_goSpecId( "oneEyeBoy" );
+                goSpecId_t newGoSpecId = GoSpecFromJson::str_2_goSpecId( "oneEyeBoy" );
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
                                                             newGoDPos,

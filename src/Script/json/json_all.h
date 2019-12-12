@@ -15,12 +15,11 @@
 namespace json{//------------- namespace json ----------------
 
 //------------------------------//
-void parse_from_animFrameSetJsonFile();
-void parse_from_colorTableJsonFile();
-void parse_from_ecoSysPlansJsonFile();
-void parse_from_mapSurfaceRandMeshJsonFile();
-void parse_from_fieldDistributePlanJsonFile();
-void parse_from_multiGoMeshJsonFile();
+void parse_colorTableJsonFile();
+void parse_ecoSysPlansJsonFile();
+void parse_mapSurfaceRandMeshJsonFile();
+void parse_fieldDistributePlanJsonFile();
+void parse_multiGoMeshJsonFile();
 
 //------------------------------//
 //    json_windowConfig
@@ -33,63 +32,7 @@ public:
     //...
 };
 
-WindowConfigJsonData parse_from_windowConfigJsonFile();
-
-
-//------------------------------//
-//        json_gameObj
-//------------------------------//
-void parse_from_goJsonFile();
-void assemble_goSpec_2_newGo( goSpecId_t specID_, 
-                                GameObj &goRef_ );
-
-//------------------------------//
-//        json_UIGo
-//------------------------------//
-// 将来也应该被 独立为一个 h文件 
-// 并且 通过 static，自己管理自己的 实例资源
-class UIGoJsonData{
-public:
-
-    std::string       goSpecName {};
-    goSpecId_t        specID {};
-    goid_t            parentID {NULLID};
-
-    //----- enum -----//
-    GameObjFamily     family {};
-
-    //----- bool -----//
-    //----- numbers -----//
-    MoveType    moveType {};
-    SpeedLevel  speedLvl {};
-    //...
-
-
-};
-
-void parse_from_uiGoJsonFile();
-void assemble_jsonData_2_newUIGo( goSpecId_t specID_, 
-                                    GameObj &goRef_ );
-
-
-
-//------------------------------//
-//        json_GoMesh
-//------------------------------//
-/*
-class GoMeshJsonData{
-public:
-
-};
-*/
-
-
-
-
-
-
-
-
+WindowConfigJsonData parse_windowConfigJsonFile();
 
 
 }//------------- namespace json: end ----------------

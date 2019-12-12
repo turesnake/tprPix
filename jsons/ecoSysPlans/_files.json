@@ -1,8 +1,8 @@
 [
     { "Desert.json": false },
     { "Savannah.json": false },
-    { "PoplarForests.json": false },
-    { "DarkForests.json": true },
+    { "PoplarForests.json": true },
+    { "DarkForests.json": false },
 
     { "Test.json": false }
 ]

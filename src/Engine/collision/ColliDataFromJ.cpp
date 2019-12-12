@@ -12,6 +12,8 @@
 
 #include "esrc_coordinate.h"
 
+#include "tprDebug.h"
+
 
 //===== static =====//
 glm::dvec2              ColliDataFromJ_Nil::emptyDvec2 {};

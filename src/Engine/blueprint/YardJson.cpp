@@ -1,5 +1,5 @@
 /*
- * ======================= YardJson.cpp =======================
+ * ======================= yardJson.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.12.04
  *                                        MODIFY -- 
@@ -28,7 +28,6 @@
 #include "esrc_state.h"
 
 //--------------- Script ------------------//
-#include "Script/resource/ssrc_gameObj.h" // tmp
 
 
 
@@ -42,24 +41,24 @@ using std::endl;
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace yardJson_inn {//-------- namespace: yardJson_inn --------------//
 
-    void parse_from_single_yardJsonFile( const std::string &path_file_ );
+    void parse_single_yardJsonFile( const std::string &path_file_ );
 
 }//------------- namespace: yardJson_inn end --------------//
 
 
-void parse_from_yardJsonFiles(){
+void parse_yardJsonFiles(){
 
-    cout << "   ----- parse_from_yardJsonFiles: start ----- " << endl;
+    cout << "   ----- parse_yardJsonFiles: start ----- " << endl;
 
 
     std::vector<std::string> path_files {};
     json::collect_fileNames( path_blueprintDatas, "yards", "_files.json", path_files );
     //---
     for( const auto &i : path_files ){
-        yardJson_inn::parse_from_single_yardJsonFile(i);
+        yardJson_inn::parse_single_yardJsonFile(i);
     }
 
-    cout << "   ----- parse_from_yardJsonFiles: end ----- " << endl;
+    cout << "   ----- parse_yardJsonFiles: end ----- " << endl;
 }
 
 
@@ -68,7 +67,7 @@ void parse_from_yardJsonFiles(){
 namespace yardJson_inn {//-------- namespace: yardJson_inn --------------//
 
 
-void parse_from_single_yardJsonFile( const std::string &path_file_ ){
+void parse_single_yardJsonFile( const std::string &path_file_ ){
     //-----------------------------//
     //         load file
     //-----------------------------//
@@ -192,7 +191,7 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
 
                     {//--- goSpecName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                        goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                        goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
                     }
                     {//--- afsName ---//
                         const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
@@ -237,7 +236,7 @@ void parse_from_single_yardJsonFile( const std::string &path_file_ ){
 
                     {//--- goSpecName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                        goSpecUPtr->goSpecId = ssrc::str_2_goSpecId( a.GetString() );
+                        goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
                     }
                     {//--- afsName ---//
                         const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );

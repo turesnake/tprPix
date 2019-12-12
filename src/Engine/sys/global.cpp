@@ -17,9 +17,10 @@ std::string path_shaders {}; //-- .../build/publish/shaders/
 std::string path_textures {}; //-- .../build/publish/textures/
 std::string path_jsons    {}; //-- .../build/publish/jsons/
 std::string path_tprLog   {}; //-- .../build/publish/tprLog/
-std::string path_blueprintDatas {}; //-- .../build/publish/blueprintDatas/
 
-std::string path_animFrameSets {}; //-- .../build/publish/textures/animFrameSets
+std::string path_blueprintDatas {}; //-- .../build/publish/blueprintDatas/
+std::string path_gameObjDatas {}; //-- .../build/publish/gameObjDatas/
+
 std::string path_colliEntSet   {}; //-- .../build/publish/textures/colliEntSet
 std::string path_mapSurfaceRandSet {}; //-- .../build/publish/textures/mapSurfaceRandSet
 

@@ -25,9 +25,6 @@
 #include "esrc_mapSurfaceRand.h"
 #include "esrc_state.h"
 
-//-------------------- Script --------------------//
-#include "Script/resource/ssrc_all.h"
-
 
 
 #include "tprDebug.h"
