@@ -7,7 +7,7 @@
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "fixedSeed": 3117,
-    "pools":[
+    "naturePools":[
 
         {
             "annotate": "====================[ -3 ]====================",
@@ -52,22 +52,19 @@
             "density.lvl": -1,
             "applyPercent": 0.0,
             "fieldDistributeTypes":[
-                {"Big1": 1},
+
                 {"Mid2": 7},
                 {"Sml2_Mid1": 9},
                 {"Sml3": 3 }
             ],
-            "ecoEnts_Big":[
-                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Big", "num": 1 }
-            ],
+
 
             "ecoEnts_Mid":[
                 { "goSpecName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
                 { "goSpecName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 3 },
-                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
+                
             ]
         },
 
@@ -81,7 +78,7 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "afsName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpecName": "rock",  "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
@@ -89,9 +86,7 @@
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Desert_1_Mid", "num": 1 },
-                { "goSpecName": "grass", "afsName": "grass", "MultiGoMeshType":"Desert_1_Sml", "num": 11 }
-
+           
 
             ]
         },

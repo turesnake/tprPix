@@ -19,25 +19,11 @@
 #include "DyParam.h"
 #include "MapAltitude.h"
 #include "Density.h"
-#include "MapSurfaceRandEnt.h"
 #include "AnimLabel.h"
-
 #include "GoDataForCreate.h"
 
 #include "Job_Field.h"
 
-
-
-//-------------------- Script --------------------//
-#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
-
-
-
-//-- 简陋的临时版 ，传递 field 相关的 常规随机数 --
-struct DyParams_Field{    
-    size_t                          mapEntUWeight {};
-    const std::vector<Job_GoMesh> *job_goMeshsPtr {nullptr}; // support multi gomeshs
-};
 
 
 struct DyParams_Blueprint{    
@@ -46,17 +32,11 @@ struct DyParams_Blueprint{
 };
 
 
-struct DyParams_MapSurface{
-    mapSurface::RandEntLvl  lvl  {}; // "Field_1f1"
-    size_t                  randUVal {}; // field.uWeight
-};
-
-
-
 struct DyParams_GroundGo{
     size_t      fieldUWeight  {};
     const Job_Field  *job_fieldPtr {};
 };
+
 
 
 

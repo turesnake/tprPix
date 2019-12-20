@@ -24,7 +24,6 @@
 #include "esrc_time.h" 
 #include "esrc_chunk.h" 
 #include "esrc_job_chunk.h"
-#include "esrc_mapSurfaceRand.h"
 
 
 
@@ -58,30 +57,12 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                     dyParam );
     }
 
+
     //----- mapsurface go ------//
     //   直接取消，方便在未来，被全面取代为 蓝图模式
-    /*
-    {               
-        auto entId = chunkRef_.get_mapSurfaceRandEntId();
-        const auto &outPair = esrc::get_mapSurfaceRandEntData( entId, fieldRef.calc_fieldIdx_in_chunk() );
-        const auto &mapSurfaceLvl = outPair.first;
-        const auto &dposOff = outPair.second;
+    //--------------------------//
 
-        if( mapSurfaceLvl != mapSurface::RandEntLvl::Nil ){
-            //--- dyParam ---//
-            DyParam dyParam {};     
-            auto mUPtr = std::make_unique<DyParams_MapSurface>();
-            mUPtr->lvl = mapSurfaceLvl;
-            mUPtr->randUVal = fieldRef.get_uWeight();
-            dyParam.insert_ptr<DyParams_MapSurface>( mUPtr.get() );
-            //--- 
-            gameObjs::create_a_Go(  ssrc::str_2_goSpecId( "mapSurfaceLower" ),
-                                    fieldRef.get_dpos() + dposOff,
-                                    dyParam );
-        }
-    }
-    */
-    
+
 
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { true };
@@ -92,25 +73,15 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     }
     
     //----- land majorGo in old-style -----//
-    for( const auto &i : job_fieldPtr->get_job_goDatas() ){
-
-        //--- dyParam ---//
-        DyParam dyParam {};
-        auto fUPtr = std::make_unique<DyParams_Field>();
-        fUPtr->job_goMeshsPtr = &(i.job_goMeshs);
-
-        dyParam.insert_ptr<DyParams_Field>( fUPtr.get() );
-        //---
-
-        gameObjs::create_a_Go(  i.goSpecId,
-                                fieldRef.get_midDPos() + i.goDposOff,
-                                dyParam );
-
-    }
+    //  将被 蓝图 彻底 取代
+    //--------------------------//
+    
+   
 
     //----- land majorGo in blueprint -----//
     //-- 暂时不关 蓝图 和 旧分配方案之间的冲突
     //   在未来，旧方案可能会被彻底 替代
+
     for( const auto goDataPtr : job_fieldPtr->get_blueprint_majorGoDatas() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
@@ -150,8 +121,6 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 dyParam ); 
 
     }
-
-
 
 
 

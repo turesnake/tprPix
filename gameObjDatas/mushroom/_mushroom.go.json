@@ -11,14 +11,21 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,
-        "afsNames": [ "mushroom" ],
         "speedLvl": 0,
         "alti": 0,
         "weight": 50,
         "pub.HP": 170,
         "pub.MP": 50,
 
-        "afs_lPath": "_mushroom.afs.json",
-        "multiGoMesh_lPath": "_mushroom.multiGoMesh.json"
+
+
+        "afs_lPaths": [ 
+            "_mushroom.afs.json"
+        ],
+        "multiGoMesh_lPaths": [
+            "_mushroom.multiGoMesh.json"
+        ]
+
+
     }
 ]

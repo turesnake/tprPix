@@ -14,7 +14,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "esrc_shader.h" 
@@ -32,7 +32,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Fence_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     int   tmp {};
 };
 
@@ -47,29 +47,31 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Fence_PvtBinary>();
 
-    //================ dyParams =================//
-
-    size_t typeHash = dyParams_.get_typeHash();
-    if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
-        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
-
-        pvtBp->subspeciesId = bpParamPtr->goDataPtr->subspecId;
-    }else{
-        tprAssert(0);
-    }
-
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
+                        // 蓝图时代的 fence 是存在方向的，
+                        // 此句 将被废弃 ...
+
+
+    //================ dyParams =================//
+    size_t typeHash = dyParams_.get_typeHash();
+    tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
+    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
+    pvtBp->subspecId = goDataEntRef.subspecId;
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-        //-- 制作唯一的 mesh 实例: "root" --
-        goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
+    //-- 制作唯一的 mesh 实例: "root" --
+    goRef_.creat_new_goMesh("root", //- gmesh-name
+                                pvtBp->subspecId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
+                                goDataEntRef.dposOff, //- pposoff
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
@@ -170,11 +172,11 @@ void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
             break;
 
         //case ActionSwitchType::Move_Move:
-        //    goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_walk" );
+        //    goMeshRef.bind_animAction( pvtBp->subspecId, "move_walk" );
         //    break;
 
         default:

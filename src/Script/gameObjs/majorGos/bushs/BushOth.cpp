@@ -13,7 +13,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -34,7 +34,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct BushOth_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     int        tmp {};
 };
 
@@ -52,22 +52,16 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ dyParams =================//
     glm::dvec2          goMeshDPosOff {};
 
-    //---
     size_t typeHash = dyParams_.get_typeHash();
-    if( typeHash == typeid(DyParams_Field).hash_code() ){
-        const DyParams_Field *msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-
-        const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-        tprAssert( job_goMeshs.size() == 1 );
-        pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
-        goMeshDPosOff = job_goMeshs.begin()->dposOff;
-
-
-    }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
+    if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
 
+        const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+
+        tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+        pvtBp->subspecId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspecId;
+
         goMeshDPosOff = glm::dvec2{0.0, 0.0};
-        pvtBp->subspeciesId = bpParamPtr->goDataPtr->subspecId;
 
         // 剩余数据 暂时 没有使用 
         // ...
@@ -82,7 +76,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
+                                pvtBp->subspecId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -185,7 +179,7 @@ void BushOth::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
             break;
 
         default:

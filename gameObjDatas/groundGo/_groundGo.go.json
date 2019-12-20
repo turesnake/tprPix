@@ -11,14 +11,19 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,
-        "afsNames": [],
         "speedLvl": 0,
         "alti": 0,
         "weight": 1,
         "pub.HP": "nil",
         "pub.MP": "nil",
 
-        "afs_lPath": "_groundGo.afs.json",
-        "multiGoMesh_lPath": ""
+
+
+        "afs_lPaths": [ 
+            "_groundGo.afs.json"
+        ],
+        "multiGoMesh_lPaths": []
+
+
     }
 ]

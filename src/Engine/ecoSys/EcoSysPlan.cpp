@@ -70,51 +70,6 @@ void EcoSysPlan::init_densityDatas( double densitySeaLvlOff_,
 
 
 /* ===========================================================
- *        init_goSpecDataPools_and_applyPercents
- * -----------------------------------------------------------
- */
-void EcoSysPlan::init_goSpecDataPools_and_applyPercents(){
-    tprAssert( (this->is_goSpecDataPools_init==false) && 
-            (this->is_applyPercents_init==false) );
-    //this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData> {} );
-
-    //this->densityPools.resize( Density::get_idxNum(), std::move(nullptr) );
-
-    for( size_t i=0; i<Density::get_idxNum(); i++ ){
-        this->densityPools.push_back( std::move(nullptr) );
-    }
-
-    //this->applyPercents.resize( Density::get_idxNum(), 0.0 );
-    this->is_goSpecDataPools_init = true;
-    this->is_applyPercents_init = true;
-}
-
-
-/* ===========================================================
- *              insert
- * -----------------------------------------------------------
- */
-void EcoSysPlan::insert( int densityLvl_, std::unique_ptr<DensityPool> &densityPoolUPtr_ ){
-    
-    tprAssert( this->is_applyPercents_init ); //- MUST
-    size_t densityIdx = Density::lvl_2_idx( densityLvl_ );
-    
-    this->densityPools.at(densityIdx) = std::move( densityPoolUPtr_ );
-
-    /*
-    goSpecId_t  id_l {};
-    for( const auto &entUPtr : ecoEnts_ ){
-        tprAssert( this->is_goSpecDataPools_init ); //- MUST
-        //auto &poolRef = this->goSpecDataPools.at(densityIdx);
-        auto &densityPool = this->densityPools.at(densityIdx);
-        id_l = ssrc::str_2_goSpecId(entUPtr->goSpecName);
-        poolRef.insert( poolRef.begin(), entUPtr->idNum, GoSpecData{ id_l, entUPtr->labels } );
-    }
-    */
-}
-
-
-/* ===========================================================
  *               shuffle_goSpecDataPools
  * -----------------------------------------------------------
  * -- 需要调用者 提供 seed
@@ -124,13 +79,9 @@ void EcoSysPlan::shuffle_goSpecDataPools( u32_t seed_ ){
 
     std::default_random_engine  rEngine; 
     rEngine.seed( seed_ );
-    /*
-    for( auto &poolRef : this->goSpecDataPools ){
-        std::shuffle( poolRef.begin(), poolRef.end(), rEngine );
-    }
-    */
-    for( auto &poolUPtr : this->densityPools ){
-        poolUPtr->shuffle( rEngine );
+
+    for( auto &iPair : this->densityPools ){
+        iPair.second->shuffle( rEngine );
     }
 }
 

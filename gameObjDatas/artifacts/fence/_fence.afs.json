@@ -12,7 +12,7 @@
             "isPjtSingle": true,
             "isShadowSingle": false,
             "ColliderType": "Square",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [],

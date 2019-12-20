@@ -39,7 +39,7 @@
 #include "PubBinary2.h"
 #include "ActionFSM.h"
 #include "chunkKey.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "DyBinary.h"
 #include "BrokenLvl.h"
 
@@ -89,7 +89,7 @@ public:
 
     //----- goMesh -----//
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                            animSubspeciesId_t  subspeciesId_,
+                            animSubspecId_t     subspecId_,
                             const std::string   &actionName_,
                             RenderLayerType     layerType_,
                             ShaderProgram       *pixShaderPtr_,
@@ -98,8 +98,6 @@ public:
                             bool                isVisible_ = true );
 
     void init_check(); //- call in end of go init 
-
-
 
 
     inline Collision &get_collisionRef()noexcept{ 
@@ -123,7 +121,6 @@ public:
         return this->colliDataFromJPtr->calc_square( this->get_dpos() );
     }
     
-
     inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
@@ -286,6 +283,8 @@ private:
     NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
                                     // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
+
+                                    
 
     BrokenLvl       brokenLvl   {BrokenLvl::Lvl_0}; // 破损等级，0为完好。
                                     // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，

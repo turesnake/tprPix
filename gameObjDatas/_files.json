@@ -10,10 +10,13 @@
     {"mushroom/_mushroom.go.json": true },
     {"oneEyeBoy/_oneEyeBoy.go.json": true },
     {"playerGoCircle/_playerGoCircle.go.json": true },
+
+
+
     {"rocks/_rock.go.json": true },
 
-    {"trees/figTree/_figTree.go.json": true },
 
+    {"trees/figTree/_figTree.go.json": true },
     {"trees/pineTree/_pineTree.go.json": true },
     {"trees/poplarTree/_poplarTree.go.json": true }
 

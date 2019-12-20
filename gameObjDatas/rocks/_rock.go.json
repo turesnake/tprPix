@@ -11,14 +11,21 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "afsNames": ["rock"],
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,
     "pub.HP": 170,
     "pub.MP": 50,
 
-    "afs_lPath": "_rocks.afs.json",
-    "multiGoMesh_lPath": "_rock.multiGoMesh.json"
+
+
+    "afs_lPaths": [ 
+        "_rock.afs.json"
+    ],
+    "multiGoMesh_lPaths": [
+        "_rock.multiGoMesh.json"
+    ]
+
+
   }
 ]

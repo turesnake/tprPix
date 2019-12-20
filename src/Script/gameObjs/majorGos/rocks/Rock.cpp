@@ -16,7 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -38,7 +38,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Rock_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     int        tmp {};
 };
 
@@ -49,30 +49,54 @@ struct Rock_PvtBinary{
  */
 void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
+    //================ go.pvtBinary =================//
+    auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
+
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_actionDirection( NineDirection::Mid );
+                    // 蓝图时代的 rock 是存在方向的，
+                    // 此句 将被废弃 ...
+
+
+
     //================ dyParams =================//
+    tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
+    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
+    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
+    pvtBp->subspecId = goDataEntRef.subspecId;
+
+
+    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
+    //-- 制作唯一的 mesh 实例: "root" --
+    goRef_.creat_new_goMesh(    "root", //- gmesh-name
+                                pvtBp->subspecId,
+                                "idle",
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                //glm::dvec2{ 0.0, 0.0 }, //- pposoff
+                                goDataEntRef.dposOff, //- pposoff
+                                0.0,  //- zOff
+                                true //- isVisible
+                                );
+
+    /*
     const DyParams_Field *msParamPtr {nullptr};
     //---
     size_t typeHash = dyParams_.get_typeHash();
     if( typeHash == typeid(DyParams_Field).hash_code() ){
         msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-
     }else{
         tprAssert(0); //- 尚未实现
     }
 
-
-
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
-
-
-    //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
     const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
 
     std::string         goMeshName {};
     size_t              meshNameCount {0};
-    animSubspeciesId_t  subspeciesId {};
+    animSubspecId_t     subspecId {};
 
     for( auto it=job_goMeshs.cbegin(); it!=job_goMeshs.cend(); it++ ){// each job_goMesh
 
@@ -84,10 +108,10 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
             meshNameCount++;
         }
 
-        subspeciesId = it->subspecId;
+        subspecId = it->subspecId;
 
         goRef_.creat_new_goMesh(goMeshName,
-                                subspeciesId,
+                                subspecId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -96,6 +120,9 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 true //- isVisible
                                 );
     }
+    */
+
+
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -191,7 +218,7 @@ void Rock::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
             break;
 
         default:

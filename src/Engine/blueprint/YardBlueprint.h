@@ -8,6 +8,8 @@
 #ifndef TPR_YARD_BLUE_PRINT_H
 #define TPR_YARD_BLUE_PRINT_H
 
+//-------------------- CPP --------------------//
+#include <unordered_set>
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -15,6 +17,7 @@
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
+#include "fieldKey.h"
 
 #include "PlotBlueprint.h"
 
@@ -24,10 +27,13 @@
 
 
 //-------------------- Script --------------------//
-#include "Script/gameObjs/mapSurfaces/FloorGoSize.h" // tmp
+#include "Script/gameObjs/floorGos/FloorGoSize.h" // tmp
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
+
+
+
 
 
 class VarTypeDatas_Yard_MajorGo{
@@ -59,6 +65,8 @@ private:
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     bool isPlotBlueprint {}; // 本变量是否为一个 plot 
 };
+
+
 
 
 
@@ -136,6 +144,8 @@ public:
         }
     }
 
+    inline YardSize get_yardSize()const noexcept{ return this->sizeByFild; }
+
     //- 仅用于 读取 json数据 时 -
     inline bool get_isHaveMajorGos()const noexcept{ return this->isHaveMajorGos; }
     inline bool get_isHaveFloorGos()const noexcept{ return this->isHaveFloorGos; }
@@ -169,46 +179,104 @@ public:
         return this->floorGo_varTypeDatas.at(type_).get();
     }
 
-
-    //===== static =====//
-    static void init_for_static()noexcept;
-    static yardBlueprintId_t init_new_yard( const std::string &name_ );
-
-    static YardBlueprint &get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept;
-
-    inline static yardBlueprintId_t str_2_yardBlueprintId( const std::string &name_ )noexcept{
-        tprAssert( YardBlueprint::name_2_ids.find(name_) != YardBlueprint::name_2_ids.end() );
-        return YardBlueprint::name_2_ids.at(name_);
-    }
-
 private:
     YardSize sizeByFild {}; // yard 尺寸，以 field 为单位
 
     // major-gos
-    std::vector<MapData> majorGo_mapDatas {}; 
+    std::vector<MapData> majorGo_mapDatas {};  // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> majorGo_varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_MajorGo>> majorGo_varTypeDatas {};
 
     // floor-gos
-    std::vector<MapData> floorGo_mapDatas {};
+    std::vector<MapData> floorGo_mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> floorGo_varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
-
-
 
     //- 至少有一个为 true
     bool isHaveMajorGos {}; // 是否有 常规go 数据
     bool isHaveFloorGos {};   // 是否有 地板 数据
-
-    //===== static =====//
-    static ID_Manager  id_manager;
-    static std::unordered_map<std::string, yardBlueprintId_t> name_2_ids; // 索引表
-    static std::unordered_map<yardBlueprintId_t, std::unique_ptr<YardBlueprint>> yardUPtrs; // 真实资源
-
 };
 
 
+
+
+
+
+
+/* "yardName" 索引到一个 set 实例
+ * 再根据 label/labelId 索引到一个 yardId
+ * ---
+ * "yardLabel" 一种简陋的 type数据
+ * 可以用 "" / "default" / "Default" / "DEFAULT" 来表示一种 默认类型 （它们指向同一份数据）
+ */
+class YardBlueprintSet{
+public:
+    YardBlueprintSet()=default;// DO NOT CALL IT DIRECTLY!!!
+
+    //===== static =====//
+    static void init_for_static()noexcept;
+    static yardBlueprintId_t init_new_yard( const std::string &yardName_, const std::string &yardLabel_ );
+
+    static YardBlueprint &get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept;
+
+    inline static yardBlueprintId_t get_yardBlueprintId( const std::string &yardName_, const std::string &yardLabel_ )noexcept{
+        //--- yardName ---//
+        tprAssert( YardBlueprintSet::name_2_yardSetIds.find(yardName_) != YardBlueprintSet::name_2_yardSetIds.end() );
+        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
+        YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
+        //--- yardLabel ---//
+        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+        tprAssert( setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end() );
+        return setRef.yardIDs.at( setRef.name_2_labelIds.at(yardLabel) );
+    }
+    
+    inline static bool is_find_name( const std::string &yardName_, const std::string &yardLabel_ )noexcept{
+        //--- yardName ---//
+        if( YardBlueprintSet::name_2_yardSetIds.find(yardName_) == YardBlueprintSet::name_2_yardSetIds.end() ){
+            return false;
+        }
+        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
+        YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
+        //--- yardLabel ---//
+        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+        return (setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end());
+    }
+
+
+private:
+
+    // "" / "Default", 将被统一替换为 "DEFAULT" 
+    // 以此来表示，一种 默认 label 
+    inline static std::string check_and_unify_default_labels( const std::string &yardLabel_ )noexcept{
+        if( (yardLabel_=="") || 
+            (yardLabel_=="default") ||
+            (yardLabel_=="Default") ||
+            (yardLabel_=="DEFAULT") ){
+            return "_DEFAULT_";
+        }else{
+            return yardLabel_; // copy，无需考虑性能
+        }
+    }
+
+    std::unordered_map<std::string, yardLabelId_t> name_2_labelIds {}; // 索引表
+    std::unordered_map<yardLabelId_t, yardBlueprintId_t> yardIDs;
+
+    //===== static =====//
+    static ID_Manager  yardSetId_manager; // apply yardBlueprintSet id
+    static ID_Manager  labelId_manager; // apply label id
+    static ID_Manager  yardId_manager; // apply yardBlueprint id
+    static std::unordered_map<std::string, yardBlueprintSetId_t> name_2_yardSetIds; // 索引表
+    static std::unordered_map<yardBlueprintSetId_t, std::unique_ptr<YardBlueprintSet>> setUPtrs; // 真实资源
+    static std::unordered_map<yardBlueprintId_t, std::unique_ptr<YardBlueprint>> yardUPtrs; // 真实资源
+};
+
+
+
 void parse_yardJsonFiles();
+
+void calc_yard_fieldKeys( std::unordered_set<fieldKey_t> &outContainer_,
+                            IntVec2 yardMPos_,
+                            YardSize sizeByFild_ )noexcept;
 
 
 

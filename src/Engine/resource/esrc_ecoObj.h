@@ -21,8 +21,6 @@
 
 #include "esrc_ecoObjMemState.h"
 
-//--------------- Script ------------------//
-#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

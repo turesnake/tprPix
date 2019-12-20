@@ -15,7 +15,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 
 #include "esrc_shader.h" 
 #include "esrc_player.h"
@@ -32,7 +32,7 @@ namespace uiGos {//------------- namespace uiGos ----------------
 
 
 struct Button_SceneBegin_Pointer_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     int   tmp {};
 };
 
@@ -46,7 +46,7 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Pointer_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", emptyAnimLabels, 10 );
+    pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "button_beginScene", emptyAnimLabels, 10 );
 
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -57,7 +57,7 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                pvtBp->subspeciesId,
+                                pvtBp->subspecId,
                                 "pointer", 
                                 RenderLayerType::UIs, //- 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
@@ -119,7 +119,7 @@ void Button_SceneBegin_Pointer::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
 
     switch( type_ ){
         case ActionSwitchType::ButtonState_1:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(),  "pointer" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(),  "pointer" );
             break;
         default:
             break;

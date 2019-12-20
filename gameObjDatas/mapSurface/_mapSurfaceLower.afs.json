@@ -11,7 +11,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Field_1f1" ],
@@ -32,7 +32,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Field_2f2" ],
@@ -53,7 +53,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Field_3f3" ],
@@ -80,7 +80,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_1m1" ],
@@ -101,7 +101,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_2m2" ],
@@ -122,7 +122,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_3m3" ],
@@ -143,7 +143,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_4m4" ],
@@ -170,7 +170,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_1m1" ],
@@ -191,7 +191,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_2m2" ],
@@ -212,7 +212,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_3m3" ],
@@ -233,7 +233,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_4m4" ],
@@ -261,7 +261,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_1m1" ],
@@ -282,7 +282,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_2m2" ],
@@ -303,7 +303,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_3m3" ],
@@ -324,7 +324,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_4m4" ],

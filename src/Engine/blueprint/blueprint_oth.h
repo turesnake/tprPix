@@ -30,14 +30,15 @@ enum class BlueprintType{
 };
 
 
-// 为了简化实现，yard 强制规定，必须为 正方形 
+// 为了简化实现，yard 强制规定，必须为 正方形,
+// 且必须对其与 field 
 enum class YardSize{
-    _1m1=1,
-    _2m2=2,
-    _3m3=3,
-    _4m4=4,
-    _5m5=5,
-    _6m6=6,
+    _1f1 = 1,
+    _2f2 = 2,
+    _3f3 = 3,
+    _4f4 = 4,
+    _5f5 = 5,
+    _6f6 = 6,
 };
 
 
@@ -48,15 +49,15 @@ inline YardSize sizeByMapEnt_2_yardSize( IntVec2 size_ )noexcept{
                 ((size_.x % ENTS_PER_FIELD) == 0) );
     
     switch ( size_.x / ENTS_PER_FIELD ){
-        case 1: return YardSize::_1m1;
-        case 2: return YardSize::_2m2;
-        case 3: return YardSize::_3m3;
-        case 4: return YardSize::_4m4;
-        case 5: return YardSize::_5m5;
-        case 6: return YardSize::_6m6;
+        case 1: return YardSize::_1f1;
+        case 2: return YardSize::_2f2;
+        case 3: return YardSize::_3f3;
+        case 4: return YardSize::_4f4;
+        case 5: return YardSize::_5f5;
+        case 6: return YardSize::_6f6;
         default:
             tprAssert(0); // 值太大了，暂未支持
-            return YardSize::_6m6; // never reach
+            return YardSize::_6f6; // never reach
     }
 }
 

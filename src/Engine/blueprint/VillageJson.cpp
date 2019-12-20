@@ -142,15 +142,26 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
         //-- road 相关数据的处理，暂未实现 ---
         // ...
 
-        {//--- yardNames ---//
-            const auto &yardNames = json::check_and_get_value( varType, "yardNames", json::JsonValType::Array );
-            for( auto &ent : yardNames.GetArray() ){
-                tprAssert( ent.IsString() );
-                varTypeDatasUPtr->insert_2_yardIds( YardBlueprint::str_2_yardBlueprintId(ent.GetString()) );
+        {//--- yards ---//
+            std::string yardName {};
+            std::string yardLabel {};
+
+            const auto &yards = json::check_and_get_value( varType, "yards", json::JsonValType::Array );
+            for( auto &ent : yards.GetArray() ){
+                tprAssert( ent.IsObject() );
+
+                {//--- yardName ---//
+                    const auto &a = json::check_and_get_value( ent, "yardName", json::JsonValType::String );
+                    yardName = a.GetString();
+                }
+                {//--- yardLabel ---//
+                    const auto &a = json::check_and_get_value( ent, "yardLabel", json::JsonValType::String );
+                    yardLabel = a.GetString();
+                }
+
+                varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId( yardName, yardLabel ) );
             }
         }
-
-
 
         varTypeDatasUPtr->init_check();
         villageRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );

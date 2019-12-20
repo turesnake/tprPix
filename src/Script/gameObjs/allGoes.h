@@ -40,10 +40,9 @@
 
 
 
-//---------- Script : gameObjs : mapSurface --------------------//
-#include "Script/gameObjs/mapSurfaces/MapSurfaceLower.h"
+//---------- Script : gameObjs : floorGos --------------------//
 
-#include "Script/gameObjs/mapSurfaces/FloorGo.h"
+#include "Script/gameObjs/floorGos/FloorGo.h"
 
 #include "Script/gameObjs/oth/GroundGo.h"
 

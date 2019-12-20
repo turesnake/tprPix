@@ -1,9 +1,0 @@
-{
-    "type": "Mid2",
-    "points":
-    [
-        [ {"dpos": [ 30, -54], "BodySize": "Mid" }, {"dpos": [ -90, 80], "BodySize": "Mid" } ],
-        [ {"dpos": [ -35, -74], "BodySize": "Mid" }, {"dpos": [ 100, 54], "BodySize": "Mid" } ],
-        [ {"dpos": [ -70, 94], "BodySize": "Mid" }, {"dpos": [ 20, -64], "BodySize": "Mid" } ]
-    ]
-}

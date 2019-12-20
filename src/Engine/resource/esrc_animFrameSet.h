@@ -19,27 +19,27 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 
 
-AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ );
+AnimSubspec &find_or_insert_new_animSubspec( animSubspecId_t id_ );
 
-AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ );
+AnimSubspec &get_animSubspecRef( animSubspecId_t id_ );
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 
-animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
+animSubspecId_t apply_a_random_animSubspecId( const std::string  &animFrameSetName_,
                                                     const std::vector<AnimLabel> &labels_,
                                                     size_t              uWeight_ );
 
-AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
+AnimAction *get_animActionPtr(  animSubspecId_t subId_, 
                                 NineDirection      dir_,
                                 const std::string  &actionName_ );
 
 
-//-- special SubspeciesId --
-void set_emptyPixId( animSubspeciesId_t id_ )noexcept;
-animSubspeciesId_t get_emptyPixId()noexcept;
+//-- special SubspecId --
+void set_emptyPixId( animSubspecId_t id_ )noexcept;
+animSubspecId_t get_emptyPixId()noexcept;
 
-void set_fieldRimId( animSubspeciesId_t id_ )noexcept;
-animSubspeciesId_t get_fieldRimId()noexcept;
+void set_fieldRimId( animSubspecId_t id_ )noexcept;
+animSubspecId_t get_fieldRimId()noexcept;
 
 
 

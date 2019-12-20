@@ -11,14 +11,19 @@
         "isMoveCollide": true,
         "isDoPass": false,
         "isBePass": false,
-        "afsNames": [ "simpleMan" ],
         "speedLvl": 3,
         "alti": 0,
         "weight": 5,
         "pub.HP": 170,
         "pub.MP": 50,
 
-        "afs_lPath": "_simpleMan.afs.json",
-        "multiGoMesh_lPath": ""
+
+
+        "afs_lPaths": [ 
+            "_simpleMan.afs.json"
+        ],
+        "multiGoMesh_lPaths": []
+
+
       }
 ]

@@ -87,7 +87,7 @@ class AnimActionParam{
 public:
 
     //-- 常规构造器,且手动设置 timesteps --
-    AnimActionParam(size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspecIdx_,
                     const std::string     &actionName_,
                     NineDirection          actionDir_,
                     AnimActionType         type_,
@@ -97,7 +97,7 @@ public:
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_,
                     const std::vector<AnimLabel> &labels_ ):
-        subspeciesIdx(subspeciesIdx_),
+        subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionType( type_ ),
@@ -113,7 +113,7 @@ public:
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
-    AnimActionParam(size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspecIdx_,
                     const std::string    &actionName_,
                     NineDirection         actionDir_,
                     AnimActionType        type_,
@@ -123,7 +123,7 @@ public:
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep,
                     const std::vector<AnimLabel> &labels_ ):
-        subspeciesIdx(subspeciesIdx_),
+        subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionType( type_ ),
@@ -139,14 +139,14 @@ public:
         }
 
     //-- 单帧action 专用 构造器 --
-    AnimActionParam(size_t  subspeciesIdx_,
+    AnimActionParam(size_t  subspecIdx_,
                     const std::string &actionName_,
                     NineDirection      actionDir_,
                     size_t  jFrameIdx_,
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
                     const std::vector<AnimLabel> &labels_ ):
-        subspeciesIdx(subspeciesIdx_),
+        subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionType( AnimActionType::Idle ), //- 默认type
@@ -162,7 +162,7 @@ public:
         }
 
     //===== vals =====//
-    size_t          subspeciesIdx;
+    size_t          subspecIdx;
     std::string     actionName;
     NineDirection   actionDir;
     AnimActionType  actionType;

@@ -24,11 +24,11 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 
     std::unordered_map<std::string, std::unique_ptr<AnimFrameSet>> animFrameSets {};
-    std::unordered_map<animSubspeciesId_t, std::unique_ptr<AnimSubspecies>> animSubs {};
+    std::unordered_map<animSubspecId_t, std::unique_ptr<AnimSubspec>> animSubs {};
 
     //======= special ids =========//
-    animSubspeciesId_t emptyPixId {};
-    animSubspeciesId_t fieldRimId {};
+    animSubspecId_t emptyPixId {};
+    animSubspecId_t fieldRimId {};
 
 
 }//--------------- namespace: anim_inn end -----------------//
@@ -42,7 +42,7 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
 
 
 // support multi-thread
-animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
+animSubspecId_t apply_a_random_animSubspecId( const std::string  &animFrameSetName_,
                                                     const std::vector<AnimLabel> &labels_,
                                                     size_t              uWeight_ ){
         // debug
@@ -51,26 +51,26 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
                 << endl;
         }
         tprAssert( anim_inn::animFrameSets.find(animFrameSetName_) != anim_inn::animFrameSets.end() );
-    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspeciesId( labels_, uWeight_ );
+    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspecId( labels_, uWeight_ );
 }
 
 
 // 仅用于 创建阶段 
-AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
+AnimSubspec &find_or_insert_new_animSubspec( animSubspecId_t id_ ){
     // if target key is existed, insert will not happen. but still ret target ent-it
-    auto outPair = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
+    auto outPair = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspec>() });
     return *(outPair.first->second);
 }
 
 
-AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
+AnimSubspec &get_animSubspecRef( animSubspecId_t id_ ){
         tprAssert( anim_inn::animSubs.find(id_) != anim_inn::animSubs.end() );
     return *(anim_inn::animSubs.at(id_));
 }
 
 
 
-AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
+AnimAction *get_animActionPtr(  animSubspecId_t subId_, 
                                 NineDirection      dir_,
                                 const std::string  &actionName_ ){
         tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
@@ -81,17 +81,17 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
 
 
 //======= special ids =========//
-void set_emptyPixId( animSubspeciesId_t id_ )noexcept{
+void set_emptyPixId( animSubspecId_t id_ )noexcept{
     anim_inn::emptyPixId = id_;
 }
-animSubspeciesId_t get_emptyPixId()noexcept{
+animSubspecId_t get_emptyPixId()noexcept{
     return anim_inn::emptyPixId;
 }
 
-void set_fieldRimId( animSubspeciesId_t id_ )noexcept{
+void set_fieldRimId( animSubspecId_t id_ )noexcept{
     anim_inn::fieldRimId = id_;
 }
-animSubspeciesId_t get_fieldRimId()noexcept{
+animSubspecId_t get_fieldRimId()noexcept{
     return anim_inn::fieldRimId;
 }
 

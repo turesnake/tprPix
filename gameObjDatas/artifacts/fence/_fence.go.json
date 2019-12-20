@@ -11,14 +11,16 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "afsNames": [ "fence" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,
     "pub.HP": 170,
     "pub.MP": 50,
 
-    "afs_lPath": "_fence.afs.json",
-    "multiGoMesh_lPath": ""
+    "afs_lPaths": [ 
+        "_fence.afs.json"
+    ],
+    "multiGoMesh_lPaths": []
+
   }
 ]

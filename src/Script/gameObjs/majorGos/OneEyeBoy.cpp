@@ -14,7 +14,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "esrc_shader.h" 
@@ -41,7 +41,7 @@ namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------
 }//-------------- namespace: oneEyeBoy_inn end ----------------//
 
 struct OneEyeBoy_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     int        tmp {};
     int        timeStep  {10};
     int        timeCount {};
@@ -49,10 +49,7 @@ struct OneEyeBoy_PvtBinary{
 };
 
 
-/* ===========================================================
- *                   init
- * -----------------------------------------------------------
- */
+
 void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
@@ -60,22 +57,22 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
     //================ dyParams =================//
     size_t randUVal {};
-    const DyParams_Field *msParamPtr {nullptr};
+    
     //---    
     size_t typeHash = dyParams_.get_typeHash();
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
-        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+        pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
-    }else if( typeHash == typeid(DyParams_Field).hash_code() ){
-        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
+    }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
+        
+        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+        const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+        tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+        pvtBp->subspecId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspecId;
 
-        randUVal = 33; //- 随便写
-
-        const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-        tprAssert( job_goMeshs.size() == 1 );
-        pvtBp->subspeciesId = job_goMeshs.begin()->subspecId;
+        randUVal = bpParamPtr->mapEntUWeight;    
 
     }else{
         tprAssert(0); //- 尚未实现
@@ -87,7 +84,7 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
+                                pvtBp->subspecId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -111,29 +108,20 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void OneEyeBoy::bind( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void OneEyeBoy::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -174,12 +162,6 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
     
     
     
-    
-    
-    
-
-
-
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
@@ -192,33 +174,20 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
+
 void OneEyeBoy::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
     //=====================================//
-
     // 什么也没做...
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
+
 void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-
-        // 不应该直接是 input 中的 dir，而要基于 go.dir 来修正
-
-
-        //cout << "OneEyeBoy::OnActionSwitch" << endl;
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
@@ -231,12 +200,12 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         case ActionSwitchType::Move:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, goRef_.get_actionDirection(), "walk" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "walk" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
@@ -246,7 +215,6 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     }
 
-    
 
 
 }

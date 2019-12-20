@@ -46,9 +46,7 @@ public:
                 double ecoObj_densitySeaLvlOff_,
                 const std::vector<double> *ecoObj_densityDivideValsPtr_ );
 
-    inline int get_lvl() const noexcept{
-        return this->lvl;
-    }
+    inline int get_lvl() const noexcept{ return this->lvl; }
 
     //-- 主要用于 遍历一些容器 --
     inline size_t get_idx() const noexcept{
@@ -101,6 +99,22 @@ private:
     static int  minLvl;  // -3
     static int  maxLvl;  //  3
 };
+
+
+
+
+inline bool operator < ( Density a_, Density b_ ) noexcept {
+    return (a_.get_lvl() < b_.get_lvl());
+}
+inline bool operator == ( Density a_, Density b_ ) noexcept {
+    return (a_.get_lvl() == b_.get_lvl());
+}
+inline bool operator != ( Density a_, Density b_ ) noexcept {
+    return (a_.get_lvl() != b_.get_lvl());
+}
+
+
+
 
 
 #endif 

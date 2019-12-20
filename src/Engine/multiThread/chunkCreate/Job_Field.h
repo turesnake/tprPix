@@ -17,41 +17,10 @@
 
 //-------------------- Engine --------------------//
 #include "Job_MapEnt.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
+#include "mapEntKey.h"
 
 #include "GoDataForCreate.h"
-
-
-class Job_GoMesh{
-public:
-    Job_GoMesh( animSubspeciesId_t  id_,
-                const glm::dvec2    &dposOff_,
-                size_t              windDelayIdx_
-                ):
-        subspecId(id_),
-        dposOff(dposOff_),
-        windDelayIdx(windDelayIdx_)
-        {}
-    //----- vals -----//
-    animSubspeciesId_t  subspecId {};
-    glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
-    size_t              windDelayIdx {}; // only used in windClock
-};
-
-
-
-
-// datas to support the field_gos create in main-thread 
-class Job_GoData{
-public:
-    
-    goSpecId_t              goSpecId {};
-    glm::dvec2              goDposOff {}; // go-dposoff based on field-middpos
-    size_t                  mapEntUWeight {};
-
-    std::vector<Job_GoMesh> job_goMeshs {};
-};
-
 
 
 class Job_Field{
@@ -106,31 +75,34 @@ public:
     inline bool is_crossColorTable()const noexcept{
         return (this->fields.size() > 1);
     }
-
-
-    inline Job_GoData &insert_new_job_goData()noexcept{
-        this->job_goDatas.push_back( Job_GoData{} );
-        auto &target = this->job_goDatas.back();
-        return target;
-    }
-
     inline void insert_2_blueprint_majorGoDatas( const GoDataForCreate *ptr_ )noexcept{
         this->blueprint_majorGoDatas.push_back( ptr_ );
     }
     inline void insert_2_blueprint_floorGoDatas( const GoDataForCreate *ptr_ )noexcept{
         this->blueprint_floorGoDatas.push_back( ptr_ );
     }
-
-
-    inline const std::vector<Job_GoData> &get_job_goDatas()const noexcept{
-        return this->job_goDatas;
+    inline const std::vector<const GoDataForCreate*> &get_blueprint_majorGoDatas()const noexcept{ 
+        return this->blueprint_majorGoDatas; 
+    }
+    inline const std::vector<const GoDataForCreate*> &get_blueprint_floorGoDatas()const noexcept{ 
+        return this->blueprint_floorGoDatas; 
+    }
+    inline std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &get_nature_majorGoDatas()noexcept{ 
+        return this->nature_majorGoDatas;
+    }
+    inline std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &get_nature_floorGoDatas()noexcept{ 
+        return this->nature_floorGoDatas;
     }
 
-    inline const std::vector<const GoDataForCreate*> &get_blueprint_majorGoDatas()const noexcept{
-        return this->blueprint_majorGoDatas;
-    }
-    inline const std::vector<const GoDataForCreate*> &get_blueprint_floorGoDatas()const noexcept{
-        return this->blueprint_floorGoDatas;
+
+    inline void copy_nature_goDataPtrs()noexcept{
+        
+        for( const auto &iPair : this->nature_majorGoDatas ){
+            this->blueprint_majorGoDatas.push_back( iPair.second.get() );
+        }
+        for( const auto &iPair : this->nature_floorGoDatas ){
+            this->blueprint_floorGoDatas.push_back( iPair.second.get() );
+        }
     }
 
 
@@ -146,12 +118,17 @@ private:
     std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
 
 
-    std::vector<Job_GoData> job_goDatas {}; // 需要在 map 中生成的 go 实例 （旧版本）
-
-
-    // 彻底绕开 旧分配方案 的 蓝图分配方式
+    // 同时包含 artifact/nature 两种蓝图数据
+    // 供 具象go类 访问，创建 go实例
     std::vector<const GoDataForCreate*> blueprint_majorGoDatas {};
     std::vector<const GoDataForCreate*> blueprint_floorGoDatas {};
+
+
+    // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
+    // 但是为了对外统一接口，还是会把 ptr 存储在一个容器中，以便具象类集中访问
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> nature_majorGoDatas {};
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> nature_floorGoDatas {};
+
 
     //=== datas just used for inner calc ===
     std::vector<std::vector<Job_MapEnt*>> mapEntPtrs {}; // 二维数组 [h,w]

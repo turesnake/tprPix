@@ -28,7 +28,6 @@
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
-#include "mapSurfaceRandEntId_t.h"
 
 #include "tprCast.h"
 
@@ -56,8 +55,7 @@ public:
     inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{ return this->fieldKeys; }
     inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
     inline const std::set<goid_t> &get_edgeGoIds() const noexcept{ return this->edgeGoIds; }
-    inline mapSurface::randEntId_t get_mapSurfaceRandEntId() const noexcept { return this->mapSurfaceRandEntId; }
-
+    
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt *getnc_mapEntPtr( const IntVec2 &lMPosOff_ )noexcept{
         tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );
@@ -102,9 +100,6 @@ private:
 
     double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
     size_t   uWeight      {}; // [0, 9999]
-
-    mapSurface::randEntId_t mapSurfaceRandEntId {}; //- 指导 field 是否生成／生成什么lvl 的 mapsurface go
-
 
     //======== flags ========//
     bool     is_dirty  {false};//- 如果目标chunk上的 伪随机go数据，发生变化

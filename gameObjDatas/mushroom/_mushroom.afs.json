@@ -11,8 +11,8 @@
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
-            "ColliderType": "Circular",
-            "subspecies": [
+            "ColliderType": "Square",
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Sml" ],
@@ -32,8 +32,8 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
+            "ColliderType": "Square",
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Mid" ],
@@ -53,8 +53,8 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecies": [
+            "ColliderType": "Square",
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Big" ],

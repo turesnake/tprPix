@@ -37,7 +37,7 @@
 #include "ChildMesh.h"
 #include "AnimAction.h"
 #include "RotateScaleData.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "RenderPool.h"
 #include "colorTableId.h"
 #include "DyBinary.h"
@@ -72,7 +72,7 @@ public:
     void RenderUpdate_auto();
     void RenderUpdate_ground();
 
-    void bind_animAction(   animSubspeciesId_t subspeciesId_,
+    void bind_animAction(   animSubspecId_t    subspecId_,
                             NineDirection      dir_,
                             const std::string &actionName_  );
 

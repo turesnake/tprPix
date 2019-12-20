@@ -11,14 +11,18 @@
         "isMoveCollide": false,
         "isDoPass": true,
         "isBePass": true,
-        "afsNames": [ "playerGoCircle" ],
         "speedLvl": 9,
         "alti": 0,
         "weight": 1,
         "pub.HP": 1,
         "pub.MP": 1,
 
-        "afs_lPath": "_playerGoCircle.afs.json",
-        "multiGoMesh_lPath": ""
+
+        "afs_lPaths": [ 
+            "_playerGoCircle.afs.json"
+        ],
+        "multiGoMesh_lPaths": []
+
+
       }
 ]

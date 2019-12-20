@@ -98,7 +98,7 @@ public:
 
 
 private:
-    std::vector<MapData> mapDatas {}; // 存在 png 中的 mp-go 数据，有若干帧，可随机挑选
+    std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Village>> varTypeDatas {}; // 类型数据
 

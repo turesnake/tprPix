@@ -12,13 +12,30 @@
 #include "glm_no_warnings.h"
 
 
+//------------------- CPP --------------------//
+#include <vector>
+#include <memory>
+
 //------------------- Engine --------------------//
 #include "GameObjType.h"
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "IntVec.h"
+
+
+
+class GoDataEntForCreate{
+public:
+    GoDataEntForCreate()=default;
+    //---
+    animSubspecId_t     subspecId {};
+    glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
+    size_t              windDelayIdx {}; // only used in windClock
+};
+
+
 
 
 // 生成一个go实例，需要的基本数据
@@ -30,15 +47,18 @@ public:
     GoDataForCreate()=default;
 
     //---
-    goSpecId_t              goSpecId {};
-    animSubspeciesId_t      subspecId {};  // 亚种数据，直接在 ecoobj 阶段生成，依靠 mapEntKey,而不是 mapEnt.uWeight 
-    NineDirection           direction {NineDirection::Mid};  //- 角色 动画朝向
-    BrokenLvl               brokenLvl {BrokenLvl::Lvl_0};
-    glm::dvec2              dpos      {}; // 绝对地址
+    goSpecId_t      goSpecId {};
+    glm::dvec2      dpos      {}; // go 绝对 dpos
+    NineDirection   direction {NineDirection::Mid};  //- 角色 动画朝向
+    BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};
+    
+    //---
+    bool            isMultiGoMesh {};
+    
+    //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
 
-
-
-
+    //: if  isMultiGoMesh == false： 只有一个元素
+    std::vector<std::unique_ptr<GoDataEntForCreate>> goMeshDataUPtrs {};
 };
 
 

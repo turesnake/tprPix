@@ -25,6 +25,7 @@
 #include "IntVec.h"
 #include "ID_Manager.h"
 #include "tprAssert.h"
+#include "MultiGoMesh.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -53,9 +54,17 @@ public:
 //- 确定一个 go 物种 的最基本数据
 class GoSpec{
 public:
+    GoSpec()=default;
+
+    //----- vals -----//
     goSpecId_t              goSpecId    {};
+    
+    bool                    isMultiGoMesh {};
+
     std::string             afsName     {};
     std::vector<AnimLabel>  animLabels  {}; //- 允许是空的
+    
+    multiGoMeshTypeId_t     multiGoMeshType {};
 };
 
 
@@ -135,7 +144,7 @@ public:
 private:
     IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位
 
-    std::vector<MapData> mapDatas {}; // 存在 png 中的 mp-go 数据，有若干帧，可随机挑选
+    std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Plot>> varTypeDatas {}; // 类型数据
 

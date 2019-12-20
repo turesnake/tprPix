@@ -10,7 +10,9 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <map>
 #include <optional>
+#include <unordered_set>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -25,15 +27,13 @@
 #include "Density.h"
 #include "GoSpecData.h"
 #include "colorTableId.h"
-//#include "BoolBitMap.h"
 #include "GoDataForCreate.h"
 #include "mapEntKey.h"
 #include "blueprint.h"
+#include "Density.h"
+#include "fieldKey.h"
 
 #include "DensityPool.h"
-
-//--------------- Script ------------------//
-#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
 
 
 class EcoSysPlan;
@@ -53,15 +53,11 @@ public:
     void init_fstOrder( sectionKey_t sectionKey_ );
 
 
-    const DensityPool &get_densityPool( size_t densityIdx_ )const noexcept{
-        /*
-        tprAssert( densityIdx_ < this->densityPools.size() ); // tmp
-        return *(this->densityPools.at(densityIdx_));
-        */
-
-        tprAssert( densityIdx_ < this->densityPoolsPtr->size() ); // tmp
-        return *(this->densityPoolsPtr->at(densityIdx_));
+    const DensityPool &get_densityPool( Density density_ )const noexcept{
+        tprAssert( this->densityPoolsPtr->find(density_) != this->densityPoolsPtr->end() );
+        return *(this->densityPoolsPtr->at(density_));
     }
+
 
     inline IntVec2              get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
     inline ecoSysPlanId_t       get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
@@ -72,8 +68,6 @@ public:
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
-
-    inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
 
 
     inline std::optional<const GoDataForCreate*> find_majorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
@@ -89,6 +83,11 @@ public:
         }else{
             return { this->floorGoDatasForCreate.at(key_).get() };
         }
+    }
+
+
+    inline bool is_find_in_artifactFieldKeys( fieldKey_t key_ )const noexcept{
+        return (artifactFieldKeys.find(key_) != this->artifactFieldKeys.end() );
     }
     
 
@@ -115,37 +114,29 @@ private:
 
     colorTableId_t  colorTableId {}; // same with ecoPlan.colorTableId
 
-    MapSurfaceLowSpec   mapSurfaceLowSpec {}; // 将被取代 ...
-
     //-- 本 ecoObj mpos 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
     IntVec2  oddEven {}; 
-    
-    //-- field.nodeAlit.val > 30;
-    //-- field.density.lvl [-3, 3] 共 7个池子
-    //-- 用 density.get_idx() 来遍历
-    //  实际数据 存储在 ecosysPlan 实例中，此处仅保存 只读指针 --
-    //const std::vector<double> *applyPercentsPtr {}; //- each entry: [0.0, 1.0]
 
-                    //- 已被放入 densitypool ...
-
-
-    const std::vector<double> *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]
-                        
+    const std::vector<double> *densityDivideValsPtr {};  //- 6 ents, each_ent: [-100.0, 100.0]              
 
     //-- 独立数据 --
-    //std::vector<std::unique_ptr<DensityPool>> densityPools {};
-    const std::vector<std::unique_ptr<DensityPool>> *densityPoolsPtr {nullptr};
+    const std::map<Density, std::unique_ptr<DensityPool>> *densityPoolsPtr {nullptr};
 
                             // 暂时没有确定，是否重分配 densitypools 数据
                             // ...
+
+                        
     double           densitySeaLvlOff  {0.0}; 
 
 
     //----- blueprint datas -----//
-    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> majorGoDatasForCreate {};
-    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> floorGoDatasForCreate {};
-                            // mapEntKey 是游戏世界中的 绝对值
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> majorGoDatasForCreate {};// key 绝对值
+    std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> floorGoDatasForCreate {};// key 绝对值
+                            
+    // 表示 哪些 field 已经存在蓝图数据了（不用生成 nature go 了）
+    std::unordered_set<fieldKey_t> artifactFieldKeys {}; // key 绝对值
+
 
     blueprint::villageBlueprintId_t villageBlueprintId {};
 

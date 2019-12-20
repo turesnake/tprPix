@@ -121,12 +121,12 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/fileIO/*.cpp
                         src/Engine/gameObj/*.cpp 
                         src/Engine/gameObj/createGo/*.cpp 
+                        src/Engine/gameObj/multiGoMesh/*.cpp 
                         src/Engine/gl/*.cpp 
                         src/Engine/input/*.cpp 
                         src/Engine/json/*.cpp 
                         src/Engine/map/*.cpp 
                         src/Engine/map/chunkCreateRelease/*.cpp 
-                        src/Engine/map/mapSurfaceRand/*.cpp 
                         src/Engine/mesh/*.cpp 
                         src/Engine/move/*.cpp 
                         src/Engine/multiThread/*.cpp 
@@ -154,7 +154,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/gameObjs/majorGos/rocks/*.cpp
                         src/Script/gameObjs/majorGos/trees/*.cpp
                         src/Script/gameObjs/spawners/*.cpp
-                        src/Script/gameObjs/mapSurfaces/*.cpp
+                        src/Script/gameObjs/floorGos/*.cpp
                         src/Script/gameObjs/oth/*.cpp
                         src/Script/json/*.cpp
 
@@ -203,12 +203,12 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/multiGoMesh
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/json
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/chunkCreateRelease
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/mapSurfaceRand
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread

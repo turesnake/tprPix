@@ -1,8 +1,0 @@
-{
-    "type": "Big1",
-    "points":
-    [
-        [ {"dpos": [ -20, -18], "BodySize": "Big" } ],
-        [ {"dpos": [ 35, -50], "BodySize": "Big" } ]
-    ]
-}

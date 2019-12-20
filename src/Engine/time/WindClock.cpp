@@ -102,3 +102,27 @@ void WindClock::init()noexcept{
 
 
 
+//- 在完善的实现中，所有go 类型，都要标记，自己是否受到 windClock 影响
+//  对于那些不受影响的，直接放弃此值的生成
+//  ...
+//  目前，统一为所有 gomesh 生成此值
+size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept{
+
+    // 延迟帧数半径
+    double rad = 60;
+
+    double freq = 1.0 / ( static_cast<double>(PIXES_PER_MAPENT) * 7.0 ); // 麦浪分布圈，2*2 fields
+    double x = dpos_.x * freq;
+    double y = dpos_.y * freq;
+
+    double perlin = simplex_noise2( x, y ); // [-1.0, 1.0]
+
+    size_t delay = cast_2_size_t(std::abs(perlin+1.0 * rad)); // [0. 120]
+    return delay;
+    
+        // 目前的 麦浪效果并不理想，只能说凑合着用
+        //
+}
+
+
+

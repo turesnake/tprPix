@@ -16,7 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -37,7 +37,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Mushroom_PvtBinary{
-    //animSubspeciesId_t subspeciesId {}; // 在未来，它会是个 vector
+    //animSubspecId_t subspecId {}; // 在未来，它会是个 vector
     int        tmp {};
 };
 
@@ -48,54 +48,55 @@ struct Mushroom_PvtBinary{
  */
 void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
-    //================ dyParams =================//
-    const DyParams_Field *msParamPtr {nullptr};
-    //---
-    size_t typeHash = dyParams_.get_typeHash();
-    if( typeHash == typeid(DyParams_Field).hash_code() ){
-        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-
-    }else{
-        tprAssert(0); //- 尚未实现
-    }
-
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
 
-
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();
-    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
 
+
+    //================ dyParams =================//
+    tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
+    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
+    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+
+
+    //----- gomeshs -----//
     std::string         goMeshName {};
     size_t              meshNameCount {0};
-    animSubspeciesId_t  subspeciesId {};
+    animSubspecId_t     subspecId {};
+    
+    size_t idx {0};
+    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); 
+        it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
 
-    for( auto it=job_goMeshs.cbegin(); it!=job_goMeshs.cend(); it++ ){// each job_goMesh
+        const GoDataEntForCreate &goDataEntRef = *(*it);
 
         //--- goMesh name ---//
-        if( it == job_goMeshs.cbegin() ){
+        if( it == goDataPtr->goMeshDataUPtrs.cbegin() ){
             goMeshName = "root";
         }else{
             goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
             meshNameCount++;
         }
 
-        subspeciesId = it->subspecId;
+        subspecId = goDataEntRef.subspecId;
 
-        goRef_.creat_new_goMesh(goMeshName,
-                                subspeciesId,
+        //---
+        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
+                                subspecId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                it->dposOff, //- pposoff
+                                //it->dposOff, //- pposoff
+                                goDataEntRef.dposOff,
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
+
     }
-
-
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

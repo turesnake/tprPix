@@ -11,7 +11,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "handle",
                     "animLabels": [],

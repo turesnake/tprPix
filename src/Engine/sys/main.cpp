@@ -102,9 +102,6 @@ int main( int argc, char* argv[] ){
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
-
-    esrc::init_fieldDistributePlanSet();
-    json::parse_fieldDistributePlanJsonFile();
     
     esrc::init_colorTableSet();
     json::parse_colorTableJsonFile();
@@ -143,12 +140,8 @@ int main( int argc, char* argv[] ){
     esrc::init_player();
     
     esrc::init_canvases();
-    esrc::init_mapSurfaceRandSet();
 
     json::parse_animFrameSetJsonFile(); // tmp
-    json::parse_mapSurfaceRandMeshJsonFile();
-
-    //json::parse_multiGoMeshJsonFile();
 
     blueprint::init_blueprint();
 

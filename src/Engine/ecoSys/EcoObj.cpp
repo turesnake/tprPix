@@ -110,16 +110,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------------------//
     //       densityPools
     //------------------------------//
-    //this->goSpecDataPools.clear();
-    //this->goSpecDataPools.resize( Density::get_idxNum(), std::vector<GoSpecData>{} );
-
-    //this->densityPools.resize( Density::get_idxNum(), nullptr );
-
-    /*
-    for( size_t i=0; i<Density::get_idxNum(); i++ ){
-        this->densityPools.push_back( std::move(nullptr) );
-    }
-    */
+    
 
 }
 
@@ -133,38 +124,15 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
     this->colorTableId = targetEcoPlanPtr_->get_colorTableId();
     
-    this->mapSurfaceLowSpec = targetEcoPlanPtr_->get_mapSurfaceLowSpec();
-
 
     //--- 仅 获得 只读指针 ---
-    //this->applyPercentsPtr = targetEcoPlanPtr_->get_applyPercentsPtr();
     this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();
 
     //---- goSpecIdPools 数据 ----
-    //
-    //      此段不能删！！！！！
-    //
-    /*
-    for( size_t i=0; i<Density::get_idxNum(); i++ ){ //- each pool in goSpecIdPools
-        //--- 取 8 个元素 ---
-        for( int ci=0; ci<8; ci++ ){ 
-            const auto &goSpecData = targetEcoPlanPtr_->apply_a_rand_goSpecData( i, ecoObj_inn::uDistribution_f(ecoObj_inn::rEngine) );
-            this->goSpecDataPools.at(i).push_back( goSpecData ); // copy
-        }
-    }
-    */
-
 
     //-- 最直接的方案，全盘复制 densityPools 数据。  超级临时 版本 ！！！！！！
 
-    auto &ecoPlanContainer = targetEcoPlanPtr_->get_densityPools();
-
-    /*
-    for( size_t i=0; i<this->densityPools.size(); i++ ){
-        this->densityPools.at(i) = std::make_unique<DensityPool>( *(ecoPlanContainer.at(i)) ); // 值复制 。。。
-    }
-    */
-    this->densityPoolsPtr = &ecoPlanContainer;  
+    this->densityPoolsPtr = &(targetEcoPlanPtr_->get_densityPools());
                 
                 //-- 在没确定 ecoobj densitypool 分配方式之前
                 //   先用指针，临时借用 ecoplan 的数据
@@ -184,7 +152,8 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
                                                 this->mcpos.get_mpos(),
                                                 this->uWeight,
                                                 this->majorGoDatasForCreate,
-                                                this->floorGoDatasForCreate );
+                                                this->floorGoDatasForCreate,
+                                                this->artifactFieldKeys );
     
 
 }

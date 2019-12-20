@@ -1,0 +1,173 @@
+[
+
+
+{
+    "name": "grass_forest_lowWhiteFlower",
+    "pngs": [
+        
+        {
+            "path": "lowWhiteFlower/lowFlower_sml1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabels": [ "Sml" ],
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "name": "wind_1", "dir": "Mid",
+                            "type": "multiFrame",
+                            "actionType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 10,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "lowWhiteFlower/lowFlower_sml2.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabels": [ "Sml" ],
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "name": "wind_1", "dir": "Mid",
+                            "type": "multiFrame",
+                            "actionType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 6,6, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "lowWhiteFlower/lowFlower_sml3.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabels": [ "Sml" ],
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "name": "wind_1", "dir": "Mid",
+                            "type": "multiFrame",
+                            "actionType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "lowWhiteFlower/lowFlower_mid1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabels": [ "Mid" ],
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "name": "wind_1", "dir": "Mid",
+                            "type": "multiFrame",
+                            "actionType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "lowWhiteFlower/lowFlower_mid2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabels": [ "Mid" ],
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "name": "wind_1", "dir": "Mid",
+                            "type": "multiFrame",
+                            "actionType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        }
+
+
+    
+
+    ]
+}
+
+
+
+
+
+]

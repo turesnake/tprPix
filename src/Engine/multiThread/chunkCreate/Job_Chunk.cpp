@@ -14,21 +14,16 @@
 #include "simplexNoise.h"
 #include "mapEntKey.h"
 #include "MultiGoMesh.h"
+#include "WindClock.h"
 
 #include "GoSpecFromJson.h"
+
+#include "YardBlueprint.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_animFrameSet.h" // tmp
 
 //-------------------- Script --------------------//
-
-
-
-namespace jobChunk_inn {//----------- namespace: jobChunk_inn ----------------//
-
-    size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept;
-
-}//-------------- namespace: jobChunk_inn end ----------------//
 
 
 void Job_Chunk::init()noexcept{
@@ -86,9 +81,6 @@ bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
     tprAssert( idx < this->mapEntInns.size() );
 
     //---
-    //colorTableId_t selfColorId = this->mapEntInns.at(idx).colorTableId;
-    //colorTableId_t tmpColorId {};
-
     sectionKey_t selfEcoKey = this->mapEntInns.at(idx).ecoObjKey;
     sectionKey_t tmpEcoKey {};
     
@@ -123,6 +115,9 @@ bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
 }
 
 
+
+
+
 void Job_Chunk::create_field_goSpecDatas(){
 
     sectionKey_t    ecoObjKey {};
@@ -130,7 +125,7 @@ void Job_Chunk::create_field_goSpecDatas(){
     IntVec2         tmpFieldMPos {};
     fieldKey_t      tmpFieldKey {};
     size_t          randUValOff {};
-    animSubspeciesId_t subSpecId {};
+    animSubspecId_t subSpecId {};
     size_t             windDelayIdx {};
 
     IntVec2         tmpEntMPos {};
@@ -138,6 +133,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
+
             tmpFieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             //---
@@ -148,69 +144,6 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                 ecoObjKey = fieldRef.get_ecoObjKey();
                 EcoObj &ecoObjRef = esrc::get_ecoObjRef(ecoObjKey);
-
-                //----------------------//
-                //     旧版 分配方案
-                //----------------------//
-                const auto &densityPool = ecoObjRef.get_densityPool( fieldRef.get_density().get_idx() );
-                const auto &fieldDistributePlan = densityPool.apply_a_fieldDistributePlan( fieldRef.get_uWeight() );
-
-                for( const auto &pair : fieldDistributePlan.get_points() ){ // each point 
-
-                    mposOff = dpos_2_mpos(fieldRef.get_midDPos() + pair.second) - this->chunkMPos;
-                    auto &mapEntInnRef = this->getnc_mapEntInnRef( mposOff );
-                    
-                    if( !mapEntInnRef.alti.is_land() ){
-                        continue;
-                    }
-                    if( !densityPool.isNeed2Apply(mapEntInnRef.uWeight) ){
-                        continue;
-                    }
-
-                    const GoSpecData *goSpecDataPtr = densityPool.apply_a_goSpecDataPtr( pair.first, mapEntInnRef.uWeight );
-                    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goSpecDataPtr->get_rootGoSpecId() );
-                        
-                    auto &job_goData = job_fieldRef.insert_new_job_goData();
-                    job_goData.goDposOff = pair.second;
-                    job_goData.goSpecId = goSpecDataPtr->get_rootGoSpecId();
-                    job_goData.mapEntUWeight = mapEntInnRef.uWeight;
-
-
-                    if( !goSpecDataPtr->get_isMultiGoMesh() ){
-                        //--- single gomesh ---//
-                        subSpecId = esrc::apply_a_random_animSubspeciesId(  goSpecDataPtr->get_afsName(),  // e.g. "mushroom"
-                                                                            goSpecDataPtr->get_animLabels(),
-                                                                            mapEntInnRef.uWeight );
-                        windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff ); // goMeshDPosOff is 0
-
-                        job_goData.job_goMeshs.push_back( Job_GoMesh{   subSpecId, 
-                                                                        glm::dvec2{0.0, 0.0},
-                                                                        windDelayIdx } );
-
-                    }else{
-                        //--- multi gomeshs ---//
-                        tprAssert( goSpecFromJsonRef.multiGoMeshUPtr );
-
-                        const auto &json_GoMeshSetRef = goSpecFromJsonRef.multiGoMeshUPtr->apply_a_json_goMeshSet( 
-                                            goSpecDataPtr->get_multiGoMeshType(), 
-                                            mapEntInnRef.uWeight
-                                            );
-
-                        randUValOff = 0;
-                        for( const auto &jgomesh : json_GoMeshSetRef.gomeshs ){ // each json goMesh
-                            randUValOff += 17;
-
-                            subSpecId = esrc::apply_a_random_animSubspeciesId(  jgomesh.animFrameSetName, // 将被取代 ...
-                                                                                jgomesh.animLabels,
-                                                                                mapEntInnRef.uWeight + randUValOff );
-                            windDelayIdx = jobChunk_inn::calc_goMesh_windDelayIdx( job_goData.goDposOff + jgomesh.dposOff );
-                                                                        
-                            job_goData.job_goMeshs.push_back( Job_GoMesh{   subSpecId, 
-                                                                            jgomesh.dposOff,
-                                                                            windDelayIdx } );
-                        }
-                    }
-                }
 
                 //----------------------//
                 //  生成 蓝图用 go数据
@@ -238,43 +171,41 @@ void Job_Chunk::create_field_goSpecDatas(){
                         }
                     }
                 }
-            }
+
+
+                //----------------------//
+                //   nature pools (yard)
+                //----------------------//
+                // 说明 此 field 被覆盖了 人造物数据，不需要生成 nature 数据
+                if( ecoObjRef.is_find_in_artifactFieldKeys( tmpFieldKey ) ){
+                    continue;
+                }
+                
+                const auto &densityPool = ecoObjRef.get_densityPool( fieldRef.get_density() );
+                if( !densityPool.isNeed2Apply( fieldRef.get_uWeight() ) ){
+                    continue;
+                }
+
+                blueprint::yardBlueprintId_t yardId = densityPool.apply_a_yardBlueprintId( fieldRef.get_uWeight() );
+                blueprint::YardBlueprint &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
+
+
+                blueprint::build_yard_goDatasForCreate( job_fieldRef.get_nature_majorGoDatas(),
+                                                        job_fieldRef.get_nature_floorGoDatas(),
+                                                        yardId,
+                                                        tmpFieldMPos,
+                                                        fieldRef.get_uWeight() );
+
+                job_fieldRef.copy_nature_goDataPtrs();
+
+            }//-- if field is land
+
+
+
         }
-    }
+    } //- each field in chunk (8*8)
+
 }
-
-
-
-
-namespace jobChunk_inn {//----------- namespace: jobChunk_inn ----------------//
-
-
-//- 在完善的实现中，所有go 类型，都要标准自己是否受到 windClock 影响
-//  对于那些不受影响的，直接放弃此值的生成
-//  ...
-//  目前，统一为所有 gomesh 生成此值
-size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept{
-
-    // 延迟帧数半径
-    double rad = 60;
-
-    double freq = 1.0 / ( static_cast<double>(PIXES_PER_MAPENT) * 7.0 ); // 麦浪分布圈，2*2 fields
-    double x = dpos_.x * freq;
-    double y = dpos_.y * freq;
-
-    double perlin = simplex_noise2( x, y ); // [-1.0, 1.0]
-
-    size_t delay = cast_2_size_t(std::abs(perlin+1.0 * rad)); // [0. 120]
-    return delay;
-    
-        // 目前的 麦浪效果并不理想，只能说凑合着用
-        //
-}
-
-
-
-}//-------------- namespace: jobChunk_inn end ----------------//
-
 
 
 

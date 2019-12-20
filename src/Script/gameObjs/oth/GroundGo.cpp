@@ -26,7 +26,7 @@
 #include "create_go_oth.h"
 #include "groundGoEntType.h"
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 #include "dyParams.h"
 
 #include "esrc_shader.h" 
@@ -44,7 +44,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace groundGo_inn {//------------------ namespace: groundGo_inn ---------------------//
 
     struct GroundGo_PvtBinary{
-        //animSubspeciesId_t subspeciesId {};
+        //animSubspecId_t subspecId {};
         //size_t   lichen_ForestId {0};
                 //- 简单的从 几种款式中，随机挑选一款 [0,7]
         int tmp {};
@@ -75,7 +75,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Mid );
 
-    animSubspeciesId_t subspeciesId {};
+    animSubspecId_t subspecId {};
     std::string     meshName {};
     size_t          nameIdx  {0};
 
@@ -93,14 +93,14 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
         }
 
         jgEntPtr = it->get();
-        subspeciesId = esrc::apply_a_random_animSubspeciesId(   
+        subspecId = esrc::apply_a_random_animSubspecId(   
                     "groundGo",
                     std::vector<AnimLabel>{ groundGo_inn::Job_GroundGoEntType_2_AnimLabel( jgEntPtr->groundType ) },
                     msParamPtr->fieldUWeight  + jgEntPtr->uWeight
                     );
 
         auto &goMeshRef = goRef_.creat_new_goMesh( meshName, //- gmesh-name
-                                subspeciesId,
+                                subspecId,
                                 "idle",
                                 RenderLayerType::GroundGo, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader

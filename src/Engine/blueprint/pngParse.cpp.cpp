@@ -48,8 +48,10 @@ namespace plotPng_inn {//-------- namespace: plotPng_inn --------------//
 
     //-- color --
     const std::vector<RGBA> uselessColors{
-        { 179, 179, 179, 255 },
-        { 120, 120, 120, 255 }
+        { 220, 220, 220, 255 },
+        { 180, 180, 180, 255 },
+        { 120, 120, 120, 255 },
+        { 100, 100, 100, 255 }
     };
 
     // ...
@@ -108,6 +110,7 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
     tprAssert( pixNum_per_frame_M == pixNum_per_frame_D );
     pixNum_per_frame = pixNum_per_frame_M;
 
+
     //-----------------------//
     //    parse png data
     //-----------------------// 
@@ -120,7 +123,13 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
         plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, blueprintType_ );
     }
 
+
     //---
+    pixNum_per_frame.x--;
+    pixNum_per_frame.y--;
+    tprAssert( (pixNum_per_frame.x>0) && (pixNum_per_frame.y>0) );
+                // 蓝图 png 数据，每一帧在 top/right 两方向，都会延伸出去 1像素，用来做 frames 之间的 间隔
+                // 提高视觉识别度
     return pixNum_per_frame;
 }
 
@@ -190,7 +199,7 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     tprAssert( pixNum_per_frames.size() == 1 );
     pixNum_per_frame = *pixNum_per_frames.begin();
 
-
+    
     //-----------------------//
     //    parse png data
     //-----------------------// 
@@ -214,6 +223,11 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     }
 
     //---
+    pixNum_per_frame.x--;
+    pixNum_per_frame.y--;
+    tprAssert( (pixNum_per_frame.x>0) && (pixNum_per_frame.y>0) );
+                // 蓝图 png 数据，每一帧在 top/right 两方向，都会延伸出去 1像素，用来做 frames 之间的 间隔
+                // 提高视觉识别度
     return pixNum_per_frame;
 }
 
@@ -226,7 +240,7 @@ namespace plotPng_inn {//-------- namespace: plotPng_inn --------------//
 
 
 void handle_frame(  MapData &mapDataRef_,
-                    IntVec2  pixNum_per_frame_,
+                    IntVec2  pixNum_per_frame_, // 此值 包含了 多出来的那 1像素间隙
                     std::vector<RGBA> &M_frame_, 
                     std::vector<RGBA> &D_frame_,
                     BlueprintType blueprintType_ ){
@@ -239,6 +253,12 @@ void handle_frame(  MapData &mapDataRef_,
 
     for( size_t j=0; j<H; j++ ){
         for( size_t i=0; i<W; i++ ){
+            
+            // 略过 top/right 方向的 1像素间隙
+            if( (j==H-1) || (i==W-1) ){
+                continue;
+            }
+
             pixIdx = j * W + i;
             RGBA &m_rgba = M_frame_.at(pixIdx);
             RGBA &d_rgba = D_frame_.at(pixIdx);
@@ -274,7 +294,7 @@ void handle_frame(  MapData &mapDataRef_,
             }
 
             auto outD = rgba_2_DPngData( d_rgba );
-            tprAssert( outM.has_value() );
+            tprAssert( outD.has_value() );
             entUPtr->brokenLvl = outD.value().first;
             entUPtr->direction = outD.value().second;
 

@@ -145,30 +145,45 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
         }
         {//--- goSpecPool ---//
+            std::string MultiGoMeshType {};
+
+            //---
             const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
             for( auto &ent : goSpecPool.GetArray() ){
-
+                
                 std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
 
                 {//--- goSpecName ---//
                     const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
                     goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
                 }
-                {//--- afsName ---//
-                    const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
-                    std::string afsName = a.GetString();
-                    tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
-                    goSpecUPtr->afsName = afsName;
-                }
-                {//--- animLabels ---//
-                    const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
-                    if( a.Size() > 0 ){
-                        for( auto &label : a.GetArray() ){//- foreach AnimLabel
-                            tprAssert( label.IsString() );
-                            goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+
+                //--- MultiGoMeshType ---//
+                if( ent.HasMember("MultiGoMeshType") ){
+                    goSpecUPtr->isMultiGoMesh = true;
+                    const auto &a = json::check_and_get_value( ent, "MultiGoMeshType", json::JsonValType::String );
+                    goSpecUPtr->multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
+
+                }else{
+                    goSpecUPtr->isMultiGoMesh = false;
+                
+                    {//--- afsName ---//
+                        const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
+                        std::string afsName = a.GetString();
+                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                        goSpecUPtr->afsName = afsName;
+                    }
+                    {//--- animLabels ---//
+                        const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
+                        if( a.Size() > 0 ){
+                            for( auto &label : a.GetArray() ){//- foreach AnimLabel
+                                tprAssert( label.IsString() );
+                                goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+                            }
                         }
                     }
                 }
+
                 //-- goSpecUPtr 创建完毕 --
                 varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
             }

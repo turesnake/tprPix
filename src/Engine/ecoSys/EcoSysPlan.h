@@ -12,6 +12,7 @@
 
 //-------------------- CPP --------------------//
 #include <vector>
+#include <map>
 #include <string>
 #include <memory>
 
@@ -26,15 +27,12 @@
 #include "GoSpecData.h"
 #include "colorTableId.h"
 #include "blueprint.h"
+#include "Density.h"
 
 #include "MultiGoMesh.h"
 
 #include "DensityPool.h"
 
-
-//--------------- Script ------------------//
-
-#include "Script/gameObjs/mapSurfaces/MapSurfaceSpec.h"
 
 
 
@@ -51,51 +49,38 @@ public:
     inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
     inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
-    inline void set_mapSurfaceLowSpec( MapSurfaceLowSpec spec_ )noexcept{ this->mapSurfaceLowSpec = spec_; }
-
     inline void pushBack_new_villageBlueprintId( blueprint::villageBlueprintId_t id_ )noexcept{
         this->villageIds.push_back(id_);
     }
 
-    void init_goSpecDataPools_and_applyPercents();
 
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
-    void insert( int densityLvl_, std::unique_ptr<DensityPool> &densityPoolUPtr_ );
+
+    inline DensityPool &create_new_densityPool( Density density_ )noexcept{
+        auto outPair = this->densityPools.insert({ density_, std::make_unique<DensityPool>() });
+        tprAssert( outPair.second );
+        return *(outPair.first->second);
+    }
 
 
     void shuffle_goSpecDataPools( u32_t seed_ );
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end()noexcept{
-        tprAssert( (this->is_goSpecDataPools_init) && 
-                (this->is_applyPercents_init) &&
-                (this->is_densityDivideVals_init) );
+        tprAssert( this->is_densityDivideVals_init );
     }
     
     inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
     inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
-    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
-    inline MapSurfaceLowSpec    get_mapSurfaceLowSpec()const noexcept{ return this->mapSurfaceLowSpec; }
+    inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }    
     inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
-    //inline const std::vector<double> *get_applyPercentsPtr() const noexcept{ return &(this->applyPercents); }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return &(this->densityDivideVals); }
 
 
-    //-- 核心函数，ecoObj 通过此函数，分配组成自己的 idPools --
-    // param: randV_ -- [0.0, 100.0]
-    /*
-    inline const GoSpecData &apply_a_rand_goSpecData( size_t densityIdx_, double randV_ )const noexcept{
-            tprAssert( randV_ >= 0.0 );
-        size_t randV = cast_2_size_t(floor( randV_ * 1.9 + 701.7 ));
-        auto &pool = this->goSpecDataPools.at( densityIdx_ );
-        return pool.at( randV % pool.size() );
-    }
-    */
-
     //-- 临时版本 .........
-    inline const std::vector<std::unique_ptr<DensityPool>> &
+    inline const std::map<Density, std::unique_ptr<DensityPool>> &
     get_densityPools()const noexcept{
         return this->densityPools;
     }
@@ -106,7 +91,6 @@ public:
     }
     
 
-
     //======== static ========//
     static ID_Manager  id_manager;
     
@@ -115,32 +99,27 @@ private:
     ecoSysPlanId_t      id      {};
     EcoSysPlanType      type    {EcoSysPlanType::Forest};
     colorTableId_t      colorTableId {};
-    MapSurfaceLowSpec   mapSurfaceLowSpec {};
     double              densitySeaLvlOff  {0.0}; 
-
-    
-    
 
     //-- field.nodeAlit.val > 30;
     //-- field.density.lvl [-3, 3] 共 7个池子
     //-- 用 density.get_idx() 来遍历
-    //std::vector<double> applyPercents {}; //- each entry: [0.0, 1.0]
     std::vector<double> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
 
-    //std::vector<std::vector<GoSpecData>> goSpecDataPools {};
 
-    std::vector<std::unique_ptr<DensityPool>> densityPools {};
+    //std::vector<std::unique_ptr<DensityPool>> densityPools {};
+    std::map<Density, std::unique_ptr<DensityPool>> densityPools {};
+
 
     //----- blueprints -----//
     std::vector<blueprint::villageBlueprintId_t> villageIds {};
                         // village 也应该具备 尺寸区别
                         // 并且用不同尺寸的容器来存储
                         // 未实现  ...
-
     
     //===== flags =====//
-    bool   is_goSpecDataPools_init     {false};
-    bool   is_applyPercents_init     {false};
+
+
     bool   is_densityDivideVals_init {false};
 
 };

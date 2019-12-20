@@ -1,0 +1,36 @@
+{
+    "annotation": "2m2 尺寸的 mushroom",
+
+    "plotName": "mushroom_2m2",
+
+    "pngLPath": "/mushroom_2m2/mushroom_2m2.M.png",
+    "frameNum.col":  7,
+    "frameNum.row":  4,
+    "totalFrameNum": 28,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpecName": "mushroom", "MultiGoMeshType":"Sml" }
+            ]
+        },
+
+        {
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpecName": "mushroom", "MultiGoMeshType":"Mid" }
+            ]
+        },
+
+        {
+            "type": "V_3",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpecName": "mushroom", "MultiGoMeshType":"SingleBig" }
+            ]
+        }
+    ]
+}

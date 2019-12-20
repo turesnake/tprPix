@@ -9,6 +9,8 @@
  */
 #ifndef TPR_WIND_CLOCK_H
 #define TPR_WIND_CLOCK_H
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
 
 //------------------- C --------------------// 
 #include <cmath>
@@ -70,6 +72,9 @@ private:
     size_t              playSpeedScalePoolIdx {0};
 
 };
+
+
+size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept;
 
 
 #endif 

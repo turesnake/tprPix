@@ -25,7 +25,6 @@
 #include "esrc_ecoObj.h"
 #include "esrc_ecoObjMemState.h"
 #include "esrc_field.h"
-#include "esrc_fieldDistributePlan.h"
 #include "esrc_gameArchive.h"
 #include "esrc_gameObj.h"
 #include "esrc_gameSeed.h"
@@ -38,7 +37,6 @@
 #include "esrc_uniformBlockObj.h"
 #include "esrc_VAOVBO.h"
 #include "esrc_window.h"
-#include "esrc_mapSurfaceRand.h"
 
 
 #endif

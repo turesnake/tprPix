@@ -13,7 +13,7 @@
                 "isPjtSingle": true,
                 "isShadowSingle": false,
                 "ColliderType": "Circular",
-                "subspecies": [
+                "subspecs": [
                     {
                         "type": "batch",
                         "animLabels": [ "Mid" ],
@@ -35,7 +35,7 @@
                 "isPjtSingle": true,
                 "isShadowSingle": false,
                 "ColliderType": "Circular",
-                "subspecies": [
+                "subspecs": [
                     {
                         "type": "batch",
                         "animLabels": [ "Mid" ],

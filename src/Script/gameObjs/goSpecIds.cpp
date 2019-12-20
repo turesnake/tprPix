@@ -88,8 +88,6 @@ void onGoSpecIds_SignUp(){
     //-------------------//
     //    mapSurface
     //-------------------//
-    GoSpecFromJson::insert_2_initFuncs( "mapSurfaceLower",      std::bind( &gameObjs::MapSurfaceLower::init, _1, _2 ) );
-
     GoSpecFromJson::insert_2_initFuncs( "floorGo",      std::bind( &gameObjs::FloorGo::init, _1, _2 ) );
 
     //-------------------//

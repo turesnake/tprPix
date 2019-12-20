@@ -23,15 +23,13 @@
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "Density.h"
-#include "animSubspeciesId.h"
+#include "animSubspecId.h"
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
 #include "esrc_animFrameSet.h"
-#include "esrc_mapSurfaceRand.h"
 
 //-------------------- Script --------------------//
-
 
 using namespace std::placeholders;
 

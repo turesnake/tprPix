@@ -11,14 +11,23 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": true,
-    "afsNames": [ "grass" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 5,
     "pub.HP": 100,
     "pub.MP": 10,
 
-    "afs_lPath": "_grass.afs.json",
-    "multiGoMesh_lPath": "_grass.multiGoMesh.json"
+
+    "afs_lPaths": [ 
+        "/forest/_lowWhiteFlower.afs.json",
+        "/forest/_whiteFlower.afs.json"
+
+
+    ],
+    "multiGoMesh_lPaths": [
+        "_grass.multiGoMesh.json"
+    ]
+
+
   }
 ]

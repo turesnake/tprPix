@@ -1,0 +1,90 @@
+[
+{
+    "name": "Test",
+    "EcoSysPlanType": "Desert",
+    "colorTableName": "desert",
+    "density.SeaLvlOff": 15.0,
+    "density.DivideType": "default",
+    "fixedSeed": 3117,
+    "naturePools":[
+
+        {
+            "annotate": "====================[ -3 ]====================",
+            "density.lvl": -3,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+            
+        },
+
+        {
+            "annotate": "====================[ -2 ]====================",
+            "density.lvl": -2,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+        },
+
+        {
+            "annotate": "====================[ -1 ]====================",
+            "density.lvl": -1,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+        },
+
+        {
+            "annotate": "====================[ 0 ]====================",
+            "density.lvl": 0,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+
+        },
+        
+        {
+            "annotate": "====================[ 1 ]====================",
+            "density.lvl": 1,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+
+        },
+
+        {
+            "annotate": "====================[ 2 ]====================",
+            "density.lvl": 2,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+            
+        },
+
+        {
+            "annotate": "====================[ 3 ]====================",
+            "density.lvl": 3,
+            "applyPercent": 0.9,
+
+            "yardPool":[
+                { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
+            ]
+        }
+    ],
+
+    "villageBlueprintPool":[ "v_1" ]
+}
+
+
+]

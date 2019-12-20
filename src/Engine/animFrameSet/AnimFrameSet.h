@@ -36,6 +36,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <memory>
 
 //------------------- Libs --------------------//
@@ -48,7 +49,7 @@
 #include "AnimActionPos.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
-#include "AnimSubspecies.h"
+#include "AnimSubspec.h"
 
 #include "tprDebug.h"
 
@@ -78,9 +79,9 @@ public:
         return &(this->texNames_shadow);
     }
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::vector<AnimLabel> &labels_, 
+    inline animSubspecId_t apply_a_random_animSubspecId(const std::vector<AnimLabel> &labels_, 
                                                               size_t uWeight_ )noexcept{
-        return this->subGroup.apply_a_random_animSubspeciesId( labels_, uWeight_ );
+        return this->subGroup.apply_a_random_animSubspecId( labels_, uWeight_ );
     }
 
 
@@ -102,7 +103,7 @@ private:
     //-- each animaction --
     std::unordered_map<animActionPosId_t, std::unique_ptr<AnimActionPos>> animActionPosUPtrs {};
 
-    AnimSubspeciesGroup subGroup {};
+    AnimSubspecGroup subGroup {};
 
 
     //======== flags ========//
@@ -119,7 +120,8 @@ namespace json{//------------- namespace json ----------------
                 // go 相关的 afs数据，应该被 各个 go 独立管理，
                 // 不再由此函数 统一加载
 
-    void parse_single_animFrameSetJsonFile( const std::string &path_file_ );
+    void parse_single_animFrameSetJsonFile( const std::string &path_file_,
+                                        std::unordered_set<std::string> *out_afsNamesPtr_=nullptr );
 
 }//------------- namespace json: end ----------------s
 

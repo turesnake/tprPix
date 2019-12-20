@@ -135,13 +135,6 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "isBePass", JsonValType::Bool );
             goSpecFromJsonRef.isBePass = a.GetBool();
         }
-        {//--- afsNames ---//
-            const auto &afsNames = check_and_get_value( ent, "afsNames", JsonValType::Array );
-            for( const auto &i : afsNames.GetArray() ){
-                tprAssert( i.IsString() );
-                goSpecFromJsonRef.insert_2_afsNames( i.GetString() );
-            }
-        }
         {//--- speedLvl ---//
             const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
             goSpecFromJsonRef.speedLvl = int_2_SpeedLevel( a.GetInt() );
@@ -167,11 +160,8 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             goSpecFromJsonRef.pubBinary.MP = (pair.first) ? pair.second : -999; //- tmp
         }
 
-        //====================================//
-        //  insert it into oth ssrc::containers
         //------------------------------------//
         GoSpecFromJson::insert_2_goSpecIds_names_containers( goSpecFromJsonRef.specID, goSpecFromJsonRef.goSpecName );
-
 
         //====================================//
         //    afs.json / multiGoMesh.json
@@ -179,39 +169,38 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         // xx.go.json 文件 所在 目录 的 path
         std::string dirPath = tprGeneral::get_dirPath( path_file_ );
 
-        {//--- afs_Path ---//
-            const auto &a = check_and_get_value( ent, "afs_lPath", JsonValType::String );
-            std::string lPath = a.GetString();
-
-            tprAssert( lPath != "" ); // MUST EXIST !!!
-            std::string afs_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
-            //---
-            json::parse_single_animFrameSetJsonFile( afs_Path );
-                        // 目前，实际存储地 还是在 esrc 中
-        }
-
-        {//--- multiGoMesh_Path ---//
-            const auto &a = check_and_get_value( ent, "multiGoMesh_lPath", JsonValType::String );
-            std::string lPath = a.GetString();
-
-            if( lPath != "" ){
-
-                std::string multiGoMesh_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
-                //---
-                json::parse_single_multiGoMeshJsonFile( multiGoMesh_Path );
-                        // 数据直接存储在 GoSpecFromJson 中
-
-                // 可能需要 flag 来标记
-    
-            }
-
-        }
-
-
-
+        std::string lPath {};
         
+        {//--- afs_Paths ---//
+            std::string afs_Path {};
+            const auto &afs_lPaths = check_and_get_value( ent, "afs_lPaths", JsonValType::Array );
+            tprAssert( afs_lPaths.Size() != 0 ); // Must Have Ents !!!
+            for( const auto &i : afs_lPaths.GetArray() ){
+                tprAssert( i.IsString() );
+                lPath = i.GetString();
+                tprAssert( lPath != "" ); // MUST EXIST !!!
+                afs_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
+                json::parse_single_animFrameSetJsonFile(afs_Path, 
+                                                        goSpecFromJsonRef.get_afsNamesPtr() );
+                                                        // 目前，实际存储地 还是在 esrc 中
+            }
+        }
+
+        {//--- multiGoMesh_Paths ---//
+            std::string multiGoMesh_Path {};
+            const auto &multiGoMesh_lPaths = check_and_get_value( ent, "multiGoMesh_lPaths", JsonValType::Array );
+            for( const auto &i : multiGoMesh_lPaths.GetArray() ){
+                tprAssert( i.IsString() );
+                lPath = i.GetString();
+                tprAssert( lPath != "" ); // MUST EXIST !!!
+                multiGoMesh_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
+                json::parse_single_multiGoMeshJsonFile( multiGoMesh_Path );
+                            // 数据直接存储在 GoSpecFromJson 中
+            }
+        }
     }
 }
+
 
 }//------------- namespace: goJson_inn end --------------//
 }//------------- namespace json: end ----------------

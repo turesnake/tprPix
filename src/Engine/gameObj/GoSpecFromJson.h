@@ -35,10 +35,7 @@ class GoSpecFromJson{
 public:
     GoSpecFromJson()=default; // DO NOT CALL IT DIRECTLY!!!
 
-    inline void insert_2_afsNames( const std::string &name_ )noexcept{
-        auto outPair = this->afsNames.insert(name_);
-        tprAssert( outPair.second );
-    }
+    inline std::unordered_set<std::string> *get_afsNamesPtr()noexcept{ return &(this->afsNames); }
 
     //======== vals ========//
     std::string       goSpecName {};
@@ -96,15 +93,12 @@ public:
         return c.is_find_in_afsNames(name_);
     }
 
-    
-
     inline static void insert_2_goSpecIds_names_containers( goSpecId_t id_, const std::string &name_ ){
         auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
         auto out2 = GoSpecFromJson::names_2_ids.insert({ name_, id_ });
         tprAssert( out1.second );
         tprAssert( out2.second );
     }
-
 
     inline static goSpecId_t str_2_goSpecId( const std::string &name_ ){
         tprAssert( GoSpecFromJson::names_2_ids.find(name_) != GoSpecFromJson::names_2_ids.end() );
@@ -128,9 +122,6 @@ public:
         auto outPair = GoSpecFromJson::initFuncs.insert({ id, functor_ });
         tprAssert( outPair.second );
     }
-
-
-
 
 private:
     inline bool is_find_in_afsNames( const std::string &name_ )const noexcept{

@@ -11,7 +11,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_2m2" ],
@@ -33,7 +33,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_3m3" ],
@@ -55,7 +55,7 @@
             "isPjtSingle": true,
             "isShadowSingle": true,
             "ColliderType": "Nil",
-            "subspecies": [
+            "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "MapEnt_4m4" ],

@@ -59,4 +59,3 @@ void GoSpecFromJson::assemble_2_newGo( goSpecId_t specID_, GameObj &goRef_ ){
 
 
 
-

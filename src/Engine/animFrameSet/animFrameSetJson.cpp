@@ -67,25 +67,25 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
     //===== funcs =====//
     std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ );
 
-    void parse_subspecies_in_handleType( const Value &subspeciesEnt_,
+    void parse_subspec_in_handleType( const Value &subspecEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
                             bool isPjtSingle_ );
-    void parse_subspecies_in_batchType( const Value &subspeciesEnt_,
+    void parse_subspec_in_batchType( const Value &subspecEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
                             bool isPjtSingle_ );
 
-    void parse_AnimActionParam( size_t  subspeciesIdx_,
+    void parse_AnimActionParam( size_t  subspecIdx_,
                                 const Value &actionParamEnt_,
                                 std::vector<std::shared_ptr<AnimActionParam>> &params_,
                                 const std::vector<AnimLabel> &labels_,
                                 bool isPjtSingle_ );
 
-    std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
+    std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
                                                     const Value &actionParamEnt_,
                                                     const std::vector<AnimLabel> &labels_,
                                                     bool isPjtSingle_ );
     
-    std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspeciesIdx_,
+    std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspecIdx_,
                                                     const Value &actionParamEnt_, 
                                                     const std::vector<AnimLabel> &labels_ );
 
@@ -110,8 +110,8 @@ void parse_animFrameSetJsonFile(){
     }
 
     //-------- special ids ----------//
-    esrc::set_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix", emptyAnimLabels, 1) );
-    esrc::set_fieldRimId( esrc::apply_a_random_animSubspeciesId( "fieldRim", emptyAnimLabels, 1) );
+    esrc::set_emptyPixId( esrc::apply_a_random_animSubspecId( "emptyPix", emptyAnimLabels, 1) );
+    esrc::set_fieldRimId( esrc::apply_a_random_animSubspecId( "fieldRim", emptyAnimLabels, 1) );
     //...
     
     //-------------
@@ -120,8 +120,10 @@ void parse_animFrameSetJsonFile(){
 }
 
 
-// 参数为 绝对path
-void parse_single_animFrameSetJsonFile( const std::string &path_file_ ){
+// param: path_file_  -- 绝对path
+// param: out_afsNamesPtr_ -- 将所有 afsNames 传递给外部
+void parse_single_animFrameSetJsonFile( const std::string &path_file_,
+                                        std::unordered_set<std::string> *out_afsNamesPtr_ ){
 
     //-----------------------------//
     //        dirPath
@@ -147,6 +149,9 @@ void parse_single_animFrameSetJsonFile( const std::string &path_file_ ){
         {//--- name ---//
             const auto &a = check_and_get_value( ent, "name", JsonValType::String );
             jsonData.name = a.GetString();
+            if( out_afsNamesPtr_ != nullptr ){
+                out_afsNamesPtr_->insert( jsonData.name );
+            }
         }
         {//--- pngs [] ---//
             const auto &a = check_and_get_value( ent, "pngs", JsonValType::Array );
@@ -158,7 +163,6 @@ void parse_single_animFrameSetJsonFile( const std::string &path_file_ ){
         //--- insert to esrc::animFrameSets
         auto &animFrameSetRef = esrc::insert_new_animFrameSet( jsonData.name );
         for( auto &pngSPtr : jsonData.afsPngs ){
-
             animFrameSetRef.insert_a_png(   pngSPtr->path,
                                             pngSPtr->frameNum,
                                             pngSPtr->totalFrameNum,
@@ -169,7 +173,6 @@ void parse_single_animFrameSetJsonFile( const std::string &path_file_ ){
                                             pngSPtr->actionParams );
         }
     }
-
 }
 
 
@@ -218,16 +221,16 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
         const auto &a = check_and_get_value( pngEnt_, "ColliderType", JsonValType::String );
         afsPng->colliderType =  str_2_ColliderType( a.GetString() );
     }
-    {//--- subspecies ---//
-        const auto &a = check_and_get_value( pngEnt_, "subspecies", JsonValType::Array );
-        for( auto &ent : a.GetArray() ){//- foreach subspecies
+    {//--- subspecs ---//
+        const auto &a = check_and_get_value( pngEnt_, "subspecs", JsonValType::Array );
+        for( auto &ent : a.GetArray() ){//- foreach subspecs
             //--- type ---//
             const auto &typeStr = check_and_get_value( ent, "type", JsonValType::String );
             std::string subType = typeStr.GetString();
             if( subType == "batch" ){
-                afsJson_inn::parse_subspecies_in_batchType( ent, afsPng->actionParams, afsPng->isPjtSingle );
+                afsJson_inn::parse_subspec_in_batchType( ent, afsPng->actionParams, afsPng->isPjtSingle );
             }else if( subType == "handle" ){
-                afsJson_inn::parse_subspecies_in_handleType( ent, afsPng->actionParams, afsPng->isPjtSingle );
+                afsJson_inn::parse_subspec_in_handleType( ent, afsPng->actionParams, afsPng->isPjtSingle );
             }else{
                 tprAssert(0);
             }
@@ -241,10 +244,10 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
 
 
 /* ===========================================================
- *                parse_subspecies_in_handleType
+ *                parse_subspec_in_handleType
  * -----------------------------------------------------------
  */
-void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
+void parse_subspec_in_handleType(  const Value &subspecEnt_,
                         std::vector<std::shared_ptr<AnimActionParam>> &params_,
                         bool isPjtSingle_ ){
 
@@ -253,7 +256,7 @@ void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
     size_t      subIdx  {};
 
     {//--- animLabels ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "animLabels", JsonValType::Array );
+        const auto &a = check_and_get_value( subspecEnt_, "animLabels", JsonValType::Array );
         if( a.Size() > 0 ){
             for( auto &ent : a.GetArray() ){//- foreach AnimLabel
                 tprAssert( ent.IsString() );
@@ -262,11 +265,11 @@ void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
         }
     }
     {//--- subIdx ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "subIdx", JsonValType::Uint64 );
+        const auto &a = check_and_get_value( subspecEnt_, "subIdx", JsonValType::Uint64 );
         subIdx =  cast_2_size_t(a.GetUint64());
     }
     {//--- AnimActionParams ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "AnimActionParams", JsonValType::Array );
+        const auto &a = check_and_get_value( subspecEnt_, "AnimActionParams", JsonValType::Array );
         for( auto &ent : a.GetArray() ){//- foreach AnimActionParam
             afsJson_inn::parse_AnimActionParam( subIdx, ent, params_, labels, isPjtSingle_ );
         }
@@ -275,10 +278,10 @@ void parse_subspecies_in_handleType(  const Value &subspeciesEnt_,
 
 
 /* ===========================================================
- *                parse_subspecies_in_batchType
+ *                parse_subspec_in_batchType
  * -----------------------------------------------------------
  */
-void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
+void parse_subspec_in_batchType(  const Value &subspecEnt_,
                         std::vector<std::shared_ptr<AnimActionParam>> &params_,
                         bool isPjtSingle_ ){
     
@@ -292,7 +295,7 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
     bool          isOpaque   {};
 
     {//--- animLabels ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "animLabels", JsonValType::Array );
+        const auto &a = check_and_get_value( subspecEnt_, "animLabels", JsonValType::Array );
         if( a.Size() > 0 ){
             for( auto &ent : a.GetArray() ){//- foreach AnimLabel
                 tprAssert( ent.IsString() );
@@ -302,27 +305,27 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
     }
 
     {//--- fstSubIdx ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "fstSubIdx", JsonValType::Uint64 );
+        const auto &a = check_and_get_value( subspecEnt_, "fstSubIdx", JsonValType::Uint64 );
         fstSubIdx =  cast_2_size_t(a.GetUint64());
     }
     {//--- fstIdx ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "fstIdx", JsonValType::Uint64 );
+        const auto &a = check_and_get_value( subspecEnt_, "fstIdx", JsonValType::Uint64 );
         fstIdx =  cast_2_size_t(a.GetUint64());
     }
     {//--- idxNums ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "idxNums", JsonValType::Uint64 );
+        const auto &a = check_and_get_value( subspecEnt_, "idxNums", JsonValType::Uint64 );
         idxNums =  cast_2_size_t(a.GetUint64());
     }
     {//--- name ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "name", JsonValType::String );
+        const auto &a = check_and_get_value( subspecEnt_, "name", JsonValType::String );
         actionName = a.GetString();
     }
     {//--- dir ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "dir", JsonValType::String );
+        const auto &a = check_and_get_value( subspecEnt_, "dir", JsonValType::String );
         actionDir = jsonStr_2_ninedirection( a.GetString() );
     }
     {//--- isOpaque ---//
-        const auto &a = check_and_get_value( subspeciesEnt_, "isOpaque", JsonValType::Bool );
+        const auto &a = check_and_get_value( subspecEnt_, "isOpaque", JsonValType::Bool );
         isOpaque = a.GetBool();
     }
 
@@ -343,7 +346,7 @@ void parse_subspecies_in_batchType(  const Value &subspeciesEnt_,
  *                    parse_AnimActionParam
  * -----------------------------------------------------------
  */
-void parse_AnimActionParam( size_t  subspeciesIdx_,
+void parse_AnimActionParam( size_t  subspecIdx_,
                             const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
                             const std::vector<AnimLabel> &labels_,
@@ -357,10 +360,10 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
     }
 
     if( type == "singleFrame" ){
-        params_.push_back( afsJson_inn::singleFrame(subspeciesIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
+        params_.push_back( afsJson_inn::singleFrame(subspecIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
     }
     else if( type == "multiFrame" ){
-        params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, labels_) );
+        params_.push_back( afsJson_inn::multiFrame(subspecIdx_, actionParamEnt_, labels_) );
     }else{
         tprAssert(0);
     }
@@ -371,7 +374,7 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
  *                    singleFrame
  * -----------------------------------------------------------
  */
-std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
+std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
                                                 const Value &actionParamEnt_,
                                                 const std::vector<AnimLabel> &labels_,
                                                 bool isPjtSingle_ ){
@@ -402,7 +405,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, actionDir, jFrameIdx, lFrameIdx, isOpaque, labels_ );
+    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, jFrameIdx, lFrameIdx, isOpaque, labels_ );
 }
 
 
@@ -410,7 +413,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
  *                    multiFrame
  * -----------------------------------------------------------
  */
-std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
+std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
                                             const Value &actionParamEnt_, 
                                             const std::vector<AnimLabel> &labels_ ){
 
@@ -486,7 +489,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
             timeStep = cast_2_size_t(a.GetUint64());
         }
         //---
-        return std::make_shared<AnimActionParam>(   subspeciesIdx_,
+        return std::make_shared<AnimActionParam>(   subspecIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionType,
@@ -504,7 +507,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
             }
         }
         //---
-        return std::make_shared<AnimActionParam>(   subspeciesIdx_,
+        return std::make_shared<AnimActionParam>(   subspecIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionType,

@@ -11,15 +11,18 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "afsNames":[ "cactus" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,
     "pub.HP": 170,
     "pub.MP": 50,
 
-    "afs_lPath": "_cactus.afs.json",
-    "multiGoMesh_lPath": ""
+
+    "afs_lPaths": [ 
+        "_cactus.afs.json"
+    ],
+    "multiGoMesh_lPaths": []
+
   }
 
 

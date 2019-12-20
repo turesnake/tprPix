@@ -86,6 +86,8 @@ private:
 
 using animActionPosId_t = u32_t; //- animActionPos id type
 
+
+
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
 //   每个 animAction 实例，分配一份
 class AnimActionPos{

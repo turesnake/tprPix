@@ -4,16 +4,22 @@
     "plotName": "bush_1",
 
     "pngLPath": "/bush_1/bush_1.M.png",
-    "frameNum.col":  1,
+    "frameNum.col":  3,
     "frameNum.row":  1,
-    "totalFrameNum": 1,
+    "totalFrameNum": 3,
 
     "varTypes":[
         {
             "type": "V_1",
-            "isAllInstanceUseSamePlan": true,
+            "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[] }
+                
+                
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml" },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid" },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big" }
+                
+                
             ]
         },
 
