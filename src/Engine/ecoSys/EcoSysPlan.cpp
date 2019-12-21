@@ -14,7 +14,7 @@
 #include "tprAssert.h"
 #include "Density.h"
 #include "random.h"
-
+#include "esrc_gameSeed.h"
 
 
 namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//
@@ -23,6 +23,7 @@ namespace ecoSysPlan_inn {//-------- namespace: ecoSysPlan_inn --------------//
     int off_r  { -11 };
     int off_g  { -8 };
     int off_b  { -7 };
+
 
 }//------------- namespace: ecoSysPlan_inn end --------------//
 
@@ -69,19 +70,15 @@ void EcoSysPlan::init_densityDatas( double densitySeaLvlOff_,
 }
 
 
-/* ===========================================================
- *               shuffle_goSpecDataPools
- * -----------------------------------------------------------
- * -- 需要调用者 提供 seed
- *    通过这种方式，来实现真正的 伪随机
+/* 每一次 shuffle，都使用相同的 seed，
+ * 不同的 随机池 之间是完全独立的，没必要使用 不同的 seed
  */
-void EcoSysPlan::shuffle_goSpecDataPools( u32_t seed_ ){
-
-    std::default_random_engine  rEngine; 
-    rEngine.seed( seed_ );
+void EcoSysPlan::shuffle_goSpecDataPools(){
 
     for( auto &iPair : this->densityPools ){
-        iPair.second->shuffle( rEngine );
+        // 务必 每次都重新提取，从而保证 seed 始终是相同的值
+        auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+        iPair.second->shuffle( shuffleEngine );
     }
 }
 

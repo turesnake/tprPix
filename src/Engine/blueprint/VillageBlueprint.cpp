@@ -7,6 +7,9 @@
  */
 #include "VillageBlueprint.h"
 
+//-------------------- Engine --------------------//
+#include "esrc_gameSeed.h"
+
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
@@ -16,9 +19,19 @@ std::unordered_map<std::string, villageBlueprintId_t>   VillageBlueprint::name_2
 std::unordered_map<villageBlueprintId_t, std::unique_ptr<VillageBlueprint>> VillageBlueprint::villageUPtrs {};
 
 
+
 void VillageBlueprint::init_for_static()noexcept{
     VillageBlueprint::name_2_ids.reserve(1000);
     VillageBlueprint::villageUPtrs.reserve(1000);
+}
+
+
+
+void VarTypeDatas_Village::init_check()noexcept{
+    tprAssert( !this->yardIds.empty() );
+    //-- shuffle --//
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+    std::shuffle( this->yardIds.begin(), this->yardIds.end(), shuffleEngine );
 }
 
 

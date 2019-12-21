@@ -7,6 +7,9 @@
  */
 #include "PlotBlueprint.h"
 
+//-------------------- Engine --------------------//
+#include "esrc_gameSeed.h"
+
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
@@ -14,11 +17,24 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 ID_Manager                                          PlotBlueprint::id_manager { ID_TYPE::U32, 0};
 std::unordered_map<std::string, plotBlueprintId_t>  PlotBlueprint::name_2_ids {};
 std::unordered_map<plotBlueprintId_t, std::unique_ptr<PlotBlueprint>> PlotBlueprint::plotUPtrs {};
+//---
+ID_Manager          VarTypeDatas_Plot::id_manager { ID_TYPE::U32, 0 };
+
 
 
 void PlotBlueprint::init_for_static()noexcept{
     PlotBlueprint::name_2_ids.reserve(1000);
     PlotBlueprint::plotUPtrs.reserve(1000);
+}
+
+
+
+void VarTypeDatas_Plot::init_check()noexcept{
+    tprAssert( !this->goSpecPool.empty() );
+    tprAssert( !this->randPool.empty() );
+    //-- shuffle --//
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+    std::shuffle( this->randPool.begin(), this->randPool.end(), shuffleEngine );
 }
 
 

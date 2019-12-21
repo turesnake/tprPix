@@ -15,9 +15,9 @@
             "goSpecPool":[
                 
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml" },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid" },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big" }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 3 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 1 }
                 
                 
             ]
@@ -27,7 +27,7 @@
             "type": "V_2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "fence", "afsName": "fence", "animLabels":[] }
+                { "goSpecName": "fence", "afsName": "fence", "animLabels":[], "num": 3 }
             ]
         }
     ]

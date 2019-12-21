@@ -146,6 +146,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
         }
         {//--- goSpecPool ---//
             std::string MultiGoMeshType {};
+            size_t num  {};
 
             //---
             const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
@@ -184,8 +185,14 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                     }
                 }
 
+                {//--- num ---//
+                    const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                    num = a.GetUint64();
+                    tprAssert( num > 0 );
+                }
+
                 //-- goSpecUPtr 创建完毕 --
-                varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
+                varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
             }
         }
 

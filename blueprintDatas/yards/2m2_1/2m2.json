@@ -20,7 +20,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "fence", "afsName": "fence", "animLabels":[] }
+                { "goSpecName": "fence", "afsName": "fence", "animLabels":[], "num": 3 }
             ]
         },
 
@@ -30,7 +30,9 @@
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": true,
-            "plotNames":[ "bush_1" ]
+            "plotPool":[ 
+                { "plotName": "bush_1", "num": 3 } 
+            ]
         },
 
         {
@@ -41,7 +43,7 @@
             "isPlotBlueprint": false,
             "goSpecPool":[
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid" }
+                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 }
             ]
         },
 
@@ -52,7 +54,7 @@
             "FloorGoSize": "MapEnt_2m2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_2m2" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_2m2" ], "num": 3 }
             ]
         },
 
@@ -63,7 +65,7 @@
             "FloorGoSize": "MapEnt_3m3",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_3m3" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_3m3" ], "num": 3 }
             ]
         },
 
@@ -74,7 +76,7 @@
             "FloorGoSize": "MapEnt_4m4",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_4m4" ] }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_4m4" ], "num": 3 }
             ]
         }
 

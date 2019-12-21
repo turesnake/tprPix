@@ -13,8 +13,8 @@
             "type": "V_1",
             "isAllInstanceUseSamePlan": true,
             "isRoad": false,
-            "yards":[ 
-                { "yardName": "2m2_1", "yardLabel": "" } 
+            "yardPool":[ 
+                { "yardName": "2m2_1", "yardLabel": "", "num": 3 } 
             ]
         }
 

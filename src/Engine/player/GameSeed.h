@@ -26,10 +26,7 @@
 // 具体的 随机引擎和分布器，则由各模块自行包含 （tmp）
 class GameSeed{
 public:
-    GameSeed(){
-        this->randEngine.seed(0); //- 这一步仅为了应付 构造器。
-                                // 真正的初始化，还在 init 函数中
-    }
+    GameSeed()=default;
 
     void init( u32_t baseSeed_ );
 
@@ -43,6 +40,13 @@ public:
     inline const glm::dvec2 &get_field_dposOff() const noexcept{ return this->field_dposOff; }
     inline const glm::dvec2 &get_chunk_dposOff() const noexcept{ return this->chunk_dposOff; }
     inline const glm::dvec2 &get_ecoObjWeight_dposOff() const noexcept{ return this->ecoObjWeight_dposOff; }
+
+
+    inline std::default_random_engine &getnc_shuffleEngine()noexcept{ 
+        this->shuffleEngine.seed( GameSeed::fixedShuffleSeed ); // every time
+        return this->shuffleEngine; 
+    }
+
 
     //======== static ========//
     static u32_t apply_new_baseSeed()noexcept{ return get_new_seed(); }
@@ -65,6 +69,8 @@ private:
     glm::dvec2  chunk_dposOff {};
     glm::dvec2  ecoObjWeight_dposOff {};
 
+    
+
     //======== randEngine ========//
     std::default_random_engine  randEngine; //-通用 伪随机数引擎实例
 
@@ -73,10 +79,17 @@ private:
                         //  每次生成都可以不一样
                         //  这个引擎会被外部 以任何次序和方式调用，所以它的值是彻底混乱的
 
+    std::default_random_engine  shuffleEngine; //- 全局统一的 shuffle 用引擎
+
+
     //======== flags ========//
     bool   is_all_seed_init {false};
 
     void init_glm_vec2s();
+
+
+    //======== static ========//
+    static size_t   fixedShuffleSeed; // shuffle 用引擎 使用全局统一 seed，每次用前都要初始化
 };
 
 

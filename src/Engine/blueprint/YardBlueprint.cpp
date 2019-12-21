@@ -10,6 +10,7 @@
 
 //-------------------- Engine --------------------//
 #include "config.h"
+#include "esrc_gameSeed.h"
 
 
 #include "tprDebug.h"
@@ -25,6 +26,9 @@ ID_Manager                                              YardBlueprintSet::yardId
 std::unordered_map<std::string, yardBlueprintSetId_t>   YardBlueprintSet::name_2_yardSetIds {};
 std::unordered_map<yardBlueprintSetId_t, std::unique_ptr<YardBlueprintSet>> YardBlueprintSet::setUPtrs {};
 std::unordered_map<yardBlueprintId_t, std::unique_ptr<YardBlueprint>>       YardBlueprintSet::yardUPtrs {}; // 真实资源
+//---
+ID_Manager                                              VarTypeDatas_Yard_MajorGo::id_manager { ID_TYPE::U32, 0 };
+ID_Manager                                              VarTypeDatas_Yard_FloorGo::id_manager { ID_TYPE::U32, 0 };
 
 
 
@@ -34,6 +38,31 @@ void YardBlueprintSet::init_for_static()noexcept{
     YardBlueprintSet::yardUPtrs.reserve(1000);
 }
 
+
+void VarTypeDatas_Yard_MajorGo::init_check()noexcept{
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+    if( this->isPlotBlueprint ){
+        tprAssert( !this->plotIds.empty() );
+        //-- shuffle --//
+        std::shuffle( this->plotIds.begin(), this->plotIds.end(), shuffleEngine );
+
+    }else{
+        tprAssert( !this->goSpecPool.empty() );
+        tprAssert( !this->goSpecRandPool.empty() );
+        //-- shuffle --//
+        std::shuffle( this->goSpecRandPool.begin(), this->goSpecRandPool.end(), shuffleEngine );
+    }
+}
+
+
+
+void VarTypeDatas_Yard_FloorGo::init_check()noexcept{
+    tprAssert( !this->goSpecPool.empty() );
+    tprAssert( !this->goSpecRandPool.empty() );
+    //-- shuffle --//
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+    std::shuffle( this->goSpecRandPool.begin(), this->goSpecRandPool.end(), shuffleEngine );
+}
 
 
 /* [static]

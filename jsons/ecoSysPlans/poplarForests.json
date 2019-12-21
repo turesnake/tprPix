@@ -6,7 +6,6 @@
     "MapSurfaceLowSpec":"Savannah",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
-    "fixedSeed": 43,
     "pools":[
 
         {

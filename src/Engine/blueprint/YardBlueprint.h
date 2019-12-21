@@ -34,7 +34,7 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 
 
 
-
+using varTypeDatas_Yard_MajorGoId_t = u32_t;
 
 class VarTypeDatas_Yard_MajorGo{
 public:
@@ -42,34 +42,47 @@ public:
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
     inline void set_isPlotBlueprint( bool b_ )noexcept{ this->isPlotBlueprint = b_; }
-    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_ )noexcept{ this->goSpecPool.push_back( std::move( uptr_ ) ); }
-    inline void insert_2_plotIds( plotBlueprintId_t id_ )noexcept{ this->plotIds.push_back(id_); }
 
-    inline void init_check()const noexcept{
-        if( this->isPlotBlueprint ){
-            tprAssert( !this->plotIds.empty() );
-        }else{
-            tprAssert( !this->goSpecPool.empty() );
-        }
+    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
+        varTypeDatas_Yard_MajorGoId_t id = VarTypeDatas_Yard_MajorGo::id_manager.apply_a_u32_id();// 盲目分配id
+        auto outPair = this->goSpecPool.insert({ id, std::move( uptr_ ) }); 
+        tprAssert( outPair.second );
+        //---
+        this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
     }
+
+    inline void insert_2_plotIds( plotBlueprintId_t id_, size_t num_ )noexcept{ 
+        this->plotIds.insert( this->plotIds.end(), num_, id_ ); 
+    }
+
+    void init_check()noexcept;
 
     //----- get -----//
     inline bool get_isPlotBlueprint()const noexcept{ return this->isPlotBlueprint; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; } 
+
+    inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+        varTypeDatas_Yard_MajorGoId_t id = this->goSpecRandPool.at( (uWeight_ + 7106177) % this->goSpecRandPool.size() );
+        return *(this->goSpecPool.at(id));
+    }
+
     inline const std::vector<plotBlueprintId_t> &get_plotIds()const noexcept{ return this->plotIds; }
 private:
-    //-- 以下 2 容器，只有一个被使用
-    std::vector<std::unique_ptr<GoSpec>> goSpecPool {};
-    std::vector<plotBlueprintId_t>       plotIds {};
+    //-- 以下 2组容器，只有一个被使用，要么是 goSpecs，要么是 plots
+    std::vector<varTypeDatas_Yard_MajorGoId_t> goSpecRandPool {};
+    std::unordered_map<varTypeDatas_Yard_MajorGoId_t, std::unique_ptr<GoSpec>> goSpecPool {};
+    //---
+    std::vector<plotBlueprintId_t>       plotIds {}; // 随机抽取池
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     bool isPlotBlueprint {}; // 本变量是否为一个 plot 
+    //======== static ========//
+    static ID_Manager  id_manager;
 };
 
 
 
 
-
+using varTypeDatas_Yard_FloorGoId_t = u32_t;
 
 class VarTypeDatas_Yard_FloorGo{
 public:
@@ -77,21 +90,34 @@ public:
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
     inline void set_floorGoSize( FloorGoSize size_ )noexcept{ this->floorGoSize = size_; };
-    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_ )noexcept{ this->goSpecPool.push_back( std::move( uptr_ ) ); }
 
-    inline void init_check()const noexcept{
-        tprAssert( !this->goSpecPool.empty() );
+    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
+        varTypeDatas_Yard_FloorGoId_t id = VarTypeDatas_Yard_FloorGo::id_manager.apply_a_u32_id();// 盲目分配id
+        auto outPair = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        tprAssert( outPair.second );
+        //---
+        this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
     }
+
+    void init_check()noexcept;
 
     //----- get -----//
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
     inline FloorGoSize get_floorGoSize()const noexcept{ return this->floorGoSize; }
-    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; } 
+
+    inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+        varTypeDatas_Yard_FloorGoId_t id = this->goSpecRandPool.at( (uWeight_ + 1076177) % this->goSpecRandPool.size() );
+        return *(this->goSpecPool.at(id));
+    }
+
 private:
-    //-- 以下 2 容器，只有一个被使用
-    std::vector<std::unique_ptr<GoSpec>> goSpecPool {};
+    std::vector<varTypeDatas_Yard_FloorGoId_t> goSpecRandPool {};
+    std::unordered_map<varTypeDatas_Yard_FloorGoId_t, std::unique_ptr<GoSpec>> goSpecPool {};
+
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     FloorGoSize floorGoSize {};
+    //======== static ========//
+    static ID_Manager  id_manager;
 };
 
 

@@ -5,7 +5,6 @@
     "colorTableName": "desert",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
-    "fixedSeed": 3117,
     "naturePools":[
 
         {

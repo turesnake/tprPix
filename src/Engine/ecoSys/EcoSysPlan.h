@@ -64,7 +64,7 @@ public:
     }
 
 
-    void shuffle_goSpecDataPools( u32_t seed_ );
+    void shuffle_goSpecDataPools();
 
     //-- 确保关键数据 都被初始化 --
     inline void chueck_end()noexcept{

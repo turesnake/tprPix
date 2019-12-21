@@ -30,17 +30,23 @@ public:
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
     inline void set_isRoad( bool b_ )noexcept{ this->isRoad = b_; }
-    inline void insert_2_yardIds( yardBlueprintId_t id_ )noexcept{ this->yardIds.push_back(id_); }
 
-    inline void init_check()const noexcept{
-        tprAssert( !this->yardIds.empty() );
+    inline void insert_2_yardIds( yardBlueprintId_t id_, size_t num_ )noexcept{ 
+        this->yardIds.insert( this->yardIds.end(), num_, id_ ); 
     }
+
+
+    void init_check()noexcept;
+
     //----- get -----//
     inline bool get_isRoad()const noexcept{ return this->isRoad; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-    inline const std::vector<yardBlueprintId_t> &get_yardIds()const noexcept{ return this->yardIds; }
+    inline yardBlueprintId_t apply_rand_yardBlueprintId( size_t uWeight_ )const noexcept{
+        return this->yardIds.at( (uWeight_ + 1076173) % this->yardIds.size() );
+    }
+
 private:
-    std::vector<yardBlueprintId_t> yardIds {};
+    std::vector<yardBlueprintId_t> yardIds {}; // 随机分配池
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     bool isRoad {}; // 本变量是否为一个 道路单位  
 };

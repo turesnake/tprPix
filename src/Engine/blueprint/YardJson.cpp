@@ -180,11 +180,26 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
             }
 
             if( varTypeDatas_majorGoUPtr->get_isPlotBlueprint() ){
-                //--- plotNames ---//
-                const auto &plotNames = json::check_and_get_value( varType, "plotNames", json::JsonValType::Array );
-                for( auto &ent : plotNames.GetArray() ){
-                    tprAssert( ent.IsString() );
-                    varTypeDatas_majorGoUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(ent.GetString()) );
+
+                std::string plotName {};
+                size_t      num {};
+
+                //--- plotPool ---//
+                const auto &plotPool = json::check_and_get_value( varType, "plotPool", json::JsonValType::Array );
+                for( auto &ent : plotPool.GetArray() ){
+                    tprAssert( ent.IsObject() );
+
+                    {//--- plotName ---//
+                        const auto &a = json::check_and_get_value( ent, "plotName", json::JsonValType::String );
+                        plotName = a.GetString();
+                    }
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = a.GetUint64();
+                        tprAssert( num > 0 );
+                    }
+
+                    varTypeDatas_majorGoUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName), num );
                 }
 
             }else{
@@ -193,6 +208,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                 for( auto &ent : goSpecPool.GetArray() ){
 
                     std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+                    size_t num {};
 
                     {//--- goSpecName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
@@ -225,8 +241,13 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                         }
                     }
 
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = a.GetUint64();
+                    }
+
                     //-- goSpecUPtr 创建完毕 --
-                    varTypeDatas_majorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
+                    varTypeDatas_majorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
                 }
             }
 
@@ -250,6 +271,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                 for( auto &ent : goSpecPool.GetArray() ){
 
                     std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+                    size_t num {};
 
                     {//--- goSpecName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
@@ -270,8 +292,19 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                             }
                         }
                     }
+
+                                            // 万一 floorGo 是 multiGoMesh 
+                                            // 那么上面这段就要扩充
+                                            // ...
+
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = a.GetUint64();
+                        tprAssert( num > 0 );
+                    }
+
                     //-- goSpecUPtr 创建完毕 --
-                    varTypeDatas_floorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr) );
+                    varTypeDatas_floorGoUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
                 }
             }
             varTypeDatas_floorGoUPtr->init_check();

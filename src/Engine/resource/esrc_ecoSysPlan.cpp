@@ -14,6 +14,7 @@
 #include "tprCast.h"
 #include "random.h"
 #include "esrc_ecoSysPlan.h"
+#include "esrc_gameSeed.h"
 
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
@@ -46,11 +47,10 @@ void init_ecoSysPlanes(){
     //---------------------//
     //   shuffle ecoSysPlanIds
     //---------------------//
-    std::default_random_engine randEngine; 
-    randEngine.seed(431); //- 提供固定seed
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
     std::shuffle(   ecoPlan_inn::ecoSysPlanIds.begin(), 
                     ecoPlan_inn::ecoSysPlanIds.end(),
-                    randEngine );
+                    shuffleEngine );
 }
 
 

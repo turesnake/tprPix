@@ -68,6 +68,8 @@ public:
 };
 
 
+using varTypeDatas_PlotId_t = u32_t;
+
 
 // 蓝图中，每种变量，对应的一组数据
 // 数据不是单一的，可以是一个随机池，从中选取一种
@@ -76,18 +78,33 @@ public:
     VarTypeDatas_Plot()=default;
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
-    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_ )noexcept{ this->goSpecPool.push_back( std::move(uptr_) ); }
 
-    inline void init_check()const noexcept{
-        tprAssert( !this->goSpecPool.empty() );
+    inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{
+        varTypeDatas_PlotId_t id = VarTypeDatas_Plot::id_manager.apply_a_u32_id();// 盲目分配id
+        auto outPair = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        tprAssert( outPair.second );
+        //--
+        this->randPool.insert( this->randPool.end(), num_, id );
     }
+
+    void init_check()noexcept;
 
     //----- get -----//
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-    inline const std::vector<std::unique_ptr<GoSpec>> &get_goSpecPool()const noexcept{ return this->goSpecPool; }
+
+    inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+        varTypeDatas_PlotId_t id = this->randPool.at( (uWeight_ + 3556177) % this->randPool.size() );
+        return *(this->goSpecPool.at(id));
+    }
+
 private:
-    std::vector<std::unique_ptr<GoSpec>> goSpecPool {}; // 可有 1～n 种，禁止为 0 种
+    std::vector<varTypeDatas_PlotId_t> randPool {}; // 随机抽取池
+    std::unordered_map<varTypeDatas_PlotId_t, std::unique_ptr<GoSpec>> goSpecPool {}; // 可有 1～n 种，禁止为 0 种
+
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
+
+    //======== static ========//
+    static ID_Manager  id_manager;
 };
 
 
@@ -110,6 +127,7 @@ public:
 
     inline void init_check()const noexcept{
         tprAssert( !this->mapDatas.empty() );
+        tprAssert( !this->varTypes.empty() );
         tprAssert( !this->varTypeDatas.empty() );
     }
 
@@ -147,6 +165,7 @@ private:
     std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Plot>> varTypeDatas {}; // 类型数据
+
 
     //======== static ========//
     static ID_Manager  id_manager;

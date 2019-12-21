@@ -120,7 +120,6 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
     std::string                 colorTableName {};
     double                      density_SeaLvlOff {};
     const std::vector<double>   *density_DivValsPtr {};
-    u32_t                       fixedSeed {};
 
     tprAssert( doc.IsArray() );
     for( const auto &eco : doc.GetArray() ){
@@ -132,10 +131,6 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         {//--- colorTableName ---//
             const auto &a = check_and_get_value( eco, "colorTableName", JsonValType::String );
             colorTableName = a.GetString();
-        }
-        {//--- fixedSeed ---//
-            const auto &a = check_and_get_value( eco, "fixedSeed", JsonValType::Uint );
-            fixedSeed = a.GetUint();
         }
         {//--- density.SeaLvlOff ---//
             const auto &a = check_and_get_value( eco, "density.SeaLvlOff", JsonValType::Double );
@@ -167,7 +162,7 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
             }
         }
 
-        ecoPlanRef.shuffle_goSpecDataPools( fixedSeed );
+        ecoPlanRef.shuffle_goSpecDataPools();
         ecoPlanRef.chueck_end();
     }
 }

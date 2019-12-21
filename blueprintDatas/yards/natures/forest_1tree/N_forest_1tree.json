@@ -20,7 +20,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ] }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 3 }
             ]
         }
     ]
