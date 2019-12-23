@@ -105,7 +105,6 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
     auto &yardRef = YardBlueprintSet::get_yardBlueprintRef( yardId );
 
 
-
     {//--- pngLPath ---//
         const auto &a = json::check_and_get_value( doc, "pngLPath", json::JsonValType::String );
         std::string pngLPath = a.GetString();
@@ -144,7 +143,6 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
     IntVec2 frameSizeByMapEnt = parse_png_for_yard( yardRef, pngPath_M, frameNum, totalFrameNum );
     yardRef.set_sizeByField( frameSizeByMapEnt );
 
-
     VariableTypeIdx varTypeIdx {}; 
     bool isAllInstanceUseSamePlan {};
     bool isFloorGo {};
@@ -169,7 +167,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
 
         if( !isFloorGo ){
             //----------------//
-            //    FloorGo
+            //    MajorGo
             //----------------//
             std::unique_ptr<VarTypeDatas_Yard_MajorGo> varTypeDatas_majorGoUPtr = std::make_unique<VarTypeDatas_Yard_MajorGo>();
             varTypeDatas_majorGoUPtr->set_isAllInstanceUseSamePlan( isAllInstanceUseSamePlan );
@@ -195,7 +193,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                     }
                     {//--- num ---//
                         const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = a.GetUint64();
+                        num = cast_2_size_t( a.GetUint64() );
                         tprAssert( num > 0 );
                     }
 
@@ -243,7 +241,8 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
 
                     {//--- num ---//
                         const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = a.GetUint64();
+                        num = cast_2_size_t( a.GetUint64() );
+                        tprAssert( num > 0 );
                     }
 
                     //-- goSpecUPtr 创建完毕 --
@@ -256,7 +255,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
 
         }else{
             //----------------//
-            //    MajoeGo
+            //    FloorGo
             //----------------//
             std::unique_ptr<VarTypeDatas_Yard_FloorGo> varTypeDatas_floorGoUPtr = std::make_unique<VarTypeDatas_Yard_FloorGo>();
             varTypeDatas_floorGoUPtr->set_isAllInstanceUseSamePlan( isAllInstanceUseSamePlan );
@@ -299,7 +298,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
 
                     {//--- num ---//
                         const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = a.GetUint64();
+                        num = cast_2_size_t( a.GetUint64() );
                         tprAssert( num > 0 );
                     }
 

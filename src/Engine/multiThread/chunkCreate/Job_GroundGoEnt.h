@@ -18,9 +18,6 @@
 #include "colorTableId.h"
 #include "groundGoEntType.h"
 
-
-
-
 //-- 每个实例，都会变成 GroundGo 的一个 mesh
 class Job_GroundGoEnt{
 public:
@@ -37,7 +34,6 @@ public:
     GroundGoEntType         groundType;
     glm::dvec2              dposOff; // base on field-midDPos
     //---
-    //sectionKey_t          ecoObjKey;
     colorTableId_t          colorTableId;
     size_t                  uWeight; //[0.0, 9999]
 };

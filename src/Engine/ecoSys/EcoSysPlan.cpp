@@ -70,16 +70,27 @@ void EcoSysPlan::init_densityDatas( double densitySeaLvlOff_,
 }
 
 
-/* 每一次 shuffle，都使用相同的 seed，
- * 不同的 随机池 之间是完全独立的，没必要使用 不同的 seed
- */
-void EcoSysPlan::shuffle_goSpecDataPools(){
 
+void EcoSysPlan::init_check()noexcept{
+
+    tprAssert( this->is_densityDivideVals_init );
+    tprAssert( !this->villageIdRandPool.empty() );
+    tprAssert( !this->yardIdRandPool.empty() );
+
+    //--- shuffle ---//
     for( auto &iPair : this->densityPools ){
         // 务必 每次都重新提取，从而保证 seed 始终是相同的值
-        auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
-        iPair.second->shuffle( shuffleEngine );
+        iPair.second->shuffle( esrc::get_gameSeed().getnc_shuffleEngine() );
     }
+    
+    std::shuffle(   this->villageIdRandPool.begin(), 
+                    this->villageIdRandPool.end(), 
+                    esrc::get_gameSeed().getnc_shuffleEngine() );
+
+    std::shuffle(   this->yardIdRandPool.begin(), 
+                    this->yardIdRandPool.end(), 
+                    esrc::get_gameSeed().getnc_shuffleEngine() );
 }
+
 
 

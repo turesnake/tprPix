@@ -49,9 +49,14 @@ public:
     inline void set_id( ecoSysPlanId_t id_ )noexcept{ this->id = id_; }
     inline void set_type( EcoSysPlanType type_ )noexcept{ this->type = type_; }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
-    inline void pushBack_new_villageBlueprintId( blueprint::villageBlueprintId_t id_ )noexcept{
-        this->villageIds.push_back(id_);
+
+    inline void insert_2_villageIdRandPool( blueprint::villageBlueprintId_t id_, size_t num_ )noexcept{
+        this->villageIdRandPool.insert( this->villageIdRandPool.end(), num_, id_ );
     }
+    inline void insert_2_yardIdRandPool( blueprint::yardBlueprintId_t id_, size_t num_ )noexcept{
+        this->yardIdRandPool.insert( this->yardIdRandPool.end(), num_, id_ );
+    }
+
 
 
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
@@ -64,12 +69,9 @@ public:
     }
 
 
-    void shuffle_goSpecDataPools();
-
     //-- 确保关键数据 都被初始化 --
-    inline void chueck_end()noexcept{
-        tprAssert( this->is_densityDivideVals_init );
-    }
+    void init_check()noexcept;
+
     
     inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
     inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
@@ -85,10 +87,22 @@ public:
         return this->densityPools;
     }
 
+    /*
     inline const std::vector<blueprint::villageBlueprintId_t> &
     get_villageBlueprintIds()const noexcept{
-        return this->villageIds;
+        return this->villageIdRandPool;
     }
+    */
+
+
+    inline blueprint::villageBlueprintId_t apply_rand_villageBlueprintId( size_t uWeight_ )const noexcept{
+        return this->villageIdRandPool.at( (uWeight_ + 7337507) % this->villageIdRandPool.size() );
+    }
+
+    inline blueprint::yardBlueprintId_t apply_rand_yardBlueprintId( size_t uWeight_ )const noexcept{
+        return this->yardIdRandPool.at( (uWeight_ + 71010107) % this->yardIdRandPool.size() );
+    }
+
     
 
     //======== static ========//
@@ -112,10 +126,13 @@ private:
 
 
     //----- blueprints -----//
-    std::vector<blueprint::villageBlueprintId_t> villageIds {};
+    std::vector<blueprint::villageBlueprintId_t> villageIdRandPool {}; // 随机分配池
                         // village 也应该具备 尺寸区别
                         // 并且用不同尺寸的容器来存储
                         // 未实现  ...
+
+    std::vector<blueprint::yardBlueprintId_t> yardIdRandPool {}; // 随机分配池
+
     
     //===== flags =====//
 

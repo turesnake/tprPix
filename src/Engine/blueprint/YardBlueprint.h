@@ -219,8 +219,8 @@ private:
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
 
     //- 至少有一个为 true
-    bool isHaveMajorGos {}; // 是否有 常规go 数据
-    bool isHaveFloorGos {};   // 是否有 地板 数据
+    bool isHaveMajorGos {};
+    bool isHaveFloorGos {};
 };
 
 

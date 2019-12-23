@@ -30,18 +30,6 @@ public:
         return (this->val >= 0);
     }
 
-    //-- 是否为内陆，排除掉了 领水陆地 --
-    /*
-    inline bool is_inland() const {
-        return (this->val >= 15);
-    }
-    */
-
-    //-- tmp 测试用
-    inline bool is_inland_2() const noexcept{
-        return (this->val >= 10);
-    }
-
     //===== vals =====//
     int  val {0}; //- [-100,100]
                     // 静态值，最简单的alti，不应该直接用此值。

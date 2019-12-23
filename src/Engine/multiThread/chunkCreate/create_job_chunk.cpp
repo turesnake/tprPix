@@ -48,7 +48,6 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     //-- 不要随意建立 static数据，本文件的代码，会被数个 job线程 调用 --
 
-
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     const std::vector<IntVec2> quadSectionKeyOffs {
         IntVec2{ 0, 0 },

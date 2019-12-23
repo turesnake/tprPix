@@ -203,17 +203,19 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     //-----------------------//
     //    parse png data
     //-----------------------// 
-    for( size_t i=0; i<plotPng_inn::M_frame_data_ary.size(); i++  ){ // each frame
+    if( yardRef_.get_isHaveMajorGos() ){
+        for( size_t i=0; i<plotPng_inn::M_frame_data_ary.size(); i++  ){ // each frame
 
-        if( yardRef_.get_isHaveMajorGos() ){
             auto &M_frameRef = plotPng_inn::M_frame_data_ary.at(i);
             auto &D_frameRef = plotPng_inn::D_frame_data_ary.at(i);
             //--
             auto &mdRef = yardRef_.create_new_majorGo_mapData();
             plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard );
         }
+    }
 
-        if( yardRef_.get_isHaveFloorGos() ){
+    if( yardRef_.get_isHaveFloorGos() ){
+        for( size_t i=0; i<plotPng_inn::FM_frame_data_ary.size(); i++  ){ // each frame
             auto &FM_frameRef = plotPng_inn::FM_frame_data_ary.at(i);
             auto &FD_frameRef = plotPng_inn::FD_frame_data_ary.at(i);
             //--

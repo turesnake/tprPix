@@ -138,10 +138,9 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
                 //   先用指针，临时借用 ecoplan 的数据
                 // ...
 
-    //--- blueprint ---//
-    auto &villageIds = targetEcoPlanPtr_->get_villageBlueprintIds();
-    this->villageBlueprintId = villageIds.at( (this->uWeight + 7337507) % villageIds.size() );
-                        // 临时性的 分配法
+    //--- blueprint ---//                        
+    this->villageBlueprintId = targetEcoPlanPtr_->apply_rand_villageBlueprintId( this->uWeight );
+    this->yardBlueprintId = targetEcoPlanPtr_->apply_rand_yardBlueprintId( this->uWeight );
 
 
     //=======================//

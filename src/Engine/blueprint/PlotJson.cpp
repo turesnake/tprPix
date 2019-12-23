@@ -124,7 +124,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
     // 读取解析 png 数据，
     IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Plot );
-    plotRef.set_sizeByMapEnt( frameSizeByMapEnt );
+    plotRef.set_sizeByMapEnt( frameSizeByMapEnt ); // 不一定必须是正方形
 
 
     //--- varTypes ---//
@@ -187,7 +187,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
                 {//--- num ---//
                     const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                    num = a.GetUint64();
+                    num = cast_2_size_t( a.GetUint64() );
                     tprAssert( num > 0 );
                 }
 

@@ -51,16 +51,7 @@ public:
         
 
     inline bool is_land() const noexcept{
-        //return (this->minMapAlti.is_land() &&
-        //        this->nodeMapAlti.is_land() );
-                    //- 存在一处诡异的bug：当改成 nodeAlti.is_inland()
-                    //  地图上种植的树木个数会大幅度减少
-                    //  未修改...
-        //return ( this->nodeMapAlti.is_inland_2() );
-                    //- 尝试解决 水域中生成树的 bug
-
         return (this->maxMapAlti.is_land());
-
     }
 
     //------- set -------//    

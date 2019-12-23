@@ -1,6 +1,7 @@
 [
     {"2m2_1/2m2.json": true },
 
-    {"natures/forest_1tree/N_forest_1tree.json": true }
+    {"natures/forest_1tree/N_forest_1tree.json": true },
     
+    {"natures/floorGos/natureFloorGo_B.json": true }
 ]

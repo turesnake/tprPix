@@ -10,7 +10,7 @@
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -21,7 +21,7 @@
         {
             "annotate": "====================[ -2 ]====================",
             "density.lvl": -2,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -31,7 +31,7 @@
         {
             "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -41,7 +41,7 @@
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -52,7 +52,7 @@
         {
             "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
-            "applyPercent": 0.9,
+            "applyPercent": 0.99,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -63,7 +63,7 @@
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.9,
+            "applyPercent": 0.99,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -74,7 +74,7 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.9,
+            "applyPercent": 0.0,
 
             "yardPool":[
                 { "yardName": "N_forest_1tree", "yardLabel": "", "num": 3 }
@@ -82,7 +82,16 @@
         }
     ],
 
-    "villageBlueprintPool":[ "v_1" ]
+
+    "villageBlueprintPool":[ 
+        { "villageName": "v_1", "num": 3 } 
+    ],
+
+
+    "natureFloorYardPool": [
+        { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
+    ]
+
 }
 
 

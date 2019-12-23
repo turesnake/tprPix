@@ -154,16 +154,61 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         }
 
         {//--- villageBlueprintPool ---//
-            const auto &a = check_and_get_value( eco, "villageBlueprintPool", JsonValType::Array );
-            for( const auto &villageName : a.GetArray() ){
-                tprAssert( villageName.IsString() );
-                auto id = blueprint::str_2_villageBlueprintId( villageName.GetString() );
-                ecoPlanRef.pushBack_new_villageBlueprintId( id );
+            std::string villageName {};
+            size_t      num {};
+
+            const auto &villageBlueprintPool = check_and_get_value( eco, "villageBlueprintPool", JsonValType::Array );
+            for( const auto &village : villageBlueprintPool.GetArray() ){
+                tprAssert( village.IsObject() );
+                {//--- villageName ---//
+                    const auto &a = check_and_get_value( village, "villageName", JsonValType::String );
+                    villageName = a.GetString();
+                }
+                {//--- num ---//
+                    const auto &a = check_and_get_value( village, "num", JsonValType::Uint64 );
+                    num = cast_2_size_t( a.GetUint64() );
+                    tprAssert( num > 0 );
+                }
+
+                auto id = blueprint::str_2_villageBlueprintId( villageName );
+                ecoPlanRef.insert_2_villageIdRandPool( id, num );
             }
+
         }
 
-        ecoPlanRef.shuffle_goSpecDataPools();
-        ecoPlanRef.chueck_end();
+        {//--- natureFloorYardPool ---//
+            std::string yardName {};
+            std::string yardLabel {};
+            size_t      num {};
+
+            const auto &natureFloorYardPool = check_and_get_value( eco, "natureFloorYardPool", JsonValType::Array );
+            for( const auto &floorYard : natureFloorYardPool.GetArray() ){
+                tprAssert( floorYard.IsObject() );
+                {//--- yardName ---//
+                    const auto &a = check_and_get_value( floorYard, "yardName", JsonValType::String );
+                    yardName = a.GetString();
+                }
+                {//--- yardLabel ---//
+                    const auto &a = check_and_get_value( floorYard, "yardLabel", JsonValType::String );
+                    yardLabel = a.GetString();
+                }
+                {//--- num ---//
+                    const auto &a = check_and_get_value( floorYard, "num", JsonValType::Uint64 );
+                    num = cast_2_size_t( a.GetUint64() );
+                    tprAssert( num > 0 );
+                }
+
+                tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
+                auto yardId = blueprint::YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel);
+                auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
+                tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_2f2 ); // Must 1f1 ( nature floor yard  )
+                //---
+                ecoPlanRef.insert_2_yardIdRandPool( yardId, num );
+            }
+
+        }
+
+        ecoPlanRef.init_check();
     }
 }
 
@@ -212,16 +257,14 @@ void parse_naturePool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
             {//--- num ---//
                 const auto &a = check_and_get_value( yardEnt, "num", JsonValType::Uint64 );
                 num = cast_2_size_t( a.GetUint64() );
+                tprAssert( num > 0 );
             }
 
             //--- 检查 name / yardSize ---
             tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
             yardId = blueprint::YardBlueprintSet::get_yardBlueprintId( yardName, yardLabel );
-
-            blueprint::YardBlueprint &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
-
-            tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_1f1 ); // Must
-
+            auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
+            tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_1f1 ); // Must 1f1 ( nature major yard  )
             //---
             densityPoolRef.insert_2_yardBlueprintIds( yardId, num );
         }

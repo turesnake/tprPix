@@ -21,9 +21,6 @@ std::string path_tprLog   {}; //-- .../build/publish/tprLog/
 std::string path_blueprintDatas {}; //-- .../build/publish/blueprintDatas/
 std::string path_gameObjDatas {}; //-- .../build/publish/gameObjDatas/
 
-std::string path_colliEntSet   {}; //-- .../build/publish/textures/colliEntSet
-std::string path_mapSurfaceRandSet {}; //-- .../build/publish/textures/mapSurfaceRandSet
-
 
 int current_OS {};
 

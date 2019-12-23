@@ -160,7 +160,7 @@ public:
     }
 
 private:
-    IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位
+    IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位 不一定必须是 正方形
 
     std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};

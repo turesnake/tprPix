@@ -178,18 +178,6 @@ void check_and_creat_important_dir(){
                                 "textures/",
                                 err_info );
     //---------------------------------//
-    //          path_colliEntSet
-    //---------------------------------//
-    path_colliEntSet = tprWin::mk_dir( path_textures,
-                                    "colliEntSet/",
-                                    err_info );
-    //---------------------------------//
-    //          path_mapSurfaceRandSet
-    //---------------------------------//
-    path_mapSurfaceRandSet = tprWin::mk_dir( path_textures,
-                                        "mapSurfaceRandSet/",
-                                        err_info );
-    //---------------------------------//
     //           path_jsons
     //---------------------------------//
     path_jsons = tprWin::mk_dir( path_cwd,
@@ -235,20 +223,6 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     path_textures = tprUnix::mk_dir( path_cwd,
                         "textures/",
-                        RWXR_XR_X,
-                        err_info );
-    //---------------------------------//
-    //          path_colliEntSet
-    //---------------------------------//
-    path_colliEntSet = tprUnix::mk_dir( path_textures,
-                        "colliEntSet/",
-                        RWXR_XR_X,
-                        err_info );
-    //---------------------------------//
-    //          path_mapSurfaceRandSet
-    //---------------------------------//
-    path_mapSurfaceRandSet = tprUnix::mk_dir( path_textures,
-                        "mapSurfaceRandSet/",
                         RWXR_XR_X,
                         err_info );
     //---------------------------------//

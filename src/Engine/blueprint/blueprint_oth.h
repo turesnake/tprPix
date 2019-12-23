@@ -8,6 +8,8 @@
 #ifndef TPR_BLUE_PRINT_OTH_H
 #define TPR_BLUE_PRINT_OTH_H
 
+//-------------------- CPP --------------------//
+#include <string>
 
 //-------------------- Engine --------------------//
 #include "blueprintId.h"
@@ -62,9 +64,8 @@ inline YardSize sizeByMapEnt_2_yardSize( IntVec2 size_ )noexcept{
 }
 
 
-
 //-- 获得不同尺寸的 yard 的边长 （以 mapent 为单位）
-inline int yardSize_2_sideLen( YardSize type_ )noexcept{
+inline int yardSize_2_mapEnt_sideLen( YardSize type_ )noexcept{
     return static_cast<int>(type_) * ENTS_PER_FIELD;
 }
 

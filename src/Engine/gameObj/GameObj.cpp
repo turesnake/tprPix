@@ -229,6 +229,7 @@ void GameObj::debug(){
     tprAssert( outPair.first == ChunkMemState::Active );
 
     cout << "mapEnt.lvl: " << outPair.second->get_mapAlti().lvl
+        << "; val: " << outPair.second->get_mapAlti().val
         << endl;
 
     /*

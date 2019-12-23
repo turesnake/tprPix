@@ -75,17 +75,17 @@ public:
     inline bool is_crossColorTable()const noexcept{
         return (this->fields.size() > 1);
     }
-    inline void insert_2_blueprint_majorGoDatas( const GoDataForCreate *ptr_ )noexcept{
-        this->blueprint_majorGoDatas.push_back( ptr_ );
+    inline void insert_2_majorGoDataPtrs( const GoDataForCreate *ptr_ )noexcept{
+        this->majorGoDataPtrs.push_back( ptr_ );
     }
-    inline void insert_2_blueprint_floorGoDatas( const GoDataForCreate *ptr_ )noexcept{
-        this->blueprint_floorGoDatas.push_back( ptr_ );
+    inline void insert_2_floorGoDataPtrs( const GoDataForCreate *ptr_ )noexcept{
+        this->floorGoDataPtrs.push_back( ptr_ );
     }
-    inline const std::vector<const GoDataForCreate*> &get_blueprint_majorGoDatas()const noexcept{ 
-        return this->blueprint_majorGoDatas; 
+    inline const std::vector<const GoDataForCreate*> &get_majorGoDataPtrs()const noexcept{ 
+        return this->majorGoDataPtrs; 
     }
-    inline const std::vector<const GoDataForCreate*> &get_blueprint_floorGoDatas()const noexcept{ 
-        return this->blueprint_floorGoDatas; 
+    inline const std::vector<const GoDataForCreate*> &get_floorGoDataPtrs()const noexcept{ 
+        return this->floorGoDataPtrs; 
     }
     inline std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &get_nature_majorGoDatas()noexcept{ 
         return this->nature_majorGoDatas;
@@ -96,16 +96,13 @@ public:
 
 
     inline void copy_nature_goDataPtrs()noexcept{
-        
         for( const auto &iPair : this->nature_majorGoDatas ){
-            this->blueprint_majorGoDatas.push_back( iPair.second.get() );
+            this->majorGoDataPtrs.push_back( iPair.second.get() );
         }
         for( const auto &iPair : this->nature_floorGoDatas ){
-            this->blueprint_floorGoDatas.push_back( iPair.second.get() );
+            this->floorGoDataPtrs.push_back( iPair.second.get() );
         }
     }
-
-
 
 private:
 
@@ -120,8 +117,8 @@ private:
 
     // 同时包含 artifact/nature 两种蓝图数据
     // 供 具象go类 访问，创建 go实例
-    std::vector<const GoDataForCreate*> blueprint_majorGoDatas {};
-    std::vector<const GoDataForCreate*> blueprint_floorGoDatas {};
+    std::vector<const GoDataForCreate*> majorGoDataPtrs {};
+    std::vector<const GoDataForCreate*> floorGoDataPtrs {};
 
 
     // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
@@ -140,7 +137,6 @@ private:
 
     //===== flags =====//
     bool isHaveBorderEnt    {false}; //- 只要发现 border
-
 
     //===== static =====//
     static void init_for_static()noexcept;

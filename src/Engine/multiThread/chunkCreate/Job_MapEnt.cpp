@@ -102,18 +102,10 @@ double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
             //    alti.val
             //------------------//
             //--- 使用速度最快的 2D-simplex-noise ---
-            
             pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * jobMP_inn::freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
             pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * jobMP_inn::freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
             pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * jobMP_inn::freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
             
-            /*
-            pnValBig = simplex_noise2( pixCFPos * jobMP_inn::freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
-            pnValMid = simplex_noise2( pixCFPos * jobMP_inn::freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
-            pnValSml = simplex_noise2( pixCFPos * jobMP_inn::freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
-            */
-
-
             //---------
             altiVal = floor(pnValBig + pnValMid + pnValSml);
 
@@ -127,11 +119,4 @@ double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
 
     return altiVal;
 }
-
-
-
-
-
-
-
 

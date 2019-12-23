@@ -28,16 +28,13 @@ extern std::string path_cwd; //-- exe 所在目录的 path
                 
 extern std::string path_dataBase;  //-- .../build/publish/dataBase/
 extern std::string path_shaders; //-- .../build/publish/shaders/
-extern std::string path_textures; //-- .../build/publish/textures/
+extern std::string path_textures; //-- .../build/publish/textures/ // 暂未被使用 ...
 extern std::string path_jsons; //-- .../build/publish/jsons/
 extern std::string path_tprLog; //-- .../build/publish/tprLog/
 
 extern std::string path_blueprintDatas; //-- .../build/publish/blueprintDatas/
 
 extern std::string path_gameObjDatas; //-- .../build/publish/gameObjDatas/
-
-extern std::string path_colliEntSet; //-- .../build/publish/textures/colliEntSet
-extern std::string path_mapSurfaceRandSet; //-- .../build/publish/textures/mapSurfaceRandSet
 
 //----------------------------------------------------//
 //                       OS

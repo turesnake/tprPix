@@ -65,7 +65,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
 
     //----- fieldRim go [-DEBUG-] ------//
-    bool isFieldRimGoCreate { true };
+    bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
         gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId( "fieldRim" ),
                                 fieldRef.get_midDPos(),
@@ -82,7 +82,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     //-- 暂时不关 蓝图 和 旧分配方案之间的冲突
     //   在未来，旧方案可能会被彻底 替代
 
-    for( const auto goDataPtr : job_fieldPtr->get_blueprint_majorGoDatas() ){
+    for( const auto goDataPtr : job_fieldPtr->get_majorGoDataPtrs() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
         // ...
@@ -102,7 +102,8 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
     }
 
-    for( const auto goDataPtr : job_fieldPtr->get_blueprint_floorGoDatas() ){
+
+    for( const auto goDataPtr : job_fieldPtr->get_floorGoDataPtrs() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
         // ...

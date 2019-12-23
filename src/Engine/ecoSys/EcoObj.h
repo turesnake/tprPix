@@ -68,6 +68,7 @@ public:
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
+    inline blueprint::yardBlueprintId_t get_yardBlueprintId()const noexcept{ return this->yardBlueprintId; }
 
 
     inline std::optional<const GoDataForCreate*> find_majorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
@@ -84,7 +85,6 @@ public:
             return { this->floorGoDatasForCreate.at(key_).get() };
         }
     }
-
 
     inline bool is_find_in_artifactFieldKeys( fieldKey_t key_ )const noexcept{
         return (artifactFieldKeys.find(key_) != this->artifactFieldKeys.end() );
@@ -139,7 +139,7 @@ private:
 
 
     blueprint::villageBlueprintId_t villageBlueprintId {};
-
+    blueprint::yardBlueprintId_t    yardBlueprintId {};
 
 };
 

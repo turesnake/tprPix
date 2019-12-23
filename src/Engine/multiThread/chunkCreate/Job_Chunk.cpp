@@ -9,6 +9,8 @@
  */
 #include "Job_Chunk.h"
 
+//-------------------- CPP --------------------//
+#include <functional>
 
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
@@ -120,17 +122,12 @@ bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
 
 void Job_Chunk::create_field_goSpecDatas(){
 
-    sectionKey_t    ecoObjKey {};
-    IntVec2         mposOff {}; // from chunk left-bottom
     IntVec2         tmpFieldMPos {};
     fieldKey_t      tmpFieldKey {};
-    size_t          randUValOff {};
-    animSubspecId_t subSpecId {};
-    size_t             windDelayIdx {};
-
     IntVec2         tmpEntMPos {};
     mapEntKey_t     tmpMapEntKey {};
-
+    size_t          fieldUWeight {};
+    
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
 
@@ -140,67 +137,89 @@ void Job_Chunk::create_field_goSpecDatas(){
             auto &fieldRef = *(this->fields.at(tmpFieldKey));
             auto &job_fieldRef = *(this->job_fields.at(tmpFieldKey));
 
-            if( fieldRef.is_land() ){ // skip water-field
+            fieldUWeight = fieldRef.get_uWeight();
 
-                ecoObjKey = fieldRef.get_ecoObjKey();
-                EcoObj &ecoObjRef = esrc::get_ecoObjRef(ecoObjKey);
+            EcoObj &ecoObjRef = esrc::get_ecoObjRef( fieldRef.get_ecoObjKey() );
+                            
+            //----------------------//
+            //    artifact gos
+            //----------------------//
+            // 数据存储在 ecoobj 实例中
+            // 只需简单地将指针 复制到 chunk 容器里
+            for( int j=0; j<ENTS_PER_FIELD; j++ ){
+                for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent in field
 
-                //----------------------//
-                //  生成 蓝图用 go数据
-                //----------------------//
-                for( int j=0; j<ENTS_PER_FIELD; j++ ){
-                    for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent
+                    tmpEntMPos = tmpFieldMPos + IntVec2{ i, j };
+                    tmpMapEntKey = mpos_2_key( tmpEntMPos );
 
-                        tmpEntMPos = tmpFieldMPos + IntVec2{ i, j };
-                        tmpMapEntKey = mpos_2_key( tmpEntMPos );
+                    // skip mapent in water
+                    if( !this->getnc_mapEntInnRef( tmpEntMPos - this->chunkMPos ).alti.is_land() ){
+                        continue;
+                    }
 
-                        //--  再筛选掉 水域之外的 mp-go --
-                        mposOff = tmpEntMPos - this->chunkMPos;
-                        auto &mapEntInnRef = this->getnc_mapEntInnRef( mposOff );
-                        if( !mapEntInnRef.alti.is_land() ){
-                            continue;
-                        }
-
-                        //-- majorGos --
-                        if( auto ret=ecoObjRef.find_majorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
-                            job_fieldRef.insert_2_blueprint_majorGoDatas( ret.value() );
-                        }
-                        //-- floorGos --
-                        if( auto ret=ecoObjRef.find_floorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
-                            job_fieldRef.insert_2_blueprint_floorGoDatas( ret.value() );
-                        }
+                    //-- majorGos --
+                    if( auto ret=ecoObjRef.find_majorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
+                        job_fieldRef.insert_2_majorGoDataPtrs( ret.value() );
+                    }
+                    //-- floorGos --
+                    if( auto ret=ecoObjRef.find_floorGoDataForCreatePtr(tmpMapEntKey); ret.has_value() ){
+                        job_fieldRef.insert_2_floorGoDataPtrs( ret.value() );
                     }
                 }
+            }
+
+            //----------------------//
+            //   nature majorGos
+            //----------------------//
+            // 说明 此 field 被覆盖了 人造物数据，不需要生成任何 nature 数据
+            if( ecoObjRef.is_find_in_artifactFieldKeys( tmpFieldKey ) ){
+                continue;
+            }
+            
+            const auto &densityPool = ecoObjRef.get_densityPool( fieldRef.get_density() );
+            if( !densityPool.isNeed2Apply( fieldUWeight ) ){
+                continue;
+            }
+
+            blueprint::yardBlueprintId_t natureMajorYardId = densityPool.apply_a_yardBlueprintId( fieldUWeight );
+
+            blueprint::build_natureYard_majorGoDatasForCreate( 
+                                        job_fieldRef.get_nature_majorGoDatas(),
+                                        natureMajorYardId,
+                                        tmpFieldMPos,
+                                        fieldUWeight,
+                                        [this]( IntVec2 mpos_ )->bool { // f_is_mapent_land_
+                                            return this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).alti.is_land();
+                                        }
+                                        );
 
 
-                //----------------------//
-                //   nature pools (yard)
-                //----------------------//
-                // 说明 此 field 被覆盖了 人造物数据，不需要生成 nature 数据
-                if( ecoObjRef.is_find_in_artifactFieldKeys( tmpFieldKey ) ){
-                    continue;
-                }
+            //----------------------//
+            //   nature floorGos ( 2f2-yard )
+            //----------------------//
+            // nature_floorYard 强制为 2f2 尺寸
+            if( (h%2==0) && (w%2==0) ){
                 
-                const auto &densityPool = ecoObjRef.get_densityPool( fieldRef.get_density() );
-                if( !densityPool.isNeed2Apply( fieldRef.get_uWeight() ) ){
-                    continue;
-                }
+                blueprint::build_natureYard_floorGoDatasForCreate( 
+                                        job_fieldRef.get_nature_floorGoDatas(),
+                                        ecoObjRef.get_yardBlueprintId(),
+                                        tmpFieldMPos,
+                                        fieldUWeight,
+                                        [this]( IntVec2 mpos_ )->bool { // f_is_correct_density_
+                                            int densityLvl = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).density.get_lvl();
+                                            if( (densityLvl==0) || 
+                                                (densityLvl==1) || 
+                                                (densityLvl==2) ){
+                                                return true;
+                                            }else{
+                                                return false;
+                                            }
+                                        }
+                                        );
+            }
+            
 
-                blueprint::yardBlueprintId_t yardId = densityPool.apply_a_yardBlueprintId( fieldRef.get_uWeight() );
-                blueprint::YardBlueprint &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
-
-
-                blueprint::build_yard_goDatasForCreate( job_fieldRef.get_nature_majorGoDatas(),
-                                                        job_fieldRef.get_nature_floorGoDatas(),
-                                                        yardId,
-                                                        tmpFieldMPos,
-                                                        fieldRef.get_uWeight() );
-
-                job_fieldRef.copy_nature_goDataPtrs();
-
-            }//-- if field is land
-
-
+            job_fieldRef.copy_nature_goDataPtrs();
 
         }
     } //- each field in chunk (8*8)

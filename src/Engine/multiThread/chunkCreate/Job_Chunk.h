@@ -101,7 +101,6 @@ private:
 
     std::vector<Job_MapEnt> mapEntInns {};// [34 * 34 mapents] 朝四周外凸了 1-mapent
 
-
     std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> job_fields {};
     std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> fields {};
                         // 在 job线程 直接创建 field 实例
