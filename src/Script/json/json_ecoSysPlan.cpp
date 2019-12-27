@@ -146,10 +146,10 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         ecoPlanRef.set_colorTableId( esrc::get_colorTabelSet().get_colorTableId(colorTableName) );
         ecoPlanRef.init_densityDatas( density_SeaLvlOff, *density_DivValsPtr );
 
-        {//--- naturePools ---//
-            const auto &a = check_and_get_value( eco, "naturePools", JsonValType::Array );
-            for( const auto &densityPool : a.GetArray() ){
-                espJson_inn::parse_naturePool( densityPool, ecoPlanRef );
+        {//--- natureMajorYardPools ---//
+            const auto &a = check_and_get_value( eco, "natureMajorYardPools", JsonValType::Array );
+            for( const auto &pool : a.GetArray() ){
+                espJson_inn::parse_naturePool( pool, ecoPlanRef );
             }
         }
 
@@ -176,36 +176,48 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
 
         }
 
-        {//--- natureFloorYardPool ---//
+        {//--- natureFloorYards ---//
+            Density     density {};
             std::string yardName {};
             std::string yardLabel {};
             size_t      num {};
 
-            const auto &natureFloorYardPool = check_and_get_value( eco, "natureFloorYardPool", JsonValType::Array );
-            for( const auto &floorYard : natureFloorYardPool.GetArray() ){
-                tprAssert( floorYard.IsObject() );
-                {//--- yardName ---//
-                    const auto &a = check_and_get_value( floorYard, "yardName", JsonValType::String );
-                    yardName = a.GetString();
-                }
-                {//--- yardLabel ---//
-                    const auto &a = check_and_get_value( floorYard, "yardLabel", JsonValType::String );
-                    yardLabel = a.GetString();
-                }
-                {//--- num ---//
-                    const auto &a = check_and_get_value( floorYard, "num", JsonValType::Uint64 );
-                    num = cast_2_size_t( a.GetUint64() );
-                    tprAssert( num > 0 );
-                }
+            const auto &natureFloorYards = check_and_get_value( eco, "natureFloorYards", JsonValType::Object );
+            {//--- yardPool ---//
+                const auto &yardPool = check_and_get_value( natureFloorYards, "yardPool", JsonValType::Array );
+                for( const auto &yardEnt : yardPool.GetArray() ){
+                    tprAssert( yardEnt.IsObject() );
+                    {//--- yardName ---//
+                        const auto &a = check_and_get_value( yardEnt, "yardName", JsonValType::String );
+                        yardName = a.GetString();
+                    }
+                    {//--- yardLabel ---//
+                        const auto &a = check_and_get_value( yardEnt, "yardLabel", JsonValType::String );
+                        yardLabel = a.GetString();
+                    }
+                    {//--- num ---//
+                        const auto &a = check_and_get_value( yardEnt, "num", JsonValType::Uint64 );
+                        num = cast_2_size_t( a.GetUint64() );
+                        tprAssert( num > 0 );
+                    }
 
-                tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
-                auto yardId = blueprint::YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel);
-                auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
-                tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_2f2 ); // Must 1f1 ( nature floor yard  )
-                //---
-                ecoPlanRef.insert_2_yardIdRandPool( yardId, num );
+                    tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
+                    auto yardId = blueprint::YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel);
+                    auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
+                    tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_2f2 ); // Must 1f1 ( nature floor yard  )
+                    //---
+                    ecoPlanRef.insert_2_natureFlooryardIdRandPool( yardId, num );
+                }
             }
-
+            
+            {//--- density.lvls ---//
+                const auto &lvls = check_and_get_value( natureFloorYards, "density.lvls", JsonValType::Array );
+                for( const auto &lvl : lvls.GetArray() ){
+                    tprAssert( lvl.IsInt() );
+                    density = Density{ lvl.GetInt() };
+                    ecoPlanRef.insert_2_natureFloorDensitys( density );
+                }
+            }
         }
 
         ecoPlanRef.init_check();
@@ -236,7 +248,6 @@ void parse_naturePool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
 
 
     {//--- yardPool ---//
-        
         std::string                     yardName {};
         std::string                     yardLabel {};
         blueprint::yardBlueprintId_t    yardId {};

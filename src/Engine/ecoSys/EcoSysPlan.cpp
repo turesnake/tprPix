@@ -75,7 +75,7 @@ void EcoSysPlan::init_check()noexcept{
 
     tprAssert( this->is_densityDivideVals_init );
     tprAssert( !this->villageIdRandPool.empty() );
-    tprAssert( !this->yardIdRandPool.empty() );
+    tprAssert( !this->natureFlooryardIdRandPool.empty() );
 
     //--- shuffle ---//
     for( auto &iPair : this->densityPools ){
@@ -87,9 +87,10 @@ void EcoSysPlan::init_check()noexcept{
                     this->villageIdRandPool.end(), 
                     esrc::get_gameSeed().getnc_shuffleEngine() );
 
-    std::shuffle(   this->yardIdRandPool.begin(), 
-                    this->yardIdRandPool.end(), 
+    std::shuffle(   this->natureFlooryardIdRandPool.begin(), 
+                    this->natureFlooryardIdRandPool.end(), 
                     esrc::get_gameSeed().getnc_shuffleEngine() );
+
 }
 
 

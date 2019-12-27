@@ -26,6 +26,7 @@
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "tprCast.h"
+#include "BrokenLvl.h"
 
 
 //-- 亚种 --
@@ -34,14 +35,16 @@ class AnimSubspec{
 public:
     AnimSubspec()=default;
 
-    inline AnimAction &insert_new_animAction(   NineDirection dir_,
+    inline AnimAction &insert_new_animAction(   NineDirection   dir_,
+                                                BrokenLvl       brokenLvl_,
                                                 const std::string &actionName_ )noexcept{
         // if target key is existed, nothing will happen
-        this->animActions.insert({ dir_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} }); // maybe
+        this->animActions.insert({ dir_, std::unordered_map<BrokenLvl, std::unordered_map<std::string, std::unique_ptr<AnimAction>>>{} }); // maybe
+        this->animActions.at(dir_).insert({ brokenLvl_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} }); // maybe
 
-        auto &container = this->animActions.at(dir_);
+        auto &container = this->animActions.at(dir_).at(brokenLvl_);
         auto outPair = container.insert({ actionName_, std::make_unique<AnimAction>() });
-        tprAssert( outPair.second );
+        tprAssert( outPair.second ); // Must
         //---
         // if target key is existed, nothing will happen
         this->actionsDirs.insert({ actionName_, std::unordered_set<NineDirection>{} }); //- maybe
@@ -50,12 +53,17 @@ public:
         return *(container.at(actionName_).get());
     }
         
-    inline AnimAction *get_animActionPtr(   NineDirection dir_,
+    inline AnimAction *get_animActionPtr(   NineDirection   dir_,
+                                            BrokenLvl       brokenLvl_,
                                             const std::string &actionName_ )const noexcept{
         tprAssert( this->animActions.find(dir_) != this->animActions.end() );
-        auto &container = this->animActions.at(dir_);
-        tprAssert( container.find(actionName_) != container.end() );
-        return container.at(actionName_).get();
+        auto &container_1 = this->animActions.at(dir_);
+        //---
+        tprAssert( container_1.find(brokenLvl_) != container_1.end() );
+        auto &container_2 = container_1.at(BrokenLvl::Lvl_0);
+        //---
+        tprAssert( container_2.find(actionName_) != container_2.end() );
+        return container_2.at(actionName_).get();
     }
     
 
@@ -64,11 +72,14 @@ public:
         return this->actionsDirs.at(actionName_);
     }
     
-
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 id
 private:
-    std::unordered_map<NineDirection, std::unordered_map<std::string, std::unique_ptr<AnimAction>>> animActions {};
+    //-- 丑陋的实现，3层嵌套容器 
+    std::unordered_map<NineDirection, 
+        std::unordered_map<BrokenLvl,
+            std::unordered_map<std::string, std::unique_ptr<AnimAction>>>> animActions {};
+
     std::unordered_map<std::string, std::unordered_set<NineDirection>> actionsDirs {};
 };
 

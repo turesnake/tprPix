@@ -39,7 +39,6 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                                     std::unordered_set<fieldKey_t> &artifactFieldKeys );
 
 
-
 void build_natureYard_majorGoDatasForCreate(   
                                         std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &majorGoDatasForCreate_,
                                         yardBlueprintId_t natureMajorYardId_,

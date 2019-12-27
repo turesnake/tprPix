@@ -130,7 +130,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //-- bind_animAction --//
     //-- 确保提前设置好了 go.direction ！！！
-    gmesh.bind_animAction( subspecId_, this->actionDirection, actionName_ ); // Must Before Everything!!!
+    gmesh.bind_animAction( subspecId_, this->actionDirection, this->brokenLvl, actionName_ ); // Must Before Everything!!!
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 

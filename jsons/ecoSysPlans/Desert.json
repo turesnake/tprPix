@@ -3,7 +3,6 @@
     "name": "Desert_1",
     "EcoSysPlanType": "Desert",
     "colorTableName": "desert",
-    "MapSurfaceLowSpec":"Desert",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "pools":[

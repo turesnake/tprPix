@@ -132,7 +132,7 @@ private:
     std::unordered_set<goid_t>  majorGos {}; // cir + squ 
     std::unordered_set<goid_t>  majorGos_circular {};
     goid_t                      majorGo_square {}; // only one
-                                    // 一个 mapent 其实还允许出现类似 mapsurface 的 地板go
+                                    // 一个 mapent 其实还允许出现 floorGo
                                     // 但是它们不是 majorGo，不参与游戏交互。
                                     // 所以不会被登记到 mapent 中
     

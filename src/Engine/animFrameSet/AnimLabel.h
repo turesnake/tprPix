@@ -42,7 +42,7 @@ enum class AnimLabel : u32_t{
     Field_2f2,
     Field_3f3,
 
-    //--- used for mapSurface RandEnt
+    //--- used for floor RandEnt
     MapEnt_1m1,
     MapEnt_2m2,
     MapEnt_3m3,

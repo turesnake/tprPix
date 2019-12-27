@@ -3,7 +3,6 @@
     "name": "Savannah_1",
     "EcoSysPlanType": "Plain",
     "colorTableName": "savannah",
-    "MapSurfaceLowSpec":"Savannah",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "pools":[

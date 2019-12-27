@@ -65,6 +65,10 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
 
+        //----- must before creat_new_goMesh() !!! -----//
+        goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
+        goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
+
     }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
         
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
@@ -74,12 +78,18 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         randUVal = bpParamPtr->mapEntUWeight;    
 
+        //----- must before creat_new_goMesh() !!! -----//
+        goRef_.set_actionDirection( goDataPtr->direction );
+        goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+
     }else{
         tprAssert(0); //- 尚未实现
     }
 
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
+    
+
+
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -194,18 +204,21 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
     //=====================================//
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         case ActionSwitchType::Move:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "walk" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "walk" );
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 

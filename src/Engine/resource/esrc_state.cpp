@@ -29,7 +29,6 @@ field
 gameArchive
 gameObj
 gameSeed
-mapSurfaceRandSet
 player
 shader
 time

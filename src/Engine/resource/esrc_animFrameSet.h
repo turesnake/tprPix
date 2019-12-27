@@ -31,6 +31,7 @@ animSubspecId_t apply_a_random_animSubspecId( const std::string  &animFrameSetNa
 
 AnimAction *get_animActionPtr(  animSubspecId_t subId_, 
                                 NineDirection      dir_,
+                                BrokenLvl           brokenLvl_,
                                 const std::string  &actionName_ );
 
 

@@ -42,18 +42,11 @@ struct Cactus_PvtBinary{
 };
 
 
-/* ===========================================================
- *                      init
- * -----------------------------------------------------------
- */
+
 void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Cactus_PvtBinary>();
-
-
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
 
 
     //================ dyParams =================//
@@ -64,6 +57,12 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
     pvtBp->subspecId = goDataEntRef.subspecId;
+
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_actionDirection( goDataPtr->direction );
+    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -91,28 +90,19 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void Cactus::bind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void Cactus::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void Cactus::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -136,10 +126,7 @@ void Cactus::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
+
 void Cactus::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -151,11 +138,6 @@ void Cactus::OnLogicUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
 void Cactus::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
         cout << "Cactus::OnActionSwitch" << endl;
@@ -165,13 +147,16 @@ void Cactus::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Cactus_PvtBinary>();
     //=====================================//
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
             break;
 
         default:

@@ -22,9 +22,7 @@
     "afs_lPaths": [ 
         "_rock.afs.json"
     ],
-    "multiGoMesh_lPaths": [
-        "_rock.multiGoMesh.json"
-    ]
+    "multiGoMesh_lPaths": []
 
 
   }

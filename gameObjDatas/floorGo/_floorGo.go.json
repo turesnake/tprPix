@@ -3,7 +3,7 @@
         "goSpecName": "floorGo",
         "specID": 3002,
         "parentID": 0,
-        "family": "MapSurface",
+        "family": "Floor",
         "state": "Waked",
         "moveState": "AbsFixed",
         "moveType": "Crawl",

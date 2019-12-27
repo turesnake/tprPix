@@ -140,7 +140,9 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
 
     //--- blueprint ---//                        
     this->villageBlueprintId = targetEcoPlanPtr_->apply_rand_villageBlueprintId( this->uWeight );
-    this->yardBlueprintId = targetEcoPlanPtr_->apply_rand_yardBlueprintId( this->uWeight );
+
+    this->natureFloorYardId = targetEcoPlanPtr_->apply_rand_natureFlooryardId( this->uWeight );
+    this->natureFloorDensitysPtr = targetEcoPlanPtr_->get_natureFloorDensitysPtr();
 
 
     //=======================//

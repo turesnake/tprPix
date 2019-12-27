@@ -37,22 +37,12 @@ struct Fence_PvtBinary{
 };
 
 
-/* ===========================================================
- *                   init
- * -----------------------------------------------------------
- */
+
 void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Fence_PvtBinary>();
-
-
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
-                        // 蓝图时代的 fence 是存在方向的，
-                        // 此句 将被废弃 ...
-
 
     //================ dyParams =================//
     size_t typeHash = dyParams_.get_typeHash();
@@ -60,9 +50,14 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
+    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
     pvtBp->subspecId = goDataEntRef.subspecId;
 
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_actionDirection( goDataPtr->direction );
+    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+                        
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     //-- 制作唯一的 mesh 实例: "root" --
@@ -90,44 +85,25 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void Fence::bind( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void Fence::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void Fence::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     //auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
-
-    //=====================================//
-    //            AI
-    //-------------------------------------//
-    //...
-
-    //=====================================//
-    //         更新 位移系统
-    //-------------------------------------//
-    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -136,10 +112,7 @@ void Fence::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
+
 void Fence::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -151,11 +124,7 @@ void Fence::OnLogicUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
+
 void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
         cout << "Fence::OnActionSwitch" << endl;
@@ -166,13 +135,16 @@ void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
     //=====================================//
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
             break;
 
         //case ActionSwitchType::Move_Move:

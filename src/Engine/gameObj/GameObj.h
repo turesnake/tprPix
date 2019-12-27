@@ -143,6 +143,9 @@ public:
     inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
     inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
 
+    inline void set_brokenLvl( BrokenLvl lvl_ )noexcept{ this->brokenLvl = lvl_; }
+    inline BrokenLvl get_brokenLvl()const noexcept{ return this->brokenLvl; }
+
     //-- false 值的，需要对齐到 像素
     inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); }
 
@@ -280,7 +283,7 @@ private:
     std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
     std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
 
-    NineDirection   actionDirection {NineDirection::Mid};  //- 角色 动画朝向
+    NineDirection   actionDirection {NineDirection::Center};  //- 角色 动画朝向
                                     // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
 

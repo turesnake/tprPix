@@ -39,10 +39,7 @@ struct BushOth_PvtBinary{
 };
 
 
-/* ===========================================================
- *                      init
- * -----------------------------------------------------------
- */
+
 void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
@@ -52,26 +49,21 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ dyParams =================//
     glm::dvec2          goMeshDPosOff {};
 
+
     size_t typeHash = dyParams_.get_typeHash();
-    if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
-        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
+    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+    pvtBp->subspecId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspecId;
 
-        const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+    goMeshDPosOff = glm::dvec2{0.0, 0.0};
 
-        tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-        pvtBp->subspecId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspecId;
-
-        goMeshDPosOff = glm::dvec2{0.0, 0.0};
-
-        // 剩余数据 暂时 没有使用 
-        // ...
-    
-    }else{
-        tprAssert(0); //- 尚未实现
-    }
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( goDataPtr->direction );
+    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -99,28 +91,19 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void BushOth::bind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void BushOth::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void BushOth::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -144,10 +127,7 @@ void BushOth::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
+
 void BushOth::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -159,11 +139,7 @@ void BushOth::OnLogicUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
+
 void BushOth::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
         cout << "BushOth::OnActionSwitch" << endl;
@@ -173,13 +149,16 @@ void BushOth::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<BushOth_PvtBinary>();
     //=====================================//
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
             break;
 
         default:

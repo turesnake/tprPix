@@ -1,3 +1,4 @@
+[
 {
     "annotation": "几颗草，围绕一个篱笆",
 
@@ -15,9 +16,7 @@
             "goSpecPool":[
                 
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 1 }
+                { "goSpecName": "rock", "afsName": "rock", "animLabels":[ "Big", "Light" ], "num": 3 }
                 
                 
             ]
@@ -32,3 +31,5 @@
         }
     ]
 }
+
+]

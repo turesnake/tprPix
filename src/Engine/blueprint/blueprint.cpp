@@ -211,121 +211,73 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
                                         std::function<bool(IntVec2)> f_is_mapent_land_
                                         ){
 
-        size_t  uWeight  {};
-        IntVec2 plotMPos {};
-        IntVec2 entMPos  {};
+    size_t  uWeight  {};
+    IntVec2 plotMPos {};
+    IntVec2 entMPos  {};
 
-        //---------//
-        // majorGos
-        //---------//
-        YardBlueprint &natureMajoryardRef = YardBlueprintSet::get_yardBlueprintRef( natureMajorYardId_ );
-        const MapData &yardMapData_majorGos = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
-        std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_majorYard_managerUPtr 
+    //---------//
+    // majorGos
+    //---------//
+    YardBlueprint &natureMajoryardRef = YardBlueprintSet::get_yardBlueprintRef( natureMajorYardId_ );
+    const MapData &yardMapData_majorGos = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
+    std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_majorYard_managerUPtr 
                     = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureMajoryardRef );
 
-        for( const auto &pEntUPtr : yardMapData_majorGos.data ){ // each mapDataEnt uptr / plot
+    for( const auto &pEntUPtr : yardMapData_majorGos.data ){ // each mapDataEnt uptr / plot
 
-            const auto *varTypeDatas_Yard_majorGoPtr = natureMajoryardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
+        const auto *varTypeDatas_Yard_majorGoPtr = natureMajoryardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
-            plotMPos = yardMPos_ + pEntUPtr->mposOff;
-            uWeight = plotMPos.to_simple_uWeight();
+        plotMPos = yardMPos_ + pEntUPtr->mposOff;
+        uWeight = plotMPos.to_simple_uWeight();
 
-            if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
-                //-- 直接可以获得 mp 位置的 goSpec 数据
+        if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
+            //-- 直接可以获得 mp 位置的 goSpec 数据
 
-                // skip mapent in water
-                if( !f_is_mapent_land_(plotMPos) ){
-                    continue;
-                }
+            // skip mapent in water
+            if( !f_is_mapent_land_(plotMPos) ){
+                continue;
+            }
 
-                const GoSpec &goSpecRef = varType_majorYard_managerUPtr->apply_a_majorGoSpec( pEntUPtr->varTypeIdx, uWeight );
-                //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-                blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+            const GoSpec &goSpecRef = varType_majorYard_managerUPtr->apply_a_majorGoSpec( pEntUPtr->varTypeIdx, uWeight );
+            //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
+            blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
                                                 plotMPos,
                                                 mpos_2_midDPos(plotMPos),
                                                 goSpecRef,
                                                 *(pEntUPtr) );
 
-            }else{
-                //-- mp 位置存储的是 plot 数据 --
-                //=================//
-                //      plot
-                //=================//s
-                auto plotId = varType_majorYard_managerUPtr->apply_a_plotBlueprintId( pEntUPtr->varTypeIdx, uWeight );
-                PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
+        }else{
+            //-- mp 位置存储的是 plot 数据 --
+            //=================//
+            //      plot
+            //=================//s
+            auto plotId = varType_majorYard_managerUPtr->apply_a_plotBlueprintId( pEntUPtr->varTypeIdx, uWeight );
+            PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
-                std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
+            std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
                             = std::make_unique<blueP_inn::VarType_Plot_Manager>( plotRef );
 
-                const MapData &plotMapData = plotRef.apply_a_random_mapData( uWeight );
-                for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
+            const MapData &plotMapData = plotRef.apply_a_random_mapData( uWeight );
+            for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
 
-                    entMPos = plotMPos + mpEntUPtr->mposOff;
-                    uWeight = entMPos.to_simple_uWeight();
+                entMPos = plotMPos + mpEntUPtr->mposOff;
+                uWeight = entMPos.to_simple_uWeight();
 
-                    // skip mapent in water
-                    if( !f_is_mapent_land_(entMPos) ){
-                        continue;
-                    }
+                // skip mapent in water
+                if( !f_is_mapent_land_(entMPos) ){
+                    continue;
+                }
 
-                    const GoSpec &goSpecRef = varType_Plot_ManagerUPtr->apply_a_goSpec( mpEntUPtr->varTypeIdx, uWeight );
-                    //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-                    blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+                const GoSpec &goSpecRef = varType_Plot_ManagerUPtr->apply_a_goSpec( mpEntUPtr->varTypeIdx, uWeight );
+                //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
+                blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
                                                     entMPos,
                                                     mpos_2_midDPos(entMPos),
                                                     goSpecRef,
                                                     *(mpEntUPtr) );
-                }
             }
         }
-
-        //---------//
-        // floorGos
-        //---------//
-        /*
-        // floor go 不会再细分出 plot 变量
-        glm::dvec2 floorGoDPos {};
-
-        //- 从 ecoobj 中获取的 floorYard 数据
-        YardBlueprint &natureFloorYardRef = YardBlueprintSet::get_yardBlueprintRef( natureFloorYardId_ );
-        const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
-        std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_floorYard_managerUPtr 
-                                = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureFloorYardRef );
-
-
-        for( const auto &pEntUPtr : yardMapData_floorGos.data ){ // each mapDataEnt uptr 
-
-            const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
-
-            entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-
-
-            int densityLvl = f_get_density_( entMPos ).get_lvl();
-            if( !((densityLvl==0) || 
-                  (densityLvl==1) || 
-                  (densityLvl==2)) ){
-                continue;
-            }
-
-
-
-            uWeight = entMPos.to_simple_uWeight();
-
-            const GoSpec &goSpecRef = varType_floorYard_managerUPtr->apply_a_floorGoSpec( pEntUPtr->varTypeIdx, uWeight );
-
-            floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
-
-            //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
-            blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
-                                                entMPos,
-                                                floorGoDPos,
-                                                goSpecRef,
-                                                *(pEntUPtr) );
-            
-
-        }
-        */
-
+    }
 
 }
 
@@ -339,55 +291,52 @@ void build_natureYard_floorGoDatasForCreate(
                                         std::function<bool(IntVec2)> f_is_correct_density_
                                         ){
 
-        size_t  uWeight  {};
-        IntVec2 plotMPos {};
-        IntVec2 entMPos  {};
+    size_t  uWeight  {};
+    IntVec2 plotMPos {};
+    IntVec2 entMPos  {};
 
-        //---------//
-        // floorGos
-        //---------//
+    //---------//
+    // floorGos
+    //---------//
         
-        // floor go 不会再细分出 plot 变量
-        glm::dvec2 floorGoDPos {};
+    // floor go 不会再细分出 plot 变量
+    glm::dvec2 floorGoDPos {};
 
-        //- 从 ecoobj 中获取的 floorYard 数据
-        YardBlueprint &natureFloorYardRef = YardBlueprintSet::get_yardBlueprintRef( natureFloorYardId_ );
-        const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
-        std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_floorYard_managerUPtr 
+    //- 从 ecoobj 中获取的 floorYard 数据    
+    YardBlueprint &natureFloorYardRef = YardBlueprintSet::get_yardBlueprintRef( natureFloorYardId_ );
+    const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
+    std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_floorYard_managerUPtr 
                                 = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureFloorYardRef );
 
 
-        for( const auto &pEntUPtr : yardMapData_floorGos.data ){ // each mapDataEnt uptr 
+    for( const auto &pEntUPtr : yardMapData_floorGos.data ){ // each mapDataEnt uptr 
+        const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
-            const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
+        entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos
+        uWeight = entMPos.to_simple_uWeight();
 
-            entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-            uWeight = entMPos.to_simple_uWeight();
+        // 可以在水下 生成，形成水底 纹理
+
+        // skip un correct density
+        if( !f_is_correct_density_(entMPos) ){
+            continue;
+        }
+
+        const GoSpec &goSpecRef = varType_floorYard_managerUPtr->apply_a_floorGoSpec( pEntUPtr->varTypeIdx, uWeight );
+
+        floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
 
 
-            // 可以在水下 生成，形成水底 纹理
 
-            // skip un correct density
-            if( !f_is_correct_density_(entMPos) ){
-                continue;
-            }
 
-            const GoSpec &goSpecRef = varType_floorYard_managerUPtr->apply_a_floorGoSpec( pEntUPtr->varTypeIdx, uWeight );
-
-            floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
-
-            //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
-            blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
+        //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
+        blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
                                                 entMPos,
                                                 floorGoDPos,
                                                 goSpecRef,
                                                 *(pEntUPtr) );
-            
-
-        }
-        
-
-
+    
+    }
 }
 
 

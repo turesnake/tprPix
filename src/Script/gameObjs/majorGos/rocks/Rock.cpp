@@ -43,30 +43,25 @@ struct Rock_PvtBinary{
 };
 
 
-/* ===========================================================
- *                      init
- * -----------------------------------------------------------
- */
+
 void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Rock_PvtBinary>();
 
 
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
-                    // 蓝图时代的 rock 是存在方向的，
-                    // 此句 将被废弃 ...
-
-
-
     //================ dyParams =================//
     tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
     pvtBp->subspecId = goDataEntRef.subspecId;
+
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_actionDirection( goDataPtr->direction );
+    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
@@ -81,48 +76,6 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
-
-    /*
-    const DyParams_Field *msParamPtr {nullptr};
-    //---
-    size_t typeHash = dyParams_.get_typeHash();
-    if( typeHash == typeid(DyParams_Field).hash_code() ){
-        msParamPtr = dyParams_.get_binaryPtr<DyParams_Field>();
-    }else{
-        tprAssert(0); //- 尚未实现
-    }
-
-    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-
-    std::string         goMeshName {};
-    size_t              meshNameCount {0};
-    animSubspecId_t     subspecId {};
-
-    for( auto it=job_goMeshs.cbegin(); it!=job_goMeshs.cend(); it++ ){// each job_goMesh
-
-        //--- goMesh name ---//
-        if( it == job_goMeshs.cbegin() ){
-            goMeshName = "root";
-        }else{
-            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
-            meshNameCount++;
-        }
-
-        subspecId = it->subspecId;
-
-        goRef_.creat_new_goMesh(goMeshName,
-                                subspecId,
-                                "idle",
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                it->dposOff, //- pposoff
-                                0.0,  //- zOff
-                                true //- isVisible
-                                );
-    }
-    */
-
-
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -138,43 +91,24 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void Rock::bind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void Rock::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void Rock::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     //auto *pvtBp = goRef_.get_pvtBinaryPtr<Rock_PvtBinary>();
-
-    //=====================================//
-    //            AI
-    //-------------------------------------//
-    //...
-
-    //=====================================//
-    //         更新 位移系统
-    //-------------------------------------//
-    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -183,26 +117,13 @@ void Rock::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
-void Rock::OnLogicUpdate( GameObj &goRef_ ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Rock_PvtBinary>();
-    //=====================================//
 
+void Rock::OnLogicUpdate( GameObj &goRef_ ){
     // 什么也没做...
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
+
 void Rock::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
         cout << "Rock::OnActionSwitch" << endl;
@@ -212,13 +133,16 @@ void Rock::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Rock_PvtBinary>();
     //=====================================//
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
             break;
 
         default:

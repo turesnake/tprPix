@@ -81,7 +81,7 @@ enum class GameObjFamily{
     Major   = 1, //- 主go： 活体，树，建筑...
                  //  只有 major go 可以参与 游戏世界的 碰撞检测
 
-    MapSurface, //- 最初设计中，包含 lower/upper 
+    Floor,     
     GroundGo,   //  折中产物，为地面铺设一层 eco 主体色
 
     Oth,   // 暂时只有 playerGoCircle
@@ -97,8 +97,8 @@ enum class GameObjFamily{
 inline GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept{
     if( name_ == std::string{"Major"} ){
         return GameObjFamily::Major;
-    }else if( name_ == std::string{"MapSurface"} ){
-        return GameObjFamily::MapSurface;
+    }else if( name_ == std::string{"Floor"} ){
+        return GameObjFamily::Floor;
     }else if( name_ == std::string{"GroundGo"} ){
         return GameObjFamily::GroundGo;
     }else if( name_ == std::string{"Oth"} ){

@@ -18,7 +18,7 @@
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 7,
-                        "name": "idle", "dir": "Mid",
+                        "name": "idle", "dir": "Center", "brokenLvl": 0,
                         "isOpaque": true
                     }
                 ]

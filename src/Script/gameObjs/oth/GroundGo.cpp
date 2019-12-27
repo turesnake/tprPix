@@ -58,10 +58,7 @@ namespace groundGo_inn {//------------------ namespace: groundGo_inn -----------
 }//--------------------- namespace: groundGo_inn end ------------------------//
 
 
-/* ===========================================================
- *                  init
- * -----------------------------------------------------------
- */
+
 void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
@@ -73,7 +70,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Center );
 
     animSubspecId_t subspecId {};
     std::string     meshName {};
@@ -119,7 +116,6 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &GroundGo::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
-            //- 当前 mapSurfaceLower 只有一种动画，就是永久待机...
 
     //================ go self vals =================//
     //... 

@@ -48,10 +48,7 @@ namespace fr_inn {//------------------ namespace: fr_inn ---------------------//
 
 }//--------------------- namespace: fr_inn end ------------------------//
 
-/* ===========================================================
- *                  init
- * -----------------------------------------------------------
- */
+
 void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ dyParams =================//
@@ -59,14 +56,13 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
     // ignore...
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Center );
 
     //------ root mesh ------//
     goRef_.creat_new_goMesh( "root", //- gmesh-name
                             esrc::get_fieldRimId(),
                             "idle",
-                            RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                            //&esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                            RenderLayerType::Floor, //- 固定zOff值
                             &esrc::get_shaderRef(ShaderType::Shadow ),  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff
                             0.5,  //- zOff
@@ -84,19 +80,13 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
 }
 
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void FieldRim::OnRenderUpdate( GameObj &goRef_ ){
     goRef_.render_all_goMesh();
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
+/* -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
 void FieldRim::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){

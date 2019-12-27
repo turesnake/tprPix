@@ -82,98 +82,101 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
     
-    //---
-    tprAssert( doc.IsObject() );
-    {//--- villageName ---//
-        const auto &a = json::check_and_get_value( doc, "villageName", json::JsonValType::String );
-        villageName = a.GetString();
-    }
+    //=====//
+    tprAssert( doc.IsArray() );
+    for( auto &docEnt : doc.GetArray() ){
 
-    //--- plot ---
-    auto villageId = VillageBlueprint::init_new_village( villageName );
-    auto &villageRef = VillageBlueprint::get_villageBlueprintRef( villageId );
-    
-
-    {//--- pngLPath ---//
-        const auto &a = json::check_and_get_value( doc, "pngLPath", json::JsonValType::String );
-        std::string pngLPath = a.GetString();
-        std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "villages");
-        pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
-    }
-    {//--- frameNum.col ---//
-        const auto &a = json::check_and_get_value( doc, "frameNum.col", json::JsonValType::Int );
-        frameNum.x =  a.GetInt();
-    }
-    {//--- frameNum.row ---//
-        const auto &a = json::check_and_get_value( doc, "frameNum.row", json::JsonValType::Int );
-        frameNum.y =  a.GetInt();
-    }
-    {//--- totalFrameNum ---//
-        const auto &a = json::check_and_get_value( doc, "totalFrameNum", json::JsonValType::Uint64 );
-        totalFrameNum =  cast_2_size_t(a.GetUint64());
-        tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
-    }
-
-    // 读取解析 png 数据，
-    IntVec2 frameSizeByMapEnt = parse_png( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Village );
-    tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) && 
-                (frameSizeByMapEnt.y == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) );
-
-    //--- varTypes ---//
-    const auto &varTypes = json::check_and_get_value( doc, "varTypes", json::JsonValType::Array );
-    for( auto &varType : varTypes.GetArray() ){
-        tprAssert( varType.IsObject() );
-
-        VariableTypeIdx varTypeIdx {};          
-        std::unique_ptr<VarTypeDatas_Village> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Village>();
-
-        {//--- type ---//
-            const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
-            varTypeIdx = str_2_variableTypeIdx( a.GetString() );
+        {//--- villageName ---//
+            const auto &a = json::check_and_get_value( docEnt, "villageName", json::JsonValType::String );
+            villageName = a.GetString();
         }
-        {//--- isAllInstanceUseSamePlan ---//
-            const auto &a = json::check_and_get_value( varType, "isAllInstanceUseSamePlan", json::JsonValType::Bool );
-            varTypeDatasUPtr->set_isAllInstanceUseSamePlan( a.GetBool() );
+
+        //--- plot ---
+        auto villageId = VillageBlueprint::init_new_village( villageName );
+        auto &villageRef = VillageBlueprint::get_villageBlueprintRef( villageId );
+
+        {//--- pngLPath ---//
+            const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
+            std::string pngLPath = a.GetString();
+            std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "villages");
+            pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
         }
-        {//--- isRoad ---//
-            const auto &a = json::check_and_get_value( varType, "isRoad", json::JsonValType::Bool );
-            varTypeDatasUPtr->set_isRoad( a.GetBool() );
+        {//--- frameNum.col ---//
+            const auto &a = json::check_and_get_value( docEnt, "frameNum.col", json::JsonValType::Int );
+            frameNum.x =  a.GetInt();
         }
-        //-- road 相关数据的处理，暂未实现 ---
-        // ...
+        {//--- frameNum.row ---//
+            const auto &a = json::check_and_get_value( docEnt, "frameNum.row", json::JsonValType::Int );
+            frameNum.y =  a.GetInt();
+        }
+        {//--- totalFrameNum ---//
+            const auto &a = json::check_and_get_value( docEnt, "totalFrameNum", json::JsonValType::Uint64 );
+            totalFrameNum =  cast_2_size_t(a.GetUint64());
+            tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
+        }
 
-        {//--- yardPool ---//
-            std::string yardName {};
-            std::string yardLabel {};
-            size_t      num {};
+        // 读取解析 png 数据，
+        IntVec2 frameSizeByMapEnt = parse_png( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Village );
+        tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) && 
+                    (frameSizeByMapEnt.y == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) );
 
-            const auto &yardPool = json::check_and_get_value( varType, "yardPool", json::JsonValType::Array );
-            for( auto &ent : yardPool.GetArray() ){
-                tprAssert( ent.IsObject() );
+        //--- varTypes ---//
+        const auto &varTypes = json::check_and_get_value( docEnt, "varTypes", json::JsonValType::Array );
+        for( auto &varType : varTypes.GetArray() ){
+            tprAssert( varType.IsObject() );
 
-                {//--- yardName ---//
-                    const auto &a = json::check_and_get_value( ent, "yardName", json::JsonValType::String );
-                    yardName = a.GetString();
-                }
-                {//--- yardLabel ---//
-                    const auto &a = json::check_and_get_value( ent, "yardLabel", json::JsonValType::String );
-                    yardLabel = a.GetString();
-                }
-                {//--- num ---//
-                    const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                    num = cast_2_size_t( a.GetUint64() );
-                    tprAssert( num > 0 );
-                }
+            VariableTypeIdx varTypeIdx {};          
+            std::unique_ptr<VarTypeDatas_Village> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Village>();
 
-                varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel), num );
+            {//--- type ---//
+                const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
+                varTypeIdx = str_2_variableTypeIdx( a.GetString() );
             }
+            {//--- isAllInstanceUseSamePlan ---//
+                const auto &a = json::check_and_get_value( varType, "isAllInstanceUseSamePlan", json::JsonValType::Bool );
+                varTypeDatasUPtr->set_isAllInstanceUseSamePlan( a.GetBool() );
+            }
+            {//--- isRoad ---//
+                const auto &a = json::check_and_get_value( varType, "isRoad", json::JsonValType::Bool );
+                varTypeDatasUPtr->set_isRoad( a.GetBool() );
+            }
+            //-- road 相关数据的处理，暂未实现 ---
+            // ...
+
+            {//--- yardPool ---//
+                std::string yardName {};
+                std::string yardLabel {};
+                size_t      num {};
+
+                const auto &yardPool = json::check_and_get_value( varType, "yardPool", json::JsonValType::Array );
+                for( auto &ent : yardPool.GetArray() ){
+                    tprAssert( ent.IsObject() );
+
+                    {//--- yardName ---//
+                        const auto &a = json::check_and_get_value( ent, "yardName", json::JsonValType::String );
+                        yardName = a.GetString();
+                    }
+                    {//--- yardLabel ---//
+                        const auto &a = json::check_and_get_value( ent, "yardLabel", json::JsonValType::String );
+                        yardLabel = a.GetString();
+                    }
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = cast_2_size_t( a.GetUint64() );
+                        tprAssert( num > 0 );
+                    }
+
+                    varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel), num );
+                }
+            }
+
+            varTypeDatasUPtr->init_check();
+            villageRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
         }
 
-        varTypeDatasUPtr->init_check();
-        villageRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
-    }
+        villageRef.init_check();
 
-    villageRef.init_check();
+    }
 }
 
 

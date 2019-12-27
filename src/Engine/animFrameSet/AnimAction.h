@@ -25,6 +25,7 @@
 #include "AnimActionPos.h"
 #include "AnimLabel.h"
 #include "functorTypes.h"
+#include "BrokenLvl.h"
 
 
 enum class AnimActionState{
@@ -85,11 +86,11 @@ enum class AnimActionParamType{
 //-- 作为 AnimFrameSet::insert_a_png() 参数 --
 class AnimActionParam{
 public:
-
     //-- 常规构造器,且手动设置 timesteps --
     AnimActionParam(size_t  subspecIdx_,
                     const std::string     &actionName_,
                     NineDirection          actionDir_,
+                    BrokenLvl              actionBrokenLvl_,
                     AnimActionType         type_,
                     bool                   isOrder_,
                     bool                   isOpaque_,
@@ -100,6 +101,7 @@ public:
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
+        actionBrokenLvl(actionBrokenLvl_),
         actionType( type_ ),
         isOrder( isOrder_ ),
         isOpaque( isOpaque_ ),
@@ -116,6 +118,7 @@ public:
     AnimActionParam(size_t  subspecIdx_,
                     const std::string    &actionName_,
                     NineDirection         actionDir_,
+                    BrokenLvl             actionBrokenLvl_,
                     AnimActionType        type_,
                     bool                  isOrder_,
                     bool                  isOpaque_,
@@ -126,6 +129,7 @@ public:
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
+        actionBrokenLvl(actionBrokenLvl_),
         actionType( type_ ),
         isOrder( isOrder_ ),
         isOpaque( isOpaque_ ),
@@ -142,6 +146,7 @@ public:
     AnimActionParam(size_t  subspecIdx_,
                     const std::string &actionName_,
                     NineDirection      actionDir_,
+                    BrokenLvl          actionBrokenLvl_,
                     size_t  jFrameIdx_,
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
@@ -149,6 +154,7 @@ public:
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
+        actionBrokenLvl(actionBrokenLvl_),
         actionType( AnimActionType::Idle ), //- 默认type
         isOrder( true ), //- 随便写一个值，反正用不上
         isOpaque( isOpaque_ ),
@@ -160,11 +166,12 @@ public:
             this->timeSteps.push_back( 6 ); //- 随便写一个值，反正用不上
             this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
-
+        
     //===== vals =====//
     size_t          subspecIdx;
     std::string     actionName;
     NineDirection   actionDir;
+    BrokenLvl       actionBrokenLvl;
     AnimActionType  actionType;
     bool            isOrder;
     bool            isOpaque;                //- 是否为 不透明图元
@@ -177,10 +184,10 @@ public:
 };
 
 
+
+
 //-- need --//
 class AnimFrameSet;
-
-
 
 
 //-- 本class 只存储 于 anim-action 有关的 所有静态数据

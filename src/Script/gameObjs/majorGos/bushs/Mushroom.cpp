@@ -42,15 +42,12 @@ struct Mushroom_PvtBinary{
 };
 
 
-/* ===========================================================
- *                      init
- * -----------------------------------------------------------
- */
+
 void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Center );
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();
@@ -112,43 +109,24 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* ===========================================================
- *                       bind
- * -----------------------------------------------------------
- * -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
+/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
 void Mushroom::bind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                       rebind
- * -----------------------------------------------------------
- * -- 从硬盘读取到 go实例数据后，重bind callback
+/* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
 void Mushroom::rebind( GameObj &goRef_ ){
 }
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void Mushroom::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     //auto *pvtBp = goRef_.get_pvtBinaryPtr<Mushroom_PvtBinary>();
-
-    //=====================================//
-    //            AI
-    //-------------------------------------//
-    //...
-
-    //=====================================//
-    //         更新 位移系统
-    //-------------------------------------//
-    //goRef_.move.RenderUpdate();
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
@@ -157,10 +135,7 @@ void Mushroom::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *                        OnLogicUpdate
- * -----------------------------------------------------------
- */
+
 void Mushroom::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
@@ -172,11 +147,7 @@ void Mushroom::OnLogicUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 
- */
+
 void Mushroom::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     tprAssert(0);

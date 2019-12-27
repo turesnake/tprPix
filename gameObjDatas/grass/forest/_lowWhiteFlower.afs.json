@@ -20,9 +20,9 @@
                     "animLabels": [ "Sml" ],
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Mid",
+                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
@@ -51,9 +51,9 @@
                     "animLabels": [ "Sml" ],
                     "subIdx": 1,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Mid",
+                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
@@ -82,9 +82,9 @@
                     "animLabels": [ "Sml" ],
                     "subIdx": 2,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Mid",
+                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
@@ -113,9 +113,9 @@
                     "animLabels": [ "Mid" ],
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Mid",
+                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,
@@ -144,9 +144,9 @@
                     "animLabels": [ "Mid" ],
                     "subIdx": 1,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Mid", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Mid",
+                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Once",
                             "isOrder":    true,

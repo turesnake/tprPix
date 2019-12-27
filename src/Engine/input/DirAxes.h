@@ -152,7 +152,7 @@ inline NineDirection dirAxes_2_nineDirection( const DirAxes &da_ )noexcept{
     double y = da_.get_origin_y();
 
     if( da_.is_zero() ){
-        return NineDirection::Mid;
+        return NineDirection::Center;
     }
 
     if( x == 0.0 ){

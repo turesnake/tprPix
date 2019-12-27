@@ -135,10 +135,10 @@ void init_shaders(){
     }
 
 
-    {//---- mapSurface_shader ----//
-        auto &sp = insert_new_shader( ShaderType::MapSurface );
+    {//---- floor_shader ----//
+        auto &sp = insert_new_shader( ShaderType::Floor );
         //---
-        sp.init( "/mapSurface.vs", "/mapSurface.fs" ); 
+        sp.init( "/floor.vs", "/floor.fs" ); 
         sp.use_program();
 
         sp.add_new_uniform( "model" );

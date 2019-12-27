@@ -288,6 +288,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
     std::vector<AnimLabel> labels {}; //- 允许是空的
     std::string   actionName {};
     NineDirection actionDir {};
+    BrokenLvl     actionBrokenLvl {};
     size_t        fstSubIdx  {};
     size_t        fstIdx     {};
     size_t        idxNums    {};
@@ -324,6 +325,10 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
         const auto &a = check_and_get_value( subspecEnt_, "dir", JsonValType::String );
         actionDir = jsonStr_2_ninedirection( a.GetString() );
     }
+    {//--- brokenLvl ---//
+        const auto &a = check_and_get_value( subspecEnt_, "brokenLvl", JsonValType::Int );
+        actionBrokenLvl = int_2_brokenLvl( a.GetInt() );
+    }
     {//--- isOpaque ---//
         const auto &a = check_and_get_value( subspecEnt_, "isOpaque", JsonValType::Bool );
         isOpaque = a.GetBool();
@@ -334,7 +339,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, jFrameIdx, i+fstIdx, isOpaque, labels) );
+        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, actionBrokenLvl, jFrameIdx, i+fstIdx, isOpaque, labels) );
     }
 
 }
@@ -358,7 +363,6 @@ void parse_AnimActionParam( size_t  subspecIdx_,
         const auto &a = check_and_get_value( actionParamEnt_, "type", JsonValType::String );
         type = a.GetString();
     }
-
     if( type == "singleFrame" ){
         params_.push_back( afsJson_inn::singleFrame(subspecIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
     }
@@ -381,6 +385,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
 
     std::string   actionName {};
     NineDirection actionDir {};
+    BrokenLvl     actionBrokenLvl {};
     size_t        jFrameIdx  {};
     size_t        lFrameIdx  {};
     bool          isOpaque   {};
@@ -391,6 +396,10 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
         actionDir = jsonStr_2_ninedirection( a.GetString() );
+    }
+    {//--- brokenLvl ---//
+        const auto &a = check_and_get_value( actionParamEnt_, "brokenLvl", JsonValType::Int );
+        actionBrokenLvl = int_2_brokenLvl( a.GetInt() );
     }
     {//--- lFrameIdx ---//
         const auto &a = check_and_get_value( actionParamEnt_, "lFrameIdx", JsonValType::Uint64 );
@@ -405,7 +414,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, jFrameIdx, lFrameIdx, isOpaque, labels_ );
+    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, labels_ );
 }
 
 
@@ -419,6 +428,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
 
     std::string         actionName {};
     NineDirection       actionDir {};
+    BrokenLvl           actionBrokenLvl {};
     AnimActionType      actionType {};
     bool                isOrder {};
     bool                isOpaque   {};
@@ -436,6 +446,10 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
         actionDir = jsonStr_2_ninedirection( a.GetString() );
+    }
+    {//--- brokenLvl ---//
+        const auto &a = check_and_get_value( actionParamEnt_, "brokenLvl", JsonValType::Int );
+        actionBrokenLvl = int_2_brokenLvl( a.GetInt() );
     }
     {//--- actionType ---//
         const auto &a = check_and_get_value( actionParamEnt_, "actionType", JsonValType::String );
@@ -492,6 +506,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
         return std::make_shared<AnimActionParam>(   subspecIdx_,
                                                     actionName,
                                                     actionDir,
+                                                    actionBrokenLvl,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
@@ -510,6 +525,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
         return std::make_shared<AnimActionParam>(   subspecIdx_,
                                                     actionName,
                                                     actionDir,
+                                                    actionBrokenLvl,
                                                     actionType,
                                                     isOrder,
                                                     isOpaque,
@@ -523,7 +539,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
 
 NineDirection jsonStr_2_ninedirection( const std::string &str_ ){
 
-    if(       str_ == "Mid" ){ return NineDirection::Mid;
+    if(       str_ == "Center" ){ return NineDirection::Center;
     }else if( str_ == "L" ){   return NineDirection::Left;
     }else if( str_ == "LT" ){  return NineDirection::LeftTop;
     }else if( str_ == "T" ){   return NineDirection::Top;
@@ -534,7 +550,7 @@ NineDirection jsonStr_2_ninedirection( const std::string &str_ ){
     }else if( str_ == "LB" ){  return NineDirection::LeftBottom;
     }else{
         tprAssert(0);
-        return NineDirection::Mid; // never reach
+        return NineDirection::Center; // never reach
     }
 }
 

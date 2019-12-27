@@ -39,7 +39,7 @@ public:
     //--
     IntVec2         mposOff {}; // based on left-bottom 
     BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};
-    NineDirection   direction {NineDirection::Mid};  //- 角色 动画朝向
+    NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 };
 
 

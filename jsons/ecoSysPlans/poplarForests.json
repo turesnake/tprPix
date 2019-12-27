@@ -3,7 +3,6 @@
     "name": "PoplarForest_1",
     "EcoSysPlanType": "Forest",
     "colorTableName": "poplarForest",
-    "MapSurfaceLowSpec":"Savannah",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "pools":[

@@ -74,6 +74,7 @@ public:
 
     void bind_animAction(   animSubspecId_t    subspecId_,
                             NineDirection      dir_,
+                            BrokenLvl          brokenLvl_,
                             const std::string &actionName_  );
 
     //------------- set -------------//

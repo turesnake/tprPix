@@ -11,6 +11,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <map>
+#include <set>
 #include <optional>
 #include <unordered_set>
 
@@ -68,7 +69,13 @@ public:
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
-    inline blueprint::yardBlueprintId_t get_yardBlueprintId()const noexcept{ return this->yardBlueprintId; }
+
+
+    inline blueprint::yardBlueprintId_t get_natureFloorYardId()const noexcept{ return this->natureFloorYardId; }
+
+    inline bool is_find_in_natureFloorDensitys( Density density_ )const noexcept{
+        return (this->natureFloorDensitysPtr->find(density_) != this->natureFloorDensitysPtr->end());
+    }
 
 
     inline std::optional<const GoDataForCreate*> find_majorGoDataForCreatePtr( mapEntKey_t key_ )const noexcept{
@@ -125,6 +132,7 @@ private:
 
                             // 暂时没有确定，是否重分配 densitypools 数据
                             // ...
+                            // 目前就是直接借用 ecoplan 里的原版数据
 
                         
     double           densitySeaLvlOff  {0.0}; 
@@ -139,7 +147,12 @@ private:
 
 
     blueprint::villageBlueprintId_t villageBlueprintId {};
-    blueprint::yardBlueprintId_t    yardBlueprintId {};
+
+
+    //-- nature_floorYard --//
+    blueprint::yardBlueprintId_t    natureFloorYardId {};
+    const std::set<Density>         *natureFloorDensitysPtr {nullptr};
+
 
 };
 

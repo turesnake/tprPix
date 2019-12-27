@@ -49,7 +49,7 @@ public:
     //---
     goSpecId_t      goSpecId {};
     glm::dvec2      dpos      {}; // go 绝对 dpos
-    NineDirection   direction {NineDirection::Mid};  //- 角色 动画朝向
+    NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
     BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};
     
     //---

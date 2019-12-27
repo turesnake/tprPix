@@ -2,10 +2,7 @@
 {
     "name": "DarkForest_1",
     "EcoSysPlanType": "DarkForest",
-    "colorTableName": "darkForest",
-
-    "MapSurfaceLowSpec":"DForest",
-    
+    "colorTableName": "darkForest",    
     "density.SeaLvlOff": 25.0,
     "density.DivideType": "default",
     "pools":[

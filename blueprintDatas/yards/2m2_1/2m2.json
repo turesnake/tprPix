@@ -1,3 +1,4 @@
+[
 {
     "annotation": "试验性质的yard蓝图，一组篱笆，一个 plot变量，两颗bush",
 
@@ -20,7 +21,8 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "fence", "afsName": "fence", "animLabels":[], "num": 3 }
+                { "goSpecName": "fence", "afsName": "fence", "animLabels":[], "num": 1 },
+                { "goSpecName": "rock", "afsName": "rock", "animLabels":[ "Big", "Light" ], "num": 13 }
             ]
         },
 
@@ -83,3 +85,6 @@
 
     ]
 }
+
+]
+

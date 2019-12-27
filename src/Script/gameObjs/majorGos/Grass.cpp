@@ -91,10 +91,7 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
 }//-------------- namespace: grass_inn end ----------------//
 
 
-/* ===========================================================
- *                      init
- * -----------------------------------------------------------
- */
+
 void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     std::string funcName = "Grass::init()";
@@ -106,10 +103,6 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     }
 
 
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
-
-
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<grass_inn::Grass_PvtBinary>();
 
@@ -118,6 +111,11 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+
+
+    //----- must before creat_new_goMesh() !!! -----//
+    goRef_.set_actionDirection( goDataPtr->direction );
+    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
 
 
     //----- windClock -----//
@@ -168,54 +166,6 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                                         goDataEntRef.windDelayIdx ) );
 
     }
-
-
-            //===== olds =====
-    /*
-    const auto &job_goMeshs = *(msParamPtr->job_goMeshsPtr);
-
-    std::string         goMeshName {};
-    size_t              meshNameCount {0};
-    animSubspecId_t     subspecId {};
-
-    auto &windClockRef = esrc::get_windClock();
-
-    size_t idx {0};
-    for( auto it=job_goMeshs.cbegin(); it!=job_goMeshs.cend(); it++ ){// each job_goMesh
-        idx++;
-
-        //--- goMesh name ---//
-        if( it == job_goMeshs.cbegin() ){
-            goMeshName = "root";
-        }else{
-            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
-            meshNameCount++;
-        }
-
-        subspecId = it->subspecId;
-
-        pvtBp->insert_goMeshData( goMeshName, subspecId );
-        //---
-        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
-                                subspecId,
-                                "idle",
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                it->dposOff, //- pposoff
-                                0.0,  //- zOff
-                                true //- isVisible
-                                );
-
-        auto *goMeshPvtBPtr = goMeshRef.get_pvtBinary().init<grass_inn::GoMesh_PvtBinary>();
-        goMeshPvtBPtr->windDelayStepCount = grass_inn::apply_a_goMesh_windDelayStep();
-
-        goMeshRef.bind_reset_playSpeedScale( std::bind( &WindClock::get_playSpeedScale,
-                                                        &windClockRef,
-                                                        it->windDelayIdx ) );
-        
-    }
-    */
-
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -229,15 +179,15 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 }
 
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void Grass::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     auto *pvtBp = goRef_.get_pvtBinaryPtr<grass_inn::Grass_PvtBinary>();
+
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
 
     //=====================================//
     //            windClock         
@@ -278,7 +228,7 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
                 goMeshPvtBPtr->isWindClockWorking = false;
                 //---
                 goMeshRef.bind_animAction(  pvtBp->get_goMesh_animSubspecId( pair.first ),
-                                            goRef_.get_actionDirection(), 
+                                            dir, brokenLvl, 
                                             grass_inn::apply_a_windAnimActionName() );
             }
         }

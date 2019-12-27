@@ -20,7 +20,7 @@
 #include "IntVec.h"
 
 enum class NineDirection{
-    Mid         = 0, //- same as No_Direction
+    Center      = 0, //- same as No_Direction
     Left        = 1,
     LeftTop     = 2,
     Top         = 3,
@@ -41,7 +41,7 @@ inline NineDirection intVec2_2_nineDirection( IntVec2 v_ ) noexcept {
         }
     }else if( v_.y == 0 ){
         if( v_.x<0 ){         return NineDirection::Left;
-        }else if( v_.x==0 ){  return NineDirection::Mid;
+        }else if( v_.x==0 ){  return NineDirection::Center;
         }else{                 return NineDirection::Right;
         }
     }else{
@@ -61,7 +61,7 @@ inline NineDirection dpos_2_nineDirection( const glm::dvec2 &v_ ) noexcept {
         }
     }else if( v_.y == 0.0 ){
         if( v_.x<0.0 ){         return NineDirection::Left;
-        }else if( v_.x==0.0 ){  return NineDirection::Mid;
+        }else if( v_.x==0.0 ){  return NineDirection::Center;
         }else{                 return NineDirection::Right;
         }
     }else{
@@ -76,7 +76,7 @@ inline NineDirection dpos_2_nineDirection( const glm::dvec2 &v_ ) noexcept {
 
 inline NineDirection idx_2_nineDirection( size_t idx_ )noexcept{
     switch (idx_){
-        case 0: return NineDirection::Mid;
+        case 0: return NineDirection::Center;
         case 1: return NineDirection::Left;
         case 2: return NineDirection::LeftTop;
         case 3: return NineDirection::Top;
@@ -87,11 +87,11 @@ inline NineDirection idx_2_nineDirection( size_t idx_ )noexcept{
         case 8: return NineDirection::LeftBottom;
         default:
             tprAssert(0);
-            return NineDirection::Mid; // never reach
+            return NineDirection::Center; // never reach
     }
 }
 
-//-- 不包含 Mid --
+//-- 不包含 Center --
 // param: randUVal_ [0, 9999]
 inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noexcept{
         
@@ -103,7 +103,7 @@ inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noe
 //---- only used for debug ----//
 inline std::string nineDirection_2_str( NineDirection dir_ )noexcept{
     switch (dir_){
-        case NineDirection::Mid:         return "Mid";
+        case NineDirection::Center:      return "Center";
         case NineDirection::Left:        return "Left";
         case NineDirection::LeftTop:     return "LeftTop";
         case NineDirection::Top:         return "Top";
@@ -121,7 +121,7 @@ inline std::string nineDirection_2_str( NineDirection dir_ )noexcept{
 
 inline IntVec2 nineDirection_2_mposOff( NineDirection dir_ )noexcept{
     switch (dir_){
-        case NineDirection::Mid:         return IntVec2{  0,  0 };
+        case NineDirection::Center:      return IntVec2{  0,  0 };
         case NineDirection::Left:        return IntVec2{ -1,  0 };
         case NineDirection::LeftTop:     return IntVec2{ -1,  1 };
         case NineDirection::Top:         return IntVec2{  0,  1 };
@@ -139,7 +139,7 @@ inline IntVec2 nineDirection_2_mposOff( NineDirection dir_ )noexcept{
 //-返回的 dvec2 仅仅表达一个 方向，并不是 单位向量
 inline glm::dvec2 nineDirection_2_dVec2( NineDirection dir_ )noexcept{
     switch (dir_){
-        case NineDirection::Mid:         return glm::dvec2{  0.0,  0.0 };
+        case NineDirection::Center:      return glm::dvec2{  0.0,  0.0 };
         case NineDirection::Left:        return glm::dvec2{ -1.0,  0.0 };
         case NineDirection::LeftTop:     return glm::dvec2{ -1.0,  1.0 };
         case NineDirection::Top:         return glm::dvec2{  0.0,  1.0 };
@@ -162,7 +162,7 @@ inline bool is_diagonalDir( NineDirection dir_ )noexcept{
         case NineDirection::RightBottom: 
         case NineDirection::LeftBottom: 
             return true;
-        case NineDirection::Mid:         
+        case NineDirection::Center:         
         case NineDirection::Left:        
         case NineDirection::Right: 
         case NineDirection::Top:  

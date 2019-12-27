@@ -17,17 +17,17 @@
                     "animLabels": [],
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "L", "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        { "name": "idle", "dir": "LT", "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
-                        { "name": "idle", "dir": "T", "type": "singleFrame", "lFrameIdx": 12, "isOpaque": true },
-                        { "name": "idle", "dir": "RT", "type": "singleFrame", "lFrameIdx": 18, "isOpaque": true },
-                        { "name": "idle", "dir": "R", "type": "singleFrame", "lFrameIdx": 24, "isOpaque": true },
-                        { "name": "idle", "dir": "RB", "type": "singleFrame", "lFrameIdx": 30, "isOpaque": true },
-                        { "name": "idle", "dir": "B", "type": "singleFrame", "lFrameIdx": 36, "isOpaque": true },
-                        { "name": "idle", "dir": "LB", "type": "singleFrame", "lFrameIdx": 42, "isOpaque": true },
+                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
+                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 12, "isOpaque": true },
+                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 18, "isOpaque": true },
+                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 24, "isOpaque": true },
+                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 30, "isOpaque": true },
+                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 36, "isOpaque": true },
+                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 42, "isOpaque": true },
 
                         {
-                            "name": "walk", "dir": "L",
+                            "name": "walk", "dir": "L", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -36,7 +36,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "LT",
+                            "name": "walk", "dir": "LT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -45,7 +45,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "T",
+                            "name": "walk", "dir": "T", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -54,7 +54,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "RT",
+                            "name": "walk", "dir": "RT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -63,7 +63,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "R",
+                            "name": "walk", "dir": "R", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -72,7 +72,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "RB",
+                            "name": "walk", "dir": "RB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -81,7 +81,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "B",
+                            "name": "walk", "dir": "B", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,
@@ -90,7 +90,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "LB",
+                            "name": "walk", "dir": "LB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionType": "Cycle",
                             "isOrder":    true,

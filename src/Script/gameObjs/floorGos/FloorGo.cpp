@@ -59,10 +59,7 @@ namespace floorGo_inn {//------------------ namespace: floorGo_inn -------------
 
 }//--------------------- namespace: floorGo_inn end ------------------------//
 
-/* ===========================================================
- *                  init
- * -----------------------------------------------------------
- */
+
 void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
@@ -81,15 +78,15 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Center );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 pvtBp->subspecId,
                                 "idle",
-                                RenderLayerType::MapSurfaceLower, //- 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::MapSurface),  // pic shader
+                                RenderLayerType::Floor, //- 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::Floor),  // pic shader
                                 //glm::dvec2{ 0.0, 0.0 }, //- pposoff
                                 goDataEntRef.dposOff, //- pposoff
                                 0.0,  //- zOff
@@ -107,10 +104,7 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 }
 
 
-/* ===========================================================
- *                      OnRenderUpdate
- * -----------------------------------------------------------
- */
+
 void FloorGo::OnRenderUpdate( GameObj &goRef_ ){
 
     //=====================================//
@@ -120,10 +114,7 @@ void FloorGo::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-/* ===========================================================
- *               OnActionSwitch
- * -----------------------------------------------------------
- * -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
+/* -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
  * -- 会被 动作状态机 取代...
  */
 void FloorGo::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){

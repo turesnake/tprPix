@@ -33,7 +33,7 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
         { NineDirection::Bottom,        RGBA{  77,  31,  31, 255 } },// hsv: 0, 0.6, 0.3
         { NineDirection::LeftBottom,    RGBA{  77,  54,  54, 255 } },// hsv: 0, 0.3, 0.3
         { NineDirection::Left,          RGBA{ 153, 107, 107, 255 } },// hsv: 0, 0.3, 0.6
-        { NineDirection::Mid,           RGBA{ 153,  61,  61, 255 } } // hsv: 0, 0.6, 0.6
+        { NineDirection::Center,        RGBA{ 153,  61,  61, 255 } } // hsv: 0, 0.6, 0.6
     };
 
     const std::map<NineDirection, RGBA> lvl_1{
@@ -45,7 +45,7 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
         { NineDirection::Bottom,        RGBA{  77,  61,  31, 255 } },// hsv: 40, 0.6, 0.3
         { NineDirection::LeftBottom,    RGBA{  77,  69,  54, 255 } },// hsv: 40, 0.3, 0.3
         { NineDirection::Left,          RGBA{ 153, 138, 107, 255 } },// hsv: 40, 0.3, 0.6
-        { NineDirection::Mid,           RGBA{ 153, 122,  61, 255 } } // hsv: 40, 0.6, 0.6
+        { NineDirection::Center,        RGBA{ 153, 122,  61, 255 } } // hsv: 40, 0.6, 0.6
     };
 
     const std::map<NineDirection, RGBA> lvl_2{
@@ -57,7 +57,7 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
         { NineDirection::Bottom,        RGBA{  46,  77,  31, 255 } },// hsv: 100, 0.6, 0.3
         { NineDirection::LeftBottom,    RGBA{  61,  77,  54, 255 } },// hsv: 100, 0.3, 0.3
         { NineDirection::Left,          RGBA{ 122, 153, 107, 255 } },// hsv: 100, 0.3, 0.6
-        { NineDirection::Mid,           RGBA{  92, 153,  61, 255 } } // hsv: 100, 0.6, 0.6
+        { NineDirection::Center,        RGBA{  92, 153,  61, 255 } } // hsv: 100, 0.6, 0.6
     };
 
     const std::map<NineDirection, RGBA> lvl_3{
@@ -69,7 +69,7 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
         { NineDirection::Bottom,        RGBA{  31,  61,  77, 255 } },// hsv: 200, 0.6, 0.3
         { NineDirection::LeftBottom,    RGBA{  54,  69,  77, 255 } },// hsv: 200, 0.3, 0.3
         { NineDirection::Left,          RGBA{ 107, 138, 153, 255 } },// hsv: 200, 0.3, 0.6
-        { NineDirection::Mid,           RGBA{  61, 122, 153, 255 } } // hsv: 200, 0.6, 0.6
+        { NineDirection::Center,        RGBA{  61, 122, 153, 255 } } // hsv: 200, 0.6, 0.6
     };
 
     const std::map<NineDirection, RGBA> lvl_4{
@@ -81,7 +81,7 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
         { NineDirection::Bottom,        RGBA{  77,  31,  77, 255 } },// hsv: 300, 0.6, 0.3
         { NineDirection::LeftBottom,    RGBA{  77,  54,  77, 255 } },// hsv: 300, 0.3, 0.3
         { NineDirection::Left,          RGBA{ 153, 107, 153, 255 } },// hsv: 300, 0.3, 0.6
-        { NineDirection::Mid,           RGBA{ 153,  61, 153, 255 } } // hsv: 300, 0.6, 0.6
+        { NineDirection::Center,        RGBA{ 153,  61, 153, 255 } } // hsv: 300, 0.6, 0.6
     };
 }//--------------------- namespace: dpc_inn end ------------------------//
 

@@ -52,7 +52,8 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
     pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "button_beginScene", emptyAnimLabels, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Mid );
+    goRef_.set_actionDirection( NineDirection::Center );
+    goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作 mesh 实例: "root" --
@@ -119,6 +120,9 @@ void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
     //-------------------------------------//
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Button_SceneBegin_Archive_PvtBinary>();
 
+    auto dir = goRef_.get_actionDirection();
+    auto brokenLvl = goRef_.get_brokenLvl();
+
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
 
@@ -126,11 +130,11 @@ void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
 
     switch( type_ ){
         case ActionSwitchType::ButtonState_1:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "new" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "new" );
             break;
 
         case ActionSwitchType::ButtonState_2:
-            goMeshRef.bind_animAction( pvtBp->subspecId, goRef_.get_actionDirection(), "data" );
+            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "data" );
             break;
 
         default:

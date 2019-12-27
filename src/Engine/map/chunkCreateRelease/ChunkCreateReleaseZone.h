@@ -68,7 +68,7 @@ public:
     void init( IntVec2 playerMPos_ );
 
     inline const std::vector<IntVec2> &get_createZoneOffMPoses( NineDirection dir_ ) const noexcept{
-        tprAssert( dir_ != NineDirection::Mid );
+        tprAssert( dir_ != NineDirection::Center );
         return this->createZoneOffMPosesSets.at(dir_);
     }
     inline const std::vector<IntVec2> &get_releaseZoneOffMPoses() const noexcept{

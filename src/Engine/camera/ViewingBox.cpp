@@ -28,13 +28,12 @@ double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
 
 double  ViewingBox::ground_zOff           { 10.0 };
 double  ViewingBox::groundGo_zOff         { 20.0 };
-double  ViewingBox::mapSurfaceLower_zOff  { 30.0 };
+double  ViewingBox::floor_zOff            { 30.0 };
 
 double  ViewingBox::waterAnim_zOff        { 40.0 };
 
-double  ViewingBox::mapSurfaceUpper_zOff  { 50.0 };
-double  ViewingBox::underGoShadows_zOff   { 60.0 };
-double  ViewingBox::goShadows_zOff        { 70.0 };
+double  ViewingBox::underGoShadows_zOff   { 50.0 };
+double  ViewingBox::goShadows_zOff        { 60.0 };
 
 //...
 double  ViewingBox::debug_zOff         { 100.0 };

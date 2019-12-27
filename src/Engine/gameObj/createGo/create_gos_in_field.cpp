@@ -58,12 +58,6 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     }
 
 
-    //----- mapsurface go ------//
-    //   直接取消，方便在未来，被全面取代为 蓝图模式
-    //--------------------------//
-
-
-
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
@@ -72,11 +66,6 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 emptyDyParam );
     }
     
-    //----- land majorGo in old-style -----//
-    //  将被 蓝图 彻底 取代
-    //--------------------------//
-    
-   
 
     //----- land majorGo in blueprint -----//
     //-- 暂时不关 蓝图 和 旧分配方案之间的冲突

@@ -192,7 +192,7 @@ inline bool is_dogo_leave_begoSquares_2( const glm::dvec2 &moveVec_,
         case NineDirection::LeftBottom:
         case NineDirection::RightTop:
         case NineDirection::RightBottom:
-        case NineDirection::Mid: // Mid 也许不该这么处理 ...
+        case NineDirection::Center: // Center 也许不该这么处理 ...
             obNormVec = dogoDPos_ - mpos_2_midDPos(targetMPos_);
             break;
         default:

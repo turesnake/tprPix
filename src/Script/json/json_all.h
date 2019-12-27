@@ -17,9 +17,6 @@ namespace json{//------------- namespace json ----------------
 //------------------------------//
 void parse_colorTableJsonFile();
 void parse_ecoSysPlansJsonFile();
-void parse_mapSurfaceRandMeshJsonFile();
-void parse_fieldDistributePlanJsonFile();
-void parse_multiGoMeshJsonFile();
 
 //------------------------------//
 //    json_windowConfig

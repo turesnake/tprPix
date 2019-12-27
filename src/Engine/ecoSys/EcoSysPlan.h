@@ -13,6 +13,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <memory>
 
@@ -53,14 +54,17 @@ public:
     inline void insert_2_villageIdRandPool( blueprint::villageBlueprintId_t id_, size_t num_ )noexcept{
         this->villageIdRandPool.insert( this->villageIdRandPool.end(), num_, id_ );
     }
-    inline void insert_2_yardIdRandPool( blueprint::yardBlueprintId_t id_, size_t num_ )noexcept{
-        this->yardIdRandPool.insert( this->yardIdRandPool.end(), num_, id_ );
+
+    inline void insert_2_natureFlooryardIdRandPool( blueprint::yardBlueprintId_t id_, size_t num_ )noexcept{
+        this->natureFlooryardIdRandPool.insert( this->natureFlooryardIdRandPool.end(), num_, id_ );
     }
 
-
-
+    inline void insert_2_natureFloorDensitys( Density density_ )noexcept{
+        auto outPair = this->natureFloorDensitys.insert( density_ );
+        tprAssert( outPair.second );
+    }
+    
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
-
 
     inline DensityPool &create_new_densityPool( Density density_ )noexcept{
         auto outPair = this->densityPools.insert({ density_, std::make_unique<DensityPool>() });
@@ -87,23 +91,17 @@ public:
         return this->densityPools;
     }
 
-    /*
-    inline const std::vector<blueprint::villageBlueprintId_t> &
-    get_villageBlueprintIds()const noexcept{
-        return this->villageIdRandPool;
-    }
-    */
-
-
     inline blueprint::villageBlueprintId_t apply_rand_villageBlueprintId( size_t uWeight_ )const noexcept{
         return this->villageIdRandPool.at( (uWeight_ + 7337507) % this->villageIdRandPool.size() );
     }
-
-    inline blueprint::yardBlueprintId_t apply_rand_yardBlueprintId( size_t uWeight_ )const noexcept{
-        return this->yardIdRandPool.at( (uWeight_ + 71010107) % this->yardIdRandPool.size() );
+    
+    inline blueprint::yardBlueprintId_t apply_rand_natureFlooryardId( size_t uWeight_ )const noexcept{
+        return this->natureFlooryardIdRandPool.at( (uWeight_ + 71010107) % this->natureFlooryardIdRandPool.size() );
     }
 
-    
+    inline const std::set<Density> *get_natureFloorDensitysPtr()const noexcept{
+        return &(this->natureFloorDensitys);
+    }
 
     //======== static ========//
     static ID_Manager  id_manager;
@@ -121,7 +119,6 @@ private:
     std::vector<double> densityDivideVals {}; //- 6 ents, each_ent: [-100.0, 100.0]
 
 
-    //std::vector<std::unique_ptr<DensityPool>> densityPools {};
     std::map<Density, std::unique_ptr<DensityPool>> densityPools {};
 
 
@@ -131,12 +128,11 @@ private:
                         // 并且用不同尺寸的容器来存储
                         // 未实现  ...
 
-    std::vector<blueprint::yardBlueprintId_t> yardIdRandPool {}; // 随机分配池
+    //-- nature_floorYard --//
+    std::vector<blueprint::yardBlueprintId_t> natureFlooryardIdRandPool {}; // nature floor yard
+    std::set<Density> natureFloorDensitys {}; // 哪些 density 需要分配 natureFloorYard
 
-    
     //===== flags =====//
-
-
     bool   is_densityDivideVals_init {false};
 
 };

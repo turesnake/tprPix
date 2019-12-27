@@ -50,7 +50,7 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
     //-- 当 majorGo 停止移动，其direction 保留原值 --
     NineDirection newDir = dirAxes_2_nineDirection(newDirAxes_);
-    if( (newDir!=NineDirection::Mid) && (newDir!=goRef.get_actionDirection()) ){
+    if( (newDir!=NineDirection::Center) && (newDir!=goRef.get_actionDirection()) ){
         goRef.set_actionDirection( newDir );
         this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
                             //-- 在未来，move 其实也有很多种.... 

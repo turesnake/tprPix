@@ -3,7 +3,7 @@
     "goSpecName": "fieldRim",
     "specID": 19001,
     "parentID": 0,
-    "family": "MapSurface",
+    "family": "Floor",
     "state": "Waked",
     "moveState": "AbsFixed",
     "moveType": "Crawl",

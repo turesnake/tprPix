@@ -3,44 +3,22 @@
     "name": "rock",
     "pngs": [
         {
-            "path": "rock_big2.P.png",
-            "frameNum.col":  6,
-            "frameNum.row":  4,
-            "totalFrameNum": 22,
+            "path": "rock_1.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
+            "ColliderType": "Square",
             "subspecs": [
                 {
                     "type": "batch",
                     "animLabels": [ "Big", "Light" ],
                     "fstSubIdx": 0,
                     "fstIdx": 0,
-                    "idxNums": 22,
-                    "name": "idle", "dir": "Mid",
-                    "isOpaque": true
-                }
-            ]
-        },
-        
-        {
-            "path": "rock_mid2.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  4,
-            "totalFrameNum": 19,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": false,
-            "ColliderType": "Circular",
-            "subspecs": [
-                {
-                    "type": "batch",
-                    "animLabels": [ "Mid", "Light" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 19,
-                    "name": "idle", "dir": "Mid",
+                    "idxNums": 1,
+                    "name": "idle", "dir": "Center", "brokenLvl": 0,
                     "isOpaque": true
                 }
             ]
@@ -49,3 +27,4 @@
     ]
 }
 ]
+

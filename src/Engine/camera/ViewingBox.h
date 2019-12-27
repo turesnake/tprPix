@@ -30,9 +30,8 @@ public:
         switch(type_){
             case RenderLayerType::Ground:           return ground_zOff;
             case RenderLayerType::GroundGo:         return groundGo_zOff;
-            case RenderLayerType::MapSurfaceLower:  return mapSurfaceLower_zOff;
+            case RenderLayerType::Floor:            return floor_zOff;
             case RenderLayerType::WaterAnim:        return waterAnim_zOff;
-            case RenderLayerType::MapSurfaceUpper:  return mapSurfaceUpper_zOff;
             case RenderLayerType::UnderGoShadows:   return underGoShadows_zOff;
             case RenderLayerType::GoShadows:        return goShadows_zOff;
             case RenderLayerType::Debug:            return debug_zOff;
@@ -66,10 +65,8 @@ public:
     static double  groundGo_zOff;
         
 
-    static double  mapSurfaceLower_zOff; // under water
-    static double  mapSurfaceUpper_zOff; // above water
+    static double  floor_zOff; // under water
         // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
-        // 在未来，也许会放到 waterAnim 下方...
 
     static double  waterAnim_zOff;
         // 水域动画 图层。a canvas，其颜色逐帧生成，并直接渲染

@@ -89,118 +89,122 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
     
-
-    //---
-    tprAssert( doc.IsObject() );
-    {//--- plotName ---//
-        const auto &a = json::check_and_get_value( doc, "plotName", json::JsonValType::String );
-        plotName = a.GetString();
-    }
-
-    //--- plot ---
-    auto plotId = PlotBlueprint::init_new_plot( plotName );
-    auto &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
+    
+    //=====//
+    tprAssert( doc.IsArray() );
+    for( auto &docEnt : doc.GetArray() ){
 
 
-    {//--- pngLPath ---//
-        const auto &a = json::check_and_get_value( doc, "pngLPath", json::JsonValType::String );
-        std::string pngLPath = a.GetString();
-        std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "plots");
-        pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
-    }
-    {//--- frameNum.col ---//
-        const auto &a = json::check_and_get_value( doc, "frameNum.col", json::JsonValType::Int );
-        frameNum.x =  a.GetInt();
-    }
-    {//--- frameNum.row ---//
-        const auto &a = json::check_and_get_value( doc, "frameNum.row", json::JsonValType::Int );
-        frameNum.y =  a.GetInt();
-    }
-    {//--- totalFrameNum ---//
-        const auto &a = json::check_and_get_value( doc, "totalFrameNum", json::JsonValType::Uint64 );
-        totalFrameNum =  cast_2_size_t(a.GetUint64());
-        tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
-    }
-
-    // 读取解析 png 数据，
-    IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Plot );
-    plotRef.set_sizeByMapEnt( frameSizeByMapEnt ); // 不一定必须是正方形
-
-
-    //--- varTypes ---//
-    const auto &varTypes = json::check_and_get_value( doc, "varTypes", json::JsonValType::Array );
-    for( auto &varType : varTypes.GetArray() ){
-        tprAssert( varType.IsObject() );
-
-        VariableTypeIdx varTypeIdx {};
-        std::unique_ptr<VarTypeDatas_Plot> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Plot>();
-
-        {//--- type ---//
-            const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
-            varTypeIdx = str_2_variableTypeIdx( a.GetString() );
+        {//--- plotName ---//
+            const auto &a = json::check_and_get_value( docEnt, "plotName", json::JsonValType::String );
+            plotName = a.GetString();
         }
-        {//--- isAllInstanceUseSamePlan ---//
-            const auto &a = json::check_and_get_value( varType, "isAllInstanceUseSamePlan", json::JsonValType::Bool );
-            varTypeDatasUPtr->set_isAllInstanceUseSamePlan( a.GetBool() );
 
+        //--- plot ---
+        auto plotId = PlotBlueprint::init_new_plot( plotName );
+        auto &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
+
+        {//--- pngLPath ---//
+            const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
+            std::string pngLPath = a.GetString();
+            std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "plots");
+            pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
         }
-        {//--- goSpecPool ---//
-            std::string MultiGoMeshType {};
-            size_t num  {};
+        {//--- frameNum.col ---//
+            const auto &a = json::check_and_get_value( docEnt, "frameNum.col", json::JsonValType::Int );
+            frameNum.x =  a.GetInt();
+        }
+        {//--- frameNum.row ---//
+            const auto &a = json::check_and_get_value( docEnt, "frameNum.row", json::JsonValType::Int );
+            frameNum.y =  a.GetInt();
+        }
+        {//--- totalFrameNum ---//
+            const auto &a = json::check_and_get_value( docEnt, "totalFrameNum", json::JsonValType::Uint64 );
+            totalFrameNum =  cast_2_size_t(a.GetUint64());
+            tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
+        }
 
-            //---
-            const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
-            for( auto &ent : goSpecPool.GetArray() ){
-                
-                std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+        // 读取解析 png 数据，
+        IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Plot );
+        plotRef.set_sizeByMapEnt( frameSizeByMapEnt ); // 不一定必须是正方形
 
-                {//--- goSpecName ---//
-                    const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                    goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
-                }
 
-                //--- MultiGoMeshType ---//
-                if( ent.HasMember("MultiGoMeshType") ){
-                    goSpecUPtr->isMultiGoMesh = true;
-                    const auto &a = json::check_and_get_value( ent, "MultiGoMeshType", json::JsonValType::String );
-                    goSpecUPtr->multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
+        //--- varTypes ---//
+        const auto &varTypes = json::check_and_get_value( docEnt, "varTypes", json::JsonValType::Array );
+        for( auto &varType : varTypes.GetArray() ){
+            tprAssert( varType.IsObject() );
 
-                }else{
-                    goSpecUPtr->isMultiGoMesh = false;
-                
-                    {//--- afsName ---//
-                        const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
-                        std::string afsName = a.GetString();
-                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
-                        goSpecUPtr->afsName = afsName;
+            VariableTypeIdx varTypeIdx {};
+            std::unique_ptr<VarTypeDatas_Plot> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Plot>();
+
+            {//--- type ---//
+                const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
+                varTypeIdx = str_2_variableTypeIdx( a.GetString() );
+            }
+            {//--- isAllInstanceUseSamePlan ---//
+                const auto &a = json::check_and_get_value( varType, "isAllInstanceUseSamePlan", json::JsonValType::Bool );
+                varTypeDatasUPtr->set_isAllInstanceUseSamePlan( a.GetBool() );
+
+            }
+            {//--- goSpecPool ---//
+                std::string MultiGoMeshType {};
+                size_t num  {};
+
+                //---
+                const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
+                for( auto &ent : goSpecPool.GetArray() ){
+                    
+                    std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+                    {//--- goSpecName ---//
+                        const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
+                        goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
                     }
-                    {//--- animLabels ---//
-                        const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
-                        if( a.Size() > 0 ){
-                            for( auto &label : a.GetArray() ){//- foreach AnimLabel
-                                tprAssert( label.IsString() );
-                                goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+
+                    //--- MultiGoMeshType ---//
+                    if( ent.HasMember("MultiGoMeshType") ){
+                        goSpecUPtr->isMultiGoMesh = true;
+                        const auto &a = json::check_and_get_value( ent, "MultiGoMeshType", json::JsonValType::String );
+                        goSpecUPtr->multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
+
+                    }else{
+                        goSpecUPtr->isMultiGoMesh = false;
+                    
+                        {//--- afsName ---//
+                            const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
+                            std::string afsName = a.GetString();
+                            tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                            goSpecUPtr->afsName = afsName;
+                        }
+                        {//--- animLabels ---//
+                            const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
+                            if( a.Size() > 0 ){
+                                for( auto &label : a.GetArray() ){//- foreach AnimLabel
+                                    tprAssert( label.IsString() );
+                                    goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
+                                }
                             }
                         }
                     }
-                }
 
-                {//--- num ---//
-                    const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                    num = cast_2_size_t( a.GetUint64() );
-                    tprAssert( num > 0 );
-                }
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = cast_2_size_t( a.GetUint64() );
+                        tprAssert( num > 0 );
+                    }
 
-                //-- goSpecUPtr 创建完毕 --
-                varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
+                    //-- goSpecUPtr 创建完毕 --
+                    varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
+                }
             }
+
+            varTypeDatasUPtr->init_check();
+            plotRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
         }
 
-        varTypeDatasUPtr->init_check();
-        plotRef.insert_2_varTypeDatas( varTypeIdx, std::move(varTypeDatasUPtr) );
-    }
+        plotRef.init_check();
 
-    plotRef.init_check();
+    }
 }
 
 
