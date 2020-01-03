@@ -2,7 +2,7 @@
 {
     "name": "Test",
     "EcoSysPlanType": "Desert",
-    "colorTableName": "desert",
+    "colorTableName": "poplarForest",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "natureMajorYardPools":[

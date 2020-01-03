@@ -14,7 +14,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [],
+                        "animLabel": "",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 7,

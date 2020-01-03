@@ -9,19 +9,14 @@
 #define TPR_ANIM_LABEL_H
 
 //------------------- CPP --------------------//
-#include <utility> // pair
 #include <string>
-#include <vector>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
-//-------------------- Engine --------------------//
-#include "tprAssert.h"
-
 
 //-- 亚种 标签 --
-// 一个亚种，最多允许携带 0～2 个标签
+// 一个亚种，最多允许携带 0～1 个标签
 enum class AnimLabel : u32_t{
     Default=0, //- 未设置 label 的，自动使用此标签来搜索
     //---
@@ -48,51 +43,26 @@ enum class AnimLabel : u32_t{
     MapEnt_3m3,
     MapEnt_4m4,
 
+    //-- rocks
+    Big_Light_Bald,    // tmp
+    Big_Light_Lichen,  // tmp
+
     //---
     Dead,
+
+    T1,
+    T2,
 
     //...
 };
 
-extern const std::vector<AnimLabel> emptyAnimLabels; //- Must Keep Empty !!!
+
+AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept;
 
 
-inline AnimLabel val_2_AnimLabel( u32_t val_ )noexcept{
-    switch (val_){
-    case 0:  return AnimLabel::Default;
-
-    case 1:  return AnimLabel::Sml;
-    case 2:  return AnimLabel::Mid;
-    case 3:  return AnimLabel::Big;
-    case 4:  return AnimLabel::Huge;
-
-    case 5:  return AnimLabel::Light;
-    case 6:  return AnimLabel::Dark;
-
-    case 7:  return AnimLabel::Fat;
-    case 8:  return AnimLabel::Thin;
-    case 9:  return AnimLabel::HalfDead;
-
-    case 10:   return AnimLabel::Field_1f1;
-    case 11:  return AnimLabel::Field_2f2;
-    case 12:  return AnimLabel::Field_3f3;
-
-    case 13:  return AnimLabel::MapEnt_1m1;
-    case 14:  return AnimLabel::MapEnt_2m2;
-    case 15:  return AnimLabel::MapEnt_3m3;
-    case 16:  return AnimLabel::MapEnt_4m4;
-
-    case 17:  return AnimLabel::Dead;
-    //.......
-    default:
-        tprAssert(0);
-        return AnimLabel::Default; // never reach
-    }
-}
-
-
+/*
 inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
-    if(       str_ == "Default" ){  return AnimLabel::Default;
+    if(       (str_ == "Default") || (str_ == "") ){  return AnimLabel::Default;
     
     }else if( str_ == "Sml" ){      return AnimLabel::Sml;
     }else if( str_ == "Mid" ){      return AnimLabel::Mid;
@@ -118,7 +88,15 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
     }else if( str_ == "MapEnt_4m4" ){ return AnimLabel::MapEnt_4m4;
     }
 
+    else if( str_ == "Light_Bald" ){ return AnimLabel::Light_Bald;
+    }else if( str_ == "Light_Lichen" ){ return AnimLabel::Light_Lichen;
+    }
+
     else if( str_ == "Dead" ){ return AnimLabel::Dead;
+    }
+
+    else if( str_ == "T1" ){ return AnimLabel::T1;
+    }else if( str_ == "T2" ){ return AnimLabel::T2;
     }
 
     else{
@@ -126,53 +104,9 @@ inline AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
         return AnimLabel::Default; // never reach
     }
 }
+*/
 
 
-
-
-//-- 将2个 animLabel，合并为一个 key，用于容器 --
-using animLabelKey_t = u64_t;
-
-
-inline animLabelKey_t animLabels_2_key( AnimLabel a_, AnimLabel b_ )noexcept{
-
-    if( (a_==AnimLabel::Default) && (b_==AnimLabel::Default) ){
-        return 0;
-    }
-    //---
-    tprAssert( a_ != b_ );
-    u32_t ua = static_cast<u32_t>(a_);
-    u32_t ub = static_cast<u32_t>(b_);
-    //---
-    animLabelKey_t key {};
-    u32_t *ptr = (u32_t*)(&key);
-    if( ua < ub ){
-        *ptr = ua;
-        ptr++;
-        *ptr = ub;
-    }else{
-        *ptr = ub;
-        ptr++;
-        *ptr = ua;
-    }
-    return key;
-}
-
-
-inline std::pair<AnimLabel,AnimLabel> animLabelKey_2_labels( animLabelKey_t key_ )noexcept{
-
-    AnimLabel a {};
-    AnimLabel b {};
-    u32_t *ptr = (u32_t*)(&key_);
-    a = val_2_AnimLabel( *ptr );
-    ptr++;
-    b = val_2_AnimLabel( *ptr );
-
-    if( !((a==AnimLabel::Default) && (b==AnimLabel::Default)) ){
-        tprAssert( a != b );
-    }
-    return {a,b};
-}
 
 #endif 
 

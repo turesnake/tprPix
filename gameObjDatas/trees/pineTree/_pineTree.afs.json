@@ -14,7 +14,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [ "Sml" ],
+                        "animLabel": "Sml",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 4,
@@ -36,7 +36,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [ "Mid" ],
+                        "animLabel": "Mid",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 8,
@@ -58,7 +58,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [ "Dead" ],
+                        "animLabel": "Dead",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 1,

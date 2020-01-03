@@ -1,0 +1,31 @@
+[
+{
+    "name": "breakStone",
+    "pngs": [
+        {
+            "path": "breakStone_1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  3,
+            "totalFrameNum": 12,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 12,
+                    "name": "idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+
+            ]
+        }
+        
+    ]
+}
+]
+

@@ -21,7 +21,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 3 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
             ]
         },
 
@@ -77,7 +77,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 3 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
             ]
         },
 
@@ -135,7 +135,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 3 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
             ]
         },
 
@@ -146,7 +146,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 3 }
+                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabel": "Sml", "num": 3 }
             ]
         },
 

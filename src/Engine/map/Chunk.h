@@ -56,6 +56,7 @@ public:
     inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
     inline const std::set<goid_t> &get_edgeGoIds() const noexcept{ return this->edgeGoIds; }
     
+    
     //-- 确保 参数为 基于chunk左下ent 的 相对mpos
     inline MemMapEnt *getnc_mapEntPtr( const IntVec2 &lMPosOff_ )noexcept{
         tprAssert( (lMPosOff_.x>=0) && (lMPosOff_.y>=0) );

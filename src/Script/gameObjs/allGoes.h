@@ -37,7 +37,7 @@
 
 //---------- Script : gameObjs : majorGos : rocks -------------//
 #include "Script/gameObjs/majorGos/rocks/Rock.h"
-
+#include "Script/gameObjs/majorGos/rocks/BreakStone.h"
 
 
 //---------- Script : gameObjs : floorGos --------------------//

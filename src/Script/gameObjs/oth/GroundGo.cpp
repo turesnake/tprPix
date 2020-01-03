@@ -92,7 +92,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
         jgEntPtr = it->get();
         subspecId = esrc::apply_a_random_animSubspecId(   
                     "groundGo",
-                    std::vector<AnimLabel>{ groundGo_inn::Job_GroundGoEntType_2_AnimLabel( jgEntPtr->groundType ) },
+                    groundGo_inn::Job_GroundGoEntType_2_AnimLabel( jgEntPtr->groundType ),
                     msParamPtr->fieldUWeight  + jgEntPtr->uWeight
                     );
 

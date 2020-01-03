@@ -97,7 +97,7 @@ public:
                     size_t                 jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_,
-                    const std::vector<AnimLabel> &labels_ ):
+                    AnimLabel              label_ ):
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
@@ -107,11 +107,11 @@ public:
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(true),
         jFrameIdx(jFrameIdx_),
-        defaultTimeStep(6) //- 随便写一个值，反正用不上
+        defaultTimeStep(6), //- 随便写一个值，反正用不上
+        animLabel(label_)
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
             this->timeSteps.insert( this->timeSteps.end(), timeSteps_.begin(), timeSteps_.end() );
-            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
@@ -125,7 +125,7 @@ public:
                     size_t                jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep,
-                    const std::vector<AnimLabel> &labels_ ):
+                    AnimLabel              label_ ):
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
@@ -135,11 +135,11 @@ public:
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
         jFrameIdx(jFrameIdx_),
-        defaultTimeStep(_defaultTimeStep)
+        defaultTimeStep(_defaultTimeStep),
+        animLabel(label_)
         {
             this->lFrameIdxs.insert( this->lFrameIdxs.end(), lFrameIdxs_.begin(), lFrameIdxs_.end() );
             this->timeSteps.push_back( _defaultTimeStep ); //- 用不上
-            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
 
     //-- 单帧action 专用 构造器 --
@@ -150,7 +150,7 @@ public:
                     size_t  jFrameIdx_,
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
-                    const std::vector<AnimLabel> &labels_ ):
+                    AnimLabel         label_ ):
         subspecIdx(subspecIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
@@ -160,11 +160,11 @@ public:
         isOpaque( isOpaque_ ),
         isTimeStepsManualSet(false),
         jFrameIdx(jFrameIdx_),
-        defaultTimeStep(6) //- 随便写一个值，反正用不上
+        defaultTimeStep(6), //- 随便写一个值，反正用不上
+        animLabel(label_)
         {
             this->lFrameIdxs.push_back( lFrameIdx_ );
             this->timeSteps.push_back( 6 ); //- 随便写一个值，反正用不上
-            this->animLabels.insert( this->animLabels.end(), labels_.begin(), labels_.end() );
         }
         
     //===== vals =====//
@@ -180,7 +180,7 @@ public:
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
     std::vector<size_t> timeSteps  {}; 
-    std::vector<AnimLabel> animLabels {};
+    AnimLabel       animLabel {};
 };
 
 

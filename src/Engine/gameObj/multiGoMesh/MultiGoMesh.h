@@ -32,7 +32,7 @@ public:
     std::string             animFrameSetName {};
     glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
     double                  zOff    {};
-    std::vector<AnimLabel>  animLabels {};
+    AnimLabel               animLabel {};
 };
 
 

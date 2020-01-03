@@ -17,7 +17,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [ "Sml" ],
+                    "animLabel": "Sml",
                     "subIdx": 0,
                     "AnimActionParams":[
                         { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
@@ -48,7 +48,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [ "Sml" ],
+                    "animLabel": "Sml",
                     "subIdx": 1,
                     "AnimActionParams":[
                         { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
@@ -79,7 +79,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [ "Sml" ],
+                    "animLabel": "Sml",
                     "subIdx": 2,
                     "AnimActionParams":[
                         { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
@@ -110,7 +110,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [ "Mid" ],
+                    "animLabel": "Mid",
                     "subIdx": 0,
                     "AnimActionParams":[
                         { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
@@ -141,7 +141,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [ "Mid" ],
+                    "animLabel": "Mid",
                     "subIdx": 1,
                     "AnimActionParams":[
                         { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },

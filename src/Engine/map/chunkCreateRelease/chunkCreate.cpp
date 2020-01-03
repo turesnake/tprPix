@@ -426,6 +426,8 @@ bool is_chunk_near4EcoObjs_all_active(  IntVec2 chunkMPos_, bool isInnCall_ ){
                 // 将 目标 ecoObj 压入 job 队列
                 push_ecoObj_2_jobQue( key );
                 esrc::insert_ecoObjKey_2_onCreating( key );
+
+                break;
             
             default:
                 break;

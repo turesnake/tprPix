@@ -203,7 +203,7 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
     for( size_t i=0; i<animActionParams_.size(); i++ ){
         const AnimActionParam *paramPtr = animActionParams_.at(i).get();
         //---
-        animSubspecId_t subId = this->subGroup.find_or_create_a_animSubspecId(paramPtr->animLabels,
+        animSubspecId_t subId = this->subGroup.find_or_create_a_animSubspecId(paramPtr->animLabel,
                                                                                     paramPtr->subspecIdx );
         AnimSubspec &subRef = esrc::find_or_insert_new_animSubspec( subId );
         AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionDir, paramPtr->actionBrokenLvl, paramPtr->actionName );

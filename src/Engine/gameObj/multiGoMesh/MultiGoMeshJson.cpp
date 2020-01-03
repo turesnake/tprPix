@@ -49,7 +49,7 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
         double                  zOff    {};
         std::string             afsType {};
-        std::vector<AnimLabel>  animLabels {};
+        AnimLabel               animLabel {};
     };
 
 
@@ -137,14 +137,9 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
                     const auto &a = json::check_and_get_value( goMesh, "afsType", json::JsonValType::String );
                     json_GoMeshEnt.afsType = a.GetString();
                 }
-                {//--- animLabels ---//
-                    const auto &a = json::check_and_get_value( goMesh, "animLabels", json::JsonValType::Array );
-                    if( a.Size() > 0 ){
-                        for( auto &ent : a.GetArray() ){//- foreach AnimLabel
-                            tprAssert( ent.IsString() );
-                            json_GoMeshEnt.animLabels.push_back( str_2_AnimLabel(ent.GetString()) );
-                        }
-                    }
+                {//--- animLabel ---//
+                    const auto &a = json::check_and_get_value( goMesh, "animLabel", json::JsonValType::String );
+                    json_GoMeshEnt.animLabel = str_2_AnimLabel(a.GetString() );
                 }
                 json_GoMeshSet.gomeshs.push_back( json_GoMeshEnt ); // copy
             }
@@ -198,9 +193,7 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
                     goMeshEnt.animFrameSetName = afsTypes.at(json_GoMeshEntRef.afsType);
                     goMeshEnt.dposOff = json_GoMeshEntRef.dposOff;
                     goMeshEnt.zOff = json_GoMeshEntRef.zOff;
-                    for( const auto &animLabelEnt : json_GoMeshEntRef.animLabels ){
-                        goMeshEnt.animLabels.push_back( animLabelEnt ); // copy
-                    }
+                    goMeshEnt.animLabel = json_GoMeshEntRef.animLabel;
                     //---
                     goMeshSet.gomeshs.push_back( goMeshEnt );
                 }

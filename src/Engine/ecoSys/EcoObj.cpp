@@ -73,6 +73,7 @@ void EcoObj::init( sectionKey_t sectionKey_ ){
     //  确定 targetEcoPlanPtr 后, 正式 分配数据
     //------------------------//
     this->copy_datas_from_ecoSysPlan( ecoSysPlanPtr );
+
 }
 
 
@@ -90,16 +91,17 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------//
     IntVec2 SPos = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_SECTION) );
     this->oddEven = floorMod( SPos, 2.0 );
+
     //------------------//
-    //     weight
+    //    self uWeight
     //------------------//
     // 3*3 个 ecoObj 组成一个 pn晶格
-    double freq = 1.0 / 3.0; 
+    double freq2 = 1.0 / 3.0; 
     glm::dvec2 fv = this->mcpos.get_dpos();
     fv /= static_cast<double>(ENTS_PER_SECTION);
     fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
 
-    double originPerlin = simplex_noise2( fv.x * freq, fv.y * freq ); //- [-1.0, 1.0]
+    double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]
 
     this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
 
@@ -110,7 +112,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------------------//
     //       densityPools
     //------------------------------//
-    
+    //...
 
 }
 

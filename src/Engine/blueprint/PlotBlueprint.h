@@ -62,7 +62,7 @@ public:
     bool                    isMultiGoMesh {};
 
     std::string             afsName     {};
-    std::vector<AnimLabel>  animLabels  {}; //- 允许是空的
+    AnimLabel               animLabel  {};
     
     multiGoMeshTypeId_t     multiGoMeshType {};
 };

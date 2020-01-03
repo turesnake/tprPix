@@ -21,8 +21,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "fence", "afsName": "fence", "animLabels":[], "num": 1 },
-                { "goSpecName": "rock", "afsName": "rock", "animLabels":[ "Big", "Light" ], "num": 13 }
+                { "goSpecName": "fence", "afsName": "fence", "animLabel":"T2", "num": 3 }
             ]
         },
 
@@ -33,7 +32,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": true,
             "plotPool":[ 
-                { "plotName": "bush_1", "num": 3 } 
+                { "plotName": "rock_lichen_4m3", "num": 3 } 
             ]
         },
 
@@ -50,13 +49,30 @@
         },
 
         {
+            "annotation": "碎石头",
+            "type": "V_4",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpecName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 3 }
+            ]
+        },
+
+
+
+
+
+
+
+        {
             "annotation": "地板_test",
             "type": "V_30",
             "isFloorGo": true,
             "FloorGoSize": "MapEnt_2m2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_2m2" ], "num": 3 }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel":"MapEnt_2m2", "num": 3 }
             ]
         },
 
@@ -67,7 +83,7 @@
             "FloorGoSize": "MapEnt_3m3",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_3m3" ], "num": 3 }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_3m3", "num": 3 }
             ]
         },
 
@@ -78,7 +94,7 @@
             "FloorGoSize": "MapEnt_4m4",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabels":[ "MapEnt_4m4" ], "num": 3 }
+                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_4m4", "num": 3 }
             ]
         }
 

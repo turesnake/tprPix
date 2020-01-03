@@ -96,7 +96,7 @@ public:
     inline bool is_find_in_artifactFieldKeys( fieldKey_t key_ )const noexcept{
         return (artifactFieldKeys.find(key_) != this->artifactFieldKeys.end() );
     }
-    
+
 
     //======== static funcs ========// 
     static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 

@@ -16,7 +16,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [ "Mid" ],
+                        "animLabel": "Mid",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
                         "idxNums": 2,
@@ -38,7 +38,7 @@
                 "subspecs": [
                     {
                         "type": "batch",
-                        "animLabels": [ "Mid" ],
+                        "animLabel": "Mid",
                         "fstSubIdx": 2,
                         "fstIdx": 0,
                         "idxNums": 2,

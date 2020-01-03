@@ -84,6 +84,7 @@ void onGoSpecIds_SignUp(){
     //        rock
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "rock",       std::bind( &gameObjs::Rock::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "breakStone", std::bind( &gameObjs::BreakStone::init, _1, _2 ) );
 
     //-------------------//
     //     FloorGo

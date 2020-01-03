@@ -228,15 +228,11 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                                 tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
                                 goSpecUPtr->afsName = afsName;
                             }
-                            {//--- animLabels ---//
-                                const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
-                                if( a.Size() > 0 ){
-                                    for( auto &label : a.GetArray() ){//- foreach AnimLabel
-                                        tprAssert( label.IsString() );
-                                        goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
-                                    }
-                                }
+                            {//--- animLabel ---//
+                                const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
+                                goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
                             }
+
                         }
 
                         {//--- num ---//
@@ -282,14 +278,9 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                             tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
                             goSpecUPtr->afsName = afsName;
                         }
-                        {//--- animLabels ---//
-                            const auto &a = json::check_and_get_value( ent, "animLabels", json::JsonValType::Array );
-                            if( a.Size() > 0 ){
-                                for( auto &label : a.GetArray() ){//- foreach AnimLabel
-                                    tprAssert( label.IsString() );
-                                    goSpecUPtr->animLabels.push_back( str_2_AnimLabel(label.GetString()) );
-                                }
-                            }
+                        {//--- animLabel ---//
+                                const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
+                                goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
                         }
 
                                                 // 万一 floorGo 是 multiGoMesh 

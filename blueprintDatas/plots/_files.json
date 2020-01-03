@@ -1,6 +1,8 @@
 [
     {"bush_1/bush_1.json": true },
     {"mushroom_2m2/mushroom_2m2.json": true },
-    {"mushroom_3m3/mushroom_3m3.json": true }
+    {"mushroom_3m3/mushroom_3m3.json": true },
+
+    {"rocks/rock_4m3.json": true }
     
 ]

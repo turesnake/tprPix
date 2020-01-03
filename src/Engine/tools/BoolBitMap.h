@@ -19,6 +19,7 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 
 
 
@@ -34,8 +35,8 @@ public:
         this->hLen = h_;
         this->totalNum = w_ * h_;
         //--
-        size_t bytes = ceil( static_cast<double>(this->totalNum) / 
-                            static_cast<double>(BoolBitMap::BITS_PER_BYTE) );
+        size_t bytes = cast_2_size_t( ceil( static_cast<double>(this->totalNum) / 
+                            static_cast<double>(BoolBitMap::BITS_PER_BYTE) ) );
         bitMap.resize( bytes );
     }
 

@@ -43,7 +43,7 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
 
 // support multi-thread
 animSubspecId_t apply_a_random_animSubspecId( const std::string  &animFrameSetName_,
-                                                    const std::vector<AnimLabel> &labels_,
+                                                    AnimLabel  label_,
                                                     size_t              uWeight_ ){
         // debug
         if( anim_inn::animFrameSets.find(animFrameSetName_) == anim_inn::animFrameSets.end() ){
@@ -51,7 +51,7 @@ animSubspecId_t apply_a_random_animSubspecId( const std::string  &animFrameSetNa
                 << endl;
         }
         tprAssert( anim_inn::animFrameSets.find(animFrameSetName_) != anim_inn::animFrameSets.end() );
-    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspecId( labels_, uWeight_ );
+    return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspecId( label_, uWeight_ );
 }
 
 

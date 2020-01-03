@@ -49,7 +49,7 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Archive_PvtBinary>();
 
-    pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "button_beginScene", emptyAnimLabels, 10 );
+    pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "button_beginScene", AnimLabel::Default, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Center );

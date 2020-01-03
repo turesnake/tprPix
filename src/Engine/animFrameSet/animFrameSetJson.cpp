@@ -77,17 +77,17 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
     void parse_AnimActionParam( size_t  subspecIdx_,
                                 const Value &actionParamEnt_,
                                 std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                                const std::vector<AnimLabel> &labels_,
+                                AnimLabel  label_,
                                 bool isPjtSingle_ );
 
     std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
                                                     const Value &actionParamEnt_,
-                                                    const std::vector<AnimLabel> &labels_,
+                                                    AnimLabel  label_,
                                                     bool isPjtSingle_ );
     
     std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspecIdx_,
                                                     const Value &actionParamEnt_, 
-                                                    const std::vector<AnimLabel> &labels_ );
+                                                    AnimLabel  label_ );
 
     NineDirection jsonStr_2_ninedirection( const std::string &str_ );
 }//------------- namespace: afsJson_inn end --------------//
@@ -110,8 +110,8 @@ void parse_animFrameSetJsonFile(){
     }
 
     //-------- special ids ----------//
-    esrc::set_emptyPixId( esrc::apply_a_random_animSubspecId( "emptyPix", emptyAnimLabels, 1) );
-    esrc::set_fieldRimId( esrc::apply_a_random_animSubspecId( "fieldRim", emptyAnimLabels, 1) );
+    esrc::set_emptyPixId( esrc::apply_a_random_animSubspecId( "emptyPix", AnimLabel::Default, 1) );
+    esrc::set_fieldRimId( esrc::apply_a_random_animSubspecId( "fieldRim", AnimLabel::Default, 1) );
     //...
     
     //-------------
@@ -252,17 +252,12 @@ void parse_subspec_in_handleType(  const Value &subspecEnt_,
                         bool isPjtSingle_ ){
 
     
-    std::vector<AnimLabel> labels {}; //- 允许是空的
+    AnimLabel   animLabel {};
     size_t      subIdx  {};
 
-    {//--- animLabels ---//
-        const auto &a = check_and_get_value( subspecEnt_, "animLabels", JsonValType::Array );
-        if( a.Size() > 0 ){
-            for( auto &ent : a.GetArray() ){//- foreach AnimLabel
-                tprAssert( ent.IsString() );
-                labels.push_back( str_2_AnimLabel(ent.GetString()) );
-            }
-        }
+    {//--- animLabel ---//
+        const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
+        animLabel = str_2_AnimLabel(a.GetString());
     }
     {//--- subIdx ---//
         const auto &a = check_and_get_value( subspecEnt_, "subIdx", JsonValType::Uint64 );
@@ -271,7 +266,7 @@ void parse_subspec_in_handleType(  const Value &subspecEnt_,
     {//--- AnimActionParams ---//
         const auto &a = check_and_get_value( subspecEnt_, "AnimActionParams", JsonValType::Array );
         for( auto &ent : a.GetArray() ){//- foreach AnimActionParam
-            afsJson_inn::parse_AnimActionParam( subIdx, ent, params_, labels, isPjtSingle_ );
+            afsJson_inn::parse_AnimActionParam( subIdx, ent, params_, animLabel, isPjtSingle_ );
         }
     }
 }
@@ -285,7 +280,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
                         std::vector<std::shared_ptr<AnimActionParam>> &params_,
                         bool isPjtSingle_ ){
     
-    std::vector<AnimLabel> labels {}; //- 允许是空的
+    AnimLabel     animLabel {};
     std::string   actionName {};
     NineDirection actionDir {};
     BrokenLvl     actionBrokenLvl {};
@@ -295,14 +290,9 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
     size_t        jFrameIdx  {};
     bool          isOpaque   {};
 
-    {//--- animLabels ---//
-        const auto &a = check_and_get_value( subspecEnt_, "animLabels", JsonValType::Array );
-        if( a.Size() > 0 ){
-            for( auto &ent : a.GetArray() ){//- foreach AnimLabel
-                tprAssert( ent.IsString() );
-                labels.push_back( str_2_AnimLabel(ent.GetString()) );
-            }
-        }
+    {//--- animLabel ---//
+        const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
+        animLabel = str_2_AnimLabel(a.GetString());
     }
 
     {//--- fstSubIdx ---//
@@ -339,7 +329,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, actionBrokenLvl, jFrameIdx, i+fstIdx, isOpaque, labels) );
+        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, actionBrokenLvl, jFrameIdx, i+fstIdx, isOpaque, animLabel) );
     }
 
 }
@@ -354,7 +344,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
 void parse_AnimActionParam( size_t  subspecIdx_,
                             const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                            const std::vector<AnimLabel> &labels_,
+                            AnimLabel  label_,
                             bool isPjtSingle_ ){
 
     std::string type {};
@@ -364,10 +354,10 @@ void parse_AnimActionParam( size_t  subspecIdx_,
         type = a.GetString();
     }
     if( type == "singleFrame" ){
-        params_.push_back( afsJson_inn::singleFrame(subspecIdx_, actionParamEnt_, labels_, isPjtSingle_ ) );
+        params_.push_back( afsJson_inn::singleFrame(subspecIdx_, actionParamEnt_, label_, isPjtSingle_ ) );
     }
     else if( type == "multiFrame" ){
-        params_.push_back( afsJson_inn::multiFrame(subspecIdx_, actionParamEnt_, labels_) );
+        params_.push_back( afsJson_inn::multiFrame(subspecIdx_, actionParamEnt_, label_) );
     }else{
         tprAssert(0);
     }
@@ -380,7 +370,7 @@ void parse_AnimActionParam( size_t  subspecIdx_,
  */
 std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
                                                 const Value &actionParamEnt_,
-                                                const std::vector<AnimLabel> &labels_,
+                                                AnimLabel  label_,
                                                 bool isPjtSingle_ ){
 
     std::string   actionName {};
@@ -414,7 +404,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, labels_ );
+    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, label_ );
 }
 
 
@@ -424,7 +414,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
  */
 std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
                                             const Value &actionParamEnt_, 
-                                            const std::vector<AnimLabel> &labels_ ){
+                                            AnimLabel  label_ ){
 
     std::string         actionName {};
     NineDirection       actionDir {};
@@ -513,7 +503,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
                                                     jFrameIdx,
                                                     lFrameIdxs,
                                                     timeStep,
-                                                    labels_ );
+                                                    label_ );
     }else{
         {//--- timeSteps [] ---//
             const auto &a = check_and_get_value( actionParamEnt_, "timeSteps", JsonValType::Array );
@@ -532,7 +522,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
                                                     jFrameIdx,
                                                     lFrameIdxs,
                                                     timeSteps,
-                                                    labels_ );
+                                                    label_ );
     }
 }
 

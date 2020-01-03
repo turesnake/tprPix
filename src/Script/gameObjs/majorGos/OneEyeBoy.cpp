@@ -63,7 +63,7 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
-        pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "simpleMan", emptyAnimLabels, 10 ); //- 暂时只有一个 亚种
+        pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "simpleMan", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );

@@ -14,7 +14,7 @@
             "subspecs": [
                 {
                     "type": "batch",
-                    "animLabels": [ "MapEnt_2m2" ],
+                    "animLabel": "MapEnt_2m2",
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 1,
@@ -36,7 +36,7 @@
             "subspecs": [
                 {
                     "type": "batch",
-                    "animLabels": [ "MapEnt_3m3" ],
+                    "animLabel": "MapEnt_3m3",
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 1,
@@ -58,7 +58,7 @@
             "subspecs": [
                 {
                     "type": "batch",
-                    "animLabels": [ "MapEnt_4m4" ],
+                    "animLabel": "MapEnt_4m4",
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 1,

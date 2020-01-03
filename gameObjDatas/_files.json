@@ -1,5 +1,6 @@
 [
     {"artifacts/fence/_fence.go.json": true },
+    {"breakStone/_breakStone.go.json": true },
     {"bushOth/_bushOth.go.json": true },
     {"cactus/_cactus.go.json": true },
     {"fieldRim/_fieldRim.go.json": true },

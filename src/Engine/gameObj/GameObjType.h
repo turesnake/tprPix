@@ -13,6 +13,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <vector>
+#include <functional>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 

@@ -89,7 +89,7 @@ public:
     VarTypeDatas_Yard_FloorGo()=default;
     //----- set -----//
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
-    inline void set_floorGoSize( FloorGoSize size_ )noexcept{ this->floorGoSize = size_; };
+    inline void set_floorGoSize( FloorGoSize size_ )noexcept{ this->floorGoSize = size_; }
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
         varTypeDatas_Yard_FloorGoId_t id = VarTypeDatas_Yard_FloorGo::id_manager.apply_a_u32_id();// 盲目分配id

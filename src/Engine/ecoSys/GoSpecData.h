@@ -33,13 +33,13 @@ public:
     GoSpecData( goSpecId_t rootGoSpecId_,
                 bool       isMultiGoMesh_,
                 const std::string &afsName_,
-                std::vector<AnimLabel> &animLabels_):
+                AnimLabel   animLabel_):
         rootGoSpecId(rootGoSpecId_),
         isMultiGoMesh(isMultiGoMesh_),
-        afsName(afsName_)
+        afsName(afsName_),
+        animLabel(animLabel_)
         {
             tprAssert( !isMultiGoMesh_ );
-            this->animLabels.swap( animLabels_ );
         }
 
     GoSpecData( goSpecId_t rootGoSpecId_,
@@ -58,12 +58,7 @@ public:
     inline goSpecId_t   get_rootGoSpecId()const noexcept{ return this->rootGoSpecId; }
     inline bool         get_isMultiGoMesh()const noexcept{ return this->isMultiGoMesh; }
     inline const std::string &get_afsName()const noexcept{ return this->afsName; }
-    
-
-    inline const std::vector<AnimLabel> &get_animLabels()const noexcept{ 
-        tprAssert( !this->isMultiGoMesh );
-        return this->animLabels; 
-    }
+    inline AnimLabel get_animLabel()const noexcept{ return this->animLabel; }
 
     inline multiGoMeshTypeId_t get_multiGoMeshType()const noexcept{
         tprAssert( this->isMultiGoMesh );
@@ -77,7 +72,7 @@ private:
     bool                    isMultiGoMesh;
 
     std::string             afsName    {};
-    std::vector<AnimLabel>  animLabels {};
+    AnimLabel               animLabel {};
     multiGoMeshTypeId_t     multiGoMeshType {};
 };
 

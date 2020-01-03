@@ -14,7 +14,7 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabels": [],
+                    "animLabel": "",
                     "subIdx": 0,
                     "AnimActionParams":[
                         {

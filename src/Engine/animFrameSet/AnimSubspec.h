@@ -53,6 +53,12 @@ public:
         return *(container.at(actionName_).get());
     }
         
+    /*
+    AnimAction *get_animActionPtr(   NineDirection   dir_,
+                                            BrokenLvl       brokenLvl_,
+                                            const std::string &actionName_ )const noexcept;
+    */
+    
     inline AnimAction *get_animActionPtr(   NineDirection   dir_,
                                             BrokenLvl       brokenLvl_,
                                             const std::string &actionName_ )const noexcept{
@@ -60,11 +66,12 @@ public:
         auto &container_1 = this->animActions.at(dir_);
         //---
         tprAssert( container_1.find(brokenLvl_) != container_1.end() );
-        auto &container_2 = container_1.at(BrokenLvl::Lvl_0);
+        auto &container_2 = container_1.at(brokenLvl_);
         //---
         tprAssert( container_2.find(actionName_) != container_2.end() );
         return container_2.at(actionName_).get();
     }
+    
     
 
     inline const std::unordered_set<NineDirection> &get_actionDirs( const std::string &actionName_ )const noexcept{
@@ -86,7 +93,7 @@ private:
 
 
 
-//-- 一组亚种ids，相互间，拥有相同的 animLabels，不同的序号idx --
+//-- 一组亚种ids，相互间，拥有相同的 animLabel，不同的序号idx --
 class AnimSubspecSquad{
 public:
     AnimSubspecSquad()
@@ -134,10 +141,11 @@ public:
     AnimSubspecGroup()
         {
             this->labels.reserve(4);
-            this->labelKeys.reserve(4);
+            //this->labelKeys.reserve(4);
             this->subSquads.reserve(4);
         }
 
+    /*
     inline animSubspecId_t find_or_create_a_animSubspecId(const std::vector<AnimLabel> &labels_, 
                                                                 size_t            subIdx_ )noexcept{
         size_t labelSz = labels_.size();
@@ -147,8 +155,23 @@ public:
         }else{                      return this->find_or_create_inn( labels_.at(0), labels_.at(1), subIdx_ );
         }
     }
+    */
+
+    //-- 空值需要传入 AnimLabel::Default
+    inline animSubspecId_t find_or_create_a_animSubspecId( AnimLabel label_, size_t  subIdx_ )noexcept{
+        if( this->subSquads.find(label_) == this->subSquads.end() ){
+            auto outPair1 = this->subSquads.insert({ label_, AnimSubspecSquad{} });
+            tprAssert( outPair1.second );
+            //---
+            this->labels.push_back( label_ );
+        }
+        return this->subSquads.at(label_).find_or_create( subIdx_ );
+    }
+
+
 
     // param: uWeight_ [0, 9999]
+    /*
     inline animSubspecId_t apply_a_random_animSubspecId(  const std::vector<AnimLabel> &labels_, 
                                                                 size_t uWeight_ )noexcept{
             
@@ -171,15 +194,33 @@ public:
         auto &subSquadRef = this->subSquads.at(key);
         return subSquadRef.apply_a_random_animSubspecId( uWeight_ );
     }
+    */
+    inline animSubspecId_t apply_a_random_animSubspecId(  AnimLabel label_, size_t uWeight_ )noexcept{
+
+        if( label_ == AnimLabel::Default ){
+            size_t idx = (uWeight_ + 735157) % this->labels.size();
+            AnimLabel tmpLabel = this->labels.at( idx );
+            return this->subSquads.at(tmpLabel).apply_a_random_animSubspecId( uWeight_ );
+        }else{
+            tprAssert( this->subSquads.find(label_) != this->subSquads.end() );
+            return this->subSquads.at(label_).apply_a_random_animSubspecId( uWeight_ );
+        }
+    }
+
 
 
     inline void check()noexcept{
         //--- labelKeys --
-        tprAssert( !this->labelKeys.empty() );
+        //tprAssert( !this->labelKeys.empty() );
         //--- labels --
+        /*
         for( const auto &i : this->labelKeys ){
             this->labels.push_back( i.first );
         }
+        */
+
+        tprAssert( !this->labels.empty() );
+
         //--- subSquads ---
         tprAssert( !this->subSquads.empty() );
         for( const auto &i : this->subSquads ){
@@ -190,6 +231,7 @@ public:
 
 private:
 
+    /*
     inline animLabelKey_t apply_random_secKey( const std::vector<animLabelKey_t> &v_, size_t uWeight_ )noexcept{
         if( v_.size() == 1 ){
             return v_.at(0);
@@ -197,8 +239,9 @@ private:
         size_t i = (uWeight_ + 103171) % v_.size();
         return v_.at(i);
     }
+    */
 
-    
+    /*
     inline animSubspecId_t find_or_create_inn( AnimLabel fstLabel_, AnimLabel secLabel_, size_t subIdx_ )noexcept{
         
         animLabelKey_t key = animLabels_2_key( fstLabel_, secLabel_ );
@@ -224,10 +267,22 @@ private:
         }
         return this->subSquads.at(key).find_or_create( subIdx_ );
     }
+    */
 
-    std::vector<AnimLabel> labels {};
-    std::unordered_map<AnimLabel, std::vector<animLabelKey_t>> labelKeys {};
-    std::unordered_map<animLabelKey_t, AnimSubspecSquad> subSquads {};
+    
+    std::vector<AnimLabel> labels {}; // 所有被登记的 labels
+
+
+    //std::unordered_map<AnimLabel, std::vector<animLabelKey_t>> labelKeys {};
+    //std::unordered_map<animLabelKey_t, AnimSubspecSquad> subSquads {};
+    
+
+
+    std::unordered_map<AnimLabel, AnimSubspecSquad> subSquads {};
+
+
+
+
 };
 
 

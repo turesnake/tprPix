@@ -27,6 +27,7 @@
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
+#include "magic_enum.hpp"
 
 
 #if defined TPR_OS_WIN32_
@@ -58,6 +59,9 @@ static_assert( sizeof(unsigned long long)==8,   "sizeof(unsigned long long)==8" 
 static_assert( sizeof(float)==4,   "sizeof(float)==4" );
 static_assert( sizeof(double)==8,   "sizeof(double)==8" );
 //static_assert( sizeof(off_t)==8,   "sizeof(off_t)==8" ); //- in unix is 8, in win is 4
+
+
+static_assert(magic_enum::is_magic_enum_supported, "magic_enum: Unsupported compiler.");
 
 
 

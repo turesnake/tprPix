@@ -3,23 +3,82 @@
     "name": "rock",
     "pngs": [
         {
-            "path": "rock_1.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
+            "path": "rock_big.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  9,
+            "totalFrameNum": 36,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
             "ColliderType": "Square",
             "subspecs": [
                 {
-                    "type": "batch",
-                    "animLabels": [ "Big", "Light" ],
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "name": "idle", "dir": "Center", "brokenLvl": 0,
-                    "isOpaque": true
+                    "type": "handle",
+                    "animLabel": "Big_Light_Bald",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
+
+                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
+                        { "name": "idle", "dir": "L", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true },
+
+                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 8, "isOpaque": true },
+                        { "name": "idle", "dir": "LT", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 9, "isOpaque": true },
+
+                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 12, "isOpaque": true },
+                        { "name": "idle", "dir": "T", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 13, "isOpaque": true },
+
+                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 16, "isOpaque": true },
+                        { "name": "idle", "dir": "RT", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 17, "isOpaque": true },
+
+                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 20, "isOpaque": true },
+                        { "name": "idle", "dir": "R", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 21, "isOpaque": true },
+
+                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 24, "isOpaque": true },
+                        { "name": "idle", "dir": "RB", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 25, "isOpaque": true },
+
+                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 28, "isOpaque": true },
+                        { "name": "idle", "dir": "B", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 29, "isOpaque": true },
+
+                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 32, "isOpaque": true },
+                        { "name": "idle", "dir": "LB", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 33, "isOpaque": true }
+                    ]
+                },
+
+                {
+                    "type": "handle",
+                    "animLabel": "Big_Light_Lichen",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+
+                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
+                        { "name": "idle", "dir": "Center", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
+
+                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
+                        { "name": "idle", "dir": "L", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 7, "isOpaque": true },
+
+                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 10, "isOpaque": true },
+                        { "name": "idle", "dir": "LT", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 11, "isOpaque": true },
+
+                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 14, "isOpaque": true },
+                        { "name": "idle", "dir": "T", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 15, "isOpaque": true },
+
+                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 18, "isOpaque": true },
+                        { "name": "idle", "dir": "RT", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 19, "isOpaque": true },
+
+                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 22, "isOpaque": true },
+                        { "name": "idle", "dir": "R", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 23, "isOpaque": true },
+
+                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 26, "isOpaque": true },
+                        { "name": "idle", "dir": "RB", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 27, "isOpaque": true },
+
+                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 30, "isOpaque": true },
+                        { "name": "idle", "dir": "B", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 31, "isOpaque": true },
+
+                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 34, "isOpaque": true },
+                        { "name": "idle", "dir": "LB", "brokenLvl": 1, "type": "singleFrame", "lFrameIdx": 35, "isOpaque": true }
+                    ]
                 }
             ]
         }

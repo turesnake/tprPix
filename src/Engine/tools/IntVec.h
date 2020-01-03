@@ -67,11 +67,6 @@ public:
                         static_cast<int>(floor(fy)) };
     }
 
-
-    // 简易版 随机数
-    size_t to_simple_uWeight()const noexcept;
-
-
     //======== static ========//
     static bool is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noexcept;
 

@@ -155,7 +155,7 @@ inline HSV rgb_2_hsv( RGBA in_){
         // if max is 0, then r = g = b = 0              
         // s = 0, h is undefined
         out.s = 0.0;
-        out.h = NAN;                            // its now undefined
+        out.h = static_cast<double>(NAN);                            // its now undefined
         return out;
     }
     if( ir >= max )                           // > is bogus, just keeps compilor happy

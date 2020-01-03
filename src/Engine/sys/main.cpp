@@ -31,6 +31,9 @@
 #include "speedLog.h" // debug_tmp
 #include "tprDebug.h" //- tmp
 
+//-------------------- innTest --------------------//
+#include "innTest.h"
+
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
 
@@ -70,6 +73,7 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
         //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
+        innTest::innTest_main();
 
 
     //------------------------------------------//

@@ -145,6 +145,8 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/tprDebug/*.cpp 
                         src/Engine/UI/*.cpp 
                         src/Engine/VAOVBO/*.cpp 
+
+                        src/innTest/*.cpp 
                         
                         src/Script/*.cpp 
                         src/Script/gameObjs/*.cpp
@@ -182,6 +184,7 @@ set_target_properties(tprpix PROPERTIES OUTPUT_NAME "tprpix")
 target_include_directories ( tprpix PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/magic_enum
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Config
@@ -227,6 +230,8 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/UI
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/VAOVBO
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/innTest
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Script
 
