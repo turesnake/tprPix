@@ -2,12 +2,10 @@
     {
         "goSpecName": "floorGo",
         "specID": 3002,
-        "parentID": 0,
         "family": "Floor",
         "state": "Waked",
         "moveState": "AbsFixed",
         "moveType": "Crawl",
-        "isTopGo": true,
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,

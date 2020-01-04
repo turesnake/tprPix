@@ -25,7 +25,6 @@
 #include "fileIO.h"
 #include "EcoSysPlan.h"
 #include "AnimLabel.h"
-#include "BodySize.h"
 #include "json_oth.h"
 #include "blueprint.h"
 #include "GoSpecData.h"
@@ -231,7 +230,6 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
 void parse_naturePool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
 
     Density             density {};
-    std::unordered_set<BodySize> bodySizes {};
 
     {//--- density.lvl ---//
         const auto &a = check_and_get_value( densityPoolVal_, "density.lvl", JsonValType::Int );

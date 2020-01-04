@@ -25,13 +25,11 @@ void GoSpecFromJson::assemble_2_newGo( goSpecId_t specID_, GameObj &goRef_ ){
     const auto &d = GoSpecFromJson::get_goSpecFromJsonRef( specID_ );
 
     goRef_.species   = d.specID;
-    goRef_.parentId  = d.parentID;
     goRef_.family    = d.family;
     goRef_.state     = d.state;
     goRef_.moveState = d.moveState;
     goRef_.move.set_MoveType( d.moveType );
 
-    goRef_.isTopGo  = d.isTopGo;
     goRef_.isMoveCollide = d.isMoveCollide;
     goRef_.get_collisionRef().set_isDoPass( d.isDoPass );
     goRef_.get_collisionRef().set_isBePass( d.isBePass );

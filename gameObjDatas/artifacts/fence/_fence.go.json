@@ -7,7 +7,6 @@
     "state": "Waked",
     "moveState": "AbsFixed",
     "moveType": "Crawl",
-    "isTopGo": true,
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,

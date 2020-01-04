@@ -15,6 +15,9 @@
 #include <utility> //- pair
 #include <iomanip>
 
+//--------------- Libs ------------------//
+#include "magic_enum.hpp"
+
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "SpeedLevel.h"
@@ -32,10 +35,20 @@
 
 
 
-/* ===========================================================
- *               set_newCrawlDirAxes
- * -----------------------------------------------------------
- */
+MoveType str_2_MoveType( const std::string name_ )noexcept{
+
+    auto labelOP = magic_enum::enum_cast<MoveType>(name_);
+    if( labelOP.has_value() ){
+        return *labelOP;
+    }else{
+        cout << "can't find MoveType: " << name_ << endl;
+        tprAssert(0);
+        return MoveType::Crawl; // never reach
+    }
+}
+
+
+
 void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     tprAssert( this->is_crawl() );
     //-----------//
@@ -58,13 +71,9 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 }
 
 
-/* ===========================================================
- *              renderUpdate_crawl
- * -----------------------------------------------------------
- */
+
 void Move::renderUpdate_crawl(){
 
-        
     //----------------------------//
     //    oldDirAxes & newDirAxes
     //   switch Move/Idle animAction
@@ -106,10 +115,6 @@ void Move::renderUpdate_crawl(){
 
 
 
-/* ===========================================================
- *                  renderUpdate_drag
- * -----------------------------------------------------------
- */
 void Move::renderUpdate_drag(){
 
     if( this->isMoving == false ){
@@ -159,10 +164,7 @@ void Move::renderUpdate_drag(){
 }
 
 
-/* ===========================================================
- *                  renderUpdate_adsorb
- * -----------------------------------------------------------
- */
+
 void Move::renderUpdate_adsorb(){
 
     if( this->isMoving == false ){

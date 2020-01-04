@@ -2,12 +2,10 @@
   {
     "goSpecName": "rock",
     "specID": 7501,
-    "parentID": 0,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",
     "moveType": "Crawl",
-    "isTopGo": true,
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,

@@ -39,6 +39,7 @@ void collect_chunks_need_to_be_release_in_update(){
 /* ===========================================================
  *                 release_one_chunk
  * -----------------------------------------------------------
+ * 直接在 main thread 执行
  */
 void release_one_chunk(){
 

@@ -40,7 +40,6 @@ public:
     //======== vals ========//
     std::string       goSpecName {};
     goSpecId_t        specID {};
-    goid_t            parentID {};
 
     //----- enum -----//
     GameObjFamily       family {};
@@ -49,7 +48,6 @@ public:
     MoveType            moveType {};
 
     //----- bool -----//
-    bool    isTopGo  {};
     bool    isMoveCollide {};
     bool    isDoPass {};
     bool    isBePass {};

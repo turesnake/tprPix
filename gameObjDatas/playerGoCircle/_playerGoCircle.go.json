@@ -2,12 +2,10 @@
     {
         "goSpecName": "playerGoCircle",
         "specID": 21,
-        "parentID": 0,
         "family": "Oth",
         "state": "Waked",
         "moveState": "Movable",
         "moveType": "Drag",
-        "isTopGo": true,
         "isMoveCollide": false,
         "isDoPass": true,
         "isBePass": true,

@@ -57,24 +57,7 @@ inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ )noexcept{
 }
 
 
-inline EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept{
-    if( str_ == std::string{"Forest"} ){
-        return EcoSysPlanType::Forest;
-    }else if( str_ == std::string{"DarkForest"} ){
-        return EcoSysPlanType::DarkForest;
-    }else if( str_ == std::string{"Plain"} ){
-        return EcoSysPlanType::Plain;
-    }else if( str_ == std::string{"Swamp"} ){
-        return EcoSysPlanType::Swamp;
-    }else if( str_ == std::string{"Desert"} ){
-        return EcoSysPlanType::Desert;
-    }else{
-        tprAssert(0);
-        return EcoSysPlanType::Forest; //- never reach
-    }
-}
-
-
+EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept;
 
 #endif 
 

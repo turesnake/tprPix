@@ -27,7 +27,6 @@ void UIGoSpecFromJson::assemble_2_newUIGo( goSpecId_t specID_, GameObj &goRef_ )
 
 
     goRef_.species   = d.specID;
-    goRef_.parentId  = d.parentID;
     goRef_.family    = d.family;
 
     goRef_.move.set_MoveType( d.moveType );

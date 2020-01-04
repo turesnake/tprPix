@@ -99,11 +99,6 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
             uiGoJsonDataRef.goSpecName = a.GetString();
         }
-        
-        {//--- parentID ---//
-            const auto &a = check_and_get_value( ent, "parentID", JsonValType::Uint64 );
-            uiGoJsonDataRef.parentID = static_cast<goid_t>( a.GetUint64() );
-        }
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
             uiGoJsonDataRef.family = str_2_GameObjFamily( a.GetString() );

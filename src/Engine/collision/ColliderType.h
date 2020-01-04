@@ -38,16 +38,8 @@ enum class ColliderType{
 
 };
 
-inline ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
-    if( name_ == std::string{"Nil"} ){              return ColliderType::Nil;
-    }else if( name_ == std::string{"Circular"} ){   return ColliderType::Circular;
-    }else if( name_ == std::string{"Arc"} ){        return ColliderType::Arc;
-    }else if( name_ == std::string{"Square"} ){     return ColliderType::Square;
-    }else{
-        tprAssert(0);
-        return ColliderType::Circular; //- never reach
-    }
-}
+
+ColliderType str_2_ColliderType( const std::string &name_ )noexcept;
 
 
 enum class CollideState{

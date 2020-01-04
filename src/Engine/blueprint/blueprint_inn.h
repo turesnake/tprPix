@@ -35,21 +35,18 @@ public:
         {}
 
     inline const GoSpec &apply_a_goSpec( size_t uWeight_ )noexcept{
-        //const auto &goSpecPoolRef = this->vtPtr->get_goSpecPool();
         const GoSpec &goSpecRef = this->vtPtr->apply_rand_goSpec( uWeight_ );
 
         if( this->isAllInstanceUseSamePlan ){
             //-- 统一值 只生成一次，并永久保留
             if( !this->isUnifiedValsset ){
                 this->isUnifiedValsset = true;
-                //this->unifiedGoSpecPtr = goSpecPoolRef.at( (uWeight_ + 3556177) % goSpecPoolRef.size() ).get();
                 this->unifiedGoSpecPtr = &goSpecRef;
             }
             //-- 直接获得 统一值
             return *(this->unifiedGoSpecPtr);
         }else{
             //-- 每次都独立分配 yardId --
-            //return *(goSpecPoolRef.at( (uWeight_ + 3556177) % goSpecPoolRef.size() ));
             return goSpecRef;
         }
     }
@@ -98,21 +95,18 @@ public:
     //-- 以下 2 函数，只有一个被使用
     inline const GoSpec &apply_a_goSpec( size_t uWeight_ )noexcept{
         tprAssert( !this->isPlotBlueprint );
-        //const auto &goSpecPoolRef = this->vtPtr->get_goSpecPool();
         const GoSpec &goSpecRef = this->vtPtr->apply_rand_goSpec( uWeight_ );
 
         if( this->isAllInstanceUseSamePlan ){
             //-- 统一值 只生成一次，并永久保留
             if( !this->isUnifiedValsset ){
                 this->isUnifiedValsset = true;
-                //this->unifiedGoSpecPtr = goSpecPoolRef.at( (uWeight_ + 751446131) % goSpecPoolRef.size() ).get();
                 this->unifiedGoSpecPtr = &goSpecRef;
             }
             //-- 直接获得 统一值
             return *(this->unifiedGoSpecPtr);
         }else{
             //-- 每次都独立分配 yardId --
-            //return *(goSpecPoolRef.at( (uWeight_ + 751446131) % goSpecPoolRef.size() ));
             return goSpecRef;
         }
     }
@@ -154,21 +148,18 @@ public:
 
     //-- 以下 2 函数，只有一个被使用
     inline const GoSpec &apply_a_goSpec( size_t uWeight_ )noexcept{
-        //const auto &goSpecPoolRef = this->vtPtr->get_goSpecPool();
         const GoSpec &goSpecRef = this->vtPtr->apply_rand_goSpec( uWeight_ );
 
         if( this->isAllInstanceUseSamePlan ){
             //-- 统一值 只生成一次，并永久保留
             if( !this->isUnifiedValsset ){
                 this->isUnifiedValsset = true;
-                //this->unifiedGoSpecPtr = goSpecPoolRef.at( (uWeight_ + 751446131) % goSpecPoolRef.size() ).get();
                 this->unifiedGoSpecPtr = &goSpecRef;
             }
             //-- 直接获得 统一值
             return *(this->unifiedGoSpecPtr);
         }else{
             //-- 每次都独立分配 yardId --
-            //return *(goSpecPoolRef.at( (uWeight_ + 751446131) % goSpecPoolRef.size() ));
             return goSpecRef;
         }
     }
@@ -238,21 +229,18 @@ public:
         {}
 
     inline yardBlueprintId_t apply_a_yardBlueprintId( size_t uWeight_ )noexcept{
-        //const auto &yardIdsRef = this->vtPtr->get_yardIds();
         yardBlueprintId_t yardId = this->vtPtr->apply_rand_yardBlueprintId( uWeight_ );
 
         if( this->isAllInstanceUseSamePlan ){
             //-- 统一值 只生成一次，并永久保留
             if( !this->isUnifiedValsset ){
                 this->isUnifiedValsset = true;
-                //this->unifiedYardId = yardIdsRef.at( (uWeight_ + 7876117) % yardIdsRef.size() );
                 this->unifiedYardId  = yardId;
             }
             //-- 直接获得 统一值
             return this->unifiedYardId;
         }else{
             //-- 每次都独立分配 yardId --
-            //return yardIdsRef.at( (uWeight_ + 7876117) % yardIdsRef.size() );
             return yardId;
         }
     }

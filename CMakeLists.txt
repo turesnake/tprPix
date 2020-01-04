@@ -112,6 +112,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Engine/animFrameSet/*.cpp 
                         src/Engine/blueprint/*.cpp 
                         src/Engine/camera/*.cpp 
+                        src/Engine/circuitBoard/*.cpp 
                         src/Engine/collision/*.cpp 
                         src/Engine/color/*.cpp 
                         src/Engine/coordinate/*.cpp 

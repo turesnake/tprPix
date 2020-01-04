@@ -101,22 +101,7 @@ inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noe
 }
 
 //---- only used for debug ----//
-inline std::string nineDirection_2_str( NineDirection dir_ )noexcept{
-    switch (dir_){
-        case NineDirection::Center:      return "Center";
-        case NineDirection::Left:        return "Left";
-        case NineDirection::LeftTop:     return "LeftTop";
-        case NineDirection::Top:         return "Top";
-        case NineDirection::RightTop:    return "RightTop";
-        case NineDirection::Right:       return "Right";
-        case NineDirection::RightBottom: return "RightBottom";
-        case NineDirection::Bottom:      return "Bottom";
-        case NineDirection::LeftBottom:  return "LeftBottom";
-        default:
-            tprAssert(0);
-            return "error"; // never reach
-    }
-}
+std::string nineDirection_2_str( NineDirection dir_ )noexcept;
 
 
 inline IntVec2 nineDirection_2_mposOff( NineDirection dir_ )noexcept{

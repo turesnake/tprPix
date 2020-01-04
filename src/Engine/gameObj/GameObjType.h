@@ -12,14 +12,10 @@
 
 //-------------------- CPP --------------------//
 #include <string>
-#include <vector>
 #include <functional>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
-
-//------------------- Engine --------------------//
-#include "tprAssert.h"
 
 
 
@@ -30,6 +26,8 @@ class DyParam;
 
 //-- map自动生成器 使用的 uiInit函数 ---
 using F_GO_INIT = std::function<void(GameObj&, const DyParam &dyParams_)>;
+using F_GO      = std::function<void( GameObj& )>;
+using F_AFFECT  = std::function<void( GameObj&, GameObj& )>; // params: dogoRef_, begoRef_
 
 
 using goid_t     = u64_t; //- gameObj id type
@@ -45,18 +43,10 @@ enum class GameObjMoveState{
     Movable   = 3  //- 可移动。本go 可启动移动操作。
 };
 
-inline GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept{
-    if( name_ == std::string{"AbsFixed"} ){
-        return GameObjMoveState::AbsFixed;
-    }else if( name_ == std::string{"BeMovable"} ){
-        return GameObjMoveState::BeMovable;
-    }else if( name_ == std::string{"Movable"} ){
-        return GameObjMoveState::Movable;
-    }else{
-        tprAssert(0);
-        return GameObjMoveState::AbsFixed; //- never reach
-    }
-}
+GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept;
+
+
+
 
 //-- go state / go 常规状态 --
 enum class GameObjState{
@@ -64,16 +54,9 @@ enum class GameObjState{
     Waked = 2  //- 活跃状态，主动发起行动。 
 };
 
-inline GameObjState str_2_GameObjState( const std::string &name_ )noexcept{
-    if( name_ == std::string{"Sleep"} ){
-        return GameObjState::Sleep;
-    }else if( name_ == std::string{"Waked"} ){
-        return GameObjState::Waked;
-    }else{
-        tprAssert(0);
-        return GameObjState::Sleep; //- never reach
-    }
-}
+GameObjState str_2_GameObjState( const std::string &name_ )noexcept;
+
+
 
 
 //- 三大 go 类群 --
@@ -93,24 +76,7 @@ enum class GameObjFamily{
           // 暂未为其 分配 类型...
 };
 
-
-
-inline GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept{
-    if( name_ == std::string{"Major"} ){
-        return GameObjFamily::Major;
-    }else if( name_ == std::string{"Floor"} ){
-        return GameObjFamily::Floor;
-    }else if( name_ == std::string{"GroundGo"} ){
-        return GameObjFamily::GroundGo;
-    }else if( name_ == std::string{"Oth"} ){
-        return GameObjFamily::Oth;
-    }else if( name_ == std::string{"UI"} ){
-        return GameObjFamily::UI;
-    }else{
-        tprAssert(0);
-        return GameObjFamily::Major; //- never reach
-    }
-}
+GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept;
 
 
 

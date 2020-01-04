@@ -36,18 +36,7 @@ enum class MoveType : int {
     Adsorb,  // often used for UIGo, with smooth speed change [no speed upper limit]
 };
 
-inline MoveType str_2_MoveType( const std::string name_ )noexcept{
-    if( name_ == std::string{"Crawl"} ){
-        return MoveType::Crawl;
-    }else if( name_ == std::string{"Drag"} ){
-        return MoveType::Drag;
-    }else if( name_ == std::string{"Adsorb"} ){
-        return MoveType::Adsorb;
-    }else{
-        tprAssert(0);
-        return MoveType::Crawl; //- never reach
-    }
-}
+MoveType str_2_MoveType( const std::string name_ )noexcept;
 
 class Move{
 public:

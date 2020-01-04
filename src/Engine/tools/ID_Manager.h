@@ -31,7 +31,7 @@ enum class ID_TYPE : u8_t {
 
 //----- id 管理器 -----
 // 通常作为 其他类的 静态成员 存在。
-// 0 号 id 就是空id
+// 0 号 id 一定不会被分配到
 class ID_Manager{
 public:
     explicit ID_Manager(ID_TYPE id_type_=ID_TYPE::U64,

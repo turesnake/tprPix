@@ -52,9 +52,6 @@
 //  并不存在孤立的 go实例，每个go实例，都被一个 具象go实例 所"表达“
 //  goid 是全局唯一的。 其外层的 具象go实例 也使用这个 id号
 class GameObj : public std::enable_shared_from_this<GameObj>{
-    using F_GO         = std::function<void( GameObj& )>;
-    using F_AFFECT     = std::function<void( GameObj&, GameObj& )>;
-
 public:
     //-- factory --
     static std::shared_ptr<GameObj> factory_for_regularGo(    goid_t goid_, 
@@ -76,7 +73,6 @@ public:
 
     void rebind_rootAnimActionPosPtr();
    
-
     //----- pvtBinary -----//
     template< typename T >
     inline T *init_pvtBinary()noexcept{
@@ -100,15 +96,6 @@ public:
     void init_check(); //- call in end of go init 
 
 
-    inline Collision &get_collisionRef()noexcept{ 
-            tprAssert( this->collisionUPtr ); // tmp
-        return *(this->collisionUPtr); 
-    }
-
-
-    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJPtr->get_colliderType(); }
-
-
     //--------- rootAnimActionPos ----------//
     inline const AnimActionPos &get_rootAnimActionPosRef()const noexcept{
             tprAssert( this->rootAnimActionPosPtr );
@@ -120,35 +107,16 @@ public:
     inline Square calc_square()const noexcept{
         return this->colliDataFromJPtr->calc_square( this->get_dpos() );
     }
-    
     inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());
     }
-
-    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
-
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
     }
-
     inline GameObjMesh &get_goMeshRef( const std::string &name_ )noexcept{
             tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
         return *(this->goMeshs.at(name_));
     }
-
-    inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &
-    get_goMeshs()noexcept{ return this->goMeshs; }
-
-
-    inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
-    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
-
-    inline void set_brokenLvl( BrokenLvl lvl_ )noexcept{ this->brokenLvl = lvl_; }
-    inline BrokenLvl get_brokenLvl()const noexcept{ return this->brokenLvl; }
-
-    //-- false 值的，需要对齐到 像素
-    inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); }
-
 
     void debug();
 
@@ -170,7 +138,35 @@ public:
             pairRef.second->RenderUpdate_ground();
         }
     }
-    
+
+    inline void insert_2_childGoIds( goid_t id_ )noexcept{
+        auto outPair = this->childGoIds.insert(id_); 
+        tprAssert( outPair.second );
+    }
+
+    //---------------- set -----------------//
+    inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
+    inline void set_brokenLvl( BrokenLvl lvl_ )noexcept{ this->brokenLvl = lvl_; }
+    inline void set_parentGoId( goid_t id_ )noexcept{ this->parentGoId = id_; }
+
+    //---------------- get -----------------//
+    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
+    inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); } // 若为 false，需对齐到 像素
+    inline BrokenLvl get_brokenLvl()const noexcept{ return this->brokenLvl; }
+    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
+    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJPtr->get_colliderType(); }
+    inline goid_t get_parentGoId()const noexcept{ return this->parentGoId; }
+    inline const std::set<goid_t> &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
+
+
+    inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &get_goMeshs()noexcept{ return this->goMeshs; }
+
+
+    inline Collision &get_collisionRef()noexcept{ 
+            tprAssert(this->collisionUPtr); // tmp
+        return *(this->collisionUPtr); 
+    }
+
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
@@ -196,9 +192,8 @@ public:
     goSpecId_t     species  {0};                //- go species id
     GameObjFamily  family   {GameObjFamily::Major};  
 
-    goid_t parentId {NULLID}; //- 不管是否为顶层go，都可以有自己的 父go。
-                              //- 暂未被使用
     
+                            
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
 
@@ -263,7 +258,12 @@ private:
     void init_for_uiGo( const glm::dvec2 &basePointProportion_,
                         const glm::dvec2 &offDPos_ );
 
-    //====== vals =====//
+    //======== vals =======//
+
+    goid_t              parentGoId {NULLID};  // 不管是否为顶层go，都可以有自己的 父go。
+    std::set<goid_t>    childGoIds {};        // 可为空 
+
+
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集
                                         // only used for majorGos
                                         // 通过 reCollect_chunkKeys() 来更新。
@@ -287,7 +287,6 @@ private:
                                     // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
 
-                                    
 
     BrokenLvl       brokenLvl   {BrokenLvl::Lvl_0}; // 破损等级，0为完好。
                                     // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，

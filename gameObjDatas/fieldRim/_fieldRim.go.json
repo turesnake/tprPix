@@ -2,12 +2,10 @@
   {
     "goSpecName": "fieldRim",
     "specID": 19001,
-    "parentID": 0,
     "family": "Floor",
     "state": "Waked",
     "moveState": "AbsFixed",
     "moveType": "Crawl",
-    "isTopGo": true,
     "isMoveCollide": false,
     "isDoPass": false,
     "isBePass": true,

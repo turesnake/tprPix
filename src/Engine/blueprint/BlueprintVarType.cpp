@@ -11,44 +11,13 @@
 #include <unordered_map>
 #include <map>
 
+//--------------- Libs ------------------//
+#include "magic_enum.hpp"
+
+#include "tprDebug.h"
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace bpv_inn {//------------------ namespace: bpv_inn start ---------------------//
-
-    const std::unordered_map<std::string, VariableTypeIdx> str_2_varTypeIdxs {
-        { "V_1",    VariableTypeIdx::V_1 },
-        { "V_2",    VariableTypeIdx::V_2 },
-        { "V_3",    VariableTypeIdx::V_3 },
-        { "V_4",    VariableTypeIdx::V_4 },
-        { "V_5",    VariableTypeIdx::V_5 },
-        { "V_6",    VariableTypeIdx::V_6 },
-        { "V_7",    VariableTypeIdx::V_7 },
-        { "V_8",    VariableTypeIdx::V_8 },
-        { "V_9",    VariableTypeIdx::V_9 },
-        { "V_10",   VariableTypeIdx::V_10 },
-        { "V_11",   VariableTypeIdx::V_11 },
-        { "V_12",   VariableTypeIdx::V_12 },
-        { "V_13",   VariableTypeIdx::V_13 },
-        { "V_14",   VariableTypeIdx::V_14 },
-        { "V_15",   VariableTypeIdx::V_15 },
-        { "V_16",   VariableTypeIdx::V_16 },
-        { "V_17",   VariableTypeIdx::V_17 },
-        { "V_18",   VariableTypeIdx::V_18 },
-        { "V_19",   VariableTypeIdx::V_19 },
-        { "V_20",   VariableTypeIdx::V_20 },
-        { "V_21",   VariableTypeIdx::V_21 },
-        { "V_22",   VariableTypeIdx::V_22 },
-        { "V_23",   VariableTypeIdx::V_23 },
-        { "V_24",   VariableTypeIdx::V_24 },
-        { "V_25",   VariableTypeIdx::V_25 },
-        { "V_26",   VariableTypeIdx::V_26 },
-        { "V_27",   VariableTypeIdx::V_27 },
-        { "V_28",   VariableTypeIdx::V_28 },
-        { "V_29",   VariableTypeIdx::V_29 },
-        { "V_30",   VariableTypeIdx::V_30 }
-    };
-
-
 
     const std::map<VariableTypeIdx, RGBA> varTypeIdx_2_rgbas{
         { VariableTypeIdx::V_1, RGBA{ 255, 128, 128, 255 } }, // hsv: 0, 0.5, 1.0
@@ -120,8 +89,15 @@ std::optional<VariableTypeIdx> rgba_2_VariableTypeIdx( RGBA rgba_ )noexcept{
 
 
 VariableTypeIdx str_2_variableTypeIdx( const std::string &name_ )noexcept{
-    tprAssert( bpv_inn::str_2_varTypeIdxs.find(name_) != bpv_inn::str_2_varTypeIdxs.end() );
-    return bpv_inn::str_2_varTypeIdxs.at(name_);
+
+    auto labelOP = magic_enum::enum_cast<VariableTypeIdx>(name_);
+    if( labelOP.has_value() ){
+        return *labelOP;
+    }else{
+        cout << "can't find VariableTypeIdx: " << name_ << endl;
+        tprAssert(0);
+        return VariableTypeIdx::V_1; // never reach
+    }
 }
 
 

@@ -38,7 +38,6 @@ public:
 
     std::string       goSpecName {};
     goSpecId_t        specID {};
-    goid_t            parentID {0};
 
     //----- enum -----//
     GameObjFamily     family {};

@@ -99,10 +99,6 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
             goSpecFromJsonRef.goSpecName = a.GetString();
         }
-        {//--- parentID ---//
-            const auto &a = check_and_get_value( ent, "parentID", JsonValType::Uint64 );
-            goSpecFromJsonRef.parentID = static_cast<goid_t>( a.GetUint64() );
-        }
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
             goSpecFromJsonRef.family = str_2_GameObjFamily( a.GetString() );
@@ -118,10 +114,6 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         {//--- moveType ---//
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
             goSpecFromJsonRef.moveType = str_2_MoveType( a.GetString() );
-        }
-        {//--- isTopGo ---//
-            const auto &a = check_and_get_value( ent, "isTopGo", JsonValType::Bool );
-            goSpecFromJsonRef.isTopGo = a.GetBool();
         }
         {//--- isMoveCollide ---//
             const auto &a = check_and_get_value( ent, "isMoveCollide", JsonValType::Bool );

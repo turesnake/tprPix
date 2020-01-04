@@ -2,12 +2,10 @@
     {
         "goSpecName": "groundGo",
         "specID": 3003,
-        "parentID": 0,
         "family": "GroundGo",
         "state": "Waked",
         "moveState": "AbsFixed",
         "moveType": "Crawl",
-        "isTopGo": true,
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,

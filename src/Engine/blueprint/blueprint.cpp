@@ -330,9 +330,6 @@ void build_natureYard_floorGoDatasForCreate(
 
         floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
 
-
-
-
         //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
         blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
                                                 entMPos,
