@@ -85,14 +85,14 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
     Document doc;
     doc.Parse( jsonBufUPtr->c_str() );
 
-    goSpecId_t      goSpecId {};
+    goSpeciesId_t      goSpeciesId {};
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
-        {//--- goSpecName ---//
-            const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-            goSpecId =  GoSpecFromJson::str_2_goSpecId( a.GetString() );
+        {//--- goSpeciesName ---//
+            const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
+            goSpeciesId =  GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
         }
 
         mgmj_inn::Json_MultiGoMesh  json_MultiGoMesh {};
@@ -171,7 +171,7 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
             }
 
             //============
-            auto &goSpecFromJsonRef = GoSpecFromJson::getnc_goSpecFromJsonRef( goSpecId );
+            auto &goSpecFromJsonRef = GoSpecFromJson::getnc_goSpecFromJsonRef( goSpeciesId );
             if( goSpecFromJsonRef.multiGoMeshUPtr == nullptr ){
                 goSpecFromJsonRef.multiGoMeshUPtr = std::make_unique<MultiGoMesh>();
             }

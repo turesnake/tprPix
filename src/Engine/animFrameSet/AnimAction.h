@@ -87,7 +87,7 @@ enum class AnimActionParamType{
 class AnimActionParam{
 public:
     //-- 常规构造器,且手动设置 timesteps --
-    AnimActionParam(size_t  subspecIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string     &actionName_,
                     NineDirection          actionDir_,
                     BrokenLvl              actionBrokenLvl_,
@@ -98,7 +98,7 @@ public:
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_,
                     AnimLabel              label_ ):
-        subspecIdx(subspecIdx_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
@@ -115,7 +115,7 @@ public:
         }
 
     //-- 常规构造器,但使用统一值的 timesteps --
-    AnimActionParam(size_t  subspecIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string    &actionName_,
                     NineDirection         actionDir_,
                     BrokenLvl             actionBrokenLvl_,
@@ -126,7 +126,7 @@ public:
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep,
                     AnimLabel              label_ ):
-        subspecIdx(subspecIdx_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
@@ -143,7 +143,7 @@ public:
         }
 
     //-- 单帧action 专用 构造器 --
-    AnimActionParam(size_t  subspecIdx_,
+    AnimActionParam(size_t  subspeciesIdx_,
                     const std::string &actionName_,
                     NineDirection      actionDir_,
                     BrokenLvl          actionBrokenLvl_,
@@ -151,7 +151,7 @@ public:
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
                     AnimLabel         label_ ):
-        subspecIdx(subspecIdx_),
+        subspeciesIdx(subspeciesIdx_),
         actionName(actionName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
@@ -168,7 +168,7 @@ public:
         }
         
     //===== vals =====//
-    size_t          subspecIdx;
+    size_t          subspeciesIdx;
     std::string     actionName;
     NineDirection   actionDir;
     BrokenLvl       actionBrokenLvl;

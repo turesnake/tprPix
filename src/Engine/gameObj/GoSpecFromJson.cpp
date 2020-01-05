@@ -13,26 +13,36 @@
 
 
 //======== static ========//
-std::unordered_map<goSpecId_t, std::unique_ptr<GoSpecFromJson>> GoSpecFromJson::dataUPtrs {};
-std::unordered_map<goSpecId_t, std::string>     GoSpecFromJson::ids_2_names {};
-std::unordered_map<std::string, goSpecId_t>     GoSpecFromJson::names_2_ids {};
-std::unordered_map<goSpecId_t, F_GO_INIT>       GoSpecFromJson::initFuncs {}; 
+std::unordered_map<goSpeciesId_t, std::unique_ptr<GoSpecFromJson>> GoSpecFromJson::dataUPtrs {};
+std::unordered_map<goSpeciesId_t, std::string>     GoSpecFromJson::ids_2_names {};
+std::unordered_map<std::string, goSpeciesId_t>     GoSpecFromJson::names_2_ids {};
+std::unordered_map<goSpeciesId_t, F_GO_INIT>       GoSpecFromJson::initFuncs {}; 
 
 
 
-void GoSpecFromJson::assemble_2_newGo( goSpecId_t specID_, GameObj &goRef_ ){
+void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
 
     const auto &d = GoSpecFromJson::get_goSpecFromJsonRef( specID_ );
 
-    goRef_.species   = d.specID;
+    goRef_.speciesId = d.speciesId;
     goRef_.family    = d.family;
     goRef_.state     = d.state;
     goRef_.moveState = d.moveState;
     goRef_.move.set_MoveType( d.moveType );
 
     goRef_.isMoveCollide = d.isMoveCollide;
-    goRef_.get_collisionRef().set_isDoPass( d.isDoPass );
-    goRef_.get_collisionRef().set_isBePass( d.isBePass );
+
+    auto &collisionRef = goRef_.get_collisionRef();
+
+    collisionRef.set_isDoPass( d.isDoPass );
+    collisionRef.set_isBePass( d.isBePass );
+    if( !d.isBePass ){
+        collisionRef.set_functor_Is_extraPassableDogoSpeciesId( 
+            [&d](goSpeciesId_t dogoSpeciesId_)->bool {
+                return (d.extraPassableDogoSpeciesIds.find(dogoSpeciesId_) != d.extraPassableDogoSpeciesIds.end());
+            }
+        );
+    }
 
     goRef_.move.set_speedLvl( d.speedLvl );
     goRef_.set_pos_alti( d.alti );
@@ -54,6 +64,24 @@ void GoSpecFromJson::assemble_2_newGo( goSpecId_t specID_, GameObj &goRef_ ){
 
 
 
+
+void GoSpecFromJson::convert_all_extraPassableDogoSpeciesNames_2_goSpeciesIds()noexcept{
+
+    for( const auto &ipair : GoSpecFromJson::dataUPtrs ){ // each goSpecFromJson
+        GoSpecFromJson &goSpecFromJsonRef = *(ipair.second); 
+
+        if( goSpecFromJsonRef.isBePass ||
+            goSpecFromJsonRef.extraPassableDogoSpeciesNames.empty() ){
+            continue; // skip
+        }
+
+        //---
+        for( const auto &name : goSpecFromJsonRef.extraPassableDogoSpeciesNames ){ // each name
+            goSpecFromJsonRef.extraPassableDogoSpeciesIds.insert( GoSpecFromJson::str_2_goSpeciesId(name) );
+        }
+        goSpecFromJsonRef.extraPassableDogoSpeciesNames.clear(); // no need
+    }
+}
 
 
 

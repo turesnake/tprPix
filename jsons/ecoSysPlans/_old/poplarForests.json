@@ -17,20 +17,20 @@
                 {"Sml2_Mid1": 7 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "animLabels":[ "Big", "Light" ], "num": 2 },
-                { "goSpecName": "thorn", "animLabels":[ "Light" ], "num": 5 },
-                { "goSpecName": "thorn", "animLabels":[ "Dark" ], "num": 1 }
+                { "goSpeciesName": "rock", "animLabels":[ "Big", "Light" ], "num": 2 },
+                { "goSpeciesName": "thorn", "animLabels":[ "Light" ], "num": 5 },
+                { "goSpeciesName": "thorn", "animLabels":[ "Dark" ], "num": 1 }
 
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 },
-                { "goSpecName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 }
+                { "goSpeciesName": "poplarTree", "animLabels":[], "num": 7 },
+                { "goSpeciesName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
 
             ]
             
@@ -48,15 +48,15 @@
                 {"Sml1": 5 }
             ],
             "ecoEnts_Mid":[                
-                { "goSpecName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 5 }
+                { "goSpeciesName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 5 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 4 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 4 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
 
             ]
         },
@@ -75,9 +75,9 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 2 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 2 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
             ]
         },
 
@@ -90,11 +90,11 @@
                 {"Sml1": 11 }
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
+                { "goSpeciesName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 6 }
+                { "goSpeciesName": "oneEyeBoy", "animLabels":[], "num": 6 }
             ]
         },
         
@@ -111,14 +111,14 @@
             ],
             "ecoEnts_Mid":[
 
-                { "goSpecName": "rock", "animLabels":[ "Mid", "Light" ], "num": 2 }
+                { "goSpeciesName": "rock", "animLabels":[ "Mid", "Light" ], "num": 2 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "animLabels":[], "num": 2 },
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 3 }
+                { "goSpeciesName": "oneEyeBoy", "animLabels":[], "num": 2 },
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 3 }
 
             ]
         },
@@ -136,20 +136,20 @@
                 {"Sml2": 5 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "animLabels":[ "Big", "Light" ], "num": 1 }
+                { "goSpeciesName": "rock", "animLabels":[ "Big", "Light" ], "num": 1 }
  
             ],
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 9 },
-                { "goSpecName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
+                { "goSpeciesName": "poplarTree", "animLabels":[], "num": 9 },
+                { "goSpeciesName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Mid", "Light" ], "num": 1 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 1 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
                 
             ]
             
@@ -167,19 +167,19 @@
             ],
 
             "ecoEnts_Big":[
-                { "goSpecName": "pineTree", "animLabels":[ "Fat", "Light" ], "num": 1 }
+                { "goSpeciesName": "pineTree", "animLabels":[ "Fat", "Light" ], "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "animLabels":[], "num": 7 },
-                { "goSpecName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 2 }
+                { "goSpeciesName": "poplarTree", "animLabels":[], "num": 7 },
+                { "goSpeciesName": "pineTree", "animLabels":[ "HalfDead", "Light" ], "num": 2 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "whiteFlower", "animLabels":[], "num": 4 },
-                { "goSpecName": "aloe", "animLabels":[], "num": 1 },
-                { "goSpecName": "grassA", "animLabels":[ "Light" ], "num": 1 },
-                { "goSpecName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
+                { "goSpeciesName": "whiteFlower", "animLabels":[], "num": 4 },
+                { "goSpeciesName": "aloe", "animLabels":[], "num": 1 },
+                { "goSpeciesName": "grassA", "animLabels":[ "Light" ], "num": 1 },
+                { "goSpeciesName": "rock", "animLabels":[ "Sml", "Light" ], "num": 1 }
                 
             ]
         }

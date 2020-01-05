@@ -81,23 +81,23 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
     Document doc;
     doc.Parse( jsonBufUPtr->c_str() );
 
-    goSpecId_t        specID {};
+    goSpeciesId_t        speciesId {};
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
 
-        {//--- specID ---//
-            const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
-            specID = static_cast<goSpecId_t>( a.GetUint() );
+        {//--- speciesId ---//
+            const auto &a = check_and_get_value( ent, "speciesId", JsonValType::Uint );
+            speciesId = static_cast<goSpeciesId_t>( a.GetUint() );
         }
 
-        UIGoSpecFromJson &uiGoJsonDataRef = UIGoSpecFromJson::create_new_UIGoSpecFromJson( specID );
-        uiGoJsonDataRef.specID = specID;
+        UIGoSpecFromJson &uiGoJsonDataRef = UIGoSpecFromJson::create_new_UIGoSpecFromJson( speciesId );
+        uiGoJsonDataRef.speciesId = speciesId;
 
-        {//--- goSpecName ---//
-            const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
-            uiGoJsonDataRef.goSpecName = a.GetString();
+        {//--- goSpeciesName ---//
+            const auto &a = check_and_get_value( ent, "goSpeciesName", JsonValType::String );
+            uiGoJsonDataRef.goSpeciesName = a.GetString();
         }
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
@@ -113,8 +113,8 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
         }
 
         //------------------------------------//
-        UIGoSpecFromJson::insert_2_uiGoSpecIds_names_containers(uiGoJsonDataRef.specID, 
-                                                                uiGoJsonDataRef.goSpecName );
+        UIGoSpecFromJson::insert_2_uiGoSpeciesIds_names_containers(uiGoJsonDataRef.speciesId, 
+                                                                uiGoJsonDataRef.goSpeciesName );
 
     }
 }

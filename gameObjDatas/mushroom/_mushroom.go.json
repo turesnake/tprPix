@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "mushroom",
-        "specID": 18002,
+        "goSpeciesName": "mushroom",
+        "speciesId": 18002,
         "family": "Major",
         "state": "Waked",
         "moveState": "AbsFixed",

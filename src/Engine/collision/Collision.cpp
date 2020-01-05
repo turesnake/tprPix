@@ -161,7 +161,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         //      bego.isBePass
         //      goAltiRange
         if( (!begoRef.isMoveCollide) || 
-            begoRef.get_collisionRef().get_isBePass() ||
+            begoRef.get_collisionRef().get_isBePass(dogoRef.speciesId) ||
             (!is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange())) ){
             continue;
         }
@@ -215,7 +215,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         //      bego.isBePass
         //      goAltiRange
         if( (!begoRef.isMoveCollide) || 
-            begoRef.get_collisionRef().get_isBePass() ||
+            begoRef.get_collisionRef().get_isBePass(dogoRef.speciesId) ||
             (!is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange())) ){
             continue;
         }
@@ -319,7 +319,7 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
         //      bego.isBePass
         //      goAltiRange
         if( (!begoRef.isMoveCollide) || 
-            begoRef.get_collisionRef().get_isBePass() ||
+            begoRef.get_collisionRef().get_isBePass(dogoRef.speciesId) ||
             (!is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange())) ){
             continue; //- skip
         }
@@ -372,7 +372,7 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
         //      bego.isBePass
         //      goAltiRange
         if( (!begoRef.isMoveCollide) || 
-            begoRef.get_collisionRef().get_isBePass() ||
+            begoRef.get_collisionRef().get_isBePass(dogoRef.speciesId) ||
             (!is_GoAltiRange_collide(dogoRef.get_currentGoAltiRange(), begoRef.get_currentGoAltiRange())) ){
             continue;
         }

@@ -21,7 +21,7 @@
             "FloorGoSize": "MapEnt_4m4",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_4m4", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_4m4", "num": 3 }
             ]
         },
 
@@ -32,7 +32,7 @@
             "FloorGoSize": "MapEnt_3m3",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_3m3", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_3m3", "num": 3 }
             ]
         },
 
@@ -43,7 +43,7 @@
             "FloorGoSize": "MapEnt_2m2",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_2m2", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_2m2", "num": 3 }
             ]
         }
 

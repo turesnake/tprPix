@@ -74,18 +74,18 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
                             bool isPjtSingle_ );
 
-    void parse_AnimActionParam( size_t  subspecIdx_,
+    void parse_AnimActionParam( size_t  subspeciesIdx_,
                                 const Value &actionParamEnt_,
                                 std::vector<std::shared_ptr<AnimActionParam>> &params_,
                                 AnimLabel  label_,
                                 bool isPjtSingle_ );
 
-    std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
+    std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_,
                                                     AnimLabel  label_,
                                                     bool isPjtSingle_ );
     
-    std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspecIdx_,
+    std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_, 
                                                     AnimLabel  label_ );
 
@@ -110,8 +110,8 @@ void parse_animFrameSetJsonFile(){
     }
 
     //-------- special ids ----------//
-    esrc::set_emptyPixId( esrc::apply_a_random_animSubspecId( "emptyPix", AnimLabel::Default, 1) );
-    esrc::set_fieldRimId( esrc::apply_a_random_animSubspecId( "fieldRim", AnimLabel::Default, 1) );
+    esrc::set_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix", AnimLabel::Default, 1) );
+    esrc::set_fieldRimId( esrc::apply_a_random_animSubspeciesId( "fieldRim", AnimLabel::Default, 1) );
     //...
     
     //-------------
@@ -341,7 +341,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
  *                    parse_AnimActionParam
  * -----------------------------------------------------------
  */
-void parse_AnimActionParam( size_t  subspecIdx_,
+void parse_AnimActionParam( size_t  subspeciesIdx_,
                             const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
                             AnimLabel  label_,
@@ -354,10 +354,10 @@ void parse_AnimActionParam( size_t  subspecIdx_,
         type = a.GetString();
     }
     if( type == "singleFrame" ){
-        params_.push_back( afsJson_inn::singleFrame(subspecIdx_, actionParamEnt_, label_, isPjtSingle_ ) );
+        params_.push_back( afsJson_inn::singleFrame(subspeciesIdx_, actionParamEnt_, label_, isPjtSingle_ ) );
     }
     else if( type == "multiFrame" ){
-        params_.push_back( afsJson_inn::multiFrame(subspecIdx_, actionParamEnt_, label_) );
+        params_.push_back( afsJson_inn::multiFrame(subspeciesIdx_, actionParamEnt_, label_) );
     }else{
         tprAssert(0);
     }
@@ -368,7 +368,7 @@ void parse_AnimActionParam( size_t  subspecIdx_,
  *                    singleFrame
  * -----------------------------------------------------------
  */
-std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
+std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                 const Value &actionParamEnt_,
                                                 AnimLabel  label_,
                                                 bool isPjtSingle_ ){
@@ -404,7 +404,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspecIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, label_ );
+    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, label_ );
 }
 
 
@@ -412,7 +412,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspecIdx_,
  *                    multiFrame
  * -----------------------------------------------------------
  */
-std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
+std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                             const Value &actionParamEnt_, 
                                             AnimLabel  label_ ){
 
@@ -493,7 +493,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
             timeStep = cast_2_size_t(a.GetUint64());
         }
         //---
-        return std::make_shared<AnimActionParam>(   subspecIdx_,
+        return std::make_shared<AnimActionParam>(   subspeciesIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionBrokenLvl,
@@ -512,7 +512,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspecIdx_,
             }
         }
         //---
-        return std::make_shared<AnimActionParam>(   subspecIdx_,
+        return std::make_shared<AnimActionParam>(   subspeciesIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionBrokenLvl,

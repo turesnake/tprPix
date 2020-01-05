@@ -130,7 +130,7 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     //--- 仅 获得 只读指针 ---
     this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();
 
-    //---- goSpecIdPools 数据 ----
+    //---- goSpeciesIdPools 数据 ----
 
     //-- 最直接的方案，全盘复制 densityPools 数据。  超级临时 版本 ！！！！！！
 

@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "fieldRim",
-    "specID": 19001,
+    "goSpeciesName": "fieldRim",
+    "speciesId": 19001,
     "family": "Floor",
     "state": "Waked",
     "moveState": "AbsFixed",

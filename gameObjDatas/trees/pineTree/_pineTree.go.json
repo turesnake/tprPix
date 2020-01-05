@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "pineTree",
-        "specID": 2001,
+        "goSpeciesName": "pineTree",
+        "speciesId": 2001,
         "family": "Major",
         "state": "Waked",
         "moveState": "AbsFixed",

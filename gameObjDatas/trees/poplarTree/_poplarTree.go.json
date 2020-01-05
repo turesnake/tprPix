@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "poplarTree",
-        "specID": 2002,
+        "goSpeciesName": "poplarTree",
+        "speciesId": 2002,
         "family": "Major",
         "state": "Waked",
         "moveState": "AbsFixed",

@@ -56,8 +56,8 @@ void init_ecoObjs()noexcept{
 
 
 void moveIn_ecoObjUPtr_from_job( sectionKey_t ecoObjKey_, std::unique_ptr<EcoObj> ecoObjUPtr_ ){
-    tprAssert( !ecoObj_inn::is_find_in_ecoObjs_(ecoObjKey_) );
-    ecoObj_inn::ecoObjs.insert({ ecoObjKey_, std::move(ecoObjUPtr_) }); // move
+    auto outPair = ecoObj_inn::ecoObjs.insert({ ecoObjKey_, std::move(ecoObjUPtr_) }); // move
+    tprAssert( outPair.second );
 }
 
 

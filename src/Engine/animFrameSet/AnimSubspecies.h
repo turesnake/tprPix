@@ -1,12 +1,12 @@
 /*
- * ===================== AnimSubspec.h ==========================
+ * ===================== AnimSubspecies.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.09
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_ANIM_SUB_SPEC_H
-#define TPR_ANIM_SUB_SPEC_H
+#ifndef TPR_ANIM_SUB_SPECIES_H
+#define TPR_ANIM_SUB_SPECIES_H
 
 
 //-------------------- CPP --------------------//
@@ -22,7 +22,7 @@
 //-------------------- Engine --------------------//
 #include "ID_Manager.h" 
 #include "AnimAction.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "tprCast.h"
@@ -31,9 +31,9 @@
 
 //-- 亚种 --
 //   保存并管理一组 animAction 实例
-class AnimSubspec{
+class AnimSubspecies{
 public:
-    AnimSubspec()=default;
+    AnimSubspecies()=default;
 
     inline AnimAction &insert_new_animAction(   NineDirection   dir_,
                                                 BrokenLvl       brokenLvl_,
@@ -92,41 +92,41 @@ private:
 
 
 //-- 一组亚种ids，相互间，拥有相同的 animLabel，不同的序号idx --
-class AnimSubspecSquad{
+class AnimSubspeciesSquad{
 public:
-    AnimSubspecSquad()
+    AnimSubspeciesSquad()
         {
             this->subIdxs.reserve(4);
-            this->subspecIds.reserve(4);
+            this->subspeciesIds.reserve(4);
         }
 
-    inline animSubspecId_t find_or_create( size_t subIdx_ )noexcept{
-        if( this->subspecIds.find(subIdx_) == this->subspecIds.end() ){
-            animSubspecId_t id = AnimSubspec::id_manager.apply_a_u32_id();
-            this->subspecIds.insert({ subIdx_, id });
+    inline animSubspeciesId_t find_or_create( size_t subIdx_ )noexcept{
+        if( this->subspeciesIds.find(subIdx_) == this->subspeciesIds.end() ){
+            animSubspeciesId_t id = AnimSubspecies::id_manager.apply_a_u32_id();
+            this->subspeciesIds.insert({ subIdx_, id });
             this->subIdxs.push_back( subIdx_ );
             return id;
         }else{
-            return this->subspecIds.at(subIdx_);
+            return this->subspeciesIds.at(subIdx_);
         }
     }
 
-    inline animSubspecId_t apply_a_random_animSubspecId( size_t uWeight_ )const noexcept{
-        if( this->subspecIds.size() == 1 ){
-            return this->subspecIds.begin()->second; //- only one
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId( size_t uWeight_ )const noexcept{
+        if( this->subspeciesIds.size() == 1 ){
+            return this->subspeciesIds.begin()->second; //- only one
         }
         size_t i = (uWeight_ + 366179) % this->subIdxs.size();
-        return this->subspecIds.at( this->subIdxs.at(i) );
+        return this->subspeciesIds.at( this->subIdxs.at(i) );
     }
 
     inline void check()const noexcept{
         tprAssert( !this->subIdxs.empty() );
-        tprAssert( !this->subspecIds.empty() );
+        tprAssert( !this->subspeciesIds.empty() );
     }
 
 private:
     std::vector<size_t> subIdxs {};
-    std::unordered_map<size_t,animSubspecId_t> subspecIds {}; 
+    std::unordered_map<size_t,animSubspeciesId_t> subspeciesIds {}; 
 };
 
 
@@ -134,9 +134,9 @@ private:
 
 
 //-- 通过 animLabel 来管理 所有亚种 --
-class AnimSubspecGroup{
+class AnimSubspeciesGroup{
 public:
-    AnimSubspecGroup()
+    AnimSubspeciesGroup()
         {
             this->labels.reserve(4);
             this->subSquads.reserve(4);
@@ -144,9 +144,9 @@ public:
 
 
     //-- 空值需要传入 AnimLabel::Default
-    inline animSubspecId_t find_or_create_a_animSubspecId( AnimLabel label_, size_t  subIdx_ )noexcept{
+    inline animSubspeciesId_t find_or_create_a_animSubspeciesId( AnimLabel label_, size_t  subIdx_ )noexcept{
         if( this->subSquads.find(label_) == this->subSquads.end() ){
-            auto outPair1 = this->subSquads.insert({ label_, AnimSubspecSquad{} });
+            auto outPair1 = this->subSquads.insert({ label_, AnimSubspeciesSquad{} });
             tprAssert( outPair1.second );
             //---
             this->labels.push_back( label_ );
@@ -156,14 +156,14 @@ public:
 
 
     // param: uWeight_ [0, 9999]
-    inline animSubspecId_t apply_a_random_animSubspecId(  AnimLabel label_, size_t uWeight_ )noexcept{
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(  AnimLabel label_, size_t uWeight_ )noexcept{
         if( label_ == AnimLabel::Default ){
             size_t idx = (uWeight_ + 735157) % this->labels.size();
             AnimLabel tmpLabel = this->labels.at( idx );
-            return this->subSquads.at(tmpLabel).apply_a_random_animSubspecId( uWeight_ );
+            return this->subSquads.at(tmpLabel).apply_a_random_animSubspeciesId( uWeight_ );
         }else{
             tprAssert( this->subSquads.find(label_) != this->subSquads.end() );
-            return this->subSquads.at(label_).apply_a_random_animSubspecId( uWeight_ );
+            return this->subSquads.at(label_).apply_a_random_animSubspeciesId( uWeight_ );
         }
     }
 
@@ -180,7 +180,7 @@ public:
 
 private:
     std::vector<AnimLabel> labels {}; // 所有被登记的 labels
-    std::unordered_map<AnimLabel, AnimSubspecSquad> subSquads {};
+    std::unordered_map<AnimLabel, AnimSubspeciesSquad> subSquads {};
 };
 
 

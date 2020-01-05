@@ -57,7 +57,7 @@ public:
     GoSpec()=default;
 
     //----- vals -----//
-    goSpecId_t              goSpecId    {};
+    goSpeciesId_t              goSpeciesId    {};
     
     bool                    isMultiGoMesh {};
 

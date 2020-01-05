@@ -30,11 +30,11 @@
 
 class GoSpecData{
 public:
-    GoSpecData( goSpecId_t rootGoSpecId_,
+    GoSpecData( goSpeciesId_t rootGoSpeciesId_,
                 bool       isMultiGoMesh_,
                 const std::string &afsName_,
                 AnimLabel   animLabel_):
-        rootGoSpecId(rootGoSpecId_),
+        rootGoSpeciesId(rootGoSpeciesId_),
         isMultiGoMesh(isMultiGoMesh_),
         afsName(afsName_),
         animLabel(animLabel_)
@@ -42,11 +42,11 @@ public:
             tprAssert( !isMultiGoMesh_ );
         }
 
-    GoSpecData( goSpecId_t rootGoSpecId_,
+    GoSpecData( goSpeciesId_t rootGoSpeciesId_,
                 bool       isMultiGoMesh_,
                 const std::string &afsName_,
                 multiGoMeshTypeId_t multiGoMeshType_):
-        rootGoSpecId(rootGoSpecId_),
+        rootGoSpeciesId(rootGoSpeciesId_),
         isMultiGoMesh(isMultiGoMesh_),
         afsName(afsName_),
         multiGoMeshType(multiGoMeshType_)
@@ -55,7 +55,7 @@ public:
         }
 
     //----- get -----//
-    inline goSpecId_t   get_rootGoSpecId()const noexcept{ return this->rootGoSpecId; }
+    inline goSpeciesId_t   get_rootGoSpeciesId()const noexcept{ return this->rootGoSpeciesId; }
     inline bool         get_isMultiGoMesh()const noexcept{ return this->isMultiGoMesh; }
     inline const std::string &get_afsName()const noexcept{ return this->afsName; }
     inline AnimLabel get_animLabel()const noexcept{ return this->animLabel; }
@@ -67,7 +67,7 @@ public:
 
 
 private:
-    goSpecId_t              rootGoSpecId {};
+    goSpeciesId_t              rootGoSpeciesId {};
 
     bool                    isMultiGoMesh;
 

@@ -25,7 +25,7 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
+                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
 
 
             ]
@@ -68,19 +68,19 @@
                 {"Sml3": 3 }
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 },
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 17 },
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 11 },
+                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 11 },
 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 2 }
             ]
         },
 
@@ -94,16 +94,16 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock", "MultiGoMeshType":"", "num": 1 }
+                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 21 },
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 1 }
                 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 }
+                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 }
             
                 
                 
@@ -122,13 +122,13 @@
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
-                { "goSpecName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Mid" ], "num": 27 },
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Sml" ], "num": 9 },
+                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabels":[ "Dead" ], "num": 1 }
 
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 }
+                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 7 }
 
                 
             ]
@@ -175,7 +175,7 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
+                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
 
             
                 

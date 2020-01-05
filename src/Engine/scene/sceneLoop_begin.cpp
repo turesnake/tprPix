@@ -95,19 +95,19 @@ void prepare_for_sceneBegin(){
     //  最简陋的实现，tmp...
     IntVec2 initPPosOff {-HALF_PIXES_PER_MAPENT, -HALF_PIXES_PER_MAPENT};
 
-    sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_pointer_2"), 
+    sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_pointer_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyDyParam );
     //---
-    sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
                                                             emptyDyParam );
 
-    sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(1),
                                                             emptyDyParam );
     
-    sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpecId("button_sceneBegin_archive_2"), 
+    sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(2),
                                                             emptyDyParam );
 
@@ -271,46 +271,17 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
                         //   这部分，应该写进 chunk build 流程中 ...
 
                 //-- db::table_goes --
-                //goSpecId_t newGoSpecId = ssrc::str_2_goSpecId( "norman" );
-                goSpecId_t newGoSpecId = GoSpecFromJson::str_2_goSpecId( "oneEyeBoy" );
+                //goSpeciesId_t newGoSpeciesId = ssrc::str_2_goSpeciesId( "norman" );
+                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "oneEyeBoy" );
 
-                goid_t newGoId = gameObjs::create_a_Go(     newGoSpecId,
+                goid_t newGoId = gameObjs::create_a_Go(     newGoSpeciesId,
                                                             newGoDPos,
                                                             emptyDyParam );
 
 
-                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpecId, newGoDPos } );
+                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpeciesId, newGoDPos } );
                 
-                /*
-                {//--- 临时生成一排篱笆 
-                    goSpecId_t fenceGoSpecId = ssrc::str_2_goSpecId( "fence" );
-
-                    int sideLen = 4 * 3;
-
-                    std::set<IntVec2> fenceMap {}; // 篱笆放置蓝图
-                    for( int i=0; i<sideLen; i++ ){
-                        
-                        fenceMap.insert( IntVec2{ i, sideLen-1 } );
-                        fenceMap.insert( IntVec2{ 0, i } );
-                        fenceMap.insert( IntVec2{ sideLen-1, i } );
-
-                        if( (i!=2) || (i!=3) ){
-                            fenceMap.insert( IntVec2{ i, 0 } );
-                        }
-                    }
-
-                    IntVec2 fenceBegMPos {1, 1};
-                    for( const auto &impos : fenceMap ){
-                        glm::dvec2 entOutDPos = mpos_2_midDPos( fenceBegMPos + impos );
-                                                    // 务必 生长在 mapent mid 处 ！！！
-                        gameObjs::create_a_Go(  fenceGoSpecId,
-                                                entOutDPos,
-                                                emptyDyParam );
-                    }
-                }
-                */
-                
-                
+            
 
                 //-- db::table_gameArchive --                
                 esrc::get_gameArchive() = GameArchive {   archiveId, 

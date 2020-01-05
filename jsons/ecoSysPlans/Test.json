@@ -20,7 +20,7 @@
             ],
             "ecoEnts_Sml":[
 
-                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
+                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
 
 
             ]
@@ -58,8 +58,8 @@
 
 
             "ecoEnts_Mid":[
-                { "goSpecName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
-                { "goSpecName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
+                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
+                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
             ],
             "ecoEnts_Sml":[
                 
@@ -76,11 +76,11 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpecName": "rock",  "MultiGoMeshType":"", "num": 1 }
+                { "goSpeciesName": "rock",  "MultiGoMeshType":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[
-                { "goSpecName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 }
+                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 }
                 
             ],
             "ecoEnts_Sml":[
@@ -137,7 +137,7 @@
             "ecoEnts_Mid":[
             ],
             "ecoEnts_Sml":[
-                { "goSpecName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
+                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
             ]
         }
     ],

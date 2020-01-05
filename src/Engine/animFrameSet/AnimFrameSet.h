@@ -49,7 +49,7 @@
 #include "AnimActionPos.h"
 #include "AnimAction.h"
 #include "ColliderType.h"
-#include "AnimSubspec.h"
+#include "AnimSubspecies.h"
 
 #include "tprDebug.h"
 
@@ -79,8 +79,8 @@ public:
         return &(this->texNames_shadow);
     }
 
-    inline animSubspecId_t apply_a_random_animSubspecId(AnimLabel label_, size_t uWeight_ )noexcept{
-        return this->subGroup.apply_a_random_animSubspecId( label_, uWeight_ );
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(AnimLabel label_, size_t uWeight_ )noexcept{
+        return this->subGroup.apply_a_random_animSubspeciesId( label_, uWeight_ );
     }
 
 
@@ -102,7 +102,7 @@ private:
     //-- each animaction --
     std::unordered_map<animActionPosId_t, std::unique_ptr<AnimActionPos>> animActionPosUPtrs {};
 
-    AnimSubspecGroup subGroup {};
+    AnimSubspeciesGroup subGroup {};
 
 
     //======== flags ========//

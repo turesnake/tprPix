@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "oneEyeBoy",
-        "specID": 20,
+        "goSpeciesName": "oneEyeBoy",
+        "speciesId": 20,
         "family": "Major",
         "state": "Waked",
         "moveState": "Movable",

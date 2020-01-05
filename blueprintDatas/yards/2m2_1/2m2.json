@@ -21,7 +21,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "fence", "afsName": "fence", "animLabel":"T2", "num": 3 }
+                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 3 }
             ]
         },
 
@@ -44,7 +44,7 @@
             "isPlotBlueprint": false,
             "goSpecPool":[
                 
-                { "goSpecName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 }
             ]
         },
 
@@ -55,7 +55,7 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpecName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 3 }
+                { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 3 }
             ]
         },
 
@@ -72,7 +72,7 @@
             "FloorGoSize": "MapEnt_2m2",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel":"MapEnt_2m2", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel":"MapEnt_2m2", "num": 3 }
             ]
         },
 
@@ -83,7 +83,7 @@
             "FloorGoSize": "MapEnt_3m3",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_3m3", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_3m3", "num": 3 }
             ]
         },
 
@@ -94,7 +94,7 @@
             "FloorGoSize": "MapEnt_4m4",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpecName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_4m4", "num": 3 }
+                { "goSpeciesName": "floorGo", "afsName": "floorGo", "animLabel": "MapEnt_4m4", "num": 3 }
             ]
         }
 

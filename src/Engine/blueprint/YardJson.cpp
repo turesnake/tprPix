@@ -208,9 +208,9 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                         std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
                         size_t num {};
 
-                        {//--- goSpecName ---//
-                            const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                            goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
+                        {//--- goSpeciesName ---//
+                            const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
+                            goSpecUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
                         }
 
                         //--- MultiGoMeshType ---//
@@ -225,7 +225,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                             {//--- afsName ---//
                                 const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
                                 std::string afsName = a.GetString();
-                                tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                                tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
                                 goSpecUPtr->afsName = afsName;
                             }
                             {//--- animLabel ---//
@@ -268,14 +268,14 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                         std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
                         size_t num {};
 
-                        {//--- goSpecName ---//
-                            const auto &a = json::check_and_get_value( ent, "goSpecName", json::JsonValType::String );
-                            goSpecUPtr->goSpecId = GoSpecFromJson::str_2_goSpecId( a.GetString() );
+                        {//--- goSpeciesName ---//
+                            const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
+                            goSpecUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
                         }
                         {//--- afsName ---//
                             const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
                             std::string afsName = a.GetString();
-                            tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpecId, afsName) );
+                            tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
                             goSpecUPtr->afsName = afsName;
                         }
                         {//--- animLabel ---//

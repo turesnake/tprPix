@@ -21,7 +21,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "dyParams.h"
@@ -46,11 +46,11 @@ namespace floorGo_inn {//------------------ namespace: floorGo_inn -------------
 
 
     struct FloorGo_PvtBinary{
-        //animSubspecId_t subspecId {};
+        //animSubspeciesId_t subspeciesId {};
         //size_t   lichen_ForestId {0};
                 //- 简单的从 几种款式中，随机挑选一款 [0,7]
 
-        animSubspecId_t subspecId {};
+        animSubspeciesId_t subspeciesId {};
         int tmp {};
         //===== padding =====//
         //...
@@ -73,7 +73,7 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
-    pvtBp->subspecId = goDataEntRef.subspecId;
+    pvtBp->subspeciesId = goDataEntRef.subspeciesId;
 
     
 
@@ -83,7 +83,7 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspecId,
+                                pvtBp->subspeciesId,
                                 "idle",
                                 RenderLayerType::Floor, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::Floor),  // pic shader

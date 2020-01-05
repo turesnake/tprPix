@@ -52,7 +52,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         gUPtr->job_fieldPtr = job_fieldPtr;
         dyParam.insert_ptr<DyParams_GroundGo>( gUPtr.get() );
         //--- 
-        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId( "groundGo" ),
+        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId( "groundGo" ),
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
@@ -61,7 +61,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     //----- fieldRim go [-DEBUG-] ------//
     bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
-        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpecId( "fieldRim" ),
+        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId( "fieldRim" ),
                                 fieldRef.get_midDPos(),
                                 emptyDyParam );
     }
@@ -85,7 +85,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---
 
-        gameObjs::create_a_Go(  goDataPtr->goSpecId,
+        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
                                 goDataPtr->dpos,
                                 dyParam ); 
 
@@ -106,7 +106,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---
 
-        gameObjs::create_a_Go(  goDataPtr->goSpecId,
+        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
                                 goDataPtr->dpos,
                                 dyParam ); 
 

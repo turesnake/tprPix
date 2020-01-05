@@ -13,7 +13,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -34,7 +34,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct BushOth_PvtBinary{
-    animSubspecId_t subspecId {};
+    animSubspeciesId_t subspeciesId {};
     int        tmp {};
 };
 
@@ -55,7 +55,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    pvtBp->subspecId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspecId;
+    pvtBp->subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
 
     goMeshDPosOff = glm::dvec2{0.0, 0.0};
 
@@ -68,7 +68,7 @@ void BushOth::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspecId,
+                                pvtBp->subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -158,7 +158,7 @@ void BushOth::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
             break;
 
         default:

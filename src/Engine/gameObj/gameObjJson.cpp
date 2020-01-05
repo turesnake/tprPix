@@ -60,6 +60,9 @@ void parse_goJsonFile(){
         goJson_inn::parse_single_jsonFile(i);
     }
 
+    //--
+    GoSpecFromJson::convert_all_extraPassableDogoSpeciesNames_2_goSpeciesIds();
+
     esrc::insertState("json_gameObj");
     cout << "   ----- parse_goJsonFile: end ----- " << endl;
 }
@@ -86,18 +89,18 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
         //GoJsonData  goJsonData {};
 
-        goSpecId_t  specId {};
-        {//--- specID ---//
-            const auto &a = check_and_get_value( ent, "specID", JsonValType::Uint );
-            specId = static_cast<goSpecId_t>( a.GetUint() );
+        goSpeciesId_t  speciesId {};
+        {//--- speciesId ---//
+            const auto &a = check_and_get_value( ent, "speciesId", JsonValType::Uint );
+            speciesId = static_cast<goSpeciesId_t>( a.GetUint() );
         }
 
-        auto &goSpecFromJsonRef = GoSpecFromJson::create_new_goSpecFromJson( specId );
-        goSpecFromJsonRef.specID = specId;
+        auto &goSpecFromJsonRef = GoSpecFromJson::create_new_goSpecFromJson( speciesId );
+        goSpecFromJsonRef.speciesId = speciesId;
 
-        {//--- goSpecName ---//
-            const auto &a = check_and_get_value( ent, "goSpecName", JsonValType::String );
-            goSpecFromJsonRef.goSpecName = a.GetString();
+        {//--- goSpeciesName ---//
+            const auto &a = check_and_get_value( ent, "goSpeciesName", JsonValType::String );
+            goSpecFromJsonRef.goSpeciesName = a.GetString();
         }
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
@@ -127,6 +130,19 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "isBePass", JsonValType::Bool );
             goSpecFromJsonRef.isBePass = a.GetBool();
         }
+
+        //--- extraPassableDogoSpeciesNames ---//
+        // 仅 存储 name，未来再统一替换为 goSpeciesId 数据
+        if( (!goSpecFromJsonRef.isBePass) &&
+            ent.HasMember("extraPassableDogoSpeciesNames") ){
+
+            const auto &names = check_and_get_value( ent, "extraPassableDogoSpeciesNames", JsonValType::Array );
+            for( const auto &name : names.GetArray() ){
+                tprAssert( name.IsString() );
+                goSpecFromJsonRef.insert_2_ExtraPassableDogoSpeciesNames( name.GetString() );
+            }
+        }
+
         {//--- speedLvl ---//
             const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
             goSpecFromJsonRef.speedLvl = int_2_SpeedLevel( a.GetInt() );
@@ -153,7 +169,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         }
 
         //------------------------------------//
-        GoSpecFromJson::insert_2_goSpecIds_names_containers( goSpecFromJsonRef.specID, goSpecFromJsonRef.goSpecName );
+        GoSpecFromJson::insert_2_goSpeciesIds_names_containers( goSpecFromJsonRef.speciesId, goSpecFromJsonRef.goSpeciesName );
 
         //====================================//
         //    afs.json / multiGoMesh.json

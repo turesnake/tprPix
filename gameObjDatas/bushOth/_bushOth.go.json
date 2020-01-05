@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "bushOth",
-        "specID": 18004,
+        "goSpeciesName": "bushOth",
+        "speciesId": 18004,
         "family": "Major",
         "state": "Waked",
         "moveState": "AbsFixed",

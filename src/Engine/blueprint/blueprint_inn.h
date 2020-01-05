@@ -65,7 +65,7 @@ public:
     VarType_Plot_Manager( PlotBlueprint &plot_ ){
         for( const auto &type : plot_.get_varTypes() ){
             const auto *vtPtr = plot_.get_varTypeDataPtr_Plot( type );
-            auto outPair = this->varTypes_P.insert({ type, VarType_P{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
+            this->varTypes_P.insert({ type, VarType_P{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
         }
     }
     inline const GoSpec &apply_a_goSpec( VariableTypeIdx type_, size_t uWeight_ )noexcept{
@@ -181,13 +181,13 @@ public:
     VarType_Yard_Manager( YardBlueprint &yard_ ){
         for( const auto &type : yard_.get_majorGo_varTypes() ){
             const auto *vtPtr = yard_.get_majorGo_varTypeDataPtr_Yard( type );
-            auto outPair = this->varTypes_Y_majorGo.insert({ type, VarType_Y_MajorGo{vtPtr->get_isAllInstanceUseSamePlan(), 
+            this->varTypes_Y_majorGo.insert({ type, VarType_Y_MajorGo{vtPtr->get_isAllInstanceUseSamePlan(), 
                                                                                     vtPtr->get_isPlotBlueprint(),
                                                                                     vtPtr } });
         }
         for( const auto &type : yard_.get_floorGo_varTypes() ){
             const auto *vtPtr = yard_.get_floorGo_varTypeDataPtr_Yard( type );
-            auto outPair = this->varTypes_Y_floorGo.insert({ type, VarType_Y_FloorGo{vtPtr->get_isAllInstanceUseSamePlan(), 
+            this->varTypes_Y_floorGo.insert({ type, VarType_Y_FloorGo{vtPtr->get_isAllInstanceUseSamePlan(), 
                                                                                     vtPtr } });
         }
     }
@@ -261,7 +261,7 @@ public:
     VarType_Village_Manager( VillageBlueprint &village_ ){
         for( const auto &type : village_.get_varTypes() ){
             const auto *vtPtr = village_.get_varTypeDataPtr_Village( type );
-            auto outPair = this->varTypes_V.insert({ type, VarType_V{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
+            this->varTypes_V.insert({ type, VarType_V{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
         }
     }
     inline yardBlueprintId_t apply_a_yardBlueprintId( VariableTypeIdx type_, size_t uWeight_ )noexcept{

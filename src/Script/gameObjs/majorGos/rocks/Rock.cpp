@@ -16,7 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -38,7 +38,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Rock_PvtBinary{
-    animSubspecId_t subspecId {};
+    animSubspeciesId_t subspeciesId {};
     int        tmp {};
 };
 
@@ -56,7 +56,7 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
-    pvtBp->subspecId = goDataEntRef.subspecId;
+    pvtBp->subspeciesId = goDataEntRef.subspeciesId;
 
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -67,7 +67,7 @@ void Rock::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     //-- 制作唯一的 mesh 实例: "root" --
     goRef_.creat_new_goMesh(    "root", //- gmesh-name
-                                pvtBp->subspecId,
+                                pvtBp->subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -142,7 +142,7 @@ void Rock::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
             break;
 
         default:

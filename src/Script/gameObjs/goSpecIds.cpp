@@ -1,12 +1,12 @@
 /*
- * ========================= goSpecIds.cpp ==========================
+ * ========================= goSpeciesIds.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2018.12.23
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   将 具象go species 注册到 
- *    ssrc::go_specId_names 
- *    ssrc::go_name_specIds 中去
+ *   将 具象go speciesId 注册到 
+ *    ssrc::go_speciesId_names 
+ *    ssrc::go_name_speciesIds 中去
  * ----------------------------
  */
 //-------------------- CPP --------------------//
@@ -32,18 +32,18 @@ using namespace std::placeholders;
 
 //#include "tprDebug.h" //- tmp
 
-//namespace goSpecIds_inn {//-------------- namespace: goSpecIds_inn ---------------------
-//}//------------------------- namespace: goSpecIds_inn end -------------------
+//namespace goSpeciesIds_inn {//-------------- namespace: goSpeciesIds_inn ---------------------
+//}//------------------------- namespace: goSpeciesIds_inn end -------------------
 
 
 /* ===========================================================
- *                   onGoSpecIds_SignUp   
+ *                   onGoSpeciesIds_SignUp   
  * -----------------------------------------------------------
  * 
  */
-void onGoSpecIds_SignUp(){
+void onGoSpeciesIds_SignUp(){
 
-    goSpecId_t   id {};
+    goSpeciesId_t   id {};
 
     //==================================//
     tprAssert( esrc::is_setState("json_gameObj") );
@@ -106,13 +106,13 @@ void onGoSpecIds_SignUp(){
 
 
 
-    //cout << "--- onGoSpecIds_SignUp(). DONE. ---" << endl; 
+    //cout << "--- onGoSpeciesIds_SignUp(). DONE. ---" << endl; 
 }
 
 
 
-//namespace goSpecIds_inn {//------------------- namespace: goSpecIds_inn ---------------------
-//}//------------------------- namespace: goSpecIds_inn end -------------------
+//namespace goSpeciesIds_inn {//------------------- namespace: goSpeciesIds_inn ---------------------
+//}//------------------------- namespace: goSpeciesIds_inn end -------------------
 
 
 //-- 仅用于流程测试 

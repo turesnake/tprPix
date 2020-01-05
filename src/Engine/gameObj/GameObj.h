@@ -39,7 +39,7 @@
 #include "PubBinary2.h"
 #include "ActionFSM.h"
 #include "chunkKey.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "DyBinary.h"
 #include "BrokenLvl.h"
 
@@ -85,7 +85,7 @@ public:
 
     //----- goMesh -----//
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                            animSubspecId_t     subspecId_,
+                            animSubspeciesId_t     subspeciesId_,
                             const std::string   &actionName_,
                             RenderLayerType     layerType_,
                             ShaderProgram       *pixShaderPtr_,
@@ -189,13 +189,10 @@ public:
 
     //----------------- self vals ---------------//
     goid_t         id;  
-    goSpecId_t     species  {0};                //- go species id
+    goSpeciesId_t     speciesId  {0};
     GameObjFamily  family   {GameObjFamily::Major};  
-
-    
                             
     double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
-
 
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
@@ -228,25 +225,15 @@ public:
     bool    isControlByPlayer  {false}; 
 
     bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
-                                    //  若为 false，不需要 登记到 mapent 上
-                                    //  值为 false 的go，会被 精简掉 大量代码
-                                    //  uiGo 一律为 false。部分 regularGo 也可为 false（游戏世界中的ui元素）
+                                    //  uiGo 一律为 false。部分 majorGo 也可为 false（游戏世界中的ui元素）
                                     //  ---
-                                    //  若想支持运行时改写，
-                                    //  则需要在 启用时，将 本go 登记到 对应的所有 mapents 上
-                                    //  在关闭时，将 对应 mapents 上的记录 清除
-                                    //  尚未实现 ...
+                                    //  所有 majorGo 都要登记到 map 上，不过本值是否为 true
 
-                                    //  目前来看，这个概念并不完善
-                                    //  不参与移动碰撞检测，（可被穿过） 但参与 技能碰撞检测的go，怎么办？
-
-                                    //  尽可能减少 它在 移动碰撞检测之外的 作用 ！！！！！
     
     //======== static ========//
     static ID_Manager  id_manager;
 
 private:
-
     GameObj( goid_t goid_ ):
         id(goid_),
         move( *this ),

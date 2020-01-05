@@ -1,8 +1,8 @@
 [
 
   {
-    "goSpecName": "figTree",
-    "specID": 2003,
+    "goSpeciesName": "figTree",
+    "speciesId": 2003,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",

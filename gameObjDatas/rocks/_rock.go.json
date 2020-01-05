@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "rock",
-    "specID": 7501,
+    "goSpeciesName": "rock",
+    "speciesId": 7501,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",

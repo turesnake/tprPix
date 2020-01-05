@@ -1,22 +1,22 @@
 /*
- * ===================== AnimSubspec.cpp ==========================
+ * ===================== AnimSubspecies.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.03
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "AnimSubspec.h"
+#include "AnimSubspecies.h"
 
 #include "tprDebug.h"
 
 //============== static ===============//
-ID_Manager  AnimSubspec::id_manager { ID_TYPE::U32, 1};
+ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
 
 
 
 
 /*
-AnimAction *AnimSubspec::get_animActionPtr(   NineDirection   dir_,
+AnimAction *AnimSubspecies::get_animActionPtr(   NineDirection   dir_,
                                             BrokenLvl       brokenLvl_,
                                             const std::string &actionName_ )const noexcept{
 

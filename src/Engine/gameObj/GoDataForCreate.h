@@ -21,7 +21,7 @@
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "IntVec.h"
 
 
@@ -30,7 +30,7 @@ class GoDataEntForCreate{
 public:
     GoDataEntForCreate()=default;
     //---
-    animSubspecId_t     subspecId {};
+    animSubspeciesId_t     subspeciesId {};
     glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
     size_t              windDelayIdx {}; // only used in windClock
 };
@@ -47,7 +47,7 @@ public:
     GoDataForCreate()=default;
 
     //---
-    goSpecId_t      goSpecId {};
+    goSpeciesId_t      goSpeciesId {};
     glm::dvec2      dpos      {}; // go 绝对 dpos
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
     BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};

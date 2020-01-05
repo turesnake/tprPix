@@ -52,8 +52,8 @@ void realloc_active_goes();
 void realloc_inactive_goes();
 
 
-
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ );
+
 
 }//---------------------- namespace: esrc -------------------------//
 #endif

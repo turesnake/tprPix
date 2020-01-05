@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "breakStone",
-    "specID": 7502,
+    "goSpeciesName": "breakStone",
+    "speciesId": 7502,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",

@@ -34,7 +34,7 @@ void create_gos_in_field(   fieldKey_t fieldKey_,
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-goid_t create_a_Go( goSpecId_t goSpecId_,
+goid_t create_a_Go( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &dpos_,
                     const DyParam &dyParams_ );
 
@@ -48,13 +48,13 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
 
 namespace uiGos{//------------- namespace uiGos ----------------
 
-goid_t create_a_UIGo( goSpecId_t goSpecId_,
+goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
                     const DyParam &dyParams_ );
 
 
-goid_t create_a_UIGo( goSpecId_t goSpecId_,
+goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const UIAnchor &uiAnchor_,
                     const DyParam &dyParams_ );
 

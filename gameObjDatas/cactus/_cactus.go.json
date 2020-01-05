@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "cactus",
-    "specID": 2301,
+    "goSpeciesName": "cactus",
+    "speciesId": 2301,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",

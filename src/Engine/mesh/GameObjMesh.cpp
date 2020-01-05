@@ -27,12 +27,12 @@ using namespace std::placeholders;
  * -----------------------------------------------------------
  * -- 切换动作时的 核心函数
  */
-void GameObjMesh::bind_animAction(  animSubspecId_t    subspecId_,
+void GameObjMesh::bind_animAction(  animSubspeciesId_t    subspeciesId_,
                                     NineDirection      dir_,
                                     BrokenLvl          brokenLvl_,
                                     const std::string &actionName_  ){
 
-    this->animActionPtr = esrc::get_animActionPtr( subspecId_, dir_, brokenLvl_, actionName_ );
+    this->animActionPtr = esrc::get_animActionPtr( subspeciesId_, dir_, brokenLvl_, actionName_ );
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
 
     this->isHaveShadow = this->animActionPtr->get_isHaveShadow();

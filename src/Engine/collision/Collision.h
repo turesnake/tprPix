@@ -37,7 +37,9 @@ class GameObj;
 //   当然，由于 动画制作的问题，大部分技能在施展期间，还是会强制停下 go 的移动
 class Collision{
     using F_get_colliPointDPosOffsRef = std::function<const std::vector<glm::dvec2> &()>;
+    using F_is_extraPassableDogoSpeciesId = std::function<bool(goSpeciesId_t)>; // param: dogoSpeciesId
 public:
+    
     Collision( GameObj &goRef_ ):
         goRef(goRef_)
         {
@@ -60,9 +62,24 @@ public:
 
     inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
     inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
-    inline bool get_isDoPass() const noexcept{ return this->isDoPass; }
-    inline bool get_isBePass() const noexcept{ return this->isBePass; }
+    inline bool get_isDoPass()const noexcept{ return this->isDoPass; }
 
+    // bego pass 检测其实存在 2步：
+    // isBePass == true: 允许一切 dogo 穿过
+    // isBePass == false: 若 dogo 为少数登记类型，也可以穿过
+    //                      剩余的 dogo 才会被禁止穿过
+    inline bool get_isBePass( goSpeciesId_t dogoSpeciesId_ )const noexcept{ 
+        if( this->isBePass ){
+            return true;
+        }
+        return (this->Is_extraPassableDogoSpeciesId != nullptr) ?
+                    this->Is_extraPassableDogoSpeciesId(dogoSpeciesId_) :
+                    false;
+    }
+
+    inline void set_functor_Is_extraPassableDogoSpeciesId( F_is_extraPassableDogoSpeciesId functor_ )noexcept{
+        this->Is_extraPassableDogoSpeciesId = functor_;
+    }
 
     //-- 所有调用此函数的 ，一律为 cir go
     inline const std::set<IntVec2> &get_currentSignINMapEntsRef_for_cirGo() const noexcept{
@@ -81,7 +98,6 @@ private:
 
     //======== vals ========//
     GameObj    &goRef;
-
     std::unique_ptr<SignInMapEnts> signInMapEntsUPtr {nullptr}; // only for cirGo
 
     
@@ -93,6 +109,11 @@ private:
                             //  如果本go 是 “草”／“腐蚀液”，可将此值 设置为 true
                             //  此时，本go 将允许任何 go 从自己身上 穿过
 
+    F_is_extraPassableDogoSpeciesId Is_extraPassableDogoSpeciesId {nullptr};
+                            // 当 bego.isBePass == false 时，
+                            // 将额外允许一组特殊的 dogo 穿过自己
+                            // 比如，只有 “鸡”，可以穿过 “鸡笼”
+
                 // 推荐用法：
                 //-- 对于 草这种允许被dogo穿过，自己又无法移动的。 isBePass=true， isDoPass 随意（无效）
                 //-- 对于 常规生物，2值都设置为 false
@@ -100,12 +121,12 @@ private:
                 //    一些小动物，npc 特别适合这种
                 //-- 对于 带穿透属性的 箭矢，isDoPass=true， isBePass 随意（无效）
 
+
     //===== static =====//
     static void init_for_static()noexcept;
 
     static void build_a_scanBody(   const glm::dvec2 &moveVec_,
                                     const glm::dvec2 &dogoDPos_ );
-
 
     //---
     static bool isStaticInit;
@@ -133,8 +154,6 @@ private:
 
     static std::multiset<double> tVals; 
                             //- 确认发生碰撞的 begos，将被收集起来，按照 t 值排序
-
-
 };
 
 

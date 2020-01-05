@@ -32,7 +32,7 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
  * -- 仅适用于 部分类型的 go
  * -- 对于很多类似 ui的，不依赖map，且更为轻量的go，应为其专设 create 函数 
  */
-goid_t create_a_Go( goSpecId_t goSpecId_,
+goid_t create_a_Go( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &dpos_,
                     const DyParam &dyParams_ ){
 
@@ -40,13 +40,13 @@ goid_t create_a_Go( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
-        tprAssert( GoSpecFromJson::find_from_initFuncs(goSpecId_) );
-    GoSpecFromJson::assemble_2_newGo( goSpecId_, goRef );
+        tprAssert( GoSpecFromJson::find_from_initFuncs(goSpeciesId_) );
+    GoSpecFromJson::assemble_2_newGo( goSpeciesId_, goRef );
 
     //-- check GameObjFamily --
         tprAssert( goRef.family != GameObjFamily::UI );
 
-    GoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
+    GoSpecFromJson::call_initFunc( goSpeciesId_, goRef, dyParams_ );
 
     goRef.init_check();
     //------------------------------//
@@ -73,16 +73,16 @@ void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
     esrc::insert_a_diskGo( diskGo_.goid, dpos_ );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
-        tprAssert( GoSpecFromJson::find_from_initFuncs(diskGo_.goSpecId) );
+        tprAssert( GoSpecFromJson::find_from_initFuncs(diskGo_.goSpeciesId) );
 
     //-- set some static datas from JSON --
-    GoSpecFromJson::assemble_2_newGo( diskGo_.goSpecId, goRef ); //- tmp
+    GoSpecFromJson::assemble_2_newGo( diskGo_.goSpeciesId, goRef ); //- tmp
                     //-- 临时措施
                     //   在未来，已经组装 从 数据库取出的数据，而不是从 GoSpecFromJson 中
                     //   至少有一部分吧
                     //   ...
 
-    GoSpecFromJson::call_initFunc( diskGo_.goSpecId, goRef, dyParams_ );
+    GoSpecFromJson::call_initFunc( diskGo_.goSpeciesId, goRef, dyParams_ );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
 
     goRef.init_check();
@@ -108,7 +108,7 @@ namespace uiGos{//------------- namespace uiGos ----------------
  *                  create_a_UIGo
  * -----------------------------------------------------------
  */
-goid_t create_a_UIGo( goSpecId_t goSpecId_,
+goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
                     const DyParam &dyParams_ ){
@@ -117,13 +117,13 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --
-        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpecId_) );
-    UIGoSpecFromJson::assemble_2_newUIGo( goSpecId_, goRef );
+        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpeciesId_) );
+    UIGoSpecFromJson::assemble_2_newUIGo( goSpeciesId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    UIGoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
+    UIGoSpecFromJson::call_initFunc( goSpeciesId_, goRef, dyParams_ );
 
     goRef.init_check();
     //------------------------------//
@@ -133,7 +133,7 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
 }
 
 
-goid_t create_a_UIGo( goSpecId_t goSpecId_,
+goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const UIAnchor &uiAnchor_,
                     const DyParam &dyParams_ ){
 
@@ -142,13 +142,13 @@ goid_t create_a_UIGo( goSpecId_t goSpecId_,
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --
-        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpecId_) );
-    UIGoSpecFromJson::assemble_2_newUIGo( goSpecId_, goRef );
+        tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpeciesId_) );
+    UIGoSpecFromJson::assemble_2_newUIGo( goSpeciesId_, goRef );
 
     //-- check GameObjFamily --
     tprAssert( goRef.family == GameObjFamily::UI );
 
-    UIGoSpecFromJson::call_initFunc( goSpecId_, goRef, dyParams_ );
+    UIGoSpecFromJson::call_initFunc( goSpeciesId_, goRef, dyParams_ );
     
     goRef.init_check();
     //------------------------------//

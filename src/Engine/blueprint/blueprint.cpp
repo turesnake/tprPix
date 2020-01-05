@@ -379,7 +379,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     goDRef.direction = mapDataEntRef_.direction;
     goDRef.brokenLvl = mapDataEntRef_.brokenLvl;
 
-    goDRef.goSpecId = goSpecRef_.goSpecId;
+    goDRef.goSpeciesId = goSpecRef_.goSpeciesId;
     goDRef.dpos = dpos_;
 
     goDRef.isMultiGoMesh = goSpecRef_.isMultiGoMesh;
@@ -391,7 +391,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
         //---
         entUPtr->dposOff = glm::dvec2{0.0, 0.0};
         entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
-        entUPtr->subspecId = esrc::apply_a_random_animSubspecId(goSpecRef_.afsName, // e.g. "mushroom"
+        entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(goSpecRef_.afsName, // e.g. "mushroom"
                                                                 goSpecRef_.animLabel,
                                                                 suWeight );
         
@@ -399,8 +399,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
 
     }else{
         //=== multi goMesh ===
-
-        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDRef.goSpecId );
+        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDRef.goSpeciesId );
         tprAssert( goSpecFromJsonRef.multiGoMeshUPtr );
         const GoMeshSet &goMeshSetRef = goSpecFromJsonRef.multiGoMeshUPtr->apply_a_goMeshSet( 
                                                                 goSpecRef_.multiGoMeshType,
@@ -415,7 +414,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
             //---
             entUPtr->dposOff = jgomesh.dposOff;
             entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
-            entUPtr->subspecId = esrc::apply_a_random_animSubspecId(    jgomesh.animFrameSetName,
+            entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(    jgomesh.animFrameSetName,
                                                                         jgomesh.animLabel,
                                                                         suWeight + randUWeightOff );
 

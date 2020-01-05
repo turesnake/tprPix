@@ -17,7 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "Job_MapEnt.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "mapEntKey.h"
 
 #include "GoDataForCreate.h"

@@ -31,7 +31,7 @@ using F_AFFECT  = std::function<void( GameObj&, GameObj& )>; // params: dogoRef_
 
 
 using goid_t     = u64_t; //- gameObj id type
-using goSpecId_t = u32_t; //- gameObj species id type
+using goSpeciesId_t = u32_t; //- gameObj species id type
 
 
 //-- go move state／运动状态 --

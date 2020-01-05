@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "grass",
-    "specID": 7602,
+    "goSpeciesName": "grass",
+    "speciesId": 7602,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",

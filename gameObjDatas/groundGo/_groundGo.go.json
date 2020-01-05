@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "groundGo",
-        "specID": 3003,
+        "goSpeciesName": "groundGo",
+        "speciesId": 3003,
         "family": "GroundGo",
         "state": "Waked",
         "moveState": "AbsFixed",

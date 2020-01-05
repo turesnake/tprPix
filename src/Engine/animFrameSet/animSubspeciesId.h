@@ -1,5 +1,5 @@
 /*
- * =================== animSubspecId.h ==========================
+ * =================== animSubspeciesId.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.10
  *                                        MODIFY -- 
@@ -11,7 +11,7 @@
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
-using animSubspecId_t = u32_t;
+using animSubspeciesId_t = u32_t;
 
 #endif 
 

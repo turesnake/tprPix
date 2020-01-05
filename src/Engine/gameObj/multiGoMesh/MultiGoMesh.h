@@ -66,10 +66,8 @@ public:
         //----- id -----//
         jsonGoMeshSetId_t id = GoMeshSet::id_manager.apply_a_u32_id();
         if( type_ != DEFAULT_MULTI_GO_MESH_TYPE ){
-            if( this->ids.find(type_) == this->ids.end() ){
-                this->ids.insert({ type_, std::vector<jsonGoMeshSetId_t>{} });
-            }
-            this->ids.at(type_).push_back(id);
+            auto outPair1 = this->ids.insert({ type_, std::vector<jsonGoMeshSetId_t>{} }); // insert or find
+            outPair1.first->second.push_back(id);
         }else{
             // do nothing, MultiGoMeshType::Default not belong to any type
         }

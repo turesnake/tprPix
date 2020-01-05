@@ -17,7 +17,7 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 
 #include "esrc_shader.h" 
 #include "esrc_player.h"
@@ -35,7 +35,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct PlayerGoCircle_PvtBinary{
-    animSubspecId_t subspecId {};
+    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
 
@@ -46,7 +46,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<PlayerGoCircle_PvtBinary>();
 
-    pvtBp->subspecId = esrc::apply_a_random_animSubspecId( "playerGoCircle", AnimLabel::Default, 10 );
+    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", AnimLabel::Default, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.set_actionDirection( NineDirection::Center );
@@ -57,7 +57,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                pvtBp->subspecId,
+                                pvtBp->subspeciesId,
                                 "idle", 
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
@@ -168,11 +168,11 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "idle" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
             break;
 
         case ActionSwitchType::selfRotate:
-            goMeshRef.bind_animAction( pvtBp->subspecId, dir, brokenLvl, "selfRotate" );
+            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "selfRotate" );
             break;
 
         default:

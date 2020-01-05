@@ -1,7 +1,7 @@
 [
 
     {
-        "goSpecName": "mushroom",
+        "goSpeciesName": "mushroom",
         "goMeshSets":[
 
             { "annotation": "========== type_1 ==========" },

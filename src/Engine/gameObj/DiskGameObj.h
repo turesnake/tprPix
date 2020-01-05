@@ -21,7 +21,7 @@
 class DiskGameObj{
 public:
     goid_t         goid     {}; //- u64   
-    goSpecId_t     goSpecId {}; //- u32
+    goSpeciesId_t     goSpeciesId {}; //- u32
     glm::dvec2     dpos     {}; //- double, double
     //...
 

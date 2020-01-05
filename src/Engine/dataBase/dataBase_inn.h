@@ -142,7 +142,7 @@ inline const std::string sql_create_table_chunks  {
 inline const std::string sql_create_table_goes  {
     "CREATE TABLE IF NOT EXISTS table_goes("  \
     "goid           INTEGER     PRIMARY KEY     NOT NULL," \
-    "goSpecId       INT         NOT NULL,  " \
+    "goSpeciesId       INT         NOT NULL,  " \
     "dposX          DOUBLE         NOT NULL,  " \
     "dposY          DOUBLE         NOT NULL  " \
     ");" 
@@ -150,7 +150,7 @@ inline const std::string sql_create_table_goes  {
 
 inline const std::string sql_select_one_from_table_goes  {
     "SELECT  "\
-        "goSpecId, "\
+        "goSpeciesId, "\
         "dposX,  "\
         "dposY  "\
         "FROM table_goes WHERE goid = ?;" 
@@ -159,8 +159,8 @@ inline sqlite3_stmt *stmt_select_one_from_table_goes {nullptr};
 
 
 inline const std::string sql_insert_or_replace_to_table_goes  {
-    "INSERT OR REPLACE INTO table_goes ( goid, goSpecId, dposX, dposY ) " \
-    "VALUES ( :goid, :goSpecId, :dposX, :dposY );" 
+    "INSERT OR REPLACE INTO table_goes ( goid, goSpeciesId, dposX, dposY ) " \
+    "VALUES ( :goid, :goSpeciesId, :dposX, :dposY );" 
     };
 inline sqlite3_stmt *stmt_insert_or_replace_to_table_goes {nullptr};
 

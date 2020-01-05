@@ -16,7 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "dyParams.h"
 
 #include "tprAssert.h"
@@ -37,7 +37,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Mushroom_PvtBinary{
-    //animSubspecId_t subspecId {}; // 在未来，它会是个 vector
+    //animSubspeciesId_t subspeciesId {}; // 在未来，它会是个 vector
     int        tmp {};
 };
 
@@ -63,7 +63,7 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- gomeshs -----//
     std::string         goMeshName {};
     size_t              meshNameCount {0};
-    animSubspecId_t     subspecId {};
+    animSubspeciesId_t     subspeciesId {};
     
     size_t idx {0};
     for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); 
@@ -79,11 +79,11 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
             meshNameCount++;
         }
 
-        subspecId = goDataEntRef.subspecId;
+        subspeciesId = goDataEntRef.subspeciesId;
 
         //---
         auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
-                                subspecId,
+                                subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader

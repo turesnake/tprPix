@@ -1,7 +1,7 @@
 [
   {
-    "goSpecName": "fence",
-    "specID": 31001,
+    "goSpeciesName": "fence",
+    "speciesId": 31001,
     "parentID": 0,
     "family": "Major",
     "state": "Waked",
@@ -10,6 +10,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
+    "extraPassableDogoSpeciesNames":[ "oneEyeBoy" ],
     "speedLvl": 0,
     "alti": 0,
     "weight": 50,
@@ -23,3 +24,4 @@
 
   }
 ]
+

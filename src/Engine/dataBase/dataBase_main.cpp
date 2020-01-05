@@ -118,7 +118,7 @@ void atom_writeBack_to_table_gameArchive(){
 
     DiskGameObj diskGo {};
     diskGo.goid = goid;
-    diskGo.goSpecId = playerGoRef.species;
+    diskGo.goSpeciesId = playerGoRef.speciesId;
     diskGo.dpos = dposRef;
     db::atom_insert_or_replace_to_table_goes( diskGo );
 

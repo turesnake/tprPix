@@ -17,7 +17,7 @@
 
 //-------------------- Engine --------------------//
 #include "Density.h"
-#include "animSubspecId.h"
+#include "animSubspeciesId.h"
 #include "tprAssert.h"
 #include "tprCast.h"
 #include "create_go_oth.h"
@@ -54,19 +54,19 @@ namespace grass_inn {//----------- namespace: grass_inn ----------------//
 
     class Grass_PvtBinary{
     public:
-        inline void insert_goMeshData(  const std::string name_, animSubspecId_t id_ )noexcept{
-            auto outPair = this->goMeshSubSpecIds.insert({ name_, id_ });
+        inline void insert_goMeshData(  const std::string name_, animSubspeciesId_t id_ )noexcept{
+            auto outPair = this->goMeshSubSpeciesIds.insert({ name_, id_ });
             tprAssert( outPair.second );
         }
-        inline animSubspecId_t get_goMesh_animSubspecId( const std::string goMeshName_ )const noexcept{
-            tprAssert( this->goMeshSubSpecIds.find(goMeshName_) != this->goMeshSubSpecIds.end() );
-            return this->goMeshSubSpecIds.at( goMeshName_ );
+        inline animSubspeciesId_t get_goMesh_animSubspeciesId( const std::string goMeshName_ )const noexcept{
+            tprAssert( this->goMeshSubSpeciesIds.find(goMeshName_) != this->goMeshSubSpeciesIds.end() );
+            return this->goMeshSubSpeciesIds.at( goMeshName_ );
         }
         //----- vals -----//
         size_t     windClockCheckStepCount {}; // count down
         size_t     oldWindClockCount {0};
     private:
-        std::unordered_map<std::string, animSubspecId_t> goMeshSubSpecIds {};
+        std::unordered_map<std::string, animSubspeciesId_t> goMeshSubSpeciesIds {};
     };
 
 
@@ -124,7 +124,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- gomeshs -----//
     std::string         goMeshName {};
     size_t              meshNameCount {0};
-    animSubspecId_t     subspecId {};
+    animSubspeciesId_t     subspeciesId {};
 
     auto &windClockRef = esrc::get_windClock();
     
@@ -142,12 +142,12 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
             meshNameCount++;
         }
 
-        subspecId = goDataEntRef.subspecId;
+        subspeciesId = goDataEntRef.subspeciesId;
 
-        pvtBp->insert_goMeshData( goMeshName, subspecId );
+        pvtBp->insert_goMeshData( goMeshName, subspeciesId );
         //---
         auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
-                                subspecId,
+                                subspeciesId,
                                 "idle",
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -227,7 +227,7 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
                 goMeshPvtBPtr->windDelayStepCount = grass_inn::apply_a_goMesh_windDelayStep(); // new val
                 goMeshPvtBPtr->isWindClockWorking = false;
                 //---
-                goMeshRef.bind_animAction(  pvtBp->get_goMesh_animSubspecId( pair.first ),
+                goMeshRef.bind_animAction(  pvtBp->get_goMesh_animSubspeciesId( pair.first ),
                                             dir, brokenLvl, 
                                             grass_inn::apply_a_windAnimActionName() );
             }

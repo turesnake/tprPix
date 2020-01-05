@@ -1,7 +1,7 @@
 [
     {
-        "goSpecName": "playerGoCircle",
-        "specID": 21,
+        "goSpeciesName": "playerGoCircle",
+        "speciesId": 21,
         "family": "Oth",
         "state": "Waked",
         "moveState": "Movable",

@@ -1,7 +1,7 @@
 [
 
     {
-        "goSpecName": "grass",
+        "goSpeciesName": "grass",
         "goMeshSets":[
             {
                 "type": "type_1",
