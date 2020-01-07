@@ -53,6 +53,8 @@ void onGoSpeciesIds_SignUp(){
     //================ Goes ==================//
     GoSpecFromJson::insert_2_initFuncs( "oneEyeBoy",      std::bind( &gameObjs::OneEyeBoy::init, _1, _2 ) );
 
+    GoSpecFromJson::insert_2_initFuncs( "chicken",      std::bind( &gameObjs::Chicken::init, _1, _2 ) );
+
 
     //-------------------//
     //     artifacts

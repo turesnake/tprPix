@@ -1,7 +1,6 @@
 [
   {
     "goSpeciesName": "grass",
-    "speciesId": 7602,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",
@@ -9,7 +8,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": true,
-    "speedLvl": 0,
+    "moveSpeedLvl": 0,
     "alti": 0,
     "weight": 5,
     "pub.HP": 100,

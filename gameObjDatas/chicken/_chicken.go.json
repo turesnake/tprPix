@@ -1,23 +1,24 @@
 [
     {
-        "goSpeciesName": "bushOth",
+        "goSpeciesName": "chicken",
         "family": "Major",
         "state": "Waked",
-        "moveState": "AbsFixed",
+        "moveState": "Movable",
         "moveType": "Crawl",
-        "isMoveCollide": false,
+        "isMoveCollide": true,
         "isDoPass": false,
         "isBePass": true,
-        "moveSpeedLvl": 0,
+        "moveSpeedLvl": 2,
         "alti": 0,
-        "weight": 50,
+        "weight": 5,
         "pub.HP": 170,
         "pub.MP": 50,
 
+
         "afs_lPaths": [ 
-            "_bushOth.afs.json" 
+            "_hen.afs.json"
         ],
         "multiGoMesh_lPaths": []
-    }
 
+      }
 ]

@@ -1,7 +1,6 @@
 [
   {
     "goSpeciesName": "cactus",
-    "speciesId": 2301,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",
@@ -9,7 +8,7 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,
-    "speedLvl": 0,
+    "moveSpeedLvl": 0,
     "alti": 0,
     "weight": 50,
     "pub.HP": 170,

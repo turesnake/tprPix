@@ -213,7 +213,7 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
         auto *goMeshPvtBPtr = goMeshRef.get_pvtBinary().get<grass_inn::GoMesh_PvtBinary>();
         //---
         if( isNeedStartWind ){
-            if( goMeshRef.get_animAction_state().second == AnimActionState::Working ){
+            if( goMeshRef.get_animAction_state().second == AnimAction::State::Working ){
                 continue; // skip
             }
             if( !goMeshPvtBPtr->isWindClockWorking ){

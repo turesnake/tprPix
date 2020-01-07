@@ -15,6 +15,7 @@
 #include <unordered_set>
 #include <set>
 #include <memory>
+#include <functional> // hash
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -38,8 +39,10 @@ public:
 
     inline std::unordered_set<std::string> *get_afsNamesPtr()noexcept{ return &(this->afsNames); }
 
-    inline void insert_2_ExtraPassableDogoSpeciesNames( const std::string &name_ )noexcept{
-        this->extraPassableDogoSpeciesNames.push_back(name_);
+    inline void insert_2_ExtraPassableDogoSpeciesIds( const std::string &name_ )noexcept{
+        std::hash<std::string> hasher;
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+        this->extraPassableDogoSpeciesIds.insert( id );
     }
 
 
@@ -59,7 +62,7 @@ public:
     bool    isBePass {};
 
     //----- numbers -----//
-    SpeedLevel  speedLvl {};
+    SpeedLevel   moveSpeedLvl {};
     double       alti   {};
     double       weight {};
     //...
@@ -70,16 +73,25 @@ public:
     std::unique_ptr<MultiGoMesh> multiGoMeshUPtr {nullptr}; // 数据存储地
     
             
-
     //======== static ========//
     static void assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ );
-    static void convert_all_extraPassableDogoSpeciesNames_2_goSpeciesIds()noexcept;
+    static void check_all_extraPassableDogoSpeciesIds()noexcept;
 
 
-    inline static GoSpecFromJson &create_new_goSpecFromJson( goSpeciesId_t id_ )noexcept{
-        auto outPair = GoSpecFromJson::dataUPtrs.insert({ id_, std::make_unique<GoSpecFromJson>() });
+    inline static GoSpecFromJson &create_new_goSpecFromJson( const std::string &name_ )noexcept{
+
+        std::hash<std::string> hasher;
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+
+        auto outPair = GoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<GoSpecFromJson>() });
         tprAssert( outPair.second );
-        return *(outPair.first->second);
+        GoSpecFromJson &ref = *(outPair.first->second);
+        //--
+        ref.goSpeciesName = name_;
+        ref.speciesId = id;
+        GoSpecFromJson::insert_2_goSpeciesIds_names_containers( id, name_ );
+        //--
+        return ref;
     }
     
     inline static GoSpecFromJson &getnc_goSpecFromJsonRef( goSpeciesId_t id_ )noexcept{
@@ -96,13 +108,6 @@ public:
     inline static bool is_find_in_afsNames( goSpeciesId_t id_, const std::string &name_ )noexcept{
         const auto &c = GoSpecFromJson::get_goSpecFromJsonRef(id_);
         return c.is_find_in_afsNames(name_);
-    }
-
-    inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
-        auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
-        auto out2 = GoSpecFromJson::names_2_ids.insert({ name_, id_ });
-        tprAssert( out1.second );
-        tprAssert( out2.second );
     }
 
     inline static goSpeciesId_t str_2_goSpeciesId( const std::string &name_ ){
@@ -131,15 +136,18 @@ private:
     }
 
 
+    inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
+        auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
+        auto out2 = GoSpecFromJson::names_2_ids.insert({ name_, id_ });
+        tprAssert( out1.second );
+        tprAssert( out2.second );
+    }
+
     //======== vals ========//
     std::unordered_set<std::string> afsNames {};
 
-
     //-- 当 isBePass == false 时，允许一组 特殊的 dogo，可以穿透本 bego
-    // 从 json文件中，读取时，暂时纯粹为 string 形态
-    // 最后 统计转换为 goSpeciesId 数据 （然后 string 容器被清空）
     // 正式使用时，只提供 只读指针
-    std::vector<std::string> extraPassableDogoSpeciesNames {};
     std::set<goSpeciesId_t>    extraPassableDogoSpeciesIds {};
 
 

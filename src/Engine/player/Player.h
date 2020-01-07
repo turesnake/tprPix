@@ -33,7 +33,7 @@ public:
     void handle_inputINS( const InputINS &inputINS_ );
     GameObj &get_goRef() const;
 
-    void set_speedLvl( SpeedLevel lvl_ )noexcept;
+    void set_moveSpeedLvl( SpeedLevel lvl_ )noexcept;
 
     //======== vals ========//
     goid_t    goid   {NULLID}; 

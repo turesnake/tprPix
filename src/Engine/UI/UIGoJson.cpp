@@ -81,24 +81,19 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
     Document doc;
     doc.Parse( jsonBufUPtr->c_str() );
 
-    goSpeciesId_t        speciesId {};
+
+    std::string  uiGoSpeciesName {};
 
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
-
-        {//--- speciesId ---//
-            const auto &a = check_and_get_value( ent, "speciesId", JsonValType::Uint );
-            speciesId = static_cast<goSpeciesId_t>( a.GetUint() );
-        }
-
-        UIGoSpecFromJson &uiGoJsonDataRef = UIGoSpecFromJson::create_new_UIGoSpecFromJson( speciesId );
-        uiGoJsonDataRef.speciesId = speciesId;
-
         {//--- goSpeciesName ---//
             const auto &a = check_and_get_value( ent, "goSpeciesName", JsonValType::String );
-            uiGoJsonDataRef.goSpeciesName = a.GetString();
+            uiGoSpeciesName = a.GetString();
         }
+
+        UIGoSpecFromJson &uiGoJsonDataRef = UIGoSpecFromJson::create_new_UIGoSpecFromJson( uiGoSpeciesName );
+
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
             uiGoJsonDataRef.family = str_2_GameObjFamily( a.GetString() );
@@ -107,15 +102,10 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
             uiGoJsonDataRef.moveType = str_2_MoveType( a.GetString() );
         }
-        {//--- speedLvl ---//
-            const auto &a = check_and_get_value( ent, "speedLvl", JsonValType::Int );
-            uiGoJsonDataRef.speedLvl = int_2_SpeedLevel( a.GetInt() );
+        {//--- moveSpeedLvl ---//
+            const auto &a = check_and_get_value( ent, "moveSpeedLvl", JsonValType::Int );
+            uiGoJsonDataRef.moveSpeedLvl = int_2_SpeedLevel( a.GetInt() );
         }
-
-        //------------------------------------//
-        UIGoSpecFromJson::insert_2_uiGoSpeciesIds_names_containers(uiGoJsonDataRef.speciesId, 
-                                                                uiGoJsonDataRef.goSpeciesName );
-
     }
 }
 

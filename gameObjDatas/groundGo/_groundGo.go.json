@@ -1,7 +1,6 @@
 [
     {
         "goSpeciesName": "groundGo",
-        "speciesId": 3003,
         "family": "GroundGo",
         "state": "Waked",
         "moveState": "AbsFixed",
@@ -9,7 +8,7 @@
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,
-        "speedLvl": 0,
+        "moveSpeedLvl": 0,
         "alti": 0,
         "weight": 1,
         "pub.HP": "nil",

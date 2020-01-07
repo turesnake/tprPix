@@ -30,7 +30,7 @@ void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
 
     if( sqlite3_step(stmt_select_one_from_table_goes) == SQLITE_ROW ){
         diskGo_.goid = goid_;
-        diskGo_.goSpeciesId = static_cast<goSpeciesId_t>( sqlite3_column_int(stmt_select_one_from_table_goes, 0) );
+        diskGo_.goSpeciesId = static_cast<goSpeciesId_t>( sqlite3_column_int64(stmt_select_one_from_table_goes, 0) );
         diskGo_.dpos.x = sqlite3_column_double(stmt_select_one_from_table_goes, 1);
         diskGo_.dpos.y = sqlite3_column_double(stmt_select_one_from_table_goes, 2);
     }
@@ -55,8 +55,8 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
     sqlite3_bind_int64_inn_(  ":goid",  
                             static_cast<i64_t>(diskGo_.goid) );
 
-    sqlite3_bind_int_inn_(  ":goSpeciesId", 
-                            static_cast<int>(diskGo_.goSpeciesId) );
+    sqlite3_bind_int64_inn_(  ":goSpeciesId", 
+                            static_cast<i64_t>(diskGo_.goSpeciesId) );
 
     sqlite3_bind_double_inn_(  ":dposX", 
                             diskGo_.dpos.x );

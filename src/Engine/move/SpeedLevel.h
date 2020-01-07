@@ -42,7 +42,10 @@ enum class SpeedLevel : int {
     LV_13,
     LV_14,
     LV_15,
-    LV_16  //- highest speed for crawl mode，can't faster than 1mapEnt/1frame
+    LV_16,
+    LV_17,
+    LV_18,
+    LV_19  //- highest speed for crawl mode，can't faster than 1mapEnt/1frame
 };
 
 inline size_t speedLevel_2_size_t( SpeedLevel lvl_ )noexcept{
@@ -73,6 +76,9 @@ inline SpeedLevel int_2_SpeedLevel( int num_ )noexcept{
         case 14: return SpeedLevel::LV_14;
         case 15: return SpeedLevel::LV_15;
         case 16: return SpeedLevel::LV_16;
+        case 17: return SpeedLevel::LV_17;
+        case 18: return SpeedLevel::LV_18;
+        case 19: return SpeedLevel::LV_19;
         default:
             tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
@@ -103,7 +109,10 @@ inline SpeedLevel calc_higher_speedLvl( SpeedLevel lvl_ )noexcept{
         case SpeedLevel::LV_13: return SpeedLevel::LV_14;
         case SpeedLevel::LV_14: return SpeedLevel::LV_15;
         case SpeedLevel::LV_15: return SpeedLevel::LV_16;
-        case SpeedLevel::LV_16: return SpeedLevel::LV_16; // no change
+        case SpeedLevel::LV_16: return SpeedLevel::LV_17;
+        case SpeedLevel::LV_17: return SpeedLevel::LV_18;
+        case SpeedLevel::LV_18: return SpeedLevel::LV_19;
+        case SpeedLevel::LV_19: return SpeedLevel::LV_19; // no change
         default:
             tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
@@ -128,6 +137,9 @@ inline SpeedLevel calc_lower_speedLvl( SpeedLevel lvl_ )noexcept{
         case SpeedLevel::LV_14: return SpeedLevel::LV_13;
         case SpeedLevel::LV_15: return SpeedLevel::LV_14;
         case SpeedLevel::LV_16: return SpeedLevel::LV_15;
+        case SpeedLevel::LV_17: return SpeedLevel::LV_16;
+        case SpeedLevel::LV_18: return SpeedLevel::LV_17;
+        case SpeedLevel::LV_19: return SpeedLevel::LV_18;
         default:
             tprAssert(0);
             return SpeedLevel::LV_0; //- never reach
@@ -143,7 +155,7 @@ inline glm::dvec2 limit_moveSpeed( const glm::dvec2 &speedV_ )noexcept{
         return speedV_;
     }
     //-- max legal speed vec --
-    return glm::normalize(speedV_) * SpeedLevel_2_val(SpeedLevel::LV_16);
+    return glm::normalize(speedV_) * SpeedLevel_2_val(SpeedLevel::LV_19);
 }
 
 

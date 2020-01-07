@@ -142,7 +142,7 @@ inline const std::string sql_create_table_chunks  {
 inline const std::string sql_create_table_goes  {
     "CREATE TABLE IF NOT EXISTS table_goes("  \
     "goid           INTEGER     PRIMARY KEY     NOT NULL," \
-    "goSpeciesId       INT         NOT NULL,  " \
+    "goSpeciesId    INTEGER        NOT NULL,  " \
     "dposX          DOUBLE         NOT NULL,  " \
     "dposY          DOUBLE         NOT NULL  " \
     ");" 

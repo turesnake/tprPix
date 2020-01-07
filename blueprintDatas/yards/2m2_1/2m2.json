@@ -43,7 +43,6 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 }
             ]
         },
@@ -56,6 +55,19 @@
             "isPlotBlueprint": false,
             "goSpecPool":[
                 { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "生物测试位： dir:Light; 比如：鸡",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+
+                { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 3 }
+
             ]
         },
 

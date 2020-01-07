@@ -419,7 +419,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
     std::string         actionName {};
     NineDirection       actionDir {};
     BrokenLvl           actionBrokenLvl {};
-    AnimActionType      actionType {};
+    AnimAction::PlayType  actionPlayType {};
     bool                isOrder {};
     bool                isOpaque   {};
     bool                isSeries   {}; //- 是否存储为 连续帧
@@ -441,9 +441,9 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
         const auto &a = check_and_get_value( actionParamEnt_, "brokenLvl", JsonValType::Int );
         actionBrokenLvl = int_2_brokenLvl( a.GetInt() );
     }
-    {//--- actionType ---//
-        const auto &a = check_and_get_value( actionParamEnt_, "actionType", JsonValType::String );
-        actionType = str_2_AnimActionType( a.GetString() );
+    {//--- actionPlayType ---//
+        const auto &a = check_and_get_value( actionParamEnt_, "actionPlayType", JsonValType::String );
+        actionPlayType = AnimAction::str_2_PlayType( a.GetString() );
     }
     {//--- isOrder ---//
         const auto &a = check_and_get_value( actionParamEnt_, "isOrder", JsonValType::Bool );
@@ -497,7 +497,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionBrokenLvl,
-                                                    actionType,
+                                                    actionPlayType,
                                                     isOrder,
                                                     isOpaque,
                                                     jFrameIdx,
@@ -516,7 +516,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                                     actionName,
                                                     actionDir,
                                                     actionBrokenLvl,
-                                                    actionType,
+                                                    actionPlayType,
                                                     isOrder,
                                                     isOpaque,
                                                     jFrameIdx,

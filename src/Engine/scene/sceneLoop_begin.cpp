@@ -272,7 +272,9 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
 
                 //-- db::table_goes --
                 //goSpeciesId_t newGoSpeciesId = ssrc::str_2_goSpeciesId( "norman" );
-                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "oneEyeBoy" );
+                //goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "oneEyeBoy" );
+                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
+                
 
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpeciesId,
                                                             newGoDPos,

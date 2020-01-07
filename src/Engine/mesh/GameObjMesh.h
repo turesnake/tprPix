@@ -132,18 +132,18 @@ public:
 
 
 
-    inline std::pair<AnimActionType, AnimActionState> get_animAction_state()const noexcept{
-        auto type = this->animActionPtr->get_animActionType();
+    inline std::pair<AnimAction::PlayType, AnimAction::State> get_animAction_state()const noexcept{
+        auto type = this->animActionPtr->get_actionPlayType();
         switch (type){
-            case AnimActionType::Idle:  return { type, AnimActionState::Stop };
-            case AnimActionType::Cycle: return { type, AnimActionState::Working };
-            case AnimActionType::Once:
+            case AnimAction::PlayType::Idle:  return { type, AnimAction::State::Stop };
+            case AnimAction::PlayType::Cycle: return { type, AnimAction::State::Working };
+            case AnimAction::PlayType::Once:
                 return ((this->animActionPvtData.isLastFrame) ?
-                        std::pair<AnimActionType, AnimActionState>{ type, AnimActionState::Stop } :
-                        std::pair<AnimActionType, AnimActionState>{ type, AnimActionState::Working });
+                        std::pair<AnimAction::PlayType, AnimAction::State>{ type, AnimAction::State::Stop } :
+                        std::pair<AnimAction::PlayType, AnimAction::State>{ type, AnimAction::State::Working });
             default:
                 tprAssert(0);
-                return { AnimActionType::Idle, AnimActionState::Stop }; // never reach
+                return { AnimAction::PlayType::Idle, AnimAction::State::Stop }; // never reach
         }
     }
 
@@ -185,8 +185,8 @@ private:
     double            picFixedZOff {}; //- 方便快速访问
     RenderLayerType  picRenderLayerType;
 
-    AnimAction        *animActionPtr {nullptr};
-    AnimActionPvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
+    AnimAction          *animActionPtr {nullptr};
+    AnimAction::PvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 
     colorTableId_t  colorTableId { MaxColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
 

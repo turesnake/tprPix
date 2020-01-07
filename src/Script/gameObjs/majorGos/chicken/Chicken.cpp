@@ -1,11 +1,11 @@
 /*
- * ========================= OneEyeBoy.cpp ==========================
+ * ========================= Chicken.cpp ==========================
  *                          -- tpr --
- *                                        CREATE -- 2019.01.30
+ *                                        CREATE -- 2020.01.07
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/majorGos/OneEyeBoy.h"
+#include "Script/gameObjs/majorGos/chicken/Chicken.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -33,14 +33,14 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 
-namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------//
+namespace chicken_inn {//----------- namespace: chicken_inn ----------------//
 
     inline std::uniform_int_distribution<int>     uDistribution_int(      3,   50 );
     inline std::uniform_real_distribution<double> uDistribution_double( -1.3, 1.3 );
 
-}//-------------- namespace: oneEyeBoy_inn end ----------------//
+}//-------------- namespace: chicken_inn end ----------------//
 
-struct OneEyeBoy_PvtBinary{
+struct Chicken_PvtBinary{
     animSubspeciesId_t subspeciesId {};
     int        tmp {};
     int        timeStep  {10};
@@ -50,10 +50,10 @@ struct OneEyeBoy_PvtBinary{
 
 
 
-void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
+void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<OneEyeBoy_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<Chicken_PvtBinary>();
     
     //================ dyParams =================//
     size_t randUVal {};
@@ -63,10 +63,10 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
-        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
+        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "chicken.hen", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
-        goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
+        goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) ); // not Center
         goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
 
     }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
@@ -86,10 +86,6 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0); //- 尚未实现
     }
 
-    
-
-
-
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -105,11 +101,11 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
-    goRef_.RenderUpdate = std::bind( &OneEyeBoy::OnRenderUpdate,  _1 );   
-    goRef_.LogicUpdate  = std::bind( &OneEyeBoy::OnLogicUpdate,   _1 );
+    goRef_.RenderUpdate = std::bind( &Chicken::OnRenderUpdate,  _1 );   
+    goRef_.LogicUpdate  = std::bind( &Chicken::OnLogicUpdate,   _1 );
 
     //-------- actionSwitch ---------//
-    goRef_.actionSwitch.bind_func( std::bind( &OneEyeBoy::OnActionSwitch,  _1, _2 ) );
+    goRef_.actionSwitch.bind_func( std::bind( &Chicken::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
     goRef_.actionSwitch.signUp( ActionSwitchType::Move );
 
@@ -121,22 +117,22 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 /* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
  * -- 这个 go实例 的类型，应该和 本类一致。
  */
-void OneEyeBoy::bind( GameObj &goRef_ ){
+void Chicken::bind( GameObj &goRef_ ){
 }
 
 
 /* -- 从硬盘读取到 go实例数据后，重bind callback
  * -- 会被 脚本层的一个 巨型分配函数 调用
  */
-void OneEyeBoy::rebind( GameObj &goRef_ ){
+void Chicken::rebind( GameObj &goRef_ ){
 }
 
 
-void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
+void Chicken::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
 
     //=====================================//
     //            AI
@@ -157,10 +153,10 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
 
             auto &engine = esrc::get_gameSeed().getnc_realRandEngine();
 
-            pvtBp->timeStep = oneEyeBoy_inn::uDistribution_int(engine) + 1; //- 每帧都更新 间隔值
+            pvtBp->timeStep = chicken_inn::uDistribution_int(engine) + 1; //- 每帧都更新 间隔值
 
-            glm::dvec2 randVec {oneEyeBoy_inn::uDistribution_double(engine),
-                                oneEyeBoy_inn::uDistribution_double(engine) };
+            glm::dvec2 randVec {chicken_inn::uDistribution_double(engine),
+                                chicken_inn::uDistribution_double(engine) };
 
             pvtBp->moveVec = glm::normalize( pvtBp->moveVec + randVec );
         }
@@ -186,23 +182,23 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
 
 
 
-void OneEyeBoy::OnLogicUpdate( GameObj &goRef_ ){
+void Chicken::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
+    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
     //=====================================//
     // 什么也没做...
 }
 
 
 
-void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
+void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
     //=====================================//
 
     auto dir = goRef_.get_actionDirection();

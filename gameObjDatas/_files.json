@@ -3,6 +3,7 @@
     {"breakStone/_breakStone.go.json": true },
     {"bushOth/_bushOth.go.json": true },
     {"cactus/_cactus.go.json": true },
+    {"chicken/_chicken.go.json": true },
     {"fieldRim/_fieldRim.go.json": true },
     {"floorGo/_floorGo.go.json": true },
     {"grass/_grass.go.json": true },

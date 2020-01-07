@@ -24,6 +24,8 @@
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
 
+#include "CircuitBoard.h"
+
 #include "esrc_all.h"
 #include "ubo_all.h"
 
@@ -106,6 +108,8 @@ int main( int argc, char* argv[] ){
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
+
+    CircuitBoard::init_for_static();
     
     esrc::init_colorTableSet();
     json::parse_colorTableJsonFile();

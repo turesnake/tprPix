@@ -10,6 +10,9 @@
 //------------------- C --------------------//
 #include <cmath>
 
+//--------------- Libs ------------------//
+#include "magic_enum.hpp"
+
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprCast.h"
@@ -21,6 +24,20 @@
 
 
 using namespace std::placeholders;
+
+
+
+AnimAction::PlayType AnimAction::str_2_PlayType( const std::string &str_ )noexcept{
+
+    auto labelOP = magic_enum::enum_cast<AnimAction::PlayType>(str_);
+    if( labelOP.has_value() ){
+        return *labelOP;
+    }else{
+        cout << "can't find AnimAction::PlayType: " << str_ << endl;
+        tprAssert(0);
+        return AnimAction::PlayType::Idle; // never reach
+    }
+}
 
 
 /* ===========================================================
@@ -40,7 +57,7 @@ void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
     this->isHaveShadow = isHaveShadow_;
     this->pixNum_per_frame = pixNum_per_frame_;
     this->totalFrameNum = param_.lFrameIdxs.size();
-    this->actionType = param_.actionType;
+    this->actionPlayType = param_.actionPlayType;
     this->isOpaque = param_.isOpaque;
 
     //-----------------//
@@ -70,14 +87,14 @@ void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
     //---------------------//
     //    update functor
     //---------------------//
-    switch( this->actionType ){
-        case AnimActionType::Idle:
+    switch( this->actionPlayType ){
+        case PlayType::Idle:
             this->update = std::bind( &AnimAction::update_idle, this, _1 );
             break;
-        case AnimActionType::Once:
+        case PlayType::Once:
             this->update = std::bind( &AnimAction::update_once, this, _1 );
             break;
-        case AnimActionType::Cycle:
+        case PlayType::Cycle:
             this->update = std::bind( &AnimAction::update_cycle, this, _1 );
             break;
         default:
@@ -94,7 +111,7 @@ void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
  * 在正常流程中，外部代码在接受到这个 状态值 后，会根据具体情况，切换新的 action
  * 如果外部代码未作为，本函数将继续播放 最后一帧.
  */
-void AnimAction::update_once( AnimActionPvtData &pvtData_ ){
+void AnimAction::update_once( AnimAction::PvtData &pvtData_ ){
 
     //-- 无限停留在最后一帧，并一直返回 LastFrame 
     if( pvtData_.isLastFrame == true ){
@@ -125,7 +142,7 @@ void AnimAction::update_once( AnimActionPvtData &pvtData_ ){
  * -----------------------------------------------------------
  * 无限循环 给定的帧序列，永不停止，除非被外部 切换成其他 action
  */
-void AnimAction::update_cycle( AnimActionPvtData &pvtData_ ){
+void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
 
     pvtData_.updates++;
     //----- node frame -----//
@@ -152,7 +169,7 @@ void AnimAction::update_cycle( AnimActionPvtData &pvtData_ ){
  * return:
  *     调整过的 currentTimeStep 
  */
-size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimActionPvtData &pvtData_ ){
+size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimAction::PvtData &pvtData_ ){
 
     double playSpeedScale = (pvtData_.reset_playSpeedScale==nullptr) ? 1.0 : pvtData_.reset_playSpeedScale();
     double v = (1.0 / 60.0) * static_cast<double>(currentTimeStep_) * playSpeedScale;

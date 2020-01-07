@@ -44,7 +44,7 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
         );
     }
 
-    goRef_.move.set_speedLvl( d.speedLvl );
+    goRef_.move.set_moveSpeedLvl( d.moveSpeedLvl );
     goRef_.set_pos_alti( d.alti );
     goRef_.weight = d.weight;
 
@@ -64,22 +64,14 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
 
 
 
-
-void GoSpecFromJson::convert_all_extraPassableDogoSpeciesNames_2_goSpeciesIds()noexcept{
+void GoSpecFromJson::check_all_extraPassableDogoSpeciesIds()noexcept{
 
     for( const auto &ipair : GoSpecFromJson::dataUPtrs ){ // each goSpecFromJson
         GoSpecFromJson &goSpecFromJsonRef = *(ipair.second); 
 
-        if( goSpecFromJsonRef.isBePass ||
-            goSpecFromJsonRef.extraPassableDogoSpeciesNames.empty() ){
-            continue; // skip
+        for( const auto &id : goSpecFromJsonRef.extraPassableDogoSpeciesIds ){
+            tprAssert( GoSpecFromJson::ids_2_names.find(id) != GoSpecFromJson::ids_2_names.end() );
         }
-
-        //---
-        for( const auto &name : goSpecFromJsonRef.extraPassableDogoSpeciesNames ){ // each name
-            goSpecFromJsonRef.extraPassableDogoSpeciesIds.insert( GoSpecFromJson::str_2_goSpeciesId(name) );
-        }
-        goSpecFromJsonRef.extraPassableDogoSpeciesNames.clear(); // no need
     }
 }
 

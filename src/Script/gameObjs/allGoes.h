@@ -16,6 +16,8 @@
 #include "Script/gameObjs/majorGos/OneEyeBoy.h"
 #include "Script/gameObjs/oth/PlayerGoCircle.h"
 
+#include "Script/gameObjs/majorGos/chicken/Chicken.h"
+
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
 

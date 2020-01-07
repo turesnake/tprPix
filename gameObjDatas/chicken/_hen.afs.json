@@ -1,12 +1,12 @@
 [
 {
-    "name": "simpleMan",
+    "name": "chicken.hen",
     "pngs": [
         {
-            "path": "simpleMan3.P.png",
-            "frameNum.col":  6,
+            "path": "hen_2.P.png",
+            "frameNum.col":  16,
             "frameNum.row":  8,
-            "totalFrameNum": 48,
+            "totalFrameNum": 128,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -17,23 +17,22 @@
                     "animLabel": "",
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
-                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 12, "isOpaque": true },
-                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 18, "isOpaque": true },
-                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 24, "isOpaque": true },
-                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 30, "isOpaque": true },
-                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 36, "isOpaque": true },
-                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 42, "isOpaque": true },
+                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 16, "isOpaque": true },
+                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 32, "isOpaque": true },
+                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 48, "isOpaque": true },
+                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 64, "isOpaque": true },
+                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 80, "isOpaque": true },
+                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 96, "isOpaque": true },
+                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 112, "isOpaque": true },
 
                         {
                             "name": "walk", "dir": "L", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 1, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -41,8 +40,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 7, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 16, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -50,8 +49,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 13, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 32, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -59,8 +58,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 19, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 48, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -68,8 +67,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 25, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 64, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -77,8 +76,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 31, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 80, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -86,8 +85,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 37, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 96, "frameNums" : 16,
                             "isOpaque": true
                         },
                         {
@@ -95,8 +94,8 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 4,
-                            "isSeries": true, "fstFrameIdx" : 43, "frameNums" : 5,
+                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isSeries": true, "fstFrameIdx" : 112, "frameNums" : 16,
                             "isOpaque": true
                         }
                     ]

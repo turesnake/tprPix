@@ -71,8 +71,8 @@ public:
                 return;
         }
     }
-    inline void set_speedLvl( SpeedLevel lvl_ )noexcept{
-        this->speedLvl = lvl_;
+    inline void set_moveSpeedLvl( SpeedLevel lvl_ )noexcept{
+        this->moveSpeedLvl = lvl_;
     }
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
@@ -94,7 +94,7 @@ public:
     }
 
     //------- get -------//
-    inline SpeedLevel get_speedLvl()const noexcept{ return this->speedLvl; }
+    inline SpeedLevel get_speedLvl()const noexcept{ return this->moveSpeedLvl; }
     inline bool get_isMoving()const noexcept{ return this->isMoving; }
 
 
@@ -107,7 +107,7 @@ private:
     GameObj      &goRef;
 
     MoveType    moveType  { MoveType::Crawl };
-    SpeedLevel  speedLvl  { SpeedLevel::LV_3 };
+    SpeedLevel  moveSpeedLvl  { SpeedLevel::LV_0 };
 
     
     DirAxes  newDirAxes {};  //- this renderFrame, new input val

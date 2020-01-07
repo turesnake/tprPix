@@ -24,7 +24,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -55,7 +55,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -86,7 +86,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 10,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
@@ -117,7 +117,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -147,7 +147,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -177,7 +177,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 10,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
@@ -208,7 +208,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -239,7 +239,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -270,7 +270,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -301,7 +301,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -332,7 +332,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -363,7 +363,7 @@
                         {
                             "name": "wind_1", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionType": "Once",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,

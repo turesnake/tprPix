@@ -98,7 +98,7 @@ void Move::renderUpdate_crawl(){
     //   speedDPos - dpos/frame
     //----------------//
     glm::dvec2 speedVec = this->newDirAxes.to_dpos() *
-                        SpeedLevel_2_val(this->speedLvl) *
+                        SpeedLevel_2_val(this->moveSpeedLvl) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
@@ -139,7 +139,7 @@ void Move::renderUpdate_drag(){
 
     //- 等效于 DirAxes 的计算。
     glm::dvec2 speedVec =  glm::normalize( dposOff ) *
-                            SpeedLevel_2_val(this->speedLvl) *
+                            SpeedLevel_2_val(this->moveSpeedLvl) *
                             60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     bool isLastFrame = false;

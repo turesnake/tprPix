@@ -281,9 +281,9 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
 
-        if( speedLevel_2_size_t(lvl) < speedLevel_2_size_t(SpeedLevel::LV_8) ){
+        if( speedLevel_2_size_t(lvl) < speedLevel_2_size_t(SpeedLevel::LV_10) ){
             SpeedLevel newLvl = calc_higher_speedLvl(lvl);
-            playerRef.set_speedLvl( newLvl );
+            playerRef.set_moveSpeedLvl( newLvl );
                 cout << " + " << static_cast<int>(newLvl) 
                     << ", " << SpeedLevel_2_val(newLvl)
                     << endl; 
@@ -291,7 +291,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     }
     if( (isOld_B_press==false) && (isNew_B_press) ){
         SpeedLevel newLvl = calc_lower_speedLvl(lvl);
-        playerRef.set_speedLvl( newLvl );
+        playerRef.set_moveSpeedLvl( newLvl );
             cout << " - " << static_cast<int>(newLvl) 
                 << ", " << SpeedLevel_2_val(newLvl)
                 << endl;

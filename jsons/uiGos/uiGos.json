@@ -1,16 +1,14 @@
 [
   {
     "goSpeciesName": "button_sceneBegin_archive_2",
-    "speciesId": 10001,
     "family": "UI",
     "moveType": "Adsorb",
-    "speedLvl": 0
+    "moveSpeedLvl": 0
   },
   {
     "goSpeciesName": "button_sceneBegin_pointer_2",
-    "speciesId": 10002,
     "family": "UI",
     "moveType": "Adsorb",
-    "speedLvl": 8
+    "moveSpeedLvl": 8
   }
 ]

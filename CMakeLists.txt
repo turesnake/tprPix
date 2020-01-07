@@ -154,6 +154,7 @@ FILE(GLOB PIXEL_FILES   src/*.cpp
                         src/Script/gameObjs/majorGos/*.cpp
                         src/Script/gameObjs/majorGos/artifacts/*.cpp
                         src/Script/gameObjs/majorGos/bushs/*.cpp
+                        src/Script/gameObjs/majorGos/chicken/*.cpp
                         src/Script/gameObjs/majorGos/rocks/*.cpp
                         src/Script/gameObjs/majorGos/trees/*.cpp
                         src/Script/gameObjs/spawners/*.cpp
@@ -198,6 +199,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/blueprint
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/circuitBoard
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/coordinate

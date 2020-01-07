@@ -16,6 +16,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <memory>
+#include <functional> // hash
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -45,24 +46,27 @@ public:
     //----- bool -----//
     //----- numbers -----//
     MoveType    moveType {};
-    SpeedLevel  speedLvl {};
+    SpeedLevel  moveSpeedLvl {};
     //...
 
     //======== static ========//
     static void assemble_2_newUIGo( goSpeciesId_t specID_, GameObj &goRef_ );
 
 
-    inline static UIGoSpecFromJson &create_new_UIGoSpecFromJson( goSpeciesId_t id_ ){
-        auto outPair = UIGoSpecFromJson::dataUPtrs.insert({ id_, std::make_unique<UIGoSpecFromJson>() });
-        tprAssert( outPair.second );
-        return *(outPair.first->second);
-    }
+    inline static UIGoSpecFromJson &create_new_UIGoSpecFromJson( const std::string &name_ ){
 
-    inline static void insert_2_uiGoSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
-        auto out1 = UIGoSpecFromJson::ids_2_names.insert({ id_, name_ });
-        auto out2 = UIGoSpecFromJson::names_2_ids.insert({ name_, id_ });
-        tprAssert( out1.second );
-        tprAssert( out2.second );
+        std::hash<std::string> hasher;
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+
+        auto outPair = UIGoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<UIGoSpecFromJson>() });
+        tprAssert( outPair.second );
+        UIGoSpecFromJson &ref = *(outPair.first->second);
+        //---
+        ref.goSpeciesName = name_;
+        ref.speciesId = id;
+        UIGoSpecFromJson::insert_2_uiGoSpeciesIds_names_containers( id, name_ );
+        //---
+        return ref;
     }
 
 
@@ -97,6 +101,13 @@ public:
 
 
 private:
+
+    inline static void insert_2_uiGoSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
+        auto out1 = UIGoSpecFromJson::ids_2_names.insert({ id_, name_ });
+        auto out2 = UIGoSpecFromJson::names_2_ids.insert({ name_, id_ });
+        tprAssert( out1.second );
+        tprAssert( out2.second );
+    }
 
     //======== static ========//
     // 资源持续整个游戏生命期，不用释放
