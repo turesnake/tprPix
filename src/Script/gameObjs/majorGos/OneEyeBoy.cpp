@@ -167,7 +167,6 @@ void OneEyeBoy::OnRenderUpdate( GameObj &goRef_ ){
 
         //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
         DirAxes dirAxes {pvtBp->moveVec};
-        dirAxes.limit_vals(); // MUST
         goRef_.move.set_newCrawlDirAxes( dirAxes );
     }
     

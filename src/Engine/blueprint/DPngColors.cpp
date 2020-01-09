@@ -117,9 +117,9 @@ std::optional<std::pair<BrokenLvl,NineDirection>> rgba_2_DPngData( RGBA rgba_ )n
     //---
 
     //-- 逐个比较确认，效率最低的方案
-    for( const auto &ipair : *containerPtr ){
-        if( rgba_.is_near( ipair.second, 8) ){
-            return { std::pair<BrokenLvl,NineDirection>{ bLvl, ipair.first } };
+    for( const auto & [iDir, iRGBA] : *containerPtr ){
+        if( rgba_.is_near( iRGBA, 8) ){
+            return { std::pair<BrokenLvl,NineDirection>{ bLvl, iDir } };
         }
     }
 

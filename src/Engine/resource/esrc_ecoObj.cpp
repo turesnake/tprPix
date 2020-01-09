@@ -74,7 +74,6 @@ void del_ecoObjs_tooFarAway()noexcept{
     ecoObj_inn::delCount = 12 * 10; // 每隔 10 秒一次
 
     //--------------
-    sectionKey_t delKey {};
     std::set<sectionKey_t> delKeys {};
 
     int     limit  { 4 * ENTS_PER_SECTION };// release-zone 半径 
@@ -83,12 +82,11 @@ void del_ecoObjs_tooFarAway()noexcept{
 
     IntVec2 playerMPos = dpos_2_mpos(esrc::get_player().get_goRef().get_dpos());
     IntVec2 offMPos {};
-    for( const auto &pair : ecoObj_inn::ecoObjs ){
-        offMPos = sectionKey_2_mpos(pair.first) - playerMPos;
+    for( const auto &[iKey, iUPtr] : ecoObj_inn::ecoObjs ){
+        offMPos = sectionKey_2_mpos(iKey) - playerMPos;
         if( (std::abs(offMPos.x)>limit) || (std::abs(offMPos.y)>limit) ){
-            delKey = pair.first;
-            move_ecoObjKey_from_active_2_onReleasing( delKey ); // MUST
-            delKeys.insert( delKey );
+            move_ecoObjKey_from_active_2_onReleasing( iKey ); // MUST
+            delKeys.insert( iKey );
         }
     }
 

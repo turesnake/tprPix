@@ -19,6 +19,7 @@
 #include "SpeedLevel.h"
 #include "MapCoord.h"
 #include "DirAxes.h"
+#include "History.h"
 
 #include <iostream>
 using std::cout;
@@ -109,6 +110,8 @@ private:
     
     DirAxes  newDirAxes {};  //- this renderFrame, new input val (move dir)
     DirAxes  oldDirAxes {};  //- last renderFrame, old input val (move dir)
+
+    //History<DirAxes> dirAxes { DirAxes{} };
 
                     // 也将被替换为 History 结构
                     // ...

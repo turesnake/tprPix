@@ -33,12 +33,8 @@ void CircuitBoard::signUp(  goid_t dogoid_, F_AFFECT functor_,
     auto outPair1 = CircuitBoard::functors.insert({ dogoid_, functor_ });
     tprAssert( outPair1.second ); // 一个 dogo 只能登记 一个 functor ！
     //---
-    mapEntKey_t mpKey {};
-    MessageWeight weight {};
-    for( const auto &ipair : mpDatas_ ){
-        mpKey = ipair.first;
-        weight = ipair.second;
-
+    
+    for( const auto &[mpKey, weight] : mpDatas_ ){
         auto outPair2 = CircuitBoard::messages.insert({ mpKey, std::make_unique<MapEntMessage>() });// insert or find
         MapEntMessage &mpMsgRef = *(outPair2.first->second);
         mpMsgRef.dogoids.insert({ weight, dogoid_ }); // always can
@@ -81,11 +77,8 @@ void CircuitBoard::erase_dogoMessages(  goid_t dogoid_,
     size_t eraseNum = CircuitBoard::functors.erase( dogoid_ );
     tprAssert( eraseNum == 1 ); // Must Have
 
-    mapEntKey_t mpKey {};
-    MessageWeight weight {};
-    for( const auto &ipair : mpDatas_ ){ // each mpData
-        mpKey = ipair.first;
-        weight = ipair.second;
+    
+    for( const auto &[mpKey, weight] : mpDatas_ ){ // each mpData
 
         auto it = CircuitBoard::messages.find( mpKey );
         tprAssert( it != CircuitBoard::messages.end() ); // Must Have

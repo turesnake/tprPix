@@ -51,6 +51,7 @@ MoveType str_2_MoveType( const std::string name_ )noexcept{
 
 
 // 参数可为 0
+// input: player / AI 
 void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
     tprAssert( this->is_crawl() );
@@ -64,7 +65,7 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     //----------------------------
     // 通过下面这段繁琐的调用，来避免在 同一帧内 重复调用 go.actionSwitch.call_func()
 
-    NineDirection newDir = dirAxes_2_nineDirection(this->newDirAxes);
+    NineDirection newDir = dirAxes_2_nineDirection( this->newDirAxes );
     NineDirection oldDir = this->goRef.actionDirection.get_oldVal();
 
     // 先修改 go.dir
@@ -73,9 +74,10 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
         this->goRef.actionDirection.set_newVal( newDir );
         this->goRef.actionDirection.sync(); // MUST 
                     // 尽管如此，oldDir 仍然保存原来的值，方便下方做判断用
+
+                    // 不应该放在此处 !!!
+
     }   
-
-
 
     // switch aaction
     if( this->oldDirAxes.is_zero() ){

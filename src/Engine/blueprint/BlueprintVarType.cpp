@@ -75,10 +75,10 @@ std::optional<VariableTypeIdx> rgba_2_VariableTypeIdx( RGBA rgba_ )noexcept{
     rgba.a = 255; // ignore alpha 
 
     // 最简单最直接的方案，完全不考虑性能 
-    for( const auto &ipair : bpv_inn::varTypeIdx_2_rgbas ){ // each color
-        if( rgba.is_near(ipair.second, 8) ){
+    for( const auto & [iKey, iVal] : bpv_inn::varTypeIdx_2_rgbas ){ // each color
+        if( rgba.is_near(iVal, 8) ){
 
-            return { ipair.first };
+            return { iKey };
         }
     }
     // not find

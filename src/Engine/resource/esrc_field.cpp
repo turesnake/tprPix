@@ -45,8 +45,8 @@ void init_fields(){
 
 void move_fieldUPtrs( std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> &fields_ ){
 
-    for( auto &pair : fields_ ){
-        auto outPair = field_inn::fields.insert({ pair.first, std::move(pair.second) });
+    for( auto &[iKey, iUPtr] : fields_ ){
+        auto outPair = field_inn::fields.insert({ iKey, std::move(iUPtr) });
         tprAssert( outPair.second );
     }
 }

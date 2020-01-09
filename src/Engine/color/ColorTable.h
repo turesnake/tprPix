@@ -72,19 +72,19 @@ public:
 
 
     inline void final_check()const noexcept{
-        for( const auto &pair : colorTableEntNames ){
-            tprAssert( this->isSets.find(pair.first) != this->isSets.end() );
+        for( const auto &[iName, iVal] : colorTableEntNames ){
+            tprAssert( this->isSets.find(iName) != this->isSets.end() );
         }
     }
 
     //- Must called in init --
     inline void init_all_color_white()noexcept{
         tprAssert( this->isSets.empty() );
-        for( const auto &pair : colorTableEntNames ){
-            auto outPair = this->isSets.insert( pair.first );
+        for( const auto &[iName, iVal] : colorTableEntNames ){
+            auto outPair = this->isSets.insert( iName );
             tprAssert( outPair.second );
             //---
-            this->data.at(pair.second) = { 1.0, 1.0, 1.0, 1.0 };//- white
+            this->data.at(iVal) = { 1.0, 1.0, 1.0, 1.0 };//- white
         }
     }
 
@@ -125,8 +125,8 @@ public:
         //--- ground color table ---//
         //-- fst ent will be skip --
         this->groundColorTable.resize( this->colorTableUPtrs.size() + 1 );
-        for( const auto &pair : this->colorTableUPtrs ){
-            this->groundColorTable.at(pair.first) = pair.second->get_groundColor();
+        for( const auto &[iId, iUPtr] : this->colorTableUPtrs ){
+            this->groundColorTable.at(iId) = iUPtr->get_groundColor();
         }
         //---
         this->debug();

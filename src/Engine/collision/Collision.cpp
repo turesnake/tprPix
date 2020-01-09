@@ -234,15 +234,15 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         bool is_leftSide_have {false};
         bool is_rightSide_have {false};
         //--
-        for( const auto &pair : Collision::adjacentCirBeGos ){
-            GameObj &begoRef = esrc::get_goRef( pair.first, "-3-" );
+        for( const auto &[iGoid, iVec] : Collision::adjacentCirBeGos ){
+            GameObj &begoRef = esrc::get_goRef( iGoid, "-3-" );
             
             //----- 过滤掉那些 背向而行 的 bego -----
             if( is_dogoCircular_leave_begoCircular(moveVec_, dogoDPos, begoRef.calc_circular(CollideFamily::Move) ) ){
                 continue;
             }
                     
-            glm::dvec2 innVec = calc_innVec( moveVec_, pair.second );
+            glm::dvec2 innVec = calc_innVec( moveVec_, iVec );
             //-- 几乎和 位移 同方向
             if( is_closeEnough<double>(innVec.y, 0.0, 0.01) ){
                 return { false, glm::dvec2{} }; //- 正面遭遇阻挡，完全无法位移. 
@@ -255,7 +255,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
                 return { false, glm::dvec2{} }; //- 左右都遭遇阻挡，完全无法位移. 
             }
             //--
-            Collision::obstructNormalVecs.push_back( pair.second );
+            Collision::obstructNormalVecs.push_back( iVec );
         }
     }
 

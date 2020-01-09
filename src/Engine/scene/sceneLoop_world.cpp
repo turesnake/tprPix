@@ -24,6 +24,9 @@
 
 #include "tprDebug.h"
 
+//-------------------- innTest --------------------//
+#include "innTest.h"
+
 
 using namespace std::placeholders;
 
@@ -206,8 +209,12 @@ void sceneRenderLoop_world(){
     esrc::foreach_goids_active(
         []( goid_t goid_, GameObj &goRef_ ){
             
+            //--- RenderUpdate ---//
             tprAssert( goRef_.RenderUpdate != nullptr );
             goRef_.RenderUpdate( goRef_ ); 
+
+            //--- historyVals ---//
+            goRef_.make_sure_all_historyVals_is_synced();
         }
     );
 
@@ -297,8 +304,12 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
                 << endl;
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
-        playerGoRef.debug();
+        //playerGoRef.debug();
         //...
+
+        innTest::innTest_main();
+
+        
         
     }
     if( (isOld_Y_press==false) && (isNew_Y_press) ){

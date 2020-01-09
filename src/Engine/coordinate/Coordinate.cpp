@@ -19,10 +19,10 @@ void Coordinate::init()noexcept{
         { NineDirection::Right,     glm::dvec2{ 0.0, -1.0 } }
     };
 
-    for( const auto &pair : lineVecs_in_innCoord ){
-        glm::dvec2 lineVecOut = this->calc_outDPos( pair.second ); // 边在 out坐标系 中的 向量
+    for( const auto &[iDir, iVec] : lineVecs_in_innCoord ){
+        glm::dvec2 lineVecOut = this->calc_outDPos( iVec ); // 边在 out坐标系 中的 向量
         glm::dvec2 normalVecOut { -lineVecOut.y, lineVecOut.x }; // 边的法向量（朝向立方体外侧）
-        this->normalVecs_in_outCoord.insert( { pair.first, normalVecOut } );
+        this->normalVecs_in_outCoord.insert( { iDir, normalVecOut } );
     }
 
     //--- rightHand ---

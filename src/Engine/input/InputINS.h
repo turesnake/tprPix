@@ -33,23 +33,27 @@ public:
 
     //-- 并不清空 dir --
     inline void clear_allKeys()noexcept{
-        keys   = 0;
-        dirAxes.clear_all();
+        this->keys   = 0;
+        this->dirAxes.clear_all();
+        this->tmpDir.x = 0.0;
+        this->tmpDir.y = 0.0;
     }
 
+
     inline void set_key_from_keyboard( GameKey key_ )noexcept{
-        // 此时，针对 dirAxes 的设置是 不正确的
-        // 需要后续的 limit_dirAxes() 做一次修正
+        // 并不直接写入 dirAxes，而是先记录在 临时变量上
+        // 最后阶段统一 设置 dirAxes
         switch( key_ ){
-            case GameKey::LEFT:   dirAxes.set_x( -1.0 );  break;
-            case GameKey::RIGHT:  dirAxes.set_x(  1.0 );  break;
-            case GameKey::UP:     dirAxes.set_y(  1.0 );  break;
-            case GameKey::DOWN:   dirAxes.set_y( -1.0 );  break;
+            case GameKey::LEFT:   this->tmpDir.x = -1.0;  break;
+            case GameKey::RIGHT:  this->tmpDir.x =  1.0;  break;
+            case GameKey::UP:     this->tmpDir.y =  1.0;  break;
+            case GameKey::DOWN:   this->tmpDir.y = -1.0;  break;
             default: //- oth keys
                 keys = keys | (1<<(int)key_);
                 break;
         }
     }
+
 
     inline void set_key_from_joystick( GameKey key_ )noexcept{
         switch( key_ ){
@@ -64,16 +68,16 @@ public:
         }
     }
 
-
-    inline void set_dirAxes_from_joystick( double x_, double y_ )noexcept{
-        // 此时，针对 dirAxes 的设置是 不正确的
-        // 需要后续的 limit_dirAxes() 做一次修正
-        this->dirAxes.set(x_, y_);
+    // 并不直接写入 dirAxes，而是先记录在 临时变量上
+    // 最后阶段统一 设置 dirAxes
+    inline void collect_dirAxes_from_joystick( double x_, double y_ )noexcept{
+        this->tmpDir.x = x_;
+        this->tmpDir.y = y_;
     }
 
-    
-    inline void limit_dirAxes()noexcept{
-        this->dirAxes.limit_vals();
+    // 将数据从 tmpDir 同步到 dirAxes
+    inline void sync_dirAxes()noexcept{
+        this->dirAxes.set( this->tmpDir );
     }
     
 
@@ -103,7 +107,10 @@ public:
 private:
     //======== vals ========//
     u32_t      keys     {0};    //- 32个功能按键， bit-map
-    DirAxes    dirAxes   {}; //- 方向键数据 [-1.0, 1.0]
+    DirAxes    dirAxes   {};    //- 方向键数据 [-1.0, 1.0]
+
+    //--- tmp vals ---//
+    glm::dvec2  tmpDir {0.0, 0.0};
 };
 
 

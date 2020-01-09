@@ -19,11 +19,11 @@
 void GroundRenderPool::init()noexcept{
 
     auto &colorTableSet = esrc::get_colorTabelSet();
-    for( const auto &pair : colorTableSet.get_name_idsRef() ){
-        if( pair.first == "origin" ){ // skip
+    for( const auto &[iName, iId] : colorTableSet.get_name_idsRef() ){
+        if( iName == "origin" ){ // skip
            continue; 
         }
-        auto outPair = this->pools.insert({ pair.second, std::multimap<float, ChildMesh*>{} });
+        auto outPair = this->pools.insert({ iId, std::multimap<float, ChildMesh*>{} });
         tprAssert( outPair.second );
     }
     cout << endl;
@@ -32,18 +32,18 @@ void GroundRenderPool::init()noexcept{
 
 void GroundRenderPool::draw()noexcept{
 
-    for( const auto &pair : this->pools ){
+    for( const auto &[iId, iMMap] : this->pools ){
 
-        if( pair.second.empty() ){
+        if( iMMap.empty() ){
             continue; // skip
         }
 
         //-- 每次渲染前，要先改写 uniform 值
-        ubo::write_ubo_colorTableId( pair.first );
+        ubo::write_ubo_colorTableId( iId );
 
         //- 先渲染 pos.z 值大的（近处优先）
-        for( auto it = pair.second.rbegin(); 
-            it != pair.second.rend(); it++  ){
+        for( auto it = iMMap.rbegin(); 
+            it != iMMap.rend(); it++  ){
             it->second->draw();
         }
     }

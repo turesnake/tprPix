@@ -149,10 +149,10 @@ void processInput( GLFWwindow *windowPtr_ ){
 
     //mousePos_2_dir(); //-- 目前暂不识别 mouse 输入...
 
-    for( const auto &ipair : _inn::keyboardTable_runtime ){ //-- each gameKey
+    for( const auto &[iGameKey, iKeyBoard] : _inn::keyboardTable_runtime ){ //-- each gameKey
         //-- 跳过 没有被按下的 --
-        if( glfwGetKey(windowPtr_, static_cast<int>(ipair.second)) == GLFW_PRESS ){
-            _inn::inputINS.set_key_from_keyboard( ipair.first );
+        if( glfwGetKey(windowPtr_, static_cast<int>(iKeyBoard)) == GLFW_PRESS ){
+            _inn::inputINS.set_key_from_keyboard( iGameKey );
         }            
     }
 
@@ -163,9 +163,9 @@ void processInput( GLFWwindow *windowPtr_ ){
     _inn::joystick_update();
 
     //------------------------//
-    //  3. 修正 inputINS.dirAxes 
+    //  3. 正式 同步 dirAxes 数据
     //------------------------//
-    _inn::inputINS.limit_dirAxes();
+    _inn::inputINS.sync_dirAxes();
 
 
     //------------------------//
@@ -284,7 +284,7 @@ void joystick_update(){
         //-- 只有在 确认有效时，才改写 inputINS --
         //   这个行为会覆盖之前 输入的 鼠键数据
         if( DirAxes::is_effectVal(x,y) ){
-            inputINS.set_dirAxes_from_joystick( x, y );
+            inputINS.collect_dirAxes_from_joystick( x, y ); // just collect
         }
     }
 
@@ -303,9 +303,9 @@ void joystick_update(){
     }
     */
 
-    for( const auto &pair : joyButtonTable_runtime ){
-        if( *(joystickButtonsPtr + static_cast<int>(pair.second)) == GLFW_PRESS ){
-            inputINS.set_key_from_joystick( pair.first );
+    for( const auto &[iGameKey, iButton] : joyButtonTable_runtime ){
+        if( *(joystickButtonsPtr + static_cast<int>(iButton)) == GLFW_PRESS ){
+            inputINS.set_key_from_joystick( iGameKey );
         }
     }
 }

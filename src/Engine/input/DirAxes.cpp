@@ -14,6 +14,7 @@
 #include "tprDebug.h"
 
 
+// 将 初始值 修正成 游戏坐标系中的 值
 void DirAxes::limit_vals()noexcept{
     if( this->is_zero() ){
         return;
@@ -33,16 +34,12 @@ void DirAxes::limit_vals()noexcept{
                         //-- 这个计算存在问题，计算出来的值 无法真的 横平竖直地运动，而是存在一个微小的偏转角
                         //   ...
 
-            /*
-            cout << "origin: " << origin_x
-                << ", " << origin_y 
-                << "; newV: " << v.x 
-                << ", " << v.y 
-                << endl;
-            */
-
     //--
     this->origin_x = this->x;
     this->origin_y = this->y;
-    this->set( v );
+    this->innSet( v.x, v.y );
 }
+
+
+
+

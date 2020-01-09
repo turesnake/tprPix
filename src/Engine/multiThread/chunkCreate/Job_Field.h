@@ -96,11 +96,11 @@ public:
 
 
     inline void copy_nature_goDataPtrs()noexcept{
-        for( const auto &iPair : this->nature_majorGoDatas ){
-            this->majorGoDataPtrs.push_back( iPair.second.get() );
+        for( const auto &[iKey, iUPtr] : this->nature_majorGoDatas ){
+            this->majorGoDataPtrs.push_back( iUPtr.get() );
         }
-        for( const auto &iPair : this->nature_floorGoDatas ){
-            this->floorGoDataPtrs.push_back( iPair.second.get() );
+        for( const auto &[iKey, iUPtr] : this->nature_floorGoDatas ){
+            this->floorGoDataPtrs.push_back( iUPtr.get() );
         }
     }
 

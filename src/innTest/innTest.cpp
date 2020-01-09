@@ -14,6 +14,7 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "History.h"
+#include "DirAxes.h"
 
 #include "NineDirection.h"
 
@@ -28,43 +29,40 @@ using std::endl;
 namespace innTest {//---------- namespace: innTest --------------//
 
 
-class AAA{
-public:
-    AAA( int a_, int b_ ):
-        a(a_),
-        b(b_)
-        {}
 
-    int a {};
-    int b {};
-};
-
-
-inline bool operator != ( AAA a_, AAA b_ ) noexcept {
-    return ( (a_.a!=b_.a) || (a_.b!=b_.b) );
-}
 
 
 
 void innTest_main(){
-    /*
+    
     cout << "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" << endl;
 
-    AAA aaa { 1,   2 };
-    AAA bbb { 101, 202 };
+    DirAxes a { 0.5, 0.7 };
 
-    History<AAA> dir { aaa };
+        cout << "-1-" << endl;
 
-    cout << dir.get_isDirty() << endl; 
+    
+    DirAxes b = a;
 
+        cout << "-2-" << endl;
 
-    dir.set_newVal( bbb );
-        cout << dir.get_isDirty() << endl; 
+    cout << " " << a.get_x()
+        << ", " << a.get_y()
+        << "; origin: " << a.get_origin_x()
+        << ", " << a.get_origin_y()
+        << endl;
+
+    cout << " " << b.get_x()
+        << ", " << b.get_y()
+        << "; origin: " << b.get_origin_x()
+        << ", " << b.get_origin_y()
+        << endl;
+    
 
 
 
     cout << "\n\n~~~~~~~~~~ innTest:end ~~~~~~~~~~" << endl;
-    */
+    
 }
 
 

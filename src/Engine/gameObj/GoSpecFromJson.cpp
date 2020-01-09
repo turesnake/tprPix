@@ -67,8 +67,8 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
 
 void GoSpecFromJson::check_all_extraPassableDogoSpeciesIds()noexcept{
 
-    for( const auto &ipair : GoSpecFromJson::dataUPtrs ){ // each goSpecFromJson
-        GoSpecFromJson &goSpecFromJsonRef = *(ipair.second); 
+    for( const auto &[iKey, iUPtr] : GoSpecFromJson::dataUPtrs ){ // each goSpecFromJson
+        GoSpecFromJson &goSpecFromJsonRef = *iUPtr; 
 
         for( const auto &id : goSpecFromJsonRef.extraPassableDogoSpeciesIds ){
             tprAssert( GoSpecFromJson::ids_2_names.find(id) != GoSpecFromJson::ids_2_names.end() );
@@ -100,10 +100,7 @@ void GoSpecFromJson::MoveStateTable::init_check( const GoSpecFromJson *goSpecFro
         tprAssert( this->table.find(lvl) != this->table.end() );
     }
     
-    for( const auto &ipair : this->baseSpeedLvls ){
-
-        const std::string &actionName = ipair.first;
-        const SpeedLevel &baseLvl = ipair.second;
+    for( const auto &[iActionName, iBaseLvl] : this->baseSpeedLvls ){
 
         //--3-- 每个 action， afs.json 数据都要实现 
         // 暂未 实现 ...
@@ -112,7 +109,7 @@ void GoSpecFromJson::MoveStateTable::init_check( const GoSpecFromJson *goSpecFro
         //--4-- baseSpeedLvl 必须在 实际数据表中
         bool isFind { false };
         for( const auto &p : this->table ){
-            if( (p.second==actionName) && (p.first==baseLvl) ){
+            if( (p.second==iActionName) && (p.first==iBaseLvl) ){
                 isFind = true;
                 break;
             }

@@ -78,9 +78,9 @@ void EcoSysPlan::init_check()noexcept{
     tprAssert( !this->natureFlooryardIdRandPool.empty() );
 
     //--- shuffle ---//
-    for( auto &iPair : this->densityPools ){
+    for( auto &[iKey, iUPtr] : this->densityPools ){
         // 务必 每次都重新提取，从而保证 seed 始终是相同的值
-        iPair.second->shuffle( esrc::get_gameSeed().getnc_shuffleEngine() );
+        iUPtr->shuffle( esrc::get_gameSeed().getnc_shuffleEngine() );
     }
     
     std::shuffle(   this->villageIdRandPool.begin(), 

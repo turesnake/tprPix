@@ -208,8 +208,8 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
     }
 
 
-    for( auto &pair : goRef_.get_goMeshs() ){// {string, uptr<GameObjMesh>}
-        auto &goMeshRef = *(pair.second);
+    for( auto &[iName, iUPtr] : goRef_.get_goMeshs() ){// {string, uptr<GameObjMesh>}
+        auto &goMeshRef = *iUPtr;
         auto *goMeshPvtBPtr = goMeshRef.get_pvtBinary().get<grass_inn::GoMesh_PvtBinary>();
         //---
         if( isNeedStartWind ){
@@ -227,7 +227,7 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
                 goMeshPvtBPtr->windDelayStepCount = grass_inn::apply_a_goMesh_windDelayStep(); // new val
                 goMeshPvtBPtr->isWindClockWorking = false;
                 //---
-                goMeshRef.bind_animAction(  pvtBp->get_goMesh_animSubspeciesId( pair.first ),
+                goMeshRef.bind_animAction(  pvtBp->get_goMesh_animSubspeciesId( iName ),
                                             dir, brokenLvl, 
                                             grass_inn::apply_a_windAnimActionName() );
             }

@@ -145,6 +145,16 @@ public:
         tprAssert( outPair.second );
     }
 
+
+    //-- 确保 所有 History 变量，若存在更新，都已被同步
+    //   每一渲染帧 末尾调用
+    inline void make_sure_all_historyVals_is_synced()const noexcept{
+        tprAssert( !this->actionDirection.get_isDirty() );
+        tprAssert( !this->moveSpeedLvl.get_isDirty() );
+        tprAssert( !this->brokenLvl.get_isDirty() );
+        //...
+    }
+
     //---------------- set -----------------//
     inline void set_parentGoId( goid_t id_ )noexcept{ this->parentGoId = id_; }
 
@@ -155,9 +165,7 @@ public:
     inline goid_t get_parentGoId()const noexcept{ return this->parentGoId; }
     inline const std::set<goid_t> &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
 
-
     inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &get_goMeshs()noexcept{ return this->goMeshs; }
-
 
     inline Collision &get_collisionRef()noexcept{ 
             tprAssert(this->collisionUPtr); // tmp

@@ -47,10 +47,10 @@ void CurrentColorTable::update()noexcept{
 void ColorTableSet::debug()noexcept{
 
     cout << "  === ColorTableSet ===" << endl;
-    for( const auto &pair : this->name_ids ){
+    for( const auto &[iName, iId] : this->name_ids ){
 
-        cout << "  name: " << pair.first
-            << ", colorTableId: " << pair.second
+        cout << "  name: " << iName
+            << ", colorTableId: " << iId
             << endl;
     }
 

@@ -197,8 +197,8 @@ void ChunkCreateReleaseZone::init_createZoneOffMPosesSets(){
     this->createZoneOffMPosesSets.insert({ NineDirection::Top,
         std::vector<IntVec2>{ mid_mid, mid_top, left_top, right_top, left_mid, right_mid, left_bottom, right_bottom }
     });
-    for( auto &pair : this->createZoneOffMPosesSets ){
-        for( auto &mpos : pair.second ){
+    for( auto &[iDir, iVector] : this->createZoneOffMPosesSets ){
+        for( auto &mpos : iVector ){
             mpos *= ENTS_PER_CHUNK;
         }
     }

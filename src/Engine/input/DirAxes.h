@@ -25,10 +25,11 @@
 #include "NineDirection.h"
 
 
+// 现在的 游戏世界 和 游戏图像 存在 两套坐标系
+// 在具体使用时，我们假定，玩家/AI 都把世界看作 横平竖直的 坐标系（直上直下）
 class DirAxes{
 public:
-    DirAxes() = default;
-    DirAxes( double x_, double y_ ):
+    DirAxes( double x_=0.0, double y_=0.0 ):
         x(x_),
         y(y_)
         {
@@ -36,6 +37,8 @@ public:
                     (y_>=-1.0) && (y_<=1.0) );
             this->consider_threshold_x();
             this->consider_threshold_y();
+            //---
+            this->limit_vals();
         }
     
     explicit DirAxes( const glm::dvec2 &v_ ):
@@ -46,6 +49,8 @@ public:
                     (v_.y>=-1.0) && (v_.y<=1.0) );
             this->consider_threshold_x();
             this->consider_threshold_y();
+            //---
+            this->limit_vals();
         }
 
     inline void clear_all()noexcept{
@@ -54,38 +59,22 @@ public:
     }
 
     inline void set( double x_, double y_ )noexcept{
-        tprAssert( (x_>=-1.0) && (x_<=1.0) &&
-                (y_>=-1.0) && (y_<=1.0) );
-        this->x = x_;
-        this->y = y_;
-        this->consider_threshold_x();
-        this->consider_threshold_y();
-    }
-    inline void set( const glm::dvec2 &v_ )noexcept{
-        tprAssert( (v_.x>=-1.0) && (v_.x<=1.0) &&
-                (v_.y>=-1.0) && (v_.y<=1.0) );
-        this->x = v_.x;
-        this->y = v_.y;
-        this->consider_threshold_x();
-        this->consider_threshold_y();
+        this->innSet( x_, y_ );
+        this->limit_vals();
     }
 
-    //-- 仅用于 InputINS --
-    inline void set_x( double x_ )noexcept{
-        tprAssert( (x_>=-1.0) && (x_<=1.0) );
-        this->x = x_;
-        this->consider_threshold_x();
+    inline void set( const glm::dvec2 &v_ )noexcept{
+        this->innSet( v_.x, v_.y );
+        this->limit_vals();
     }
-    inline void set_y( double y_ )noexcept{
-        tprAssert( (y_>=-1.0) && (y_<=1.0) );
-        this->y = y_;
-        this->consider_threshold_y();
-    }
+
 
     inline double get_x() const noexcept{ return this->x; }
     inline double get_y() const noexcept{ return this->y; }
+
     inline double get_origin_x() const noexcept{ return this->origin_x; }
     inline double get_origin_y() const noexcept{ return this->origin_y; }
+
     inline const glm::dvec2 to_dpos() const noexcept{
         return glm::dvec2{ this->x, this->y };
     }
@@ -108,14 +97,21 @@ public:
         return ret;
     }
     
-    //   修正 
-    void limit_vals()noexcept;
-
-
+    
     //===== static =====//
     static constexpr double threshold = 0.005; //- 阈值，[-0.01, 0.01] 区间的信号不识别
 
 private:
+    void limit_vals()noexcept;
+
+    inline void innSet( double x_, double y_ )noexcept{
+        tprAssert( (x_>=-1.0) && (x_<=1.0) &&
+                (y_>=-1.0) && (y_<=1.0) );
+        this->x = x_;
+        this->y = y_;
+        this->consider_threshold_x();
+        this->consider_threshold_y();
+    }
 
     //-- 将 阈值内的 微小 波动 清除 --
     inline void consider_threshold_x()noexcept{
@@ -130,6 +126,10 @@ private:
     }
 
     //===== vals =====//
+    // 假设，原始数据为 {0,1}, 指向 正上方
+    // 当 本实例被创建后，x/y 会被立即转化为另一个坐标系
+    // 从数值上看，指向 游戏世界坐标系中的 斜左上方
+    // 从视觉上看，指向 画面的 正上方。
     double x {0.0}; //- [-1.0, 1.0]
     double y {0.0}; //- [-1.0, 1.0]
 
@@ -140,6 +140,23 @@ private:
     double origin_y {0.0}; //- [-1.0, 1.0]
 
 };
+
+
+
+/* ===========================================================
+ *                  operator  ==, !=
+ * -----------------------------------------------------------
+ */
+
+// 这个实现有问题，它没有检测 origin 数据
+
+inline bool operator == ( DirAxes a_, DirAxes b_ ) noexcept {
+    return ( (a_.get_x()==b_.get_x()) && (a_.get_y()==b_.get_y()) );
+}
+inline bool operator != ( DirAxes a_, DirAxes b_ ) noexcept {
+    return ( (a_.get_x()!=b_.get_x()) || (a_.get_y()!=b_.get_y()) );
+}
+
 
 
 
@@ -180,6 +197,7 @@ inline NineDirection dirAxes_2_nineDirection( const DirAxes &da_ )noexcept{
     }else{                              return NineDirection::LeftTop;
     }
 }
+
 
 
 

@@ -37,7 +37,7 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 namespace chicken_inn {//----------- namespace: chicken_inn ----------------//
 
-    inline std::uniform_int_distribution<int>     uDistribution_int(      3,   50 );
+    inline std::uniform_int_distribution<int>     uDistribution_int(      3,   15 );
     inline std::uniform_real_distribution<double> uDistribution_double( -1.3, 1.3 );
 
 }//-------------- namespace: chicken_inn end ----------------//
@@ -137,44 +137,6 @@ void Chicken::OnRenderUpdate( GameObj &goRef_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
 
     //=====================================//
-    //            AI
-    //-------------------------------------//
-    //...
-
-    /*
-    if( !goRef_.isControlByPlayer ){
-        //-- 简单的随机游走
-        pvtBp->timeCount++;
-
-
-        if( pvtBp->timeStep == 0 ){
-            pvtBp->timeStep = 13;
-        }
-
-        if( (pvtBp->timeCount % pvtBp->timeStep) == 0 ){
-
-            auto &engine = esrc::get_gameSeed().getnc_realRandEngine();
-
-            pvtBp->timeStep = chicken_inn::uDistribution_int(engine) + 1; //- 每帧都更新 间隔值
-
-            glm::dvec2 randVec {chicken_inn::uDistribution_double(engine),
-                                chicken_inn::uDistribution_double(engine) };
-
-            pvtBp->moveVec = glm::normalize( pvtBp->moveVec + randVec );
-        }
-
-        //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
-        DirAxes dirAxes {pvtBp->moveVec};
-        dirAxes.limit_vals(); // MUST
-        goRef_.move.set_newCrawlDirAxes( dirAxes );
-    }
-    */
-    
-    
-    
-    
-    
-    //=====================================//
     //         更新 位移系统
     //-------------------------------------//
     goRef_.move.RenderUpdate();
@@ -191,20 +153,43 @@ void Chicken::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
+
     //=====================================//
-    // 什么也没做...
+    //            AI
+    //-------------------------------------//    
+    if( !goRef_.isControlByPlayer ){
+        //-- 简单的随机游走
+        pvtBp->timeCount++;
+
+
+        if( pvtBp->timeStep == 0 ){
+            pvtBp->timeStep = 4;
+        }
+
+        if( (pvtBp->timeCount % pvtBp->timeStep) == 0 ){
+
+            auto &engine = esrc::get_gameSeed().getnc_realRandEngine();
+
+            pvtBp->timeStep = chicken_inn::uDistribution_int(engine) + 1; //- 每帧都更新 间隔值
+
+            glm::dvec2 randVec {chicken_inn::uDistribution_double(engine),
+                                chicken_inn::uDistribution_double(engine) };
+
+            pvtBp->moveVec = glm::normalize( pvtBp->moveVec + randVec );
+        }
+
+        //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
+        DirAxes dirAxes {pvtBp->moveVec};
+        goRef_.move.set_newCrawlDirAxes( dirAxes );
+    }
+
 }
 
 
 
 void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-    /*
-    cout << "    Chicken::OnActionSwitch: " 
-        << static_cast<int>(type_)
-        << endl;
-    */
 
     //=====================================//
     //            ptr rebind
