@@ -50,8 +50,8 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Center );
-    goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
+    goRef_.actionDirection.reset( NineDirection::Center );
+    goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
@@ -113,8 +113,8 @@ void Button_SceneBegin_Pointer::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
     //-------------------------------------//
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Button_SceneBegin_Pointer_PvtBinary>();
 
-    auto dir = goRef_.get_actionDirection();
-    auto brokenLvl = goRef_.get_brokenLvl();
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");

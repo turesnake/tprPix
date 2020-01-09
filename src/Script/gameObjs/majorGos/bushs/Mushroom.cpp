@@ -47,7 +47,7 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Center );
+    goRef_.actionDirection.reset( NineDirection::Center );
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();

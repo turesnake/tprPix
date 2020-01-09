@@ -65,8 +65,8 @@ void PoplarTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
                              
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( goDataPtr->direction );
-    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+    goRef_.actionDirection.reset( goDataPtr->direction );
+    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -152,8 +152,8 @@ void PoplarTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<PoplarTree_PvtBinary>();
     //=====================================//
 
-    auto dir = goRef_.get_actionDirection();
-    auto brokenLvl = goRef_.get_brokenLvl();
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");

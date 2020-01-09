@@ -8,33 +8,63 @@
 #include "innTest.h"
 
 
-//------------------- Engine --------------------//
-#include "tprAssert.h"
-
 //------------------- Libs --------------------//
 #include "magic_enum.hpp"
 
+//------------------- Engine --------------------//
+#include "tprAssert.h"
+#include "History.h"
+
+#include "NineDirection.h"
+
+
+
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
+
+
 namespace innTest {//---------- namespace: innTest --------------//
 
-enum class EC{
-    T1 = 1,
-    T2 = 2,
-    T3 = 3,
+
+class AAA{
+public:
+    AAA( int a_, int b_ ):
+        a(a_),
+        b(b_)
+        {}
+
+    int a {};
+    int b {};
 };
 
 
+inline bool operator != ( AAA a_, AAA b_ ) noexcept {
+    return ( (a_.a!=b_.a) || (a_.b!=b_.b) );
+}
+
+
+
 void innTest_main(){
+    /*
+    cout << "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" << endl;
 
-    //-- get name-str
-    auto ec1Name = magic_enum::enum_name( EC::T1 );
-    tprAssert( ec1Name == "T1" );
+    AAA aaa { 1,   2 };
+    AAA bbb { 101, 202 };
 
-    //-- get enum ent
-    auto ec2 = magic_enum::enum_cast<EC>( "T2" );
-    tprAssert( ec2.has_value() );
-    tprAssert( *ec2 == EC::T2 );
+    History<AAA> dir { aaa };
+
+    cout << dir.get_isDirty() << endl; 
 
 
+    dir.set_newVal( bbb );
+        cout << dir.get_isDirty() << endl; 
+
+
+
+    cout << "\n\n~~~~~~~~~~ innTest:end ~~~~~~~~~~" << endl;
+    */
 }
 
 

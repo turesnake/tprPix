@@ -17,6 +17,8 @@
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 
+#include "GoSpecFromJson.h"
+
 #include "esrc_shader.h" 
 #include "esrc_gameSeed.h"
 #include "esrc_animFrameSet.h"
@@ -66,8 +68,8 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "chicken.hen", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
-        goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) ); // not Center
-        goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
+        goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) ); // not Center
+        goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
     }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
         
@@ -79,8 +81,8 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         randUVal = bpParamPtr->mapEntUWeight;    
 
         //----- must before creat_new_goMesh() !!! -----//
-        goRef_.set_actionDirection( goDataPtr->direction );
-        goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+        goRef_.actionDirection.reset( goDataPtr->direction );
+        goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
     }else{
         tprAssert(0); //- 尚未实现
@@ -139,7 +141,7 @@ void Chicken::OnRenderUpdate( GameObj &goRef_ ){
     //-------------------------------------//
     //...
 
-    
+    /*
     if( !goRef_.isControlByPlayer ){
         //-- 简单的随机游走
         pvtBp->timeCount++;
@@ -166,6 +168,9 @@ void Chicken::OnRenderUpdate( GameObj &goRef_ ){
         dirAxes.limit_vals(); // MUST
         goRef_.move.set_newCrawlDirAxes( dirAxes );
     }
+    */
+    
+    
     
     
     
@@ -195,14 +200,20 @@ void Chicken::OnLogicUpdate( GameObj &goRef_ ){
 
 void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
+    /*
+    cout << "    Chicken::OnActionSwitch: " 
+        << static_cast<int>(type_)
+        << endl;
+    */
+
     //=====================================//
     //            ptr rebind
     //-------------------------------------//
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
     //=====================================//
 
-    auto dir = goRef_.get_actionDirection();
-    auto brokenLvl = goRef_.get_brokenLvl();
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
@@ -215,14 +226,86 @@ void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
             break;
 
         case ActionSwitchType::Move:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "walk" );
-            goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+
+                // walk, run, fly
+                // 使用一个 统一的函数 来管理
+                // ...
+
+            //goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "fly" );
+            //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+                
+                // 这两句话，也应该被直接放进 moveState_manage 函数中去
+
+
+                Chicken::moveState_manage(  goRef_, goMeshRef );
+
+
+
             break;
 
         default:
             break;
             //-- 并不报错，什么也不做...
     }
+
+}
+
+
+//
+//
+//
+// 临时性的，非常没效率的 写法 ......
+//
+//  目前的 bug 在于，提升 moveSpeedLvl, 并不会 调用本函数
+//
+//
+void Chicken::moveState_manage( GameObj &goRef_,
+                                GameObjMesh &goMeshRef_
+                                )noexcept{
+
+
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
+    auto moveSpeedLvl = goRef_.moveSpeedLvl.get_newVal();
+
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
+
+
+    goSpeciesId_t chickenId = GoSpecFromJson::str_2_goSpeciesId("chicken");
+    GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::getnc_goSpecFromJsonRef( chickenId );
+
+    const auto &moveStateTable = *(goSpecFromJsonRef.moveStateTableUPtr);
+
+    // 当 go moveSpeedLvl 越界时，不报错，而是强行改回 区间内
+    // minLvl, maxLvl
+    if( moveSpeedLvl < moveStateTable.minLvl ){
+        moveSpeedLvl = moveStateTable.minLvl;
+        goRef_.moveSpeedLvl.set_newVal( moveSpeedLvl ); // 可能会让 数据 dirty ...
+    }else if( moveSpeedLvl > moveStateTable.maxLvl ){
+        moveSpeedLvl = moveStateTable.maxLvl;
+        goRef_.moveSpeedLvl.set_newVal( moveSpeedLvl ); // 可能会让 数据 dirty ...
+    }
+
+
+    // 最简单的映射，并不做加减速 .....
+    //
+    auto it = moveStateTable.table.find(moveSpeedLvl);
+    tprAssert( it != moveStateTable.table.end() );
+    const std::string &actionName = it->second;
+
+        
+        cout << "speedLvl: " << static_cast<int>(moveSpeedLvl)
+            << "; actionName: " << actionName 
+            << endl;
+        
+
+    goMeshRef_.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, actionName );
+    goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+
+
+
+
+
 
 }
 

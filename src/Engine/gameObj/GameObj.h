@@ -42,6 +42,7 @@
 #include "animSubspeciesId.h"
 #include "DyBinary.h"
 #include "BrokenLvl.h"
+#include "History.h"
 
 
 //--- 一个仍在建设中的 丑陋的 大杂烩 ----//
@@ -145,14 +146,10 @@ public:
     }
 
     //---------------- set -----------------//
-    inline void set_actionDirection( NineDirection dir_ )noexcept{ this->actionDirection = dir_; }
-    inline void set_brokenLvl( BrokenLvl lvl_ )noexcept{ this->brokenLvl = lvl_; }
     inline void set_parentGoId( goid_t id_ )noexcept{ this->parentGoId = id_; }
 
     //---------------- get -----------------//
-    inline NineDirection get_actionDirection()const noexcept{ return this->actionDirection; }
     inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); } // 若为 false，需对齐到 像素
-    inline BrokenLvl get_brokenLvl()const noexcept{ return this->brokenLvl; }
     inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
     inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJPtr->get_colliderType(); }
     inline goid_t get_parentGoId()const noexcept{ return this->parentGoId; }
@@ -197,6 +194,20 @@ public:
     //---- go 状态 ----//
     GameObjState      state     {GameObjState::Sleep};         //- 常规状态
     GameObjMoveState  moveState {GameObjMoveState::AbsFixed}; //- 运动状态
+
+
+    History<NineDirection> actionDirection { NineDirection::Center };
+                                    //- 角色 动画朝向
+                                    // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
+                                    // 而不是在 worldCoord 中的朝向
+    
+    History<SpeedLevel> moveSpeedLvl    { SpeedLevel::LV_0 };
+    History<BrokenLvl>  brokenLvl       { BrokenLvl::Lvl_0 }; 
+                                    // 破损等级，0为完好。
+                                    // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，
+                                    // 进一步会影响其 外貌
+                                    // 未实现 ...
+
     
     //--- move sys ---//
     Move         move;
@@ -269,16 +280,6 @@ private:
     // only one will be used
     std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
     std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
-
-    NineDirection   actionDirection {NineDirection::Center};  //- 角色 动画朝向
-                                    // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
-                                    // 而不是在 worldCoord 中的朝向
-
-
-    BrokenLvl       brokenLvl   {BrokenLvl::Lvl_0}; // 破损等级，0为完好。
-                                    // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，
-                                    // 进一步会影响其 外貌
-                                    // 未实现 ...
 
 
     //----------- pvtBinary -------------//             

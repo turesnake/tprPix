@@ -75,10 +75,9 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
     pvtBp->subspeciesId = goDataEntRef.subspeciesId;
 
-    
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Center );
+    goRef_.actionDirection.reset( NineDirection::Center );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

@@ -66,8 +66,8 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
-        goRef_.set_actionDirection( apply_a_random_direction_without_mid(randUVal) );
-        goRef_.set_brokenLvl( BrokenLvl::Lvl_0 );
+        goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) );
+        goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
     }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
         
@@ -79,8 +79,8 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         randUVal = bpParamPtr->mapEntUWeight;    
 
         //----- must before creat_new_goMesh() !!! -----//
-        goRef_.set_actionDirection( goDataPtr->direction );
-        goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+        goRef_.actionDirection.reset( goDataPtr->direction );
+        goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
     }else{
         tprAssert(0); //- 尚未实现
@@ -205,8 +205,8 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<OneEyeBoy_PvtBinary>();
     //=====================================//
 
-    auto dir = goRef_.get_actionDirection();
-    auto brokenLvl = goRef_.get_brokenLvl();
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");

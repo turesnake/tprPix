@@ -56,7 +56,7 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
     // ignore...
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Center );
+    goRef_.actionDirection.reset( NineDirection::Center );
 
     //------ root mesh ------//
     goRef_.creat_new_goMesh( "root", //- gmesh-name

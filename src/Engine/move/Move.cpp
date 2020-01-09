@@ -31,6 +31,8 @@
 
 #include "speedLog.h"
 
+
+
 #include "tprDebug.h" 
 
 
@@ -48,26 +50,54 @@ MoveType str_2_MoveType( const std::string name_ )noexcept{
 }
 
 
-
+// 参数可为 0
 void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
+
     tprAssert( this->is_crawl() );
-    //-----------//
+    
+    this->newDirAxes = newDirAxes_;
     //  isMoving
-    //-----------//
-    newDirAxes.is_zero() ?
+    this->newDirAxes.is_zero() ?
         this->isMoving = false :
         this->isMoving = true;
 
-    //-- 设置 go 方向 --
-    this->newDirAxes = newDirAxes_;
+    //----------------------------
+    // 通过下面这段繁琐的调用，来避免在 同一帧内 重复调用 go.actionSwitch.call_func()
 
-    //-- 当 majorGo 停止移动，其direction 保留原值 --
-    NineDirection newDir = dirAxes_2_nineDirection(newDirAxes_);
-    if( (newDir!=NineDirection::Center) && (newDir!=goRef.get_actionDirection()) ){
-        goRef.set_actionDirection( newDir );
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
-                            //-- 在未来，move 其实也有很多种.... 
-    }                       //-- 有点丑陋的实现 ....
+    NineDirection newDir = dirAxes_2_nineDirection(this->newDirAxes);
+    NineDirection oldDir = this->goRef.actionDirection.get_oldVal();
+
+    // 先修改 go.dir
+    // 当本帧停止运动时，将保留原来的 go.dir 值 （此处的 Center值 是无意义的）
+    if( (newDir!=NineDirection::Center) && (newDir!=oldDir) ){
+        this->goRef.actionDirection.set_newVal( newDir );
+        this->goRef.actionDirection.sync(); // MUST 
+                    // 尽管如此，oldDir 仍然保存原来的值，方便下方做判断用
+    }   
+
+
+
+    // switch aaction
+    if( this->oldDirAxes.is_zero() ){
+        // last frame is Idle
+        if( !this->newDirAxes.is_zero() ){
+            // this frame is Move
+            this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
+                                //-  move 存在很多种类：walk,run,fly
+                                //   统一让 具象go类 去处理
+        }
+    }else{
+        // last frame is Move
+        if( this->newDirAxes.is_zero() ){
+            // this frame is Idle
+            this->goRef.actionSwitch.call_func( ActionSwitchType::Idle );
+        }else{
+            // this frame is Move
+            if( newDir != oldDir ){
+                this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
+            }
+        }
+    }
 }
 
 
@@ -76,20 +106,13 @@ void Move::renderUpdate_crawl(){
 
     //----------------------------//
     //    oldDirAxes & newDirAxes
-    //   switch Move/Idle animAction
     //----------------------------//
     if( this->oldDirAxes.is_zero() && this->newDirAxes.is_zero() ){
         return;
     }
     
-    //-- switch Move/Idle animAction --
-    if( this->oldDirAxes.is_zero() && (this->newDirAxes.is_zero()==false) ){
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); //-  move 其实也有很多种.... 
-    }else if( (this->oldDirAxes.is_zero()==false) && this->newDirAxes.is_zero() ){
-        this->goRef.actionSwitch.call_func( ActionSwitchType::Idle );
-    }
-
     this->oldDirAxes = this->newDirAxes;
+
     if( this->newDirAxes.is_zero() ){
         return;
     }
@@ -98,7 +121,7 @@ void Move::renderUpdate_crawl(){
     //   speedDPos - dpos/frame
     //----------------//
     glm::dvec2 speedVec = this->newDirAxes.to_dpos() *
-                        SpeedLevel_2_val(this->moveSpeedLvl) *
+                        SpeedLevel_2_val( this->goRef.moveSpeedLvl.get_newVal() ) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
@@ -139,7 +162,7 @@ void Move::renderUpdate_drag(){
 
     //- 等效于 DirAxes 的计算。
     glm::dvec2 speedVec =  glm::normalize( dposOff ) *
-                            SpeedLevel_2_val(this->moveSpeedLvl) *
+                            SpeedLevel_2_val( this->goRef.moveSpeedLvl.get_newVal() ) *
                             60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     bool isLastFrame = false;

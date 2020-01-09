@@ -8,7 +8,18 @@
         "isMoveCollide": true,
         "isDoPass": false,
         "isBePass": true,
-        "moveSpeedLvl": 2,
+        "moveSpeedLvl": 5,
+
+        "moveStateTable":{
+            "minSpeedLvl" : 1,
+            "maxSpeedLvl" : 6,
+            "table":[
+                { "actionName": "walk", "baseSpeedLvl": 2, "speedLvls":  [ 1, 2, 3 ] },
+                { "actionName": "run",  "baseSpeedLvl": 4,  "speedLvls": [ 4, 5 ] },
+                { "actionName": "fly",  "baseSpeedLvl": 6,  "speedLvls": [ 6 ] }
+            ]
+        },
+
         "alti": 0,
         "weight": 5,
         "pub.HP": 170,

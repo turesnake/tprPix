@@ -70,7 +70,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( NineDirection::Center );
+    goRef_.actionDirection.reset( NineDirection::Center );
 
     animSubspeciesId_t subspeciesId {};
     std::string     meshName {};

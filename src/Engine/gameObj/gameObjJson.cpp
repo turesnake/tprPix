@@ -71,6 +71,11 @@ void parse_goJsonFile(){
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
 
 
+
+void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonRef_ );
+
+
+
 void parse_single_jsonFile( const std::string &path_file_ ){
 
     //-----------------------------//
@@ -140,6 +145,14 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "moveSpeedLvl", JsonValType::Int );
             goSpecFromJsonRef.moveSpeedLvl = int_2_SpeedLevel( a.GetInt() );
         }
+
+
+        //--- moveStateTable ---//
+        if( ent.HasMember("moveStateTable") ){
+            parse_moveStateTable( ent, goSpecFromJsonRef );
+        }
+        
+
         {//--- alti ---//
             const auto &a = check_and_get_value( ent, "alti", JsonValType::Number );
             goSpecFromJsonRef.alti = get_double( a );
@@ -196,8 +209,71 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                             // 数据直接存储在 GoSpecFromJson 中
             }
         }
+
+        //====================================//
+        //     init check
+        //------------------------------------//
+        goSpecFromJsonRef.init_check();
+        
     }
 }
+
+
+
+
+void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonRef_ ){
+
+    const auto &moveStateTable = check_and_get_value( pngEnt_, "moveStateTable", JsonValType::Object );
+
+    goSpecFromJsonRef_.moveStateTableUPtr = std::make_unique<GoSpecFromJson::MoveStateTable>();
+    GoSpecFromJson::MoveStateTable &tRef = *(goSpecFromJsonRef_.moveStateTableUPtr);
+
+    {//--- minSpeedLvl ---//
+        const auto &a = check_and_get_value( moveStateTable, "minSpeedLvl", JsonValType::Int );
+        tRef.minLvl = int_2_SpeedLevel( a.GetInt() );
+    }
+    {//--- maxSpeedLvl ---//
+        const auto &a = check_and_get_value( moveStateTable, "maxSpeedLvl", JsonValType::Int );
+        tRef.maxLvl = int_2_SpeedLevel( a.GetInt() );
+    }
+
+    //--- table ---//
+    std::string actionName {};
+    SpeedLevel  baseSpeedLvl {};
+    std::vector<SpeedLevel> speedLvls {};
+
+    const auto &table = check_and_get_value( moveStateTable, "table", JsonValType::Array );
+    for( const auto &tableEnt : table.GetArray() ){
+        tprAssert( tableEnt.IsObject() );
+
+        speedLvls.clear();
+
+        {//--- actionName ---//
+            const auto &a = check_and_get_value( tableEnt, "actionName", JsonValType::String );
+            actionName = a.GetString();
+        }
+        {//--- baseSpeedLvl ---//
+            const auto &a = check_and_get_value( tableEnt, "baseSpeedLvl", JsonValType::Int );
+            baseSpeedLvl = int_2_SpeedLevel( a.GetInt() );
+        }
+        {//--- speedLvls ---//
+            const auto &lvls = check_and_get_value( tableEnt, "speedLvls", JsonValType::Array );
+            for( const auto &lvl : lvls.GetArray() ){
+                tprAssert( lvl.IsInt() );
+                speedLvls.push_back( int_2_SpeedLevel(lvl.GetInt()) );
+            }
+        }
+
+        //=== 将临时数据 合成进 moveStateTable 实例 中 ===
+        auto outPair1 = tRef.baseSpeedLvls.insert({ actionName, baseSpeedLvl });
+        tprAssert( outPair1.second );
+        for( const auto &lvl : speedLvls ){
+            auto outPair2 = tRef.table.insert({ lvl, actionName });
+        }
+    }
+}
+
+
 
 
 }//------------- namespace: goJson_inn end --------------//

@@ -29,6 +29,11 @@ private:
     static void OnRenderUpdate( GameObj &goRef_ ); 
     static void OnLogicUpdate( GameObj &goRef_ ); 
     static void OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ );
+
+    //--- oth ---//
+    static void moveState_manage( GameObj &goRef_,
+                                GameObjMesh &goMeshRef_
+                                )noexcept;
 };
 
 

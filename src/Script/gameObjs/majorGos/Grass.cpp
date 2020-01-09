@@ -114,8 +114,8 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.set_actionDirection( goDataPtr->direction );
-    goRef_.set_brokenLvl( goDataPtr->brokenLvl );
+    goRef_.actionDirection.reset( goDataPtr->direction );
+    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
 
     //----- windClock -----//
@@ -186,8 +186,8 @@ void Grass::OnRenderUpdate( GameObj &goRef_ ){
     //-------------------------------------//
     auto *pvtBp = goRef_.get_pvtBinaryPtr<grass_inn::Grass_PvtBinary>();
 
-    auto dir = goRef_.get_actionDirection();
-    auto brokenLvl = goRef_.get_brokenLvl();
+    auto dir = goRef_.actionDirection.get_newVal();
+    auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //=====================================//
     //            windClock         

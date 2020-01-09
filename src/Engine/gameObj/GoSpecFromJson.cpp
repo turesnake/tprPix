@@ -11,6 +11,7 @@
 //-------------------- Engine --------------------//
 #include "GameObj.h"
 
+#include "tprDebug.h"
 
 //======== static ========//
 std::unordered_map<goSpeciesId_t, std::unique_ptr<GoSpecFromJson>> GoSpecFromJson::dataUPtrs {};
@@ -44,7 +45,7 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
         );
     }
 
-    goRef_.move.set_moveSpeedLvl( d.moveSpeedLvl );
+    goRef_.moveSpeedLvl.reset( d.moveSpeedLvl );
     goRef_.set_pos_alti( d.alti );
     goRef_.weight = d.weight;
 
@@ -74,6 +75,52 @@ void GoSpecFromJson::check_all_extraPassableDogoSpeciesIds()noexcept{
         }
     }
 }
+
+
+
+void GoSpecFromJson::init_check()noexcept{
+
+    if( this->moveStateTableUPtr ){
+        this->moveStateTableUPtr->init_check( this );
+    }
+}
+
+
+
+void GoSpecFromJson::MoveStateTable::init_check( const GoSpecFromJson *goSpecFromJsonPtr_ )noexcept{
+
+    //--1-- min <= max
+    int minILvl = static_cast<int>( this->minLvl );
+    int maxILvl = static_cast<int>( this->maxLvl );
+    tprAssert( minILvl <= maxILvl );
+
+    //--2-- min -> max 中间是连续的，每个元素都要存在
+    for( int i=minILvl; i<=maxILvl; i++ ){
+        SpeedLevel lvl = int_2_SpeedLevel( i );
+        tprAssert( this->table.find(lvl) != this->table.end() );
+    }
+    
+    for( const auto &ipair : this->baseSpeedLvls ){
+
+        const std::string &actionName = ipair.first;
+        const SpeedLevel &baseLvl = ipair.second;
+
+        //--3-- 每个 action， afs.json 数据都要实现 
+        // 暂未 实现 ...
+        // ...
+
+        //--4-- baseSpeedLvl 必须在 实际数据表中
+        bool isFind { false };
+        for( const auto &p : this->table ){
+            if( (p.second==actionName) && (p.first==baseLvl) ){
+                isFind = true;
+                break;
+            }
+        }
+        tprAssert( isFind );
+    }
+}
+
 
 
 

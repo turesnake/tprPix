@@ -40,8 +40,8 @@ void Player::set_moveSpeedLvl( SpeedLevel lvl_ )noexcept{
 
     auto &playerGoRef = esrc::get_goRef( this->goid );
     auto &cirGoRef = esrc::get_goRef( this->playerGoCircle_goid );
-    playerGoRef.move.set_moveSpeedLvl( lvl_ );
-    cirGoRef.move.set_moveSpeedLvl( lvl_ );
+    playerGoRef.moveSpeedLvl.set_newVal( lvl_ );
+    cirGoRef.moveSpeedLvl.set_newVal( lvl_ );
 }
 
 
@@ -70,7 +70,7 @@ void Player::bind_go( goid_t goid_ ){
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
-        playerGoCircleRef.move.set_moveSpeedLvl( newGoRef.move.get_speedLvl() ); //- 同步 speedLv
+        playerGoCircleRef.moveSpeedLvl.reset( newGoRef.moveSpeedLvl.get_newVal() ); //- 同步 speedLv
 
     }else{
         //-- 解绑旧go --//

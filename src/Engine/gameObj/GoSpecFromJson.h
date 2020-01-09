@@ -13,6 +13,8 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
+#include <map>
 #include <set>
 #include <memory>
 #include <functional> // hash
@@ -35,6 +37,10 @@ class GameObj;
 // 从 go.json 文件中都取得数据，被存储为 此格式
 class GoSpecFromJson{
 public:
+    //========== Nested ==========//
+    class MoveStateTable;
+
+    //========== Self ==========//
     GoSpecFromJson()=default; // DO NOT CALL IT DIRECTLY!!!
 
     inline std::unordered_set<std::string> *get_afsNamesPtr()noexcept{ return &(this->afsNames); }
@@ -45,6 +51,8 @@ public:
         this->extraPassableDogoSpeciesIds.insert( id );
     }
 
+
+    void init_check()noexcept;
 
     //======== vals ========//
     std::string       goSpeciesName {};
@@ -71,7 +79,11 @@ public:
 
     //----- afs / gomeshs -----//
     std::unique_ptr<MultiGoMesh> multiGoMeshUPtr {nullptr}; // 数据存储地
-    
+
+
+    //----- datas -----//
+    std::unique_ptr<MoveStateTable> moveStateTableUPtr {nullptr};
+
             
     //======== static ========//
     static void assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ );
@@ -134,8 +146,7 @@ private:
     inline bool is_find_in_afsNames( const std::string &name_ )const noexcept{
         return (this->afsNames.find(name_) != this->afsNames.end());
     }
-
-
+    
     inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
         auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
         auto out2 = GoSpecFromJson::names_2_ids.insert({ name_, id_ });
@@ -159,6 +170,22 @@ private:
     static std::unordered_map<goSpeciesId_t, F_GO_INIT>    initFuncs; 
 
 };
+
+
+class GoSpecFromJson::MoveStateTable{
+public:
+    MoveStateTable()=default;
+
+    void init_check( const GoSpecFromJson *goSpecFromJsonPtr_ )noexcept;
+
+    //--- vals ---//
+    SpeedLevel minLvl {}; // include
+    SpeedLevel maxLvl {}; // include
+
+    std::unordered_map<std::string, SpeedLevel> baseSpeedLvls {};
+    std::map<SpeedLevel, std::string> table {};
+};
+
 
 
 

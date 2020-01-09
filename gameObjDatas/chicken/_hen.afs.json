@@ -3,7 +3,7 @@
     "name": "chicken.hen",
     "pngs": [
         {
-            "path": "hen_2.P.png",
+            "path": "hen_1_walk.P.png",
             "frameNum.col":  16,
             "frameNum.row":  8,
             "totalFrameNum": 128,
@@ -101,7 +101,195 @@
                     ]
                 }
             ]
+        },
+
+        {
+            "path": "hen_1_run.P.png",
+            "frameNum.col":  16,
+            "frameNum.row":  8,
+            "totalFrameNum": 128,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "name": "run", "dir": "L", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "LT", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 16, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "T", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 32, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "RT", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 48, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "R", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 64, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "RB", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 80, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "B", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 96, "frameNums" : 16,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "run", "dir": "LB", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 112, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "hen_1_fly.P.png",
+            "frameNum.col":  12,
+            "frameNum.row":  8,
+            "totalFrameNum": 96,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Circular",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "name": "fly", "dir": "L", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "LT", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 12, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "T", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 24, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "RT", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 36, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "R", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 48, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "RB", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 60, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "B", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 72, "frameNums" : 12,
+                            "isOpaque": true
+                        },
+                        {
+                            "name": "fly", "dir": "LB", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 1,
+                            "isSeries": true, "fstFrameIdx" : 84, "frameNums" : 12,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
         }
+
+
+
+
     ]
 }
 ]

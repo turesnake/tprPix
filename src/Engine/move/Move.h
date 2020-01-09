@@ -38,6 +38,7 @@ enum class MoveType : int {
 
 MoveType str_2_MoveType( const std::string name_ )noexcept;
 
+
 class Move{
 public:
     explicit Move( GameObj &goRef_ ):
@@ -71,9 +72,7 @@ public:
                 return;
         }
     }
-    inline void set_moveSpeedLvl( SpeedLevel lvl_ )noexcept{
-        this->moveSpeedLvl = lvl_;
-    }
+
     void set_newCrawlDirAxes( const DirAxes &newDirAxes_ );
 
     inline void set_drag_targetDPos( const glm::dvec2 &DPos_ )noexcept{
@@ -94,7 +93,6 @@ public:
     }
 
     //------- get -------//
-    inline SpeedLevel get_speedLvl()const noexcept{ return this->moveSpeedLvl; }
     inline bool get_isMoving()const noexcept{ return this->isMoving; }
 
 
@@ -107,11 +105,14 @@ private:
     GameObj      &goRef;
 
     MoveType    moveType  { MoveType::Crawl };
-    SpeedLevel  moveSpeedLvl  { SpeedLevel::LV_0 };
 
     
-    DirAxes  newDirAxes {};  //- this renderFrame, new input val
-    DirAxes  oldDirAxes {};  //- last renderFrame, old input val
+    DirAxes  newDirAxes {};  //- this renderFrame, new input val (move dir)
+    DirAxes  oldDirAxes {};  //- last renderFrame, old input val (move dir)
+
+                    // 也将被替换为 History 结构
+                    // ...
+
 
     glm::dvec2 targetDPos  {-987654321.98765,-987654321.98765};
                                 //- 设置一个不可能指向的 初始值。防止 第一次使用 set_drag_targetDPos() 时
@@ -122,7 +123,17 @@ private:
     F_void renderUpdateFunc {nullptr}; //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
 
     //===== flags =====//
-    bool   isMoving {false};
+    bool    isMoving {false};
+
+    //bool    isCrawlAnimActionStateDirty {false}; 
+                        // only Crawl mode:
+                        // 在本帧内，go.dir / move.moveSpeedLvl 任一值发生变化，此值为 true
+                        // 即意味着，move aaction 可能要被切换了
+
+                        // 最好放入 crawl 专用数据结构中 ....
+
+
+
 };
 
 
