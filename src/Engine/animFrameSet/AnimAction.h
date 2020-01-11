@@ -63,6 +63,10 @@ public:
                                     //  被 smoothDeltaTime 修正过
         //---
         size_t   updates {};     //- 切换一次帧后，记录 调用 update() 的次数
+        //---
+        int      timeStepOff {}; // 外界控制 aaction播放速度的方式
+                                 // 此值会被 累加在每一份 currentTimeStep 上，
+
         //-- flags --//
         bool     isLastFrame {false}; //- 仅用于 Once 模式
         //--- functor ---//

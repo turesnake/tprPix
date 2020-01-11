@@ -223,26 +223,52 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
 void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonRef_ ){
 
-    const auto &moveStateTable = check_and_get_value( pngEnt_, "moveStateTable", JsonValType::Object );
-
     goSpecFromJsonRef_.moveStateTableUPtr = std::make_unique<GoSpecFromJson::MoveStateTable>();
     GoSpecFromJson::MoveStateTable &tRef = *(goSpecFromJsonRef_.moveStateTableUPtr);
 
-    {//--- minSpeedLvl ---//
-        const auto &a = check_and_get_value( moveStateTable, "minSpeedLvl", JsonValType::Int );
-        tRef.minLvl = int_2_SpeedLevel( a.GetInt() );
-    }
-    {//--- maxSpeedLvl ---//
-        const auto &a = check_and_get_value( moveStateTable, "maxSpeedLvl", JsonValType::Int );
-        tRef.maxLvl = int_2_SpeedLevel( a.GetInt() );
-    }
 
-    //--- table ---//
+    int        minILvl { 100 }; // 初始值 尽可能大
+    int        maxILvl { 0 };   // 初始值 尽可能小
+    int        speedILvl {};
     std::string actionName {};
-    SpeedLevel  baseSpeedLvl {};
-    std::vector<SpeedLevel> speedLvls {};
+    int         timeStepOff {};
 
-    const auto &table = check_and_get_value( moveStateTable, "table", JsonValType::Array );
+    const auto &moveStateTable = check_and_get_value( pngEnt_, "moveStateTable", JsonValType::Array );
+    for( const auto &tableEnt : moveStateTable.GetArray() ){
+        tprAssert( tableEnt.IsObject() );
+
+        {//--- speedLvl ---//
+            const auto &a = check_and_get_value( tableEnt, "speedLvl", JsonValType::Int );
+            speedILvl = a.GetInt();
+        }
+        {//--- actionName ---//
+            const auto &a = check_and_get_value( tableEnt, "actionName", JsonValType::String );
+            actionName = a.GetString();
+        }
+        {//--- timeStepOff ---//
+            const auto &a = check_and_get_value( tableEnt, "timeStepOff", JsonValType::Int );
+            timeStepOff = a.GetInt();
+        }
+
+        //======================//
+        if( speedILvl < minILvl ){
+            minILvl = speedILvl;
+        }
+        if( speedILvl > maxILvl ){
+            maxILvl = speedILvl;
+        }
+
+        auto outPair1 = tRef.table.insert({ int_2_SpeedLevel(speedILvl),
+                                            std::pair<std::string,int>{ actionName, timeStepOff } });
+    }
+
+    tRef.minLvl = int_2_SpeedLevel( minILvl );
+    tRef.maxLvl = int_2_SpeedLevel( maxILvl );
+
+
+
+                // old ........
+    /*
     for( const auto &tableEnt : table.GetArray() ){
         tprAssert( tableEnt.IsObject() );
 
@@ -271,6 +297,9 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
             auto outPair2 = tRef.table.insert({ lvl, actionName });
         }
     }
+    */
+
+
 }
 
 

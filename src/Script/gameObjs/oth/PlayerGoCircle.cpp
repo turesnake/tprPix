@@ -130,6 +130,12 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //         更新 位移系统
     //-------------------------------------//
+
+    goRef_.move.moveSpeedLvl.sync(); // maybe
+                    // 临时而又丑陋的实现
+                    // playerGoCircle 需要跟着 playerGo 一同加减速
+                    // 但自己并不需要做任何事...
+
     goRef_.move.RenderUpdate();
 
     //=====================================//

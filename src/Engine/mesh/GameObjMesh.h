@@ -75,7 +75,8 @@ public:
     void bind_animAction(   animSubspeciesId_t    subspeciesId_,
                             NineDirection      dir_,
                             BrokenLvl          brokenLvl_,
-                            const std::string &actionName_  );
+                            const std::string &actionName_,
+                            int                timeStepOff_=0  );
 
     //------------- set -------------//
     inline void set_pic_renderLayer( RenderLayerType layerType_ )noexcept{

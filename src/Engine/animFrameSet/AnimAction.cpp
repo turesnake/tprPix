@@ -156,7 +156,7 @@ void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
 
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
         pvtData_.currentTimeStep = this->adjust_currentTimeStep(
-                                    this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs), pvtData_ );
+                                    this->timeSteps.at(pvtData_.currentIdx_for_frameIdxs), pvtData_ );                                    
     }
 }
 
@@ -171,13 +171,26 @@ void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
  */
 size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimAction::PvtData &pvtData_ ){
 
+    //--------------//
+    //  修正帧率波动
+    //--------------//
     double playSpeedScale = (pvtData_.reset_playSpeedScale==nullptr) ? 1.0 : pvtData_.reset_playSpeedScale();
     double v = (1.0 / 60.0) * static_cast<double>(currentTimeStep_) * playSpeedScale;
     double smoothDeltaTime = esrc::get_timer().get_smoothDeltaTime();
-    size_t step = cast_2_size_t( floor( v / smoothDeltaTime ) );
-    //-- limit: [1, 100] --
+    int step = static_cast<int>( floor( v / smoothDeltaTime ) );
+    if( step < 1 ){ step = 1; }
+
+    //--------------//
+    // 累加 timeStepOff
+    //--------------//
+    step += pvtData_.timeStepOff;
+
+    //--------------//
+    // limit: [1, 100]
+    //--------------//
     if( step < 1 ){     step = 1; }
     if( step > 100 ){   step = 100; }
-    return step;
+
+    return cast_2_size_t(step);
 }
 

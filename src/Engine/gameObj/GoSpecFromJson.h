@@ -182,8 +182,7 @@ public:
     SpeedLevel minLvl {}; // include
     SpeedLevel maxLvl {}; // include
 
-    std::unordered_map<std::string, SpeedLevel> baseSpeedLvls {};
-    std::map<SpeedLevel, std::string> table {};
+    std::map<SpeedLevel, std::pair<std::string,int>> table {}; // speedLvl, actionName, timeStepOff
 };
 
 

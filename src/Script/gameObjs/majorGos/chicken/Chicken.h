@@ -34,6 +34,13 @@ private:
     static void moveState_manage( GameObj &goRef_,
                                 GameObjMesh &goMeshRef_
                                 )noexcept;
+
+
+
+    static void move_AnimAction_switch( GameObj &goRef_ );
+
+
+
 };
 
 

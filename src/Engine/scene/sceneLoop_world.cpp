@@ -284,7 +284,7 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
         isNew_Y_press = true;
     }
 
-    SpeedLevel lvl = playerGoRef.moveSpeedLvl.get_newVal();
+    SpeedLevel lvl = playerGoRef.move.moveSpeedLvl.get_newVal();
     //-- 有效的 节点帧 --
     if( (isOld_A_press==false) && (isNew_A_press) ){
 

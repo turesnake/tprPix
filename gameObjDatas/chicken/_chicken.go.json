@@ -8,17 +8,18 @@
         "isMoveCollide": true,
         "isDoPass": false,
         "isBePass": true,
-        "moveSpeedLvl": 5,
+        "moveSpeedLvl": 4,
 
-        "moveStateTable":{
-            "minSpeedLvl" : 1,
-            "maxSpeedLvl" : 6,
-            "table":[
-                { "actionName": "walk", "baseSpeedLvl": 2, "speedLvls":  [ 1, 2, 3 ] },
-                { "actionName": "run",  "baseSpeedLvl": 4,  "speedLvls": [ 4, 5 ] },
-                { "actionName": "fly",  "baseSpeedLvl": 6,  "speedLvls": [ 6 ] }
-            ]
-        },
+        "moveStateTable":[
+            { "speedLvl": 0, "actionName": "walk", "timeStepOff": 2 },
+            { "speedLvl": 1, "actionName": "walk", "timeStepOff": 2 },
+            { "speedLvl": 2, "actionName": "walk", "timeStepOff": 1 },
+            { "speedLvl": 3, "actionName": "walk", "timeStepOff": 0 },
+                
+            { "speedLvl": 4, "actionName": "run", "timeStepOff": 0 },
+
+            { "speedLvl": 5, "actionName": "fly", "timeStepOff": 0 }
+        ],
 
         "alti": 0,
         "weight": 5,

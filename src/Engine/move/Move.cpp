@@ -30,9 +30,6 @@
 #include "esrc_chunk.h"
 
 #include "speedLog.h"
-
-
-
 #include "tprDebug.h" 
 
 
@@ -52,20 +49,26 @@ MoveType str_2_MoveType( const std::string name_ )noexcept{
 
 // 参数可为 0
 // input: player / AI 
+/*
 void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
 
     tprAssert( this->is_crawl() );
-    
-    this->newDirAxes = newDirAxes_;
+
+    this->crawlDirAxes.set_newVal( newDirAxes_ );
+
     //  isMoving
-    this->newDirAxes.is_zero() ?
-        this->isMoving = false :
-        this->isMoving = true;
+    //newDirAxes_.is_zero() ?
+    //    this->isMoving = false :
+    //    this->isMoving = true;
+    
+
+                // isMoving 暂时不在 crawl 中起任何作用 ...
+
 
     //----------------------------
     // 通过下面这段繁琐的调用，来避免在 同一帧内 重复调用 go.actionSwitch.call_func()
 
-    NineDirection newDir = dirAxes_2_nineDirection( this->newDirAxes );
+    NineDirection newDir = dirAxes_2_nineDirection( newDirAxes_ );
     NineDirection oldDir = this->goRef.actionDirection.get_oldVal();
 
     // 先修改 go.dir
@@ -80,9 +83,9 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
     }   
 
     // switch aaction
-    if( this->oldDirAxes.is_zero() ){
+    if( this->crawlDirAxes.get_oldVal().is_zero() ){
         // last frame is Idle
-        if( !this->newDirAxes.is_zero() ){
+        if( !newDirAxes_.is_zero() ){
             // this frame is Move
             this->goRef.actionSwitch.call_func( ActionSwitchType::Move ); 
                                 //-  move 存在很多种类：walk,run,fly
@@ -90,7 +93,7 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
         }
     }else{
         // last frame is Move
-        if( this->newDirAxes.is_zero() ){
+        if( newDirAxes_.is_zero() ){
             // this frame is Idle
             this->goRef.actionSwitch.call_func( ActionSwitchType::Idle );
         }else{
@@ -101,29 +104,29 @@ void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
         }
     }
 }
+*/
+
+
+
+
+void Move::set_newCrawlDirAxes( const DirAxes &newDirAxes_ ){
+    tprAssert( this->is_crawl() );
+    this->crawlDirAxes.set_newVal( newDirAxes_ );
+}
 
 
 
 void Move::renderUpdate_crawl(){
 
-    //----------------------------//
-    //    oldDirAxes & newDirAxes
-    //----------------------------//
-    if( this->oldDirAxes.is_zero() && this->newDirAxes.is_zero() ){
-        return;
-    }
-    
-    this->oldDirAxes = this->newDirAxes;
-
-    if( this->newDirAxes.is_zero() ){
+    if( !this->isMovingFunc() ){
         return;
     }
 
     //----------------//
     //   speedDPos - dpos/frame
     //----------------//
-    glm::dvec2 speedVec = this->newDirAxes.to_dpos() *
-                        SpeedLevel_2_val( this->goRef.moveSpeedLvl.get_newVal() ) *
+    glm::dvec2 speedVec = this->crawlDirAxes.get_newVal().to_dpos() *
+                        SpeedLevel_2_val( this->moveSpeedLvl.get_newVal() ) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
@@ -142,7 +145,7 @@ void Move::renderUpdate_crawl(){
 
 void Move::renderUpdate_drag(){
 
-    if( this->isMoving == false ){
+    if( !this->isMovingFunc() ){
         return;
     }
 
@@ -164,7 +167,7 @@ void Move::renderUpdate_drag(){
 
     //- 等效于 DirAxes 的计算。
     glm::dvec2 speedVec =  glm::normalize( dposOff ) *
-                            SpeedLevel_2_val( this->goRef.moveSpeedLvl.get_newVal() ) *
+                            SpeedLevel_2_val( this->moveSpeedLvl.get_newVal() ) *
                             60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     bool isLastFrame = false;
@@ -192,7 +195,7 @@ void Move::renderUpdate_drag(){
 
 void Move::renderUpdate_adsorb(){
 
-    if( this->isMoving == false ){
+    if( !this->isMovingFunc() ){
         return;
     }
 

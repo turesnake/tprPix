@@ -71,7 +71,12 @@ void ChildMesh::refresh_translate(){
     double zOff = this->goMeshRef.get_zOff();
 
     bool isNeedCoordTransform = goRef.family != GameObjFamily::UI; // 只有 uiGo 不需要坐标系转换
+
+
     bool isNeedAlign2Pix = !goRef.get_isMoving(); // 所有不在移动的go，都需要对齐像素
+
+                                        // 可能要被修改实现 
+
 
     // 坐标系转换: worldCoord -> outCoord
     // 仅作用于 dpos，剩余的 rOff / goMeshPPosOff / goAlti 都不应参与此运算

@@ -3,7 +3,7 @@
     "name": "chicken.hen",
     "pngs": [
         {
-            "path": "hen_1_walk.P.png",
+            "path": "hen_walk2.P.png",
             "frameNum.col":  16,
             "frameNum.row":  8,
             "totalFrameNum": 128,
@@ -31,7 +31,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -40,7 +40,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 16, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -49,7 +49,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 32, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -58,7 +58,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 48, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -67,7 +67,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 64, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -76,7 +76,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 80, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -85,7 +85,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 96, "frameNums" : 16,
                             "isOpaque": true
                         },
@@ -94,7 +94,7 @@
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 3,
+                            "isTimeStepSame": true, "timeStep"  : 1,
                             "isSeries": true, "fstFrameIdx" : 112, "frameNums" : 16,
                             "isOpaque": true
                         }
@@ -104,7 +104,7 @@
         },
 
         {
-            "path": "hen_1_run.P.png",
+            "path": "hen_run2.P.png",
             "frameNum.col":  16,
             "frameNum.row":  8,
             "totalFrameNum": 128,
@@ -196,10 +196,10 @@
         },
 
         {
-            "path": "hen_1_fly.P.png",
-            "frameNum.col":  12,
+            "path": "hen_2_fly3.P.png",
+            "frameNum.col":  10,
             "frameNum.row":  8,
-            "totalFrameNum": 96,
+            "totalFrameNum": 80,
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
@@ -216,7 +216,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -225,7 +225,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 12, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 10, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -234,7 +234,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 24, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 20, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -243,7 +243,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 36, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 30, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -252,7 +252,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 48, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 40, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -261,7 +261,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 60, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 50, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -270,7 +270,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 72, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 60, "frameNums" : 10,
                             "isOpaque": true
                         },
                         {
@@ -279,7 +279,7 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 1,
-                            "isSeries": true, "fstFrameIdx" : 84, "frameNums" : 12,
+                            "isSeries": true, "fstFrameIdx" : 70, "frameNums" : 10,
                             "isOpaque": true
                         }
                     ]

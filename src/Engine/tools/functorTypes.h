@@ -15,6 +15,7 @@
 
 
 using F_void            = std::function<void()>;
+using F_bool            = std::function<bool()>;
 
 using F_R_int           = std::function<int()>;
 using F_R_double        = std::function<double()>;

@@ -45,7 +45,7 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
         );
     }
 
-    goRef_.moveSpeedLvl.reset( d.moveSpeedLvl );
+    goRef_.move.moveSpeedLvl.reset( d.moveSpeedLvl );
     goRef_.set_pos_alti( d.alti );
     goRef_.weight = d.weight;
 
@@ -98,23 +98,6 @@ void GoSpecFromJson::MoveStateTable::init_check( const GoSpecFromJson *goSpecFro
     for( int i=minILvl; i<=maxILvl; i++ ){
         SpeedLevel lvl = int_2_SpeedLevel( i );
         tprAssert( this->table.find(lvl) != this->table.end() );
-    }
-    
-    for( const auto &[iActionName, iBaseLvl] : this->baseSpeedLvls ){
-
-        //--3-- 每个 action， afs.json 数据都要实现 
-        // 暂未 实现 ...
-        // ...
-
-        //--4-- baseSpeedLvl 必须在 实际数据表中
-        bool isFind { false };
-        for( const auto &p : this->table ){
-            if( (p.second==iActionName) && (p.first==iBaseLvl) ){
-                isFind = true;
-                break;
-            }
-        }
-        tprAssert( isFind );
     }
 }
 

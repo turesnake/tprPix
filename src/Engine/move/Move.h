@@ -34,7 +34,7 @@ class Collision;
 enum class MoveType : int {
     Crawl,   // often used for regular Go, with uniform speed [have speed upper limit]
     Drag,    // often used for regular Go, with uniform speed [have speed upper limit]
-    Adsorb,  // often used for UIGo, with smooth speed change [no speed upper limit]
+    Adsorb,  // often used for UIGo, with smooth speed change [no speed upper_limit]
 };
 
 MoveType str_2_MoveType( const std::string name_ )noexcept;
@@ -61,12 +61,30 @@ public:
         switch ( type_ ){
             case MoveType::Crawl:      
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_crawl, this ); 
+                this->isMovingFunc =
+                    [this](){
+                        if( this->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
+                            return false;
+                        }
+                        return !this->crawlDirAxes.get_newVal().is_zero();
+                    };
                 return;
             case MoveType::Drag: 
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_drag, this ); 
+                this->isMovingFunc =
+                    [this](){
+                        if( this->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
+                            return false;
+                        }
+                        return this->isMoving;
+                    };
                 return;
             case MoveType::Adsorb: 
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_adsorb, this ); 
+                this->isMovingFunc = 
+                    [this](){
+                        return this->isMoving;
+                    };
                 return;
             default:
                 tprAssert(0);
@@ -94,7 +112,14 @@ public:
     }
 
     //------- get -------//
-    inline bool get_isMoving()const noexcept{ return this->isMoving; }
+    inline bool get_isMoving()const noexcept{ 
+        return this->isMovingFunc();
+    }
+
+    //---- history vals ----//
+    // stone val-state at last render-frame
+    History<DirAxes> crawlDirAxes { DirAxes{} }; // only used at Crawl-mode
+    History<SpeedLevel> moveSpeedLvl  { SpeedLevel::LV_0 };
 
 
 private:
@@ -107,15 +132,6 @@ private:
 
     MoveType    moveType  { MoveType::Crawl };
 
-    
-    DirAxes  newDirAxes {};  //- this renderFrame, new input val (move dir)
-    DirAxes  oldDirAxes {};  //- last renderFrame, old input val (move dir)
-
-    //History<DirAxes> dirAxes { DirAxes{} };
-
-                    // 也将被替换为 History 结构
-                    // ...
-
 
     glm::dvec2 targetDPos  {-987654321.98765,-987654321.98765};
                                 //- 设置一个不可能指向的 初始值。防止 第一次使用 set_drag_targetDPos() 时
@@ -124,18 +140,12 @@ private:
 
     //------- functor -------//
     F_void renderUpdateFunc {nullptr}; //- 只在初始化阶段绑定，也许未来是可以切换的，但目前未实现
+    F_bool isMovingFunc     {nullptr}; 
+
 
     //===== flags =====//
-    bool    isMoving {false};
-
-    //bool    isCrawlAnimActionStateDirty {false}; 
-                        // only Crawl mode:
-                        // 在本帧内，go.dir / move.moveSpeedLvl 任一值发生变化，此值为 true
-                        // 即意味着，move aaction 可能要被切换了
-
-                        // 最好放入 crawl 专用数据结构中 ....
-
-
+    bool    isMoving {false}; // ==false 时，渲染层才会执行 mesh 像素对齐操作
+                            // 暂时，仅用于 Drag, Adsord 两模式
 
 };
 

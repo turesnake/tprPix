@@ -30,7 +30,7 @@ void UIGoSpecFromJson::assemble_2_newUIGo( goSpeciesId_t specID_, GameObj &goRef
     goRef_.family    = d.family;
 
     goRef_.move.set_MoveType( d.moveType );
-    goRef_.moveSpeedLvl.reset( d.moveSpeedLvl );
+    goRef_.move.moveSpeedLvl.reset( d.moveSpeedLvl );
    
 
     // 对于 uiGo 来说，很多 go成员 都不需要

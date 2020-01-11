@@ -30,10 +30,12 @@ using namespace std::placeholders;
 void GameObjMesh::bind_animAction(  animSubspeciesId_t    subspeciesId_,
                                     NineDirection      dir_,
                                     BrokenLvl          brokenLvl_,
-                                    const std::string &actionName_  ){
+                                    const std::string &actionName_,
+                                    int                timeStepOff_ ){
 
     this->animActionPtr = esrc::get_animActionPtr( subspeciesId_, dir_, brokenLvl_, actionName_ );
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
+    this->animActionPvtData.timeStepOff = timeStepOff_;
 
     this->isHaveShadow = this->animActionPtr->get_isHaveShadow();
 

@@ -150,8 +150,9 @@ public:
     //   每一渲染帧 末尾调用
     inline void make_sure_all_historyVals_is_synced()const noexcept{
         tprAssert( !this->actionDirection.get_isDirty() );
-        tprAssert( !this->moveSpeedLvl.get_isDirty() );
         tprAssert( !this->brokenLvl.get_isDirty() );
+        tprAssert( !this->move.moveSpeedLvl.get_isDirty() );
+        tprAssert( !this->move.crawlDirAxes.get_isDirty() );
         //...
     }
 
@@ -204,17 +205,20 @@ public:
     GameObjMoveState  moveState {GameObjMoveState::AbsFixed}; //- 运动状态
 
 
+    //---- history vals ----//
+    // stone val-state at last render-frame
     History<NineDirection> actionDirection { NineDirection::Center };
                                     //- 角色 动画朝向
                                     // 此值，仅指 go 在 window坐标系上的 朝向（视觉上看到的朝向）
                                     // 而不是在 worldCoord 中的朝向
-    
-    History<SpeedLevel> moveSpeedLvl    { SpeedLevel::LV_0 };
+
     History<BrokenLvl>  brokenLvl       { BrokenLvl::Lvl_0 }; 
                                     // 破损等级，0为完好。
                                     // 当部分go（比如地景）遭到破坏时，此值也会跟着被修改，
                                     // 进一步会影响其 外貌
                                     // 未实现 ...
+
+    
 
     
     //--- move sys ---//
