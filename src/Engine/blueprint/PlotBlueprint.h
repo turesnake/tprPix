@@ -93,6 +93,9 @@ public:
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
 
     inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+
+                tprAssert( !this->randPool.empty() );
+
         varTypeDatas_PlotId_t id = this->randPool.at( (uWeight_ + 3556177) % this->randPool.size() );
         return *(this->goSpecPool.at(id));
     }
@@ -137,6 +140,9 @@ public:
     inline const std::set<VariableTypeIdx> &get_varTypes()const noexcept{ return this->varTypes; }
 
     inline const MapData &apply_a_random_mapData( size_t uWeight_ )const noexcept{
+
+                tprAssert( !this->mapDatas.empty() );
+
         return this->mapDatas.at( (uWeight_ + 1844477191) % this->mapDatas.size() );
     }
 

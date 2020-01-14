@@ -317,10 +317,12 @@ void Chicken::moveState_manage( GameObj &goRef_,
     const std::string &actionName = it->second.first;
     int timeStepOff = it->second.second;;
         
+        /*
         cout << "speedLvl: " << static_cast<int>(moveSpeedLvl)
             << "; actionName: " << actionName 
             << "; timeStepOff: " << timeStepOff
             << endl;
+        */
 
     // 开启 fly 模式
     if( actionName == "fly" ){

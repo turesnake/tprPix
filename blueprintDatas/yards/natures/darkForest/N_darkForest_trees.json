@@ -1,0 +1,262 @@
+[
+{
+    "annotation": "nature yard majorGos，1-tree",
+
+    "yardName": "N_darkForest_trees",
+    "yardLabel": "1Mid",
+
+    "pngLPath": "/natures/darkForest/N_forest_1tree.M.png",
+    "frameNum.col":  8,
+    "frameNum.row":  9,
+    "totalFrameNum": 72,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "varTypes":[
+        {
+            "annotation": "单独一颗树",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "草-矮",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+            ]
+        },
+
+        {
+            "annotation": "草-高",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 }
+            ]
+        }
+    ]
+},
+
+
+
+{
+    "annotation": "nature yard majorGos，2-tree",
+
+    "yardName": "N_darkForest_trees",
+    "yardLabel": "2Mid",
+
+    "pngLPath": "/natures/darkForest/N_forest_2tree.M.png",
+    "frameNum.col":  11,
+    "frameNum.row":  5,
+    "totalFrameNum": 55,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "varTypes":[
+        {
+            "annotation": "单独一颗树",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "草-矮",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Sml", "num": 1 }
+
+
+
+            ]
+        },
+
+        {
+            "annotation": "草-高",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_WhiteFlower_Sml", "num": 1 }
+            ]
+        }
+
+    ]
+},
+
+
+{
+    "annotation": "nature yard majorGos，2-tree",
+
+    "yardName": "N_darkForest_trees",
+    "yardLabel": "1Mid1Sml",
+
+    "pngLPath": "/natures/darkForest/N_forest_tree_1mid1sml.M.png",
+    "frameNum.col":  11,
+    "frameNum.row":  5,
+    "totalFrameNum": 55,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "varTypes":[
+        {
+            "annotation": "mid树",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "sml树",
+            "type": "V_2",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Sml", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "草-矮",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 1 }
+
+
+            ]
+        },
+
+        {
+            "annotation": "草-高",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 1 }
+            ]
+        }
+
+    ]
+},
+
+
+
+{
+    "annotation": "nature yard majorGos，1-tree, n-mushroom",
+
+    "yardName": "N_darkForest_trees",
+    "yardLabel": "1Mid-NMushroom",
+
+    "pngLPath": "/natures/darkForest/N_darkForest_1treeNmushroom.M.png",
+    "frameNum.col":  3,
+    "frameNum.row":  4,
+    "totalFrameNum": 12,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "varTypes":[
+        {
+            "annotation": "mid树",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "蘑菇 2M2",
+            "type": "V_8",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": true,
+            "plotPool":[ 
+                { "plotName": "mushroom_2m2", "num": 3 } 
+            ]
+        },
+
+        {
+            "annotation": "蘑菇 3M3",
+            "type": "V_9",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": true,
+            "plotPool":[ 
+                { "plotName": "mushroom_3m3", "num": 3 } 
+            ]
+        },
+
+
+        {
+            "annotation": "蘑菇 sml",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "蘑菇 sml",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 3 }
+            ]
+        }
+
+    ]
+}
+
+
+]

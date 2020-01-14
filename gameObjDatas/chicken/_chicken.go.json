@@ -18,7 +18,11 @@
                 
             { "speedLvl": 4, "actionName": "run", "timeStepOff": 0 },
 
-            { "speedLvl": 5, "actionName": "fly", "timeStepOff": 0 }
+            { "speedLvl": 5, "actionName": "fly", "timeStepOff": 0 },
+            { "speedLvl": 6, "actionName": "fly", "timeStepOff": 0 },
+            { "speedLvl": 7, "actionName": "fly", "timeStepOff": 0 },
+            { "speedLvl": 8, "actionName": "fly", "timeStepOff": 0 },
+            { "speedLvl": 9, "actionName": "fly", "timeStepOff": 0 }
         ],
 
         "alti": 0,

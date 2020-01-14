@@ -167,6 +167,7 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
     //      Shadow
     //-------------------//
     if( isHaveShadow_ ){
+
         if( this->isShadowSingleFrame ){
             //--- S.png 只有一帧 --//
             tmpv2 = load_and_divide_png(afs_inn::path_shadow,
@@ -174,21 +175,34 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
                                         1,
                                         afs_inn::S_frame_data_ary );
 
+            tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
+            this->handle_shadow();
+            afs_inn::tmpTexNames.clear();
+            create_texNames( 1,
+                            afs_inn::pixNum_per_frame,
+                            afs_inn::S_frame_data_ary,
+                            afs_inn::tmpTexNames );
+
+            // 就算只有 一张 tex，也要重复 insert，确保总体数量是 和 P.png 帧数相同的
+            // 降低后续代码的 复杂度
+            this->texNames_shadow.insert( this->texNames_shadow.end(), afs_inn::totalFrameNum, *afs_inn::tmpTexNames.begin() );
+
         }else{
             tmpv2 = load_and_divide_png(afs_inn::path_shadow,
                                         afs_inn::frameNum,
                                         afs_inn::totalFrameNum,
                                         afs_inn::S_frame_data_ary );
-        }
 
-        tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
-        this->handle_shadow();
-        afs_inn::tmpTexNames.clear();
-        create_texNames( afs_inn::totalFrameNum,
-                        afs_inn::pixNum_per_frame,
-                        afs_inn::S_frame_data_ary,
-                        afs_inn::tmpTexNames );
-        this->texNames_shadow.insert( this->texNames_shadow.end(), afs_inn::tmpTexNames.begin(), afs_inn::tmpTexNames.end() );
+            tprAssert( tmpv2 == afs_inn::pixNum_per_frame );
+            this->handle_shadow();
+            afs_inn::tmpTexNames.clear();
+            create_texNames( afs_inn::totalFrameNum,
+                            afs_inn::pixNum_per_frame,
+                            afs_inn::S_frame_data_ary,
+                            afs_inn::tmpTexNames );
+
+            this->texNames_shadow.insert( this->texNames_shadow.end(), afs_inn::tmpTexNames.begin(), afs_inn::tmpTexNames.end() );
+        }
         
     }else{
         //-- 没有 shadow数据时，填写 0 来占位 --

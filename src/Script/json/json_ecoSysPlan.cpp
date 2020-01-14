@@ -166,7 +166,11 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
                 {//--- num ---//
                     const auto &a = check_and_get_value( village, "num", JsonValType::Uint64 );
                     num = cast_2_size_t( a.GetUint64() );
-                    tprAssert( num > 0 );
+                }
+
+                // 允许写入 0
+                if( num == 0 ){
+                    continue;
                 }
 
                 auto id = blueprint::str_2_villageBlueprintId( villageName );
@@ -197,7 +201,11 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
                     {//--- num ---//
                         const auto &a = check_and_get_value( yardEnt, "num", JsonValType::Uint64 );
                         num = cast_2_size_t( a.GetUint64() );
-                        tprAssert( num > 0 );
+                    }
+
+                    // 允许写入 0
+                    if( num == 0 ){
+                        continue;
                     }
 
                     tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
@@ -266,7 +274,11 @@ void parse_naturePool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
             {//--- num ---//
                 const auto &a = check_and_get_value( yardEnt, "num", JsonValType::Uint64 );
                 num = cast_2_size_t( a.GetUint64() );
-                tprAssert( num > 0 );
+            }
+
+            // 允许写入 0
+            if( num == 0 ){
+                continue;
             }
 
             //--- 检查 name / yardSize ---

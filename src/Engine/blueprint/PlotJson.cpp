@@ -153,7 +153,17 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                 //---
                 const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
                 for( auto &ent : goSpecPool.GetArray() ){
-                    
+
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                        num = cast_2_size_t( a.GetUint64() );
+                    }
+
+                    // 允许写入 0
+                    if( num == 0 ){
+                        continue;
+                    }
+
                     std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
 
                     {//--- goSpeciesName ---//
@@ -180,12 +190,6 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                             const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
                             goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
                         }
-                    }
-
-                    {//--- num ---//
-                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = cast_2_size_t( a.GetUint64() );
-                        tprAssert( num > 0 );
                     }
 
                     //-- goSpecUPtr 创建完毕 --

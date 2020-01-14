@@ -3,6 +3,10 @@
     {"mushroom_2m2/mushroom_2m2.json": true },
     {"mushroom_3m3/mushroom_3m3.json": true },
 
-    {"rocks/rock_4m3.json": true }
+    {"rocks/4m3/rock_4m3.json": true },
+    {"rocks/wall_1m4/rockWall_1m4.json": true },
+    {"rocks/wall_4m1/rockWall_4m1.json": true }
+
+    
     
 ]

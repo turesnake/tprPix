@@ -194,10 +194,11 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                         {//--- num ---//
                             const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
                             num = cast_2_size_t( a.GetUint64() );
-                            tprAssert( num > 0 );
                         }
 
-                        varTypeDatas_majorGoUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName), num );
+                        if( num > 0 ){
+                            varTypeDatas_majorGoUPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName), num );
+                        }
                     }
 
                 }else{
@@ -205,8 +206,19 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                     const auto &goSpecPool = json::check_and_get_value( varType, "goSpecPool", json::JsonValType::Array );
                     for( auto &ent : goSpecPool.GetArray() ){
 
-                        std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+                        
                         size_t num {};
+                        {//--- num ---//
+                            const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
+                            num = cast_2_size_t( a.GetUint64() );
+                        }
+
+                        // 允许写 0 
+                        if( num == 0 ){
+                            continue;
+                        }
+
+                        std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
 
                         {//--- goSpeciesName ---//
                             const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
@@ -232,13 +244,6 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                                 const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
                                 goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
                             }
-
-                        }
-
-                        {//--- num ---//
-                            const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                            num = cast_2_size_t( a.GetUint64() );
-                            tprAssert( num > 0 );
                         }
 
                         //-- goSpecUPtr 创建完毕 --

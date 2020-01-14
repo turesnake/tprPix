@@ -111,8 +111,12 @@ public:
         }
     }
     inline plotBlueprintId_t apply_a_plotBlueprintId( size_t uWeight_ )noexcept{
+
         tprAssert( this->isPlotBlueprint );
         const auto &plotIdsRef = this->vtPtr->get_plotIds();
+
+            tprAssert( !plotIdsRef.empty() );
+
         if( this->isAllInstanceUseSamePlan ){
             //-- 统一值 只生成一次，并永久保留
             if( !this->isUnifiedValsset ){

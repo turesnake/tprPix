@@ -163,10 +163,11 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
                     {//--- num ---//
                         const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
                         num = cast_2_size_t( a.GetUint64() );
-                        tprAssert( num > 0 );
                     }
 
-                    varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel), num );
+                    if( num > 0 ){
+                        varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel), num );
+                    }
                 }
             }
 

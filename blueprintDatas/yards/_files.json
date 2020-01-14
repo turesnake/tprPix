@@ -1,7 +1,17 @@
 [
     {"2m2_1/2m2.json": true },
 
-    {"natures/forest/N_forest_trees.json": true },
     
-    {"natures/floorGos/natureFloorGo_B.json": true }
+    {"natures/darkForest/N_darkForest_trees.json": true },
+    {"natures/desert/N_desert_trees.json": true },
+    {"natures/forest/N_forest_trees.json": true },
+    {"natures/savannah/N_savannah_trees.json": true },
+
+    {"natures/floorGos/natureFloorGo_B.json": true },
+
+
+    {"plot_test/plot_test.json": true },
+
+    {"rockMaze/rockMaze.json": true }
+
 ]

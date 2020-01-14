@@ -5,33 +5,16 @@
     "colorTableName": "darkForest",    
     "density.SeaLvlOff": 25.0,
     "density.DivideType": "default",
-    "pools":[
+
+    "natureMajorYardPools":[
 
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.99,
-            "fieldDistributeTypes":[
-                {"Big1": 2},
-                {"Mid2": 1},
-                {"Sml2_Mid1": 3},
-                {"Sml1_Mid1": 4}
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 13 },
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 1 }
-            ],
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 11 }
-                
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Sml", "num": 1 },
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Sml" ], "num": 1 }
-                
+            "applyPercent": 0.0,
 
-
+            "yardPool":[
+              
             ]
             
         },
@@ -39,76 +22,19 @@
         {
             "annotate": "====================[ -2 ]====================",
             "density.lvl": -2,
-            "applyPercent": 0.8,
-            "fieldDistributeTypes":[
-                {"Big1": 4 },
-                {"Mid2": 3 },
-                {"Mid1": 1 },
-                {"Sml2_Mid1": 1 },
-                {"Sml1_Mid1":2 }
-            ],
+            "applyPercent": 0.0,
 
-            "ecoEnts_Big":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 1 }
-            ],
-            
-            "ecoEnts_Mid":[
-                            
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },    
-               
-
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 3 },
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 3 },
-
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 9 },
-
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 5 }
-                
-
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
-             
-                
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-               
-
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
-
-
+            "yardPool":[
+              
             ]
-
         },
 
         {
             "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
-            "applyPercent": 0.7,
-            "fieldDistributeTypes":[
-                {"Big1": 4 },
-                {"Mid2": 3 },
-                {"Mid1": 1 },
-                {"Sml1_Mid1":2 },
-                {"Sml3": 4 },
-                {"Sml2": 1 },
-                {"Sml1": 1 }
-            ],
+            "applyPercent": 0.0,
 
-            "ecoEnts_Big":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 1 }
-            ],
-            
-            "ecoEnts_Mid":[
-                           
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },    
-            
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 11 }
-
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Sml", "num": 1 }
+            "yardPool":[
                
             ]
         },
@@ -116,147 +42,62 @@
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.5,
-            "fieldDistributeTypes":[
-                {"Big1": 3 },
-                {"Mid1": 3 },
-                {"Sml1": 4 }
-            ],
+            "applyPercent": 0.0,
 
-            "ecoEnts_Big":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 1 },
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 1 }
-            ],
-            
-            "ecoEnts_Mid":[
-                       
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },    
-            
-
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 1 },
-
-                { "goSpeciesName": "grass",  "MultiGoMeshType":"DForest_Mid", "num": 9 }
-            ],
-
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 7 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Sml", "num": 1 }
-                
-
+            "yardPool":[
+               
             ]
+
         },
         
         {
             "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
-            "applyPercent": 0.4,
-            "fieldDistributeTypes":[
-                {"Big1": 1 },
-                {"Mid1": 1 },
-                {"Sml1_Mid1":2 },
-                {"Sml3": 5 },
-                {"Sml2": 2 },
-                {"Sml1": 1 }
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 1 },
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 1 }
-            ],
-            
-            "ecoEnts_Mid":[
-                     
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },    
-            
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Mid", "num": 9 }
-                
+            "applyPercent": 0.99,
 
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 },
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DForest_Sml", "num": 1 }
-
+            "yardPool":[
+                { "yardName": "N_darkForest_trees", "yardLabel": "2Mid", "num": 2 },
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid1Sml", "num": 1 }
             ]
+
         },
 
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.99,
-            "fieldDistributeTypes":[
-                {"Big1": 2 },
-                {"Mid2": 3 },
-                {"Mid1": 1 },
-                {"Sml2_Mid1": 1 },
-                {"Sml1_Mid1":2 }
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 11 },
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Big", "num": 1 },
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 3 }
+            "applyPercent": 0.79,
 
-            ],
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 13 },
-                
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-                
+            "yardPool":[
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 0 },
 
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 7 },
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 7 } 
-            ],
-            "ecoEnts_Sml":[
-          
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-         
-
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
-                    
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
+                { "yardName": "plot_test", "yardLabel": "", "num": 13 }
             ]
+            
         },
 
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.99,
-            "fieldDistributeTypes":[
-                {"Big1": 2},
-                {"Mid2": 3},
-                {"Sml2_Mid1": 2},
-                {"Sml1_Mid1": 2}
-            ],
-            
-            "ecoEnts_Big":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 11 },
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 2 }
-               
-            ],
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Mid" ], "num": 19 },
-                
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 2 },
-                { "goSpeciesName": "mushroom",  "MultiGoMeshType":"Mid", "num": 13 }
-            ],
-            "ecoEnts_Sml":[
-              
+            "applyPercent": 0.0,
 
-                { "goSpeciesName": "bushOth", "afsName": "bushOth", "animLabels":[], "num": 1 },
-              
-
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Sml" ], "num": 1 },
-
-                { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabels":[ "Dead" ], "num": 1 }
+            "yardPool":[
                 
             ]
-            
         }
     ],
 
-    "villageBlueprintPool":[ "v_1" ]
+
+    "villageBlueprintPool":[ 
+        { "villageName": "empty_test", "num": 1 }
+    ],
+
+
+    "natureFloorYards": {
+        "yardPool":[
+            { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
+        ],
+        "density.lvls":[ -3,-2,-1,0 ]
+    }
 
 }
 

@@ -21,7 +21,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 3 }
+                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
             ]
         },
 
@@ -43,7 +43,7 @@
             "isAllInstanceUseSamePlan": true,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 1 }
             ]
         },
 

@@ -12,6 +12,9 @@
 //------------------- C --------------------//
 #include <cmath>
 
+//------------------- CPP --------------------//
+#include <string>
+
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
@@ -74,6 +77,7 @@ public:
                         static_cast<u8_t>(aa) };
     }
 
+    std::string to_string()const noexcept; // for debug
 
     //======== vals ========//
     u8_t r {0};

@@ -62,6 +62,9 @@ public:
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
 
     inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+
+            tprAssert( !this->goSpecRandPool.empty() );
+
         varTypeDatas_Yard_MajorGoId_t id = this->goSpecRandPool.at( (uWeight_ + 7106177) % this->goSpecRandPool.size() );
         return *(this->goSpecPool.at(id));
     }
@@ -106,6 +109,9 @@ public:
     inline FloorGoSize get_floorGoSize()const noexcept{ return this->floorGoSize; }
 
     inline const GoSpec &apply_rand_goSpec( size_t uWeight_ )const noexcept{
+
+            tprAssert( !this->goSpecRandPool.empty() );
+
         varTypeDatas_Yard_FloorGoId_t id = this->goSpecRandPool.at( (uWeight_ + 1076177) % this->goSpecRandPool.size() );
         return *(this->goSpecPool.at(id));
     }
@@ -189,9 +195,15 @@ public:
     inline const std::set<VariableTypeIdx> &get_floorGo_varTypes()const noexcept{ return this->floorGo_varTypes; }
 
     inline const MapData &apply_a_random_majorGo_mapData( size_t uWeight_ )const noexcept{
+
+                tprAssert( !this->majorGo_mapDatas.empty() );
+
         return this->majorGo_mapDatas.at( (uWeight_ + 86887311) % this->majorGo_mapDatas.size() );
     }
     inline const MapData &apply_a_random_floorGo_mapData( size_t uWeight_ )const noexcept{
+
+                tprAssert( !this->floorGo_mapDatas.empty() );
+
         return this->floorGo_mapDatas.at( (uWeight_ + 906117317) % this->floorGo_mapDatas.size() );
     }
 

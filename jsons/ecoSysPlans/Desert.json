@@ -5,29 +5,15 @@
     "colorTableName": "desert",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
-    "pools":[
+    "natureMajorYardPools":[
 
         {
             "annotate": "====================[ -3 ]====================",
             "density.lvl": -3,
-            "applyPercent": 0.2,
-            "fieldDistributeTypes":[
-                {"Sml2":1 }
-            ],
-            "ecoEnts_Big":[
+            "applyPercent": 0.0,
 
-
-            ],
-            "ecoEnts_Mid":[
-               
-
-               
-            ],
-            "ecoEnts_Sml":[
-
-                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 3 }
-
-
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
             
         },
@@ -36,24 +22,9 @@
             "annotate": "====================[ -2 ]====================",
             "density.lvl": -2,
             "applyPercent": 0.0,
-            "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Sml2_Mid1": 1 },
-                {"Sml1_Mid1":1 },
-                {"Sml2": 2 }
-            ],
-            "ecoEnts_Big":[
-                
-            ],
 
-            "ecoEnts_Mid":[               
-               
-               
-            ],
-            "ecoEnts_Sml":[
-              
-                
-
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
         },
 
@@ -61,96 +32,41 @@
             "annotate": "====================[ -1 ]====================",
             "density.lvl": -1,
             "applyPercent": 0.0,
-            "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Mid2": 7},
-                {"Sml2_Mid1": 9},
-                {"Sml3": 3 }
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_1_Big", "num": 1 }
-            ],
 
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
         },
 
         {
             "annotate": "====================[ 0 ]====================",
             "density.lvl": 0,
-            "applyPercent": 0.99,
-            "fieldDistributeTypes":[
-                {"Big1": 3},
-                {"Mid1": 7},
-                {"Sml2_Mid1": 17}
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "rock", "MultiGoMeshType":"", "num": 1 }
-            ],
+            "applyPercent": 0.0,
 
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
-                
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_1_Mid", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_1_Sml", "num": 11 }
-
-
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
+
         },
         
         {
             "annotate": "====================[ 1 ]====================",
             "density.lvl": 1,
-            "applyPercent": 0.0,
-            "fieldDistributeTypes":[
-                {"Mid2": 7},
-                {"Sml2_Mid1": 7},
-                {"Sml3":7 }
-            ],
+            "applyPercent": 0.99,
 
-            "ecoEnts_Mid":[
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Mid" ], "num": 7 },
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabels":[ "Sml" ], "num": 1 }
-                
-
-            ],
-            "ecoEnts_Sml":[
-                
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_1_Mid", "num": 13 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_1_Sml", "num": 3 }
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
+
         },
 
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.0,
-            "fieldDistributeTypes":[
-                {"Big1": 1},
-                {"Sml2_Mid1": 7 },
-                {"Sml3": 3 }
-            ],
-            "ecoEnts_Big":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_1_Big", "num": 1 }
- 
-            ],
-            "ecoEnts_Mid":[
+            "applyPercent": 0.79,
 
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_1_Mid", "num": 9 }
-
-            ],
-            "ecoEnts_Sml":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_1_Sml", "num": 3 }
-                
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
             
         },
@@ -158,28 +74,26 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.2,
-            "fieldDistributeTypes":[
-                {"Sml1": 1}
-            ],
+            "applyPercent": 0.0,
 
-            "ecoEnts_Big":[
-            ],
-
-            "ecoEnts_Mid":[
-
-            ],
-            "ecoEnts_Sml":[
-
-                { "goSpeciesName": "oneEyeBoy", "afsName": "simpleMan", "animLabels":[], "num": 1 }
-
-            
-                
+            "yardPool":[
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
         }
     ],
 
-    "villageBlueprintPool":[ "v_1" ]
+
+    "villageBlueprintPool":[ 
+        { "villageName": "v_1", "num": 3 } 
+    ],
+
+
+    "natureFloorYards": {
+        "yardPool":[
+            { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
+        ],
+        "density.lvls":[ -3,-2,-1,0 ]
+    }
 
 }
 

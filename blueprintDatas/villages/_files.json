@@ -1,5 +1,8 @@
 [
-    {"v_1/v_1.json": true }
+    {"v_1/v_1.json": true },
+    {"empty_test/empty_test.json": true },
+
+    {"rockMaze/rockMaze.json": true }
 
     
 ]

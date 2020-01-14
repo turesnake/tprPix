@@ -1,0 +1,64 @@
+[
+{
+    "annotation": "nature yard majorGos，1-tree",
+
+    "yardName": "N_savannah_trees",
+    "yardLabel": "1Mid",
+
+    "pngLPath": "/natures/desert/N_forest_1tree.M.png",
+    "frameNum.col":  8,
+    "frameNum.row":  9,
+    "totalFrameNum": 72,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "varTypes":[
+        {
+            "annotation": "单独一颗树",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "figTree", "afsName": "figTree", "animLabel": "Mid", "num": 3 }
+            ]
+        },
+
+        {
+            "annotation": "草-矮",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+
+
+            ]
+        },
+
+        {
+            "annotation": "草-高",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Sml", "num": 1 }
+
+
+
+            ]
+        }
+    ]
+}
+
+
+
+
+]
