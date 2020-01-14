@@ -14,7 +14,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-              
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
             ]
             
         },
@@ -25,7 +25,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-              
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
             ]
         },
 
@@ -35,7 +35,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-               
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
             ]
         },
 
@@ -45,7 +45,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-               
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
             ]
 
         },
@@ -56,8 +56,8 @@
             "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_darkForest_trees", "yardLabel": "2Mid", "num": 2 },
-                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid1Sml", "num": 1 }
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid1Sml", "num": 2 }
+                
             ]
 
         },
@@ -65,12 +65,13 @@
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.79,
+            "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 0 },
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid1Sml", "num": 2 },
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
 
-                { "yardName": "plot_test", "yardLabel": "", "num": 13 }
+              
             ]
             
         },
@@ -81,7 +82,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
             ]
         }
     ],
@@ -96,7 +97,7 @@
         "yardPool":[
             { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
         ],
-        "density.lvls":[ -3,-2,-1,0 ]
+        "density.lvls":[ 1,2 ]
     }
 
 }

@@ -95,14 +95,17 @@ public:
     }
 
 
-    inline void copy_nature_goDataPtrs()noexcept{
+    inline void copy_nature_majorGoDataPtrs()noexcept{
         for( const auto &[iKey, iUPtr] : this->nature_majorGoDatas ){
             this->majorGoDataPtrs.push_back( iUPtr.get() );
         }
+    }
+    inline void copy_nature_floorGoDataPtrs()noexcept{
         for( const auto &[iKey, iUPtr] : this->nature_floorGoDatas ){
             this->floorGoDataPtrs.push_back( iUPtr.get() );
         }
     }
+
 
 private:
 

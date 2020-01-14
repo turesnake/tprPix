@@ -91,7 +91,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
     }
 
-
+    
     for( const auto goDataPtr : job_fieldPtr->get_floorGoDataPtrs() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
@@ -111,8 +111,6 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 dyParam ); 
 
     }
-
-
 
 
 

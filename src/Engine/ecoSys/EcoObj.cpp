@@ -125,7 +125,6 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     this->ecoSysPlanType = targetEcoPlanPtr_->get_type();
     this->densitySeaLvlOff = targetEcoPlanPtr_->get_densitySeaLvlOff();
     this->colorTableId = targetEcoPlanPtr_->get_colorTableId();
-    
 
     //--- 仅 获得 只读指针 ---
     this->densityDivideValsPtr = targetEcoPlanPtr_->get_densityDivideValsPtr();

@@ -42,9 +42,6 @@ public:
     inline bool get_isRoad()const noexcept{ return this->isRoad; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
     inline yardBlueprintId_t apply_rand_yardBlueprintId( size_t uWeight_ )const noexcept{
-
-                tprAssert( !this->yardIds.empty() );
-
         return this->yardIds.at( (uWeight_ + 1076173) % this->yardIds.size() );
     }
 
@@ -83,9 +80,6 @@ public:
     inline const std::set<VariableTypeIdx> &get_varTypes()const noexcept{ return this->varTypes; }
 
     inline const MapData &apply_a_random_mapData( size_t uWeight_ )const noexcept{
-
-                tprAssert( !this->mapDatas.empty() );
-
         return this->mapDatas.at( (uWeight_ + 3731577) % this->mapDatas.size() );
     }
 

@@ -197,8 +197,6 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                                                 floorGoDPos,
                                                 goSpecRef,
                                                 *(pEntUPtr) );
-            
-
         }
 
     }

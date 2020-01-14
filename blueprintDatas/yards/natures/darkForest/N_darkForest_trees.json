@@ -115,7 +115,7 @@
 
 
 {
-    "annotation": "nature yard majorGos，2-tree",
+    "annotation": " 树一大一小，中间用纯色的 普通草搭配。平庸但可行 ",
 
     "yardName": "N_darkForest_trees",
     "yardLabel": "1Mid1Sml",
@@ -152,7 +152,7 @@
         },
 
         {
-            "annotation": "草-矮",
+            "annotation": "草，基础款，数量多",
             "type": "V_10",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
@@ -167,15 +167,20 @@
         },
 
         {
-            "annotation": "草-高",
+            "annotation": " 偶尔出现 黑花 ",
             "type": "V_11",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 1 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 0 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 0 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 0 },
+
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_BlackFlower_Sml", "num": 1 }
+
             ]
         }
 
@@ -185,7 +190,7 @@
 
 
 {
-    "annotation": "nature yard majorGos，1-tree, n-mushroom",
+    "annotation": " 一颗树，配一组蘑菇 ",
 
     "yardName": "N_darkForest_trees",
     "yardLabel": "1Mid-NMushroom",

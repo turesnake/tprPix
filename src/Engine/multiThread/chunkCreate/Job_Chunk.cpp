@@ -186,6 +186,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                     }
                 }
             }
+            
 
             //----------------------//
             //   nature floorGos ( 2f2-yard )
@@ -207,6 +208,8 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         }
 
                                         );
+
+                    job_fieldRef.copy_nature_floorGoDataPtrs();
                 }
 
             }
@@ -235,9 +238,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         }
                                         );
 
-            
-
-            job_fieldRef.copy_nature_goDataPtrs();
+            job_fieldRef.copy_nature_majorGoDataPtrs();
         }
     } //- each field in chunk (8*8)
 

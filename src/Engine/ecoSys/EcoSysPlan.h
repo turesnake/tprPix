@@ -72,10 +72,8 @@ public:
         return *(outPair.first->second);
     }
 
-
     //-- 确保关键数据 都被初始化 --
     void init_check()noexcept;
-
     
     inline ecoSysPlanId_t       get_id()const noexcept{ return this->id; }
     inline EcoSysPlanType       get_type()const noexcept{ return this->type; }
@@ -83,7 +81,6 @@ public:
     inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
     //-- 主要用来 复制给 ecoObj 实例 --
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return &(this->densityDivideVals); }
-
 
     //-- 临时版本 .........
     inline const std::map<Density, std::unique_ptr<DensityPool>> &
