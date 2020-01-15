@@ -89,15 +89,16 @@
 
 
     "villageBlueprintPool":[ 
-        { "villageName": "empty_test", "num": 1 }
+        { "villageName": "empty_test", "num": 0 },
+        { "villageName": "v_1", "num": 1 }
     ],
 
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
+            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
         ],
-        "density.lvls":[ 1,2 ]
+        "density.lvls":[ -3,-2,-1,0,1,2,3 ]
     }
 
 }

@@ -67,6 +67,9 @@ void Player::bind_go( goid_t goid_ ){
         this->playerGoCircle_goid = gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
                                                             newGoRef.get_dpos(),
                                                             emptyDyParam );
+
+                    cout << "playerGoCir_goid: " << this->playerGoCircle_goid
+                        << endl;
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );

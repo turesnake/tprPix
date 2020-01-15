@@ -31,6 +31,7 @@ public:
     //   才能调用本函数 
     void bind_go( goid_t goid_ );
     void handle_inputINS( const InputINS &inputINS_ );
+
     GameObj &get_goRef() const;
 
     void set_moveSpeedLvl( SpeedLevel lvl_ )noexcept;

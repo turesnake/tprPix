@@ -90,7 +90,7 @@
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_B", "yardLabel": "", "num": 1 }
+            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
         ],
         "density.lvls":[ -3,-2,-1,0 ]
     }

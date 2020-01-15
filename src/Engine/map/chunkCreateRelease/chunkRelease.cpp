@@ -70,6 +70,25 @@ void release_one_chunk(){
 
     //-- 删除本chunk 的所有 go 实例 --
     for( auto &goid : chunkRef.get_goIds() ){//- foreach goIds
+
+                // debug 如果目标是 player gocir，报错
+                if( goid == esrc::get_player().playerGoCircle_goid ){
+
+                    GameObj &goCirRef = esrc::get_goRef(goid);
+
+                    IntVec2 c = chunkKey_2_mpos(goCirRef.currentChunkKey);
+                    
+                    cout << "PlayerGoCir will be erase !!!\n"
+                        << "chunkKey: " << chunkKey << "\n"
+                        << "chunkMPos: " <<  chunkMPos.x << ", " << chunkMPos.y << "\n"
+                        << "goCir.currentChunk: " << c.x << ", " << c.y 
+                        << endl;
+
+
+                    tprAssert(0);
+                }
+
+
         esrc::erase_the_go( goid );
     }
                     // 在未来，go 会向 chunk一样，拥有完整的 生命周期管理
@@ -111,7 +130,7 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
     //--
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
-        auto &goRef = esrc::get_goRef(goid);
+        auto &goRef = esrc::get_goRef(goid );
         tprAssert( goRef.get_colliderType() == ColliderType::Circular );
 
         for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){

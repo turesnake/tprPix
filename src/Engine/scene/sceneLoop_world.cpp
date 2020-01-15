@@ -304,11 +304,10 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
                 << endl;
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
-        //playerGoRef.debug();
+
+        playerGoRef.debug();
         //...
-
-        innTest::innTest_main();
-
+        //innTest::innTest_main();
         
         
     }

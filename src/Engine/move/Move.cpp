@@ -160,7 +160,7 @@ void Move::renderUpdate_drag(){
     // 从而让 go 走到指定的位置（而不是走过头）
     glm::dvec2 dposOff = this->targetDPos - this->goRef.get_dpos();
 
-    //- 距离过小时直接不 drag 
+    //- 若距离太小，直接不 drag 
     if( (std::abs(dposOff.x)<1.0) && (std::abs(dposOff.y)<1.0) ){
         return;
     }
@@ -181,6 +181,11 @@ void Move::renderUpdate_drag(){
     glm::dvec2 actuallySpped = ( this->goRef.family == GameObjFamily::Major ) ?
                                     this->goRef.get_collisionRef().detect_moveCollide(speedVec) :
                                     speedVec;
+
+    // 这样设计存在缺陷：
+    // 非 Major 类 go，移动后发生 chunk 跨界问题时，如何处理？
+
+
 
     this->goRef.accum_dpos( actuallySpped );
 

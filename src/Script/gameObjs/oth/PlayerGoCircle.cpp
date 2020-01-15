@@ -114,7 +114,6 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
 
     goRef_.move.set_drag_targetDPos( playerGoRef.get_dpos() );
 
-
     //-- 每1渲染帧，手动旋转 circle 一个小角度 --
     auto &rootGoMeshRef = goRef_.get_goMeshRef("root");
     glm::vec3 rotateDegree = rootGoMeshRef.rotateScaleData.get_rotateDegreeRef();

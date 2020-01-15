@@ -212,7 +212,7 @@ void realloc_active_goes(){
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_active ){
-        GameObj &goRef = esrc::get_goRef(id);
+        GameObj &goRef = esrc::get_goRef(id, "realloc_active_goes");
 
         v = get_camera().get_currentDPos() - goRef.get_dpos();
 
@@ -247,7 +247,7 @@ void realloc_inactive_goes(){
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_inactive ){
-        GameObj &goRef = esrc::get_goRef(id);
+        GameObj &goRef = esrc::get_goRef(id, "realloc_inactive_goes");
 
         v = get_camera().get_currentDPos() - goRef.get_dpos();
 
@@ -283,6 +283,17 @@ void realloc_inactive_goes(){
  */
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
+    //-------------------------------//
+    // 如果不是 MajorGo, 彻底不参与 chunk 方面的登记操作
+    // 比如 goCir 这种 Oth go
+    // 这会让它们成为 “无法通过 chunk 收集并删除的 go”
+    // 类似的还有，类似血条，伴随 活体go 移动的 worldUI-go
+    // 它们该如何 释放，是个问题 ...
+    //
+    if( goRef_.family != GameObjFamily::Major ){
+        return;
+    }
+
     //------------------------------//
     // --- 记录 go.currentChunkKey
     // --- 统计自己的 chunkeys
@@ -295,11 +306,7 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
     currentChunkRef.insert_2_goIds( goRef_.id ); //- always
 
-    //----------------//
-    if( goRef_.family != GameObjFamily::Major ){
-        return;
-    }
-
+    //------------------------------//
     size_t      chunkKeySize = goRef_.reCollect_chunkKeys();
     chunkKey_t  tmpChunkKey  {};
 

@@ -196,7 +196,7 @@ void Chicken::OnLogicUpdate( GameObj &goRef_ ){
     //=====================================//
     //            AI
     //-------------------------------------//    
-    
+    /*
     if( !goRef_.isControlByPlayer ){
         //-- 简单的随机游走
         pvtBp->timeCount++;
@@ -221,6 +221,7 @@ void Chicken::OnLogicUpdate( GameObj &goRef_ ){
         //-- 确保每一帧都位移，但只在一段时间后 才修改 位移方向 --
         goRef_.move.set_newCrawlDirAxes( DirAxes{pvtBp->moveVec} );
     }
+    */
     
 
 }

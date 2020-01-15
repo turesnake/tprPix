@@ -145,7 +145,7 @@ void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ )noexcept{
 std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept{
         
     if( chunkMS_inn::chunkKeys_waitForRelease.empty() ){
-        return { false, 0 };
+        return { false, 1 }; // 1 绝对不是 chunkKey 正常值, 确保外部也能发现错误
     }
     chunkKey_t key = chunkMS_inn::chunkKeys_waitForRelease.front();
     chunkMS_inn::chunkKeys_waitForRelease.pop_front();

@@ -63,12 +63,17 @@ GameObjState str_2_GameObjState( const std::string &name_ )noexcept;
 //  这套系统使用使用，暂未确定
 enum class GameObjFamily{
     Major   = 1, //- 主go： 活体，树，建筑...
-                 //  只有 major go 可以参与 游戏世界的 碰撞检测
+                 //  只有 MajorGo，可以参与 游戏世界的 碰撞检测
+                 //  只有 MajorGo，可以参与 chunk-go 登记释放操作
+                 //  这意味着，其他类型的 go，无法跟随 chunk 自动被释放
+                 //  它们的 释放机制，有待在未来实现
+                 //  ...
 
-    Floor,     
-    GroundGo,   //  折中产物，为地面铺设一层 eco 主体色
 
-    Oth,   // 暂时只有 playerGoCircle
+    Floor,      //  地面材质go （无法移动）
+    GroundGo,   //  折中产物，为地面铺设一层 eco 主体色 （无法移动）
+
+    Oth,    // 暂时只有 playerGoCircle.
 
     UI,   // 被合并进 GO 的 UIGO 类， 无需执行 worldCoord 转换
           // 它们不应该出现在 游戏世界空间中，而独立存在于 ui空间 中 
