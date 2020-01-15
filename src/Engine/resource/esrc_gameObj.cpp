@@ -283,18 +283,15 @@ void realloc_inactive_goes(){
  */
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
+
     //-------------------------------//
-    // 如果不是 MajorGo, 彻底不参与 chunk 方面的登记操作
-    // 比如 goCir 这种 Oth go
-    // 这会让它们成为 “无法通过 chunk 收集并删除的 go”
-    // 类似的还有，类似血条，伴随 活体go 移动的 worldUI-go
-    // 它们该如何 释放，是个问题 ...
-    //
-    if( goRef_.family != GameObjFamily::Major ){
+    // 唯独 UI go，既不参与 chunk 登记，也不参与 mapent 登记 
+    if( goRef_.family == GameObjFamily::UI ){
         return;
     }
 
     //------------------------------//
+    //           --1--
     // --- 记录 go.currentChunkKey
     // --- 统计自己的 chunkeys
     // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
@@ -306,6 +303,15 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
     currentChunkRef.insert_2_goIds( goRef_.id ); //- always
 
+
+    // Floor/GroundGo/WorldUI 都仅参与 chunk 登记
+    // 剩余的： edgeGoids, mapent 登记，都不参与。
+    if( goRef_.family != GameObjFamily::Major ){
+        return;
+    }
+
+    //------------------------------//
+    //            --2--
     //------------------------------//
     size_t      chunkKeySize = goRef_.reCollect_chunkKeys();
     chunkKey_t  tmpChunkKey  {};
@@ -364,6 +370,38 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
     }
 
 }
+
+
+
+// 检查 go在位移后，是否跨越 chunk
+// 如果发生跨越，修改 go chunk登记信息
+// 仅适用于 WorldUI-go 
+void refresh_worldUIGo_chunkSignUpData( GameObj &goRef_, const glm::dvec2 &moveVec_ ){
+
+    tprAssert( goRef_.family == GameObjFamily::WorldUI );
+    //---
+    chunkKey_t newChunkKey = anyDPos_2_chunkKey( goRef_.get_dpos() + moveVec_ );
+    if( newChunkKey != goRef_.currentChunkKey ){
+        // 确实需要 更新 登记信息
+
+        auto outPair1 = esrc::get_chunkPtr( newChunkKey );
+        tprAssert( outPair1.first == ChunkMemState::Active ); // MUST
+        Chunk &newChunkRef = *(outPair1.second);
+
+        auto outPair2 = esrc::get_chunkPtr( goRef_.currentChunkKey );
+        tprAssert( outPair2.first == ChunkMemState::Active );  // MUST
+        Chunk &oldChunkRef = *(outPair2.second);
+
+        size_t eraseNum = oldChunkRef.erase_from_goIds( goRef_.id );
+        tprAssert( eraseNum == 1 );
+        oldChunkRef.erase_from_edgeGoIds( goRef_.id ); // maybe 
+        //---
+        goRef_.currentChunkKey = newChunkKey;
+        newChunkRef.insert_2_goIds( goRef_.id );
+    }
+}
+
+
 
 
 }//---------------------- namespace: esrc -------------------------//

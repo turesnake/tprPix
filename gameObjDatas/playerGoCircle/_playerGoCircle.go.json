@@ -1,7 +1,7 @@
 [
     {
         "goSpeciesName": "playerGoCircle",
-        "family": "Oth",
+        "family": "WorldUI",
         "state": "Waked",
         "moveState": "Movable",
         "moveType": "Drag",

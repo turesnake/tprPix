@@ -28,6 +28,7 @@
 
 #include "esrc_time.h"
 #include "esrc_chunk.h"
+#include "esrc_gameObj.h"
 
 #include "speedLog.h"
 #include "tprDebug.h" 
@@ -130,9 +131,17 @@ void Move::renderUpdate_crawl(){
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 
     //---- inn -----//
-    glm::dvec2 actuallySpped = ( this->goRef.family == GameObjFamily::Major ) ?
-                                    this->goRef.get_collisionRef().detect_moveCollide(speedVec) :
-                                    speedVec;
+    glm::dvec2 actuallySpped {};
+    if( this->goRef.family == GameObjFamily::Major ){
+        actuallySpped = this->goRef.get_collisionRef().detect_moveCollide(speedVec);
+    }else if( this->goRef.family == GameObjFamily::WorldUI ){
+        actuallySpped = speedVec;
+        esrc::refresh_worldUIGo_chunkSignUpData( this->goRef, actuallySpped );
+                            // 非 Major-go 中，只有 WorldUI-go 需要 重登记 chunk 信息
+    }else{
+        tprAssert(0); // 剩余几种 family，就不该允许到此处！
+    }
+
 
     if( this->goRef.isControlByPlayer ){
         tprDebug::collect_playerSpeed( actuallySpped ); // debug
@@ -178,14 +187,16 @@ void Move::renderUpdate_drag(){
     }
 
     //---- inn -----//
-    glm::dvec2 actuallySpped = ( this->goRef.family == GameObjFamily::Major ) ?
-                                    this->goRef.get_collisionRef().detect_moveCollide(speedVec) :
-                                    speedVec;
-
-    // 这样设计存在缺陷：
-    // 非 Major 类 go，移动后发生 chunk 跨界问题时，如何处理？
-
-
+    glm::dvec2 actuallySpped {};
+    if( this->goRef.family == GameObjFamily::Major ){
+        actuallySpped = this->goRef.get_collisionRef().detect_moveCollide(speedVec);
+    }else if( this->goRef.family == GameObjFamily::WorldUI ){
+        actuallySpped = speedVec;
+        esrc::refresh_worldUIGo_chunkSignUpData( this->goRef, actuallySpped );
+                            // 非 Major-go 中，只有 WorldUI-go 需要 重登记 chunk 信息
+    }else{
+        tprAssert(0); // 剩余几种 family，就不该允许到此处！
+    }
 
     this->goRef.accum_dpos( actuallySpped );
 

@@ -53,6 +53,7 @@ void realloc_inactive_goes();
 
 
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ );
+void refresh_worldUIGo_chunkSignUpData( GameObj &goRef_, const glm::dvec2 &moveVec_ );
 
 
 }//---------------------- namespace: esrc -------------------------//

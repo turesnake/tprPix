@@ -62,23 +62,37 @@ GameObjState str_2_GameObjState( const std::string &name_ )noexcept;
 //- 三大 go 类群 --
 //  这套系统使用使用，暂未确定
 enum class GameObjFamily{
-    Major   = 1, //- 主go： 活体，树，建筑...
-                 //  只有 MajorGo，可以参与 游戏世界的 碰撞检测
-                 //  只有 MajorGo，可以参与 chunk-go 登记释放操作
-                 //  这意味着，其他类型的 go，无法跟随 chunk 自动被释放
-                 //  它们的 释放机制，有待在未来实现
-                 //  ...
+    Major   = 1, // 主go： 活体，树，建筑...
+                 // 只有 MajorGo，可以参与 游戏世界的 碰撞检测
+                 // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
+                 // 会被登记到对应 mapent 中，从而可以进行 移动/技能 碰撞检测 （唯一）
 
 
-    Floor,      //  地面材质go （无法移动）
-    GroundGo,   //  折中产物，为地面铺设一层 eco 主体色 （无法移动）
+    Floor,      // 地面材质go （无法移动）
+                // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
+                // 不被登记到对应 mapent 中
 
-    Oth,    // 暂时只有 playerGoCircle.
+
+    GroundGo,   // 折中产物，为地面铺设一层 eco 主体色 （无法移动）
+                // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
+                // 不被登记到对应 mapent 中
+
+
+    WorldUI,    // 被放置在 游戏世界内 的 uiGo，
+                // 比如跟随 活体移动的 血条/ 特效 等
+                // 暂时只有 playerGoCircle.
+                // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
+                // 不被登记到对应 mapent 中
+                // ---
+                // 布恩 WorldUI-go 是要移动的，不要忘记更新 它们的 chunk登记信息!!! 
+
 
     UI,   // 被合并进 GO 的 UIGO 类， 无需执行 worldCoord 转换
           // 它们不应该出现在 游戏世界空间中，而独立存在于 ui空间 中 
-          // 对于另一种，身处游戏世界空间，但扮演 ui功能的 go，
-          // 暂未为其 分配 类型...
+          // 如果某个 ui-go，需要被放置在 游戏世界空间 内，应被设置为 WorldUI
+          // ---
+          // 由于 UI-go 并不存在于 游戏世界空间，所以和 chunk/mapent 完全无关
+
 };
 
 GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept;
