@@ -32,7 +32,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Fence_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
 
@@ -51,8 +50,6 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
-    pvtBp->subspeciesId = goDataEntRef.subspeciesId;
-
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -62,8 +59,8 @@ void Fence::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     //-- 制作唯一的 mesh 实例: "root" --
     goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle",
+                                goDataEntRef.subspeciesId,
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 goDataEntRef.dposOff, //- pposoff
@@ -135,8 +132,8 @@ void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Fence_PvtBinary>();
     //=====================================//
 
-    auto dir = goRef_.actionDirection.get_newVal();
-    auto brokenLvl = goRef_.brokenLvl.get_newVal();
+    //auto dir = goRef_.actionDirection.get_newVal();
+    //auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
@@ -144,13 +141,9 @@ void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
+            goMeshRef.set_animActionEName( AnimActionEName::Idle );
+            goMeshRef.bind_animAction();
             break;
-
-        //case ActionSwitchType::Move_Move:
-        //    goMeshRef.bind_animAction( pvtBp->subspeciesId, "move_walk" );
-        //    break;
-
         default:
             break;
             //-- 并不报错，什么也不做...

@@ -87,7 +87,7 @@ public:
     //----- goMesh -----//
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             animSubspeciesId_t     subspeciesId_,
-                            const std::string   &actionName_,
+                            AnimActionEName     actionEName_,
                             RenderLayerType     layerType_,
                             ShaderProgram       *pixShaderPtr_,
                             const glm::vec2     pposOff_ = glm::vec2{0.0,0.0},

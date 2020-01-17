@@ -11,18 +11,18 @@
         "moveSpeedLvl": 4,
 
         "moveStateTable":[
-            { "speedLvl": 0, "actionName": "walk", "timeStepOff": 2 },
-            { "speedLvl": 1, "actionName": "walk", "timeStepOff": 2 },
-            { "speedLvl": 2, "actionName": "walk", "timeStepOff": 1 },
-            { "speedLvl": 3, "actionName": "walk", "timeStepOff": 0 },
+            { "speedLvl": 0, "actionEName": "Walk", "timeStepOff": 2 },
+            { "speedLvl": 1, "actionEName": "Walk", "timeStepOff": 2 },
+            { "speedLvl": 2, "actionEName": "Walk", "timeStepOff": 1 },
+            { "speedLvl": 3, "actionEName": "Walk", "timeStepOff": 0 },
                 
-            { "speedLvl": 4, "actionName": "run", "timeStepOff": 0 },
+            { "speedLvl": 4, "actionEName": "Run", "timeStepOff": 0 },
 
-            { "speedLvl": 5, "actionName": "fly", "timeStepOff": 0 },
-            { "speedLvl": 6, "actionName": "fly", "timeStepOff": 0 },
-            { "speedLvl": 7, "actionName": "fly", "timeStepOff": 0 },
-            { "speedLvl": 8, "actionName": "fly", "timeStepOff": 0 },
-            { "speedLvl": 9, "actionName": "fly", "timeStepOff": 0 }
+            { "speedLvl": 5, "actionEName": "Fly", "timeStepOff": 0 },
+            { "speedLvl": 6, "actionEName": "Fly", "timeStepOff": 0 },
+            { "speedLvl": 7, "actionEName": "Fly", "timeStepOff": 0 },
+            { "speedLvl": 8, "actionEName": "Fly", "timeStepOff": 0 },
+            { "speedLvl": 9, "actionEName": "Fly", "timeStepOff": 0 }
         ],
 
         "alti": 0,

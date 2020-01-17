@@ -281,7 +281,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
                         bool isPjtSingle_ ){
     
     AnimLabel     animLabel {};
-    std::string   actionName {};
+    AnimActionEName actionEName;
     NineDirection actionDir {};
     BrokenLvl     actionBrokenLvl {};
     size_t        fstSubIdx  {};
@@ -307,9 +307,9 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
         const auto &a = check_and_get_value( subspecEnt_, "idxNums", JsonValType::Uint64 );
         idxNums =  cast_2_size_t(a.GetUint64());
     }
-    {//--- name ---//
-        const auto &a = check_and_get_value( subspecEnt_, "name", JsonValType::String );
-        actionName = a.GetString();
+    {//--- actionEName ---//
+        const auto &a = check_and_get_value( subspecEnt_, "actionEName", JsonValType::String );
+        actionEName = str_2_AnimActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( subspecEnt_, "dir", JsonValType::String );
@@ -329,7 +329,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
         isPjtSingle_ ?
             jFrameIdx = 0 :
             jFrameIdx = i;
-        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionName, actionDir, actionBrokenLvl, jFrameIdx, i+fstIdx, isOpaque, animLabel) );
+        params_.push_back( std::make_shared<AnimActionParam>(i+fstSubIdx, actionEName, actionDir, actionBrokenLvl, jFrameIdx, i+fstIdx, isOpaque, animLabel) );
     }
 
 }
@@ -373,15 +373,15 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                 AnimLabel  label_,
                                                 bool isPjtSingle_ ){
 
-    std::string   actionName {};
+    AnimActionEName actionEName {};
     NineDirection actionDir {};
     BrokenLvl     actionBrokenLvl {};
     size_t        jFrameIdx  {};
     size_t        lFrameIdx  {};
     bool          isOpaque   {};
-    {//--- actionName ---//
-        const auto &a = check_and_get_value( actionParamEnt_, "name", JsonValType::String );
-        actionName = a.GetString();
+    {//--- actionEName ---//
+        const auto &a = check_and_get_value( actionParamEnt_, "actionEName", JsonValType::String );
+        actionEName = str_2_AnimActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
@@ -404,7 +404,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
         jFrameIdx = 0 :
         jFrameIdx = lFrameIdx;
 
-    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, label_ );
+    return std::make_shared<AnimActionParam>( subspeciesIdx_, actionEName, actionDir, actionBrokenLvl, jFrameIdx, lFrameIdx, isOpaque, label_ );
 }
 
 
@@ -416,7 +416,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                             const Value &actionParamEnt_, 
                                             AnimLabel  label_ ){
 
-    std::string         actionName {};
+    AnimActionEName actionEName {};
     NineDirection       actionDir {};
     BrokenLvl           actionBrokenLvl {};
     AnimAction::PlayType  actionPlayType {};
@@ -429,9 +429,9 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
     std::vector<size_t> timeSteps {}; //- only for DiffTimeStep
     size_t              timeStep  {}; //- only for SameTimeStep
 
-    {//--- name ---//
-        const auto &a = check_and_get_value( actionParamEnt_, "name", JsonValType::String );
-        actionName = a.GetString();
+    {//--- actionEName ---//
+        const auto &a = check_and_get_value( actionParamEnt_, "actionEName", JsonValType::String );
+        actionEName = str_2_AnimActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
@@ -494,7 +494,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
         }
         //---
         return std::make_shared<AnimActionParam>(   subspeciesIdx_,
-                                                    actionName,
+                                                    actionEName,
                                                     actionDir,
                                                     actionBrokenLvl,
                                                     actionPlayType,
@@ -513,7 +513,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
         }
         //---
         return std::make_shared<AnimActionParam>(   subspeciesIdx_,
-                                                    actionName,
+                                                    actionEName,
                                                     actionDir,
                                                     actionBrokenLvl,
                                                     actionPlayType,

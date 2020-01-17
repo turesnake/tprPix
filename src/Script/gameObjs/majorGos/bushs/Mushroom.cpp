@@ -37,7 +37,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Mushroom_PvtBinary{
-    //animSubspeciesId_t subspeciesId {}; // 在未来，它会是个 vector
     int        tmp {};
 };
 
@@ -84,7 +83,7 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
         //---
         auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
                                 subspeciesId,
-                                "idle",
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 //it->dposOff, //- pposoff

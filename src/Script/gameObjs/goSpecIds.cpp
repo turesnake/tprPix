@@ -76,7 +76,7 @@ void onGoSpeciesIds_SignUp(){
     GoSpecFromJson::insert_2_initFuncs( "mushroom",        std::bind( &gameObjs::Mushroom::init, _1, _2 ) );
 
     
-    GoSpecFromJson::insert_2_initFuncs( "bushOth",           std::bind( &gameObjs::BushOth::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "bush",           std::bind( &gameObjs::Bush::init, _1, _2 ) );
     
 
 

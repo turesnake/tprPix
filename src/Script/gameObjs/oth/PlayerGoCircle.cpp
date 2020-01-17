@@ -35,7 +35,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct PlayerGoCircle_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
 
@@ -46,7 +45,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<PlayerGoCircle_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", AnimLabel::Default, 10 );
+    animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", AnimLabel::Default, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center );
@@ -57,8 +56,8 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle", 
+                                subspeciesId,
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
@@ -70,7 +69,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
         GameObjMesh &frontGoMesh = goRef_.creat_new_goMesh(
                                 "front", //- gmesh-name
                                 "playerGoCircle", 
-                                "idle",
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::PlayerGoCircle),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
@@ -173,11 +172,13 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
+            goMeshRef.set_animActionEName( AnimActionEName::Idle );
+            goMeshRef.bind_animAction();
             break;
 
         case ActionSwitchType::selfRotate:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "selfRotate" );
+            goMeshRef.set_animActionEName( AnimActionEName::SelfRotate );
+            goMeshRef.bind_animAction();
             break;
 
         default:

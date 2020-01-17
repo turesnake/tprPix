@@ -14,6 +14,9 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
+
+// 很多种草的 合成类，
+// 草几乎不存在实际功能，主要用来丰富地景。播放风吹动画
 class Grass{
 public:
     static void init(GameObj &goRef_,const DyParam &dyParams_ );

@@ -168,6 +168,16 @@ void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
  * 目前默认，excel数据中记录的 timeSteps，以 60pfs 为基准
  * return:
  *     调整过的 currentTimeStep 
+ * -------
+ * 目前实现了 2 种方法来控制 动画播放速度：
+ * -1- reset_playSpeedScale(); 播放倍率
+ *     适用于，原本 afs数据中，每一张画面，就要播放 4～7帧 的缓慢动画，比如风吹草动动画 
+ *     但它不适合处理，原本就是 一帧一张图的 快速动画
+ * -2- timeStepOff
+ *     适合处理 一帧一张图 的快速动画，效果没有 方法1 细腻 和 直观。
+ * 
+ *      也许在未来会被统一为一个 控制器。目前先这么混合用着 
+ *      ...
  */
 size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimAction::PvtData &pvtData_ ){
 

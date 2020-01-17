@@ -99,73 +99,14 @@ configure_file(
 #---------------------------------------------------#
 #-- 创建变量 PIXEL_FILES （是个 list）
 #-- 包含 主进程需要的 cpp 文件
-FILE(GLOB PIXEL_FILES   src/*.cpp     
-                        src/test/*.cpp
-
+#   GLOB_RECURSE 会递归访问目录，是一种粗粒度的写法
+#   如果想要精细控制，应该在部分目录 该用 GLOB 
+FILE(GLOB_RECURSE PIXEL_FILES   
                         src/Config/*.cpp
-
                         src/Engine/*.cpp
-                        src/Engine/actionFSM/*.cpp
-                        src/Engine/actionSwitch/*.cpp
-                        src/Engine/affect/*.cpp
-                        src/Engine/AI/*.cpp
-                        src/Engine/animFrameSet/*.cpp 
-                        src/Engine/blueprint/*.cpp 
-                        src/Engine/camera/*.cpp 
-                        src/Engine/circuitBoard/*.cpp 
-                        src/Engine/collision/*.cpp 
-                        src/Engine/color/*.cpp 
-                        src/Engine/coordinate/*.cpp 
-                        src/Engine/dataBase/*.cpp 
-                        src/Engine/dynamicParam/*.cpp 
-                        src/Engine/ecoSys/*.cpp
-                        src/Engine/fileIO/*.cpp
-                        src/Engine/gameObj/*.cpp 
-                        src/Engine/gameObj/createGo/*.cpp 
-                        src/Engine/gameObj/multiGoMesh/*.cpp 
-                        src/Engine/gl/*.cpp 
-                        src/Engine/input/*.cpp 
-                        src/Engine/json/*.cpp 
-                        src/Engine/map/*.cpp 
-                        src/Engine/map/chunkCreateRelease/*.cpp 
-                        src/Engine/mesh/*.cpp 
-                        src/Engine/move/*.cpp 
-                        src/Engine/multiThread/*.cpp 
-                        src/Engine/multiThread/chunkCreate/*.cpp 
-                        src/Engine/multiThread/ecoObjCreate/*.cpp 
-                        src/Engine/player/*.cpp 
-                        src/Engine/random/*.cpp 
-                        src/Engine/renderPool/*.cpp 
-                        src/Engine/resource/*.cpp 
-                        src/Engine/scene/*.cpp 
-                        src/Engine/script/*.cpp 
-                        src/Engine/shaderProgram/*.cpp 
-                        src/Engine/sys/*.cpp
-                        src/Engine/time/*.cpp 
-                        src/Engine/tools/*.cpp 
-                        src/Engine/tprDebug/*.cpp 
-                        src/Engine/UI/*.cpp 
-                        src/Engine/VAOVBO/*.cpp 
-
                         src/innTest/*.cpp 
-                        
                         src/Script/*.cpp 
-                        src/Script/gameObjs/*.cpp
-                        src/Script/gameObjs/majorGos/*.cpp
-                        src/Script/gameObjs/majorGos/artifacts/*.cpp
-                        src/Script/gameObjs/majorGos/bushs/*.cpp
-                        src/Script/gameObjs/majorGos/chicken/*.cpp
-                        src/Script/gameObjs/majorGos/rocks/*.cpp
-                        src/Script/gameObjs/majorGos/trees/*.cpp
-                        src/Script/gameObjs/spawners/*.cpp
-                        src/Script/gameObjs/floorGos/*.cpp
-                        src/Script/gameObjs/oth/*.cpp
-                        src/Script/json/*.cpp
-
-                        src/Script/uiGos/*.cpp
                         )
-
-
 
 #---------------------------------------------------#
 #                      tprpix 
@@ -240,6 +181,7 @@ target_include_directories ( tprpix PUBLIC
 
     ${EXECUTABLE_OUTPUT_PATH}/sysconfig
     )
+
 
 #-- 防止 第三方库h文件 报 warnings --
 target_include_directories ( tprpix SYSTEM PUBLIC

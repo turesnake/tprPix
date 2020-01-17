@@ -35,7 +35,6 @@ namespace uiGos {//------------- namespace uiGos ----------------
 
 
 struct Button_SceneBegin_Archive_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
     int   tmp {};
 };
 
@@ -49,7 +48,7 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Archive_PvtBinary>();
 
-    pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", AnimLabel::Default, 10 );
+    animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", AnimLabel::Default, 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center );
@@ -59,8 +58,8 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
         //-- 制作 mesh 实例: "root" --
         GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
                                 "root", //- gmesh-name
-                                pvtBp->subspeciesId, 
-                                "new", 
+                                subspeciesId, 
+                                AnimActionEName::New, 
                                 RenderLayerType::UIs, //- 固定zOff值  
                                 &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
@@ -130,11 +129,13 @@ void Button_SceneBegin_Archive::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
 
     switch( type_ ){
         case ActionSwitchType::ButtonState_1:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "new" );
+            goMeshRef.set_animActionEName( AnimActionEName::New );
+            goMeshRef.bind_animAction();
             break;
 
         case ActionSwitchType::ButtonState_2:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "data" );
+            goMeshRef.set_animActionEName( AnimActionEName::Data );
+            goMeshRef.bind_animAction();
             break;
 
         default:

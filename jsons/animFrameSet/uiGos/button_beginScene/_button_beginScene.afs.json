@@ -18,19 +18,19 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "name": "pointer", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Pointer", "dir": "Center", "brokenLvl": 0,
                             "type": "singleFrame",
                             "lFrameIdx": 0,
                             "isOpaque": true
                         },
                         {
-                            "name": "new", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "New", "dir": "Center", "brokenLvl": 0,
                             "type": "singleFrame",
                             "lFrameIdx": 1,
                             "isOpaque": true
                         },
                         {
-                            "name": "data", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Data", "dir": "Center", "brokenLvl": 0,
                             "type": "singleFrame",
                             "lFrameIdx": 2,
                             "isOpaque": true

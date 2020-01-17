@@ -42,28 +42,22 @@ using namespace std::placeholders;
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
-namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
+//namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
+//}//--------------------- namespace: floorGo_inn end ------------------------//
 
 
-    struct FloorGo_PvtBinary{
-        //animSubspeciesId_t subspeciesId {};
-        //size_t   lichen_ForestId {0};
-                //- 简单的从 几种款式中，随机挑选一款 [0,7]
+struct FloorGo_PvtBinary{
 
-        animSubspeciesId_t subspeciesId {};
-        int tmp {};
-        //===== padding =====//
-        //...
-    };
-
-
-}//--------------------- namespace: floorGo_inn end ------------------------//
+    int tmp {};
+    //===== padding =====//
+    //...
+};
 
 
 void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<floorGo_inn::FloorGo_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
     //================ dyParams =================//
 
@@ -73,8 +67,6 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
-    pvtBp->subspeciesId = goDataEntRef.subspeciesId;
-
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center );
@@ -82,8 +74,8 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle",
+                                goDataEntRef.subspeciesId,
+                                AnimActionEName::Idle,
                                 RenderLayerType::Floor, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::Floor),  // pic shader
                                 //glm::dvec2{ 0.0, 0.0 }, //- pposoff

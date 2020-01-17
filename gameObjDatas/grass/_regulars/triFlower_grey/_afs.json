@@ -2,11 +2,11 @@
 
 
 {
-    "name": "grass_darkForest_blackFlower",
+    "name": "grass_triFlower_grey",
     "pngs": [
         
         {
-            "path": "blackFlower/dflower_sml1.P.png",
+            "path": "sml1.P.png",
             "frameNum.col":  4,
             "frameNum.row":  4,
             "totalFrameNum": 16,
@@ -20,13 +20,13 @@
                     "animLabel": "Sml",
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Once",
                             "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
+                            "isTimeStepSame": false, "timeSteps"  : [ 10,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
                             "isOpaque": true
                         }
@@ -37,7 +37,7 @@
         },
 
         {
-            "path": "blackFlower/dflower_sml2.P.png",
+            "path": "sml2.P.png",
             "frameNum.col":  4,
             "frameNum.row":  4,
             "totalFrameNum": 16,
@@ -51,40 +51,9 @@
                     "animLabel": "Sml",
                     "subIdx": 1,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Once",
-                            "isOrder":    true,
-                            "isTimeStepSame": false, "timeSteps"  : [ 9,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
-                            "isOpaque": true
-                        }
-                    
-                    ]
-                }
-            ]
-        },
-
-        {
-            "path": "blackFlower/dflower_sml3.P.png",
-            "frameNum.col":  4,
-            "frameNum.row":  4,
-            "totalFrameNum": 16,
-            "isHaveShadow": true,
-            "isPjtSingle": true,
-            "isShadowSingle": true,
-            "ColliderType": "Square",
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "Sml",
-                    "subIdx": 2,
-                    "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        {
-                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Once",
                             "isOrder":    true,
@@ -99,7 +68,38 @@
         },
 
         {
-            "path": "blackFlower/dflower_mid1.P.png",
+            "path": "sml3.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Sml",
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 7,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "mid1.P.png",
             "frameNum.col":  4,
             "frameNum.row":  4,
             "totalFrameNum": 16,
@@ -113,9 +113,9 @@
                     "animLabel": "Mid",
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Once",
                             "isOrder":    true,
@@ -131,7 +131,7 @@
 
 
         {
-            "path": "blackFlower/dflower_mid2.P.png",
+            "path": "mid2.P.png",
             "frameNum.col":  4,
             "frameNum.row":  4,
             "totalFrameNum": 16,
@@ -145,9 +145,9 @@
                     "animLabel": "Mid",
                     "subIdx": 1,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
                         {
-                            "name": "wind_1", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Once",
                             "isOrder":    true,

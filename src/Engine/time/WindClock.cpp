@@ -48,7 +48,7 @@ void WindClock::init()noexcept{
         double totalLen = TPR_PI * 20.0;
         double frameStep = 0.7;
         size_t frameNums = cast_2_size_t(totalLen / frameStep);
-        this->playSpeedScalePool.reserve( frameNums );
+        //this->playSpeedScalePool.reserve( frameNums );
         for( size_t i=0; i<frameNums; i++ ){
             x += frameStep;
 

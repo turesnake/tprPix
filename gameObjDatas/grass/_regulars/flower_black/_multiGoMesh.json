@@ -60,12 +60,12 @@
             
             {
                 "afsTypes":{
-                    "afs_1": "grass_darkForest_blackFlower"
+                    "afs_1": "grass_flower_black"
                 },
                 "types":{
-                    "type_1": "DarkForest_BlackFlower_Sml",
-                    "type_2": "DarkForest_BlackFlower_Mid",
-                    "type_3": "DarkForest_BlackFlower_Big"
+                    "type_1": "Flower_Black_Sml",
+                    "type_2": "Flower_Black_Mid",
+                    "type_3": "Flower_Black_Big"
                 }
             }
 

@@ -38,7 +38,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 struct Chicken_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
     int        tmp {};
     int        timeStep  {10};
     int        timeCount {};
@@ -51,8 +50,6 @@ struct Chicken_PvtBinary{
     double  shakeFlyCount   {0.0}; // every renderFrame +1
 
 };
-
-
 
 
 namespace chicken_inn {//----------- namespace: chicken_inn ----------------//
@@ -70,10 +67,6 @@ namespace chicken_inn {//----------- namespace: chicken_inn ----------------//
 
 
 
-
-
-
-
 void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
@@ -81,13 +74,14 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
     //================ dyParams =================//
     size_t randUVal {};
+    animSubspeciesId_t subspeciesId {};
     
     //---    
     size_t typeHash = dyParams_.get_typeHash();
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
-        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "chicken.hen", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
+        subspeciesId = esrc::apply_a_random_animSubspeciesId( "chicken.hen", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) ); // not Center
@@ -98,7 +92,7 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
         const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
         tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-        pvtBp->subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
+        subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
 
         randUVal = bpParamPtr->mapEntUWeight;    
 
@@ -114,8 +108,8 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle",
+                                subspeciesId,
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
@@ -237,8 +231,8 @@ void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
     //=====================================//
 
-    auto dir = goRef_.actionDirection.get_newVal();
-    auto brokenLvl = goRef_.brokenLvl.get_newVal();
+    //auto dir = goRef_.actionDirection.get_newVal();
+    //auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
     GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
@@ -254,17 +248,15 @@ void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
                 pvtBp->shakeFlyCount = 0.0;
             }
 
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
+            goMeshRef.set_animActionEName( AnimActionEName::Idle );
+            goMeshRef.bind_animAction();
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         case ActionSwitchType::Move:
 
-                // walk, run, fly
-                // 使用一个 统一的函数 来管理
-                // ...
-            //goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "fly" );
-            //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
+            // walk, run, fly
+            // 使用一个 统一的函数 来管理            
             Chicken::moveState_manage(  goRef_, goMeshRef );
 
             break;
@@ -289,8 +281,8 @@ void Chicken::moveState_manage( GameObj &goRef_,
                                 )noexcept{
 
 
-    auto dir = goRef_.actionDirection.get_newVal();
-    auto brokenLvl = goRef_.brokenLvl.get_newVal();
+    //auto dir = goRef_.actionDirection.get_newVal();
+    //auto brokenLvl = goRef_.brokenLvl.get_newVal();
     auto moveSpeedLvl = goRef_.move.moveSpeedLvl.get_newVal();
 
     auto *pvtBp = goRef_.get_pvtBinaryPtr<Chicken_PvtBinary>();
@@ -315,18 +307,12 @@ void Chicken::moveState_manage( GameObj &goRef_,
     //
     auto it = moveStateTable.table.find(moveSpeedLvl);
     tprAssert( it != moveStateTable.table.end() );
-    const std::string &actionName = it->second.first;
+    AnimActionEName  actionEName = it->second.first;
     int timeStepOff = it->second.second;;
         
-        /*
-        cout << "speedLvl: " << static_cast<int>(moveSpeedLvl)
-            << "; actionName: " << actionName 
-            << "; timeStepOff: " << timeStepOff
-            << endl;
-        */
 
     // 开启 fly 模式
-    if( actionName == "fly" ){
+    if( actionEName == AnimActionEName::Fly ){
         if( !pvtBp->isFlying ){
             // 只有第一次 检查到，才需要重设数据
             // 若已经处于飞行模式了，无需 reset
@@ -341,8 +327,8 @@ void Chicken::moveState_manage( GameObj &goRef_,
         }
     }
         
-
-    goMeshRef_.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, actionName, timeStepOff );
+    goMeshRef_.set_animActionEName( actionEName );
+    goMeshRef_.bind_animAction( timeStepOff );
     goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
 
 }

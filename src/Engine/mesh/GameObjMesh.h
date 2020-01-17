@@ -36,6 +36,7 @@
 #include "tprMath.h"
 #include "ChildMesh.h"
 #include "AnimAction.h"
+#include "AnimActionEName.h"
 #include "RotateScaleData.h"
 #include "animSubspeciesId.h"
 #include "RenderPool.h"
@@ -72,11 +73,22 @@ public:
     void RenderUpdate_auto();
     void RenderUpdate_ground();
 
+    //--------------------------//
+    //   bind_animAction 系列函数，暂未设计完善
+
+    // 旧版，显式输入 所有相关参数
+    /*
     void bind_animAction(   animSubspeciesId_t    subspeciesId_,
                             NineDirection      dir_,
                             BrokenLvl          brokenLvl_,
                             const std::string &actionName_,
                             int                timeStepOff_=0  );
+    */
+
+    // 新版，相关参数 由其他 set函数 零散地设置
+    // 最后调用 本函数，完成 正式 重绑定工作
+    void bind_animAction( int timeStepOff_=0  );
+
 
     //------------- set -------------//
     inline void set_pic_renderLayer( RenderLayerType layerType_ )noexcept{
@@ -90,6 +102,9 @@ public:
         }
     }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
+    inline void set_animSubspeciesId( animSubspeciesId_t id_ )noexcept{ this->animSubspeciesId = id_; }
+    inline void set_animActionEName( AnimActionEName name_ )noexcept{ this->animActionEName = name_; }
+
 
     inline void set_pic_shader_program( ShaderProgram *sp_ )noexcept{
         tprAssert( this->picMeshUPtr );
@@ -167,6 +182,12 @@ private:
 
     std::unique_ptr<ChildMesh> picMeshUPtr    {nullptr};
     std::unique_ptr<ChildMesh> shadowMeshUPtr {nullptr}; // 不需要时会被及时释放
+
+
+    // 暂存 gomesh 当前正在播放的 animAction 相关数据
+    animSubspeciesId_t  animSubspeciesId {};
+    AnimActionEName     animActionEName {}; // 使用 string 很不好 ...
+
 
     glm::dvec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）

@@ -41,7 +41,6 @@ namespace oneEyeBoy_inn {//----------- namespace: oneEyeBoy_inn ----------------
 }//-------------- namespace: oneEyeBoy_inn end ----------------//
 
 struct OneEyeBoy_PvtBinary{
-    animSubspeciesId_t subspeciesId {};
     int        tmp {};
     int        timeStep  {10};
     int        timeCount {};
@@ -57,13 +56,14 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
     
     //================ dyParams =================//
     size_t randUVal {};
+    animSubspeciesId_t subspeciesId {};
     
     //---    
     size_t typeHash = dyParams_.get_typeHash();
     if( dyParams_.is_Nil() ){
         randUVal = 17; //- 随便写
 
-        pvtBp->subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
+        subspeciesId = esrc::apply_a_random_animSubspeciesId( "simpleMan", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) );
@@ -74,7 +74,7 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
         const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
         tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-        pvtBp->subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
+        subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
 
         randUVal = bpParamPtr->mapEntUWeight;    
 
@@ -86,16 +86,13 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0); //- 尚未实现
     }
 
-    
-
-
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
-                                pvtBp->subspeciesId,
-                                "idle",
+                                subspeciesId,
+                                AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
@@ -213,12 +210,14 @@ void OneEyeBoy::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
         case ActionSwitchType::Idle:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "idle" );
+            goMeshRef.set_animActionEName( AnimActionEName::Idle );
+            goMeshRef.bind_animAction();
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 
         case ActionSwitchType::Move:
-            goMeshRef.bind_animAction( pvtBp->subspeciesId, dir, brokenLvl, "walk" );
+            goMeshRef.set_animActionEName( AnimActionEName::Walk );
+            goMeshRef.bind_animAction();
             goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
             break;
 

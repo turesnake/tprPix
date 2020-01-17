@@ -98,7 +98,7 @@
         "yardPool":[
             { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
         ],
-        "density.lvls":[ -3,-2,-1,0,1,2,3 ]
+        "density.lvls":[ ]
     }
 
 }

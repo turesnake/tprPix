@@ -19,26 +19,26 @@
                     "subIdx": 0,
                     "AnimActionParams":[
 
-                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
 
-                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
 
-                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
                         
 
-                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
                        
 
-                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
                         
 
-                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true },
                        
 
-                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
                   
 
-                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 7, "isOpaque": true }
+                        { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 7, "isOpaque": true }
                         
                     ]
                 }
@@ -63,26 +63,26 @@
                     "subIdx": 0,
                     "AnimActionParams":[
 
-                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
 
-                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
 
-                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
                         
 
-                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
                        
 
-                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
                         
 
-                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true },
                        
 
-                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 6, "isOpaque": true },
                   
 
-                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 7, "isOpaque": true }
+                        { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 7, "isOpaque": true }
                         
                     ]
                 }

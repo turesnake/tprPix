@@ -8,6 +8,9 @@
 #include "innTest.h"
 
 
+//------------------- CPP --------------------//
+#include <memory>
+
 //------------------- Libs --------------------//
 #include "magic_enum.hpp"
 
@@ -15,6 +18,7 @@
 #include "tprAssert.h"
 #include "History.h"
 #include "DirAxes.h"
+#include "DyBinary.h"
 
 #include "NineDirection.h"
 
@@ -33,30 +37,50 @@ namespace innTest {//---------- namespace: innTest --------------//
 
 
 
-void innTest_main(){
+class DC {
+public:
+    DC()=default;
+    DC( const DC& ){ tprAssert(0); };
+    DC & operator=( const DC &v_ );
     
+
+    int tmp {888};
+    std::unique_ptr<double> uptr {nullptr};
+};
+
+
+DC & DC::operator=( const DC &v_ ){
+    tprAssert(0);
+    return *this;
+}
+
+
+
+
+
+
+void innTest_main(){
+
+    return;
     cout << "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" << endl;
 
-    DirAxes a { 0.5, 0.7 };
+    std::any a = std::make_any<DC>();
 
-        cout << "-1-" << endl;
+
+    tprAssert( a.has_value() );
+
+    DC *cptr = std::any_cast<DC>( &a );
+
+    cout << "cptr->tmp = " << cptr->tmp 
+        << endl;
+
+    //std::any k = a;
+
+
+
+
 
     
-    DirAxes b = a;
-
-        cout << "-2-" << endl;
-
-    cout << " " << a.get_x()
-        << ", " << a.get_y()
-        << "; origin: " << a.get_origin_x()
-        << ", " << a.get_origin_y()
-        << endl;
-
-    cout << " " << b.get_x()
-        << ", " << b.get_y()
-        << "; origin: " << b.get_origin_x()
-        << ", " << b.get_origin_y()
-        << endl;
     
 
 

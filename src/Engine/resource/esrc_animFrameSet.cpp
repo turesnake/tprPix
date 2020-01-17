@@ -73,9 +73,9 @@ AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
 AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
                                 NineDirection      dir_,
                                 BrokenLvl           brokenLvl_,
-                                const std::string  &actionName_ ){
+                                AnimActionEName    actionEName_ ){
         tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
-    return anim_inn::animSubs.at(subId_)->get_animActionPtr(  dir_, brokenLvl_, actionName_ );
+    return anim_inn::animSubs.at(subId_)->get_animActionPtr(  dir_, brokenLvl_, actionEName_ );
 }
 
 

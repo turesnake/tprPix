@@ -22,17 +22,19 @@ using namespace std::placeholders;
 //#include "tprDebug.h"
 
 
-/* ===========================================================
- *                 bind_animAction
- * -----------------------------------------------------------
- * -- 切换动作时的 核心函数
+/* 切换动作时的 核心函数 [-old-]
+ *
+ *        这个函数应该被 停止使用 ...
+ * 
  */
+/*
 void GameObjMesh::bind_animAction(  animSubspeciesId_t    subspeciesId_,
                                     NineDirection      dir_,
                                     BrokenLvl          brokenLvl_,
                                     const std::string &actionName_,
                                     int                timeStepOff_ ){
-
+    
+    // 依赖 参数
     this->animActionPtr = esrc::get_animActionPtr( subspeciesId_, dir_, brokenLvl_, actionName_ );
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
     this->animActionPvtData.timeStepOff = timeStepOff_;
@@ -55,6 +57,44 @@ void GameObjMesh::bind_animAction(  animSubspeciesId_t    subspeciesId_,
         }
     }
 }
+*/
+
+
+/* 切换动作时的 核心函数 [-new-]
+ */
+void GameObjMesh::bind_animAction( int timeStepOff_ ){
+
+    // 依赖自身存储的数据 
+    this->animActionPtr = esrc::get_animActionPtr( 
+                                this->animSubspeciesId,
+                                this->goRef.actionDirection.get_newVal(),
+                                this->goRef.brokenLvl.get_newVal(),
+                                this->animActionEName );
+
+
+    this->animActionPtr->reset_pvtData( this->animActionPvtData );
+    this->animActionPvtData.timeStepOff = timeStepOff_;
+
+    this->isHaveShadow = this->animActionPtr->get_isHaveShadow();
+
+    //-- childMeshes --//
+    // -- 需要但尚未存在的 chileMesh 会被及时生成
+    // -- 不需要但已经存在的 chileMesh 会被及时销毁
+    if( this->picMeshUPtr == nullptr ){
+        this->picMeshUPtr = std::make_unique<ChildMesh>(true, *this);
+    }
+    if( this->isHaveShadow ){
+        if( this->shadowMeshUPtr == nullptr ){
+            this->shadowMeshUPtr = std::make_unique<ChildMesh>(false, *this);
+        }
+    }else{
+        if( this->shadowMeshUPtr != nullptr ){
+            this->shadowMeshUPtr = nullptr;
+        }
+    }
+}
+
+
 
 /* ===========================================================
  *                RenderUpdate_auto

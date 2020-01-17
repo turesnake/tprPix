@@ -16,24 +16,32 @@
 
 
     "afs_lPaths": [ 
-        "/forest/_lowWhiteFlower.afs.json",
-        "/forest/_whiteFlower.afs.json",
     
         "/darkForest/_grass1.afs.json",
-        "/darkForest/_blackFlower.afs.json",
 
         "/desert/_grass1.afs.json",
-        "/savannah/_grass1.afs.json"
+        "/savannah/_grass1.afs.json",
+
+
+        "/_regulars/flower_black/_afs.json",
+        "/_regulars/flower_highWhite/_afs.json",
+        "/_regulars/flower_white/_afs.json",
+        "/_regulars/triFlower_grey/_afs.json"
+
 
     ],
     "multiGoMesh_lPaths": [
-        "forest/_flower.multiGoMesh.json",
 
         "darkForest/_grass.multiGoMesh.json",
-        "darkForest/_blackFlower.multiGoMesh.json",
 
         "desert/_grass.multiGoMesh.json",
-        "savannah/_grass.multiGoMesh.json"
+        "savannah/_grass.multiGoMesh.json",
+
+
+        "/_regulars/flower_black/_multiGoMesh.json",
+        "/_regulars/flower_highWhite/_multiGoMesh.json",
+        "/_regulars/flower_white/_multiGoMesh.json",
+        "/_regulars/triFlower_grey/_multiGoMesh.json"
 
     ]
 

@@ -57,33 +57,17 @@
         ],
 
         "plans":[
-            
             {
                 "afsTypes":{
-                    "afs_1": "grass_forest_lowWhiteFlower"
+                    "afs_1": "grass_flower_highWhite"
                 },
                 "types":{
-                    "type_1": "Forest_LowWhiteFlower_Sml",
-                    "type_2": "Forest_LowWhiteFlower_Mid",
-                    "type_3": "Forest_LowWhiteFlower_Big"
-                }
-            },
-
-            {
-                "afsTypes":{
-                    "afs_1": "grass_forest_whiteFlower"
-                },
-                "types":{
-                    "type_1": "Forest_WhiteFlower_Sml",
-                    "type_2": "Forest_WhiteFlower_Mid",
-                    "type_3": "Forest_WhiteFlower_Big"
+                    "type_1": "Flower_HighWhite_Sml",
+                    "type_2": "Flower_HighWhite_Mid",
+                    "type_3": "Flower_HighWhite_Big"
                 }
             }
-
-
         ]
-
     }
-
 ]
 

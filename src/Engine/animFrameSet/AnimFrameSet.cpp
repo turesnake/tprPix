@@ -220,7 +220,7 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
         animSubspeciesId_t subId = this->subGroup.find_or_create_a_animSubspeciesId(paramPtr->animLabel,
                                                                                     paramPtr->subspeciesIdx );
         AnimSubspecies &subRef = esrc::find_or_insert_new_animSubspecies( subId );
-        AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionDir, paramPtr->actionBrokenLvl, paramPtr->actionName );
+        AnimAction &actionRef = subRef.insert_new_animAction( paramPtr->actionDir, paramPtr->actionBrokenLvl, paramPtr->actionEName );
 
 
         auto aaposId = afs_inn::lAnimActionPosIds.at( i );

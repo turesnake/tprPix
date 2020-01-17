@@ -26,6 +26,7 @@
 #include "AnimLabel.h"
 #include "functorTypes.h"
 #include "BrokenLvl.h"
+#include "AnimActionEName.h"
 
 
 //-- need --//
@@ -64,13 +65,13 @@ public:
         //---
         size_t   updates {};     //- 切换一次帧后，记录 调用 update() 的次数
         //---
-        int      timeStepOff {}; // 外界控制 aaction播放速度的方式
+        int      timeStepOff {}; // 外界控制 aaction播放速度的 第一种方式
                                  // 此值会被 累加在每一份 currentTimeStep 上，
 
         //-- flags --//
         bool     isLastFrame {false}; //- 仅用于 Once 模式
         //--- functor ---//
-        F_R_double  reset_playSpeedScale {nullptr};
+        F_R_double  reset_playSpeedScale {nullptr}; // 外界控制 aaction播放速度的 第二种方式
     };
 
     //================== functor type ================//
@@ -156,7 +157,7 @@ class AnimActionParam{
 public:
     //-- 常规构造器,且手动设置 timesteps --
     AnimActionParam(size_t  subspeciesIdx_,
-                    const std::string     &actionName_,
+                    AnimActionEName        actionEName_,
                     NineDirection          actionDir_,
                     BrokenLvl              actionBrokenLvl_,
                     AnimAction::PlayType     playType_,
@@ -167,7 +168,7 @@ public:
                     const std::vector<size_t>  &timeSteps_,
                     AnimLabel              label_ ):
         subspeciesIdx(subspeciesIdx_),
-        actionName(actionName_),
+        actionEName(actionEName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
         actionPlayType( playType_ ),
@@ -184,7 +185,7 @@ public:
 
     //-- 常规构造器,但使用统一值的 timesteps --
     AnimActionParam(size_t  subspeciesIdx_,
-                    const std::string    &actionName_,
+                    AnimActionEName       actionEName_,
                     NineDirection         actionDir_,
                     BrokenLvl             actionBrokenLvl_,
                     AnimAction::PlayType    playType_,
@@ -195,7 +196,7 @@ public:
                     size_t   _defaultTimeStep,
                     AnimLabel              label_ ):
         subspeciesIdx(subspeciesIdx_),
-        actionName(actionName_),
+        actionEName(actionEName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
         actionPlayType( playType_ ),
@@ -212,7 +213,7 @@ public:
 
     //-- 单帧action 专用 构造器 --
     AnimActionParam(size_t  subspeciesIdx_,
-                    const std::string &actionName_,
+                    AnimActionEName    actionEName_,
                     NineDirection      actionDir_,
                     BrokenLvl          actionBrokenLvl_,
                     size_t  jFrameIdx_,
@@ -220,7 +221,7 @@ public:
                     bool    isOpaque_,
                     AnimLabel         label_ ):
         subspeciesIdx(subspeciesIdx_),
-        actionName(actionName_),
+        actionEName(actionEName_),
         actionDir(actionDir_),
         actionBrokenLvl(actionBrokenLvl_),
         actionPlayType( AnimAction::PlayType::Idle ), //- 默认type
@@ -237,7 +238,7 @@ public:
         
     //===== vals =====//
     size_t          subspeciesIdx;
-    std::string     actionName;
+    AnimActionEName actionEName;
     NineDirection   actionDir;
     BrokenLvl       actionBrokenLvl;
     AnimAction::PlayType  actionPlayType;

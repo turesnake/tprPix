@@ -17,17 +17,17 @@
                     "animLabel": "",
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "name": "idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        { "name": "idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 16, "isOpaque": true },
-                        { "name": "idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 32, "isOpaque": true },
-                        { "name": "idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 48, "isOpaque": true },
-                        { "name": "idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 64, "isOpaque": true },
-                        { "name": "idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 80, "isOpaque": true },
-                        { "name": "idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 96, "isOpaque": true },
-                        { "name": "idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 112, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 16, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "T", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 32, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 48, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "R", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 64, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 80, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 96, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 112, "isOpaque": true },
 
                         {
-                            "name": "walk", "dir": "L", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "L", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -36,7 +36,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "LT", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "LT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -45,7 +45,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "T", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "T", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -54,7 +54,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "RT", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "RT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -63,7 +63,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "R", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "R", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -72,7 +72,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "RB", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "RB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -81,7 +81,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "B", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "B", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -90,7 +90,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "walk", "dir": "LB", "brokenLvl": 0,
+                            "actionEName": "Walk", "dir": "LB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -119,7 +119,7 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "name": "run", "dir": "L", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "L", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -128,7 +128,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "LT", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "LT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -137,7 +137,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "T", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "T", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -146,7 +146,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "RT", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "RT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -155,7 +155,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "R", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "R", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -164,7 +164,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "RB", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "RB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -173,7 +173,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "B", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "B", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -182,7 +182,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "run", "dir": "LB", "brokenLvl": 0,
+                            "actionEName": "Run", "dir": "LB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -211,7 +211,7 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "name": "fly", "dir": "L", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "L", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -220,7 +220,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "LT", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "LT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -229,7 +229,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "T", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "T", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -238,7 +238,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "RT", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "RT", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -247,7 +247,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "R", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "R", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -256,7 +256,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "RB", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "RB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -265,7 +265,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "B", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "B", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
@@ -274,7 +274,7 @@
                             "isOpaque": true
                         },
                         {
-                            "name": "fly", "dir": "LB", "brokenLvl": 0,
+                            "actionEName": "Fly", "dir": "LB", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Cycle",
                             "isOrder":    true,

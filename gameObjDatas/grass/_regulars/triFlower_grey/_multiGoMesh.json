@@ -1,0 +1,71 @@
+[
+
+    {
+        "goSpeciesName": "grass",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    {  "dpos": [0,  0], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Mid"  }
+                ]
+            },
+
+
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    {  "dpos": [0, 0], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+            
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {  "dpos": [-15, -13], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [11, 12], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {  "dpos": [13, -13], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [-13, 12], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {  "dpos": [0, -13], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Mid"  },
+                    {  "dpos": [0, 11], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {  "dpos": [0, -13], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [0, 11], "zOff": 0.0, "afsType": "afs_1", "animLabel": "Mid"  }
+                ]
+            }
+            
+            
+        ],
+
+        "plans":[
+            {
+                "afsTypes":{
+                    "afs_1": "grass_triFlower_grey"
+                },
+                "types":{
+                    "type_1": "TriFlower_Grey_Sml",
+                    "type_2": "TriFlower_Grey_Mid"
+                }
+            }
+        ]
+    }
+]
+

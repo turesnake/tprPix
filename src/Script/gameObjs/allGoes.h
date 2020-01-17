@@ -25,7 +25,7 @@
 //---------- Script : gameObjs : bush --------------------//
 //#include "Script/gameObjs/bush/Wheat.h"
 #include "Script/gameObjs/majorGos/bushs/Mushroom.h"
-#include "Script/gameObjs/majorGos/bushs/BushOth.h"
+#include "Script/gameObjs/majorGos/bushs/Bush.h"
 
 
 

@@ -1,5 +1,5 @@
 /*
- * ========================= BushOth.h ==========================
+ * ========================= Bush.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.09
  *                                        MODIFY -- 
@@ -14,7 +14,11 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-class BushOth{
+
+// 类似 Grass，Bush 也是数种 bush亚种 的合并类。
+// 它们拥有相同的 动画习性（风吹）但在被具体破坏后，会调用不同的 技能函数（未实现）
+// 如果某种 bush 比较特殊，未来就要为它制作专门的 具象go类
+class Bush{
 public:
     static void init(GameObj &goRef_,const DyParam &dyParams_ );
 private:                            

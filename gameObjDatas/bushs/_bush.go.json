@@ -1,6 +1,6 @@
 [
     {
-        "goSpeciesName": "bushOth",
+        "goSpeciesName": "bush",
         "family": "Major",
         "state": "Waked",
         "moveState": "AbsFixed",
@@ -15,7 +15,7 @@
         "pub.MP": 50,
 
         "afs_lPaths": [ 
-            "_bushOth.afs.json" 
+            "blackberry/_afs.json" 
         ],
         "multiGoMesh_lPaths": []
     }

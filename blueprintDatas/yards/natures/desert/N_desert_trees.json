@@ -32,9 +32,9 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Forest_LowWhiteFlower_Sml", "num": 1 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
 
 
             ]

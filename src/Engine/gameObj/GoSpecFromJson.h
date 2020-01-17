@@ -30,6 +30,8 @@
 
 #include "MultiGoMesh.h"
 
+#include "AnimActionEName.h"
+
 
 class GameObj;
 
@@ -182,7 +184,7 @@ public:
     SpeedLevel minLvl {}; // include
     SpeedLevel maxLvl {}; // include
 
-    std::map<SpeedLevel, std::pair<std::string,int>> table {}; // speedLvl, actionName, timeStepOff
+    std::map<SpeedLevel, std::pair<AnimActionEName,int>> table {}; // speedLvl, actionEName, timeStepOff
 };
 
 

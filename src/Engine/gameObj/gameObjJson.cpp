@@ -23,6 +23,7 @@
 #include "fileIO.h"
 #include "GameObj.h"
 #include "AnimFrameSet.h"
+#include "AnimActionEName.h"
 
 #include "GoSpecFromJson.h"
 
@@ -230,8 +231,8 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
     int        minILvl { 100 }; // 初始值 尽可能大
     int        maxILvl { 0 };   // 初始值 尽可能小
     int        speedILvl {};
-    std::string actionName {};
-    int         timeStepOff {};
+    int        timeStepOff {};
+    AnimActionEName actionEName {};
 
     const auto &moveStateTable = check_and_get_value( pngEnt_, "moveStateTable", JsonValType::Array );
     for( const auto &tableEnt : moveStateTable.GetArray() ){
@@ -241,9 +242,9 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
             const auto &a = check_and_get_value( tableEnt, "speedLvl", JsonValType::Int );
             speedILvl = a.GetInt();
         }
-        {//--- actionName ---//
-            const auto &a = check_and_get_value( tableEnt, "actionName", JsonValType::String );
-            actionName = a.GetString();
+        {//--- actionEName ---//
+            const auto &a = check_and_get_value( tableEnt, "actionEName", JsonValType::String );
+            actionEName = str_2_AnimActionEName( a.GetString() );
         }
         {//--- timeStepOff ---//
             const auto &a = check_and_get_value( tableEnt, "timeStepOff", JsonValType::Int );
@@ -259,46 +260,11 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
         }
 
         auto outPair1 = tRef.table.insert({ int_2_SpeedLevel(speedILvl),
-                                            std::pair<std::string,int>{ actionName, timeStepOff } });
+                                            std::pair<AnimActionEName,int>{ actionEName, timeStepOff } });
     }
 
     tRef.minLvl = int_2_SpeedLevel( minILvl );
     tRef.maxLvl = int_2_SpeedLevel( maxILvl );
-
-
-
-                // old ........
-    /*
-    for( const auto &tableEnt : table.GetArray() ){
-        tprAssert( tableEnt.IsObject() );
-
-        speedLvls.clear();
-
-        {//--- actionName ---//
-            const auto &a = check_and_get_value( tableEnt, "actionName", JsonValType::String );
-            actionName = a.GetString();
-        }
-        {//--- baseSpeedLvl ---//
-            const auto &a = check_and_get_value( tableEnt, "baseSpeedLvl", JsonValType::Int );
-            baseSpeedLvl = int_2_SpeedLevel( a.GetInt() );
-        }
-        {//--- speedLvls ---//
-            const auto &lvls = check_and_get_value( tableEnt, "speedLvls", JsonValType::Array );
-            for( const auto &lvl : lvls.GetArray() ){
-                tprAssert( lvl.IsInt() );
-                speedLvls.push_back( int_2_SpeedLevel(lvl.GetInt()) );
-            }
-        }
-
-        //=== 将临时数据 合成进 moveStateTable 实例 中 ===
-        auto outPair1 = tRef.baseSpeedLvls.insert({ actionName, baseSpeedLvl });
-        tprAssert( outPair1.second );
-        for( const auto &lvl : speedLvls ){
-            auto outPair2 = tRef.table.insert({ lvl, actionName });
-        }
-    }
-    */
-
 
 }
 

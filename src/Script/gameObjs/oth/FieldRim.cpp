@@ -39,14 +39,16 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace fr_inn {//------------------ namespace: fr_inn ---------------------//
 
-    struct FieldRim_PvtBinary{
-        int tmp {};
-        //===== padding =====//
-        //...
-    };
+    
 
 
 }//--------------------- namespace: fr_inn end ------------------------//
+
+
+struct FieldRim_PvtBinary{
+    int tmp {};
+};
+
 
 
 void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
@@ -61,7 +63,7 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //------ root mesh ------//
     goRef_.creat_new_goMesh( "root", //- gmesh-name
                             esrc::get_fieldRimId(),
-                            "idle",
+                            AnimActionEName::Idle,
                             RenderLayerType::Floor, //- 固定zOff值
                             &esrc::get_shaderRef(ShaderType::Shadow ),  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff

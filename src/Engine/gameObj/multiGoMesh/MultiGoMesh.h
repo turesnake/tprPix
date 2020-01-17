@@ -49,10 +49,11 @@ public:
 
 
 // 从1 开始分配，如果传入 0，表示不属于任何 type
-using multiGoMeshTypeId_t = u32_t;
+using multiGoMeshTypeId_t = size_t;
 #define DEFAULT_MULTI_GO_MESH_TYPE 0 // Default
             // 这个数据，不能写在 json 文件内
             // 只能在 主程序中，作为函数参数
+
 
 // 一种简化的策略
 // 一个 go-action，可以由数个 gomesh-action 组合而成
@@ -128,8 +129,6 @@ private:
     //======= static =======//
     static ID_Manager  id_manager;
     static std::unordered_map<std::string, multiGoMeshTypeId_t> str_2_multiGoMeshTypeIds;
-
-
 };
 
 

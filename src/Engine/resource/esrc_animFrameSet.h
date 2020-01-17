@@ -32,7 +32,7 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
 AnimAction *get_animActionPtr(  animSubspeciesId_t subId_, 
                                 NineDirection      dir_,
                                 BrokenLvl           brokenLvl_,
-                                const std::string  &actionName_ );
+                                AnimActionEName    actionEName_ );
 
 
 //-- special SubspeciesId --

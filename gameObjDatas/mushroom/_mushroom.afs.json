@@ -19,7 +19,7 @@
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 10,
-                    "name": "idle", "dir": "Center", "brokenLvl": 0,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                     "isOpaque": true
                 }
             ]
@@ -40,7 +40,7 @@
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 20,
-                    "name": "idle", "dir": "Center", "brokenLvl": 0,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                     "isOpaque": true
                 }
             ]
@@ -61,7 +61,7 @@
                     "fstSubIdx": 0,
                     "fstIdx": 0,
                     "idxNums": 11,
-                    "name": "idle", "dir": "Center", "brokenLvl": 0,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                     "isOpaque": true
                 }
             ]

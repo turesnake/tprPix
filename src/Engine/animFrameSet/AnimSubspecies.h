@@ -24,6 +24,7 @@
 #include "AnimAction.h"
 #include "animSubspeciesId.h"
 #include "AnimLabel.h"
+#include "AnimActionEName.h"
 #include "NineDirection.h"
 #include "tprCast.h"
 #include "BrokenLvl.h"
@@ -37,45 +38,40 @@ public:
 
     inline AnimAction &insert_new_animAction(   NineDirection   dir_,
                                                 BrokenLvl       brokenLvl_,
-                                                const std::string &actionName_ )noexcept{
+                                                AnimActionEName actionEName_ )noexcept{
         // if target key is existed, nothing will happen
-        this->animActions.insert({ dir_, std::unordered_map<BrokenLvl, std::unordered_map<std::string, std::unique_ptr<AnimAction>>>{} }); // maybe
-        this->animActions.at(dir_).insert({ brokenLvl_, std::unordered_map<std::string, std::unique_ptr<AnimAction>>{} }); // maybe
+        this->animActions.insert({ dir_, std::unordered_map<BrokenLvl, std::unordered_map<AnimActionEName, std::unique_ptr<AnimAction>>>{} }); // maybe
+        this->animActions.at(dir_).insert({ brokenLvl_, std::unordered_map<AnimActionEName, std::unique_ptr<AnimAction>>{} }); // maybe
 
         auto &container = this->animActions.at(dir_).at(brokenLvl_);
-        auto outPair = container.insert({ actionName_, std::make_unique<AnimAction>() });
+        auto outPair = container.insert({ actionEName_, std::make_unique<AnimAction>() });
         tprAssert( outPair.second ); // Must
         //---
         // if target key is existed, nothing will happen
-        this->actionsDirs.insert({ actionName_, std::unordered_set<NineDirection>{} }); //- maybe
-        this->actionsDirs.at(actionName_).insert( dir_ ); //- maybe 
+        this->actionsDirs.insert({ actionEName_, std::unordered_set<NineDirection>{} }); //- maybe
+        this->actionsDirs.at(actionEName_).insert( dir_ ); //- maybe 
         //---
-        return *(container.at(actionName_).get());
+        return *(container.at(actionEName_).get());
     }
         
-    /*
-    AnimAction *get_animActionPtr(   NineDirection   dir_,
-                                            BrokenLvl       brokenLvl_,
-                                            const std::string &actionName_ )const noexcept;
-    */
     
     inline AnimAction *get_animActionPtr(   NineDirection   dir_,
                                             BrokenLvl       brokenLvl_,
-                                            const std::string &actionName_ )const noexcept{
+                                            AnimActionEName actionEName_ )const noexcept{
         tprAssert( this->animActions.find(dir_) != this->animActions.end() );
         auto &container_1 = this->animActions.at(dir_);
         //---
         tprAssert( container_1.find(brokenLvl_) != container_1.end() );
         auto &container_2 = container_1.at(brokenLvl_);
         //---
-        tprAssert( container_2.find(actionName_) != container_2.end() );
-        return container_2.at(actionName_).get();
+        tprAssert( container_2.find(actionEName_) != container_2.end() );
+        return container_2.at(actionEName_).get();
     }
 
 
-    inline const std::unordered_set<NineDirection> &get_actionDirs( const std::string &actionName_ )const noexcept{
-        tprAssert( this->actionsDirs.find(actionName_) != this->actionsDirs.end() );
-        return this->actionsDirs.at(actionName_);
+    inline const std::unordered_set<NineDirection> &get_actionDirs( AnimActionEName actionEName_ )const noexcept{
+        tprAssert( this->actionsDirs.find(actionEName_) != this->actionsDirs.end() );
+        return this->actionsDirs.at(actionEName_);
     }
     
     //======== static ========//
@@ -84,9 +80,9 @@ private:
     //-- 丑陋的实现，3层嵌套容器 
     std::unordered_map<NineDirection, 
         std::unordered_map<BrokenLvl,
-            std::unordered_map<std::string, std::unique_ptr<AnimAction>>>> animActions {};
+            std::unordered_map<AnimActionEName, std::unique_ptr<AnimAction>>>> animActions {};
 
-    std::unordered_map<std::string, std::unordered_set<NineDirection>> actionsDirs {};
+    std::unordered_map<AnimActionEName, std::unordered_set<NineDirection>> actionsDirs {};
 };
 
 

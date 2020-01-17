@@ -43,20 +43,17 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace groundGo_inn {//------------------ namespace: groundGo_inn ---------------------//
 
-    struct GroundGo_PvtBinary{
-        //animSubspeciesId_t subspeciesId {};
-        //size_t   lichen_ForestId {0};
-                //- 简单的从 几种款式中，随机挑选一款 [0,7]
-        int tmp {};
-        //===== padding =====//
-        //...
-    };
+    
 
     //===== funcs =====//
     AnimLabel Job_GroundGoEntType_2_AnimLabel( GroundGoEntType type_ )noexcept;
 
 }//--------------------- namespace: groundGo_inn end ------------------------//
 
+
+struct GroundGo_PvtBinary{
+    int tmp {};
+};
 
 
 void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
@@ -66,7 +63,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_GroundGo>();
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<groundGo_inn::GroundGo_PvtBinary>();
+    auto *pvtBp = goRef_.init_pvtBinary<GroundGo_PvtBinary>();
 
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -98,7 +95,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         auto &goMeshRef = goRef_.creat_new_goMesh( meshName, //- gmesh-name
                                 subspeciesId,
-                                "idle",
+                                AnimActionEName::Idle,
                                 RenderLayerType::GroundGo, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader
                                 jgEntPtr->dposOff,
