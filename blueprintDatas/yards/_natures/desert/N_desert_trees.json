@@ -5,7 +5,7 @@
     "yardName": "N_desert_trees",
     "yardLabel": "1Mid",
 
-    "pngLPath": "/natures/desert/N_forest_1tree.M.png",
+    "pngLPath": "/_natures/desert/N_forest_1tree.M.png",
     "frameNum.col":  8,
     "frameNum.row":  9,
     "totalFrameNum": 72,

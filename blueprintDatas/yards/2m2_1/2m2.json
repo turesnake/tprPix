@@ -55,7 +55,11 @@
             "isPlotBlueprint": false,
             "goSpecPool":[
                 { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 0 },
-                { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 3 }
+                { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 0 },
+                { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 0 },
+
+                { "goSpeciesName": "bush", "MultiGoMeshType":"Origin", "num": 1 }
+
             ]
         },
 

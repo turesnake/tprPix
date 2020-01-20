@@ -11,6 +11,9 @@
 #include <functional>
 #include <string>
 
+//-------------------- Lib --------------------//
+#include "tprGeneral.h"
+
 //-------------------- Engine --------------------//
 #include "Density.h"
 #include "animSubspeciesId.h"
@@ -35,7 +38,6 @@ namespace bush_inn {//----------- namespace: bush_inn ----------------//
 
     std::vector<AnimActionEName> windAnimActionEName_pool {};
 
-
     //----- flags -----//
     bool    isFstCalled {true};
     //===== funcs =====//
@@ -51,6 +53,7 @@ public:
         windAnimUPtr( std::make_unique<component::WindAnim>() )
         {}
 
+    // Exist but forbidden to call
     Bush_PvtBinary( const Bush_PvtBinary & ){ tprAssert(0); }
     Bush_PvtBinary &operator=( const Bush_PvtBinary & );
 
@@ -63,7 +66,6 @@ Bush_PvtBinary &Bush_PvtBinary::operator=( const Bush_PvtBinary & ){
     tprAssert(0);
     return *this; // never reach
 }
-
 
 
 
@@ -81,19 +83,10 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ dyParams =================//
-    glm::dvec2          goMeshDPosOff {};
-
-
     size_t typeHash = dyParams_.get_typeHash();
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
-    //pvtBp->subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
-
-    goMeshDPosOff = glm::dvec2{0.0, 0.0};
-
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -101,21 +94,38 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-        //-- 制作唯一的 mesh 实例: "root" --
-        auto &goMeshRef = goRef_.creat_new_goMesh("root", //- gmesh-name
+    // 有些 bush 只有一个 gomesh，有些则是 复数个
+    // 一律按 复数个来处理
+    std::string         goMeshName {};
+    size_t              meshNameCount {0};
+    
+    size_t idx {0};
+    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
+
+        const GoDataEntForCreate &goDataEntRef = *(*it);
+
+        //--- goMesh name ---//
+        if( it == goDataPtr->goMeshDataUPtrs.cbegin() ){
+            goMeshName = "root";
+        }else{
+            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
+            meshNameCount++;
+        }
+        //---
+        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
                                 goDataEntRef.subspeciesId,
                                 AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goMeshDPosOff, //- pposoff
+                                goDataEntRef.dposOff, //- pposoff
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
 
         // 先收集 所有参与 风吹动画的 gomesh 数据
         pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, goDataEntRef.windDelayIdx );
+    }
 
-    
     //----- component: windAnim -----//
     // 正式 init
     pvtBp->windAnimUPtr->init( &bush_inn::windAnimActionEName_pool );
@@ -129,7 +139,6 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //-------- actionSwitch ---------//
     goRef_.actionSwitch.bind_func( std::bind( &Bush::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
-
 
     //================ go self vals =================//   
 

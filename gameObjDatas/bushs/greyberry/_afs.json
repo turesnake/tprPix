@@ -1,0 +1,44 @@
+[
+{
+    "name": "bush_greyberry",
+    "pngs": [
+        
+        {
+            "path": "greyberry1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 6,6, 7,7,7,7, 8,8,8,8, 8,8,9,9, 10,10 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        }
+
+    ]
+}
+
+
+
+
+
+]

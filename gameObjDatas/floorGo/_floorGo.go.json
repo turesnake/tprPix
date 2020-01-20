@@ -16,7 +16,12 @@
 
 
         "afs_lPaths": [ 
-            "_floorGo.afs.json"
+            "_floorGo.afs.json",
+
+            "_darkForest/_afs.json",
+            "_desert/_afs.json"
+
+
         ],
         "multiGoMesh_lPaths": []
 

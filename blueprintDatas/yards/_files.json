@@ -1,13 +1,17 @@
 [
     {"2m2_1/2m2.json": true },
 
-    
-    {"natures/darkForest/N_darkForest_trees.json": true },
-    {"natures/desert/N_desert_trees.json": true },
-    {"natures/forest/N_forest_trees.json": true },
-    {"natures/savannah/N_savannah_trees.json": true },
+    {"_natures/_regulars/breakStones/_forest.json": true },
+    {"_natures/_regulars/breakStones/_darkForest.json": true },
+    {"_natures/_regulars/breakStones/_desert.json": true },
 
-    {"natures/floorGos/natureFloorGo_B.json": true },
+
+    {"_natures/darkForest/N_darkForest_trees.json": true },
+    {"_natures/desert/N_desert_trees.json": true },
+    {"_natures/forest/N_forest_trees.json": true },
+    {"_natures/savannah/N_savannah_trees.json": true },
+
+    {"_natures/_floorGos/natureFloorGo_B.json": true },
 
 
     {"plot_test/plot_test.json": true },

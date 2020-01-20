@@ -13,7 +13,6 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
             
         },
@@ -24,7 +23,6 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
         },
 
@@ -34,7 +32,6 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
         },
 
@@ -44,7 +41,6 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
             ]
 
         },
@@ -66,7 +62,9 @@
             "applyPercent": 0.79,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
+                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 },
+
+                { "yardName": "N_breakStones", "yardLabel": "Desert", "num": 1 }
             ]
             
         },
@@ -77,7 +75,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_desert_trees", "yardLabel": "1Mid", "num": 3 }
+
             ]
         }
     ],
@@ -90,9 +88,9 @@
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
+            { "yardName": "N_floorGo", "yardLabel": "Desert", "num": 1 }
         ],
-        "density.lvls":[ -3,-2,-1,0 ]
+        "density.lvls":[ 0,1,3 ]
     }
 
 }

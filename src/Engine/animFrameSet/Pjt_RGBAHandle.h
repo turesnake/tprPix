@@ -130,14 +130,18 @@ private:
     //-- 将 rgba 态 高度信息，转换为 mem态 goAltiRange值 --
     //
     //     在 8m8 改为 64m64 后，原有的高度数值不管用了。
-    //     目前的临时记录法是：实际像素高度／10。
-    //     可以预测，这个方法 可能会在 引入跳跃系统时 带来麻烦
+    //     解决方案是：从 J.png 读取的数据，乘以 2.0
+    //     获得实际高度值
     //
     inline void set_goAltiRange()noexcept{
         u8_t low  = this->rgba.g;
         u8_t high = this->rgba.b;
-        tprAssert( low < high );
-        this->animActionSemiDataPtr->set_lGoAltiRange_onlyOnce( static_cast<char>(low), static_cast<char>(high) );
+        tprAssert( low <= high ); // 其实相等是 无意义的 ...
+
+        double dlow = static_cast<double>(low) * 2.0;
+        double dhigh = static_cast<double>(high) * 2.0; 
+
+        this->animActionSemiDataPtr->set_lGoAltiRange_onlyOnce( dlow, dhigh );
     }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内

@@ -15,9 +15,15 @@
         "pub.MP": 50,
 
         "afs_lPaths": [ 
-            "blackberry/_afs.json" 
+            "blackberry/_afs.json",
+            "greyberry/_afs.json",
+            "origin/_afs.json"
+
         ],
-        "multiGoMesh_lPaths": []
+        "multiGoMesh_lPaths": [
+            "origin/_multiGoMesh.json"
+            
+        ]
     }
 
 ]

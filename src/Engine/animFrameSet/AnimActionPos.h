@@ -33,7 +33,7 @@ public:
         colliderType(colliderType_)
         {}
     //----- set -----//
-    inline void set_lGoAltiRange_onlyOnce( char low_, char high_ )noexcept{
+    inline void set_lGoAltiRange_onlyOnce( double low_, double high_ )noexcept{
         tprAssert( !this->isLGoAltiRangeSet );
         this->isLGoAltiRangeSet = true;
         this->lGoAltiRange.set( low_, high_ );

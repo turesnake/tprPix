@@ -16,36 +16,28 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 
-//-- 暂不关心 硬盘存储 -- 
-//  0 <= val <= 45:  major   -- (u8_t) [0, 45]
-//  val ==     -1:  item    -- (u8_t) 254
-//  val ==     -2:  surface -- (u8_t) 253 
+
+
+
+// go 的高度区间
 class GoAltiRange{
 public:
     //---- constructor -----//
     GoAltiRange() = default;
-    GoAltiRange( char low_, char high_ ):
+    GoAltiRange( double low_, double high_ ):
         low(low_),
         high(high_)
-        { tprAssert( (low<=high) && (low<=jumpLimit) ); }
+        { tprAssert(low <= high); }
 
     inline void clear_all()noexcept{
         low = 0;
         high = 0;
     }
-    inline void set( char low_, char high_ )noexcept{
-        tprAssert( (low_<=high_) && (low_<=jumpLimit) );
+
+    inline void set( double low_, double high_ )noexcept{
+        tprAssert( low_ <= high_ );
         low  = low_;
         high = high_;
-    }
-
-    // 在一个 给定 GoAltiRange值的基础上，类加上一个 addAlti_.
-    // 新的值 设置为本实例的值。
-    //-- 常用于 碰撞检测 --
-    inline void set_by_addAlti( const GoAltiRange &a_, double addAlti_ )noexcept{
-        tprAssert( (addAlti_ < static_cast<double>(jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=jumpLimit );
-        low  =  a_.low  + static_cast<u8_t>(addAlti_);
-        high =  a_.high + static_cast<u8_t>(addAlti_);
     }
 
     inline bool is_collide( const GoAltiRange& a_ )noexcept{
@@ -61,20 +53,12 @@ public:
         }
     }
 
-    //======== static ========//
-    static char  jumpLimit;       //- tprAssert( low <= jumpLimit );
-    static u8_t  diskAlti_item;    //- 在 animFrameSet 图片文件中，代表 item 的 高度值
-    static u8_t  diskAlti_surface; //- 在 animFrameSet 图片文件中，代表 surface 的 高度值
-
     //======== vals ========//
-    char  low  {0}; //- low <= jumpLimit
-    char  high {0}; //- high >= low (其实相等是没什么意义的)
+    double  low  {0.0}; //- low <= high 其实相等是没有意义的，暂时保留
+    double  high {0.0};
 };
 
 
-//-- item / surface --//
-extern const GoAltiRange goAltiRange_item;
-extern const GoAltiRange goAltiRange_surface;
 
 
 
@@ -85,19 +69,13 @@ extern const GoAltiRange goAltiRange_surface;
  * -----------------------------------------------------------
  */
 inline GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ )noexcept{
-    tprAssert( (a_.low+b_.low)<=GoAltiRange::jumpLimit );
-    return  GoAltiRange{  static_cast<char>(a_.low+b_.low),
-                        static_cast<char>(a_.high+b_.high) };
-                            //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
+    return  GoAltiRange{  a_.low + b_.low,
+                          a_.high + b_.high };
 }
-
 inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept{
-    tprAssert( (addAlti_ < static_cast<double>(GoAltiRange::jumpLimit)) && (a_.low+static_cast<u8_t>(addAlti_))<=GoAltiRange::jumpLimit );
-    return  GoAltiRange{  static_cast<char>(a_.low  + static_cast<char>(addAlti_)),
-                        static_cast<char>(a_.high + static_cast<char>(addAlti_)) };
-                            //-- 此处有个问题。 两个 char 的 加法 会被自动提升为 int间的加法...
+    return  GoAltiRange{a_.low  + addAlti_,
+                        a_.high + addAlti_ };
 }
-
 
 /* ===========================================================
  *                 is_GoAltiRange_collide

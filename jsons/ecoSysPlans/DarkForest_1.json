@@ -69,8 +69,9 @@
 
             "yardPool":[
                 { "yardName": "N_darkForest_trees", "yardLabel": "1Mid1Sml", "num": 2 },
-                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
-
+                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 },
+                
+                { "yardName": "N_breakStones", "yardLabel": "DarkForest", "num": 1 }
               
             ]
             
@@ -81,8 +82,7 @@
             "density.lvl": 3,
             "applyPercent": 0.0,
 
-            "yardPool":[
-                { "yardName": "N_darkForest_trees", "yardLabel": "1Mid-NMushroom", "num": 1 }
+            "yardPool":[                
             ]
         }
     ],
@@ -96,9 +96,9 @@
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
+            { "yardName": "N_floorGo", "yardLabel": "DarkForest", "num": 1 }
         ],
-        "density.lvls":[ ]
+        "density.lvls":[ 0, 1, 3 ]
     }
 
 }

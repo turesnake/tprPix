@@ -58,6 +58,9 @@ enum class AnimLabel : u32_t{
     T1,
     T2,
 
+    Front,
+    Back,
+
     //...
 };
 

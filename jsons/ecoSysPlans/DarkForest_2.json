@@ -1,0 +1,94 @@
+[
+{
+    "name": "DarkForest_1",
+    "EcoSysPlanType": "DarkForest",
+    "colorTableName": "darkForest",    
+    "density.SeaLvlOff": 25.0,
+    "density.DivideType": "default",
+
+    "natureMajorYardPools":[
+
+        {
+            "annotate": "====================[ -3 ]====================",
+            "density.lvl": -3,
+            "applyPercent": 0.0,
+            "yardPool":[
+            ]
+            
+        },
+
+        {
+            "annotate": "====================[ -2 ]====================",
+            "density.lvl": -2,
+            "applyPercent": 0.5,
+            "yardPool":[
+                { "yardName": "N_breakStones", "yardLabel": "DarkForest", "num": 1 }
+            ]
+        },
+
+        {
+            "annotate": "====================[ -1 ]====================",
+            "density.lvl": -1,
+            "applyPercent": 0.5,
+            "yardPool":[
+                { "yardName": "N_breakStones", "yardLabel": "DarkForest", "num": 1 }
+            ]
+        },
+
+        {
+            "annotate": "====================[ 0 ]====================",
+            "density.lvl": 0,
+            "applyPercent": 0.5,
+            "yardPool":[
+                { "yardName": "N_breakStones", "yardLabel": "DarkForest", "num": 1 }
+            ]
+
+        },
+        
+        {
+            "annotate": "====================[ 1 ]====================",
+            "density.lvl": 1,
+            "applyPercent": 0.5,
+            "yardPool":[
+                { "yardName": "N_breakStones", "yardLabel": "DarkForest", "num": 1 }
+            ]
+
+        },
+
+        {
+            "annotate": "====================[ 2 ]====================",
+            "density.lvl": 2,
+            "applyPercent": 0.0,
+
+            "yardPool":[
+            ]
+            
+        },
+
+        {
+            "annotate": "====================[ 3 ]====================",
+            "density.lvl": 3,
+            "applyPercent": 0.0,
+            "yardPool":[
+            ]
+        }
+    ],
+
+
+    "villageBlueprintPool":[ 
+        { "villageName": "empty_test", "num": 0 },
+        { "villageName": "v_1", "num": 1 }
+    ],
+
+
+    "natureFloorYards": {
+        "yardPool":[
+            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
+        ],
+        "density.lvls":[ ]
+    }
+
+}
+
+
+]

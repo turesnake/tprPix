@@ -5,7 +5,7 @@
     "yardName": "N_floorGo_LineTest",
     "yardLabel": "colorful",
 
-    "pngLPath": "/natures/floorGos/natureFloorGo_B.M.png",
+    "pngLPath": "/_natures/_floorGos/natureFloorGo_B.M.png",
     "frameNum.col":  6,
     "frameNum.row":  4,
     "totalFrameNum": 24,
@@ -55,7 +55,7 @@
     "yardName": "N_floorGo_LineTest",
     "yardLabel": "red",
 
-    "pngLPath": "/natures/floorGos/natureFloorGo_B.M.png",
+    "pngLPath": "/_natures/_floorGos/natureFloorGo_B.M.png",
     "frameNum.col":  6,
     "frameNum.row":  4,
     "totalFrameNum": 24,
@@ -105,7 +105,7 @@
     "yardName": "N_floorGo_LineTest",
     "yardLabel": "blue",
 
-    "pngLPath": "/natures/floorGos/natureFloorGo_B.M.png",
+    "pngLPath": "/_natures/_floorGos/natureFloorGo_B.M.png",
     "frameNum.col":  6,
     "frameNum.row":  4,
     "totalFrameNum": 24,
@@ -144,6 +144,106 @@
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
                 { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_2m2", "num": 3 }
+            ]
+        }
+    ]
+},
+
+{
+    "annotation": " 黑森林 地面材质 ",
+
+    "yardName": "N_floorGo",
+    "yardLabel": "DarkForest",
+
+    "pngLPath": "/_natures/_floorGos/natureFloorGo_B.M.png",
+    "frameNum.col":  6,
+    "frameNum.row":  4,
+    "totalFrameNum": 24,
+
+    "isHaveMajorGos": false,
+    "isHaveFloorGos": true,
+
+    "varTypes":[
+        {
+            "annotation": " 4m4 floorGo ",
+            "type": "V_30",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_4m4",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_4m4", "num": 1 }
+            ]
+        },
+
+        {
+            "annotation": " 3m3 floorGo ",
+            "type": "V_29",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_3m3",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_3m3", "num": 1 }
+            ]
+        },
+
+        {
+            "annotation": " 2m2 floorGo ",
+            "type": "V_28",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_2m2", "num": 1 }
+            ]
+        }
+    ]
+},
+
+{
+    "annotation": " 沙漠 地面材质 ",
+
+    "yardName": "N_floorGo",
+    "yardLabel": "Desert",
+
+    "pngLPath": "/_natures/_floorGos/natureFloorGo_B.M.png",
+    "frameNum.col":  6,
+    "frameNum.row":  4,
+    "totalFrameNum": 24,
+
+    "isHaveMajorGos": false,
+    "isHaveFloorGos": true,
+
+    "varTypes":[
+        {
+            "annotation": " 4m4 floorGo ",
+            "type": "V_30",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_4m4",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_4m4", "num": 1 }
+            ]
+        },
+
+        {
+            "annotation": " 3m3 floorGo ",
+            "type": "V_29",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_3m3",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_3m3", "num": 1 }
+            ]
+        },
+
+        {
+            "annotation": " 2m2 floorGo ",
+            "type": "V_28",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_2m2", "num": 1 }
             ]
         }
     ]

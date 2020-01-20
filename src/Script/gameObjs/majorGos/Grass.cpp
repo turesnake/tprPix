@@ -12,7 +12,7 @@
 #include <string>
 #include <random>
 
-//-------------------- tpr --------------------//
+//-------------------- Lib --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -46,13 +46,8 @@ using namespace std::placeholders;
 namespace gameObjs {//------------- namespace gameObjs ----------------
 namespace grass_inn {//----------- namespace: grass_inn ----------------//
 
-
-
     std::vector<AnimActionEName> windAnimActionEName_pool {};
-
     
-
-
     //----- flags -----//
     bool    isFstCalled {true};
     //===== funcs =====//
@@ -67,6 +62,7 @@ public:
         windAnimUPtr( std::make_unique<component::WindAnim>() )
         {}
 
+    // Exist but forbidden to call
     Grass_PvtBinary( const Grass_PvtBinary & ){ tprAssert(0); }
     Grass_PvtBinary &operator=( const Grass_PvtBinary & );
 
@@ -108,11 +104,9 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- gomeshs -----//
     std::string         goMeshName {};
     size_t              meshNameCount {0};
-    animSubspeciesId_t     subspeciesId {};
     
     size_t idx {0};
-    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); 
-        it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
+    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
 
         const GoDataEntForCreate &goDataEntRef = *(*it);
 
@@ -124,11 +118,9 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
             meshNameCount++;
         }
 
-        subspeciesId = goDataEntRef.subspeciesId;
-
         //---
         auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
-                                subspeciesId,
+                                goDataEntRef.subspeciesId,
                                 AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
@@ -141,7 +133,6 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         // 先收集 所有参与 风吹动画的 gomesh 数据
         pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, goDataEntRef.windDelayIdx );
-
     }
 
     //----- component: windAnim -----//
