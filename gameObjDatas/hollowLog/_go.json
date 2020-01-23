@@ -1,0 +1,25 @@
+[
+  {
+    "goSpeciesName": "hollowLog",
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "moveType": "Crawl",
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": false,
+    "moveSpeedLvl": 0,
+    "alti": 0,
+    "weight": 50,
+    "pub.HP": 170,
+    "pub.MP": 50,
+
+    "afs_lPaths": [ 
+        "_afs.json"
+    ],
+    "multiGoMesh_lPaths": []
+
+  }
+]
+

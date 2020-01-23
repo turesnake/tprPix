@@ -5,7 +5,7 @@
     "yardName": "N_forest_trees",
     "yardLabel": "1Mid",
 
-    "pngLPath": "/_natures/forest/N_forest_1tree.M.png",
+    "pngLPath": "/_natures/forest/trees/N_forest_1tree.M.png",
     "frameNum.col":  8,
     "frameNum.row":  9,
     "totalFrameNum": 72,
@@ -61,7 +61,7 @@
     "yardName": "N_forest_trees",
     "yardLabel": "2Mid",
 
-    "pngLPath": "/_natures/forest/N_forest_2tree.M.png",
+    "pngLPath": "/_natures/forest/trees/N_forest_2tree.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,
@@ -119,7 +119,7 @@
     "yardName": "N_forest_trees",
     "yardLabel": "1Mid1Sml",
 
-    "pngLPath": "/_natures/forest/N_forest_tree_1mid1sml.M.png",
+    "pngLPath": "/_natures/forest/trees/N_forest_tree_1mid1sml.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,
@@ -159,7 +159,13 @@
             "goSpecPool":[
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
+
+
+
             ]
         },
 

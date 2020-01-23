@@ -18,6 +18,10 @@
 
 #include "Script/gameObjs/majorGos/chicken/Chicken.h"
 
+
+#include "Script/gameObjs/majorGos/HollowLog.h"
+
+
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
 

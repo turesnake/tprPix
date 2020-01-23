@@ -26,6 +26,10 @@
         "/_regulars/flower_black/_afs.json",
         "/_regulars/flower_highWhite/_afs.json",
         "/_regulars/flower_white/_afs.json",
+
+        "/_regulars/shamrock_white/_afs.json",
+        "/_regulars/shamrock_green/_afs.json",
+
         "/_regulars/triFlower_grey/_afs.json"
 
 
@@ -41,6 +45,10 @@
         "/_regulars/flower_black/_multiGoMesh.json",
         "/_regulars/flower_highWhite/_multiGoMesh.json",
         "/_regulars/flower_white/_multiGoMesh.json",
+
+        "/_regulars/shamrock_white/_multiGoMesh.json",
+        "/_regulars/shamrock_green/_multiGoMesh.json",
+
         "/_regulars/triFlower_grey/_multiGoMesh.json"
 
     ]

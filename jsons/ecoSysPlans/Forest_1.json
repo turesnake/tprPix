@@ -56,7 +56,9 @@
             "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 2 }
+                { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 17 },
+
+                { "yardName": "N_forest_hollowLogs", "yardLabel": "", "num": 1 }
                 
             ]
 
@@ -68,10 +70,11 @@
             "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 1 },
+                { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 7 },
                 
-                
-                { "yardName": "N_breakStones", "yardLabel": "Forest", "num": 1 }
+                { "yardName": "N_breakStones", "yardLabel": "Forest", "num": 5 },
+
+                { "yardName": "N_forest_hollowLogs", "yardLabel": "", "num": 1 }
               
             ]
             
@@ -80,25 +83,28 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.0,
+            "applyPercent": 0.2,
 
-            "yardPool":[                
+            "yardPool":[   
+
+                { "yardName": "N_forest_hollowLogs", "yardLabel": "", "num": 1 }    
+
             ]
         }
     ],
 
 
     "villageBlueprintPool":[ 
-        { "villageName": "empty_test", "num": 0 },
-        { "villageName": "v_1", "num": 1 }
+        { "villageName": "empty_test", "num": 1 },
+        { "villageName": "v_1", "num": 0 }
     ],
 
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
+            { "yardName": "N_floorGo", "yardLabel": "Forest", "num": 1 }
         ],
-        "density.lvls":[ ]
+        "density.lvls":[ 1,2,3 ]
     }
 
 }

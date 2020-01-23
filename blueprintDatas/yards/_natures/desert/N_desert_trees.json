@@ -15,13 +15,14 @@
 
     "varTypes":[
         {
-            "annotation": "单独一颗树",
+            "annotation": " 一颗仙人掌 ",
             "type": "V_1",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Mid", "num": 3 }
+                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Mid", "num": 3 },
+                { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Sml", "num": 1 }
             ]
         },
 
@@ -32,10 +33,12 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 0 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 0 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 0 },
 
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Mid", "num": 3 }
 
             ]
         },
@@ -47,11 +50,9 @@
             "isAllInstanceUseSamePlan": false,
             "isPlotBlueprint": false,
             "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Big", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Mid", "num": 7 },
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Sml", "num": 1 }
-
-
 
             ]
         }

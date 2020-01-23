@@ -19,7 +19,9 @@
             "_floorGo.afs.json",
 
             "_darkForest/_afs.json",
-            "_desert/_afs.json"
+            "_forest/_afs.json",
+            "_desert/_afs.json",
+            "_savannah/_afs.json"
 
 
         ],

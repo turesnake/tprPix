@@ -56,10 +56,14 @@ void onGoSpeciesIds_SignUp(){
     GoSpecFromJson::insert_2_initFuncs( "chicken",      std::bind( &gameObjs::Chicken::init, _1, _2 ) );
 
 
+    GoSpecFromJson::insert_2_initFuncs( "hollowLog",      std::bind( &gameObjs::HollowLog::init, _1, _2 ) );
+
     //-------------------//
     //     artifacts
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "fence",      std::bind( &gameObjs::Fence::init, _1, _2 ) );
+
+
 
     //-------------------//
     //        tree
