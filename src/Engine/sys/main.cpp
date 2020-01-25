@@ -201,33 +201,14 @@ int main( int argc, char* argv[] ){
         //-- 目前版本 非常简陋
         input::processInput( esrc::get_windowPtr() );
 
+                // 在未来，这将是一个函数指针，可以切换绑定到不同的 具体函数上
+                // 而不是现在这个 唯一的实现
+                // ...
+
         //--------------------------------//
         //       scene Logic loop      
         //--------------------------------//
         sceneLogicLoopFunc();
-
-        /*
-        //================================//
-        // input/AI/LogicUpdate fps is steady,
-        // Affected by TimeBase::logicUpdateTimeLimit
-        logicLag += timerRef.get_last_deltaTime();
-        while( logicLag >= TimeBase::logicUpdateTimeLimit ){
-            logicLag -= TimeBase::logicUpdateTimeLimit;
-
-            //--------------------------------//
-            //            input   
-            //--------------------------------//
-            //-- 目前版本 非常简陋
-            //input::processInput( esrc::get_windowPtr() );
-
-            //--------------------------------//
-            //       scene Logic loop      
-            //--------------------------------//
-            sceneLogicLoopFunc();
-        }
-        */
-                        // 暂时停用，排查卡顿原因中 ...
-
 
         //================================//
         //       scene Render loop       

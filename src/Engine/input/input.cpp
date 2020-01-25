@@ -103,11 +103,18 @@ void init_input(){
     //       joystick
     //----------------------//
     //-- 简单版，找到第一个 joystick 就停手 --
+    //
+    //     非常简陋，同时未能搞定 手柄按键映射的问题...
+    //
     _inn::isFindJoystick = false;
     for( int i=0; i<10; i++ ){
         if( glfwJoystickPresent(i)==GL_TRUE ){
             _inn::isFindJoystick = true;
             _inn::joystickId = i;
+
+            cout << "joystick Name: " << glfwGetJoystickName(i) << endl;
+            // 第一个找到的 手柄 的名字 
+
             break;
         }
     }
@@ -127,6 +134,7 @@ void bind_inputINS_handleFunc( const F_InputINS_Handle &func_ ){
 /* ==========================================================
  *                 processInput
  *-----------------------------------------------------------
+ *  在未来，将成为一组 可切换的函数，而不是一个固定的函数 
  */
 void processInput( GLFWwindow *windowPtr_ ){
 
@@ -291,9 +299,11 @@ void joystick_update(){
     //--------------//
     //    Buttons
     //--------------//
-    //-- 暂时不处理 手柄 按键 ---
     
-    joystickButtonsPtr = glfwGetJoystickButtons(joystickId, &joystickButtonsCount);    
+    joystickButtonsPtr = glfwGetJoystickButtons(joystickId, &joystickButtonsCount); 
+
+    // 每次调用，都会返回 一个 固定个数个元素的 数组
+    // 比如，某个国产 手柄，15个元素 ...   
 
     /*
     for( int i=0; i<joystickButtonsCount; i++ ){
@@ -302,6 +312,8 @@ void joystick_update(){
         }
     }
     */
+
+
 
     for( const auto &[iGameKey, iButton] : joyButtonTable_runtime ){
         if( *(joystickButtonsPtr + static_cast<int>(iButton)) == GLFW_PRESS ){

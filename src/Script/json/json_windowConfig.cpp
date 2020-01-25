@@ -64,10 +64,12 @@ WindowConfigJsonData parse_windowConfigJsonFile(){
     {//--- windowPixW ---//
         const auto &a = check_and_get_value( doc, "windowPixW", JsonValType::Int );
         windowConfig.windowPixW = a.GetInt();
+        tprAssert( windowConfig.windowPixW > 0 );
     }
     {//--- windowPixH ---//
         const auto &a = check_and_get_value( doc, "windowPixH", JsonValType::Int );
         windowConfig.windowPixH = a.GetInt();
+        tprAssert( windowConfig.windowPixH > 0 );
     }
     {//--- isFullScreen ---//
         const auto &a = check_and_get_value( doc, "isFullScreen", JsonValType::Bool );

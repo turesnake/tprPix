@@ -67,7 +67,7 @@
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.99,
+            "applyPercent": 0.88,
 
             "yardPool":[
                 { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 7 },
