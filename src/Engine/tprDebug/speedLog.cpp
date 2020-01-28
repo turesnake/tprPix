@@ -75,8 +75,7 @@ void collect_cameraSpeed( const glm::dvec2 &speedV_ ){
         return;
     }
     // skip Idle State
-    if( is_closeEnough(speedV_.x, 0.0, 0.01) && 
-        is_closeEnough(speedV_.y, 0.0, 0.01) ){
+    if( is_closeEnough( speedV_, glm::dvec2{0.0,0.0}, 0.01 ) ){
         return;
     }
     speedLog_inn::cameraSpeedDatas.insert({

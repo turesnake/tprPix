@@ -126,7 +126,7 @@ void Move::renderUpdate_crawl(){
     //----------------//
     //   speedDPos - dpos/frame
     //----------------//
-    glm::dvec2 speedVec = this->crawlDirAxes.get_newVal().to_dpos() *
+    glm::dvec2 speedVec = this->crawlDirAxes.get_newVal().get_worldVal() *
                         SpeedLevel_2_val( this->moveSpeedLvl.get_newVal() ) *
                         60.0 * esrc::get_timer().get_smoothDeltaTime();
 

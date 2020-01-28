@@ -44,6 +44,14 @@ inline bool is_closeEnough( T a_, T b_, T threshold_ )noexcept{
                         ((a_-b_) < threshold_));
 }
 
+inline bool is_closeEnough( const glm::dvec2 &a_, const glm::dvec2 &b_, double step_=0.01 )noexcept{
+    return (    (std::abs(a_.x - b_.x) <= step_) &&
+                (std::abs(a_.y - b_.y) <= step_) );
+}
+
+
+
+
 
 /* ===========================================================
  *                   rotate_vec      

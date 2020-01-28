@@ -47,19 +47,4 @@ inline glm::vec3 glm_dvec3_2_vec3( const glm::dvec3 &dv_ ){
                         static_cast<float>(dv_.z) };
 }
 
-//-- 计算两个向量值 是否足够接近
-inline bool glm_is_near( const glm::dvec2 &a_, const glm::dvec2 &b_, double step_=0.01 ){
-    return (    (std::abs(a_.x - b_.x) <= step_) &&
-                (std::abs(a_.y - b_.y) <= step_) );
-}
-
-
-inline bool glm_is_near_zero( const glm::dvec2 &a_, double step_=0.01 ){
-    return (    (std::abs(a_.x) <= step_) &&
-                (std::abs(a_.y) <= step_) );
-}
-
-
-
-
 #endif

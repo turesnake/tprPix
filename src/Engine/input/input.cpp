@@ -126,8 +126,7 @@ void processInput( GLFWwindow *windowPtr_ ){
 
             glm::dvec2 lAxes = joyRef.get_LeftAxes();
 
-            if( !is_closeEnough<double>( lAxes.x, 0.0, 0.001 ) ||
-                !is_closeEnough<double>( lAxes.y, 0.0, 0.001 ) ){
+            if( !is_closeEnough( lAxes, glm::dvec2{0.0,0.0},0.001  ) ){
                 isFind_joyLeftAxes = true;
                 joyLeftAxes.x = lAxes.x;
                 joyLeftAxes.y = -lAxes.y; // 取反
