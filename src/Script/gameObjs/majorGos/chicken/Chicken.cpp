@@ -308,7 +308,7 @@ void Chicken::moveState_manage( GameObj &goRef_,
     auto it = moveStateTable.table.find(moveSpeedLvl);
     tprAssert( it != moveStateTable.table.end() );
     AnimActionEName  actionEName = it->second.first;
-    int timeStepOff = it->second.second;;
+    int timeStepOff = it->second.second;
         
 
     // 开启 fly 模式

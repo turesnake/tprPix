@@ -6,6 +6,7 @@
  * ----------------------------------------------------------
  */
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -104,7 +105,9 @@ int main( int argc, char* argv[] ){
     //           不依赖任何外部代码的资源
     //------------------------------------------//
     
-    input::init_input();
+    //input::InputInit_for_begin(); // 不要放在此处，放到各个 scene 开始的地方
+
+
     esrc::init_time();               //---- timer,logicTimeCircle -----
     esrc::init_gameSeed();
     esrc::init_VAOVBO();
@@ -173,7 +176,9 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           bind first scene
     //------------------------------------------//
-    prepare_for_sceneBegin();
+
+    prepareForScene_begin();
+    //prepareForScene_firstPlayInputSet();
     
 
     //========================================================//
@@ -199,6 +204,7 @@ int main( int argc, char* argv[] ){
         //            input   
         //--------------------------------//
         //-- 目前版本 非常简陋
+
         input::processInput( esrc::get_windowPtr() );
 
                 // 在未来，这将是一个函数指针，可以切换绑定到不同的 具体函数上

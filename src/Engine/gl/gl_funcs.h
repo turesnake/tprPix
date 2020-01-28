@@ -10,6 +10,7 @@
 #ifndef TPR_GL_FUNC_H
 #define TPR_GL_FUNC_H
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 

@@ -8,6 +8,7 @@
  * ----------------------------
  */
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -119,10 +120,10 @@ void glfw_window_creat(){
  * -- glfw 一些杂乱选项的 设置
  */
 void glfw_oth_set(){
-    //-- 当本 window in forcus 后，隐藏鼠标
-    //  本游戏中，鼠标只影响 player_go 的方向，可以被 显示。
-    //  所以，本游戏 不用 隐藏鼠标 
-    //glfwSetInputMode(esrc::windowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    
+    // 当本 window in forcus 后,鼠标不受任何影响
+    // 就像操作一款常规软件，鼠标可显示在 窗口上方， 方便操作 窗口中的 ui图标
+    glfwSetInputMode( esrc::get_windowPtr(), GLFW_CURSOR, GLFW_CURSOR_NORMAL );
 
     //--- vsync --
     // 强制开启，在普通显示屏上，fps会被锁到 60
@@ -140,9 +141,7 @@ void glfw_oth_set(){
  * -- glfw 回调函数 设置区
  */
 void glfw_callback_set(){
-     //-- 窗口模式中，不再允许用户更改 窗口尺寸
-    //glfwSetCursorPosCallback(       esrc::windowPtr, input::mouse_callback );  //-- 鼠标运动 -- 控制视角
-    //glfwSetScrollCallback(          window, scroll_callback ); //-- 鼠标滚轮 -- 控制视野
+    // nothing ...
 }
 
 

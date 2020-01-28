@@ -18,6 +18,7 @@
 #ifndef TPR_GAME_MESH_H
 #define TPR_GAME_MESH_H
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include <glad/glad.h>  
 
 //--- glm - 0.9.9.5 ---

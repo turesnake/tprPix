@@ -1,12 +1,12 @@
 /*
- * =================== sceneLoop_world.cpp ===================
+ * ====================== world/scene.cpp ===================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.29
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   正式游戏的 sceneLoop
+ *   scene: world
  * 
- *        临时版本 ...
+ *   正式的 游戏世界
  * 
  * ----------------------------
  */
@@ -48,36 +48,26 @@ namespace sc_world_inn {//-------------- namespace: sc_world_inn ---------------
 
 
     //===== funcs =====//
-    void inputINS_handle_in_sceneWorld( const InputINS &inputINS_);
+    void inputINS_handle( const InputINS &inputINS_);
 
 }//------------------ namespace: sc_world_inn end ------------------//
 
 
 
 
-/* ===========================================================
- *                prepare_for_sceneWorld
- * -----------------------------------------------------------
- * -- 在 siwth 进入 scene:world 之前，需要准备的工作
+/* 在 进入 scene:world 之前，需要准备的工作
  */
-void prepare_for_sceneWorld(){
+void prepareForScene_world(){
 
     //-- 合理的流程应该是：
     //  先 读取 player 数据，还有更多 全局性数据
     //  然后根据这些数据，来 build chunks
     //
     //
-        //--- 最简模式，仅仅生成 玩家所在的 chunk 及其周边 9 个 chunk
-        //   在未来，会被 完善的 游戏存档系统 所取代
-        //chunkCreate::create_9_chunks( IntVec2{ 1,1 } );
-
-        //go_byPass();  //- 硬生产一组 Norman 实例
-
-        //esrc::player.bind_goPtr(); //-- 务必在 go数据实例化后 再调用 --
-
+        
     
     esrc::get_camera().set_allDPos( esrc::get_player().get_goRef().get_dpos() );
-    input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle_in_sceneWorld, _1 ) );
+    input::bind_inputINS_handleFunc( std::bind( &sc_world_inn::inputINS_handle, _1 ) );
 
     switch_sceneLoop( SceneLoopType::World );
 
@@ -241,11 +231,7 @@ namespace sc_world_inn {//-------------- namespace: sc_world_inn ---------------
 
 
 
-/* ===========================================================
- *              inputINS_handle_in_sceneWorld
- * -----------------------------------------------------------
- */
-void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
+void inputINS_handle( const InputINS &inputINS_){
 
     Player &playerRef = esrc::get_player();
     GameObj &playerGoRef = playerRef.get_goRef();
@@ -271,18 +257,12 @@ void inputINS_handle_in_sceneWorld( const InputINS &inputINS_){
     isNew_X_press = false;
     isNew_Y_press = false;
 
-    if( inputINS_.check_key(GameKey::KEY_A) ){
-        isNew_A_press = true;
-    }
-    if( inputINS_.check_key(GameKey::KEY_B) ){
-        isNew_B_press = true;
-    }
-    if( inputINS_.check_key(GameKey::KEY_X) ){
-        isNew_X_press = true;
-    }
-    if( inputINS_.check_key(GameKey::KEY_Y) ){
-        isNew_Y_press = true;
-    }
+
+    if( inputINS_.get_key(GameKey::A) ){ isNew_A_press = true; }
+    if( inputINS_.get_key(GameKey::B) ){ isNew_B_press = true; }
+    if( inputINS_.get_key(GameKey::X) ){ isNew_X_press = true; }
+    if( inputINS_.get_key(GameKey::Y) ){ isNew_Y_press = true; }
+
 
     SpeedLevel lvl = playerGoRef.move.moveSpeedLvl.get_newVal();
     //-- 有效的 节点帧 --

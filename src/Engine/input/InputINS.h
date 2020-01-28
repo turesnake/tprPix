@@ -35,82 +35,46 @@ public:
     inline void clear_allKeys()noexcept{
         this->keys   = 0;
         this->dirAxes.clear_all();
-        this->tmpDir.x = 0.0;
-        this->tmpDir.y = 0.0;
     }
 
 
-    inline void set_key_from_keyboard( GameKey key_ )noexcept{
-        // 并不直接写入 dirAxes，而是先记录在 临时变量上
-        // 最后阶段统一 设置 dirAxes
-        switch( key_ ){
-            case GameKey::LEFT:   this->tmpDir.x = -1.0;  break;
-            case GameKey::RIGHT:  this->tmpDir.x =  1.0;  break;
-            case GameKey::UP:     this->tmpDir.y =  1.0;  break;
-            case GameKey::DOWN:   this->tmpDir.y = -1.0;  break;
-            default: //- oth keys
-                keys = keys | (1<<(int)key_);
-                break;
-        }
+    inline void set_key( GameKey key_ )noexcept{
+        keys = keys | (1<<static_cast<int>(key_));
     }
 
-
-    inline void set_key_from_joystick( GameKey key_ )noexcept{
-        switch( key_ ){
-            //-- 暂时不允许 设置 方向键 button 
-            case GameKey::LEFT:   tprAssert(0); break;
-            case GameKey::RIGHT:  tprAssert(0); break;
-            case GameKey::UP:     tprAssert(0); break;
-            case GameKey::DOWN:   tprAssert(0); break;
-            default: //- oth keys
-                keys = keys | (1<<(int)key_);
-                break;
-        }
-    }
-
-    // 并不直接写入 dirAxes，而是先记录在 临时变量上
-    // 最后阶段统一 设置 dirAxes
-    inline void collect_dirAxes_from_joystick( double x_, double y_ )noexcept{
-        this->tmpDir.x = x_;
-        this->tmpDir.y = y_;
-    }
-
-    // 将数据从 tmpDir 同步到 dirAxes
-    inline void sync_dirAxes()noexcept{
-        this->dirAxes.set( this->tmpDir );
-    }
     
-
-    //-- 目前被 sceneBegin 使用 --
-    inline bool check_key( GameKey key_ ) const noexcept{
-        size_t idx = gameKey_2_size_t(key_);
-        if(  idx < 32 ){
-            return (((keys>>idx) & 1)==1);
-        }else{
-            switch( key_ ){
-                case GameKey::LEFT:  return (dirAxes.get_x() < -0.0);
-                case GameKey::RIGHT: return (dirAxes.get_x() >  0.0);
-                case GameKey::UP:    return (dirAxes.get_y() >  0.0);
-                case GameKey::DOWN:  return (dirAxes.get_y() < -0.0);
-                default:
-                    tprAssert(0);
-                    return false;
-            }
-        }
+    inline void collect_dirAxes_from_joystick( const glm::dvec2 &val_ )noexcept{
+        this->dirAxes.set( val_ );
     }
 
-    inline const DirAxes &get_dirAxes() const noexcept{
+    inline bool get_key( GameKey key_ )const noexcept{
+        int idx = static_cast<int>(key_);
+        return ( ((keys>>idx) & 1) == 1 );
+    }
+
+    inline const DirAxes &get_dirAxes()const noexcept{
         return this->dirAxes;
     }
-    
+
+
+    inline bool is_dir_up()const noexcept{
+        return (this->dirAxes.get_origin_y() > 0.1);
+    }
+    inline bool is_dir_down()const noexcept{
+        return (this->dirAxes.get_origin_y() < -0.1);
+    }
+    inline bool is_dir_left()const noexcept{
+        return (this->dirAxes.get_origin_x() < -0.1);
+    }
+    inline bool is_dir_right()const noexcept{
+        return (this->dirAxes.get_origin_x() > 0.1);
+    }
+
 
 private:
     //======== vals ========//
-    u32_t      keys     {0};    //- 32个功能按键， bit-map
+    u32_t      keys     {0};    //- 15个功能按键， bit-map, 实际可存储 32 个
     DirAxes    dirAxes   {};    //- 方向键数据 [-1.0, 1.0]
-
-    //--- tmp vals ---//
-    glm::dvec2  tmpDir {0.0, 0.0};
 };
 
 

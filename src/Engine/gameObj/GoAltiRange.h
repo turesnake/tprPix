@@ -15,7 +15,7 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
-
+#include "tprMath.h"
 
 
 
@@ -42,7 +42,7 @@ public:
 
     inline bool is_collide( const GoAltiRange& a_ )noexcept{
         bool rbool;
-        if( low == a_.low ){
+        if( is_closeEnough<double>( low, a_.low, 0.01 ) ){
             return true;
         }else if( low < a_.low ){
             (high>a_.low) ? rbool=true : rbool=false;
@@ -82,7 +82,8 @@ inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept
  * -----------------------------------------------------------
  */
 inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_ )noexcept{
-    if( a_.low == b_.low ){
+
+    if( is_closeEnough<double>( a_.low, b_.low, 0.01 ) ){
         return true;
     }else if( a_.low < b_.low ){
         return ((a_.high>b_.low) ? true : false);

@@ -10,6 +10,7 @@
 #ifndef TPR_INPUT_H
 #define TPR_INPUT_H
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
@@ -31,10 +32,11 @@ using F_InputINS_Handle = std::function< void(const InputINS&) >;
 void bind_inputINS_handleFunc( const F_InputINS_Handle &_func );
 
 
-void init_input();
+void InputInit_for_begin(); // 仅适用于 scene:begin
+
+
 
 void processInput( GLFWwindow *windowPtr_ );
-//void scroll_callback(GLFWwindow* windowPtr_, double xoffset_, double yoffset_);
 IntVec2 get_mouse_pos();
 
 

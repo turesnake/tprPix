@@ -56,6 +56,8 @@ public:
     inline void clear_all()noexcept{
         this->x = 0.0;
         this->y = 0.0;
+        this->origin_x = 0.0;
+        this->origin_y = 0.0;
     }
 
     inline void set( double x_, double y_ )noexcept{
@@ -135,9 +137,14 @@ private:
 
     //-- 当 游戏世界坐标系，不等同于 window 坐标系时，
     // 使用下面这组值，来保存 每一次在 limit_vals() 中，修正方向前的数据
-    // 仅用于 dirAxes_2_nineDirection() 中
+    // ---
+    // 用于 dirAxes_2_nineDirection() 中
+    // 以及 UI界面：如果玩家操纵 joystick/WSAD 来移动光标，origin 值 就是最原始的输入值
     double origin_x {0.0}; //- [-1.0, 1.0]
     double origin_y {0.0}; //- [-1.0, 1.0]
+
+                    // 目前，转换后值 和 origin值 的混用，已经造成了一个 混乱。
+                    // 也许在未来，会被彻底 分开
 
 };
 
@@ -146,17 +153,15 @@ private:
 /* ===========================================================
  *                  operator  ==, !=
  * -----------------------------------------------------------
+ * 这个实现，没有检测 origin 数据
  */
-
-// 这个实现有问题，它没有检测 origin 数据
-
 inline bool operator == ( DirAxes a_, DirAxes b_ ) noexcept {
-    return ( (a_.get_x()==b_.get_x()) && (a_.get_y()==b_.get_y()) );
+    return (is_closeEnough<double>( a_.get_x(), b_.get_x(), 0.001 )  && 
+            is_closeEnough<double>( a_.get_y(), b_.get_y(), 0.001 ) );
 }
 inline bool operator != ( DirAxes a_, DirAxes b_ ) noexcept {
-    return ( (a_.get_x()!=b_.get_x()) || (a_.get_y()!=b_.get_y()) );
+    return !(a_==b_);
 }
-
 
 
 

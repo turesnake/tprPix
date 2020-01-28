@@ -95,8 +95,6 @@ void Player::bind_go( goid_t goid_ ){
     }
 
 
-
-
                     //------
 
 
@@ -142,7 +140,6 @@ void Player::bind_go( goid_t goid_ ){
  *  每一渲染帧都会被调用
  */
 void Player::handle_inputINS( const InputINS &inputINS_ ){
-
 
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...

@@ -1,6 +1,9 @@
 {
-    "windowPixW": 1920,
-    "windowPixH": 1200,
+    "recommend:windowPixW":1920,
+    "recommend:windowPixH":1200,
+    
+    "windowPixW": 900,
+    "windowPixH": 600,
     "isFullScreen": false
 }
 

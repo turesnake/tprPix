@@ -17,6 +17,7 @@
 
 enum class SceneLoopType : int{
     Null,
+    //FirstPlayInputSet, //- 第一次启动游戏时，强制进入 按键设置界面
     Begin, //- 最最基础的 游戏启动界面
     
     World  //- 主游戏
@@ -27,8 +28,10 @@ inline F_void sceneRenderLoopFunc {nullptr};
 inline F_void sceneLogicLoopFunc {nullptr};
 
 
-void prepare_for_sceneBegin();
-void prepare_for_sceneWorld();
+//void prepareForScene_firstPlayInputSet();
+void prepareForScene_begin();
+void prepareForScene_world();
+
 
 void switch_sceneLoop( SceneLoopType type_ );
 

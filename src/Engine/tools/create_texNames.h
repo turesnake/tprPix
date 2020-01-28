@@ -8,6 +8,7 @@
 #ifndef TPR_CREATE_TEXNAMES_H
 #define TPR_CREATE_TEXNAMES_H
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include <glad/glad.h> 
 
 //-------------------- CPP --------------------//

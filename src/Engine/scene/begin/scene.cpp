@@ -1,10 +1,11 @@
 /*
- * =================== sceneLoop_world.cpp ===================
+ * ===================   begin/scene.cpp ===================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.29
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- *   正式游戏的 sceneLoop
+ *   begin: scene
+ * 
  *   目前，整个文件的 实现 都很潦草简陋...
  *  
  *   希望能在未来，实现 更加正式的 UI ／ scene 系统
@@ -76,17 +77,17 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
 
 
     //===== funcs =====//
-    void inputINS_handle_in_sceneBegin( const InputINS &inputINS_);
+    void inputINS_handle( const InputINS &inputINS_);
 
 }//------------------ namespace: sc_begin_inn end ------------------//
 
 
-/* ===========================================================
- *                prepare_for_sceneBegin
- * -----------------------------------------------------------
- * -- 在 siwth 进入 scene:begin 之前，需要准备的工作
+/* 在 进入 scene:begin 之前，需要准备的工作
  */
-void prepare_for_sceneBegin(){
+void prepareForScene_begin(){
+
+    // input init 
+    input::InputInit_for_begin(); // 从 main.cpp 转移来的
 
     //----------------------------//
     //      create ui objs
@@ -141,26 +142,20 @@ void prepare_for_sceneBegin(){
         }
     }
     
-    input::bind_inputINS_handleFunc( std::bind( &sc_begin_inn::inputINS_handle_in_sceneBegin, _1 ) );
+    input::bind_inputINS_handleFunc( std::bind( &sc_begin_inn::inputINS_handle, _1 ) );
     switch_sceneLoop( SceneLoopType::Begin );
 
 }
 
 
 
-/* ===========================================================
- *                sceneLogicLoop_begin
- * -----------------------------------------------------------
- */
+
 void sceneLogicLoop_begin(){
     //  nothing ...
 }
 
 
-/* ===========================================================
- *                 sceneRenderLoop_begin
- * -----------------------------------------------------------
- */
+
 void sceneRenderLoop_begin(){
 
     //--------------------------------//
@@ -207,12 +202,10 @@ void sceneRenderLoop_begin(){
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
 
 
-/* ===========================================================
- *              inputINS_handle_in_sceneBegin
- * -----------------------------------------------------------
- * -- 目前未实现对 ESC 健的处理...
+
+/* 目前未实现对 ESC 健的处理...
  */
-void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
+void inputINS_handle( const InputINS &inputINS_){
 
     //-- 当获得一次有效 input后，屏蔽之后的 10 帧。
     if( is_input_open == false ){
@@ -228,8 +221,7 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
     //      Key: H 
     //      Key: ENTER
     //-----------------------//
-    if( inputINS_.check_key(GameKey::KEY_A) ||
-        inputINS_.check_key(GameKey::KEY_ENTER) ){
+    if( inputINS_.get_key(GameKey::A) ){
         is_input_open = false;
         cout << "enter" << endl;
 
@@ -336,13 +328,17 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         }
 
         // 准备进入 sceneWorld ...
-        prepare_for_sceneWorld();
+        prepareForScene_world();
         return;
     }
 
 
     //-- 只检查 上下 健 --
-    if( inputINS_.check_key(GameKey::UP) ){
+
+    //if( inputINS_.get_dirAxes().get_y() > 0.1 ){
+    if( inputINS_.is_dir_up() ){ 
+    //if( inputINS_.get_key(GameKey::UP) ){
+
         is_input_open = false;
         //---
         if( targetIdx <= 0 ){
@@ -356,7 +352,10 @@ void inputINS_handle_in_sceneBegin( const InputINS &inputINS_){
         button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_dpos() );
 
 
-    }else if( inputINS_.check_key(GameKey::DOWN) ){
+    }
+    //else if( inputINS_.get_dirAxes().get_y() < -0.1 ){
+    else if( inputINS_.is_dir_down() ){
+    //else if( inputINS_.check_key(GameKey::DOWN) ){
         is_input_open = false;  
         //---
         if( targetIdx >= butonUIAnchors.size()-1 ){

@@ -11,6 +11,7 @@
 #ifndef TPR_ESRC_VAO_VBO_H
 #define TPR_ESRC_VAO_VBO_H
 //=== *** glad FIRST, glfw SECEND *** ===
+// Don't include glfw3.h ALONE!!!
 #include <glad/glad.h>  
 
 //------------------- Libs --------------------//

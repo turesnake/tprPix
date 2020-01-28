@@ -72,7 +72,15 @@ private:
     double  alti {}; //- 腾空高度。
     //--
     glm::dvec2 basePointProportion {}; 
+                    // 将 window 看成一张 [-1.0,1.0] 的坐标图
+                    // 想要定位一个 uigo，就要先确定一个 basePoint （基于以上坐标系的一个值）
+                    // 最常用的有 中心点，四角点 和 四边中点
+
     glm::dvec2 offDPos {};
+                    // 在 basePointProportion 基础上，
+                    // 再累加一个 像素偏移值
+                    // 以此获得，最终的 uigo 坐标值
+
 };
 
 
