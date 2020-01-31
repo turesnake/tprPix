@@ -209,7 +209,7 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
                     }
 
                     tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
-                    auto yardId = blueprint::YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel);
+                    auto yardId = blueprint::YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel, NineDirection::Center);
                     auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
                     tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_2f2 ); // Must 1f1 ( nature floor yard  )
                     //---
@@ -283,7 +283,7 @@ void parse_naturePool( const Value &densityPoolVal_, EcoSysPlan &ecoPlanREf_ ){
 
             //--- 检查 name / yardSize ---
             tprAssert( blueprint::YardBlueprintSet::is_find_name(yardName, yardLabel) ); // Must Exist!!!
-            yardId = blueprint::YardBlueprintSet::get_yardBlueprintId( yardName, yardLabel );
+            yardId = blueprint::YardBlueprintSet::get_yardBlueprintId( yardName, yardLabel, NineDirection::Center );
             auto &yardRef = blueprint::YardBlueprintSet::get_yardBlueprintRef( yardId );
             tprAssert( yardRef.get_yardSize() == blueprint::YardSize::_1f1 ); // Must 1f1 ( nature major yard  )
             //---

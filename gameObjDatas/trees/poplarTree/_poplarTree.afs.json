@@ -26,9 +26,9 @@
     
             {
                 "path": "poplar_mid.P.png",
-                "frameNum.col":  4,
+                "frameNum.col":  3,
                 "frameNum.row":  1,
-                "totalFrameNum": 4,
+                "totalFrameNum": 3,
                 "isHaveShadow": true,
                 "isPjtSingle": true,
                 "isShadowSingle": false,
@@ -39,7 +39,7 @@
                         "animLabel": "Mid",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
-                        "idxNums": 4,
+                        "idxNums": 3,
                         "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                         "isOpaque": true
                     }

@@ -64,6 +64,12 @@ enum class AnimLabel : u32_t{
     Normal,
     Special,
 
+    //---
+    // floorGo:road: 
+    TwoPorts,   // 2个端口
+    ThreePorts, // 3个端口
+
+
     //...
 };
 

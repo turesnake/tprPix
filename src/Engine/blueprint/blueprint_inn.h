@@ -232,22 +232,7 @@ public:
         vtPtr(vtPtr_)
         {}
 
-    inline yardBlueprintId_t apply_a_yardBlueprintId( size_t uWeight_ )noexcept{
-        yardBlueprintId_t yardId = this->vtPtr->apply_rand_yardBlueprintId( uWeight_ );
-
-        if( this->isAllInstanceUseSamePlan ){
-            //-- 统一值 只生成一次，并永久保留
-            if( !this->isUnifiedValsset ){
-                this->isUnifiedValsset = true;
-                this->unifiedYardId  = yardId;
-            }
-            //-- 直接获得 统一值
-            return this->unifiedYardId;
-        }else{
-            //-- 每次都独立分配 yardId --
-            return yardId;
-        }
-    }
+    yardBlueprintId_t apply_a_yardBlueprintId( size_t uWeight_, NineDirection yardDir_ )noexcept;
 
 private:
     bool isAllInstanceUseSamePlan   {}; // 是否 本类型的所有个体，共用一个 实例化对象
@@ -268,9 +253,9 @@ public:
             this->varTypes_V.insert({ type, VarType_V{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
         }
     }
-    inline yardBlueprintId_t apply_a_yardBlueprintId( VariableTypeIdx type_, size_t uWeight_ )noexcept{
+    inline yardBlueprintId_t apply_a_yardBlueprintId( VariableTypeIdx type_, size_t uWeight_, NineDirection yardDir_ )noexcept{
         tprAssert( this->varTypes_V.find(type_) != this->varTypes_V.end() );
-        return this->varTypes_V.at(type_).apply_a_yardBlueprintId( uWeight_ );
+        return this->varTypes_V.at(type_).apply_a_yardBlueprintId( uWeight_, yardDir_ );
     }
 private:
     std::unordered_map<VariableTypeIdx, VarType_V> varTypes_V {};

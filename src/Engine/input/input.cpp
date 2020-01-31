@@ -27,6 +27,9 @@
 
 #include "InputOriginData.h"
 
+#include "JoystickButton_2_GameKey_map.h"
+#include "KeyBoardKey_2_GameKey_map.h"
+
 
 #include "esrc_player.h"
 #include "esrc_window.h"
@@ -96,7 +99,7 @@ void processInput( GLFWwindow *windowPtr_ ){
     //-------------------------------//
     input_inn::reflresh_inputData();
 
-    input_inn::debug_inputData();
+    //input_inn::debug_inputData(); // show keys
 
 
     //-------------------------------//
@@ -166,24 +169,14 @@ void processInput( GLFWwindow *windowPtr_ ){
         const Joystick &joyRef = *joyUPtr;
 
         if( joyRef.get_isAnyButtonPress() ){
-            if( joyRef.get_button( Joystick::Button::A ) ){ 
-                input_inn::inputINS.set_key( GameKey::A ); 
-                isFind_joyButtons = true;
-            }
 
-            if( joyRef.get_button( Joystick::Button::B ) ){ 
-                input_inn::inputINS.set_key( GameKey::B ); 
-                isFind_joyButtons = true;
-            }
-
-            if( joyRef.get_button( Joystick::Button::X ) ){ 
-                input_inn::inputINS.set_key( GameKey::X ); 
-                isFind_joyButtons = true;
-            }
-
-            if( joyRef.get_button( Joystick::Button::Y ) ){ 
-                input_inn::inputINS.set_key( GameKey::Y ); 
-                isFind_joyButtons = true;
+            for( const auto &[joyButton, gameKey] : JoystickButton_2_GameKey_map ){
+                if( joyRef.get_button( joyButton ) ){
+                    input_inn::inputINS.set_key( gameKey );
+                    if( !isFind_joyButtons ){
+                        isFind_joyButtons = true;
+                    }
+                }
             }
 
             //-- 屏蔽后续所有 手柄
@@ -195,12 +188,11 @@ void processInput( GLFWwindow *windowPtr_ ){
 
     if( !isFind_joyButtons ){
 
-        if( kbRef.get_key(KeyBoard::Key::ENTER) ){ input_inn::inputINS.set_key( GameKey::A ); }
-
-        if( kbRef.get_key(KeyBoard::Key::H) ){ input_inn::inputINS.set_key( GameKey::A ); }
-        if( kbRef.get_key(KeyBoard::Key::J) ){ input_inn::inputINS.set_key( GameKey::B ); }
-        if( kbRef.get_key(KeyBoard::Key::K) ){ input_inn::inputINS.set_key( GameKey::X ); }
-        if( kbRef.get_key(KeyBoard::Key::L) ){ input_inn::inputINS.set_key( GameKey::Y ); }
+        for( const auto &[kb, gameKey] : KeyBoardKey_2_GameKey_map ){
+            if( kbRef.get_key( kb ) ){
+                input_inn::inputINS.set_key( gameKey );
+            }
+        }
     }
 
     //------------------------//

@@ -28,10 +28,10 @@ void VillageBlueprint::init_for_static()noexcept{
 
 
 void VarTypeDatas_Village::init_check()noexcept{
-    tprAssert( !this->yardIds.empty() );
+    tprAssert( !this->getYardId_functors.empty() );
     //-- shuffle --//
     auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
-    std::shuffle( this->yardIds.begin(), this->yardIds.end(), shuffleEngine );
+    std::shuffle( this->getYardId_functors.begin(), this->getYardId_functors.end(), shuffleEngine );
 }
 
 

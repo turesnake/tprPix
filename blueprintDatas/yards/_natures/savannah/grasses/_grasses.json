@@ -13,53 +13,64 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+
+    "dirs":[
         {
-            "annotation": "高草",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Sml", "num": 1 }
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-            ]
-        },
-
-        {
-            "annotation": " 矮草-1 ",
-            "type": "V_10",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
-                
-            ]
-        },
-
-        {
-            "annotation": " 矮草-2 ",
-            "type": "V_16",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
-
-            ]
-        }
-
+            "varTypes":[
+                {
+                    "annotation": "高草",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Sml", "num": 1 }
         
+                    ]
+                },
+        
+                {
+                    "annotation": " 矮草-1 ",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
+                        
+                    ]
+                },
+        
+                {
+                    "annotation": " 矮草-2 ",
+                    "type": "V_16",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+        
+                    ]
+                }
+        
+                
+            ]
+
+        }
     ]
+
+    
 }
 
 

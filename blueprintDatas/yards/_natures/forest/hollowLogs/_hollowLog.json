@@ -13,67 +13,77 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": " 普通 倒地树干 ",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Normal", "num": 1 }
-            ]
-        },
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-        {
-            "annotation": " 特殊 倒地树干 ",
-            "type": "V_2",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Special", "num": 1 }
-            ]
-        },
-
-        {
-            "annotation": " 草 - 多 ",
-            "type": "V_10",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
-            ]
-        },
-
-        {
-            "annotation": " 草 - 少 ",
-            "type": "V_13",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 7 },
-                
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 1 },
-
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
-
-                { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 1 },
-                { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 1 },
-                { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 }
-
-
-            ]
-        }
-
-
+            "varTypes":[
+                {
+                    "annotation": " 普通 倒地树干 ",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Normal", "num": 1 }
+                    ]
+                },
         
+                {
+                    "annotation": " 特殊 倒地树干 ",
+                    "type": "V_2",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Special", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "annotation": " 草 - 多 ",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "annotation": " 草 - 少 ",
+                    "type": "V_13",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 7 },
+                        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 1 },
+        
+                        { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
+        
+                        { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 1 },
+                        { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 1 },
+                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 }
+        
+        
+                    ]
+                }
+        
+        
+                
+            ]
+
+        }
     ]
+
+    
 }
 
 

@@ -166,7 +166,7 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
                     }
 
                     if( num > 0 ){
-                        varTypeDatasUPtr->insert_2_yardIds( YardBlueprintSet::get_yardBlueprintId(yardName, yardLabel), num );
+                        varTypeDatasUPtr->insert_2_getYardId_functors( YardBlueprintSet::getFunctor_getYardId(yardName, yardLabel), num );
                     }
                 }
             }

@@ -10,6 +10,8 @@
 
 //-------------------- CPP --------------------//
 #include <unordered_set>
+#include <functional>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -237,24 +239,43 @@ private:
  */
 class YardBlueprintSet{
 public:
+    using F_getYardId = std::function< std::optional<yardBlueprintId_t>(NineDirection)>;
+
+
     YardBlueprintSet()=default;// DO NOT CALL IT DIRECTLY!!!
 
     //===== static =====//
     static void init_for_static()noexcept;
-    static yardBlueprintId_t init_new_yard( const std::string &yardName_, const std::string &yardLabel_ );
+    static yardBlueprintId_t init_new_yard( const std::string &yardName_, 
+                                            const std::string &yardLabel_,
+                                            NineDirection      yardDir_ );
 
     static YardBlueprint &get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept;
 
-    inline static yardBlueprintId_t get_yardBlueprintId( const std::string &yardName_, const std::string &yardLabel_ )noexcept{
-        //--- yardName ---//
-        tprAssert( YardBlueprintSet::name_2_yardSetIds.find(yardName_) != YardBlueprintSet::name_2_yardSetIds.end() );
-        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
-        YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
-        //--- yardLabel ---//
-        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
-        tprAssert( setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end() );
-        return setRef.yardIDs.at( setRef.name_2_labelIds.at(yardLabel) );
+    // 仅用于 json_ecoSysPlan.cpp
+    inline static yardBlueprintId_t get_yardBlueprintId(const std::string &yardName_, 
+                                                        const std::string &yardLabel_,
+                                                        NineDirection      yardDir_ )noexcept{
+        
+        auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
+        tprAssert( innUMap.find(yardDir_) != innUMap.end() );
+        return innUMap.at(yardDir_);
     }
+
+
+    // 返回一个 函数指针，存储在 village 实例中，为了可以用它，配合 具体的 dir，来获取 yardId
+    static F_getYardId getFunctor_getYardId(const std::string &yardName_, 
+                                            const std::string &yardLabel_ )noexcept{
+                                                                
+        auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
+
+        return [&innUMap]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
+            return ( innUMap.find(dir_) == innUMap.end() ) ?
+                        std::nullopt  :
+                        std::optional<yardBlueprintId_t>{ innUMap.at(dir_) };
+        };
+    }
+
     
     inline static bool is_find_name( const std::string &yardName_, const std::string &yardLabel_ )noexcept{
         //--- yardName ---//
@@ -271,6 +292,22 @@ public:
 
 private:
 
+    inline static std::unordered_map<NineDirection, yardBlueprintId_t> &
+    get_dir_2_yardId_umap(  const std::string &yardName_, const std::string &yardLabel_ )noexcept{
+        //--- yardName ---//
+        tprAssert( YardBlueprintSet::name_2_yardSetIds.find(yardName_) != YardBlueprintSet::name_2_yardSetIds.end() );
+        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
+        YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
+        //--- yardLabel ---//
+        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+        tprAssert( setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end() );
+        yardLabelId_t yardId = setRef.name_2_labelIds.at(yardLabel);
+
+        tprAssert( setRef.yardIDs.find(yardId) != setRef.yardIDs.end() ); // Must existed
+        return setRef.yardIDs.at( yardId );
+    }
+
+
     // "" / "Default", 将被统一替换为 "DEFAULT" 
     // 以此来表示，一种 默认 label 
     inline static std::string check_and_unify_default_labels( const std::string &yardLabel_ )noexcept{
@@ -284,8 +321,12 @@ private:
         }
     }
 
-    std::unordered_map<std::string, yardLabelId_t> name_2_labelIds {}; // 索引表
-    std::unordered_map<yardLabelId_t, yardBlueprintId_t> yardIDs;
+ 
+    std::unordered_map<std::string, yardLabelId_t> name_2_labelIds {}; // yardLabel 索引表
+
+    // 两层索引: yardLabel, dir 
+    std::unordered_map<yardLabelId_t, std::unordered_map<NineDirection, yardBlueprintId_t>> yardIDs;
+
 
     //===== static =====//
     static ID_Manager  yardSetId_manager; // apply yardBlueprintSet id

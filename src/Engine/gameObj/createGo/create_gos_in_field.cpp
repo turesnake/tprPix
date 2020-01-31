@@ -59,7 +59,8 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
 
     //----- fieldRim go [-DEBUG-] ------//
-    bool isFieldRimGoCreate { false };
+    //  显示 map 坐标框
+    bool isFieldRimGoCreate { true };
     if( isFieldRimGoCreate ){
         gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId( "fieldRim" ),
                                 fieldRef.get_midDPos(),

@@ -527,6 +527,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
 }
 
 
+// 缩写版 str
 NineDirection jsonStr_2_ninedirection( const std::string &str_ ){
 
     if(       str_ == "Center" ){ return NineDirection::Center;

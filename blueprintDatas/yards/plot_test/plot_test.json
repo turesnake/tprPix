@@ -13,21 +13,30 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": " 测试 plot 的平台，可以放 4m4 以下的 plot 1个 ",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": true,
-            "plotPool":[ 
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-                { "plotName": "rock_4m3", "num": 3 },
-                { "plotName": "rock_lichen_4m3", "num": 3 } 
-                
+            "varTypes":[
+                {
+                    "annotation": " 测试 plot 的平台，可以放 4m4 以下的 plot 1个 ",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+        
+                        { "plotName": "rock_4m3", "num": 3 },
+                        { "plotName": "rock_lichen_4m3", "num": 3 } 
+                        
+                    ]
+                }
             ]
         }
     ]
+
+    
 }
 
 ]

@@ -335,9 +335,7 @@ void inputINS_handle( const InputINS &inputINS_){
 
     //-- 只检查 上下 健 --
 
-    //if( inputINS_.get_dirAxes().get_y() > 0.1 ){
-    if( inputINS_.is_dir_up() ){ 
-    //if( inputINS_.get_key(GameKey::UP) ){
+    if( inputINS_.is_dir_up() || inputINS_.get_key(GameKey::Hat_Up) ){ 
 
         is_input_open = false;
         //---
@@ -353,9 +351,8 @@ void inputINS_handle( const InputINS &inputINS_){
 
 
     }
-    //else if( inputINS_.get_dirAxes().get_y() < -0.1 ){
-    else if( inputINS_.is_dir_down() ){
-    //else if( inputINS_.check_key(GameKey::DOWN) ){
+    else if( inputINS_.is_dir_down() || inputINS_.get_key(GameKey::Hat_Down) ){
+
         is_input_open = false;  
         //---
         if( targetIdx >= butonUIAnchors.size()-1 ){

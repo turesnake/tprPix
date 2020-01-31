@@ -104,6 +104,9 @@ inline NineDirection apply_a_random_direction_without_mid( size_t randUVal_ )noe
 std::string nineDirection_2_str( NineDirection dir_ )noexcept;
 
 
+NineDirection str_2_NineDirection( const std::string &str_ )noexcept;
+
+
 inline IntVec2 nineDirection_2_mposOff( NineDirection dir_ )noexcept{
     switch (dir_){
         case NineDirection::Center:      return IntVec2{  0,  0 };

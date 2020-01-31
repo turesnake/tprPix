@@ -84,7 +84,9 @@ class YardBlueprint;
 IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         const std::string &pngPath_M_,
                         IntVec2 frameNum_,
-                        size_t totalFrameNum_ );
+                        size_t totalFrameNum_,
+                        size_t fstFrameIdx_,
+                        size_t frameNums_ );
 
 }//--------------------- namespace: blueprint end ------------------------//
 #endif 

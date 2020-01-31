@@ -31,8 +31,8 @@ public:
     inline void set_isAllInstanceUseSamePlan( bool b_ )noexcept{ this->isAllInstanceUseSamePlan = b_; }
     inline void set_isRoad( bool b_ )noexcept{ this->isRoad = b_; }
 
-    inline void insert_2_yardIds( yardBlueprintId_t id_, size_t num_ )noexcept{ 
-        this->yardIds.insert( this->yardIds.end(), num_, id_ ); 
+    inline void insert_2_getYardId_functors( YardBlueprintSet::F_getYardId f_, size_t num_ )noexcept{ 
+        this->getYardId_functors.insert( this->getYardId_functors.end(), num_, f_ ); // copy
     }
 
 
@@ -41,12 +41,17 @@ public:
     //----- get -----//
     inline bool get_isRoad()const noexcept{ return this->isRoad; }
     inline bool get_isAllInstanceUseSamePlan()const noexcept{ return this->isAllInstanceUseSamePlan; }
-    inline yardBlueprintId_t apply_rand_yardBlueprintId( size_t uWeight_ )const noexcept{
-        return this->yardIds.at( (uWeight_ + 1076173) % this->yardIds.size() );
+
+    inline std::optional<yardBlueprintId_t> apply_rand_yardBlueprintId( size_t uWeight_, NineDirection yardDir_ )const noexcept{
+        size_t idx = (uWeight_ + 1076173) % this->getYardId_functors.size();
+        return this->getYardId_functors.at(idx)( yardDir_ );
     }
 
+
 private:
-    std::vector<yardBlueprintId_t> yardIds {}; // 随机分配池
+    // 不再直接存储 yardId, 而是存储一组 函数指针，在运行时，通过参数传入 yardDir, 再找出 yardId
+    std::vector<YardBlueprintSet::F_getYardId> getYardId_functors {}; 
+
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     bool isRoad {}; // 本变量是否为一个 道路单位  
 };

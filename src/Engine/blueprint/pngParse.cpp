@@ -139,8 +139,12 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
 IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         const std::string &pngPath_M_,
                         IntVec2 frameNum_,
-                        size_t totalFrameNum_ ){
+                        size_t totalFrameNum_,
+                        size_t fstFrameIdx_,
+                        size_t frameNums_ ){
 
+
+    tprAssert( fstFrameIdx_+frameNums_ <= totalFrameNum_ );
 
     plotPng_inn::build_paths( pngPath_M_, true );
     plotPng_inn::frameNum = frameNum_;
@@ -203,8 +207,10 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     //-----------------------//
     //    parse png data
     //-----------------------// 
+    // 并不读取全部数据，仅读取 参数指定的 那几帧
     if( yardRef_.get_isHaveMajorGos() ){
-        for( size_t i=0; i<plotPng_inn::M_frame_data_ary.size(); i++  ){ // each frame
+
+        for( size_t i=fstFrameIdx_; i<fstFrameIdx_+frameNums_; i++ ){
 
             auto &M_frameRef = plotPng_inn::M_frame_data_ary.at(i);
             auto &D_frameRef = plotPng_inn::D_frame_data_ary.at(i);
@@ -215,7 +221,9 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     }
 
     if( yardRef_.get_isHaveFloorGos() ){
-        for( size_t i=0; i<plotPng_inn::FM_frame_data_ary.size(); i++  ){ // each frame
+
+        for( size_t i=fstFrameIdx_; i<fstFrameIdx_+frameNums_; i++ ){
+
             auto &FM_frameRef = plotPng_inn::FM_frame_data_ary.at(i);
             auto &FD_frameRef = plotPng_inn::FD_frame_data_ary.at(i);
             //--
@@ -223,6 +231,8 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             plotPng_inn::handle_frame( mdRef, pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard );
         }
     }
+
+
 
     //---
     pixNum_per_frame.x--;

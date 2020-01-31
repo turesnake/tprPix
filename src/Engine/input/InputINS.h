@@ -58,16 +58,16 @@ public:
 
 
     inline bool is_dir_up()const noexcept{
-        return (this->dirAxes.get_originVal().y > 0.1);
+        return (this->dirAxes.get_originVal().y > 0.7);
     }
     inline bool is_dir_down()const noexcept{
-        return (this->dirAxes.get_originVal().y < -0.1);
+        return (this->dirAxes.get_originVal().y < -0.7);
     }
     inline bool is_dir_left()const noexcept{
-        return (this->dirAxes.get_originVal().x < -0.1);
+        return (this->dirAxes.get_originVal().x < -0.7);
     }
     inline bool is_dir_right()const noexcept{
-        return (this->dirAxes.get_originVal().x > 0.1);
+        return (this->dirAxes.get_originVal().x > 0.7);
     }
 
 

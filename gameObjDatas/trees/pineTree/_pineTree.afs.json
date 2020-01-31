@@ -26,9 +26,9 @@
     
             {
                 "path": "pineTree_mid.P.png",
-                "frameNum.col":  4,
+                "frameNum.col":  3,
                 "frameNum.row":  2,
-                "totalFrameNum": 8,
+                "totalFrameNum": 5,
                 "isHaveShadow": true,
                 "isPjtSingle": true,
                 "isShadowSingle": false,
@@ -39,7 +39,7 @@
                         "animLabel": "Mid",
                         "fstSubIdx": 0,
                         "fstIdx": 0,
-                        "idxNums": 8,
+                        "idxNums": 5,
                         "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                         "isOpaque": true
                     }

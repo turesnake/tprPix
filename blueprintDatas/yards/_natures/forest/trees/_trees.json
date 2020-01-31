@@ -13,44 +13,53 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": "单独一颗树",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
-            ]
-        },
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-        {
-            "annotation": "草-矮",
-            "type": "V_10",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
-            ]
-        },
-
-        {
-            "annotation": "草-高",
-            "type": "V_11",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+            "varTypes":[
+                {
+                    "annotation": "单独一颗树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "annotation": "草-矮",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "annotation": "草-高",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                    ]
+                }
             ]
         }
     ]
+
+    
 },
 
 
@@ -69,45 +78,54 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": "单独一颗树",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
-            ]
-        },
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-        {
-            "annotation": "草-矮",
-            "type": "V_10",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
-            ]
-        },
-
-        {
-            "annotation": "草-高",
-            "type": "V_11",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+            "varTypes":[
+                {
+                    "annotation": "单独一颗树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "annotation": "草-矮",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "annotation": "草-高",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                    ]
+                }
+        
             ]
         }
-
     ]
+
+    
 },
 
 
@@ -127,62 +145,72 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": "mid树",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "annotation": "mid树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "annotation": "sml树",
+                    "type": "V_2",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Sml", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "annotation": "草-矮",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
+        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
+        
+        
+        
+                    ]
+                },
+        
+                {
+                    "annotation": "草-高",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                    ]
+                }
+        
             ]
-        },
-
-        {
-            "annotation": "sml树",
-            "type": "V_2",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Sml", "num": 3 }
-            ]
-        },
-
-        {
-            "annotation": "草-矮",
-            "type": "V_10",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
-
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
-
-
-
-            ]
-        },
-
-        {
-            "annotation": "草-高",
-            "type": "V_11",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
-            ]
+            
         }
-
     ]
+
+    
 }
 
 

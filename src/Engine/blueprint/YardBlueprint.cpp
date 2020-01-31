@@ -69,7 +69,9 @@ void VarTypeDatas_Yard_FloorGo::init_check()noexcept{
  * 外部禁止 自行创建 Yard 实例，必须通过此函数
  * 允许多次向同一个  yard 实例 添加数据（宽松版）
  */
-yardBlueprintId_t YardBlueprintSet::init_new_yard( const std::string &yardName_, const std::string &yardLabel_ ){
+yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_, 
+                                                    const std::string &yardLabel_,
+                                                    NineDirection      yardDir_ ){
 
     //------------//
     //  yardName
@@ -106,20 +108,51 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard( const std::string &yardName_,
         tprAssert( outPair1.second );
         //---
         yardId = YardBlueprintSet::yardId_manager.apply_a_u32_id();
-        auto outPair2 = setPtr->yardIDs.insert({ labelId, yardId });
-        tprAssert( outPair2.second );
+
+
+        auto outPair2 = setPtr->yardIDs.insert({ labelId, std::unordered_map<NineDirection, yardBlueprintId_t>{} });
+        tprAssert( outPair2.second ); // Must success
+        auto &innUMap = outPair2.first->second;
+
+        auto outPair3 = innUMap.insert({ yardDir_, yardId });
+        tprAssert( outPair3.second ); // Must success
+
         //---
-        auto outPair3 = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
-        tprAssert( outPair3.second );
+        auto outPair4 = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+        tprAssert( outPair4.second );
 
     }else{ // find
         labelId = setPtr->name_2_labelIds.at( yardLabel ); // Must Exist
-        yardId = setPtr->yardIDs.at( labelId ); // Must Exist
-        //---
-        tprAssert( YardBlueprintSet::yardUPtrs.find(yardId) != YardBlueprintSet::yardUPtrs.end() ); // Must Exist
+
+        tprAssert( setPtr->yardIDs.find(labelId) != setPtr->yardIDs.end() );
+        auto &innUMap = setPtr->yardIDs.at( labelId ); // Must Exist
+
+
+        if( innUMap.find(yardDir_) == innUMap.end() ){ // not find
+
+            yardId = YardBlueprintSet::yardId_manager.apply_a_u32_id();
+
+            auto outPair1 = innUMap.insert({ yardDir_, yardId });
+            tprAssert( outPair1.second );
+
+            //---
+            auto outPair2 = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+            tprAssert( outPair2.second ); 
+
+        }else{ // find
+            yardId = innUMap.at( yardDir_ ); // Must Exist
+            tprAssert( YardBlueprintSet::yardUPtrs.find(yardId) != YardBlueprintSet::yardUPtrs.end() ); // Must Exist
+        }
     }
     return yardId;
 }
+
+
+
+
+
+
+
 
 
 

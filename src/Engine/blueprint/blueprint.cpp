@@ -97,7 +97,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         // 此功能尚未完成 ...
         // 其实不用为 road 设置特殊的功能，road 一般只有 floorGos 数据 ...
 
-        // 并未处理 yEntUPtr 的 brokenLvl / direction 数据
+        // 并未处理 yEntUPtr 的 brokenLvl 数据
 
         
         //=================//
@@ -108,7 +108,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                 //-- 蓝图 以 ecoobj/section left-bottom 点为 中心点
 
         suWeight = blueP_inn::calc_simple_uWeight( yardMPos );
-        auto yardId = varType_village_managerUPtr->apply_a_yardBlueprintId( yEntUPtr->varTypeIdx, suWeight );
+        auto yardId = varType_village_managerUPtr->apply_a_yardBlueprintId( yEntUPtr->varTypeIdx, suWeight, yEntUPtr->direction );
 
         YardBlueprint &yardRef = YardBlueprintSet::get_yardBlueprintRef( yardId );
         

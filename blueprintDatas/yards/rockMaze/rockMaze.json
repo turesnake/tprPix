@@ -13,76 +13,87 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": true,
 
-    "varTypes":[
+    "dirs":[
         {
-            "annotation": " 无苔藓-石Ent 1mpgo ",
-            "type": "V_1",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
-            "goSpecPool":[
-                { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Bald", "num": 1 }
-            ]
-        },
+            "Dir": "Center",
+            "isAllFramesInclude": true,
 
-        {
-            "annotation": " 石墙 4m1 ",
-            "type": "V_13",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": true,
-            "plotPool":[ 
-                { "plotName": "rockWall_4m1", "num": 3 } 
+            "varTypes":[
+                {
+                    "annotation": " 无苔藓-石Ent 1mpgo ",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Bald", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "annotation": " 石墙 4m1 ",
+                    "type": "V_13",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "rockWall_4m1", "num": 3 } 
+                    ]
+                },
+        
+                {
+                    "annotation": " 石墙 1m4 ",
+                    "type": "V_14",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "rockWall_1m4", "num": 3 } 
+                    ]
+                },
+        
+        
+        
+                
+        
+                {
+                    "annotation": "地板_test",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_2m2",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel":"MapEnt_2m2", "num": 3 }
+                    ]
+                },
+                {
+                    "annotation": "地板_test",
+                    "type": "V_29",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_3m3",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_3m3", "num": 3 }
+                    ]
+                },
+                {
+                    "annotation": "地板_test",
+                    "type": "V_28",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_4m4", "num": 3 }
+                    ]
+                }
+        
+        
             ]
-        },
 
-        {
-            "annotation": " 石墙 1m4 ",
-            "type": "V_14",
-            "isFloorGo": false,
-            "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": true,
-            "plotPool":[ 
-                { "plotName": "rockWall_1m4", "num": 3 } 
-            ]
-        },
-
-
-
-
-        {
-            "annotation": "地板_test",
-            "type": "V_30",
-            "isFloorGo": true,
-            "FloorGoSize": "MapEnt_2m2",
-            "isAllInstanceUseSamePlan": true,
-            "goSpecPool":[
-                { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel":"MapEnt_2m2", "num": 3 }
-            ]
-        },
-        {
-            "annotation": "地板_test",
-            "type": "V_29",
-            "isFloorGo": true,
-            "FloorGoSize": "MapEnt_3m3",
-            "isAllInstanceUseSamePlan": true,
-            "goSpecPool":[
-                { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_3m3", "num": 3 }
-            ]
-        },
-        {
-            "annotation": "地板_test",
-            "type": "V_28",
-            "isFloorGo": true,
-            "FloorGoSize": "MapEnt_4m4",
-            "isAllInstanceUseSamePlan": true,
-            "goSpecPool":[
-                { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_4m4", "num": 3 }
-            ]
         }
-
-
     ]
+
+    
 }
 
 
