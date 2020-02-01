@@ -21,6 +21,8 @@
 #include "BrokenLvl.h"
 #include "fieldKey.h"
 
+#include "FloorGoType.h"
+
 #include "PlotBlueprint.h"
 
 #include "blueprint_oth.h"
@@ -28,8 +30,7 @@
 #include "ID_Manager.h"
 
 
-//-------------------- Script --------------------//
-#include "Script/gameObjs/floorGos/FloorGoSize.h" // tmp
+
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//

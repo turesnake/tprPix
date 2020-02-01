@@ -44,7 +44,7 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
 
-    double calc_goMeshZOff( size_t mapEntUWeight_ );
+    double calc_goMeshZOff( size_t mapEntUWeight_, FloorGoLayer layer_ );
 
 
 }//--------------------- namespace: floorGo_inn end ------------------------//
@@ -74,11 +74,15 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
 
+    FloorGoLayer floorGoLayer {}; // 暂不存入 pvtBinary
+    if( auto retOpt = goDataPtr->get_floorGoLayer(); retOpt.has_value() ){
+        floorGoLayer = retOpt.value();
+    }else{
+        tprAssert(0);
+    }
 
     // 依靠 uWeight，计算 zOff，从而确保，相交的 floorgo 之间，恒定的覆盖关系
-    double goMeshZOff = floorGo_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight ); // (0.0, 0.1)
-                                // 并不完善，有些 floorgo，会覆盖任何其他 floorgo
-                                // ...
+    double goMeshZOff = floorGo_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight, floorGoLayer ); // (0.0, 0.1)
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
@@ -126,13 +130,13 @@ namespace floorGo_inn {//------------------ namespace: floorGo_inn -------------
 
 
 
-double calc_goMeshZOff( size_t mapEntUWeight_ ){
+double calc_goMeshZOff( size_t mapEntUWeight_, FloorGoLayer layer_ ){
 
     // 获得一个 小数值 (0.0, 0.1)
     double rd = static_cast<double>(mapEntUWeight_) / 71.17;
     double integer {}; // 不会被使用
-    double fract = modf( rd, &integer ) / 10.0; // (0.0, 0.1)
-    return fract;
+    double fract = modf(rd, &integer) / 10.0; // (0.0, 0.1)
+    return ( floorGoLayer_2_goMesh_baseZOff(layer_) + fract );
 }
 
 

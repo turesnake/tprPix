@@ -10,14 +10,17 @@
 #include <unordered_map>
 #include <map>
 #include <optional>
-
+#include <variant>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "NineDirection.h"
 #include "RGBA.h"
 #include "BrokenLvl.h"
+#include "FloorGoType.h"
 #include "tprMath.h"
 #include "tprAssert.h"
+
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -87,27 +90,44 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
 
 
 // 完全不关心 运行效率
-std::optional<std::pair<BrokenLvl,NineDirection>> rgba_2_DPngData( RGBA rgba_ )noexcept{
+std::optional<std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>> 
+rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept{
 
     HSV hsv = rgb_2_hsv( rgba_ ); // 返回值精度不够
 
-    BrokenLvl       bLvl {};
+    std::variant<BrokenLvl, FloorGoLayer> variant {};
     const std::map<NineDirection, RGBA> *containerPtr {nullptr};
 
     if( is_closeEnough<double>(hsv.h, 0.0, 10.0) ){ 
-        bLvl = BrokenLvl::Lvl_0;
+        //bLvl = BrokenLvl::Lvl_0;
+        isBrokenLvl_ ? 
+            variant = BrokenLvl::Lvl_0 :
+            variant = FloorGoLayer::L_0;
+
         containerPtr = &(dpc_inn::lvl_0);
     }else if( is_closeEnough<double>(hsv.h, 40.0, 10.0) ){
-        bLvl = BrokenLvl::Lvl_1;
+        isBrokenLvl_ ? 
+            variant = BrokenLvl::Lvl_1 :
+            variant = FloorGoLayer::L_1;
+
         containerPtr = &(dpc_inn::lvl_1);
     }else if( is_closeEnough<double>(hsv.h, 100.0, 10.0) ){
-        bLvl = BrokenLvl::Lvl_2;
+        isBrokenLvl_ ? 
+            variant = BrokenLvl::Lvl_2 :
+            variant = FloorGoLayer::L_2;
+
         containerPtr = &(dpc_inn::lvl_2);
     }else if( is_closeEnough<double>(hsv.h, 200.0, 10.0) ){
-        bLvl = BrokenLvl::Lvl_3;
+        isBrokenLvl_ ? 
+            variant = BrokenLvl::Lvl_3 :
+            variant = FloorGoLayer::L_3;
+
         containerPtr = &(dpc_inn::lvl_3);
     }else if( is_closeEnough<double>(hsv.h, 300.0, 10.0) ){
-        bLvl = BrokenLvl::Lvl_4;
+        isBrokenLvl_ ? 
+            variant = BrokenLvl::Lvl_4 :
+            variant = FloorGoLayer::L_4;
+
         containerPtr = &(dpc_inn::lvl_4);
     }else{
         // not find
@@ -119,7 +139,7 @@ std::optional<std::pair<BrokenLvl,NineDirection>> rgba_2_DPngData( RGBA rgba_ )n
     //-- 逐个比较确认，效率最低的方案
     for( const auto & [iDir, iRGBA] : *containerPtr ){
         if( rgba_.is_near( iRGBA, 8) ){
-            return { std::pair<BrokenLvl,NineDirection>{ bLvl, iDir } };
+            return { std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>{ iDir, variant } };
         }
     }
 
@@ -127,6 +147,9 @@ std::optional<std::pair<BrokenLvl,NineDirection>> rgba_2_DPngData( RGBA rgba_ )n
     // 要么是 辅助色，要么是颜色出错了，一切留给 caller 处理
     return std::nullopt;
 }
+
+
+
 
 
 }//--------------------- namespace: blueprint end ------------------------//

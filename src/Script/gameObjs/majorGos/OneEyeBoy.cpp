@@ -80,7 +80,12 @@ void OneEyeBoy::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.actionDirection.reset( goDataPtr->direction );
-        goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
+
+        if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
+            goRef_.brokenLvl.reset( retOpt.value() );
+        }else{
+            tprAssert(0);
+        }
 
     }else{
         tprAssert(0); //- 尚未实现

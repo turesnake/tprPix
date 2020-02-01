@@ -29,12 +29,6 @@
 
 namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 
-    std::default_random_engine  rEngine; //-通用 随机数引擎实例
-    inline std::uniform_real_distribution<double> uDistribution_f(0.0,100.0);
-    inline std::uniform_int_distribution<int> uDistribution_2(0,1);
-    inline std::uniform_int_distribution<int> uDistribution_4(0,3);
-
-
     //-- 周边4个 node 实例 mpos off 值 --
     const std::vector<IntVec2> nearFour_node_ecoObj_mposOffs {
         IntVec2{ 0, 0 },
@@ -118,8 +112,6 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
 
 
 void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
-
-    ecoObj_inn::rEngine.seed( static_cast<u32_t>(this->uWeight) ); //- 实现了伪随机
 
     this->ecoSysPlanId = targetEcoPlanPtr_->get_id();
     this->ecoSysPlanType = targetEcoPlanPtr_->get_type();

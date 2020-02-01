@@ -64,7 +64,12 @@ void PoplarTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
-    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
+
+    if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
+        goRef_.brokenLvl.reset( retOpt.value() );
+    }else{
+        tprAssert(0);
+    }
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

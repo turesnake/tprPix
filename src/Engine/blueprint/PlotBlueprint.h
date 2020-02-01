@@ -14,6 +14,8 @@
 #include <unordered_map>
 #include <memory>
 #include <set>
+#include <variant>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -22,6 +24,7 @@
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
+#include "FloorGoType.h"
 #include "IntVec.h"
 #include "ID_Manager.h"
 #include "tprAssert.h"
@@ -35,10 +38,29 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 // 剩余的信息，要通过 varType 获得
 class MapDataEnt{
 public:
+    MapDataEnt()=default;
+
+    inline std::optional<BrokenLvl> get_brokenLvl()const noexcept{
+        if( auto vPtr = std::get_if<BrokenLvl>( &this->brokenLvl_or_floorGoLayer ) ){
+            return { *vPtr };
+        }else{
+            return std::nullopt;
+        }
+    }
+
+    inline std::optional<FloorGoLayer> get_floorGoLayer()const noexcept{
+        if( auto vPtr = std::get_if<FloorGoLayer>( &this->brokenLvl_or_floorGoLayer ) ){
+            return { *vPtr };
+        }else{
+            return std::nullopt;
+        }
+    }
+
+    //------- vals -------//
     VariableTypeIdx varTypeIdx {};
     //--
     IntVec2         mposOff {}; // based on left-bottom 
-    BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};
+    std::variant<BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 };
 

@@ -61,7 +61,9 @@ namespace plotPng_inn {//-------- namespace: plotPng_inn --------------//
                         IntVec2  pixNum_per_frame_,
                         std::vector<RGBA> &M_frame_, 
                         std::vector<RGBA> &D_frame_,
-                        BlueprintType blueprintType_ );
+                        BlueprintType blueprintType_,
+                        bool    isFloorGoData_ );
+
     void build_paths( const std::string &path_M_, bool isFourPaths_ );
 
     bool is_uselessColor( RGBA rgba_ )noexcept;
@@ -70,10 +72,11 @@ namespace plotPng_inn {//-------- namespace: plotPng_inn --------------//
 }//------------- namespace: plotPng_inn end --------------//
 
 
-extern std::optional<std::pair<BrokenLvl,NineDirection>> rgba_2_DPngData( RGBA rgba_ )noexcept;
+extern std::optional<std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>> 
+rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept;
 
 
-// 目前已支持 plot/yard 蓝图的 png 数据解析
+// 目前已支持 plot/village 蓝图的 png 数据解析
 // ret: 每一帧 长宽像素值
 IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
                     const std::string &pngPath_M_,
@@ -120,9 +123,8 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
         //--
         mapDatasRef_.push_back( MapData{} ); // new empty ent
         auto &mdRef = mapDatasRef_.back();
-        plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, blueprintType_ );
+        plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, blueprintType_, false );
     }
-
 
     //---
     pixNum_per_frame.x--;
@@ -217,7 +219,7 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &D_frameRef = plotPng_inn::D_frame_data_ary.at(i);
             //--
             auto &mdRef = yardRef_.create_new_majorGo_mapData( frameAllocateTimes_.at(i) );
-            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard );
+            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard, false );
         }
     }
 
@@ -229,7 +231,7 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &FD_frameRef = plotPng_inn::FD_frame_data_ary.at(i);
             //--
             auto &mdRef = yardRef_.create_new_floorGo_mapData( frameAllocateTimes_.at(i) );
-            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard );
+            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard, true );
         }
     }
 
@@ -255,7 +257,8 @@ void handle_frame(  MapData &mapDataRef_,
                     IntVec2  pixNum_per_frame_, // 此值 包含了 多出来的那 1像素间隙
                     std::vector<RGBA> &M_frame_, 
                     std::vector<RGBA> &D_frame_,
-                    BlueprintType blueprintType_ ){
+                    BlueprintType blueprintType_,
+                    bool    isFloorGoData_ ){
 
     // 单帧 wh像素（每个像素，对应一个 mp）
     size_t W = cast_2_size_t(pixNum_per_frame_.x);
@@ -313,11 +316,12 @@ void handle_frame(  MapData &mapDataRef_,
                 entUPtr->mposOff = IntVec2{ i, j };
             }
 
-            auto outD = rgba_2_DPngData( d_rgba );
-            tprAssert( outD.has_value() );
-            entUPtr->brokenLvl = outD.value().first;
-            entUPtr->direction = outD.value().second;
+            bool isBrokenLvl = !((blueprintType_==BlueprintType::Yard) && isFloorGoData_);
+            auto retOpt = rgba_2_DPngData( d_rgba, isBrokenLvl );
 
+            tprAssert( retOpt.has_value() );
+            entUPtr->direction = retOpt.value().first;
+            entUPtr->brokenLvl_or_floorGoLayer = retOpt.value().second;
             //---
             mapDataRef_.data.push_back( std::move(entUPtr) ); // move
         }

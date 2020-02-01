@@ -15,12 +15,15 @@
 //------------------- CPP --------------------//
 #include <vector>
 #include <memory>
+#include <variant>
+#include <optional>
 
 //------------------- Engine --------------------//
 #include "GameObjType.h"
 #include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
+#include "FloorGoType.h"
 #include "animSubspeciesId.h"
 #include "IntVec.h"
 
@@ -46,11 +49,29 @@ class GoDataForCreate{
 public:
     GoDataForCreate()=default;
 
+
+    inline std::optional<BrokenLvl> get_brokenLvl()const noexcept{
+        if( auto vPtr = std::get_if<BrokenLvl>( &this->brokenLvl_or_floorGoLayer ) ){
+            return { *vPtr };
+        }else{
+            return std::nullopt;
+        }
+    }
+
+    inline std::optional<FloorGoLayer> get_floorGoLayer()const noexcept{
+        if( auto vPtr = std::get_if<FloorGoLayer>( &this->brokenLvl_or_floorGoLayer ) ){
+            return { *vPtr };
+        }else{
+            return std::nullopt;
+        }
+    }
+
     //---
     goSpeciesId_t      goSpeciesId {};
     glm::dvec2      dpos      {}; // go 绝对 dpos
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
-    BrokenLvl       brokenLvl {BrokenLvl::Lvl_0};
+
+    std::variant<BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
     
     //---
     bool            isMultiGoMesh {};

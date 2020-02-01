@@ -31,9 +31,6 @@
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
-    // for simpleUWeights
-    std::default_random_engine dRandEng; 
-    std::uniform_int_distribution<size_t> uDistribution(0, 10000);
 
     size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
 
@@ -351,8 +348,12 @@ namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 // simple_uWeight 为每个 mapent生成的，仅用于 蓝图数据分配的 随机数
 // 仅仅在 蓝图分配阶段 被使用
+// 会被各种线程调用，所以务必不要使用 公共数据!!!
 size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
 
+    std::default_random_engine dRandEng;
+    std::uniform_int_distribution<size_t> uDistribution(0, 10000);
+    //---
     mapEntKey_t key = mpos_2_key(mpos_);
 
     uint_fast32_t  seed = static_cast<uint_fast32_t>(key);
@@ -380,7 +381,9 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     GoDataForCreate &goDRef = *(outPair.first->second);
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDRef.direction = mapDataEntRef_.direction;
-    goDRef.brokenLvl = mapDataEntRef_.brokenLvl;
+
+    //goDRef.brokenLvl = mapDataEntRef_.brokenLvl;
+    goDRef.brokenLvl_or_floorGoLayer = mapDataEntRef_.brokenLvl_or_floorGoLayer;
 
     goDRef.goSpeciesId = goSpecRef_.goSpeciesId;
     goDRef.dpos = dpos_;
