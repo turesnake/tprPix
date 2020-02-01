@@ -3,7 +3,7 @@
     "annotation": "试验性质的yard蓝图，一组篱笆，一个 plot变量，两颗bush",
 
     "yardName": "plot_test",
-    "yardLabel": "",
+    
 
     "pngLPath": "/plot_test/plot_test.M.png",
     "frameNum.col":  1,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

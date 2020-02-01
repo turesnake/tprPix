@@ -19,6 +19,8 @@
 #include "tprAssert.h"
 #include "esrc_animFrameSet.h"
 
+#include "tprDebug.h"
+
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace anim_inn {//----------- namespace: anim_inn -------------//
 
@@ -74,11 +76,21 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
                                 NineDirection      dir_,
                                 BrokenLvl           brokenLvl_,
                                 AnimActionEName    actionEName_ ){
-        tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
-    return anim_inn::animSubs.at(subId_)->get_animActionPtr(  dir_, brokenLvl_, actionEName_ );
+
+    tprAssert( anim_inn::animSubs.find(subId_) != anim_inn::animSubs.end() );
+
+    auto ret = anim_inn::animSubs.at(subId_)->get_animActionPtr( dir_, brokenLvl_, actionEName_ );
+    if( !ret.has_value() ){
+        // debug
+        cout << "\ndir_ = " << nineDirection_2_str(dir_)
+            << "\nbrokenLvl_ = " << brokenLvl_2_str( brokenLvl_ )
+            << "\nactionEName_ = " << animActionEName_2_str( actionEName_ )
+            << endl;
+        tprAssert(0);
+    }
+
+    return ret.value();
 }
-
-
 
 
 //======= special ids =========//

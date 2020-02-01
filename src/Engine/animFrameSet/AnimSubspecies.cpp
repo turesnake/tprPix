@@ -12,3 +12,4 @@
 //============== static ===============//
 ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};
 
+

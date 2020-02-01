@@ -1,0 +1,257 @@
+[
+{
+    "annotation": " 路面 floorGo forest ",
+
+    "yardName": "Road_forest",
+    
+    "pngLPath": "/_roads/forest/road.M.png",
+    "frameNum.col":  4,
+    "frameNum.row":  10,
+    "totalFrameNum": 40,
+
+
+    "specialFrameAllocateTimes": [
+        { "frameIdx": 0, "allocateNum": 7 },
+        { "frameIdx": 4, "allocateNum": 7 },
+        { "frameIdx": 8, "allocateNum": 7 },
+        { "frameIdx": 12, "allocateNum": 7 },
+        { "frameIdx": 16, "allocateNum": 9 },
+        { "frameIdx": 20, "allocateNum": 9 },
+        { "frameIdx": 24, "allocateNum": 5 },
+        { "frameIdx": 28, "allocateNum": 5 },
+        { "frameIdx": 32, "allocateNum": 5 },
+        { "frameIdx": 36, "allocateNum": 5 }
+    ],
+
+
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": true,
+
+
+    "public_varTypes":[
+        {
+            "annotation": " 低矮的草/花 ",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 2 }
+
+            ]
+        },
+
+        {
+            "annotation": " 稀有灌木 / 碎石 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "isPlotBlueprint": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 2 },
+        
+                { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 1 },
+                { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 1 },
+                { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 },
+                { "goSpeciesName": "bush", "MultiGoMeshType":"Origin", "num": 1 }
+
+            ]
+        }
+    ],
+
+
+    "yardObjs":[
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "LeftTop",
+            "fstFrameIdx": 0, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，左上 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "RightTop",
+            "fstFrameIdx": 4, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，右上 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "RightBottom",
+            "fstFrameIdx": 8, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，右下 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "LeftBottom",
+            "fstFrameIdx": 12, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，左下 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "Left",
+            "fstFrameIdx": 16, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，左 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "TwoPorts",
+            "Dir": "Bottom",
+            "fstFrameIdx": 20, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 2端口，下 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "yardLabel": "ThreePorts",
+            "Dir": "Left",
+            "fstFrameIdx": 24, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 3端口，左 ----------------------------------------- ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "ThreePorts",
+            "Dir": "Top",
+            "fstFrameIdx": 28, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 3端口, 上 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "ThreePorts",
+            "Dir": "Right",
+            "fstFrameIdx": 32, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 3端口，右 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                    ]
+                }
+            ]
+        },
+        {
+            "yardLabel": "ThreePorts",
+            "Dir": "Bottom",
+            "fstFrameIdx": 36, "frameNums": 4,
+
+            "varTypes":[
+                {
+                    "annotation": " 3端口，下 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                    ]
+                }
+            ]
+        }
+
+
+    ]
+
+}
+
+
+]

@@ -3,7 +3,7 @@
     "annotation": "nature yard majorGos， hollowLogs 倒地树干，周围点缀小草小花",
 
     "yardName": "N_forest_hollowLogs",
-    "yardLabel": "",
+    
 
     "pngLPath": "/_natures/forest/hollowLogs/hollowLog.M.png",
     "frameNum.col":  4,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

@@ -3,7 +3,7 @@
     "annotation": "nature yard majorGos，all grasses",
 
     "yardName": "N_savannah_grasses",
-    "yardLabel": "",
+    
 
     "pngLPath": "/_natures/savannah/grasses/N_savannah_grasses.M.png",
     "frameNum.col":  5,
@@ -14,8 +14,9 @@
     "isHaveFloorGos": false,
 
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

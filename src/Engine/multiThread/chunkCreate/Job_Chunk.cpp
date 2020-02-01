@@ -193,8 +193,11 @@ void Job_Chunk::create_field_goSpecDatas(){
             //----------------------//
             // nature_floorYard 强制为 2f2 尺寸
             if( (h%2==0) && (w%2==0) ){
-
-                if( !jChunk_inn::is_near_4_field_in_artifactFieldKeys(ecoObjRef, fieldMPos) ){
+                
+                // 暂时关闭这个功能，现在，不管是否已经生成 人造物 floorgo，
+                // 都会再次生成 nature floorgo
+                // 
+                //if( !jChunk_inn::is_near_4_field_in_artifactFieldKeys(ecoObjRef, fieldMPos) ){
 
                     blueprint::build_natureYard_floorGoDatasForCreate( 
                                         job_fieldRef.get_nature_floorGoDatas(),
@@ -210,7 +213,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         );
 
                     job_fieldRef.copy_nature_floorGoDataPtrs();
-                }
+                //}
 
             }
 

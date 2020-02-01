@@ -3,7 +3,7 @@
     "annotation": "nature yard majorGos，1-tree",
 
     "yardName": "N_forest_trees",
-    "yardLabel": "1Mid",
+    
 
     "pngLPath": "/_natures/forest/trees/N_forest_1tree.M.png",
     "frameNum.col":  8,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid",
             "Dir": "Center",
             "isAllFramesInclude": true,
 
@@ -68,7 +69,7 @@
     "annotation": "nature yard majorGos，2-tree",
 
     "yardName": "N_forest_trees",
-    "yardLabel": "2Mid",
+    
 
     "pngLPath": "/_natures/forest/trees/N_forest_2tree.M.png",
     "frameNum.col":  11,
@@ -78,8 +79,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "2Mid",
             "Dir": "Center",
             "isAllFramesInclude": true,
 
@@ -135,7 +137,7 @@
     "annotation": "nature yard majorGos，2-tree",
 
     "yardName": "N_forest_trees",
-    "yardLabel": "1Mid1Sml",
+    
 
     "pngLPath": "/_natures/forest/trees/N_forest_tree_1mid1sml.M.png",
     "frameNum.col":  11,
@@ -145,8 +147,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid1Sml",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

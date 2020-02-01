@@ -1,0 +1,34 @@
+[
+{
+    "annotation": "村级蓝图, 生成一条弯曲的 forest road",
+
+    "villageName": "road_test",
+
+    "pngLPath": "/road_test/road_test.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": true,
+            "yardPool":[ 
+                { "yardName": "Road_forest", "yardLabel": "TwoPorts", "num": 1 }
+            ]
+        },
+
+        {
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": true,
+            "yardPool":[ 
+                { "yardName": "Road_forest", "yardLabel": "ThreePorts", "num": 1 }
+            ]
+        }
+    
+    ]
+}
+
+]

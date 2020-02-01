@@ -138,6 +138,7 @@ IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
 
 IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         const std::string &pngPath_M_,
+                        const std::vector<size_t> &frameAllocateTimes_,
                         IntVec2 frameNum_,
                         size_t totalFrameNum_,
                         size_t fstFrameIdx_,
@@ -215,7 +216,7 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &M_frameRef = plotPng_inn::M_frame_data_ary.at(i);
             auto &D_frameRef = plotPng_inn::D_frame_data_ary.at(i);
             //--
-            auto &mdRef = yardRef_.create_new_majorGo_mapData();
+            auto &mdRef = yardRef_.create_new_majorGo_mapData( frameAllocateTimes_.at(i) );
             plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard );
         }
     }
@@ -227,11 +228,10 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &FM_frameRef = plotPng_inn::FM_frame_data_ary.at(i);
             auto &FD_frameRef = plotPng_inn::FD_frame_data_ary.at(i);
             //--
-            auto &mdRef = yardRef_.create_new_floorGo_mapData();
+            auto &mdRef = yardRef_.create_new_floorGo_mapData( frameAllocateTimes_.at(i) );
             plotPng_inn::handle_frame( mdRef, pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard );
         }
     }
-
 
 
     //---

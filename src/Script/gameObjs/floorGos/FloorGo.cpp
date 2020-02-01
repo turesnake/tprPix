@@ -42,8 +42,12 @@ using namespace std::placeholders;
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
-//namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
-//}//--------------------- namespace: floorGo_inn end ------------------------//
+namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
+
+    double calc_goMeshZOff( size_t mapEntUWeight_ );
+
+
+}//--------------------- namespace: floorGo_inn end ------------------------//
 
 
 struct FloorGo_PvtBinary{
@@ -60,7 +64,6 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
     //================ dyParams =================//
-
     size_t typeHash = dyParams_.get_typeHash();
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
@@ -69,7 +72,14 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( NineDirection::Center );
+    goRef_.actionDirection.reset( goDataPtr->direction );
+
+
+    // 依靠 uWeight，计算 zOff，从而确保，相交的 floorgo 之间，恒定的覆盖关系
+    double goMeshZOff = floorGo_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight ); // (0.0, 0.1)
+                                // 并不完善，有些 floorgo，会覆盖任何其他 floorgo
+                                // ...
+
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -78,9 +88,8 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 AnimActionEName::Idle,
                                 RenderLayerType::Floor, //- 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::Floor),  // pic shader
-                                //glm::dvec2{ 0.0, 0.0 }, //- pposoff
                                 goDataEntRef.dposOff, //- pposoff
-                                0.0,  //- zOff
+                                goMeshZOff,  //- zOff
                                 true //- isVisible
                                 );
 
@@ -113,5 +122,22 @@ void FloorGo::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 }
 
 
+namespace floorGo_inn {//------------------ namespace: floorGo_inn ---------------------//
+
+
+
+double calc_goMeshZOff( size_t mapEntUWeight_ ){
+
+    // 获得一个 小数值 (0.0, 0.1)
+    double rd = static_cast<double>(mapEntUWeight_) / 71.17;
+    double integer {}; // 不会被使用
+    double fract = modf( rd, &integer ) / 10.0; // (0.0, 0.1)
+    return fract;
+}
+
+
+
+
+}//--------------------- namespace: floorGo_inn end ------------------------//
 }//------------- namespace gameObjs: end ----------------
 

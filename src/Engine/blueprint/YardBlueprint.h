@@ -131,21 +131,22 @@ private:
 
 // 院子级蓝图。中间级别的蓝图，有数 fields 大
 class YardBlueprint{
+    using mapDataId_t = u32_t;
 public:
     YardBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
 
     inline void insert_2_majorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
-                                                std::unique_ptr<VarTypeDatas_Yard_MajorGo> uptr_ )noexcept{
-        auto outPair1 = this->majorGo_varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+                                                std::shared_ptr<VarTypeDatas_Yard_MajorGo> sptr_ )noexcept{
+        auto outPair1 = this->majorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
         tprAssert( outPair1.second );
         auto outPair2 = this->majorGo_varTypes.insert( typeIdx_ );
         tprAssert( outPair2.second );
     }
 
     inline void insert_2_floorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
-                                                std::unique_ptr<VarTypeDatas_Yard_FloorGo> uptr_ )noexcept{
-        auto outPair1 = this->floorGo_varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+                                                std::shared_ptr<VarTypeDatas_Yard_FloorGo> sptr_ )noexcept{
+        auto outPair1 = this->floorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
         tprAssert( outPair1.second );
         auto outPair2 = this->floorGo_varTypes.insert( typeIdx_ );
         tprAssert( outPair2.second );
@@ -159,18 +160,8 @@ public:
         this->sizeByFild = sizeByMapEnt_2_yardSize( sizeByMapEnt_ );
     }
 
-    inline void init_check()const noexcept{
-        if( this->isHaveMajorGos ){
-            tprAssert(  !this->majorGo_mapDatas.empty() &&
-                        !this->majorGo_varTypes.empty() &&
-                        !this->majorGo_varTypeDatas.empty() );
-        }
-        if( this->isHaveFloorGos ){
-            tprAssert(  !this->floorGo_mapDatas.empty() &&
-                        !this->floorGo_varTypes.empty() &&
-                        !this->floorGo_varTypeDatas.empty() );
-        }
-    }
+
+    void init_check()noexcept;
 
     inline YardSize get_yardSize()const noexcept{ return this->sizeByFild; }
 
@@ -178,23 +169,36 @@ public:
     inline bool get_isHaveMajorGos()const noexcept{ return this->isHaveMajorGos; }
     inline bool get_isHaveFloorGos()const noexcept{ return this->isHaveFloorGos; }
 
-    inline MapData &create_new_majorGo_mapData()noexcept{
-        this->majorGo_mapDatas.push_back( MapData{} );
-        return this->majorGo_mapDatas.back();
+
+    inline MapData &create_new_majorGo_mapData( size_t num_=1 )noexcept{
+        
+        mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
+        this->majorGo_mapDataIds.insert( this->majorGo_mapDataIds.end(), num_, id );
+        //---
+        auto outPair = this->majorGo_mapDatas.insert({ id, MapData{} });
+        tprAssert( outPair.second );
+        return outPair.first->second;
     }
-    inline MapData &create_new_floorGo_mapData()noexcept{
-        this->floorGo_mapDatas.push_back( MapData{} );
-        return this->floorGo_mapDatas.back();
+    inline MapData &create_new_floorGo_mapData( size_t num_=1 )noexcept{
+
+        mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
+        this->floorGo_mapDataIds.insert( this->floorGo_mapDataIds.end(), num_, id );
+        //---
+        auto outPair = this->floorGo_mapDatas.insert({ id, MapData{} });
+        tprAssert( outPair.second );
+        return outPair.first->second;
     }
 
     inline const std::set<VariableTypeIdx> &get_majorGo_varTypes()const noexcept{ return this->majorGo_varTypes; }
     inline const std::set<VariableTypeIdx> &get_floorGo_varTypes()const noexcept{ return this->floorGo_varTypes; }
 
     inline const MapData &apply_a_random_majorGo_mapData( size_t uWeight_ )const noexcept{
-        return this->majorGo_mapDatas.at( (uWeight_ + 86887311) % this->majorGo_mapDatas.size() );
+        mapDataId_t id = this->majorGo_mapDataIds.at( (uWeight_+86887311) % this->majorGo_mapDataIds.size() );
+        return this->majorGo_mapDatas.at( id );
     }
     inline const MapData &apply_a_random_floorGo_mapData( size_t uWeight_ )const noexcept{
-        return this->floorGo_mapDatas.at( (uWeight_ + 906117317) % this->floorGo_mapDatas.size() );
+        mapDataId_t id = this->floorGo_mapDataIds.at( (uWeight_ + 906117317) % this->floorGo_mapDataIds.size() );
+        return this->floorGo_mapDatas.at( id );
     }
 
     inline const VarTypeDatas_Yard_MajorGo *get_majorGo_varTypeDataPtr_Yard( VariableTypeIdx type_ )const noexcept{
@@ -211,20 +215,24 @@ private:
     YardSize sizeByFild {}; // yard 尺寸，以 field 为单位
 
     // major-gos
-    std::vector<MapData> majorGo_mapDatas {};  // 若干帧，每一帧数据 就是一份 分配方案
+    std::vector<mapDataId_t> majorGo_mapDataIds {}; // 实际分配池。元素个数可能大于 帧数
+    std::unordered_map<mapDataId_t, MapData>majorGo_mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案 
     std::set<VariableTypeIdx> majorGo_varTypes {};
-    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_MajorGo>> majorGo_varTypeDatas {};
+    std::unordered_map<VariableTypeIdx, std::shared_ptr<VarTypeDatas_Yard_MajorGo>> majorGo_varTypeDatas {};
 
     // floor-gos
-    std::vector<MapData> floorGo_mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
+    std::vector<mapDataId_t> floorGo_mapDataIds {}; // 实际分配池。元素个数可能大于 帧数
+    std::unordered_map<mapDataId_t, MapData>floorGo_mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> floorGo_varTypes {};
-    std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
+    std::unordered_map<VariableTypeIdx, std::shared_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
 
     //- 至少有一个为 true
     bool isHaveMajorGos {};
     bool isHaveFloorGos {};
-};
 
+    //======= static =======//
+    static ID_Manager  mapDataId_manager; // majorGo_mapDatas / floorGo_mapDatas 共用
+};
 
 
 

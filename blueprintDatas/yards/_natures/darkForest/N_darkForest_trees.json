@@ -3,7 +3,7 @@
     "annotation": "nature yard majorGos，1-tree",
 
     "yardName": "N_darkForest_trees",
-    "yardLabel": "1Mid",
+    
 
     "pngLPath": "/_natures/darkForest/N_forest_1tree.M.png",
     "frameNum.col":  8,
@@ -14,8 +14,9 @@
     "isHaveFloorGos": false,
 
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid",
             "Dir": "Center",
             "isAllFramesInclude": true,
 
@@ -70,7 +71,7 @@
     "annotation": "nature yard majorGos，2-tree",
 
     "yardName": "N_darkForest_trees",
-    "yardLabel": "2Mid",
+    
 
     "pngLPath": "/_natures/darkForest/N_forest_2tree.M.png",
     "frameNum.col":  11,
@@ -80,8 +81,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "2Mid",
             "Dir": "Center",
             "isAllFramesInclude": true,
 
@@ -139,7 +141,7 @@
     "annotation": " 树一大一小，中间用纯色的 普通草搭配。平庸但可行 ",
 
     "yardName": "N_darkForest_trees",
-    "yardLabel": "1Mid1Sml",
+    
 
     "pngLPath": "/_natures/darkForest/N_forest_tree_1mid1sml.M.png",
     "frameNum.col":  11,
@@ -149,8 +151,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid1Sml",
             "Dir": "Center",
             "isAllFramesInclude": true,
 
@@ -228,7 +231,7 @@
     "annotation": " 一颗树，配一组蘑菇 ",
 
     "yardName": "N_darkForest_trees",
-    "yardLabel": "1Mid-NMushroom",
+    
 
     "pngLPath": "/_natures/darkForest/N_darkForest_1treeNmushroom.M.png",
     "frameNum.col":  3,
@@ -238,8 +241,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid-NMushroom",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

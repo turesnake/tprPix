@@ -3,7 +3,7 @@
     "annotation": "nature regular 碎石堆，点缀小花 ( DarkForest 系的植物 )",
 
     "yardName": "N_breakStones",
-    "yardLabel": "DarkForest",
+    
 
     "pngLPath": "/_natures/_regulars/breakStones/N_breakStones.M.png",
     "frameNum.col":  5,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "DarkForest",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

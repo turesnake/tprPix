@@ -3,7 +3,7 @@
     "name": "floorGo_forest_roadYard",
     "pngs": [
         {
-            "path": "2port.P.png",
+            "path": "2ports.P.png",
             "frameNum.col":  3,
             "frameNum.row":  2,
             "totalFrameNum": 6,
@@ -18,18 +18,18 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
                         { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true }
+                        { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true }
                     ]
                 }
             ]
         },
 
         {
-            "path": "3port.P.png",
+            "path": "3ports.P.png",
             "frameNum.col":  2,
             "frameNum.row":  2,
             "totalFrameNum": 4,

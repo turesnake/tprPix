@@ -3,7 +3,7 @@
     "annotation": "nature yard majorGos，1-tree",
 
     "yardName": "N_desert_trees",
-    "yardLabel": "1Mid",
+    
 
     "pngLPath": "/_natures/desert/N_forest_1tree.M.png",
     "frameNum.col":  8,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "1Mid",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

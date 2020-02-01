@@ -83,6 +83,7 @@ class YardBlueprint;
 
 IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         const std::string &pngPath_M_,
+                        const std::vector<size_t> &frameAllocateTimes_,
                         IntVec2 frameNum_,
                         size_t totalFrameNum_,
                         size_t fstFrameIdx_,

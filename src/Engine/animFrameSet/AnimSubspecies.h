@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <memory>
 #include <algorithm> 
+#include <optional>
 
 
 //-------------------- Engine --------------------//
@@ -54,19 +55,22 @@ public:
         return *(container.at(actionEName_).get());
     }
         
-    
-    inline AnimAction *get_animActionPtr(   NineDirection   dir_,
-                                            BrokenLvl       brokenLvl_,
-                                            AnimActionEName actionEName_ )const noexcept{
-        tprAssert( this->animActions.find(dir_) != this->animActions.end() );
+
+    // 三层参数都有可能出错，用 opt 来管理。让外部处理
+    inline std::optional<AnimAction*> get_animActionPtr(    NineDirection   dir_,
+                                                            BrokenLvl       brokenLvl_,
+                                                            AnimActionEName actionEName_ )const noexcept{
+
+        if( this->animActions.find(dir_) == this->animActions.end() ){ return std::nullopt; }
         auto &container_1 = this->animActions.at(dir_);
         //---
-        tprAssert( container_1.find(brokenLvl_) != container_1.end() );
+        if( container_1.find(brokenLvl_) == container_1.end() ){ return std::nullopt; }
         auto &container_2 = container_1.at(brokenLvl_);
         //---
-        tprAssert( container_2.find(actionEName_) != container_2.end() );
-        return container_2.at(actionEName_).get();
+        if( container_2.find(actionEName_) == container_2.end() ){ return std::nullopt; }
+        return { container_2.at(actionEName_).get() };
     }
+    
 
 
     inline const std::unordered_set<NineDirection> &get_actionDirs( AnimActionEName actionEName_ )const noexcept{

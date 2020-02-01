@@ -19,6 +19,9 @@
     {"_natures/_floorGos/natureFloorGo_B.json": true },
 
 
+    {"_roads/forest/_road.json": true },
+
+
     {"plot_test/plot_test.json": true },
 
     {"rockMaze/rockMaze.json": true }

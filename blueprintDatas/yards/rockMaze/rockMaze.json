@@ -3,7 +3,7 @@
     "annotation": "4f4-yard 石制迷宫组件 ",
 
     "yardName": "rockMaze",
-    "yardLabel": "Center",
+    
 
     "pngLPath": "/rockMaze/rockMaze_center1.M.png",
     "frameNum.col":  2,
@@ -13,8 +13,9 @@
     "isHaveMajorGos": true,
     "isHaveFloorGos": true,
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "Center",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

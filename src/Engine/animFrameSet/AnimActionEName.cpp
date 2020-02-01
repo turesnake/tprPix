@@ -27,3 +27,8 @@ AnimActionEName str_2_AnimActionEName( const std::string &str_ )noexcept{
 }
 
 
+std::string animActionEName_2_str( AnimActionEName a_ )noexcept{
+    return std::string{ magic_enum::enum_name( a_ ) };
+}
+
+

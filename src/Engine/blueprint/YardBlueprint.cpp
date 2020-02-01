@@ -20,6 +20,8 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 
 
 //============== static ===============//
+ID_Manager                                              YardBlueprint::mapDataId_manager { ID_TYPE::U32, 0 };
+//---
 ID_Manager                                              YardBlueprintSet::yardSetId_manager { ID_TYPE::U32, 0 };
 ID_Manager                                              YardBlueprintSet::labelId_manager { ID_TYPE::U32, 0 };
 ID_Manager                                              YardBlueprintSet::yardId_manager { ID_TYPE::U32, 0 };
@@ -37,6 +39,32 @@ void YardBlueprintSet::init_for_static()noexcept{
     YardBlueprintSet::setUPtrs.reserve(1000);
     YardBlueprintSet::yardUPtrs.reserve(1000);
 }
+
+
+
+
+void YardBlueprint::init_check()noexcept{
+
+    auto &shuffleEngine = esrc::get_gameSeed().getnc_shuffleEngine(); 
+    if( this->isHaveMajorGos ){
+        tprAssert(  !this->majorGo_mapDataIds.empty() &&
+                    !this->majorGo_mapDatas.empty() &&
+                    !this->majorGo_varTypes.empty() &&
+                    !this->majorGo_varTypeDatas.empty() );
+        //-- shuffle --//
+        std::shuffle( this->majorGo_mapDataIds.begin(), this->majorGo_mapDataIds.end(), shuffleEngine );
+    }
+    if( this->isHaveFloorGos ){
+        tprAssert(  !this->floorGo_mapDataIds.empty() &&
+                    !this->floorGo_mapDatas.empty() &&
+                    !this->floorGo_varTypes.empty() &&
+                    !this->floorGo_varTypeDatas.empty() );
+        //-- shuffle --//
+        std::shuffle( this->floorGo_mapDataIds.begin(), this->floorGo_mapDataIds.end(), shuffleEngine );
+    }
+}
+
+
 
 
 void VarTypeDatas_Yard_MajorGo::init_check()noexcept{

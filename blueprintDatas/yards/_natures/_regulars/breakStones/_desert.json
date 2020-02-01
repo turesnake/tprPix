@@ -3,7 +3,7 @@
     "annotation": "nature regular 碎石堆，点缀小花",
 
     "yardName": "N_breakStones",
-    "yardLabel": "Desert",
+    
 
     "pngLPath": "/_natures/_regulars/breakStones/N_breakStones.M.png",
     "frameNum.col":  5,
@@ -14,8 +14,9 @@
     "isHaveFloorGos": false,
 
 
-    "dirs":[
+    "yardObjs":[
         {
+            "yardLabel": "Desert",
             "Dir": "Center",
             "isAllFramesInclude": true,
 

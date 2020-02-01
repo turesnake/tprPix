@@ -8,6 +8,8 @@
 #ifndef TPR_BROKEN_LEVEL_H
 #define TPR_BROKEN_LEVEL_H
 
+//-------------------- CPP --------------------//
+#include <string>
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -27,6 +29,8 @@ enum class BrokenLvl{
     Lvl_4
 };
 
+
+std::string brokenLvl_2_str( BrokenLvl bl_ )noexcept;
 
 
 inline BrokenLvl int_2_brokenLvl( int val_ )noexcept{
