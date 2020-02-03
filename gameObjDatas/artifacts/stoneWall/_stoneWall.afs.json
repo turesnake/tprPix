@@ -1,0 +1,241 @@
+[
+
+{
+    "name": "stoneWall",
+    "pngs": [
+        {
+            "path": "light_b0.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  3,
+            "totalFrameNum": 9,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 6,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "light_b1.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 1,
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabel": "Light",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 1,
+                    "isOpaque": true
+                }
+                
+
+            ]
+        },
+
+        {
+            "path": "grey_b0.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  3,
+            "totalFrameNum": 9,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Grey",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Grey",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Grey",
+                    "fstSubIdx": 0,
+                    "fstIdx": 6,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "grey_b1.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Grey",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 1,
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabel": "Grey",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 1,
+                    "isOpaque": true
+                }
+                
+
+            ]
+        },
+
+        {
+            "path": "dark_b0.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  3,
+            "totalFrameNum": 9,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                },
+
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 6,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "dark_b1.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 1,
+                    "isOpaque": true
+                },
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 3,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 1,
+                    "isOpaque": true
+                }
+                
+
+            ]
+        }
+
+    ]
+}
+
+]
+

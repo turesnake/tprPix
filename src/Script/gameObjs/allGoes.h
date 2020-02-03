@@ -24,6 +24,7 @@
 
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
+#include "Script/gameObjs/majorGos/artifacts/StoneWall.h"
 
 
 //---------- Script : gameObjs : bush --------------------//

@@ -1,6 +1,6 @@
 [
   {
-    "goSpeciesName": "fence",
+    "goSpeciesName": "stoneWall",
     "parentID": 0,
     "family": "Major",
     "state": "Waked",
@@ -17,7 +17,7 @@
     "pub.MP": 50,
 
     "afs_lPaths": [ 
-        "_fence.afs.json"
+        "_stoneWall.afs.json"
     ],
     "multiGoMesh_lPaths": []
 

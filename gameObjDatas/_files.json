@@ -1,5 +1,7 @@
 [
     {"artifacts/fence/_fence.go.json": true },
+    {"artifacts/stoneWall/_stoneWall.go.json": true },
+
     {"breakStone/_breakStone.go.json": true },
     {"bushs/_bush.go.json": true },
     {"cactus/_cactus.go.json": true },

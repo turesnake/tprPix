@@ -31,6 +31,7 @@ enum class AnimLabel : u32_t{
     Huge,
     //---
     Light,
+    Grey, // 暂时没有更好的，表达中间色的 词...
     Dark,
     //---
     Fat,

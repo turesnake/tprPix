@@ -1,0 +1,45 @@
+[
+{
+    "annotation": " 3f3-yard 石墙小屋 ",
+
+    "yardName": "stoneWall_test",
+    
+
+    "pngLPath": "/stoneWall_test/stoneWall_test.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "annotation": " 石墙 ",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                    ]
+                }
+        
+            ]
+
+        }
+    ]
+
+    
+}
+
+
+
+
+]

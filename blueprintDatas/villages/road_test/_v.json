@@ -26,6 +26,15 @@
             "yardPool":[ 
                 { "yardName": "Road_forest", "yardLabel": "ThreePorts", "num": 1 }
             ]
+        },
+
+        {
+            "type": "V_10",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "stoneWall_test", "yardLabel": "", "num": 1 }
+            ]
         }
     
     ]

@@ -24,6 +24,10 @@
 
     {"plot_test/plot_test.json": true },
 
-    {"rockMaze/rockMaze.json": true }
+    {"rockMaze/rockMaze.json": true },
+
+
+    {"stoneWall_test/_stoneWall_test.json": true }
+
 
 ]

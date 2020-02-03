@@ -62,7 +62,7 @@ void onGoSpeciesIds_SignUp(){
     //     artifacts
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "fence",      std::bind( &gameObjs::Fence::init, _1, _2 ) );
-
+    GoSpecFromJson::insert_2_initFuncs( "stoneWall",  std::bind( &gameObjs::StoneWall::init, _1, _2 ) );
 
 
     //-------------------//
