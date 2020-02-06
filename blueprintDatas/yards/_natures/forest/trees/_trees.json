@@ -5,7 +5,7 @@
     "yardName": "N_forest_trees",
     
 
-    "pngLPath": "/_natures/forest/trees/N_forest_1tree.M.png",
+    "pngLPath": "N_forest_1tree.M.png",
     "frameNum.col":  8,
     "frameNum.row":  9,
     "totalFrameNum": 72,
@@ -71,7 +71,7 @@
     "yardName": "N_forest_trees",
     
 
-    "pngLPath": "/_natures/forest/trees/N_forest_2tree.M.png",
+    "pngLPath": "N_forest_2tree.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,
@@ -139,7 +139,7 @@
     "yardName": "N_forest_trees",
     
 
-    "pngLPath": "/_natures/forest/trees/N_forest_tree_1mid1sml.M.png",
+    "pngLPath": "N_forest_tree_1mid1sml.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,

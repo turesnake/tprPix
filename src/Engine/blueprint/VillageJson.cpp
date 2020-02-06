@@ -97,9 +97,8 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
 
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string pngLPath = a.GetString();
-            std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "villages");
-            pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
+            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
             const auto &a = json::check_and_get_value( docEnt, "frameNum.col", json::JsonValType::Int );
@@ -152,6 +151,16 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
                 for( auto &ent : yardPool.GetArray() ){
                     tprAssert( ent.IsObject() );
 
+                    {//--- num ---//
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint );
+                        num = cast_2_size_t( a.GetUint() );
+                    }
+
+                    // 允许写 0 
+                    if( num == 0 ){
+                        continue;
+                    }
+
                     {//--- yardName ---//
                         const auto &a = json::check_and_get_value( ent, "yardName", json::JsonValType::String );
                         yardName = a.GetString();
@@ -160,14 +169,9 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
                         const auto &a = json::check_and_get_value( ent, "yardLabel", json::JsonValType::String );
                         yardLabel = a.GetString();
                     }
-                    {//--- num ---//
-                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = cast_2_size_t( a.GetUint64() );
-                    }
 
-                    if( num > 0 ){
-                        varTypeDatasUPtr->insert_2_getYardId_functors( YardBlueprintSet::getFunctor_getYardId(yardName, yardLabel), num );
-                    }
+                    varTypeDatasUPtr->insert_2_getYardId_functors( YardBlueprintSet::getFunctor_getYardId(yardName, yardLabel), num );
+                    
                 }
             }
 

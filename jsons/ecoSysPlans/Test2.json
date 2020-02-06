@@ -13,7 +13,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+                
             ]
             
         },
@@ -24,7 +24,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+               
             ]
         },
 
@@ -34,7 +34,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+                
             ]
         },
 
@@ -44,7 +44,7 @@
             "applyPercent": 0.0,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+                
             ]
 
         },
@@ -55,7 +55,6 @@
             "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "2Mid", "num": 2 },
                 { "yardName": "N_forest_trees", "yardLabel": "1Mid1Sml", "num": 1 }
             ]
 
@@ -64,10 +63,10 @@
         {
             "annotate": "====================[ 2 ]====================",
             "density.lvl": 2,
-            "applyPercent": 0.79,
+            "applyPercent": 0.99,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 1 }
             ]
             
         },
@@ -75,10 +74,10 @@
         {
             "annotate": "====================[ 3 ]====================",
             "density.lvl": 3,
-            "applyPercent": 0.0,
+            "applyPercent": 0.3,
 
             "yardPool":[
-                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 3 }
+                { "yardName": "N_forest_trees", "yardLabel": "1Mid", "num": 1 }
             ]
         }
     ],

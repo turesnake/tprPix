@@ -5,7 +5,7 @@
     "plotName": "mushroom",
     "plotLabel": "3m3",
 
-    "pngLPath": "/mushroom_3m3/mushroom_3m3.M.png",
+    "pngLPath": "mushroom_3m3.M.png",
     "frameNum.col":  3,
     "frameNum.row":  6,
     "totalFrameNum": 18,

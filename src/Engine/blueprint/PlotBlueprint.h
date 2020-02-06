@@ -81,12 +81,14 @@ public:
     //----- vals -----//
     goSpeciesId_t              goSpeciesId    {};
     
-    bool                    isMultiGoMesh {};
-
     std::string             afsName     {};
     AnimLabel               animLabel  {};
     
     multiGoMeshTypeId_t     multiGoMeshType {};
+
+    bool                    isPlaceHolder {false}; // 单纯的占位元素，当从分配池中抽到 此类元素时，什么go也不生成
+    bool                    isMultiGoMesh {};
+
 };
 
 
@@ -176,7 +178,12 @@ public:
         return *(PlotBlueprint::plotUPtrs.at(id_));
     }
 
+    // "_PLACE_HOLDER_", "_PLACE_HOLDER_" 为占位符 专用 
     inline static plotBlueprintId_t str_2_plotBlueprintId( const std::string &plotName_, const std::string &plotLabel_ )noexcept{
+        if( plotName_ == "_PLACE_HOLDER_" ){
+            tprAssert( plotLabel_ == "_PLACE_HOLDER_" );
+            return PlotBlueprint::placeHolderId;
+        }
         tprAssert( PlotBlueprint::name_2_ids.find(plotName_) != PlotBlueprint::name_2_ids.end() );
         const auto &innUMap = PlotBlueprint::name_2_ids.at( plotName_ );
         tprAssert( innUMap.find(plotLabel_) != innUMap.end() );
@@ -184,16 +191,22 @@ public:
     }
 
 
+    inline static bool is_placeHolderId( plotBlueprintId_t id_ )noexcept{
+        return (id_ == PlotBlueprint::placeHolderId);
+    }
+
+
 private:
+
     IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位 不一定必须是 正方形
 
     std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Plot>> varTypeDatas {}; // 类型数据
 
-
     //======== static ========//
     static ID_Manager  id_manager;
+    static constexpr plotBlueprintId_t placeHolderId {755351}; // 占位符专用（随便设个值）
 
     // 两层索引：plotName, plotLabel
     static std::unordered_map<std::string, std::unordered_map<std::string, plotBlueprintId_t>> name_2_ids; // 索引表

@@ -5,7 +5,7 @@
     "yardName": "N_darkForest_trees",
     
 
-    "pngLPath": "/_natures/darkForest/N_forest_1tree.M.png",
+    "pngLPath": "N_forest_1tree.M.png",
     "frameNum.col":  8,
     "frameNum.row":  9,
     "totalFrameNum": 72,
@@ -73,7 +73,7 @@
     "yardName": "N_darkForest_trees",
     
 
-    "pngLPath": "/_natures/darkForest/N_forest_2tree.M.png",
+    "pngLPath": "N_forest_2tree.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,
@@ -143,7 +143,7 @@
     "yardName": "N_darkForest_trees",
     
 
-    "pngLPath": "/_natures/darkForest/N_forest_tree_1mid1sml.M.png",
+    "pngLPath": "N_forest_tree_1mid1sml.M.png",
     "frameNum.col":  11,
     "frameNum.row":  5,
     "totalFrameNum": 55,
@@ -233,7 +233,7 @@
     "yardName": "N_darkForest_trees",
     
 
-    "pngLPath": "/_natures/darkForest/N_darkForest_1treeNmushroom.M.png",
+    "pngLPath": "N_darkForest_1treeNmushroom.M.png",
     "frameNum.col":  3,
     "frameNum.row":  4,
     "totalFrameNum": 12,

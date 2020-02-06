@@ -5,7 +5,7 @@
     "yardName": "stoneWall_test",
     
 
-    "pngLPath": "/stoneWall_test/stoneWall_test.M.png",
+    "pngLPath": "stoneWall_test.M.png",
     "frameNum.col":  1,
     "frameNum.row":  1,
     "totalFrameNum": 1,

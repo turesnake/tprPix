@@ -111,9 +111,8 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string pngLPath = a.GetString();
-            std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "plots");
-            pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
+            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
             const auto &a = json::check_and_get_value( docEnt, "frameNum.col", json::JsonValType::Int );
@@ -160,8 +159,8 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                 for( auto &ent : goSpecPool.GetArray() ){
 
                     {//--- num ---//
-                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                        num = cast_2_size_t( a.GetUint64() );
+                        const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint );
+                        num = cast_2_size_t( a.GetUint() );
                     }
 
                     // 允许写入 0
@@ -170,6 +169,20 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                     }
 
                     std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+                    //--- isPlaceHolder ---//
+                    if( ent.HasMember("isPlaceHolder") ){
+                        const auto &isPlaceHolder = json::check_and_get_value( ent, "isPlaceHolder", json::JsonValType::Bool );
+                        if( isPlaceHolder.GetBool() ){
+                            goSpecUPtr->isPlaceHolder = true;
+                            //-- goSpecUPtr 创建完毕 --
+                            varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
+                            continue;
+                        }
+                    }
+
+                    // IMPORTANT!!!
+                    goSpecUPtr->isPlaceHolder = false;
 
                     {//--- goSpeciesName ---//
                         const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );

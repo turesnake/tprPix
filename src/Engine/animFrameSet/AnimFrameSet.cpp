@@ -351,7 +351,7 @@ void build_three_paths( const std::string &path_pic_ ){
     //--------------------//
     //    path_pjt
     //--------------------//
-    auto point_idx = path_pic.find( '.', 0 ); //- 指向第一个 '.'
+    size_t point_idx = path_pic.find( '.', 0 ); //- 指向第一个 '.'
     auto lastIt = path_pic.begin();
     std::advance( lastIt, point_idx ); //- advance 并不防止 溢出
     //- lpath_pjt 暂时等于 "/animal/dog_ack_01"

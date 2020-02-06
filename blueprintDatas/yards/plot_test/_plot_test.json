@@ -5,7 +5,7 @@
     "yardName": "plot_test",
     
 
-    "pngLPath": "/plot_test/plot_test.M.png",
+    "pngLPath": "plot_test.M.png",
     "frameNum.col":  1,
     "frameNum.row":  1,
     "totalFrameNum": 1,
@@ -28,8 +28,8 @@
                     "isPlotBlueprint": true,
                     "plotPool":[ 
         
-                        { "plotName": "rock", "plotLabel": "4m3", "num": 3 },
-                        { "plotName": "rock", "plotLabel": "4m3_lichen", "num": 3 } 
+                        { "plotName": "whiteRock", "plotLabel": "4m3", "num": 3 },
+                        { "plotName": "whiteRock", "plotLabel": "4m3_lichen", "num": 3 } 
                         
                     ]
                 }

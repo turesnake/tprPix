@@ -5,7 +5,7 @@
     "yardName": "N_breakStones",
     
 
-    "pngLPath": "/_natures/_regulars/breakStones/N_breakStones.M.png",
+    "pngLPath": "N_breakStones.M.png",
     "frameNum.col":  5,
     "frameNum.row":  3,
     "totalFrameNum": 15,
@@ -28,8 +28,8 @@
                     "isAllInstanceUseSamePlan": false,
                     "isPlotBlueprint": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Bald", "num": 9 },
-                        { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Lichen", "num": 3 }
+                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Bald", "num": 9 },
+                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Lichen", "num": 3 }
                     ]
                 },
         

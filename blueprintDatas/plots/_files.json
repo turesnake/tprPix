@@ -3,9 +3,14 @@
     {"mushroom/2m2/_mushroom_2m2.json": true },
     {"mushroom/3m3/_mushroom_3m3.json": true },
 
-    {"rocks/4m3/_rock_4m3.json": true },
-    {"rocks/wall_1m4/_rockWall_1m4.json": true },
-    {"rocks/wall_4m1/_rockWall_4m1.json": true }
+    {"rocks/whiteRock/4m3/_rock_4m3.json": true },
+    {"rocks/whiteRock/3m4/_rock_3m4.json": true },
+
+    {"hollowLog/2m2/_forest_2m2.json": true },
+
+
+    {"rocks/whiteRock/wall_1m4/_rockWall_1m4.json": true },
+    {"rocks/whiteRock/wall_4m1/_rockWall_4m1.json": true }
 
     
     

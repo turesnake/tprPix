@@ -94,7 +94,7 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
 // "" / "Default", 将被统一替换为 "DEFAULT" 
 // 以此来表示，一种 默认 label 
 // 不考虑 运行性能
-inline static std::string check_and_unify_default_labels( const std::string &label_ )noexcept{
+inline std::string check_and_unify_default_labels( const std::string &label_ )noexcept{
     if( (label_=="") || 
         (label_=="default") ||
         (label_=="Default") ||
@@ -104,6 +104,23 @@ inline static std::string check_and_unify_default_labels( const std::string &lab
         return label_; // copy，无需考虑性能
     }
 }
+
+
+inline std::string get_jsonFile_dirPath( const std::string &jsonFile_ )noexcept{
+
+    // 暂时只支持 Unix 风格的 path 格式
+    // 在本游戏中使用，暂无问题
+    tprAssert( jsonFile_.find('/') != std::string::npos );
+    size_t last_point_idx = jsonFile_.find_last_of( '/' ); //- 指向最后一个 '/'
+
+    auto lastIt = jsonFile_.begin();
+    std::advance( lastIt, last_point_idx ); //- advance 并不防止 溢出
+
+    std::string ret (jsonFile_.begin(), lastIt);
+    return ret;
+}
+
+
 
 
 

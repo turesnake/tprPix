@@ -110,9 +110,8 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
         
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string pngLPath = a.GetString();
-            std::string headPath = tprGeneral::path_combine(path_blueprintDatas, "yards");
-            pngPath_M = tprGeneral::path_combine( headPath, pngLPath );
+            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
             const auto &a = json::check_and_get_value( docEnt, "frameNum.col", json::JsonValType::Int );
@@ -360,22 +359,37 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
         for( auto &ent : plotPool.GetArray() ){
             tprAssert( ent.IsObject() );
 
+            {//--- num ---//
+                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint );
+                num = cast_2_size_t( a.GetUint() );
+            }
+
+            // 允许写 0 
+            if( num == 0 ){
+                continue;
+            }
+
+            //--- isPlaceHolder ---//
+            if( ent.HasMember("isPlaceHolder") ){
+                const auto &isPlaceHolder = json::check_and_get_value( ent, "isPlaceHolder", json::JsonValType::Bool );
+                if( isPlaceHolder.GetBool() ){
+                    vmSPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId("_PLACE_HOLDER_","_PLACE_HOLDER_"), num ); // 占位符              
+                    continue;
+                }
+            }
+
             {//--- plotName ---//
                 const auto &a = json::check_and_get_value( ent, "plotName", json::JsonValType::String );
                 plotName = a.GetString();
+                tprAssert( plotName != "_PLACE_HOLDER_" );
             }
             {//--- plotLabel ---//
                 const auto &a = json::check_and_get_value( ent, "plotLabel", json::JsonValType::String );
                 plotLabel = a.GetString();
+                tprAssert( plotLabel != "_PLACE_HOLDER_" );
             }
-            {//--- num ---//
-                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                num = cast_2_size_t( a.GetUint64() );
-            }
-
-            if( num > 0 ){
-                vmSPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName,plotLabel), num );
-            }
+            
+            vmSPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName,plotLabel), num );
         }
 
     }else{
@@ -386,8 +400,8 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                             
             size_t num {};
             {//--- num ---//
-                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                num = cast_2_size_t( a.GetUint64() );
+                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint );
+                num = cast_2_size_t( a.GetUint() );
             }
 
             // 允许写 0 
@@ -396,6 +410,21 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
             }
 
             std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+            //--- isPlaceHolder ---//
+            if( ent.HasMember("isPlaceHolder") ){
+                const auto &isPlaceHolder = json::check_and_get_value( ent, "isPlaceHolder", json::JsonValType::Bool );
+                if( isPlaceHolder.GetBool() ){
+                    goSpecUPtr->isPlaceHolder = true;
+                    //-- goSpecUPtr 创建完毕 --
+                    vmSPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
+                    continue;
+                }
+            }
+
+            // IMPORTANT!!!
+            goSpecUPtr->isPlaceHolder = false;
+
 
             {//--- goSpeciesName ---//
                 const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
@@ -449,8 +478,33 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
         const auto &goSpecPool = json::check_and_get_value( varType_, "goSpecPool", json::JsonValType::Array );
         for( auto &ent : goSpecPool.GetArray() ){
 
-            std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
             size_t num {};
+            {//--- num ---//
+                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint );
+                num = cast_2_size_t( a.GetUint() );
+            }
+
+            // 允许写 0 
+            if( num == 0 ){
+                continue;
+            }
+
+            std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+
+            //--- isPlaceHolder ---//
+            if( ent.HasMember("isPlaceHolder") ){
+                const auto &isPlaceHolder = json::check_and_get_value( ent, "isPlaceHolder", json::JsonValType::Bool );
+                if( isPlaceHolder.GetBool() ){
+                    goSpecUPtr->isPlaceHolder = true;
+                    //-- goSpecUPtr 创建完毕 --
+                    vfSPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
+                    continue;
+                }
+            }
+
+            // IMPORTANT!!!
+            goSpecUPtr->isPlaceHolder = false;
+
 
             {//--- goSpeciesName ---//
                 const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
@@ -470,12 +524,6 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
                                                     // 万一 floorGo 是 multiGoMesh 
                                                     // 那么上面这段就要扩充
                                                     // ...
-
-            {//--- num ---//
-                const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
-                num = cast_2_size_t( a.GetUint64() );
-                tprAssert( num > 0 );
-            }
 
             //-- goSpecUPtr 创建完毕 --
             vfSPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );

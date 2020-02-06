@@ -5,7 +5,7 @@
     "yardName": "2m2_1",
     
 
-    "pngLPath": "/2m2_1/2m2.M.png",
+    "pngLPath": "2m2.M.png",
     "frameNum.col":  1,
     "frameNum.row":  1,
     "totalFrameNum": 1,
@@ -39,7 +39,15 @@
                     "isAllInstanceUseSamePlan": false,
                     "isPlotBlueprint": true,
                     "plotPool":[ 
-                        { "plotName": "rock", "plotLabel": "4m3_lichen", "num": 3 } 
+
+                        { "plotName": "whiteRock", "plotLabel": "4m3", "num": 0 },
+                        { "plotName": "whiteRock", "plotLabel": "4m3_lichen", "num": 0 },
+                        { "plotName": "whiteRock", "plotLabel": "3m4", "num": 0 },
+                        { "plotName": "whiteRock", "plotLabel": "3m4_lichen", "num": 0 },
+
+                        { "plotName": "hollowLog", "plotLabel": "forest_2m2", "num": 1 }
+
+
                     ]
                 },
         

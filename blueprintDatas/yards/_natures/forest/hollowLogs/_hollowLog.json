@@ -5,7 +5,7 @@
     "yardName": "N_forest_hollowLogs",
     
 
-    "pngLPath": "/_natures/forest/hollowLogs/hollowLog.M.png",
+    "pngLPath": "hollowLog.M.png",
     "frameNum.col":  4,
     "frameNum.row":  4,
     "totalFrameNum": 15,

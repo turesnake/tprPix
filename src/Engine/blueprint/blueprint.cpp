@@ -147,6 +147,9 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     //      plot
                     //=================//s
                     auto plotId = varType_yard_managerUPtr->apply_a_plotBlueprintId( pEntUPtr->varTypeIdx, suWeight );
+                    if( PlotBlueprint::is_placeHolderId(plotId) ){
+                        continue;
+                    }
                     PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
                     std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
@@ -256,6 +259,9 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
             //      plot
             //=================//s
             auto plotId = varType_majorYard_managerUPtr->apply_a_plotBlueprintId( pEntUPtr->varTypeIdx, suWeight );
+            if( PlotBlueprint::is_placeHolderId(plotId) ){
+                continue;
+            }
             PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
             std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
@@ -371,6 +377,10 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
                                 const GoSpec &goSpecRef_,
                                 const MapDataEnt &mapDataEntRef_ )noexcept{
 
+    // IMPORTANT!!!
+    if( goSpecRef_.isPlaceHolder ){
+        return;
+    }
 
     size_t suWeight =  calc_simple_uWeight( mpos_ );
 

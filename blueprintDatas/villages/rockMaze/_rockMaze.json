@@ -4,7 +4,7 @@
 
     "villageName": "rockMaze",
 
-    "pngLPath": "/rockMaze/rockMaze3.M.png",
+    "pngLPath": "rockMaze3.M.png",
     "frameNum.col":  1,
     "frameNum.row":  1,
     "totalFrameNum": 1,

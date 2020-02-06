@@ -1,0 +1,58 @@
+[
+{
+    "Notes": "2m2  倒地树干",
+
+    "plotName": "hollowLog",
+    "plotLabel": "forest_2m2",
+
+    "pngLPath": "2m2.M.png",
+    "frameNum.col":  2,
+    "frameNum.row":  4,
+    "totalFrameNum": 8,
+
+    "varTypes":[
+        {
+            "Notes": " 普通 倒地树干 ",
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Normal", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 特殊 倒地树干 ",
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Special", "num": 1 }
+            ]
+        },
+        
+
+        {
+            "Notes": " 草 ",
+            "type": "V_10",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+
+                { "isPlaceHolder": true, "num": 3 },
+
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 1 },
+        
+                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
+        
+                { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 1 },
+                { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 }
+
+
+            ]
+        }
+    ]
+}
+
+]

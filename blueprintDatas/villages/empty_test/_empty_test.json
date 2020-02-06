@@ -4,7 +4,7 @@
 
     "villageName": "empty_test",
 
-    "pngLPath": "/empty_test/empty_test.M.png",
+    "pngLPath": "empty_test.M.png",
     "frameNum.col":  1,
     "frameNum.row":  1,
     "totalFrameNum": 1,

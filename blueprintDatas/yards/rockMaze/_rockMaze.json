@@ -5,7 +5,7 @@
     "yardName": "rockMaze",
     
 
-    "pngLPath": "/rockMaze/rockMaze_center1.M.png",
+    "pngLPath": "rockMaze_center1.M.png",
     "frameNum.col":  2,
     "frameNum.row":  1,
     "totalFrameNum": 2,
@@ -27,7 +27,7 @@
                     "isAllInstanceUseSamePlan": false,
                     "isPlotBlueprint": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Bald", "num": 1 }
+                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Bald", "num": 1 }
                     ]
                 },
         
@@ -38,7 +38,7 @@
                     "isAllInstanceUseSamePlan": false,
                     "isPlotBlueprint": true,
                     "plotPool":[ 
-                        { "plotName": "rockWall", "plotLabel": "4m1", "num": 3 } 
+                        { "plotName": "whiteRockWall", "plotLabel": "4m1", "num": 3 } 
                     ]
                 },
         
@@ -49,13 +49,11 @@
                     "isAllInstanceUseSamePlan": false,
                     "isPlotBlueprint": true,
                     "plotPool":[ 
-                        { "plotName": "rockWall", "plotLabel": "1m4", "num": 3 } 
+                        { "plotName": "whiteRockWall", "plotLabel": "1m4", "num": 3 } 
                     ]
                 },
         
         
-        
-                
         
                 {
                     "Notes": "地板_test",

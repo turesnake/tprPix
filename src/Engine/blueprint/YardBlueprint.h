@@ -75,6 +75,8 @@ private:
     std::vector<varTypeDatas_Yard_MajorGoId_t> goSpecRandPool {};
     std::unordered_map<varTypeDatas_Yard_MajorGoId_t, std::unique_ptr<GoSpec>> goSpecPool {};
     //---
+
+    
     std::vector<plotBlueprintId_t>       plotIds {}; // 随机抽取池
     bool isAllInstanceUseSamePlan {}; // 是否 本类型的所有个体，共用一个 实例化对象
     bool isPlotBlueprint {}; // 本变量是否为一个 plot 

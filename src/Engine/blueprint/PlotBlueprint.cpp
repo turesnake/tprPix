@@ -43,8 +43,18 @@ void VarTypeDatas_Plot::init_check()noexcept{
  */
 plotBlueprintId_t PlotBlueprint::init_new_plot( const std::string &plotName_, const std::string &plotLabel_ ){
     //-- name_2_ids
-    plotBlueprintId_t id = PlotBlueprint::id_manager.apply_a_u32_id();
+    plotBlueprintId_t id {};
 
+    if( plotName_ == "_PLACE_HOLDER_" ){
+        tprAssert( plotLabel_ == "_PLACE_HOLDER_" );
+        id = PlotBlueprint::placeHolderId;
+    }else{
+        id = PlotBlueprint::id_manager.apply_a_u32_id();
+        if( PlotBlueprint::is_placeHolderId(id) ){
+            id = PlotBlueprint::id_manager.apply_a_u32_id(); // apply again
+        }
+    }
+    //---
     auto outPair1 = PlotBlueprint::name_2_ids.insert({ plotName_, std::unordered_map<std::string, plotBlueprintId_t>{} }); // maybe
     auto &innUMap = outPair1.first->second;
     auto outPair2 = innUMap.insert({ plotLabel_, id });

@@ -1,10 +1,10 @@
 [
-    {"v_1/v_1.json": true },
-    {"empty_test/empty_test.json": true },
+    {"v_1/_v_1.json": true },
+    {"empty_test/_empty_test.json": true },
 
-    {"road_test/_v.json": true },
+    {"road_test/_road_test.json": true },
 
-    {"rockMaze/rockMaze.json": true }
+    {"rockMaze/_rockMaze.json": true }
 
     
 ]

@@ -4,7 +4,7 @@
 
     "yardName": "Road_forest",
     
-    "pngLPath": "/_roads/forest/road.M.png",
+    "pngLPath": "road.M.png",
     "frameNum.col":  8,
     "frameNum.row":  10,
     "totalFrameNum": 80,
