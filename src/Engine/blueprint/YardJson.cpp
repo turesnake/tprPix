@@ -352,6 +352,7 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
     if( vmSPtr->get_isPlotBlueprint() ){
 
         std::string plotName {};
+        std::string plotLabel {};
         size_t      num {};
 
         //--- plotPool ---//
@@ -363,13 +364,17 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                 const auto &a = json::check_and_get_value( ent, "plotName", json::JsonValType::String );
                 plotName = a.GetString();
             }
+            {//--- plotLabel ---//
+                const auto &a = json::check_and_get_value( ent, "plotLabel", json::JsonValType::String );
+                plotLabel = a.GetString();
+            }
             {//--- num ---//
                 const auto &a = json::check_and_get_value( ent, "num", json::JsonValType::Uint64 );
                 num = cast_2_size_t( a.GetUint64() );
             }
 
             if( num > 0 ){
-                vmSPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName), num );
+                vmSPtr->insert_2_plotIds( PlotBlueprint::str_2_plotBlueprintId(plotName,plotLabel), num );
             }
         }
 

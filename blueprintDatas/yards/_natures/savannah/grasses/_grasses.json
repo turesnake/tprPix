@@ -1,6 +1,6 @@
 [
 {
-    "annotation": "nature yard majorGos，all grasses",
+    "Notes": "nature yard majorGos，all grasses",
 
     "yardName": "N_savannah_grasses",
     
@@ -22,7 +22,7 @@
 
             "varTypes":[
                 {
-                    "annotation": "高草",
+                    "Notes": "高草",
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -37,7 +37,7 @@
                 },
         
                 {
-                    "annotation": " 矮草-1 ",
+                    "Notes": " 矮草-1 ",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -51,7 +51,7 @@
                 },
         
                 {
-                    "annotation": " 矮草-2 ",
+                    "Notes": " 矮草-2 ",
                     "type": "V_16",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,

@@ -1,0 +1,32 @@
+[
+{
+    "name": "floorGo_rug_1",
+    "pngs": [
+        {
+            "path": "rug.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "MapEnt_3m3",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+
+    ]
+}
+
+
+
+]

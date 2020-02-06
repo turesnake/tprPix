@@ -85,6 +85,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
     doc.Parse( jsonBufUPtr->c_str() );
 
     std::string plotName {};
+    std::string plotLabel {};
     std::string pngPath_M {};
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
@@ -99,9 +100,13 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
             const auto &a = json::check_and_get_value( docEnt, "plotName", json::JsonValType::String );
             plotName = a.GetString();
         }
+        {//--- plotLabel ---//
+            const auto &a = json::check_and_get_value( docEnt, "plotLabel", json::JsonValType::String );
+            plotLabel = a.GetString();
+        }
 
         //--- plot ---
-        auto plotId = PlotBlueprint::init_new_plot( plotName );
+        auto plotId = PlotBlueprint::init_new_plot( plotName, plotLabel );
         auto &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
         {//--- pngLPath ---//

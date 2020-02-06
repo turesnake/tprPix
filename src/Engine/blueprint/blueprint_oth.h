@@ -89,6 +89,24 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         size_t fstFrameIdx_,
                         size_t frameNums_ );
 
+
+
+// "" / "Default", 将被统一替换为 "DEFAULT" 
+// 以此来表示，一种 默认 label 
+// 不考虑 运行性能
+inline static std::string check_and_unify_default_labels( const std::string &label_ )noexcept{
+    if( (label_=="") || 
+        (label_=="default") ||
+        (label_=="Default") ||
+        (label_=="DEFAULT") ){
+        return "_DEFAULT_";
+    }else{
+        return label_; // copy，无需考虑性能
+    }
+}
+
+
+
 }//--------------------- namespace: blueprint end ------------------------//
 #endif 
 

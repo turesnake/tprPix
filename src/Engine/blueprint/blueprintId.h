@@ -19,9 +19,6 @@ using plotBlueprintId_t = u32_t;
 using yardBlueprintId_t = u32_t;
 using villageBlueprintId_t = u32_t;
 
-using yardBlueprintSetId_t = u32_t;
-using yardLabelId_t = u32_t;
-
 
 }//--------------------- namespace: blueprint end ------------------------//
 #endif 

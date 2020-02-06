@@ -1,11 +1,11 @@
 [
-    {"bush_1/bush_1.json": true },
-    {"mushroom_2m2/mushroom_2m2.json": true },
-    {"mushroom_3m3/mushroom_3m3.json": true },
+    {"bush_1/_bush_1.json": true },
+    {"mushroom/2m2/_mushroom_2m2.json": true },
+    {"mushroom/3m3/_mushroom_3m3.json": true },
 
-    {"rocks/4m3/rock_4m3.json": true },
-    {"rocks/wall_1m4/rockWall_1m4.json": true },
-    {"rocks/wall_4m1/rockWall_4m1.json": true }
+    {"rocks/4m3/_rock_4m3.json": true },
+    {"rocks/wall_1m4/_rockWall_1m4.json": true },
+    {"rocks/wall_4m1/_rockWall_4m1.json": true }
 
     
     

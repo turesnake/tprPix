@@ -1,26 +1,26 @@
 [
 {
-    "annotation": " 路面 floorGo forest ",
+    "Notes": " 路面 floorGo forest ",
 
     "yardName": "Road_forest",
     
     "pngLPath": "/_roads/forest/road.M.png",
-    "frameNum.col":  4,
+    "frameNum.col":  8,
     "frameNum.row":  10,
-    "totalFrameNum": 40,
+    "totalFrameNum": 80,
 
 
     "specialFrameAllocateTimes": [
-        { "frameIdx": 0, "allocateNum": 7 },
-        { "frameIdx": 4, "allocateNum": 7 },
-        { "frameIdx": 8, "allocateNum": 7 },
-        { "frameIdx": 12, "allocateNum": 7 },
+        { "frameIdx": 0, "allocateNum": 9 },
+        { "frameIdx": 8, "allocateNum": 9 },
         { "frameIdx": 16, "allocateNum": 9 },
-        { "frameIdx": 20, "allocateNum": 9 },
-        { "frameIdx": 24, "allocateNum": 5 },
-        { "frameIdx": 28, "allocateNum": 5 },
-        { "frameIdx": 32, "allocateNum": 5 },
-        { "frameIdx": 36, "allocateNum": 5 }
+        { "frameIdx": 24, "allocateNum": 9 },
+        { "frameIdx": 32, "allocateNum": 11 },
+        { "frameIdx": 40, "allocateNum": 11 },
+        { "frameIdx": 48, "allocateNum": 7 },
+        { "frameIdx": 56, "allocateNum": 7 },
+        { "frameIdx": 64, "allocateNum": 7 },
+        { "frameIdx": 72, "allocateNum": 7 }
     ],
 
 
@@ -30,7 +30,7 @@
 
     "public_varTypes":[
         {
-            "annotation": " 低矮的草/花 ",
+            "Notes": " 低矮的草/花 ",
             "type": "V_10",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
@@ -46,7 +46,7 @@
         },
 
         {
-            "annotation": " 稀有灌木 / 碎石 ",
+            "Notes": " 稀有灌木 / 碎石 ",
             "type": "V_1",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
@@ -68,11 +68,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "LeftTop",
-            "fstFrameIdx": 0, "frameNums": 4,
+            "fstFrameIdx": 0, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，左上 ",
+                    "Notes": " 2端口，左上 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -86,11 +86,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "RightTop",
-            "fstFrameIdx": 4, "frameNums": 4,
+            "fstFrameIdx": 8, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，右上 ",
+                    "Notes": " 2端口，右上 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -104,11 +104,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "RightBottom",
-            "fstFrameIdx": 8, "frameNums": 4,
+            "fstFrameIdx": 16, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，右下 ",
+                    "Notes": " 2端口，右下 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -122,11 +122,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "LeftBottom",
-            "fstFrameIdx": 12, "frameNums": 4,
+            "fstFrameIdx": 24, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，左下 ",
+                    "Notes": " 2端口，左下 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -140,11 +140,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "Left",
-            "fstFrameIdx": 16, "frameNums": 4,
+            "fstFrameIdx": 32, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，左 ",
+                    "Notes": " 2端口，左 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -158,11 +158,11 @@
         {
             "yardLabel": "TwoPorts",
             "Dir": "Bottom",
-            "fstFrameIdx": 20, "frameNums": 4,
+            "fstFrameIdx": 40, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 2端口，下 ",
+                    "Notes": " 2端口，下 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -177,11 +177,11 @@
         {
             "yardLabel": "ThreePorts",
             "Dir": "Left",
-            "fstFrameIdx": 24, "frameNums": 4,
+            "fstFrameIdx": 48, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 3端口，左 ----------------------------------------- ",
+                    "Notes": " 3端口，左 ----------------------------------------- ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -195,11 +195,11 @@
         {
             "yardLabel": "ThreePorts",
             "Dir": "Top",
-            "fstFrameIdx": 28, "frameNums": 4,
+            "fstFrameIdx": 56, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 3端口, 上 ",
+                    "Notes": " 3端口, 上 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -213,11 +213,11 @@
         {
             "yardLabel": "ThreePorts",
             "Dir": "Right",
-            "fstFrameIdx": 32, "frameNums": 4,
+            "fstFrameIdx": 64, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 3端口，右 ",
+                    "Notes": " 3端口，右 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",
@@ -231,11 +231,11 @@
         {
             "yardLabel": "ThreePorts",
             "Dir": "Bottom",
-            "fstFrameIdx": 36, "frameNums": 4,
+            "fstFrameIdx": 72, "frameNums": 8,
 
             "varTypes":[
                 {
-                    "annotation": " 3端口，下 ",
+                    "Notes": " 3端口，下 ",
                     "type": "V_30",
                     "isFloorGo": true,
                     "FloorGoSize": "MapEnt_4m4",

@@ -1,6 +1,6 @@
 [
 {
-    "annotation": "nature regular 碎石堆，点缀小花",
+    "Notes": "nature regular 碎石堆，点缀小花",
 
     "yardName": "N_breakStones",
     
@@ -21,7 +21,7 @@
 
             "varTypes":[
                 {
-                    "annotation": " 白色巨石 ",
+                    "Notes": " 白色巨石 ",
                     "type": "V_7",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -33,7 +33,7 @@
                 },
         
                 {
-                    "annotation": " 碎石 ",
+                    "Notes": " 碎石 ",
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -44,7 +44,7 @@
                 },
         
                 {
-                    "annotation": " grass ",
+                    "Notes": " grass ",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -61,7 +61,7 @@
                 },
         
                 {
-                    "annotation": " grass / bush 2 ",
+                    "Notes": " grass / bush 2 ",
                     "type": "V_13",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,

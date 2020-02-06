@@ -1,0 +1,129 @@
+[
+{
+    "Notes": "试验性质的yard蓝图，一组篱笆，一个 plot变量，两颗bush",
+
+    "yardName": "2m2_1",
+    
+
+    "pngLPath": "/2m2_1/2m2.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": true,
+
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "Notes": "篱笆",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": true,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "Notes": "plot变量",
+                    "type": "V_2",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "rock", "plotLabel": "4m3_lichen", "num": 3 } 
+                    ]
+                },
+        
+                {
+                    "Notes": "灌木草",
+                    "type": "V_3",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": true,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "Notes": "碎石头",
+                    "type": "V_4",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 0 },
+                        { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 0 },
+                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 0 },
+        
+                        { "goSpeciesName": "bush", "MultiGoMeshType":"Origin", "num": 1 }
+        
+                    ]
+                },
+        
+                {
+                    "Notes": "生物测试位： dir:Light; 比如：鸡",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+        
+                        { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 3 }
+        
+                    ]
+                },
+        
+        
+                {
+                    "Notes": " 地板_test ------------------------------ ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_2m2",
+                    "isAllInstanceUseSamePlan": true,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel":"MapEnt_2m2", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "地板_test",
+                    "type": "V_29",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_3m3",
+                    "isAllInstanceUseSamePlan": true,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_3m3", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "地板_test",
+                    "type": "V_28",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_4m4",
+                    "isAllInstanceUseSamePlan": true,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_4m4", "num": 3 }
+                    ]
+                }
+        
+        
+            ]
+
+        }
+    ]
+
+}
+
+]
+

@@ -1,0 +1,34 @@
+[
+{
+    "Notes": "石墙 1m4, 稍微带苔藓",
+
+    "plotName": "rockWall",
+    "plotLabel": "1m4",
+
+    "pngLPath": "/rocks/wall_1m4/rockWall_1m4.M.png",
+    "frameNum.col":  4,
+    "frameNum.row":  2,
+    "totalFrameNum": 8,
+
+    "varTypes":[
+        {
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Bald", "num": 1 }
+            ]
+        },
+        {
+            "type": "V_2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "rock", "afsName": "rock", "animLabel":"Big_Light_Lichen", "num": 1 }
+            ]
+        }
+        
+    ]
+}
+
+
+
+]

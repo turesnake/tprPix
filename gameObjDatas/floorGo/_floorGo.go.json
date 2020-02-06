@@ -26,7 +26,13 @@
 
 
             "_desert/_afs.json",
-            "_savannah/_afs.json"
+            "_savannah/_afs.json",
+
+
+            "rug/_afs.json",
+
+            "woodFloor/light/_afs.json",
+            "woodFloor/dark/_afs.json"
 
 
         ],

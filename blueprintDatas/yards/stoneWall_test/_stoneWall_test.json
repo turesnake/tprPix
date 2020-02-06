@@ -1,6 +1,6 @@
 [
 {
-    "annotation": " 3f3-yard 石墙小屋 ",
+    "Notes": " 3f3-yard 石墙小屋 ",
 
     "yardName": "stoneWall_test",
     
@@ -11,7 +11,7 @@
     "totalFrameNum": 1,
 
     "isHaveMajorGos": true,
-    "isHaveFloorGos": false,
+    "isHaveFloorGos": true,
 
     "yardObjs":[
         {
@@ -21,15 +21,64 @@
 
             "varTypes":[
                 {
-                    "annotation": " 石墙 ",
+                    "Notes": " 石墙 ",
                     "type": "V_1",
                     "isFloorGo": false,
-                    "isAllInstanceUseSamePlan": false,
+                    "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
+                    "isAllInstanceUseSamePlan": true,
                     "isPlotBlueprint": false,
                     "goSpecPool":[
+                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
+                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
                     ]
+                },
+
+
+                {
+                    "Notes": " FloorGo: 墙根下的 本eco nature 纹理 ------------------ ",
+                    "type": "V_24",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_2m2",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_1", "animLabel": "MapEnt_2m2", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " FloorGo: 浅色 木头地板 ------------------ ",
+                    "type": "V_29",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_2m2",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_woodFloor_light", "animLabel": "MapEnt_2m2", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " FloorGo: 深色 木头地板 ",
+                    "type": "V_30",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_2m2",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_woodFloor_dark", "animLabel": "MapEnt_2m2", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " FloorGo: 地板之上的 地毯 ",
+                    "type": "V_27",
+                    "isFloorGo": true,
+                    "FloorGoSize": "MapEnt_3m3",
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "floorGo", "afsName": "floorGo_rug_1", "animLabel": "MapEnt_3m3", "num": 1 }
+                    ]
                 }
+
         
             ]
 

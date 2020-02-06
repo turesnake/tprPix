@@ -22,11 +22,8 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 //============== static ===============//
 ID_Manager                                              YardBlueprint::mapDataId_manager { ID_TYPE::U32, 0 };
 //---
-ID_Manager                                              YardBlueprintSet::yardSetId_manager { ID_TYPE::U32, 0 };
-ID_Manager                                              YardBlueprintSet::labelId_manager { ID_TYPE::U32, 0 };
 ID_Manager                                              YardBlueprintSet::yardId_manager { ID_TYPE::U32, 0 };
-std::unordered_map<std::string, yardBlueprintSetId_t>   YardBlueprintSet::name_2_yardSetIds {};
-std::unordered_map<yardBlueprintSetId_t, std::unique_ptr<YardBlueprintSet>> YardBlueprintSet::setUPtrs {};
+std::unordered_map<YardBlueprintSet::yardBlueprintSetId_t, std::unique_ptr<YardBlueprintSet>> YardBlueprintSet::setUPtrs {};
 std::unordered_map<yardBlueprintId_t, std::unique_ptr<YardBlueprint>>       YardBlueprintSet::yardUPtrs {}; // 真实资源
 //---
 ID_Manager                                              VarTypeDatas_Yard_MajorGo::id_manager { ID_TYPE::U32, 0 };
@@ -35,7 +32,6 @@ ID_Manager                                              VarTypeDatas_Yard_FloorG
 
 
 void YardBlueprintSet::init_for_static()noexcept{
-    YardBlueprintSet::name_2_yardSetIds.reserve(1000);
     YardBlueprintSet::setUPtrs.reserve(1000);
     YardBlueprintSet::yardUPtrs.reserve(1000);
 }
@@ -104,44 +100,25 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
     //------------//
     //  yardName
     //------------//
-    yardBlueprintSetId_t yardSetId {};
-    YardBlueprintSet *setPtr {nullptr};
-
+    yardBlueprintSetId_t yardSetId = std::hash<std::string>{}( yardName_ );
     // find or create
-    if( YardBlueprintSet::name_2_yardSetIds.find(yardName_) == YardBlueprintSet::name_2_yardSetIds.end() ){ // not find
-        yardSetId = YardBlueprintSet::yardSetId_manager.apply_a_u32_id();
-        auto outPair1 = YardBlueprintSet::name_2_yardSetIds.insert({ yardName_, yardSetId });
-        tprAssert( outPair1.second );
-        //---
-        auto outPair2 = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::make_unique<YardBlueprintSet>() });
-        tprAssert( outPair2.second );
-        setPtr = outPair2.first->second.get();
-
-    }else{ // find
-        yardSetId = YardBlueprintSet::name_2_yardSetIds.at(yardName_); // Must Exist
-        setPtr = YardBlueprintSet::setUPtrs.at(yardSetId).get(); // Must Exist
-    }
+    auto outPair = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::make_unique<YardBlueprintSet>() });
+    YardBlueprintSet *setPtr = outPair.first->second.get();
 
     //------------//
     //  yardLabel
     //------------//
-    yardLabelId_t       labelId {};
+    std::string yardLabel = check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+    yardLabelId_t yardLabelId = std::hash<std::string>{}( yardLabel );
     yardBlueprintId_t   yardId {};
 
-    std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
-
-    if( setPtr->name_2_labelIds.find(yardLabel) == setPtr->name_2_labelIds.end() ){ // not find
-        labelId = YardBlueprintSet::labelId_manager.apply_a_u32_id();
-        auto outPair1 = setPtr->name_2_labelIds.insert({ yardLabel, labelId });
+    if( setPtr->yardIDs.find(yardLabelId) == setPtr->yardIDs.end() ){ // not find
+        auto outPair1 = setPtr->yardIDs.insert({ yardLabelId, std::unordered_map<NineDirection, yardBlueprintId_t>{} });
         tprAssert( outPair1.second );
+        auto &innUMap = outPair1.first->second;
         //---
         yardId = YardBlueprintSet::yardId_manager.apply_a_u32_id();
-
-
-        auto outPair2 = setPtr->yardIDs.insert({ labelId, std::unordered_map<NineDirection, yardBlueprintId_t>{} });
-        tprAssert( outPair2.second ); // Must success
-        auto &innUMap = outPair2.first->second;
-
+        
         auto outPair3 = innUMap.insert({ yardDir_, yardId });
         tprAssert( outPair3.second ); // Must success
 
@@ -150,11 +127,8 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
         tprAssert( outPair4.second );
 
     }else{ // find
-        labelId = setPtr->name_2_labelIds.at( yardLabel ); // Must Exist
-
-        tprAssert( setPtr->yardIDs.find(labelId) != setPtr->yardIDs.end() );
-        auto &innUMap = setPtr->yardIDs.at( labelId ); // Must Exist
-
+        tprAssert( setPtr->yardIDs.find(yardLabelId) != setPtr->yardIDs.end() );
+        auto &innUMap = setPtr->yardIDs.at( yardLabelId ); // Must Exist
 
         if( innUMap.find(yardDir_) == innUMap.end() ){ // not find
 
@@ -174,8 +148,6 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
     }
     return yardId;
 }
-
-
 
 
 

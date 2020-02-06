@@ -169,17 +169,20 @@ public:
 
     //===== static =====//
     static void init_for_static()noexcept;
-    static plotBlueprintId_t init_new_plot( const std::string &name_ );
+    static plotBlueprintId_t init_new_plot( const std::string &plotName_, const std::string &plotLabel_ );
 
     inline static PlotBlueprint &get_plotBlueprintRef( plotBlueprintId_t id_ )noexcept{
         tprAssert( PlotBlueprint::plotUPtrs.find(id_) != PlotBlueprint::plotUPtrs.end() );
         return *(PlotBlueprint::plotUPtrs.at(id_));
     }
 
-    inline static plotBlueprintId_t str_2_plotBlueprintId( const std::string &name_ )noexcept{
-        tprAssert( PlotBlueprint::name_2_ids.find(name_) != PlotBlueprint::name_2_ids.end() );
-        return PlotBlueprint::name_2_ids.at(name_);
+    inline static plotBlueprintId_t str_2_plotBlueprintId( const std::string &plotName_, const std::string &plotLabel_ )noexcept{
+        tprAssert( PlotBlueprint::name_2_ids.find(plotName_) != PlotBlueprint::name_2_ids.end() );
+        const auto &innUMap = PlotBlueprint::name_2_ids.at( plotName_ );
+        tprAssert( innUMap.find(plotLabel_) != innUMap.end() );
+        return innUMap.at( plotLabel_ );
     }
+
 
 private:
     IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位 不一定必须是 正方形
@@ -191,7 +194,9 @@ private:
 
     //======== static ========//
     static ID_Manager  id_manager;
-    static std::unordered_map<std::string, plotBlueprintId_t> name_2_ids; // 索引表
+
+    // 两层索引：plotName, plotLabel
+    static std::unordered_map<std::string, std::unordered_map<std::string, plotBlueprintId_t>> name_2_ids; // 索引表
     static std::unordered_map<plotBlueprintId_t, std::unique_ptr<PlotBlueprint>> plotUPtrs; // 真实资源
 };
 

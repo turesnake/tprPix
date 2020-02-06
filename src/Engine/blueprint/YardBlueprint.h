@@ -247,6 +247,8 @@ private:
  * 可以用 "" / "default" / "Default" / "DEFAULT" 来表示一种 默认类型 （它们指向同一份数据）
  */
 class YardBlueprintSet{
+    using yardLabelId_t = size_t; // std::hash
+    using yardBlueprintSetId_t = size_t; // std::hash
 public:
     using F_getYardId = std::function< std::optional<yardBlueprintId_t>(NineDirection)>;
 
@@ -288,14 +290,15 @@ public:
     
     inline static bool is_find_name( const std::string &yardName_, const std::string &yardLabel_ )noexcept{
         //--- yardName ---//
-        if( YardBlueprintSet::name_2_yardSetIds.find(yardName_) == YardBlueprintSet::name_2_yardSetIds.end() ){
+        yardBlueprintSetId_t setId = std::hash<std::string>{}( yardName_ );
+        if( YardBlueprintSet::setUPtrs.find(setId) == YardBlueprintSet::setUPtrs.end() ){
             return false;
         }
-        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
         YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
         //--- yardLabel ---//
-        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
-        return (setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end());
+        std::string yardLabel = check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+        yardLabelId_t yardLabelId = std::hash<std::string>{}( yardLabel );
+        return (setRef.yardIDs.find(yardLabelId) != setRef.yardIDs.end());
     }
 
 
@@ -304,44 +307,23 @@ private:
     inline static std::unordered_map<NineDirection, yardBlueprintId_t> &
     get_dir_2_yardId_umap(  const std::string &yardName_, const std::string &yardLabel_ )noexcept{
         //--- yardName ---//
-        tprAssert( YardBlueprintSet::name_2_yardSetIds.find(yardName_) != YardBlueprintSet::name_2_yardSetIds.end() );
-        yardBlueprintSetId_t setId = YardBlueprintSet::name_2_yardSetIds.at(yardName_);
+        yardBlueprintSetId_t setId = std::hash<std::string>{}( yardName_ );
+        tprAssert( YardBlueprintSet::setUPtrs.find(setId) != YardBlueprintSet::setUPtrs.end() );
         YardBlueprintSet &setRef = *(YardBlueprintSet::setUPtrs.at(setId));
         //--- yardLabel ---//
-        std::string yardLabel = YardBlueprintSet::check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
-        tprAssert( setRef.name_2_labelIds.find(yardLabel) != setRef.name_2_labelIds.end() );
-        yardLabelId_t yardId = setRef.name_2_labelIds.at(yardLabel);
-
-        tprAssert( setRef.yardIDs.find(yardId) != setRef.yardIDs.end() ); // Must existed
-        return setRef.yardIDs.at( yardId );
+        std::string yardLabel = check_and_unify_default_labels(yardLabel_); // "_DEFAULT_"
+        yardLabelId_t yardLabelId = std::hash<std::string>{}( yardLabel );
+        tprAssert( setRef.yardIDs.find(yardLabelId) != setRef.yardIDs.end() ); // Must existed
+        return setRef.yardIDs.at( yardLabelId );
     }
 
-
-    // "" / "Default", 将被统一替换为 "DEFAULT" 
-    // 以此来表示，一种 默认 label 
-    inline static std::string check_and_unify_default_labels( const std::string &yardLabel_ )noexcept{
-        if( (yardLabel_=="") || 
-            (yardLabel_=="default") ||
-            (yardLabel_=="Default") ||
-            (yardLabel_=="DEFAULT") ){
-            return "_DEFAULT_";
-        }else{
-            return yardLabel_; // copy，无需考虑性能
-        }
-    }
-
- 
-    std::unordered_map<std::string, yardLabelId_t> name_2_labelIds {}; // yardLabel 索引表
 
     // 两层索引: yardLabel, dir 
     std::unordered_map<yardLabelId_t, std::unordered_map<NineDirection, yardBlueprintId_t>> yardIDs;
 
 
     //===== static =====//
-    static ID_Manager  yardSetId_manager; // apply yardBlueprintSet id
-    static ID_Manager  labelId_manager; // apply label id
     static ID_Manager  yardId_manager; // apply yardBlueprint id
-    static std::unordered_map<std::string, yardBlueprintSetId_t> name_2_yardSetIds; // 索引表
     static std::unordered_map<yardBlueprintSetId_t, std::unique_ptr<YardBlueprintSet>> setUPtrs; // 真实资源
     static std::unordered_map<yardBlueprintId_t, std::unique_ptr<YardBlueprint>> yardUPtrs; // 真实资源
 };

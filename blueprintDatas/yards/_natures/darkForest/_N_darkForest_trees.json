@@ -1,0 +1,316 @@
+[
+{
+    "Notes": "nature yard majorGos，1-tree",
+
+    "yardName": "N_darkForest_trees",
+    
+
+    "pngLPath": "/_natures/darkForest/N_forest_1tree.M.png",
+    "frameNum.col":  8,
+    "frameNum.row":  9,
+    "totalFrameNum": 72,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+
+    "yardObjs":[
+        {
+            "yardLabel": "1Mid",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "Notes": "单独一颗树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "草-矮",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                    ]
+                },
+        
+                {
+                    "Notes": "草-高",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                    ]
+                }
+            ]
+
+        }
+    ]
+
+    
+},
+
+
+
+{
+    "Notes": "nature yard majorGos，2-tree",
+
+    "yardName": "N_darkForest_trees",
+    
+
+    "pngLPath": "/_natures/darkForest/N_forest_2tree.M.png",
+    "frameNum.col":  11,
+    "frameNum.row":  5,
+    "totalFrameNum": 55,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "yardObjs":[
+        {
+            "yardLabel": "2Mid",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "Notes": "单独一颗树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "草-矮",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Sml", "num": 1 }
+        
+        
+        
+                    ]
+                },
+        
+                {
+                    "Notes": "草-高",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                    ]
+                }
+        
+            ]
+
+        }
+    ]
+
+    
+},
+
+
+{
+    "Notes": " 树一大一小，中间用纯色的 普通草搭配。平庸但可行 ",
+
+    "yardName": "N_darkForest_trees",
+    
+
+    "pngLPath": "/_natures/darkForest/N_forest_tree_1mid1sml.M.png",
+    "frameNum.col":  11,
+    "frameNum.row":  5,
+    "totalFrameNum": 55,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "yardObjs":[
+        {
+            "yardLabel": "1Mid1Sml",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "Notes": "mid树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "sml树",
+                    "type": "V_2",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Sml", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "草，基础款，数量多",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 1 }
+        
+        
+                    ]
+                },
+        
+                {
+                    "Notes": " 偶尔出现 黑花, 三瓣花 ",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Big", "num": 0 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Mid", "num": 0 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"DarkForest_Grass1_Sml", "num": 0 },
+        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_Black_Sml", "num": 1 },
+        
+                        
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"TriFlower_Grey_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "MultiGoMeshType":"TriFlower_Grey_Sml", "num": 1 }
+        
+                    ]
+                }
+        
+            ]
+
+        }
+    ]
+
+    
+},
+
+
+
+{
+    "Notes": " 一颗树，配一组蘑菇 ",
+
+    "yardName": "N_darkForest_trees",
+    
+
+    "pngLPath": "/_natures/darkForest/N_darkForest_1treeNmushroom.M.png",
+    "frameNum.col":  3,
+    "frameNum.row":  4,
+    "totalFrameNum": 12,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "yardObjs":[
+        {
+            "yardLabel": "1Mid-NMushroom",
+            "Dir": "Center",
+            "isAllFramesInclude": true,
+
+            "varTypes":[
+                {
+                    "Notes": "mid树",
+                    "type": "V_1",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pineTree", "afsName": "pineTree", "animLabel": "Mid", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "蘑菇 2M2",
+                    "type": "V_8",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "mushroom", "plotLabel": "2m2", "num": 3 } 
+                    ]
+                },
+        
+                {
+                    "Notes": "蘑菇 3M3",
+                    "type": "V_9",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "mushroom", "plotLabel": "3m3", "num": 3 } 
+                    ]
+                },
+        
+        
+                {
+                    "Notes": "蘑菇 sml",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 3 }
+                    ]
+                },
+        
+                {
+                    "Notes": "蘑菇 sml",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 3 }
+                    ]
+                }
+        
+            ]
+
+        }
+    ]
+
+    
+}
+
+
+]

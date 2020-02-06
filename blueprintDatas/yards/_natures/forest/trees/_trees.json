@@ -1,6 +1,6 @@
 [
 {
-    "annotation": "nature yard majorGos，1-tree",
+    "Notes": "nature yard majorGos，1-tree",
 
     "yardName": "N_forest_trees",
     
@@ -21,7 +21,7 @@
 
             "varTypes":[
                 {
-                    "annotation": "单独一颗树",
+                    "Notes": "单独一颗树",
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -32,7 +32,7 @@
                 },
         
                 {
-                    "annotation": "草-矮",
+                    "Notes": "草-矮",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -45,7 +45,7 @@
                 },
         
                 {
-                    "annotation": "草-高",
+                    "Notes": "草-高",
                     "type": "V_11",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -66,7 +66,7 @@
 
 
 {
-    "annotation": "nature yard majorGos，2-tree",
+    "Notes": "nature yard majorGos，2-tree",
 
     "yardName": "N_forest_trees",
     
@@ -87,7 +87,7 @@
 
             "varTypes":[
                 {
-                    "annotation": "单独一颗树",
+                    "Notes": "单独一颗树",
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -98,7 +98,7 @@
                 },
         
                 {
-                    "annotation": "草-矮",
+                    "Notes": "草-矮",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -111,7 +111,7 @@
                 },
         
                 {
-                    "annotation": "草-高",
+                    "Notes": "草-高",
                     "type": "V_11",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -134,7 +134,7 @@
 
 
 {
-    "annotation": "nature yard majorGos，2-tree",
+    "Notes": "nature yard majorGos，2-tree",
 
     "yardName": "N_forest_trees",
     
@@ -155,7 +155,7 @@
 
             "varTypes":[
                 {
-                    "annotation": "mid树",
+                    "Notes": "mid树",
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -166,7 +166,7 @@
                 },
         
                 {
-                    "annotation": "sml树",
+                    "Notes": "sml树",
                     "type": "V_2",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -177,7 +177,7 @@
                 },
         
                 {
-                    "annotation": "草-矮",
+                    "Notes": "草-矮",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
@@ -196,7 +196,7 @@
                 },
         
                 {
-                    "annotation": "草-高",
+                    "Notes": "草-高",
                     "type": "V_11",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
