@@ -134,10 +134,10 @@ private:
 
 // 院子级蓝图。中间级别的蓝图，有数 fields 大
 class YardBlueprint{
-    using mapDataId_t = u32_t;
 public:
+    using mapDataId_t = u32_t;
+    //---
     YardBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
-
 
     inline void insert_2_majorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                                 std::shared_ptr<VarTypeDatas_Yard_MajorGo> sptr_ )noexcept{
@@ -173,35 +173,48 @@ public:
     inline bool get_isHaveFloorGos()const noexcept{ return this->isHaveFloorGos; }
 
 
-    inline MapData &create_new_majorGo_mapData( size_t num_=1 )noexcept{
+    inline std::pair<mapDataId_t, MapData*> create_new_majorGo_mapData( size_t num_=1 )noexcept{
         
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->majorGo_mapDataIds.insert( this->majorGo_mapDataIds.end(), num_, id );
         //---
         auto outPair = this->majorGo_mapDatas.insert({ id, MapData{} });
         tprAssert( outPair.second );
-        return outPair.first->second;
+        return { id, &(outPair.first->second) };
     }
-    inline MapData &create_new_floorGo_mapData( size_t num_=1 )noexcept{
+    inline std::pair<mapDataId_t, MapData*> create_new_floorGo_mapData( size_t num_=1 )noexcept{
 
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->floorGo_mapDataIds.insert( this->floorGo_mapDataIds.end(), num_, id );
         //---
         auto outPair = this->floorGo_mapDatas.insert({ id, MapData{} });
         tprAssert( outPair.second );
-        return outPair.first->second;
+        return { id, &(outPair.first->second) };
+    }
+
+    inline void bind_floorId_2_majorId( mapDataId_t majorId_, mapDataId_t floorId_ )noexcept{
+        tprAssert( this->isHaveMajorGos && this->isHaveFloorGos );
+        auto outPair = this->majorDataId_2_floorDataIds.insert({ majorId_, floorId_ });
+        tprAssert( outPair.second ); // Must
+    }
+
+    inline std::pair<mapDataId_t, const MapData*> get_binded_floorData( mapDataId_t majorId_ )const noexcept{
+        tprAssert( this->majorDataId_2_floorDataIds.find(majorId_) != this->majorDataId_2_floorDataIds.end() );
+        mapDataId_t id = this->majorDataId_2_floorDataIds.at( majorId_ );
+        tprAssert( this->floorGo_mapDatas.find(id) != this->floorGo_mapDatas.end() );
+        return { id, &this->floorGo_mapDatas.at(id) };
     }
 
     inline const std::set<VariableTypeIdx> &get_majorGo_varTypes()const noexcept{ return this->majorGo_varTypes; }
     inline const std::set<VariableTypeIdx> &get_floorGo_varTypes()const noexcept{ return this->floorGo_varTypes; }
 
-    inline const MapData &apply_a_random_majorGo_mapData( size_t uWeight_ )const noexcept{
+    inline std::pair<mapDataId_t, const MapData*> apply_a_random_majorGo_mapData( size_t uWeight_ )const noexcept{
         mapDataId_t id = this->majorGo_mapDataIds.at( (uWeight_+86887311) % this->majorGo_mapDataIds.size() );
-        return this->majorGo_mapDatas.at( id );
+        return { id, &this->majorGo_mapDatas.at(id) };
     }
-    inline const MapData &apply_a_random_floorGo_mapData( size_t uWeight_ )const noexcept{
+    inline std::pair<mapDataId_t, const MapData*> apply_a_random_floorGo_mapData( size_t uWeight_ )const noexcept{
         mapDataId_t id = this->floorGo_mapDataIds.at( (uWeight_ + 906117317) % this->floorGo_mapDataIds.size() );
-        return this->floorGo_mapDatas.at( id );
+        return { id, &this->floorGo_mapDatas.at(id) };
     }
 
     inline const VarTypeDatas_Yard_MajorGo *get_majorGo_varTypeDataPtr_Yard( VariableTypeIdx type_ )const noexcept{
@@ -228,6 +241,10 @@ private:
     std::unordered_map<mapDataId_t, MapData>floorGo_mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> floorGo_varTypes {};
     std::unordered_map<VariableTypeIdx, std::shared_ptr<VarTypeDatas_Yard_FloorGo>> floorGo_varTypeDatas {};
+
+    //- 当同时拥有 majorGo/floorGo 数据时，两两元素是强关联的
+    //  此时就可以用本容器，根据 majorDataId 来寻找 floorDataId
+    std::unordered_map<mapDataId_t, mapDataId_t> majorDataId_2_floorDataIds {}; // {majorId, floorId}
 
     //- 至少有一个为 true
     bool isHaveMajorGos {};

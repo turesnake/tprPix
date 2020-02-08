@@ -118,10 +118,16 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         //---------//
         // majorGos
         //---------//
+        std::pair<YardBlueprint::mapDataId_t, const MapData*> floorDataPair {};
+
         if( yardRef.get_isHaveMajorGos() ){
 
-            const MapData &yardMapData_majorGos = yardRef.apply_a_random_majorGo_mapData( suWeight );
-            for( const auto &pEntUPtr : yardMapData_majorGos.data ){ // each mapDataEnt uptr / plot
+            auto [yardMajorDataId, yardMajorMapDataPtr] = yardRef.apply_a_random_majorGo_mapData( suWeight );
+            if( yardRef.get_isHaveFloorGos() ){
+                floorDataPair = yardRef.get_binded_floorData( yardMajorDataId );
+            }
+
+            for( const auto &pEntUPtr : yardMajorMapDataPtr->data ){ // each mapDataEnt uptr / plot
 
                 const auto *varTypeDatas_Yard_majorGoPtr = yardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
@@ -182,8 +188,17 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         if( yardRef.get_isHaveFloorGos() ){
 
             glm::dvec2 floorGoDPos {};
-            const MapData &yardMapData_floorGos = yardRef.apply_a_random_floorGo_mapData( suWeight );
-            for( const auto &pEntUPtr : yardMapData_floorGos.data ){ // each mapDataEnt uptr 
+
+            const MapData *floorDataPtr {};
+
+            if( yardRef.get_isHaveMajorGos() ){
+                floorDataPtr = floorDataPair.second;
+            }else{
+                auto pair = yardRef.apply_a_random_floorGo_mapData( suWeight );
+                floorDataPtr = pair.second;
+            }
+            
+            for( const auto &pEntUPtr : floorDataPtr->data ){ // each mapDataEnt uptr 
 
                 const auto *varTypeDatas_Yard_floorGoPtr = yardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
@@ -226,11 +241,14 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
     // majorGos
     //---------//
     YardBlueprint &natureMajoryardRef = YardBlueprintSet::get_yardBlueprintRef( natureMajorYardId_ );
-    const MapData &yardMapData_majorGos = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
+
+    //const MapData &yardMapData_majorGos = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
+    auto [yardMajorDataId, yardMajorMapDataPtr] = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
+
     std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_majorYard_managerUPtr 
                     = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureMajoryardRef );
 
-    for( const auto &pEntUPtr : yardMapData_majorGos.data ){ // each mapDataEnt uptr / plot
+    for( const auto &pEntUPtr : yardMajorMapDataPtr->data ){ // each mapDataEnt uptr / plot
 
         const auto *varTypeDatas_Yard_majorGoPtr = natureMajoryardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
@@ -314,12 +332,15 @@ void build_natureYard_floorGoDatasForCreate(
 
     //- 从 ecoobj 中获取的 floorYard 数据    
     YardBlueprint &natureFloorYardRef = YardBlueprintSet::get_yardBlueprintRef( natureFloorYardId_ );
-    const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
+
+    //const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
+    auto [yardFloorDataId, yardFloorMapDataPtr] = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
+
     std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_floorYard_managerUPtr 
                                 = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureFloorYardRef );
 
 
-    for( const auto &pEntUPtr : yardMapData_floorGos.data ){ // each mapDataEnt uptr 
+    for( const auto &pEntUPtr : yardFloorMapDataPtr->data ){ // each mapDataEnt uptr 
         const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
         entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos

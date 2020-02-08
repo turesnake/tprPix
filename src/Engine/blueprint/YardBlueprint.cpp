@@ -58,9 +58,18 @@ void YardBlueprint::init_check()noexcept{
         //-- shuffle --//
         std::shuffle( this->floorGo_mapDataIds.begin(), this->floorGo_mapDataIds.end(), shuffleEngine );
     }
+
+
+    if( this->isHaveMajorGos && this->isHaveFloorGos ){
+        size_t majorNum = this->majorGo_mapDatas.size();
+        size_t floorNum = this->floorGo_mapDatas.size();
+        size_t bindNum  = this->majorDataId_2_floorDataIds.size();
+        //--
+        tprAssert( majorNum == floorNum );
+        tprAssert( majorNum == bindNum );
+    }
+
 }
-
-
 
 
 void VarTypeDatas_Yard_MajorGo::init_check()noexcept{

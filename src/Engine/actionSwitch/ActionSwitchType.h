@@ -28,6 +28,8 @@ enum class ActionSwitchType : u32_t{
     //BeCollide_From_Right,  //- 受到来自右侧的碰撞后，播放的动画
     //...
 
+    Burn, // fire
+
 
     selfRotate, //- 仅被 PlayerGoCircle 使用 tmp
 

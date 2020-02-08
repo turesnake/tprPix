@@ -5,7 +5,6 @@
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",
-    "moveType": "Crawl",
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": false,

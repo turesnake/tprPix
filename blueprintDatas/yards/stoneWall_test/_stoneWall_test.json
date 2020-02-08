@@ -6,9 +6,9 @@
     
 
     "pngLPath": "stoneWall_test.M.png",
-    "frameNum.col":  1,
+    "frameNum.col":  2,
     "frameNum.row":  1,
-    "totalFrameNum": 1,
+    "totalFrameNum": 2,
 
     "isHaveMajorGos": true,
     "isHaveFloorGos": true,
@@ -31,6 +31,18 @@
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                    ]
+                },
+
+
+                {
+                    "Notes": " 篝火 ",
+                    "type": "V_7",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "isPlotBlueprint": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "campfire", "afsName": "campfire_base", "animLabel":"", "num": 1 }
                     ]
                 },
 

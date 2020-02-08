@@ -4,7 +4,6 @@
         "family": "GroundGo",
         "state": "Waked",
         "moveState": "AbsFixed",
-        "moveType": "Crawl",
         "isMoveCollide": false,
         "isDoPass": false,
         "isBePass": true,

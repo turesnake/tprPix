@@ -114,10 +114,15 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "moveState", JsonValType::String );
             goSpecFromJsonRef.moveState = str_2_GameObjMoveState( a.GetString() );
         }
-        {//--- moveType ---//
+
+        if( goSpecFromJsonRef.moveState == GameObjMoveState::AbsFixed ){
+            goSpecFromJsonRef.moveType = MoveType::Crawl; // 此时，此值已无意义，无需 json 指定了
+        }else{
+            //--- moveType ---//
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
             goSpecFromJsonRef.moveType = str_2_MoveType( a.GetString() );
         }
+
         {//--- isMoveCollide ---//
             const auto &a = check_and_get_value( ent, "isMoveCollide", JsonValType::Bool );
             goSpecFromJsonRef.isMoveCollide = a.GetBool();

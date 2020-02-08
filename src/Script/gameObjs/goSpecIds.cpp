@@ -58,6 +58,8 @@ void onGoSpeciesIds_SignUp(){
 
     GoSpecFromJson::insert_2_initFuncs( "hollowLog",      std::bind( &gameObjs::HollowLog::init, _1, _2 ) );
 
+    GoSpecFromJson::insert_2_initFuncs( "campfire",      std::bind( &gameObjs::Campfire::init, _1, _2 ) );
+
     //-------------------//
     //     artifacts
     //-------------------//

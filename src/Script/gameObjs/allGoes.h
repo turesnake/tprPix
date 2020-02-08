@@ -21,6 +21,8 @@
 
 #include "Script/gameObjs/majorGos/HollowLog.h"
 
+#include "Script/gameObjs/majorGos/Campfire.h"
+
 
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"

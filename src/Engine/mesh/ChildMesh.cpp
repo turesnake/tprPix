@@ -68,6 +68,7 @@ void ChildMesh::refresh_translate(){
     const glm::dvec2 &rOff = this->goMeshRef.get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
     const glm::dvec2 &goMeshPPosOff = this->goMeshRef.get_pposOff();
     double goAlti = goRef.get_pos_alti();
+    double goMeshAlti = this->goMeshRef.get_alti();
     double zOff = this->goMeshRef.get_zOff();
 
     bool isNeedCoordTransform = goRef.family != GameObjFamily::UI; // 只有 uiGo 不需要坐标系转换
@@ -87,7 +88,7 @@ void ChildMesh::refresh_translate(){
     if( this->isPic == true ){
         //-- rOff / goMeshPPosOff / goAlti 都不应参与上方的 坐标系转换 --
         this->translate_val.x = static_cast<float>( outDPos.x + goMeshPPosOff.x - rOff.x );
-        this->translate_val.y = static_cast<float>( outDPos.y + goMeshPPosOff.y - rOff.y + goAlti );
+        this->translate_val.y = static_cast<float>( outDPos.y + goMeshPPosOff.y - rOff.y + goAlti + goMeshAlti );
 
         if( isNeedAlign2Pix ){
             this->translate_val.x = tprRound( this->translate_val.x );

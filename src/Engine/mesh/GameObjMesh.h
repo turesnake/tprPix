@@ -91,6 +91,16 @@ public:
     void bind_animAction( int timeStepOff_=0  );
 
 
+    //----- pvtBinary -----//
+    template< typename T >
+    inline T *init_pvtBinary()noexcept{
+        return this->pvtBinary.init<T>();
+    }
+    template< typename T >
+    inline T *get_pvtBinaryPtr()noexcept{
+        return this->pvtBinary.get<T>();
+    }
+
     //------------- set -------------//
     inline void set_pic_renderLayer( RenderLayerType layerType_ )noexcept{
         this->picRenderLayerType = layerType_;
@@ -105,6 +115,12 @@ public:
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
     inline void set_animSubspeciesId( animSubspeciesId_t id_ )noexcept{ this->animSubspeciesId = id_; }
     inline void set_animActionEName( AnimActionEName name_ )noexcept{ this->animActionEName = name_; }
+    inline void set_alti(double alti_)noexcept{ this->alti = alti_; }
+    inline void set_zOff(double zOff_)noexcept{ this->zOff = zOff_; }
+
+    inline void accum_alti(double alti_)noexcept{ this->alti += alti_; }
+    inline void accum_zOff(double zOff_)noexcept{ this->zOff += zOff_; }
+    inline void accum_pposOff( const glm::dvec2 off_ ){ this->pposOff += off_; }
 
 
     inline void set_pic_shader_program( ShaderProgram *sp_ )noexcept{
@@ -143,9 +159,10 @@ public:
     }
     inline const glm::dvec2 &get_pposOff()const noexcept{ return this->pposOff; }
     inline double get_zOff()const noexcept{ return this->zOff; }
+    inline double get_alti()const noexcept{ return this->alti; }
     inline double get_picFixedZOff() const noexcept{ return this->picFixedZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
-    inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
+    //inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
 
 
 
@@ -195,6 +212,10 @@ private:
                     //-- 大部分情况下（尤其是只有一个 GameObjMesh的 go实例），此值为 0
                     //   若本 GameObjMesh实例 是 root GameObjMesh。此值必须为0 (不强制...)  
                     //   此值必须 对齐于 像素
+
+    double     alti {0.0}; // 其实就是 y轴高度值，只影响 pic
+                    // 绝大多数 gomesh，只使用 0.0
+                    // 当要表达 类似 烟雾时，可以用上本值
 
     double     zOff {0.0};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
                     //- 此处的 zOff 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh zOff +0.1

@@ -211,6 +211,10 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
     //    parse png data
     //-----------------------// 
     // 并不读取全部数据，仅读取 参数指定的 那几帧
+
+    std::vector<std::pair<YardBlueprint::mapDataId_t, MapData*>> majorEnts {};
+    std::vector<std::pair<YardBlueprint::mapDataId_t, MapData*>> floorEnts {};
+
     if( yardRef_.get_isHaveMajorGos() ){
 
         for( size_t i=fstFrameIdx_; i<fstFrameIdx_+frameNums_; i++ ){
@@ -218,8 +222,9 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &M_frameRef = plotPng_inn::M_frame_data_ary.at(i);
             auto &D_frameRef = plotPng_inn::D_frame_data_ary.at(i);
             //--
-            auto &mdRef = yardRef_.create_new_majorGo_mapData( frameAllocateTimes_.at(i) );
-            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard, false );
+            auto majorEnt = yardRef_.create_new_majorGo_mapData( frameAllocateTimes_.at(i) );
+            plotPng_inn::handle_frame( *(majorEnt.second), pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Yard, false );
+            majorEnts.push_back( majorEnt );
         }
     }
 
@@ -230,11 +235,21 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
             auto &FM_frameRef = plotPng_inn::FM_frame_data_ary.at(i);
             auto &FD_frameRef = plotPng_inn::FD_frame_data_ary.at(i);
             //--
-            auto &mdRef = yardRef_.create_new_floorGo_mapData( frameAllocateTimes_.at(i) );
-            plotPng_inn::handle_frame( mdRef, pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard, true );
+            auto floorEnt = yardRef_.create_new_floorGo_mapData( frameAllocateTimes_.at(i) );
+            plotPng_inn::handle_frame( *(floorEnt.second), pixNum_per_frame, FM_frameRef, FD_frameRef, BlueprintType::Yard, true );
+            floorEnts.push_back( floorEnt );
         }
     }
 
+    // 同时包含时，两份数据要做绑定 IMPORTANT !!!
+    if( yardRef_.get_isHaveMajorGos() && yardRef_.get_isHaveFloorGos() ){
+        tprAssert( majorEnts.size() == floorEnts.size() );
+        for( size_t i=0; i<majorEnts.size(); i++ ){
+            const auto &majorEnt = majorEnts.at(i);
+            const auto &floorEnt = floorEnts.at(i);
+            yardRef_.bind_floorId_2_majorId( majorEnt.first, floorEnt.first );
+        }
+    }
 
     //---
     pixNum_per_frame.x--;

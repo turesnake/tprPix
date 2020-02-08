@@ -1,0 +1,99 @@
+[
+
+{
+    "name": "campfire_base",
+    "pngs": [
+        {
+            "path": "campfire_base.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "name": "campfire_fire",
+    "pngs": [
+        {
+            "path": "campfire_fire.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 20,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Burn", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 20,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "name": "campfire_smoke",
+    "pngs": [
+        {
+            "path": "campfire_smoke.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Burn", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 11,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+]
+

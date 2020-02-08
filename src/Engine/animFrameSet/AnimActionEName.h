@@ -28,6 +28,8 @@ enum class AnimActionEName{
 
     Wind,
 
+    Burn, // fire
+
     //-- playerGoCircle --
     SelfRotate,
 

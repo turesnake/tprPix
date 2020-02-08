@@ -45,7 +45,9 @@
                         { "plotName": "whiteRock", "plotLabel": "3m4", "num": 0 },
                         { "plotName": "whiteRock", "plotLabel": "3m4_lichen", "num": 0 },
 
-                        { "plotName": "hollowLog", "plotLabel": "forest_2m2", "num": 1 }
+                        { "plotName": "hollowLog", "plotLabel": "forest_2m2", "num": 0 },
+                        { "plotName": "hollowLog", "plotLabel": "forest_2m3", "num": 0 },
+                        { "plotName": "hollowLog", "plotLabel": "forest_3m2", "num": 1 }
 
 
                     ]
@@ -59,6 +61,7 @@
                     "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 1 }
+                        
                     ]
                 },
         
@@ -86,7 +89,9 @@
                     "isPlotBlueprint": false,
                     "goSpecPool":[
         
-                        { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 3 }
+                        { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 1 }
+
+                        
         
                     ]
                 },
