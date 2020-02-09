@@ -21,7 +21,8 @@
 
 #include "Script/gameObjs/majorGos/HollowLog.h"
 
-#include "Script/gameObjs/majorGos/Campfire.h"
+#include "Script/gameObjs/majorGos/campfire/Campfire.h"
+#include "Script/gameObjs/majorGos/campfire/CampfireChild.h"
 
 
 //---------- Script : gameObjs : artifacts -------------//

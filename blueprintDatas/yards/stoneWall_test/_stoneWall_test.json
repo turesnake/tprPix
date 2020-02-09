@@ -40,9 +40,9 @@
                     "type": "V_7",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
-                    "goSpecPool":[
-                        { "goSpeciesName": "campfire", "afsName": "campfire_base", "animLabel":"", "num": 1 }
+                    "isPlotBlueprint": true,
+                    "plotPool":[ 
+                        { "plotName": "campfire", "plotLabel": "2m2", "num": 1 }
                     ]
                 },
 

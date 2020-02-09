@@ -10,13 +10,15 @@
 #ifndef TPR_ALTI_RANGE_H
 #define TPR_ALTI_RANGE_H
 
+//------------------- CPP --------------------//
+#include <string>
+
 //------------------- Libs --------------------//
 #include "tprDataType.h"
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprMath.h"
-
 
 
 // go 的高度区间
@@ -30,8 +32,8 @@ public:
         { tprAssert(low <= high); }
 
     inline void clear_all()noexcept{
-        low = 0;
-        high = 0;
+        low = 0.0;
+        high = 0.0;
     }
 
     inline void set( double low_, double high_ )noexcept{
@@ -41,15 +43,17 @@ public:
     }
 
     inline bool is_collide( const GoAltiRange& a_ )noexcept{
-        bool rbool;
+        // 某个 碰撞体，高度间距几乎为0，直接判断不会发生碰撞
+        if( is_closeEnough<double>(this->low, this->high, 0.01) || 
+            is_closeEnough<double>(a_.low, a_.high, 0.01) ){
+            return false;
+        }
         if( is_closeEnough<double>( low, a_.low, 0.01 ) ){
             return true;
         }else if( low < a_.low ){
-            (high>a_.low) ? rbool=true : rbool=false;
-            return rbool;
+            return ((high>a_.low) ? true : false);
         }else{
-            (a_.high>low) ? rbool=true : rbool=false;
-            return rbool;
+            return ((a_.high>low) ? true : false);
         }
     }
 
@@ -77,7 +81,11 @@ inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept
  * -----------------------------------------------------------
  */
 inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_ )noexcept{
-
+    // 某个 碰撞体，高度间距几乎为0，直接判断不会发生碰撞
+    if( is_closeEnough<double>(a_.low, a_.high, 0.01) || 
+        is_closeEnough<double>(b_.low, b_.high, 0.01) ){
+        return false;
+    }
     if( is_closeEnough<double>( a_.low, b_.low, 0.01 ) ){
         return true;
     }else if( a_.low < b_.low ){
@@ -86,6 +94,23 @@ inline bool is_GoAltiRange_collide( const GoAltiRange& a_, const GoAltiRange& b_
         return ((b_.high>a_.low) ? true : false);
     }
 }
+
+
+// 一个 go数据中，可能有数个 不同的 GoAltiRange 数据
+// 比如，大树小树 的高度 
+enum class GoAltiRangeLabel{
+    Default=0,  // 只有一种时，推荐使用此值
+                // json 文件中，可以直接用 "" 表达
+    //---
+    Big,
+    Mid,
+    Sml,
+
+};
+
+GoAltiRangeLabel str_2_GoAltiRangeLabel( const std::string &str_ )noexcept;
+
+
 
 
 #endif 

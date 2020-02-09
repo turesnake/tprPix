@@ -72,7 +72,7 @@ namespace plotPng_inn {//-------- namespace: plotPng_inn --------------//
 }//------------- namespace: plotPng_inn end --------------//
 
 
-extern std::optional<std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>> 
+extern std::optional<std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>> 
 rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept;
 
 

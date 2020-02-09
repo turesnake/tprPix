@@ -26,7 +26,6 @@ ID_Manager  AnimActionPos::id_manager { ID_TYPE::U32, 1};
 void AnimActionPos::init_from_semiData( const AnimActionSemiData &semiData_ ){
 
         this->rootAnchorDPosOff = semiData_.get_rootAnchor();
-        this->lGoAltiRange = semiData_.get_lGoAltiRange();
 
         auto colliderType = semiData_.get_colliderType();
         if( colliderType == ColliderType::Nil ){

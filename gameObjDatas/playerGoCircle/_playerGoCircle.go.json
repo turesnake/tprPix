@@ -9,7 +9,13 @@
         "isDoPass": true,
         "isBePass": true,
         "moveSpeedLvl": 9,
+
         "alti": 0,
+        "lAltiRanges": [
+            { "label": "", "val": [0.0, 0.0] }
+        ],
+        "defaultGoAltiRangeLabel": "",
+
         "weight": 1,
         "pub.HP": 1,
         "pub.MP": 1,

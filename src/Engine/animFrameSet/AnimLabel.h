@@ -24,6 +24,7 @@
 // 从而需要重编译
 enum class AnimLabel : u32_t{
     Default=0, //- 未设置 label 的，自动使用此标签来搜索
+    Nil, // 空值
     //---
     Sml,
     Mid,

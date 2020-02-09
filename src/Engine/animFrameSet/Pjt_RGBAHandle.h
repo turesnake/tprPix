@@ -41,7 +41,6 @@ namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     //--- B --- 
     
     RGBA  uselessColor_1  { 150, 150, 150, 255 };
-
     RGBA  uselessColor_2  { 0, 0, 150, 255 }; // 蓝幕底色，直接忽略
 
 }//------------ namespace: end ---------//
@@ -77,8 +76,8 @@ public:
 
         //=== R ===
         //--- rootAnchor ---
+        // {255,x,x} 的任何点，都能表达 rootAnchor 最宽松的 表达法
         if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_rootAnchor ) ){
-            this->set_goAltiRange();
             this->animActionSemiDataPtr->set_rootAnchor_onlyOnce( pixDPos_ );
             return;
         }
@@ -126,23 +125,6 @@ private:
                 return  false; //- never touch -
         }
     } 
-
-    //-- 将 rgba 态 高度信息，转换为 mem态 goAltiRange值 --
-    //
-    //     在 8m8 改为 64m64 后，原有的高度数值不管用了。
-    //     解决方案是：从 J.png 读取的数据，乘以 2.0
-    //     获得实际高度值
-    //
-    inline void set_goAltiRange()noexcept{
-        u8_t low  = this->rgba.g;
-        u8_t high = this->rgba.b;
-        tprAssert( low <= high ); // 其实相等是 无意义的 ...
-
-        double dlow = static_cast<double>(low) * 2.0;
-        double dhigh = static_cast<double>(high) * 2.0; 
-
-        this->animActionSemiDataPtr->set_lGoAltiRange_onlyOnce( dlow, dhigh );
-    }
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
     inline bool is_in_range( u8_t beCheck_, u8_t low_, u8_t off_ )noexcept{

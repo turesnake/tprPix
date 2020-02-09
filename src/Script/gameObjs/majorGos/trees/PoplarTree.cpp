@@ -15,6 +15,7 @@
 #include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
+#include "GoSpecFromJson.h"
 
 #include "tprAssert.h"
 #include "esrc_shader.h" 
@@ -70,6 +71,19 @@ void PoplarTree::init(GameObj &goRef_, const DyParam &dyParams_ ){
     }else{
         tprAssert(0);
     }
+
+
+    //-- 重新设置 lAltiRange ---
+    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
+    GoAltiRange lAltiRange {};
+    switch (goDataEntRef.animLabel){
+        case AnimLabel::Mid: lAltiRange = goSpecFromJsonRef.get_lAltiRange( GoAltiRangeLabel::Mid ); break;
+        case AnimLabel::Sml: lAltiRange = goSpecFromJsonRef.get_lAltiRange( GoAltiRangeLabel::Sml ); break;
+        default:
+            tprAssert(0);
+            break;
+    }
+    goRef_.set_pos_lAltiRange( lAltiRange );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --

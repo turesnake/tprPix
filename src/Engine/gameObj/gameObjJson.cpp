@@ -147,11 +147,13 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             }
         }
 
-        {//--- moveSpeedLvl ---//
+        //--- moveSpeedLvl ---//
+        if( goSpecFromJsonRef.moveState == GameObjMoveState::AbsFixed ){
+            goSpecFromJsonRef.moveSpeedLvl = SpeedLevel::LV_0;
+        }else{
             const auto &a = check_and_get_value( ent, "moveSpeedLvl", JsonValType::Int );
             goSpecFromJsonRef.moveSpeedLvl = int_2_SpeedLevel( a.GetInt() );
         }
-
 
         //--- moveStateTable ---//
         if( ent.HasMember("moveStateTable") ){
@@ -163,6 +165,49 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             const auto &a = check_and_get_value( ent, "alti", JsonValType::Number );
             goSpecFromJsonRef.alti = get_double( a );
         }
+
+        
+
+        {//--- lAltiRanges ---//
+            const auto &lAltiRanges = check_and_get_value( ent, "lAltiRanges", JsonValType::Array );
+            for( const auto &altiRangeObj : lAltiRanges.GetArray() ){
+                tprAssert( altiRangeObj.IsObject() );
+
+                GoAltiRangeLabel label {};
+                GoAltiRange      val {};
+                {//--- label ---//
+                    const auto &a = check_and_get_value( altiRangeObj, "label", JsonValType::String );
+                    label = str_2_GoAltiRangeLabel( a.GetString() );
+                }
+                {//--- val ---//
+                    const auto &a = check_and_get_value( altiRangeObj, "val", JsonValType::Array );
+                    //val = a.GetDouble();
+                    tprAssert( a.Size() == 2 );
+                    tprAssert( a[0].IsDouble() );
+                    tprAssert( a[1].IsDouble() );
+                    val.set( a[0].GetDouble(), a[1].GetDouble() );
+                }
+                goSpecFromJsonRef.insert_2_lAltiRanges( label, val );
+            }
+        }
+        {//--- defaultGoAltiRangeLabel ---//
+            const auto &a = check_and_get_value( ent, "defaultGoAltiRangeLabel", JsonValType::String );
+            goSpecFromJsonRef.defaultGoAltiRangeLabel = str_2_GoAltiRangeLabel( a.GetString() );
+        }
+
+
+        /*
+        if( ent.HasMember("lAltiRange") ){
+            const auto &a = check_and_get_value( ent, "lAltiRange", JsonValType::Array );
+            tprAssert( a.Size() == 2 );
+            goSpecFromJsonRef.lAltiRange.set( a[0].GetDouble(), a[1].GetDouble() );
+        }else{
+            goSpecFromJsonRef.lAltiRange.set( 0.0, 0.0 ); // 允许 json 文件不写入，自动提供的是一个 无法被碰撞到的值
+        }
+        */
+
+
+
         {//--- weight ---//
             const auto &a = check_and_get_value( ent, "weight", JsonValType::Number );
             goSpecFromJsonRef.weight = get_double( a );
@@ -191,16 +236,19 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         {//--- afs_Paths ---//
             std::string afs_Path {};
             const auto &afs_lPaths = check_and_get_value( ent, "afs_lPaths", JsonValType::Array );
-            tprAssert( afs_lPaths.Size() != 0 ); // Must Have Ents !!!
-            for( const auto &i : afs_lPaths.GetArray() ){
-                tprAssert( i.IsString() );
-                lPath = i.GetString();
-                tprAssert( lPath != "" ); // MUST EXIST !!!
-                afs_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
-                json::parse_single_animFrameSetJsonFile(afs_Path, 
-                                                        goSpecFromJsonRef.get_afsNamesPtr() );
-                                                        // 目前，实际存储地 还是在 esrc 中
-            }
+
+            // 一些 go 是允许没有 afs 数据的，比如使用公共的 emptyPix 数据
+            if( afs_lPaths.Size() != 0 ){
+                for( const auto &i : afs_lPaths.GetArray() ){
+                    tprAssert( i.IsString() );
+                    lPath = i.GetString();
+                    tprAssert( lPath != "" ); // MUST EXIST !!!
+                    afs_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
+                    json::parse_single_animFrameSetJsonFile(afs_Path, 
+                                                            goSpecFromJsonRef.get_afsNamesPtr() );
+                                                            // 目前，实际存储地 还是在 esrc 中
+                }
+            }            
         }
 
         {//--- multiGoMesh_Paths ---//

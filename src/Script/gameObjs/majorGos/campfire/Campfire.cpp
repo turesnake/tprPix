@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/majorGos/Campfire.h"
+#include "Script/gameObjs/majorGos/campfire/Campfire.h"
 
 //-------------------- CPP --------------------//
 #include <functional>
@@ -36,11 +36,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 
-
-
-
-
-
 // 目前主要用来存储 smoke gomesh 数据
 class GoMesh_PvtBinary{
 public:
@@ -64,9 +59,7 @@ struct Campfire_PvtBinary{
 
 namespace campfire_inn {//----------- namespace: campfire_inn ----------------//
 
-
     void update_for_smokeGoMesh( GameObj &goRef_, GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ );
-
 
 }//-------------- namespace: campfire_inn end ----------------//
 
@@ -130,22 +123,6 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 );
     auto *fire_pvtBp = fireGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
     fire_pvtBp->isSmoke = false; 
-
-    /*
-    GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh("smoke", //- gmesh-name
-                                pvtBp->smokeSubId,
-                                AnimActionEName::Burn,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                //goDataEntRef.dposOff, //- pposoff
-                                glm::dvec2{},
-
-                                0.2,  //- zOff: 在 fire 上方
-                                true //- isVisible
-                                );
-    smokeGoMesh.set_alti( 100.0 );
-    */
-    
 
         
     //================ bind callback funcs =================//
@@ -237,35 +214,10 @@ void Campfire::OnLogicUpdate( GameObj &goRef_ ){
 }
 
 
+// 暂未实现
 void Campfire::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
         cout << "Campfire::OnActionSwitch" << endl;
         tprAssert(0);
-        
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<Campfire_PvtBinary>();
-    //=====================================//
-
-    //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
-
-    //-- 处理不同的 actionSwitch 分支 --
-    switch( type_ ){
-        case ActionSwitchType::Idle:
-            goMeshRef.set_animActionEName( AnimActionEName::Idle );
-            goMeshRef.bind_animAction();
-            break;
-        default:
-            break;
-            //-- 并不报错，什么也不做...
-
-    }
-
-    //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
-
-
 }
 
 
@@ -279,11 +231,9 @@ void update_for_smokeGoMesh( GameObj &goRef_, GameObjMesh &smokeGoMesh_, GoMesh_
     goMeshBp_->animFrameCount++;
     double animDCount = static_cast<double>(goMeshBp_->animFrameCount);
 
-
     smokeGoMesh_.accum_alti( 0.6 ); // 不停增高
     smokeGoMesh_.accum_zOff( 0.001 ); // zOff 递增，确保能覆盖 低处的 smoke
-
-    smokeGoMesh_.accum_pposOff( glm::dvec2{ 0.005 * animDCount, 0.0 } );
+    smokeGoMesh_.accum_pposOff( glm::dvec2{ 0.005 * animDCount, 0.0 } ); // 随着不停升高，飘向右侧，表现风
 }
 
 

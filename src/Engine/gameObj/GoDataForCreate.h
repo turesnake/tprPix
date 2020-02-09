@@ -33,12 +33,12 @@ class GoDataEntForCreate{
 public:
     GoDataEntForCreate()=default;
     //---
-    animSubspeciesId_t     subspeciesId {};
+    const std::string   *afsNamePtr {nullptr}; // 没必要 重复传递 字符串了
+    AnimLabel           animLabel {};
+    animSubspeciesId_t  subspeciesId {};
     glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
     size_t              windDelayIdx {}; // only used in windClock
 };
-
-
 
 
 // 生成一个go实例，需要的基本数据
@@ -67,15 +67,16 @@ public:
     }
 
     //---
-    goSpeciesId_t      goSpeciesId {};
+    goSpeciesId_t   goSpeciesId {};
     glm::dvec2      dpos      {}; // go 绝对 dpos
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 
-    std::variant<BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
+    std::variant<   std::monostate,
+                    BrokenLvl, 
+                    FloorGoLayer> brokenLvl_or_floorGoLayer {};
     
     //---
     bool            isMultiGoMesh {};
-    
     //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
 
     //: if  isMultiGoMesh == false： 只有一个元素

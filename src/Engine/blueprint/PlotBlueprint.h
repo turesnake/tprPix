@@ -60,7 +60,7 @@ public:
     VariableTypeIdx varTypeIdx {};
     //--
     IntVec2         mposOff {}; // based on left-bottom 
-    std::variant<BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
+    std::variant<std::monostate, BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 };
 
@@ -79,9 +79,8 @@ public:
     GoSpec()=default;
 
     //----- vals -----//
-    goSpeciesId_t              goSpeciesId    {};
-    
-    std::string             afsName     {};
+    goSpeciesId_t           goSpeciesId    {};
+    std::string             afsName     {}; // 允许为 "", 此时 animLabel == Nil
     AnimLabel               animLabel  {};
     
     multiGoMeshTypeId_t     multiGoMeshType {};
@@ -206,7 +205,7 @@ private:
 
     //======== static ========//
     static ID_Manager  id_manager;
-    static constexpr plotBlueprintId_t placeHolderId {755351}; // 占位符专用（随便设个值）
+    static constexpr plotBlueprintId_t placeHolderId { static_cast<plotBlueprintId_t>(-1) }; // 占位符专用
 
     // 两层索引：plotName, plotLabel
     static std::unordered_map<std::string, std::unordered_map<std::string, plotBlueprintId_t>> name_2_ids; // 索引表

@@ -90,16 +90,15 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
 
 
 // 完全不关心 运行效率
-std::optional<std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>> 
+std::optional<std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>> 
 rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept{
 
     HSV hsv = rgb_2_hsv( rgba_ ); // 返回值精度不够
 
-    std::variant<BrokenLvl, FloorGoLayer> variant {};
+    std::variant<std::monostate, BrokenLvl, FloorGoLayer> variant {};
     const std::map<NineDirection, RGBA> *containerPtr {nullptr};
 
     if( is_closeEnough<double>(hsv.h, 0.0, 10.0) ){ 
-        //bLvl = BrokenLvl::Lvl_0;
         isBrokenLvl_ ? 
             variant = BrokenLvl::Lvl_0 :
             variant = FloorGoLayer::L_0;
@@ -136,10 +135,13 @@ rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept{
     }
     //---
 
+    // MUST NOT EMPTY !!! 
+    tprAssert( (variant.index()!=0) && (variant.index()!=std::variant_npos) );
+
     //-- 逐个比较确认，效率最低的方案
     for( const auto & [iDir, iRGBA] : *containerPtr ){
         if( rgba_.is_near( iRGBA, 8) ){
-            return { std::pair<NineDirection, std::variant<BrokenLvl, FloorGoLayer>>{ iDir, variant } };
+            return { std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>{ iDir, variant } };
         }
     }
 

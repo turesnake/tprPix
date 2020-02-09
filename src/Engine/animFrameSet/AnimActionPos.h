@@ -33,11 +33,6 @@ public:
         colliderType(colliderType_)
         {}
     //----- set -----//
-    inline void set_lGoAltiRange_onlyOnce( double low_, double high_ )noexcept{
-        tprAssert( !this->isLGoAltiRangeSet );
-        this->isLGoAltiRangeSet = true;
-        this->lGoAltiRange.set( low_, high_ );
-    }
     inline void set_rootAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{ 
         tprAssert( !this->isRootAnchorSet );
         this->isRootAnchorSet = true;
@@ -61,7 +56,6 @@ public:
     //----- get -----//
     inline ColliderType get_colliderType() const noexcept{ return this->colliderType; }
 
-    inline GoAltiRange      get_lGoAltiRange()const noexcept{ tprAssert(this->isLGoAltiRangeSet); return this->lGoAltiRange; }
     inline const glm::dvec2 &get_rootAnchor()const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; }
     inline const glm::dvec2 &get_tailAnchor()const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  }
     inline const glm::dvec2 &get_moveColliRadiusAnchor()const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; }
@@ -74,9 +68,7 @@ private:
     glm::dvec2  tailAnchor  {};
     glm::dvec2  moveColliRadiusAnchor {};
     glm::dvec2  skillColliRadiusAnchor {};
-    GoAltiRange   lGoAltiRange {};
     //---- flags ----//
-    bool isLGoAltiRangeSet {false};
     bool isRootAnchorSet {false};
     bool isTailAnchorSet  {false};
     bool isMoveColliRadiusAnchorSet  {false};
@@ -98,7 +90,6 @@ public:
 
     //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
-    inline GoAltiRange get_lGoAltiRange() const noexcept{ return this->lGoAltiRange; } //- return val
 
     inline const ColliDataFromJ *get_colliDataFromJPtr()const noexcept{ 
         tprAssert( this->colliDataFromJUPtr );
@@ -113,10 +104,6 @@ private:
                         //-- 最原始的数据，从 图元帧左下角ppos，到 rootAnchor点的 fposOff
                         //-- *** 不用对齐于 mapEnt ***
                         //-- 目前仅被用于 ChildMesh 渲染用
-
-    GoAltiRange   lGoAltiRange {};
-                            //- 和 colliEntHead_2 对应，记载每一个 ces实例 携带的 高度区间信息
-                            //-- 仅仅是 相对高度区间
 
     std::unique_ptr<ColliDataFromJ> colliDataFromJUPtr {nullptr};
 };

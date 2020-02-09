@@ -36,8 +36,10 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
 
 
 //-- special SubspeciesId --
-void set_emptyPixId( animSubspeciesId_t id_ )noexcept;
-animSubspeciesId_t get_emptyPixId()noexcept;
+void set_nilCollide_emptyPixId( animSubspeciesId_t id_ )noexcept;
+void set_squareCollide_emptyPixId( animSubspeciesId_t id_ )noexcept;
+animSubspeciesId_t get_nilCollide_emptyPixId()noexcept;
+animSubspeciesId_t get_squareCollide_emptyPixId()noexcept;
 
 void set_fieldRimId( animSubspeciesId_t id_ )noexcept;
 animSubspeciesId_t get_fieldRimId()noexcept;

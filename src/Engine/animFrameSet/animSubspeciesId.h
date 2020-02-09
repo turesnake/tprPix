@@ -13,5 +13,15 @@
 
 using animSubspeciesId_t = u32_t;
 
+// 一个空的 id 值， 表示生成此值的代码，本来就不打算生成一个 实际的id
+// 用于 蓝图分配
+// 有些 go，会在 具象go class 中，自行分配 sudId 
+inline constexpr animSubspeciesId_t EMPTY_animSubspeciesId { static_cast<animSubspeciesId_t>(-1) };
+
+inline bool is_empty_animSubspeciesId( animSubspeciesId_t id_ )noexcept{
+    return (id_ == EMPTY_animSubspeciesId);
+}
+
+
 #endif 
 

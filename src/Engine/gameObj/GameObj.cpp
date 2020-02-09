@@ -34,22 +34,19 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     //    choose goPos
     //-----------------------//
-    this->goPosUPtr = std::make_unique<GameObjPos>();      
-    this->goPosUPtr->init( dpos_ );
-
-    //-- Must Release Another One !!! --
-    if( this->uiGoPosUPtr != nullptr ){
-        this->uiGoPosUPtr = nullptr;
-    } 
-
-    GameObjPos *goPosPtr = this->goPosUPtr.get(); //- use for param 
+    this->goPosVUPtr = std::make_unique<GameObjPos>();
+    auto vPtr = std::get_if<std::unique_ptr<GameObjPos>>( &this->goPosVUPtr );
+    tprAssert( vPtr );
+    GameObjPos *goPosPtr = vPtr->get();
+    goPosPtr->init( dpos_ );
 
     //-- bind functors --
-    this->accum_dpos    = std::bind( &GameObjPos::accum_dpos, goPosPtr, _1 );
-    this->set_pos_alti  = std::bind( &GameObjPos::set_alti, goPosPtr,  _1 );
-    this->get_dpos      = std::bind( &GameObjPos::get_dpos, goPosPtr );
-    this->get_pos_alti  = std::bind( &GameObjPos::get_alti, goPosPtr );
-    
+    this->accum_dpos            = std::bind( &GameObjPos::accum_dpos, goPosPtr, _1 );
+    this->set_pos_alti          = std::bind( &GameObjPos::set_alti, goPosPtr,  _1 );
+    this->set_pos_lAltiRange    = std::bind( &GameObjPos::set_lAltiRange, goPosPtr,  _1 );
+    this->get_dpos              = std::bind( &GameObjPos::get_dpos, goPosPtr );
+    this->get_pos_alti          = std::bind( &GameObjPos::get_alti, goPosPtr );
+    this->get_pos_lAltiRange    = std::bind( &GameObjPos::get_lAltiRange, goPosPtr );
 
     //-----------------------//
     //    collision
@@ -76,21 +73,20 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
     //-----------------------//
     //    choose uiGoPos
     //-----------------------//
-    this->uiGoPosUPtr = std::make_unique<UIAnchor>();
-    this->uiGoPosUPtr->init( basePointProportion_, offDPos_ );
-
-    //-- Must Release Another One !!! --
-    if( this->goPosUPtr != nullptr ){
-        this->goPosUPtr = nullptr;
-    }
-
-    UIAnchor *uiGoPosPtr = this->uiGoPosUPtr.get(); //- use for param 
+    this->goPosVUPtr = std::make_unique<UIAnchor>();
+    auto vPtr = std::get_if<std::unique_ptr<UIAnchor>>( &this->goPosVUPtr );
+    UIAnchor *uiGoPosPtr = vPtr->get();
+    uiGoPosPtr->init( basePointProportion_, offDPos_ );
 
     //-- bind functors --
-    this->accum_dpos   = std::bind( &UIAnchor::accum_dpos, uiGoPosPtr, _1 );
-    this->set_pos_alti = std::bind( &UIAnchor::set_alti, uiGoPosPtr, _1 );
-    this->get_dpos     = std::bind( &UIAnchor::get_dpos, uiGoPosPtr );
-    this->get_pos_alti = std::bind( &UIAnchor::get_alti, uiGoPosPtr );
+    this->accum_dpos            = std::bind( &UIAnchor::accum_dpos, uiGoPosPtr, _1 );
+    this->set_pos_alti          = std::bind( &UIAnchor::set_alti, uiGoPosPtr, _1 );
+    this->get_dpos              = std::bind( &UIAnchor::get_dpos, uiGoPosPtr );
+    this->get_pos_alti          = std::bind( &UIAnchor::get_alti, uiGoPosPtr );
+
+    // uiGo 不应该被 调用 lAltiRange 相关的 函数
+    this->set_pos_lAltiRange    = [](GoAltiRange new_){ tprAssert(0); };
+    this->get_pos_lAltiRange    = [](){ tprAssert(0); return GoAltiRange{}; };
 
     //-----------------------//
     //    collision
@@ -161,7 +157,8 @@ void GameObj::init_check(){
     //---
     if( this->family == GameObjFamily::Major ){
 
-        tprAssert( this->goPosUPtr != nullptr );
+        // MUST NOT EMPTY !!! 
+        tprAssert( (this->goPosVUPtr.index()!=0) && (this->goPosVUPtr.index()!=std::variant_npos) );
 
         //- 参与 moveCollide 的仅有 majorGo: Cir 
         if( this->get_colliderType() == ColliderType::Circular  ){
@@ -169,9 +166,6 @@ void GameObj::init_check(){
             this->collisionUPtr->init_signInMapEnts_for_cirGo( this->get_dpos(),
                         std::bind( &ColliDataFromJ::get_colliPointDPosOffs, this->colliDataFromJPtr ) );
         }
-
-
-
     }
 
     //-- 在检测完毕后，可以直接无视这些 flags 的混乱，仅用 go自身携带的 flag 来做状态判断 ...

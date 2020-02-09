@@ -19,6 +19,7 @@
 #include <functional>
 #include <unordered_map>
 #include <memory>
+#include <variant>
 
 //------------------- Libs --------------------//
 #include "tprDataType.h" 
@@ -108,9 +109,14 @@ public:
     inline Square calc_square()const noexcept{
         return this->colliDataFromJPtr->calc_square( this->get_dpos() );
     }
+
+
     inline GoAltiRange get_currentGoAltiRange()noexcept{
-        return (this->get_rootAnimActionPosRef().get_lGoAltiRange() + this->get_pos_alti());
+        return (this->get_pos_lAltiRange() + this->get_pos_alti());
     }
+
+
+
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
     }
@@ -121,11 +127,14 @@ public:
 
     void debug();
 
+
     //-- pos sys --    
-    F_P_c_dvec2Ref      accum_dpos  {nullptr};
-    F_R_void_P_double   set_pos_alti         {nullptr};
-    F_R_c_dvec2Ref      get_dpos      {nullptr};
-    F_R_double          get_pos_alti         {nullptr};
+    std::function<void(const glm::dvec2 &)>     accum_dpos          {nullptr};
+    std::function<void(double)>                 set_pos_alti        {nullptr};
+    std::function<void(GoAltiRange)>            set_pos_lAltiRange  {nullptr};
+    std::function<const glm::dvec2 &()>         get_dpos            {nullptr};
+    std::function<double()>                     get_pos_alti        {nullptr};
+    std::function<GoAltiRange()>                get_pos_lAltiRange  {nullptr};
     
 
     inline void render_all_goMesh()noexcept{
@@ -288,10 +297,11 @@ private:
                             //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
                             //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
 
+
     //====== pos sys =====//
-    // only one will be used
-    std::unique_ptr<GameObjPos> goPosUPtr   {nullptr};
-    std::unique_ptr<UIAnchor>   uiGoPosUPtr {nullptr};
+    std::variant<   std::monostate, // 当变量为空时，v.index() 返回 0
+                    std::unique_ptr<GameObjPos>, 
+                    std::unique_ptr<UIAnchor>> goPosVUPtr {};
 
 
     //----------- pvtBinary -------------//             

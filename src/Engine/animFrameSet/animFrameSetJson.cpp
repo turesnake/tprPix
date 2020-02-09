@@ -110,7 +110,8 @@ void parse_animFrameSetJsonFile(){
     }
 
     //-------- special ids ----------//
-    esrc::set_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix", AnimLabel::Default, 1) );
+    esrc::set_nilCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_NilCollide", AnimLabel::Default, 1) );
+    esrc::set_squareCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_SquareCollide", AnimLabel::Default, 1) );
     esrc::set_fieldRimId( esrc::apply_a_random_animSubspeciesId( "fieldRim", AnimLabel::Default, 1) );
     //...
     

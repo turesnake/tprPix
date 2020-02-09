@@ -27,6 +27,7 @@
 #include "GameObjType.h" 
 #include "Move.h"
 #include "PubBinary2.h"
+#include "GoAltiRange.h"
 
 #include "MultiGoMesh.h"
 
@@ -53,6 +54,16 @@ public:
         this->extraPassableDogoSpeciesIds.insert( id );
     }
 
+    inline void insert_2_lAltiRanges( GoAltiRangeLabel label_, GoAltiRange val_ )noexcept{
+        auto outPair = this->lAltiRanges.insert({ label_, val_ });
+        tprAssert( outPair.second );
+    }
+
+    inline GoAltiRange get_lAltiRange( GoAltiRangeLabel label_ )const noexcept{
+        tprAssert( this->lAltiRanges.find(label_) != this->lAltiRanges.end() );
+        return this->lAltiRanges.at( label_ );
+    }
+
 
     void init_check()noexcept;
 
@@ -73,7 +84,11 @@ public:
 
     //----- numbers -----//
     SpeedLevel   moveSpeedLvl {};
+
     double       alti   {};
+    //GoAltiRange  lAltiRange {};
+    GoAltiRangeLabel defaultGoAltiRangeLabel {GoAltiRangeLabel::Default};
+
     double       weight {};
     //...
 
@@ -81,7 +96,6 @@ public:
 
     //----- afs / gomeshs -----//
     std::unique_ptr<MultiGoMesh> multiGoMeshUPtr {nullptr}; // 数据存储地
-
 
     //----- datas -----//
     std::unique_ptr<MoveStateTable> moveStateTableUPtr {nullptr};
@@ -121,7 +135,7 @@ public:
 
     inline static bool is_find_in_afsNames( goSpeciesId_t id_, const std::string &name_ )noexcept{
         const auto &c = GoSpecFromJson::get_goSpecFromJsonRef(id_);
-        return c.is_find_in_afsNames(name_);
+        return (c.afsNames.find(name_) != c.afsNames.end());
     }
 
     inline static goSpeciesId_t str_2_goSpeciesId( const std::string &name_ ){
@@ -145,9 +159,6 @@ public:
     }
 
 private:
-    inline bool is_find_in_afsNames( const std::string &name_ )const noexcept{
-        return (this->afsNames.find(name_) != this->afsNames.end());
-    }
     
     inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
         auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
@@ -158,6 +169,8 @@ private:
 
     //======== vals ========//
     std::unordered_set<std::string> afsNames {};
+
+    std::unordered_map<GoAltiRangeLabel, GoAltiRange> lAltiRanges {};
 
     //-- 当 isBePass == false 时，允许一组 特殊的 dogo，可以穿透本 bego
     // 正式使用时，只提供 只读指针

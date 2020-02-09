@@ -428,9 +428,18 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
         //---
         entUPtr->dposOff = glm::dvec2{0.0, 0.0};
         entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
-        entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(goSpecRef_.afsName, // e.g. "mushroom"
-                                                                goSpecRef_.animLabel,
-                                                                suWeight );
+
+        if( goSpecRef_.afsName == "" ){
+            entUPtr->afsNamePtr = nullptr;
+            entUPtr->animLabel = AnimLabel::Nil;
+            entUPtr->subspeciesId = EMPTY_animSubspeciesId; // 空值，表示留给 具象go类 去分配
+        }else{
+            entUPtr->afsNamePtr = &goSpecRef_.afsName;
+            entUPtr->animLabel = goSpecRef_.animLabel;
+            entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(goSpecRef_.afsName, // e.g. "mushroom"
+                                                                        goSpecRef_.animLabel,
+                                                                        suWeight );
+        }
         
         goDRef.goMeshDataUPtrs.push_back( std::move(entUPtr) ); // move
 
@@ -451,6 +460,9 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
             //---
             entUPtr->dposOff = jgomesh.dposOff;
             entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
+
+            entUPtr->afsNamePtr = &jgomesh.animFrameSetName;
+            entUPtr->animLabel = jgomesh.animLabel;
             entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(    jgomesh.animFrameSetName,
                                                                         jgomesh.animLabel,
                                                                         suWeight + randUWeightOff );

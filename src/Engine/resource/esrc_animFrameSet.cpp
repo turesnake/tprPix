@@ -29,7 +29,8 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
     std::unordered_map<animSubspeciesId_t, std::unique_ptr<AnimSubspecies>> animSubs {};
 
     //======= special ids =========//
-    animSubspeciesId_t emptyPixId {};
+    animSubspeciesId_t nilCollide_emptyPixId {};
+    animSubspeciesId_t squareCollide_emptyPixId {};
     animSubspeciesId_t fieldRimId {};
 
 
@@ -38,6 +39,10 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
     auto outPair = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
+
+    if( !outPair.second ){
+        cout << "find duplicate afsName: " << name_ << endl; 
+    }
     tprAssert( outPair.second );
     return *(outPair.first->second);
 }
@@ -94,11 +99,17 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
 
 
 //======= special ids =========//
-void set_emptyPixId( animSubspeciesId_t id_ )noexcept{
-    anim_inn::emptyPixId = id_;
+void set_nilCollide_emptyPixId( animSubspeciesId_t id_ )noexcept{
+    anim_inn::nilCollide_emptyPixId = id_;
 }
-animSubspeciesId_t get_emptyPixId()noexcept{
-    return anim_inn::emptyPixId;
+void set_squareCollide_emptyPixId( animSubspeciesId_t id_ )noexcept{
+    anim_inn::squareCollide_emptyPixId = id_;
+}
+animSubspeciesId_t get_nilCollide_emptyPixId()noexcept{
+    return anim_inn::nilCollide_emptyPixId;
+}
+animSubspeciesId_t get_squareCollide_emptyPixId()noexcept{
+    return anim_inn::squareCollide_emptyPixId;
 }
 
 void set_fieldRimId( animSubspeciesId_t id_ )noexcept{

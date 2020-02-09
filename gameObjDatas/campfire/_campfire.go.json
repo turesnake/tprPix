@@ -9,8 +9,13 @@
     "isDoPass": false,
     "isBePass": false,
     "extraPassableDogoSpeciesNames":[],
-    "moveSpeedLvl": 0,
+
     "alti": 0,
+    "lAltiRanges": [
+        { "label": "", "val": [0.0, 56.0] }
+    ],
+    "defaultGoAltiRangeLabel": "",
+
     "weight": 50,
     "pub.HP": 170,
     "pub.MP": 50,

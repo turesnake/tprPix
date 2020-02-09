@@ -7,8 +7,13 @@
     "isMoveCollide": true,
     "isDoPass": false,
     "isBePass": true,
-    "moveSpeedLvl": 0,
+
     "alti": 0,
+    "lAltiRanges": [
+        { "label": "", "val": [0.0, 40.0] }
+    ],
+    "defaultGoAltiRangeLabel": "",
+
     "weight": 5,
     "pub.HP": 100,
     "pub.MP": 10,

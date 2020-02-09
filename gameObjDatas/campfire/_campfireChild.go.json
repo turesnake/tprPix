@@ -1,16 +1,18 @@
 [
   {
-    "goSpeciesName": "breakStone",
+    "goSpeciesName": "campfireChild",
+    "parentID": 0,
     "family": "Major",
     "state": "Waked",
     "moveState": "AbsFixed",
     "isMoveCollide": true,
     "isDoPass": false,
-    "isBePass": true,
+    "isBePass": false,
+    "extraPassableDogoSpeciesNames":[],
 
     "alti": 0,
     "lAltiRanges": [
-        { "label": "", "val": [0.0, 40.0] }
+        { "label": "", "val": [0.0, 56.0] }
     ],
     "defaultGoAltiRangeLabel": "",
 
@@ -18,13 +20,9 @@
     "pub.HP": 170,
     "pub.MP": 50,
 
-
-
-    "afs_lPaths": [ 
-        "_breakStone.afs.json"
-    ],
+    "afs_lPaths": [],
     "multiGoMesh_lPaths": []
-
 
   }
 ]
+

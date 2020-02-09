@@ -26,6 +26,11 @@
         ],
 
         "alti": 0,
+        "lAltiRanges": [
+            { "label": "", "val": [0.0, 60.0] }
+        ],
+        "defaultGoAltiRangeLabel": "",
+
         "weight": 5,
         "pub.HP": 170,
         "pub.MP": 50,

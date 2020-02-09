@@ -443,10 +443,20 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                 {//--- afsName ---//
                     const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
                     std::string afsName = a.GetString();
-                    tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
-                    goSpecUPtr->afsName = afsName;
+
+                    // 有些 go 的 afs数据，是 具象go类 自己定义的，无需 json 文件中指定，传入 空str 即可（animLabel 则可省去）
+                    if( afsName == "" ){
+                        goSpecUPtr->afsName = "";
+                    }else{
+                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
+                        goSpecUPtr->afsName = afsName;
+                    }
                 }
-                {//--- animLabel ---//
+
+                //--- animLabel ---//
+                if( goSpecUPtr->afsName == "" ){
+                    goSpecUPtr->animLabel = AnimLabel::Nil;
+                }else{
                     const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
                     goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
                 }

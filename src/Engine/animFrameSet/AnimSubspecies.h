@@ -71,15 +71,19 @@ public:
         return { container_2.at(actionEName_).get() };
     }
     
-
-
     inline const std::unordered_set<NineDirection> &get_actionDirs( AnimActionEName actionEName_ )const noexcept{
         tprAssert( this->actionsDirs.find(actionEName_) != this->actionsDirs.end() );
         return this->actionsDirs.at(actionEName_);
     }
-    
-    //======== static ========//
-    static ID_Manager  id_manager; //- 负责生产 id
+
+    inline static animSubspeciesId_t apply_new_animSubspeciesId()noexcept{
+        animSubspeciesId_t id = AnimSubspecies::id_manager.apply_a_u32_id();
+        if( is_empty_animSubspeciesId(id) ){
+            id = AnimSubspecies::id_manager.apply_a_u32_id(); // do apply again
+        }
+        return id;
+    }
+
 private:
     //-- 丑陋的实现，3层嵌套容器 
     std::unordered_map<NineDirection, 
@@ -87,6 +91,9 @@ private:
             std::unordered_map<AnimActionEName, std::unique_ptr<AnimAction>>>> animActions {};
 
     std::unordered_map<AnimActionEName, std::unordered_set<NineDirection>> actionsDirs {};
+
+    //======== static ========//
+    static ID_Manager  id_manager; //- 负责生产 id
 };
 
 
@@ -102,7 +109,7 @@ public:
 
     inline animSubspeciesId_t find_or_create( size_t subIdx_ )noexcept{
         if( this->subspeciesIds.find(subIdx_) == this->subspeciesIds.end() ){
-            animSubspeciesId_t id = AnimSubspecies::id_manager.apply_a_u32_id();
+            animSubspeciesId_t id = AnimSubspecies::apply_new_animSubspeciesId();
             this->subspeciesIds.insert({ subIdx_, id });
             this->subIdxs.push_back( subIdx_ );
             return id;

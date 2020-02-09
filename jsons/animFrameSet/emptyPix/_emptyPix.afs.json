@@ -1,6 +1,6 @@
 [
 {
-    "name": "emptyPix",
+    "name": "emptyPix_NilCollide",
     "pngs": [
         {
             "path": "emptyPix.P.png",
@@ -26,7 +26,38 @@
                     ]
                 }
             ]
-        }
+        }       
+    ]
+},
+
+{
+    "name": "emptyPix_SquareCollide",
+    "pngs": [
+        {
+            "path": "emptyPix.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "singleFrame",
+                            "lFrameIdx": 0,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }        
     ]
 }
 
