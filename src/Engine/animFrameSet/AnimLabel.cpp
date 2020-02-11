@@ -17,6 +17,17 @@
 #include "tprDebug.h"
 
 
+// 手动设置 上下界
+// 否则会按 [-128,128] 的默认范围。屏蔽掉额外的值
+namespace magic_enum {
+template <>
+  struct enum_range<AnimLabel> {
+    static constexpr int min = 0;
+    static constexpr int max = 1000;
+};
+}
+
+
 AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
 
     if( str_ == "" ){  

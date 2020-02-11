@@ -44,6 +44,7 @@
 #include "DyBinary.h"
 #include "BrokenLvl.h"
 #include "History.h"
+#include "GoFunctorSet.h"
 
 
 //--- 一个仍在建设中的 丑陋的 大杂烩 ----//
@@ -230,7 +231,7 @@ public:
     
 
     
-    //--- move sys ---//
+    //---
     Move         move;
 
     ActionSwitch    actionSwitch; //-- 将被 ActionFSM 取代...
@@ -244,6 +245,10 @@ public:
 
     chunkKey_t      currentChunkKey {}; //- 本go 当前所在 chunk key
                                         //  在 本go被创建，以及每次move时，被更新
+
+
+    GoFunctorSet    pubFunctors {}; // 存储一组，通过 GoFunctorLabel 索引的 任意类型的函数对象
+     
 
     //======== flags ========//
     bool    isTopGo   {true}; //- 是否为 顶层 go (有些go只是 其他go 的一部分)
