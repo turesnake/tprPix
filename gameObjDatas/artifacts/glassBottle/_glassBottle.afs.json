@@ -1,0 +1,90 @@
+[
+
+{
+    "afsName": "glassBottle_bottle",
+    "pngs": [
+        {
+            "path": "bottle.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "afsName": "glassBottle_water",
+    "pngs": [
+        {
+            "path": "water_1.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+},
+
+{
+    "afsName": "glassBottle_innSpace",
+    "pngs": [
+        {
+            "path": "innSpace.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": false
+                }
+            ]
+        }
+    ]
+}
+
+]
+

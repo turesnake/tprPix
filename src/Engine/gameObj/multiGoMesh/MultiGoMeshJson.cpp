@@ -46,10 +46,12 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
 
     class Json_GoMeshEnt{
     public:
+        std::string             goMeshName {};
         glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
         double                  zOff    {};
         std::string             afsType {};
         AnimLabel               animLabel {};
+        AnimActionEName         animActionEName {};
     };
 
 
@@ -115,10 +117,38 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
             }
 
             //--- goMeshs ---//
+            bool isHave_goMeshName {false}; // 运行用户手动标明 “goMeshName”， 或者什么也不写，依靠自动生成
+            bool isHave_animAction {false};
+            size_t goMeshIdx {0}; // 计数器
             const auto &goMeshs = json::check_and_get_value( goMeshSet, "goMeshs", json::JsonValType::Array );
             for( auto &goMesh : goMeshs.GetArray() ){ // each goMesh ent
 
                 mgmj_inn::Json_GoMeshEnt json_GoMeshEnt {};
+
+                if( goMeshIdx == 0 ){
+                    isHave_goMeshName = goMesh.HasMember("goMeshName");
+                    isHave_animAction = goMesh.HasMember("animAction");
+                }
+
+                //--- goMeshName ---//
+                if( isHave_goMeshName ){
+                    const auto &a = json::check_and_get_value( goMesh, "goMeshName", json::JsonValType::String );
+                    std::string readName = a.GetString();
+                    // 第一个元素必须命名为 "root"，后面的元素，必须不能为 "root"
+                    if( goMeshIdx == 0 ){
+                        tprAssert( readName == "root" );
+                    }else{
+                        tprAssert( readName != "root" );
+                    }
+                    json_GoMeshEnt.goMeshName = readName;
+                }else{
+                    // 自动生成 goMeshName
+                    if( goMeshIdx == 0 ){
+                        json_GoMeshEnt.goMeshName = "root";
+                    }else{
+                        json_GoMeshEnt.goMeshName = tprGeneral::nameString_combine("m_", goMeshIdx, ""); // "m_1", "m_2"
+                    }
+                }
 
                 {//--- dpos ---//
                     const auto &a = json::check_and_get_value( goMesh, "dpos", json::JsonValType::Array );
@@ -141,7 +171,19 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
                     const auto &a = json::check_and_get_value( goMesh, "animLabel", json::JsonValType::String );
                     json_GoMeshEnt.animLabel = str_2_AnimLabel(a.GetString() );
                 }
+
+                //--- animAction ---//
+                if( isHave_animAction ){
+                    const auto &a = json::check_and_get_value( goMesh, "animAction", json::JsonValType::String );
+                    json_GoMeshEnt.animActionEName = str_2_AnimActionEName( a.GetString() );
+                }else{
+                    // 自动生成 animAction
+                    json_GoMeshEnt.animActionEName = AnimActionEName::Idle;
+                }
+
+                //===
                 json_GoMeshSet.gomeshs.push_back( json_GoMeshEnt ); // copy
+                goMeshIdx++;
             }
             json_MultiGoMesh.gomeshSets.push_back( json_GoMeshSet ); // copy
         }
@@ -191,9 +233,11 @@ void parse_single_multiGoMeshJsonFile( const std::string &path_file_ ){
                     //---
                     tprAssert( afsTypes.find(json_GoMeshEntRef.afsType) != afsTypes.end() );
                     goMeshEnt.animFrameSetName = afsTypes.at(json_GoMeshEntRef.afsType);
+                    goMeshEnt.goMeshName = json_GoMeshEntRef.goMeshName;
                     goMeshEnt.dposOff = json_GoMeshEntRef.dposOff;
                     goMeshEnt.zOff = json_GoMeshEntRef.zOff;
                     goMeshEnt.animLabel = json_GoMeshEntRef.animLabel;
+                    goMeshEnt.animActionEName = json_GoMeshEntRef.animActionEName;
                     //---
                     goMeshSet.gomeshs.push_back( goMeshEnt );
                 }

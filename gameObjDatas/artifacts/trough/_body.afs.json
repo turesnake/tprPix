@@ -1,0 +1,105 @@
+[
+
+{
+    "afsName": "trough_back",
+    "pngs": [
+        {
+            "path": "dark/back_L.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "dark/back_B.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+
+
+    ]
+},
+
+{
+    "afsName": "trough_front",
+    "pngs": [
+        {
+            "path": "dark/front_L.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "dark/front_B.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Dark",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+
+    ]
+}
+
+
+
+]
+

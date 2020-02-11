@@ -105,36 +105,20 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0);
     }
 
-
     //----- gomeshs -----//
-    std::string         goMeshName {};
-    size_t              meshNameCount {0};
-    
-    size_t idx {0};
-    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
 
-        const GoDataEntForCreate &goDataEntRef = *(*it);
-
-        //--- goMesh name ---//
-        if( it == goDataPtr->goMeshDataUPtrs.cbegin() ){
-            goMeshName = "root";
-        }else{
-            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
-            meshNameCount++;
-        }
-
-        //---
-        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
                                 goDataEntRef.subspeciesId,
-                                AnimActionEName::Idle,
+                                goDataEntRef.animActionEName,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                //it->dposOff, //- pposoff
-                                goDataEntRef.dposOff,
-                                0.0,  //- zOff
+                                goDataEntRef.dposOff, //- pposoff
+                                goDataEntRef.zOff,  //- zOff
                                 true //- isVisible
                                 );
-
 
         // 先收集 所有参与 风吹动画的 gomesh 数据
         pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, goDataEntRef.windDelayIdx );

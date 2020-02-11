@@ -1,0 +1,30 @@
+[
+  {
+    "goSpeciesName": "glassBottle",
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": false,
+    "extraPassableDogoSpeciesNames":[],
+
+    "alti": 0,
+    "lAltiRanges": [
+        { "label": "", "val": [0.0, 70.0] }
+    ],
+    "defaultGoAltiRangeLabel": "",
+
+    "weight": 5,
+    "pub.HP": 50,
+    "pub.MP": 50,
+
+    "afs_lPaths": [ 
+        "_glassBottle.afs.json"
+    ],
+    "multiGoMesh_lPaths": []
+
+  }
+]
+

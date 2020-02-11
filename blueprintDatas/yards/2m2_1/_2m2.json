@@ -26,7 +26,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": true,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
                     ]
@@ -37,7 +36,6 @@
                     "type": "V_2",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": true,
                     "plotPool":[ 
 
                         { "plotName": "whiteRock", "plotLabel": "4m3", "num": 0 },
@@ -58,7 +56,6 @@
                     "type": "V_3",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": true,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 1 }
                         
@@ -70,7 +67,6 @@
                     "type": "V_4",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 0 },
                         { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 0 },
@@ -86,7 +82,6 @@
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
         
                         { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 1 }

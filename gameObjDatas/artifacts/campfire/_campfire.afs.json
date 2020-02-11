@@ -1,7 +1,7 @@
 [
 
 {
-    "name": "campfire_base",
+    "afsName": "campfire_base",
     "pngs": [
         {
             "path": "campfire_base.P.png",
@@ -28,7 +28,7 @@
 },
 
 {
-    "name": "campfire_fire",
+    "afsName": "campfire_fire",
     "pngs": [
         {
             "path": "campfire_fire.P.png",
@@ -62,7 +62,7 @@
 },
 
 {
-    "name": "campfire_smoke",
+    "afsName": "campfire_smoke",
     "pngs": [
         {
             "path": "campfire_smoke.P.png",
@@ -71,7 +71,6 @@
             "totalFrameNum": 18,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": false,
             "ColliderType": "Square",
             "subspecs": [
                 {

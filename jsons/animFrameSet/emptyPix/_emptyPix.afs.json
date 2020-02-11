@@ -1,6 +1,6 @@
 [
 {
-    "name": "emptyPix_NilCollide",
+    "afsName": "emptyPix_NilCollide",
     "pngs": [
         {
             "path": "emptyPix.P.png",
@@ -31,7 +31,7 @@
 },
 
 {
-    "name": "emptyPix_SquareCollide",
+    "afsName": "emptyPix_SquareCollide",
     "pngs": [
         {
             "path": "emptyPix.P.png",

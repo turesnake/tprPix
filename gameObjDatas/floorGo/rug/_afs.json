@@ -1,6 +1,6 @@
 [
 {
-    "name": "floorGo_rug_1",
+    "afsName": "floorGo_rug_1",
     "pngs": [
         {
             "path": "rug.P.png",
@@ -9,7 +9,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {

@@ -15,8 +15,9 @@
 
 
     {"rocks/whiteRock/wall_1m4/_rockWall_1m4.json": true },
-    {"rocks/whiteRock/wall_4m1/_rockWall_4m1.json": true }
+    {"rocks/whiteRock/wall_4m1/_rockWall_4m1.json": true },
 
-    
+    {"trough/1m2/_1m2.json": true },
+    {"trough/2m1/_2m1.json": true }
     
 ]

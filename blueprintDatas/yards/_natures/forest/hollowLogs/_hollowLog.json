@@ -25,7 +25,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Normal", "num": 1 }
                     ]
@@ -36,7 +35,6 @@
                     "type": "V_2",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Special", "num": 1 }
                     ]
@@ -47,7 +45,6 @@
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
@@ -60,7 +57,6 @@
                     "type": "V_13",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
         
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 7 },

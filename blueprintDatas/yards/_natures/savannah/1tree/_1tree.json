@@ -25,7 +25,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         
                         { "goSpeciesName": "figTree", "afsName": "figTree", "animLabel": "Mid", "num": 3 }
@@ -38,7 +37,6 @@
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
         
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 0 },
@@ -60,7 +58,6 @@
                     "type": "V_11",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
         
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Big", "num": 1 },

@@ -1,0 +1,35 @@
+[
+  {
+    "goSpeciesName": "trough",
+    "parentID": 0,
+    "family": "Major",
+    "state": "Waked",
+    "moveState": "AbsFixed",
+    "isMoveCollide": true,
+    "isDoPass": false,
+    "isBePass": false,
+
+    "alti": 0,
+    "lAltiRanges": [
+        { "label": "", "val": [0.0, 44.0] }
+    ],
+    "defaultGoAltiRangeLabel": "",
+
+
+    "weight": 5,
+    "pub.HP": 50,
+    "pub.MP": 50,
+
+    "afs_lPaths": [ 
+        "_body.afs.json",
+
+
+        "waters/_water1.afs.json"
+    ],
+    "multiGoMesh_lPaths": [
+        "_multiGoMesh.json"
+    ]
+
+  }
+]
+

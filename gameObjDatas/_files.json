@@ -1,17 +1,25 @@
 [
     {"artifacts/fence/_fence.go.json": true },
     {"artifacts/stoneWall/_stoneWall.go.json": true },
+    {"artifacts/campfire/_campfire.go.json": true },
+    {"artifacts/campfire/_campfireChild.go.json": true },
+    {"artifacts/glassBottle/_glassBottle.go.json": true },
+    {"artifacts/trough/_trough.go.json": true },
+    {"artifacts/trough/_troughChild.go.json": true },
+
 
     {"breakStone/_breakStone.go.json": true },
     {"bushs/_bush.go.json": true },
     {"cactus/_cactus.go.json": true },
 
-    {"campfire/_campfire.go.json": true },
-    {"campfire/_campfireChild.go.json": true },
+    
 
     {"chicken/_chicken.go.json": true },
     {"fieldRim/_fieldRim.go.json": true },
     {"floorGo/_floorGo.go.json": true },
+
+    
+
     {"grass/_grass.go.json": true },
     {"groundGo/_groundGo.go.json": true },
     {"mushroom/_mushroom.go.json": true },

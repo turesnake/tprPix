@@ -51,48 +51,28 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();
 
-
     //================ dyParams =================//
     tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
     tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
 
-
     //----- gomeshs -----//
-    std::string         goMeshName {};
-    size_t              meshNameCount {0};
-    animSubspeciesId_t     subspeciesId {};
-    
-    size_t idx {0};
-    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); 
-        it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
 
-        const GoDataEntForCreate &goDataEntRef = *(*it);
-
-        //--- goMesh name ---//
-        if( it == goDataPtr->goMeshDataUPtrs.cbegin() ){
-            goMeshName = "root";
-        }else{
-            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
-            meshNameCount++;
-        }
-
-        subspeciesId = goDataEntRef.subspeciesId;
-
-        //---
-        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
-                                subspeciesId,
-                                AnimActionEName::Idle,
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
+                                goDataEntRef.subspeciesId,
+                                goDataEntRef.animActionEName,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                //it->dposOff, //- pposoff
-                                goDataEntRef.dposOff,
-                                0.0,  //- zOff
+                                goDataEntRef.dposOff, //- pposoff
+                                goDataEntRef.zOff,  //- zOff
                                 true //- isVisible
                                 );
-
     }
+
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

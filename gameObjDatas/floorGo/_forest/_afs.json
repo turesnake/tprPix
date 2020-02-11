@@ -1,6 +1,6 @@
 [
 {
-    "name": "floorGo_forest_1",
+    "afsName": "floorGo_forest_1",
     "pngs": [
         {
             "path": "2m2.P.png",
@@ -9,7 +9,6 @@
             "totalFrameNum": 3,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -31,7 +30,6 @@
             "totalFrameNum": 3,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -53,7 +51,6 @@
             "totalFrameNum": 3,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {

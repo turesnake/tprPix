@@ -26,7 +26,6 @@
                     "isFloorGo": false,
                     "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
                     "isAllInstanceUseSamePlan": true,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
@@ -40,9 +39,38 @@
                     "type": "V_7",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": true,
                     "plotPool":[ 
                         { "plotName": "campfire", "plotLabel": "2m2", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " 药水瓶 ",
+                    "type": "V_10",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "glassBottle", "afsName": "", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " 牲口水槽 1m2 ",
+                    "type": "V_12",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "plotPool":[ 
+                        { "plotName": "trough", "plotLabel": "1m2", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " 牲口水槽 2m1 ",
+                    "type": "V_15",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "plotPool":[ 
+                        { "plotName": "trough", "plotLabel": "2m1", "num": 1 }
                     ]
                 },
 

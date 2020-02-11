@@ -1,6 +1,6 @@
 [
     {
-        "name": "playerGoCircle",
+        "afsName": "playerGoCircle",
         "pngs": [
             {
                 "path": "playerGoCircle2.P.png",
@@ -9,7 +9,6 @@
                 "totalFrameNum": 1,
                 "isHaveShadow": false,
                 "isPjtSingle": true,
-                "isShadowSingle": true,
                 "ColliderType": "Nil",
                 "subspecs": [
                     {

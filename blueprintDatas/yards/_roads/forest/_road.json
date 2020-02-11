@@ -34,7 +34,6 @@
             "type": "V_10",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
             "goSpecPool":[
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
@@ -50,7 +49,6 @@
             "type": "V_1",
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": false,
-            "isPlotBlueprint": false,
             "goSpecPool":[
                 { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 2 },
         

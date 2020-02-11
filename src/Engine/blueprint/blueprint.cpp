@@ -413,7 +413,6 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDRef.direction = mapDataEntRef_.direction;
 
-    //goDRef.brokenLvl = mapDataEntRef_.brokenLvl;
     goDRef.brokenLvl_or_floorGoLayer = mapDataEntRef_.brokenLvl_or_floorGoLayer;
 
     goDRef.goSpeciesId = goSpecRef_.goSpeciesId;
@@ -426,7 +425,10 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
         std::unique_ptr<GoDataEntForCreate> entUPtr = std::make_unique<GoDataEntForCreate>();
 
         //---
-        entUPtr->dposOff = glm::dvec2{0.0, 0.0};
+        entUPtr->goMeshName = "root"; // default
+        entUPtr->dposOff = glm::dvec2{0.0, 0.0}; // default
+        entUPtr->zOff = 0.0; // default
+        entUPtr->animActionEName = AnimActionEName::Idle; // default
         entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
 
         if( goSpecRef_.afsName == "" ){
@@ -458,7 +460,10 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
             std::unique_ptr<GoDataEntForCreate> entUPtr = std::make_unique<GoDataEntForCreate>();
 
             //---
+            entUPtr->goMeshName = jgomesh.goMeshName; // copy
             entUPtr->dposOff = jgomesh.dposOff;
+            entUPtr->zOff = jgomesh.zOff;
+            entUPtr->animActionEName = jgomesh.animActionEName;
             entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
 
             entUPtr->afsNamePtr = &jgomesh.animFrameSetName;

@@ -1,7 +1,7 @@
 [
 
 {
-    "name": "mushroom",
+    "afsName": "mushroom",
     "pngs": [
         {
             "path": "mushroom_sml.P.png",
@@ -10,7 +10,6 @@
             "totalFrameNum": 10,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Square",
             "subspecs": [
                 {

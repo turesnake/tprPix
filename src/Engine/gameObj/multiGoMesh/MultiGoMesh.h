@@ -24,15 +24,22 @@
 #include "GameObjType.h"
 #include "AnimLabel.h"
 #include "ID_Manager.h" 
+#include "NineDirection.h"
+#include "BrokenLvl.h"
+#include "AnimActionEName.h"
 
 
 
 class GoMeshEnt{
 public:
+    std::string             goMeshName {}; // 具象go类中 登记的名字
     std::string             animFrameSetName {};
     glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
     double                  zOff    {};
     AnimLabel               animLabel {};
+    AnimActionEName         animActionEName {};
+    //NineDirection           dir {};
+    //BrokenLvl               brokenLvl {};
 };
 
 

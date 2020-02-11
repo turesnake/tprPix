@@ -26,6 +26,7 @@
 #include "FloorGoType.h"
 #include "animSubspeciesId.h"
 #include "IntVec.h"
+#include "AnimActionEName.h"
 
 
 
@@ -34,9 +35,12 @@ public:
     GoDataEntForCreate()=default;
     //---
     const std::string   *afsNamePtr {nullptr}; // 没必要 重复传递 字符串了
+    std::string         goMeshName {}; // 值传递，牺牲 job线程一点性能
     AnimLabel           animLabel {};
+    AnimActionEName     animActionEName {};
     animSubspeciesId_t  subspeciesId {};
     glm::dvec2          dposOff   {}; // gomesh-dposoff based on go
+    double              zOff      {}; // 暂时只有 multiGoMesh 需要此值，singleMeshGo，在 具象go类里，自己设置
     size_t              windDelayIdx {}; // only used in windClock
 };
 

@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/majorGos/campfire/CampfireChild.h"
+#include "Script/gameObjs/majorGos/artifacts/campfire/CampfireChild.h"
 
 //-------------------- CPP --------------------//
 #include <functional>

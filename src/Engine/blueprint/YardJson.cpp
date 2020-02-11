@@ -343,10 +343,15 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
     std::shared_ptr<VarTypeDatas_Yard_MajorGo> vmSPtr = std::make_shared<VarTypeDatas_Yard_MajorGo>();
     vmSPtr->set_isAllInstanceUseSamePlan( isAllInstanceUseSamePlan_ );
 
-    {//--- isPlotBlueprint ---//
-        const auto &a = json::check_and_get_value( varType_, "isPlotBlueprint", json::JsonValType::Bool );
-        vmSPtr->set_isPlotBlueprint( a.GetBool() );
+    //--- isPlotBlueprint ---//
+    if( varType_.HasMember("plotPool") ){
+        tprAssert( !varType_.HasMember("goSpecPool") );
+        vmSPtr->set_isPlotBlueprint( true );
+    }else{
+        tprAssert( varType_.HasMember("goSpecPool") );
+        vmSPtr->set_isPlotBlueprint( false );
     }
+    
 
     if( vmSPtr->get_isPlotBlueprint() ){
 

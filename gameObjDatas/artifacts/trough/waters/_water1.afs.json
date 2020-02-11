@@ -1,0 +1,69 @@
+[
+
+{
+    "afsName": "trough_water_yellow",
+    "pngs": [
+        {
+            "path": "water1_L.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "water1_B.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }
+
+
+    ]
+}
+
+
+
+]
+

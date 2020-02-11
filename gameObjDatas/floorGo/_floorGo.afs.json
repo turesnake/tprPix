@@ -1,6 +1,6 @@
 [
 {
-    "name": "floorGo_colorful",
+    "afsName": "floorGo_colorful",
     "pngs": [
         {
             "path": "colorful/2m2.P.png",
@@ -9,7 +9,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -31,7 +30,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -53,7 +51,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -72,7 +69,7 @@
 },
 
 {
-    "name": "floorGo_red",
+    "afsName": "floorGo_red",
     "pngs": [
         {
             "path": "red/2m2.P.png",
@@ -81,7 +78,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -103,7 +99,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -125,7 +120,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -144,7 +138,7 @@
 },
 
 {
-    "name": "floorGo_blue",
+    "afsName": "floorGo_blue",
     "pngs": [
         {
             "path": "blue/2m2.P.png",
@@ -153,7 +147,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -175,7 +168,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -197,7 +189,6 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {

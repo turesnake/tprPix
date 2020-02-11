@@ -25,7 +25,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Mid", "num": 3 },
                         { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Sml", "num": 1 }
@@ -37,7 +36,6 @@
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 0 },
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 0 },
@@ -54,7 +52,6 @@
                     "type": "V_11",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Big", "num": 3 },
                         { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Mid", "num": 7 },

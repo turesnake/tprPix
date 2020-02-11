@@ -25,7 +25,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": false,
                     "goSpecPool":[
                         { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Bald", "num": 1 }
                     ]
@@ -36,7 +35,6 @@
                     "type": "V_13",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": true,
                     "plotPool":[ 
                         { "plotName": "whiteRockWall", "plotLabel": "4m1", "num": 3 } 
                     ]
@@ -47,7 +45,6 @@
                     "type": "V_14",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": true,
                     "plotPool":[ 
                         { "plotName": "whiteRockWall", "plotLabel": "1m4", "num": 3 } 
                     ]

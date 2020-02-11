@@ -1,6 +1,6 @@
 [
 {
-    "name": "floorGo_savannah_1",
+    "afsName": "floorGo_savannah_1",
     "pngs": [
         {
             "path": "2m2.P.png",
@@ -9,7 +9,6 @@
             "totalFrameNum": 7,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -32,7 +31,6 @@
             "totalFrameNum": 6,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {
@@ -56,7 +54,6 @@
             "totalFrameNum": 7,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "isShadowSingle": true,
             "ColliderType": "Nil",
             "subspecs": [
                 {

@@ -60,7 +60,7 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
 
     class AnimFrameSetJsonData{
     public:
-        std::string name {};
+        std::string afsName {};
         std::vector<std::shared_ptr<AFSPng>> afsPngs {};
     };
 
@@ -147,11 +147,11 @@ void parse_single_animFrameSetJsonFile( const std::string &path_file_,
 
         afsJson_inn::AnimFrameSetJsonData jsonData {};
 
-        {//--- name ---//
-            const auto &a = check_and_get_value( ent, "name", JsonValType::String );
-            jsonData.name = a.GetString();
+        {//--- afsName ---//
+            const auto &a = check_and_get_value( ent, "afsName", JsonValType::String );
+            jsonData.afsName = a.GetString();
             if( out_afsNamesPtr_ != nullptr ){
-                out_afsNamesPtr_->insert( jsonData.name );
+                out_afsNamesPtr_->insert( jsonData.afsName );
             }
         }
         {//--- pngs [] ---//
@@ -162,7 +162,7 @@ void parse_single_animFrameSetJsonFile( const std::string &path_file_,
         }
 
         //--- insert to esrc::animFrameSets
-        auto &animFrameSetRef = esrc::insert_new_animFrameSet( jsonData.name );
+        auto &animFrameSetRef = esrc::insert_new_animFrameSet( jsonData.afsName );
         for( auto &pngSPtr : jsonData.afsPngs ){
             animFrameSetRef.insert_a_png(   pngSPtr->path,
                                             pngSPtr->frameNum,
@@ -214,10 +214,15 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
         const auto &a = check_and_get_value( pngEnt_, "isPjtSingle", JsonValType::Bool );
         afsPng->isPjtSingle =  a.GetBool();
     }
-    {//--- isShadowSingle ---//
+
+    //--- isShadowSingle ---//
+    if( afsPng->isHaveShadow ){
         const auto &a = check_and_get_value( pngEnt_, "isShadowSingle", JsonValType::Bool );
         afsPng->isShadowSingle =  a.GetBool();
+    }else{
+        afsPng->isShadowSingle = true; // 此时无意义
     }
+
     {//--- ColliderType ---//
         const auto &a = check_and_get_value( pngEnt_, "ColliderType", JsonValType::String );
         afsPng->colliderType =  str_2_ColliderType( a.GetString() );

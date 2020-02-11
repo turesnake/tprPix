@@ -97,33 +97,20 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
         tprAssert(0);
     }
 
-
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     // 有些 bush 只有一个 gomesh，有些则是 复数个
     // 一律按 复数个来处理
-    std::string         goMeshName {};
-    size_t              meshNameCount {0};
-    
-    size_t idx {0};
-    for( auto it = goDataPtr->goMeshDataUPtrs.cbegin(); it != goDataPtr->goMeshDataUPtrs.cend(); it++ ){
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
 
-        const GoDataEntForCreate &goDataEntRef = *(*it);
-
-        //--- goMesh name ---//
-        if( it == goDataPtr->goMeshDataUPtrs.cbegin() ){
-            goMeshName = "root";
-        }else{
-            goMeshName = tprGeneral::nameString_combine("m_", meshNameCount, "");
-            meshNameCount++;
-        }
-        //---
-        auto &goMeshRef = goRef_.creat_new_goMesh(goMeshName,
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
                                 goDataEntRef.subspeciesId,
-                                AnimActionEName::Idle,
+                                goDataEntRef.animActionEName,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
                                 &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
                                 goDataEntRef.dposOff, //- pposoff
-                                0.0,  //- zOff
+                                goDataEntRef.zOff,  //- zOff
                                 true //- isVisible
                                 );
 

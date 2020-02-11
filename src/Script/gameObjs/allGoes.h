@@ -21,14 +21,17 @@
 
 #include "Script/gameObjs/majorGos/HollowLog.h"
 
-#include "Script/gameObjs/majorGos/campfire/Campfire.h"
-#include "Script/gameObjs/majorGos/campfire/CampfireChild.h"
-
 
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
 #include "Script/gameObjs/majorGos/artifacts/StoneWall.h"
 
+#include "Script/gameObjs/majorGos/artifacts/campfire/Campfire.h"
+#include "Script/gameObjs/majorGos/artifacts/campfire/CampfireChild.h"
+#include "Script/gameObjs/majorGos/artifacts/glassBottle/GlassBottle.h"
+
+#include "Script/gameObjs/majorGos/artifacts/trough/Trough.h"
+#include "Script/gameObjs/majorGos/artifacts/trough/TroughChild.h"
 
 //---------- Script : gameObjs : bush --------------------//
 //#include "Script/gameObjs/bush/Wheat.h"

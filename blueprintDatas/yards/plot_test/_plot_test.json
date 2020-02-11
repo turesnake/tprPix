@@ -25,7 +25,6 @@
                     "type": "V_1",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
-                    "isPlotBlueprint": true,
                     "plotPool":[ 
         
                         { "plotName": "whiteRock", "plotLabel": "4m3", "num": 3 },
