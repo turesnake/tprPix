@@ -33,6 +33,7 @@
 #include "blueprint.h"
 #include "Density.h"
 #include "fieldKey.h"
+#include "EcoObjBorder.h"
 
 #include "DensityPool.h"
 
@@ -69,6 +70,7 @@ public:
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline const std::vector<double> *get_densityDivideValsPtr() const noexcept{ return this->densityDivideValsPtr; }
+    inline const EcoObjBorder   *get_ecoObjBorderPtr()const noexcept{ return this->ecoObjBorderPtr; }
 
 
     inline blueprint::yardBlueprintId_t get_natureFloorYardId()const noexcept{ return this->natureFloorYardId; }
@@ -96,10 +98,6 @@ public:
     inline bool is_find_in_artifactFieldKeys( fieldKey_t key_ )const noexcept{
         return (artifactFieldKeys.find(key_) != this->artifactFieldKeys.end() );
     }
-
-
-    
-
 
     //======== static funcs ========// 
     static void calc_nearFour_node_ecoObjKey(  sectionKey_t targetKey_, 
@@ -155,6 +153,9 @@ private:
     //-- nature_floorYard --//
     blueprint::yardBlueprintId_t    natureFloorYardId {};
     const std::set<Density>         *natureFloorDensitysPtr {nullptr};
+
+
+    const EcoObjBorder *ecoObjBorderPtr {nullptr};
 
 
 };

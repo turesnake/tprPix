@@ -86,7 +86,9 @@
 
 
     "villageBlueprintPool":[ 
-        { "villageName": "rockMaze", "num": 1 } 
+        { "villageName": "rockMaze", "num": 0 },
+
+        { "villageName": "circleVillage_forest", "num": 1 }
     ],
 
 

@@ -110,7 +110,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
         
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            std::string dirPath = json::get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
             pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
@@ -236,8 +236,8 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                 yardLabel = a.GetString();
             }
 
-            {//--- Dir ---//
-                const auto &a = json::check_and_get_value( yardObj, "Dir", json::JsonValType::String );
+            {//--- dir ---//
+                const auto &a = json::check_and_get_value( yardObj, "dir", json::JsonValType::String );
                 yardDir = str_2_NineDirection( a.GetString() );
             }
 

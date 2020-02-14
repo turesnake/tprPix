@@ -82,7 +82,9 @@
 
 
     "villageBlueprintPool":[ 
-        { "villageName": "v_1", "num": 3 } 
+        { "villageName": "v_1", "num": 0 },
+
+        { "villageName": "circleVillage_forest", "num": 1 }
     ],
 
 

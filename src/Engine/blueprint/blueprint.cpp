@@ -34,7 +34,6 @@ namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
     size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
 
-
     void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                     IntVec2 mpos_,
                                     const glm::dvec2  &dpos_,
@@ -84,7 +83,6 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
     VillageBlueprint &villageRef = VillageBlueprint::get_villageBlueprintRef( villageId_ );
     std::unique_ptr<blueP_inn::VarType_Village_Manager> varType_village_managerUPtr 
                 = std::make_unique<blueP_inn::VarType_Village_Manager>( villageRef );
-
 
     const MapData &villageMapData = villageRef.apply_a_random_mapData( ecoObjUWeight_ );
     for( const auto &yEntUPtr : villageMapData.data ){ // each mapDataEnt uptr / yard
@@ -178,7 +176,6 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     }
                 }
             }
-
         }
 
         //---------//
@@ -242,7 +239,6 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
     //---------//
     YardBlueprint &natureMajoryardRef = YardBlueprintSet::get_yardBlueprintRef( natureMajorYardId_ );
 
-    //const MapData &yardMapData_majorGos = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
     auto [yardMajorDataId, yardMajorMapDataPtr] = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
 
     std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_majorYard_managerUPtr 

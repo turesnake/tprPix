@@ -17,7 +17,7 @@
     "yardObjs":[
         {
             "yardLabel": "Desert",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[

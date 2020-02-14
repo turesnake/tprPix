@@ -1,0 +1,211 @@
+[
+{
+    "Notes": " 2f2-yard 栅栏围成的农场 ",
+
+    "yardName": "farm_forest_2f2",
+
+    "pngLPath": "farm_2f2.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 栅栏 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+},
+
+{
+    "Notes": " 3f3-yard 栅栏围成的农场 ",
+
+    "yardName": "farm_forest_3f3",
+
+    "pngLPath": "farm_3f3.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 栅栏 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+},
+
+{
+    "Notes": " 4f4-yard 栅栏围成的农场 ",
+
+    "yardName": "farm_forest_4f4",
+
+    "pngLPath": "farm_4f4.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 栅栏 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+}
+
+
+
+
+
+
+]

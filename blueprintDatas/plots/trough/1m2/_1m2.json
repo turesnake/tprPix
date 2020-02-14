@@ -24,7 +24,8 @@
             "type": "V_2",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpeciesName": "trough", "MultiGoMeshType":"DarkBody_YellowWater", "num": 1 }
+                { "goSpeciesName": "trough", "MultiGoMeshType":"DarkBody_emptyWater", "num": 1 },
+                { "goSpeciesName": "trough", "MultiGoMeshType":"DarkBody_YellowWater", "num": 4 }
             ]
         }
     ]

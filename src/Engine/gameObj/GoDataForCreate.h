@@ -53,7 +53,6 @@ class GoDataForCreate{
 public:
     GoDataForCreate()=default;
 
-
     inline std::optional<BrokenLvl> get_brokenLvl()const noexcept{
         if( auto vPtr = std::get_if<BrokenLvl>( &this->brokenLvl_or_floorGoLayer ) ){
             return { *vPtr };

@@ -1,0 +1,54 @@
+[
+
+{
+    "afsName": "firewood",
+    "pngs": [
+        {
+            "path": "firewood_L.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "L", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "firewood_B.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "B", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+
+    ]
+}
+
+]
+

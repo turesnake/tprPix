@@ -1,9 +1,11 @@
 [
     {"artifacts/fence/_fence.go.json": true },
+    {"artifacts/firewood/_firewood.go.json": true },
     {"artifacts/stoneWall/_stoneWall.go.json": true },
     {"artifacts/campfire/_campfire.go.json": true },
     {"artifacts/campfire/_campfireChild.go.json": true },
     {"artifacts/glassBottle/_glassBottle.go.json": true },
+    {"artifacts/pot/_pot.go.json": true },
     {"artifacts/trough/_trough.go.json": true },
     {"artifacts/trough/_troughChild.go.json": true },
 

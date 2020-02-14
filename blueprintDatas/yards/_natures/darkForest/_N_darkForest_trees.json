@@ -17,7 +17,7 @@
     "yardObjs":[
         {
             "yardLabel": "1Mid",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[
@@ -81,7 +81,7 @@
     "yardObjs":[
         {
             "yardLabel": "2Mid",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[
@@ -148,7 +148,7 @@
     "yardObjs":[
         {
             "yardLabel": "1Mid1Sml",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[
@@ -234,7 +234,7 @@
     "yardObjs":[
         {
             "yardLabel": "1Mid-NMushroom",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[

@@ -1,0 +1,101 @@
+[
+{
+    "Notes": "村级蓝图, 一个圆形村庄，中间是 空地",
+
+    "villageName": "circleVillage_forest",
+
+    "pngLPath": "circleVillage_forest.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  1,
+    "totalFrameNum": 1,
+
+
+    "isHaveRoad": true,
+    "roadFloorGoLayer": "L_0",
+
+
+    "varTypes":[
+        
+
+        {
+            "Nodes": " 房屋/农场 2f2 -------------------------- ",
+            "type": "V_1",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "house_forest_2f2", "yardLabel": "", "num": 1 },
+                { "yardName": "farm_forest_2f2", "yardLabel": "", "num": 1 }
+            ]
+        },
+        {
+            "Nodes": " 房屋/农场 3f3 ",
+            "type": "V_4",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "house_forest_3f3", "yardLabel": "", "num": 1 },
+                { "yardName": "farm_forest_3f3", "yardLabel": "", "num": 1 }
+            ]
+        },
+        {
+            "Nodes": " 房屋/农场 4f4 ",
+            "type": "V_7",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "house_forest_4f4", "yardLabel": "", "num": 1 },
+                { "yardName": "farm_forest_4f4", "yardLabel": "", "num": 1 }
+            ]
+        },
+
+        {
+            "Nodes": " 空地 1f1 ---------------------------------- ",
+            "type": "V_13",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "openGround_forest_1f1", "yardLabel": "", "num": 1 }
+            ]
+        },
+        {
+            "Nodes": " 空地 2f2  ",
+            "type": "V_16",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "openGround_forest_2f2", "yardLabel": "", "num": 1 }
+            ]
+        },
+        {
+            "Nodes": " 空地 3f3  ",
+            "type": "V_19",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": false,
+            "yardPool":[ 
+                { "yardName": "openGround_forest_3f3", "yardLabel": "", "num": 1 }
+            ]
+        },
+
+
+        {
+            "Nodes": " 路 - 2端口 ---------------------------------------- ",
+            "type": "V_29",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": true,
+            "yardPool":[ 
+                { "yardName": "Road_forest", "yardLabel": "TwoPorts", "num": 1 }
+            ]
+        },
+        {
+            "Nodes": " 路 - 3端口 ",
+            "type": "V_30",
+            "isAllInstanceUseSamePlan": false,
+            "isRoad": true,
+            "yardPool":[ 
+                { "yardName": "Road_forest", "yardLabel": "ThreePorts", "num": 1 }
+            ]
+        }
+    ]
+}
+
+]

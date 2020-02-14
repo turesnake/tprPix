@@ -44,7 +44,6 @@ namespace ecoObj_inn {//------------ namespace: ecoObj_inn --------------//
         return (ecoObjs.find(key_) != ecoObjs.end());
     }
 
-
 }//---------------- namespace: ecoObj_inn end --------------//
 
 
@@ -104,26 +103,24 @@ void del_ecoObjs_tooFarAway()noexcept{
 }
 
 
-
-
 /* 更加精细的 元素数据 只读访问 接口 [值传递]
  * 仅用于 field 实例 创建阶段
  */
-std::pair<occupyWeight_t, EcoObj_ReadOnly> get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept{
+std::unique_ptr<EcoObj_ReadOnly> get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept{
 
-    std::pair<occupyWeight_t, EcoObj_ReadOnly>  readOnly {};
+    std::unique_ptr<EcoObj_ReadOnly> readOnlyUPtr = std::make_unique<EcoObj_ReadOnly>();
 
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
     const auto &ecoObjRef = *(ecoObj_inn::ecoObjs.at(sectionkey_));
-    readOnly.first = -ecoObjRef.get_occupyWeight();
                             //-- 切记设置为 负数。
-    readOnly.second.sectionKey = ecoObjRef.get_sectionKey();
-    readOnly.second.colorTableId = ecoObjRef.get_colorTableId();
-    readOnly.second.densitySeaLvlOff = ecoObjRef.get_densitySeaLvlOff();
-    readOnly.second.densityDivideValsPtr = ecoObjRef.get_densityDivideValsPtr();
+    readOnlyUPtr->sectionKey = ecoObjRef.get_sectionKey();
+    readOnlyUPtr->colorTableId = ecoObjRef.get_colorTableId();
+    readOnlyUPtr->densitySeaLvlOff = ecoObjRef.get_densitySeaLvlOff();
+    readOnlyUPtr->densityDivideValsPtr = ecoObjRef.get_densityDivideValsPtr();
+    readOnlyUPtr->ecoObjBorderPtr = ecoObjRef.get_ecoObjBorderPtr();
         //...
                     //-- 目前这个 原子范围 耗时有点长...
-    return readOnly;
+    return readOnlyUPtr;
 }
 
 

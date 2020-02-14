@@ -1,0 +1,33 @@
+[
+
+    
+{
+    "afsName": "pot",
+    "pngs": [
+        {
+            "path": "pot.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  1,
+            "totalFrameNum": 3,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": true,
+            "ColliderType": "Square",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 3,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+}
+
+
+]
+

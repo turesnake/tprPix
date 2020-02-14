@@ -72,11 +72,10 @@ inline int yardSize_2_mapEnt_sideLen( YardSize type_ )noexcept{
 
 
 
-IntVec2 parse_png(  std::vector<MapData> &mapDatasRef_,
+IntVec2 parse_png_for_plot(  std::vector<MapData> &mapDatasRef_,
                     const std::string &pngPath_M_,
                     IntVec2 frameNum_,
-                    size_t totalFrameNum_,
-                    BlueprintType blueprintType_ );
+                    size_t totalFrameNum_ );
 
 
 class YardBlueprint;
@@ -88,6 +87,13 @@ IntVec2 parse_png_for_yard(  YardBlueprint &yardRef_,
                         size_t totalFrameNum_,
                         size_t fstFrameIdx_,
                         size_t frameNums_ );
+
+IntVec2 parse_png_for_village(  std::vector<MapData> &mapDatasRef_,
+                    const std::string &pngPath_M_,
+                    IntVec2 frameNum_,
+                    size_t totalFrameNum_,
+                    bool isHaveRoad,
+                    FloorGoLayer roadFloorGoLayer );
 
 
 
@@ -104,24 +110,6 @@ inline std::string check_and_unify_default_labels( const std::string &label_ )no
         return label_; // copy，无需考虑性能
     }
 }
-
-
-inline std::string get_jsonFile_dirPath( const std::string &jsonFile_ )noexcept{
-
-    // 暂时只支持 Unix 风格的 path 格式
-    // 在本游戏中使用，暂无问题
-    tprAssert( jsonFile_.find('/') != std::string::npos );
-    size_t last_point_idx = jsonFile_.find_last_of( '/' ); //- 指向最后一个 '/'
-
-    auto lastIt = jsonFile_.begin();
-    std::advance( lastIt, last_point_idx ); //- advance 并不防止 溢出
-
-    std::string ret (jsonFile_.begin(), lastIt);
-    return ret;
-}
-
-
-
 
 
 }//--------------------- namespace: blueprint end ------------------------//

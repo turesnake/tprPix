@@ -223,9 +223,16 @@ void GameObj::debug(){
     auto outPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(this->get_dpos()) );
     tprAssert( outPair.first == ChunkMemState::Active );
 
-    cout << "mapEnt.lvl: " << outPair.second->get_mapAlti().lvl
-        << "; val: " << outPair.second->get_mapAlti().val
+    MemMapEnt &mpRef = *outPair.second;
+
+    cout << "mapEnt.lvl: " << mpRef.get_mapAlti().lvl
+        << "; val: " << mpRef.get_mapAlti().val
+        << "; mp-ecoKey: " << mpRef.get_ecoObjKey()
         << endl;
+
+    
+
+    
 
     /*
     cout << "sizeof(go) = " << sizeof( *this )

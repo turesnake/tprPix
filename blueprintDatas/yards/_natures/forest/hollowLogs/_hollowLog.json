@@ -16,7 +16,7 @@
     "yardObjs":[
         {
             "yardLabel": "",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[

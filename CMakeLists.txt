@@ -147,6 +147,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dynamicParam
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys/ecoObjBorder
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo

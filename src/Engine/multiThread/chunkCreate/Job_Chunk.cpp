@@ -11,12 +11,14 @@
 
 //-------------------- CPP --------------------//
 #include <functional>
+#include <vector>
 
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
 #include "mapEntKey.h"
 #include "MultiGoMesh.h"
 #include "WindClock.h"
+#include "IntVec.h"
 
 #include "GoSpecFromJson.h"
 
@@ -29,6 +31,30 @@
 
 
 namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
+
+
+    const std::vector<IntVec2> near_2_vertical_mps {
+        IntVec2{ 0, -1 },
+        IntVec2{ 0,  1 }
+    };
+    const std::vector<IntVec2> near_2_horizontal_mps{
+        IntVec2{ -1,  0 },
+        IntVec2{  1,  0 }
+    };
+    const std::vector<IntVec2> near_8_mps{
+        IntVec2{ -1,  -1 },
+        IntVec2{  0,  -1 },
+        IntVec2{  1,  -1 },
+        //--
+        IntVec2{ -1,  0 },
+        IntVec2{  1,  0 },
+        //--
+        IntVec2{ -1,  1 },
+        IntVec2{  0,  1 },
+        IntVec2{  1,  1 }
+    };
+
+
 
     //- nature_floorYard 尺寸为 2f2，一旦发现 某个field 被 人造物占据
     // 直接不用生成  nature_floorGos
@@ -53,7 +79,7 @@ namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
 
 void Job_Chunk::init()noexcept{
 
-    this->mapEntInns.resize( (ENTS_PER_CHUNK+2) * (ENTS_PER_CHUNK+2) );// 34*34 mapents
+    this->mapEntInns.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
     this->job_fields.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
     this->fields.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
 
@@ -94,50 +120,58 @@ void Job_Chunk::write_2_field_from_jobData(){
 
 
 
-
-// param: mposOff_ [0, 31]
 bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
 
     tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK) &&
                 (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK) ); //- [0,31]
 
-    IntVec2 offV = mposOff_ + IntVec2{1,1}; //- 现在的 mapEntInns 外凸了一圈 mapent [1,32]
-    size_t idx = cast_2_size_t(offV.y * (ENTS_PER_CHUNK+2) + offV.x);
+    size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK + mposOff_.x);
     tprAssert( idx < this->mapEntInns.size() );
 
     //---
     sectionKey_t selfEcoKey = this->mapEntInns.at(idx).ecoObjKey;
     sectionKey_t tmpEcoKey {};
     
+    // 根据 mp 在 chunk 中位置
+    // 确定它的 相邻mp 检测组
+    const std::vector<IntVec2> *nearMPsPtr {nullptr};
+    if( (mposOff_.x==0) || (mposOff_.x==ENTS_PER_CHUNK-1) ){
+        // 贴着 chunk 左右 两条垂直边
+        if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK-1) ){
+            // 目标 mp 为 chunk 4个顶点之一
+            return false;
+        }   
+        nearMPsPtr = &jChunk_inn::near_2_vertical_mps;
+
+    }else if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK-1) ){
+        // 贴着 chunk 上下 两条横向边
+        nearMPsPtr = &jChunk_inn::near_2_horizontal_mps;
+    }else{
+        nearMPsPtr = &jChunk_inn::near_8_mps;
+    }
+    
+    //-----------
     IntVec2 tmpOffV {};
     size_t  tmpIdx  {};
 
-    //-- nearby_9_mapent --
-    for( int j=-1; j<=1; j++ ){
-        for( int i=-1; i<=1; i++ ){
-            
-            //-- skip self --
-            if( (j==0) && (i==0) ){
-                continue;
-            }
-            //-- skip outEnt --
-            tmpOffV = offV + IntVec2{i,j}; // [0,33]
+    for( const auto &mpOff : *nearMPsPtr ){
+        //-- skip outEnt --
+        tmpOffV = mposOff_ + mpOff; // [0,31]
+        tprAssert(  (tmpOffV.x>=0) && (tmpOffV.x<ENTS_PER_CHUNK) &&
+                    (tmpOffV.y>=0) && (tmpOffV.y<ENTS_PER_CHUNK) );
+        //-- do check --
+        tmpIdx = static_cast<size_t>(tmpOffV.y * ENTS_PER_CHUNK + tmpOffV.x);
 
-            tprAssert(  (tmpOffV.x>=0) && (tmpOffV.x<ENTS_PER_CHUNK+2) &&
-                        (tmpOffV.y>=0) && (tmpOffV.y<ENTS_PER_CHUNK+2) ); //- [0,34]
-
-            //-- do check --
-            tmpIdx = static_cast<size_t>(tmpOffV.y * (ENTS_PER_CHUNK+2) + tmpOffV.x);
-
-            tmpEcoKey = this->mapEntInns.at(tmpIdx).ecoObjKey;
-            if( selfEcoKey != tmpEcoKey ){
-                return true;
-            }
-
+        tmpEcoKey = this->mapEntInns.at(tmpIdx).ecoObjKey;
+        if( selfEcoKey != tmpEcoKey ){
+            return true;
         }
     }
+
     return false;
 }
+
+
 
 
 
@@ -173,7 +207,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     // skip mapent in water
                     if( !this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).alti.is_land() ){
-                        continue;
+                        //continue;
                     }
 
                     //-- majorGos --
@@ -186,6 +220,9 @@ void Job_Chunk::create_field_goSpecDatas(){
                     }
                 }
             }
+
+                // debug 跳过 nature go 的创建
+                //continue;
             
 
             //----------------------//

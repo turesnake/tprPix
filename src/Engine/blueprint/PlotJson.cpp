@@ -111,7 +111,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            std::string dirPath = json::get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
             pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
@@ -129,7 +129,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
         }
 
         // 读取解析 png 数据，
-        IntVec2 frameSizeByMapEnt = parse_png( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Plot );
+        IntVec2 frameSizeByMapEnt = parse_png_for_plot( plotRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum );
         plotRef.set_sizeByMapEnt( frameSizeByMapEnt ); // 不一定必须是正方形
 
 

@@ -27,6 +27,7 @@
 #include "Quad.h"
 #include "tprCast.h"
 #include "random.h"
+#include "EcoObjBorder.h"
 
 #include "esrc_job_chunk.h"
 #include "esrc_gameSeed.h"
@@ -50,19 +51,24 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     const std::vector<IntVec2> quadSectionKeyOffs {
-        IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_SECTION, 0 },
-        IntVec2{ 0, ENTS_PER_SECTION },
-        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
+        IntVec2{ 0, 0 },                                // 0: LeftBottom
+        IntVec2{ ENTS_PER_SECTION, 0 },                 // 1: RightBottom
+        IntVec2{ 0, ENTS_PER_SECTION },                 // 2: LeftTop
+        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }   // 3: RightTop
     };
 
 
     //===== funcs =====//
-    void calc_job_chunk( Job_Chunk &job_chunk_ ); 
-    void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
+    void calc_job_chunk( Job_Chunk &job_chunk_ );
+
+    void colloect_nearFour_ecoObjDatas( std::vector<std::unique_ptr<EcoObj_ReadOnly>> &container_, 
                                         IntVec2 anyMPos_ );
-    void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
-                                        Job_MapEnt &mapEnt_ );
+
+    void assign_mapent_to_nearFour_ecoObjs_2(   const EcoObjBorder *currentEcoObjBorderPtr_,
+                                                IntVec2 sectionMPos_,
+                                                std::vector<std::unique_ptr<EcoObj_ReadOnly>> &container_,     
+                                                Job_MapEnt &mapEnt_ );
+
     
 }//-------------- namespace: bcd_inn end ----------------//
 
@@ -98,8 +104,6 @@ void create_job_chunk_main( const Job &job_ ){
     //      calc job_chunk
     //--------------------------//
     bcd_inn::calc_job_chunk( job_chunkRef );
-
-
     
 
     //--------------------------//
@@ -119,27 +123,34 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
  */
 void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
-    IntVec2 chunkMPos = job_chunkRef_.get_chunkMPos();
-    //------------------------//
-    //  nearFour_ecoObjDatas
-    //------------------------//
-    // 按照 ecoObj.occupyWeight 倒叙排列（值大的在前面）
-    std::map<occupyWeight_t,EcoObj_ReadOnly> nearFour_ecoObjDatas {};
-    bcd_inn::colloect_nearFour_ecoObjDatas( nearFour_ecoObjDatas, chunkMPos );
-                // 并不精确，chunk 外延的一圈 mapents，它们的 nearFour_ecoObj 数据不是当前这个值
-                // 这是一种简化办法。最终效果近似即可
-
+    IntVec2 currentChunkMPos = job_chunkRef_.get_chunkMPos();
+      
     //------------------------//
     //   job_chunk.mapEntInns
     //------------------------//
-    IntVec2    mposOff {};
-    for( int h=-1; h<=ENTS_PER_CHUNK; h++ ){
-        for( int w=-1; w<=ENTS_PER_CHUNK; w++ ){ // 34*34 mapent 
 
+    std::vector<std::unique_ptr<EcoObj_ReadOnly>> nearFour_ecoObjDatas {};
+    bcd_inn::colloect_nearFour_ecoObjDatas( nearFour_ecoObjDatas, currentChunkMPos ); 
+
+    // 本chunk 所在 ecoObj 的 border 指针
+    // 但 本chunk 最终不一定会被 划分给 此ecoobj 
+    IntVec2 sectionMPos = anyMPos_2_sectionMPos( currentChunkMPos );
+    sectionKey_t sectionKey = sectionMPos_2_sectionKey( sectionMPos );
+    std::unique_ptr<EcoObj_ReadOnly> ecoReadOnlyUPtr = esrc::get_ecoObj_readOnly(sectionKey);
+
+
+    // 只创建 chunk 内 mps 
+    IntVec2     mposOff {};
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             mposOff = IntVec2{ w, h };
+
             Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
-            mapEntRef.init( chunkMPos + mposOff );
-            assign_mapent_to_nearFour_ecoObjs( nearFour_ecoObjDatas, mapEntRef );
+            mapEntRef.init( currentChunkMPos + mposOff );
+            assign_mapent_to_nearFour_ecoObjs_2(ecoReadOnlyUPtr->ecoObjBorderPtr,
+                                                sectionMPos,
+                                                nearFour_ecoObjDatas, 
+                                                mapEntRef );
         }
     }
 
@@ -155,8 +166,8 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
-            tmpFieldMPos.set(   chunkMPos.x + w*ENTS_PER_FIELD, 
-                                chunkMPos.y + h*ENTS_PER_FIELD );
+            tmpFieldMPos.set(   currentChunkMPos.x + w*ENTS_PER_FIELD, 
+                                currentChunkMPos.y + h*ENTS_PER_FIELD );
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             fieldKeys.push_back(tmpFieldKey);
 
@@ -189,7 +200,7 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
-                mposOff = tmpEntMPos - chunkMPos;
+                mposOff = tmpEntMPos - currentChunkMPos;
 
                 Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
                 //----- field min/max alti -----
@@ -220,88 +231,44 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
 
 
-
-// 不需要每次都调用，只需要在 sectionMPos 发生改变时调用 --
-void colloect_nearFour_ecoObjDatas( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
+void colloect_nearFour_ecoObjDatas( std::vector<std::unique_ptr<EcoObj_ReadOnly>> &container_,
                                     IntVec2 anyMPos_ ){
     IntVec2 sectionMPos = anyMPos_2_sectionMPos( anyMPos_ );
     sectionKey_t tmpKey {};
     container_.clear();
     for( const auto &whOff : bcd_inn::quadSectionKeyOffs ){
         tmpKey = sectionMPos_2_sectionKey( sectionMPos + whOff );
-        auto outPair = container_.insert( esrc::get_ecoObj_readOnly( tmpKey ) );
-        tprAssert( outPair.second );
+        container_.push_back( esrc::get_ecoObj_readOnly( tmpKey ) );
     }
 }
 
 
 
-void assign_mapent_to_nearFour_ecoObjs( std::map<occupyWeight_t,EcoObj_ReadOnly> &container_,
-                                        Job_MapEnt &mapEnt_ ){
-    double         vx        {};
-    double         vy        {};
-    IntVec2        mposOff   {};
-    double         freqBig   { 0.9 }; //- 值越小，ecoObj 边界越平滑
-    double         freqSml   { 2.3 };
+void assign_mapent_to_nearFour_ecoObjs_2(   const EcoObjBorder *currentEcoObjBorderPtr_,
+                                            IntVec2 sectionMPos_,
+                                            std::vector<std::unique_ptr<EcoObj_ReadOnly>> &container_, 
+                                            Job_MapEnt &mapEnt_ ){
 
-    double         pnVal     {}; //- 围绕 0 波动的 随机值
-    double         off       {};
-    size_t        count     {};
-
-    double targetDistance = 1.4 * (0.5 * ENTS_PER_SECTION) * 1.04; //- 每个field 最终的 距离比较值。
-
-    vx = static_cast<double>(mapEnt_.mpos.x) / static_cast<double>(ENTS_PER_CHUNK);
-    vy = static_cast<double>(mapEnt_.mpos.y) / static_cast<double>(ENTS_PER_CHUNK);
-
-    const glm::dvec2 &field_pposOff = esrc::get_gameSeed().get_field_dposOff();
-    vx += field_pposOff.x;
-    vy += field_pposOff.y;
-                    //-- 一个简单的偏移值，也许未来可以为其 改名字 ...
-                    //   毕竟，现在和 mapent 关联了 ...
-
-    double pnValBig = simplex_noise2(    (vx + 51.15) * freqBig,
-                                        (vy + 151.15) * freqBig ) * 17.0; // [-x.0, x.0]
-    double pnValSml = simplex_noise2(    (vx + 244.41) * freqSml,
-                                        (vy + 144.41) * freqSml ) * 5.0; // [-x.0, x.0]
-
-    pnVal = pnValBig + pnValSml;
-    if( pnVal > 20.0 ){
-        pnVal = 20.0;
+    const EcoObj_ReadOnly *ecoReadOnlyPtr {nullptr};    
+    NineDirection dir = currentEcoObjBorderPtr_->assign_mapent_to_nearFour_ecoObjs_dir( mapEnt_.mpos - sectionMPos_ );
+    switch (dir){
+        case NineDirection::LeftBottom:     ecoReadOnlyPtr =  container_.at(0).get(); break;
+        case NineDirection::RightBottom:    ecoReadOnlyPtr =  container_.at(1).get(); break;
+        case NineDirection::LeftTop:        ecoReadOnlyPtr =  container_.at(2).get(); break;
+        case NineDirection::RightTop:       ecoReadOnlyPtr =  container_.at(3).get(); break;
+        default:
+            tprAssert(0);
+            break;
     }
-    if( pnVal < -20.0 ){
-        pnVal = -20.0;
-    }
-    // now, pnVal: [-20.0, 20.0]
 
-    count = 0;
-    for( auto &ecoDataPair : container_ ){
-        count++;
-        const auto &ecoReadOnly = ecoDataPair.second;
+    // 正式 获取数据
+    mapEnt_.ecoObjKey = ecoReadOnlyPtr->sectionKey;
+    mapEnt_.colorTableId = ecoReadOnlyPtr->colorTableId;
+    mapEnt_.density.set(mapEnt_.mpos, 
+                        ecoReadOnlyPtr->densitySeaLvlOff,
+                        ecoReadOnlyPtr->densityDivideValsPtr );
 
-        if( count != container_.size()){ //- 前3个 eco
-
-            mposOff = mapEnt_.mpos - sectionKey_2_mpos( ecoReadOnly.sectionKey );
-            off = static_cast<double>(sqrt( mposOff.x*mposOff.x + mposOff.y*mposOff.y )); // [ ~ 90.0 ~ ]
-            off += pnVal * 0.7; // [-x.0, x.0] + 90.0
-
-            if( off < targetDistance ){ //- tmp
-                mapEnt_.ecoObjKey = ecoReadOnly.sectionKey;
-                mapEnt_.colorTableId = ecoReadOnly.colorTableId;
-                mapEnt_.density.set(mapEnt_.mpos, 
-                                    ecoReadOnly.densitySeaLvlOff,
-                                    ecoReadOnly.densityDivideValsPtr );
-                break; // MUST 
-            }
-        }else{ //- 第四个 eco
-            mapEnt_.ecoObjKey = ecoReadOnly.sectionKey;
-            mapEnt_.colorTableId = ecoReadOnly.colorTableId;
-            mapEnt_.density.set(mapEnt_.mpos, 
-                                ecoReadOnly.densitySeaLvlOff,
-                                ecoReadOnly.densityDivideValsPtr );
-        }
-    }
 }
-
 
 
 

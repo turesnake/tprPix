@@ -9,6 +9,10 @@
     "frameNum.row":  1,
     "totalFrameNum": 1,
 
+    "isHaveRoad": true,
+    "roadFloorGoLayer": "L_0",
+
+
     "varTypes":[
         {
             "type": "V_1",

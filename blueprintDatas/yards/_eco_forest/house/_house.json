@@ -1,0 +1,220 @@
+[
+{
+    "Notes": " 2f2-yard 房屋 ",
+
+    "yardName": "house_forest_2f2",
+
+    "pngLPath": "house_2f2.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 石砖墙 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+},
+
+{
+    "Notes": " 3f3-yard 房屋 ",
+
+    "yardName": "house_forest_3f3",
+
+    "pngLPath": "house_3f3.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 石砖墙 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+},
+
+{
+    "Notes": " 4f4-yard 房屋 ",
+
+    "yardName": "house_forest_4f4",
+
+    "pngLPath": "house_4f4.M.png",
+    "frameNum.col":  1,
+    "frameNum.row":  4,
+    "totalFrameNum": 4,
+
+    "isHaveMajorGos": true,
+    "isHaveFloorGos": false,
+
+    "public_varTypes":[
+        {
+            "Notes": " 石砖墙 ",
+            "type": "V_1",
+            "isFloorGo": false,
+            "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+            ]
+        }
+    ],
+
+    "yardObjs":[
+        {
+            "yardLabel": "",
+            "dir": "Left",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 0,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Top",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 1,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Right",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 2,
+            "frameNums": 1,
+
+            "varTypes":[]
+        },
+
+        {
+            "yardLabel": "",
+            "dir": "Bottom",
+            "isAllFramesInclude": false,
+            "fstFrameIdx": 3,
+            "frameNums": 1,
+
+            "varTypes":[]
+        }
+    ]
+}
+
+
+
+
+
+
+]

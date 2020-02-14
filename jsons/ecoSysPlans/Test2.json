@@ -2,7 +2,7 @@
 {
     "name": "Test",
     "EcoSysPlanType": "Desert",
-    "colorTableName": "poplarForest",
+    "colorTableName": "darkForest",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
     "natureMajorYardPools":[
@@ -84,13 +84,16 @@
 
 
     "villageBlueprintPool":[ 
-        { "villageName": "v_1", "num": 3 } 
+        { "villageName": "v_1", "num": 0 }, 
+
+        { "villageName": "circleVillage_forest", "num": 1 }
     ],
 
 
     "natureFloorYards": {
         "yardPool":[
-            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 1 }
+            { "yardName": "N_floorGo_LineTest", "yardLabel": "red", "num": 0 },
+            { "yardName": "N_floorGo", "yardLabel": "DarkForest", "num": 1 }
         ],
         "density.lvls":[ -3,-2,-1,0 ]
     }

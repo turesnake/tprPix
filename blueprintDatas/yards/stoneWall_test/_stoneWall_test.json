@@ -16,7 +16,7 @@
     "yardObjs":[
         {
             "yardLabel": "",
-            "Dir": "Center",
+            "dir": "Center",
             "isAllFramesInclude": true,
 
             "varTypes":[
@@ -27,9 +27,9 @@
                     "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
                     "isAllInstanceUseSamePlan": true,
                     "goSpecPool":[
-                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
+                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 0 },
                         { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
-                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                        { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 0 }
                     ]
                 },
 
@@ -45,12 +45,32 @@
                 },
 
                 {
+                    "Notes": " 罐头 ",
+                    "type": "V_8",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "pot", "afsName": "pot", "animLabel": "", "num": 1 }
+                    ]
+                },
+
+                {
                     "Notes": " 药水瓶 ",
                     "type": "V_10",
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
                         { "goSpeciesName": "glassBottle", "afsName": "", "num": 1 }
+                    ]
+                },
+
+                {
+                    "Notes": " 柴火堆 ",
+                    "type": "V_11",
+                    "isFloorGo": false,
+                    "isAllInstanceUseSamePlan": false,
+                    "goSpecPool":[
+                        { "goSpeciesName": "firewood", "afsName": "firewood", "animLabel": "", "num": 1 }
                     ]
                 },
 

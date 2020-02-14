@@ -65,7 +65,7 @@
     "yardObjs":[
         {
             "yardLabel": "TwoPorts",
-            "Dir": "LeftTop",
+            "dir": "LeftTop",
             "fstFrameIdx": 0, "frameNums": 8,
 
             "varTypes":[
@@ -83,7 +83,7 @@
         },
         {
             "yardLabel": "TwoPorts",
-            "Dir": "RightTop",
+            "dir": "RightTop",
             "fstFrameIdx": 8, "frameNums": 8,
 
             "varTypes":[
@@ -101,7 +101,7 @@
         },
         {
             "yardLabel": "TwoPorts",
-            "Dir": "RightBottom",
+            "dir": "RightBottom",
             "fstFrameIdx": 16, "frameNums": 8,
 
             "varTypes":[
@@ -119,7 +119,7 @@
         },
         {
             "yardLabel": "TwoPorts",
-            "Dir": "LeftBottom",
+            "dir": "LeftBottom",
             "fstFrameIdx": 24, "frameNums": 8,
 
             "varTypes":[
@@ -137,7 +137,7 @@
         },
         {
             "yardLabel": "TwoPorts",
-            "Dir": "Left",
+            "dir": "Left",
             "fstFrameIdx": 32, "frameNums": 8,
 
             "varTypes":[
@@ -155,7 +155,7 @@
         },
         {
             "yardLabel": "TwoPorts",
-            "Dir": "Bottom",
+            "dir": "Bottom",
             "fstFrameIdx": 40, "frameNums": 8,
 
             "varTypes":[
@@ -174,7 +174,7 @@
 
         {
             "yardLabel": "ThreePorts",
-            "Dir": "Left",
+            "dir": "Left",
             "fstFrameIdx": 48, "frameNums": 8,
 
             "varTypes":[
@@ -192,7 +192,7 @@
         },
         {
             "yardLabel": "ThreePorts",
-            "Dir": "Top",
+            "dir": "Top",
             "fstFrameIdx": 56, "frameNums": 8,
 
             "varTypes":[
@@ -210,7 +210,7 @@
         },
         {
             "yardLabel": "ThreePorts",
-            "Dir": "Right",
+            "dir": "Right",
             "fstFrameIdx": 64, "frameNums": 8,
 
             "varTypes":[
@@ -228,7 +228,7 @@
         },
         {
             "yardLabel": "ThreePorts",
-            "Dir": "Bottom",
+            "dir": "Bottom",
             "fstFrameIdx": 72, "frameNums": 8,
 
             "varTypes":[

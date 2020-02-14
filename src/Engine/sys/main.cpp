@@ -27,6 +27,8 @@
 
 #include "CircuitBoard.h"
 
+#include "EcoObjBorder.h"
+
 #include "esrc_all.h"
 #include "ubo_all.h"
 
@@ -129,6 +131,8 @@ int main( int argc, char* argv[] ){
     esrc::init_chunkMemStates();
     esrc::init_ecoObjs();
     esrc::init_gameObjs();
+
+    EcoObjBorder::init();
 
     db::atom_init_dataBase();
             //-- tmp...

@@ -108,6 +108,11 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------------------//
     //...
 
+    //------------------------------//
+    //     ecoObjBorderPtr
+    //------------------------------//
+    this->ecoObjBorderPtr = EcoObjBorder::apply_rand_ecoObjBorderPtr( this->uWeight );
+
 }
 
 
@@ -142,7 +147,7 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     //   goDatasForCreate
     //=======================//
     // 一次性生成 所有 人造物 godata 
-    blueprint::build_ecoObj_goDatasForCreate( this->villageBlueprintId,
+    blueprint::build_ecoObj_goDatasForCreate(   this->villageBlueprintId,
                                                 this->mcpos.get_mpos(),
                                                 this->uWeight,
                                                 this->majorGoDatasForCreate,

@@ -9,6 +9,8 @@
     "frameNum.row":  1,
     "totalFrameNum": 1,
 
+    "isHaveRoad": false,
+
     "varTypes":[
         {
             "type": "V_1",

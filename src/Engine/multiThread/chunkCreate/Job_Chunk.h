@@ -45,14 +45,13 @@ public:
     inline chunkKey_t   get_chunkKey()const noexcept{ return this->chunkKey; }
     inline IntVec2      get_chunkMPos()const noexcept{ return this->chunkMPos; }
 
-    //- param: offset from chunk.mpos [-1,32]
+    
     inline Job_MapEnt &getnc_mapEntInnRef( IntVec2 mposOff_ )noexcept{
 
-        tprAssert(  (mposOff_.x>=-1) && (mposOff_.x<=ENTS_PER_CHUNK) &&
-                    (mposOff_.y>=-1) && (mposOff_.y<=ENTS_PER_CHUNK) ); // [-1,32]
+        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK) &&
+                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK) );
 
-        IntVec2 offV = mposOff_ + IntVec2{1,1}; //- 现在的 mapEntInns 外凸了一圈 mapent
-        size_t idx = cast_2_size_t(offV.y * (ENTS_PER_CHUNK+2) + offV.x);
+        size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK + mposOff_.x);
         tprAssert( idx < this->mapEntInns.size() );
         return this->mapEntInns.at(idx);
     }
@@ -99,7 +98,7 @@ private:
     chunkKey_t chunkKey     {};
     IntVec2    chunkMPos    {};
 
-    std::vector<Job_MapEnt> mapEntInns {};// [34 * 34 mapents] 朝四周外凸了 1-mapent
+    std::vector<Job_MapEnt> mapEntInns {};// [32 * 32 mapents]
 
     std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> job_fields {};
     std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> fields {};

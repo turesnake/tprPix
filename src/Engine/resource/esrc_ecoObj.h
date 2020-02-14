@@ -11,6 +11,7 @@
 //-------------------- CPP --------------------//
 #include <unordered_map>
 #include <utility> //- pair
+#include <memory>
 
 //-------------------- Engine --------------------//
 #include "EcoObj.h"
@@ -32,7 +33,7 @@ void moveIn_ecoObjUPtr_from_job( sectionKey_t ecoObjKey_, std::unique_ptr<EcoObj
 void del_ecoObjs_tooFarAway()noexcept;
 
 //-- 更加精细的 元素数据 只读访问 接口 [值传递] --
-std::pair<occupyWeight_t, EcoObj_ReadOnly> get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept;
+std::unique_ptr<EcoObj_ReadOnly> get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept;
 
 EcoObj &get_ecoObjRef( sectionKey_t sectionkey_ )noexcept;
 

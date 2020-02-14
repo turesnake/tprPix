@@ -90,7 +90,9 @@
 
     "villageBlueprintPool":[ 
         { "villageName": "empty_test", "num": 0 },
-        { "villageName": "v_1", "num": 1 }
+        { "villageName": "v_1", "num": 0 },
+
+        { "villageName": "circleVillage_forest", "num": 1 }
     ],
 
 

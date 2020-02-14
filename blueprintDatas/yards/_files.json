@@ -1,4 +1,9 @@
 [
+
+    {"_eco_forest/farm/_farm.json": true },
+    {"_eco_forest/house/_house.json": true },
+    {"_eco_forest/openGround/_openGround.json": true },
+
     {"2m2_1/_2m2.json": true },
 
     {"_natures/_regulars/breakStones/_forest.json": true },

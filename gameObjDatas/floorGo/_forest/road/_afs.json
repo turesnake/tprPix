@@ -17,10 +17,10 @@
                     "animLabel": "TwoPorts",
                     "subIdx": 0,
                     "AnimActionParams":[
-                        { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
-                        { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LB", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 1, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "LT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 2, "isOpaque": true },
+                        { "actionEName": "Idle", "dir": "RT", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 3, "isOpaque": true },
                         { "actionEName": "Idle", "dir": "L", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 4, "isOpaque": true },
                         { "actionEName": "Idle", "dir": "B", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 5, "isOpaque": true }
                     ]

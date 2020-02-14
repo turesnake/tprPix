@@ -40,12 +40,6 @@ inline mapEntKey_t mpos_2_key( IntVec2 mpos_ )noexcept{
 }
 
 
-
-/* ===========================================================
- *                chunkKey_2_mpos
- * -----------------------------------------------------------
- * -- 传入某个key，生成其 chunk 的 mpos
- */
 inline IntVec2 mapEntKey_2_mpos( mapEntKey_t key_ )noexcept{
     IntVec2  mpos {};
     int *ptr = (int*)&key_; //- can't use static_cast<>

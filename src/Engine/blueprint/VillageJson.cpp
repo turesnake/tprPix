@@ -20,6 +20,7 @@
 #include "fileIO.h"
 #include "tprCast.h"
 #include "blueprint_oth.h"
+#include "FloorGoType.h"
 
 #include "json_oth.h"
 
@@ -81,6 +82,9 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
     std::string pngPath_M {};
     IntVec2 frameNum {};
     size_t  totalFrameNum {};
+
+    bool isHaveRoad                 { false };
+    FloorGoLayer roadFloorGoLayer   { FloorGoLayer::L_0 };
     
     //=====//
     tprAssert( doc.IsArray() );
@@ -97,7 +101,7 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
 
         {//--- pngLPath ---//
             const auto &a = json::check_and_get_value( docEnt, "pngLPath", json::JsonValType::String );
-            std::string dirPath = get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
+            std::string dirPath = json::get_jsonFile_dirPath( path_file_ ); // json 文件 所在目录的 path
             pngPath_M = tprGeneral::path_combine( dirPath, a.GetString() );
         }
         {//--- frameNum.col ---//
@@ -114,8 +118,20 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
             tprAssert( totalFrameNum <= cast_2_size_t(frameNum.x * frameNum.y) );
         }
 
+        //--- isHaveRoad ---//
+        if( docEnt.HasMember("isHaveRoad") ){
+            const auto &a = json::check_and_get_value( docEnt, "isHaveRoad", json::JsonValType::Bool );
+            isHaveRoad = a.GetBool();
+        }
+        //--- roadFloorGoLayer ---//
+        if( isHaveRoad ){
+            const auto &a = json::check_and_get_value( docEnt, "roadFloorGoLayer", json::JsonValType::String );
+            roadFloorGoLayer = str_2_FloorGoLayer( a.GetString() );
+        }
+
+
         // 读取解析 png 数据，
-        IntVec2 frameSizeByMapEnt = parse_png( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, BlueprintType::Village );
+        IntVec2 frameSizeByMapEnt = parse_png_for_village( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, isHaveRoad, roadFloorGoLayer );
         tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) && 
                     (frameSizeByMapEnt.y == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) );
 

@@ -77,7 +77,6 @@ std::optional<VariableTypeIdx> rgba_2_VariableTypeIdx( RGBA rgba_ )noexcept{
     // 最简单最直接的方案，完全不考虑性能 
     for( const auto & [iKey, iVal] : bpv_inn::varTypeIdx_2_rgbas ){ // each color
         if( rgba.is_near(iVal, 8) ){
-
             return { iKey };
         }
     }

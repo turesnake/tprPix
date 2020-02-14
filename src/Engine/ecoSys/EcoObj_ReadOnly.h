@@ -10,6 +10,7 @@
 
 //-------------------- Engine --------------------//
 #include "EcoObj.h"
+#include "EcoObjBorder.h"
 
 
 //-- 仅用于 atom 函数 值传递 --
@@ -18,7 +19,9 @@ public:
     sectionKey_t   sectionKey       {};
     colorTableId_t colorTableId     {};
     double         densitySeaLvlOff {};
+    //double         uWeight          {};
     const std::vector<double> *densityDivideValsPtr {};
+    const EcoObjBorder *ecoObjBorderPtr {nullptr};
 };
 
 #endif 

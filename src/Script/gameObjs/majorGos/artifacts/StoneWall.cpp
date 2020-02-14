@@ -60,8 +60,6 @@ void StoneWall::init(GameObj &goRef_,const DyParam &dyParams_ ){
         tprAssert(0);
     }
 
-                        
-
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     //-- 制作唯一的 mesh 实例: "root" --
     goRef_.creat_new_goMesh("root", //- gmesh-name
@@ -83,23 +81,9 @@ void StoneWall::init(GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.actionSwitch.bind_func( std::bind( &StoneWall::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
 
-
     //================ go self vals =================//   
-
 }
 
-/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
- * -- 这个 go实例 的类型，应该和 本类一致。
- */
-void StoneWall::bind( GameObj &goRef_ ){
-}
-
-
-/* -- 从硬盘读取到 go实例数据后，重bind callback
- * -- 会被 脚本层的一个 巨型分配函数 调用
- */
-void StoneWall::rebind( GameObj &goRef_ ){
-}
 
 
 void StoneWall::OnRenderUpdate( GameObj &goRef_ ){
@@ -115,17 +99,9 @@ void StoneWall::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-
-void StoneWall::OnLogicUpdate( GameObj &goRef_ ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<StoneWall_PvtBinary>();
-    //=====================================//
-
-    // 什么也没做...
-}
-
+void StoneWall::bind( GameObj &goRef_ ){}
+void StoneWall::rebind( GameObj &goRef_ ){}
+void StoneWall::OnLogicUpdate( GameObj &goRef_ ){}
 
 
 void StoneWall::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
@@ -133,33 +109,6 @@ void StoneWall::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
         cout << "StoneWall::OnActionSwitch" << endl;
         tprAssert(0);
         
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    auto *pvtBp = goRef_.get_pvtBinaryPtr<StoneWall_PvtBinary>();
-    //=====================================//
-
-    //auto dir = goRef_.actionDirection.get_newVal();
-    //auto brokenLvl = goRef_.brokenLvl.get_newVal();
-
-    //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
-
-    //-- 处理不同的 actionSwitch 分支 --
-    switch( type_ ){
-        case ActionSwitchType::Idle:
-            goMeshRef.set_animActionEName( AnimActionEName::Idle );
-            goMeshRef.bind_animAction();
-            break;
-        default:
-            break;
-            //-- 并不报错，什么也不做...
-
-    }
-
-    //goRef_.rebind_rootAnimActionPosPtr(); //- 临时性的方案 ...
-
-
 }
 
 
