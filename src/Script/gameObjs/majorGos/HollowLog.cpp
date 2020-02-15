@@ -54,11 +54,11 @@ void HollowLog::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
 
-    auto retOpt = goDataPtr->get_brokenLvl();
-    tprAssert( retOpt.has_value() );
+    auto retOpt1 = goDataPtr->get_brokenLvl();
+    tprAssert( retOpt1.has_value() );
 
-    if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
-        goRef_.brokenLvl.reset( retOpt.value() );
+    if( auto retOpt2 = goDataPtr->get_brokenLvl(); retOpt2.has_value() ){
+        goRef_.brokenLvl.reset( retOpt2.value() );
     }else{
         tprAssert(0);
     }

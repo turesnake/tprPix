@@ -40,7 +40,7 @@ namespace innTest {//---------- namespace: innTest --------------//
 class DC {
 public:
     DC()=default;
-    DC( const DC& ){ tprAssert(0); };
+    DC( const DC& ){ tprAssert(0); }
     DC & operator=( const DC &v_ );
     
 

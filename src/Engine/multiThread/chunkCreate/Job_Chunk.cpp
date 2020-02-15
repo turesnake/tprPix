@@ -207,7 +207,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     // skip mapent in water
                     if( !this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).alti.is_land() ){
-                        //continue;
+                        continue;
                     }
 
                     //-- majorGos --

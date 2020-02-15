@@ -625,14 +625,9 @@ void build_paths( const std::string &path_M_ ){
 
 
 
-
+// r/g/b 三色相同的颜色（纯灰）即被判定为 辅助色
 bool is_uselessColor( RGBA rgba_ )noexcept{
-    for( const auto &i : uselessColors ){
-        if( rgba_.is_near(i, 5) ){
-            return true;
-        }
-    }
-    return false;
+    return (is_closeEnough<u8_t>(rgba_.r, rgba_.g, 5) && is_closeEnough<u8_t>(rgba_.r, rgba_.b, 5));
 }
 
 
