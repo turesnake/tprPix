@@ -39,26 +39,36 @@ You can find `tprpix` file in .../app/build/publish/ folder. Double Click it and
 
 To support clang in win10, We need install Visual Studio 2019 at first.
 Once open Visual Studio 2019, click the button: 'Open a local folder', and choose the app's root folder. ->
+
 ![open a local folder](Docs/pngs/win10/000.png)
 
 select **Manage Configurations...** ->
+
 ![Manage Configurations](Docs/pngs/win10/001.png)
 
 in CMake Settings panel, remove the existed configuration, and add a new one: **x64-Clang-Release** ->
+
 ![CMake Settings panel](Docs/pngs/win10/002.png)
+
 ![x64-Clang-Release](Docs/pngs/win10/003.png)
 
 reset the **Build root** to `${projectDir}\build`. ->
+
 ![Build root](Docs/pngs/win10/004.png)
 
 back to **Solution Explorer** panel, right click the file: `CMakeLists.txt`, choose: `Generate Cache for tprPixelCPP`. ->
+
 ![CMakeLists.txt](Docs/pngs/win10/005.png)
+
 ![Generate Cache for tprPixelCPP](Docs/pngs/win10/006.png)
+
 wait until `CMake generation finished.` showed in **Output** panel.
 
 
 After that, click `Build All` in Build Window.(or press `F7`) ->
+
 ![Build All](Docs/pngs/win10/009.png)
+
 Then, the build work will begin, It's a long wait.
 A few minutes later，you will find `Build All succeeded.` in Output panel. This means that the work in VS-2019 is DONE!
 
