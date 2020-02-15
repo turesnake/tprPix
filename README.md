@@ -34,7 +34,7 @@ the shell script: `osx.sh`, will automatically install everything for you, which
 
 Now, All the Installation has **DONE**!!!
 
-You can find `tprpix` file in `.../app/build/publish/` folder. 
+You can find **tprpix** file in **.../app/build/publish/** folder. 
 
 Double Click it and **Start the Game**. 
 
@@ -82,7 +82,7 @@ This script file will automatically copy some folders to `app/build/publish/`,
 
 Now, All the Installation has **DONE**!!!
 
-You can find `**tprpix.exe**` file in `**.../app/build/publish/ folder**`. 
+You can find **tprpix.exe** file in **.../app/build/publish/ folder**. 
 
 Double Click it and **Start the Game**. 
 
