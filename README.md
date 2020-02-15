@@ -1,5 +1,9 @@
-# TPRPIX
-a Cross-Platform, 2D Survival Sandbox Game Project. Based on **C++17/OpenGL/SQLite3**.
+# tprPix
+a Cross-Platform, 2D Survival Sandbox Game Project. 
+
+Based on **C++17/OpenGL/SQLite3**.
+
+(**tprPix** is the name of the Project, **NOT** the Game.)
 
 ![screenShot.01](Docs/pngs/screenShots/ss.01.png)
 
@@ -26,7 +30,7 @@ Make sure you have installed **CMake**.
 
 Then,open your terminal, and "cd" to the app's root folder:
 
-    $ cd .../xxx/tprPixelGames/
+    $ cd .../xxx/tprPix/
 
 after that, run a shell script:
 
@@ -119,7 +123,9 @@ So, please be  patient...
 ## Welcome feedback and suggestions
 Since the project is still on developing,
 more content will be launched later.
+
 If you have any suggestions，please contact me.
+
 
 ## Contact
 *   E-mail: [turesnake@gmail.com](mailto:turesnake@gmail.com)
