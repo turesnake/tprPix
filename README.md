@@ -3,9 +3,9 @@ a Cross-Platform, 2D Survival Sandbox Game Project.
 
 Based on **C++17/OpenGL/SQLite3**.
 
-(**tprPix** is the name of the Project, **NOT** the Game.)
-
 - [中文版](README.ZH_CN.md)
+
+(**tprPix** is the name of the Project, **NOT** the Game.)
 
 ![screenShot.01](Docs/pngs/screenShots/ss.01.png)
 
@@ -41,7 +41,7 @@ First,make sure you have installed:
 
 Then,open your terminal, and "cd" to the app's root folder:
 
-    $ cd .../xxx/tprPix/
+    $ cd .../appRootDir/
 
 after that, run a shell script:
 
@@ -52,7 +52,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 
 Now, All the Installation has **DONE**!!!
 
-You can find **tprpix** file in **.../app/build/publish/** folder. 
+You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
 
 **Double Click** it and **Start your Game**!!!
 
@@ -84,7 +84,7 @@ install some **Graphic Libs**:
 
 Then,open your terminal, and "cd" to the app's root folder:
 
-    $ cd .../xxx/tprPix/
+    $ cd .../appRootDir/
 
 after that, run a shell script:
 
@@ -95,7 +95,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 
 Now, All the Installation has **DONE**!!!
 
-You can find **tprpix** file in **.../app/build/publish/** folder. 
+You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
 
 run the app in terminal:
 
@@ -147,7 +147,7 @@ This script file will automatically copy some folders to `app/build/publish/`,
 
 Now, All the Installation has **DONE**!!!
 
-You can find **tprpix.exe** file in **.../app/build/publish/ folder**. 
+You can find **tprpix.exe** file in **.../appRootDir/build/publish/ folder**. 
 
 **Double Click** it and **Start your Game**!!!
 
