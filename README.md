@@ -58,14 +58,15 @@ You can find **tprpix** file in **.../app/build/publish/** folder.
 Similar to  **Mac OS X**.
 
 First,make sure you have installed:
-- **CMake**(3.1 or later)
-- **Clang**(new enough to support **C++17** )
+**CMake**(3.1 or later)
+
+**Clang**(new enough to support **C++17** )
 reset the default C/C++ compiler by:
 
     $ sudo update-alternatives --config c++
     $ sudo update-alternatives --config cc
 
-- install some graphic libs:
+install some graphic libs:
 
     $ sudo apt-get install libx11-dev
     $ sudo apt-get install libglfw3-dev
