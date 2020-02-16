@@ -5,7 +5,10 @@ Based on **C++17/OpenGL/SQLite3**.
 
 (**tprPix** is the name of the Project, **NOT** the Game.)
 
+- [中文版](README.ZH_CN.md)
+
 ![screenShot.01](Docs/pngs/screenShots/ss.01.png)
+
 
 
 ## Which branch should I Download
@@ -133,11 +136,11 @@ back to **Solution Explorer** panel, right click the file: `CMakeLists.txt`, cho
 wait until the infomation: `CMake generation finished.` showed in **Output** panel.
 
 
-After that, click `Build All` in Build Window.(or press `F7`) ->
+After that, click `Build All` in `Build` Window.(or press `F7`) ->
 
 ![Build All](Docs/pngs/win10/009.png)
 
-Then, the build work will begin. A few minutes later，you will find a infomation: `Build All succeeded.` in Output panel. This means that the work in **Visual Studio 2019** is DONE!
+Then, the build work will begin. A few minutes later，you will find a infomation: `Build All succeeded.` in **Output** panel. This means that the work in **Visual Studio 2019** is DONE!
 
 Go back to the app's root folder, find and double click `win.bat` file. 
 This script file will automatically copy some folders to `app/build/publish/`, 
