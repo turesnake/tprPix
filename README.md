@@ -12,7 +12,12 @@ Based on **C++17/OpenGL/SQLite3**.
 Branch:**master** is OK.
 
 ## Which platform is supported
-Currently **Win10** and **MacOSX**. I've only tested on Windows 10 and OSX (higher than 10.12 High Sierra). Maybe it can work in earlier versions.
+- **Win10**
+- **MacOSX**(10.12 or later) 
+- **Ubuntu**(16.04 or later) 
+
+Maybe it can work in earlier versions, but I did not test Yet.
+
 
 ## Compiler compatibility
 The recommended compiler is **Clang**, even if in **Win10**.
@@ -26,7 +31,10 @@ Make sure the compiler version support **C++17**.
 
 The installation in **Mac** is very easy.
 
-Make sure you have installed **CMake**.
+First,make sure you have installed:
+- **CMake**(3.1 or later)
+- **Clang**(new enough to support **C++17** )
+- **OpenGL** libs
 
 Then,open your terminal, and "cd" to the app's root folder:
 
@@ -34,15 +42,53 @@ Then,open your terminal, and "cd" to the app's root folder:
 
 after that, run a shell script:
 
-    $ ./osx.sh
+    $ ./unix_release.sh
 
-the shell script: `osx.sh`, will automatically install everything for you, which contains some folder replication work.
+the shell script: `unix_release.sh`, will automatically install everything for you, which contains some folder replication work.
+you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix** file in **.../app/build/publish/** folder. 
 
-**Double Click** it and **Start the Game**!!!
+**Double Click** it and **Start your Game**!!!
+
+
+### Ubuntu 
+Similar to  **Mac OS X**, 
+
+First,make sure you have installed:
+- **CMake**(3.1 or later)
+- **Clang**(new enough to support **C++17** )
+reset the default C/C++ compiler by:
+    $ sudo update-alternatives --config c++
+    $ sudo update-alternatives --config cc
+
+- install some graphic libs:
+    $ sudo apt-get install libx11-dev
+    $ sudo apt-get install libglfw3-dev
+    $ sudo apt-get install libsdl2-dev
+
+Then,open your terminal, and "cd" to the app's root folder:
+
+    $ cd .../xxx/tprPix/
+
+after that, run a shell script:
+
+    $ ./unix_release.sh
+
+the shell script: `unix_release.sh`, will automatically install everything for you, which contains some folder replication work.
+you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
+
+Now, All the Installation has **DONE**!!!
+
+You can find **tprpix** file in **.../app/build/publish/** folder. 
+
+run the app in terminal:
+
+    $ build/publish/tprpix
+
+and **Start your Game**!!!
 
 
 
@@ -90,7 +136,7 @@ Now, All the Installation has **DONE**!!!
 
 You can find **tprpix.exe** file in **.../app/build/publish/ folder**. 
 
-**Double Click** it and **Start the Game**!!!
+**Double Click** it and **Start your Game**!!!
 
 
 
@@ -105,7 +151,9 @@ Considering it's an action game, we recommend you to play with a **Joystick**(Xb
 - **Button:A** to confirm. 
 in game-world, you can push **Button:A** to Let the character speed up
 
-- **Button:B/X/Y** to print some debug-infomation on terminal.
+- **Button:B** to let the character slow down in game-world.
+
+- **Button:X/Y** to print some debug-infomation on terminal.
 
 ### Keyboard:
 - **key:W/A/S/D** to move.

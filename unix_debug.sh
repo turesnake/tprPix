@@ -19,9 +19,14 @@ DIR_dst_blueprintDatas=${DIR_out}/blueprintDatas/
 DIR_dst_gameObjDatas=${DIR_out}/gameObjDatas/
 
 
-echo "------------"
-echo ${DIR_out}
-echo "------------"
+
+echo -e "------------"
+echo -e "DIR_base: ${DIR_base} "
+echo -e "DIR_out: ${DIR_out} "
+echo -e "------------"
+
+
+
 
 if [ ! -d "${DIR_out}" ]; then
     mkdir -p ${DIR_out}
@@ -47,10 +52,14 @@ if [ ! -d "${DIR_dst_gameObjDatas}" ]; then
     mkdir -p ${DIR_dst_gameObjDatas}
 fi
 
-cp -R ${DIR_src_shaders}   ${DIR_dst_shaders} 
-cp -R ${DIR_src_jsons}     ${DIR_dst_jsons} 
-cp -R ${DIR_src_blueprintDatas}   ${DIR_dst_blueprintDatas} 
-cp -R ${DIR_src_gameObjDatas}   ${DIR_dst_gameObjDatas} 
+#-----------------------#
+# cp -R "dir1"/. "dir2" 
+# copy files in "dir1", not copy "dir1" self 
+#:
+cp -R ${DIR_src_shaders}.   ${DIR_dst_shaders} 
+cp -R ${DIR_src_jsons}.     ${DIR_dst_jsons} 
+cp -R ${DIR_src_blueprintDatas}.   ${DIR_dst_blueprintDatas} 
+cp -R ${DIR_src_gameObjDatas}.   ${DIR_dst_gameObjDatas} 
 
 #------------- build cpp/c# ----------------
 cd build

@@ -18,6 +18,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <memory>
 #include <unordered_map>
 
 //-------------------- Lib --------------------//
