@@ -52,6 +52,10 @@ if [ ! -d "${DIR_dst_gameObjDatas}" ]; then
     mkdir -p ${DIR_dst_gameObjDatas}
 fi
 
+
+# Access Permission
+chmod -R ug=rwx ${DIR_out}
+
 #-----------------------#
 # cp -R "dir1"/. "dir2" 
 # copy files in "dir1", not copy "dir1" self 

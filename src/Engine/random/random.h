@@ -13,16 +13,13 @@
 //------------------- CPP --------------------//
 #include <random>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //------------------- Engine --------------------//
 #include "tprCast.h"
 #include "tprAssert.h"
 
 
 std::default_random_engine &get_dRandEng();
-u32_t get_new_seed();
+uint32_t get_new_seed();
 
 
 

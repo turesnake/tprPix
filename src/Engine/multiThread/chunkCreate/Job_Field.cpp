@@ -9,6 +9,9 @@
 
 //-------------------- Engine --------------------//s
 #include "esrc_coordinate.h"
+#include "tprCast.h"
+
+#include "Job_Chunk.h"
 
 
 namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
@@ -95,6 +98,13 @@ void Job_Field::init_for_static()noexcept{
 
 
 
+void Job_Field::bind_functors( Job_Chunk &jChunkRef_ )noexcept{
+    this->getnc_mapEntUWeight = [&jChunkRef_]( IntVec2 mposOff_ ){
+        return jChunkRef_.getnc_mapEntInnRef( mposOff_ ).uWeight;
+    };
+}
+
+
 
 // 自动检测 4*4 容器，通过 分形思路，分配 groundGo 实例
 void Job_Field::apply_job_groundGoEnts()noexcept{
@@ -109,7 +119,7 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
     tprAssert( !this->fields.empty() );
     if( this->fields.size() == 1 ){
 
-        entPtr = this->mapEntPtrs.at(HALF_ENTS_PER_FIELD).at(HALF_ENTS_PER_FIELD);
+        entPtr = this->mapEntPtrs.at(cast_2_size_t(HALF_ENTS_PER_FIELD)).at(cast_2_size_t(HALF_ENTS_PER_FIELD));
 
         dposOff = glm::dvec2{0.0, 0.0};
         //ecoObjKey = *this->fields.begin();
@@ -150,10 +160,10 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
         }
 
         //--- 需要将 halfField 拆分为 4-mapent ---
-        for( size_t h=0; h<HALF_ENTS_PER_FIELD; h++ ){
-            for( size_t w=0; w<HALF_ENTS_PER_FIELD; w++ ){ // each mapent in halfField
+        for( int h=0; h<HALF_ENTS_PER_FIELD; h++ ){
+            for( int w=0; w<HALF_ENTS_PER_FIELD; w++ ){ // each mapent in halfField
 
-                innIdx = h * HALF_ENTS_PER_FIELD + w;
+                innIdx = cast_2_size_t( h * HALF_ENTS_PER_FIELD + w );
                 const auto &wh = halfWHs.at(innIdx);
                 entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 

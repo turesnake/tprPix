@@ -28,6 +28,8 @@
     {"oneEyeBoy/_oneEyeBoy.go.json": true },
     {"playerGoCircle/_playerGoCircle.go.json": true },
 
+    {"riverBank/_riverBank.go.json": true },
+
     {"hollowLog/_go.json": true },
 
     {"rocks/_rock.go.json": true },

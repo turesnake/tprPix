@@ -7,10 +7,8 @@
  */
 #include "Chunk.h"
 
-//-------------------- C --------------------//
-#include <cmath>
-
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <map>
 
 //-------------------- Engine --------------------//
@@ -65,10 +63,10 @@ void Chunk::init(){
     
     //----- mapents -------//
     size_t entIdx {};
-    for( size_t h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( size_t w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
 
-            entIdx = h * ENTS_PER_CHUNK + w;
+            entIdx = cast_2_size_t( h * ENTS_PER_CHUNK + w );
             auto &mapEnt = this->getnc_mapEntRef( entIdx );
             const auto &mapEntInn = job_chunkRef.getnc_mapEntInnRef( IntVec2{w,h} );
             mapEntInn.write_2_mapEnt( mapEnt );
@@ -97,7 +95,7 @@ void Chunk::init(){
  * --- 除此之外，这些 mapent 数据都是空的
  */
 void Chunk::init_memMapEnts(){
-    this->memMapEnts.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK ); // reserve FIRST
+    this->memMapEnts.reserve( cast_2_size_t( ENTS_PER_CHUNK * ENTS_PER_CHUNK ) ); // reserve FIRST
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             auto mapEntUPtr = std::make_unique<MemMapEnt>();

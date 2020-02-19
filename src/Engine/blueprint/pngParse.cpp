@@ -10,11 +10,10 @@
 
 //------------------- CPP --------------------//
 #include <vector>
-
+#include <cstdint> // uint8_t
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h" 
-#include "tprDataType.h" 
 
 //------------------- Engine --------------------//
 #include "load_and_divide_png.h"
@@ -30,13 +29,13 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 namespace pngParse_inn {//-------- namespace: pngParse_inn --------------//
 
     // frame 中，将pix坐标 合并为一个 key值，方便索引
-    using pixKey_t = u64_t;
+    using pixKey_t = uint64_t;
     pixKey_t pixPos_2_key( IntVec2 pos_ )noexcept;
     IntVec2 pixKey_2_pixPos( pixKey_t key_ )noexcept;
 
 
     // village: road RM 数据
-    using roadDirKey_t = u32_t; // bitmap, {...|B|T|R|L}
+    using roadDirKey_t = uint32_t; // bitmap, {...|B|T|R|L}
     std::unordered_map<roadDirKey_t, NineDirection> roadDirs {};
     bool  isInit_for_roadDirs {false};
     void init_for_roadDirs()noexcept;
@@ -396,15 +395,15 @@ void handle_frame(  MapData &mapDataRef_,
             // 则要求 D图对应像素，也必须为 有效像素
 
             // 半透明，或者 辅助色，会被过滤掉
-            if( !is_closeEnough<u8_t>(m_rgba.a, 255, 5) || is_uselessColor(m_rgba) ){
+            if( !is_closeEnough<uint8_t>(m_rgba.a, 255, 5) || is_uselessColor(m_rgba) ){
                 continue; // skip
             }
 
             // D图对应像素，也要为有效色
-            tprAssert(  !(!is_closeEnough<u8_t>(d_rgba.a, 255, 5) || is_uselessColor(d_rgba)) );
+            tprAssert(  !(!is_closeEnough<uint8_t>(d_rgba.a, 255, 5) || is_uselessColor(d_rgba)) );
 
 
-            std::unique_ptr<MapDataEnt> entUPtr = std::make_unique<MapDataEnt>();
+            auto entUPtr = std::make_unique<MapDataEnt>();
                 
             auto outM = rgba_2_VariableTypeIdx( m_rgba );
 
@@ -420,7 +419,8 @@ void handle_frame(  MapData &mapDataRef_,
 
             if( blueprintType_ == BlueprintType::Village ){
                 // village png 的像素尺寸 是 field 为单位
-                entUPtr->mposOff = IntVec2{ i*ENTS_PER_FIELD, j*ENTS_PER_FIELD };
+                entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD, 
+                                            static_cast<int>(j)*ENTS_PER_FIELD };
             }else{
                 // plot/yard png 的像素尺寸 是 mapent 为单位
                 entUPtr->mposOff = IntVec2{ i, j };
@@ -475,7 +475,7 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
             RGBA &m_rgba = RM_frame_.at(fPixIdx);
 
             // 半透明，或者 辅助色，会被过滤掉
-            if( !is_closeEnough<u8_t>(m_rgba.a, 255, 5) || is_uselessColor(m_rgba) ){
+            if( !is_closeEnough<uint8_t>(m_rgba.a, 255, 5) || is_uselessColor(m_rgba) ){
                 continue; // skip
             }
 
@@ -527,7 +527,7 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
         NineDirection roadDir = roadDirs.at( roadDirKey );
 
         //------- 正式为这个 pix 制作数据 ----------
-        std::unique_ptr<MapDataEnt> entUPtr = std::make_unique<MapDataEnt>();
+        auto entUPtr = std::make_unique<MapDataEnt>();
 
         RGBA &m_rgba = RM_frame_.at(fPixIdx);
 
@@ -535,7 +535,8 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
         tprAssert( outM.has_value() );
 
         entUPtr->varTypeIdx = outM.value();    
-        entUPtr->mposOff = IntVec2{ i*ENTS_PER_FIELD, j*ENTS_PER_FIELD }; // village png 的像素尺寸 是 field 为单位
+        entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD, 
+                                    static_cast<int>(j)*ENTS_PER_FIELD }; // village png 的像素尺寸 是 field 为单位
         entUPtr->direction = roadDir;
         entUPtr->brokenLvl_or_floorGoLayer = roadFloorGoLayer_;
         //---
@@ -627,7 +628,7 @@ void build_paths( const std::string &path_M_ ){
 
 // r/g/b 三色相同的颜色（纯灰）即被判定为 辅助色
 bool is_uselessColor( RGBA rgba_ )noexcept{
-    return (is_closeEnough<u8_t>(rgba_.r, rgba_.g, 5) && is_closeEnough<u8_t>(rgba_.r, rgba_.b, 5));
+    return (is_closeEnough<uint8_t>(rgba_.r, rgba_.g, 5) && is_closeEnough<uint8_t>(rgba_.r, rgba_.b, 5));
 }
 
 

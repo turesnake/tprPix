@@ -16,9 +16,6 @@
 //------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"

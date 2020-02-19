@@ -13,8 +13,9 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
+
 
 //-------------------- Engine --------------------//
 #include "random.h"
@@ -28,7 +29,7 @@ class GameSeed{
 public:
     GameSeed()=default;
 
-    void init( u32_t baseSeed_ );
+    void init( uint32_t baseSeed_ );
 
     inline std::default_random_engine &getnc_realRandEngine()noexcept{ return this->realRandEngine; }
     inline const glm::dvec2 &get_altiSeed_pposOffSeaLvl() const noexcept{ return this->altiSeed_pposOffSeaLvl; }
@@ -49,11 +50,11 @@ public:
 
 
     //======== static ========//
-    static u32_t apply_new_baseSeed()noexcept{ return get_new_seed(); }
+    static uint32_t apply_new_baseSeed()noexcept{ return get_new_seed(); }
 
 private:
     //======== vals ========//
-    u32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
+    uint32_t  baseSeed {}; //-- 最基础的那颗种子，其它种子由它生成。
 
     //- [-1000, 1000] 之间的 随机数
     glm::dvec2  altiSeed_pposOffSeaLvl {};

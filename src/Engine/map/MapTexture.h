@@ -17,9 +17,6 @@
 #include <vector>
 #include <functional>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 
 //------------------- Engine --------------------//
 #include "IntVec.h"

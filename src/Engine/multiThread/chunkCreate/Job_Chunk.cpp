@@ -80,17 +80,18 @@ namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
 void Job_Chunk::init()noexcept{
 
     this->mapEntInns.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
-    this->job_fields.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
-    this->fields.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK );
+    this->job_fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
+    this->fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
 
     IntVec2     tmpFieldMPos {};
     fieldKey_t  tmpFieldKey {};
-    for( size_t h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( size_t w=0; w<FIELDS_PER_CHUNK; w++ ){
-            tmpFieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+    for( size_t h=0; h<cast_2_size_t(FIELDS_PER_CHUNK); h++ ){
+        for( size_t w=0; w<cast_2_size_t(FIELDS_PER_CHUNK); w++ ){
+            tmpFieldMPos = this->chunkMPos + IntVec2{   static_cast<int>(w)*ENTS_PER_FIELD, 
+                                                        static_cast<int>(h)*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             //---
-            auto outPair1 = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>() });
+            auto outPair1 = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this ) });
             tprAssert( outPair1.second );
             //---
             auto outPair2 = this->fields.insert({ tmpFieldKey, std::make_unique<MapField>(tmpFieldMPos) });
@@ -193,6 +194,41 @@ void Job_Chunk::create_field_goSpecDatas(){
             auto &job_fieldRef = *(this->job_fields.at(fieldKey));
             fieldUWeight = fieldRef.get_uWeight();
             EcoObj &ecoObjRef = esrc::get_ecoObjRef( fieldRef.get_ecoObjKey() );
+
+        
+            //----------------------//
+            //    riverBank 
+            //----------------------//
+            // 测试用
+            
+            for( int j=0; j<ENTS_PER_FIELD; j++ ){
+                for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent in field
+
+                    entMPos = fieldMPos + IntVec2{ i, j };
+                    mapEntKey = mpos_2_key( entMPos );
+
+                    Job_MapEnt &mp = this->getnc_mapEntInnRef( entMPos - this->chunkMPos );
+
+                    // 简易测试版
+                    // 在一个范围内，就被判断为 水岸，先生产统一的 mp-go 单位
+                    //
+                    //if( mp.alti.val > -5.0 && mp.alti.val < 5.0 ){   
+                    if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
+
+                        auto goDataUPtr = std::make_unique<GoDataForCreate>();
+                        goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("riverBank");
+                        goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
+                        goDataUPtr->direction = NineDirection::Center;  // 暂时无用
+                        goDataUPtr->brokenLvl_or_floorGoLayer = FloorGoLayer::L_4; // 暂时无用
+                        goDataUPtr->isMultiGoMesh = false;
+
+                        job_fieldRef.insert_2_riverBankGoDatas( std::move(goDataUPtr) );
+
+                    }
+                }
+            }
+            job_fieldRef.copy_riverBankGoDataPtrs();
+            
                             
             //----------------------//
             //    artifact gos
@@ -201,7 +237,6 @@ void Job_Chunk::create_field_goSpecDatas(){
             // 只需简单地将指针 复制到 chunk 容器里
             for( int j=0; j<ENTS_PER_FIELD; j++ ){
                 for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent in field
-
                     entMPos = fieldMPos + IntVec2{ i, j };
                     mapEntKey = mpos_2_key( entMPos );
 

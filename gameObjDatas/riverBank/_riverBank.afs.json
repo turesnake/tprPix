@@ -1,0 +1,28 @@
+[
+{
+    "afsName": "riverBank",
+    "pngs": [
+        {
+            "path": "riverBank.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  1,
+            "totalFrameNum": 5,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 5,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+}
+
+]

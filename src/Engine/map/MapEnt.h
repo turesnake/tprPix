@@ -16,9 +16,6 @@
 #include <vector>
 #include <unordered_set> 
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "IntVec.h" 

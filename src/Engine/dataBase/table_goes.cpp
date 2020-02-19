@@ -26,7 +26,7 @@ void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
     w_sqlite3_reset( dbConnect, stmt_select_one_from_table_goes );
 
     //-- bind goid_ --
-    w_sqlite3_bind_int64( dbConnect, stmt_select_one_from_table_goes, 1, static_cast<i64_t>(goid_) );
+    w_sqlite3_bind_int64( dbConnect, stmt_select_one_from_table_goes, 1, static_cast<int64_t>(goid_) );
 
     if( sqlite3_step(stmt_select_one_from_table_goes) == SQLITE_ROW ){
         diskGo_.goid = goid_;
@@ -53,10 +53,10 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
     //  注意：下面这组操作，必须在一个 atom 函数内被调用 --          
     reset_stmt_for_bindFuncs_inn_( stmt_insert_or_replace_to_table_goes );
     sqlite3_bind_int64_inn_(  ":goid",  
-                            static_cast<i64_t>(diskGo_.goid) );
+                            static_cast<int64_t>(diskGo_.goid) );
 
     sqlite3_bind_int64_inn_(  ":goSpeciesId", 
-                            static_cast<i64_t>(diskGo_.goSpeciesId) );
+                            static_cast<int64_t>(diskGo_.goSpeciesId) );
 
     sqlite3_bind_double_inn_(  ":dposX", 
                             diskGo_.dpos.x );

@@ -68,10 +68,30 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     }
     
 
-    //----- land majorGo in blueprint -----//
-    //-- 暂时不关 蓝图 和 旧分配方案之间的冲突
-    //   在未来，旧方案可能会被彻底 替代
 
+
+    //----- riverBank ------//
+    // 临时简易方案
+    
+    for( const auto goDataPtr : job_fieldPtr->get_riverBankGoDataPtrs() ){
+        //--- dyParam ---//
+        DyParam dyParam {};
+        auto fUPtr = std::make_unique<DyParams_RiverBank>();
+        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
+
+        dyParam.insert_ptr<DyParams_RiverBank>( fUPtr.get() );
+        //---
+        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
+                                goDataPtr->dpos,
+                                dyParam ); 
+    }
+    
+    
+
+
+
+
+    //----- land majorGo in blueprint -----//
     for( const auto goDataPtr : job_fieldPtr->get_majorGoDataPtrs() ){
 
         // dir / brokenLvl 这2个数据 暂时未被使用
@@ -81,7 +101,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Blueprint>();
         fUPtr->goDataPtr = goDataPtr;
-        fUPtr->mapEntUWeight = 12345;   // tmp, 随便写一个值
+        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
 
         dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---
@@ -102,7 +122,8 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Blueprint>();
         fUPtr->goDataPtr = goDataPtr;
-        fUPtr->mapEntUWeight = 12345;   // tmp, 随便写一个值
+        //fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
+        fUPtr->mapEntUWeight = 12345;
 
         dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---

@@ -12,9 +12,6 @@
 
 #include <string>
 
-#include "tprDataType.h"
-
-
 namespace tprWin {//--------------- namespace: tprWin -------------------//
 
 

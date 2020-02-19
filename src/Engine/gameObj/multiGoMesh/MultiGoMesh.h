@@ -16,9 +16,6 @@
 #include <unordered_map>
 #include <memory>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "GameObjType.h"
@@ -43,7 +40,7 @@ public:
 };
 
 
-using jsonGoMeshSetId_t = u32_t;
+using jsonGoMeshSetId_t = uint32_t;
 
 class GoMeshSet{
 public:

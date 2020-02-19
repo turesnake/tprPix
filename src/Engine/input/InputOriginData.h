@@ -21,10 +21,6 @@
 #include <memory>
 #include <unordered_map>
 
-//-------------------- Lib --------------------//
-#include "tprDataType.h"
-
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 

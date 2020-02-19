@@ -12,9 +12,8 @@
 
 //------------------- CPP --------------------//
 #include <string>
+#include <cstdint> // uint8_t
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"

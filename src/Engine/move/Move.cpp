@@ -7,10 +7,8 @@
  */
 #include "Move.h"
 
-//-------------------- C --------------------//
-#include <cmath>
-
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <vector>
 #include <utility> //- pair
 #include <iomanip>

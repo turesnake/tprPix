@@ -10,11 +10,9 @@
  */
 #ifndef TPR_PJT_RGBA_HANDLE_2_H
 #define TPR_PJT_RGBA_HANDLE_2_H
-//------------------- C --------------------//
+//------------------- CPP --------------------//
 #include <cmath>
-
-//------------------- Libs --------------------//
-#include "tprDataType.h"
+#include <cstdint> // uint8_t
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -23,20 +21,19 @@
 #include "AnimActionPos.h"
 #include "ColliderType.h"
 
-
 #include "tprDebug.h"
 
 
 namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     //--- A --- 
-    u8_t    A_OPAQUE         { 255 }; // alpha
+    uint8_t    A_OPAQUE         { 255 }; // alpha
     //--- R --- 
-    u8_t    R_rootAnchor    { 255 };
-    u8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
+    uint8_t    R_rootAnchor    { 255 };
+    uint8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
 
     //--- G --- 
-    u8_t  G_moveColliRadius   { 150 };
-    u8_t  G_skillColliRadius  { 250 }; //- 胶囊体中，没有此点，此值将被同步为 moveColliRadius 
+    uint8_t  G_moveColliRadius   { 150 };
+    uint8_t  G_skillColliRadius  { 250 }; //- 胶囊体中，没有此点，此值将被同步为 moveColliRadius 
 
     //--- B --- 
     
@@ -114,7 +111,7 @@ public:
 
 private:
 
-    inline bool is_near_inner( RGBA_ChannelType ct_, u8_t target_ )noexcept{
+    inline bool is_near_inner( RGBA_ChannelType ct_, uint8_t target_ )noexcept{
         switch( ct_ ){
             case RGBA_ChannelType::R:  return (abs(static_cast<int>(this->rgba.r-target_)) <= this->off);
             case RGBA_ChannelType::G:  return (abs(static_cast<int>(this->rgba.g-target_)) <= this->off);
@@ -127,7 +124,7 @@ private:
     } 
 
     //-- 检测 参数 _beCheck，是否在 [_low,_low+_off) 区间内
-    inline bool is_in_range( u8_t beCheck_, u8_t low_, u8_t off_ )noexcept{
+    inline bool is_in_range( uint8_t beCheck_, uint8_t low_, uint8_t off_ )noexcept{
         return ((beCheck_>=low_) && (beCheck_<(low_+off_)));
     }
 

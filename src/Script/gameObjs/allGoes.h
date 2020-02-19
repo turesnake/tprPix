@@ -18,8 +18,9 @@
 
 #include "Script/gameObjs/majorGos/chicken/Chicken.h"
 
-
 #include "Script/gameObjs/majorGos/HollowLog.h"
+
+
 
 
 //---------- Script : gameObjs : artifacts -------------//
@@ -59,6 +60,8 @@
 //---------- Script : gameObjs : floorGos --------------------//
 
 #include "Script/gameObjs/floorGos/FloorGo.h"
+#include "Script/gameObjs/floorGos/RiverBank.h"
+
 
 #include "Script/gameObjs/oth/GroundGo.h"
 

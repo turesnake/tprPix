@@ -414,7 +414,7 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                 continue;
             }
 
-            std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+            auto goSpecUPtr = std::make_unique<GoSpec>();
 
             //--- isPlaceHolder ---//
             if( ent.HasMember("isPlaceHolder") ){
@@ -504,7 +504,7 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
                 continue;
             }
 
-            std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+            auto goSpecUPtr = std::make_unique<GoSpec>();
 
             //--- isPlaceHolder ---//
             if( ent.HasMember("isPlaceHolder") ){

@@ -20,9 +20,6 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "ShaderProgram.h" //-- each Mesh instance,will bind a shader
 

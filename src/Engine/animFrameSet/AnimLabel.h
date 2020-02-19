@@ -10,9 +10,7 @@
 
 //------------------- CPP --------------------//
 #include <string>
-
-//------------------- Libs --------------------//
-#include "tprDataType.h"
+#include <cstdint> // uint8_t
 
 
 //-- 亚种 标签 --
@@ -22,7 +20,7 @@
 // 缺点: 随着游戏内容的膨胀，会有越来越多的 元素加入进来。
 // 每一次都会影响本 enum h文件
 // 从而需要重编译
-enum class AnimLabel : u32_t{
+enum class AnimLabel : uint32_t{
     Default=0, //- 未设置 label 的，自动使用此标签来搜索
     Nil, // 空值
     //---

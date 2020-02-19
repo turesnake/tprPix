@@ -14,15 +14,10 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//------------------- C --------------------// 
-#include <cmath>
-
 //------------------- CPP --------------------// 
+#include <cmath>
 #include <functional>
 #include <vector>
-
-//------------------- Libs --------------------// 
-#include "tprDataType.h"
 
 //------------------- Engine --------------------// 
 #include "timeLog.h"
@@ -86,7 +81,7 @@ public:
     //  ...目前未被任何代码使用...
     inline double get_smoothDeltaTime() const noexcept{ return this->smoothDeltaTime; }
 
-    inline u64_t get_frameNum()const noexcept{ return this->frameNum; } //-- 获得 游戏 总帧数 --//
+    inline uint64_t get_frameNum()const noexcept{ return this->frameNum; } //-- 获得 游戏 总帧数 --//
 
     //-- 依靠 db记录的 gameTime 旧值，来重启 gameTime 记录器 --
     inline void start_record_gameTime( double gameTime_from_db_ )noexcept{
@@ -109,7 +104,7 @@ private:
     std::vector<F_void> updates {}; // oth mods
 
     //----- vals -----//
-    u64_t  frameNum {0}; //- 游戏运行后的 总帧数
+    uint64_t  frameNum {0}; //- 游戏运行后的 总帧数
 
     //-- deltaTime --
     double currentTime {0.0}; //-- 当前 时间值

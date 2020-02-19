@@ -15,8 +15,8 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -41,7 +41,7 @@ public:
         seed = get_new_seed();
         isInit = true;
     }
-    inline void init( u32_t seed_ )noexcept{ //- use param seed
+    inline void init( uint32_t seed_ )noexcept{ //- use param seed
         seed = seed_;
         isInit = true;
     }
@@ -65,7 +65,7 @@ public:
     }
 
     //-- 手动 更新 seed --
-    inline void set_seed( u32_t seed_ )noexcept{
+    inline void set_seed( uint32_t seed_ )noexcept{
         seed = seed_;
     }
 
@@ -95,7 +95,7 @@ private:
     }
 
     //======== vals ========//
-    u32_t seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
+    uint32_t seed {}; //- 一个 perlin 实例， 需要一个稳定不变的种子。
     std::default_random_engine   engine; //- 随机数引擎，默认初始状态
     std::uniform_real_distribution<float>  di { 0.0f, 1.0f }; //- 分布器
 

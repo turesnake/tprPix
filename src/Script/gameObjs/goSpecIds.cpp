@@ -70,10 +70,10 @@ void onGoSpeciesIds_SignUp(){
 
     GoSpecFromJson::insert_2_initFuncs( "glassBottle",      std::bind( &gameObjs::GlassBottle::init, _1, _2 ) );
 
-    GoSpecFromJson::insert_2_initFuncs( "pot",      std::bind( &gameObjs::Pot::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "pot",          std::bind( &gameObjs::Pot::init, _1, _2 ) );
 
-    GoSpecFromJson::insert_2_initFuncs( "trough",      std::bind( &gameObjs::Trough::init, _1, _2 ) );
-    GoSpecFromJson::insert_2_initFuncs( "troughChild",      std::bind( &gameObjs::TroughChild::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "trough",       std::bind( &gameObjs::Trough::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "troughChild",  std::bind( &gameObjs::TroughChild::init, _1, _2 ) );
 
     //-------------------//
     //        tree
@@ -89,11 +89,8 @@ void onGoSpeciesIds_SignUp(){
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "mushroom",        std::bind( &gameObjs::Mushroom::init, _1, _2 ) );
 
-    
     GoSpecFromJson::insert_2_initFuncs( "bush",           std::bind( &gameObjs::Bush::init, _1, _2 ) );
     
-
-
     GoSpecFromJson::insert_2_initFuncs( "grass",     std::bind( &gameObjs::Grass::init, _1, _2 ) );
 
     //-------------------//
@@ -106,6 +103,8 @@ void onGoSpeciesIds_SignUp(){
     //     FloorGo
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "floorGo",      std::bind( &gameObjs::FloorGo::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "riverBank",    std::bind( &gameObjs::RiverBank::init, _1, _2 ) );
+
 
     //-------------------//
     //        oth

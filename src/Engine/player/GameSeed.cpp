@@ -31,7 +31,7 @@ size_t  GameSeed::fixedShuffleSeed { 131 }; // 素数，全局固定
  * -----------------------------------------------------------
  * 在完成版中，gameSeed 依赖游戏存档
  */
-void GameSeed::init(  u32_t baseSeed_ ){
+void GameSeed::init(  uint32_t baseSeed_ ){
     //-- 只可被初始化一次... --
     //   不一定... 在未来会被 取消...
     tprAssert( this->is_all_seed_init == false );

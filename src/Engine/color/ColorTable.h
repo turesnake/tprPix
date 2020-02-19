@@ -17,11 +17,14 @@
 #include <unordered_map>
 #include <memory>
 
+#include <cstdint>
+
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "FloatVec.h"
 #include "ID_Manager.h" 
 #include "colorTableId.h"
+
 
 //-- colorTable.data 中实际存储的 entName --
 inline std::unordered_map<std::string, size_t> colorTableEntNames{

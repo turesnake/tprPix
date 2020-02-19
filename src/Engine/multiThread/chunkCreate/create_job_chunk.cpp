@@ -10,11 +10,9 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- C --------------------//
+//-------------------- CPP --------------------//
 #include <cstring>
 #include <cmath>
-
-//-------------------- CPP --------------------//
 #include <map>
 
 //-------------------- Engine --------------------//
@@ -158,7 +156,7 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     //      fieldKeys
     //------------------------//
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，only used inner
-    fieldKeys.reserve( FIELDS_PER_CHUNK * FIELDS_PER_CHUNK ); // reserve FIRST !!!
+    fieldKeys.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) ); // reserve FIRST !!!
 
     IntVec2    tmpFieldMPos {};
     fieldKey_t tmpFieldKey {};

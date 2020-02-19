@@ -26,9 +26,6 @@
 #include <vector> 
 #include <string>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 
@@ -64,13 +61,13 @@ public:
         return i32val;
     }
 
-    //============== u64_t ==============//
-    inline void push_u64( u64_t u_ )noexcept{
+    //============== uint64_t ==============//
+    inline void push_u64( uint64_t u_ )noexcept{
         u64val = u_;
         is_u64val_push = true;
     }
 
-    inline u64_t pop_u64()noexcept{
+    inline uint64_t pop_u64()noexcept{
         tprAssert( is_u64val_push == true );
         is_u64val_push = false;
         return u64val;
@@ -112,8 +109,8 @@ private:
     //------ val container ---
     bool   boolval  {};
     int    i32val   {};
-    u64_t  u64val   {};
-    std::vector<u8_t> binary {};
+    uint64_t  u64val   {};
+    std::vector<uint8_t> binary {};
     std::string       str    {};
 
     //======== flags ========//

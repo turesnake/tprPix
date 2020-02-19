@@ -7,10 +7,8 @@
  */
 #include "speedLog.h"
 
-//------------------- C --------------------//
-#include <cmath>
-
 //------------------- CPP --------------------//
+#include <cmath>
 #include <string>
 #include <iostream>
 #include <sstream>

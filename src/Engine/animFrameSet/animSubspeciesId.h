@@ -8,10 +8,11 @@
 #ifndef TPR_ANIM_SUB_SPEC_ID_H
 #define TPR_ANIM_SUB_SPEC_ID_H
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
 
-using animSubspeciesId_t = u32_t;
+
+using animSubspeciesId_t = uint32_t;
 
 // 一个空的 id 值， 表示生成此值的代码，本来就不打算生成一个 实际的id
 // 用于 蓝图分配

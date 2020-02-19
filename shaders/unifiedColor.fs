@@ -65,10 +65,11 @@ void main()
         discard;
     }
 
-    vec3 outColor3 = change_color( texColor.rgb );
+    // 已经不需要这份计算了
+    //vec3 outColor3 = change_color( texColor.rgb );
 
-    //FragColor = texColor;
-    FragColor = vec4( outColor3.rgb, texColor.a );
+    FragColor = texColor;
+    //FragColor = vec4( outColor3.rgb, texColor.a );
 }
 
 

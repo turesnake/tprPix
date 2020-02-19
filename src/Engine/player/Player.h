@@ -11,9 +11,6 @@
 #ifndef TPR_PLAYER_H
 #define TPR_PLAYER_H
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
 #include "GameObj.h" 

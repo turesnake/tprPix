@@ -237,7 +237,7 @@ void inputINS_handle( const InputINS &inputINS_){
             //-----------------------//
             //   玩家选中的 存档为 空 
             //-----------------------//
-            u32_t target_baseSeed = GameSeed::apply_new_baseSeed();
+            uint32_t target_baseSeed = GameSeed::apply_new_baseSeed();
             esrc::get_gameSeed().init( target_baseSeed );
 
             //-- gameTime --

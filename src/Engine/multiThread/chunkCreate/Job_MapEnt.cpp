@@ -94,6 +94,10 @@ double Job_MapEnt::calc_pixAlti( IntVec2 pixPPos_ )noexcept{
                 // 暂时不改写 seaLvl 值，这样，无论走多远，世界的 水陆分布还是原来的比例
                 // 如果开启这个设置，玩家向四周探索时，世界中的水域会变多，直到没有陆地
 
+            //-------------
+            // 强制性的，人为缩小水域面积。
+            seaLvl += -40.0; // [0.0, 100.0]
+
                 
             if( seaLvl < 0.0 ){ //- land
                 seaLvl *= 0.3;  // [-15.0, 50.0]

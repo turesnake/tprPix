@@ -10,9 +10,6 @@
 #ifndef TPR_GAME_KEY_H
 #define TPR_GAME_KEY_H
 
-//-------------------- Libs --------------------//
-#include "tprDataType.h"
-
 
 // 游戏程序内部，对 input按键的 类型识别
 // 数据存储在 InputINS 实例中 

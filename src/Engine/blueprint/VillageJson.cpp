@@ -141,7 +141,7 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
             tprAssert( varType.IsObject() );
 
             VariableTypeIdx varTypeIdx {};          
-            std::unique_ptr<VarTypeDatas_Village> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Village>();
+            auto varTypeDatasUPtr = std::make_unique<VarTypeDatas_Village>();
 
             {//--- type ---//
                 const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );

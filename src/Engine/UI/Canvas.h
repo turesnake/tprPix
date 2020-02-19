@@ -22,9 +22,6 @@
 #include <string>
 #include <unordered_map>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "IntVec.h"

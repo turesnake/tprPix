@@ -7,10 +7,8 @@
  */
 #include "Script/gameObjs/oth/FieldRim.h"
 
-//-------------------- C --------------------//
-#include <cmath>
-
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <functional>
 #include <string>
 

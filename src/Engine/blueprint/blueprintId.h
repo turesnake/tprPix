@@ -8,16 +8,16 @@
 #ifndef TPR_BLUE_PRINT_ID_H
 #define TPR_BLUE_PRINT_ID_H
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
 
-using plotBlueprintId_t = u32_t;
-using yardBlueprintId_t = u32_t;
-using villageBlueprintId_t = u32_t;
+using plotBlueprintId_t = uint32_t;
+using yardBlueprintId_t = uint32_t;
+using villageBlueprintId_t = uint32_t;
 
 
 }//--------------------- namespace: blueprint end ------------------------//

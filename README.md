@@ -28,7 +28,7 @@ The recommended compiler is **Clang**, even if in **Win10**.
 Make sure the compiler version support **C++17**.
 
 
-## How to Installation
+## How to Install
 
 ### Mac OS X
 

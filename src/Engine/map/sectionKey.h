@@ -13,9 +13,6 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -23,7 +20,7 @@
 #include "MapCoord.h"
 
  
-using sectionKey_t = u64_t;
+using sectionKey_t = uint64_t;
 
 sectionKey_t sectionMPos_2_key_inn( IntVec2 sectionMPos_ )noexcept;  //- 不推荐外部代码使用
 IntVec2 sectionKey_2_mpos( sectionKey_t key_ )noexcept;

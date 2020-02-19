@@ -1,0 +1,30 @@
+[
+    {
+        "goSpeciesName": "riverBank",
+        "family": "Floor",
+        "state": "Waked",
+        "moveState": "AbsFixed",
+        "isMoveCollide": false,
+        "isDoPass": false,
+        "isBePass": true,
+
+        "alti": 0,
+        "lAltiRanges": [
+            { "label": "", "val": [0.0, 0.0] }
+        ],
+        "defaultGoAltiRangeLabel": "",
+
+        "weight": 1,
+        "pub.HP": "nil",
+        "pub.MP": "nil",
+
+
+        "afs_lPaths": [ 
+            "_riverBank.afs.json"
+
+        ],
+        "multiGoMesh_lPaths": []
+
+
+    }
+]

@@ -29,9 +29,6 @@
 #include <string>
 #include <memory>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprMath.h"

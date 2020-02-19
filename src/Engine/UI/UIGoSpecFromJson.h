@@ -18,9 +18,6 @@
 #include <memory>
 #include <functional> // hash
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "GameObjType.h" 
@@ -56,7 +53,7 @@ public:
     inline static UIGoSpecFromJson &create_new_UIGoSpecFromJson( const std::string &name_ ){
 
         std::hash<std::string> hasher;
-        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
         auto outPair = UIGoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<UIGoSpecFromJson>() });
         tprAssert( outPair.second );

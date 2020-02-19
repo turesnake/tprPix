@@ -7,10 +7,8 @@
  */
 #include "Script/gameObjs/majorGos/chicken/Chicken.h"
 
-//-------------------- C --------------------//
-#include <cmath>
-
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <functional>
 #include <string>
 

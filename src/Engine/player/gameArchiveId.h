@@ -8,10 +8,10 @@
 #ifndef TPR_GAME_ARCHIVE_ID_H
 #define TPR_GAME_ARCHIVE_ID_H
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
 
-using gameArchiveId_t = u32_t;
+using gameArchiveId_t = uint32_t;
 
 #endif 
 

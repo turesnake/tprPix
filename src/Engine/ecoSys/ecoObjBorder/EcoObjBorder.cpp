@@ -19,6 +19,7 @@
 #include "global.h"
 #include "load_and_divide_png.h"
 #include "RGBA.h"
+#include "tprCast.h"
 
 
 //======= static =======//
@@ -63,11 +64,11 @@ void EcoObjBorder::init(){
 
         EcoObjBorder &eobRef = EcoObjBorder::create_new_ecoObjBorder();
 
-        for( size_t j=0; j<ENTS_PER_SECTION; j++ ){
-            for( size_t i=0; i<ENTS_PER_SECTION; i++ ){ // eac pix
+        for( int j=0; j<ENTS_PER_SECTION; j++ ){
+            for( int i=0; i<ENTS_PER_SECTION; i++ ){ // eac pix
 
-                size_t pixInIdx  = j * (ENTS_PER_SECTION+1) + i; // 输入：png帧中，pixIdx
-                size_t pixOutIdx = j * ENTS_PER_SECTION + i;     // 输出：成品数据帧中，pixIdx
+                size_t pixInIdx  = cast_2_size_t( j * (ENTS_PER_SECTION+1) + i ); // 输入：png帧中，pixIdx
+                size_t pixOutIdx = cast_2_size_t( j * ENTS_PER_SECTION + i );     // 输出：成品数据帧中，pixIdx
 
                 const RGBA &pix = frameData.at( pixInIdx );
                 if(      pix.is_near(leftBottomColor, 5) ){  pixDir = NineDirection::LeftBottom; }

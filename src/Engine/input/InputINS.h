@@ -15,8 +15,9 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
+
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -73,7 +74,7 @@ public:
 
 private:
     //======== vals ========//
-    u32_t      keys     {0};    //- 15个功能按键， bit-map, 实际可存储 32 个
+    uint32_t   keys     {0};    //- 15个功能按键， bit-map, 实际可存储 32 个
     DirAxes    dirAxes   {};    //- 方向键数据 [-1.0, 1.0]
 };
 

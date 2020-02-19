@@ -14,18 +14,22 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <functional>
 
 //-------------------- Engine --------------------//
 #include "Job_MapEnt.h"
 #include "animSubspeciesId.h"
 #include "mapEntKey.h"
+#include "tprCast.h"
 
 #include "GoDataForCreate.h"
+
+class Job_Chunk;
 
 
 class Job_Field{
 public:
-    Job_Field()
+    Job_Field( Job_Chunk &jChunkRef_ )
         {
             //===== static =====//
             if( !Job_Field::isStaticInit ){
@@ -33,12 +37,14 @@ public:
                 Job_Field::init_for_static();
             }
             //-- 二维数组 --
-            this->mapEntPtrs.resize( ENTS_PER_FIELD ); // h
+            this->mapEntPtrs.resize( cast_2_size_t(ENTS_PER_FIELD) ); // h
             for( auto &c : this->mapEntPtrs ){
-                c.resize( ENTS_PER_FIELD ); // w
+                c.resize( cast_2_size_t(ENTS_PER_FIELD) ); // w
             }
             //---
-            this->halfFields.resize( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD );
+            this->halfFields.resize( cast_2_size_t( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD ) );
+            //---
+            this->bind_functors( jChunkRef_ );
         }
 
     
@@ -81,12 +87,24 @@ public:
     inline void insert_2_floorGoDataPtrs( const GoDataForCreate *ptr_ )noexcept{
         this->floorGoDataPtrs.push_back( ptr_ );
     }
+
+    inline void insert_2_riverBankGoDatas( std::unique_ptr<GoDataForCreate> uptr_ )noexcept{
+        this->riverBankGoDatas.push_back( std::move(uptr_) );
+    }
+
+
+
     inline const std::vector<const GoDataForCreate*> &get_majorGoDataPtrs()const noexcept{ 
         return this->majorGoDataPtrs; 
     }
     inline const std::vector<const GoDataForCreate*> &get_floorGoDataPtrs()const noexcept{ 
         return this->floorGoDataPtrs; 
     }
+    inline const std::vector<const GoDataForCreate*> &get_riverBankGoDataPtrs()const noexcept{ 
+        return this->riverBankGoDataPtrs;
+    }
+
+
     inline std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &get_nature_majorGoDatas()noexcept{ 
         return this->nature_majorGoDatas;
     }
@@ -105,9 +123,18 @@ public:
             this->floorGoDataPtrs.push_back( iUPtr.get() );
         }
     }
+    inline void copy_riverBankGoDataPtrs()noexcept{
+        for( const auto &uptr : this->riverBankGoDatas ){
+            this->riverBankGoDataPtrs.push_back( uptr.get() );
+        }
+    }
+
+    // param: mapent 相对 chunkMPos 的 off
+    std::function<size_t(IntVec2)> getnc_mapEntUWeight {nullptr};
 
 
 private:
+    void bind_functors( Job_Chunk &jChunkRef_ )noexcept;
 
     inline static size_t get_halfFieldIdx( IntVec2 mposOff_ )noexcept{
         IntVec2 halfFieldPos = mposOff_.floorDiv(static_cast<double>(HALF_ENTS_PER_FIELD));
@@ -123,11 +150,19 @@ private:
     std::vector<const GoDataForCreate*> majorGoDataPtrs {};
     std::vector<const GoDataForCreate*> floorGoDataPtrs {};
 
+    std::vector<const GoDataForCreate*> riverBankGoDataPtrs {}; // tmp
+
 
     // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
     // 但是为了对外统一接口，还是会把 ptr 存储在一个容器中，以便具象类集中访问
     std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> nature_majorGoDatas {};
     std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> nature_floorGoDatas {};
+
+
+    // 临时方案，单独存储 riverBank mp-go
+    std::vector<std::unique_ptr<GoDataForCreate>> riverBankGoDatas {};
+
+
 
 
     //=== datas just used for inner calc ===

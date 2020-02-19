@@ -8,10 +8,11 @@
 #ifndef TPR_COLOR_TABLE_ID_H
 #define TPR_COLOR_TABLE_ID_H
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//------------------- CPP --------------------//
+#include <cstdint> // uint8_t
 
-using colorTableId_t = u32_t;
+
+using colorTableId_t = uint32_t;
 
 
 extern const colorTableId_t MaxColorTableId;

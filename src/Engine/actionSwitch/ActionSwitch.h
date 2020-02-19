@@ -18,9 +18,6 @@
 #include <functional>
 #include <memory>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "ActionSwitchType.h"
 #include "BoolBitMap.h"

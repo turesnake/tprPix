@@ -9,20 +9,15 @@
  */
 #ifndef TPR_RGBA_H
 #define TPR_RGBA_H
-//------------------- C --------------------//
-#include <cmath>
-
 //------------------- CPP --------------------//
+#include <cmath>
 #include <string>
-
-//------------------- Libs --------------------//
-#include "tprDataType.h"
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 
 
-enum class RGBA_ChannelType : u8_t {
+enum class RGBA_ChannelType : uint8_t {
     R = 1,
     G,
     B,
@@ -35,14 +30,14 @@ class RGBA{
 public: 
     //---- constructor -----//
     RGBA() = default;
-    RGBA( u8_t r_, u8_t g_, u8_t b_, u8_t a_ ):
+    RGBA( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ ):
         r(r_),
         g(g_),
         b(b_),
         a(a_)
         {}
     
-    inline bool is_near( const RGBA &a_, u8_t off_ ) const noexcept {
+    inline bool is_near( const RGBA &a_, uint8_t off_ ) const noexcept {
         int rr = static_cast<int>(this->r) - static_cast<int>(a_.r);
         int gg = static_cast<int>(this->g) - static_cast<int>(a_.g);
         int bb = static_cast<int>(this->b) - static_cast<int>(a_.b);
@@ -55,7 +50,7 @@ public:
         );
     }
 
-    inline void set( u8_t r_, u8_t g_, u8_t b_, u8_t a_  ) noexcept {
+    inline void set( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_  ) noexcept {
         this->r = r_;
         this->g = g_; 
         this->b = b_;
@@ -71,19 +66,19 @@ public:
         tprAssert(  (rr>=0) && (rr<256) &&
                     (gg>=0) && (gg<256) &&
                     (bb>=0) && (bb<256) );
-        return RGBA {   static_cast<u8_t>(rr), 
-                        static_cast<u8_t>(gg), 
-                        static_cast<u8_t>(bb), 
-                        static_cast<u8_t>(aa) };
+        return RGBA {   static_cast<uint8_t>(rr), 
+                        static_cast<uint8_t>(gg), 
+                        static_cast<uint8_t>(bb), 
+                        static_cast<uint8_t>(aa) };
     }
 
     std::string to_string()const noexcept; // for debug
 
     //======== vals ========//
-    u8_t r {0};
-    u8_t g {0};
-    u8_t b {0};
-    u8_t a {255};
+    uint8_t r {0};
+    uint8_t g {0};
+    uint8_t b {0};
+    uint8_t a {255};
 };
 
 /* ===========================================================
@@ -108,10 +103,10 @@ inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ) noexcept {
     int bb = static_cast<int>(a_.b) + static_cast<int>(b_.b);
     int aa = static_cast<int>(a_.a) + static_cast<int>(b_.a);
         tprAssert( (rr<256) && (gg<256) && (bb<256) && (aa<256) );
-    return RGBA {   static_cast<u8_t>(rr), 
-                    static_cast<u8_t>(gg),
-                    static_cast<u8_t>(bb),
-                    static_cast<u8_t>(aa) };
+    return RGBA {   static_cast<uint8_t>(rr), 
+                    static_cast<uint8_t>(gg),
+                    static_cast<uint8_t>(bb),
+                    static_cast<uint8_t>(aa) };
 }
 
 
@@ -182,7 +177,7 @@ inline HSV rgb_2_hsv( RGBA in_){
 namespace rgba {//-------- namespace: rgba --------------//
 
 //-- 只要两个 RGBA 值 足够接近，就算命中 [-常用-] --
-inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, u8_t off_ ) noexcept {
+inline bool is_rgba_near( const RGBA &a_, const RGBA &b_, uint8_t off_ ) noexcept {
 
     int rr = static_cast<int>(a_.r) - static_cast<int>(b_.r);
     int gg = static_cast<int>(a_.g) - static_cast<int>(b_.g);
@@ -214,9 +209,9 @@ inline RGBA linear_blend( const RGBA &a_, const RGBA &b_, double aPercent_ ) noe
     double b = static_cast<double>(a_.b)*aPercent_ + static_cast<double>(b_.b)*bPercent;
     //-- 默认不处理 RGBA.a --
 
-    return RGBA {   static_cast<u8_t>(r), 
-                    static_cast<u8_t>(g),
-                    static_cast<u8_t>(b),
+    return RGBA {   static_cast<uint8_t>(r), 
+                    static_cast<uint8_t>(g),
+                    static_cast<uint8_t>(b),
                     255 };
 }
 
@@ -234,9 +229,9 @@ inline RGBA multiply( const RGBA &a_, const RGBA &b_, double bPercent_ ) noexcep
     double b = static_cast<double>(a_.b) * static_cast<double>(b_.b) / 255.0;
 
     return rgba::linear_blend(  a_,
-                                RGBA {  static_cast<u8_t>(r), 
-                                        static_cast<u8_t>(g),
-                                        static_cast<u8_t>(b),
+                                RGBA {  static_cast<uint8_t>(r), 
+                                        static_cast<uint8_t>(g),
+                                        static_cast<uint8_t>(b),
                                         255 },
                                 (1.0-bPercent_) );
 }

@@ -10,12 +10,9 @@
 #ifndef TPR_U8_VEC_H
 #define TPR_U8_VEC_H
 
-//-------------------- C --------------------//
+//-------------------- CPP --------------------//
 #include <cmath>
 
-
-//------------------- Libs --------------------//
-#include "tprDataType.h"
 
 
 //-- 少数场合会用到的 vec2 ----
@@ -24,7 +21,7 @@
 class U8Vec2{
 public:
     U8Vec2() = default;
-    U8Vec2( u8_t x_, u8_t y_ ):
+    U8Vec2( uint8_t x_, uint8_t y_ ):
         x(x_),
         y(y_)
         {}
@@ -34,14 +31,14 @@ public:
         this->y = 0;
     }
 
-    inline void set( u8_t x_, u8_t y_ ) noexcept {
+    inline void set( uint8_t x_, uint8_t y_ ) noexcept {
         this->x = x_;
         this->y = y_;
     }
 
     //======== vals ========//
-    u8_t  x {0};
-    u8_t  y {0};
+    uint8_t  x {0};
+    uint8_t  y {0};
 };
 
 

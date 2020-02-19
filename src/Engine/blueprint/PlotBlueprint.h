@@ -91,7 +91,7 @@ public:
 };
 
 
-using varTypeDatas_PlotId_t = u32_t;
+using varTypeDatas_PlotId_t = uint32_t;
 
 
 // 蓝图中，每种变量，对应的一组数据

@@ -81,8 +81,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
     //    village
     //=================//
     VillageBlueprint &villageRef = VillageBlueprint::get_villageBlueprintRef( villageId_ );
-    std::unique_ptr<blueP_inn::VarType_Village_Manager> varType_village_managerUPtr 
-                = std::make_unique<blueP_inn::VarType_Village_Manager>( villageRef );
+    auto varType_village_managerUPtr = std::make_unique<blueP_inn::VarType_Village_Manager>( villageRef );
 
     const MapData &villageMapData = villageRef.apply_a_random_mapData( ecoObjUWeight_ );
     for( const auto &yEntUPtr : villageMapData.data ){ // each mapDataEnt uptr / yard
@@ -107,8 +106,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
 
         YardBlueprint &yardRef = YardBlueprintSet::get_yardBlueprintRef( yardId );
         
-        std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_yard_managerUPtr 
-                    = std::make_unique<blueP_inn::VarType_Yard_Manager>( yardRef );
+        auto varType_yard_managerUPtr = std::make_unique<blueP_inn::VarType_Yard_Manager>( yardRef );
 
         //--- 登记 yard 占据的所有 fieldKey ---
         calc_yard_fieldKeys( artifactFieldKeys, yardMPos, yardRef.get_yardSize() );
@@ -156,8 +154,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     }
                     PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
-                    std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
-                                = std::make_unique<blueP_inn::VarType_Plot_Manager>( plotRef );
+                    auto varType_Plot_ManagerUPtr = std::make_unique<blueP_inn::VarType_Plot_Manager>( plotRef );
 
                     const MapData &plotMapData = plotRef.apply_a_random_mapData( suWeight );
                     for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
@@ -241,8 +238,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
 
     auto [yardMajorDataId, yardMajorMapDataPtr] = natureMajoryardRef.apply_a_random_majorGo_mapData( yard_uWeight_ );
 
-    std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_majorYard_managerUPtr 
-                    = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureMajoryardRef );
+    auto varType_majorYard_managerUPtr = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureMajoryardRef );
 
     for( const auto &pEntUPtr : yardMajorMapDataPtr->data ){ // each mapDataEnt uptr / plot
 
@@ -278,8 +274,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
             }
             PlotBlueprint &plotRef = PlotBlueprint::get_plotBlueprintRef( plotId );
 
-            std::unique_ptr<blueP_inn::VarType_Plot_Manager> varType_Plot_ManagerUPtr 
-                            = std::make_unique<blueP_inn::VarType_Plot_Manager>( plotRef );
+            auto varType_Plot_ManagerUPtr = std::make_unique<blueP_inn::VarType_Plot_Manager>( plotRef );
 
             const MapData &plotMapData = plotRef.apply_a_random_mapData( suWeight );
             for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
@@ -329,11 +324,9 @@ void build_natureYard_floorGoDatasForCreate(
     //- 从 ecoobj 中获取的 floorYard 数据    
     YardBlueprint &natureFloorYardRef = YardBlueprintSet::get_yardBlueprintRef( natureFloorYardId_ );
 
-    //const MapData &yardMapData_floorGos = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
     auto [yardFloorDataId, yardFloorMapDataPtr] = natureFloorYardRef.apply_a_random_floorGo_mapData( yard_uWeight_ );
 
-    std::unique_ptr<blueP_inn::VarType_Yard_Manager> varType_floorYard_managerUPtr 
-                                = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureFloorYardRef );
+    auto varType_floorYard_managerUPtr = std::make_unique<blueP_inn::VarType_Yard_Manager>( natureFloorYardRef );
 
 
     for( const auto &pEntUPtr : yardFloorMapDataPtr->data ){ // each mapDataEnt uptr 
@@ -418,7 +411,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
 
     if( !goSpecRef_.isMultiGoMesh ){
         //=== single goMesh ===
-        std::unique_ptr<GoDataEntForCreate> entUPtr = std::make_unique<GoDataEntForCreate>();
+        auto entUPtr = std::make_unique<GoDataEntForCreate>();
 
         //---
         entUPtr->goMeshName = "root"; // default
@@ -453,7 +446,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
         for( const auto &jgomesh : goMeshSetRef.gomeshs ){ // each json goMesh
             randUWeightOff += 17;
 
-            std::unique_ptr<GoDataEntForCreate> entUPtr = std::make_unique<GoDataEntForCreate>();
+            auto entUPtr = std::make_unique<GoDataEntForCreate>();
 
             //---
             entUPtr->goMeshName = jgomesh.goMeshName; // copy

@@ -56,6 +56,8 @@ public:
         return this->mapEntInns.at(idx);
     }
 
+    
+
     bool is_borderMapEnt( IntVec2 mposOff_ )noexcept;
     
     inline void insert_a_entInnPtr_2_field( fieldKey_t fieldKey_, 

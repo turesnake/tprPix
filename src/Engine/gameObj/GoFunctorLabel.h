@@ -10,13 +10,11 @@
 
 //------------------- CPP --------------------//
 #include <string>
-
-//------------------- Libs --------------------//
-#include "tprDataType.h"
+#include <cstdint> // uint8_t
 
 
 // GoFunctorSet :key
-enum class GoFunctorLabel : u32_t {
+enum class GoFunctorLabel : uint32_t {
     Nil=0, // 空值
 
     Tmp, 

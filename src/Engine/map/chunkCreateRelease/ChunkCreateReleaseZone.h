@@ -8,10 +8,8 @@
 #ifndef TPR_CHUNK_CREATE_ZONE_H
 #define TPR_CHUNK_CREATE_ZONE_H
 
-//-------------------- C --------------------//
-#include <cmath>
-
 //-------------------- CPP --------------------//
+#include <cmath>
 #include <vector>
 #include <unordered_set>
 #include <unordered_map>

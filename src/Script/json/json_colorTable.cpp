@@ -16,7 +16,6 @@
 #include "rapidjson/stringbuffer.h"
 
 #include "tprGeneral.h"
-#include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

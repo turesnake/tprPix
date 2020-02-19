@@ -13,16 +13,16 @@
 namespace PubBinaryValType_inn {//-------- namespace: PubBinaryValType_inn --------------//
 
     //- 记载了每一种元素的 字节数（类型）--
-    std::map<u32_t, u32_t> PubBinaryValSizes {
-        { static_cast<u32_t>(PubBinaryValType::HP), static_cast<u32_t>(sizeof(int)) },
-        { static_cast<u32_t>(PubBinaryValType::MP), static_cast<u32_t>(sizeof(int)) }
+    std::map<uint32_t, uint32_t> PubBinaryValSizes {
+        { static_cast<uint32_t>(PubBinaryValType::HP), static_cast<uint32_t>(sizeof(int)) },
+        { static_cast<uint32_t>(PubBinaryValType::MP), static_cast<uint32_t>(sizeof(int)) }
     //...
     };
 
 }//------------- namespace: PubBinaryValType_inn end --------------//
 
 
-std::map<u32_t, u32_t> &get_PubBinaryValSizes(){
+std::map<uint32_t, uint32_t> &get_PubBinaryValSizes(){
     return PubBinaryValType_inn::PubBinaryValSizes;
 }
 

@@ -53,8 +53,8 @@ void init_debug(){
 
     //-- init slicePic
     slicePic.clear();
-    for( size_t h=0; h<PIXES_PER_MAPENT; h++ ){
-        for( size_t w=0; w<PIXES_PER_MAPENT; w++ ){
+    for( int h=0; h<PIXES_PER_MAPENT; h++ ){
+        for( int w=0; w<PIXES_PER_MAPENT; w++ ){
             if( (h==0) || (h==PIXES_PER_MAPENT-1) || (w==0) || (w==PIXES_PER_MAPENT-1) ){
                 slicePic.push_back( CO );
             }else{

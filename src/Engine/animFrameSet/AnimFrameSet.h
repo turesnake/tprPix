@@ -40,9 +40,6 @@
 #include <unordered_set>
 #include <memory>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "IntVec.h" 
@@ -55,7 +52,7 @@
 #include "tprDebug.h"
 
 
-using afsId_t = u32_t; //- animFrameSet id type
+using afsId_t = uint32_t; //- animFrameSet id type
 
 class AnimFrameSet{
 public:

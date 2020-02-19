@@ -28,11 +28,11 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
     //-- steps --
     while( sqlite3_step(stmt_select_all_from_table_gameArchive) == SQLITE_ROW ){
         archive.id = static_cast<gameArchiveId_t>( sqlite3_column_int(stmt_select_all_from_table_gameArchive, 0) );
-        archive.baseSeed = static_cast<u32_t>( sqlite3_column_int(stmt_select_all_from_table_gameArchive, 1) );
-        archive.playerGoId = static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 2) );
+        archive.baseSeed = static_cast<uint32_t>( sqlite3_column_int(stmt_select_all_from_table_gameArchive, 1) );
+        archive.playerGoId = static_cast<uint64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 2) );
         archive.playerGoDPos.x =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 3);
         archive.playerGoDPos.y =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 4);
-        archive.maxGoId        =  static_cast<u64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
+        archive.maxGoId        =  static_cast<uint64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
         archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 6);
         //---
         auto outpair = container_.insert({ archive.id, archive }); //- copy
@@ -64,7 +64,7 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &archive_ ){
                             static_cast<int>(archive_.baseSeed) );
 
     sqlite3_bind_int64_inn_( ":playerGoId", 
-                            static_cast<i64_t>(archive_.playerGoId) );
+                            static_cast<int64_t>(archive_.playerGoId) );
 
     sqlite3_bind_double_inn_( ":playerGoDPosX", 
                             archive_.playerGoDPos.x );
@@ -73,7 +73,7 @@ void atom_insert_or_replace_to_table_gameArchive( const GameArchive &archive_ ){
                             archive_.playerGoDPos.y );
 
     sqlite3_bind_int64_inn_( ":maxGoId", 
-                            static_cast<i64_t>(archive_.maxGoId) );
+                            static_cast<int64_t>(archive_.maxGoId) );
     
     sqlite3_bind_double_inn_( ":gameTime", 
                             archive_.gameTime );

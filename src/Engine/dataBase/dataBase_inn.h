@@ -14,6 +14,7 @@
 #include <vector>
 #include <unordered_map>
 #include <mutex>
+#include <cstdint> // uint8_t
 
 
 //-------------------- Engine --------------------//
@@ -62,7 +63,7 @@ inline void sqlite3_bind_int_inn_( const std::string &paramStr_, const int &val_
                         w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, paramStr_.c_str() ),  
                         val_ );
 }
-inline void sqlite3_bind_int64_inn_( const std::string &paramStr_, const i64_t &val_ ){
+inline void sqlite3_bind_int64_inn_( const std::string &paramStr_, const int64_t &val_ ){
     w_sqlite3_bind_int64( dbConnect, stmt_for_bindFuncs, 
                         w_sqlite3_bind_parameter_index( stmt_for_bindFuncs, paramStr_.c_str() ),  
                         val_ );

@@ -37,7 +37,7 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 
 
 
-using varTypeDatas_Yard_MajorGoId_t = u32_t;
+using varTypeDatas_Yard_MajorGoId_t = uint32_t;
 
 class VarTypeDatas_Yard_MajorGo{
 public:
@@ -87,7 +87,7 @@ private:
 
 
 
-using varTypeDatas_Yard_FloorGoId_t = u32_t;
+using varTypeDatas_Yard_FloorGoId_t = uint32_t;
 
 class VarTypeDatas_Yard_FloorGo{
 public:
@@ -135,7 +135,7 @@ private:
 // 院子级蓝图。中间级别的蓝图，有数 fields 大
 class YardBlueprint{
 public:
-    using mapDataId_t = u32_t;
+    using mapDataId_t = uint32_t;
     //---
     YardBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 

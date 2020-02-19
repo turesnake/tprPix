@@ -30,14 +30,14 @@ void AnimActionPos::init_from_semiData( const AnimActionSemiData &semiData_ ){
         auto colliderType = semiData_.get_colliderType();
         if( colliderType == ColliderType::Nil ){
 
-            std::unique_ptr<ColliDataFromJ_Nil> nilUPtr = std::make_unique<ColliDataFromJ_Nil>();
+            auto nilUPtr = std::make_unique<ColliDataFromJ_Nil>();
             auto *nilPtr = nilUPtr.get();
             nilPtr->colliderType = ColliderType::Nil;
             this->colliDataFromJUPtr.reset( nilUPtr.release() );//- move uptr
 
         }else if( colliderType == ColliderType::Circular ){
 
-            std::unique_ptr<ColliDataFromJ_Circular> cirUPtr = std::make_unique<ColliDataFromJ_Circular>();
+            auto cirUPtr = std::make_unique<ColliDataFromJ_Circular>();
             auto *cirPtr = cirUPtr.get();
             cirPtr->colliderType = ColliderType::Circular;
             cirPtr->moveColliRadius  = glm::length( semiData_.get_moveColliRadiusAnchor() - this->rootAnchorDPosOff );
@@ -50,7 +50,7 @@ void AnimActionPos::init_from_semiData( const AnimActionSemiData &semiData_ ){
 
         }else if( colliderType == ColliderType::Square ){
             
-            std::unique_ptr<ColliDataFromJ_Square> squUPtr = std::make_unique<ColliDataFromJ_Square>();
+            auto squUPtr = std::make_unique<ColliDataFromJ_Square>();
             auto *squPtr = squUPtr.get();
             squPtr->colliderType = ColliderType::Square;
             this->colliDataFromJUPtr.reset( squUPtr.release() );//- move uptr

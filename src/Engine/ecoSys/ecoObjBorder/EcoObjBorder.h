@@ -29,7 +29,7 @@ class EcoObjBorder{
 public:
     EcoObjBorder()
         {
-            this->frame.resize( ENTS_PER_SECTION*ENTS_PER_SECTION, NineDirection::Center );
+            this->frame.resize( cast_2_size_t( ENTS_PER_SECTION*ENTS_PER_SECTION ), NineDirection::Center );
         }
 
     

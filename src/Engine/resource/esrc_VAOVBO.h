@@ -14,9 +14,6 @@
 // Don't include glfw3.h ALONE!!!
 #include <glad/glad.h>  
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- CPP --------------------//
 #include <vector>
 #include <utility>

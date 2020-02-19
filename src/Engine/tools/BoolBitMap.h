@@ -14,9 +14,6 @@
 #include <cmath>
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprCast.h"
@@ -51,15 +48,15 @@ public:
         size_t idx = h_ * this->wLen + w_;
         //---
         tprAssert( (idx/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
-        u8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE );
-        bitRef = bitRef | static_cast<u8_t>(1 << (idx%BoolBitMap::BITS_PER_BYTE));
+        uint8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE );
+        bitRef = bitRef | static_cast<uint8_t>(1 << (idx%BoolBitMap::BITS_PER_BYTE));
     }
     inline void signUp( size_t idx_ )noexcept{
         tprAssert( idx_ < this->totalNum );
         //---
         tprAssert( (idx_/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
-        u8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE );
-        bitRef = bitRef | static_cast<u8_t>(1 << (idx_%BoolBitMap::BITS_PER_BYTE));
+        uint8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE );
+        bitRef = bitRef | static_cast<uint8_t>(1 << (idx_%BoolBitMap::BITS_PER_BYTE));
     }
 
     inline bool check( size_t w_, size_t h_ )noexcept{
@@ -67,19 +64,19 @@ public:
         size_t idx = h_ * this->wLen + w_;
         //---
         tprAssert( (idx/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
-        const u8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE ); 
+        const uint8_t &bitRef = bitMap.at( idx/BoolBitMap::BITS_PER_BYTE ); 
         return  ( ((bitRef>>(idx%BoolBitMap::BITS_PER_BYTE)) & 1)==1 );
     }
     inline bool check( size_t idx_ )noexcept{
         tprAssert( idx_ < this->totalNum );
         //---
         tprAssert( (idx_/BoolBitMap::BITS_PER_BYTE) < bitMap.size() );
-        const u8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE ); 
+        const uint8_t &bitRef = bitMap.at( idx_/BoolBitMap::BITS_PER_BYTE ); 
         return  ( ((bitRef>>(idx_%BoolBitMap::BITS_PER_BYTE)) & 1)==1 );
     }
 
 private:
-    std::vector<u8_t> bitMap {}; 
+    std::vector<uint8_t> bitMap {}; 
 
     size_t  wLen {};
     size_t  hLen {};

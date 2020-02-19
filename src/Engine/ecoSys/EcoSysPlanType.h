@@ -15,19 +15,17 @@
 
 //------------------- CPP --------------------//
 #include <string>
-
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+#include <cstdint> // uint8_t
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 
 
-using ecoSysPlanId_t = u32_t;
+using ecoSysPlanId_t = uint32_t;
 
 
 //- 每一个type，都存在数个变种
-enum class EcoSysPlanType : u32_t{
+enum class EcoSysPlanType : uint32_t{
 
     BegIdx = 0, //- 通过此值来计算 第一个 typeIdx 是多少。
     

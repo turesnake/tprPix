@@ -86,10 +86,35 @@ float seaLvl;  //- 海平面。 值越小，land区越大。通过平滑曲线�
 
 
 //--- sec visual style ----
+/*
 vec3 color_sea_2 = vec3( 0.745, 0.753, 0.706 );
 vec3 color_sea_3 = vec3( 0.608, 0.627, 0.596 );
 vec3 color_sea_4 = vec3( 0.521, 0.541, 0.525 );
 vec3 color_sea_5 = vec3( 0.423, 0.443, 0.435 );
+*/
+
+/*
+vec3 color_sea_2 = vec3( 197.0/255.0,  176.0/255.0, 126.0/255.0 );
+vec3 color_sea_3 = vec3( 180.0/255.0,  155.0/255.0, 112.0/255.0 );
+vec3 color_sea_4 = color_sea_3;
+vec3 color_sea_5 = color_sea_3;
+*/
+
+
+//vec3 color_sea_2 = vec3( 92.0/255.0,  91.0/255.0, 84.0/255.0 ); // 深色
+//vec3 color_sea_3 = vec3( 253.0/255.0,  247.0/255.0, 209.0/255.0 ); // 最浅色
+
+vec3 color_sea_2 = vec3( 253.0/255.0,  247.0/255.0, 209.0/255.0 ); // 最浅色
+
+//vec3 color_sea_2 = vec3( 214.0/255.0,  190.0/255.0, 134.0/255.0 ); // 中黄色
+vec3 color_sea_3 = vec3( 214.0/255.0,  190.0/255.0, 134.0/255.0 ); // 中黄色
+vec3 color_sea_4 = color_sea_3;
+vec3 color_sea_5 = color_sea_3;
+
+
+
+
+
 
         //  在未来，将被 UnifiedColorTable 取代 ....
 
@@ -113,13 +138,14 @@ vec2 calc_outFPos( vec2 innFPos_ );
  */
 void main()
 {
-    //discard;
+    discard;
     prepare();
     
     //------------------//
     //     time
     //------------------//
     float tm = tprTime.currentTime * 0.08;
+    //float tm = 123456.34 * 0.08; // 固定值
         //- 理想的 time 值是一个 在 [0.0, n.0] 之间来回运动的值。 
         //  目前仅仅是一个不断变大的值
 
@@ -129,10 +155,14 @@ void main()
     // 如果去掉这组代码，canvas将永远是 最细腻的
     vec2 pixCFPos = camera.canvasCFPos + lbAlign;
     
+
+    //- chunk 内 晶格 数量
+    // 1-pix 一个 cell 
+    float cellDensity = PIXES_PER_CHUNK;
     
-    pixCFPos *= PIXES_PER_CHUNK; //- 晶格边长
+    pixCFPos *= cellDensity; //- 晶格边长
     pixCFPos = floor(pixCFPos);
-    pixCFPos =  pixCFPos / PIXES_PER_CHUNK;
+    pixCFPos =  pixCFPos / cellDensity;
 
         //--------- 坐标系转换 ---------//
         // 变成 轴测图 坐标系
@@ -152,6 +182,9 @@ void main()
         // 暂时不改写 seaLvl 值，这样，无论走多远，世界的 水陆分布还是原来的比例
         // 如果开启这个设置，玩家向四周探索时，世界中的水域会变多，直到没有陆地
 
+    //-------------
+    // 强制性的，人为缩小水域面积。
+    seaLvl += -40.0; // [0.0, 100.0]
 
     if( seaLvl < 0.0 ){ //- land
         seaLvl *= 0.3;  // [-15.0, 100.0]
@@ -173,6 +206,7 @@ void main()
 
     //-- -未叠加动态值 之前的 land区域，被挖空 ---
     altiVal = floor(pnValBig + pnValMid + pnValSml);
+
     if( altiVal > 0.0 ){
         discard;
     }
@@ -195,8 +229,26 @@ void main()
     //      lvl
     //------------------//
     float altiLvl;
-    if( altiVal < 0.0 ){ //- under water
 
+    if( altiVal < -0.0 ){ //- under water
+
+        // 尝试降低水面高度，
+        
+        if( altiVal > -30.0 ){
+            altiLvl = -3.0; // 暂时用 相同的 颜色
+        }else{
+            altiLvl = -3.0;
+        }
+
+
+    }else{ //- land
+        //altiLvl = 1.0;
+        discard;
+    }
+
+
+    /*
+    if( altiVal < 0.0 ){ //- under water
         //------ -2 -------
         if( altiVal > -30.0 ){
             altiLvl = -2.0;
@@ -220,6 +272,7 @@ void main()
     }else{ //- land
         altiLvl = 1.0;
     }
+    */
 
     //------------------//
     //       color
@@ -243,7 +296,8 @@ void main()
     
     //discard;
 
-    FragColor = vec4( color, alpha );
+    FragColor = vec4( color, 1.0 );
+    //FragColor = vec4( color, alpha );
     //FragColor = vec4( 0.5, 0.3, 0.2, 0.2 );
     //FragColor = vec4( 0.1, 0.1, 0.1, 0.0 );
     //FragColor = vec4( color, alpha ); //- rgba.alpha MUST be 1.0 !!!

@@ -139,7 +139,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
             tprAssert( varType.IsObject() );
 
             VariableTypeIdx varTypeIdx {};
-            std::unique_ptr<VarTypeDatas_Plot> varTypeDatasUPtr = std::make_unique<VarTypeDatas_Plot>();
+            auto varTypeDatasUPtr = std::make_unique<VarTypeDatas_Plot>();
 
             {//--- type ---//
                 const auto &a = json::check_and_get_value( varType, "type", json::JsonValType::String );
@@ -168,7 +168,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                         continue;
                     }
 
-                    std::unique_ptr<GoSpec> goSpecUPtr = std::make_unique<GoSpec>();
+                    auto goSpecUPtr = std::make_unique<GoSpec>();
 
                     //--- isPlaceHolder ---//
                     if( ent.HasMember("isPlaceHolder") ){

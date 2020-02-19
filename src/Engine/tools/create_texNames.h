@@ -14,9 +14,6 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h"
-
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
 #include "RGBA.h"

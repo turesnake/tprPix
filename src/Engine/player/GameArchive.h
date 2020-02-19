@@ -22,7 +22,7 @@ class GameArchive{
 public:
 
     gameArchiveId_t  id       {}; //- u32 存档id.目前版本中，只能是 1,2,3 
-    u32_t            baseSeed {};
+    uint32_t         baseSeed {};
 
     //- player.go -
     goid_t         playerGoId     {}; //- u64   

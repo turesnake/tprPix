@@ -76,7 +76,7 @@ private:
 };
 
 
-using animActionPosId_t = u32_t; //- animActionPos id type
+using animActionPosId_t = uint32_t; //- animActionPos id type
 
 
 

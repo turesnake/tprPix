@@ -7,10 +7,8 @@
  */
 #include "timeLog.h"
 
-//------------------- C --------------------//
-#include <cmath>
-
 //------------------- CPP --------------------//
+#include <cmath>
 #include <utility>
 #include <unordered_map>
 #include <iostream>

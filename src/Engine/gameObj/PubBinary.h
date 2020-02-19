@@ -12,17 +12,14 @@
 #include <vector>
 #include <unordered_map>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "PubBinaryValType.h"
 
 //-- 维护一个 二进制块，可以动态存储 各种 pubBinary变量（一种一个）
 class PubBinary{
-    using idx_t     = u32_t; //- pubBinaryValTyprIdx
-    using byteoff_t = u32_t; //- byte_off in binary
+    using idx_t     = uint32_t; //- pubBinaryValTyprIdx
+    using byteoff_t = uint32_t; //- byte_off in binary
 public:
     PubBinary() = default;
 
@@ -48,14 +45,14 @@ public:
     //  使用前 应主动调用 check() 
     inline void *get_valPtr( PubBinaryValType type_ ) const {
         const byteoff_t &off = valOffs.at((idx_t)type_);
-        return reinterpret_cast<void*>(  const_cast<u8_t*>(&(binary.at(off))) ); 
+        return reinterpret_cast<void*>(  const_cast<uint8_t*>(&(binary.at(off))) ); 
                         //- first remove const，then reinterpret_cast
     }
 
 private:
     std::unordered_map<idx_t, byteoff_t>  valOffs {};
                     //- 记载 某个变量 是否被注册，以及它在 binary中的 地址偏移
-    std::vector<u8_t>  binary {}; //- 所有变量 真实存储区
+    std::vector<uint8_t>  binary {}; //- 所有变量 真实存储区
 };
 
 

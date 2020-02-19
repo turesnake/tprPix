@@ -19,9 +19,6 @@
 #include <memory>
 #include <functional> // hash
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "GameObjType.h" 
@@ -50,7 +47,7 @@ public:
 
     inline void insert_2_ExtraPassableDogoSpeciesIds( const std::string &name_ )noexcept{
         std::hash<std::string> hasher;
-        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
         this->extraPassableDogoSpeciesIds.insert( id );
     }
 
@@ -109,7 +106,7 @@ public:
     inline static GoSpecFromJson &create_new_goSpecFromJson( const std::string &name_ )noexcept{
 
         std::hash<std::string> hasher;
-        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> u64_t
+        goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
         auto outPair = GoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<GoSpecFromJson>() });
         tprAssert( outPair.second );

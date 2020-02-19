@@ -16,9 +16,6 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -26,7 +23,7 @@
 #include "MapCoord.h"
 
 
-using mapEntKey_t = u64_t;
+using mapEntKey_t = uint64_t;
 
 
 inline mapEntKey_t mpos_2_key( IntVec2 mpos_ )noexcept{

@@ -17,9 +17,6 @@
 //-------------------- CPP --------------------//
 #include <functional> 
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "MapTexture.h" 
 #include "esrc_behaviour.h" 

@@ -21,9 +21,6 @@
 #include <memory>
 #include <variant>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "functorTypes.h"
 #include "GameObjType.h" 

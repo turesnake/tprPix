@@ -57,7 +57,7 @@ enum class FloorGoLayer{
     L_1, // goMeshZOff: (0.1, 0.2) 地板
     L_2, // goMeshZOff: (0.2, 0.3) 地毯
     L_3, // goMeshZOff: (0.3, 0.4)
-    L_4, // goMeshZOff: (0.4, 0.5) (TOP).
+    L_4, // goMeshZOff: (0.4, 0.5) (TOP). riverBank
 };
 
 

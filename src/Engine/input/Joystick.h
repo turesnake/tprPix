@@ -19,9 +19,6 @@
 #include <string>
 #include <vector>
 
-//-------------------- Lib --------------------//
-#include "tprDataType.h"
-
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

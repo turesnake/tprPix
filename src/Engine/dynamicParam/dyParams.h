@@ -11,9 +11,8 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <set>
+#include <cstdint> // uint8_t
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
 
 //-------------------- Engine --------------------//
 #include "DyParam.h"
@@ -35,6 +34,12 @@ struct DyParams_Blueprint{
 struct DyParams_GroundGo{
     size_t      fieldUWeight  {};
     const Job_Field  *job_fieldPtr {};
+};
+
+
+struct DyParams_RiverBank{    
+    size_t                  mapEntUWeight {}; // 其实是 mapEntKey 
+    //...
 };
 
 

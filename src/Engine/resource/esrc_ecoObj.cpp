@@ -108,7 +108,7 @@ void del_ecoObjs_tooFarAway()noexcept{
  */
 std::unique_ptr<EcoObj_ReadOnly> get_ecoObj_readOnly( sectionKey_t sectionkey_ )noexcept{
 
-    std::unique_ptr<EcoObj_ReadOnly> readOnlyUPtr = std::make_unique<EcoObj_ReadOnly>();
+    auto readOnlyUPtr = std::make_unique<EcoObj_ReadOnly>();
 
             tprAssert( ecoObj_inn::is_find_in_ecoObjs_(sectionkey_) );//- must exist
     const auto &ecoObjRef = *(ecoObj_inn::ecoObjs.at(sectionkey_));

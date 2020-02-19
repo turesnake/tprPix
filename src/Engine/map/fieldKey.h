@@ -13,9 +13,6 @@
 //-------------------- CPP --------------------//
 #include <vector>
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "config.h"
@@ -23,7 +20,7 @@
 #include "MapCoord.h"
 
 
-using fieldKey_t = u64_t;
+using fieldKey_t = uint64_t;
 
 fieldKey_t fieldMPos_2_key_inn( IntVec2 fieldMPos_ )noexcept; //- 不推荐外部代码使用
 IntVec2 fieldKey_2_mpos( fieldKey_t key_ )noexcept;

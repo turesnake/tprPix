@@ -13,18 +13,17 @@
 #ifndef _TPR_PROPERTY_H_
 #define _TPR_PROPERTY_H_
 
-//------------------- Libs --------------------//
-#include "tprDataType.h" 
+//----------------- CPP ------------------//
+#include <cstdint> // uint8_t
 
 
 //- 各种属性的 抗性等级 -- 
-enum class ResisLvl : u8{
+enum class ResisLvl : uint8_t{
     Weak,    //- 伤害加倍  (弱)
     Norm,    //- 正常伤害 （default）
     Half,    //- 伤害减半
     Immu,    //- 1/4伤害 （近乎免疫）
 }; 
-
 
 
 
@@ -54,7 +53,7 @@ public:
     ResisOfElement  resisOfElement {}; //- 各属性抗性等级
 
 
-    u32             resisOfStates  {}; //- bitmap,异常状态免疫表
+    uint32_t             resisOfStates  {}; //- bitmap,异常状态免疫表
                 // 是否对某个异常状态 免疫（ 1:免疫。 0:不免疫 ）
                 // 这部分可以专门制作一个 class
                 // ----------------
