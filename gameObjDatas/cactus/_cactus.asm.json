@@ -1,0 +1,31 @@
+[
+    {
+        "goSpeciesName": "cactus",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goAltiRangeLabel": "Sml",
+                "goMeshs":[
+                    { "afsName": "cactus", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goAltiRangeLabel": "Mid",
+                "goMeshs":[
+                    { "afsName": "cactus", "animLabel": "Mid"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Sml",
+                    "type_2": "Mid"
+                }
+            }
+        ]
+    }
+]
+

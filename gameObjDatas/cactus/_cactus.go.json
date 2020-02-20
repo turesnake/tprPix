@@ -13,7 +13,6 @@
         { "label": "Mid", "val": [0.0, 240.0] },
         { "label": "Sml", "val": [0.0, 150.0] }
     ],
-    "defaultGoAltiRangeLabel": "Mid",
 
     "weight": 50,
     "pub.HP": 170,
@@ -23,7 +22,9 @@
     "afs_lPaths": [ 
         "_cactus.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_cactus.asm.json"
+    ]
 
   }
 

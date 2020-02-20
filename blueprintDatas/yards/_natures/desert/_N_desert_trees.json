@@ -26,8 +26,8 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Mid", "num": 3 },
-                        { "goSpeciesName": "cactus", "afsName": "cactus", "animLabel": "Sml", "num": 1 }
+                        { "goSpeciesName": "cactus", "goLabel": "Mid", "num": 3 },
+                        { "goSpeciesName": "cactus", "goLabel": "Sml", "num": 1 }
                     ]
                 },
         
@@ -37,12 +37,12 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 0 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 0 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 0 },
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Sml", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Mid", "num": 3 }
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_White_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_White_Mid", "num": 3 }
         
                     ]
                 },
@@ -53,9 +53,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Big", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Mid", "num": 7 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Desert_Grass1_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Desert_Grass1_Big", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Desert_Grass1_Mid", "num": 7 },
+                        { "goSpeciesName": "grass", "goLabel":"Desert_Grass1_Sml", "num": 1 }
         
                     ]
                 }

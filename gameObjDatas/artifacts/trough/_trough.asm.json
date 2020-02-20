@@ -1,0 +1,39 @@
+[
+
+    {
+        "goSpeciesName": "trough",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "goMeshName":"root", "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "back", "animLabel": "Dark", "animAction": "Idle"  },
+                    { "goMeshName":"front", "dpos": [0,  0], "zOff": 0.2, "afsName.hold": "front", "animLabel": "Dark", "animAction": "Idle"  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    { "goMeshName":"root", "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "back", "animLabel": "Dark", "animAction": "Idle"  },
+                    { "goMeshName":"water", "dpos": [0,  0], "zOff": 0.1, "afsName.hold": "water_1", "animLabel": "", "animAction": "Idle"  },
+                    { "goMeshName":"front", "dpos": [0,  0], "zOff": 0.2, "afsName.hold": "front", "animLabel": "Dark", "animAction": "Idle"  }
+                ]
+            }
+        ],
+
+        "plans":[
+            {
+                "afsName.holds":{
+                    "back": "trough_back",
+                    "front": "trough_front",
+                    "water_1": "trough_water_yellow"
+                },
+                "types":{
+                    "type_1": "DarkBody_emptyWater",
+                    "type_2": "DarkBody_YellowWater"
+                }
+            }
+        ]
+    }
+]
+

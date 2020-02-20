@@ -8,9 +8,6 @@
 //-------------------- WIN --------------------//
 #include <windows.h>
 
-//-------------------- C --------------------//
-//#include <cassert>
-
 //-------------------- CPP --------------------//
 #include <iostream>
 #include <sstream>
@@ -57,7 +54,7 @@ const std::string mk_dir(const std::string &path_dir_,
  * -----------------------------------------------------------
  * 返回 实际读取的 bytes
  */
-i32_t file_load( const std::string &path_,
+int32_t file_load( const std::string &path_,
 				 std::string &buf_){
 
 	//--- create ---//
@@ -108,7 +105,7 @@ i32_t file_load( const std::string &path_,
 		MessageBox( nullptr, ss.str().c_str(), "Error", MB_OK );
 		exit(-99);
 	}
-	return static_cast<i32_t>(readedBytes);
+	return static_cast<int32_t>(readedBytes);
 }
 
 

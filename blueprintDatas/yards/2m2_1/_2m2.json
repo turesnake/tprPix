@@ -27,7 +27,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": true,
                     "goSpecPool":[
-                        { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+                        { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
                     ]
                 },
         
@@ -57,7 +57,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": true,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 1 }
                         
                     ]
                 },
@@ -68,11 +68,11 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 0 },
-                        { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 0 },
-                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 0 },
+                        { "goSpeciesName": "breakStone", "goLabel": "Light", "num": 0 },
+                        { "goSpeciesName": "bush", "goLabel": "Blackberry", "num": 0 },
+                        { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 0 },
         
-                        { "goSpeciesName": "bush", "MultiGoMeshType":"Origin", "num": 1 }
+                        { "goSpeciesName": "bush", "goLabel":"Origin", "num": 1 }
         
                     ]
                 },
@@ -84,7 +84,7 @@
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
         
-                        { "goSpeciesName": "chicken", "afsName": "chicken.hen", "animLabel": "", "num": 1 }
+                        { "goSpeciesName": "chicken", "goLabel": "Hen", "num": 1 }
 
                         
         

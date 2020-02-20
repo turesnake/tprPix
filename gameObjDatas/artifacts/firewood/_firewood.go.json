@@ -13,7 +13,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 40.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
 
     "weight": 5,
     "pub.HP": 50,
@@ -22,7 +21,9 @@
     "afs_lPaths": [ 
         "_firewood.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_firewood.asm.json"
+    ]
 
   }
 ]

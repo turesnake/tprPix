@@ -107,7 +107,7 @@ enum class GoAltiRangeLabel{
 
 };
 
-GoAltiRangeLabel str_2_GoAltiRangeLabel( const std::string &str_ )noexcept;
+GoAltiRangeLabel str_2_goAltiRangeLabel( const std::string &str_ )noexcept;
 
 
 

@@ -13,8 +13,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 44.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
-
 
     "weight": 5,
     "pub.HP": 50,
@@ -26,8 +24,8 @@
 
         "waters/_water1.afs.json"
     ],
-    "multiGoMesh_lPaths": [
-        "_multiGoMesh.json"
+    "goAsm_lPaths": [
+        "_trough.asm.json"
     ]
 
   }

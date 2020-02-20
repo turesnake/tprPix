@@ -12,7 +12,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 40.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
 
     "weight": 5,
     "pub.HP": 100,
@@ -38,22 +37,22 @@
 
 
     ],
-    "multiGoMesh_lPaths": [
+    "goAsm_lPaths": [
 
-        "darkForest/_grass.multiGoMesh.json",
+        "darkForest/_grass.asm.json",
 
-        "desert/_grass.multiGoMesh.json",
-        "savannah/_grass.multiGoMesh.json",
+        "desert/_grass.asm.json",
+        "savannah/_grass.asm.json",
 
 
-        "/_regulars/flower_black/_multiGoMesh.json",
-        "/_regulars/flower_highWhite/_multiGoMesh.json",
-        "/_regulars/flower_white/_multiGoMesh.json",
+        "/_regulars/flower_black/_asm.json",
+        "/_regulars/flower_highWhite/_asm.json",
+        "/_regulars/flower_white/_asm.json",
 
-        "/_regulars/shamrock_white/_multiGoMesh.json",
-        "/_regulars/shamrock_green/_multiGoMesh.json",
+        "/_regulars/shamrock_white/_asm.json",
+        "/_regulars/shamrock_green/_asm.json",
 
-        "/_regulars/triFlower_grey/_multiGoMesh.json"
+        "/_regulars/triFlower_grey/_asm.json"
 
     ]
 

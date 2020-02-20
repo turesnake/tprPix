@@ -26,7 +26,7 @@
 #include "PubBinary2.h"
 #include "GoAltiRange.h"
 
-#include "MultiGoMesh.h"
+#include "GoAssembleData.h"
 
 #include "AnimActionEName.h"
 
@@ -84,7 +84,7 @@ public:
 
     double       alti   {};
     //GoAltiRange  lAltiRange {};
-    GoAltiRangeLabel defaultGoAltiRangeLabel {GoAltiRangeLabel::Default};
+    //GoAltiRangeLabel defaultGoAltiRangeLabel {GoAltiRangeLabel::Default};
 
     double       weight {};
     //...
@@ -92,7 +92,7 @@ public:
     PubBinary2   pubBinary {};
 
     //----- afs / gomeshs -----//
-    std::unique_ptr<MultiGoMesh> multiGoMeshUPtr {nullptr}; // 数据存储地
+    std::unique_ptr<GoAssembleData> goAssembleDataUPtr {nullptr}; // 数据存储地
 
     //----- datas -----//
     std::unique_ptr<MoveStateTable> moveStateTableUPtr {nullptr};

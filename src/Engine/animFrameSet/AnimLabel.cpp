@@ -28,7 +28,7 @@ template <>
 }
 
 
-AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept{
+AnimLabel str_2_animLabel( const std::string &str_ )noexcept{
 
     if( str_ == "" ){  
         return AnimLabel::Default;

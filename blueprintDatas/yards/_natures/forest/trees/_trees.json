@@ -26,7 +26,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                        { "goSpeciesName": "poplarTree", "goLabel": "Mid", "num": 3 }
                     ]
                 },
         
@@ -36,9 +36,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 }
                     ]
                 },
         
@@ -48,9 +48,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Sml", "num": 1 }
                     ]
                 }
             ]
@@ -89,7 +89,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                        { "goSpeciesName": "poplarTree", "goLabel": "Mid", "num": 3 }
                     ]
                 },
         
@@ -99,9 +99,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 }
                     ]
                 },
         
@@ -111,9 +111,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Sml", "num": 1 }
                     ]
                 }
         
@@ -154,7 +154,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Mid", "num": 3 }
+                        { "goSpeciesName": "poplarTree", "goLabel": "Mid", "num": 3 }
                     ]
                 },
         
@@ -164,7 +164,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "poplarTree", "afsName": "poplarTree", "animLabel": "Sml", "num": 3 }
+                        { "goSpeciesName": "poplarTree", "goLabel": "Sml", "num": 3 }
                     ]
                 },
         
@@ -174,12 +174,12 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 },
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 5 }
         
         
         
@@ -192,9 +192,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Sml", "num": 1 }
                     ]
                 }
         

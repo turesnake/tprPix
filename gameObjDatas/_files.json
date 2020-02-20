@@ -3,11 +3,9 @@
     {"artifacts/firewood/_firewood.go.json": true },
     {"artifacts/stoneWall/_stoneWall.go.json": true },
     {"artifacts/campfire/_campfire.go.json": true },
-    {"artifacts/campfire/_campfireChild.go.json": true },
     {"artifacts/glassBottle/_glassBottle.go.json": true },
     {"artifacts/pot/_pot.go.json": true },
     {"artifacts/trough/_trough.go.json": true },
-    {"artifacts/trough/_troughChild.go.json": true },
 
 
     {"breakStone/_breakStone.go.json": true },
@@ -30,7 +28,7 @@
 
     {"riverBank/_riverBank.go.json": true },
 
-    {"hollowLog/_go.json": true },
+    {"hollowLog/_hollowLog.go.json": true },
 
     {"rocks/_rock.go.json": true },
 

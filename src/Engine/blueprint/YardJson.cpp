@@ -238,7 +238,7 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
 
             {//--- dir ---//
                 const auto &a = json::check_and_get_value( yardObj, "dir", json::JsonValType::String );
-                yardDir = str_2_NineDirection( a.GetString() );
+                yardDir = str_2_nineDirection( a.GetString() );
             }
 
             {//--- isAllFramesInclude ---//
@@ -436,13 +436,18 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                 goSpecUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
             }
 
-            //--- MultiGoMeshType ---//
-            if( ent.HasMember("MultiGoMeshType") ){
+            //--- goLabel ---//
+            if( ent.HasMember("goLabel") ){
                 goSpecUPtr->isMultiGoMesh = true;
-                const auto &a = json::check_and_get_value( ent, "MultiGoMeshType", json::JsonValType::String );
-                goSpecUPtr->multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
+                const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
+                goSpecUPtr->multiGoMeshType = GoAssembleData::str_2_goLabelId( a.GetString() );
 
             }else{
+
+                    // 这种可能性将被删除掉
+                    // 。。。
+
+
                 goSpecUPtr->isMultiGoMesh = false;
 
                 {//--- afsName ---//
@@ -463,7 +468,7 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
                     goSpecUPtr->animLabel = AnimLabel::Nil;
                 }else{
                     const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                    goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
+                    goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
                 }
             }
 
@@ -486,7 +491,7 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
 
     {//--- FloorGoSize ---//
         const auto &a = json::check_and_get_value( varType_, "FloorGoSize", json::JsonValType::String );
-        vfSPtr->set_floorGoSize( str_2_FloorGoSize(a.GetString()) );
+        vfSPtr->set_floorGoSize( str_2_floorGoSize(a.GetString()) );
     }
 
     {//--- goSpecPool ---//
@@ -533,7 +538,7 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
             }
             {//--- animLabel ---//
                 const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
+                goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
             }
 
                                                     // 万一 floorGo 是 multiGoMesh 

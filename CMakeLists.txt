@@ -151,7 +151,8 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/multiGoMesh
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/goAssemble
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/multiMapEnt
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/json

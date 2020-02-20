@@ -225,7 +225,7 @@ std::shared_ptr<AFSPng> parse_AFSPng( const Value &pngEnt_ ){
 
     {//--- ColliderType ---//
         const auto &a = check_and_get_value( pngEnt_, "ColliderType", JsonValType::String );
-        afsPng->colliderType =  str_2_ColliderType( a.GetString() );
+        afsPng->colliderType =  str_2_colliderType( a.GetString() );
     }
     {//--- subspecs ---//
         const auto &a = check_and_get_value( pngEnt_, "subspecs", JsonValType::Array );
@@ -263,7 +263,7 @@ void parse_subspec_in_handleType(  const Value &subspecEnt_,
 
     {//--- animLabel ---//
         const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
-        animLabel = str_2_AnimLabel(a.GetString());
+        animLabel = str_2_animLabel(a.GetString());
     }
     {//--- subIdx ---//
         const auto &a = check_and_get_value( subspecEnt_, "subIdx", JsonValType::Uint64 );
@@ -298,7 +298,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
 
     {//--- animLabel ---//
         const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
-        animLabel = str_2_AnimLabel(a.GetString());
+        animLabel = str_2_animLabel(a.GetString());
     }
 
     {//--- fstSubIdx ---//
@@ -315,7 +315,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
     }
     {//--- actionEName ---//
         const auto &a = check_and_get_value( subspecEnt_, "actionEName", JsonValType::String );
-        actionEName = str_2_AnimActionEName( a.GetString() );
+        actionEName = str_2_animActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( subspecEnt_, "dir", JsonValType::String );
@@ -387,7 +387,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
     bool          isOpaque   {};
     {//--- actionEName ---//
         const auto &a = check_and_get_value( actionParamEnt_, "actionEName", JsonValType::String );
-        actionEName = str_2_AnimActionEName( a.GetString() );
+        actionEName = str_2_animActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
@@ -437,7 +437,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
 
     {//--- actionEName ---//
         const auto &a = check_and_get_value( actionParamEnt_, "actionEName", JsonValType::String );
-        actionEName = str_2_AnimActionEName( a.GetString() );
+        actionEName = str_2_animActionEName( a.GetString() );
     }
     {//--- dir ---//
         const auto &a = check_and_get_value( actionParamEnt_, "dir", JsonValType::String );
@@ -449,7 +449,7 @@ std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
     }
     {//--- actionPlayType ---//
         const auto &a = check_and_get_value( actionParamEnt_, "actionPlayType", JsonValType::String );
-        actionPlayType = AnimAction::str_2_PlayType( a.GetString() );
+        actionPlayType = AnimAction::str_2_playType( a.GetString() );
     }
     {//--- isOrder ---//
         const auto &a = check_and_get_value( actionParamEnt_, "isOrder", JsonValType::Bool );

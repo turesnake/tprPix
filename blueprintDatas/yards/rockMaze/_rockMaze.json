@@ -26,7 +26,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Bald", "num": 1 }
+                        { "goSpeciesName": "rock", "goLabel":"Big_Light_Bald", "num": 1 }
                     ]
                 },
         

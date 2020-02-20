@@ -1,0 +1,22 @@
+[
+    {
+        "goSpeciesName": "campfire",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "goMeshName": "root", "zOff": 0.0, "afsName": "campfire_base", "animLabel": ""  },
+                    { "goMeshName": "fire", "zOff": 0.1, "afsName": "campfire_fire", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "campfire_fire"
+                }
+            }
+        ]
+    }
+]
+

@@ -39,7 +39,7 @@ enum class GameObjMoveState{
     Movable   = 3  //- 可移动。本go 可启动移动操作。
 };
 
-GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept;
+GameObjMoveState str_2_gameObjMoveState( const std::string &name_ )noexcept;
 
 
 
@@ -50,7 +50,7 @@ enum class GameObjState{
     Waked = 2  //- 活跃状态，主动发起行动。 
 };
 
-GameObjState str_2_GameObjState( const std::string &name_ )noexcept;
+GameObjState str_2_gameObjState( const std::string &name_ )noexcept;
 
 
 
@@ -91,7 +91,7 @@ enum class GameObjFamily{
 
 };
 
-GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept;
+GameObjFamily str_2_gameObjFamily( const std::string &name_ )noexcept;
 
 
 

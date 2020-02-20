@@ -27,7 +27,7 @@
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
                         
-                        { "goSpeciesName": "figTree", "afsName": "figTree", "animLabel": "Mid", "num": 3 }
+                        { "goSpeciesName": "figTree", "goLabel": "Mid", "num": 3 }
         
                     ]
                 },
@@ -39,16 +39,16 @@
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 0 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 0 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 0 },
         
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Sml", "num": 0 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_White_Mid", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_White_Sml", "num": 0 },
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_White_Mid", "num": 0 },
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Sml", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Shamrock_Green_Mid", "num": 5 }
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 5 }
         
                     ]
                 },
@@ -60,9 +60,9 @@
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Savannah_Grass1_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Savannah_Grass1_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Savannah_Grass1_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Savannah_Grass1_Sml", "num": 1 }
         
         
                     ]

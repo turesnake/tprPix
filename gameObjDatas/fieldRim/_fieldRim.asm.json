@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "fieldRim",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "fieldRim", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": ""
+                }
+            }
+        ]
+    }
+]
+

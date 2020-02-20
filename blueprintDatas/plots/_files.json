@@ -1,8 +1,6 @@
 [
     {"bush_1/_bush_1.json": true },
 
-    {"campfire/_2m2.json": true },
-
     {"mushroom/2m2/_mushroom_2m2.json": true },
     {"mushroom/3m3/_mushroom_3m3.json": true },
 
@@ -15,9 +13,6 @@
 
 
     {"rocks/whiteRock/wall_1m4/_rockWall_1m4.json": true },
-    {"rocks/whiteRock/wall_4m1/_rockWall_4m1.json": true },
-
-    {"trough/1m2/_1m2.json": true },
-    {"trough/2m1/_2m1.json": true }
+    {"rocks/whiteRock/wall_4m1/_rockWall_4m1.json": true }
     
 ]

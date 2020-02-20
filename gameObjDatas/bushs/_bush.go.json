@@ -12,7 +12,6 @@
         "lAltiRanges": [
             { "label": "", "val": [0.0, 40.0] }
         ],
-        "defaultGoAltiRangeLabel": "",
 
 
         "weight": 50,
@@ -25,8 +24,8 @@
             "origin/_afs.json"
 
         ],
-        "multiGoMesh_lPaths": [
-            "origin/_multiGoMesh.json"
+        "goAsm_lPaths": [
+            "_bush.asm.json"
             
         ]
     }

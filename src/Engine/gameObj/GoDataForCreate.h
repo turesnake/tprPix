@@ -27,6 +27,7 @@
 #include "animSubspeciesId.h"
 #include "IntVec.h"
 #include "AnimActionEName.h"
+#include "GoAltiRange.h"
 
 
 
@@ -74,15 +75,22 @@ public:
     glm::dvec2      dpos      {}; // go 绝对 dpos
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 
+    GoAltiRangeLabel goAltiRangeLabel {};
+
     std::variant<   std::monostate,
                     BrokenLvl, 
                     FloorGoLayer> brokenLvl_or_floorGoLayer {};
     
     //---
-    bool            isMultiGoMesh {};
+    bool            isMultiGoMesh {}; 
+                            // 在未来，这个值将永远为 true
+                            // 然后被简化掉
+                            // ...
+
+
     //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
 
-    //: if  isMultiGoMesh == false： 只有一个元素
+
     std::vector<std::unique_ptr<GoDataEntForCreate>> goMeshDataUPtrs {};
 };
 

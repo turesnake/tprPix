@@ -1,0 +1,23 @@
+[
+    {
+        "Notes": " 其实没有真的实现 .... ",
+
+        "goSpeciesName": "floorGo",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "floorGo_colorful", "animLabel": "MapEnt_2m2"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": ""
+                }
+            }
+        ]
+    }
+]
+

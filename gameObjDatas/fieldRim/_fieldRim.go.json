@@ -12,7 +12,7 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 0.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
+
 
     "weight": 1,
     "pub.HP": "nil",
@@ -22,7 +22,9 @@
     "afs_lPaths": [ 
         "_fieldRim.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_fieldRim.asm.json"
+    ]
 
   }
 ]

@@ -48,8 +48,8 @@ void Firewood::init(GameObj &goRef_,const DyParam &dyParams_ ){
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
+    //tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+    //const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -62,6 +62,24 @@ void Firewood::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     //-- 制作唯一的 mesh 实例: "root" --
+
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
+
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
+                                goDataEntRef.subspeciesId,
+                                goDataEntRef.animActionEName,
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                goDataEntRef.dposOff, //- pposoff
+                                goDataEntRef.zOff,  //- zOff
+                                true //- isVisible
+                                );
+    }   
+
+
+    /*
     goRef_.creat_new_goMesh("root", //- gmesh-name
                                 goDataEntRef.subspeciesId,
                                 AnimActionEName::Idle,
@@ -71,6 +89,7 @@ void Firewood::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
+    */
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

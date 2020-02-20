@@ -30,8 +30,6 @@
 #include "colorTableId.h"
 #include "Density.h"
 
-
-
 //-- 投影地图单位的信息 64*64 pixes --
 class MemMapEnt{
 public:
@@ -63,7 +61,8 @@ public:
     inline void set_square_goid( goid_t goid_, ColliderType colliType_ )noexcept{ 
 
         tprAssert( colliType_ == ColliderType::Square );
-        this->majorGo_square = goid_; //- 可能会覆盖原有数据
+        tprAssert( this->majorGo_square == 0 ); // 一定要先合法地释放掉旧元素后，再登记新元素。禁止直接覆盖！
+        this->majorGo_square = goid_;
         //--
         auto outPair = this->majorGos.insert( goid_ );
         tprAssert( outPair.second );
@@ -127,11 +126,16 @@ private:
 
     // 支持 move/skill 碰撞检测
     std::unordered_set<goid_t>  majorGos {}; // cir + squ 
+
     std::unordered_set<goid_t>  majorGos_circular {};
     goid_t                      majorGo_square {}; // only one
                                     // 一个 mapent 其实还允许出现 floorGo
                                     // 但是它们不是 majorGo，不参与游戏交互。
                                     // 所以不会被登记到 mapent 中
+    
+    // 在未来，可能要准备 BioSoup-mapent 的 goid 信息
+    // 也许会和 majorGo_square 联合存储，也许是一个独立的变量来存储
+    // ...
     
 
 };

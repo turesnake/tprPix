@@ -74,7 +74,7 @@ enum class AnimLabel : uint32_t{
 };
 
 
-AnimLabel str_2_AnimLabel( const std::string &str_ )noexcept;
+AnimLabel str_2_animLabel( const std::string &str_ )noexcept;
 
 
 #endif 

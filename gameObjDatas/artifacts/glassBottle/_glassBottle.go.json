@@ -14,7 +14,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 70.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
 
     "weight": 5,
     "pub.HP": 50,
@@ -23,7 +22,9 @@
     "afs_lPaths": [ 
         "_glassBottle.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_glassBottle.asm.json"
+    ]
 
   }
 ]

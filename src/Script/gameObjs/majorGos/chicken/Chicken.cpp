@@ -85,6 +85,10 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) ); // not Center
         goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
+        //-- set lAltiRange ---
+        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( GoSpecFromJson::str_2_goSpeciesId("chicken") );
+        goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( GoAltiRangeLabel::Default ) ); // tmp ...
+
     }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
         
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
@@ -93,6 +97,10 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
 
         randUVal = bpParamPtr->mapEntUWeight;    
+
+        //-- set lAltiRange ---
+        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
+        goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->goAltiRangeLabel ) );
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.actionDirection.reset( goDataPtr->direction );
@@ -110,6 +118,10 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
+
+        // 不完善，未来要改
+
+
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 subspeciesId,

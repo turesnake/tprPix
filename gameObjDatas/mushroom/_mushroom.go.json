@@ -12,7 +12,7 @@
         "lAltiRanges": [
             { "label": "", "val": [0.0, 40.0] }
         ],
-        "defaultGoAltiRangeLabel": "",
+
 
         "weight": 50,
         "pub.HP": 170,
@@ -23,8 +23,8 @@
         "afs_lPaths": [ 
             "_mushroom.afs.json"
         ],
-        "multiGoMesh_lPaths": [
-            "_mushroom.multiGoMesh.json"
+        "goAsm_lPaths": [
+            "_mushroom.asm.json"
         ]
 
 

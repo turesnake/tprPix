@@ -14,7 +14,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 100.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
 
     "weight": 50,
     "pub.HP": 170,
@@ -23,7 +22,9 @@
     "afs_lPaths": [ 
         "_stoneWall.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_stoneWall.asm.json"
+    ]
 
   }
 ]

@@ -22,7 +22,7 @@ std::string nineDirection_2_str( NineDirection dir_ )noexcept{
 }
 
 
-NineDirection str_2_NineDirection( const std::string &str_ )noexcept{
+NineDirection str_2_nineDirection( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<NineDirection>(str_);
     if( labelOP.has_value() ){

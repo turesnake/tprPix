@@ -1,0 +1,22 @@
+[
+    {
+        "goSpeciesName": "figTree",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goAltiRangeLabel": "Mid",
+                "goMeshs":[
+                    { "afsName": "figTree", "animLabel": "Mid"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Mid"
+                }
+            }
+        ]
+    }
+]
+

@@ -419,19 +419,20 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
 void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )noexcept{
 
     GameObj &dogoRef = this->goRef;
+    SignInMapEnts &signInMapEntsRef = this->getnc_signInMapEnts();
 
     //--------------------------------//
     //  更新 dogo 在 mapents 中的登记信息
     //--------------------------------//
-    bool isSignINMapEntsChanged = this->signInMapEntsUPtr->forecast_signINMapEnts( dogoRef.get_dpos() + moveVec_ );
+    bool isSignINMapEntsChanged = signInMapEntsRef.forecast_signINMapEnts( dogoRef.get_dpos() + moveVec_ );
             // 针对 dogo 完整半径 碰撞区的 forecast 操作
 
     //-- update adds/dels --
     if( isSignINMapEntsChanged == true ){
 
-            this->signInMapEntsUPtr->sync_currentSignINMapEnts_from_future();
+            signInMapEntsRef.sync_currentSignINMapEnts_from_future();
             //-- adds --
-            for( const auto &mpos : this->signInMapEntsUPtr->get_currentAddsRef() ){
+            for( const auto &mpos : signInMapEntsRef.get_currentAddsRef() ){
                 auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
                 //-- 有时，目标 mapent 所在 chunk，尚未 active 了，暂时直接忽略
                 if( mapEntPair.first == ChunkMemState::Active ){
@@ -442,7 +443,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                 }
             }
             //-- dels --
-            for( const auto &mpos : this->signInMapEntsUPtr->get_currentDelsRef() ){
+            for( const auto &mpos : signInMapEntsRef.get_currentDelsRef() ){
                 auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );  
                 //-- 有时，目标 mapent 所在 chunk，已经 not exist 了，那种的直接忽略
                 if( mapEntPair.first == ChunkMemState::Active ){

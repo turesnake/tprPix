@@ -1,0 +1,23 @@
+[
+    {
+        "Notes": " 其实没有真的实现 .... ",
+
+        "goSpeciesName": "groundGo",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "groundGo", "animLabel": "Mid"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Mid"
+                }
+            }
+        ]
+    }
+]
+

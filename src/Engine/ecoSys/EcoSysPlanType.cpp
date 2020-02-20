@@ -13,7 +13,7 @@
 
 #include "tprDebug.h"
 
-EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept{
+EcoSysPlanType str_2_ecoSysPlanType( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<EcoSysPlanType>(str_);
     if( labelOP.has_value() ){

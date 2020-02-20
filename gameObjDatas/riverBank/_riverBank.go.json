@@ -12,7 +12,6 @@
         "lAltiRanges": [
             { "label": "", "val": [0.0, 0.0] }
         ],
-        "defaultGoAltiRangeLabel": "",
 
         "weight": 1,
         "pub.HP": "nil",
@@ -23,7 +22,7 @@
             "_riverBank.afs.json"
 
         ],
-        "multiGoMesh_lPaths": []
+        "goAsm_lPaths": []
 
 
     }

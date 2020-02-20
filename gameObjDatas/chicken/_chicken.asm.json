@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "chicken",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "chicken.hen", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Hen"
+                }
+            }
+        ]
+    }
+]
+

@@ -12,7 +12,6 @@
     "lAltiRanges": [
         { "label": "", "val": [0.0, 80.0] }
     ],
-    "defaultGoAltiRangeLabel": "",
 
 
     "weight": 50,
@@ -24,7 +23,9 @@
     "afs_lPaths": [ 
         "whiteRock/_afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_rock.asm.json"
+    ]
 
 
   }

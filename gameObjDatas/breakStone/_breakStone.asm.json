@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "breakStone",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "breakStone", "animLabel": "Light"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Light"
+                }
+            }
+        ]
+    }
+]
+

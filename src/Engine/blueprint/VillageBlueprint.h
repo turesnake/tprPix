@@ -8,6 +8,9 @@
 #ifndef TPR_VILLAGE_BLUE_PRINT_H
 #define TPR_VILLAGE_BLUE_PRINT_H
 
+//-------------------- CPP --------------------//
+#include <unordered_set>
+#include <functional> // hash
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -103,8 +106,10 @@ public:
     }
 
     inline static villageBlueprintId_t str_2_villageBlueprintId( const std::string &name_ )noexcept{
-        tprAssert( VillageBlueprint::name_2_ids.find(name_) != VillageBlueprint::name_2_ids.end() );
-        return VillageBlueprint::name_2_ids.at(name_);
+
+        villageBlueprintId_t id = VillageBlueprint::hasher(name_);
+        tprAssert( VillageBlueprint::villageIds.find(id) != VillageBlueprint::villageIds.end() );
+        return id;
     }
 
 
@@ -114,8 +119,9 @@ private:
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Village>> varTypeDatas {}; // 类型数据
 
     //===== static =====//
-    static ID_Manager  id_manager;
-    static std::unordered_map<std::string, villageBlueprintId_t> name_2_ids; // 索引表
+    static std::unordered_set<villageBlueprintId_t> villageIds; // 记录已被存储的 ids
+    static std::hash<std::string> hasher;
+
     static std::unordered_map<villageBlueprintId_t, std::unique_ptr<VillageBlueprint>> villageUPtrs; // 真实资源
 };
 

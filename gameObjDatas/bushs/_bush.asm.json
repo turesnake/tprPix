@@ -1,0 +1,40 @@
+[
+
+    {
+        "goSpeciesName": "bush",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    {   "afsName": "bush_blackberry", "animLabel": ""  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    {   "afsName": "bush_greyberry", "animLabel": ""  }
+                ]
+            },
+
+            {
+                "type": "type_3",
+                "goMeshs":[
+                    {  "dpos": [0,  12], "zOff": 0.0, "afsName": "bush_origin", "animLabel": "Back"  },
+                    {  "dpos": [0,  -12], "zOff": 0.0, "afsName": "bush_origin", "animLabel": "Front"  }
+                ]
+            }
+        ],
+
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Blackberry",
+                    "type_2": "Greyberry",
+                    "type_3": "Origin"
+                }
+            }
+        ]
+    }
+]
+

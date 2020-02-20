@@ -96,11 +96,11 @@ void parse_single_uiGoJsonFile( const std::string &path_file_ ){
 
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
-            uiGoJsonDataRef.family = str_2_GameObjFamily( a.GetString() );
+            uiGoJsonDataRef.family = str_2_gameObjFamily( a.GetString() );
         }
         {//--- moveType ---//
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
-            uiGoJsonDataRef.moveType = str_2_MoveType( a.GetString() );
+            uiGoJsonDataRef.moveType = str_2_moveType( a.GetString() );
         }
         {//--- moveSpeedLvl ---//
             const auto &a = check_and_get_value( ent, "moveSpeedLvl", JsonValType::Int );

@@ -15,6 +15,7 @@
 #include <map>
 #include <memory>
 #include <utility> //pair
+#include <variant>
 
 //-------------------- Engine --------------------//
 #include "ColliderType.h"
@@ -22,6 +23,7 @@
 #include "GameObjType.h"
 #include "SignInMapEnts.h"
 #include "NineDirection.h"
+#include "WeakMapEntsType.h"
 
 #include "mapEntKey.h"
 
@@ -56,10 +58,17 @@ public:
     //-- only call in go init --
     inline void init_signInMapEnts_for_cirGo(   const glm::dvec2 &newGoDPos_,
                                                 F_get_colliPointDPosOffsRef func_1_ )noexcept{
-
-        this->signInMapEntsUPtr = std::make_unique<SignInMapEnts>( newGoDPos_, func_1_ );
-
+        
+        tprAssert( this->variantVals.index() == 0 ); // must be: {}
+        this->variantVals = std::make_unique<SignInMapEnts>( newGoDPos_, func_1_ );
     }
+
+
+    inline void set_weakMapEntsType( WeakMapEntsType type_ )noexcept{
+        tprAssert( this->variantVals.index() == 0 ); // must be: {}
+        this->variantVals = type_;
+    }
+
 
     inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
     inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
@@ -83,13 +92,30 @@ public:
     }
 
     //-- 所有调用此函数的 ，一律为 cir go
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef_for_cirGo() const noexcept{
-            tprAssert( this->signInMapEntsUPtr );
-        return this->signInMapEntsUPtr->get_currentSignINMapEntsRef();
+    inline const std::set<IntVec2> &get_currentSignINMapEntsRef_for_cirGo()const noexcept{
+        return this->get_signInMapEnts().get_currentSignINMapEntsRef();
     }
 
+    inline WeakMapEntsType get_weakMapEntsType()noexcept{
+        auto valPtr = std::get_if<WeakMapEntsType>( &this->variantVals );
+        tprAssert( valPtr );
+        return *valPtr;
+    }
+    
 
 private:
+
+    inline SignInMapEnts &getnc_signInMapEnts()noexcept{
+        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts>>( &this->variantVals );
+        tprAssert( valPtr );
+        return **valPtr;
+    }
+    inline const SignInMapEnts &get_signInMapEnts()const noexcept{
+        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts>>( &this->variantVals );
+        tprAssert( valPtr );
+        return **valPtr;
+    }
+
 
     std::pair<bool, glm::dvec2> collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ );
     std::pair<bool, glm::dvec2> collect_IntersectBegos_and_truncate_moveVec( const glm::dvec2 &moveVec_ );
@@ -99,7 +125,12 @@ private:
 
     //======== vals ========//
     GameObj    &goRef;
-    std::unique_ptr<SignInMapEnts> signInMapEntsUPtr {nullptr}; // only for cirGo
+
+    // 如果未来，cirGo / squGo 的数据进一步膨胀，可以整合为两份 class
+    std::variant<   std::monostate, // 当变量为空时，v.index() 返回 0
+                    std::unique_ptr<SignInMapEnts>, // only for cirGo
+                    WeakMapEntsType // only for squGo
+                    > variantVals {}; 
 
     
     //======== flags ========//

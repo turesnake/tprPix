@@ -26,8 +26,8 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Bald", "num": 9 },
-                        { "goSpeciesName": "rock", "afsName": "whiteRock", "animLabel":"Big_Light_Lichen", "num": 3 }
+                        { "goSpeciesName": "rock", "goLabel":"Big_Light_Bald", "num": 9 },
+                        { "goSpeciesName": "rock", "goLabel":"Big_Light_Lichen", "num": 3 }
                     ]
                 },
         
@@ -37,7 +37,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 3 }
+                        { "goSpeciesName": "breakStone", "goLabel": "Light", "num": 3 }
                     ]
                 },
         
@@ -47,11 +47,11 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 },
+                        { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 },
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 }
         
         
                     ]
@@ -63,11 +63,11 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 },
-                        { "goSpeciesName": "bush", "MultiGoMeshType":"Origin", "num": 5 },
+                        { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 },
+                        { "goSpeciesName": "bush", "goLabel":"Origin", "num": 5 },
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"TriFlower_Grey_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"TriFlower_Grey_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"TriFlower_Grey_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"TriFlower_Grey_Sml", "num": 1 }
                     ]
                 }
         

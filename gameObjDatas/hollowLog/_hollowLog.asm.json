@@ -1,0 +1,34 @@
+[
+    {
+        "goSpeciesName": "hollowLog",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "hollowLog_poplar", "animLabel.hold": "Label_1"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "animLabel.holds":{
+                    "Label_1": "Normal"
+                },
+                "types":{
+                    "type_1": "Poplar_Normal"
+                }
+            },
+
+            {
+                "animLabel.holds":{
+                    "Label_1": "Special"
+                },
+                "types":{
+                    "type_1": "Poplar_Special"
+                }
+            }
+
+        ]
+    }
+]
+

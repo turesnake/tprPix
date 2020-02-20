@@ -20,7 +20,7 @@ const std::string mk_dir(const std::string &path_dir_,
 						 const std::string &err_info_ );
 
 
-i32_t file_load( const std::string &path_,
+int32_t file_load( const std::string &path_,
 				 std::string &buf_);
 
 

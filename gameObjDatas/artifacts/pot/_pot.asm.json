@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "pot",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "pot", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": ""
+                }
+            }
+        ]
+    }
+]
+

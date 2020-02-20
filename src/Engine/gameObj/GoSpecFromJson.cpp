@@ -47,7 +47,10 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
 
     goRef_.move.moveSpeedLvl.reset( d.moveSpeedLvl );
     goRef_.set_pos_alti( d.alti );
-    goRef_.set_pos_lAltiRange( d.get_lAltiRange( d.defaultGoAltiRangeLabel ) );
+
+    //goRef_.set_pos_lAltiRange( d.get_lAltiRange( d.defaultGoAltiRangeLabel ) );
+
+
     goRef_.weight = d.weight;
 
     //------ pubBinary -------//

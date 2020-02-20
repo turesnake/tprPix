@@ -54,12 +54,15 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
+    //tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+    //const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
 
 
-    //-- 重新设置 lAltiRange ---
+    //-- set lAltiRange ---
     const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
+    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->goAltiRangeLabel ) );
+
+    /*
     GoAltiRange lAltiRange {};
     switch (goDataEntRef.animLabel){
         case AnimLabel::Mid: lAltiRange = goSpecFromJsonRef.get_lAltiRange( GoAltiRangeLabel::Mid ); break;
@@ -69,7 +72,7 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
             break;
     }
     goRef_.set_pos_lAltiRange( lAltiRange );
-
+    */
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -82,6 +85,23 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
+
+
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
+                                goDataEntRef.subspeciesId,
+                                goDataEntRef.animActionEName,
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                goDataEntRef.dposOff, //- pposoff
+                                goDataEntRef.zOff,  //- zOff
+                                true //- isVisible
+                                );
+    } 
+
+        /*
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 goDataEntRef.subspeciesId,
@@ -92,6 +112,7 @@ void Cactus::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
+        */
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

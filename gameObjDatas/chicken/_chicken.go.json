@@ -29,7 +29,6 @@
         "lAltiRanges": [
             { "label": "", "val": [0.0, 60.0] }
         ],
-        "defaultGoAltiRangeLabel": "",
 
         "weight": 5,
         "pub.HP": 170,
@@ -39,7 +38,9 @@
         "afs_lPaths": [ 
             "_hen.afs.json"
         ],
-        "multiGoMesh_lPaths": []
+        "goAsm_lPaths": [
+            "_chicken.asm.json"
+        ]
 
       }
 ]

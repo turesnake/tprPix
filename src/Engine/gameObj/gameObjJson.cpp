@@ -104,15 +104,15 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
         {//--- family ---//
             const auto &a = check_and_get_value( ent, "family", JsonValType::String );
-            goSpecFromJsonRef.family = str_2_GameObjFamily( a.GetString() );
+            goSpecFromJsonRef.family = str_2_gameObjFamily( a.GetString() );
         }
         {//--- state ---//
             const auto &a = check_and_get_value( ent, "state", JsonValType::String );
-            goSpecFromJsonRef.state = str_2_GameObjState( a.GetString() );
+            goSpecFromJsonRef.state = str_2_gameObjState( a.GetString() );
         }
         {//--- moveState ---//
             const auto &a = check_and_get_value( ent, "moveState", JsonValType::String );
-            goSpecFromJsonRef.moveState = str_2_GameObjMoveState( a.GetString() );
+            goSpecFromJsonRef.moveState = str_2_gameObjMoveState( a.GetString() );
         }
 
         if( goSpecFromJsonRef.moveState == GameObjMoveState::AbsFixed ){
@@ -120,7 +120,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         }else{
             //--- moveType ---//
             const auto &a = check_and_get_value( ent, "moveType", JsonValType::String );
-            goSpecFromJsonRef.moveType = str_2_MoveType( a.GetString() );
+            goSpecFromJsonRef.moveType = str_2_moveType( a.GetString() );
         }
 
         {//--- isMoveCollide ---//
@@ -177,7 +177,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                 GoAltiRange      val {};
                 {//--- label ---//
                     const auto &a = check_and_get_value( altiRangeObj, "label", JsonValType::String );
-                    label = str_2_GoAltiRangeLabel( a.GetString() );
+                    label = str_2_goAltiRangeLabel( a.GetString() );
                 }
                 {//--- val ---//
                     const auto &a = check_and_get_value( altiRangeObj, "val", JsonValType::Array );
@@ -190,10 +190,12 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                 goSpecFromJsonRef.insert_2_lAltiRanges( label, val );
             }
         }
+        /*
         {//--- defaultGoAltiRangeLabel ---//
             const auto &a = check_and_get_value( ent, "defaultGoAltiRangeLabel", JsonValType::String );
-            goSpecFromJsonRef.defaultGoAltiRangeLabel = str_2_GoAltiRangeLabel( a.GetString() );
+            goSpecFromJsonRef.defaultGoAltiRangeLabel = str_2_goAltiRangeLabel( a.GetString() );
         }
+        */
 
 
         /*
@@ -251,15 +253,22 @@ void parse_single_jsonFile( const std::string &path_file_ ){
             }            
         }
 
-        {//--- multiGoMesh_Paths ---//
-            std::string multiGoMesh_Path {};
-            const auto &multiGoMesh_lPaths = check_and_get_value( ent, "multiGoMesh_lPaths", JsonValType::Array );
-            for( const auto &i : multiGoMesh_lPaths.GetArray() ){
+        {//--- goAsm_Paths ---//
+            std::string goAsm_Path {};
+            const auto &goAsm_lPaths = check_and_get_value( ent, "goAsm_lPaths", JsonValType::Array );
+
+            // 所有 go 必须包含 .asm.json 数据
+            // 以此来组织 afs以及其他数据，帮助蓝图组装出一个 完整的 go
+            //tprAssert( goAsm_lPaths.Size() != 0 );
+
+
+
+            for( const auto &i : goAsm_lPaths.GetArray() ){
                 tprAssert( i.IsString() );
                 lPath = i.GetString();
                 tprAssert( lPath != "" ); // MUST EXIST !!!
-                multiGoMesh_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
-                json::parse_single_multiGoMeshJsonFile( multiGoMesh_Path );
+                goAsm_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
+                json::parse_single_goAssembleDataJsonFile( goAsm_Path );
                             // 数据直接存储在 GoSpecFromJson 中
             }
         }
@@ -297,7 +306,7 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
         }
         {//--- actionEName ---//
             const auto &a = check_and_get_value( tableEnt, "actionEName", JsonValType::String );
-            actionEName = str_2_AnimActionEName( a.GetString() );
+            actionEName = str_2_animActionEName( a.GetString() );
         }
         {//--- timeStepOff ---//
             const auto &a = check_and_get_value( tableEnt, "timeStepOff", JsonValType::Int );

@@ -43,18 +43,20 @@ void GlassBottle::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<GlassBottle_PvtBinary>();
 
-
+    /*
     animSubspeciesId_t bottleSubId = esrc::apply_a_random_animSubspeciesId( "glassBottle_bottle", AnimLabel::Default, 1 );
     animSubspeciesId_t waterSubId = esrc::apply_a_random_animSubspeciesId( "glassBottle_water", AnimLabel::Default, 1 );
     animSubspeciesId_t innSpaceSubId = esrc::apply_a_random_animSubspeciesId( "glassBottle_innSpace", AnimLabel::Default, 1 );
+    */
 
     //================ dyParams =================//
     size_t typeHash = dyParams_.get_typeHash();
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
+    
+    //tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
+    //const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -68,6 +70,22 @@ void GlassBottle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                         
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
+    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
+        const GoDataEntForCreate &goDataEntRef = *uptrRef;
+
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                goDataEntRef.goMeshName,
+                                goDataEntRef.subspeciesId,
+                                goDataEntRef.animActionEName,
+                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                goDataEntRef.dposOff, //- pposoff
+                                goDataEntRef.zOff,  //- zOff
+                                true //- isVisible
+                                );
+    }  
+
+    /*
     //-- goMesh: "root": bottle
     goRef_.creat_new_goMesh("root", //- gmesh-name
                                 //goDataEntRef.subspeciesId,
@@ -79,7 +97,6 @@ void GlassBottle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 0.0,  //- zOff
                                 true //- isVisible
                                 );
-
     //-- goMesh: "water"
     goRef_.creat_new_goMesh("water", //- gmesh-name
                                 //goDataEntRef.subspeciesId,
@@ -91,7 +108,6 @@ void GlassBottle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 -1.0,  //- zOff 在 bottle 后方
                                 true //- isVisible
                                 );
-
     //-- goMesh: "innSpace"
     goRef_.creat_new_goMesh("innSpace", //- gmesh-name
                                 //goDataEntRef.subspeciesId,
@@ -103,6 +119,7 @@ void GlassBottle::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 -2.0,  //- zOff 在 water 后方
                                 true //- isVisible
                                 );
+    */
 
         
     //================ bind callback funcs =================//

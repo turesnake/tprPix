@@ -20,9 +20,9 @@
             "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                { "goSpeciesName": "stoneWall", "goLabel": "Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
         }
     ],
@@ -91,9 +91,9 @@
             "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                { "goSpeciesName": "stoneWall", "goLabel": "Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
         }
     ],
@@ -162,9 +162,9 @@
             "Notes:isAllInstanceUseSamePlan": " 可以实现统一颜色的房子，且内部砖块仍维持随机性 ",
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Light", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Grey", "num": 1 },
-                { "goSpeciesName": "stoneWall", "afsName": "stoneWall", "animLabel":"Dark", "num": 1 }
+                { "goSpeciesName": "stoneWall", "goLabel": "Light", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
+                { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
         }
     ],

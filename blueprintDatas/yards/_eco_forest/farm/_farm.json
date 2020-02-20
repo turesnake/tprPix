@@ -19,7 +19,7 @@
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+                { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
             ]
         }
     ],
@@ -87,7 +87,7 @@
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+                { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
             ]
         }
     ],
@@ -155,7 +155,7 @@
             "isFloorGo": false,
             "isAllInstanceUseSamePlan": true,
             "goSpecPool":[
-                { "goSpeciesName": "fence", "afsName": "fence", "animLabel":"T2", "num": 1 }
+                { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
             ]
         }
     ],

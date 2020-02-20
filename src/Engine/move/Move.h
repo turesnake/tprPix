@@ -37,7 +37,7 @@ enum class MoveType : int {
     Adsorb,  // often used for UIGo, with smooth speed change [no speed upper_limit]
 };
 
-MoveType str_2_MoveType( const std::string name_ )noexcept;
+MoveType str_2_moveType( const std::string name_ )noexcept;
 
 
 class Move{

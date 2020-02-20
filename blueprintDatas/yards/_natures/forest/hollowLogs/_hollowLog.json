@@ -46,9 +46,9 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Big", "num": 1 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Mid", "num": 3 },
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 1 }
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 }
                     ]
                 },
         
@@ -59,15 +59,15 @@
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_White_Sml", "num": 7 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 7 },
                         
-                        { "goSpeciesName": "grass", "MultiGoMeshType":"Flower_HighWhite_Mid", "num": 1 },
+                        { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Mid", "num": 1 },
         
-                        { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 1 },
+                        { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 1 },
         
-                        { "goSpeciesName": "breakStone", "afsName": "breakStone", "animLabel":"Light", "num": 1 },
-                        { "goSpeciesName": "bush", "afsName": "bush_blackberry", "animLabel":"", "num": 1 },
-                        { "goSpeciesName": "bush", "afsName": "bush_greyberry", "animLabel":"", "num": 1 }
+                        { "goSpeciesName": "breakStone", "goLabel": "Light", "num": 1 },
+                        { "goSpeciesName": "bush", "goLabel": "Blackberry", "num": 1 },
+                        { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 }
         
         
                     ]

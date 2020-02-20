@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "playerGoCircle",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "playerGoCircle", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": ""
+                }
+            }
+        ]
+    }
+]
+

@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "firewood",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "firewood", "animLabel": ""  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": ""
+                }
+            }
+        ]
+    }
+]
+

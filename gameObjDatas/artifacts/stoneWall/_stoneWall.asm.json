@@ -1,0 +1,35 @@
+[
+    {
+        "goSpeciesName": "stoneWall",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "stoneWall", "animLabel": "Light"  }
+                ]
+            },
+            {
+                "type": "type_2",
+                "goMeshs":[
+                    { "afsName": "stoneWall", "animLabel": "Grey"  }
+                ]
+            },
+            {
+                "type": "type_3",
+                "goMeshs":[
+                    { "afsName": "stoneWall", "animLabel": "Dark"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Light",
+                    "type_2": "Grey",
+                    "type_3": "Dark"
+                }
+            }
+        ]
+    }
+]
+

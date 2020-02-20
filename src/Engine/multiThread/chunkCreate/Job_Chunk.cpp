@@ -16,7 +16,7 @@
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
 #include "mapEntKey.h"
-#include "MultiGoMesh.h"
+#include "GoAssembleData.h"
 #include "WindClock.h"
 #include "IntVec.h"
 
@@ -216,6 +216,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                     if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
 
                         auto goDataUPtr = std::make_unique<GoDataForCreate>();
+                        goDataUPtr->goAltiRangeLabel = GoAltiRangeLabel::Default; // tmp
                         goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("riverBank");
                         goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
                         goDataUPtr->direction = NineDirection::Center;  // 暂时无用

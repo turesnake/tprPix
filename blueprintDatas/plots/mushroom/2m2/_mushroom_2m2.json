@@ -15,7 +15,7 @@
             "type": "V_1",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Sml", "num": 3 }
+                { "goSpeciesName": "mushroom", "goLabel":"Sml", "num": 3 }
             ]
         },
 
@@ -23,7 +23,7 @@
             "type": "V_2",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"Mid", "num": 3  }
+                { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 3  }
             ]
         },
 
@@ -31,7 +31,7 @@
             "type": "V_3",
             "isAllInstanceUseSamePlan": false,
             "goSpecPool":[
-                { "goSpeciesName": "mushroom", "MultiGoMeshType":"SingleBig", "num": 3  }
+                { "goSpeciesName": "mushroom", "goLabel":"SingleBig", "num": 3  }
             ]
         }
     ]

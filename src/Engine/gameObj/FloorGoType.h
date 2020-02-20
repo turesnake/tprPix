@@ -24,7 +24,7 @@ enum class FloorGoSize{
     MapEnt_4m4,
 };
 
-FloorGoSize str_2_FloorGoSize( const std::string &str_ )noexcept;
+FloorGoSize str_2_floorGoSize( const std::string &str_ )noexcept;
 
 
 // 计算某种 floorGo，从其 中点dpos，到 中点所在的 mpos 的 偏移值
@@ -76,7 +76,7 @@ inline double floorGoLayer_2_goMesh_baseZOff( FloorGoLayer layer_ )noexcept{
 }
 
 
-FloorGoLayer str_2_FloorGoLayer( const std::string &str_ )noexcept;
+FloorGoLayer str_2_floorGoLayer( const std::string &str_ )noexcept;
 
 
 

@@ -115,6 +115,7 @@ int main( int argc, char* argv[] ){
     esrc::init_VAOVBO();
 
     CircuitBoard::init_for_static();
+
     
     esrc::init_colorTableSet();
     json::parse_colorTableJsonFile();

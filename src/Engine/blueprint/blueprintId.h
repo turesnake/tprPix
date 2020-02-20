@@ -17,7 +17,7 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 
 using plotBlueprintId_t = uint32_t;
 using yardBlueprintId_t = uint32_t;
-using villageBlueprintId_t = uint32_t;
+using villageBlueprintId_t = size_t;
 
 
 }//--------------------- namespace: blueprint end ------------------------//

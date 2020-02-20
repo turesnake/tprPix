@@ -44,7 +44,7 @@ enum class AnimActionEName{
 };
 
 
-AnimActionEName str_2_AnimActionEName( const std::string &str_ )noexcept;
+AnimActionEName str_2_animActionEName( const std::string &str_ )noexcept;
 std::string animActionEName_2_str( AnimActionEName a_ )noexcept;
 
 

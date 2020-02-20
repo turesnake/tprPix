@@ -29,7 +29,7 @@ using namespace std::placeholders;
 
 
 
-AnimAction::PlayType AnimAction::str_2_PlayType( const std::string &str_ )noexcept{
+AnimAction::PlayType AnimAction::str_2_playType( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<AnimAction::PlayType>(str_);
     if( labelOP.has_value() ){

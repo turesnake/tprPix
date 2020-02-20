@@ -33,7 +33,7 @@
 
 
 
-MoveType str_2_MoveType( const std::string name_ )noexcept{
+MoveType str_2_moveType( const std::string name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<MoveType>(name_);
     if( labelOP.has_value() ){

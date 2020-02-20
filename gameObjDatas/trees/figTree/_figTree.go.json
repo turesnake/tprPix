@@ -13,7 +13,7 @@
     "lAltiRanges": [
         { "label": "Mid", "val": [0.0, 340.0] }
     ],
-    "defaultGoAltiRangeLabel": "Mid",
+
 
     "weight": 50,
     "pub.HP": 170,
@@ -23,7 +23,9 @@
     "afs_lPaths": [ 
         "_figTree.afs.json"
     ],
-    "multiGoMesh_lPaths": []
+    "goAsm_lPaths": [
+        "_figTree.asm.json"
+    ]
 
   }
 

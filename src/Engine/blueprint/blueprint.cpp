@@ -437,10 +437,13 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     }else{
         //=== multi goMesh ===
         const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDRef.goSpeciesId );
-        tprAssert( goSpecFromJsonRef.multiGoMeshUPtr );
-        const GoMeshSet &goMeshSetRef = goSpecFromJsonRef.multiGoMeshUPtr->apply_a_goMeshSet( 
+        tprAssert( goSpecFromJsonRef.goAssembleDataUPtr );
+        const GoMeshSet &goMeshSetRef = goSpecFromJsonRef.goAssembleDataUPtr->apply_a_goMeshSet( 
                                                                 goSpecRef_.multiGoMeshType,
                                                                 suWeight );
+
+
+        goDRef.goAltiRangeLabel = goMeshSetRef.goAltiRangeLabel;
 
         size_t randUWeightOff = 0;
         for( const auto &jgomesh : goMeshSetRef.gomeshs ){ // each json goMesh

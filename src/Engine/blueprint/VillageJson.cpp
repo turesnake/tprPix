@@ -126,7 +126,7 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
         //--- roadFloorGoLayer ---//
         if( isHaveRoad ){
             const auto &a = json::check_and_get_value( docEnt, "roadFloorGoLayer", json::JsonValType::String );
-            roadFloorGoLayer = str_2_FloorGoLayer( a.GetString() );
+            roadFloorGoLayer = str_2_floorGoLayer( a.GetString() );
         }
 
 

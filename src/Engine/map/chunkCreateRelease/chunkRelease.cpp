@@ -70,29 +70,12 @@ void release_one_chunk(){
 
     //-- 删除本chunk 的所有 go 实例 --
     for( auto &goid : chunkRef.get_goIds() ){//- foreach goIds
-
-                // debug 如果目标是 player gocir，报错
-                if( goid == esrc::get_player().playerGoCircle_goid ){
-
-                    GameObj &goCirRef = esrc::get_goRef(goid);
-
-                    IntVec2 c = chunkKey_2_mpos(goCirRef.currentChunkKey);
-                    
-                    cout << "PlayerGoCir will be erase !!!\n"
-                        << "chunkKey: " << chunkKey << "\n"
-                        << "chunkMPos: " <<  chunkMPos.x << ", " << chunkMPos.y << "\n"
-                        << "goCir.currentChunk: " << c.x << ", " << c.y 
-                        << endl;
-
-
-                    tprAssert(0);
-                }
-
-
+        
+        tprAssert( goid != esrc::get_player().playerGoCircle_goid );
         esrc::erase_the_go( goid );
     }
                     // 在未来，go 会向 chunk一样，拥有完整的 生命周期管理
-                    // 同时，创建 go的释放队列。 延迟释放，平均每帧的开销
+                    // 同时，创建 go的释放队列。 延迟释放，平衡每帧的开销
                     // ...
 
     //------------------------------//
@@ -117,10 +100,7 @@ void release_one_chunk(){
 namespace cr_inn {//----------- namespace: cr_inn ----------------//
 
 
-/* ===========================================================
- *                quit_edgeGos_from_mapEnt
- * -----------------------------------------------------------
- * 遍历 目标chunk 的 edgeGos，将它们在 周边chunk 的 mapent 上的所有 signUp，都注销
+/* 遍历 目标chunk 的 edgeGos，将它们在 周边chunk 的 mapent 上的所有 signUp，都注销
  * edgeGo 在本chunk 上的登记，以及 非edgeGo 在本chunk 上的登记，就不用注销了
  * 在后面 一股脑删除即可
  */
@@ -131,20 +111,38 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
         auto &goRef = esrc::get_goRef(goid );
-        tprAssert( goRef.get_colliderType() == ColliderType::Circular );
+        auto colliderType = goRef.get_colliderType();
 
-        for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
-            tmpChunkKey = anyMPos_2_chunkKey(mpos);
-            if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
+        if( colliderType == ColliderType::Circular ){
 
-                if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
-                    //---- 正式从 mapEnt 上清除登记 -----
-                    auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
-                    tprAssert( mapEntPair.first == ChunkMemState::Active );
-                    mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
+            for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
+                tmpChunkKey = anyMPos_2_chunkKey(mpos);
+                if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
+
+                    if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
+                        //---- 正式从 mapEnt 上清除登记 -----
+                        auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+                        tprAssert( mapEntPair.first == ChunkMemState::Active );
+                        mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
+                    }
                 }
             }
+
+        }else if( colliderType == ColliderType::Square ){
+            
+            // 等待实现 ....
+
+
+        }else{
+            tprAssert(0);
         }
+
+
+
+
+
+
+
     }
 }
 

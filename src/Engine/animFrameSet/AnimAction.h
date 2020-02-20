@@ -52,7 +52,7 @@ public:
         Once,   //- 只播放一次，支持 逻辑节点帧，结束后自动跳转到预定的 新状态（未定）
         Cycle   //- 循环播放一段 动画帧
     };
-    static PlayType str_2_PlayType( const std::string &str_ )noexcept;
+    static PlayType str_2_playType( const std::string &str_ )noexcept;
 
 
     // gomesh 自己保存的 有关 animAction 的动态数据。

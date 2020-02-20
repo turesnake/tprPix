@@ -189,11 +189,11 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                         goSpecUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
                     }
 
-                    //--- MultiGoMeshType ---//
-                    if( ent.HasMember("MultiGoMeshType") ){
+                    //--- goLabel ---//
+                    if( ent.HasMember("goLabel") ){
                         goSpecUPtr->isMultiGoMesh = true;
-                        const auto &a = json::check_and_get_value( ent, "MultiGoMeshType", json::JsonValType::String );
-                        goSpecUPtr->multiGoMeshType = MultiGoMesh::str_2_multiGoMeshTypeId( a.GetString() );
+                        const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
+                        goSpecUPtr->multiGoMeshType = GoAssembleData::str_2_goLabelId( a.GetString() );
 
                     }else{
                         goSpecUPtr->isMultiGoMesh = false;
@@ -216,7 +216,7 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                             goSpecUPtr->animLabel = AnimLabel::Nil;
                         }else{
                             const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                            goSpecUPtr->animLabel = str_2_AnimLabel(a.GetString());
+                            goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
                         }
                        
                     }

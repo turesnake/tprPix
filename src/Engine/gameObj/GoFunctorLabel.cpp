@@ -26,7 +26,7 @@ template <>
 }
 
 
-GoFunctorLabel str_2_GoFunctorLabel( const std::string &str_ )noexcept{
+GoFunctorLabel str_2_goFunctorLabel( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<GoFunctorLabel>(str_);
     if( labelOP.has_value() ){

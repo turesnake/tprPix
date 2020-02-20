@@ -13,7 +13,7 @@
             { "label": "Mid", "val": [0.0, 300.0] },
             { "label": "Sml", "val": [0.0, 200.0] }
         ],
-        "defaultGoAltiRangeLabel": "Mid",
+
 
         "weight": 50,
         "pub.HP": 170,
@@ -23,7 +23,7 @@
         "afs_lPaths": [ 
             "_poplarTree.afs.json"
         ],
-        "multiGoMesh_lPaths": []
+        "goAsm_lPaths": []
 
 
     }

@@ -1,0 +1,41 @@
+[
+    {
+        "goSpeciesName": "pineTree",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goAltiRangeLabel": "Sml",
+                "goMeshs":[
+                    { "afsName": "pineTree", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "type": "type_2",
+                "goAltiRangeLabel": "Mid",
+                "goMeshs":[
+                    { "afsName": "pineTree", "animLabel": "Mid"  }
+                ]
+            },
+
+            {
+                "type": "type_3",
+                "goAltiRangeLabel": "Mid",
+                "goMeshs":[
+                    { "afsName": "pineTree", "animLabel": "Dead"  }
+                ]
+            }
+
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "Sml",
+                    "type_2": "Mid",
+                    "type_3": "Dead"
+                }
+            }
+        ]
+    }
+]
+

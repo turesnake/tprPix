@@ -39,7 +39,7 @@ enum class ColliderType{
 };
 
 
-ColliderType str_2_ColliderType( const std::string &name_ )noexcept;
+ColliderType str_2_colliderType( const std::string &name_ )noexcept;
 
 
 enum class CollideState{

@@ -27,7 +27,7 @@ double Square::unifiedRadius { static_cast<double>(HALF_PIXES_PER_MAPENT) }; // 
 
 
 
-ColliderType str_2_ColliderType( const std::string &name_ )noexcept{
+ColliderType str_2_colliderType( const std::string &name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<ColliderType>(name_);
     if( labelOP.has_value() ){

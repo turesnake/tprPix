@@ -15,7 +15,7 @@
 #include "AnimLabel.h"
 #include "GameObjType.h"
 
-#include "MultiGoMesh.h"
+#include "GoAssembleData.h"
 
 
 //--------------- Script ------------------//
@@ -45,7 +45,7 @@ public:
     GoSpecData( goSpeciesId_t rootGoSpeciesId_,
                 bool       isMultiGoMesh_,
                 const std::string &afsName_,
-                multiGoMeshTypeId_t multiGoMeshType_):
+                goLabelId_t multiGoMeshType_):
         rootGoSpeciesId(rootGoSpeciesId_),
         isMultiGoMesh(isMultiGoMesh_),
         afsName(afsName_),
@@ -60,7 +60,7 @@ public:
     inline const std::string &get_afsName()const noexcept{ return this->afsName; }
     inline AnimLabel get_animLabel()const noexcept{ return this->animLabel; }
 
-    inline multiGoMeshTypeId_t get_multiGoMeshType()const noexcept{
+    inline goLabelId_t get_multiGoMeshType()const noexcept{
         tprAssert( this->isMultiGoMesh );
         return this->multiGoMeshType;
     }
@@ -73,7 +73,7 @@ private:
 
     std::string             afsName    {};
     AnimLabel               animLabel {};
-    multiGoMeshTypeId_t     multiGoMeshType {};
+    goLabelId_t     multiGoMeshType {};
 };
 
 

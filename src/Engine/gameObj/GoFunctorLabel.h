@@ -23,7 +23,7 @@ enum class GoFunctorLabel : uint32_t {
     //...
 };
 
-GoFunctorLabel str_2_GoFunctorLabel( const std::string &str_ )noexcept;
+GoFunctorLabel str_2_goFunctorLabel( const std::string &str_ )noexcept;
 std::string goFunctorLabel_2_str( GoFunctorLabel l_ )noexcept;
 
 

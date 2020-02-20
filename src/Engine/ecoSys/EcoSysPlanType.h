@@ -55,7 +55,7 @@ inline size_t ecoSysPlanType_2_idx( EcoSysPlanType type_ )noexcept{
 }
 
 
-EcoSysPlanType str_2_EcoSysPlanType( const std::string &str_ )noexcept;
+EcoSysPlanType str_2_ecoSysPlanType( const std::string &str_ )noexcept;
 
 #endif 
 

@@ -13,7 +13,7 @@
             { "label": "Mid", "val": [0.0, 330.0] },
             { "label": "Sml", "val": [0.0, 200.0] }
         ],
-        "defaultGoAltiRangeLabel": "Mid",
+
 
         "weight": 50,
         "pub.HP": 170,
@@ -23,9 +23,9 @@
         "afs_lPaths": [ 
             "_pineTree.afs.json"
         ],
-        "multiGoMesh_lPaths": []
-
-
+        "goAsm_lPaths": [
+            "_pineTree.asm.json"
+        ]
 
       }
 ]

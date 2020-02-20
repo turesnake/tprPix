@@ -1,0 +1,33 @@
+[
+    {
+        "goSpeciesName": "rock",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "whiteRock", "animLabel.hold": "Label_1"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "animLabel.holds":{
+                    "Label_1": "Big_Light_Bald"
+                },
+                "types":{
+                    "type_1": "Big_Light_Bald"
+                }
+            },
+
+            {
+                "animLabel.holds":{
+                    "Label_1": "Big_Light_Lichen"
+                },
+                "types":{
+                    "type_1": "Big_Light_Lichen"
+                }
+            }
+        ]
+    }
+]
+

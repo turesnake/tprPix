@@ -59,7 +59,7 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
     const std::vector<double> densityDivideVals_50_20_50
         { -50.0, -30.0, -10.0, 10.0, 30.0, 50.0 }; //- 两极各占:50，中间lvl各占:20
 
-    const std::vector<double> *str_2_DensityDivideValsPtr( const std::string &str_ )noexcept{
+    const std::vector<double> *str_2_densityDivideValsPtr( const std::string &str_ )noexcept{
         if( str_ == std::string{"default"} ){
             return &densityDivideVals_default;
         }else if( str_ == std::string{"50_20_50"} ){
@@ -125,7 +125,7 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
 
         {//--- EcoSysPlanType ---//
             const auto &a = check_and_get_value( eco, "EcoSysPlanType", JsonValType::String );
-            ecoPlanType = str_2_EcoSysPlanType( a.GetString() );
+            ecoPlanType = str_2_ecoSysPlanType( a.GetString() );
         }
         {//--- colorTableName ---//
             const auto &a = check_and_get_value( eco, "colorTableName", JsonValType::String );
@@ -137,7 +137,7 @@ void parse_single_ecoSysPlansJsonFile( const std::string &path_file_ ){
         }
         {//--- density.DivideType ---//
             const auto &a = check_and_get_value( eco, "density.DivideType", JsonValType::String );
-            density_DivValsPtr = espJson_inn::str_2_DensityDivideValsPtr( a.GetString() );
+            density_DivValsPtr = espJson_inn::str_2_densityDivideValsPtr( a.GetString() );
         }
 
         auto &ecoPlanRef = esrc::insert_new_ecoSysPlan( ecoPlanType );

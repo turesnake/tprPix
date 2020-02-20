@@ -14,14 +14,13 @@
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 
 //============== static ===============//
-ID_Manager                                              VillageBlueprint::id_manager { ID_TYPE::U32, 0};
-std::unordered_map<std::string, villageBlueprintId_t>   VillageBlueprint::name_2_ids {};
+std::unordered_set<villageBlueprintId_t>    VillageBlueprint::villageIds {};
+std::hash<std::string>                      VillageBlueprint::hasher {};
+
 std::unordered_map<villageBlueprintId_t, std::unique_ptr<VillageBlueprint>> VillageBlueprint::villageUPtrs {};
 
 
-
 void VillageBlueprint::init_for_static()noexcept{
-    VillageBlueprint::name_2_ids.reserve(1000);
     VillageBlueprint::villageUPtrs.reserve(1000);
 }
 
@@ -40,9 +39,10 @@ void VarTypeDatas_Village::init_check()noexcept{
  */
 villageBlueprintId_t VillageBlueprint::init_new_village( const std::string &name_ ){
     //-- name_2_ids
-    villageBlueprintId_t id = VillageBlueprint::id_manager.apply_a_u32_id();
-    auto outPair1 = VillageBlueprint::name_2_ids.insert({ name_, id });
+    villageBlueprintId_t id = VillageBlueprint::hasher(name_);
+    auto outPair1 = VillageBlueprint::villageIds.insert( id );
     tprAssert( outPair1.second );
+
     //-- villageUPtrs 
     auto outPair2 = VillageBlueprint::villageUPtrs.insert({ id, std::make_unique<VillageBlueprint>() });
     tprAssert( outPair2.second );

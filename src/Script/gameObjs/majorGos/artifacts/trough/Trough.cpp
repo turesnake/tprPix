@@ -51,7 +51,7 @@ void Trough::init(GameObj &goRef_,const DyParam &dyParams_ ){
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+    //tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -65,7 +65,6 @@ void Trough::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //----- gomeshs -----//
     for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
         const GoDataEntForCreate &goDataEntRef = *uptrRef;
-
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 goDataEntRef.goMeshName,
                                 goDataEntRef.subspeciesId,

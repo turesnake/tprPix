@@ -17,7 +17,7 @@
 
 
 
-GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept{
+GameObjMoveState str_2_gameObjMoveState( const std::string &name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<GameObjMoveState>(name_);
     if( labelOP.has_value() ){
@@ -30,7 +30,7 @@ GameObjMoveState str_2_GameObjMoveState( const std::string &name_ )noexcept{
 }
 
 
-GameObjState str_2_GameObjState( const std::string &name_ )noexcept{
+GameObjState str_2_gameObjState( const std::string &name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<GameObjState>(name_);
     if( labelOP.has_value() ){
@@ -43,7 +43,7 @@ GameObjState str_2_GameObjState( const std::string &name_ )noexcept{
 }
 
 
-GameObjFamily str_2_GameObjFamily( const std::string &name_ )noexcept{
+GameObjFamily str_2_gameObjFamily( const std::string &name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<GameObjFamily>(name_);
     if( labelOP.has_value() ){

@@ -66,14 +66,12 @@ void onGoSpeciesIds_SignUp(){
     GoSpecFromJson::insert_2_initFuncs( "stoneWall",  std::bind( &gameObjs::StoneWall::init, _1, _2 ) );
 
     GoSpecFromJson::insert_2_initFuncs( "campfire",      std::bind( &gameObjs::Campfire::init, _1, _2 ) );
-    GoSpecFromJson::insert_2_initFuncs( "campfireChild", std::bind( &gameObjs::CampfireChild::init, _1, _2 ) );
 
     GoSpecFromJson::insert_2_initFuncs( "glassBottle",      std::bind( &gameObjs::GlassBottle::init, _1, _2 ) );
 
     GoSpecFromJson::insert_2_initFuncs( "pot",          std::bind( &gameObjs::Pot::init, _1, _2 ) );
 
     GoSpecFromJson::insert_2_initFuncs( "trough",       std::bind( &gameObjs::Trough::init, _1, _2 ) );
-    GoSpecFromJson::insert_2_initFuncs( "troughChild",  std::bind( &gameObjs::TroughChild::init, _1, _2 ) );
 
     //-------------------//
     //        tree

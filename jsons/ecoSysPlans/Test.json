@@ -76,7 +76,7 @@
                 {"Sml2_Mid1": 17}
             ],
             "ecoEnts_Big":[
-                { "goSpeciesName": "rock",  "MultiGoMeshType":"", "num": 1 }
+                { "goSpeciesName": "rock",  "goLabel":"", "num": 1 }
             ],
 
             "ecoEnts_Mid":[

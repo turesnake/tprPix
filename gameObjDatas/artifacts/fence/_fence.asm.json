@@ -1,0 +1,21 @@
+[
+    {
+        "goSpeciesName": "fence",
+        "goMeshSets":[
+            {
+                "type": "type_1",
+                "goMeshs":[
+                    { "afsName": "fence", "animLabel": "T2"  }
+                ]
+            }
+        ],
+        "plans":[
+            {
+                "types":{
+                    "type_1": "T2"
+                }
+            }
+        ]
+    }
+]
+

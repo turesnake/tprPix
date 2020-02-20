@@ -14,7 +14,7 @@
 #include "tprDebug.h"
 
 
-AnimActionEName str_2_AnimActionEName( const std::string &str_ )noexcept{
+AnimActionEName str_2_animActionEName( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<AnimActionEName>(str_);
     if( labelOP.has_value() ){
