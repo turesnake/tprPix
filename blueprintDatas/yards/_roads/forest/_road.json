@@ -76,7 +76,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -94,7 +94,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -112,7 +112,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -130,7 +130,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -148,7 +148,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -166,7 +166,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_TwoPorts", "num": 1 }
                     ]
                 }
             ]
@@ -185,7 +185,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_ThreePorts", "num": 1 }
                     ]
                 }
             ]
@@ -203,7 +203,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_ThreePorts", "num": 1 }
                     ]
                 }
             ]
@@ -221,7 +221,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_ThreePorts", "num": 1 }
                     ]
                 }
             ]
@@ -239,7 +239,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_RoadYard_ThreePorts", "num": 1 }
                     ]
                 }
             ]

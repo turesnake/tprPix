@@ -79,7 +79,8 @@ void Camera::RenderUpdate(){
 
     this->renderDPos.x = outDPos.x;
     this->renderDPos.y = outDPos.y;
-    this->renderDPos.z = -outDPos.y + (0.5 * ViewingBox::z); //-- IMPORTANT --
+
+    this->renderDPos.z = -outDPos.y + ViewingBox::halfZ; //-- IMPORTANT --
 
     //--- debug ---//
     tprDebug::collect_cameraSpeed( glm::dvec2{alignX, alignY} );

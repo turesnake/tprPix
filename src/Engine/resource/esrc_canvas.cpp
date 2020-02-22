@@ -24,7 +24,7 @@ namespace esrc{//------------------ namespace: esrc -------------------------//
 
 namespace canvas_inn {//-------- namespace: canvas_inn --------------//
     std::unique_ptr<Canvas> groundCanvasUPtr;
-    std::unique_ptr<Canvas> waterAnimCanvasUPtr;
+    //std::unique_ptr<Canvas> waterAnimCanvasUPtr;
 
 }//------------- namespace: canvas_inn end --------------//
 
@@ -38,7 +38,7 @@ void init_canvases(){
     tprAssert( esrc::is_setState("shader") );
 
     canvas_inn::groundCanvasUPtr = std::make_unique<Canvas>();
-    canvas_inn::waterAnimCanvasUPtr = std::make_unique<Canvas>();
+    //canvas_inn::waterAnimCanvasUPtr = std::make_unique<Canvas>();
 
     //------------------//
     //    groundCanvas
@@ -49,8 +49,10 @@ void init_canvases(){
     //------------------//
     //    waterAnimCanvas
     //------------------//
+    /*
     canvas_inn::waterAnimCanvasUPtr->init( &(ViewingBox::gameSZ),
                             esrc::get_shaderPtr(ShaderType::Water) );
+    */
 
     esrc::insertState("canvas");
 }
@@ -77,6 +79,7 @@ void draw_groundCanvas(){
  *                  draw_waterAnimCanvas
  * -----------------------------------------------------------
  */
+/*
 void draw_waterAnimCanvas(){
 
     canvas_inn::waterAnimCanvasUPtr->use_shaderProgram(); //- MUST !!! 
@@ -90,6 +93,7 @@ void draw_waterAnimCanvas(){
                                        
     canvas_inn::waterAnimCanvasUPtr->draw();
 }
+*/
 
 }//---------------------- namespace: esrc -------------------------//
 

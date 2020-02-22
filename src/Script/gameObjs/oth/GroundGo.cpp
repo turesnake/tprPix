@@ -41,9 +41,6 @@ using namespace std::placeholders;
 namespace gameObjs{//------------- namespace gameObjs ----------------
 namespace groundGo_inn {//------------------ namespace: groundGo_inn ---------------------//
 
-    
-
-    //===== funcs =====//
     AnimLabel Job_GroundGoEntType_2_AnimLabel( GroundGoEntType type_ )noexcept;
 
 }//--------------------- namespace: groundGo_inn end ------------------------//
@@ -95,7 +92,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 subspeciesId,
                                 AnimActionEName::Idle,
                                 RenderLayerType::GroundGo, //- 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::GroundColor),  // pic shader
+                                ShaderType::GroundColor,  // pic shader
                                 jgEntPtr->dposOff,
                                 0.0,  //- zOff
                                 true //- isVisible

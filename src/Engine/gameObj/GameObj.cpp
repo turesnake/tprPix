@@ -109,7 +109,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     animSubspeciesId_t     subspeciesId_,
                                     AnimActionEName     actionEName_,
                                     RenderLayerType     layerType_,
-                                    ShaderProgram       *pixShaderPtr_,
+                                    ShaderType          shaderType_,
                                     const glm::vec2     pposOff_,
                                     double              zOff_,
                                     bool                isVisible_ ){
@@ -131,7 +131,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 
     //----- init -----//
     gmesh.set_pic_renderLayer( layerType_ ); 
-    gmesh.set_pic_shader_program( pixShaderPtr_ );
+    gmesh.set_pic_shader_program( &esrc::get_shaderRef(shaderType_) );
     if( gmesh.isHaveShadow ){
         gmesh.set_shadow_shader_program( &esrc::get_shaderRef( ShaderType::Shadow ) ); //- 暂时自动选配 tmp
     }

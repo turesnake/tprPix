@@ -28,7 +28,7 @@
 #include "IntVec.h"
 #include "ID_Manager.h"
 #include "tprAssert.h"
-#include "GoAssembleData.h"
+#include "GoAssemblePlan.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -83,14 +83,10 @@ public:
     std::string             afsName     {}; // 允许为 "", 此时 animLabel == Nil
     AnimLabel               animLabel  {};
     
-    goLabelId_t     multiGoMeshType {};
+    goLabelId_t             goLabelId {};
 
     bool                    isPlaceHolder {false}; // 单纯的占位元素，当从分配池中抽到 此类元素时，什么go也不生成
 
-
-    bool                    isMultiGoMesh {}; 
-                                // 在未来，这个值 永远为 true
-                                // 将被 取消
 
 };
 

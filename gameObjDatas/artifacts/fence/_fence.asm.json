@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "fence",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "T2",
                 "goMeshs":[
                     { "afsName": "fence", "animLabel": "T2"  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "T2"
-                }
             }
         ]
     }

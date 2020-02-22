@@ -47,7 +47,6 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", AnimLabel::Default, 10 );
 
-
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center );
     goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
@@ -60,7 +59,7 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 subspeciesId,
                                 AnimActionEName::Pointer,
                                 RenderLayerType::UIs, //- 固定zOff值  
-                                &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
+                                ShaderType::OriginColor,  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.5,  //- zOff，确保，浮在 archive图元 上方
                                 true //- isVisible

@@ -14,7 +14,14 @@
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
-#include "tprDebug.h"
+//--------------- Engine ------------------//
+#include "tprAssert.h"
+
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace bpv_inn {//------------------ namespace: bpv_inn start ---------------------//

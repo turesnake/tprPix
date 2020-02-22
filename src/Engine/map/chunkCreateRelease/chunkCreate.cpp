@@ -30,6 +30,7 @@
 #include "esrc_jobQue.h"
 #include "esrc_job_chunk.h"
 #include "esrc_job_ecoObj.h"
+#include "esrc_time.h" // debug
 
 #include "jobs_all.h"
 #include "Job.h"
@@ -303,8 +304,7 @@ void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 
 
 
-/* job 线程完成工作后，在主线程中完成的 最后一步
- */
+// job 线程完成工作后，在主线程中完成的 最后一步
 void create_one_chunk( chunkKey_t chunkKey_ ){
 
             //   调用本函数，说明一定处于 “无视存储” 的早期阶段。
@@ -351,9 +351,23 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
     //            [6]
     //  为 chunk 中的 8*8 个 field，分配 all kind of goes
     //------------------------------//
+
+            double timeP_1 = esrc::get_timer().get_currentTime();
+
+
     for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
         create_gos_in_field( fieldKey, chunkRef, job_chunkRef );
     } //-- each field key end --
+
+            double timeP_2 = esrc::get_timer().get_currentTime();
+            cout << "chunkCreate: "
+                << "build_go_time: " << (timeP_2-timeP_1)
+                << endl;
+
+            // 应该把这部分数据，记录到 log 中
+            // ...
+
+
 
     //------------------------------//
     //            [7]

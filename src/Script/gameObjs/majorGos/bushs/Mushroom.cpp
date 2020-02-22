@@ -25,6 +25,8 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
+#include "Script/gameObjs/assemble_go.h"
+
 
 using namespace std::placeholders;
 
@@ -44,36 +46,13 @@ struct Mushroom_PvtBinary{
 
 void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
-
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( NineDirection::Center );
-
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Mushroom_PvtBinary>();
 
-    //================ dyParams =================//
-    tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
-    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
-    const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
 
-    //----- gomeshs -----//
-    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
-        const GoDataEntForCreate &goDataEntRef = *uptrRef;
 
-        auto &goMeshRef = goRef_.creat_new_goMesh( 
-                                goDataEntRef.goMeshName,
-                                goDataEntRef.subspeciesId,
-                                goDataEntRef.animActionEName,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                goDataEntRef.zOff,  //- zOff
-                                true //- isVisible
-                                );
-    }
-
-        
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &Mushroom::OnRenderUpdate,  _1 );   
@@ -88,17 +67,6 @@ void Mushroom::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 }
 
-/* -- 在 “工厂”模式中，将本具象go实例，与 一个已经存在的 go实例 绑定。
- * -- 这个 go实例 的类型，应该和 本类一致。
- */
-void Mushroom::bind( GameObj &goRef_ ){
-}
-
-/* -- 从硬盘读取到 go实例数据后，重bind callback
- * -- 会被 脚本层的一个 巨型分配函数 调用
- */
-void Mushroom::rebind( GameObj &goRef_ ){
-}
 
 
 void Mushroom::OnRenderUpdate( GameObj &goRef_ ){
@@ -114,23 +82,14 @@ void Mushroom::OnRenderUpdate( GameObj &goRef_ ){
 }
 
 
-
-void Mushroom::OnLogicUpdate( GameObj &goRef_ ){
-    //=====================================//
-    //            ptr rebind
-    //-------------------------------------//
-    //auto *pvtBp = goRef_.get_pvtBinaryPtr<Mushroom_PvtBinary>();
-    //=====================================//
-
-    // 什么也没做...
-}
+void Mushroom::bind( GameObj &goRef_ ){}
+void Mushroom::rebind( GameObj &goRef_ ){}
+void Mushroom::OnLogicUpdate( GameObj &goRef_ ){}
 
 
 
 void Mushroom::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
     tprAssert(0);
-
 }
 
 

@@ -1,9 +1,14 @@
 [
     {
         "goSpeciesName": "cactus",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Sml",
                 "goAltiRangeLabel": "Sml",
                 "goMeshs":[
                     { "afsName": "cactus", "animLabel": "Sml"  }
@@ -11,19 +16,11 @@
             },
 
             {
-                "type": "type_2",
+                "goLabel": "Mid",
                 "goAltiRangeLabel": "Mid",
                 "goMeshs":[
                     { "afsName": "cactus", "animLabel": "Mid"  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Sml",
-                    "type_2": "Mid"
-                }
             }
         ]
     }

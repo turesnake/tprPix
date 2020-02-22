@@ -22,7 +22,9 @@
             "_riverBank.afs.json"
 
         ],
-        "goAsm_lPaths": []
+        "goAsm_lPaths": [
+            "_riverBank.asm.json"
+        ]
 
 
     }

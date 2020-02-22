@@ -61,7 +61,7 @@ void Button_SceneBegin_Archive::init(GameObj &goRef_,const DyParam &dyParams_ ){
                                 subspeciesId, 
                                 AnimActionEName::New, 
                                 RenderLayerType::UIs, //- 固定zOff值  
-                                &esrc::get_shaderRef(ShaderType::OriginColor),  // pic shader
+                                ShaderType::OriginColor,  // pic shader
                                 glm::vec2{ 0.0f, 0.0f }, //- pposoff
                                 0.0,  //- zOff， 沉在所有 MajorGo 后方
                                 true //- isVisible

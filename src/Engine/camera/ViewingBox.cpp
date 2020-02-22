@@ -24,23 +24,32 @@ IntVec2  ViewingBox::windowSZ { 0, 0 };
 IntVec2  ViewingBox::gameSZ   { 0, 0 };
 bool   ViewingBox::isFullScreen {false};
 
+
+/*
 double ViewingBox::z { static_cast<double>(VIEWING_BOX_Z_DEEP) };
+double ViewingBox::halfZ { 0.5 * ViewingBox::z };
 
 double  ViewingBox::ground_zOff           { 10.0 };
 double  ViewingBox::groundGo_zOff         { 20.0 };
 double  ViewingBox::floor_zOff            { 30.0 };
 
-double  ViewingBox::waterAnim_zOff        { 40.0 };
 
-double  ViewingBox::underGoShadows_zOff   { 50.0 };
-double  ViewingBox::goShadows_zOff        { 60.0 };
+double  ViewingBox::bioSoup_zOff          { 3000.0 };
+double  ViewingBox::boxCenter_2_bioSoup   { -2000.0 };
+
+
+double  ViewingBox::goShadows_zOff        { 5000.0 };
 
 //...
-double  ViewingBox::debug_zOff         { 100.0 };
+double  ViewingBox::debug_zOff          { 5010.0 };
+
+double  ViewingBox::majorGoes_zOff          { 7000.0 };
+double  ViewingBox::boxCenter_2_majorGoes   { 2000.0 };
 
 //...
 double  ViewingBox::aboveMajorGoes_zOff  { 9890.0 };
 double  ViewingBox::UIs_zOff             { 9900.0 };
+*/
 
 
 /* ===========================================================
@@ -88,9 +97,9 @@ void ViewingBox::init(){
     //--------------------//
     double windowSZ_vs_gameSZ_ {};
 
-    windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
+    //windowSZ_vs_gameSZ_ = srcHeight / 1200.0; // 测试版简易法，玩家设置的窗口变小，mapent显示尺寸也将变小
     //windowSZ_vs_gameSZ_ = srcHeight / 2000.0;
-    //windowSZ_vs_gameSZ_ = srcHeight / 3200.0;
+    windowSZ_vs_gameSZ_ = srcHeight / 3200.0;
                     // eque to windowConfig val 1920:1200 
 
     ViewingBox::gameSZ.x = static_cast<int>(floor(srcWidth/windowSZ_vs_gameSZ_));

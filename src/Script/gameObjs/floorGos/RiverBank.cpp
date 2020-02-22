@@ -30,7 +30,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-
+#include "Script/gameObjs/assemble_go.h"
 
 using namespace std::placeholders;
 
@@ -59,32 +59,25 @@ void RiverBank::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
 
-    
 
 
+    /*
     //================ dyParams =================//
     size_t typeHash = dyParams_.get_typeHash();
     tprAssert( typeHash == typeid(DyParams_RiverBank).hash_code() );
     const auto *bpParamPtr = dyParams_.get_binaryPtr<DyParams_RiverBank>();
-
-
-
     
     // 最简状态，内部分配，未来要依靠 DyParams 提供的参数 
     animSubspeciesId_t rootSubId = esrc::apply_a_random_animSubspeciesId( "riverBank", AnimLabel::Default, bpParamPtr->mapEntUWeight );
 
-
-
-
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center ); // 手动设置
 
-    
-
     // 依靠 uWeight，计算 zOff，从而确保，相交的 floorgo 之间，恒定的覆盖关系
     double goMeshZOff = riverBank_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight ); // (0.0, 0.1)
-
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
         //-- 制作唯一的 mesh 实例: "root" --
@@ -92,12 +85,16 @@ void RiverBank::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 rootSubId,
                                 AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                ShaderType::UnifiedColor,  // pic shader
                                 glm::dvec2{0.0, 0.0}, //- pposoff
                                 //goMeshZOff,  //- zOff
                                 -100.0,
                                 true //- isVisible
                                 );
+    */
+
+
+
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

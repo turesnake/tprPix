@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "breakStone",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Light",
                 "goMeshs":[
                     { "afsName": "breakStone", "animLabel": "Light"  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Light"
-                }
             }
         ]
     }

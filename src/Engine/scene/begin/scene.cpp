@@ -262,7 +262,6 @@ void inputINS_handle( const InputINS &inputINS_){
 
                 //-- db::table_goes --
                 //goSpeciesId_t newGoSpeciesId = ssrc::str_2_goSpeciesId( "norman" );
-                //goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "oneEyeBoy" );
                 goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
                 
 
@@ -272,6 +271,10 @@ void inputINS_handle( const InputINS &inputINS_){
 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpeciesId, newGoDPos } );
+
+
+                                            // 在未来，这种原始的 创建 go 的方式会被替换 
+                                            // ...
                 
             
 

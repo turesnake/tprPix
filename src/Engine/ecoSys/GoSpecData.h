@@ -15,7 +15,7 @@
 #include "AnimLabel.h"
 #include "GameObjType.h"
 
-#include "GoAssembleData.h"
+#include "GoAssemblePlan.h"
 
 
 //--------------- Script ------------------//
@@ -31,49 +31,29 @@
 class GoSpecData{
 public:
     GoSpecData( goSpeciesId_t rootGoSpeciesId_,
-                bool       isMultiGoMesh_,
                 const std::string &afsName_,
-                AnimLabel   animLabel_):
+                goLabelId_t     goLabelId_):
         rootGoSpeciesId(rootGoSpeciesId_),
-        isMultiGoMesh(isMultiGoMesh_),
         afsName(afsName_),
-        animLabel(animLabel_)
-        {
-            tprAssert( !isMultiGoMesh_ );
-        }
-
-    GoSpecData( goSpeciesId_t rootGoSpeciesId_,
-                bool       isMultiGoMesh_,
-                const std::string &afsName_,
-                goLabelId_t multiGoMeshType_):
-        rootGoSpeciesId(rootGoSpeciesId_),
-        isMultiGoMesh(isMultiGoMesh_),
-        afsName(afsName_),
-        multiGoMeshType(multiGoMeshType_)
-        {
-            tprAssert( isMultiGoMesh_ );
-        }
+        goLabelId(goLabelId_)
+        {}
 
     //----- get -----//
     inline goSpeciesId_t   get_rootGoSpeciesId()const noexcept{ return this->rootGoSpeciesId; }
-    inline bool         get_isMultiGoMesh()const noexcept{ return this->isMultiGoMesh; }
     inline const std::string &get_afsName()const noexcept{ return this->afsName; }
     inline AnimLabel get_animLabel()const noexcept{ return this->animLabel; }
 
-    inline goLabelId_t get_multiGoMeshType()const noexcept{
-        tprAssert( this->isMultiGoMesh );
-        return this->multiGoMeshType;
+    inline goLabelId_t get_goLabelId()const noexcept{
+        return this->goLabelId;
     }
 
 
 private:
     goSpeciesId_t              rootGoSpeciesId {};
 
-    bool                    isMultiGoMesh;
-
     std::string             afsName    {};
     AnimLabel               animLabel {};
-    goLabelId_t     multiGoMeshType {};
+    goLabelId_t             goLabelId {};
 };
 
 

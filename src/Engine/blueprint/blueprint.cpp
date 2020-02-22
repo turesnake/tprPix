@@ -32,9 +32,9 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
-    size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
+    //size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
 
-    void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
+    void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                     IntVec2 mpos_,
                                     const glm::dvec2  &dpos_,
                                     const GoSpec &goSpecRef_,
@@ -101,7 +101,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         yardMPos = ecoObjMPos_ - IntVec2{half_ents_per_section, half_ents_per_section} + yEntUPtr->mposOff;
                 //-- 蓝图 以 ecoobj/section left-bottom 点为 中心点
 
-        suWeight = blueP_inn::calc_simple_uWeight( yardMPos );
+        suWeight = calc_simple_uWeight( yardMPos );
         auto yardId = varType_village_managerUPtr->apply_a_yardBlueprintId( yEntUPtr->varTypeIdx, suWeight, yEntUPtr->direction );
 
         YardBlueprint &yardRef = YardBlueprintSet::get_yardBlueprintRef( yardId );
@@ -128,7 +128,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                 const auto *varTypeDatas_Yard_majorGoPtr = yardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
                 plotMPos = yardMPos + pEntUPtr->mposOff;
-                suWeight = blueP_inn::calc_simple_uWeight( plotMPos );
+                suWeight = calc_simple_uWeight( plotMPos );
 
                 if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
                     //-- 直接可以获得 mp 位置的 goSpec 数据
@@ -136,7 +136,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     const GoSpec &goSpecRef = varType_yard_managerUPtr->apply_a_majorGoSpec( pEntUPtr->varTypeIdx, suWeight );
 
                     //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-                    blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+                    blueP_inn::create_new_goDataForCreate_old(majorGoDatasForCreate_,
                                                     plotMPos,
                                                     mpos_2_midDPos(plotMPos),
                                                     goSpecRef,
@@ -160,12 +160,12 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
 
                         entMPos = plotMPos + mpEntUPtr->mposOff;
-                        suWeight = blueP_inn::calc_simple_uWeight( entMPos );
+                        suWeight = calc_simple_uWeight( entMPos );
 
                         const GoSpec &goSpecRef = varType_Plot_ManagerUPtr->apply_a_goSpec( mpEntUPtr->varTypeIdx, suWeight );
 
                         //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-                        blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+                        blueP_inn::create_new_goDataForCreate_old(majorGoDatasForCreate_,
                                                         entMPos,
                                                         mpos_2_midDPos(entMPos),
                                                         goSpecRef,
@@ -197,14 +197,14 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                 const auto *varTypeDatas_Yard_floorGoPtr = yardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
                 entMPos = yardMPos + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-                suWeight = blueP_inn::calc_simple_uWeight( entMPos );
+                suWeight = calc_simple_uWeight( entMPos );
 
                 const GoSpec &goSpecRef = varType_yard_managerUPtr->apply_a_floorGoSpec( pEntUPtr->varTypeIdx, suWeight );
 
                 floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
 
                 //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
-                blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
+                blueP_inn::create_new_goDataForCreate_old(floorGoDatasForCreate_,
                                                     entMPos,
                                                     floorGoDPos,
                                                     goSpecRef,
@@ -245,7 +245,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
         const auto *varTypeDatas_Yard_majorGoPtr = natureMajoryardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
         plotMPos = yardMPos_ + pEntUPtr->mposOff;
-        suWeight = blueP_inn::calc_simple_uWeight( plotMPos );
+        suWeight = calc_simple_uWeight( plotMPos );
 
         if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
             //-- 直接可以获得 mp 位置的 goSpec 数据
@@ -257,7 +257,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
 
             const GoSpec &goSpecRef = varType_majorYard_managerUPtr->apply_a_majorGoSpec( pEntUPtr->varTypeIdx, suWeight );
             //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-            blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+            blueP_inn::create_new_goDataForCreate_old(majorGoDatasForCreate_,
                                                 plotMPos,
                                                 mpos_2_midDPos(plotMPos),
                                                 goSpecRef,
@@ -280,7 +280,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
             for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
 
                 entMPos = plotMPos + mpEntUPtr->mposOff;
-                suWeight = blueP_inn::calc_simple_uWeight( entMPos );
+                suWeight = calc_simple_uWeight( entMPos );
 
                 // skip mapent in water
                 if( !f_is_mapent_land_(entMPos) ){
@@ -289,7 +289,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
 
                 const GoSpec &goSpecRef = varType_Plot_ManagerUPtr->apply_a_goSpec( mpEntUPtr->varTypeIdx, suWeight );
                 //--- 正式在 ecoObj 中创建 major GoDataForCreate 实例 --
-                blueP_inn::create_new_goDataForCreate(majorGoDatasForCreate_,
+                blueP_inn::create_new_goDataForCreate_old(majorGoDatasForCreate_,
                                                     entMPos,
                                                     mpos_2_midDPos(entMPos),
                                                     goSpecRef,
@@ -333,7 +333,7 @@ void build_natureYard_floorGoDatasForCreate(
         const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
         entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-        suWeight = blueP_inn::calc_simple_uWeight( entMPos );
+        suWeight = calc_simple_uWeight( entMPos );
 
         // 可以在水下 生成，形成水底 纹理
 
@@ -347,7 +347,7 @@ void build_natureYard_floorGoDatasForCreate(
         floorGoDPos = mpos_2_dpos(entMPos) + calc_floorGo_mid_dposOff( varTypeDatas_Yard_floorGoPtr->get_floorGoSize() );
 
         //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
-        blueP_inn::create_new_goDataForCreate(floorGoDatasForCreate_,
+        blueP_inn::create_new_goDataForCreate_old(floorGoDatasForCreate_,
                                                 entMPos,
                                                 floorGoDPos,
                                                 goSpecRef,
@@ -362,9 +362,12 @@ void build_natureYard_floorGoDatasForCreate(
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
+
+
 // simple_uWeight 为每个 mapent生成的，仅用于 蓝图数据分配的 随机数
 // 仅仅在 蓝图分配阶段 被使用
 // 会被各种线程调用，所以务必不要使用 公共数据!!!
+/*
 size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
 
     std::default_random_engine dRandEng;
@@ -378,10 +381,16 @@ size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
 
     return (cast_2_size_t(key) + randVal);
 }
+*/
 
 
 
-void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
+
+
+//
+//     未来将被改写为 更为通用的函数，变成 公共函数，允许 代码手动创建 go
+//
+void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                 IntVec2 mpos_,
                                 const glm::dvec2  &dpos_, // 让外部计算好
                                 const GoSpec &goSpecRef_,
@@ -392,82 +401,20 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
         return;
     }
 
-    size_t suWeight =  calc_simple_uWeight( mpos_ );
-
-
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
     auto outPair = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::make_unique<GoDataForCreate>() });
     tprAssert( outPair.second );
     GoDataForCreate &goDRef = *(outPair.first->second);
-    //--- 为 GoDataForCreate 实例 装填数据 --
-    goDRef.direction = mapDataEntRef_.direction;
-
-    goDRef.brokenLvl_or_floorGoLayer = mapDataEntRef_.brokenLvl_or_floorGoLayer;
-
-    goDRef.goSpeciesId = goSpecRef_.goSpeciesId;
-    goDRef.dpos = dpos_;
-
-    goDRef.isMultiGoMesh = goSpecRef_.isMultiGoMesh;
-
-    if( !goSpecRef_.isMultiGoMesh ){
-        //=== single goMesh ===
-        auto entUPtr = std::make_unique<GoDataEntForCreate>();
-
-        //---
-        entUPtr->goMeshName = "root"; // default
-        entUPtr->dposOff = glm::dvec2{0.0, 0.0}; // default
-        entUPtr->zOff = 0.0; // default
-        entUPtr->animActionEName = AnimActionEName::Idle; // default
-        entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
-
-        if( goSpecRef_.afsName == "" ){
-            entUPtr->afsNamePtr = nullptr;
-            entUPtr->animLabel = AnimLabel::Nil;
-            entUPtr->subspeciesId = EMPTY_animSubspeciesId; // 空值，表示留给 具象go类 去分配
-        }else{
-            entUPtr->afsNamePtr = &goSpecRef_.afsName;
-            entUPtr->animLabel = goSpecRef_.animLabel;
-            entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(goSpecRef_.afsName, // e.g. "mushroom"
-                                                                        goSpecRef_.animLabel,
-                                                                        suWeight );
-        }
-        
-        goDRef.goMeshDataUPtrs.push_back( std::move(entUPtr) ); // move
-
-    }else{
-        //=== multi goMesh ===
-        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDRef.goSpeciesId );
-        tprAssert( goSpecFromJsonRef.goAssembleDataUPtr );
-        const GoMeshSet &goMeshSetRef = goSpecFromJsonRef.goAssembleDataUPtr->apply_a_goMeshSet( 
-                                                                goSpecRef_.multiGoMeshType,
-                                                                suWeight );
 
 
-        goDRef.goAltiRangeLabel = goMeshSetRef.goAltiRangeLabel;
-
-        size_t randUWeightOff = 0;
-        for( const auto &jgomesh : goMeshSetRef.gomeshs ){ // each json goMesh
-            randUWeightOff += 17;
-
-            auto entUPtr = std::make_unique<GoDataEntForCreate>();
-
-            //---
-            entUPtr->goMeshName = jgomesh.goMeshName; // copy
-            entUPtr->dposOff = jgomesh.dposOff;
-            entUPtr->zOff = jgomesh.zOff;
-            entUPtr->animActionEName = jgomesh.animActionEName;
-            entUPtr->windDelayIdx = calc_goMesh_windDelayIdx( goDRef.dpos + entUPtr->dposOff );
-
-            entUPtr->afsNamePtr = &jgomesh.animFrameSetName;
-            entUPtr->animLabel = jgomesh.animLabel;
-            entUPtr->subspeciesId = esrc::apply_a_random_animSubspeciesId(    jgomesh.animFrameSetName,
-                                                                        jgomesh.animLabel,
-                                                                        suWeight + randUWeightOff );
-
-            goDRef.goMeshDataUPtrs.push_back( std::move(entUPtr) ); // move                                        
-            
-        }          
-    }
+    GoDataForCreate::assemble_new_goDataForCreate(  goDRef,
+                                                    dpos_,
+                                                    goSpecRef_.goSpeciesId,
+                                                    goSpecRef_.goLabelId,
+                                                    mapDataEntRef_.direction,
+                                                    mapDataEntRef_.brokenLvl_or_floorGoLayer,
+                                                    calc_simple_uWeight( mpos_ )
+                                                );
 }
 
 
@@ -475,3 +422,4 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     
 }//-------------- namespace: blueP_inn end ----------------//
 }//--------------------- namespace: blueprint end ------------------------//
+

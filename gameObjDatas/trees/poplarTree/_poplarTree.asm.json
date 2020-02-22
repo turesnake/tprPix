@@ -1,9 +1,14 @@
 [
     {
         "goSpeciesName": "poplarTree",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Sml",
                 "goAltiRangeLabel": "Sml",
                 "goMeshs":[
                     { "afsName": "poplarTree", "animLabel": "Sml"  }
@@ -11,7 +16,7 @@
             },
 
             {
-                "type": "type_2",
+                "goLabel": "Mid",
                 "goAltiRangeLabel": "Mid",
                 "goMeshs":[
                     { "afsName": "poplarTree", "animLabel": "Mid"  }
@@ -19,21 +24,11 @@
             },
 
             {
-                "type": "type_3",
+                "goLabel": "Dead",
                 "goAltiRangeLabel": "Mid",
                 "goMeshs":[
                     { "afsName": "poplarTree", "animLabel": "Dead"  }
                 ]
-            }
-
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Sml",
-                    "type_2": "Mid",
-                    "type_3": "Dead"
-                }
             }
         ]
     }

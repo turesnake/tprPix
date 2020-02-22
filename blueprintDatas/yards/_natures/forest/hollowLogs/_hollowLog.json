@@ -26,7 +26,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Normal", "num": 1 }
+                        { "goSpeciesName": "hollowLog", "goLabel": "Poplar_Normal", "num": 1 }
                     ]
                 },
         
@@ -36,7 +36,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "hollowLog", "afsName": "hollowLog_poplar", "animLabel": "Special", "num": 1 }
+                        { "goSpeciesName": "hollowLog", "goLabel": "Poplar_Special", "num": 1 }
                     ]
                 },
         

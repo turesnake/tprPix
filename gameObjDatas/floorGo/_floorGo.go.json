@@ -27,21 +27,30 @@
             "_forest/_afs.json",
             "_forest/road/_afs.json",
 
-
-
             "_desert/_afs.json",
             "_savannah/_afs.json",
-
 
             "rug/_afs.json",
 
             "woodFloor/light/_afs.json",
             "woodFloor/dark/_afs.json"
 
-
         ],
         "goAsm_lPaths": [
-            "_floorGo.asm.json"
+            "_floorGo.asm.json",
+
+            "_darkForest/_asm.json",
+
+            "_forest/_asm.json",
+            "_forest/road/_asm.json",
+
+            "_desert/_asm.json",
+            "_savannah/_asm.json",
+
+            "rug/_asm.json",
+
+            "woodFloor/light/_asm.json",
+            "woodFloor/dark/_asm.json"            
         ]
 
 

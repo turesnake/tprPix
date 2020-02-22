@@ -221,7 +221,7 @@ void sceneRenderLoop_world(){
     esrc::get_renderPool(RenderPoolType::Opaque).draw();
     esrc::get_renderPool(RenderPoolType::Translucent).draw();
 
-    esrc::draw_waterAnimCanvas();
+    //esrc::draw_waterAnimCanvas(); // 已废弃
     esrc::get_renderPool(RenderPoolType::Shadow).draw(); // 确保最后渲染
 }
 

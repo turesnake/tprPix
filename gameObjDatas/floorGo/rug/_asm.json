@@ -1,0 +1,19 @@
+[
+    {
+        "goSpeciesName": "floorGo",
+        "without_holds": true,
+
+        "renderLayerType": "Floor",
+        "shaderType": "Floor",
+        
+        "plans":[
+            {
+                "goLabel": "Rug_1",
+                "goMeshs":[
+                    { "afsName": "floorGo_rug_1", "animLabel": "MapEnt_3m3"  }
+                ]
+            }
+        ]
+    }
+]
+

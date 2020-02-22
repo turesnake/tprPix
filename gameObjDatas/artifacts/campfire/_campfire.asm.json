@@ -1,20 +1,18 @@
 [
     {
         "goSpeciesName": "campfire",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "campfire_fire",
                 "goMeshs":[
                     { "goMeshName": "root", "zOff": 0.0, "afsName": "campfire_base", "animLabel": ""  },
                     { "goMeshName": "fire", "zOff": 0.1, "afsName": "campfire_fire", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "campfire_fire"
-                }
             }
         ]
     }

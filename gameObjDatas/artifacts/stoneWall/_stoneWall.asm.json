@@ -1,33 +1,29 @@
 [
     {
         "goSpeciesName": "stoneWall",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Light",
                 "goMeshs":[
                     { "afsName": "stoneWall", "animLabel": "Light"  }
                 ]
             },
             {
-                "type": "type_2",
+                "goLabel": "Grey",
                 "goMeshs":[
                     { "afsName": "stoneWall", "animLabel": "Grey"  }
                 ]
             },
             {
-                "type": "type_3",
+                "goLabel": "Dark",
                 "goMeshs":[
                     { "afsName": "stoneWall", "animLabel": "Dark"  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Light",
-                    "type_2": "Grey",
-                    "type_3": "Dark"
-                }
             }
         ]
     }

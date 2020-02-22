@@ -11,7 +11,14 @@
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
-#include "tprDebug.h"
+//--------------- Engine ------------------//
+#include "tprAssert.h"
+
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 EcoSysPlanType str_2_ecoSysPlanType( const std::string &str_ )noexcept{
 

@@ -63,7 +63,7 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
                             esrc::get_fieldRimId(),
                             AnimActionEName::Idle,
                             RenderLayerType::Floor, //- 固定zOff值
-                            &esrc::get_shaderRef(ShaderType::Shadow ),  // pic shader
+                            ShaderType::Shadow,  // pic shader
                             glm::dvec2{0.0, 0.0}, //- pposoff
                             0.5,  //- zOff
                             true ); //- isVisible

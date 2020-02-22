@@ -1,11 +1,11 @@
 /*
- * ====================== GoAssembleData.cpp =====================
+ * ====================== GoAssemblePlan.cpp =====================
  *                          -- tpr --
  *                                        CREATE -- 2019.10.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "GoAssembleData.h"
+#include "GoAssemblePlan.h"
 
 //--------------- CPP ------------------//
 #include <unordered_map>
@@ -40,11 +40,11 @@ using std::endl;
 
 
 //======== static ========//
-ID_Manager  GoMeshSet::id_manager { ID_TYPE::U32, 0};
+ID_Manager  GoAssemblePlanSet::Plan::id_manager { ID_TYPE::U32, 0};
 
 
-std::unordered_set<goLabelId_t>     GoAssembleData::goLabelIds {};
-std::hash<std::string>              GoAssembleData::hasher {};
-const size_t                         GoAssembleData::DEFAULT_MULTI_GO_MESH_TYPE { GoAssembleData::hasher("DEFAULT") };
+std::unordered_set<goLabelId_t>     GoAssemblePlanSet::goLabelIds {};
+std::hash<std::string>              GoAssemblePlanSet::hasher {};
+const size_t                         GoAssemblePlanSet::DEFAULT_GO_LABEL_ID { GoAssemblePlanSet::hasher("DEFAULT") };
 
 

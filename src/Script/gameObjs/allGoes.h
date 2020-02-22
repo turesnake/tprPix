@@ -13,7 +13,6 @@
 //---------- Script : gameObjs : majorGos -------------//
 //#include "Script/gameObjs/majorGos/Norman.h"
 //#include "Script/gameObjs/majorGos/BigMan.h"
-#include "Script/gameObjs/majorGos/OneEyeBoy.h"
 #include "Script/gameObjs/oth/PlayerGoCircle.h"
 
 #include "Script/gameObjs/majorGos/chicken/Chicken.h"

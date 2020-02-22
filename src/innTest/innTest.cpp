@@ -23,7 +23,7 @@
 #include "NineDirection.h"
 
 
-
+//-- tmp debug --
 #include <string>
 #include <iostream>
 using std::cout;

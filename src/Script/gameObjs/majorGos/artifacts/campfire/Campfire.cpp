@@ -24,6 +24,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
+#include "Script/gameObjs/assemble_go.h"
 
 
 using namespace std::placeholders;
@@ -71,50 +72,13 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Campfire_PvtBinary>();
 
-    // DyParam 中传入的 subid 暂时是无意义的，自行指定
-    //animSubspeciesId_t baseSubId = esrc::apply_a_random_animSubspeciesId( "campfire_base", AnimLabel::Default, 7 );
-    //animSubspeciesId_t fireSubId = esrc::apply_a_random_animSubspeciesId( "campfire_fire", AnimLabel::Default, 7 );
-
+    // 以后使用，先准备起来
     pvtBp->smokeSubId = esrc::apply_a_random_animSubspeciesId( "campfire_smoke", AnimLabel::Default, 7 );
 
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
 
-    //================ dyParams =================//
-    size_t typeHash = dyParams_.get_typeHash();
-    tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
-    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
-    const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( goDataPtr->isMultiGoMesh ); // must not single gomesh
-    //const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin()); // only one
-
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( goDataPtr->direction );
-
-    if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
-        goRef_.brokenLvl.reset( retOpt.value() );
-    }else{
-        tprAssert(0);
-    }
-
-                        
-    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-
-
-    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
-        const GoDataEntForCreate &goDataEntRef = *uptrRef;
-
-        goRef_.creat_new_goMesh( 
-                                goDataEntRef.goMeshName,
-                                goDataEntRef.subspeciesId,
-                                goDataEntRef.animActionEName,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                goDataEntRef.zOff,  //- zOff
-                                true //- isVisible
-                                );
-    } 
-
-
+    //========== goMeshs =========//
     GameObjMesh &rootGoMesh = goRef_.get_goMeshRef("root");
     auto *root_pvtBp = rootGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
     root_pvtBp->isSmoke = false; 
@@ -122,37 +86,7 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
     GameObjMesh &fireGoMesh = goRef_.get_goMeshRef("fire");
     auto *fire_pvtBp = fireGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
     fire_pvtBp->isSmoke = false; 
-
-
-    /*
-    //-- 制作 mesh 实例: "root": campfire_base
-    GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh("root", //- gmesh-name
-                                baseSubId,
-                                AnimActionEName::Idle,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                0.0,  //- zOff
-                                true //- isVisible
-                                );
-    auto *root_pvtBp = rootGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
-    root_pvtBp->isSmoke = false; 
-
-
-    GameObjMesh &fireGoMesh = goRef_.creat_new_goMesh("fire", //- gmesh-name
-                                fireSubId,
-                                AnimActionEName::Burn,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                0.1,  //- zOff: 在 base 上方
-                                true //- isVisible
-                                );
-    auto *fire_pvtBp = fireGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
-    fire_pvtBp->isSmoke = false; 
-    */
-
-        
+ 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &Campfire::OnRenderUpdate,  _1 );   
@@ -162,7 +96,6 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.actionSwitch.bind_func( std::bind( &Campfire::OnActionSwitch,  _1, _2 ) );
     goRef_.actionSwitch.signUp( ActionSwitchType::Idle );
     goRef_.actionSwitch.signUp( ActionSwitchType::Burn );
-
 
     //================ go self vals =================//   
 
@@ -201,7 +134,7 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
                                 pvtBp->smokeSubId,
                                 AnimActionEName::Burn,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                ShaderType::UnifiedColor,  // pic shader
                                 glm::dvec2{}, //- pposoff
                                 0.2,  //- zOff: 在 fire 上方
                                 true //- isVisible

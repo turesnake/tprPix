@@ -162,7 +162,7 @@ void init_shaders(){
         ubo_unifiedColorTable.bind_2_shaderProgram( sp.get_shaderProgramObj() );
     }
 
-
+    /*
     {//---- canvas: water ----//
         auto &sp = insert_new_shader( ShaderType::Water );
         //---
@@ -178,6 +178,7 @@ void init_shaders(){
         ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_worldCoord.bind_2_shaderProgram(sp.get_shaderProgramObj());
     }
+    */
 
     
 

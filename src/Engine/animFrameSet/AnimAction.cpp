@@ -20,7 +20,12 @@
 
 #include "esrc_time.h"
 
-#include "tprDebug.h"
+
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 using namespace std::placeholders;

@@ -42,6 +42,7 @@
 #include "BrokenLvl.h"
 #include "History.h"
 #include "GoFunctorSet.h"
+#include "ShaderType.h"
 
 
 //--- 一个仍在建设中的 丑陋的 大杂烩 ----//
@@ -88,7 +89,7 @@ public:
                             animSubspeciesId_t     subspeciesId_,
                             AnimActionEName     actionEName_,
                             RenderLayerType     layerType_,
-                            ShaderProgram       *pixShaderPtr_,
+                            ShaderType          shaderType_,
                             const glm::vec2     pposOff_ = glm::vec2{0.0,0.0},
                             double              zOff_ = 0.0,
                             bool                isVisible_ = true );

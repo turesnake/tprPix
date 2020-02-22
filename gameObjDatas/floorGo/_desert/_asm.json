@@ -1,0 +1,31 @@
+[
+    {
+        "goSpeciesName": "floorGo",
+        "without_holds": true,
+
+        "renderLayerType": "Floor",
+        "shaderType": "Floor",
+        
+        "plans":[
+            {
+                "goLabel": "Desert_1_2m2",
+                "goMeshs":[
+                    { "afsName": "floorGo_desert_1", "animLabel": "MapEnt_2m2"  }
+                ]
+            },
+            {
+                "goLabel": "Desert_1_3m3",
+                "goMeshs":[
+                    { "afsName": "floorGo_desert_1", "animLabel": "MapEnt_3m3"  }
+                ]
+            },
+            {
+                "goLabel": "Desert_1_4m4",
+                "goMeshs":[
+                    { "afsName": "floorGo_desert_1", "animLabel": "MapEnt_4m4"  }
+                ]
+            }
+        ]
+    }
+]
+

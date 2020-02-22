@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "fieldRim",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "Floor",
+        "shaderType": "Shadow",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "",
                 "goMeshs":[
                     { "afsName": "fieldRim", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": ""
-                }
             }
         ]
     }

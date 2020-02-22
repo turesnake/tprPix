@@ -1,32 +1,27 @@
 [
     {
         "goSpeciesName": "rock",
-        "goMeshSets":[
-            {
-                "type": "type_1",
-                "goMeshs":[
-                    { "afsName": "whiteRock", "animLabel.hold": "Label_1"  }
-                ]
-            }
-        ],
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        
         "plans":[
             {
-                "animLabel.holds":{
-                    "Label_1": "Big_Light_Bald"
-                },
-                "types":{
-                    "type_1": "Big_Light_Bald"
-                }
+                "goLabel": "Big_Light_Bald",
+                "goMeshs":[
+                    { "afsName": "whiteRock", "animLabel": "Big_Light_Bald"  }
+                ]
             },
 
             {
-                "animLabel.holds":{
-                    "Label_1": "Big_Light_Lichen"
-                },
-                "types":{
-                    "type_1": "Big_Light_Lichen"
-                }
+                "goLabel": "Big_Light_Lichen",
+                "goMeshs":[
+                    { "afsName": "whiteRock", "animLabel": "Big_Light_Lichen"  }
+                ]
             }
+
         ]
     }
 ]

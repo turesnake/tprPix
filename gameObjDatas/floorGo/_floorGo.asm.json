@@ -1,20 +1,63 @@
 [
     {
-        "Notes": " 其实没有真的实现 .... ",
-
         "goSpeciesName": "floorGo",
-        "goMeshSets":[
+
+        "renderLayerType": "Floor",
+        "shaderType": "Floor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
-                    { "afsName": "floorGo_colorful", "animLabel": "MapEnt_2m2"  }
+                    { "afsName.hold": "afs_1", "animLabel": "MapEnt_2m2"  }
+                ]
+            },
+            {
+                "goLabel.hold": "goLabel_2",
+                "goMeshs":[
+                    { "afsName.hold": "afs_1", "animLabel": "MapEnt_3m3"  }
+                ]
+            },
+            {
+                "goLabel.hold": "goLabel_3",
+                "goMeshs":[
+                    { "afsName.hold": "afs_1", "animLabel": "MapEnt_4m4"  }
                 ]
             }
         ],
-        "plans":[
+
+
+        "holds":[
             {
-                "types":{
-                    "type_1": ""
+                "afsName.holds":{
+                    "afs_1": "floorGo_colorful"
+                },
+                "goLabel.holds":{
+                    "goLabel_1": "Colorful_2m2",
+                    "goLabel_2": "Colorful_3m3",
+                    "goLabel_3": "Colorful_4m4"
+                }
+            },
+
+            {
+                "afsName.holds":{
+                    "afs_1": "floorGo_red"
+                },
+                "goLabel.holds":{
+                    "goLabel_1": "Red_2m2",
+                    "goLabel_2": "Red_3m3",
+                    "goLabel_3": "Red_4m4"
+                }
+            },
+
+            {
+                "afsName.holds":{
+                    "afs_1": "floorGo_blue"
+                },
+                "goLabel.holds":{
+                    "goLabel_1": "Blue_2m2",
+                    "goLabel_2": "Blue_3m3",
+                    "goLabel_3": "Blue_4m4"
                 }
             }
         ]

@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "pot",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "",
                 "goMeshs":[
                     { "afsName": "pot", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": ""
-                }
             }
         ]
     }

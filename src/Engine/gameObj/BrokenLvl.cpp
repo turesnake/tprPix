@@ -14,7 +14,11 @@
 #include "tprAssert.h"
 
 
-#include "tprDebug.h"
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 

@@ -23,6 +23,7 @@
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "dyParams.h"
+#include "GoSpecFromJson.h"
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
@@ -66,8 +67,11 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-    const GoDataEntForCreate &goDataEntRef = *(*goDataPtr->goMeshDataUPtrs.cbegin());
+
+
+    //-- set lAltiRange ---
+    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
+    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->goAltiRangeLabel ) );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
@@ -84,16 +88,24 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-        //-- 制作唯一的 mesh 实例: "root" --
-        goRef_.creat_new_goMesh("root", //- gmesh-name
-                                goDataEntRef.subspeciesId,
-                                AnimActionEName::Idle,
-                                RenderLayerType::Floor, //- 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::Floor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
+
+    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
+        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        
+        auto &goMeshRef = goRef_.creat_new_goMesh( 
+                                gmRef.get_goMeshName(),
+                                gmRef.get_subspeciesId(),
+                                gmRef.get_animActionEName(),
+                                gmRef.get_renderLayerType(),
+                                gmRef.get_shaderType(),  // pic shader
+                                gmRef.get_dposOff(), //- pposoff
+
                                 goMeshZOff,  //- zOff
-                                true //- isVisible
+
+                                gmRef.get_isVisible() //- isVisible
                                 );
+    } 
+
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

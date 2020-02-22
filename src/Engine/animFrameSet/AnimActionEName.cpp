@@ -10,8 +10,14 @@
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
+//--------------- Engine ------------------//
+#include "tprAssert.h"
 
-#include "tprDebug.h"
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 AnimActionEName str_2_animActionEName( const std::string &str_ )noexcept{

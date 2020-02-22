@@ -437,40 +437,9 @@ std::shared_ptr<VarTypeDatas_Yard_MajorGo> parse_majorGo_varType(   const Value 
             }
 
             //--- goLabel ---//
-            if( ent.HasMember("goLabel") ){
-                goSpecUPtr->isMultiGoMesh = true;
-                const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
-                goSpecUPtr->multiGoMeshType = GoAssembleData::str_2_goLabelId( a.GetString() );
-
-            }else{
-
-                    // 这种可能性将被删除掉
-                    // 。。。
-
-
-                goSpecUPtr->isMultiGoMesh = false;
-
-                {//--- afsName ---//
-                    const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
-                    std::string afsName = a.GetString();
-
-                    // 有些 go 的 afs数据，是 具象go类 自己定义的，无需 json 文件中指定，传入 空str 即可（animLabel 则可省去）
-                    if( afsName == "" ){
-                        goSpecUPtr->afsName = "";
-                    }else{
-                        tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
-                        goSpecUPtr->afsName = afsName;
-                    }
-                }
-
-                //--- animLabel ---//
-                if( goSpecUPtr->afsName == "" ){
-                    goSpecUPtr->animLabel = AnimLabel::Nil;
-                }else{
-                    const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                    goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
-                }
-            }
+            tprAssert( ent.HasMember("goLabel") );
+            const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
+            goSpecUPtr->goLabelId = GoAssemblePlanSet::str_2_goLabelId( a.GetString() );
 
             //-- goSpecUPtr 创建完毕 --
             vmSPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );
@@ -525,25 +494,16 @@ std::shared_ptr<VarTypeDatas_Yard_FloorGo> parse_floorGo_varType(   const Value 
             // IMPORTANT!!!
             goSpecUPtr->isPlaceHolder = false;
 
-
             {//--- goSpeciesName ---//
                 const auto &a = json::check_and_get_value( ent, "goSpeciesName", json::JsonValType::String );
                 goSpecUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
             }
-            {//--- afsName ---//
-                const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
-                std::string afsName = a.GetString();
-                tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
-                goSpecUPtr->afsName = afsName;
-            }
-            {//--- animLabel ---//
-                const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
-            }
 
-                                                    // 万一 floorGo 是 multiGoMesh 
-                                                    // 那么上面这段就要扩充
-                                                    // ...
+            {//--- goLabel ---//
+                tprAssert( ent.HasMember("goLabel") );
+                const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
+                goSpecUPtr->goLabelId = GoAssemblePlanSet::str_2_goLabelId( a.GetString() );
+            }
 
             //-- goSpecUPtr 创建完毕 --
             vfSPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );

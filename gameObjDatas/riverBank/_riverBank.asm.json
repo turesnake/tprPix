@@ -1,0 +1,20 @@
+[
+    {
+        "goSpeciesName": "riverBank",
+        "without_holds": true,
+
+        "renderLayerType": "BioSoup",
+        "shaderType": "OriginColor",
+
+        "plans":[
+            {
+                "goLabel": "",
+                "goMeshs":[
+                    { "afsName": "riverBank", "animLabel": ""  }
+                ]
+            }
+
+        ]
+    }
+]
+

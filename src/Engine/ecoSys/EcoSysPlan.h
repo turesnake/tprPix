@@ -30,7 +30,7 @@
 #include "blueprint.h"
 #include "Density.h"
 
-#include "GoAssembleData.h"
+#include "GoAssemblePlan.h"
 
 #include "DensityPool.h"
 

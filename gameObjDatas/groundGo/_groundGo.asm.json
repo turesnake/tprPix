@@ -3,18 +3,22 @@
         "Notes": " 其实没有真的实现 .... ",
 
         "goSpeciesName": "groundGo",
-        "goMeshSets":[
+
+        "renderLayerType": "GroundGo",
+        "shaderType": "GroundColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
                     { "afsName": "groundGo", "animLabel": "Mid"  }
                 ]
             }
         ],
-        "plans":[
+        "holds":[
             {
-                "types":{
-                    "type_1": "Mid"
+                "goLabel.holds":{
+                    "goLabel_1": "Mid"
                 }
             }
         ]

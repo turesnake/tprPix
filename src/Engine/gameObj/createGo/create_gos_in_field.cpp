@@ -76,10 +76,11 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     for( const auto goDataPtr : job_fieldPtr->get_riverBankGoDataPtrs() ){
         //--- dyParam ---//
         DyParam dyParam {};
-        auto fUPtr = std::make_unique<DyParams_RiverBank>();
+        auto fUPtr = std::make_unique<DyParams_Blueprint>();
+        fUPtr->goDataPtr = goDataPtr;
         fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
 
-        dyParam.insert_ptr<DyParams_RiverBank>( fUPtr.get() );
+        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---
         gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
                                 goDataPtr->dpos,
@@ -87,9 +88,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     }
     
     
-
-
-
+    
 
     //----- land majorGo in blueprint -----//
     for( const auto goDataPtr : job_fieldPtr->get_majorGoDataPtrs() ){
@@ -133,6 +132,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                 dyParam ); 
 
     }
+    
 
 
 

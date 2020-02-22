@@ -98,9 +98,11 @@ void ChildMesh::refresh_translate(){
                                     
         if( goMeshRef.isPicFixedZOff ){
             this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + 
-                                    goMeshRef.get_picFixedZOff() + zOff);
+                                    goMeshRef.get_picBaseZOff() + zOff);
         }else{
-            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + zOff );
+            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + zOff + goMeshRef.get_picBaseZOff() );
+
+
                                         //-- ** 注意！**  z值的计算有不同：
                                         // -1- 取负， 摄像机朝向 z轴 负方向
                                         // -2- 没有算入 rOff.y; 因为这个值只代表：

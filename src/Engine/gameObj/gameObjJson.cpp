@@ -228,7 +228,7 @@ void parse_single_jsonFile( const std::string &path_file_ ){
         }
 
         //====================================//
-        //    afs.json / multiGoMesh.json
+        //    afs.json / asm.json
         //------------------------------------//
         // xx.go.json 文件 所在 目录 的 path
         std::string dirPath = tprGeneral::get_dirPath( path_file_ );
@@ -259,16 +259,14 @@ void parse_single_jsonFile( const std::string &path_file_ ){
 
             // 所有 go 必须包含 .asm.json 数据
             // 以此来组织 afs以及其他数据，帮助蓝图组装出一个 完整的 go
-            //tprAssert( goAsm_lPaths.Size() != 0 );
-
-
+            tprAssert( goAsm_lPaths.Size() != 0 );
 
             for( const auto &i : goAsm_lPaths.GetArray() ){
                 tprAssert( i.IsString() );
                 lPath = i.GetString();
                 tprAssert( lPath != "" ); // MUST EXIST !!!
                 goAsm_Path = tprGeneral::path_combine( dirPath, lPath ); // 绝对路径名
-                json::parse_single_goAssembleDataJsonFile( goAsm_Path );
+                json::parse_single_goAssemblePlanJsonFile( goAsm_Path );
                             // 数据直接存储在 GoSpecFromJson 中
             }
         }

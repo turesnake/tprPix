@@ -2,9 +2,13 @@
 
     {
         "goSpeciesName": "grass",
-        "goMeshSets":[
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
                     {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
                 ]
@@ -12,7 +16,7 @@
 
 
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
                 ]
@@ -20,7 +24,7 @@
             
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [4, -10], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [-3, 7], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -29,7 +33,7 @@
 
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [0, 13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
                     {  "dpos": [0, -7], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -38,7 +42,7 @@
 
             
             {
-                "type": "type_3",
+                "goLabel.hold": "goLabel_3",
                 "goMeshs":[
                     {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
                     {  "dpos": [10, 20], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
@@ -48,16 +52,16 @@
             
         ],
 
-        "plans":[
+        "holds":[
             
             {
                 "afsName.holds":{
                     "afs_1": "grass_darkForest_1"
                 },
-                "types":{
-                    "type_1": "DarkForest_Grass1_Sml",
-                    "type_2": "DarkForest_Grass1_Mid",
-                    "type_3": "DarkForest_Grass1_Big"
+                "goLabel.holds":{
+                    "goLabel_1": "DarkForest_Grass1_Sml",
+                    "goLabel_2": "DarkForest_Grass1_Mid",
+                    "goLabel_3": "DarkForest_Grass1_Big"
                 }
             }
 

@@ -103,10 +103,15 @@ public:
         this->picRenderLayerType = layerType_;
         if( layerType_ == RenderLayerType::MajorGoes ){
             this->isPicFixedZOff = false;
-            this->picFixedZOff = 0.0; //- null
+            this->picBaseZOff = ViewingBox::boxCenter_2_majorGoes;
+
+        }else if( layerType_ == RenderLayerType::BioSoup ){
+            this->isPicFixedZOff = false;
+            this->picBaseZOff = ViewingBox::boxCenter_2_bioSoup;
+
         }else{
             this->isPicFixedZOff = true;
-            this->picFixedZOff = ViewingBox::get_renderLayerZOff(layerType_);
+            this->picBaseZOff = ViewingBox::get_renderLayerZOff(layerType_);
         }
     }
     inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
@@ -157,7 +162,7 @@ public:
     inline const glm::dvec2 &get_pposOff()const noexcept{ return this->pposOff; }
     inline double get_zOff()const noexcept{ return this->zOff; }
     inline double get_alti()const noexcept{ return this->alti; }
-    inline double get_picFixedZOff() const noexcept{ return this->picFixedZOff; }
+    inline double get_picBaseZOff() const noexcept{ return this->picBaseZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
     //inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
 
@@ -185,8 +190,9 @@ public:
     bool    isHaveShadow {}; //- 是否拥有 shadow 数据
                              //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
-    bool    isPicFixedZOff {false}; //- 是否使用 用户设置的 固定 zOff 值
+    bool    isPicFixedZOff {false}; //- 若 renderType 为 MajorGoes / BioSoup, 为 true
                                     // 仅作用于 pic, [被 ChildMesh 使用]
+
     //bool    isRegularVAOVBO {true}; // 绝大多数 gomesh 选择 true，使用一个 rect，配合 tex来显示图元
                                     // groundGo meshs 除外，它们使用 triangleFan 不绑定 tex
                                     // 会影响 childMesh 的行为
@@ -223,7 +229,14 @@ private:
                     // 如果想要一个浮在所有 MajorGo 前方的图像，可以设置 zOff 为 500.0
                     // 如果想要一个 沉在所有 MajorGo 后方的图像，可设置为 -500.0
 
-    double            picFixedZOff {}; //- 方便快速访问
+
+    double            picBaseZOff {}; 
+                    //- 仅用于 pic-childMesh
+                    // 对于 MajorGo / BioSoup，代表 从 取景盒中点，到 各自深度区间的中点 的偏移值 
+                    // 对于 其他 rendertype，  代表 从 camera.zFar， 到 各个 rendertype 对应的 固定值
+                    
+
+
     RenderLayerType  picRenderLayerType;
 
     AnimAction          *animActionPtr {nullptr};

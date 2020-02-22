@@ -16,9 +16,10 @@
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
 #include "mapEntKey.h"
-#include "GoAssembleData.h"
+#include "GoAssemblePlan.h"
 #include "WindClock.h"
 #include "IntVec.h"
+#include "random.h"
 
 #include "GoSpecFromJson.h"
 
@@ -216,12 +217,23 @@ void Job_Chunk::create_field_goSpecDatas(){
                     if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
 
                         auto goDataUPtr = std::make_unique<GoDataForCreate>();
-                        goDataUPtr->goAltiRangeLabel = GoAltiRangeLabel::Default; // tmp
-                        goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("riverBank");
-                        goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
-                        goDataUPtr->direction = NineDirection::Center;  // 暂时无用
-                        goDataUPtr->brokenLvl_or_floorGoLayer = FloorGoLayer::L_4; // 暂时无用
-                        goDataUPtr->isMultiGoMesh = false;
+
+                        GoDataForCreate::assemble_new_goDataForCreate(  *goDataUPtr,
+                                                                        mpos_2_midDPos( mp.mpos ),
+                                                                        GoSpecFromJson::str_2_goSpeciesId("riverBank"),
+                                                                        GoAssemblePlanSet::str_2_goLabelId(""),
+                                                                        NineDirection::Center,
+                                                                        BrokenLvl::Lvl_0,
+                                                                        calc_simple_uWeight( mp.mpos )
+                                                                    );
+
+                        
+                        //goDataUPtr->goAltiRangeLabel = GoAltiRangeLabel::Default; // tmp
+                        //goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("riverBank");
+                        //goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
+                        //goDataUPtr->direction = NineDirection::Center;  // 暂时无用
+                        //goDataUPtr->brokenLvl_or_floorGoLayer = FloorGoLayer::L_4; // 暂时无用
+                        
 
                         job_fieldRef.insert_2_riverBankGoDatas( std::move(goDataUPtr) );
 

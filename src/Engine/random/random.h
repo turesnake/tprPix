@@ -16,6 +16,8 @@
 //------------------- Engine --------------------//
 #include "tprCast.h"
 #include "tprAssert.h"
+#include "IntVec.h"
+
 
 
 std::default_random_engine &get_dRandEng();
@@ -39,6 +41,10 @@ inline size_t blender_the_perlinNoise(  double noise_,
     size_t neo = cast_2_size_t(floor(weight)) % modBase_;
     return neo; // [0, modBase_]
 }
+
+
+
+size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
 
 
 

@@ -21,7 +21,10 @@
 #include "input.h" 
 #include "gl_funcs.h" 
 #include "IntVec.h" 
+#include "mapEntKey.h"
+
 #include "esrc_time.h"
+
 
 using std::string;
 
@@ -37,11 +40,7 @@ namespace random_inn {//------------- namespace: random_inn ----------------//
 
 }//------------------ namespace: random_inn end ----------------//
 
-/* ===========================================================
- *                      get_dRandEng
- * -----------------------------------------------------------
- * -- 当需要生成一次性随机值时，推荐用此方法
- */
+// 当需要生成一次性随机值时，推荐用此方法
 std::default_random_engine &get_dRandEng(){
 
     //---------------------//
@@ -55,11 +54,7 @@ std::default_random_engine &get_dRandEng(){
     return random_inn::dRandEng;
 }
 
-/* ===========================================================
- *                    get_new_seed
- * -----------------------------------------------------------
- * -- 根据 当前鼠标坐标，和 程序时间，生成一个 新种子
- */
+// 根据 当前鼠标坐标，和 程序时间，生成一个 新种子
 uint32_t get_new_seed(){
 
     uint32_t seed {}; //- return;
@@ -73,4 +68,26 @@ uint32_t get_new_seed(){
 
     return seed;
 }
+
+
+
+// simple_uWeight 为每个 mapent生成的，仅用于 蓝图数据分配的 随机数
+// 仅仅在 蓝图分配阶段 被使用
+// 会被各种线程调用，所以务必不要使用 公共数据!!!
+size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
+
+    std::default_random_engine dRandEng;
+    std::uniform_int_distribution<size_t> uDistribution(0, 10000);
+    //---
+    mapEntKey_t key = mpos_2_key(mpos_);
+
+    uint_fast32_t  seed = static_cast<uint_fast32_t>(key);
+    dRandEng.seed( seed );
+    size_t randVal = uDistribution( dRandEng ); // [0, 10000]
+
+    return (cast_2_size_t(key) + randVal);
+}
+
+
+
 

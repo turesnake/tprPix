@@ -1,0 +1,25 @@
+[
+    {
+        "goSpeciesName": "floorGo",
+        "without_holds": true,
+
+        "renderLayerType": "Floor",
+        "shaderType": "Floor",
+        
+        "plans":[
+            {
+                "goLabel": "Forest_RoadYard_TwoPorts",
+                "goMeshs":[
+                    { "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts"  }
+                ]
+            },
+            {
+                "goLabel": "Forest_RoadYard_ThreePorts",
+                "goMeshs":[
+                    { "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts"  }
+                ]
+            }
+        ]
+    }
+]
+

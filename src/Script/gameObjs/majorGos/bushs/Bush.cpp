@@ -100,23 +100,25 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     // 有些 bush 只有一个 gomesh，有些则是 复数个
     // 一律按 复数个来处理
-    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
-        const GoDataEntForCreate &goDataEntRef = *uptrRef;
-
+    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
+        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        
         auto &goMeshRef = goRef_.creat_new_goMesh( 
-                                goDataEntRef.goMeshName,
-                                goDataEntRef.subspeciesId,
-                                goDataEntRef.animActionEName,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                goDataEntRef.zOff,  //- zOff
-                                true //- isVisible
+                                gmRef.get_goMeshName(),
+                                gmRef.get_subspeciesId(),
+                                gmRef.get_animActionEName(),
+                                gmRef.get_renderLayerType(),
+                                gmRef.get_shaderType(),  // pic shader
+                                gmRef.get_dposOff(), //- pposoff
+                                gmRef.get_zOff(),  //- zOff
+                                gmRef.get_isVisible() //- isVisible
                                 );
 
         // 先收集 所有参与 风吹动画的 gomesh 数据
-        pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, goDataEntRef.windDelayIdx );
+        pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, gmRef.get_windDelayIdx() );
     }
+
+    
 
     //----- component: windAnim -----//
     // 正式 init

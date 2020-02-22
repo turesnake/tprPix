@@ -23,7 +23,7 @@
     {"grass/_grass.go.json": true },
     {"groundGo/_groundGo.go.json": true },
     {"mushroom/_mushroom.go.json": true },
-    {"oneEyeBoy/_oneEyeBoy.go.json": true },
+    
     {"playerGoCircle/_playerGoCircle.go.json": true },
 
     {"riverBank/_riverBank.go.json": true },

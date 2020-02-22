@@ -151,7 +151,6 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
 
             }
             {//--- goSpecPool ---//
-                std::string MultiGoMeshType {};
                 size_t num  {};
 
                 //---
@@ -190,36 +189,8 @@ void parse_single_plotJsonFile( const std::string &path_file_ ){
                     }
 
                     //--- goLabel ---//
-                    if( ent.HasMember("goLabel") ){
-                        goSpecUPtr->isMultiGoMesh = true;
-                        const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
-                        goSpecUPtr->multiGoMeshType = GoAssembleData::str_2_goLabelId( a.GetString() );
-
-                    }else{
-                        goSpecUPtr->isMultiGoMesh = false;
-                    
-                        {//--- afsName ---//
-                            const auto &a = json::check_and_get_value( ent, "afsName", json::JsonValType::String );
-                            std::string afsName = a.GetString();
-
-                            // 有些 go 的 afs数据，是 具象go类 自己定义的，无需 json 文件中指定，传入 空str 即可（animLabel 则可省去）
-                            if( afsName == "" ){
-                                goSpecUPtr->afsName = "";
-                            }else{
-                                tprAssert( GoSpecFromJson::is_find_in_afsNames(goSpecUPtr->goSpeciesId, afsName) );
-                                goSpecUPtr->afsName = afsName;
-                            }
-                        }
-
-                        //--- animLabel ---//
-                        if( goSpecUPtr->afsName == "" ){
-                            goSpecUPtr->animLabel = AnimLabel::Nil;
-                        }else{
-                            const auto &a = json::check_and_get_value( ent, "animLabel", json::JsonValType::String );
-                            goSpecUPtr->animLabel = str_2_animLabel(a.GetString());
-                        }
-                       
-                    }
+                    const auto &a = json::check_and_get_value( ent, "goLabel", json::JsonValType::String );
+                    goSpecUPtr->goLabelId = GoAssemblePlanSet::str_2_goLabelId( a.GetString() );
 
                     //-- goSpecUPtr 创建完毕 --
                     varTypeDatasUPtr->insert_2_goSpecPool( std::move(goSpecUPtr), num );

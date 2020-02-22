@@ -26,7 +26,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_colorful", "animLabel": "MapEnt_4m4", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Colorful_4m4", "num": 3 }
                     ]
                 },
         
@@ -37,7 +37,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_colorful", "animLabel": "MapEnt_3m3", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Colorful_3m3", "num": 3 }
                     ]
                 },
         
@@ -48,7 +48,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_colorful", "animLabel": "MapEnt_2m2", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Colorful_2m2", "num": 3 }
                     ]
                 }
             ]
@@ -85,7 +85,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_red", "animLabel": "MapEnt_4m4", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Red_4m4", "num": 3 }
                     ]
                 },
         
@@ -96,7 +96,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_red", "animLabel": "MapEnt_3m3", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Red_3m3", "num": 3 }
                     ]
                 },
         
@@ -107,7 +107,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_red", "animLabel": "MapEnt_2m2", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Red_2m2", "num": 3 }
                     ]
                 }
             ]
@@ -146,7 +146,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_4m4", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Blue_4m4", "num": 3 }
                     ]
                 },
         
@@ -157,7 +157,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_3m3", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Blue_3m3", "num": 3 }
                     ]
                 },
         
@@ -168,7 +168,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_blue", "animLabel": "MapEnt_2m2", "num": 3 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Blue_2m2", "num": 3 }
                     ]
                 }
             ]
@@ -207,7 +207,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_4m4", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "DarkForest_1_4m4", "num": 1 }
                     ]
                 },
         
@@ -218,7 +218,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_3m3", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "DarkForest_1_3m3", "num": 1 }
                     ]
                 },
         
@@ -229,7 +229,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_2m2", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "DarkForest_1_2m2", "num": 1 }
                     ]
                 }
             ]
@@ -267,7 +267,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_4m4", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Desert_1_4m4", "num": 1 }
                     ]
                 },
         
@@ -278,7 +278,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_3m3", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Desert_1_3m3", "num": 1 }
                     ]
                 },
         
@@ -289,7 +289,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_desert_1", "animLabel": "MapEnt_2m2", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Desert_1_2m2", "num": 1 }
                     ]
                 }
             ]
@@ -328,7 +328,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_1", "animLabel": "MapEnt_4m4", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_1_4m4", "num": 1 }
                     ]
                 },
         
@@ -339,7 +339,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_1", "animLabel": "MapEnt_3m3", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_1_3m3", "num": 1 }
                     ]
                 },
         
@@ -350,7 +350,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_forest_1", "animLabel": "MapEnt_2m2", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Forest_1_2m2", "num": 1 }
                     ]
                 }
             ]
@@ -389,7 +389,7 @@
                     "FloorGoSize": "MapEnt_4m4",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_4m4", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Savannah_1_4m4", "num": 1 }
                     ]
                 },
         
@@ -400,7 +400,7 @@
                     "FloorGoSize": "MapEnt_3m3",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_3m3", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Savannah_1_3m3", "num": 1 }
                     ]
                 },
         
@@ -411,7 +411,7 @@
                     "FloorGoSize": "MapEnt_2m2",
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "floorGo", "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_2m2", "num": 1 }
+                        { "goSpeciesName": "floorGo", "goLabel": "Savannah_1_2m2", "num": 1 }
                     ]
                 }
             ]

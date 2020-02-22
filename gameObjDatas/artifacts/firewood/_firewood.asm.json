@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "firewood",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "",
                 "goMeshs":[
                     { "afsName": "firewood", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": ""
-                }
             }
         ]
     }

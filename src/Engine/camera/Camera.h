@@ -29,7 +29,7 @@ public:
     Camera():
         targetDPos(glm::dvec2(0.0, 0.0)),
         currentDPos(glm::dvec2(0.0, 0.0)),
-        renderDPos(glm::dvec3(0.0, 0.0, 0.5 * ViewingBox::z ))
+        renderDPos(glm::dvec3(0.0, 0.0, ViewingBox::halfZ ))
         {
             this->init();
         }

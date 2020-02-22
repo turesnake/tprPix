@@ -23,7 +23,9 @@
         "afs_lPaths": [ 
             "_poplarTree.afs.json"
         ],
-        "goAsm_lPaths": []
+        "goAsm_lPaths": [
+            "_poplarTree.asm.json"
+        ]
 
 
     }

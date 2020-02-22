@@ -2,9 +2,13 @@
 
     {
         "goSpeciesName": "grass",
-        "goMeshSets":[
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
                     {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
                 ]
@@ -12,7 +16,7 @@
 
 
             {
-                "type": "type_1",
+                "goLabel.hold": "goLabel_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
                 ]
@@ -20,7 +24,7 @@
             
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [-15, -13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [11, 12], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -28,7 +32,7 @@
             },
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [13, -13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [-13, 12], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -37,7 +41,7 @@
 
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [0, -13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
                     {  "dpos": [0, 11], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -45,7 +49,7 @@
             },
 
             {
-                "type": "type_2",
+                "goLabel.hold": "goLabel_2",
                 "goMeshs":[
                     {  "dpos": [0, -13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [0, 11], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
@@ -55,14 +59,14 @@
             
         ],
 
-        "plans":[
+        "holds":[
             {
                 "afsName.holds":{
                     "afs_1": "grass_triFlower_grey"
                 },
-                "types":{
-                    "type_1": "TriFlower_Grey_Sml",
-                    "type_2": "TriFlower_Grey_Mid"
+                "goLabel.holds":{
+                    "goLabel_1": "TriFlower_Grey_Sml",
+                    "goLabel_2": "TriFlower_Grey_Mid"
                 }
             }
         ]

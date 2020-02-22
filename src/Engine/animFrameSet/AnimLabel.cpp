@@ -14,7 +14,11 @@
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 
-#include "tprDebug.h"
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 // 手动设置 上下界

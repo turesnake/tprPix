@@ -1,21 +1,19 @@
 [
     {
         "goSpeciesName": "glassBottle",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "HasWater",
                 "goMeshs":[
                     { "goMeshName": "root", "zOff":  0.0, "afsName": "glassBottle_bottle", "animLabel": ""  },
                     { "goMeshName": "water", "zOff": -1.0, "afsName": "glassBottle_water", "animLabel": ""  },
                     { "goMeshName": "innSpace", "zOff": -2.0, "afsName": "glassBottle_innSpace", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "HasWater"
-                }
             }
         ]
     }

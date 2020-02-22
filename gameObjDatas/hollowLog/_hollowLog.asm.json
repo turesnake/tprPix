@@ -1,33 +1,24 @@
 [
     {
         "goSpeciesName": "hollowLog",
-        "goMeshSets":[
-            {
-                "type": "type_1",
-                "goMeshs":[
-                    { "afsName": "hollowLog_poplar", "animLabel.hold": "Label_1"  }
-                ]
-            }
-        ],
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
         "plans":[
             {
-                "animLabel.holds":{
-                    "Label_1": "Normal"
-                },
-                "types":{
-                    "type_1": "Poplar_Normal"
-                }
+                "goLabel": "Poplar_Normal",
+                "goMeshs":[
+                    { "afsName": "hollowLog_poplar", "animLabel": "Normal"  }
+                ]
             },
-
             {
-                "animLabel.holds":{
-                    "Label_1": "Special"
-                },
-                "types":{
-                    "type_1": "Poplar_Special"
-                }
+                "goLabel": "Poplar_Special",
+                "goMeshs":[
+                    { "afsName": "hollowLog_poplar", "animLabel": "Special"  }
+                ]
             }
-
         ]
     }
 ]

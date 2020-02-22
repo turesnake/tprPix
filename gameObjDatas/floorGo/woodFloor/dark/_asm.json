@@ -1,0 +1,31 @@
+[
+    {
+        "goSpeciesName": "floorGo",
+        "without_holds": true,
+
+        "renderLayerType": "Floor",
+        "shaderType": "Floor",
+        
+        "plans":[
+            {
+                "goLabel": "WoodFloor_Dark_2m2",
+                "goMeshs":[
+                    { "afsName": "floorGo_woodFloor_dark", "animLabel": "MapEnt_2m2"  }
+                ]
+            },
+            {
+                "goLabel": "WoodFloor_Dark_3m3",
+                "goMeshs":[
+                    { "afsName": "floorGo_woodFloor_dark", "animLabel": "MapEnt_3m3"  }
+                ]
+            },
+            {
+                "goLabel": "WoodFloor_Dark_4m4",
+                "goMeshs":[
+                    { "afsName": "floorGo_woodFloor_dark", "animLabel": "MapEnt_4m4"  }
+                ]
+            }
+        ]
+    }
+]
+

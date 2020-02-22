@@ -11,6 +11,15 @@
 
 #include "KeyBoard.h" // After magic_enum.hpp
 
+//--------------- Engine ------------------//
+#include "tprAssert.h"
+
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
+
 
 // 手动设置 上下界
 // 否则会按 [-128,128] 的默认范围。屏蔽掉额外的值

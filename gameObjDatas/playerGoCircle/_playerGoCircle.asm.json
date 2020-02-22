@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "playerGoCircle",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "PlayerGoCircle",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "",
                 "goMeshs":[
                     { "afsName": "playerGoCircle", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": ""
-                }
             }
         ]
     }

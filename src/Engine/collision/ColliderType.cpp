@@ -12,8 +12,13 @@
 
 //-------------------- Engine --------------------//
 #include "config.h"
+#include "tprAssert.h"
 
-#include "tprDebug.h"
+//-- tmp debug --
+#include <string>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 
 double Circular::radius_for_dogo { 24.0 }; // Must small than HALF_PIXES_PER_MAPENT

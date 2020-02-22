@@ -93,8 +93,8 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
         
         const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
         const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-        tprAssert( !goDataPtr->isMultiGoMesh ); // must single gomesh
-        subspeciesId = (*goDataPtr->goMeshDataUPtrs.cbegin())->subspeciesId;
+
+        subspeciesId = (*goDataPtr->goMeshEntUPtrs.cbegin())->get_subspeciesId();
 
         randUVal = bpParamPtr->mapEntUWeight;    
 
@@ -111,7 +111,6 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
             tprAssert(0);
         }
 
-
     }else{
         tprAssert(0); //- 尚未实现
     }
@@ -121,13 +120,12 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         // 不完善，未来要改
 
-
         //-- 制作唯一的 mesh 实例: "root" --
         goRef_.creat_new_goMesh("root", //- gmesh-name
                                 subspeciesId,
                                 AnimActionEName::Idle,
                                 RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
+                                ShaderType::UnifiedColor,  // pic shader
                                 glm::dvec2{ 0.0, 0.0 }, //- pposoff
                                 0.0,  //- zOff
                                 true //- isVisible

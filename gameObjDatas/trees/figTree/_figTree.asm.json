@@ -1,20 +1,18 @@
 [
     {
         "goSpeciesName": "figTree",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Mid",
                 "goAltiRangeLabel": "Mid",
                 "goMeshs":[
                     { "afsName": "figTree", "animLabel": "Mid"  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Mid"
-                }
             }
         ]
     }

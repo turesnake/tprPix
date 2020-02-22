@@ -1,19 +1,17 @@
 [
     {
         "goSpeciesName": "chicken",
-        "goMeshSets":[
+        "without_holds": true,
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+
+        "plans":[
             {
-                "type": "type_1",
+                "goLabel": "Hen",
                 "goMeshs":[
                     { "afsName": "chicken.hen", "animLabel": ""  }
                 ]
-            }
-        ],
-        "plans":[
-            {
-                "types":{
-                    "type_1": "Hen"
-                }
             }
         ]
     }

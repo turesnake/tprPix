@@ -93,7 +93,6 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
     const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
-    tprAssert( goDataPtr->isMultiGoMesh ); // must multi gomesh
 
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -106,22 +105,24 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     }
 
     //----- gomeshs -----//
-    for( const auto &uptrRef : goDataPtr->goMeshDataUPtrs ){
-        const GoDataEntForCreate &goDataEntRef = *uptrRef;
+    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
+        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        
 
         auto &goMeshRef = goRef_.creat_new_goMesh( 
-                                goDataEntRef.goMeshName,
-                                goDataEntRef.subspeciesId,
-                                goDataEntRef.animActionEName,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                &esrc::get_shaderRef(ShaderType::UnifiedColor),  // pic shader
-                                goDataEntRef.dposOff, //- pposoff
-                                goDataEntRef.zOff,  //- zOff
-                                true //- isVisible
+                                gmRef.get_goMeshName(),
+                                gmRef.get_subspeciesId(),
+                                gmRef.get_animActionEName(),
+                                gmRef.get_renderLayerType(),
+                                gmRef.get_shaderType(),  // pic shader
+                                gmRef.get_dposOff(), //- pposoff
+                                gmRef.get_zOff(),  //- zOff
+                                gmRef.get_isVisible() //- isVisible
                                 );
 
+
         // 先收集 所有参与 风吹动画的 gomesh 数据
-        pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, goDataEntRef.windDelayIdx );
+        pvtBp->windAnimUPtr->insert_goMesh( &goMeshRef, gmRef.get_windDelayIdx() );
     }
 
     //----- component: windAnim -----//
