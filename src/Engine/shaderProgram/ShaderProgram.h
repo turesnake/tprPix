@@ -39,8 +39,8 @@ public:
     //-- 从 着色器程序中 获得 目标变量的 地址
     inline void add_new_uniform( const std::string &name_ )noexcept{
         tprAssert( this->is_shaderProgram_set );
-        auto outPair = uniforms.insert({ name_, glGetUniformLocation(this->shaderProgram, name_.c_str()) });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = uniforms.insert({ name_, glGetUniformLocation(this->shaderProgram, name_.c_str()) });
+        tprAssert( insertBool );
     }
 
     inline GLint get_uniform_location( const std::string &name_ )noexcept{

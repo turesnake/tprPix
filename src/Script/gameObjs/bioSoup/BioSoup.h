@@ -1,12 +1,12 @@
 /*
- * ======================== RiverBank.h ==========================
+ * ======================== BioSoup.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2020.02.18
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#ifndef TPR_GO_RIVER_BANK_H
-#define TPR_GO_RIVER_BANK_H
+#ifndef TPR_GO_BIO_SOUP_H
+#define TPR_GO_BIO_SOUP_H
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
@@ -14,7 +14,7 @@
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-class RiverBank{
+class BioSoup{
 public:
     static void init(GameObj &goRef_, const DyParam &dyParams_ );
 private:                            

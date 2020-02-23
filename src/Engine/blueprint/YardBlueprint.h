@@ -48,8 +48,8 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
         varTypeDatas_Yard_MajorGoId_t id = VarTypeDatas_Yard_MajorGo::id_manager.apply_a_u32_id();// 盲目分配id
-        auto outPair = this->goSpecPool.insert({ id, std::move( uptr_ ) }); 
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move( uptr_ ) }); 
+        tprAssert( insertBool );
         //---
         this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
     }
@@ -98,8 +98,8 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
         varTypeDatas_Yard_FloorGoId_t id = VarTypeDatas_Yard_FloorGo::id_manager.apply_a_u32_id();// 盲目分配id
-        auto outPair = this->goSpecPool.insert({ id, std::move(uptr_) }); 
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        tprAssert( insertBool );
         //---
         this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
     }
@@ -141,18 +141,18 @@ public:
 
     inline void insert_2_majorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                                 std::shared_ptr<VarTypeDatas_Yard_MajorGo> sptr_ )noexcept{
-        auto outPair1 = this->majorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
-        tprAssert( outPair1.second );
-        auto outPair2 = this->majorGo_varTypes.insert( typeIdx_ );
-        tprAssert( outPair2.second );
+        auto [insertIt1, insertBool1] = this->majorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
+        tprAssert( insertBool1 );
+        auto [insertIt2, insertBool2] = this->majorGo_varTypes.insert( typeIdx_ );
+        tprAssert( insertBool2 );
     }
 
     inline void insert_2_floorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                                 std::shared_ptr<VarTypeDatas_Yard_FloorGo> sptr_ )noexcept{
-        auto outPair1 = this->floorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
-        tprAssert( outPair1.second );
-        auto outPair2 = this->floorGo_varTypes.insert( typeIdx_ );
-        tprAssert( outPair2.second );
+        auto [insertIt1, insertBool1] = this->floorGo_varTypeDatas.insert({ typeIdx_, std::move(sptr_) });
+        tprAssert( insertBool1 );
+        auto [insertIt2, insertBool2] = this->floorGo_varTypes.insert( typeIdx_ );
+        tprAssert( insertBool2 );
     }
 
 
@@ -178,24 +178,24 @@ public:
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->majorGo_mapDataIds.insert( this->majorGo_mapDataIds.end(), num_, id );
         //---
-        auto outPair = this->majorGo_mapDatas.insert({ id, MapData{} });
-        tprAssert( outPair.second );
-        return { id, &(outPair.first->second) };
+        auto [insertIt, insertBool] = this->majorGo_mapDatas.insert({ id, MapData{} });
+        tprAssert( insertBool );
+        return { id, &(insertIt->second) };
     }
     inline std::pair<mapDataId_t, MapData*> create_new_floorGo_mapData( size_t num_=1 )noexcept{
 
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->floorGo_mapDataIds.insert( this->floorGo_mapDataIds.end(), num_, id );
         //---
-        auto outPair = this->floorGo_mapDatas.insert({ id, MapData{} });
-        tprAssert( outPair.second );
-        return { id, &(outPair.first->second) };
+        auto [insertIt, insertBool] = this->floorGo_mapDatas.insert({ id, MapData{} });
+        tprAssert( insertBool );
+        return { id, &(insertIt->second) };
     }
 
     inline void bind_floorId_2_majorId( mapDataId_t majorId_, mapDataId_t floorId_ )noexcept{
         tprAssert( this->isHaveMajorGos && this->isHaveFloorGos );
-        auto outPair = this->majorDataId_2_floorDataIds.insert({ majorId_, floorId_ });
-        tprAssert( outPair.second ); // Must
+        auto [insertIt, insertBool] = this->majorDataId_2_floorDataIds.insert({ majorId_, floorId_ });
+        tprAssert( insertBool ); // Must
     }
 
     inline std::pair<mapDataId_t, const MapData*> get_binded_floorData( mapDataId_t majorId_ )const noexcept{

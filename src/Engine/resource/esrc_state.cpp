@@ -52,8 +52,8 @@ namespace state_inn {//-------- namespace: state_inn  --------------//
 }//------------- namespace: state_inn end --------------//
 
 void insertState( const std::string &str_ ){
-    auto outPair = state_inn::ents.insert( str_ );
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = state_inn::ents.insert( str_ );
+    tprAssert( insertBool );
 }
 
 bool is_setState( const std::string &str_ ){

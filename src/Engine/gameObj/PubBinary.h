@@ -29,8 +29,8 @@ public:
         byteoff_t  off {0}; 
         for( const auto &i : types_ ){
             idx = static_cast<idx_t>(i);
-            auto outPair = valOffs.insert({ idx, off });
-            tprAssert( outPair.second );
+            auto [insertIt, insertBool] = valOffs.insert({ idx, off });
+            tprAssert( insertBool );
             off += (byteoff_t)(get_PubBinaryValSizes().at(idx));
         }
         binary.resize( off );

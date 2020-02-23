@@ -53,11 +53,11 @@ inline glm::dvec2 calc_floorGo_mid_dposOff( FloorGoSize size_ )noexcept{
 // 在此之上，可以为房间内铺设地板：L_1
 // 在地板上，可以铺设地毯：L_2
 enum class FloorGoLayer{
-    L_0, // goMeshZOff: (0.0, 0.1) (BOTTOM). 普通 fgo / nature fgo，大部分 road-fgo，都属于此， 水下
+    L_0, // goMeshZOff: (0.0, 0.1) (BOTTOM). 普通 fgo / nature fgo，大部分 road-fgo，都属于此
     L_1, // goMeshZOff: (0.1, 0.2) 地板
     L_2, // goMeshZOff: (0.2, 0.3) 地毯
-    L_3, // goMeshZOff: (0.3, 0.4)
-    L_4, // goMeshZOff: (0.4, 0.5) (TOP). riverBank
+    L_3, // goMeshZOff: (0.3, 0.4) 
+    L_4, // goMeshZOff: (0.4, 0.5) (TOP)
 };
 
 

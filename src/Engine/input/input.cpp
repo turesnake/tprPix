@@ -275,9 +275,9 @@ void reflresh_inputData(){
             if( (glfwJoystickPresent(idx)==GL_TRUE) && // Must before GamePad check!
                 (glfwJoystickIsGamepad(idx)==GLFW_TRUE) ){
                 
-                auto outPair = joysRef.insert({ idx, std::make_unique<Joystick>(idx) }); // maybe
+                auto [insertIt, insertBool] = joysRef.insert({ idx, std::make_unique<Joystick>(idx) }); // maybe
                                         // if existed, do nothing
-                Joystick &joyRef = *(outPair.first->second);
+                Joystick &joyRef = *(insertIt->second);
 
                 joyRef.refresh(); // IMPORTANT!!!
             

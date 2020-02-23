@@ -45,9 +45,9 @@ EcoObj &atom_insert_new_job_ecoObj( sectionKey_t ecoObjKey_ ){
     //--- atom ---//
     {
         std::unique_lock<std::shared_mutex> ul( jeo_inn::sharedMutex ); //- write
-        auto outPair = jeo_inn::job_ecoObjs.insert({ ecoObjKey_, std::move(job_ecoObjUPtr) });
-        tprAssert( outPair.second ); //- MUST NOT EXIST
-        return *(outPair.first->second);
+        auto [insertIt, insertBool] = jeo_inn::job_ecoObjs.insert({ ecoObjKey_, std::move(job_ecoObjUPtr) });
+        tprAssert( insertBool ); //- MUST NOT EXIST
+        return *(insertIt->second);
     }
 }
 
@@ -57,8 +57,8 @@ EcoObj &atom_insert_new_job_ecoObj( sectionKey_t ecoObjKey_ ){
 void atom_insert_2_job_ecoObjFlags( sectionKey_t ecoObjKey_ ){
     //--- atom ---//
     std::lock_guard<std::mutex> lg( jeo_inn::job_ecoObjFlagsMutex );
-    auto outPair = jeo_inn::job_ecoObjFlags.insert( ecoObjKey_ );
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = jeo_inn::job_ecoObjFlags.insert( ecoObjKey_ );
+    tprAssert( insertBool );
 }
 
 

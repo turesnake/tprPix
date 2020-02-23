@@ -1,15 +1,15 @@
 [
 {
-    "afsName": "riverBank",
+    "afsName": "bioSoup",
     "pngs": [
         {
-            "path": "riverBank.P.png",
+            "path": "bioSoup.P.png",
             "frameNum.col":  5,
             "frameNum.row":  1,
             "totalFrameNum": 5,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+            "ColliderType": "Square",
             "subspecs": [
                 {
                     "type": "batch",

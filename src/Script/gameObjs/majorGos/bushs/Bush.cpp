@@ -90,12 +90,7 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
-
-    if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
-        goRef_.brokenLvl.reset( retOpt.value() );
-    }else{
-        tprAssert(0);
-    }
+    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     // 有些 bush 只有一个 gomesh，有些则是 复数个

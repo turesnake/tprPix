@@ -76,21 +76,16 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
 
-    FloorGoLayer floorGoLayer {}; // 暂不存入 pvtBinary
-    if( auto retOpt = goDataPtr->get_floorGoLayer(); retOpt.has_value() ){
-        floorGoLayer = retOpt.value();
-    }else{
-        tprAssert(0);
-    }
-
-    // 依靠 uWeight，计算 zOff，从而确保，相交的 floorgo 之间，恒定的覆盖关系
-    double goMeshZOff = floorGo_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight, floorGoLayer ); // (0.0, 0.1)
-
-
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-
+    double goMeshZOff {};
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
         const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+
+        // 依靠 uWeight，计算 zOff，从而确保，相交的 floorgo 之间，恒定的覆盖关系
+        auto &floorGoLayerOpt = gmRef.get_floorGoLayer();
+        tprAssert( floorGoLayerOpt.has_value() );
+
+        goMeshZOff = floorGo_inn::calc_goMeshZOff( bpParamPtr->mapEntUWeight, floorGoLayerOpt.value() ); // (0.0, 0.1)
         
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

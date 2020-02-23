@@ -102,8 +102,8 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
         //---
         for( size_t i=0; i<animActionParams_.size(); i++ ){
             const AnimActionParam *paramPtr = animActionParams_.at(i).get();
-            auto outPair = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
-            tprAssert( outPair.second );
+            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+            tprAssert( insertBool );
         }
 
     }else{
@@ -114,8 +114,8 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
             auto aaPosId = AnimActionPos::id_manager.apply_a_u32_id();
             this->animActionPosUPtrs.insert({ aaPosId, std::make_unique<AnimActionPos>() });
             //---
-            auto outPair = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
-            tprAssert( outPair.second );
+            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+            tprAssert( insertBool );
         }
     }
 

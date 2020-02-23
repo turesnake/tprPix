@@ -150,8 +150,6 @@ int main( int argc, char* argv[] ){
     //------------------------------------------//
     //           more resources
     //------------------------------------------//
-    GameObj::id_manager.set_max_id( 0 );
-
     esrc::init_shaders();
     esrc::init_player();
     

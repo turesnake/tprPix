@@ -47,21 +47,21 @@ void WeakMapEntSet::init_for_static()noexcept{
 
     
     {//----- T_2m2 -----//
-        auto outpair = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_2m2, std::vector<IntVec2>{} });
-        tprAssert( outpair.second );
-        wmes_inn::batch( outpair.first->second, IntVec2{ -1, 0 }, IntVec2{ -1, 0 } );
+        auto [insertIt, insertBool] = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_2m2, std::vector<IntVec2>{} });
+        tprAssert( insertBool );
+        wmes_inn::batch( insertIt->second, IntVec2{ -1, 0 }, IntVec2{ -1, 0 } );
     }
 
     {//----- T_3m3 -----//
-        auto outpair = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_3m3, std::vector<IntVec2>{} });
-        tprAssert( outpair.second );
-        wmes_inn::batch( outpair.first->second, IntVec2{ -1, 1 }, IntVec2{ -1, 1 } );
+        auto [insertIt, insertBool] = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_3m3, std::vector<IntVec2>{} });
+        tprAssert( insertBool );
+        wmes_inn::batch( insertIt->second, IntVec2{ -1, 1 }, IntVec2{ -1, 1 } );
     }
 
     {//----- T_4m4 -----//
-        auto outpair = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_4m4, std::vector<IntVec2>{} });
-        tprAssert( outpair.second );
-        wmes_inn::batch( outpair.first->second, IntVec2{ -2, 1 }, IntVec2{ -2, 1 } );
+        auto [insertIt, insertBool] = WeakMapEntSet::datas.insert({ WeakMapEntsType::T_4m4, std::vector<IntVec2>{} });
+        tprAssert( insertBool );
+        wmes_inn::batch( insertIt->second, IntVec2{ -2, 1 }, IntVec2{ -2, 1 } );
     }
 
     //... move ...

@@ -60,16 +60,16 @@ public:
     }
 
     inline void insert_2_natureFloorDensitys( Density density_ )noexcept{
-        auto outPair = this->natureFloorDensitys.insert( density_ );
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->natureFloorDensitys.insert( density_ );
+        tprAssert( insertBool );
     }
     
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
     inline DensityPool &create_new_densityPool( Density density_ )noexcept{
-        auto outPair = this->densityPools.insert({ density_, std::make_unique<DensityPool>() });
-        tprAssert( outPair.second );
-        return *(outPair.first->second);
+        auto [insertIt, insertBool] = this->densityPools.insert({ density_, std::make_unique<DensityPool>() });
+        tprAssert( insertBool );
+        return *(insertIt->second);
     }
 
     //-- 确保关键数据 都被初始化 --

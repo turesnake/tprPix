@@ -402,9 +402,9 @@ void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_
     }
 
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
-    auto outPair = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::make_unique<GoDataForCreate>() });
-    tprAssert( outPair.second );
-    GoDataForCreate &goDRef = *(outPair.first->second);
+    auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::make_unique<GoDataForCreate>() });
+    tprAssert( insertBool );
+    GoDataForCreate &goDRef = *(insertIt->second);
 
 
     GoDataForCreate::assemble_new_goDataForCreate(  goDRef,
@@ -412,7 +412,7 @@ void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_
                                                     goSpecRef_.goSpeciesId,
                                                     goSpecRef_.goLabelId,
                                                     mapDataEntRef_.direction,
-                                                    mapDataEntRef_.brokenLvl_or_floorGoLayer,
+                                                    mapDataEntRef_.brokenLvl,
                                                     calc_simple_uWeight( mpos_ )
                                                 );
 }

@@ -40,11 +40,11 @@ public:
     inline void insert_2_circular_goids( goid_t goid_, ColliderType colliType_ )noexcept{
 
         tprAssert( colliType_ == ColliderType::Circular );
-        auto outPair1 = this->majorGos_circular.insert( goid_ );
-        tprAssert( outPair1.second );
+        auto [insertIt1, insertBool1] = this->majorGos_circular.insert( goid_ );
+        tprAssert( insertBool1 );
         //-- 
-        auto outPair3 = this->majorGos.insert( goid_ );
-        tprAssert( outPair3.second );
+        auto [insertIt2, insertBool2] = this->majorGos.insert( goid_ );
+        tprAssert( insertBool2 );
     }
 
 
@@ -64,17 +64,37 @@ public:
         tprAssert( this->majorGo_square == 0 ); // 一定要先合法地释放掉旧元素后，再登记新元素。禁止直接覆盖！
         this->majorGo_square = goid_;
         //--
-        auto outPair = this->majorGos.insert( goid_ );
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->majorGos.insert( goid_ );
+        tprAssert( insertBool );
     }
 
     //- 当一个 squGo 被杀死时，才会被调用
-    //  自动释放一个 chunk 时，并不会调用此函数
+    //  自动释放一个 chunk 时，并不需要调用此函数
     inline void erase_square_goid( goid_t goid_, ColliderType colliType_ )noexcept{
 
         tprAssert( colliType_ == ColliderType::Square );
         tprAssert( goid_ == this->majorGo_square );
         this->majorGo_square = 0; // null
+        //--
+        size_t eraseNum = this->majorGos.erase(goid_);
+        tprAssert( eraseNum == 1 );
+    }
+
+    inline void set_bioSoup_goid( goid_t goid_ )noexcept{ 
+
+        tprAssert( this->bioSoupGo == 0 ); // 一定要先合法地释放掉旧元素后，再登记新元素。禁止直接覆盖！
+        this->bioSoupGo = goid_;
+        //--
+        auto [insertIt, insertBool] = this->majorGos.insert( goid_ );
+        tprAssert( insertBool );
+    }
+
+    //- 当一个 bioSoupGo 被杀死时，才会被调用
+    //  自动释放一个 chunk 时，并不需要调用此函数
+    inline void erase_square_goid( goid_t goid_ )noexcept{
+
+        tprAssert( goid_ == this->bioSoupGo );
+        this->bioSoupGo = 0; // null
         //--
         size_t eraseNum = this->majorGos.erase(goid_);
         tprAssert( eraseNum == 1 );
@@ -107,7 +127,7 @@ public:
     inline const std::unordered_set<goid_t>     &get_goids()const noexcept{return this->majorGos; }
     inline const std::unordered_set<goid_t>     &get_circular_goids()const noexcept{return this->majorGos_circular; }
     inline goid_t                               get_square_goid()const noexcept{ return this->majorGo_square; }
-
+    inline goid_t                               get_bioSoup_goid()const noexcept{ return this->bioSoupGo; }
     
     
 private:
@@ -132,6 +152,11 @@ private:
                                     // 一个 mapent 其实还允许出现 floorGo
                                     // 但是它们不是 majorGo，不参与游戏交互。
                                     // 所以不会被登记到 mapent 中
+
+    goid_t                      bioSoupGo {}; // only one
+                                    // 一个 mapent 允许同时含有 一个 mp-go, 一个 bioSoup
+
+
     
     // 在未来，可能要准备 BioSoup-mapent 的 goid 信息
     // 也许会和 majorGo_square 联合存储，也许是一个独立的变量来存储

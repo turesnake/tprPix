@@ -163,8 +163,8 @@ public:
     }
 
     inline void insert_key( KeyBoard::Key key_ )noexcept{
-        auto outPair = this->pressedKeys.insert(key_);
-        tprAssert( outPair.second ); // Must success
+        auto [insertIt, insertBool] = this->pressedKeys.insert(key_);
+        tprAssert( insertBool ); // Must success
     }
 
     inline void erase_key( KeyBoard::Key key_ )noexcept{

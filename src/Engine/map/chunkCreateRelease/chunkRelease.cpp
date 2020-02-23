@@ -47,12 +47,12 @@ void release_one_chunk(){
     //  检查 esrc::chunkKeys_waitForRelease
     //  若为空，直接退出
     //------------------------------//
-    auto popRet = esrc::pop_front_from_WaitForRelease_and_move_2_onReleasing();
-    if( popRet.first == false ){
+    auto chunkKeyOpt = esrc::pop_front_from_WaitForRelease_and_move_2_onReleasing();
+    if( !chunkKeyOpt.has_value() ){
         return;
     }
 
-    chunkKey_t chunkKey = popRet.second;
+    chunkKey_t chunkKey = chunkKeyOpt.value();
     auto &chunkRef = esrc::get_chunkRef_onReleasing( chunkKey ); 
 
     IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey);

@@ -37,9 +37,7 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.actionDirection.reset( goDataPtr->direction );
 
     //-- brokenLvl / floorGoLayer 
-    auto brokenLvlOpt = goDataPtr->get_brokenLvl();
-    tprAssert( brokenLvlOpt.has_value() );
-    goRef_.brokenLvl.reset( brokenLvlOpt.value() );
+    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
 
     //===== goMeshs =====//

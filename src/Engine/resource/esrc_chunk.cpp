@@ -67,9 +67,9 @@ ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
  * 仅被 check_and_build_sections.cpp -> create_one_chunk() 调用
  */
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
-    auto outPair = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>( chunkKey_ ) });
-    tprAssert( outPair.second );
-    Chunk &chunkRef = *(outPair.first->second);
+    auto [insertIt, insertBool] = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>( chunkKey_ ) });
+    tprAssert( insertBool );
+    Chunk &chunkRef = *(insertIt->second);
 
     esrc::move_chunkKey_from_onCreating_2_active(chunkKey_);  
                             // Now, the chunkState is Active !!! 

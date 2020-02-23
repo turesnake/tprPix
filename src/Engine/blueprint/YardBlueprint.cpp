@@ -111,8 +111,8 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
     //------------//
     yardBlueprintSetId_t yardSetId = std::hash<std::string>{}( yardName_ );
     // find or create
-    auto outPair = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::make_unique<YardBlueprintSet>() });
-    YardBlueprintSet *setPtr = outPair.first->second.get();
+    auto [insertIt1, insertBool1] = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::make_unique<YardBlueprintSet>() });
+    YardBlueprintSet *setPtr = insertIt1->second.get();
 
     //------------//
     //  yardLabel
@@ -122,18 +122,18 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
     yardBlueprintId_t   yardId {};
 
     if( setPtr->yardIDs.find(yardLabelId) == setPtr->yardIDs.end() ){ // not find
-        auto outPair1 = setPtr->yardIDs.insert({ yardLabelId, std::unordered_map<NineDirection, yardBlueprintId_t>{} });
-        tprAssert( outPair1.second );
-        auto &innUMap = outPair1.first->second;
+        auto [insertIt2, insertBool2] = setPtr->yardIDs.insert({ yardLabelId, std::unordered_map<NineDirection, yardBlueprintId_t>{} });
+        tprAssert( insertBool2 );
+        auto &innUMap = insertIt2->second;
         //---
         yardId = YardBlueprintSet::yardId_manager.apply_a_u32_id();
         
-        auto outPair3 = innUMap.insert({ yardDir_, yardId });
-        tprAssert( outPair3.second ); // Must success
+        auto [insertIt3, insertBool3] = innUMap.insert({ yardDir_, yardId });
+        tprAssert( insertBool3 ); // Must success
 
         //---
-        auto outPair4 = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
-        tprAssert( outPair4.second );
+        auto [insertIt4, insertBool4] = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+        tprAssert( insertBool4 );
 
     }else{ // find
         tprAssert( setPtr->yardIDs.find(yardLabelId) != setPtr->yardIDs.end() );
@@ -143,12 +143,12 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
 
             yardId = YardBlueprintSet::yardId_manager.apply_a_u32_id();
 
-            auto outPair1 = innUMap.insert({ yardDir_, yardId });
-            tprAssert( outPair1.second );
+            auto [insertIt5, insertBool5] = innUMap.insert({ yardDir_, yardId });
+            tprAssert( insertBool5 );
 
             //---
-            auto outPair2 = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
-            tprAssert( outPair2.second ); 
+            auto [insertIt6, insertBool6] = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+            tprAssert( insertBool6 ); 
 
         }else{ // find
             yardId = innUMap.at( yardDir_ ); // Must Exist

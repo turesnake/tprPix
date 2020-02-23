@@ -40,12 +40,12 @@ void VarTypeDatas_Village::init_check()noexcept{
 villageBlueprintId_t VillageBlueprint::init_new_village( const std::string &name_ ){
     //-- name_2_ids
     villageBlueprintId_t id = VillageBlueprint::hasher(name_);
-    auto outPair1 = VillageBlueprint::villageIds.insert( id );
-    tprAssert( outPair1.second );
+    auto [insertIt1, insertBool1] = VillageBlueprint::villageIds.insert( id );
+    tprAssert( insertBool1 );
 
     //-- villageUPtrs 
-    auto outPair2 = VillageBlueprint::villageUPtrs.insert({ id, std::make_unique<VillageBlueprint>() });
-    tprAssert( outPair2.second );
+    auto [insertIt2, insertBool2] = VillageBlueprint::villageUPtrs.insert({ id, std::make_unique<VillageBlueprint>() });
+    tprAssert( insertBool2 );
     //--
     return id;
 }

@@ -56,6 +56,12 @@ void onGoSpeciesIds_SignUp(){
 
     GoSpecFromJson::insert_2_initFuncs( "hollowLog",      std::bind( &gameObjs::HollowLog::init, _1, _2 ) );
 
+
+    //-------------------//
+    //     bioSoup
+    //-------------------//
+    GoSpecFromJson::insert_2_initFuncs( "bioSoup",    std::bind( &gameObjs::BioSoup::init, _1, _2 ) );
+
     //-------------------//
     //     artifacts
     //-------------------//
@@ -99,7 +105,7 @@ void onGoSpeciesIds_SignUp(){
     //     FloorGo
     //-------------------//
     GoSpecFromJson::insert_2_initFuncs( "floorGo",      std::bind( &gameObjs::FloorGo::init, _1, _2 ) );
-    GoSpecFromJson::insert_2_initFuncs( "riverBank",    std::bind( &gameObjs::RiverBank::init, _1, _2 ) );
+    
 
 
     //-------------------//

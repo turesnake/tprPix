@@ -11,6 +11,7 @@
 
 //-------------------- CPP --------------------//
 #include <utility>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "Chunk.h" 
@@ -31,7 +32,7 @@ const std::unordered_set<chunkKey_t> &get_chunkKeys_waitForCreate()noexcept;
 void move_chunkKey_from_waitForCreate_2_onCreating( chunkKey_t chunkKey_ )noexcept;
 void move_chunkKey_from_onCreating_2_active( chunkKey_t chunkKey_ )noexcept;
 void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ )noexcept;
-std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept;
+std::optional<chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept;
 
 ChunkMemState get_chunkMemState( chunkKey_t chunkKey_ )noexcept;
 

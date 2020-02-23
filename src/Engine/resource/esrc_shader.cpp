@@ -37,9 +37,9 @@ ShaderProgram *get_shaderPtr( ShaderType type_ )noexcept{
 }
 
 ShaderProgram &insert_new_shader( ShaderType type_ )noexcept{
-    auto outPair = shader_inn::shaderUPtrs.insert({ type_, std::make_unique<ShaderProgram>() });
-    tprAssert( outPair.second );
-    return *(outPair.first->second);
+    auto [insertIt, insertBool] = shader_inn::shaderUPtrs.insert({ type_, std::make_unique<ShaderProgram>() });
+    tprAssert( insertBool );
+    return *(insertIt->second);
 }
 
 

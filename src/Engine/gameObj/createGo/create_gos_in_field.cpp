@@ -70,10 +70,10 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
 
 
-    //----- riverBank ------//
+    //----- bioSoup ------//
     // 临时简易方案
     
-    for( const auto goDataPtr : job_fieldPtr->get_riverBankGoDataPtrs() ){
+    for( const auto goDataPtr : job_fieldPtr->get_bioSoupGoDataPtrs() ){
         //--- dyParam ---//
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Blueprint>();
@@ -121,8 +121,8 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
         DyParam dyParam {};
         auto fUPtr = std::make_unique<DyParams_Blueprint>();
         fUPtr->goDataPtr = goDataPtr;
-        //fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
-        fUPtr->mapEntUWeight = 12345;
+        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
+        //fUPtr->mapEntUWeight = 12345;
 
         dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
         //---

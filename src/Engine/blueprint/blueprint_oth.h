@@ -93,8 +93,7 @@ IntVec2 parse_png_for_village(  std::vector<MapData> &mapDatasRef_,
                     const std::string &pngPath_M_,
                     IntVec2 frameNum_,
                     size_t totalFrameNum_,
-                    bool isHaveRoad,
-                    FloorGoLayer roadFloorGoLayer );
+                    bool isHaveRoad );
 
 
 

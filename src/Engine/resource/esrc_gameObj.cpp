@@ -143,13 +143,13 @@ std::unordered_set<goid_t> &get_goids_inactive(){
 }
 
 void insert_2_goids_active( goid_t id_ ){
-    auto outPair = go_inn::goids_active.insert( id_ );
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = go_inn::goids_active.insert( id_ );
+    tprAssert( insertBool );
 }
 
 void insert_2_goids_inactive( goid_t id_ ){
-    auto outPair = go_inn::goids_inactive.insert( id_ );
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = go_inn::goids_inactive.insert( id_ );
+    tprAssert( insertBool );
 }
 
 /* ===========================================================
@@ -162,8 +162,8 @@ void insert_2_goids_inactive( goid_t id_ ){
  */
 goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto outPair = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
+    tprAssert( insertBool );
     return goid;
 }
 
@@ -176,8 +176,8 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
                         const glm::dvec2 &offDPos_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto outPair = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
+    tprAssert( insertBool );
     return goid;
 }
 
@@ -191,8 +191,8 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
 void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ ){
-    auto outPair = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
+    tprAssert( insertBool );
 }
 
 /* ===========================================================
@@ -297,39 +297,50 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
     // --- 一旦确认自己是 "临界go"，chunk容器 edgeGoIds 会动态记录这个数据
     // --- 将 本goid，记录到 主chunk goids 容器中
     //------------------------------//
-    auto outPair = esrc::get_chunkPtr( goRef_.currentChunkKey );
-    tprAssert( outPair.first == ChunkMemState::Active );
-    Chunk &currentChunkRef = *(outPair.second);
+    auto [chunkMemState1, chunkPtr1] = esrc::get_chunkPtr( goRef_.currentChunkKey );
+    tprAssert( chunkMemState1 == ChunkMemState::Active );
+    Chunk &currentChunkRef = *(chunkPtr1);
 
     currentChunkRef.insert_2_goIds( goRef_.id ); //- always
 
 
     // Floor/GroundGo/WorldUI 都仅参与 chunk 登记
     // 剩余的： edgeGoids, mapent 登记，都不参与。
-    if( goRef_.family != GameObjFamily::Major ){
+    if( (goRef_.family!=GameObjFamily::Major) &&
+        (goRef_.family!=GameObjFamily::BioSoup) ){
         return;
     }
+
 
     //------------------------------//
     //            --2--
     //------------------------------//
     size_t      chunkKeySize = goRef_.reCollect_chunkKeys();
-    chunkKey_t  tmpChunkKey  {};
+    
 
     auto colliType = goRef_.get_colliderType();
     if( colliType == ColliderType::Square ){
+
+
 
         //-- 目前暂时只支持 1*1mapent 尺寸的 人造物单元
         //   所以完全不用关心 chunk.edgeGoids 的问题
         //   最简设计：
 
-        auto mpos = dpos_2_mpos( goRef_.get_dpos() );
+        IntVec2 mpos = dpos_2_mpos( goRef_.get_dpos() );
 
         //---- 正式注册 go 到 mapents 上 -----
         auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
         tprAssert( mapEntPair.first == ChunkMemState::Active );
-        mapEntPair.second->set_square_goid( goRef_.id, colliType );
-        
+
+
+        if( goRef_.family == GameObjFamily::Major ){
+            mapEntPair.second->set_square_goid( goRef_.id, colliType );
+        }else{ // BioSoup
+            mapEntPair.second->set_bioSoup_goid( goRef_.id );
+        }
+
+
 
     }else if( colliType == ColliderType::Circular ){
 
@@ -338,20 +349,17 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
         }
         //------------------------------//
         //  signUp each collient to mapEnt
-        //------------------------------//
-        
+        //------------------------------//        
         const auto &currentSignINMapEntsRef = goRef_.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo();
         tprAssert( !currentSignINMapEntsRef.empty() ); //- tmp
         for( const auto &mpos : currentSignINMapEntsRef ){
-
-            tmpChunkKey = anyMPos_2_chunkKey( mpos );
 
             //-- 如果 colliEnt所在 chunk 尚未创建，表明此 go 为 “临界go”。
             // 此时显然不能去调用 esrc::getnc_memMapEntPtr(), 会出错。
             // 将会暂时 忽略掉这个 collient 的登记工作，
             // 这个工作，会等到 目标chunk 创建阶段，再补上: 
             // 在 signUp_nearby_chunks_edgeGo_2_mapEnt() 中
-            auto chunkState = esrc::get_chunkMemState(tmpChunkKey);
+            auto chunkState = esrc::get_chunkMemState( anyMPos_2_chunkKey(mpos) );
             if( (chunkState==ChunkMemState::NotExist) || 
                 (chunkState==ChunkMemState::WaitForCreate) ||
                 (chunkState==ChunkMemState::OnCreating) ){
@@ -384,20 +392,18 @@ void refresh_worldUIGo_chunkSignUpData( GameObj &goRef_, const glm::dvec2 &moveV
     if( newChunkKey != goRef_.currentChunkKey ){
         // 确实需要 更新 登记信息
 
-        auto outPair1 = esrc::get_chunkPtr( newChunkKey );
-        tprAssert( outPair1.first == ChunkMemState::Active ); // MUST
-        Chunk &newChunkRef = *(outPair1.second);
+        auto [ newChunkMemState, newChunkPtr ] = esrc::get_chunkPtr( newChunkKey );
+        tprAssert( newChunkMemState == ChunkMemState::Active ); // MUST
 
-        auto outPair2 = esrc::get_chunkPtr( goRef_.currentChunkKey );
-        tprAssert( outPair2.first == ChunkMemState::Active );  // MUST
-        Chunk &oldChunkRef = *(outPair2.second);
+        auto [ oldChunkMemState, oldChunkPtr ] = esrc::get_chunkPtr( goRef_.currentChunkKey );
+        tprAssert( oldChunkMemState == ChunkMemState::Active );  // MUST
 
-        size_t eraseNum = oldChunkRef.erase_from_goIds( goRef_.id );
+        size_t eraseNum = oldChunkPtr->erase_from_goIds( goRef_.id );
         tprAssert( eraseNum == 1 );
-        oldChunkRef.erase_from_edgeGoIds( goRef_.id ); // maybe 
+        oldChunkPtr->erase_from_edgeGoIds( goRef_.id ); // maybe 
         //---
         goRef_.currentChunkKey = newChunkKey;
-        newChunkRef.insert_2_goIds( goRef_.id );
+        newChunkPtr->insert_2_goIds( goRef_.id );
     }
 }
 

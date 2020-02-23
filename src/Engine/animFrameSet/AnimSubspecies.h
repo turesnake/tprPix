@@ -45,8 +45,8 @@ public:
         this->animActions.at(dir_).insert({ brokenLvl_, std::unordered_map<AnimActionEName, std::unique_ptr<AnimAction>>{} }); // maybe
 
         auto &container = this->animActions.at(dir_).at(brokenLvl_);
-        auto outPair = container.insert({ actionEName_, std::make_unique<AnimAction>() });
-        tprAssert( outPair.second ); // Must
+        auto [insertIt, insertBool] = container.insert({ actionEName_, std::make_unique<AnimAction>() });
+        tprAssert( insertBool ); // Must
         //---
         // if target key is existed, nothing will happen
         this->actionsDirs.insert({ actionEName_, std::unordered_set<NineDirection>{} }); //- maybe
@@ -153,8 +153,8 @@ public:
     //-- 空值需要传入 AnimLabel::Default
     inline animSubspeciesId_t find_or_create_a_animSubspeciesId( AnimLabel label_, size_t  subIdx_ )noexcept{
         if( this->subSquads.find(label_) == this->subSquads.end() ){
-            auto outPair1 = this->subSquads.insert({ label_, AnimSubspeciesSquad{} });
-            tprAssert( outPair1.second );
+            auto [insertIt, insertBool] = this->subSquads.insert({ label_, AnimSubspeciesSquad{} });
+            tprAssert( insertBool );
             //---
             this->labels.push_back( label_ );
         }

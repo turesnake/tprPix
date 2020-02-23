@@ -87,21 +87,21 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
 
     //----------------//
     //    第一阶段
-    auto outPair1 = this->collect_AdjacentBegos_and_deflect_moveVec( moveVec_ );
+    auto [isAllowedToMove1, newMoveVec1] = this->collect_AdjacentBegos_and_deflect_moveVec( moveVec_ );
     // dogo 在 起始阶段就被 阻挡了，完全无法移动
-    if( !outPair1.first ){
+    if( !isAllowedToMove1 ){
         return glm::dvec2{ 0.0, 0.0 }; // 完全无法移动，无需重登记 chunk / mapents
     }
-    moveVec = outPair1.second;
+    moveVec = newMoveVec1;
 
     //----------------//
     //    第二阶段
-    auto outPair2 = this->collect_IntersectBegos_and_truncate_moveVec( moveVec ); // MAJOR !!!! 
+    auto [isAllowedToMove2, newMoveVec2] = this->collect_IntersectBegos_and_truncate_moveVec( moveVec ); // MAJOR !!!! 
     //--- 如果确认 dogo 完全无法移动，直接退出 ---
-    if( !outPair2.first ){
+    if( !isAllowedToMove2 ){
         return glm::dvec2( 0.0, 0.0 ); // 完全无法移动，无需重登记 chunk / mapents
     }
-    moveVec = outPair2.second;
+    moveVec = newMoveVec2;
 
     //=====//
     this->reSignUp_dogo_to_chunk_and_mapents( moveVec );
@@ -111,10 +111,7 @@ glm::dvec2 Collision::detect_moveCollide( const glm::dvec2 &moveVec_ ){
 
 
 
-/* ===========================================================
- *         collect_AdjacentBegos_and_deflect_moveVec
- * -----------------------------------------------------------
- * 检测 dogo 起始dpos，收集所有 相邻关系的，确认可以碰撞的 begos( squ/cir )
+/* 检测 dogo 起始dpos，收集所有 相邻关系的，确认可以碰撞的 begos( squ/cir )
  * 计算出它们作用于 dogo 的墙壁法向量，收集到容器
  * 综合这些 墙壁法向量，确认本次是否可移动，如果可以，计算出 偏转后的 moveVec
  * ---
@@ -167,8 +164,8 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         }
 
         //----- collect Adjacent mapents -----//
-        auto outPair = Collision::confirmedAdjacentMapEnts.insert( dir );
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = Collision::confirmedAdjacentMapEnts.insert( dir );
+        tprAssert( insertBool );
     }
 
     //---
@@ -278,10 +275,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
 
 
 
-/* ===========================================================
- *            collect_IntersectBegos_and_truncate_moveVec  [Sec]
- * -----------------------------------------------------------
- *  return:
+/* return:
  *     bool:   isAllowedToMove  
  *     dvec2:  if it's allowed to move, return new moveVec 修正后的位移向量（ 原值／t／偏向 ）
  */  
@@ -331,9 +325,9 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
 
         //-- 现在确认 bego 为 有效碰撞bego:        
         //   逐个检测每个 bego，计算并收集 t 值，
-        auto outPair = cast_with_mapent( moveVec_, dogoDPos, impos );
-        if( outPair.first ){
-            Collision::tVals.insert( outPair.second );
+        auto [isHaveT, t] = cast_with_mapent( moveVec_, dogoDPos, impos );
+        if( isHaveT ){
+            Collision::tVals.insert( t );
         }
     }
 
@@ -463,14 +457,14 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
     //-- 检查本go 的 新chunk，如果发生变化，释放旧chunk 中的 goids, edgeGoIds
     //     登记到 新chunk 的 goids
     chunkKey_t newChunkKey = anyDPos_2_chunkKey( dogoRef.get_dpos() + moveVec_ );
-    auto outPair1 = esrc::get_chunkPtr( newChunkKey );
-    tprAssert( outPair1.first == ChunkMemState::Active );
-    Chunk &newChunkRef = *(outPair1.second);
+    auto chunkPair1 = esrc::get_chunkPtr( newChunkKey );
+    tprAssert( chunkPair1.first == ChunkMemState::Active );
+    Chunk &newChunkRef = *(chunkPair1.second);
 
     if( newChunkKey != dogoRef.currentChunkKey ){
-        auto outPair2 = esrc::get_chunkPtr( dogoRef.currentChunkKey );
-        tprAssert( outPair2.first == ChunkMemState::Active );
-        Chunk &oldChunkRef = *(outPair2.second);
+        auto chunkPair2 = esrc::get_chunkPtr( dogoRef.currentChunkKey );
+        tprAssert( chunkPair2.first == ChunkMemState::Active );
+        Chunk &oldChunkRef = *(chunkPair2.second);
 
         size_t eraseNum = oldChunkRef.erase_from_goIds( dogoRef.id );
         tprAssert( eraseNum == 1 );

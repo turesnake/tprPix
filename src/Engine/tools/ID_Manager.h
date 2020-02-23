@@ -35,7 +35,7 @@ enum class ID_TYPE : uint8_t {
 class ID_Manager{
 public:
     explicit ID_Manager(ID_TYPE id_type_=ID_TYPE::U64,
-                        uint64_t   max_id_=1 ):
+                        uint64_t   max_id_=0 ):
         id_scope(id_type_),
         max_id(max_id_)
         {
@@ -90,9 +90,9 @@ public:
     }
 
 private:
-    ID_TYPE   id_scope;  //- id类型
-    uint64_t     max_id;    //- 当前 使用的 数值最大的 id号
-    uint64_t     id_limit;  //- id号 上限
+    ID_TYPE     id_scope;  //- id类型
+    uint64_t    max_id;    //- 当前 使用的 数值最大的 id号
+    uint64_t    id_limit;  //- id号 上限
 };
 
 #endif

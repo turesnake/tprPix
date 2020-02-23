@@ -59,10 +59,16 @@ GameObjState str_2_gameObjState( const std::string &name_ )noexcept;
 //  这套系统使用使用，暂未确定
 enum class GameObjFamily{
     Major   = 1, // 主go： 活体，树，建筑...
-                 // 只有 MajorGo，可以参与 游戏世界的 碰撞检测
+                 // 只有 MajorGo / BioSoup，可以参与 游戏世界的 碰撞检测
                  // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
-                 // 会被登记到对应 mapent 中，从而可以进行 移动/技能 碰撞检测 （唯一）
+                 // 会被登记到对应 mapent 中，从而可以进行 移动/技能 碰撞检测
 
+    BioSoup,    // 异世界生物汤。
+                // 只有 MajorGo / BioSoup，可以参与 游戏世界的 碰撞检测
+                // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）
+                // 会被登记到对应 mapent 中，从而可以进行 移动/技能 碰撞检测
+                // 特性上非常类似 普通的 mp-go
+                
 
     Floor,      // 地面材质go （无法移动）
                 // 会被登记到对应 chunk 中 （从而可以跟随chunk 被释放）

@@ -100,7 +100,7 @@ void sceneLogicLoop_world(){
                 []( goid_t goid_, GameObj &goRef_ ){
 
                     //-- Only Major --
-                    if( goRef_.family == GameObjFamily::Major ){
+                    if( goRef_.family == GameObjFamily::Major ){ // BioSoup 是否要支持 ？？？
                         goRef_.LogicUpdate( goRef_ );
                             //-- 这么设计还是会造成 拥塞问题
                             //   大量的 go在同一帧 更新自己的 logic。
@@ -150,8 +150,8 @@ void sceneLogicLoop_world(){
     //  每一帧，最多装配生成一个 chunk 实例（如果有）
     //  或者 释放一个 chunk 实例（如果有）
     //--------------------------------//
-    auto pairRet = chunkCreate::chunkCreate_3_receive_data_and_create_one_chunk();
-    if( pairRet.first == false ){
+    auto chunkKeyOpt = chunkCreate::chunkCreate_3_receive_data_and_create_one_chunk();
+    if( !chunkKeyOpt.has_value() ){
         chunkRelease::release_one_chunk();
     }
                     // 一种临时的，简陋的 平衡帧间开销的方式

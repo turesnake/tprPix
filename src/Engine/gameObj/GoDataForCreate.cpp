@@ -23,13 +23,13 @@ void GoDataForCreate::assemble_new_goDataForCreate( GoDataForCreate     &goDRef_
                                                     goSpeciesId_t       goSpeciesId_,
                                                     goLabelId_t         goLabelId_,
                                                     NineDirection       direction_,
-                                                    std::variant<std::monostate, BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer_,
+                                                    BrokenLvl           brokenLvl_,
                                                     size_t mapEntUWeight_
                                                      ){
 
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDRef_.direction = direction_;
-    goDRef_.brokenLvl_or_floorGoLayer = brokenLvl_or_floorGoLayer_;
+    goDRef_.brokenLvl = brokenLvl_;
     goDRef_.goSpeciesId = goSpeciesId_;
     goDRef_.dpos = dpos_;
 

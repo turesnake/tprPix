@@ -62,9 +62,9 @@ void init_timeLog(){
 
 void collect_deltaTime(double deltaTime_){
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
-    auto outPair = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
+    auto [insertIt, insertBool] = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
                                         std::make_unique<timeLog_inn::FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
-    tprAssert( outPair.second );
+    tprAssert( insertBool );
     timeLog_inn::idx++;
 }
 

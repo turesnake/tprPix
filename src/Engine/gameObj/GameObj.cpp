@@ -51,7 +51,7 @@ void GameObj::init_for_regularGo( const glm::dvec2 &dpos_ ){
     //-----------------------//
     //    collision
     //-----------------------//
-    this->collisionUPtr = (this->family == GameObjFamily::Major) ?
+    this->collisionUPtr = ((this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup)) ?
                                 std::make_unique<Collision>(*this) :
                                 nullptr;
 
@@ -114,12 +114,8 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     double              zOff_,
                                     bool                isVisible_ ){
 
-    auto outPair = this->goMeshs.insert({name_, 
-                                        std::make_unique<GameObjMesh>(  *this,
-                                                                        pposOff_,
-                                                                        zOff_,
-                                                                        isVisible_ ) }); 
-    tprAssert( outPair.second );
+    auto [insertIt, insertBool] = this->goMeshs.insert({name_, std::make_unique<GameObjMesh>( *this, pposOff_, zOff_,isVisible_ ) }); 
+    tprAssert( insertBool );
 
     GameObjMesh &gmesh = *(this->goMeshs.at(name_));    
 
@@ -155,7 +151,7 @@ void GameObj::init_check(){
     this->colliDataFromJPtr = this->rootAnimActionPosPtr->get_colliDataFromJPtr();
 
     //---
-    if( this->family == GameObjFamily::Major ){
+    if( (this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup) ){
 
         // MUST NOT EMPTY !!! 
         tprAssert( (this->goPosVUPtr.index()!=0) && (this->goPosVUPtr.index()!=std::variant_npos) );
@@ -196,10 +192,20 @@ void GameObj::rebind_rootAnimActionPosPtr(){
  */
 size_t GameObj::reCollect_chunkKeys(){
 
-    tprAssert( this->family == GameObjFamily::Major );
-
+    tprAssert( (this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup) );
     this->chunkKeys.clear();
 
+    //---------------//
+    //     BioSoup
+    //---------------//
+    if( this->family == GameObjFamily::BioSoup ){
+        this->chunkKeys.insert( anyMPos_2_chunkKey( dpos_2_mpos(this->get_dpos()) ) ); // only one
+        return this->chunkKeys.size();
+    }
+
+    //---------------//
+    //     Major
+    //---------------//
     auto colliType = this->get_colliderType();
     if( colliType == ColliderType::Circular ){
         for( const auto &mpos : this->get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
@@ -220,10 +226,10 @@ size_t GameObj::reCollect_chunkKeys(){
 
 void GameObj::debug(){
 
-    auto outPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(this->get_dpos()) );
-    tprAssert( outPair.first == ChunkMemState::Active );
+    auto mapEntPair = esrc::getnc_memMapEntPtr( dpos_2_mpos(this->get_dpos()) );
+    tprAssert( mapEntPair.first == ChunkMemState::Active );
 
-    MemMapEnt &mpRef = *outPair.second;
+    MemMapEnt &mpRef = *mapEntPair.second;
 
     cout << "mapEnt.lvl: " << mpRef.get_mapAlti().lvl
         << "; val: " << mpRef.get_mapAlti().val

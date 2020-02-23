@@ -1,6 +1,6 @@
 [
     {
-        "goSpeciesName": "riverBank",
+        "goSpeciesName": "bioSoup",
         "without_holds": true,
 
         "renderLayerType": "BioSoup",
@@ -10,7 +10,7 @@
             {
                 "goLabel": "",
                 "goMeshs":[
-                    { "afsName": "riverBank", "animLabel": ""  }
+                    { "afsName": "bioSoup", "animLabel": ""  }
                 ]
             }
 

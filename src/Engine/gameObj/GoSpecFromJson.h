@@ -52,8 +52,8 @@ public:
     }
 
     inline void insert_2_lAltiRanges( GoAltiRangeLabel label_, GoAltiRange val_ )noexcept{
-        auto outPair = this->lAltiRanges.insert({ label_, val_ });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->lAltiRanges.insert({ label_, val_ });
+        tprAssert( insertBool );
     }
 
     inline GoAltiRange get_lAltiRange( GoAltiRangeLabel label_ )const noexcept{
@@ -106,9 +106,9 @@ public:
         std::hash<std::string> hasher;
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
-        auto outPair = GoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<GoSpecFromJson>() });
-        tprAssert( outPair.second );
-        GoSpecFromJson &ref = *(outPair.first->second);
+        auto [insertIt, insertBool] = GoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<GoSpecFromJson>() });
+        tprAssert( insertBool );
+        GoSpecFromJson &ref = *(insertIt->second);
         //--
         ref.goSpeciesName = name_;
         ref.speciesId = id;
@@ -149,8 +149,8 @@ public:
 
     inline static void insert_2_initFuncs( const std::string &goTypeName_, const F_GO_INIT &functor_ ){
         goSpeciesId_t id = GoSpecFromJson::str_2_goSpeciesId( goTypeName_ );
-        auto outPair = GoSpecFromJson::initFuncs.insert({ id, functor_ });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = GoSpecFromJson::initFuncs.insert({ id, functor_ });
+        tprAssert( insertBool );
     }
 
 private:

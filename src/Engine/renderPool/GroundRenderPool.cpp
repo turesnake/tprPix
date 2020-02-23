@@ -23,8 +23,8 @@ void GroundRenderPool::init()noexcept{
         if( iName == "origin" ){ // skip
            continue; 
         }
-        auto outPair = this->pools.insert({ iId, std::multimap<float, ChildMesh*>{} });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->pools.insert({ iId, std::multimap<float, ChildMesh*>{} });
+        tprAssert( insertBool );
     }
     cout << endl;
 }

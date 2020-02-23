@@ -1,16 +1,16 @@
 [
     {
-        "goSpeciesName": "riverBank",
-        "family": "Floor",
+        "goSpeciesName": "bioSoup",
+        "family": "BioSoup",
         "state": "Waked",
         "moveState": "AbsFixed",
-        "isMoveCollide": false,
+        "isMoveCollide": true,
         "isDoPass": false,
-        "isBePass": true,
+        "isBePass": false,
 
         "alti": 0,
         "lAltiRanges": [
-            { "label": "", "val": [0.0, 0.0] }
+            { "label": "", "val": [0.0, 10.0] }
         ],
 
         "weight": 1,
@@ -19,11 +19,11 @@
 
 
         "afs_lPaths": [ 
-            "_riverBank.afs.json"
+            "_bioSoup.afs.json"
 
         ],
         "goAsm_lPaths": [
-            "_riverBank.asm.json"
+            "_bioSoup.asm.json"
         ]
 
 

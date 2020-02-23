@@ -90,43 +90,27 @@ namespace dpc_inn {//------------------ namespace: dpc_inn start ---------------
 
 
 // 完全不关心 运行效率
-std::optional<std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>> 
-rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept{
+std::optional<std::pair<NineDirection, BrokenLvl>> rgba_2_DPngData( RGBA rgba_ )noexcept{
 
     HSV hsv = rgb_2_hsv( rgba_ ); // 返回值精度不够
 
-    std::variant<std::monostate, BrokenLvl, FloorGoLayer> variant {};
+    BrokenLvl broKenLvl {};
     const std::map<NineDirection, RGBA> *containerPtr {nullptr};
 
     if( is_closeEnough<double>(hsv.h, 0.0, 10.0) ){ 
-        isBrokenLvl_ ? 
-            variant = BrokenLvl::Lvl_0 :
-            variant = FloorGoLayer::L_0;
-
+        broKenLvl = BrokenLvl::Lvl_0;
         containerPtr = &(dpc_inn::lvl_0);
     }else if( is_closeEnough<double>(hsv.h, 40.0, 10.0) ){
-        isBrokenLvl_ ? 
-            variant = BrokenLvl::Lvl_1 :
-            variant = FloorGoLayer::L_1;
-
+        broKenLvl = BrokenLvl::Lvl_1;
         containerPtr = &(dpc_inn::lvl_1);
     }else if( is_closeEnough<double>(hsv.h, 100.0, 10.0) ){
-        isBrokenLvl_ ? 
-            variant = BrokenLvl::Lvl_2 :
-            variant = FloorGoLayer::L_2;
-
+        broKenLvl = BrokenLvl::Lvl_2;
         containerPtr = &(dpc_inn::lvl_2);
     }else if( is_closeEnough<double>(hsv.h, 200.0, 10.0) ){
-        isBrokenLvl_ ? 
-            variant = BrokenLvl::Lvl_3 :
-            variant = FloorGoLayer::L_3;
-
+        broKenLvl = BrokenLvl::Lvl_3;
         containerPtr = &(dpc_inn::lvl_3);
     }else if( is_closeEnough<double>(hsv.h, 300.0, 10.0) ){
-        isBrokenLvl_ ? 
-            variant = BrokenLvl::Lvl_4 :
-            variant = FloorGoLayer::L_4;
-
+        broKenLvl = BrokenLvl::Lvl_4;
         containerPtr = &(dpc_inn::lvl_4);
     }else{
         // not find
@@ -135,13 +119,10 @@ rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept{
     }
     //---
 
-    // MUST NOT EMPTY !!! 
-    tprAssert( (variant.index()!=0) && (variant.index()!=std::variant_npos) );
-
     //-- 逐个比较确认，效率最低的方案
     for( const auto & [iDir, iRGBA] : *containerPtr ){
         if( rgba_.is_near( iRGBA, 8) ){
-            return { std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>{ iDir, variant } };
+            return { std::pair<NineDirection, BrokenLvl>{ iDir, broKenLvl } };
         }
     }
 

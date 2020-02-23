@@ -104,12 +104,7 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         //----- must before creat_new_goMesh() !!! -----//
         goRef_.actionDirection.reset( goDataPtr->direction );
-
-        if( auto retOpt = goDataPtr->get_brokenLvl(); retOpt.has_value() ){
-            goRef_.brokenLvl.reset( retOpt.value() );
-        }else{
-            tprAssert(0);
-        }
+        goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
     }else{
         tprAssert(0); //- 尚未实现

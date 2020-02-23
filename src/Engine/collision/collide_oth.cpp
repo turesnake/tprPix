@@ -307,36 +307,28 @@ std::pair<bool,double> cast_with_mapent(    const glm::dvec2 &moveVec_,
     double topLine = mpMidDPos.y + sum_of_2_radius;
 
     std::multiset<double> tVals {};
-    double t {};
-    std::pair<double,double> out {};
-    double newX {};
-    double newY {};
     
     if( moveVec_.x != 0.0 ){
-        out = cast_with_verticalLine( moveVec_, dogoDPos_, leftLine );
-        newY = out.first;
-        if( (newY>bottomLine) && (newY<topLine) ){
-            tVals.insert( out.second );
+        auto [newY1, t1] = cast_with_verticalLine( moveVec_, dogoDPos_, leftLine );
+        if( (newY1>bottomLine) && (newY1<topLine) ){
+            tVals.insert( t1 );
         }
 
-        out = cast_with_verticalLine( moveVec_, dogoDPos_, rightLine );
-        newY = out.first;
-        if( (newY>bottomLine) && (newY<topLine) ){
-            tVals.insert( out.second );
+        auto [newY2, t2] = cast_with_verticalLine( moveVec_, dogoDPos_, rightLine );
+        if( (newY2>bottomLine) && (newY2<topLine) ){
+            tVals.insert( t2 );
         }
     }
     
     if( moveVec_.y != 0.0 ){
-        out = cast_with_horizonLine( moveVec_, dogoDPos_, bottomLine );
-        newX = out.first;
-        if( (newX>leftLine) && (newX<rightLine) ){
-            tVals.insert( out.second );
+        auto [newX1, t1] = cast_with_horizonLine( moveVec_, dogoDPos_, bottomLine );
+        if( (newX1>leftLine) && (newX1<rightLine) ){
+            tVals.insert( t1 );
         }
 
-        out = cast_with_horizonLine( moveVec_, dogoDPos_, topLine );
-        newX = out.first;
-        if( (newX>leftLine) && (newX<rightLine) ){
-            tVals.insert( out.second );
+        auto [newX2, t2] = cast_with_horizonLine( moveVec_, dogoDPos_, topLine );
+        if( (newX2>leftLine) && (newX2<rightLine) ){
+            tVals.insert( t2 );
         }
     }
 

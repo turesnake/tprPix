@@ -55,9 +55,9 @@ public:
         std::hash<std::string> hasher;
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
-        auto outPair = UIGoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<UIGoSpecFromJson>() });
-        tprAssert( outPair.second );
-        UIGoSpecFromJson &ref = *(outPair.first->second);
+        auto [insertIt, insertBool] = UIGoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<UIGoSpecFromJson>() });
+        tprAssert( insertBool );
+        UIGoSpecFromJson &ref = *(insertIt->second);
         //---
         ref.goSpeciesName = name_;
         ref.speciesId = id;
@@ -92,8 +92,8 @@ public:
 
     inline static void insert_2_initFuncs( const std::string &goTypeName_, const F_GO_INIT &functor_ ){
         goSpeciesId_t id = UIGoSpecFromJson::str_2_uiGoSpeciesId( goTypeName_ );
-        auto outPair = UIGoSpecFromJson::initFuncs.insert({ id, functor_ });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = UIGoSpecFromJson::initFuncs.insert({ id, functor_ });
+        tprAssert( insertBool );
     }
 
 

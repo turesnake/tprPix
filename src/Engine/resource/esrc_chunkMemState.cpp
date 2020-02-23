@@ -142,18 +142,20 @@ void move_chunkKey_from_active_2_waitForRelease( chunkKey_t chunkKey_ )noexcept{
     chunkMS_inn::chunkMemStates.at(chunkKey_) = ChunkMemState::WaitForRelease;
 }
 
-std::pair<bool,chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept{
+
+std::optional<chunkKey_t> pop_front_from_WaitForRelease_and_move_2_onReleasing()noexcept{
         
     if( chunkMS_inn::chunkKeys_waitForRelease.empty() ){
-        return { false, 1 }; // 1 绝对不是 chunkKey 正常值, 确保外部也能发现错误
+        return std::nullopt;
     }
     chunkKey_t key = chunkMS_inn::chunkKeys_waitForRelease.front();
     chunkMS_inn::chunkKeys_waitForRelease.pop_front();
         tprAssert( chunkMS_inn::chunkKeys_onReleasing.find(key) == chunkMS_inn::chunkKeys_onReleasing.end() );
     chunkMS_inn::chunkKeys_onReleasing.insert(key);
     chunkMS_inn::chunkMemStates.at(key) = ChunkMemState::OnReleasing;
-    return { true, key };
+    return { key };
 }
+
 
 //- only used by esrc_chunk -
 void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ )noexcept{

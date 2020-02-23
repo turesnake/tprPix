@@ -35,8 +35,8 @@ void atom_select_all_from_table_gameArchive( std::unordered_map<gameArchiveId_t,
         archive.maxGoId        =  static_cast<uint64_t>( sqlite3_column_int64(stmt_select_all_from_table_gameArchive, 5) );
         archive.gameTime       =  sqlite3_column_double(stmt_select_all_from_table_gameArchive, 6);
         //---
-        auto outpair = container_.insert({ archive.id, archive }); //- copy
-        tprAssert( outpair.second );
+        auto [insertIt, insertBool] = container_.insert({ archive.id, archive }); //- copy
+        tprAssert( insertBool );
     }
                 //-- 这样写 很可能是 不够安全的。暂时先不管....
 }

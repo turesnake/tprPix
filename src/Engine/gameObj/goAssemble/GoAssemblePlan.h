@@ -17,6 +17,7 @@
 #include <unordered_set>
 #include <memory>
 #include <functional> // hash
+#include <optional>
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -27,6 +28,7 @@
 #include "BrokenLvl.h"
 #include "AnimActionEName.h"
 #include "GoAltiRange.h"
+#include "FloorGoType.h"
 
 #include "RenderLayerType.h"
 #include "ShaderType.h"
@@ -52,6 +54,8 @@ public:
         RenderLayerType         renderLayerType {};
         ShaderType              shaderType   {};
         bool                    isVisible {};
+
+        
         
         //NineDirection           dir {};
         //BrokenLvl               brokenLvl {};
@@ -59,6 +63,10 @@ public:
                                     // 在完善的设计中，每一个 gomesh，都可以选择，直接使用 go的这份数据
                                     // 或者 在 json 文件中，自定义这部分数据
                                     // ...
+        
+        //------- optional_vals -------//
+        std::optional<FloorGoLayer> floorGoLayer { std::nullopt }; // only for FloorGo 
+
     };
 
     // 一个 go 实例，由数个 gomesh 以及其他数据 组合而成
@@ -83,17 +91,17 @@ public:
         //----- id -----//
         Plan::id_t id = Plan::id_manager.apply_a_u32_id();
         if( labelId_ != DEFAULT_GO_LABEL_ID ){
-            auto outPair1 = this->ids.insert({ labelId_, std::vector<Plan::id_t>{} }); // insert or find
-            outPair1.first->second.push_back(id);
+            auto [insertIt1, insertBool1] = this->ids.insert({ labelId_, std::vector<Plan::id_t>{} }); // insert or find
+            insertIt1->second.push_back(id);
         }else{
             // do nothing, goLabelId::Default not belong to any type
         }
         this->allIds.push_back(id); // always
         //----- instance -----//
-        auto outPair = this->planUPtrs.insert({ id, std::make_unique<Plan>() });
-        tprAssert( outPair.second );
+        auto [insertIt2, insertBool2] = this->planUPtrs.insert({ id, std::make_unique<Plan>() });
+        tprAssert( insertBool2 );
         //----- ret -----//
-        return *(outPair.first->second);
+        return *(insertIt2->second);
     }
 
 

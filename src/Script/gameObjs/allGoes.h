@@ -21,6 +21,9 @@
 
 
 
+//---------- Script : gameObjs : bioSoup --------------------//
+#include "Script/gameObjs/bioSoup/BioSoup.h"
+
 
 //---------- Script : gameObjs : artifacts -------------//
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
@@ -57,7 +60,7 @@
 //---------- Script : gameObjs : floorGos --------------------//
 
 #include "Script/gameObjs/floorGos/FloorGo.h"
-#include "Script/gameObjs/floorGos/RiverBank.h"
+
 
 
 #include "Script/gameObjs/oth/GroundGo.h"

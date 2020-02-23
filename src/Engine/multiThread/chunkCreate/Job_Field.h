@@ -88,8 +88,8 @@ public:
         this->floorGoDataPtrs.push_back( ptr_ );
     }
 
-    inline void insert_2_riverBankGoDatas( std::unique_ptr<GoDataForCreate> uptr_ )noexcept{
-        this->riverBankGoDatas.push_back( std::move(uptr_) );
+    inline void insert_2_bioSoupGoDatas( std::unique_ptr<GoDataForCreate> uptr_ )noexcept{
+        this->bioSoupGoDatas.push_back( std::move(uptr_) );
     }
 
 
@@ -100,8 +100,8 @@ public:
     inline const std::vector<const GoDataForCreate*> &get_floorGoDataPtrs()const noexcept{ 
         return this->floorGoDataPtrs; 
     }
-    inline const std::vector<const GoDataForCreate*> &get_riverBankGoDataPtrs()const noexcept{ 
-        return this->riverBankGoDataPtrs;
+    inline const std::vector<const GoDataForCreate*> &get_bioSoupGoDataPtrs()const noexcept{ 
+        return this->bioSoupGoDataPtrs;
     }
 
 
@@ -123,9 +123,9 @@ public:
             this->floorGoDataPtrs.push_back( iUPtr.get() );
         }
     }
-    inline void copy_riverBankGoDataPtrs()noexcept{
-        for( const auto &uptr : this->riverBankGoDatas ){
-            this->riverBankGoDataPtrs.push_back( uptr.get() );
+    inline void copy_bioSoupGoDataPtrs()noexcept{
+        for( const auto &uptr : this->bioSoupGoDatas ){
+            this->bioSoupGoDataPtrs.push_back( uptr.get() );
         }
     }
 
@@ -150,7 +150,7 @@ private:
     std::vector<const GoDataForCreate*> majorGoDataPtrs {};
     std::vector<const GoDataForCreate*> floorGoDataPtrs {};
 
-    std::vector<const GoDataForCreate*> riverBankGoDataPtrs {}; // tmp
+    std::vector<const GoDataForCreate*> bioSoupGoDataPtrs {}; // tmp
 
 
     // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
@@ -159,8 +159,8 @@ private:
     std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> nature_floorGoDatas {};
 
 
-    // 临时方案，单独存储 riverBank mp-go
-    std::vector<std::unique_ptr<GoDataForCreate>> riverBankGoDatas {};
+    // 临时方案，单独存储 bioSoup mp-go
+    std::vector<std::unique_ptr<GoDataForCreate>> bioSoupGoDatas {};
 
 
 

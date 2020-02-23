@@ -13,6 +13,7 @@
 //------------------- CPP --------------------//
 #include <vector>
 #include <utility>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
@@ -31,7 +32,7 @@ void create_chunks_from_waitingQue();
 
 
 //-- 基于多线程的 新模块 --
-std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk();
+std::optional<chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk();
 
 
 void collect_ecoObjs_need_to_be_create();

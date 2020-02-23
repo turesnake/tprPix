@@ -69,8 +69,8 @@ public:
                                 const FloatVec4 &color_ )noexcept{
         tprAssert( colorTableEntNames.find(name_) != colorTableEntNames.end() );
         this->data.at(colorTableEntNames.at(name_)) = color_;
-        auto outPair = this->isSets.insert( name_ );
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->isSets.insert( name_ );
+        tprAssert( insertBool );
     }
 
 
@@ -84,8 +84,8 @@ public:
     inline void init_all_color_white()noexcept{
         tprAssert( this->isSets.empty() );
         for( const auto &[iName, iVal] : colorTableEntNames ){
-            auto outPair = this->isSets.insert( iName );
-            tprAssert( outPair.second );
+            auto [insertIt, insertBool] = this->isSets.insert( iName );
+            tprAssert( insertBool );
             //---
             this->data.at(iVal) = { 1.0, 1.0, 1.0, 1.0 };//- white
         }
@@ -117,10 +117,10 @@ public:
         colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
         //---
         this->name_ids.insert({ name_, id });
-        auto outPair = this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
+        tprAssert( insertBool );
         //---
-        return *(outPair.first->second);
+        return *(insertIt->second);
     }
 
     inline void final_check()noexcept{

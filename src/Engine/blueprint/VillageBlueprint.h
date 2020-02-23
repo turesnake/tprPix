@@ -71,10 +71,10 @@ public:
 
     inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Village> uptr_ )noexcept{
-        auto outPair1 = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
-        tprAssert( outPair1.second );
-        auto outPair2 = this->varTypes.insert( typeIdx_ );
-        tprAssert( outPair2.second );
+        auto [insertIt1, insertBool1] = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( insertBool1 );
+        auto [insertIt2, insertBool2] = this->varTypes.insert( typeIdx_ );
+        tprAssert( insertBool2 );
     }
 
     inline void init_check()const noexcept{

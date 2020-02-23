@@ -25,7 +25,7 @@
 #include "fileIO.h"
 #include "RenderLayerType.h"
 #include "ShaderType.h"
-
+#include "FloorGoType.h"
 
 #include "GoSpecFromJson.h"
 
@@ -67,7 +67,8 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         ShaderType              shaderType   {};
         bool                    isVisible {};
 
-
+        //------- optional_vals -------//
+        std::optional<FloorGoLayer> floorGoLayer { std::nullopt }; // only for FloorGo 
 
     };
 
@@ -110,7 +111,6 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
     Document doc;
     doc.Parse( jsonBufUPtr->c_str() );
 
-
     tprAssert( doc.IsArray() );
     for( auto &docEnt : doc.GetArray() ){
 
@@ -118,6 +118,9 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
 
         RenderLayerType     go_renderLayerType {};
         ShaderType          go_shaderType   {};
+
+
+        std::optional<FloorGoLayer> go_floorGoLayer { std::nullopt }; // only for FloorGo 
 
 
         {//--- goSpeciesName ---//
@@ -154,6 +157,14 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
         {
             const auto &a = json::check_and_get_value( docEnt, "shaderType", json::JsonValType::String );
             go_shaderType = str_2_shaderType( a.GetString() );
+        }
+
+
+        //--- opt.floorGoLayer ---//
+        // 暂时仅支持在 顶层定义
+        if( docEnt.HasMember("opt.floorGoLayer") ){
+            const auto &a = json::check_and_get_value( docEnt, "opt.floorGoLayer", json::JsonValType::String );
+            go_floorGoLayer = { str_2_floorGoLayer(a.GetString()) };
         }
 
 
@@ -327,6 +338,8 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     json_GoMeshEnt.isVisible = true;
                 }
 
+                //--- opt.floorGoLayer ---//
+                json_GoMeshEnt.floorGoLayer = go_floorGoLayer; // maybe has val
 
                 //===
                 json_plan.gomeshs.push_back( json_GoMeshEnt ); // copy
@@ -380,6 +393,10 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
                     goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
                     goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+
+                    // maybe has val
+                    goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
+
                     //---
                     planRef.gomeshs.push_back( goMeshEnt );
                 }
@@ -477,6 +494,9 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
                     goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
                     goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+
+                    // maybe has val
+                    goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
                     //---
                     planRef.gomeshs.push_back( goMeshEnt );
                 }

@@ -30,13 +30,13 @@ void CircuitBoard::init_for_static()noexcept{
 void CircuitBoard::signUp(  goid_t dogoid_, F_AFFECT functor_,
                             const std::map<mapEntKey_t, CircuitBoard::MessageWeight> &mpDatas_ )noexcept{
 
-    auto outPair1 = CircuitBoard::functors.insert({ dogoid_, functor_ });
-    tprAssert( outPair1.second ); // 一个 dogo 只能登记 一个 functor ！
+    auto [insertIt1, insertBool1] = CircuitBoard::functors.insert({ dogoid_, functor_ });
+    tprAssert( insertBool1 ); // 一个 dogo 只能登记 一个 functor ！
     //---
     
     for( const auto &[mpKey, weight] : mpDatas_ ){
-        auto outPair2 = CircuitBoard::messages.insert({ mpKey, std::make_unique<MapEntMessage>() });// insert or find
-        MapEntMessage &mpMsgRef = *(outPair2.first->second);
+        auto [insertIt2, insertBool2] = CircuitBoard::messages.insert({ mpKey, std::make_unique<MapEntMessage>() });// insert or find
+        MapEntMessage &mpMsgRef = *(insertIt2->second);
         mpMsgRef.dogoids.insert({ weight, dogoid_ }); // always can
     }
 }

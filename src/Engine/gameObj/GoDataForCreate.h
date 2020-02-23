@@ -44,28 +44,12 @@ public:
     //========== Self Vals ==========//
     GoDataForCreate()=default;
 
-    inline std::optional<BrokenLvl> get_brokenLvl()const noexcept{
-        if( auto vPtr = std::get_if<BrokenLvl>( &this->brokenLvl_or_floorGoLayer ) ){
-            return { *vPtr };
-        }else{
-            return std::nullopt;
-        }
-    }
-
-    inline std::optional<FloorGoLayer> get_floorGoLayer()const noexcept{
-        if( auto vPtr = std::get_if<FloorGoLayer>( &this->brokenLvl_or_floorGoLayer ) ){
-            return { *vPtr };
-        }else{
-            return std::nullopt;
-        }
-    }
-
     static void assemble_new_goDataForCreate(   GoDataForCreate     &goDRef_,
                                                 const glm::dvec2    &dpos_, // 让外部计算好
                                                 goSpeciesId_t       goSpeciesId_,
                                                 goLabelId_t         goLabelId_,
                                                 NineDirection       direction_,
-                                                std::variant<std::monostate, BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer_,
+                                                BrokenLvl           brokenLvl_,
                                                 size_t mapEntUWeight_ );
 
     //---
@@ -75,15 +59,11 @@ public:
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
     GoAltiRangeLabel    goAltiRangeLabel {};
 
-    std::variant<   std::monostate,
-                    BrokenLvl, 
-                    FloorGoLayer> brokenLvl_or_floorGoLayer {};
+    BrokenLvl           brokenLvl {};
     
     //---
 
-
-
-
+    
     //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
 
 
@@ -120,6 +100,8 @@ public:
     //---
     inline animSubspeciesId_t   get_subspeciesId()const noexcept{ return this->subspeciesId; }
     inline size_t               get_windDelayIdx()const noexcept{ return this->windDelayIdx; }
+
+    inline const std::optional<FloorGoLayer> &get_floorGoLayer()const noexcept{ return this->goMeshEntPtr->floorGoLayer; }
 
 private:
     const GoAssemblePlanSet::GoMeshEnt *goMeshEntPtr {nullptr};

@@ -55,13 +55,18 @@ plotBlueprintId_t PlotBlueprint::init_new_plot( const std::string &plotName_, co
         }
     }
     //---
-    auto outPair1 = PlotBlueprint::name_2_ids.insert({ plotName_, std::unordered_map<std::string, plotBlueprintId_t>{} }); // maybe
-    auto &innUMap = outPair1.first->second;
-    auto outPair2 = innUMap.insert({ plotLabel_, id });
-    tprAssert( outPair2.second );
-    //-- plotUPtrs 
-    auto outPair3 = PlotBlueprint::plotUPtrs.insert({ id, std::make_unique<PlotBlueprint>() });
-    tprAssert( outPair3.second );
+    auto [insertIt0, insertBool0] = PlotBlueprint::name_2_ids.insert({ plotName_, std::unordered_map<std::string, plotBlueprintId_t>{} }); // maybe
+    auto &innUMap = insertIt0->second;
+    
+    {
+        auto [insertIt, insertBool] = innUMap.insert({ plotLabel_, id });
+        tprAssert( insertBool );
+    }
+
+    {//-- plotUPtrs 
+        auto [insertIt, insertBool] = PlotBlueprint::plotUPtrs.insert({ id, std::make_unique<PlotBlueprint>() });
+        tprAssert( insertBool );
+    }
     //--
     return id;
 }

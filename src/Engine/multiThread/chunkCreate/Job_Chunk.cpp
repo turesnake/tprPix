@@ -92,11 +92,11 @@ void Job_Chunk::init()noexcept{
                                                         static_cast<int>(h)*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             //---
-            auto outPair1 = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this ) });
-            tprAssert( outPair1.second );
+            auto [insertIt1, insertBool1] = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this ) });
+            tprAssert( insertBool1 );
             //---
-            auto outPair2 = this->fields.insert({ tmpFieldKey, std::make_unique<MapField>(tmpFieldMPos) });
-            tprAssert( outPair2.second );
+            auto [insertIt2, insertBool2] = this->fields.insert({ tmpFieldKey, std::make_unique<MapField>(tmpFieldMPos) });
+            tprAssert( insertBool2 );
         }
     }
 }
@@ -198,7 +198,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
         
             //----------------------//
-            //    riverBank 
+            //     bioSoup
             //----------------------//
             // 测试用
             
@@ -220,7 +220,7 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                         GoDataForCreate::assemble_new_goDataForCreate(  *goDataUPtr,
                                                                         mpos_2_midDPos( mp.mpos ),
-                                                                        GoSpecFromJson::str_2_goSpeciesId("riverBank"),
+                                                                        GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
                                                                         GoAssemblePlanSet::str_2_goLabelId(""),
                                                                         NineDirection::Center,
                                                                         BrokenLvl::Lvl_0,
@@ -229,18 +229,18 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                         
                         //goDataUPtr->goAltiRangeLabel = GoAltiRangeLabel::Default; // tmp
-                        //goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("riverBank");
+                        //goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("bioSoup");
                         //goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
                         //goDataUPtr->direction = NineDirection::Center;  // 暂时无用
                         //goDataUPtr->brokenLvl_or_floorGoLayer = FloorGoLayer::L_4; // 暂时无用
                         
 
-                        job_fieldRef.insert_2_riverBankGoDatas( std::move(goDataUPtr) );
+                        job_fieldRef.insert_2_bioSoupGoDatas( std::move(goDataUPtr) );
 
                     }
                 }
             }
-            job_fieldRef.copy_riverBankGoDataPtrs();
+            job_fieldRef.copy_bioSoupGoDataPtrs();
             
                             
             //----------------------//

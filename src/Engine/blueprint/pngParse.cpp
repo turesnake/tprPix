@@ -80,8 +80,7 @@ namespace pngParse_inn {//-------- namespace: pngParse_inn --------------//
 
     void handle_RD_frame_for_village(   MapData &mapDataRef_,
                                     IntVec2  pixNum_per_frame_, /* 此值 包含了 多出来的那 1像素间隙 */
-                                    std::vector<RGBA> &RM_frame_,
-                                    FloorGoLayer roadFloorGoLayer_ );
+                                    std::vector<RGBA> &RM_frame_ );
 
     void build_paths( const std::string &path_M_ );
 
@@ -91,8 +90,7 @@ namespace pngParse_inn {//-------- namespace: pngParse_inn --------------//
 }//------------- namespace: pngParse_inn end --------------//
 
 
-extern std::optional<std::pair<NineDirection, std::variant<std::monostate, BrokenLvl, FloorGoLayer>>> 
-rgba_2_DPngData( RGBA rgba_, bool isBrokenLvl_ )noexcept;
+extern std::optional<std::pair<NineDirection, BrokenLvl>> rgba_2_DPngData( RGBA rgba_ )noexcept;
 
 
 // plot 蓝图的 png 数据解析
@@ -277,8 +275,7 @@ IntVec2 parse_png_for_village(  std::vector<MapData> &mapDatasRef_,
                     const std::string &pngPath_M_,
                     IntVec2 frameNum_,
                     size_t totalFrameNum_,
-                    bool isHaveRoad,
-                    FloorGoLayer roadFloorGoLayer_
+                    bool isHaveRoad
                     ){
 
 
@@ -342,7 +339,7 @@ IntVec2 parse_png_for_village(  std::vector<MapData> &mapDatasRef_,
 
         if( isHaveRoad ){
             auto &RM_frameRef = pngParse_inn::RM_frame_data_ary.at(i);
-            pngParse_inn::handle_RD_frame_for_village( mdRef, pixNum_per_frame, RM_frameRef, roadFloorGoLayer_ );
+            pngParse_inn::handle_RD_frame_for_village( mdRef, pixNum_per_frame, RM_frameRef );
         }
     }
 
@@ -426,12 +423,10 @@ void handle_frame(  MapData &mapDataRef_,
                 entUPtr->mposOff = IntVec2{ i, j };
             }
 
-            bool isBrokenLvl = !((blueprintType_==BlueprintType::Yard) && isFloorGoData_);
-            auto retOpt = rgba_2_DPngData( d_rgba, isBrokenLvl );
-
+            auto retOpt = rgba_2_DPngData( d_rgba );
             tprAssert( retOpt.has_value() );
             entUPtr->direction = retOpt.value().first;
-            entUPtr->brokenLvl_or_floorGoLayer = retOpt.value().second;
+            entUPtr->brokenLvl = retOpt.value().second;
             //---
             mapDataRef_.data.push_back( std::move(entUPtr) ); // move
         }
@@ -444,8 +439,7 @@ void handle_frame(  MapData &mapDataRef_,
 
 void handle_RD_frame_for_village(   MapData &mapDataRef_,
                                     IntVec2  pixNum_per_frame_, /* 此值 包含了 多出来的那 1像素间隙 */
-                                    std::vector<RGBA> &RM_frame_,
-                                    FloorGoLayer roadFloorGoLayer_ ){
+                                    std::vector<RGBA> &RM_frame_ ){
 
     // "Frame Size" - 单帧 wh像素（每个像素，对应一个 mp） 包含了 多出来的那 1像素间隙
     size_t FW = cast_2_size_t(pixNum_per_frame_.x);
@@ -538,7 +532,7 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
         entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD, 
                                     static_cast<int>(j)*ENTS_PER_FIELD }; // village png 的像素尺寸 是 field 为单位
         entUPtr->direction = roadDir;
-        entUPtr->brokenLvl_or_floorGoLayer = roadFloorGoLayer_;
+        entUPtr->brokenLvl = BrokenLvl::Lvl_0; // road 的 BrokenLvl 值一律为 Lvl_0
         //---
         mapDataRef_.data.push_back( std::move(entUPtr) ); // move
     }

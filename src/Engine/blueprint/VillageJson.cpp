@@ -84,7 +84,6 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
     size_t  totalFrameNum {};
 
     bool isHaveRoad                 { false };
-    FloorGoLayer roadFloorGoLayer   { FloorGoLayer::L_0 };
     
     //=====//
     tprAssert( doc.IsArray() );
@@ -123,15 +122,10 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
             const auto &a = json::check_and_get_value( docEnt, "isHaveRoad", json::JsonValType::Bool );
             isHaveRoad = a.GetBool();
         }
-        //--- roadFloorGoLayer ---//
-        if( isHaveRoad ){
-            const auto &a = json::check_and_get_value( docEnt, "roadFloorGoLayer", json::JsonValType::String );
-            roadFloorGoLayer = str_2_floorGoLayer( a.GetString() );
-        }
 
 
         // 读取解析 png 数据，
-        IntVec2 frameSizeByMapEnt = parse_png_for_village( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, isHaveRoad, roadFloorGoLayer );
+        IntVec2 frameSizeByMapEnt = parse_png_for_village( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, isHaveRoad );
         tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) && 
                     (frameSizeByMapEnt.y == FIELDS_PER_CHUNK * CHUNKS_PER_SECTION ) );
 

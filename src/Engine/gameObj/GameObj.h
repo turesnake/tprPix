@@ -149,8 +149,8 @@ public:
     }
 
     inline void insert_2_childGoIds( goid_t id_ )noexcept{
-        auto outPair = this->childGoIds.insert(id_); 
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->childGoIds.insert(id_); 
+        tprAssert( insertBool );
     }
 
 
@@ -202,15 +202,15 @@ public:
         // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
     //----------------- self vals ---------------//
-    goid_t         id;  
-    goSpeciesId_t     speciesId  {0};
-    GameObjFamily  family   {GameObjFamily::Major};  
+    goid_t              id;  
+    goSpeciesId_t       speciesId  {0};
+    GameObjFamily       family   {GameObjFamily::Major};  
                             
-    double        weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
+    double              weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）
 
     //---- go 状态 ----//
-    GameObjState      state     {GameObjState::Sleep};         //- 常规状态
-    GameObjMoveState  moveState {GameObjMoveState::AbsFixed}; //- 运动状态
+    GameObjState        state     {GameObjState::Sleep};         //- 常规状态
+    GameObjMoveState    moveState {GameObjMoveState::AbsFixed}; //- 运动状态
 
 
     //---- history vals ----//
@@ -262,7 +262,7 @@ public:
     bool    isMoveCollide {false};  //- 是否参与 移动碰撞检测，
                                     //  uiGo 一律为 false。部分 majorGo 也可为 false（游戏世界中的ui元素）
                                     //  ---
-                                    //  所有 majorGo 都要登记到 map 上，不过本值是否为 true
+                                    //  所有 majorGo 都要登记到 map 上，不管本值是否为 true
 
     
     //======== static ========//

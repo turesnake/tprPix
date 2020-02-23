@@ -40,27 +40,12 @@ class MapDataEnt{
 public:
     MapDataEnt()=default;
 
-    inline std::optional<BrokenLvl> get_brokenLvl()const noexcept{
-        if( auto vPtr = std::get_if<BrokenLvl>( &this->brokenLvl_or_floorGoLayer ) ){
-            return { *vPtr };
-        }else{
-            return std::nullopt;
-        }
-    }
-
-    inline std::optional<FloorGoLayer> get_floorGoLayer()const noexcept{
-        if( auto vPtr = std::get_if<FloorGoLayer>( &this->brokenLvl_or_floorGoLayer ) ){
-            return { *vPtr };
-        }else{
-            return std::nullopt;
-        }
-    }
-
     //------- vals -------//
     VariableTypeIdx varTypeIdx {};
     //--
     IntVec2         mposOff {}; // based on left-bottom 
-    std::variant<std::monostate, BrokenLvl, FloorGoLayer> brokenLvl_or_floorGoLayer {};
+    BrokenLvl       brokenLvl {};
+
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 };
 
@@ -104,8 +89,8 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{
         varTypeDatas_PlotId_t id = VarTypeDatas_Plot::id_manager.apply_a_u32_id();// 盲目分配id
-        auto outPair = this->goSpecPool.insert({ id, std::move(uptr_) }); 
-        tprAssert( outPair.second );
+        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        tprAssert( insertBool );
         //--
         this->randPool.insert( this->randPool.end(), num_, id );
     }
@@ -140,10 +125,10 @@ public:
 
     inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Plot> uptr_ )noexcept{
-        auto outPair1 = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
-        tprAssert( outPair1.second );
-        auto outPair2 = this->varTypes.insert( typeIdx_ );
-        tprAssert( outPair2.second );
+        auto [insertIt1, insertBool1] = this->varTypeDatas.insert({ typeIdx_, std::move(uptr_) });
+        tprAssert( insertBool1 );
+        auto [insertIt2, insertBool2] = this->varTypes.insert( typeIdx_ );
+        tprAssert( insertBool2 );
     }
 
     inline void set_sizeByMapEnt( IntVec2 val_ )noexcept{ this->sizeByMapEnt = val_; }

@@ -228,11 +228,11 @@ void collect_chunks_need_to_be_create_in_update(){
  * 然后生成 这个chunk 实例。
  * 每一帧仅限 1 个。
  */
-std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
+std::optional<chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
     //-- 没有需要 生成的 chunk 时，直接退出 --
     if( esrc::atom_is_job_chunkFlags_empty() ){
-        return std::pair<bool,chunkKey_t>{ false, 0 };
+        return std::nullopt;
     }
 
     //-- 从 已经制作好 job_chunk 的队列中，取出一个 chunk
@@ -245,7 +245,7 @@ std::pair<bool,chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
     //-- 及时删除 job_chunk 数据本体 --
     esrc::atom_erase_from_job_chunks( chunkKey ); //- MUST !!!  
-    return std::pair<bool,chunkKey_t>{ true, chunkKey };
+    return { chunkKey };
 }
 
 
@@ -286,16 +286,15 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
  */
 void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 
-    std::pair<bool,chunkKey_t> pairRet {};
     while( true ){
         //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
         if( esrc::atom_is_job_chunkFlags_empty() ){
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
         }
-        pairRet = chunkCreate_3_receive_data_and_create_one_chunk();
-        tprAssert( pairRet.first );
-        if( pairRet.second == chunkKey_ ){
+        auto chunkKeyOpt = chunkCreate_3_receive_data_and_create_one_chunk();
+        tprAssert( chunkKeyOpt.has_value() );
+        if( chunkKeyOpt.value() == chunkKey_ ){
             return;
         }
     }
@@ -490,9 +489,9 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
 
         if( ChunkMemState::Active == esrc::get_chunkMemState(tmpChunkKey) ){
             
-            auto outPair1 = esrc::get_chunkPtr( tmpChunkKey );
-            tprAssert( outPair1.first == ChunkMemState::Active );
-            auto &chunkRef = *(outPair1.second);
+            auto chunkPair = esrc::get_chunkPtr( tmpChunkKey );
+            tprAssert( chunkPair.first == ChunkMemState::Active );
+            auto &chunkRef = *(chunkPair.second);
 
             for( auto &goid : chunkRef.get_edgeGoIds() ){//- foreach edgeGoId
 
@@ -504,9 +503,9 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----
-                            auto outPair2 = esrc::getnc_memMapEntPtr(mpos);
-                            tprAssert( outPair2.first == ChunkMemState::Active );
-                            outPair2.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
+                            auto mapEntPair = esrc::getnc_memMapEntPtr(mpos);
+                            tprAssert( mapEntPair.first == ChunkMemState::Active );
+                            mapEntPair.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
                         }
                     }
 

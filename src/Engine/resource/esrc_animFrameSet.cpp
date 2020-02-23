@@ -38,13 +38,13 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
-    auto outPair = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
+    auto [insertIt, insertBool] = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
 
-    if( !outPair.second ){
+    if( !insertBool ){
         cout << "find duplicate afsName: " << name_ << endl; 
     }
-    tprAssert( outPair.second );
-    return *(outPair.first->second);
+    tprAssert( insertBool );
+    return *(insertIt->second);
 }
 
 
@@ -65,8 +65,8 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
 // 仅用于 创建阶段 
 AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
     // if target key is existed, insert will not happen. but still ret target ent-it
-    auto outPair = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
-    return *(outPair.first->second);
+    auto [insertIt, insertBool] = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
+    return *(insertIt->second);
 }
 
 
