@@ -43,8 +43,6 @@ public:
             }
             //---
             this->halfFields.resize( cast_2_size_t( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD ) );
-            //---
-            this->bind_functors( jChunkRef_ );
         }
 
     
@@ -128,10 +126,6 @@ public:
             this->bioSoupGoDataPtrs.push_back( uptr.get() );
         }
     }
-
-    // param: mapent 相对 chunkMPos 的 off
-    std::function<size_t(IntVec2)> getnc_mapEntUWeight {nullptr};
-
 
 private:
     void bind_functors( Job_Chunk &jChunkRef_ )noexcept;

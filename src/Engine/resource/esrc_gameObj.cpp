@@ -283,7 +283,6 @@ void realloc_inactive_goes(){
  */
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
 
-
     //-------------------------------//
     // 唯独 UI go，既不参与 chunk 登记，也不参与 mapent 登记 
     if( goRef_.family == GameObjFamily::UI ){

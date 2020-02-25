@@ -34,9 +34,8 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
+    goRef_.goLabelId = goDataPtr->goLabelId;
     goRef_.actionDirection.reset( goDataPtr->direction );
-
-    //-- brokenLvl / floorGoLayer 
     goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
 

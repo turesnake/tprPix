@@ -108,18 +108,25 @@ void atom_writeBack_to_table_gameArchive(){
     GameObj &playerGoRef = playerRef.get_goRef();
     const glm::dvec2 &dposRef = playerGoRef.get_dpos();
     //-- 将新数据 写回 db --
-    esrc::get_gameArchive().playerGoId = goid;
-    esrc::get_gameArchive().playerGoDPos = dposRef;
-    esrc::get_gameArchive().maxGoId = GameObj::id_manager.get_max_id();
-    esrc::get_gameArchive().gameTime = esrc::get_timer().get_gameTime();
+
+    GameArchive &gameArchive = esrc::get_gameArchive();
+    gameArchive.playerGoId = goid;
+    gameArchive.playerGoDPos = dposRef;
+    gameArchive.maxGoId = GameObj::id_manager.get_max_id();
+    gameArchive.gameTime = esrc::get_timer().get_gameTime();
     //...
 
-    db::atom_insert_or_replace_to_table_gameArchive( esrc::get_gameArchive() );
+    db::atom_insert_or_replace_to_table_gameArchive( gameArchive );
+
 
     DiskGameObj diskGo {};
     diskGo.goid = goid;
     diskGo.goSpeciesId = playerGoRef.speciesId;
+    diskGo.goLabelId = playerGoRef.goLabelId;
     diskGo.dpos = dposRef;
+    diskGo.dir = playerGoRef.actionDirection.get_newVal();
+    diskGo.brokenLvl = playerGoRef.brokenLvl.get_newVal();
+
     db::atom_insert_or_replace_to_table_goes( diskGo );
 
 }

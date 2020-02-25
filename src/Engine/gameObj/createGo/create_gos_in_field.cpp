@@ -18,7 +18,7 @@
 #include "create_goes.h"
 #include "GoSpecFromJson.h"
 
-#include "create_go_in_stupid_way.h" // tmp
+#include "create_go_by_hand.h" // tmp
 
 #include "esrc_field.h"
 #include "esrc_ecoObj.h"
@@ -46,7 +46,6 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     const auto *job_fieldPtr = job_chunkRef_.get_job_fieldPtr(fieldKey_);
 
     //----- ground go ------//
-    
 
     
     {
@@ -61,92 +60,39 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
-    
-
 
 
     //----- fieldRim go [-DEBUG-] ------//
     //  显示 map 坐标框
-    bool isFieldRimGoCreate { true };
+    bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
-        create_go_in_stupid_way(GoSpecFromJson::str_2_goSpeciesId("fieldRim"),
+        create_go_by_hand(GoSpecFromJson::str_2_goSpeciesId("fieldRim"),
                                 GoAssemblePlanSet::str_2_goLabelId(""),
+                                fieldRef.get_midMPos(),
                                 fieldRef.get_midDPos(),
                                 NineDirection::Center,
-                                BrokenLvl::Lvl_0,
-                                1 // mapEntUWeight
+                                BrokenLvl::Lvl_0
                                 ); 
     }
     
-
-
 
     //----- bioSoup ------//
     // 临时简易方案
     
     for( const auto goDataPtr : job_fieldPtr->get_bioSoupGoDataPtrs() ){
-        //--- dyParam ---//
-        DyParam dyParam {};
-        auto fUPtr = std::make_unique<DyParams_Blueprint>();
-        fUPtr->goDataPtr = goDataPtr;
-        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
-
-        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
-        //---
-        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
-                                goDataPtr->dpos,
-                                dyParam ); 
+        create_go_from_goDataForCreate( goDataPtr );
     }
-    
-    
-    
 
     //----- land majorGo in blueprint -----//
     for( const auto goDataPtr : job_fieldPtr->get_majorGoDataPtrs() ){
-
-        // dir / brokenLvl 这2个数据 暂时未被使用
-        // ...
-
-        //--- dyParam ---//
-        DyParam dyParam {};
-        auto fUPtr = std::make_unique<DyParams_Blueprint>();
-        fUPtr->goDataPtr = goDataPtr;
-        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
-
-        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
-        //---
-
-        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
-                                goDataPtr->dpos,
-                                dyParam ); 
-
+        create_go_from_goDataForCreate( goDataPtr );
     }
 
     
     for( const auto goDataPtr : job_fieldPtr->get_floorGoDataPtrs() ){
-
-        //  brokenLvl 这2个数据 暂时未被使用
-        // ...
-
-        //--- dyParam ---//
-        DyParam dyParam {};
-        auto fUPtr = std::make_unique<DyParams_Blueprint>();
-        fUPtr->goDataPtr = goDataPtr;
-        fUPtr->mapEntUWeight = job_fieldPtr->getnc_mapEntUWeight( dpos_2_mpos(goDataPtr->dpos) - chunkRef_.get_mpos() );
-        //fUPtr->mapEntUWeight = 12345;
-
-        dyParam.insert_ptr<DyParams_Blueprint>( fUPtr.get() );
-        //---
-
-        gameObjs::create_a_Go(  goDataPtr->goSpeciesId,
-                                goDataPtr->dpos,
-                                dyParam ); 
-
+        create_go_from_goDataForCreate( goDataPtr );
     }
     
-
-
-
 }
 
 

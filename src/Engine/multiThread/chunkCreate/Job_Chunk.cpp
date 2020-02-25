@@ -217,12 +217,12 @@ void Job_Chunk::create_field_goSpecDatas(){
                     if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
 
                         auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                                                                        mp.mpos,
                                                                         mpos_2_midDPos( mp.mpos ),
                                                                         GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
                                                                         GoAssemblePlanSet::str_2_goLabelId(""),
                                                                         NineDirection::Center,
-                                                                        BrokenLvl::Lvl_0,
-                                                                        calc_simple_uWeight( mp.mpos )
+                                                                        BrokenLvl::Lvl_0
                                                                     );
 
                         job_fieldRef.insert_2_bioSoupGoDatas( std::move(goDataUPtr) );

@@ -100,6 +100,9 @@ public:
     inline glm::dvec2 get_midDPos()const noexcept{ 
         return (this->mcpos.get_dpos() + MapField::halfFieldVec2); 
     }
+    inline IntVec2 get_midMPos()const noexcept{
+        return (this->get_mpos() + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD });
+    }
     
 
     inline size_t calc_fieldIdx_in_chunk() const noexcept{

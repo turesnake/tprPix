@@ -25,6 +25,7 @@
 #include "functorTypes.h"
 #include "GameObjType.h" 
 #include "GameObjMesh.h" 
+#include "goLabelId.h"
 #include "ID_Manager.h" 
 #include "IntVec.h" 
 #include "Move.h"
@@ -205,6 +206,7 @@ public:
     //----------------- self vals ---------------//
     goid_t              id;  
     goSpeciesId_t       speciesId  {0};
+    goLabelId_t         goLabelId  {};
     GameObjFamily       family   {GameObjFamily::Major};  
                             
     double              weight    {0}; //- go重量 （影响自己是否会被 一个 force 推动）

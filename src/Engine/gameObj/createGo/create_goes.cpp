@@ -66,29 +66,32 @@ goid_t create_a_Go( goSpeciesId_t goSpeciesId_,
  * -----------------------------------------------------------
  * 从 db读取一个 go 的数据，并用此数据，重建一个 mem态 go实例
  */
-void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
+void rebind_a_disk_Go(  goid_t          diskGoId_,
+                        goSpeciesId_t   diskGoSpeciesId_,
                         const glm::dvec2 &dpos_,
                         const DyParam &dyParams_  ){
 
-    esrc::insert_a_diskGo( diskGo_.goid, dpos_ );
-    GameObj &goRef = esrc::get_goRef( diskGo_.goid );
-
-        tprAssert( GoSpecFromJson::find_from_initFuncs(diskGo_.goSpeciesId) );
+    esrc::insert_a_diskGo( diskGoId_, dpos_ );
+    GameObj &goRef = esrc::get_goRef( diskGoId_ );
 
     //-- set some static datas from JSON --
-    GoSpecFromJson::assemble_2_newGo( diskGo_.goSpeciesId, goRef ); //- tmp
+        tprAssert( GoSpecFromJson::find_from_initFuncs(diskGoSpeciesId_) );
+    GoSpecFromJson::assemble_2_newGo( diskGoSpeciesId_, goRef ); //- tmp
                     //-- 临时措施
                     //   在未来，已经组装 从 数据库取出的数据，而不是从 GoSpecFromJson 中
                     //   至少有一部分吧
                     //   ...
+    
+    //-- check GameObjFamily --
+        tprAssert( goRef.family != GameObjFamily::UI );
 
-    GoSpecFromJson::call_initFunc( diskGo_.goSpeciesId, goRef, dyParams_ );
+    GoSpecFromJson::call_initFunc( diskGoSpeciesId_, goRef, dyParams_ );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
 
     goRef.init_check();
     //------------------------------//
     esrc::signUp_newGO_to_chunk_and_mapEnt( goRef );
-    esrc::insert_2_goids_inactive( diskGo_.goid );
+    esrc::insert_2_goids_inactive( diskGoId_ );
             //- 放入 未激活队列会造成 5帧的 显示空缺
             //- 更为完善的做法是，当场检测应该放入 激活队列还是 未激活队列...
             //  未来被 GoMemState 系统取代

@@ -12,11 +12,7 @@
 namespace db{//---------------- namespace: db ----------------------//
 
 
-/* ===========================================================
- *            atom_select_one_from_table_goes
- * -----------------------------------------------------------
- *  param:diskGo_ [out]
- */
+// param:diskGo_ [out]
 void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
 
     //--- atom ---//
@@ -31,16 +27,16 @@ void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
     if( sqlite3_step(stmt_select_one_from_table_goes) == SQLITE_ROW ){
         diskGo_.goid = goid_;
         diskGo_.goSpeciesId = static_cast<goSpeciesId_t>( sqlite3_column_int64(stmt_select_one_from_table_goes, 0) );
-        diskGo_.dpos.x = sqlite3_column_double(stmt_select_one_from_table_goes, 1);
-        diskGo_.dpos.y = sqlite3_column_double(stmt_select_one_from_table_goes, 2);
+        diskGo_.goLabelId = static_cast<goLabelId_t>( sqlite3_column_int64(stmt_select_one_from_table_goes, 1) );
+        diskGo_.dpos.x = sqlite3_column_double(stmt_select_one_from_table_goes, 2);
+        diskGo_.dpos.y = sqlite3_column_double(stmt_select_one_from_table_goes, 3);
+        diskGo_.dir = idx_2_nineDirection(static_cast<size_t>( sqlite3_column_double(stmt_select_one_from_table_goes, 4) ));
+        diskGo_.brokenLvl = int_2_brokenLvl(static_cast<int>( sqlite3_column_double(stmt_select_one_from_table_goes, 5) ));
     }
 }
 
 
-/* ===========================================================
- *          atom_insert_or_replace_to_table_goes
- * -----------------------------------------------------------
- */
+
 void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
 
     //--- atom ---//
@@ -58,11 +54,20 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
     sqlite3_bind_int64_inn_(  ":goSpeciesId", 
                             static_cast<int64_t>(diskGo_.goSpeciesId) );
 
+    sqlite3_bind_int64_inn_(  ":goLabelId", 
+                            static_cast<int64_t>(diskGo_.goLabelId) );
+
     sqlite3_bind_double_inn_(  ":dposX", 
                             diskGo_.dpos.x );
 
     sqlite3_bind_double_inn_(  ":dposY", 
                             diskGo_.dpos.y );
+
+    sqlite3_bind_int64_inn_(  ":dir", 
+                            static_cast<int64_t>(diskGo_.dir) );
+
+    sqlite3_bind_int64_inn_(  ":brokenLvl", 
+                            static_cast<int64_t>(diskGo_.brokenLvl) );
 
     //-- step --
     w_sqlite3_step( dbConnect, stmt_insert_or_replace_to_table_goes, SQLITE_DONE );

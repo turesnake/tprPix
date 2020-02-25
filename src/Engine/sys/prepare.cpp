@@ -178,9 +178,11 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     //           path_textures
     //---------------------------------//
+    /*
     path_textures = tprWin::mk_dir( path_cwd,
                                 "textures/",
                                 err_info );
+    */
     //---------------------------------//
     //           path_jsons
     //---------------------------------//
@@ -225,10 +227,12 @@ void check_and_creat_important_dir(){
     //---------------------------------//
     //           path_textures
     //---------------------------------//
+    /*
     path_textures = tprUnix::mk_dir( path_cwd,
                         "textures/",
                         RWXR_XR_X,
                         err_info );
+    */
     //---------------------------------//
     //           path_jsons
     //---------------------------------//

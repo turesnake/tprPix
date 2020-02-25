@@ -97,15 +97,6 @@ void Job_Field::init_for_static()noexcept{
 }
 
 
-
-void Job_Field::bind_functors( Job_Chunk &jChunkRef_ )noexcept{
-    this->getnc_mapEntUWeight = [&jChunkRef_]( IntVec2 mposOff_ ){
-        return jChunkRef_.getnc_mapEntInnRef( mposOff_ ).uWeight;
-    };
-}
-
-
-
 // 自动检测 4*4 容器，通过 分形思路，分配 groundGo 实例
 void Job_Field::apply_job_groundGoEnts()noexcept{
 

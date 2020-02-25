@@ -27,4 +27,17 @@ std::string brokenLvl_2_str( BrokenLvl bl_ )noexcept{
 }
 
 
+BrokenLvl str_2_brokenLvl( const std::string &str_ )noexcept{
+
+    auto labelOP = magic_enum::enum_cast<BrokenLvl>(str_);
+    if( labelOP.has_value() ){
+        return *labelOP;
+    }else{
+        cout << "can't find BrokenLvl: " << str_ << endl;
+        tprAssert(0);
+        return BrokenLvl::Lvl_0; // never reach
+    }
+}
+
+
 

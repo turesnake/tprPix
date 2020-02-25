@@ -22,6 +22,7 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "goLabelId.h"
 #include "GameObjType.h"
 #include "AnimLabel.h"
 #include "ID_Manager.h" 
@@ -37,15 +38,10 @@
 
 #include "ColliDataFromJpng.h"
 
-
-
-using goLabelId_t = size_t; // std::hash
-
 // 一个 go-action，可以由数个 gomesh-action 组合而成
 //
 class GoAssemblePlanSet{
 public:
-
 
     class GoMeshEnt{
     public:
@@ -60,12 +56,13 @@ public:
         ShaderType              shaderType   {};
         bool                    isVisible {};
 
-        //NineDirection           dir {};
-        //BrokenLvl               brokenLvl {};
-                                        // dir / broken 数据，是作为 go的数据，从蓝图中被读取的
-                                        // 在完善的设计中，每一个 gomesh，都可以选择，直接使用 go的这份数据
-                                        // 或者 在 json 文件中，自定义这部分数据
-                                        // ...
+        NineDirection           default_dir {};
+        BrokenLvl               default_brokenLvl {};
+                                        // dir / broken 数据，存在 3 层设置
+                                        // -1- 未在 asm.json 中显式声明，直接使用默认值
+                                        // -2- 在 asm.json 中显式声明，以上两种记录的都是 default 值
+                                        // -3- 在 蓝图 / byHand 中显式设置 实际值，将会覆盖 default 值
+                                        //     每个后一层都会覆盖前一层
             
         //------- optional_vals -------//
         std::optional<FloorGoLayer> floorGoLayer    { std::nullopt }; // only for FloorGo   

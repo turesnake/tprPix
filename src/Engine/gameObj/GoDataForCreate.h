@@ -42,17 +42,18 @@ public:
     class GoMesh;
     
     //========== Self Vals ==========//
-    static std::unique_ptr<GoDataForCreate> assemble_new_goDataForCreate(               
+    static std::unique_ptr<GoDataForCreate> assemble_new_goDataForCreate(  
+                                                IntVec2             mpos_,             
                                                 const glm::dvec2    &dpos_, // 让外部计算好
                                                 goSpeciesId_t       goSpeciesId_,
                                                 goLabelId_t         goLabelId_,
                                                 NineDirection       direction_, // 未来支持从 GoSpecFromJson 中提取默认值
-                                                BrokenLvl           brokenLvl_, // 未来支持从 GoSpecFromJson 中提取默认值
-                                                size_t              mapEntUWeight_ = 1013 // 有时候不需要随机数
+                                                BrokenLvl           brokenLvl_ // 未来支持从 GoSpecFromJson 中提取默认值
                                                 );
 
     //---
     goSpeciesId_t       goSpeciesId {};
+    goLabelId_t         goLabelId   {};
     glm::dvec2          dpos      {}; // go 绝对 dpos
 
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
@@ -60,7 +61,7 @@ public:
 
     BrokenLvl           brokenLvl   {};
 
-    size_t              uWeight     {};
+    size_t              uWeight     {}; // base on mpos
 
 
     const ColliDataFromJpng *colliDataFromJpngPtr {nullptr};
@@ -83,8 +84,10 @@ private:
 
 class GoDataForCreate::GoMesh{
 public:
-    GoMesh( const GoAssemblePlanSet::GoMeshEnt *goMeshEntPtr_ ):
-        goMeshEntPtr(goMeshEntPtr_)
+    GoMesh( const GoAssemblePlanSet::GoMeshEnt  *goMeshEntPtr_,
+            size_t                              uWeight_ ):
+        goMeshEntPtr(goMeshEntPtr_),
+        uWeight(uWeight_)
         {
             tprAssert( this->goMeshEntPtr );
         }
@@ -108,6 +111,7 @@ public:
     //---
     inline animSubspeciesId_t   get_subspeciesId()const noexcept{ return this->subspeciesId; }
     inline size_t               get_windDelayIdx()const noexcept{ return this->windDelayIdx; }
+    inline size_t               get_uWeight()const noexcept{ return this->uWeight; }
 
     inline const std::optional<FloorGoLayer> &get_floorGoLayer()const noexcept{ return this->goMeshEntPtr->floorGoLayer; }
 
@@ -117,7 +121,7 @@ private:
     animSubspeciesId_t  subspeciesId {};
     size_t              windDelayIdx {}; // only used in windClock
 
-    size_t              uWeight     {};
+    size_t              uWeight     {}; // goMPos.uWeight + 一组有序的素数（按照 gomesh 排序）
 
 };
 

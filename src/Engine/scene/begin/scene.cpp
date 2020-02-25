@@ -34,7 +34,7 @@
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
 
-#include "create_go_in_stupid_way.h" // tmp
+#include "create_go_by_hand.h" // tmp
 
 #include "ubo_all.h"
 
@@ -256,7 +256,7 @@ void inputINS_handle( const InputINS &inputINS_){
                 glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
 
 
-                cout << "9-chunks create start" << endl;
+                //cout << "9-chunks create start" << endl;
 
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::create_9_chunks( newGoMPos );
@@ -267,43 +267,29 @@ void inputINS_handle( const InputINS &inputINS_){
 
                 //-- db::table_goes --
 
-
                 //----- 临时创建，玩家操纵的 go -------//
                 // old
-                /*
-                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
-                goid_t newGoId = gameObjs::create_a_Go(     newGoSpeciesId,
-                                                            newGoDPos,
-                                                            emptyDyParam );
-                */
-
-                cout << "chicken create start" << endl;
-
+                //cout << "chicken create start" << endl;
 
                 goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
+                goLabelId_t   newGoLabelId = GoAssemblePlanSet::str_2_goLabelId("Hen");
+                goid_t newGoId = create_go_by_hand(     newGoSpeciesId,
+                                                        newGoLabelId,
+                                                        newGoMPos,
+                                                        newGoDPos,
+                                                        NineDirection::Left,
+                                                        BrokenLvl::Lvl_0
+                                                        ); 
 
-                
-                goid_t newGoId = create_go_in_stupid_way(   newGoSpeciesId,
-                                                            GoAssemblePlanSet::str_2_goLabelId("Hen"),
-                                                            newGoDPos,
-                                                            NineDirection::Left,
-                                                            BrokenLvl::Lvl_0,
-                                                            1 // mapEntUWeight
-                                                            ); 
+                db::atom_insert_or_replace_to_table_goes( DiskGameObj{  newGoId, 
+                                                                        newGoSpeciesId,   
+                                                                        newGoLabelId,
+                                                                        newGoDPos,
+                                                                        NineDirection::Left,
+                                                                        BrokenLvl::Lvl_0
+                                                                        } );              
 
-                db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpeciesId, newGoDPos } );
-
-
-                                            // 在未来，这种原始的 创建 go 的方式会被替换 
-                                            // ...
-
-                                            
-
-                cout << "chicken create done" << endl;
-
-
-                
-            
+                //cout << "chicken create done" << endl;
 
                 //-- db::table_gameArchive --                
                 esrc::get_gameArchive() = GameArchive {   archiveId, 
@@ -349,9 +335,14 @@ void inputINS_handle( const InputINS &inputINS_){
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...
 
+            /*
             gameObjs::rebind_a_disk_Go( diskGo,
                                         targetGameArchive.playerGoDPos,
                                         emptyDyParam );
+            */
+
+            rebind_diskGo_by_hand( diskGo );
+
 
             //-- player --
             esrc::get_player().bind_go( targetGameArchive.playerGoId ); //-- 务必在 go数据实例化后 再调用 --

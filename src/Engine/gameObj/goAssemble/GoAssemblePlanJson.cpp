@@ -85,6 +85,14 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         ShaderType              shaderType   {};
         bool                    isVisible {};
 
+        NineDirection           default_dir {};
+        BrokenLvl               default_brokenLvl {};
+                                        // dir / broken 数据，存在 3 层设置
+                                        // -1- 未在 asm.json 中显式声明，直接使用默认值
+                                        // -2- 在 asm.json 中显式声明，以上两种记录的都是 default 值
+                                        // -3- 在 蓝图 / byHand 中显式设置 实际值，将会覆盖 default 值
+                                        //     每个后一层都会覆盖前一层
+
         //------- optional_vals -------//
         std::optional<FloorGoLayer> floorGoLayer  { std::nullopt }; // only for FloorGo 
         
@@ -384,6 +392,23 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     json_GoMeshEnt.isVisible = true;
                 }
 
+                //--- default.dir ---//
+                if( goMesh.HasMember("default.dir") ){
+                    const auto &a = json::check_and_get_value( goMesh, "default.dir", json::JsonValType::String );
+                    json_GoMeshEnt.default_dir = str_2_nineDirection( a.GetString() );
+                }else{
+                    json_GoMeshEnt.default_dir = NineDirection::Center; // default val
+                }
+
+                //--- default.brokenLvl ---//
+                if( goMesh.HasMember("default.brokenLvl") ){
+                    const auto &a = json::check_and_get_value( goMesh, "default.brokenLvl", json::JsonValType::String );
+                    json_GoMeshEnt.default_brokenLvl = str_2_brokenLvl( a.GetString() );
+                }else{
+                    json_GoMeshEnt.default_brokenLvl = BrokenLvl::Lvl_0; // default val
+                }
+
+
                 //--- opt.floorGoLayer ---//
                 json_GoMeshEnt.floorGoLayer = go_floorGoLayer; // maybe has val
 
@@ -440,6 +465,9 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
                     goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
                     goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+
+                    goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
+                    goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
 
                     // maybe has val
                     goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
@@ -570,6 +598,9 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
                     goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
                     goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+
+                    goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
+                    goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
 
                     // maybe has val
                     goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;

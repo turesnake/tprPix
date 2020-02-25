@@ -16,16 +16,28 @@
 //------------------- Engine --------------------//
 #include "IntVec.h"
 #include "GameObjType.h"
+#include "goLabelId.h"
+#include "NineDirection.h"
+#include "BrokenLvl.h"
 
 
 class DiskGameObj{
 public:
     goid_t         goid     {}; //- u64   
-    goSpeciesId_t     goSpeciesId {}; //- u32
+    goSpeciesId_t  goSpeciesId {}; //- u32
+
+    goLabelId_t    goLabelId {}; // u64
+
+
     glm::dvec2     dpos     {}; //- double, double
     //...
 
+    NineDirection  dir {}; // int
+    BrokenLvl      brokenLvl {}; // int
+
 };
+
+
 
 
 #endif 

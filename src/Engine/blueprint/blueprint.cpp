@@ -375,12 +375,12 @@ void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_
 
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
     auto goDUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                                                    mpos_,
                                                     dpos_,
                                                     goSpecRef_.goSpeciesId,
                                                     goSpecRef_.goLabelId,
                                                     mapDataEntRef_.direction,
-                                                    mapDataEntRef_.brokenLvl,
-                                                    calc_simple_uWeight( mpos_ )
+                                                    mapDataEntRef_.brokenLvl
                                                 );
 
     auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::move(goDUPtr) });

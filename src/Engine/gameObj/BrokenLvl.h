@@ -31,6 +31,7 @@ enum class BrokenLvl{
 
 
 std::string brokenLvl_2_str( BrokenLvl bl_ )noexcept;
+BrokenLvl str_2_brokenLvl( const std::string &str_ )noexcept;
 
 
 inline BrokenLvl int_2_brokenLvl( int val_ )noexcept{

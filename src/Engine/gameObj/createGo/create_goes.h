@@ -18,10 +18,10 @@
 //-------------------- Engine --------------------//
 #include "IntVec.h"
 #include "Density.h"
-#include "DiskGameObj.h"
 #include "dyParams.h"
 #include "UIAnchor.h"
 #include "Chunk.h"
+
 
 //--- need ---//
 class Job_Chunk;
@@ -38,8 +38,8 @@ goid_t create_a_Go( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &dpos_,
                     const DyParam &dyParams_ );
 
-
-void rebind_a_disk_Go(  const DiskGameObj &diskGo_,
+void rebind_a_disk_Go(  goid_t          diskGoId_,
+                        goSpeciesId_t   diskGoSpeciesId_,
                         const glm::dvec2 &dpos_,
                         const DyParam &dyParams_  );
 

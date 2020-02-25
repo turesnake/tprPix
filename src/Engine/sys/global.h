@@ -28,7 +28,7 @@ extern std::string path_cwd; //-- exe 所在目录的 path
                 
 extern std::string path_dataBase;  //-- .../build/publish/dataBase/
 extern std::string path_shaders; //-- .../build/publish/shaders/
-extern std::string path_textures; //-- .../build/publish/textures/ // 暂未被使用 ...
+//extern std::string path_textures; //-- .../build/publish/textures/ // 暂未被使用 ...
 extern std::string path_jsons; //-- .../build/publish/jsons/
 extern std::string path_tprLog; //-- .../build/publish/tprLog/
 
