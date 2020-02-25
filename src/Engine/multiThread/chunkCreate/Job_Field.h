@@ -143,6 +143,7 @@ private:
 
     //=== datas passed to the main thread  ===//
     std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
+                                    // 还不够，最好向 floorgo 一样，直接生成 GoDataForCreate 数据
 
 
     // 同时包含 artifact/nature 两种蓝图数据

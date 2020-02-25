@@ -159,7 +159,7 @@ void GameObjMesh::RenderUpdate_auto(){
 void GameObjMesh::RenderUpdate_ground(){
 
     tprAssert( (!this->isHaveShadow) && (this->isVisible) );
-    tprAssert( this->colorTableId != MaxColorTableId ); // tmp
+    tprAssert( this->colorTableId != NilColorTableId ); // tmp
     //---------------//
     //      pic
     //---------------//

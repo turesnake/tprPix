@@ -9,6 +9,7 @@
         "plans":[
             {
                 "goLabel": "",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "playerGoCircle", "animLabel": ""  }
                 ]

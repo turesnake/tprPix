@@ -44,7 +44,8 @@ villageBlueprintId_t VillageBlueprint::init_new_village( const std::string &name
     tprAssert( insertBool1 );
 
     //-- villageUPtrs 
-    auto [insertIt2, insertBool2] = VillageBlueprint::villageUPtrs.insert({ id, std::make_unique<VillageBlueprint>() });
+    std::unique_ptr<VillageBlueprint> uptr ( new VillageBlueprint() ); // can't use std::make_unique
+    auto [insertIt2, insertBool2] = VillageBlueprint::villageUPtrs.insert({ id, std::move(uptr) });
     tprAssert( insertBool2 );
     //--
     return id;

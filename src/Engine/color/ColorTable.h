@@ -5,6 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  *  数组色卡，管理 游戏世界 中的所有颜色 
+ * 
+ * 
+ *     这部分功能，目前被削弱了，很少被用上 ...
+ * 
+ * 
  * ---------
  */
 #ifndef TPR_COLOR_TABLE_H
@@ -16,6 +21,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <memory>
+#include <functional> // hash
 
 #include <cstdint>
 
@@ -113,7 +119,6 @@ public:
     ColorTableSet()=default;
 
     inline ColorTable &apply_new_colorTable( const std::string &name_ )noexcept{
-        tprAssert( !this->isFindIn_name_ids(name_) );
         colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
         //---
         this->name_ids.insert({ name_, id });
@@ -140,8 +145,7 @@ public:
         return this->name_ids.at(colorTableName_);
     }
 
-    inline const std::unordered_map<std::string, colorTableId_t> &
-    get_name_idsRef()const noexcept{
+    inline const std::unordered_map<std::string, colorTableId_t> & get_name_idsRef()const noexcept{
         return this->name_ids;
     }
 

@@ -10,6 +10,10 @@
         "plans":[
             {
                 "goLabel": "Big_Light_Bald",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
                 "goMeshs":[
                     { "afsName": "whiteRock", "animLabel": "Big_Light_Bald"  }
                 ]
@@ -17,6 +21,10 @@
 
             {
                 "goLabel": "Big_Light_Lichen",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
                 "goMeshs":[
                     { "afsName": "whiteRock", "animLabel": "Big_Light_Lichen"  }
                 ]

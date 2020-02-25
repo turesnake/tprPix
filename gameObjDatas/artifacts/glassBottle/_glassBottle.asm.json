@@ -9,6 +9,13 @@
         "plans":[
             {
                 "goLabel": "HasWater",
+
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
+
+                
                 "goMeshs":[
                     { "goMeshName": "root", "zOff":  0.0, "afsName": "glassBottle_bottle", "animLabel": ""  },
                     { "goMeshName": "water", "zOff": -1.0, "afsName": "glassBottle_water", "animLabel": ""  },

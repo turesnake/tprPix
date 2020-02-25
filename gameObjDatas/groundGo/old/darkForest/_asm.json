@@ -1,0 +1,36 @@
+[
+    {
+        "goSpeciesName": "groundGo",
+
+        "renderLayerType": "GroundGo",
+        "shaderType": "OriginColor",
+
+        "plans":[
+
+            {
+                "goLabel": "DarkForest_Sml",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_darkForest", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "goLabel": "DarkForest_Mid",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_darkForest", "animLabel": "Mid"  }
+                ]
+            },
+
+            {
+                "goLabel": "DarkForest_Big",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_darkForest", "animLabel": "Big"  }
+                ]
+            }
+        ]
+    }
+]
+

@@ -10,6 +10,11 @@
             {
                 "goLabel": "Sml",
                 "goAltiRangeLabel": "Sml",
+                "collide":{
+                    "collideType": "Circular",
+                    "moveColliRadius": 38.0,
+                    "skillColliRadius": 55.0
+                },
                 "goMeshs":[
                     { "afsName": "pineTree", "animLabel": "Sml"  }
                 ]
@@ -18,6 +23,11 @@
             {
                 "goLabel": "Mid",
                 "goAltiRangeLabel": "Mid",
+                "collide":{
+                    "collideType": "Circular",
+                    "moveColliRadius": 48.0,
+                    "skillColliRadius": 63.0
+                },
                 "goMeshs":[
                     { "afsName": "pineTree", "animLabel": "Mid"  }
                 ]
@@ -26,6 +36,11 @@
             {
                 "goLabel": "Dead",
                 "goAltiRangeLabel": "Mid",
+                "collide":{
+                    "collideType": "Circular",
+                    "moveColliRadius": 48.0,
+                    "skillColliRadius": 63.0
+                },
                 "goMeshs":[
                     { "afsName": "pineTree", "animLabel": "Dead"  }
                 ]

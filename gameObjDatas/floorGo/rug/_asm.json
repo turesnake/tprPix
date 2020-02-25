@@ -11,6 +11,7 @@
         "plans":[
             {
                 "goLabel": "Rug_1",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_rug_1", "animLabel": "MapEnt_3m3"  }
                 ]

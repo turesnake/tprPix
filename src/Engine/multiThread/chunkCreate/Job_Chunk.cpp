@@ -216,9 +216,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                     //if( mp.alti.val > -5.0 && mp.alti.val < 5.0 ){   
                     if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
 
-                        auto goDataUPtr = std::make_unique<GoDataForCreate>();
-
-                        GoDataForCreate::assemble_new_goDataForCreate(  *goDataUPtr,
+                        auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
                                                                         mpos_2_midDPos( mp.mpos ),
                                                                         GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
                                                                         GoAssemblePlanSet::str_2_goLabelId(""),
@@ -226,14 +224,6 @@ void Job_Chunk::create_field_goSpecDatas(){
                                                                         BrokenLvl::Lvl_0,
                                                                         calc_simple_uWeight( mp.mpos )
                                                                     );
-
-                        
-                        //goDataUPtr->goAltiRangeLabel = GoAltiRangeLabel::Default; // tmp
-                        //goDataUPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("bioSoup");
-                        //goDataUPtr->dpos = mpos_2_midDPos( mp.mpos );
-                        //goDataUPtr->direction = NineDirection::Center;  // 暂时无用
-                        //goDataUPtr->brokenLvl_or_floorGoLayer = FloorGoLayer::L_4; // 暂时无用
-                        
 
                         job_fieldRef.insert_2_bioSoupGoDatas( std::move(goDataUPtr) );
 

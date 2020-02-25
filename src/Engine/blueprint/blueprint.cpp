@@ -31,9 +31,6 @@
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
-
-    //size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
-
     void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                     IntVec2 mpos_,
                                     const glm::dvec2  &dpos_,
@@ -362,31 +359,6 @@ void build_natureYard_floorGoDatasForCreate(
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
-
-
-// simple_uWeight 为每个 mapent生成的，仅用于 蓝图数据分配的 随机数
-// 仅仅在 蓝图分配阶段 被使用
-// 会被各种线程调用，所以务必不要使用 公共数据!!!
-/*
-size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
-
-    std::default_random_engine dRandEng;
-    std::uniform_int_distribution<size_t> uDistribution(0, 10000);
-    //---
-    mapEntKey_t key = mpos_2_key(mpos_);
-
-    uint_fast32_t  seed = static_cast<uint_fast32_t>(key);
-    dRandEng.seed( seed );
-    size_t randVal = uDistribution( dRandEng ); // [0, 10000]
-
-    return (cast_2_size_t(key) + randVal);
-}
-*/
-
-
-
-
-
 //
 //     未来将被改写为 更为通用的函数，变成 公共函数，允许 代码手动创建 go
 //
@@ -402,12 +374,7 @@ void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_
     }
 
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
-    auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::make_unique<GoDataForCreate>() });
-    tprAssert( insertBool );
-    GoDataForCreate &goDRef = *(insertIt->second);
-
-
-    GoDataForCreate::assemble_new_goDataForCreate(  goDRef,
+    auto goDUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
                                                     dpos_,
                                                     goSpecRef_.goSpeciesId,
                                                     goSpecRef_.goLabelId,
@@ -415,6 +382,9 @@ void create_new_goDataForCreate_old(std::unordered_map<mapEntKey_t, std::unique_
                                                     mapDataEntRef_.brokenLvl,
                                                     calc_simple_uWeight( mpos_ )
                                                 );
+
+    auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::move(goDUPtr) });
+    tprAssert( insertBool );
 }
 
 

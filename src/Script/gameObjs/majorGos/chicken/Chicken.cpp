@@ -25,7 +25,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-
+#include "Script/gameObjs/assemble_go.h"
 
 using namespace std::placeholders;
 
@@ -69,63 +69,10 @@ void Chicken::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Chicken_PvtBinary>();
+
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
     
-    //================ dyParams =================//
-    size_t randUVal {};
-    animSubspeciesId_t subspeciesId {};
-    
-    //---    
-    size_t typeHash = dyParams_.get_typeHash();
-    if( dyParams_.is_Nil() ){
-        randUVal = 17; //- 随便写
-
-        subspeciesId = esrc::apply_a_random_animSubspeciesId( "chicken.hen", AnimLabel::Default, 10 ); //- 暂时只有一个 亚种
-
-        //----- must before creat_new_goMesh() !!! -----//
-        goRef_.actionDirection.reset( apply_a_random_direction_without_mid(randUVal) ); // not Center
-        goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
-
-        //-- set lAltiRange ---
-        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( GoSpecFromJson::str_2_goSpeciesId("chicken") );
-        goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( GoAltiRangeLabel::Default ) ); // tmp ...
-
-    }else if( typeHash == typeid(DyParams_Blueprint).hash_code() ){
-        
-        const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
-        const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
-
-        subspeciesId = (*goDataPtr->goMeshEntUPtrs.cbegin())->get_subspeciesId();
-
-        randUVal = bpParamPtr->mapEntUWeight;    
-
-        //-- set lAltiRange ---
-        const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
-        goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->goAltiRangeLabel ) );
-
-        //----- must before creat_new_goMesh() !!! -----//
-        goRef_.actionDirection.reset( goDataPtr->direction );
-        goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
-
-    }else{
-        tprAssert(0); //- 尚未实现
-    }
-
-
-    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-
-        // 不完善，未来要改
-
-        //-- 制作唯一的 mesh 实例: "root" --
-        goRef_.creat_new_goMesh("root", //- gmesh-name
-                                subspeciesId,
-                                AnimActionEName::Idle,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                ShaderType::UnifiedColor,  // pic shader
-                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                0.0,  //- zOff
-                                true //- isVisible
-                                );
-        
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &Chicken::OnRenderUpdate,  _1 );   

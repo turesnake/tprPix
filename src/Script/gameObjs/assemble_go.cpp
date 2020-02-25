@@ -40,6 +40,9 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
 
+    goRef_.set_colliDataFromJpngPtr( goDataPtr->colliDataFromJpngPtr );
+
+
     //===== goMeshs =====//
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
         const GoDataForCreate::GoMesh &gmRef = *uptrRef;

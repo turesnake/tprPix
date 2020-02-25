@@ -50,11 +50,13 @@ void Chunk::init(){
     //------------------------------//
     //      random vals
     //------------------------------//
-    this->CDPos = this->mcpos.get_dpos() * 0.037 + esrc::get_gameSeed().get_chunk_dposOff();
+    //this->CDPos = this->mcpos.get_dpos() * 0.037 + esrc::get_gameSeed().get_chunk_dposOff();
     
-    double freq = 1.0 / 7.0; //- tmp 7*7 个 field 组成一个 pn晶格
-    this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
-    this->uWeight = blender_the_perlinNoise( this->originPerlin, 791613.7, 10000 ); //[0, 9999]
+    //double freq = 1.0 / 7.0; //- tmp 7*7 个 field 组成一个 pn晶格
+    //this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
+    //this->uWeight = blender_the_perlinNoise( this->originPerlin, 791613.7, 10000 ); //[0, 9999]
+
+    this->uWeight = calc_simple_uWeight( this->get_mpos() );
 
     //------------------------------//
     //       read job_chunk

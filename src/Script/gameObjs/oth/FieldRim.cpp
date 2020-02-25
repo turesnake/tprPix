@@ -28,6 +28,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
+#include "Script/gameObjs/assemble_go.h"
 
 using namespace std::placeholders;
 
@@ -55,19 +56,8 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     // ignore...
 
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( NineDirection::Center );
-
-    //------ root mesh ------//
-    goRef_.creat_new_goMesh( "root", //- gmesh-name
-                            esrc::get_fieldRimId(),
-                            AnimActionEName::Idle,
-                            RenderLayerType::Floor, //- 固定zOff值
-                            ShaderType::Shadow,  // pic shader
-                            glm::dvec2{0.0, 0.0}, //- pposoff
-                            0.5,  //- zOff
-                            true ); //- isVisible
-
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

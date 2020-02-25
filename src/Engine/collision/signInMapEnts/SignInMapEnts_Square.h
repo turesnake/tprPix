@@ -1,0 +1,72 @@
+/*
+ * ====================== SignInMapEnts_Square.h ==========================
+ *                          -- tpr --
+ *                                        CREATE -- 2020.02.19
+ *                                        MODIFY -- 
+ * ----------------------------------------------------------
+ */
+#ifndef TPR_SIGN_IN_MAP_ENTS_SQUARE_H
+#define TPR_SIGN_IN_MAP_ENTS_SQUARE_H
+//--- glm - 0.9.9.5 ---
+#include "glm_no_warnings.h"
+
+//--------------- CPP ------------------//
+#include <unordered_map>
+#include <vector>
+
+//--------------- Engine ------------------//
+#include "SignInMapEnts_Square_Type.h"
+#include "IntVec.h"
+#include "tprAssert.h"
+
+
+
+class SignInMapEnts_Square{
+public:
+    SignInMapEnts_Square()=default;
+
+    inline const std::vector<IntVec2> &get_weakMapEntOffs()const noexcept{ return this->weakMapEntOffs; }
+    inline const glm::dvec2 &get_rootMapEntMid_2_rootAnchor_dposOff()const noexcept{ return this->rootMapEntMid_2_rootAnchor_dposOff; }
+    
+
+    static inline const SignInMapEnts_Square &get_signInMapEnts_square_ref( SignInMapEnts_Square_Type type_ )noexcept{
+        if( !SignInMapEnts_Square::isStaticInit ){
+            SignInMapEnts_Square::isStaticInit = true;
+            SignInMapEnts_Square::init_for_static();
+        }
+        tprAssert( SignInMapEnts_Square::dataUPtrs.find(type_) != SignInMapEnts_Square::dataUPtrs.end() );
+        return *SignInMapEnts_Square::dataUPtrs.at(type_);
+    }
+
+
+private:
+    //SignInMapEnts_Square()=default;
+
+    static void init_for_static()noexcept;
+
+    static inline SignInMapEnts_Square &insert_new_signInMapEnts_square( SignInMapEnts_Square_Type type_ )noexcept{
+        auto [insertIt, insertBool] = SignInMapEnts_Square::dataUPtrs.insert({ type_, std::make_unique<SignInMapEnts_Square>() });
+        tprAssert( insertBool );
+        return *(insertIt->second);
+    }
+
+    //-------- vals --------//
+    std::vector<IntVec2> weakMapEntOffs {}; 
+                    // 每个 squGo,恒定拥有一个 rootMP (off={0,0}
+                    // 以及 0～n 个 weakMP
+
+    glm::dvec2          rootMapEntMid_2_rootAnchor_dposOff {};
+                    // 加上 rootMPMidDPos, 可以计算出 go rootAnchor 所在点。（也就是 goDPos 位置）
+                    // ---
+                    // rootMP 往往不能成为 整组 multiMP 的正中心位置（偏向右上角）
+
+
+    //======= static =======//
+    static std::unordered_map<SignInMapEnts_Square_Type, std::unique_ptr<SignInMapEnts_Square>> dataUPtrs;
+    static bool isStaticInit;                                  
+
+};
+
+
+#endif 
+

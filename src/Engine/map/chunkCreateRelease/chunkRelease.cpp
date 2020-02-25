@@ -115,7 +115,7 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 c
 
         if( colliderType == ColliderType::Circular ){
 
-            for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
+            for( const auto &mpos : goRef.get_collisionRef().get_current_signINMapEnts_circle_ref() ){
                 tmpChunkKey = anyMPos_2_chunkKey(mpos);
                 if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
 

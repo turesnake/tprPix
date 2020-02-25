@@ -10,6 +10,11 @@
             {
                 "goLabel": "Mid",
                 "goAltiRangeLabel": "Mid",
+                "collide":{
+                    "collideType": "Circular",
+                    "moveColliRadius": 48.0,
+                    "skillColliRadius": 63.0
+                },
                 "goMeshs":[
                     { "afsName": "figTree", "animLabel": "Mid"  }
                 ]

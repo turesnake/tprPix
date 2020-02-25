@@ -32,6 +32,7 @@
 #include "esrc_VAOVBO.h"
 
 //-------------------- Script --------------------//
+//#include "Script/gameObjs/assemble_go.h"
 
 using namespace std::placeholders;
 
@@ -54,11 +55,17 @@ struct GroundGo_PvtBinary{
 void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
-    //================ dyParams =================//
-    auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_GroundGo>();
-
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<GroundGo_PvtBinary>();
+
+
+
+    //========== 标准化装配 ==========//
+    //assemble_regularGo( goRef_, dyParams_ );
+
+    
+    //================ dyParams =================//
+    auto *msParamPtr = dyParams_.get_binaryPtr<DyParams_GroundGo>();
 
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -70,6 +77,10 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     const Job_GroundGoEnt *jgEntPtr {nullptr};
     const auto &container = msParamPtr->job_fieldPtr->get_job_groundGoEnts();
+
+
+    goRef_.set_colliDataFromJpngPtr( ColliDataFromJpng_Nil::nillInstance.get() );
+                                            // 丑陋的实现 
 
 
     //------ meshs ------//
@@ -99,6 +110,13 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 ); 
         goMeshRef.set_colorTableId( jgEntPtr->colorTableId );
     }
+    
+
+    /*
+    for( auto &[goMeshName, goMeshUPtr] : goRef_.get_goMeshs() ){
+        auto &goMeshRef = *goMeshUPtr;
+    }
+    */
     
 
     //================ bind callback funcs =================//

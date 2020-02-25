@@ -9,6 +9,7 @@
         "plans":[
             {
                 "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
                 ]
@@ -17,6 +18,7 @@
 
             {
                 "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [0, 0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
                 ]
@@ -24,6 +26,7 @@
 
             {
                 "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [5, -17], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [-7, 13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -37,6 +40,7 @@
 
             {
                 "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [-4, -21], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [0, 0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
@@ -46,6 +50,7 @@
 
             {
                 "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [3, -15], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
                     {  "dpos": [0, 6], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
@@ -54,6 +59,7 @@
 
             {
                 "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     {  "dpos": [-3, -12], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
                     {  "dpos": [1, 9], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
@@ -67,6 +73,15 @@
                 "afsName.holds":{
                     "afs_1": "grass_shamrock_white"
                 },
+
+                "collide.holds":{
+                    "C_1":{
+                        "collideType": "Square",
+                        "signInMapEnts_square_type": "T_1m1"
+                    }
+                },
+
+                
                 "goLabel.holds":{
                     "goLabel_1": "Shamrock_White_Sml",
                     "goLabel_2": "Shamrock_White_Mid"

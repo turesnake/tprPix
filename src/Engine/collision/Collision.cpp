@@ -413,7 +413,7 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
 void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )noexcept{
 
     GameObj &dogoRef = this->goRef;
-    SignInMapEnts &signInMapEntsRef = this->getnc_signInMapEnts();
+    SignInMapEnts_Circle &signInMapEntsRef = this->getnc_signInMapEnts_circle();
 
     //--------------------------------//
     //  更新 dogo 在 mapents 中的登记信息

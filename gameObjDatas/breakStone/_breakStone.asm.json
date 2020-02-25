@@ -9,6 +9,12 @@
         "plans":[
             {
                 "goLabel": "Light",
+
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
+                
                 "goMeshs":[
                     { "afsName": "breakStone", "animLabel": "Light"  }
                 ]

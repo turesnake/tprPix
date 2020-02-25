@@ -24,6 +24,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
+#include "Script/gameObjs/assemble_go.h"
 
 
 using namespace std::placeholders;
@@ -45,45 +46,17 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<PlayerGoCircle_PvtBinary>();
 
-    animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "playerGoCircle", AnimLabel::Default, 10 );
+    //========== 标准化装配 ==========//
+    assemble_regularGo( goRef_, dyParams_ );
 
-    //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( NineDirection::Center );
-    goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
-    //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
-
-        //-- 制作 mesh 实例: "root" --
-        GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
-                                "root", //- gmesh-name
-                                subspeciesId,
-                                AnimActionEName::Idle,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
-                                ShaderType::PlayerGoCircle,  // pic shader
-                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                -500.0,  //- zOff， 沉在所有 MajorGo 后方
-                                true //- isVisible
-                                );
-        /*
-        //-- 制作 mesh 实例: "front" --
-        GameObjMesh &frontGoMesh = goRef_.creat_new_goMesh(
-                                "front", //- gmesh-name
-                                "playerGoCircle", 
-                                AnimActionEName::Idle,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值  
-                                ShaderType::PlayerGoCircle,  // pic shader
-                                glm::dvec2{ 0.0, 0.0 }, //- pposoff
-                                500.0,  //- zOff， 浮在所有 MajorGo 前方
-                                true //- isVisible
-                                );
-        */
+        auto &rootGoMesh = goRef_.get_goMeshRef("root");
 
         rootGoMesh.rotateScaleData.reset_rotateOrder( std::vector<RotateType>{ RotateType::X, RotateType::Z } ); //- 只需设置一次
         rootGoMesh.rotateScaleData.set_rotateDegree( glm::vec3( 40.0f, 0.0f, 0.0f ) );
 
         rootGoMesh.rotateScaleData.set_scale( glm::vec2( 0.3f, 0.3f ) );
         
-
         
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上

@@ -11,18 +11,21 @@
         "plans":[
             {
                 "goLabel": "DarkForest_1_2m2",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_2m2"  }
                 ]
             },
             {
                 "goLabel": "DarkForest_1_3m3",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_3m3"  }
                 ]
             },
             {
                 "goLabel": "DarkForest_1_4m4",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_darkForest_1", "animLabel": "MapEnt_4m4"  }
                 ]

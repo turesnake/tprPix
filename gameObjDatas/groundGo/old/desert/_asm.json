@@ -1,0 +1,36 @@
+[
+    {
+        "goSpeciesName": "groundGo",
+
+        "renderLayerType": "GroundGo",
+        "shaderType": "OriginColor",
+
+        "plans":[
+
+            {
+                "goLabel": "Desert_Sml",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_desert", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "goLabel": "Desert_Mid",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_desert", "animLabel": "Mid"  }
+                ]
+            },
+
+            {
+                "goLabel": "Desert_Big",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo_desert", "animLabel": "Big"  }
+                ]
+            }
+        ]
+    }
+]
+

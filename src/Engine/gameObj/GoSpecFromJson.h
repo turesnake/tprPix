@@ -41,8 +41,6 @@ public:
     class MoveStateTable;
 
     //========== Self ==========//
-    GoSpecFromJson()=default; // DO NOT CALL IT DIRECTLY!!!
-
     inline std::unordered_set<std::string> *get_afsNamesPtr()noexcept{ return &(this->afsNames); }
 
     inline void insert_2_ExtraPassableDogoSpeciesIds( const std::string &name_ )noexcept{
@@ -106,7 +104,8 @@ public:
         std::hash<std::string> hasher;
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
-        auto [insertIt, insertBool] = GoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<GoSpecFromJson>() });
+        std::unique_ptr<GoSpecFromJson> uptr ( new GoSpecFromJson() ); // can't use std::make_unique
+        auto [insertIt, insertBool] = GoSpecFromJson::dataUPtrs.insert({ id, std::move(uptr) });
         tprAssert( insertBool );
         GoSpecFromJson &ref = *(insertIt->second);
         //--
@@ -154,6 +153,7 @@ public:
     }
 
 private:
+    GoSpecFromJson()=default;
     
     inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
         auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });

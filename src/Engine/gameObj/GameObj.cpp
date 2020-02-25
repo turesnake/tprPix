@@ -148,7 +148,18 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
 void GameObj::init_check(){
 
     tprAssert( this->rootAnimActionPosPtr );
-    this->colliDataFromJPtr = this->rootAnimActionPosPtr->get_colliDataFromJPtr();
+
+
+    
+    //this->colliDataFromJpngPtr = this->rootAnimActionPosPtr->get_colliDataFromJpngPtr();
+
+    if( !this->colliDataFromJpngPtr ){
+        this->colliDataFromJpngPtr = this->rootAnimActionPosPtr->get_colliDataFromJpngPtr();
+    }
+    tprAssert( this->colliDataFromJpngPtr );
+
+
+
 
     //---
     if( (this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup) ){
@@ -156,11 +167,11 @@ void GameObj::init_check(){
         // MUST NOT EMPTY !!! 
         tprAssert( (this->goPosVUPtr.index()!=0) && (this->goPosVUPtr.index()!=std::variant_npos) );
 
-        //- 参与 moveCollide 的仅有 majorGo: Cir 
+        //- 参与 moveCollide 的仅有 majorGo:Cir 
         if( this->get_colliderType() == ColliderType::Circular  ){
             //-- 主动调用，init signINMapEnts --- MUST!!!
-            this->collisionUPtr->init_signInMapEnts_for_cirGo( this->get_dpos(),
-                        std::bind( &ColliDataFromJ::get_colliPointDPosOffs, this->colliDataFromJPtr ) );
+            this->collisionUPtr->init_signInMapEnts_circle( this->get_dpos(),
+                        std::bind( &ColliDataFromJpng::get_colliPointDPosOffs, this->colliDataFromJpngPtr ) );
         }
     }
 
@@ -208,7 +219,7 @@ size_t GameObj::reCollect_chunkKeys(){
     //---------------//
     auto colliType = this->get_colliderType();
     if( colliType == ColliderType::Circular ){
-        for( const auto &mpos : this->get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){
+        for( const auto &mpos : this->get_collisionRef().get_current_signINMapEnts_circle_ref() ){
             this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); // maybe
         }
 

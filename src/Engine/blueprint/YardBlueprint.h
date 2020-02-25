@@ -137,7 +137,6 @@ class YardBlueprint{
 public:
     using mapDataId_t = uint32_t;
     //---
-    YardBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
     inline void insert_2_majorGo_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                                 std::shared_ptr<VarTypeDatas_Yard_MajorGo> sptr_ )noexcept{
@@ -227,7 +226,15 @@ public:
         return this->floorGo_varTypeDatas.at(type_).get();
     }
 
+
+    static inline std::unique_ptr<YardBlueprint> create_new_uptr()noexcept{
+        std::unique_ptr<YardBlueprint> uptr ( new YardBlueprint() ); // can't use std::make_unique
+        return uptr;
+    }
+
 private:
+    YardBlueprint()=default;
+
     YardSize sizeByFild {}; // yard 尺寸，以 field 为单位
 
     // major-gos
@@ -270,9 +277,6 @@ class YardBlueprintSet{
     using yardBlueprintSetId_t = size_t; // std::hash
 public:
     using F_getYardId = std::function< std::optional<yardBlueprintId_t>(NineDirection)>;
-
-
-    YardBlueprintSet()=default;// DO NOT CALL IT DIRECTLY!!!
 
     //===== static =====//
     static void init_for_static()noexcept;
@@ -322,6 +326,7 @@ public:
 
 
 private:
+    YardBlueprintSet()=default;
 
     inline static std::unordered_map<NineDirection, yardBlueprintId_t> &
     get_dir_2_yardId_umap(  const std::string &yardName_, const std::string &yardLabel_ )noexcept{

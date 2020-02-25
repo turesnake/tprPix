@@ -76,6 +76,8 @@ void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( goDataPtr->direction );
 
+    goRef_.set_colliDataFromJpngPtr( goDataPtr->colliDataFromJpngPtr );
+
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     double goMeshZOff {};
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){

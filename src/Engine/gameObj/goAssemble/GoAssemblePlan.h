@@ -18,6 +18,7 @@
 #include <memory>
 #include <functional> // hash
 #include <optional>
+#include <variant>
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
@@ -30,8 +31,11 @@
 #include "GoAltiRange.h"
 #include "FloorGoType.h"
 
+
 #include "RenderLayerType.h"
 #include "ShaderType.h"
+
+#include "ColliDataFromJpng.h"
 
 
 
@@ -41,6 +45,7 @@ using goLabelId_t = size_t; // std::hash
 //
 class GoAssemblePlanSet{
 public:
+
 
     class GoMeshEnt{
     public:
@@ -55,29 +60,33 @@ public:
         ShaderType              shaderType   {};
         bool                    isVisible {};
 
-        
-        
         //NineDirection           dir {};
         //BrokenLvl               brokenLvl {};
-                                    // dir / broken 数据，是作为 go的数据，从蓝图中被读取的
-                                    // 在完善的设计中，每一个 gomesh，都可以选择，直接使用 go的这份数据
-                                    // 或者 在 json 文件中，自定义这部分数据
-                                    // ...
-        
+                                        // dir / broken 数据，是作为 go的数据，从蓝图中被读取的
+                                        // 在完善的设计中，每一个 gomesh，都可以选择，直接使用 go的这份数据
+                                        // 或者 在 json 文件中，自定义这部分数据
+                                        // ...
+            
         //------- optional_vals -------//
-        std::optional<FloorGoLayer> floorGoLayer { std::nullopt }; // only for FloorGo 
-
+        std::optional<FloorGoLayer> floorGoLayer    { std::nullopt }; // only for FloorGo   
     };
+    
 
     // 一个 go 实例，由数个 gomesh 以及其他数据 组合而成
     class Plan{
     public:
+            
         using id_t = uint32_t;
+            
         //---
         Plan()=default;
         std::vector<GoMeshEnt> gomeshs {};
 
         GoAltiRangeLabel goAltiRangeLabel {};
+
+        std::unique_ptr<ColliDataFromJpng> colliDataFromJpngUPtr {nullptr};
+
+        //------- optional_vals -------//
 
         //======== static ========//
         static ID_Manager  id_manager;
@@ -172,6 +181,8 @@ private:
 namespace json {//-------- namespace: json --------------//
     void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ );
 }//------------- namespace: json end --------------//
+
+
 
 
 #endif 

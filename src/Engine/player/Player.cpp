@@ -22,6 +22,8 @@
 #include "create_goes.h"
 #include "GoSpecFromJson.h"
 
+#include "create_go_in_stupid_way.h" // tmp
+
 
 using namespace std::placeholders;
 
@@ -64,12 +66,24 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
+        /*
         this->playerGoCircle_goid = gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
                                                             newGoRef.get_dpos(),
                                                             emptyDyParam );
+                                        */
 
-                    cout << "playerGoCir_goid: " << this->playerGoCircle_goid
-                        << endl;
+
+        this->playerGoCircle_goid = create_go_in_stupid_way(GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
+                                                            GoAssemblePlanSet::str_2_goLabelId(""),
+                                                            newGoRef.get_dpos(),
+                                                            NineDirection::Center,
+                                                            BrokenLvl::Lvl_0,
+                                                            1 // mapEntUWeight
+                                                            ); 
+
+
+                    //cout << "playerGoCir_goid: " << this->playerGoCircle_goid
+                    //    << endl;
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );

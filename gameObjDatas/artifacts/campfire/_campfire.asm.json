@@ -9,6 +9,12 @@
         "plans":[
             {
                 "goLabel": "campfire_fire",
+
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_2m2"
+                },
+
                 "goMeshs":[
                     { "goMeshName": "root", "zOff": 0.0, "afsName": "campfire_base", "animLabel": ""  },
                     { "goMeshName": "fire", "zOff": 0.1, "afsName": "campfire_fire", "animLabel": ""  }

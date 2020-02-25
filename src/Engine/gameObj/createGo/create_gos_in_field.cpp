@@ -18,6 +18,8 @@
 #include "create_goes.h"
 #include "GoSpecFromJson.h"
 
+#include "create_go_in_stupid_way.h" // tmp
+
 #include "esrc_field.h"
 #include "esrc_ecoObj.h"
 #include "esrc_gameObj.h" 
@@ -44,6 +46,9 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     const auto *job_fieldPtr = job_chunkRef_.get_job_fieldPtr(fieldKey_);
 
     //----- ground go ------//
+    
+
+    
     {
         //--- dyParam ---//
         DyParam dyParam {};
@@ -56,15 +61,21 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                     fieldRef.get_midDPos(),
                                     dyParam );
     }
+    
+
 
 
     //----- fieldRim go [-DEBUG-] ------//
     //  显示 map 坐标框
-    bool isFieldRimGoCreate { false };
+    bool isFieldRimGoCreate { true };
     if( isFieldRimGoCreate ){
-        gameObjs::create_a_Go(  GoSpecFromJson::str_2_goSpeciesId( "fieldRim" ),
+        create_go_in_stupid_way(GoSpecFromJson::str_2_goSpeciesId("fieldRim"),
+                                GoAssemblePlanSet::str_2_goLabelId(""),
                                 fieldRef.get_midDPos(),
-                                emptyDyParam );
+                                NineDirection::Center,
+                                BrokenLvl::Lvl_0,
+                                1 // mapEntUWeight
+                                ); 
     }
     
 

@@ -42,15 +42,14 @@ public:
     class GoMesh;
     
     //========== Self Vals ==========//
-    GoDataForCreate()=default;
-
-    static void assemble_new_goDataForCreate(   GoDataForCreate     &goDRef_,
+    static std::unique_ptr<GoDataForCreate> assemble_new_goDataForCreate(               
                                                 const glm::dvec2    &dpos_, // 让外部计算好
                                                 goSpeciesId_t       goSpeciesId_,
                                                 goLabelId_t         goLabelId_,
-                                                NineDirection       direction_,
-                                                BrokenLvl           brokenLvl_,
-                                                size_t mapEntUWeight_ );
+                                                NineDirection       direction_, // 未来支持从 GoSpecFromJson 中提取默认值
+                                                BrokenLvl           brokenLvl_, // 未来支持从 GoSpecFromJson 中提取默认值
+                                                size_t              mapEntUWeight_ = 1013 // 有时候不需要随机数
+                                                );
 
     //---
     goSpeciesId_t       goSpeciesId {};
@@ -59,7 +58,12 @@ public:
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
     GoAltiRangeLabel    goAltiRangeLabel {};
 
-    BrokenLvl           brokenLvl {};
+    BrokenLvl           brokenLvl   {};
+
+    size_t              uWeight     {};
+
+
+    const ColliDataFromJpng *colliDataFromJpngPtr {nullptr};
     
     //---
 
@@ -68,6 +72,10 @@ public:
 
 
     std::vector<std::unique_ptr<GoMesh>> goMeshEntUPtrs {};
+
+private:
+    GoDataForCreate()=default;
+
 };
 
 
@@ -108,6 +116,8 @@ private:
 
     animSubspeciesId_t  subspeciesId {};
     size_t              windDelayIdx {}; // only used in windClock
+
+    size_t              uWeight     {};
 
 };
 

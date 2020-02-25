@@ -499,7 +499,7 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
                 tprAssert( goRef.get_colliderType() == ColliderType::Circular );
                 if( goRef.find_in_chunkKeys(chunkKey_) ){
                     
-                    for( const auto &mpos : goRef.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo() ){ 
+                    for( const auto &mpos : goRef.get_collisionRef().get_current_signINMapEnts_circle_ref() ){ 
                         
                         if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
                             //---- 正式注册 collient 到 mapents 上 -----

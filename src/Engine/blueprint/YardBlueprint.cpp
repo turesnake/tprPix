@@ -111,7 +111,8 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
     //------------//
     yardBlueprintSetId_t yardSetId = std::hash<std::string>{}( yardName_ );
     // find or create
-    auto [insertIt1, insertBool1] = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::make_unique<YardBlueprintSet>() });
+    std::unique_ptr<YardBlueprintSet> setUPtr ( new YardBlueprintSet() ); // can't use std::make_unique
+    auto [insertIt1, insertBool1] = YardBlueprintSet::setUPtrs.insert({ yardSetId, std::move(setUPtr) });
     YardBlueprintSet *setPtr = insertIt1->second.get();
 
     //------------//
@@ -132,7 +133,7 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
         tprAssert( insertBool3 ); // Must success
 
         //---
-        auto [insertIt4, insertBool4] = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+        auto [insertIt4, insertBool4] = YardBlueprintSet::yardUPtrs.insert({ yardId, YardBlueprint::create_new_uptr() });
         tprAssert( insertBool4 );
 
     }else{ // find
@@ -147,7 +148,7 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
             tprAssert( insertBool5 );
 
             //---
-            auto [insertIt6, insertBool6] = YardBlueprintSet::yardUPtrs.insert({ yardId, std::make_unique<YardBlueprint>() });
+            auto [insertIt6, insertBool6] = YardBlueprintSet::yardUPtrs.insert({ yardId, YardBlueprint::create_new_uptr() });
             tprAssert( insertBool6 ); 
 
         }else{ // find

@@ -121,7 +121,6 @@ private:
 // 
 class PlotBlueprint{
 public:
-    PlotBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
 
     inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Plot> uptr_ )noexcept{
@@ -181,6 +180,7 @@ public:
 
 
 private:
+    PlotBlueprint()=default;
 
     IntVec2  sizeByMapEnt {}; // plot 尺寸，以 mapent 为单位 不一定必须是 正方形
 

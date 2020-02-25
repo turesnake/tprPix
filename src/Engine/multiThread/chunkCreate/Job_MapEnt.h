@@ -46,7 +46,7 @@ public:
     Density             density {};
     MapAltitude         alti {};
 
-    double  originPerlin {}; // [-1.0, 1.0]
+    //double  originPerlin {}; // [-1.0, 1.0]
     size_t  uWeight      {}; // [0, 9999]
 
     bool  isBorder {false}; //- 是否为 eco边缘go

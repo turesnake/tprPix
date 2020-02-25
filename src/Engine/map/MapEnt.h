@@ -108,11 +108,14 @@ public:
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
 
-
+    /*
     inline void set_perlin( double originPerlin_, size_t uWeight_ ){
         this->originPerlin = originPerlin_;
         this->uWeight = uWeight_;
     }
+    */
+
+    inline void set_uWeight( double v_ )noexcept{ this->uWeight = v_; }
 
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
@@ -139,7 +142,7 @@ private:
     colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};
 
-    double  originPerlin {}; // [-1.0, 1.0]
+    //double  originPerlin {}; // [-1.0, 1.0]
     size_t  uWeight      {}; // [0, 9999]
 
     bool    isBorder     {false}; // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...

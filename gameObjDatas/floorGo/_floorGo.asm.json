@@ -10,18 +10,21 @@
         "plans":[
             {
                 "goLabel.hold": "goLabel_1",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName.hold": "afs_1", "animLabel": "MapEnt_2m2"  }
                 ]
             },
             {
                 "goLabel.hold": "goLabel_2",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName.hold": "afs_1", "animLabel": "MapEnt_3m3"  }
                 ]
             },
             {
                 "goLabel.hold": "goLabel_3",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName.hold": "afs_1", "animLabel": "MapEnt_4m4"  }
                 ]

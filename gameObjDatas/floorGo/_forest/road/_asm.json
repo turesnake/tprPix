@@ -11,12 +11,14 @@
         "plans":[
             {
                 "goLabel": "Forest_RoadYard_TwoPorts",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_forest_roadYard", "animLabel": "TwoPorts"  }
                 ]
             },
             {
                 "goLabel": "Forest_RoadYard_ThreePorts",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_forest_roadYard", "animLabel": "ThreePorts"  }
                 ]

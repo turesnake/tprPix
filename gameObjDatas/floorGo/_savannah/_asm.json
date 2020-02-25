@@ -11,18 +11,21 @@
         "plans":[
             {
                 "goLabel": "Savannah_1_2m2",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_2m2"  }
                 ]
             },
             {
                 "goLabel": "Savannah_1_3m3",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_3m3"  }
                 ]
             },
             {
                 "goLabel": "Savannah_1_4m4",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
                     { "afsName": "floorGo_savannah_1", "animLabel": "MapEnt_4m4"  }
                 ]

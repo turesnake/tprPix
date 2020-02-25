@@ -37,10 +37,13 @@ void Job_MapEnt::init( IntVec2 mpos_ )noexcept{
     this->alti.set( calc_pixAlti( this->midPPos ) );
 
     //--- uWeight ---//
-    glm::dvec2 fDPos = mpos_2_dpos(this->mpos) * 0.177 + esrc::get_gameSeed().get_field_dposOff();//- 未来更换
-    const double freq = 1.0 / 13.0; //- tmp
-    this->originPerlin = simplex_noise2( fDPos * freq );//- [-1.0, 1.0]
-    this->uWeight = blender_the_perlinNoise( this->originPerlin, 130617.7, 10000 ); //[0, 9999]
+    //glm::dvec2 fDPos = mpos_2_dpos(this->mpos) * 0.177 + esrc::get_gameSeed().get_field_dposOff();//- 未来更换
+    //const double freq = 1.0 / 13.0; //- tmp
+    //this->originPerlin = simplex_noise2( fDPos * freq );//- [-1.0, 1.0]
+    //this->uWeight = blender_the_perlinNoise( this->originPerlin, 130617.7, 10000 ); //[0, 9999]
+
+    this->uWeight = calc_simple_uWeight( this->mpos );
+
 }
 
 
@@ -49,7 +52,8 @@ void Job_MapEnt::write_2_mapEnt( MemMapEnt &entRef_ )const noexcept{
     entRef_.set_colorTableId( this->colorTableId );
     entRef_.set_density( this->density );
     entRef_.set_mapAlti( this->alti );
-    entRef_.set_perlin( this->originPerlin, this->uWeight );
+    //entRef_.set_perlin( this->originPerlin, this->uWeight );
+    entRef_.set_uWeight( this->uWeight );
     entRef_.set_isBorder( this->isBorder );
 }
 

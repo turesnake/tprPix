@@ -34,6 +34,8 @@
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
 
+#include "create_go_in_stupid_way.h" // tmp
+
 #include "ubo_all.h"
 
 #include "esrc_all.h" //- 所有资源
@@ -80,6 +82,7 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
     void inputINS_handle( const InputINS &inputINS_);
 
 }//------------------ namespace: sc_begin_inn end ------------------//
+
 
 
 /* 在 进入 scene:begin 之前，需要准备的工作
@@ -252,29 +255,53 @@ void inputINS_handle( const InputINS &inputINS_){
                 IntVec2    newGoMPos    { 0,0 };
                 glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
 
-                glm::dvec2 secGoDPos { 150.0, 00.0 }; //- 测试用go
 
+                cout << "9-chunks create start" << endl;
 
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::create_9_chunks( newGoMPos );
                         //-- 在未来，需要读取 db::table_chunks 的数据，来辅助生成 chunks
                         //   这部分，应该写进 chunk build 流程中 ...
 
-                //-- db::table_goes --
-                //goSpeciesId_t newGoSpeciesId = ssrc::str_2_goSpeciesId( "norman" );
-                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
-                
 
+
+                //-- db::table_goes --
+
+
+                //----- 临时创建，玩家操纵的 go -------//
+                // old
+                /*
+                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
                 goid_t newGoId = gameObjs::create_a_Go(     newGoSpeciesId,
                                                             newGoDPos,
                                                             emptyDyParam );
+                */
 
+                cout << "chicken create start" << endl;
+
+
+                goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
+
+                
+                goid_t newGoId = create_go_in_stupid_way(   newGoSpeciesId,
+                                                            GoAssemblePlanSet::str_2_goLabelId("Hen"),
+                                                            newGoDPos,
+                                                            NineDirection::Left,
+                                                            BrokenLvl::Lvl_0,
+                                                            1 // mapEntUWeight
+                                                            ); 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{ newGoId, newGoSpeciesId, newGoDPos } );
 
 
                                             // 在未来，这种原始的 创建 go 的方式会被替换 
                                             // ...
+
+                                            
+
+                cout << "chicken create done" << endl;
+
+
                 
             
 

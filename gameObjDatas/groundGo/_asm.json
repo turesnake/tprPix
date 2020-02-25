@@ -1,0 +1,37 @@
+[
+    {
+        "goSpeciesName": "groundGo",
+        "without_holds": true,
+
+        "renderLayerType": "GroundGo",
+        "shaderType": "OriginColor",
+
+        "plans":[
+
+            {
+                "goLabel": "Sml",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "goLabel": "Mid",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo", "animLabel": "Mid"  }
+                ]
+            },
+
+            {
+                "goLabel": "Big",
+                "collide":{ "collideType": "Nil" },
+                "goMeshs":[
+                    { "afsName": "groundGo", "animLabel": "Big"  }
+                ]
+            }
+        ]
+    }
+]
+

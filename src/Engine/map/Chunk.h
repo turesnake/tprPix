@@ -96,10 +96,10 @@ private:
 
     
     //--- random vals ---//
-    glm::dvec2  CDPos {};    //- chunk-dpos 除以 ENTS_PER_CHUNK 再累加一个 随机seed
+    //glm::dvec2  CDPos {};    //- chunk-dpos 除以 ENTS_PER_CHUNK 再累加一个 随机seed
                              // 这个值仅用来 配合 simplex-noise 函数使用
 
-    double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
+    //double   originPerlin {}; //- perlin 原始值 [-1.0, 1.0]
     size_t   uWeight      {}; // [0, 9999]
 
     //======== flags ========//

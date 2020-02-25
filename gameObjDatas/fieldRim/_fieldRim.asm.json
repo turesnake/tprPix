@@ -9,8 +9,9 @@
         "plans":[
             {
                 "goLabel": "",
+                "collide":{ "collideType": "Nil" },
                 "goMeshs":[
-                    { "afsName": "fieldRim", "animLabel": ""  }
+                    {  "zOff": 2.0, "afsName": "fieldRim", "animLabel": ""  }
                 ]
             }
         ]

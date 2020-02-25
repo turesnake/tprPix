@@ -9,6 +9,10 @@
         "plans":[
             {
                 "goLabel": "Blackberry",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
                 "goMeshs":[
                     {   "afsName": "bush_blackberry", "animLabel": ""  }
                 ]
@@ -16,6 +20,10 @@
 
             {
                 "goLabel": "Greyberry",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
                 "goMeshs":[
                     {   "afsName": "bush_greyberry", "animLabel": ""  }
                 ]
@@ -23,6 +31,10 @@
 
             {
                 "goLabel": "Origin",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
                 "goMeshs":[
                     {  "dpos": [0,  12], "zOff": 0.0, "afsName": "bush_origin", "animLabel": "Back"  },
                     {  "dpos": [0,  -12], "zOff": 0.0, "afsName": "bush_origin", "animLabel": "Front"  }

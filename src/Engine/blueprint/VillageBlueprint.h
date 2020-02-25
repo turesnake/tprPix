@@ -66,8 +66,6 @@ private:
 // 村级蓝图。最大级别的蓝图。 一个 section/ecoobj，分配一个 村级蓝图。
 class VillageBlueprint{
 public:
-    VillageBlueprint()=default; // DO NOT CALL IT DIRECTLY!!!
-
 
     inline void insert_2_varTypeDatas(  VariableTypeIdx typeIdx_, 
                                         std::unique_ptr<VarTypeDatas_Village> uptr_ )noexcept{
@@ -114,6 +112,8 @@ public:
 
 
 private:
+    VillageBlueprint()=default;
+
     std::vector<MapData> mapDatas {}; // 若干帧，每一帧数据 就是一份 分配方案
     std::set<VariableTypeIdx> varTypes {};
     std::unordered_map<VariableTypeIdx, std::unique_ptr<VarTypeDatas_Village>> varTypeDatas {}; // 类型数据

@@ -75,6 +75,27 @@ public:
     int  y {0};
 };
 
+
+// std::hash 特化
+// IntVec2 可以成为 std::unordered_map / std::unordered_set 的 key
+namespace std{
+template<> 
+struct hash<IntVec2>{
+    hash()=default;
+    size_t operator()(IntVec2 iv_) const{
+        size_t key {};
+        int *ptr = (int*)(&key); //- can't use static_cast<>
+        *ptr = iv_.x;
+        ptr++;
+        *ptr = iv_.y; 
+        //--------
+        return key;
+    }
+};
+}// namespace std
+
+
+
 /* ===========================================================
  *                  operator  ==, !=
  * -----------------------------------------------------------
@@ -90,6 +111,7 @@ inline bool operator != ( IntVec2 a_, IntVec2 b_ ) noexcept {
  *                   operator <
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
+ * -- IntVec2 可以成为 std::map / std::set 的 key
  */
 inline bool operator < ( IntVec2 a_, IntVec2 b_ ) noexcept {
     if( a_.x == b_.x ){
@@ -167,17 +189,6 @@ inline IntVec2 floorMod( IntVec2 v_, double mod_ ) noexcept {
                     v_.y - static_cast<int>(floor(floorY)) };
 }
 
-
-//--- [mem] --//
-class IntVec3{
-public:
-    int  x  {0}; 
-    int  y  {0};
-    int  z  {0};
-};
-inline bool is_equal( IntVec3 a_, IntVec3 b_ ) noexcept {
-    return ( ((a_.x==b_.x)&&(a_.y==b_.y)&&(a_.z==b_.z)) );
-}
 
 
 #endif

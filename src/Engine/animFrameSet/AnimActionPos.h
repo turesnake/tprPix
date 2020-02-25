@@ -22,7 +22,7 @@
 #include "GoAltiRange.h"
 #include "IntVec.h"
 #include "ColliderType.h"
-#include "ColliDataFromJ.h"
+#include "ColliDataFromJpng.h"
 #include "ID_Manager.h" 
 
 
@@ -38,11 +38,6 @@ public:
         this->isRootAnchorSet = true;
         this->rootAnchor = v_; 
     }
-    inline void set_tailAnchor_onlyOnce(  const glm::dvec2 &v_ )noexcept{ 
-        tprAssert( !this->isTailAnchorSet );
-        this->isTailAnchorSet = true;
-        this->tailAnchor = v_; 
-    }
     inline void set_moveColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{
         tprAssert( !this->isMoveColliRadiusAnchorSet );
         this->isMoveColliRadiusAnchorSet = true; 
@@ -57,7 +52,6 @@ public:
     inline ColliderType get_colliderType() const noexcept{ return this->colliderType; }
 
     inline const glm::dvec2 &get_rootAnchor()const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; }
-    inline const glm::dvec2 &get_tailAnchor()const noexcept{ tprAssert(this->isTailAnchorSet); return this->tailAnchor;  }
     inline const glm::dvec2 &get_moveColliRadiusAnchor()const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; }
     inline const glm::dvec2 &get_skillColliRadiusAnchor()const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; }
 
@@ -65,12 +59,11 @@ private:
     ColliderType colliderType {};
     //-- 一律是 左下角到 目标点的 偏移值 --
     glm::dvec2  rootAnchor  {};
-    glm::dvec2  tailAnchor  {};
+    //glm::dvec2  tailAnchor  {};
     glm::dvec2  moveColliRadiusAnchor {};
     glm::dvec2  skillColliRadiusAnchor {};
     //---- flags ----//
     bool isRootAnchorSet {false};
-    bool isTailAnchorSet  {false};
     bool isMoveColliRadiusAnchorSet  {false};
     bool isSkillColliRadiusAnchorSet {false};
 };
@@ -91,9 +84,9 @@ public:
     //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
 
-    inline const ColliDataFromJ *get_colliDataFromJPtr()const noexcept{ 
-        tprAssert( this->colliDataFromJUPtr );
-        return this->colliDataFromJUPtr.get();
+    inline const ColliDataFromJpng *get_colliDataFromJpngPtr()const noexcept{ 
+        tprAssert( this->colliDataFromJpngUPtr );
+        return this->colliDataFromJpngUPtr.get();
     }
 
     //======== static ========//
@@ -105,7 +98,7 @@ private:
                         //-- *** 不用对齐于 mapEnt ***
                         //-- 目前仅被用于 ChildMesh 渲染用
 
-    std::unique_ptr<ColliDataFromJ> colliDataFromJUPtr {nullptr};
+    std::unique_ptr<ColliDataFromJpng> colliDataFromJpngUPtr {nullptr};
 };
 
 

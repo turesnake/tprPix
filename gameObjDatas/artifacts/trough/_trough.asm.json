@@ -9,6 +9,7 @@
         "plans":[
             {
                 "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     { "goMeshName":"root", "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "back", "animLabel": "Dark"  },
                     { "goMeshName":"front", "dpos": [0,  0], "zOff": 0.2, "afsName.hold": "front", "animLabel": "Dark"  }
@@ -17,6 +18,7 @@
 
             {
                 "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
                 "goMeshs":[
                     { "goMeshName":"root", "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "back", "animLabel": "Dark"  },
                     { "goMeshName":"water", "dpos": [0,  0], "zOff": 0.1, "afsName.hold": "water_1", "animLabel": ""  },
@@ -32,6 +34,14 @@
                     "front": "trough_front",
                     "water_1": "trough_water_yellow"
                 },
+
+                "collide.holds":{
+                    "C_1":{
+                        "collideType": "Square",
+                        "signInMapEnts_square_type": "T_1m1"
+                    }
+                },
+
                 "goLabel.holds":{
                     "goLabel_1": "DarkBody_emptyWater",
                     "goLabel_2": "DarkBody_YellowWater"

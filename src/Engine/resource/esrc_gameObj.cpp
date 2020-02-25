@@ -350,7 +350,7 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
         //------------------------------//
         //  signUp each collient to mapEnt
         //------------------------------//        
-        const auto &currentSignINMapEntsRef = goRef_.get_collisionRef().get_currentSignINMapEntsRef_for_cirGo();
+        const auto &currentSignINMapEntsRef = goRef_.get_collisionRef().get_current_signINMapEnts_circle_ref();
         tprAssert( !currentSignINMapEntsRef.empty() ); //- tmp
         for( const auto &mpos : currentSignINMapEntsRef ){
 

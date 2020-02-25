@@ -73,10 +73,14 @@ public:
     inline void set_isCrossEcoObj( bool b_ )noexcept{ this->isCrossEcoObj = b_; }
     inline void set_isCrossColorTable( bool b_ )noexcept{ this->isCrossColorTable = b_; }
 
+    /*
     inline void set_perlin( double originPerlin_, size_t uWeight_ )noexcept{
         this->originPerlin = originPerlin_;
         this->uWeight = uWeight_;
     }
+    */
+
+    inline void set_uWeight( double v_ )noexcept{ this->uWeight = v_; }
 
     //------- get -------//
     inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
@@ -128,7 +132,7 @@ private:
     glm::dvec2  FDPos {};    //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
                             // 这个值仅用来 配合 simplex-noise 函数使用
 
-    double   originPerlin {}; //- perlin 原始值，分布集中在接近 0.0 的区域  [-1.0, 1.0]
+    //double   originPerlin {}; //- perlin 原始值，分布集中在接近 0.0 的区域  [-1.0, 1.0]
     size_t   uWeight {};      //- 打乱后的随机值，分布更均匀 [0, 9999]
 
     occupyWeight_t       occupyWeight {0}; //- 抢占权重。 [0,15]

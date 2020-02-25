@@ -29,7 +29,7 @@ namespace pjt_RGBAHandle_2_inn{//---------- namespace ---------//
     uint8_t    A_OPAQUE         { 255 }; // alpha
     //--- R --- 
     uint8_t    R_rootAnchor    { 255 };
-    uint8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
+    //uint8_t    R_tailAnchor     { 155 };//- 仅用于 胶囊体，副端点
 
     //--- G --- 
     uint8_t  G_moveColliRadius   { 150 };
@@ -78,11 +78,14 @@ public:
             this->animActionSemiDataPtr->set_rootAnchor_onlyOnce( pixDPos_ );
             return;
         }
+        
         //--- isTailAnchor ---
+        /*
         if( is_near_inner( RGBA_ChannelType::R, pjt_RGBAHandle_2_inn::R_tailAnchor ) ){
             this->animActionSemiDataPtr->set_tailAnchor_onlyOnce( pixDPos_ );
             return;
         }
+        */
             
         //=== G ===
         //--- moveColliRadius ---

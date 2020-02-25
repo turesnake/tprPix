@@ -9,6 +9,12 @@
         "plans":[
             {
                 "goLabel": "",
+
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
+                
                 "goMeshs":[
                     { "afsName": "bioSoup", "animLabel": ""  }
                 ]

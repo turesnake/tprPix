@@ -110,7 +110,9 @@ void Job_Field::bind_functors( Job_Chunk &jChunkRef_ )noexcept{
 void Job_Field::apply_job_groundGoEnts()noexcept{
 
     glm::dvec2      dposOff     {}; // base on field-midDPos
+
     colorTableId_t  colorTableId {};
+    
     size_t          uWeight {};
 
     const Job_MapEnt *entPtr {nullptr}; 

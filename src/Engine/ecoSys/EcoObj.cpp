@@ -90,14 +90,15 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //    self uWeight
     //------------------//
     // 3*3 个 ecoObj 组成一个 pn晶格
-    double freq2 = 1.0 / 3.0; 
-    glm::dvec2 fv = this->mcpos.get_dpos();
-    fv /= static_cast<double>(ENTS_PER_SECTION);
-    fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
+    //double freq2 = 1.0 / 3.0; 
+    //glm::dvec2 fv = this->mcpos.get_dpos();
+    //fv /= static_cast<double>(ENTS_PER_SECTION);
+    //fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
 
-    double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]
+    //double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]
+    //this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
 
-    this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
+    this->uWeight = calc_simple_uWeight( this->get_mpos() );
 
     //------------------//
     //   occupyWeight

@@ -21,9 +21,9 @@
 #include "ColliderType.h"
 #include "GameObjPos.h"
 #include "GameObjType.h"
-#include "SignInMapEnts.h"
+#include "SignInMapEnts_Circle.h"
 #include "NineDirection.h"
-#include "WeakMapEntsType.h"
+#include "SignInMapEnts_Square_Type.h"
 
 #include "mapEntKey.h"
 
@@ -56,17 +56,15 @@ public:
 
 
     //-- only call in go init --
-    inline void init_signInMapEnts_for_cirGo(   const glm::dvec2 &newGoDPos_,
-                                                F_get_colliPointDPosOffsRef func_1_ )noexcept{
-        
-        tprAssert( this->variantVals.index() == 0 ); // must be: {}
-        this->variantVals = std::make_unique<SignInMapEnts>( newGoDPos_, func_1_ );
+    inline void init_signInMapEnts_circle( const glm::dvec2 &newGoDPos_, F_get_colliPointDPosOffsRef func_1_ )noexcept{
+        tprAssert( this->signInMapEnts.index() == 0 ); // must be: {}
+        this->signInMapEnts = std::make_unique<SignInMapEnts_Circle>( newGoDPos_, func_1_ );
     }
 
 
-    inline void set_weakMapEntsType( WeakMapEntsType type_ )noexcept{
-        tprAssert( this->variantVals.index() == 0 ); // must be: {}
-        this->variantVals = type_;
+    inline void set_signInMapEnts_Square_Type( SignInMapEnts_Square_Type type_ )noexcept{
+        tprAssert( this->signInMapEnts.index() == 0 ); // must be: {}
+        this->signInMapEnts = type_;
     }
 
 
@@ -91,13 +89,12 @@ public:
         this->Is_extraPassableDogoSpeciesId = functor_;
     }
 
-    //-- 所有调用此函数的 ，一律为 cir go
-    inline const std::set<IntVec2> &get_currentSignINMapEntsRef_for_cirGo()const noexcept{
-        return this->get_signInMapEnts().get_currentSignINMapEntsRef();
+    inline const std::set<IntVec2> &get_current_signINMapEnts_circle_ref()const noexcept{
+        return this->get_signInMapEnts_circle().get_currentSignINMapEntsRef();
     }
 
-    inline WeakMapEntsType get_weakMapEntsType()noexcept{
-        auto valPtr = std::get_if<WeakMapEntsType>( &this->variantVals );
+    inline SignInMapEnts_Square_Type get_signInMapEnts_Square_Type()noexcept{
+        auto valPtr = std::get_if<SignInMapEnts_Square_Type>( &this->signInMapEnts );
         tprAssert( valPtr );
         return *valPtr;
     }
@@ -105,13 +102,13 @@ public:
 
 private:
 
-    inline SignInMapEnts &getnc_signInMapEnts()noexcept{
-        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts>>( &this->variantVals );
+    inline SignInMapEnts_Circle &getnc_signInMapEnts_circle()noexcept{
+        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts_Circle>>( &this->signInMapEnts );
         tprAssert( valPtr );
         return **valPtr;
     }
-    inline const SignInMapEnts &get_signInMapEnts()const noexcept{
-        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts>>( &this->variantVals );
+    inline const SignInMapEnts_Circle &get_signInMapEnts_circle()const noexcept{
+        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts_Circle>>( &this->signInMapEnts );
         tprAssert( valPtr );
         return **valPtr;
     }
@@ -128,9 +125,9 @@ private:
 
     // 如果未来，cirGo / squGo 的数据进一步膨胀，可以整合为两份 class
     std::variant<   std::monostate, // 当变量为空时，v.index() 返回 0
-                    std::unique_ptr<SignInMapEnts>, // only for cirGo
-                    WeakMapEntsType // only for squGo
-                    > variantVals {}; 
+                    std::unique_ptr<SignInMapEnts_Circle>, // only for cirGo
+                    SignInMapEnts_Square_Type // only for squGo
+                    > signInMapEnts {}; 
 
     
     //======== flags ========//

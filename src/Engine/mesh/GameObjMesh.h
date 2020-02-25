@@ -242,7 +242,7 @@ private:
     AnimAction          *animActionPtr {nullptr};
     AnimAction::PvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 
-    colorTableId_t  colorTableId { MaxColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
+    colorTableId_t  colorTableId { NilColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
 
     DyBinary   pvtBinary  {}; // store dynamic datas
 };                           

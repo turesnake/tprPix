@@ -32,7 +32,6 @@ class GameObj;
 
 class UIGoSpecFromJson{
 public:
-    UIGoSpecFromJson()=default; // DO NOT CALL IT DIRECTLY!!!
 
     std::string       goSpeciesName {};
     goSpeciesId_t     speciesId {};
@@ -55,7 +54,8 @@ public:
         std::hash<std::string> hasher;
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
-        auto [insertIt, insertBool] = UIGoSpecFromJson::dataUPtrs.insert({ id, std::make_unique<UIGoSpecFromJson>() });
+        std::unique_ptr<UIGoSpecFromJson> uptr ( new UIGoSpecFromJson() ); // can't use std::make_unique
+        auto [insertIt, insertBool] = UIGoSpecFromJson::dataUPtrs.insert({ id, std::move(uptr) });
         tprAssert( insertBool );
         UIGoSpecFromJson &ref = *(insertIt->second);
         //---
@@ -98,6 +98,7 @@ public:
 
 
 private:
+    UIGoSpecFromJson()=default;
 
     inline static void insert_2_uiGoSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
         auto out1 = UIGoSpecFromJson::ids_2_names.insert({ id_, name_ });

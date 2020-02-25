@@ -115,10 +115,7 @@ void create_job_chunk_main( const Job &job_ ){
 namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 
 
-/* ===========================================================
- *                 calc_job_chunk
- * -----------------------------------------------------------
- */
+
 void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     IntVec2 currentChunkMPos = job_chunkRef_.get_chunkMPos();
@@ -177,7 +174,8 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
             field.set_colorTableId( mapEntInnRef.colorTableId );
             field.set_density( mapEntInnRef.density );
             field.set_nodeMapAlti( mapEntInnRef.alti );
-            field.set_perlin( mapEntInnRef.originPerlin, mapEntInnRef.uWeight );
+            //field.set_perlin( mapEntInnRef.originPerlin, mapEntInnRef.uWeight );
+            field.set_uWeight( mapEntInnRef.uWeight );
         }
     }
 

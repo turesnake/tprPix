@@ -21,10 +21,10 @@
 
 
         "afs_lPaths": [ 
-            "_groundGo.afs.json"
+            "_afs.json"
         ],
         "goAsm_lPaths": [
-            "_groundGo.asm.json"
+            "_asm.json"
         ]
 
 

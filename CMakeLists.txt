@@ -142,6 +142,7 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/circuitBoard
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision/signInMapEnts
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/coordinate
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
@@ -152,7 +153,6 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/goAssemble
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/multiMapEnt
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/json

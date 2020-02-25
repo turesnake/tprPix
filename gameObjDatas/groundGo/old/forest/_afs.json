@@ -1,0 +1,67 @@
+[
+{
+    "afsName": "groundGo_forest",
+    "pngs": [
+        {
+            "path": "mapEnt.P.png",
+            "frameNum.col":  3,
+            "frameNum.row":  2,
+            "totalFrameNum": 6,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Sml",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 6,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "halfField.P.png",
+            "frameNum.col":  2,
+            "frameNum.row":  2,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Mid",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+        {
+            "path": "field.P.png",
+            "frameNum.col":  2,
+            "frameNum.row":  2,
+            "totalFrameNum": 4,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "ColliderType": "Nil",
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "Big",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 4,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+}
+]

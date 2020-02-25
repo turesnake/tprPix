@@ -99,6 +99,8 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     goRef_.actionDirection.reset( goDataPtr->direction );
     goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
+    goRef_.set_colliDataFromJpngPtr( goDataPtr->colliDataFromJpngPtr );
+
     //----- gomeshs -----//
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
         const GoDataForCreate::GoMesh &gmRef = *uptrRef;

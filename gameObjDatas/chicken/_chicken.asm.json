@@ -9,6 +9,11 @@
         "plans":[
             {
                 "goLabel": "Hen",
+                "collide":{
+                    "collideType": "Circular",
+                    "moveColliRadius": 15.0,
+                    "skillColliRadius": 22.0
+                },
                 "goMeshs":[
                     { "afsName": "chicken.hen", "animLabel": ""  }
                 ]
