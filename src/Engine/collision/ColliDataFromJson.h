@@ -1,5 +1,5 @@
 /*
- * ===================== ColliDataFromJpng.h ==========================
+ * ===================== ColliDataFromJson.h ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.09.19
  *                                        MODIFY -- 
@@ -28,10 +28,10 @@
 
 // 可能要改名为 FromJson 
 
-class ColliDataFromJpng{
+class ColliDataFromJson{
 public:
-    ColliDataFromJpng()=default;
-    virtual ~ColliDataFromJpng()=default;
+    ColliDataFromJson()=default;
+    virtual ~ColliDataFromJson()=default;
     //---
     virtual ColliderType get_colliderType()const =0;
     virtual double get_moveColliRadius()const =0;
@@ -46,9 +46,9 @@ public:
 
 
 
-class ColliDataFromJpng_Nil : public ColliDataFromJpng{
+class ColliDataFromJson_Nil : public ColliDataFromJson{
 public:
-    ColliDataFromJpng_Nil():
+    ColliDataFromJson_Nil():
         colliderType(ColliderType::Nil)
         {}
 
@@ -65,7 +65,7 @@ public:
     }
     inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{  //- not exist
         tprAssert(0); 
-        return ColliDataFromJpng_Nil::emptyVec;
+        return ColliDataFromJson_Nil::emptyVec;
     }
     inline Circular calc_circular( const glm::dvec2 &goCurrentDPos_, CollideFamily family_ )const override{ //- not exist
         tprAssert(0); 
@@ -87,17 +87,17 @@ public:
 
     //===== static =====//
     static std::vector<glm::dvec2> emptyVec;
-    static std::unique_ptr<ColliDataFromJpng> nillInstance; 
-                            // 一些类似 groundGo 的go，无法通过标准流程被组件，但也需要一个 Nil类型的 ColliDataFromJpng 数据
+    static std::unique_ptr<ColliDataFromJson> nillInstance; 
+                            // 一些类似 groundGo 的go，无法通过标准流程被组件，但也需要一个 Nil类型的 ColliDataFromJson 数据
                             // 此处提供给它们一个 通用的 实例
 };
 
 
 
 
-class ColliDataFromJpng_Circular : public ColliDataFromJpng{
+class ColliDataFromJson_Circular : public ColliDataFromJson{
 public:
-    ColliDataFromJpng_Circular():
+    ColliDataFromJson_Circular():
         colliderType(ColliderType::Circular)
         {}
 
@@ -143,20 +143,20 @@ public:
 };
 
 
-class ColliDataFromJpng_Square : public ColliDataFromJpng{
+class ColliDataFromJson_Square : public ColliDataFromJson{
 public:
-    ColliDataFromJpng_Square():
+    ColliDataFromJson_Square():
         colliderType(ColliderType::Square)
         {
-            if( !ColliDataFromJpng_Square::isStaticInit ){
-                ColliDataFromJpng_Square::isStaticInit = true;
-                ColliDataFromJpng_Square::init_for_static(); // only once
+            if( !ColliDataFromJson_Square::isStaticInit ){
+                ColliDataFromJson_Square::isStaticInit = true;
+                ColliDataFromJson_Square::init_for_static(); // only once
             }
         }
 
     //----- get -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
-    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return ColliDataFromJpng_Square::colliPointDPosOffs; }
+    inline const std::vector<glm::dvec2> &get_colliPointDPosOffs() const override{ return ColliDataFromJson_Square::colliPointDPosOffs; }
 
     inline Square calc_square( const glm::dvec2 &goCurrentDPos_ )const override{ 
         return Square{ goCurrentDPos_ };

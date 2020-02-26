@@ -10,7 +10,6 @@
             "totalFrameNum": 16,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
             "subspecs": [
                 {
                     "type": "handle",
@@ -38,7 +37,6 @@
             "totalFrameNum": 16,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
             "subspecs": [
                 {
                     "type": "handle",

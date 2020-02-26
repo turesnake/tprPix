@@ -136,6 +136,10 @@ public:
         tprAssert( GoSpecFromJson::names_2_ids.find(name_) != GoSpecFromJson::names_2_ids.end() );
         return GoSpecFromJson::names_2_ids.at(name_);
     }
+    inline static const std::string &goSpeciesId_2_name( goSpeciesId_t id_ )noexcept{
+        tprAssert( GoSpecFromJson::ids_2_names.find(id_) != GoSpecFromJson::ids_2_names.end() );
+        return GoSpecFromJson::ids_2_names.at(id_);
+    }
 
     inline static bool find_from_initFuncs( goSpeciesId_t goSpeciesId_ ){
         return ( GoSpecFromJson::initFuncs.find(goSpeciesId_) != GoSpecFromJson::initFuncs.end());
@@ -151,6 +155,8 @@ public:
         auto [insertIt, insertBool] = GoSpecFromJson::initFuncs.insert({ id, functor_ });
         tprAssert( insertBool );
     }
+
+    
 
 private:
     GoSpecFromJson()=default;

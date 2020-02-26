@@ -64,7 +64,7 @@ public:
     size_t              uWeight     {}; // base on mpos
 
 
-    const ColliDataFromJpng *colliDataFromJpngPtr {nullptr};
+    const ColliDataFromJson *colliDataFromJsonPtr {nullptr};
     
     //---
 

@@ -9,7 +9,6 @@
             "totalFrameNum": 5,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Square",
             "subspecs": [
                 {
                     "type": "batch",

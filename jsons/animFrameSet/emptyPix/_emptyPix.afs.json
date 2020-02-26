@@ -10,7 +10,7 @@
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
-            "ColliderType": "Nil",
+        
             "subspecs": [
                 {
                     "type": "handle",
@@ -41,7 +41,7 @@
             "isHaveShadow": false,
             "isPjtSingle": true,
             "isShadowSingle": true,
-            "ColliderType": "Square",
+        
             "subspecs": [
                 {
                     "type": "handle",

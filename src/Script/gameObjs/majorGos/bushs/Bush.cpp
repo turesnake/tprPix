@@ -92,7 +92,7 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     goRef_.actionDirection.reset( goDataPtr->direction );
     goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
-    goRef_.set_colliDataFromJpngPtr( goDataPtr->colliDataFromJpngPtr );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr->colliDataFromJsonPtr );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     // 有些 bush 只有一个 gomesh，有些则是 复数个

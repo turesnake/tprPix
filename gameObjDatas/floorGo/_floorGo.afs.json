@@ -9,7 +9,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -30,7 +30,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+   
             "subspecs": [
                 {
                     "type": "batch",
@@ -51,7 +51,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -78,7 +78,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -99,7 +99,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -120,7 +120,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -147,7 +147,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+  
             "subspecs": [
                 {
                     "type": "batch",
@@ -168,7 +168,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",
@@ -189,7 +189,7 @@
             "totalFrameNum": 1,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+
             "subspecs": [
                 {
                     "type": "batch",

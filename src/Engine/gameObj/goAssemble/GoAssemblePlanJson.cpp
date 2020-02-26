@@ -50,7 +50,58 @@ using std::endl;
 namespace json {//-------- namespace: json --------------//
 namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
 
-   
+
+    // asm.json 文件中，允许用 "xx.hold" 来表达一种 暂用符
+    // 延迟到未来再确定具体的值
+    // 使用本容器来管理这些 hold变量
+    template< typename T>
+    class Hold{
+    public:
+        Hold()=default;
+
+        inline void init_by_holdStr( const std::string holdStr_ )noexcept{
+            this->isInit = true;
+            this->isHold = true;
+            this->holdStr = holdStr_;
+        }
+
+        inline void init_by_value( const T &value_ )noexcept{
+            this->isInit = true;
+            this->isHold = false;
+            this->value = value_;
+        }
+
+        inline bool is_hold()const noexcept{ return this->isHold; }
+
+        inline std::string get_holdStr()const noexcept{
+            tprAssert( this->isInit );
+            tprAssert( this->isHold );
+            return this->holdStr;
+        }
+
+        inline T get_value()const noexcept{
+            tprAssert( this->isInit );
+            tprAssert( !this->isHold );
+            return this->value;
+        }
+
+        inline void replace_2_value( const T &value_ )noexcept{
+            tprAssert( this->isInit );
+            tprAssert( this->isHold );
+            this->isHold = false;
+            this->holdStr = "";
+            this->value = value_;
+        }
+
+    private:
+        bool        isInit  {false};
+        bool        isHold  {};
+        std::string holdStr {};
+        T           value   {};
+    };
+
+
+
 
     
     class Json_Collide{
@@ -62,7 +113,9 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         double skillColliRadius { 0.0 };
     };
     std::shared_ptr<Json_Collide> parse_collide( const Value &jsonObj_ );
-    void assemble_colliDataFromJpng( GoAssemblePlanSet::Plan &planRef, const Json_Collide &jCollide_ );
+    void assemble_colliDataFromJson( GoAssemblePlanSet::Plan &planRef, const Json_Collide &jCollide_ );
+
+
 
 
     class Json_GoMeshEnt{
@@ -71,15 +124,10 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
         double                  zOff    {};
         AnimActionEName         animActionEName {};
-        //---
-        bool                    is_animLabel {true}; // animLabel OR animLabel_hold
-        AnimLabel               animLabel {};
-        std::string             animLabel_hold {};
-        //---
-        bool                    is_afsName {true}; // afsName or afsName_hold
-        std::string             afsName {};
-        std::string             afsName_hold {};
-        //---
+
+        Hold<AnimLabel>         animLabel {}; // animLabel OR animLabel_hold
+        Hold<std::string>       afsName {}; // afsName or afsName_hold
+
 
         RenderLayerType         renderLayerType {};
         ShaderType              shaderType   {};
@@ -103,23 +151,19 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
     public:
         Json_Plan()=default;
         //---
-        bool            is_goLabel {true};
-        std::string     goLabel      {};
-        std::string     goLabel_hold {};
-
-        GoAltiRangeLabel goAltiRangeLabel {};
-
-        //---
-        bool            is_collide {true};
-        std::string     collide_hold {};
-        std::shared_ptr<Json_Collide> json_collideSPtr {nullptr}; 
+        
+        Hold<std::string>                       goLabel {};   
+        Hold< std::shared_ptr<Json_Collide> >   json_collideSPtr {};
+        GoAltiRangeLabel                        goAltiRangeLabel {};
 
 
-        std::vector<Json_GoMeshEnt> gomeshs {};
+        std::vector<Json_GoMeshEnt>             gomeshs {};
 
         //------- optional_vals -------//
         std::optional<SignInMapEnts_Square_Type> signInMapEnts_square_type  { std::nullopt }; // only for SquGo
     };
+    void aseembel_jsonPlan_2_plan(  GoAssemblePlanSet &goAssemblePlanSetRef_,
+                                    const Json_Plan &json_planRef_ );
     
 
 
@@ -162,6 +206,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             const auto &a = json::check_and_get_value( docEnt, "goSpeciesName", json::JsonValType::String );
             goSpeciesId =  GoSpecFromJson::str_2_goSpeciesId( a.GetString() );
         }
+
 
         mgmj_inn::Json_GoAssemblePlanSet  json_goAssemblePlanSet {};
 
@@ -221,29 +266,22 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             }
 
             //--- goLabel / goLabel.hold ---//
-            if( !without_holds ){
-                // MUST have "goLabel.hold"
-                const auto &a = json::check_and_get_value( pEnt, "goLabel.hold", json::JsonValType::String );
-                json_planUPtr->goLabel_hold = a.GetString();
-                json_planUPtr->is_goLabel = false;
-            }else{
-                // MUST have "goLabel"
+            if( pEnt.HasMember("goLabel") ){
                 const auto &a = json::check_and_get_value( pEnt, "goLabel", json::JsonValType::String );
-                json_planUPtr->goLabel = a.GetString();
-                json_planUPtr->is_goLabel = true;
+                json_planUPtr->goLabel.init_by_value( a.GetString() );
+            }else{
+                const auto &a = json::check_and_get_value( pEnt, "goLabel.hold", json::JsonValType::String );
+                json_planUPtr->goLabel.init_by_holdStr( a.GetString() );
             }
+
 
             //--- collide / collide.hold ---//
             if( pEnt.HasMember("collide") ){
                 const auto &a = json::check_and_get_value( pEnt, "collide", json::JsonValType::Object );
-                json_planUPtr->json_collideSPtr = mgmj_inn::parse_collide( a );
-                json_planUPtr->is_collide = true;
-
+                json_planUPtr->json_collideSPtr.init_by_value( mgmj_inn::parse_collide(a) );
             }else{
-                // MUST have "collide.hold"
                 const auto &a = json::check_and_get_value( pEnt, "collide.hold", json::JsonValType::String );
-                json_planUPtr->collide_hold = a.GetString();
-                json_planUPtr->is_collide = false;
+                json_planUPtr->json_collideSPtr.init_by_holdStr( a.GetString() );
             }
 
 
@@ -328,27 +366,23 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
 
                 //--- afsName / afsName.hold ---//
                 if( !without_holds && goMesh.HasMember("afsName.hold") ){
-                    const auto &a = json::check_and_get_value( goMesh, "afsName.hold", json::JsonValType::String );
-                    json_GoMeshEnt.afsName_hold = a.GetString();
-                    json_GoMeshEnt.is_afsName = false;
+                    const auto &a = json::check_and_get_value( goMesh, "afsName.hold", json::JsonValType::String );                    
+                    json_GoMeshEnt.afsName.init_by_holdStr( a.GetString() );
                 }else{
                     tprAssert( goMesh.HasMember("afsName") );
                     const auto &a = json::check_and_get_value( goMesh, "afsName", json::JsonValType::String );
-                    json_GoMeshEnt.afsName = a.GetString();
-                    json_GoMeshEnt.is_afsName = true;
+                    json_GoMeshEnt.afsName.init_by_value( a.GetString() );
                 }
 
 
                 //--- animLabel / animLabel.hold ---//
                 if( !without_holds && goMesh.HasMember("animLabel.hold") ){
                     const auto &a = json::check_and_get_value( goMesh, "animLabel.hold", json::JsonValType::String );
-                    json_GoMeshEnt.animLabel_hold = a.GetString();
-                    json_GoMeshEnt.is_animLabel = false;
+                    json_GoMeshEnt.animLabel.init_by_holdStr( a.GetString() );
                 }else{
                     tprAssert( goMesh.HasMember("animLabel") );
                     const auto &a = json::check_and_get_value( goMesh, "animLabel", json::JsonValType::String );
-                    json_GoMeshEnt.animLabel = str_2_animLabel(a.GetString() );
-                    json_GoMeshEnt.is_animLabel = true;
+                    json_GoMeshEnt.animLabel.init_by_value( str_2_animLabel(a.GetString() ) );
                 }
 
 
@@ -434,47 +468,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
 
             for( const auto &jPlanUPtr : json_goAssemblePlanSet.planUPtrs ){
                 const auto &json_planRef = *jPlanUPtr;
-
-                // goLabel
-                tprAssert( json_planRef.is_goLabel );
-                GoAssemblePlanSet::insert_2_goLabelIds( json_planRef.goLabel );
-                GoAssemblePlanSet::Plan &planRef = goSpecFromJsonRef.goAssemblePlanSetUPtr->create_new_plan( 
-                                            GoAssemblePlanSet::str_2_goLabelId( json_planRef.goLabel ));
-
-                planRef.goAltiRangeLabel = json_planRef.goAltiRangeLabel;
-            
-                for( const auto &json_GoMeshEntRef : json_planRef.gomeshs ){
-                    
-                    GoAssemblePlanSet::GoMeshEnt goMeshEnt {};
-                    //---
-                    
-                    // afsName
-                    tprAssert( json_GoMeshEntRef.is_afsName );
-                    tprAssert( json_GoMeshEntRef.afsName != "" );
-                    goMeshEnt.animFrameSetName = json_GoMeshEntRef.afsName;
-
-                    // animLabel
-                    tprAssert( json_GoMeshEntRef.is_animLabel );
-                    goMeshEnt.animLabel = json_GoMeshEntRef.animLabel;
-
-                    goMeshEnt.goMeshName = json_GoMeshEntRef.goMeshName;
-                    goMeshEnt.dposOff = json_GoMeshEntRef.dposOff;
-                    goMeshEnt.zOff = json_GoMeshEntRef.zOff;
-                    goMeshEnt.animActionEName = json_GoMeshEntRef.animActionEName;
-
-                    goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
-                    goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
-                    goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
-
-                    goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
-                    goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
-
-                    // maybe has val
-                    goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
-
-                    //---
-                    planRef.gomeshs.push_back( goMeshEnt );
-                }
+                mgmj_inn::aseembel_jsonPlan_2_plan( *(goSpecFromJsonRef.goAssemblePlanSetUPtr), json_planRef );
             }
 
             return;
@@ -482,7 +476,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
 
 
         //=======================//
-        //         plans
+        //        holds
         //=======================//
         std::unordered_map<std::string, std::string> goLabel_holds {};
         std::unordered_map<std::string, std::string> afsName_holds {};
@@ -493,8 +487,9 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
         const auto &holdsArray = json::check_and_get_value( docEnt, "holds", json::JsonValType::Array );
         for( auto &hEnt : holdsArray.GetArray() ){ // each plan
 
-            {//--- goLabel.holds ---//
-                goLabel_holds.clear();
+            //--- goLabel.holds ---//
+            goLabel_holds.clear();
+            if( hEnt.HasMember("goLabel.holds") ){
                 const auto &ghArray = json::check_and_get_value( hEnt, "goLabel.holds", json::JsonValType::Object );
                 for( auto &ghEnt : ghArray.GetObject() ){ // each plan
                     tprAssert( ghEnt.value.IsString() );
@@ -504,7 +499,6 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             }
 
             //--- afsName_holds ---//
-            // 允许这组数据不存在
             afsName_holds.clear();
             if( hEnt.HasMember("afsName.holds") ){
                 const auto &types = json::check_and_get_value( hEnt, "afsName.holds", json::JsonValType::Object );
@@ -537,7 +531,6 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 }
             }
 
-
             //============
             auto &goSpecFromJsonRef = GoSpecFromJson::getnc_goSpecFromJsonRef( goSpeciesId );
             if( goSpecFromJsonRef.goAssemblePlanSetUPtr == nullptr ){
@@ -545,68 +538,51 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             }
 
             for( auto &jPlanUPtr : json_goAssemblePlanSet.planUPtrs ){ // 需要 copy sptr, 不能用 const
-                auto &json_planRef = *jPlanUPtr;
+                auto &origin_json_planRef = *jPlanUPtr;
 
-                tprAssert( goLabel_holds.find(json_planRef.goLabel_hold) != goLabel_holds.end() );
-                std::string goLabel = goLabel_holds.at(json_planRef.goLabel_hold);
+                // 复制一份 json plan 实例 
+                mgmj_inn::Json_Plan json_plan = origin_json_planRef;
 
-                GoAssemblePlanSet::insert_2_goLabelIds( goLabel );
-                GoAssemblePlanSet::Plan &planRef = goSpecFromJsonRef.goAssemblePlanSetUPtr->create_new_plan( 
-                                            GoAssemblePlanSet::str_2_goLabelId( goLabel ));
-
-                planRef.goAltiRangeLabel = json_planRef.goAltiRangeLabel;
-
-
-                //-- collide.hold --
-                if( !json_planRef.is_collide ){
-                    tprAssert( collide_holds.find(json_planRef.collide_hold) != collide_holds.end() );
-                    json_planRef.json_collideSPtr = collide_holds.at( json_planRef.collide_hold );
+                //-------------------------//
+                //  先把所有 .hold 变量 value 化
+                //-------------------------//
+                // goLabel.holds 
+                if( json_plan.goLabel.is_hold() ){
+                    std::string holdStr = json_plan.goLabel.get_holdStr();
+                    tprAssert( goLabel_holds.find(holdStr) != goLabel_holds.end() );
+                    json_plan.goLabel.replace_2_value( goLabel_holds.at(holdStr) );
                 }
-                tprAssert( json_planRef.json_collideSPtr ); // Must have
-                mgmj_inn::assemble_colliDataFromJpng( planRef, *json_planRef.json_collideSPtr );
 
 
+                // collide.holds 
+                if( json_plan.json_collideSPtr.is_hold() ){
+                    std::string holdStr = json_plan.json_collideSPtr.get_holdStr();
+                    tprAssert( collide_holds.find(holdStr) != collide_holds.end() );
+                    json_plan.json_collideSPtr.replace_2_value( collide_holds.at(holdStr) );
+                }
 
-            
-                for( const auto &json_GoMeshEntRef : json_planRef.gomeshs ){
-                    
-                    GoAssemblePlanSet::GoMeshEnt goMeshEnt {};
-                    //---
-                    
+
+                for( auto &json_GoMeshEntRef : json_plan.gomeshs ){
+
                     // afsName
-                    if( json_GoMeshEntRef.is_afsName ){
-                        tprAssert( json_GoMeshEntRef.afsName != "" );
-                        goMeshEnt.animFrameSetName = json_GoMeshEntRef.afsName;
-                    }else{
-                        tprAssert( afsName_holds.find(json_GoMeshEntRef.afsName_hold) != afsName_holds.end() );
-                        goMeshEnt.animFrameSetName = afsName_holds.at(json_GoMeshEntRef.afsName_hold);
+                    if( json_GoMeshEntRef.afsName.is_hold() ){
+                        std::string holdStr = json_GoMeshEntRef.afsName.get_holdStr();
+                        tprAssert( afsName_holds.find(holdStr) != afsName_holds.end() );
+                        json_GoMeshEntRef.afsName.replace_2_value( afsName_holds.at(holdStr) );
                     }
 
                     // animLabel
-                    if( json_GoMeshEntRef.is_animLabel ){
-                        goMeshEnt.animLabel = json_GoMeshEntRef.animLabel;
-                    }else{
-                        tprAssert( animLabel_holds.find(json_GoMeshEntRef.animLabel_hold) != animLabel_holds.end() );
-                        goMeshEnt.animLabel = str_2_animLabel( animLabel_holds.at(json_GoMeshEntRef.animLabel_hold) );
+                    if( json_GoMeshEntRef.animLabel.is_hold() ){
+                        std::string holdStr = json_GoMeshEntRef.animLabel.get_holdStr();
+                        tprAssert( animLabel_holds.find(holdStr) != animLabel_holds.end() );
+                        json_GoMeshEntRef.animLabel.replace_2_value( str_2_animLabel(animLabel_holds.at(holdStr)) );
                     }
-
-                    goMeshEnt.goMeshName = json_GoMeshEntRef.goMeshName;
-                    goMeshEnt.dposOff = json_GoMeshEntRef.dposOff;
-                    goMeshEnt.zOff = json_GoMeshEntRef.zOff;
-                    goMeshEnt.animActionEName = json_GoMeshEntRef.animActionEName;
-
-                    goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
-                    goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
-                    goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
-
-                    goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
-                    goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
-
-                    // maybe has val
-                    goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
-                    //---
-                    planRef.gomeshs.push_back( goMeshEnt );
                 }
+
+                //-------------------------//
+                //    正式配置  plan
+                //-------------------------//
+                mgmj_inn::aseembel_jsonPlan_2_plan( *(goSpecFromJsonRef.goAssemblePlanSetUPtr), json_plan );
             }
         }
     }
@@ -660,34 +636,88 @@ std::shared_ptr<Json_Collide> parse_collide( const Value &jsonObj_ ){
 
 
 
-void assemble_colliDataFromJpng( GoAssemblePlanSet::Plan &planRef, const Json_Collide &jCollide_ ){
+void assemble_colliDataFromJson( GoAssemblePlanSet::Plan &planRef_, const Json_Collide &jCollide_ ){
 
     if( jCollide_.collideType == ColliderType::Nil ){
 
-        auto nilUPtr = std::make_unique<ColliDataFromJpng_Nil>();
+        auto nilUPtr = std::make_unique<ColliDataFromJson_Nil>();
         //nilUPtr->colliderType = ColliderType::Nil;
-        planRef.colliDataFromJpngUPtr.reset( nilUPtr.release() );//- move uptr
+        planRef_.colliDataFromJsonUPtr.reset( nilUPtr.release() );//- move uptr
 
     }else if( jCollide_.collideType == ColliderType::Circular ){
 
-        auto cirUPtr = std::make_unique<ColliDataFromJpng_Circular>();
+        auto cirUPtr = std::make_unique<ColliDataFromJson_Circular>();
         //cirUPtr->colliderType = ColliderType::Circular;
         cirUPtr->moveColliRadius  = glm::length( jCollide_.moveColliRadius );
         cirUPtr->skillColliRadius = glm::length( jCollide_.skillColliRadius );
         //-- colliPoints --
         calc_colliPoints_for_circular( cirUPtr->colliPointDPosOffs, tprMax(cirUPtr->moveColliRadius, cirUPtr->skillColliRadius));
         cirUPtr->makeSure_colliPointDPosOffs_isNotEmpty();
-        planRef.colliDataFromJpngUPtr.reset( cirUPtr.release() );//- move uptr
+        planRef_.colliDataFromJsonUPtr.reset( cirUPtr.release() );//- move uptr
 
     }else if( jCollide_.collideType == ColliderType::Square ){
         
-        auto squUPtr = std::make_unique<ColliDataFromJpng_Square>();
+        auto squUPtr = std::make_unique<ColliDataFromJson_Square>();
         //squUPtr->colliderType = ColliderType::Square;
         squUPtr->signInMapEnts_square_type = jCollide_.signInMapEnts_square_type;
-        planRef.colliDataFromJpngUPtr.reset( squUPtr.release() );//- move uptr
+        planRef_.colliDataFromJsonUPtr.reset( squUPtr.release() );//- move uptr
 
     }else{
         tprAssert(0);
+    }
+}
+
+
+
+// 统一组装 plan
+// 调用之前，应该将 所有 .hold 数据 处理好
+void aseembel_jsonPlan_2_plan(  GoAssemblePlanSet &goAssemblePlanSetRef_, const Json_Plan &json_planRef_ ){
+
+    // goLabel
+    tprAssert( !json_planRef_.goLabel.is_hold() );
+    std::string goLabel = json_planRef_.goLabel.get_value();
+    GoAssemblePlanSet::insert_2_goLabelIds( goLabel );
+
+    GoAssemblePlanSet::Plan &planRef_ = goAssemblePlanSetRef_.create_new_plan( GoAssemblePlanSet::str_2_goLabelId( goLabel ));
+
+    // goAltiRangeLabel
+    planRef_.goAltiRangeLabel = json_planRef_.goAltiRangeLabel;
+
+    // json_collideSPtr
+    tprAssert( !json_planRef_.json_collideSPtr.is_hold() );
+    tprAssert( json_planRef_.json_collideSPtr.get_value() ); // Must sptr != nullptr
+    mgmj_inn::assemble_colliDataFromJson( planRef_, *(json_planRef_.json_collideSPtr.get_value()) );
+
+            
+    for( const auto &json_GoMeshEntRef : json_planRef_.gomeshs ){
+              
+        GoAssemblePlanSet::GoMeshEnt goMeshEnt {};
+                    
+        // afsName
+        tprAssert( !json_GoMeshEntRef.afsName.is_hold() );
+        goMeshEnt.animFrameSetName = json_GoMeshEntRef.afsName.get_value();
+
+        // animLabel
+        tprAssert( !json_GoMeshEntRef.animLabel.is_hold() );
+        goMeshEnt.animLabel = json_GoMeshEntRef.animLabel.get_value();
+
+        goMeshEnt.goMeshName = json_GoMeshEntRef.goMeshName;
+        goMeshEnt.dposOff = json_GoMeshEntRef.dposOff;
+        goMeshEnt.zOff = json_GoMeshEntRef.zOff;
+        goMeshEnt.animActionEName = json_GoMeshEntRef.animActionEName;
+
+        goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
+        goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
+        goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+
+        goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
+        goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
+
+        // maybe has val
+        goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
+
+        //---
+        planRef_.gomeshs.push_back( goMeshEnt );
     }
 }
 

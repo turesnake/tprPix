@@ -36,7 +36,7 @@
 #include "RenderLayerType.h"
 #include "ShaderType.h"
 
-#include "ColliDataFromJpng.h"
+#include "ColliDataFromJson.h"
 
 // 一个 go-action，可以由数个 gomesh-action 组合而成
 //
@@ -81,7 +81,7 @@ public:
 
         GoAltiRangeLabel goAltiRangeLabel {};
 
-        std::unique_ptr<ColliDataFromJpng> colliDataFromJpngUPtr {nullptr};
+        std::unique_ptr<ColliDataFromJson> colliDataFromJsonUPtr {nullptr};
 
         //------- optional_vals -------//
 

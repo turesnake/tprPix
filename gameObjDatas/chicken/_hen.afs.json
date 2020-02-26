@@ -10,7 +10,6 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
             "subspecs": [
                 {
                     "type": "handle",
@@ -111,7 +110,6 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
             "subspecs": [
                 {
                     "type": "handle",
@@ -203,7 +201,6 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Circular",
             "subspecs": [
                 {
                     "type": "handle",

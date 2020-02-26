@@ -50,7 +50,8 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_goDataForCreate(
     const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, mapEntUWeight );
 
     goDUPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
-    goDUPtr->colliDataFromJpngPtr = planRef.colliDataFromJpngUPtr.get();
+    tprAssert( planRef.colliDataFromJsonUPtr );
+    goDUPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
 
     size_t randUWeightOff = mapEntUWeight;
     for( const auto &jgomesh : planRef.gomeshs ){ // each json goMesh

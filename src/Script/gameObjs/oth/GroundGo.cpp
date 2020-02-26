@@ -79,7 +79,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const auto &container = msParamPtr->job_fieldPtr->get_job_groundGoEnts();
 
 
-    goRef_.set_colliDataFromJpngPtr( ColliDataFromJpng_Nil::nillInstance.get() );
+    goRef_.set_colliDataFromJsonPtr( ColliDataFromJson_Nil::nillInstance.get() );
                                             // 丑陋的实现 
 
 
@@ -111,14 +111,6 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
         goMeshRef.set_colorTableId( jgEntPtr->colorTableId );
     }
     
-
-    /*
-    for( auto &[goMeshName, goMeshUPtr] : goRef_.get_goMeshs() ){
-        auto &goMeshRef = *goMeshUPtr;
-    }
-    */
-    
-
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
     goRef_.RenderUpdate = std::bind( &GroundGo::OnRenderUpdate,  _1 );   

@@ -18,7 +18,7 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "global.h"
-#include "Pjt_RGBAHandle.h"
+//#include "Pjt_RGBAHandle.h"
 #include "create_texNames.h"
 #include "load_and_divide_png.h"
 
@@ -50,7 +50,6 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
     IntVec2  pixNum_per_frame {};  //- 单帧画面 的 长宽 像素值 （会被存到 animAction 实例中）
     IntVec2  frameNum         {};  //- 画面中，横排可分为几帧，纵向可分为几帧
     size_t   totalFrameNum    {};  //- 目标png文件中，总 图元帧 个数
-    ColliderType  colliderType {}; //- 碰撞体类型: nil / circular / square
 
     std::vector<GLuint> tmpTexNames {}; //- 用于 create_texNames()
 
@@ -58,6 +57,8 @@ namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
     //===== funcs =====//
     void build_three_paths( const std::string &lpath_pic_ );
+
+    bool find_rootAnchor_in_Jpng( const RGBA &color_ )noexcept;
 
 
 }//-------------------- namespace: afs_inn end ------------------//
@@ -76,13 +77,11 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
                             bool                isHaveShadow_, //-- 将被记录到 animAction 数据中去
                             bool                isPjtSingleFrame_,
                             bool                isShadowSingleFrame_,
-                            ColliderType        colliderType_,
                             const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ ){
 
     afs_inn::build_three_paths( path_pic_ );
     afs_inn::frameNum = frameNum_;
     afs_inn::totalFrameNum = totalFrameNum_;
-    afs_inn::colliderType = colliderType_;
 
     this->isPJTSingleFrame = isPjtSingleFrame_;
     this->isShadowSingleFrame = isShadowSingleFrame_;
@@ -246,28 +245,28 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
 
     size_t pixNum = cast_2_size_t( afs_inn::pixNum_per_frame.x * 
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
-    Pjt_RGBAHandle  jh2 {5};
+
     glm::dvec2  pixDPos {}; //- current pix dpos
+    glm::dvec2  rootAnchorDPosOff {};
+
 
     if( this->isPJTSingleFrame ){
         //-- 此时，所有 actionName 都指向同一个 id --
         auto aaposId = afs_inn::lAnimActionPosIds.begin()->second;
-
-        AnimActionSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
             pixDPos.x = static_cast<double>( static_cast<int>(p)%afs_inn::pixNum_per_frame.x );
             pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
-            jh2.set_rgba(   &frameSemiData,
-                            afs_inn::J_frame_data_ary.at(0).at(p), //- 只有一帧 
-                            pixDPos );
-
+            if( afs_inn::find_rootAnchor_in_Jpng( afs_inn::J_frame_data_ary.at(0).at(p) ) ){
+                rootAnchorDPosOff = pixDPos;
+                break;
+            }
         }//------ each frame.pix ------
 
         //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-        this->animActionPosUPtrs.at(aaposId)->init_from_semiData( frameSemiData );
+        this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff );
 
     }else{
 
@@ -275,21 +274,21 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
             const AnimActionParam *paramPtr = animActionParams_.at(i).get();
             //---
             auto aaposId = afs_inn::lAnimActionPosIds.at(i);
-            AnimActionSemiData frameSemiData {afs_inn::colliderType}; // MUST create NewOne !!!
 
             for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
                 pixDPos.x = static_cast<double>( static_cast<int>(p)%afs_inn::pixNum_per_frame.x );
                 pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
-                jh2.set_rgba(   &frameSemiData,
-                                afs_inn::J_frame_data_ary.at(paramPtr->jFrameIdx).at(p),
-                                pixDPos );
+                if( afs_inn::find_rootAnchor_in_Jpng( afs_inn::J_frame_data_ary.at(paramPtr->jFrameIdx).at(p) ) ){
+                    rootAnchorDPosOff = pixDPos;
+                    break;
+                }
 
             }//------ each frame.pix ------
 
             //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-            this->animActionPosUPtrs.at(aaposId)->init_from_semiData( frameSemiData );
+            this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff );
         }
     }
 }
@@ -365,5 +364,16 @@ void build_three_paths( const std::string &path_pic_ ){
     path_shadow.assign( path_pic.begin(), lastIt );
     path_shadow += ".S.png";
 }
+
+
+
+bool find_rootAnchor_in_Jpng( const RGBA &color_ )noexcept{
+    if( color_.a < 250 ){
+        return false;
+    }
+    return ( is_closeEnough<uint8_t>( color_.r, 255, 10 ) );
+}
+
+
 
 }//-------------------- namespace: afs_inn end ------------------//

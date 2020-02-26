@@ -33,7 +33,7 @@
 #include "GameObjPos.h"
 #include "UIAnchor.h"
 #include "Collision.h"
-#include "ColliDataFromJpng.h"
+#include "ColliDataFromJson.h"
 #include "ActionSwitch.h" //- 将被取代...
 #include "PubBinary2.h"
 #include "ActionFSM.h"
@@ -99,15 +99,11 @@ public:
 
 
     //--------- rootAnimActionPos ----------//
-    inline const AnimActionPos &get_rootAnimActionPosRef()const noexcept{
-            tprAssert( this->rootAnimActionPosPtr );
-        return *(this->rootAnimActionPosPtr);
-    }
     inline Circular calc_circular( CollideFamily family_ )const noexcept{
-        return this->colliDataFromJpngPtr->calc_circular( this->get_dpos(), family_ );
+        return this->colliDataFromJsonPtr->calc_circular( this->get_dpos(), family_ );
     }
     inline Square calc_square()const noexcept{
-        return this->colliDataFromJpngPtr->calc_square( this->get_dpos() );
+        return this->colliDataFromJsonPtr->calc_square( this->get_dpos() );
     }
 
 
@@ -167,12 +163,12 @@ public:
 
     //---------------- set -----------------//
     inline void set_parentGoId( goid_t id_ )noexcept{ this->parentGoId = id_; }
-    inline void set_colliDataFromJpngPtr( const ColliDataFromJpng *ptr_ )noexcept{ this->colliDataFromJpngPtr = ptr_; }
+    inline void set_colliDataFromJsonPtr( const ColliDataFromJson *ptr_ )noexcept{ this->colliDataFromJsonPtr = ptr_; }
 
     //---------------- get -----------------//
     inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); } // 若为 false，需对齐到 像素
     inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
-    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJpngPtr->get_colliderType(); }
+    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJsonPtr->get_colliderType(); }
     inline goid_t get_parentGoId()const noexcept{ return this->parentGoId; }
     inline const std::set<goid_t> &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
 
@@ -314,10 +310,8 @@ private:
     DyBinary    pvtBinary {};//- 只存储 具象go类 内部使用的 各种变量
 
     std::unique_ptr<Collision>  collisionUPtr {nullptr};
-    const ColliDataFromJpng     *colliDataFromJpngPtr {nullptr}; // 一经init，永不改变
+    const ColliDataFromJson     *colliDataFromJsonPtr {nullptr}; // 一经init，永不改变
 
-
-    const AnimActionPos *rootAnimActionPosPtr {nullptr};
 };
 
 

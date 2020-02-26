@@ -38,8 +38,8 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.actionDirection.reset( goDataPtr->direction );
     goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
 
-
-    goRef_.set_colliDataFromJpngPtr( goDataPtr->colliDataFromJpngPtr );
+    tprAssert( goDataPtr->colliDataFromJsonPtr );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr->colliDataFromJsonPtr );
 
 
     //===== goMeshs =====//

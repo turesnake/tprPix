@@ -10,7 +10,7 @@
                 "isHaveShadow": true,
                 "isPjtSingle": true,
                 "isShadowSingle": false,
-                "ColliderType": "Circular",
+             
                 "subspecs": [
                     {
                         "type": "batch",
@@ -32,7 +32,7 @@
                 "isHaveShadow": true,
                 "isPjtSingle": true,
                 "isShadowSingle": false,
-                "ColliderType": "Circular",
+            
                 "subspecs": [
                     {
                         "type": "batch",
@@ -45,9 +45,6 @@
                     }
                 ]
             }
-    
-    
-    
         ]
     }
 ]

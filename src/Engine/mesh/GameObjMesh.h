@@ -164,8 +164,6 @@ public:
     inline double get_alti()const noexcept{ return this->alti; }
     inline double get_picBaseZOff() const noexcept{ return this->picBaseZOff; }
     inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
-    //inline DyBinary &get_pvtBinary()noexcept{ return this->pvtBinary; }
-
 
 
     inline std::pair<AnimAction::PlayType, AnimAction::State> get_animAction_state()const noexcept{

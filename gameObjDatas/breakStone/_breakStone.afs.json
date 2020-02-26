@@ -10,7 +10,6 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
             "subspecs": [
                 {
                     "type": "batch",

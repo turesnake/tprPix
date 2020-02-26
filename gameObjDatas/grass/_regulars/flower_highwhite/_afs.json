@@ -13,7 +13,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+
             "subspecs": [
                 {
                     "type": "handle",
@@ -44,7 +44,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+
             "subspecs": [
                 {
                     "type": "handle",
@@ -75,7 +75,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+  
             "subspecs": [
                 {
                     "type": "handle",
@@ -109,7 +109,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+
             "subspecs": [
                 {
                     "type": "handle",
@@ -140,7 +140,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+
             "subspecs": [
                 {
                     "type": "handle",
@@ -171,7 +171,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+  
             "subspecs": [
                 {
                     "type": "handle",
@@ -202,7 +202,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+ 
             "subspecs": [
                 {
                     "type": "handle",
@@ -233,7 +233,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+       
             "subspecs": [
                 {
                     "type": "handle",
@@ -264,7 +264,7 @@
             "isHaveShadow": true,
             "isPjtSingle": true,
             "isShadowSingle": false,
-            "ColliderType": "Square",
+    
             "subspecs": [
                 {
                     "type": "handle",

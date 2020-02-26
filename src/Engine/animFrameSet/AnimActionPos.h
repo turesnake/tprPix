@@ -22,55 +22,11 @@
 #include "GoAltiRange.h"
 #include "IntVec.h"
 #include "ColliderType.h"
-#include "ColliDataFromJpng.h"
+#include "ColliDataFromJson.h"
 #include "ID_Manager.h" 
 
 
-//-- 从 png文件 读取的 半成品数据 --
-class AnimActionSemiData{
-public:
-    AnimActionSemiData( ColliderType colliderType_ ):
-        colliderType(colliderType_)
-        {}
-    //----- set -----//
-    inline void set_rootAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{ 
-        tprAssert( !this->isRootAnchorSet );
-        this->isRootAnchorSet = true;
-        this->rootAnchor = v_; 
-    }
-    inline void set_moveColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{
-        tprAssert( !this->isMoveColliRadiusAnchorSet );
-        this->isMoveColliRadiusAnchorSet = true; 
-        this->moveColliRadiusAnchor = v_; 
-    }
-    inline void set_skillColliRadiusAnchor_onlyOnce( const glm::dvec2 &v_ )noexcept{
-        tprAssert( !this->isSkillColliRadiusAnchorSet );
-        this->isSkillColliRadiusAnchorSet = true; 
-        this->skillColliRadiusAnchor = v_; 
-    }
-    //----- get -----//
-    inline ColliderType get_colliderType() const noexcept{ return this->colliderType; }
-
-    inline const glm::dvec2 &get_rootAnchor()const noexcept{ tprAssert(this->isRootAnchorSet); return this->rootAnchor; }
-    inline const glm::dvec2 &get_moveColliRadiusAnchor()const noexcept{ tprAssert(this->isMoveColliRadiusAnchorSet); return this->moveColliRadiusAnchor; }
-    inline const glm::dvec2 &get_skillColliRadiusAnchor()const noexcept{ tprAssert(this->isSkillColliRadiusAnchorSet); return this->skillColliRadiusAnchor; }
-
-private:
-    ColliderType colliderType {};
-    //-- 一律是 左下角到 目标点的 偏移值 --
-    glm::dvec2  rootAnchor  {};
-    //glm::dvec2  tailAnchor  {};
-    glm::dvec2  moveColliRadiusAnchor {};
-    glm::dvec2  skillColliRadiusAnchor {};
-    //---- flags ----//
-    bool isRootAnchorSet {false};
-    bool isMoveColliRadiusAnchorSet  {false};
-    bool isSkillColliRadiusAnchorSet {false};
-};
-
-
 using animActionPosId_t = uint32_t; //- animActionPos id type
-
 
 
 //-- 仅用来描述 animFrameSet，所以必须是 静态数据 --//
@@ -79,15 +35,9 @@ class AnimActionPos{
 public:
     AnimActionPos() = default;
 
-    void init_from_semiData( const AnimActionSemiData &semiData_ );
+    void set_rootAnchorDPosOff( const glm::dvec2 &dposOff_ )noexcept{ this->rootAnchorDPosOff = dposOff_; }
 
-    //---- get ----//
     inline const glm::dvec2 &get_rootAnchorDPosOff() const noexcept{ return this->rootAnchorDPosOff; }
-
-    inline const ColliDataFromJpng *get_colliDataFromJpngPtr()const noexcept{ 
-        tprAssert( this->colliDataFromJpngUPtr );
-        return this->colliDataFromJpngUPtr.get();
-    }
 
     //======== static ========//
     static ID_Manager  id_manager; //- 负责生产 animActionPos_id
@@ -97,8 +47,6 @@ private:
                         //-- 最原始的数据，从 图元帧左下角ppos，到 rootAnchor点的 fposOff
                         //-- *** 不用对齐于 mapEnt ***
                         //-- 目前仅被用于 ChildMesh 渲染用
-
-    std::unique_ptr<ColliDataFromJpng> colliDataFromJpngUPtr {nullptr};
 };
 
 

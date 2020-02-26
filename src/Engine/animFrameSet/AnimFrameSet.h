@@ -46,7 +46,6 @@
 #include "RGBA.h" 
 #include "AnimActionPos.h"
 #include "AnimAction.h"
-#include "ColliderType.h"
 #include "AnimSubspecies.h"
 
 #include "tprDebug.h"
@@ -67,7 +66,6 @@ public:
                 bool                isHaveShadow_,
                 bool                isPjtSingleFrame_,
                 bool                isShadowSingleFrame_,
-                ColliderType        colliderType_,
                 const std::vector<std::shared_ptr<AnimActionParam>> &animActionParams_ );
 
     inline const std::vector<GLuint> *get_texNames_pic_ptr() const noexcept{

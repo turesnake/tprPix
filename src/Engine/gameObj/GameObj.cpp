@@ -12,6 +12,8 @@
 
 //-------------------- Engine --------------------//
 #include "Chunk.h"
+#include "GoSpecFromJson.h"
+
 #include "esrc_chunk.h"
 #include "esrc_shader.h"
 #include "esrc_coordinate.h"
@@ -133,9 +135,11 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
     }
     
     //-- rootColliEntHeadPtr --//
+    /*
     if( name_ == std::string{"root"} ){
         this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();
     }
+    */
 
     return gmesh;
 }
@@ -147,19 +151,7 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
  */
 void GameObj::init_check(){
 
-    tprAssert( this->rootAnimActionPosPtr );
-
-
-    
-    //this->colliDataFromJpngPtr = this->rootAnimActionPosPtr->get_colliDataFromJpngPtr();
-
-    if( !this->colliDataFromJpngPtr ){
-        this->colliDataFromJpngPtr = this->rootAnimActionPosPtr->get_colliDataFromJpngPtr();
-    }
-    tprAssert( this->colliDataFromJpngPtr );
-
-
-
+    tprAssert( this->colliDataFromJsonPtr );
 
     //---
     if( (this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup) ){
@@ -171,7 +163,7 @@ void GameObj::init_check(){
         if( this->get_colliderType() == ColliderType::Circular  ){
             //-- 主动调用，init signINMapEnts --- MUST!!!
             this->collisionUPtr->init_signInMapEnts_circle( this->get_dpos(),
-                        std::bind( &ColliDataFromJpng::get_colliPointDPosOffs, this->colliDataFromJpngPtr ) );
+                        std::bind( &ColliDataFromJson::get_colliPointDPosOffs, this->colliDataFromJsonPtr ) );
         }
     }
 
@@ -188,8 +180,7 @@ void GameObj::init_check(){
  */
 void GameObj::rebind_rootAnimActionPosPtr(){
     //-- 仅在 root gomesh 切换 action 时才被调用 ！！！
-    auto &gmesh = *(this->goMeshs.at("root"));
-    this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();
+    // do nothing 
 }
 
 

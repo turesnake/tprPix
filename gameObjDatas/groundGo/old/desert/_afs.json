@@ -9,7 +9,7 @@
             "totalFrameNum": 6,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+   
             "subspecs": [
                 {
                     "type": "batch",
@@ -29,7 +29,7 @@
             "totalFrameNum": 4,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+       
             "subspecs": [
                 {
                     "type": "batch",
@@ -49,7 +49,7 @@
             "totalFrameNum": 4,
             "isHaveShadow": false,
             "isPjtSingle": true,
-            "ColliderType": "Nil",
+        
             "subspecs": [
                 {
                     "type": "batch",

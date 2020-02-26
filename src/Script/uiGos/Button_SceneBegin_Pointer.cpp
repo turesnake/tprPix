@@ -51,6 +51,9 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
     goRef_.actionDirection.reset( NineDirection::Center );
     goRef_.brokenLvl.reset( BrokenLvl::Lvl_0 );
 
+    goRef_.set_colliDataFromJsonPtr( ColliDataFromJson_Nil::nillInstance.get() );
+                                            // 丑陋的实现 
+
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //-- 制作 mesh 实例: "root" --
