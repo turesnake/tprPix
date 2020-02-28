@@ -21,6 +21,7 @@
 #include "IntVec.h" 
 #include "GoAltiRange.h"
 #include "MapCoord.h"
+#include "chunkKey.h"
 #include "EcoSysPlanType.h"
 #include "MapAltitude.h"
 #include "GameObjType.h"
@@ -80,8 +81,9 @@ public:
         tprAssert( eraseNum == 1 );
     }
 
-    inline void set_bioSoup_goid( goid_t goid_ )noexcept{ 
+    inline void set_bioSoup_goid( goid_t goid_, GameObjFamily family_ )noexcept{ 
 
+        tprAssert( family_ == GameObjFamily::BioSoup );
         tprAssert( this->bioSoupGo == 0 ); // 一定要先合法地释放掉旧元素后，再登记新元素。禁止直接覆盖！
         this->bioSoupGo = goid_;
         //--
@@ -91,8 +93,9 @@ public:
 
     //- 当一个 bioSoupGo 被杀死时，才会被调用
     //  自动释放一个 chunk 时，并不需要调用此函数
-    inline void erase_square_goid( goid_t goid_ )noexcept{
+    inline void erase_bioSoup_goid( goid_t goid_, GameObjFamily family_ )noexcept{
 
+        tprAssert( family_ == GameObjFamily::BioSoup );
         tprAssert( goid_ == this->bioSoupGo );
         this->bioSoupGo = 0; // null
         //--
@@ -102,24 +105,19 @@ public:
 
     
     inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos_; }
+    inline void set_chunkKey(chunkKey_t key_)noexcept{ this->chunkKey = key_; }
     inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
     inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorTableId = id_; }
     inline void set_density(Density d_)noexcept{ this->density = d_; }
     inline void set_mapAlti( MapAltitude alti_ )noexcept{ this->mapAlti = alti_; }
     inline void set_isBorder( bool b_ )noexcept{ this->isBorder = b_; }
 
-    /*
-    inline void set_perlin( double originPerlin_, size_t uWeight_ ){
-        this->originPerlin = originPerlin_;
-        this->uWeight = uWeight_;
-    }
-    */
-
     inline void set_uWeight( double v_ )noexcept{ this->uWeight = v_; }
 
 
     inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
+    inline chunkKey_t       get_chunkKey() const noexcept{ return this->chunkKey; }
     inline sectionKey_t     get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
     inline colorTableId_t   get_colorTableId()const noexcept{ return this->colorTableId; }
     inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
@@ -138,6 +136,7 @@ private:
 
     MapAltitude   mapAlti     {}; //- 本 mapent 中点pix 的 alti
 
+    chunkKey_t          chunkKey  {};
     sectionKey_t        ecoObjKey {};
     colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};

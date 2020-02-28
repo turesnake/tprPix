@@ -24,7 +24,18 @@
                 { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
                 { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
+        },
+        
+        {
+            "Notes": " 篝火 ",
+            "type": "V_4",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
+            ]
         }
+
     ],
 
     "yardObjs":[
@@ -95,7 +106,18 @@
                 { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
                 { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
+        },
+
+        {
+            "Notes": " 篝火 ",
+            "type": "V_4",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
+            ]
         }
+        
     ],
 
     "yardObjs":[

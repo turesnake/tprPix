@@ -2,7 +2,7 @@
 {
     "name": "Forest_1",
     "EcoSysPlanType": "Forest",
-    "colorTableName": "poplarForest",
+    "colorTableName": "forest",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",
 

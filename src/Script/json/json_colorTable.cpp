@@ -21,6 +21,7 @@
 #include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
+#include "EcoSysPlanType.h"
 
 #include "json_oth.h"
 
@@ -84,10 +85,13 @@ void parse_single_colorTableJsonFile( const std::string &path_file_ ){
     tprAssert( doc.IsArray() );
     for( auto &ent : doc.GetArray() ){
 
-        std::string colorTableName {};        
-        std::string colorName {};
-        FloatVec4   colorVal {};
-        int         iChannel {};
+        std::string     colorTableName {}; 
+        //--
+        EcoSysPlanType  ecoSysPlanType {};   
+        //--
+        std::string     colorName {};
+        FloatVec4       colorVal {};
+        int             iChannel {};
         std::vector<float> fChannels {};
 
         {//--- colorTableName ---//
@@ -95,7 +99,15 @@ void parse_single_colorTableJsonFile( const std::string &path_file_ ){
             colorTableName = a.GetString();
         }
 
-        ColorTable &colorTableRef = colorTableSetRef.apply_new_colorTable( colorTableName );
+        auto [colorTableId, colorTablePtr] = colorTableSetRef.apply_new_colorTable( colorTableName );
+
+        {//--- ecoSysPlanType ---//
+            const auto &a = check_and_get_value( ent, "ecoSysPlanType", JsonValType::String );
+            std::string typeStr = a.GetString();
+            if( typeStr != "" ){
+                colorTableSetRef.insert_2_ecoSysPlanTypes( colorTableId, str_2_ecoSysPlanType(typeStr) );
+            }
+        }
 
         {//--- colors ---//
             const auto &colors = check_and_get_value( ent, "colors", JsonValType::Array );
@@ -120,11 +132,11 @@ void parse_single_colorTableJsonFile( const std::string &path_file_ ){
                     colorVal.b = fChannels[2];
                     colorVal.a = fChannels[3];
                 }
-                colorTableRef.insert_a_color( colorName, colorVal );
+                colorTablePtr->insert_a_color( colorName, colorVal );
             } 
         }
 
-        colorTableRef.final_check();
+        colorTablePtr->final_check();
     }
     colorTableSetRef.final_check();
 

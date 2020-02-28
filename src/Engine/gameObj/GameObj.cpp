@@ -14,6 +14,7 @@
 #include "Chunk.h"
 #include "GoSpecFromJson.h"
 
+
 #include "esrc_chunk.h"
 #include "esrc_shader.h"
 #include "esrc_coordinate.h"
@@ -197,30 +198,24 @@ size_t GameObj::reCollect_chunkKeys(){
     tprAssert( (this->family==GameObjFamily::Major) || (this->family==GameObjFamily::BioSoup) );
     this->chunkKeys.clear();
 
-    //---------------//
-    //     BioSoup
-    //---------------//
-    if( this->family == GameObjFamily::BioSoup ){
-        this->chunkKeys.insert( anyMPos_2_chunkKey( dpos_2_mpos(this->get_dpos()) ) ); // only one
-        return this->chunkKeys.size();
-    }
-
-    //---------------//
-    //     Major
-    //---------------//
     auto colliType = this->get_colliderType();
     if( colliType == ColliderType::Circular ){
+        // only MajorGo
         for( const auto &mpos : this->get_collisionRef().get_current_signINMapEnts_circle_ref() ){
             this->chunkKeys.insert( anyMPos_2_chunkKey(mpos) ); // maybe
         }
 
     }else if( colliType == ColliderType::Square ){
-        this->chunkKeys.insert( anyMPos_2_chunkKey( dpos_2_mpos(this->get_dpos()) ) ); // only one
+        // MajorGo / BioSoupGo
+        IntVec2 goRootMPos = dpos_2_mpos(this->get_dpos());
+        for( const auto &mposOff : this->get_signInMapEnts_square_ref().get_all_mapEntOffs() ){
+            this->chunkKeys.insert( anyMPos_2_chunkKey( goRootMPos + mposOff ) ); // maybe
+        }
 
     }else{
         tprAssert(0);
     }
-    //---
+    //===
     return this->chunkKeys.size();
 }
 

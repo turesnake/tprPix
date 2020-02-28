@@ -21,7 +21,11 @@
 
 
         "afs_lPaths": [ 
-            "_afs.json"
+            "darkForest/_afs.json",
+            "desert/_afs.json",
+            "forest/_afs.json",
+            "savannah/_afs.json"
+            
         ],
         "goAsm_lPaths": [
             "_asm.json"

@@ -8,7 +8,7 @@
 
         "plans":[
             {
-                "goLabel": "campfire_fire",
+                "goLabel": "Fire",
 
                 "collide":{
                     "collideType": "Square",
@@ -16,8 +16,8 @@
                 },
 
                 "goMeshs":[
-                    { "goMeshName": "root", "zOff": 0.0, "afsName": "campfire_base", "animLabel": ""  },
-                    { "goMeshName": "fire", "zOff": 0.1, "afsName": "campfire_fire", "animLabel": ""  }
+                    { "goMeshName": "root", "zOff": 0.0, "afsName": "campfire_base", "animLabel": "", "animAction": "Idle"  },
+                    { "goMeshName": "fire", "zOff": 0.1, "afsName": "campfire_fire", "animLabel": "", "animAction": "Burn"  }
                 ]
             }
         ]

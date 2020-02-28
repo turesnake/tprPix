@@ -23,9 +23,7 @@
 
 class SignInMapEnts_Square{
 public:
-    SignInMapEnts_Square()=default;
-
-    inline const std::vector<IntVec2> &get_weakMapEntOffs()const noexcept{ return this->weakMapEntOffs; }
+    inline const std::vector<IntVec2> &get_all_mapEntOffs()const noexcept{ return this->mapEntOffs; }
     inline const glm::dvec2 &get_rootMapEntMid_2_rootAnchor_dposOff()const noexcept{ return this->rootMapEntMid_2_rootAnchor_dposOff; }
     
 
@@ -40,18 +38,20 @@ public:
 
 
 private:
-    //SignInMapEnts_Square()=default;
+    SignInMapEnts_Square()=default;
 
     static void init_for_static()noexcept;
 
     static inline SignInMapEnts_Square &insert_new_signInMapEnts_square( SignInMapEnts_Square_Type type_ )noexcept{
-        auto [insertIt, insertBool] = SignInMapEnts_Square::dataUPtrs.insert({ type_, std::make_unique<SignInMapEnts_Square>() });
+
+        std::unique_ptr<SignInMapEnts_Square> uptr ( new SignInMapEnts_Square() ); // can't use std::make_unique
+        auto [insertIt, insertBool] = SignInMapEnts_Square::dataUPtrs.insert({ type_, std::move(uptr) });
         tprAssert( insertBool );
         return *(insertIt->second);
     }
 
     //-------- vals --------//
-    std::vector<IntVec2> weakMapEntOffs {}; 
+    std::vector<IntVec2> mapEntOffs {}; 
                     // 每个 squGo,恒定拥有一个 rootMP (off={0,0}
                     // 以及 0～n 个 weakMP
 

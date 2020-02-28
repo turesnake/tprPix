@@ -19,7 +19,7 @@
 namespace chunkRelease {//------- namespace: chunkRelease ----------//
 namespace cr_inn {//----------- namespace: cr_inn ----------------//
 
-    void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
+    void quit_edgeGos_from_mapEnt( Chunk &chunkRef_ );
 
 }//-------------- namespace: cr_inn end ----------------//
 
@@ -53,8 +53,7 @@ void release_one_chunk(){
     }
 
     chunkKey_t chunkKey = chunkKeyOpt.value();
-    auto &chunkRef = esrc::get_chunkRef_onReleasing( chunkKey ); 
-
+    Chunk &chunkRef = esrc::get_chunkRef_onReleasing( chunkKey ); 
     IntVec2 chunkMPos = chunkKey_2_mpos(chunkKey);
     
     //------------------------------//
@@ -66,7 +65,7 @@ void release_one_chunk(){
     //-- 将部分go 存入 db --
     // 未实现...
 
-    cr_inn::quit_edgeGos_from_mapEnt( chunkRef, chunkKey, chunkMPos );
+    cr_inn::quit_edgeGos_from_mapEnt( chunkRef );
 
     //-- 删除本chunk 的所有 go 实例 --
     for( auto &goid : chunkRef.get_goIds() ){//- foreach goIds
@@ -102,46 +101,56 @@ namespace cr_inn {//----------- namespace: cr_inn ----------------//
 
 /* 遍历 目标chunk 的 edgeGos，将它们在 周边chunk 的 mapent 上的所有 signUp，都注销
  * edgeGo 在本chunk 上的登记，以及 非edgeGo 在本chunk 上的登记，就不用注销了
- * 在后面 一股脑删除即可
+ * 这些会在后面 一股脑 统一删除
  */
-void quit_edgeGos_from_mapEnt( Chunk &chunkRef_, chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
+void quit_edgeGos_from_mapEnt( Chunk &chunkRef_ ){
+
+    chunkKey_t chunkKey = chunkRef_.get_key();
 
     chunkKey_t tmpChunkKey  {};
-    //--
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
         auto &goRef = esrc::get_goRef(goid );
         auto colliderType = goRef.get_colliderType();
-
         if( colliderType == ColliderType::Circular ){
-
+            // only MajorGo
             for( const auto &mpos : goRef.get_collisionRef().get_current_signINMapEnts_circle_ref() ){
                 tmpChunkKey = anyMPos_2_chunkKey(mpos);
-                if( chunkKey_ != tmpChunkKey ){ // 只释放 非本chunk 的
-
-                    if( esrc::get_chunkMemState(tmpChunkKey) == ChunkMemState::Active ){
-                        //---- 正式从 mapEnt 上清除登记 -----
-                        auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
-                        tprAssert( mapEntPair.first == ChunkMemState::Active );
-                        mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
-                    }
+                if( (chunkKey!=tmpChunkKey) && (esrc::get_chunkMemState(tmpChunkKey)==ChunkMemState::Active) ){
+                    // mp所在chunk 非本chunk，且 Active
+                    //---- 正式从 mapEnt 上清除登记 -----
+                    auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+                    tprAssert( mapEntPair.first == ChunkMemState::Active );
+                    mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
                 }
             }
 
         }else if( colliderType == ColliderType::Square ){
-            
-            // 等待实现 ....
+            // MajorGo / BioSoupGo
+            IntVec2 mpos {};
+            IntVec2 goRootMPos = dpos_2_mpos( goRef.get_dpos() );
+            for( const auto &mposOff : goRef.get_signInMapEnts_square_ref().get_all_mapEntOffs() ){
+                mpos = goRootMPos + mposOff;
+                
+                tmpChunkKey = anyMPos_2_chunkKey(mpos);
+                if( (chunkKey!=tmpChunkKey) && (esrc::get_chunkMemState(tmpChunkKey)==ChunkMemState::Active) ){
+                    // mp所在chunk 非本chunk，且 Active
+                    //---- 正式从 mapEnt 上清除登记 -----
+                    auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
+                    tprAssert( mapEntPair.first == ChunkMemState::Active );
 
-
+                    if( goRef.family == GameObjFamily::Major ){
+                        mapEntPair.second->erase_square_goid( goRef.id, goRef.get_colliderType() );
+                    }else if( goRef.family == GameObjFamily::BioSoup ){
+                        mapEntPair.second->erase_bioSoup_goid( goRef.id, goRef.family );
+                    }else{
+                        tprAssert(0);
+                    }
+                }
+            }
         }else{
             tprAssert(0);
         }
-
-
-
-
-
-
 
     }
 }

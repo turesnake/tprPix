@@ -4,10 +4,6 @@
  *                                        CREATE -- 2019.04.10
  *                                        MODIFY -- 
  * ----------------------------------------------------------
- * 
- *  也许应该被 移动到 engine 中去
- * 
- * -----------
  */
 #ifndef TPR_CREATE_GOES_H
 #define TPR_CREATE_GOES_H
@@ -25,6 +21,10 @@
 
 //--- need ---//
 class Job_Chunk;
+class GameObj;
+class DiskGameObj;
+
+
 
 void create_gos_in_field(   fieldKey_t fieldKey_, 
                             const Chunk &chunkRef_,
@@ -43,7 +43,26 @@ void rebind_a_disk_Go(  goid_t          diskGoId_,
                         const glm::dvec2 &dpos_,
                         const DyParam &dyParams_  );
 
+// by hand
+goid_t create_go_from_goDataForCreate( const GoDataForCreate *goDPtr_ );
+
+
+void rebind_diskGo_by_hand(   const DiskGameObj &diskGo_ );
+
+
+void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ );
+
+
 }//------------- namespace gameObjs: end ----------------
+
+
+
+
+
+
+
+
+
 
 
 namespace uiGos{//------------- namespace uiGos ----------------
@@ -59,6 +78,14 @@ goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const DyParam &dyParams_ );
 
 }//------------- namespace uiGos: end ----------------
+
+
+
+
+
+
+
+
 
 #endif 
 

@@ -44,6 +44,7 @@
 #include "History.h"
 #include "GoFunctorSet.h"
 #include "ShaderType.h"
+#include "SignInMapEnts_Square.h"
 
 
 //--- 一个仍在建设中的 丑陋的 大杂烩 ----//
@@ -106,12 +107,9 @@ public:
         return this->colliDataFromJsonPtr->calc_square( this->get_dpos() );
     }
 
-
     inline GoAltiRange get_currentGoAltiRange()noexcept{
         return (this->get_pos_lAltiRange() + this->get_pos_alti());
     }
-
-
 
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
@@ -121,18 +119,7 @@ public:
         return *(this->goMeshs.at(name_));
     }
 
-    void debug();
-
-
-    //-- pos sys --    
-    std::function<void(const glm::dvec2 &)>     accum_dpos          {nullptr};
-    std::function<void(double)>                 set_pos_alti        {nullptr};
-    std::function<void(GoAltiRange)>            set_pos_lAltiRange  {nullptr};
-    std::function<const glm::dvec2 &()>         get_dpos            {nullptr};
-    std::function<double()>                     get_pos_alti        {nullptr};
-    std::function<GoAltiRange()>                get_pos_lAltiRange  {nullptr};
     
-
     inline void render_all_goMesh()noexcept{
         for( auto &pairRef : this->goMeshs ){
             pairRef.second->RenderUpdate_auto();
@@ -179,6 +166,21 @@ public:
         return *(this->collisionUPtr); 
     }
 
+    inline const SignInMapEnts_Square &get_signInMapEnts_square_ref()const noexcept{
+        return SignInMapEnts_Square::get_signInMapEnts_square_ref( this->colliDataFromJsonPtr->get_signInMapEnts_square_type() );
+    }
+
+
+    void debug();
+
+
+    //-- pos sys --    
+    std::function<void(const glm::dvec2 &)>     accum_dpos          {nullptr};
+    std::function<void(double)>                 set_pos_alti        {nullptr};
+    std::function<void(GoAltiRange)>            set_pos_lAltiRange  {nullptr};
+    std::function<const glm::dvec2 &()>         get_dpos            {nullptr};
+    std::function<double()>                     get_pos_alti        {nullptr};
+    std::function<GoAltiRange()>                get_pos_lAltiRange  {nullptr};
 
     //---------------- callback -----------------//
     // 这些 函数对象 可以被放入 private,然后用 函数调用来 实现绑定...
@@ -199,7 +201,7 @@ public:
     F_AFFECT BeAffect_body    {nullptr};   
         // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
-    //----------------- self vals ---------------//
+    //=============== Self Values ===============//
     goid_t              id;  
     goSpeciesId_t       speciesId  {0};
     goLabelId_t         goLabelId  {};
@@ -225,9 +227,6 @@ public:
                                     // 进一步会影响其 外貌
                                     // 未实现 ...
 
-    
-
-    
     //---
     Move         move;
 

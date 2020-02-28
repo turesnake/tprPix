@@ -40,7 +40,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "campfire", "goLabel": "campfire_fire", "animLabel": "", "num": 1 }
+                        { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
                     ]
                 },
 
@@ -50,7 +50,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "pot", "goLabel": "", "animLabel": "", "num": 1 }
+                        { "goSpeciesName": "pot", "goLabel": "", "num": 1 }
                     ]
                 },
 
@@ -80,7 +80,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "animLabel": "", "num": 1 }
+                        { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 }
                     ]
                 },
 
@@ -90,7 +90,7 @@
                     "isFloorGo": false,
                     "isAllInstanceUseSamePlan": false,
                     "goSpecPool":[
-                        { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "animLabel": "", "num": 1 }
+                        { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 }
                     ]
                 },
 

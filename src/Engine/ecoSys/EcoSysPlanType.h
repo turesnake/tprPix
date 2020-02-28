@@ -32,8 +32,7 @@ enum class EcoSysPlanType : uint32_t{
     //-- 确保所有 type 连续存放 --
     Forest,
     DarkForest,
-    Plain,  
-    Swamp,
+    Savannah,  
     Desert,
 
     //----

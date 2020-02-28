@@ -25,25 +25,16 @@
 
 
 
-struct DyParams_Blueprint{    
-    size_t                  mapEntUWeight {}; // 其实是 mapEntKey 
+struct DyParams_GoDataForCreate{    
+    //size_t                  mapEntUWeight {}; // 其实是 mapEntKey 
     const GoDataForCreate   *goDataPtr {};
 };
 
 
 struct DyParams_GroundGo{
-    size_t      fieldUWeight  {};
+    size_t            fieldUWeight  {};
     const Job_Field  *job_fieldPtr {};
 };
-
-/*
-struct DyParams_RiverBank{    
-    size_t                  mapEntUWeight {}; // 其实是 mapEntKey 
-    //...
-};
-*/
-
-
 
 
 #endif 

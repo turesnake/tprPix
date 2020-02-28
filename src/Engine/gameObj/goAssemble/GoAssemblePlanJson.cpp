@@ -132,6 +132,7 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         RenderLayerType         renderLayerType {};
         ShaderType              shaderType   {};
         bool                    isVisible {};
+        bool                    isAutoInit {};
 
         NineDirection           default_dir {};
         BrokenLvl               default_brokenLvl {};
@@ -322,15 +323,29 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
 
                 mgmj_inn::Json_GoMeshEnt json_GoMeshEnt {};
 
+                //--- isAutoInit ---//
+                if( goMesh.HasMember("isAutoInit") ){
+                    const auto &a = json::check_and_get_value( goMesh, "isAutoInit", json::JsonValType::Bool );
+                    json_GoMeshEnt.isAutoInit = a.GetBool();
+                }else{
+                    json_GoMeshEnt.isAutoInit = true; // Default
+                }
+
+
                 //--- goMeshName ---//
                 if( goMesh.HasMember("goMeshName") ){
                     const auto &a = json::check_and_get_value( goMesh, "goMeshName", json::JsonValType::String );
                     std::string readName = a.GetString();
-                    // 第一个元素必须命名为 "root"，后面的元素，必须不能为 "root"
-                    if( goMeshIdx == 0 ){
-                        tprAssert( readName == "root" );
+
+                    if( json_GoMeshEnt.isAutoInit ){
+                        // 第一个元素必须命名为 "root"，后面的元素，必须不能为 "root"
+                        if( goMeshIdx == 0 ){
+                            tprAssert( readName == "root" );
+                        }else{
+                            tprAssert( readName != "root" );
+                        }
                     }else{
-                        tprAssert( readName != "root" );
+                        // 当 gomesh 并不需要 auto init 时，不对其 name 做要求
                     }
                     json_GoMeshEnt.goMeshName = readName;
                 }else{
@@ -341,6 +356,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                         json_GoMeshEnt.goMeshName = tprGeneral::nameString_combine("m_", goMeshIdx, ""); // "m_1", "m_2"
                     }
                 }
+
 
                 //--- dpos ---//
                 if( goMesh.HasMember("dpos") ){
@@ -709,6 +725,7 @@ void aseembel_jsonPlan_2_plan(  GoAssemblePlanSet &goAssemblePlanSetRef_, const 
         goMeshEnt.renderLayerType = json_GoMeshEntRef.renderLayerType;
         goMeshEnt.shaderType = json_GoMeshEntRef.shaderType;
         goMeshEnt.isVisible = json_GoMeshEntRef.isVisible;
+        goMeshEnt.isAutoInit = json_GoMeshEntRef.isAutoInit;
 
         goMeshEnt.default_dir = json_GoMeshEntRef.default_dir;
         goMeshEnt.default_brokenLvl = json_GoMeshEntRef.default_brokenLvl;
@@ -717,7 +734,7 @@ void aseembel_jsonPlan_2_plan(  GoAssemblePlanSet &goAssemblePlanSetRef_, const 
         goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
 
         //---
-        planRef_.gomeshs.push_back( goMeshEnt );
+        planRef_.gomeshs.insert({ goMeshEnt.goMeshName, goMeshEnt });
     }
 }
 

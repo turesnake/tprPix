@@ -1,6 +1,7 @@
 [
   {
     "colorTableName": "origin",
+    "ecoSysPlanType": "",
     "colors": [
         { "name": "base_0", "color": [ 240, 240, 240, 255 ] },
         { "name": "base_1", "color": [ 200, 200, 200, 255 ] },
@@ -15,6 +16,7 @@
   },
   {
     "colorTableName": "desert",
+    "ecoSysPlanType": "Desert",
     "colors": [
         { "name": "base_0", "color": [ 250, 246, 216, 255 ] },
         { "name": "base_1", "color": [ 213, 209, 186, 255 ] },
@@ -29,6 +31,7 @@
   },
   {
     "colorTableName": "savannah",
+    "ecoSysPlanType": "Savannah",
     "colors": [
         { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
         { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
@@ -42,7 +45,8 @@
     ]
   },
   {
-    "colorTableName": "poplarForest",
+    "colorTableName": "forest",
+    "ecoSysPlanType": "Forest",
     "colors": [
         { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
         { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
@@ -57,6 +61,7 @@
   },
   {
     "colorTableName": "darkForest",
+    "ecoSysPlanType": "DarkForest",
     "colors": [
         { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
         { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
@@ -74,6 +79,7 @@
   },
   {
     "colorTableName": "blackLand",
+    "ecoSysPlanType": "",
     "colors": [
         { "name": "base_0", "color": [ 252, 247, 213, 255 ] },
         { "name": "base_1", "color": [ 209, 205, 178, 255 ] },
@@ -87,3 +93,4 @@
     ]
   }
 ]
+

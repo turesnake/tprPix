@@ -22,10 +22,10 @@
 void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ dyParams =================//
-    // 假定都使用 DyParams_Blueprint
+    // 假定都使用 DyParams_GoDataForCreate
     size_t typeHash = dyParams_.get_typeHash();
-    tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
-    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    tprAssert( typeHash == typeid(DyParams_GoDataForCreate).hash_code() );
+    const DyParams_GoDataForCreate *bpParamPtr = dyParams_.get_binaryPtr<DyParams_GoDataForCreate>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
 
     //-- set lAltiRange ---
@@ -44,7 +44,7 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
 
     //===== goMeshs =====//
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
 
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

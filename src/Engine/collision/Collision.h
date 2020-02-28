@@ -56,17 +56,9 @@ public:
 
 
     //-- only call in go init --
-    inline void init_signInMapEnts_circle( const glm::dvec2 &newGoDPos_, F_get_colliPointDPosOffsRef func_1_ )noexcept{
-        tprAssert( this->signInMapEnts.index() == 0 ); // must be: {}
-        this->signInMapEnts = std::make_unique<SignInMapEnts_Circle>( newGoDPos_, func_1_ );
+    inline void init_signInMapEnts_circle( const glm::dvec2 &newGoDPos_, F_get_colliPointDPosOffsRef func_1_ )noexcept{  
+        this->signInMapEnts_cir_uptr = std::make_unique<SignInMapEnts_Circle>( newGoDPos_, func_1_ );
     }
-
-
-    inline void set_signInMapEnts_Square_Type( SignInMapEnts_Square_Type type_ )noexcept{
-        tprAssert( this->signInMapEnts.index() == 0 ); // must be: {}
-        this->signInMapEnts = type_;
-    }
-
 
     inline void set_isDoPass( bool val_ )noexcept{ this->isDoPass = val_; }
     inline void set_isBePass( bool val_ )noexcept{ this->isBePass = val_; }
@@ -90,30 +82,10 @@ public:
     }
 
     inline const std::set<IntVec2> &get_current_signINMapEnts_circle_ref()const noexcept{
-        return this->get_signInMapEnts_circle().get_currentSignINMapEntsRef();
-    }
-
-    inline SignInMapEnts_Square_Type get_signInMapEnts_Square_Type()noexcept{
-        auto valPtr = std::get_if<SignInMapEnts_Square_Type>( &this->signInMapEnts );
-        tprAssert( valPtr );
-        return *valPtr;
-    }
-    
+        return this->signInMapEnts_cir_uptr->get_currentSignINMapEntsRef();
+    }    
 
 private:
-
-    inline SignInMapEnts_Circle &getnc_signInMapEnts_circle()noexcept{
-        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts_Circle>>( &this->signInMapEnts );
-        tprAssert( valPtr );
-        return **valPtr;
-    }
-    inline const SignInMapEnts_Circle &get_signInMapEnts_circle()const noexcept{
-        auto valPtr = std::get_if<std::unique_ptr<SignInMapEnts_Circle>>( &this->signInMapEnts );
-        tprAssert( valPtr );
-        return **valPtr;
-    }
-
-
     std::pair<bool, glm::dvec2> collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ );
     std::pair<bool, glm::dvec2> collect_IntersectBegos_and_truncate_moveVec( const glm::dvec2 &moveVec_ );
 
@@ -123,11 +95,8 @@ private:
     //======== vals ========//
     GameObj    &goRef;
 
-    // 如果未来，cirGo / squGo 的数据进一步膨胀，可以整合为两份 class
-    std::variant<   std::monostate, // 当变量为空时，v.index() 返回 0
-                    std::unique_ptr<SignInMapEnts_Circle>, // only for cirGo
-                    SignInMapEnts_Square_Type // only for squGo
-                    > signInMapEnts {}; 
+    // 仅被 cir-dogo 使用 
+    std::unique_ptr<SignInMapEnts_Circle> signInMapEnts_cir_uptr {nullptr};
 
     
     //======== flags ========//

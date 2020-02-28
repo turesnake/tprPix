@@ -22,7 +22,6 @@
 #include "create_goes.h"
 #include "GoSpecFromJson.h"
 
-#include "create_go_by_hand.h" // tmp
 
 
 using namespace std::placeholders;
@@ -67,16 +66,23 @@ void Player::bind_go( goid_t goid_ ){
         //-- create playerGoCircle --//
         // 和 常规go 一样， playerGoCircle 也会被登记到 chunk 上，但不参与 碰撞检测
         glm::dvec2 newGoDPos = newGoRef.get_dpos();
-        this->playerGoCircle_goid = create_go_by_hand(GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
-                                                            GoAssemblePlanSet::str_2_goLabelId(""),
-                                                            dpos_2_mpos(newGoDPos),
-                                                            newGoDPos,
-                                                            NineDirection::Center,
-                                                            BrokenLvl::Lvl_0
-                                                            ); 
+
+
+        auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                                                    dpos_2_mpos(newGoDPos),
+                                                    newGoDPos,
+                                                    GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
+                                                    GoAssemblePlanSet::str_2_goLabelId(""),
+                                                    NineDirection::Center,
+                                                    BrokenLvl::Lvl_0
+                                                    );
+        this->playerGoCircle_goid = gameObjs::create_go_from_goDataForCreate( goDataUPtr.get() );
+
 
                     //cout << "playerGoCir_goid: " << this->playerGoCircle_goid
                     //    << endl;
+
+
         
         //-- playerGoCircle 的数据同步 --
         GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
@@ -97,43 +103,7 @@ void Player::bind_go( goid_t goid_ ){
         this->goid = goid_;
 
         //-- reset playerGoCircle mpos --//
-
-
     }
-
-
-                    //------
-
-
-    //-- 若是第一次调用，生成 playerGoCircle 实例 --//
-    /*
-    if( this->goid == NULLID ){
-        this->playerGoCircle_goid = gameObjs::create_a_Go(  ssrc::str_2_goSpeciesId("playerGoCircle"),
-                                                            IntVec2{0,0},
-                                                            emptyDyParam );
-    }
-    */
-
-    //-- 解绑旧go --//
-    /*
-    if( this->goid != NULLID ){
-        GameObj &oldGoRef = esrc::get_goRef( this->goid );
-        oldGoRef.isControlByPlayer = false;
-    }
-    */
-
-    //=== 检测 chunk 中的 go数据 是否被 实例化到 mem态 ===//
-    //...
-
-    /*
-    tprAssert( goid_ != NULLID );
-    GameObj &newGoRef = esrc::get_goRef( goid_ );
-    newGoRef.isControlByPlayer = true;
-    this->goid = goid_;
-    */
-
-    //-- 同步 playerGoCircle 的 pos --//
-    //...
 
 }
 

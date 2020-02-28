@@ -1,7 +1,7 @@
 [
 {
     "name": "Savannah_1",
-    "EcoSysPlanType": "Plain",
+    "EcoSysPlanType": "Savannah",
     "colorTableName": "savannah",
     "density.SeaLvlOff": 15.0,
     "density.DivideType": "default",

@@ -84,8 +84,8 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     size_t typeHash = dyParams_.get_typeHash();
-    tprAssert( typeHash == typeid(DyParams_Blueprint).hash_code() );
-    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    tprAssert( typeHash == typeid(DyParams_GoDataForCreate).hash_code() );
+    const DyParams_GoDataForCreate *bpParamPtr = dyParams_.get_binaryPtr<DyParams_GoDataForCreate>();
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
 
     //----- must before creat_new_goMesh() !!! -----//
@@ -98,7 +98,7 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     // 有些 bush 只有一个 gomesh，有些则是 复数个
     // 一律按 复数个来处理
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
         
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

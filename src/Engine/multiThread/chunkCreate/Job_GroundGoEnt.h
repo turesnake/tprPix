@@ -36,9 +36,11 @@ public:
     //---
     colorTableId_t          colorTableId; // 不再需要这个值
 
-
     size_t                  uWeight; //[0.0, 9999]
 };
+
+
+
 
 #endif 
 

@@ -40,7 +40,25 @@ namespace innTest {//---------- namespace: innTest --------------//
 
 
 
+class AAA{
+public:
+    AAA(double v_ ):
+        a(v_),
+        b(v_),
+        c(v_),
+        d(v_),
+        e(v_),
+        f(v_)
+        {}
 
+
+    double a;
+    double b;
+    double c;
+    double d;
+    double e;
+    double f;
+};
 
 
 
@@ -55,7 +73,61 @@ void innTest_main(){
 
 
 
+    int maxNum = 10000000;
 
+    std::vector<AAA> vi {};
+    std::vector<std::optional<AAA>> vo {};
+    std::vector<AAA> vout1 {};
+    std::vector<AAA> vout2 {};
+
+    vi.reserve( maxNum * 10 );
+    vo.reserve( maxNum * 10 );
+    vout1.reserve( maxNum * 10 );
+    vout2.reserve( maxNum * 10 );
+
+
+    for( int i=0; i<maxNum; i++ ){
+        double val = static_cast<double>(i) + 0.001;
+        vi.push_back( AAA{val} );
+        vo.push_back( { AAA{val} } );
+    }
+
+
+    
+            double timeP1 = glfwGetTime();
+
+    for( const auto i : vi ){
+        vout1.push_back(  i );
+    }
+
+            double timeP2 = glfwGetTime();
+
+
+
+
+            double timeP3 = glfwGetTime();
+
+    for( const auto &opt : vo ){
+        if( opt.has_value() ){
+            vout2.push_back( opt.value() );
+        }else{
+            tprAssert(0);
+        }
+    }
+        
+            double timeP4 = glfwGetTime();
+
+    
+    cout    << "\n  time_1: " << timeP2 - timeP1
+            << "\n  time_2: " << timeP4 - timeP3
+            << endl;
+
+    return;
+
+    //============================================//
+    //        calc uWeight test
+    //============================================//
+    /*
     int maxNum = 2000;
     std::vector<size_t> vv {};
     vv.reserve( maxNum * maxNum );
@@ -113,6 +185,7 @@ void innTest_main(){
             << "\n    time2: " << timeP_4 - timeP_3
             << endl;
 
+    */
 
 
     cout << "\n\n~~~~~~~~~~ innTest:end ~~~~~~~~~~" << endl;

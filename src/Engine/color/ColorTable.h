@@ -22,6 +22,7 @@
 #include <unordered_map>
 #include <memory>
 #include <functional> // hash
+#include <utility> // pair
 
 #include <cstdint>
 
@@ -30,6 +31,7 @@
 #include "FloatVec.h"
 #include "ID_Manager.h" 
 #include "colorTableId.h"
+#include "EcoSysPlanType.h"
 
 
 //-- colorTable.data 中实际存储的 entName --
@@ -108,7 +110,7 @@ public:
 
     static ID_Manager  id_manager;
 private:
-    std::vector<FloatVec4> data {}; // colorTable
+    std::vector<FloatVec4>  data {}; // colorTable
     std::unordered_set<std::string> isSets {}; // just used in json-read
 };
 
@@ -118,14 +120,14 @@ class ColorTableSet{
 public:
     ColorTableSet()=default;
 
-    inline ColorTable &apply_new_colorTable( const std::string &name_ )noexcept{
+    inline std::pair<colorTableId_t, ColorTable*> apply_new_colorTable( const std::string &name_ )noexcept{
         colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
         //---
         this->name_ids.insert({ name_, id });
         auto [insertIt, insertBool] = this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
         tprAssert( insertBool );
         //---
-        return *(insertIt->second);
+        return { id, insertIt->second.get() };
     }
 
     inline void final_check()noexcept{
@@ -173,6 +175,17 @@ public:
         return this->groundColorTable;
     }
 
+    inline void insert_2_ecoSysPlanTypes( colorTableId_t id_, EcoSysPlanType type_ )noexcept{
+        tprAssert( (type_!=EcoSysPlanType::BegIdx) && (type_!=EcoSysPlanType::EndIdx) );
+        auto [insertIt, insertBool] = this->ecoSysPlanTypes.insert({ id_, type_ });
+        tprAssert( insertBool );
+    }
+
+    inline EcoSysPlanType get_ecoSysPlanType( colorTableId_t id_ )const noexcept{
+        tprAssert( this->ecoSysPlanTypes.find(id_) != this->ecoSysPlanTypes.end() );
+        return this->ecoSysPlanTypes.at(id_);
+    }
+
 
 private:
     inline bool isFindIn_name_ids( const std::string name_ )const noexcept{
@@ -188,6 +201,9 @@ private:
             // 0:    empty, skip it !!!
             // 1:    origin colorTable
             // 2~n:  ent 
+
+
+    std::unordered_map<colorTableId_t, EcoSysPlanType> ecoSysPlanTypes {};
 };
 
 
@@ -220,8 +236,8 @@ public:
     inline bool get_isWorking()const noexcept{ return this->isWorking; }
 
 private:
-    ColorTable data {};
-    const ColorTable *targetColorTablePtr {nullptr};
+    ColorTable          data {};
+    const ColorTable    *targetColorTablePtr {nullptr};
 
     //===== flags =====//
     bool isWorking {true}; // 本色是否正在趋近于 目标色

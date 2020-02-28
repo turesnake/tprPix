@@ -45,7 +45,9 @@ public:
 
     class GoMeshEnt{
     public:
-        std::string             goMeshName {}; // 具象go类中 登记的名字
+        std::string             goMeshName {}; // 索引key
+
+        //===
         std::string             animFrameSetName {};
         glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
         double                  zOff    {};
@@ -54,7 +56,9 @@ public:
 
         RenderLayerType         renderLayerType {};
         ShaderType              shaderType   {};
+
         bool                    isVisible {};
+        bool                    isAutoInit {};
 
         NineDirection           default_dir {};
         BrokenLvl               default_brokenLvl {};
@@ -71,14 +75,20 @@ public:
 
     // 一个 go 实例，由数个 gomesh 以及其他数据 组合而成
     class Plan{
-    public:
-            
+    public: 
         using id_t = uint32_t;
             
         //---
         Plan()=default;
-        std::vector<GoMeshEnt> gomeshs {};
 
+        inline const GoMeshEnt &get_goMeshEntRef( const std::string &name_ )const noexcept{
+            tprAssert( this->gomeshs.find(name_) != this->gomeshs.end() );
+            return this->gomeshs.at(name_);
+        }
+
+        //===== vals =====//
+        std::unordered_map<std::string, GoAssemblePlanSet::GoMeshEnt> gomeshs {};
+        
         GoAltiRangeLabel goAltiRangeLabel {};
 
         std::unique_ptr<ColliDataFromJson> colliDataFromJsonUPtr {nullptr};

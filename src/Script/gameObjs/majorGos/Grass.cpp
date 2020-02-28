@@ -90,8 +90,8 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
     auto *pvtBp = goRef_.init_pvtBinary<Grass_PvtBinary>();
 
     //================ dyParams =================//    
-    tprAssert( dyParams_.get_typeHash() == typeid(DyParams_Blueprint).hash_code() );
-    const DyParams_Blueprint *bpParamPtr = dyParams_.get_binaryPtr<DyParams_Blueprint>();
+    tprAssert( dyParams_.get_typeHash() == typeid(DyParams_GoDataForCreate).hash_code() );
+    const DyParams_GoDataForCreate *bpParamPtr = dyParams_.get_binaryPtr<DyParams_GoDataForCreate>();
     const GoDataForCreate * goDataPtr = bpParamPtr->goDataPtr;
 
 
@@ -103,7 +103,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //----- gomeshs -----//
     for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMesh &gmRef = *uptrRef;
+        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
         
 
         auto &goMeshRef = goRef_.creat_new_goMesh( 

@@ -7,28 +7,25 @@
         "shaderType": "OriginColor",
 
         "plans":[
-
             {
-                "goLabel": "Sml",
+                "goLabel": "",
                 "collide":{ "collideType": "Nil" },
                 "goMeshs":[
-                    { "afsName": "groundGo", "animLabel": "Sml"  }
-                ]
-            },
+                    { "goMeshName": "darkForest_sml", "isAutoInit": false, "afsName": "groundGo_darkForest", "animLabel": "Sml"  },
+                    { "goMeshName": "darkForest_mid", "isAutoInit": false, "afsName": "groundGo_darkForest", "animLabel": "Mid"  },
+                    { "goMeshName": "darkForest_big", "isAutoInit": false, "afsName": "groundGo_darkForest", "animLabel": "Big"  },
 
-            {
-                "goLabel": "Mid",
-                "collide":{ "collideType": "Nil" },
-                "goMeshs":[
-                    { "afsName": "groundGo", "animLabel": "Mid"  }
-                ]
-            },
+                    { "goMeshName": "desert_sml", "isAutoInit": false, "afsName": "groundGo_desert", "animLabel": "Sml"  },
+                    { "goMeshName": "desert_mid", "isAutoInit": false, "afsName": "groundGo_desert", "animLabel": "Mid"  },
+                    { "goMeshName": "desert_big", "isAutoInit": false, "afsName": "groundGo_desert", "animLabel": "Big"  },
 
-            {
-                "goLabel": "Big",
-                "collide":{ "collideType": "Nil" },
-                "goMeshs":[
-                    { "afsName": "groundGo", "animLabel": "Big"  }
+                    { "goMeshName": "forest_sml", "isAutoInit": false, "afsName": "groundGo_forest", "animLabel": "Sml"  },
+                    { "goMeshName": "forest_mid", "isAutoInit": false, "afsName": "groundGo_forest", "animLabel": "Mid"  },
+                    { "goMeshName": "forest_big", "isAutoInit": false, "afsName": "groundGo_forest", "animLabel": "Big"  },
+
+                    { "goMeshName": "savannah_sml", "isAutoInit": false, "afsName": "groundGo_savannah", "animLabel": "Sml"  },
+                    { "goMeshName": "savannah_mid", "isAutoInit": false, "afsName": "groundGo_savannah", "animLabel": "Mid"  },
+                    { "goMeshName": "savannah_big", "isAutoInit": false, "afsName": "groundGo_savannah", "animLabel": "Big"  }
                 ]
             }
         ]

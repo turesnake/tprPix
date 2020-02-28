@@ -29,7 +29,8 @@ class Job_Chunk;
 
 class Job_Field{
 public:
-    Job_Field( Job_Chunk &jChunkRef_ )
+    Job_Field( Job_Chunk &jChunkRef_, fieldKey_t fieldKey_ ):
+        fieldKey(fieldKey_)
         {
             //===== static =====//
             if( !Job_Field::isStaticInit ){
@@ -69,9 +70,11 @@ public:
 
     void apply_job_groundGoEnts()noexcept;
 
+    /*
     inline const std::vector<std::unique_ptr<Job_GroundGoEnt>> &get_job_groundGoEnts()const noexcept{
         return this->groundGoEnts;
     }
+    */
 
     inline bool is_crossEcoObj()const noexcept{
         return (this->ecoObjKeys.size() > 1);
@@ -101,7 +104,13 @@ public:
     inline const std::vector<const GoDataForCreate*> &get_bioSoupGoDataPtrs()const noexcept{ 
         return this->bioSoupGoDataPtrs;
     }
-
+    inline std::optional<const GoDataForCreate*> get_groundGoDataPtr()const noexcept{
+        if( this->groundGoData ){
+            return { this->groundGoData.get() };
+        }else{
+            return std::nullopt;
+        }
+    }
 
     inline std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &get_nature_majorGoDatas()noexcept{ 
         return this->nature_majorGoDatas;
@@ -130,14 +139,24 @@ public:
 private:
     void bind_functors( Job_Chunk &jChunkRef_ )noexcept;
 
+    void assemble_groundGoData( const std::vector<std::unique_ptr<Job_GroundGoEnt>> &groundGoEnts_ )noexcept;
+
     inline static size_t get_halfFieldIdx( IntVec2 mposOff_ )noexcept{
         IntVec2 halfFieldPos = mposOff_.floorDiv(static_cast<double>(HALF_ENTS_PER_FIELD));
         return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD + halfFieldPos.x );
     }
 
-    //=== datas passed to the main thread  ===//
-    std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
+
+
+
+                //=== datas passed to the main thread  ===//
+                //std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
                                     // 还不够，最好向 floorgo 一样，直接生成 GoDataForCreate 数据
+                                    // 未来可以被放入 函数体内
+                                    // 。。。
+
+
+
 
 
     // 同时包含 artifact/nature 两种蓝图数据
@@ -146,6 +165,8 @@ private:
     std::vector<const GoDataForCreate*> floorGoDataPtrs {};
 
     std::vector<const GoDataForCreate*> bioSoupGoDataPtrs {}; // tmp
+
+
 
 
     // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
@@ -157,6 +178,9 @@ private:
     // 临时方案，单独存储 bioSoup mp-go
     std::vector<std::unique_ptr<GoDataForCreate>> bioSoupGoDatas {};
 
+    // 1个field，只能拥有一个 groundGo
+    // 如果本 field，被 BioSoup 占据，甚至不会分配 groundGo
+    std::unique_ptr<GoDataForCreate> groundGoData {};
 
 
 
@@ -167,6 +191,9 @@ private:
     std::set<colorTableId_t> fields {};
     std::vector<std::set<colorTableId_t>> halfFields {}; // 4 containers
             // leftBottom, rightBottom, leftTop, rightTop
+
+    
+    fieldKey_t  fieldKey;
 
     //===== flags =====//
     bool isHaveBorderEnt    {false}; //- 只要发现 border

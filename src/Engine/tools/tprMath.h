@@ -109,6 +109,14 @@ inline glm::dvec2 tprRound( const glm::dvec2 &v_ ){
 }
 
 
+// 基于 uWeight，生成一个 (0.0, 1.0) 的小数随机数
+inline double calc_uWeight_fractValue( size_t uWeight ){
+    double rd = static_cast<double>(uWeight) / 3.173;
+    double integer {}; // 不会被使用
+    double fract = modf(rd, &integer); // (0.0, 0.1)
+    return fract;
+}
+
 
 
 

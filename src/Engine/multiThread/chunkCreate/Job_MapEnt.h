@@ -21,6 +21,7 @@
 #include "config.h"
 #include "IntVec.h"
 #include "sectionKey.h"
+#include "chunkKey.h"
 #include "fieldKey.h"
 #include "colorTableId.h"
 #include "Density.h"
@@ -36,11 +37,12 @@ class MemMapEnt;
 class Job_MapEnt{
 public:
     
-    void init( IntVec2 mpos_ )noexcept;
+    void init( IntVec2 mpos_, chunkKey_t chunkKey_ )noexcept;
     //====== vals ======//
     IntVec2    mpos         {};
     IntVec2    midPPos      {}; // 中间点
 
+    chunkKey_t          chunkKey  {};
     sectionKey_t        ecoObjKey {};
     colorTableId_t      colorTableId {}; // same as ecoObj.colorTableId
     Density             density {};

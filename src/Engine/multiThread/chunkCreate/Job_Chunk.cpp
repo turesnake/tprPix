@@ -92,7 +92,7 @@ void Job_Chunk::init()noexcept{
                                                         static_cast<int>(h)*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             //---
-            auto [insertIt1, insertBool1] = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this ) });
+            auto [insertIt1, insertBool1] = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this, tmpFieldKey ) });
             tprAssert( insertBool1 );
             //---
             auto [insertIt2, insertBool2] = this->fields.insert({ tmpFieldKey, std::make_unique<MapField>(tmpFieldMPos) });

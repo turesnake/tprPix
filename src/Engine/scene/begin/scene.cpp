@@ -34,7 +34,6 @@
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
 
-#include "create_go_by_hand.h" // tmp
 
 #include "ubo_all.h"
 
@@ -273,13 +272,17 @@ void inputINS_handle( const InputINS &inputINS_){
 
                 goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
                 goLabelId_t   newGoLabelId = GoAssemblePlanSet::str_2_goLabelId("Hen");
-                goid_t newGoId = create_go_by_hand(     newGoSpeciesId,
-                                                        newGoLabelId,
-                                                        newGoMPos,
-                                                        newGoDPos,
-                                                        NineDirection::Left,
-                                                        BrokenLvl::Lvl_0
-                                                        ); 
+
+                auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                                                    newGoMPos,
+                                                    newGoDPos,
+                                                    newGoSpeciesId,
+                                                    newGoLabelId,
+                                                    NineDirection::Left,
+                                                    BrokenLvl::Lvl_0
+                                                    );
+                goid_t newGoId = gameObjs::create_go_from_goDataForCreate( goDataUPtr.get() );
+
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{  newGoId, 
                                                                         newGoSpeciesId,   
@@ -341,7 +344,7 @@ void inputINS_handle( const InputINS &inputINS_){
                                         emptyDyParam );
             */
 
-            rebind_diskGo_by_hand( diskGo );
+            gameObjs::rebind_diskGo_by_hand( diskGo );
 
 
             //-- player --

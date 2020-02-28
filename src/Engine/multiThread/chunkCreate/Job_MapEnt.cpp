@@ -31,10 +31,11 @@ namespace jobMP_inn {//----------- namespace: jobMP_inn ----------------//
 const IntVec2 Job_MapEnt::pixesPerHalfMapent {HALF_PIXES_PER_MAPENT, HALF_PIXES_PER_MAPENT};
 
 
-void Job_MapEnt::init( IntVec2 mpos_ )noexcept{
+void Job_MapEnt::init( IntVec2 mpos_, chunkKey_t chunkKey_ )noexcept{
     this->mpos = mpos_;
     this->midPPos = mpos_2_ppos(mpos_) + Job_MapEnt::pixesPerHalfMapent;
     this->alti.set( calc_pixAlti( this->midPPos ) );
+    this->chunkKey = chunkKey_;
 
     //--- uWeight ---//
     //glm::dvec2 fDPos = mpos_2_dpos(this->mpos) * 0.177 + esrc::get_gameSeed().get_field_dposOff();//- 未来更换
@@ -47,7 +48,9 @@ void Job_MapEnt::init( IntVec2 mpos_ )noexcept{
 }
 
 
+
 void Job_MapEnt::write_2_mapEnt( MemMapEnt &entRef_ )const noexcept{
+    entRef_.set_chunkKey( this->chunkKey );
     entRef_.set_ecoObjKey( this->ecoObjKey );
     entRef_.set_colorTableId( this->colorTableId );
     entRef_.set_density( this->density );

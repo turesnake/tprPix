@@ -119,6 +119,7 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     IntVec2 currentChunkMPos = job_chunkRef_.get_chunkMPos();
+    chunkKey_t currentChunkKey = job_chunkRef_.get_chunkKey();
       
     //------------------------//
     //   job_chunk.mapEntInns
@@ -141,7 +142,7 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
             mposOff = IntVec2{ w, h };
 
             Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
-            mapEntRef.init( currentChunkMPos + mposOff );
+            mapEntRef.init( currentChunkMPos+mposOff, currentChunkKey );
             assign_mapent_to_nearFour_ecoObjs_2(ecoReadOnlyUPtr->ecoObjBorderPtr,
                                                 sectionMPos,
                                                 nearFour_ecoObjDatas, 

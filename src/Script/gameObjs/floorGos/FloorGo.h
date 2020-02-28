@@ -12,6 +12,8 @@
 #include "GameObj.h"
 #include "DyParam.h"
 
+
+
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 class FloorGo{

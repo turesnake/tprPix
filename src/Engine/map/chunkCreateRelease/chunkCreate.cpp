@@ -477,7 +477,7 @@ NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
  * 如果某个 edgeGo，与本chunk 有关系。
  * 就将这个 edgeGO 的 特定 colliEnts，登记到 本chunk 的 对应 mapent 上
  * ---
- * 这是一道 补充工作
+ * 这是一道 针对 signUp_newGO_to_chunk_and_mapEnt() 的补充工作
  */
 void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
 
@@ -493,24 +493,53 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
             tprAssert( chunkPair.first == ChunkMemState::Active );
             auto &chunkRef = *(chunkPair.second);
 
-            for( auto &goid : chunkRef.get_edgeGoIds() ){//- foreach edgeGoId
+            for( const auto &goid : chunkRef.get_edgeGoIds() ){//- each edgeGoId
 
                 auto &goRef = esrc::get_goRef(goid);
-                tprAssert( goRef.get_colliderType() == ColliderType::Circular );
-                if( goRef.find_in_chunkKeys(chunkKey_) ){
-                    
-                    for( const auto &mpos : goRef.get_collisionRef().get_current_signINMapEnts_circle_ref() ){ 
+                if( goRef.find_in_chunkKeys(chunkKey_) ){// target go
+
+
+                    ColliderType colliType = goRef.get_colliderType();
+                    if( colliType == ColliderType::Circular ){
+                        // only MajorGo
+                        for( const auto &mpos : goRef.get_collisionRef().get_current_signINMapEnts_circle_ref() ){ 
                         
-                        if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
-                            //---- 正式注册 collient 到 mapents 上 -----
-                            auto mapEntPair = esrc::getnc_memMapEntPtr(mpos);
-                            tprAssert( mapEntPair.first == ChunkMemState::Active );
-                            mapEntPair.second->insert_2_circular_goids( goRef.id, goRef.get_colliderType() );
+                            if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
+                                //---- 正式注册 collient 到 mapents 上 -----
+                                auto mapEntPair = esrc::getnc_memMapEntPtr(mpos);
+                                tprAssert( mapEntPair.first == ChunkMemState::Active );
+                                mapEntPair.second->insert_2_circular_goids( goid, goRef.get_colliderType() );
+                            }
                         }
+
+                    }else if( colliType == ColliderType::Square ){
+                        // MajorGo / BioSoupGo
+
+                        IntVec2 mpos {};
+                        IntVec2 goRootMPos = dpos_2_mpos( goRef.get_dpos() );
+                        for( const auto &mposOff : goRef.get_signInMapEnts_square_ref().get_all_mapEntOffs() ){
+                            mpos = goRootMPos + mposOff;
+
+                            if( chunkKey_ == anyMPos_2_chunkKey(mpos) ){
+                                //---- 正式注册 collient 到 mapents 上 -----
+                                auto mapEntPair = esrc::getnc_memMapEntPtr(mpos);
+                                tprAssert( mapEntPair.first == ChunkMemState::Active );
+
+                                if( goRef.family == GameObjFamily::Major ){
+                                    mapEntPair.second->set_square_goid( goid, colliType );
+                                }else if( goRef.family == GameObjFamily::BioSoup ){
+                                    mapEntPair.second->set_bioSoup_goid( goid, goRef.family );
+                                }else{
+                                    tprAssert(0);
+                                }
+                            }
+                        }
+                    }else{
+                        // do nothing...
                     }
 
-                }
-            }
+                }// target go
+            }//- each edgeGoId
         }
     }
 }

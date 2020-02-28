@@ -11,11 +11,13 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-
+//-------------------- CPP --------------------//
+#include <cmath>
 #include <string>
 
 #include "config.h"
 #include "tprAssert.h"
+#include "tprMath.h"
 
 
 enum class FloorGoSize{
@@ -77,6 +79,14 @@ inline double floorGoLayer_2_goMesh_baseZOff( FloorGoLayer layer_ )noexcept{
 
 
 FloorGoLayer str_2_floorGoLayer( const std::string &str_ )noexcept;
+
+
+
+inline double calc_floorGoMesh_zOff( FloorGoLayer layer_, size_t mapEntUWeight_ )noexcept{
+    // 获得一个 小数值 (0.0, 0.1)
+    double fract = calc_uWeight_fractValue(mapEntUWeight_) / 10.0;
+    return ( floorGoLayer_2_goMesh_baseZOff(layer_) + fract );
+}
 
 
 
