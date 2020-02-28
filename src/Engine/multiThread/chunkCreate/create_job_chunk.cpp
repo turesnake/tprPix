@@ -97,7 +97,6 @@ void create_job_chunk_main( const Job &job_ ){
     //------------------------------//
     // 已经在 主线程 chunkCreate_1_push_job() 中 提前完成
 
-
     //--------------------------//
     //      calc job_chunk
     //--------------------------//
@@ -109,6 +108,7 @@ void create_job_chunk_main( const Job &job_ ){
     //   以此来提醒 主线程，这个 chunk 数据准备好了
     //--------------------------//
     esrc::atom_push_back_2_job_chunkFlags( jobParamPtr->chunkKey );
+
 }
 
 
@@ -222,8 +222,6 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     //  job_field.goSpecDatas
     //------------------------//
     job_chunkRef_.create_field_goSpecDatas();
-
-
 }
 
 

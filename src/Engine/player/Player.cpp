@@ -68,7 +68,7 @@ void Player::bind_go( goid_t goid_ ){
         glm::dvec2 newGoDPos = newGoRef.get_dpos();
 
 
-        auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+        auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                     dpos_2_mpos(newGoDPos),
                                                     newGoDPos,
                                                     GoSpecFromJson::str_2_goSpeciesId("playerGoCircle"),
@@ -76,7 +76,7 @@ void Player::bind_go( goid_t goid_ ){
                                                     NineDirection::Center,
                                                     BrokenLvl::Lvl_0
                                                     );
-        this->playerGoCircle_goid = gameObjs::create_go_from_goDataForCreate( goDataUPtr.get() );
+        this->playerGoCircle_goid = gameObjs::create_a_Go( goDataUPtr.get() );
 
 
                     //cout << "playerGoCir_goid: " << this->playerGoCircle_goid

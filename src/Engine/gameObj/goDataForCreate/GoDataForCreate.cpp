@@ -7,19 +7,26 @@
  */
 #include "GoDataForCreate.h"
 
+//-------------------- Libs --------------------//
+#include "tprGeneral.h"
 
 //------------------- Engine --------------------//
 #include "GoSpecFromJson.h"
 #include "WindClock.h"
 #include "random.h"
 
+#include "Job_GroundGoEnt.h"
+#include "Job_Field.h"
+
 #include "esrc_animFrameSet.h"
 
+#include "tprDebug.h"
+
+extern const std::string &calc_groundGoMeshName( GroundGoEntType groundType_, colorTableId_t colorTableId_ )noexcept;
 
 
-// 将目标 GoSpecFromJson 中的数据，配合部分 蓝图/手动 数据
-// 装配出一个 完整的 GoDataForCreate 数据
-std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_goDataForCreate( 
+// [-RegularGo-]
+std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate( 
                                                                     IntVec2             mpos_,
                                                                     const glm::dvec2    &dpos_,
                                                                     goSpeciesId_t       goSpeciesId_,
@@ -42,6 +49,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_goDataForCreate(
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
     goDUPtr->uWeight = mapEntUWeight;
+    tprAssert( goDUPtr->uWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
@@ -73,8 +81,9 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_goDataForCreate(
 }
 
 
-// 特殊版，专用于 floorGo
-std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_floorGoDataForCreate( 
+// [-FloorGo-]
+// 和普通版的唯一区别就是：需要特殊计算 gomesj.zOff
+std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreate( 
                                                                     IntVec2             mpos_,
                                                                     const glm::dvec2    &dpos_,
                                                                     goSpeciesId_t       goSpeciesId_,
@@ -94,6 +103,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_floorGoDataForCre
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
     goDUPtr->uWeight = mapEntUWeight;
+    tprAssert( goDUPtr->uWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
@@ -114,10 +124,12 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_floorGoDataForCre
         }
         auto gmUPtr = std::make_unique<GoDataForCreate::GoMeshByHand>( &jgomesh, randUWeightOff );
         
-        // IMPORTANT!!!!!!!!!
+        //------------------------//
+        //     IMPORTANT!!!
+        // calc gomesh.zOff, based on floorGoLayer
+        //------------------------//
         tprAssert( jgomesh.floorGoLayer.has_value() );
         gmUPtr->zOff = calc_floorGoMesh_zOff( jgomesh.floorGoLayer.value(), randUWeightOff );
-
 
         // 未来，这应该是个 选配件
         gmUPtr->set_windDelayIdx( calc_goMesh_windDelayIdx(goDUPtr->dpos + jgomesh.dposOff) );
@@ -128,6 +140,77 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::assemble_new_floorGoDataForCre
     return goDUPtr;
 }
 
+
+// [-GroundGo-]
+// [*job-thread*]
+std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCreate( 
+                                                        const Job_Field &jobFieldRef_,
+                                                        const std::vector<std::unique_ptr<Job_GroundGoEnt>> &groundGoEnts_ 
+                                                        ){
+
+   
+
+    IntVec2 fieldMPos = fieldKey_2_mpos(jobFieldRef_.get_fieldKey());
+    double halfPixesPerField = static_cast<double>(PIXES_PER_FIELD) * 0.5;
+    //===   
+    auto goDUPtr = std::make_unique<GoDataForCreate>();
+    GoDataForCreate *goDataPtr = goDUPtr.get();
+    //---
+    goDataPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("groundGo"),
+    goDataPtr->goLabelId = GoAssemblePlanSet::str_2_goLabelId(""); // 其实是错的，GroundGo 压根就没有 asm 分配方案
+    goDataPtr->dpos = mpos_2_dpos(fieldMPos) + glm::dvec2{ halfPixesPerField, halfPixesPerField };
+    goDataPtr->direction = NineDirection::Center;
+    goDataPtr->brokenLvl = BrokenLvl::Lvl_0;
+    goDataPtr->uWeight = jobFieldRef_.get_leftBottomMapEnt_uWeight(); // 暂时等于 左下角 mapent.uWeight
+    tprAssert(goDataPtr->uWeight != 0  );
+
+    // find plan
+    const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
+    tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goDataPtr->goLabelId, goDataPtr->uWeight );
+    //---
+    goDataPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
+    goDataPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
+    //=== goMeshs
+    // 根据 groundGoEnts 数据，动态创建
+    size_t goMeshIdx {0};
+    std::string specialGoMeshName {};
+    size_t randUWeightOff = goDataPtr->uWeight;
+    for( const auto &uptr : groundGoEnts_ ){
+        const Job_GroundGoEnt &job_groundGoEntRef = *uptr;
+        randUWeightOff += 17;
+
+        std::string goMeshName = calc_groundGoMeshName( job_groundGoEntRef.groundType, job_groundGoEntRef.colorTableId );
+              
+        const GoAssemblePlanSet::GoMeshEnt &gmeRef = planRef.get_goMeshEntRef( goMeshName );
+
+        // 手动生成 goMeshName, 防止重名
+        if( goMeshIdx == 0 ){
+            specialGoMeshName = "root";
+        }else{
+            specialGoMeshName = tprGeneral::nameString_combine("m_", goMeshIdx, "");
+        }
+
+        auto goMeshUPtr = std::make_unique<GoDataForCreate::GoMeshByHand>( &gmeRef, randUWeightOff );
+        //---
+        goMeshUPtr->goMeshName = specialGoMeshName;
+        goMeshUPtr->dposOff = job_groundGoEntRef.dposOff;
+        goMeshUPtr->zOff = calc_uWeight_fractValue(randUWeightOff); // (0.0, 1.0)
+
+        goMeshUPtr->isVisible = true;
+        goMeshUPtr->isAutoInit = true; // meaningless
+    
+        goMeshUPtr->set_windDelayIdx( 1 ); // meaningless
+    
+        //---
+        goDataPtr->goMeshEntUPtrs.push_back( std::move( goMeshUPtr ) );
+        //===
+        goMeshIdx++;
+    }
+    //===
+    return goDUPtr;
+
+}
 
 
 
@@ -141,15 +224,8 @@ void GoDataForCreate::GoMeshByLink::init_subspeciesId()noexcept{
 }
 
 
-
-void GoDataForCreate::GoMeshByHand::init_subspeciesId( 
-                            const std::string   &animFrameSetName_,
-                            AnimLabel           label_,
-                            size_t              uWeight_ )noexcept{
-                    
-    this->subspeciesId = esrc::apply_a_random_animSubspeciesId( animFrameSetName_,
-                                                                label_,
-                                                                uWeight_ );
+void GoDataForCreate::GoMeshByHand::init_subspeciesId( const std::string &animFrameSetName_, AnimLabel label_, size_t uWeight_ )noexcept{   
+    this->subspeciesId = esrc::apply_a_random_animSubspeciesId( animFrameSetName_, label_, uWeight_ );
 }
 
 

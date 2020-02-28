@@ -47,10 +47,10 @@ const glm::dvec2 MapField::halfFieldVec2 {
  */
 void MapField::init(){
 
-    this->fieldKey = fieldMPos_2_fieldKey( this->mcpos.get_mpos() );
+    this->fieldKey = fieldMPos_2_fieldKey( this->get_mpos() );
 
     //--- fieldFPos ----
-    this->FDPos = this->mcpos.get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
+    this->FDPos = this->get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
 
     //--- field.nodeMPos ---
     this->init_nodeDPos();

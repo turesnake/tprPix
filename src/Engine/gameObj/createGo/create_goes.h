@@ -34,34 +34,13 @@ void create_gos_in_field(   fieldKey_t fieldKey_,
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
 
-goid_t create_a_Go( goSpeciesId_t goSpeciesId_,
-                    const glm::dvec2 &dpos_,
-                    const DyParam &dyParams_ );
-
-void rebind_a_disk_Go(  goid_t          diskGoId_,
-                        goSpeciesId_t   diskGoSpeciesId_,
-                        const glm::dvec2 &dpos_,
-                        const DyParam &dyParams_  );
-
-// by hand
-goid_t create_go_from_goDataForCreate( const GoDataForCreate *goDPtr_ );
-
-
-void rebind_diskGo_by_hand(   const DiskGameObj &diskGo_ );
-
+goid_t create_a_Go( const GoDataForCreate *goDPtr_ );
+void rebind_a_diskGo(   const DiskGameObj &diskGo_ );
 
 void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ );
 
 
 }//------------- namespace gameObjs: end ----------------
-
-
-
-
-
-
-
-
 
 
 

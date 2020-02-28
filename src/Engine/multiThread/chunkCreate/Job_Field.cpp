@@ -7,9 +7,6 @@
  */
 #include "Job_Field.h"
 
-//-------------------- Libs --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
 #include "config.h"
 #include "tprMath.h"
@@ -106,7 +103,7 @@ void Job_Field::init_for_static()noexcept{
 
 
 // 自动检测 4*4 容器，通过 分形思路，分配 groundGo 实例
-void Job_Field::apply_job_groundGoEnts()noexcept{
+void Job_Field::apply_job_groundGoEnts(){
 
     glm::dvec2          dposOff     {}; // base on field-midDPos
     colorTableId_t      colorTableId {};
@@ -178,80 +175,8 @@ void Job_Field::apply_job_groundGoEnts()noexcept{
     //-------------------------------------//
     // 根据完成的 groundGoEnts 手动组装 groundGoData
     //-------------------------------------//
-    this->assemble_groundGoData( groundGoEnts );
-
+    this->groundGoData = GoDataForCreate::create_new_groundGoDataForCreate( *this, groundGoEnts );
 }
-
-
-
-extern const std::string &calc_groundGoMeshName( GroundGoEntType groundType_, colorTableId_t colorTableId_ )noexcept;
-
-
-// 在 job 线程中，手动装配一个 groundGo 的 GoDataForCreate 数据
-// 丑陋，但能统一 “create go” 函数接口
-void Job_Field::assemble_groundGoData( const std::vector<std::unique_ptr<Job_GroundGoEnt>> &groundGoEnts_ )noexcept{
-
-    IntVec2 fieldMPos = fieldKey_2_mpos(this->fieldKey);
-    double halfPixesPerField = static_cast<double>(PIXES_PER_FIELD) * 0.5;
-    //===
-    this->groundGoData = std::make_unique<GoDataForCreate>();
-    GoDataForCreate *goDataPtr = this->groundGoData.get();
-    //---
-    goDataPtr->goSpeciesId = GoSpecFromJson::str_2_goSpeciesId("groundGo"),
-    goDataPtr->goLabelId = GoAssemblePlanSet::str_2_goLabelId(""); // 其实是错的，GroundGo 压根就没有 asm 分配方案
-    goDataPtr->dpos = mpos_2_dpos(fieldMPos) + glm::dvec2{ halfPixesPerField, halfPixesPerField };
-    goDataPtr->direction = NineDirection::Center;
-    goDataPtr->brokenLvl = BrokenLvl::Lvl_0;
-    goDataPtr->uWeight = this->mapEntPtrs.at(0).at(0)->uWeight; // 暂时等于 左下角 mapent.uWeight
-
-    // find plan
-    const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
-    tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goDataPtr->goLabelId, goDataPtr->uWeight );
-
-    //---
-    goDataPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
-    goDataPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
-
-    //=== goMeshs
-    // 根据 groundGoEnts 数据，动态创建
-    size_t goMeshIdx {0};
-    std::string specialGoMeshName {};
-    size_t randUWeightOff = goDataPtr->uWeight;
-    for( const auto &uptr : groundGoEnts_ ){
-        const Job_GroundGoEnt &job_groundGoEntRef = *uptr;
-        randUWeightOff += 17;
-
-        std::string goMeshName = calc_groundGoMeshName( job_groundGoEntRef.groundType, job_groundGoEntRef.colorTableId );
-                    //cout << "goMeshName: " << goMeshName << endl;
-
-        const GoAssemblePlanSet::GoMeshEnt &gmeRef = planRef.get_goMeshEntRef( goMeshName );
-
-        // 手动生成 goMeshName, 防止重名
-        if( goMeshIdx == 0 ){
-            specialGoMeshName = "root";
-        }else{
-            specialGoMeshName = tprGeneral::nameString_combine("m_", goMeshIdx, "");
-        }
-
-        auto goMeshUPtr = std::make_unique<GoDataForCreate::GoMeshByHand>( &gmeRef, randUWeightOff );
-        //---
-        goMeshUPtr->goMeshName = specialGoMeshName;
-        goMeshUPtr->dposOff = job_groundGoEntRef.dposOff;
-        goMeshUPtr->zOff = calc_uWeight_fractValue(randUWeightOff); // (0.0, 1.0)
-
-        goMeshUPtr->isVisible = true;
-        goMeshUPtr->isAutoInit = true; // meaningless
-    
-        goMeshUPtr->set_windDelayIdx( 1 ); // meaningless
-    
-        //---
-        goDataPtr->goMeshEntUPtrs.push_back( std::move( goMeshUPtr ) );
-        //===
-        goMeshIdx++;
-    }
-}
-
 
 
 

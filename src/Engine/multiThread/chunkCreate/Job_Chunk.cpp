@@ -216,7 +216,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                     //if( mp.alti.val > -5.0 && mp.alti.val < 5.0 ){   
                     if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
 
-                        auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                        auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                                         mp.mpos,
                                                                         mpos_2_midDPos( mp.mpos ),
                                                                         GoSpecFromJson::str_2_goSpeciesId("bioSoup"),

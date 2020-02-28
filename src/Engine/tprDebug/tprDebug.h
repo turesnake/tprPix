@@ -31,7 +31,7 @@ void init_debug();
 
 //-- mapEntSlices --//
 void clear_mapEntSlices();
-void insert_new_mapEntSlice( const MapCoord &mcpos_ );
+//void insert_new_mapEntSlice( const MapCoord &mcpos_ );
 void draw_renderPool_mapEntSlices();
 
 void clear_pointPics();

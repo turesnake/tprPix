@@ -7,6 +7,7 @@
         "shaderType": "OriginColor",
 
         "plans":[
+            { "Notes": " 并非真正的plan，所有 groundGo 的 gomesh 数据，都是在代码中动态创建的 " },
             {
                 "goLabel": "",
                 "collide":{ "collideType": "Nil" },

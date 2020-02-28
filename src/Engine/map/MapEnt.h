@@ -103,8 +103,8 @@ public:
         tprAssert( eraseNum == 1 );
     }
 
-    
-    inline void set_mcpos( const MapCoord &mcpos_ )noexcept{ this->mcpos = mcpos_; }
+    inline void set_mpos( IntVec2 mpos_ )noexcept{ this->mpos = mpos_; }
+
     inline void set_chunkKey(chunkKey_t key_)noexcept{ this->chunkKey = key_; }
     inline void set_ecoObjKey(sectionKey_t key_)noexcept{ this->ecoObjKey = key_; }
     inline void set_colorTableId(colorTableId_t id_)noexcept{ this->colorTableId = id_; }
@@ -115,7 +115,7 @@ public:
     inline void set_uWeight( double v_ )noexcept{ this->uWeight = v_; }
 
 
-    inline IntVec2          get_mpos()const noexcept{ return this->mcpos.get_mpos();}
+    inline IntVec2          get_mpos()const noexcept{ return this->mpos;}
     inline MapAltitude      get_mapAlti()const noexcept{ return this->mapAlti; }
     inline chunkKey_t       get_chunkKey() const noexcept{ return this->chunkKey; }
     inline sectionKey_t     get_ecoObjKey() const noexcept{ return this->ecoObjKey; }
@@ -132,7 +132,7 @@ public:
     
     
 private:
-    MapCoord  mcpos {}; //- 本 mapent 世界坐标值 
+    IntVec2   mpos  {};
 
     MapAltitude   mapAlti     {}; //- 本 mapent 中点pix 的 alti
 

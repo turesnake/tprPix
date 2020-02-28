@@ -102,6 +102,7 @@ void clear_pointPics(){
  *               insert_new_mapEntSlice
  * -----------------------------------------------------------
  */
+/*
 void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
 
     if( _inn::is_mapEntSlice_show == false ){
@@ -126,6 +127,7 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
                                     esrc::get_camera().get_zFar()+ViewingBox::debug_zOff
                                         });
 }
+*/
 
 /* ===========================================================
  *                insert_new_pointPic

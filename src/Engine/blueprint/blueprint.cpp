@@ -346,9 +346,7 @@ void build_natureYard_floorGoDatasForCreate(
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
-//
-//     未来将被改写为 更为通用的函数，变成 公共函数，允许 代码手动创建 go
-//
+// for majorGo
 void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                 IntVec2 mpos_,
                                 const glm::dvec2  &dpos_, // 让外部计算好
@@ -362,7 +360,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     }
 
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
-    auto goDUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+    auto goDUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                     mpos_,
                                                     dpos_,
                                                     goSpecRef_.goSpeciesId,
@@ -375,7 +373,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
     tprAssert( insertBool );
 }
 
-
+// for floorGo
 void create_new_floorGoDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<GoDataForCreate>> &goDatasForCreate_,
                                 IntVec2 mpos_,
                                 const GoSpec &goSpecRef_,
@@ -389,7 +387,7 @@ void create_new_floorGoDataForCreate(std::unordered_map<mapEntKey_t, std::unique
     }
 
     //--- 正式在 ecoObj 中创建 GoDataForCreate 实例 --
-    auto goDUPtr = GoDataForCreate::assemble_new_floorGoDataForCreate(  
+    auto goDUPtr = GoDataForCreate::create_new_floorGoDataForCreate(  
                                                     mpos_,
                                                     mpos_2_dpos(mpos_) + calc_floorGo_mid_dposOff(floorGoSize_),
                                                     goSpecRef_.goSpeciesId,

@@ -38,7 +38,7 @@ class Chunk{
 public:
     Chunk( chunkKey_t chunkKey_ ):
         chunkKey(chunkKey_),
-        mcpos(chunkKey_2_mpos(chunkKey_))
+        mpos(chunkKey_2_mpos(chunkKey_))
         {
             this->init();
         }
@@ -49,8 +49,8 @@ public:
     inline size_t   erase_from_edgeGoIds( goid_t id_ )noexcept{ return this->edgeGoIds.erase(id_); }
 
     //------- get -------//
-    inline IntVec2  get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
-    inline const MapCoord &get_mcpos() const noexcept{ return this->mcpos; }
+    inline IntVec2  get_mpos() const noexcept{ return this->mpos; }
+
     inline chunkKey_t get_key() const noexcept{ return this->chunkKey; }
     inline const std::vector<fieldKey_t> &get_fieldKeys() const noexcept{ return this->fieldKeys; }
     inline const std::set<goid_t> &get_goIds() const noexcept{ return this->goIds; }
@@ -76,10 +76,9 @@ private:
     void init();
     void init_memMapEnts();
     size_t get_mapEntIdx_in_chunk( IntVec2 anyMPos_ );
-    size_t get_pixIdx_in_chunk( IntVec2 anyPPos_ );
 
     chunkKey_t  chunkKey {};
-    MapCoord    mcpos    {}; //- [left-bottom]
+    IntVec2     mpos {}; // [left-bottom]
 
     std::vector<std::unique_ptr<MemMapEnt>> memMapEnts {}; 
 

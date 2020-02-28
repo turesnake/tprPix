@@ -56,7 +56,7 @@ void Chunk::init(){
     //this->originPerlin = simplex_noise2( this->CDPos * freq );  //- [-1.0, 1.0]
     //this->uWeight = blender_the_perlinNoise( this->originPerlin, 791613.7, 10000 ); //[0, 9999]
 
-    this->uWeight = calc_simple_uWeight( this->get_mpos() );
+    this->uWeight = calc_simple_uWeight( this->mpos );
 
     //------------------------------//
     //       read job_chunk
@@ -81,7 +81,7 @@ void Chunk::init(){
     fieldKey_t  fieldKey    {};
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk
-            fieldMPos = this->get_mpos() + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+            fieldMPos = this->mpos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
             fieldKey = fieldMPos_2_fieldKey( fieldMPos );
             //---
             this->fieldKeys.push_back(fieldKey);
@@ -93,7 +93,7 @@ void Chunk::init(){
 /* ===========================================================
  *                     init_memMapEnts
  * -----------------------------------------------------------
- * -- 向 memMapEnts 填入每个mapent，并设置它们的 mcpos
+ * -- 向 memMapEnts 填入每个mapent，并设置它们的 mpos
  * --- 除此之外，这些 mapent 数据都是空的
  */
 void Chunk::init_memMapEnts(){
@@ -101,7 +101,7 @@ void Chunk::init_memMapEnts(){
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             auto mapEntUPtr = std::make_unique<MemMapEnt>();
-            mapEntUPtr->set_mcpos( mcpos + MapCoord{w, h} );
+            mapEntUPtr->set_mpos( this->mpos + IntVec2{w, h} );
             this->memMapEnts.push_back( std::move(mapEntUPtr) ); //-move
         }
     }
@@ -114,26 +114,11 @@ void Chunk::init_memMapEnts(){
  * -- 传入任意 mpos，获得其在 本chunk 中的 idx（访问 vector 用）
  */
 size_t Chunk::get_mapEntIdx_in_chunk( IntVec2 anyMPos_ ){
-    IntVec2 mposOff = anyMPos_ - this->mcpos.get_mpos();
+    IntVec2 mposOff = anyMPos_ - this->mpos;
     int w = mposOff.x;
     int h = mposOff.y;
         tprAssert( (w>=0) && (w<ENTS_PER_CHUNK) &&
                 (h>=0) && (h<ENTS_PER_CHUNK) ); //- tmp
     return cast_2_size_t(h*ENTS_PER_CHUNK + w);
-}
-
-
-/* ===========================================================
- *               get_pixIdx_in_chunk
- * -----------------------------------------------------------
- * -- 传入任意 ppos 绝对值，获得 此pix 在 本chunk 中的 idx（访问 mapTex 用）
- */
-size_t Chunk::get_pixIdx_in_chunk( IntVec2 anyPPos_ ){
-    IntVec2 pposOff = anyPPos_ - this->mcpos.get_ppos();
-    int w = pposOff.x;
-    int h = pposOff.y;
-        tprAssert( (w>=0) && (w<PIXES_PER_CHUNK) &&
-                (h>=0) && (h<PIXES_PER_CHUNK) ); //- tmp
-    return cast_2_size_t( h*PIXES_PER_CHUNK + w );
 }
 

@@ -98,6 +98,7 @@ void EcoSysPlan::init_check()noexcept{
 
 
             // debug 检查下 natureFloorYards
+            /*
             cout << "       ---KKK---\n"
                 << "densitys: ";
             for( const auto &i : this->natureFloorDensitys ){
@@ -110,6 +111,7 @@ void EcoSysPlan::init_check()noexcept{
                 cout << i << ", ";
             }
             cout << endl;
+            */
 
 
 

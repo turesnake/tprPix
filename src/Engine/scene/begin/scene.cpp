@@ -273,7 +273,7 @@ void inputINS_handle( const InputINS &inputINS_){
                 goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
                 goLabelId_t   newGoLabelId = GoAssemblePlanSet::str_2_goLabelId("Hen");
 
-                auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+                auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                     newGoMPos,
                                                     newGoDPos,
                                                     newGoSpeciesId,
@@ -281,7 +281,7 @@ void inputINS_handle( const InputINS &inputINS_){
                                                     NineDirection::Left,
                                                     BrokenLvl::Lvl_0
                                                     );
-                goid_t newGoId = gameObjs::create_go_from_goDataForCreate( goDataUPtr.get() );
+                goid_t newGoId = gameObjs::create_a_Go( goDataUPtr.get() );
 
 
                 db::atom_insert_or_replace_to_table_goes( DiskGameObj{  newGoId, 
@@ -338,13 +338,7 @@ void inputINS_handle( const InputINS &inputINS_){
             //  重建 playerGo 实例：
             //... 根据 读取的数据，将其转换为 mem go 实例 ...
 
-            /*
-            gameObjs::rebind_a_disk_Go( diskGo,
-                                        targetGameArchive.playerGoDPos,
-                                        emptyDyParam );
-            */
-
-            gameObjs::rebind_diskGo_by_hand( diskGo );
+            gameObjs::rebind_a_diskGo( diskGo );
 
 
             //-- player --

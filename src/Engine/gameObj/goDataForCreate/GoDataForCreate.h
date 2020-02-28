@@ -32,6 +32,9 @@
 #include "GoAssemblePlan.h"
 #include "AnimLabel.h"
 
+// need:
+class Job_Field;
+class Job_GroundGoEnt;
 
 
 // 生成一个go实例，需要的基本数据
@@ -48,7 +51,7 @@ public:
 
     
     //========== Self Vals ==========//
-    static std::unique_ptr<GoDataForCreate> assemble_new_goDataForCreate(  
+    static std::unique_ptr<GoDataForCreate> create_new_goDataForCreate(  
                                                 IntVec2             mpos_,             
                                                 const glm::dvec2    &dpos_, // 让外部计算好
                                                 goSpeciesId_t       goSpeciesId_,
@@ -57,7 +60,7 @@ public:
                                                 BrokenLvl           brokenLvl_ // 未来支持从 GoSpecFromJson 中提取默认值
                                                 );
 
-    static std::unique_ptr<GoDataForCreate> assemble_new_floorGoDataForCreate(  
+    static std::unique_ptr<GoDataForCreate> create_new_floorGoDataForCreate(  
                                                 IntVec2             mpos_,             
                                                 const glm::dvec2    &dpos_, // 让外部计算好
                                                 goSpeciesId_t       goSpeciesId_,
@@ -65,18 +68,22 @@ public:
                                                 NineDirection       direction_ // 未来支持从 GoSpecFromJson 中提取默认值
                                                 );
 
-    //---
+    static std::unique_ptr<GoDataForCreate> create_new_groundGoDataForCreate( 
+                                                const Job_Field &jobFieldRef_,
+                                                const std::vector<std::unique_ptr<Job_GroundGoEnt>> &groundGoEnts_ 
+                                                );
+
+    //========== vals ==========//
     goSpeciesId_t       goSpeciesId {};
     goLabelId_t         goLabelId   {};
     glm::dvec2          dpos      {}; // go 绝对 dpos
 
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
-    GoAltiRangeLabel    goAltiRangeLabel {};
-
     BrokenLvl           brokenLvl   {};
 
-    size_t              uWeight     {}; // base on mpos
+    GoAltiRangeLabel    goAltiRangeLabel {};
 
+    size_t              uWeight     {}; // base on mpos
 
     const ColliDataFromJson *colliDataFromJsonPtr {nullptr};
     
@@ -124,6 +131,7 @@ public:
         uWeight(uWeight_)
         {
             tprAssert( this->goMeshEntPtr );
+            tprAssert( this->uWeight != 0 );
             this->init_subspeciesId();
         }
 
@@ -178,6 +186,7 @@ public:
         uWeight(uWeight_)
         {
             tprAssert( this->goMeshEntPtr );
+            tprAssert( this->uWeight != 0 );
             this->init_subspeciesId(this->goMeshEntPtr->animFrameSetName,
                                     this->goMeshEntPtr->animLabel,
                                     this->uWeight );
@@ -194,6 +203,7 @@ public:
         uWeight(uWeight_)
         {
             tprAssert( this->goMeshEntPtr );
+            tprAssert( this->uWeight != 0 );
             this->init_subspeciesId(animFrameSetName_,
                                     animLabel_,
                                     uWeight_ );

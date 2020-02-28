@@ -79,11 +79,12 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //    key / mpos
     //------------------//
     this->sectionKey = sectionKey_;
-    this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );
+    //this->mcpos.set_by_mpos( sectionKey_2_mpos(this->sectionKey) );
+    this->mpos = sectionKey_2_mpos(this->sectionKey);
     //------------------//
     //     oddEven
     //------------------//
-    IntVec2 SPos = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_SECTION) );
+    IntVec2 SPos = floorDiv( this->mpos, static_cast<double>(ENTS_PER_SECTION) );
     this->oddEven = floorMod( SPos, 2.0 );
 
     //------------------//
@@ -98,7 +99,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]
     //this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
 
-    this->uWeight = calc_simple_uWeight( this->get_mpos() );
+    this->uWeight = calc_simple_uWeight( this->mpos );
 
     //------------------//
     //   occupyWeight
@@ -149,7 +150,7 @@ void EcoObj::copy_datas_from_ecoSysPlan( EcoSysPlan *targetEcoPlanPtr_ ){
     //=======================//
     // 一次性生成 所有 人造物 godata 
     blueprint::build_ecoObj_goDatasForCreate(   this->villageBlueprintId,
-                                                this->mcpos.get_mpos(),
+                                                this->mpos,
                                                 this->uWeight,
                                                 this->majorGoDatasForCreate,
                                                 this->floorGoDatasForCreate,

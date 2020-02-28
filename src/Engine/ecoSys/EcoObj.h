@@ -61,7 +61,7 @@ public:
     }
 
 
-    inline IntVec2              get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline IntVec2              get_mpos() const noexcept{ return this->mpos; }
     inline ecoSysPlanId_t       get_ecoSysPlanId() const noexcept{ return this->ecoSysPlanId; }
     inline EcoSysPlanType       get_ecoSysPlanType() const noexcept{ return this->ecoSysPlanType; }
     inline double               get_densitySeaLvlOff() const noexcept{ return this->densitySeaLvlOff; }
@@ -108,7 +108,8 @@ private:
     
     //======== vals ========//
     sectionKey_t  sectionKey {};
-    MapCoord      mcpos  {}; //- [left-bottom]
+    //MapCoord      mcpos  {}; //- [left-bottom]
+    IntVec2       mpos {}; // [left-bottom]
                       
 
     size_t          uWeight {}; // [0, 9999]

@@ -469,8 +469,6 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             json_goAssemblePlanSet.planUPtrs.push_back( std::move(json_planUPtr) ); // copy
         }
 
-
-
         //=======================//
         //    without_holds
         //=======================//
@@ -553,6 +551,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 goSpecFromJsonRef.goAssemblePlanSetUPtr = std::make_unique<GoAssemblePlanSet>();
             }
 
+            tprAssert( !json_goAssemblePlanSet.planUPtrs.empty() ); // MUST NOT EMPTY
             for( auto &jPlanUPtr : json_goAssemblePlanSet.planUPtrs ){ // 需要 copy sptr, 不能用 const
                 auto &origin_json_planRef = *jPlanUPtr;
 

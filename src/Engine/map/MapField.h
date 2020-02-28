@@ -44,7 +44,7 @@ class MemMapEnt;
 class MapField{
 public:
     MapField( IntVec2 anyMPos_ ):
-        mcpos( anyMPos_2_fieldMPos(anyMPos_) )
+        mpos( anyMPos_2_fieldMPos(anyMPos_) )
         {
             this->init();
         }
@@ -72,18 +72,10 @@ public:
     inline void set_maxAlti(MapAltitude alti_)noexcept{ this->maxMapAlti = alti_; }
     inline void set_isCrossEcoObj( bool b_ )noexcept{ this->isCrossEcoObj = b_; }
     inline void set_isCrossColorTable( bool b_ )noexcept{ this->isCrossColorTable = b_; }
-
-    /*
-    inline void set_perlin( double originPerlin_, size_t uWeight_ )noexcept{
-        this->originPerlin = originPerlin_;
-        this->uWeight = uWeight_;
-    }
-    */
-
     inline void set_uWeight( double v_ )noexcept{ this->uWeight = v_; }
 
     //------- get -------//
-    inline IntVec2      get_mpos() const noexcept{ return this->mcpos.get_mpos(); }
+    inline IntVec2      get_mpos() const noexcept{ return this->mpos; }
     inline MapAltitude  get_minMapAlti() const noexcept{ return this->minMapAlti; }
     inline MapAltitude  get_maxMapAlti() const noexcept{ return this->maxMapAlti; }
     inline MapAltitude  get_nodeMapAlti() const noexcept{ return this->nodeMapAlti; }
@@ -93,27 +85,17 @@ public:
     inline colorTableId_t       get_colorTableId()const noexcept{ return this->colorTableId; }
     inline occupyWeight_t       get_occupyWeight() const noexcept{ return this->occupyWeight; }
     inline size_t       get_uWeight() const noexcept{ return this->uWeight; }
-    inline glm::dvec2   get_dpos() const noexcept{ return this->mcpos.get_dpos(); }
+    inline glm::dvec2   get_dpos() const noexcept{ return mpos_2_dpos(this->mpos); }
 
     inline const glm::dvec2 &get_nodeDPos() const noexcept{ return this->nodeDPos; }
     
     inline glm::dvec2 get_midDPos()const noexcept{ 
-        return (this->mcpos.get_dpos() + MapField::halfFieldVec2); 
+        return (this->get_dpos() + MapField::halfFieldVec2); 
     }
     inline IntVec2 get_midMPos()const noexcept{
         return (this->get_mpos() + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD });
     }
     
-
-    inline size_t calc_fieldIdx_in_chunk() const noexcept{
-        IntVec2 off = this->get_mpos() - anyMPos_2_chunkMPos(this->get_mpos());
-        off.x /= ENTS_PER_FIELD;
-        off.y /= ENTS_PER_FIELD;
-
-        tprAssert( (off.x>=0) && (off.y>=0) );
-        return cast_2_size_t( off.y * FIELDS_PER_CHUNK + off.x );
-    }
-
     //===== static =====//
     static const double halfField;
     static const glm::dvec2 halfFieldVec2; // field 中点 距左下角 offset
@@ -125,9 +107,8 @@ private:
 
     //====== vals =======//
     //----- 一阶数据 / first order data ------//
-    MapCoord    mcpos    {};    //- field左下角mcpos
-                                // 这么存储很奢侈，也许会在未来被取消...
-                                // anyMPos_2_fieldMPos() 
+    IntVec2     mpos {}; // [left-bottom]
+
     fieldKey_t  fieldKey {}; 
 
     glm::dvec2  nodeDPos {}; //- field 内的一个随机点 ,绝对距离 Must align to pix

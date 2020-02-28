@@ -126,11 +126,14 @@ public:
         size_t          idx {};
         Plan::id_t      id {};  
         if( labelId_ == DEFAULT_GO_LABEL_ID ){
+            tprAssert( !this->allIds.empty() );
             idx = (randUVal_ + 152375) % this->allIds.size(); // apply a id directly from all ids
             id = this->allIds.at( idx );
         }else{
             tprAssert( this->ids.find(labelId_) != this->ids.end() );
-            idx = (randUVal_ + 152375) % this->ids.at(labelId_).size(); // from target idPool
+            auto &cRef = this->ids.at(labelId_);
+            tprAssert( !cRef.empty() );
+            idx = (randUVal_ + 152375) % cRef.size(); // from target idPool
             id = this->ids.at(labelId_).at( idx );
         }
         //--- ret ---//

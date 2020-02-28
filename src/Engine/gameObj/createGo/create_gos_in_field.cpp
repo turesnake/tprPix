@@ -39,7 +39,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
 
     //----- ground go ------//
     if( auto retOpt = job_fieldPtr->get_groundGoDataPtr(); retOpt.has_value() ){
-        gameObjs::create_go_from_goDataForCreate( retOpt.value() );
+        gameObjs::create_a_Go( retOpt.value() );
     }
 
     //----- fieldRim go [-DEBUG-] ------//
@@ -47,7 +47,7 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
     bool isFieldRimGoCreate { false };
     if( isFieldRimGoCreate ){
 
-        auto goDataUPtr = GoDataForCreate::assemble_new_goDataForCreate(  
+        auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                     fieldRef.get_midMPos(),
                                                     fieldRef.get_midDPos(),
                                                     GoSpecFromJson::str_2_goSpeciesId("fieldRim"),
@@ -55,23 +55,23 @@ void create_gos_in_field(   fieldKey_t      fieldKey_,
                                                     NineDirection::Center,
                                                     BrokenLvl::Lvl_0
                                                 );
-        gameObjs::create_go_from_goDataForCreate( goDataUPtr.get() );
+        gameObjs::create_a_Go( goDataUPtr.get() );
     }
     
 
     //----- bioSoup ------//    
     for( const auto goDataPtr : job_fieldPtr->get_bioSoupGoDataPtrs() ){
-        gameObjs::create_go_from_goDataForCreate( goDataPtr );
+        gameObjs::create_a_Go( goDataPtr );
     }
 
     //----- land majorGo in blueprint -----//
     for( const auto goDataPtr : job_fieldPtr->get_majorGoDataPtrs() ){
-        gameObjs::create_go_from_goDataForCreate( goDataPtr );
+        gameObjs::create_a_Go( goDataPtr );
     }
 
     
     for( const auto goDataPtr : job_fieldPtr->get_floorGoDataPtrs() ){
-        gameObjs::create_go_from_goDataForCreate( goDataPtr );
+        gameObjs::create_a_Go( goDataPtr );
     }
     
 }
