@@ -29,44 +29,34 @@
 #include "tprDebug.h"
 
 
-//namespace field_inn {//----------- namespace: mapField_inn ---------------//
-//}//-------------- namespace: mapField_inn end ---------------//
-
-//===== static =====//
-const double MapField::halfField { static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
-const glm::dvec2 MapField::halfFieldVec2 {
-            static_cast<double>( PIXES_PER_FIELD ) * 0.5,
-            static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
-
-/* ===========================================================
- *                    init
- * -----------------------------------------------------------
- *  仅 初始化 一阶数据
- * param: _mpos      -- 此 field 中的任意 mapent.mpos 
- * param: _chunkMPos -- 此 field 所属的 chunk mpos
- */
+// 仅 初始化 一阶数据
+// param: _mpos      -- 此 field 中的任意 mapent.mpos 
+// param: _chunkMPos -- 此 field 所属的 chunk mpos
 void MapField::init(){
 
-    this->fieldKey = fieldMPos_2_fieldKey( this->get_mpos() );
+    //--- fieldKey ---
+    tprAssert(!this->fieldKey.has_value())
+    this->fieldKey = { fieldMPos_2_fieldKey(this->get_mpos()) };
 
-    //--- fieldFPos ----
-    this->FDPos = this->get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
+    //---- fieldFPos ----
+    glm::dvec2 FDPos = this->get_dpos() * 0.27 + esrc::get_gameSeed().get_field_dposOff();
+                        //- field-dpos 除以 ENTS_PER_FIELD 再累加一个 随机seed
+                        // 这个值仅用来 配合 simplex-noise 函数使用
 
     //--- field.nodeMPos ---
-    this->init_nodeDPos();
+    this->init_nodeDPos( FDPos );
 
     //--- originPerlin ---
     // inited in calc_job_chunk()...
 
     //--- occupyWeight ---
-    this->init_occupyWeight();
+    this->init_occupyWeight( FDPos );
 }
 
 
 
-
 // 暂时未被使用
-void MapField::init_nodeDPos(){
+void MapField::init_nodeDPos( const glm::dvec2 &FDPos_ ){
 
     double    freq  { 7.0 };
     double    pnX   {};
@@ -74,8 +64,8 @@ void MapField::init_nodeDPos(){
 
     const glm::dvec2 yModifier { 370.1, 1971.7 };
 
-    pnX = simplex_noise2( this->FDPos * freq ); //- [-1.0, 1.0]
-    pnY = simplex_noise2( (this->FDPos+yModifier) * freq ); //- [-1.0, 1.0]
+    pnX = simplex_noise2( FDPos_ * freq ); //- [-1.0, 1.0]
+    pnY = simplex_noise2( (FDPos_+yModifier) * freq ); //- [-1.0, 1.0]
     //- perlin is too close to center, do some balance
     pnX *= 1.2;
     pnY *= 1.2;
@@ -90,13 +80,15 @@ void MapField::init_nodeDPos(){
     pnX = floor(pnX*scaleX); //- align to pix
     pnY = floor(pnY*scaleY); //- align to pix
 
-    this->nodeDPos = this->get_dpos() + MapField::halfFieldVec2 + glm::dvec2{pnX, pnY};
+    //=====//
+    tprAssert(!this->nodeDPos.has_value());
+    this->nodeDPos = { this->get_dpos() + MapField::halfFieldVec2 + glm::dvec2{pnX, pnY} };
 }
 
 
 
 
-void MapField::init_occupyWeight(){
+void MapField::init_occupyWeight( const glm::dvec2 &FDPos_ ){
 
     //-- 本 field 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
@@ -104,12 +96,14 @@ void MapField::init_occupyWeight(){
     IntVec2 oddEven = floorMod( v, 2.0 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --
-    double Fidx = simplex_noise2(this->FDPos + glm::dvec2{17.1, 17.1}) * 30.0 + 60.0; //- [30.0, 90.0]
+    double Fidx = simplex_noise2(FDPos_ + glm::dvec2{17.1, 17.1}) * 30.0 + 60.0; //- [30.0, 90.0]
 
     tprAssert( Fidx > 0 );
     size_t randIdx = (size_t)floor(Fidx); //- [30, 90]
 
-    this->occupyWeight = calc_occupyWeight( oddEven, randIdx );
+    //=====//
+    tprAssert(!this->occupyWeight.has_value());
+    this->occupyWeight = {  calc_occupyWeight(oddEven, randIdx) };
 }
 
 

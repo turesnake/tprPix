@@ -17,7 +17,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 void init_job_chunks();
 
-Job_Chunk &atom_insert_new_job_chunk( chunkKey_t chunkKey_, IntVec2 chunkMPos_ );
+Job_Chunk &atom_insert_new_job_chunk( chunkKey_t chunkKey_ );
 void atom_erase_from_job_chunks( chunkKey_t chunkKey_ );
 
 

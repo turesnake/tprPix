@@ -12,6 +12,7 @@
 #include "tprMath.h"
 #include "tprCast.h"
 #include "GoSpecFromJson.h"
+#include "Job_GroundGoEnt.h"
 
 #include "esrc_coordinate.h"
 #include "esrc_animFrameSet.h"
@@ -28,25 +29,25 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
             IntVec2{ 0, 0 },
             IntVec2{ 1, 0 },
             IntVec2{ 0, 1 },
-            IntVec2{ 1, 1 } // halfField bind mapent
+            IntVec2{ 1, 1 } // halfField in left-bottom
         },
         std::vector<IntVec2>{
             IntVec2{ 2, 0 },
             IntVec2{ 3, 0 },
             IntVec2{ 2, 1 },
-            IntVec2{ 3, 1 } // halfField bind mapent
+            IntVec2{ 3, 1 } // halfField in right-bottom
         },
         std::vector<IntVec2>{
             IntVec2{ 0, 2 },
             IntVec2{ 1, 2 },
             IntVec2{ 0, 3 },
-            IntVec2{ 1, 3 } // halfField bind mapent
+            IntVec2{ 1, 3 } // halfField in left-top
         },
         std::vector<IntVec2>{
             IntVec2{ 2, 2 },
             IntVec2{ 3, 2 },
             IntVec2{ 2, 3 },
-            IntVec2{ 3, 3 } // halfField bind mapent
+            IntVec2{ 3, 3 } // halfField in right-top
         }
     };
 
@@ -121,7 +122,7 @@ void Job_Field::apply_job_groundGoEnts(){
 
         dposOff = glm::dvec2{0.0, 0.0};
         colorTableId = *this->fields.begin();
-        uWeight = entPtr->uWeight;
+        uWeight = entPtr->get_uWeight();
 
         ( this->isHaveBorderEnt ) ?
             groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::Field,       dposOff, colorTableId, uWeight )) :
@@ -147,8 +148,8 @@ void Job_Field::apply_job_groundGoEnts(){
                 const auto &wh = halfWHs.back(); 
                 entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
                 dposOff = halfDposOff;
-                colorTableId = entPtr->colorTableId;
-                uWeight = entPtr->uWeight;
+                colorTableId = entPtr->get_colorTableId();
+                uWeight = entPtr->get_uWeight();
 
                 groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, dposOff, colorTableId, uWeight ));
                 continue; // !!!
@@ -163,8 +164,8 @@ void Job_Field::apply_job_groundGoEnts(){
                     entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 
                     dposOff = halfDposOff + jobF_inn::mapentDposOffs.at(innIdx);
-                    colorTableId = entPtr->colorTableId;
-                    uWeight = entPtr->uWeight;
+                    colorTableId = entPtr->get_colorTableId();
+                    uWeight = entPtr->get_uWeight();
 
                     groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, dposOff, colorTableId, uWeight ));
                 }

@@ -12,7 +12,6 @@
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
-#include "Job_GroundGoEnt.h"
 #include "ColorTable.h"
 #include "groundGoEntType.h"
 
@@ -68,13 +67,9 @@ const std::string &calc_groundGoMeshName( GroundGoEntType groundType_, colorTabl
     //---
     tprAssert( cggmn_inn::goMeshNames.find(ecoType) != cggmn_inn::goMeshNames.end() );
     const auto &umap = cggmn_inn::goMeshNames.at(ecoType);
-
-
     //---
     tprAssert( umap->find(groundType_) != umap->end() );
     return umap->at(groundType_);
-
-
 }
 
 

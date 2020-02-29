@@ -33,7 +33,6 @@
 
 namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
 
-
     const std::vector<IntVec2> near_2_vertical_mps {
         IntVec2{ 0, -1 },
         IntVec2{ 0,  1 }
@@ -54,8 +53,6 @@ namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
         IntVec2{  0,  1 },
         IntVec2{  1,  1 }
     };
-
-
 
     //- nature_floorYard 尺寸为 2f2，一旦发现 某个field 被 人造物占据
     // 直接不用生成  nature_floorGos
@@ -80,7 +77,17 @@ namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
 
 void Job_Chunk::init()noexcept{
 
-    this->mapEntInns.resize( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
+    //-------------------//
+    //    mapEntInns
+    //-------------------//
+    this->mapEntInns.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
+    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
+            this->mapEntInns.push_back( std::make_unique<Job_MapEnt>( this->chunkMPos + IntVec2{w, h} ) );
+        }
+    }
+
+    //-------------------//
     this->job_fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
     this->fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
 
@@ -114,15 +121,15 @@ void Job_Chunk::write_2_field_from_jobData(){
             auto &jobField = *(this->job_fields.at(fieldKey).get());
             auto &field    = *(this->fields.at(fieldKey).get());
             //---
-            field.set_isCrossEcoObj( jobField.is_crossEcoObj() );
-            field.set_isCrossColorTable( jobField.is_crossColorTable() );
+            field.init_isCrossEcoObj( jobField.is_crossEcoObj() );
+            field.init_isCrossColorTable( jobField.is_crossColorTable() );
         }
     }
 }
 
 
 
-bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
+bool Job_Chunk::is_mapEnt_a_ecoBorder( IntVec2 mposOff_ )noexcept{
 
     tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK) &&
                 (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK) ); //- [0,31]
@@ -131,7 +138,7 @@ bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
     tprAssert( idx < this->mapEntInns.size() );
 
     //---
-    sectionKey_t selfEcoKey = this->mapEntInns.at(idx).ecoObjKey;
+    sectionKey_t selfEcoKey = this->mapEntInns.at(idx)->get_ecoObjKey();
     sectionKey_t tmpEcoKey {};
     
     // 根据 mp 在 chunk 中位置
@@ -164,12 +171,11 @@ bool Job_Chunk::is_borderMapEnt( IntVec2 mposOff_ )noexcept{
         //-- do check --
         tmpIdx = static_cast<size_t>(tmpOffV.y * ENTS_PER_CHUNK + tmpOffV.x);
 
-        tmpEcoKey = this->mapEntInns.at(tmpIdx).ecoObjKey;
+        tmpEcoKey = this->mapEntInns.at(tmpIdx)->get_ecoObjKey();
         if( selfEcoKey != tmpEcoKey ){
             return true;
         }
     }
-
     return false;
 }
 
@@ -210,17 +216,19 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     Job_MapEnt &mp = this->getnc_mapEntInnRef( entMPos - this->chunkMPos );
 
+                    MapAltitude mapAlti = mp.get_alti();
+
                     // 简易测试版
                     // 在一个范围内，就被判断为 水岸，先生产统一的 mp-go 单位
                     //
                     //if( mp.alti.val > -5.0 && mp.alti.val < 5.0 ){   
-                    if( mp.alti.val > -13.0 && mp.alti.val < 13.0 ){    
+                    if( mapAlti.val > -13.0 && mapAlti.val < 13.0 ){    
 
                         auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
-                                                                        mp.mpos,
-                                                                        mpos_2_midDPos( mp.mpos ),
+                                                                        mp.get_mpos(),
+                                                                        mpos_2_midDPos( mp.get_mpos() ),
                                                                         GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
-                                                                        GoAssemblePlanSet::str_2_goLabelId(""),
+                                                                        GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1"),
                                                                         NineDirection::Center,
                                                                         BrokenLvl::Lvl_0
                                                                     );
@@ -244,7 +252,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                     mapEntKey = mpos_2_key( entMPos );
 
                     // skip mapent in water
-                    if( !this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).alti.is_land() ){
+                    if( !this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).get_alti().is_land() ){
                         continue;
                     }
 
@@ -258,10 +266,6 @@ void Job_Chunk::create_field_goSpecDatas(){
                     }
                 }
             }
-
-                // debug 跳过 nature go 的创建
-                //continue;
-            
 
             //----------------------//
             //   nature floorGos ( 2f2-yard )
@@ -280,7 +284,7 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         fieldUWeight,
 
                                         [this, &ecoObjRef]( IntVec2 mpos_ )->bool { // f_is_correct_density_
-                                            Density density = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).density;
+                                            Density density = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_density();
                                             return ecoObjRef.is_find_in_natureFloorDensitys(density);
                                         }
 
@@ -288,7 +292,6 @@ void Job_Chunk::create_field_goSpecDatas(){
 
                     job_fieldRef.copy_nature_floorGoDataPtrs();
                 //}
-
             }
 
             //----------------------//
@@ -311,14 +314,13 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         fieldMPos,
                                         fieldUWeight,
                                         [this]( IntVec2 mpos_ )->bool { // f_is_mapent_land_
-                                            return this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).alti.is_land();
+                                            return this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_alti().is_land();
                                         }
                                         );
 
             job_fieldRef.copy_nature_majorGoDataPtrs();
         }
     } //- each field in chunk (8*8)
-
 }
 
 

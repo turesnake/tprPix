@@ -24,6 +24,7 @@
 
 #include "GoDataForCreate.h"
 
+
 class Job_Chunk;
 
 
@@ -57,15 +58,15 @@ public:
         //--- mapEntPtrs ---
         this->mapEntPtrs.at(static_cast<size_t>(mposOff_.y)).at(static_cast<size_t>(mposOff_.x)) = entPtr_;
         //--- is have border ent ---
-        if( (entPtr_->isBorder) && (!this->isHaveBorderEnt) ){
+        if( entPtr_->get_isEcoBorder() && (!this->isHaveBorderEnt) ){
             this->isHaveBorderEnt = true;
         }
         //--- half field container ---
-        this->halfFields.at(hIdx).insert( entPtr_->colorTableId ); // maybe
+        this->halfFields.at(hIdx).insert( entPtr_->get_colorTableId() ); // maybe
         //--- field container ---
-        this->fields.insert( entPtr_->colorTableId ); // maybe
+        this->fields.insert( entPtr_->get_colorTableId() ); // maybe
         //--- ecoObjKey container ---
-        this->ecoObjKeys.insert( entPtr_->ecoObjKey ); // maybe
+        this->ecoObjKeys.insert( entPtr_->get_ecoObjKey() ); // maybe
     }
 
     void apply_job_groundGoEnts();
@@ -132,7 +133,7 @@ public:
     }
 
     inline fieldKey_t get_fieldKey()const noexcept{ return this->fieldKey; }
-    inline size_t get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->uWeight; } // 生成 groundGo 时使用，
+    inline size_t get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
 
 private:
     void bind_functors( Job_Chunk &jChunkRef_ )noexcept;
@@ -168,6 +169,8 @@ private:
     std::vector<std::vector<Job_MapEnt*>> mapEntPtrs {}; // 二维数组 [h,w]
     //-- 在未来，元素type 会被改成 colorTableId_t ---
     std::set<sectionKey_t> ecoObjKeys {};
+
+    // for groundGoData 
     std::set<colorTableId_t> fields {};
     std::vector<std::set<colorTableId_t>> halfFields {}; // 4 containers
             // leftBottom, rightBottom, leftTop, rightTop

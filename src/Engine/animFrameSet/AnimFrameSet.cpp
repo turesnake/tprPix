@@ -17,14 +17,13 @@
 
 //------------------- Engine --------------------//
 #include "tprAssert.h"
+#include "tprCast.h"
 #include "global.h"
-//#include "Pjt_RGBAHandle.h"
 #include "create_texNames.h"
 #include "load_and_divide_png.h"
 
-#include "esrc_animFrameSet.h"
 
-#include "tprCast.h"
+#include "esrc_animFrameSet.h"
 
 #include "tprDebug.h" //- tmp
 

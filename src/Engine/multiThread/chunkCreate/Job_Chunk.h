@@ -30,21 +30,19 @@
 
 class Job_Chunk{
 public:
-    Job_Chunk( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ):
+    Job_Chunk( chunkKey_t chunkKey_ ):
         chunkKey(chunkKey_),
-        chunkMPos(chunkMPos_)
+        chunkMPos(chunkKey_2_mpos(chunkKey_))
         {
             this->init();
         }
 
     void write_2_field_from_jobData();
-
     void create_field_goSpecDatas();
-
+    bool is_mapEnt_a_ecoBorder( IntVec2 mposOff_ )noexcept;
 
     inline chunkKey_t   get_chunkKey()const noexcept{ return this->chunkKey; }
     inline IntVec2      get_chunkMPos()const noexcept{ return this->chunkMPos; }
-
     
     inline Job_MapEnt &getnc_mapEntInnRef( IntVec2 mposOff_ )noexcept{
 
@@ -53,13 +51,9 @@ public:
 
         size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK + mposOff_.x);
         tprAssert( idx < this->mapEntInns.size() );
-        return this->mapEntInns.at(idx);
+        return *(this->mapEntInns.at(idx));
     }
 
-    
-
-    bool is_borderMapEnt( IntVec2 mposOff_ )noexcept;
-    
     inline void insert_a_entInnPtr_2_field( fieldKey_t fieldKey_, 
                                             IntVec2 mposOff_,
                                             Job_MapEnt* entPtr_ )noexcept{
@@ -76,8 +70,8 @@ public:
     inline void set_field_min_max_altis( fieldKey_t fieldKey_, MapAltitude min_, MapAltitude max_ )noexcept{
         tprAssert( this->fields.find(fieldKey_) != this->fields.end() );
         auto *fieldPtr = this->fields.at(fieldKey_).get();
-        fieldPtr->set_minAlti( min_ );
-        fieldPtr->set_maxAlti( max_ );
+        fieldPtr->init_minAlti( min_ );
+        fieldPtr->init_maxAlti( max_ );
     }
 
     inline const Job_Field *get_job_fieldPtr( fieldKey_t fieldKey_ )const noexcept{
@@ -100,7 +94,7 @@ private:
     chunkKey_t chunkKey     {};
     IntVec2    chunkMPos    {};
 
-    std::vector<Job_MapEnt> mapEntInns {};// [32 * 32 mapents]
+    std::vector<std::unique_ptr<Job_MapEnt>> mapEntInns {};// [32 * 32 mapents]
 
     std::unordered_map<fieldKey_t, std::unique_ptr<Job_Field>> job_fields {};
     std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> fields {};

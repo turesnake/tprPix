@@ -84,12 +84,10 @@ void create_job_chunk_main( const Job &job_ ){
     //-------------------//
     const auto *jobParamPtr = job_.get_param<ArgBinary_Create_Job_Chunk>();
 
-    IntVec2 chunkMPos = chunkKey_2_mpos( jobParamPtr->chunkKey );
-
     //--------------------------//
     //      create job_chunk
     //--------------------------//
-    Job_Chunk &job_chunkRef = esrc::atom_insert_new_job_chunk( jobParamPtr->chunkKey, chunkMPos );
+    Job_Chunk &job_chunkRef = esrc::atom_insert_new_job_chunk( jobParamPtr->chunkKey );
 
     //------------------------------//
     // 收集 周边 4个 sectionKey
@@ -124,7 +122,6 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     //------------------------//
     //   job_chunk.mapEntInns
     //------------------------//
-
     std::vector<std::unique_ptr<EcoObj_ReadOnly>> nearFour_ecoObjDatas {};
     bcd_inn::colloect_nearFour_ecoObjDatas( nearFour_ecoObjDatas, currentChunkMPos ); 
 
@@ -135,14 +132,12 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     std::unique_ptr<EcoObj_ReadOnly> ecoReadOnlyUPtr = esrc::get_ecoObj_readOnly(sectionKey);
 
 
-    // 只创建 chunk 内 mps 
+    // 补完 job_MapEnt 的下半部分 init 工作
     IntVec2     mposOff {};
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){
             mposOff = IntVec2{ w, h };
-
             Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
-            mapEntRef.init( currentChunkMPos+mposOff, currentChunkKey );
             assign_mapent_to_nearFour_ecoObjs_2(ecoReadOnlyUPtr->ecoObjBorderPtr,
                                                 sectionMPos,
                                                 nearFour_ecoObjDatas, 
@@ -171,12 +166,11 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
             auto &field = job_chunkRef_.getnc_fieldRef(tmpFieldKey);
             fieldNodeOff = dpos_2_mpos( field.get_nodeDPos() ) - anyMPos_2_chunkMPos(field.get_mpos());
             const auto &mapEntInnRef = job_chunkRef_.getnc_mapEntInnRef( fieldNodeOff );
-            field.set_ecoObjKey( mapEntInnRef.ecoObjKey );
-            field.set_colorTableId( mapEntInnRef.colorTableId );
-            field.set_density( mapEntInnRef.density );
-            field.set_nodeMapAlti( mapEntInnRef.alti );
-            //field.set_perlin( mapEntInnRef.originPerlin, mapEntInnRef.uWeight );
-            field.set_uWeight( mapEntInnRef.uWeight );
+            field.init_ecoObjKey( mapEntInnRef.get_ecoObjKey() );
+            field.init_colorTableId( mapEntInnRef.get_colorTableId() );
+            field.init_density( mapEntInnRef.get_density() );
+            field.init_nodeMapAlti( mapEntInnRef.get_alti() );
+            field.init_uWeight( mapEntInnRef.get_uWeight() );
         }
     }
 
@@ -201,10 +195,11 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
                 Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
                 //----- field min/max alti -----
-                if( mapEntRef.alti < minFieldAlti ){ minFieldAlti = mapEntRef.alti; }
-                if( mapEntRef.alti > maxFieldAlti ){ maxFieldAlti = mapEntRef.alti; }
+                MapAltitude mapAlti = mapEntRef.get_alti();
+                if( mapAlti < minFieldAlti ){ minFieldAlti = mapAlti; }
+                if( mapAlti > maxFieldAlti ){ maxFieldAlti = mapAlti; }
                 //--- skip unborder ent ---//
-                mapEntRef.isBorder = job_chunkRef_.is_borderMapEnt(mposOff);
+                mapEntRef.init_isEcoBorder( job_chunkRef_.is_mapEnt_a_ecoBorder(mposOff) );
                 //--- insert entInnPtr ---//
                 job_chunkRef_.insert_a_entInnPtr_2_field( fieldKey, IntVec2{ew, eh}, &mapEntRef );
             }
@@ -245,7 +240,7 @@ void assign_mapent_to_nearFour_ecoObjs_2(   const EcoObjBorder *currentEcoObjBor
                                             Job_MapEnt &mapEnt_ ){
 
     const EcoObj_ReadOnly *ecoReadOnlyPtr {nullptr};    
-    NineDirection dir = currentEcoObjBorderPtr_->assign_mapent_to_nearFour_ecoObjs_dir( mapEnt_.mpos - sectionMPos_ );
+    NineDirection dir = currentEcoObjBorderPtr_->assign_mapent_to_nearFour_ecoObjs_dir( mapEnt_.get_mpos() - sectionMPos_ );
     switch (dir){
         case NineDirection::LeftBottom:     ecoReadOnlyPtr =  container_.at(0).get(); break;
         case NineDirection::RightBottom:    ecoReadOnlyPtr =  container_.at(1).get(); break;
@@ -257,12 +252,11 @@ void assign_mapent_to_nearFour_ecoObjs_2(   const EcoObjBorder *currentEcoObjBor
     }
 
     // 正式 获取数据
-    mapEnt_.ecoObjKey = ecoReadOnlyPtr->sectionKey;
-    mapEnt_.colorTableId = ecoReadOnlyPtr->colorTableId;
-    mapEnt_.density.set(mapEnt_.mpos, 
-                        ecoReadOnlyPtr->densitySeaLvlOff,
-                        ecoReadOnlyPtr->densityDivideValsPtr );
-
+    mapEnt_.init_ecoObjKey( ecoReadOnlyPtr->sectionKey );
+    mapEnt_.init_colorTableId( ecoReadOnlyPtr->colorTableId );
+    mapEnt_.init_density( Density{  mapEnt_.get_mpos(), 
+                                    ecoReadOnlyPtr->densitySeaLvlOff,
+                                    ecoReadOnlyPtr->densityDivideValsPtr } );
 }
 
 

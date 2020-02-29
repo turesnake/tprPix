@@ -215,7 +215,7 @@ void collect_chunks_need_to_be_create_in_update(){
                 default:
                     tprAssert(0);
                     break;
-                }
+            }
         }
     }
 }
@@ -354,9 +354,14 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
             double timeP_1 = esrc::get_timer().get_currentTime();
 
 
-    for( const auto &fieldKey : chunkRef.get_fieldKeys() ){ //- each field key
-        create_gos_in_field( fieldKey, chunkRef, job_chunkRef );
-    } //-- each field key end --
+    IntVec2     fieldMPos   {};
+    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){     
+            fieldMPos = chunkRef.get_mpos() + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+            create_gos_in_field( fieldMPos_2_fieldKey(fieldMPos), chunkRef, job_chunkRef );
+        }
+    }
+
 
             double timeP_2 = esrc::get_timer().get_currentTime();
             cout << "chunkCreate: "

@@ -31,11 +31,10 @@ public:
         uWeight(uWeight_)
         {}
 
+    //---------- vals ----------//
     GroundGoEntType         groundType;
     glm::dvec2              dposOff; // base on field-midDPos
-    //---
     colorTableId_t          colorTableId; // 不再需要这个值
-
     size_t                  uWeight; //[0.0, 9999]
 };
 

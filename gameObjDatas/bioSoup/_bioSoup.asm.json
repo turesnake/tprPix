@@ -8,18 +8,37 @@
 
         "plans":[
             {
-                "goLabel": "",
-
+                "goLabel": "MapEnt_1m1",
                 "collide":{
                     "collideType": "Square",
                     "signInMapEnts_square_type": "T_1m1"
                 },
-                
                 "goMeshs":[
-                    { "afsName": "bioSoup", "animLabel": ""  }
+                    { "afsName": "bioSoup", "animLabel": "MapEnt_1m1"  }
+                ]
+            },
+
+            {
+                "goLabel": "MapEnt_2m2",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_2m2"
+                },
+                "goMeshs":[
+                    { "afsName": "bioSoup", "animLabel": "MapEnt_2m2"  }
+                ]
+            },
+
+            {
+                "goLabel": "MapEnt_4m4",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_4m4"
+                },
+                "goMeshs":[
+                    { "afsName": "bioSoup", "animLabel": "MapEnt_4m4"  }
                 ]
             }
-
         ]
     }
 ]

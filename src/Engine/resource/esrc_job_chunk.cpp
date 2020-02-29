@@ -46,8 +46,8 @@ void init_job_chunks(){
  * -----------------------------------------------------------
  * 通常由 job线程 调用
  */
-Job_Chunk &atom_insert_new_job_chunk( chunkKey_t chunkKey_, IntVec2 chunkMPos_ ){
-    auto job_chunkUPtr = std::make_unique<Job_Chunk>(chunkKey_, chunkMPos_);
+Job_Chunk &atom_insert_new_job_chunk( chunkKey_t chunkKey_ ){
+    auto job_chunkUPtr = std::make_unique<Job_Chunk>(chunkKey_);
     //--- atom ---//
     std::unique_lock<std::shared_mutex> ul( jchunk_inn::sharedMutex ); //- write
     auto [insertIt, insertBool] = jchunk_inn::job_chunks.insert({ chunkKey_, std::move(job_chunkUPtr) });

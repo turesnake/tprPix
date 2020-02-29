@@ -48,10 +48,9 @@
 #include "AnimAction.h"
 #include "AnimSubspecies.h"
 
-#include "tprDebug.h"
-
 
 using afsId_t = uint32_t; //- animFrameSet id type
+
 
 class AnimFrameSet{
 public:
