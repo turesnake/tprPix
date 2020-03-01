@@ -147,12 +147,7 @@ class ColliDataFromJson_Square : public ColliDataFromJson{
 public:
     ColliDataFromJson_Square():
         colliderType(ColliderType::Square)
-        {
-            if( !ColliDataFromJson_Square::isStaticInit ){
-                ColliDataFromJson_Square::isStaticInit = true;
-                ColliDataFromJson_Square::init_for_static(); // only once
-            }
-        }
+        {}
 
     //----- get -----//
     inline ColliderType get_colliderType()const override{ return this->colliderType; }
@@ -180,17 +175,15 @@ public:
         return Circular{};
     }
 
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
+
     //----- vals -----//
     ColliderType                colliderType {}; //- nil/cir/cap  一经初始，用不改变
     SignInMapEnts_Square_Type   signInMapEnts_square_type {};
 
 
     //===== static =====//
-    static bool                     isStaticInit;
-    static std::vector<glm::dvec2>  colliPointDPosOffs;//- 移动碰撞检测点，只有一套，所有实例通用
-    
-private:
-    static void init_for_static()noexcept;
+    static std::vector<glm::dvec2>  colliPointDPosOffs;//- 移动碰撞检测点，只有一套，所有实例通用    
 };
 
 

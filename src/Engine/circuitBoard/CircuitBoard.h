@@ -66,7 +66,7 @@ private:
 
 public:
     //================== static ==================//
-    static void init_for_static()noexcept;
+    static void init_for_static()noexcept;// MUST CALL IN MAIN !!! 
 
     static void signUp( goid_t dogoid_, F_AFFECT functor_,
                         const std::map<mapEntKey_t, CircuitBoard::MessageWeight> &mpDatas_ )noexcept;

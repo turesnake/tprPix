@@ -153,7 +153,7 @@ public:
     }
 
     //===== static =====//
-    static void init_for_static()noexcept;
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
     static plotBlueprintId_t init_new_plot( const std::string &plotName_, const std::string &plotLabel_ );
 
     inline static PlotBlueprint &get_plotBlueprintRef( plotBlueprintId_t id_ )noexcept{

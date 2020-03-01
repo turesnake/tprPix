@@ -19,7 +19,7 @@ std::unordered_map<mapEntKey_t, std::unique_ptr<CircuitBoard::MapEntMessage>> Ci
 std::unordered_map<goid_t, F_AFFECT> CircuitBoard::functors {};
 
 
-
+// [*main-thread*]
 void CircuitBoard::init_for_static()noexcept{
     CircuitBoard::messages.reserve( 1000 ); // 随便某个值，未测试
     CircuitBoard::functors.reserve( 1000 ); // 随便某个值，未测试

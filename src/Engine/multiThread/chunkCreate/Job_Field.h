@@ -13,6 +13,7 @@
 //-------------------- CPP --------------------//
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <set>
 #include <functional>
 
@@ -21,6 +22,8 @@
 #include "animSubspeciesId.h"
 #include "mapEntKey.h"
 #include "tprCast.h"
+#include "goLabelId.h"
+
 
 #include "GoDataForCreate.h"
 
@@ -29,22 +32,55 @@ class Job_Chunk;
 
 
 class Job_Field{
+
+
+    template< typename T >
+    class Fract{
+    public:
+        Fract()
+            {
+                this->inHalfFields.resize( cast_2_size_t( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD ) );
+            }
+
+        inline void insert( IntVec2 mposOff_, const T &val_ )noexcept{
+            tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
+                        (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
+            //--- field ---//
+            this->inField.insert(val_); // maybe
+            //--- halfField ---//
+            size_t hIdx = Fract::calc_halfFieldIdx(mposOff_);
+            tprAssert( this->inHalfFields.size() > hIdx );
+            this->inHalfFields.at(hIdx).insert(val_);
+        }
+
+
+        inline size_t get_inField_size()const noexcept{ return this->inField.size(); }
+        inline const std::set<T> &get_inField()const noexcept{ return this->inField; }
+        inline const std::vector<std::set<T>> &get_inHalfFields()const noexcept{ return this->inHalfFields; }
+
+    private:
+        inline static size_t calc_halfFieldIdx( IntVec2 mposOff_ )noexcept{
+            IntVec2 halfFieldPos = mposOff_.floorDiv(static_cast<double>(HALF_ENTS_PER_FIELD));
+            return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD + halfFieldPos.x );
+        }
+        //========== vals ==========//
+        std::set<T> inField {};        
+        std::vector<std::set<T>> inHalfFields {}; // 4 containers
+                            // leftBottom, rightBottom, leftTop, rightTop
+    };
+
+
+
 public:
+    //========== Self Vals ==========//
     Job_Field( Job_Chunk &jChunkRef_, fieldKey_t fieldKey_ ):
         fieldKey(fieldKey_)
         {
-            //===== static =====//
-            if( !Job_Field::isStaticInit ){
-                Job_Field::isStaticInit = true;
-                Job_Field::init_for_static();
-            }
             //-- 二维数组 --
             this->mapEntPtrs.resize( cast_2_size_t(ENTS_PER_FIELD) ); // h
             for( auto &c : this->mapEntPtrs ){
                 c.resize( cast_2_size_t(ENTS_PER_FIELD) ); // w
             }
-            //---
-            this->halfFields.resize( cast_2_size_t( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD ) );
         }
 
     
@@ -53,30 +89,30 @@ public:
         tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
                     (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
 
-        size_t hIdx = Job_Field::get_halfFieldIdx(mposOff_);
-
         //--- mapEntPtrs ---
         this->mapEntPtrs.at(static_cast<size_t>(mposOff_.y)).at(static_cast<size_t>(mposOff_.x)) = entPtr_;
         //--- is have border ent ---
         if( entPtr_->get_isEcoBorder() && (!this->isHaveBorderEnt) ){
             this->isHaveBorderEnt = true;
         }
-        //--- half field container ---
-        this->halfFields.at(hIdx).insert( entPtr_->get_colorTableId() ); // maybe
-        //--- field container ---
-        this->fields.insert( entPtr_->get_colorTableId() ); // maybe
+        
         //--- ecoObjKey container ---
         this->ecoObjKeys.insert( entPtr_->get_ecoObjKey() ); // maybe
+
+        colorTableIdFract.insert( mposOff_, entPtr_->get_colorTableId() );
+        bioSoupFract.insert( mposOff_, entPtr_->get_bioSoupState() );
     }
 
-    void apply_job_groundGoEnts();
+
+    void apply_bioSoupEnts();
+    void apply_groundGoEnts();
 
 
     inline bool is_crossEcoObj()const noexcept{
         return (this->ecoObjKeys.size() > 1);
     }
     inline bool is_crossColorTable()const noexcept{
-        return (this->fields.size() > 1);
+        return ( this->colorTableIdFract.get_inField_size() > 1 );
     }
     inline void insert_2_majorGoDataPtrs( const GoDataForCreate *ptr_ )noexcept{
         this->majorGoDataPtrs.push_back( ptr_ );
@@ -135,20 +171,20 @@ public:
     inline fieldKey_t get_fieldKey()const noexcept{ return this->fieldKey; }
     inline size_t get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
 
-private:
-    void bind_functors( Job_Chunk &jChunkRef_ )noexcept;
+    //===== static =====//
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
 
-    inline static size_t get_halfFieldIdx( IntVec2 mposOff_ )noexcept{
-        IntVec2 halfFieldPos = mposOff_.floorDiv(static_cast<double>(HALF_ENTS_PER_FIELD));
-        return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD + halfFieldPos.x );
-    }
+private:
+
+    void create_bioSoupDataUPtr( IntVec2 mpos_, goLabelId_t goLabelId_ );
+
+
 
     // 同时包含 artifact/nature 两种蓝图数据
     // 供 具象go类 访问，创建 go实例
     std::vector<const GoDataForCreate*> majorGoDataPtrs {};
     std::vector<const GoDataForCreate*> floorGoDataPtrs {};
-
-    std::vector<const GoDataForCreate*> bioSoupGoDataPtrs {}; // tmp
+    std::vector<const GoDataForCreate*> bioSoupGoDataPtrs {};
 
 
     // 人造物蓝图数据 实际存储区，不像人造物数据，被存储在 ecoobj 中
@@ -170,10 +206,11 @@ private:
     //-- 在未来，元素type 会被改成 colorTableId_t ---
     std::set<sectionKey_t> ecoObjKeys {};
 
-    // for groundGoData 
-    std::set<colorTableId_t> fields {};
-    std::vector<std::set<colorTableId_t>> halfFields {}; // 4 containers
-            // leftBottom, rightBottom, leftTop, rightTop
+
+
+    Fract<BioSoupState>     bioSoupFract {};
+    Fract<colorTableId_t>   colorTableIdFract {};
+
 
     
     fieldKey_t  fieldKey;
@@ -181,10 +218,8 @@ private:
     //===== flags =====//
     bool isHaveBorderEnt    {false}; //- 只要发现 border
 
-    //===== static =====//
-    static void init_for_static()noexcept;
-    static bool isStaticInit;
 };
+
 
 
 #endif 

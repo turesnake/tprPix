@@ -19,18 +19,22 @@
 #include "chunkCreate.h"
 #include "dataBase.h"
 #include "sceneLoop.h"
-
 #include "blueprint.h"
-
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
-
 #include "CircuitBoard.h"
-
 #include "EcoObjBorder.h"
+#include "SignInMapEnts_Square.h"
+#include "Collision.h"
+#include "ColliDataFromJson.h"
+
+#include "Job_Field.h"
+
 
 #include "esrc_all.h"
 #include "ubo_all.h"
+
+
 
 #include "timeLog.h" // debug_tmp
 #include "speedLog.h" // debug_tmp
@@ -41,6 +45,7 @@
 
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
+#include "Script/components/windAnim/WindAnim.h"
 
 
 /* ===========================================================
@@ -86,9 +91,7 @@ int main( int argc, char* argv[] ){
     //          call_scriptMain
     //------------------------------------------//
     esrc::init_behaviour();
-
     esrc::init_coordinate();
-
     esrc::call_scriptMain();
 
     //------------------------------------------//
@@ -115,6 +118,10 @@ int main( int argc, char* argv[] ){
     esrc::init_VAOVBO();
 
     CircuitBoard::init_for_static();
+    component::WindAnim::init_for_static();
+    SignInMapEnts_Square::init_for_static();
+    Collision::init_for_static();
+    ColliDataFromJson_Square::init_for_static();
 
     
     esrc::init_colorTableSet();
@@ -137,6 +144,8 @@ int main( int argc, char* argv[] ){
 
     db::atom_init_dataBase();
             //-- tmp...
+
+    Job_Field::init_for_static();
 
     tprDebug::init_timeLog();
     tprDebug::init_speedLog();

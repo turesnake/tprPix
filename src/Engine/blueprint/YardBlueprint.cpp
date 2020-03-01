@@ -30,7 +30,7 @@ ID_Manager                                              VarTypeDatas_Yard_MajorG
 ID_Manager                                              VarTypeDatas_Yard_FloorGo::id_manager { ID_TYPE::U32, 0 };
 
 
-
+// [*main-thread*]
 void YardBlueprintSet::init_for_static()noexcept{
     YardBlueprintSet::setUPtrs.reserve(1000);
     YardBlueprintSet::yardUPtrs.reserve(1000);

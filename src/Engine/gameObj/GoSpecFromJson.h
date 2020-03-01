@@ -62,10 +62,8 @@ public:
     void init_check()noexcept;
 
     //======== vals ========//
-    std::string       goSpeciesName {};
-    goSpeciesId_t     speciesId {};
-
-    //----- enum -----//
+    std::string         goSpeciesName {};
+    goSpeciesId_t       speciesId {};
     GameObjFamily       family {};
     GameObjState        state  {};
     GameObjMoveState    moveState {};
@@ -78,19 +76,14 @@ public:
 
     //----- numbers -----//
     SpeedLevel   moveSpeedLvl {};
-
     double       alti   {};
-    
-
     double       weight {};
     //...
 
     PubBinary2   pubBinary {};
 
-    //----- afs / gomeshs -----//
-    std::unique_ptr<GoAssemblePlanSet> goAssemblePlanSetUPtr {nullptr}; // 数据存储地
 
-    //----- datas -----//
+    std::unique_ptr<GoAssemblePlanSet> goAssemblePlanSetUPtr {nullptr}; // 数据存储地
     std::unique_ptr<MoveStateTable> moveStateTableUPtr {nullptr};
 
             
@@ -169,9 +162,8 @@ private:
     }
 
     //======== vals ========//
-    std::unordered_set<std::string> afsNames {};
-
-    std::unordered_map<GoAltiRangeLabel, GoAltiRange> lAltiRanges {};
+    std::unordered_set<std::string>                     afsNames {};
+    std::unordered_map<GoAltiRangeLabel, GoAltiRange>   lAltiRanges {};
 
     //-- 当 isBePass == false 时，允许一组 特殊的 dogo，可以穿透本 bego
     // 正式使用时，只提供 只读指针

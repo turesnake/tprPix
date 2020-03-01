@@ -190,25 +190,6 @@ void parse_single_jsonFile( const std::string &path_file_ ){
                 goSpecFromJsonRef.insert_2_lAltiRanges( label, val );
             }
         }
-        /*
-        {//--- defaultGoAltiRangeLabel ---//
-            const auto &a = check_and_get_value( ent, "defaultGoAltiRangeLabel", JsonValType::String );
-            goSpecFromJsonRef.defaultGoAltiRangeLabel = str_2_goAltiRangeLabel( a.GetString() );
-        }
-        */
-
-
-        /*
-        if( ent.HasMember("lAltiRange") ){
-            const auto &a = check_and_get_value( ent, "lAltiRange", JsonValType::Array );
-            tprAssert( a.Size() == 2 );
-            goSpecFromJsonRef.lAltiRange.set( a[0].GetDouble(), a[1].GetDouble() );
-        }else{
-            goSpecFromJsonRef.lAltiRange.set( 0.0, 0.0 ); // 允许 json 文件不写入，自动提供的是一个 无法被碰撞到的值
-        }
-        */
-
-
 
         {//--- weight ---//
             const auto &a = check_and_get_value( ent, "weight", JsonValType::Number );

@@ -21,9 +21,8 @@ namespace wmes_inn {//------------- namespace wmes_inn ----------------
 
 
 std::unordered_map<SignInMapEnts_Square_Type, std::unique_ptr<SignInMapEnts_Square>>    SignInMapEnts_Square::dataUPtrs;
-bool                                                                                    SignInMapEnts_Square::isStaticInit {false};
 
-
+// [*main-thread*]
 // 直接手动初始化数据
 void SignInMapEnts_Square::init_for_static()noexcept{
 

@@ -19,7 +19,7 @@ std::hash<std::string>                      VillageBlueprint::hasher {};
 
 std::unordered_map<villageBlueprintId_t, std::unique_ptr<VillageBlueprint>> VillageBlueprint::villageUPtrs {};
 
-
+// [*main-thread*]
 void VillageBlueprint::init_for_static()noexcept{
     VillageBlueprint::villageUPtrs.reserve(1000);
 }

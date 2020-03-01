@@ -45,12 +45,7 @@ public:
     
     Collision( GameObj &goRef_ ):
         goRef(goRef_)
-        {
-            if( !Collision::isStaticInit ){
-                Collision::isStaticInit = true;
-                Collision::init_for_static();
-            }
-        }
+        {}
 
     glm::dvec2 detect_moveCollide( const glm::dvec2 &moveVec_ ); // tmp
 
@@ -84,6 +79,8 @@ public:
     inline const std::set<IntVec2> &get_current_signINMapEnts_circle_ref()const noexcept{
         return this->signInMapEnts_cir_uptr->get_currentSignINMapEntsRef();
     }    
+
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
 
 private:
     std::pair<bool, glm::dvec2> collect_AdjacentBegos_and_deflect_moveVec( const glm::dvec2 &moveVec_ );
@@ -121,13 +118,9 @@ private:
 
 
     //===== static =====//
-    static void init_for_static()noexcept;
-
     static void build_a_scanBody(   const glm::dvec2 &moveVec_,
                                     const glm::dvec2 &dogoDPos_ );
 
-    //---
-    static bool isStaticInit;
 
     static std::vector<glm::dvec2> obstructNormalVecs;
                             // moveCollide 第一阶段，在 dogo起始位置，所有与之 相邻 的bego，

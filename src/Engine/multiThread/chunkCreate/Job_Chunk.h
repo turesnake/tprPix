@@ -63,7 +63,7 @@ public:
 
     inline void apply_field_job_groundGoEnts( fieldKey_t fieldKey_ )noexcept{
         tprAssert( this->job_fields.find(fieldKey_) != this->job_fields.end() );
-        this->job_fields.at(fieldKey_)->apply_job_groundGoEnts();
+        this->job_fields.at(fieldKey_)->apply_groundGoEnts();
     }
     
 

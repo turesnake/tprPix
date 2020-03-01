@@ -30,7 +30,6 @@
 
 
 //===== static =====//
-bool                                    Collision::isStaticInit {false};
 std::vector<glm::dvec2>                 Collision::obstructNormalVecs {};
 std::set<NineDirection>                 Collision::confirmedAdjacentMapEnts {};
 std::unordered_map<goid_t, glm::dvec2>  Collision::adjacentCirBeGos {};
@@ -39,7 +38,7 @@ std::unordered_set<goid_t>              Collision::begoids_circular {};
 std::multiset<double>                   Collision::tVals {};  
 std::vector<IntVec2>                    Collision::mapEnts_in_scanBody {};
 
-
+// [*main-thread*]
 void Collision::init_for_static()noexcept{
     init_for_colliOth_inn();
     //---

@@ -279,7 +279,7 @@ public:
     using F_getYardId = std::function< std::optional<yardBlueprintId_t>(NineDirection)>;
 
     //===== static =====//
-    static void init_for_static()noexcept;
+    static void init_for_static()noexcept;// MUST CALL IN MAIN !!! 
     static yardBlueprintId_t init_new_yard( const std::string &yardName_, 
                                             const std::string &yardLabel_,
                                             NineDirection      yardDir_ );

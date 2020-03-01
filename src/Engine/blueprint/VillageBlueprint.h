@@ -95,7 +95,7 @@ public:
     }
 
     //===== static =====//
-    static void init_for_static()noexcept;
+    static void init_for_static()noexcept;// MUST CALL IN MAIN !!! 
     static villageBlueprintId_t init_new_village( const std::string &name_ );
 
     inline static VillageBlueprint &get_villageBlueprintRef( villageBlueprintId_t id_ )noexcept{

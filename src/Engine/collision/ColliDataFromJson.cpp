@@ -10,6 +10,7 @@
 //------------------- Engine --------------------//
 #include "calc_colliPoints.h"
 
+#include "esrc_state.h"
 #include "esrc_coordinate.h"
 
 #include "tprDebug.h"
@@ -24,12 +25,13 @@ std::unique_ptr<ColliDataFromJson> ColliDataFromJson_Nil::nillInstance = std::ma
 //--- circular ---
 
 //--- square ---
-bool        ColliDataFromJson_Square::isStaticInit {false};
 std::vector<glm::dvec2> ColliDataFromJson_Square::colliPointDPosOffs {};
 
 
-
+// [*main-thread*]
 void ColliDataFromJson_Square::init_for_static()noexcept{
+
+    tprAssert( esrc::is_setState("coordinate") );
 
     const auto &worldCoordRef = esrc::get_worldCoordRef();
 

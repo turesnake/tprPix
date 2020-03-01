@@ -21,7 +21,7 @@ std::unordered_map<plotBlueprintId_t, std::unique_ptr<PlotBlueprint>> PlotBluepr
 ID_Manager          VarTypeDatas_Plot::id_manager { ID_TYPE::U32, 0 };
 
 
-
+// [*main-thread*]
 void PlotBlueprint::init_for_static()noexcept{
     PlotBlueprint::name_2_ids.reserve(1000);
     PlotBlueprint::plotUPtrs.reserve(1000);

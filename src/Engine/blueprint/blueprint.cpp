@@ -47,6 +47,7 @@ namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 }//-------------- namespace: blueP_inn end ----------------//
 
 
+// [*main-thread*]
 void init_blueprint()noexcept{
     PlotBlueprint::init_for_static();
     YardBlueprintSet::init_for_static(); // Not YardBlueprint

@@ -93,7 +93,7 @@ public:
         return WindAnim::go_windDelaySteps_pool.at(WindAnim::go_windDelaySteps_poolIdx);
     }
 
-    static void init_for_static()noexcept;
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
 
     
 private:  
@@ -118,9 +118,7 @@ private:
 
     static std::vector<size_t> goMesh_windDelaySteps_pool;  // 1000 ents
     static std::vector<size_t> go_windDelaySteps_pool;      // 100 ents
-
-    static bool isStaticInit;
-    
+   
 };
 
 

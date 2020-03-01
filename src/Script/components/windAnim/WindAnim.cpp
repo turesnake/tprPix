@@ -28,9 +28,6 @@ size_t WindAnim::go_windDelaySteps_poolIdx {0};
 std::vector<size_t> WindAnim::goMesh_windDelaySteps_pool {};
 std::vector<size_t> WindAnim::go_windDelaySteps_pool {};
 
-bool WindAnim::isStaticInit {false};
-
-
 
 void WindAnim::init_for_static()noexcept{
 
@@ -75,11 +72,6 @@ void WindAnim::init_for_static()noexcept{
 
 
 void WindAnim::init( const std::vector<AnimActionEName> *ActionEName_poolPtr_ )noexcept{
-
-    if( !WindAnim::isStaticInit ){
-        WindAnim::isStaticInit = true;
-        WindAnim::init_for_static();
-    }
 
     //----------//
     this->ActionEName_poolPtr = ActionEName_poolPtr_;

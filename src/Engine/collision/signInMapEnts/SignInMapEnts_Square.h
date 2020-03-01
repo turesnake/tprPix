@@ -28,19 +28,15 @@ public:
     
 
     static inline const SignInMapEnts_Square &get_signInMapEnts_square_ref( SignInMapEnts_Square_Type type_ )noexcept{
-        if( !SignInMapEnts_Square::isStaticInit ){
-            SignInMapEnts_Square::isStaticInit = true;
-            SignInMapEnts_Square::init_for_static();
-        }
         tprAssert( SignInMapEnts_Square::dataUPtrs.find(type_) != SignInMapEnts_Square::dataUPtrs.end() );
         return *SignInMapEnts_Square::dataUPtrs.at(type_);
     }
 
 
+    static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
+
 private:
     SignInMapEnts_Square()=default;
-
-    static void init_for_static()noexcept;
 
     static inline SignInMapEnts_Square &insert_new_signInMapEnts_square( SignInMapEnts_Square_Type type_ )noexcept{
 
@@ -63,8 +59,6 @@ private:
 
     //======= static =======//
     static std::unordered_map<SignInMapEnts_Square_Type, std::unique_ptr<SignInMapEnts_Square>> dataUPtrs;
-    static bool isStaticInit;                                  
-
 };
 
 

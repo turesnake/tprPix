@@ -36,19 +36,19 @@ namespace gameObjs{//------------- namespace gameObjs ----------------
 // 然后 新建 go
 goid_t create_a_Go( const GoDataForCreate *goDPtr_ ){
 
-    //--- dyParam ---//
+    //===== dyParam =====//
     DyParam dyParam {};
     auto fUPtr = std::make_unique<DyParams_GoDataForCreate>();
     fUPtr->goDataPtr = goDPtr_;
     dyParam.insert_ptr<DyParams_GoDataForCreate>( fUPtr.get() );
 
 
-    //----- create a go -----//
+    //===== create a go =====//
     goid_t goid = esrc::insert_new_regularGo( goDPtr_->dpos );
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
-        tprAssert( GoSpecFromJson::find_from_initFuncs(goDPtr_->goSpeciesId) );
+    tprAssert( GoSpecFromJson::find_from_initFuncs(goDPtr_->goSpeciesId) );
     GoSpecFromJson::assemble_2_newGo( goDPtr_->goSpeciesId, goRef );
 
     //-- check GameObjFamily --
