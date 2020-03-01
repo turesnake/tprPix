@@ -24,7 +24,6 @@
 #include "tprAssert.h"
 #include "goLabelId.h"
 #include "GameObjType.h"
-#include "AnimLabel.h"
 #include "ID_Manager.h" 
 #include "NineDirection.h"
 #include "BrokenLvl.h"
@@ -49,9 +48,9 @@ public:
 
         //===
         std::string             animFrameSetName {};
+        std::string             animLabel {};
         glm::dvec2              dposOff {}; // gomesh-dposoff based on go-dpos
         double                  zOff    {};
-        AnimLabel               animLabel {};
         AnimActionEName         animActionEName {};
 
         RenderLayerType         renderLayerType {};

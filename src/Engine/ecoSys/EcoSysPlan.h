@@ -24,7 +24,6 @@
 #include "GameObjType.h"
 #include "ID_Manager.h" 
 #include "EcoSysPlanType.h"
-#include "AnimLabel.h"
 #include "GoSpecData.h"
 #include "colorTableId.h"
 #include "blueprint.h"

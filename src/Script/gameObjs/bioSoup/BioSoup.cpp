@@ -38,12 +38,8 @@ using namespace std::placeholders;
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
-namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
-
-    double calc_goMeshZOff( size_t mapEntUWeight_ );
-
-
-}//--------------------- namespace: bioSoup_inn end ------------------------//
+//namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
+//}//--------------------- namespace: bioSoup_inn end ------------------------//
 
 
 struct FloorGo_PvtBinary{
@@ -75,38 +71,12 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
 void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
-
-    //=====================================//
-    //  将 确认要渲染的 goMeshs，添加到 renderPool         
-    //-------------------------------------//
     goRef_.render_all_goMesh();
 }
 
-
-/* -- 此处用到的 animFrameIdxHdle实例，是每次用到时，临时 生产／改写 的
- * -- 会被 动作状态机 取代...
- */
-void BioSoup::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-    tprAssert(0);
-}
-
-
-namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
+void BioSoup::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){ tprAssert(0);}
 
 
 
-double calc_goMeshZOff( size_t mapEntUWeight_ ){
-
-    // 获得一个 小数值 (0.0, 0.1)
-    double rd = static_cast<double>(mapEntUWeight_) / 71.17;
-    double integer {}; // 不会被使用
-    double fract = modf(rd, &integer) / 10.0; // (0.0, 0.1)
-    return ( floorGoLayer_2_goMesh_baseZOff(FloorGoLayer::L_4) + fract );
-}
-
-
-
-
-}//--------------------- namespace: bioSoup_inn end ------------------------//
 }//------------- namespace gameObjs: end ----------------
 

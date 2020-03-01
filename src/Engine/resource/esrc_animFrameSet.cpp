@@ -50,7 +50,7 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
 
 // support multi-thread
 animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFrameSetName_,
-                                                    AnimLabel  label_,
+                                                    const std::string  &label_,
                                                     size_t              uWeight_ ){
         // debug
         if( anim_inn::animFrameSets.find(animFrameSetName_) == anim_inn::animFrameSets.end() ){

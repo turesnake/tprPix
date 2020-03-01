@@ -125,7 +125,7 @@ namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//
         double                  zOff    {};
         AnimActionEName         animActionEName {};
 
-        Hold<AnimLabel>         animLabel {}; // animLabel OR animLabel_hold
+        Hold<std::string>       animLabel {}; // animLabel OR animLabel_hold
         Hold<std::string>       afsName {}; // afsName or afsName_hold
 
 
@@ -398,7 +398,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 }else{
                     tprAssert( goMesh.HasMember("animLabel") );
                     const auto &a = json::check_and_get_value( goMesh, "animLabel", json::JsonValType::String );
-                    json_GoMeshEnt.animLabel.init_by_value( str_2_animLabel(a.GetString() ) );
+                    json_GoMeshEnt.animLabel.init_by_value( a.GetString()  );
                 }
 
 
@@ -590,7 +590,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                     if( json_GoMeshEntRef.animLabel.is_hold() ){
                         std::string holdStr = json_GoMeshEntRef.animLabel.get_holdStr();
                         tprAssert( animLabel_holds.find(holdStr) != animLabel_holds.end() );
-                        json_GoMeshEntRef.animLabel.replace_2_value( str_2_animLabel(animLabel_holds.at(holdStr)) );
+                        json_GoMeshEntRef.animLabel.replace_2_value( animLabel_holds.at(holdStr) );
                     }
                 }
 

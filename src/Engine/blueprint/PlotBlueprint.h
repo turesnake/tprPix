@@ -21,7 +21,6 @@
 #include "BlueprintVarType.h"
 #include "blueprintId.h"
 #include "GameObjType.h"
-#include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
 #include "FloorGoType.h"
@@ -65,8 +64,8 @@ public:
 
     //----- vals -----//
     goSpeciesId_t           goSpeciesId    {};
-    std::string             afsName     {}; // 允许为 "", 此时 animLabel == Nil
-    AnimLabel               animLabel  {};
+    std::string             afsName     {}; // 允许为 "", 此时 animLabel == ""
+    std::string             animLabel   {};
     
     goLabelId_t             goLabelId {};
 

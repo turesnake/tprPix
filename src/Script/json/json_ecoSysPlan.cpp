@@ -24,7 +24,6 @@
 #include "global.h"
 #include "fileIO.h"
 #include "EcoSysPlan.h"
-#include "AnimLabel.h"
 #include "json_oth.h"
 #include "blueprint.h"
 #include "GoSpecData.h"

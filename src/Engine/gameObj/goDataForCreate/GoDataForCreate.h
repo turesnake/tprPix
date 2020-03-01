@@ -21,7 +21,6 @@
 //------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "GameObjType.h"
-#include "AnimLabel.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
 #include "FloorGoType.h"
@@ -30,7 +29,6 @@
 #include "AnimActionEName.h"
 #include "GoAltiRange.h"
 #include "GoAssemblePlan.h"
-#include "AnimLabel.h"
 
 // need:
 class Job_Field;
@@ -107,7 +105,7 @@ public:
     virtual const std::string   &get_animFrameSetName()const =0;
     virtual glm::dvec2           get_dposOff()const =0;
     virtual double               get_zOff()const =0;
-    virtual AnimLabel            get_animLabel()const =0;
+    virtual const std::string   &get_animLabel()const =0;
     virtual AnimActionEName      get_animActionEName()const =0;
     virtual RenderLayerType      get_renderLayerType()const =0;
     virtual ShaderType           get_shaderType()const =0;
@@ -143,7 +141,7 @@ public:
     inline const std::string    &get_animFrameSetName()const override{ return this->goMeshEntPtr->animFrameSetName; }
     inline glm::dvec2           get_dposOff()const override{ return this->goMeshEntPtr->dposOff; }
     inline double               get_zOff()const override{ return this->goMeshEntPtr->zOff; }
-    inline AnimLabel            get_animLabel()const override{ return this->goMeshEntPtr->animLabel; }
+    inline const std::string   &get_animLabel()const override{ return this->goMeshEntPtr->animLabel; }
     inline AnimActionEName      get_animActionEName()const override{ return this->goMeshEntPtr->animActionEName; }
     inline RenderLayerType      get_renderLayerType()const override{ return this->goMeshEntPtr->renderLayerType; }
     inline ShaderType           get_shaderType()const override{ return this->goMeshEntPtr->shaderType; }
@@ -195,7 +193,7 @@ public:
     // 需要手动指定 afsName,animLabel 的版本
     GoMeshByHand(   const GoAssemblePlanSet::GoMeshEnt  *goMeshEntPtr_,
                     const std::string                   &animFrameSetName_,
-                    AnimLabel                           animLabel_,
+                    const std::string                   &animLabel_,
                     size_t                              uWeight_ ):
         goMeshEntPtr(goMeshEntPtr_),
         animFrameSetName( {animFrameSetName_} ),
@@ -233,7 +231,7 @@ public:
                     this->zOff.value() :
                     this->goMeshEntPtr->zOff;
     }
-    inline AnimLabel            get_animLabel()const override{ 
+    inline const std::string    &get_animLabel()const override{ 
         return this->animLabel.has_value() ?
                     this->animLabel.value() :
                     this->goMeshEntPtr->animLabel;
@@ -293,7 +291,7 @@ public:
 
 private:
     void init_subspeciesId( const std::string   &animFrameSetName_,
-                            AnimLabel           label_,
+                            const std::string   &label_,
                             size_t              uWeight_ )noexcept;
 
     //===== values =====//
@@ -301,7 +299,7 @@ private:
 
     //----- customized vals ----------//
     std::optional<std::string>             animFrameSetName {};
-    std::optional<AnimLabel>               animLabel {};
+    std::optional<std::string>             animLabel {};
 
 
     //--- vals not in goMeshEntPtr -----//

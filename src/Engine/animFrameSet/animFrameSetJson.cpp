@@ -75,17 +75,17 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
     void parse_AnimActionParam( size_t  subspeciesIdx_,
                                 const Value &actionParamEnt_,
                                 std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                                AnimLabel  label_,
+                                const std::string &label_,
                                 bool isPjtSingle_ );
 
     std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_,
-                                                    AnimLabel  label_,
+                                                    const std::string &label_,
                                                     bool isPjtSingle_ );
     
     std::shared_ptr<AnimActionParam> multiFrame(    size_t  subspeciesIdx_,
                                                     const Value &actionParamEnt_, 
-                                                    AnimLabel  label_ );
+                                                    const std::string &label_ );
 
     NineDirection jsonStr_2_ninedirection( const std::string &str_ );
 }//------------- namespace: afsJson_inn end --------------//
@@ -108,9 +108,9 @@ void parse_animFrameSetJsonFile(){
     }
 
     //-------- special ids ----------//
-    esrc::set_nilCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_NilCollide", AnimLabel::Default, 1) );
-    esrc::set_squareCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_SquareCollide", AnimLabel::Default, 1) );
-    esrc::set_fieldRimId( esrc::apply_a_random_animSubspeciesId( "fieldRim", AnimLabel::Default, 1) );
+    esrc::set_nilCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_NilCollide", "", 1) );
+    esrc::set_squareCollide_emptyPixId( esrc::apply_a_random_animSubspeciesId( "emptyPix_SquareCollide", "", 1) );
+    esrc::set_fieldRimId( esrc::apply_a_random_animSubspeciesId( "fieldRim", "", 1) );
     //...
     
     //-------------
@@ -251,12 +251,12 @@ void parse_subspec_in_handleType(  const Value &subspecEnt_,
                         bool isPjtSingle_ ){
 
     
-    AnimLabel   animLabel {};
-    size_t      subIdx  {};
+    std::string     animLabel {};
+    size_t          subIdx  {};
 
     {//--- animLabel ---//
         const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
-        animLabel = str_2_animLabel(a.GetString());
+        animLabel = a.GetString();
     }
     {//--- subIdx ---//
         const auto &a = check_and_get_value( subspecEnt_, "subIdx", JsonValType::Uint64 );
@@ -279,7 +279,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
                         std::vector<std::shared_ptr<AnimActionParam>> &params_,
                         bool isPjtSingle_ ){
     
-    AnimLabel     animLabel {};
+    std::string     animLabel {};
     AnimActionEName actionEName;
     NineDirection actionDir {};
     BrokenLvl     actionBrokenLvl {};
@@ -291,7 +291,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
 
     {//--- animLabel ---//
         const auto &a = check_and_get_value( subspecEnt_, "animLabel", JsonValType::String );        
-        animLabel = str_2_animLabel(a.GetString());
+        animLabel = a.GetString();
     }
 
     {//--- fstSubIdx ---//
@@ -343,7 +343,7 @@ void parse_subspec_in_batchType(  const Value &subspecEnt_,
 void parse_AnimActionParam( size_t  subspeciesIdx_,
                             const Value &actionParamEnt_,
                             std::vector<std::shared_ptr<AnimActionParam>> &params_,
-                            AnimLabel  label_,
+                            const std::string &label_,
                             bool isPjtSingle_ ){
 
     std::string type {};
@@ -369,7 +369,7 @@ void parse_AnimActionParam( size_t  subspeciesIdx_,
  */
 std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
                                                 const Value &actionParamEnt_,
-                                                AnimLabel  label_,
+                                                const std::string &label_,
                                                 bool isPjtSingle_ ){
 
     AnimActionEName actionEName {};
@@ -413,7 +413,7 @@ std::shared_ptr<AnimActionParam> singleFrame(   size_t  subspeciesIdx_,
  */
 std::shared_ptr<AnimActionParam> multiFrame(size_t  subspeciesIdx_,
                                             const Value &actionParamEnt_, 
-                                            AnimLabel  label_ ){
+                                            const std::string &label_ ){
 
     AnimActionEName actionEName {};
     NineDirection       actionDir {};

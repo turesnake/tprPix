@@ -24,7 +24,6 @@
 #include "ID_Manager.h" 
 #include "AnimAction.h"
 #include "animSubspeciesId.h"
-#include "AnimLabel.h"
 #include "AnimActionEName.h"
 #include "NineDirection.h"
 #include "tprCast.h"
@@ -151,7 +150,7 @@ public:
 
 
     //-- 空值需要传入 AnimLabel::Default
-    inline animSubspeciesId_t find_or_create_a_animSubspeciesId( AnimLabel label_, size_t  subIdx_ )noexcept{
+    inline animSubspeciesId_t find_or_create_a_animSubspeciesId( const std::string & label_, size_t  subIdx_ )noexcept{
         if( this->subSquads.find(label_) == this->subSquads.end() ){
             auto [insertIt, insertBool] = this->subSquads.insert({ label_, AnimSubspeciesSquad{} });
             tprAssert( insertBool );
@@ -163,10 +162,10 @@ public:
 
 
     // param: uWeight_ [0, 9999]
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId(  AnimLabel label_, size_t uWeight_ )noexcept{
-        if( label_ == AnimLabel::Default ){
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(  const std::string & label_, size_t uWeight_ )noexcept{
+        if( label_ == "" ){
             size_t idx = (uWeight_ + 735157) % this->labels.size();
-            AnimLabel tmpLabel = this->labels.at( idx );
+            const std::string &tmpLabel = this->labels.at(idx);
             return this->subSquads.at(tmpLabel).apply_a_random_animSubspeciesId( uWeight_ );
         }else{
             tprAssert( this->subSquads.find(label_) != this->subSquads.end() );
@@ -186,8 +185,8 @@ public:
 
 
 private:
-    std::vector<AnimLabel> labels {}; // 所有被登记的 labels
-    std::unordered_map<AnimLabel, AnimSubspeciesSquad> subSquads {};
+    std::vector<std::string> labels {}; // 所有被登记的 labels.  ( "" == default )
+    std::unordered_map<std::string, AnimSubspeciesSquad> subSquads {};
 };
 
 

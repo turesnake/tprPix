@@ -24,7 +24,6 @@
 #include "NineDirection.h"
 #include "RGBA.h" 
 #include "AnimActionPos.h"
-#include "AnimLabel.h"
 #include "functorTypes.h"
 #include "BrokenLvl.h"
 #include "AnimActionEName.h"
@@ -167,7 +166,7 @@ public:
                     size_t                 jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     const std::vector<size_t>  &timeSteps_,
-                    AnimLabel              label_ ):
+                    const std::string          &label_ ):
         subspeciesIdx(subspeciesIdx_),
         actionEName(actionEName_),
         actionDir(actionDir_),
@@ -195,7 +194,7 @@ public:
                     size_t                jFrameIdx_,
                     const std::vector<size_t>  &lFrameIdxs_,
                     size_t   _defaultTimeStep,
-                    AnimLabel              label_ ):
+                    const std::string          &label_ ):
         subspeciesIdx(subspeciesIdx_),
         actionEName(actionEName_),
         actionDir(actionDir_),
@@ -220,7 +219,7 @@ public:
                     size_t  jFrameIdx_,
                     size_t  lFrameIdx_,
                     bool    isOpaque_,
-                    AnimLabel         label_ ):
+                    const std::string     &label_ ):
         subspeciesIdx(subspeciesIdx_),
         actionEName(actionEName_),
         actionDir(actionDir_),
@@ -250,7 +249,7 @@ public:
     size_t          defaultTimeStep;         //- 若上参数为 false，通过本参数来设置 timeSteps 
     std::vector<size_t> lFrameIdxs {};          //- 和 AnimAction 中的 frameIdxs 不同，此处基于的idx 是相对值
     std::vector<size_t> timeSteps  {}; 
-    AnimLabel       animLabel {};
+    std::string      animLabel {};
 };
 
 

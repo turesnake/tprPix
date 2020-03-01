@@ -12,7 +12,6 @@
 #include <vector>
 
 //------------------- Engine --------------------//
-#include "AnimLabel.h"
 #include "GameObjType.h"
 
 #include "GoAssemblePlan.h"
@@ -39,9 +38,9 @@ public:
         {}
 
     //----- get -----//
-    inline goSpeciesId_t   get_rootGoSpeciesId()const noexcept{ return this->rootGoSpeciesId; }
-    inline const std::string &get_afsName()const noexcept{ return this->afsName; }
-    inline AnimLabel get_animLabel()const noexcept{ return this->animLabel; }
+    inline goSpeciesId_t        get_rootGoSpeciesId()const noexcept{ return this->rootGoSpeciesId; }
+    inline const std::string    &get_afsName()const noexcept{ return this->afsName; }
+    inline const std::string    &get_animLabel()const noexcept{ return this->animLabel; }
 
     inline goLabelId_t get_goLabelId()const noexcept{
         return this->goLabelId;
@@ -52,7 +51,7 @@ private:
     goSpeciesId_t              rootGoSpeciesId {};
 
     std::string             afsName    {};
-    AnimLabel               animLabel {};
+    std::string             animLabel {};
     goLabelId_t             goLabelId {};
 };
 

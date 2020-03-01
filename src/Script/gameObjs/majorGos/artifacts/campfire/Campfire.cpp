@@ -73,7 +73,7 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
     auto *pvtBp = goRef_.init_pvtBinary<Campfire_PvtBinary>();
 
     // 以后使用，先准备起来
-    pvtBp->smokeSubId = esrc::apply_a_random_animSubspeciesId( "campfire_smoke", AnimLabel::Default, 7 );
+    pvtBp->smokeSubId = esrc::apply_a_random_animSubspeciesId( "campfire_smoke", "", 7 );
 
     //========== 标准化装配 ==========//
     assemble_regularGo( goRef_, dyParams_ );

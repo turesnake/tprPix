@@ -74,7 +74,7 @@ public:
         return &(this->texNames_shadow);
     }
 
-    inline animSubspeciesId_t apply_a_random_animSubspeciesId(AnimLabel label_, size_t uWeight_ )noexcept{
+    inline animSubspeciesId_t apply_a_random_animSubspeciesId(const std::string &label_, size_t uWeight_ )noexcept{
         return this->subGroup.apply_a_random_animSubspeciesId( label_, uWeight_ );
     }
 

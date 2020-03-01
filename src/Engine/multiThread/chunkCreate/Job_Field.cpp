@@ -23,6 +23,8 @@
 
 namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 
+    // 以下这种直接标记 数字的方式 很不安全
+    // 当 ENTS_PER_FIELD / HALF_ENTS_PER_FIELD 发生改变时，就会失效
 
     //-- 按照象限，遍历 Job_Field::mapEntPtrs 用 --
     const std::vector<std::vector<IntVec2>> whs{
@@ -56,14 +58,10 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
     std::vector<glm::dvec2> mapentDposOffs {}; // num:4
 
 
-    //const std::vector<>
+    //=============================//
+    //        bioSoup    [tmp]
+    std::map<BioSoupState, std::map<FieldFractType, goLabelId_t>> bioSoup_goLabelIds {};
 
-
-
-
-    goLabelId_t bioSoupLabel_1m1 {};
-    goLabelId_t bioSoupLabel_2m2 {};
-    goLabelId_t bioSoupLabel_4m4 {};
 
 }//-------------- namespace: jobF_inn end ----------------//
 
@@ -72,6 +70,7 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 // [*main-thread*]
 void Job_Field::init_for_static()noexcept{
 
+    tprAssert( (ENTS_PER_FIELD==4) && (HALF_ENTS_PER_FIELD==2) ); // MUST
     tprAssert( esrc::is_setState("gameObj") );
     
     //=====//
@@ -115,9 +114,25 @@ void Job_Field::init_for_static()noexcept{
     }
 
     //---------------//
-    jobF_inn::bioSoupLabel_1m1 = GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1");
-    jobF_inn::bioSoupLabel_2m2 = GoAssemblePlanSet::str_2_goLabelId("MapEnt_2m2");
-    jobF_inn::bioSoupLabel_4m4 = GoAssemblePlanSet::str_2_goLabelId("MapEnt_4m4");
+    //    bioSoup [tmp]
+    jobF_inn::bioSoup_goLabelIds.insert({
+        BioSoupState::Active,
+        std::map<FieldFractType, goLabelId_t>{
+            { FieldFractType::MapEnt,       GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1") },
+            { FieldFractType::HalfField,    GoAssemblePlanSet::str_2_goLabelId("MapEnt_2m2") },
+            { FieldFractType::Field,        GoAssemblePlanSet::str_2_goLabelId("MapEnt_4m4") }
+        }
+    });
+
+    jobF_inn::bioSoup_goLabelIds.insert({
+        BioSoupState::Inertia,
+        std::map<FieldFractType, goLabelId_t>{
+            { FieldFractType::MapEnt,       GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1_Intertia") },
+            { FieldFractType::HalfField,    GoAssemblePlanSet::str_2_goLabelId("MapEnt_2m2_Intertia") },
+            { FieldFractType::Field,        GoAssemblePlanSet::str_2_goLabelId("MapEnt_4m4_Intertia") }
+        }
+    });
+
 }
 
 
@@ -125,11 +140,12 @@ void Job_Field::init_for_static()noexcept{
 // 自动检测 4*4 容器，通过 分形思路，分配 bioSoup 数据实例
 void Job_Field::apply_bioSoupEnts(){
 
-    //glm::dvec2          dposOff     {}; // base on field-midDPos
     IntVec2             mpos        {};
     BioSoupState        bioSoupState {};
     size_t              halfEntIdx { cast_2_size_t(HALF_ENTS_PER_FIELD) };
     const Job_MapEnt    *entPtr {nullptr}; 
+
+    IntVec2 fieldMPos = fieldKey_2_mpos(this->fieldKey);
 
     //-- field 整个单色 --//
     size_t inFieldSize = this->bioSoupFract.get_inField_size();
@@ -137,28 +153,11 @@ void Job_Field::apply_bioSoupEnts(){
     if( inFieldSize == 1 ){
 
         entPtr = this->mapEntPtrs.at(halfEntIdx).at(halfEntIdx);
-
-        mpos = fieldKey_2_mpos(this->fieldKey) + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD };
-
-        //dposOff = glm::dvec2{0.0, 0.0};
+        mpos = fieldMPos + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD };
         bioSoupState = *(this->bioSoupFract.get_inField().begin());
 
-        if( bioSoupState == BioSoupState::Active ){
+        this->create_bioSoupDataUPtr( mpos, FieldFractType::Field, bioSoupState );   
 
-            this->create_bioSoupDataUPtr( mpos, jobF_inn::bioSoupLabel_4m4 );
-                                        // 未来要表达出 “激活态”
-
-        }else if( bioSoupState == BioSoupState::Inertia ){
-
-            this->create_bioSoupDataUPtr( mpos, jobF_inn::bioSoupLabel_4m4 );
-                                        // 未来要表达出 “惰性”
-
-        }else{
-            // do nothing
-        }
-
-
-        
     }else{
 
         //--- 现在，field 是一定要被拆分的了 ---
@@ -171,7 +170,6 @@ void Job_Field::apply_bioSoupEnts(){
         for( size_t hIdx=0; hIdx<inHalfFields.size(); hIdx++ ){
 
             const auto &halfWHs     = jobF_inn::whs.at(hIdx);
-            //const auto &halfDposOff = jobF_inn::halfFieldDposOffs.at(hIdx);
 
             auto &halfSetRef = inHalfFields.at(hIdx);
             tprAssert( !halfSetRef.empty() );
@@ -179,14 +177,9 @@ void Job_Field::apply_bioSoupEnts(){
 
                 const auto &wh = halfWHs.back(); 
                 entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
-                //dposOff = halfDposOff;
+                mpos = fieldMPos + wh;
                 bioSoupState = entPtr->get_bioSoupState();
-
-
-
-                //groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, dposOff, colorTableId, uWeight ));
-
-
+                this->create_bioSoupDataUPtr( mpos, FieldFractType::HalfField, bioSoupState ); 
                 continue; // !!!
             }
 
@@ -197,32 +190,36 @@ void Job_Field::apply_bioSoupEnts(){
                     innIdx = cast_2_size_t( h * HALF_ENTS_PER_FIELD + w );
                     const auto &wh = halfWHs.at(innIdx);
                     entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
-
-                    //dposOff = halfDposOff + jobF_inn::mapentDposOffs.at(innIdx);
+                    mpos = fieldMPos + wh;
                     bioSoupState = entPtr->get_bioSoupState();
-               
 
-                    //groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, dposOff, colorTableId, uWeight ));
-
-
-
-
+                    this->create_bioSoupDataUPtr( mpos, FieldFractType::MapEnt, bioSoupState ); 
                 }
             }
         }
     }
 
+    this->copy_bioSoupGoDataPtrs();
 }
 
 
 
-void Job_Field::create_bioSoupDataUPtr( IntVec2 mpos_, goLabelId_t goLabelId_ ){
+void Job_Field::create_bioSoupDataUPtr( IntVec2 mpos_, 
+                                        FieldFractType fieldFractType_,
+                                        BioSoupState bioSoupState_ ){
+
+
+    if( bioSoupState_ == BioSoupState::NotExist ){
+        return;
+    }
+
+    goLabelId_t goLabelId = jobF_inn::bioSoup_goLabelIds.at(bioSoupState_).at(fieldFractType_);
 
     auto uptr = GoDataForCreate::create_new_goDataForCreate(  
                                                             mpos_,
                                                             mpos_2_midDPos(mpos_), // tmp
                                                             GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
-                                                            goLabelId_,
+                                                            goLabelId,
                                                             NineDirection::Center,
                                                             BrokenLvl::Lvl_0
                                                             );
@@ -256,8 +253,8 @@ void Job_Field::apply_groundGoEnts(){
         uWeight = entPtr->get_uWeight();
 
         ( this->isHaveBorderEnt ) ?
-            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::Field,       dposOff, colorTableId, uWeight )) :
-            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::SimpleField, dposOff, colorTableId, uWeight ));
+            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::Field,       dposOff, colorTableId, uWeight )) :
+            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::SimpleField, dposOff, colorTableId, uWeight ));
         
     }else{
 
@@ -283,7 +280,7 @@ void Job_Field::apply_groundGoEnts(){
                 colorTableId = entPtr->get_colorTableId();
                 uWeight = entPtr->get_uWeight();
 
-                groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::HalfField, dposOff, colorTableId, uWeight ));
+                groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::HalfField, dposOff, colorTableId, uWeight ));
                 continue; // !!!
             }
 
@@ -299,7 +296,7 @@ void Job_Field::apply_groundGoEnts(){
                     colorTableId = entPtr->get_colorTableId();
                     uWeight = entPtr->get_uWeight();
 
-                    groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( GroundGoEntType::MapEnt, dposOff, colorTableId, uWeight ));
+                    groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::MapEnt, dposOff, colorTableId, uWeight ));
                 }
             }
         }

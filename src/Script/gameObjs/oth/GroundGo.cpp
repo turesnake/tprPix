@@ -22,7 +22,7 @@
 #include "DyParam.h"
 #include "RenderPool.h"
 #include "create_go_oth.h"
-#include "groundGoEntType.h"
+#include "fieldFractType.h"
 #include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"

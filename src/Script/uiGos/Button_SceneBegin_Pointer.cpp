@@ -45,7 +45,7 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<Button_SceneBegin_Pointer_PvtBinary>();
 
-    animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", AnimLabel::Default, 10 );
+    animSubspeciesId_t subspeciesId = esrc::apply_a_random_animSubspeciesId( "button_beginScene", "", 10 );
 
     //----- must before creat_new_goMesh() !!! -----//
     goRef_.actionDirection.reset( NineDirection::Center );

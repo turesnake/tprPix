@@ -23,6 +23,7 @@
 #include "mapEntKey.h"
 #include "tprCast.h"
 #include "goLabelId.h"
+#include "fieldFractType.h"
 
 
 #include "GoDataForCreate.h"
@@ -162,11 +163,7 @@ public:
             this->floorGoDataPtrs.push_back( iUPtr.get() );
         }
     }
-    inline void copy_bioSoupGoDataPtrs()noexcept{
-        for( const auto &uptr : this->bioSoupGoDatas ){
-            this->bioSoupGoDataPtrs.push_back( uptr.get() );
-        }
-    }
+    
 
     inline fieldKey_t get_fieldKey()const noexcept{ return this->fieldKey; }
     inline size_t get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
@@ -176,8 +173,15 @@ public:
 
 private:
 
-    void create_bioSoupDataUPtr( IntVec2 mpos_, goLabelId_t goLabelId_ );
+    void create_bioSoupDataUPtr(    IntVec2 mpos_, 
+                                    FieldFractType fieldFractType_,
+                                    BioSoupState bioSoupState_ );
 
+    inline void copy_bioSoupGoDataPtrs()noexcept{
+        for( const auto &uptr : this->bioSoupGoDatas ){
+            this->bioSoupGoDataPtrs.push_back( uptr.get() );
+        }
+    }
 
 
     // 同时包含 artifact/nature 两种蓝图数据

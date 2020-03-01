@@ -206,40 +206,7 @@ void Job_Chunk::create_field_goSpecDatas(){
             //----------------------//
             //     bioSoup
             //----------------------//
-            // 测试用
-            
-            for( int j=0; j<ENTS_PER_FIELD; j++ ){
-                for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent in field
-
-                    entMPos = fieldMPos + IntVec2{ i, j };
-                    mapEntKey = mpos_2_key( entMPos );
-
-                    Job_MapEnt &mp = this->getnc_mapEntInnRef( entMPos - this->chunkMPos );
-
-                    MapAltitude mapAlti = mp.get_alti();
-
-                    // 简易测试版
-                    // 在一个范围内，就被判断为 水岸，先生产统一的 mp-go 单位
-                    //
-                    //if( mp.alti.val > -5.0 && mp.alti.val < 5.0 ){   
-                    if( mapAlti.val > -13.0 && mapAlti.val < 13.0 ){    
-
-                        auto goDataUPtr = GoDataForCreate::create_new_goDataForCreate(  
-                                                                        mp.get_mpos(),
-                                                                        mpos_2_midDPos( mp.get_mpos() ),
-                                                                        GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
-                                                                        GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1"),
-                                                                        NineDirection::Center,
-                                                                        BrokenLvl::Lvl_0
-                                                                    );
-
-                        job_fieldRef.insert_2_bioSoupGoDatas( std::move(goDataUPtr) );
-
-                    }
-                }
-            }
-            job_fieldRef.copy_bioSoupGoDataPtrs();
-            
+            job_fieldRef.apply_bioSoupEnts();            
                             
             //----------------------//
             //    artifact gos

@@ -22,7 +22,7 @@
 
 #include "tprDebug.h"
 
-extern const std::string &calc_groundGoMeshName( GroundGoEntType groundType_, colorTableId_t colorTableId_ )noexcept;
+extern const std::string &calc_groundGoMeshName( FieldFractType fieldFractType_, colorTableId_t colorTableId_ )noexcept;
 
 
 // [-RegularGo-]
@@ -180,7 +180,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCrea
         const Job_GroundGoEnt &job_groundGoEntRef = *uptr;
         randUWeightOff += 17;
 
-        std::string goMeshName = calc_groundGoMeshName( job_groundGoEntRef.groundType, job_groundGoEntRef.colorTableId );
+        std::string goMeshName = calc_groundGoMeshName( job_groundGoEntRef.fieldFractType, job_groundGoEntRef.colorTableId );
               
         const GoAssemblePlanSet::GoMeshEnt &gmeRef = planRef.get_goMeshEntRef( goMeshName );
 
@@ -224,7 +224,7 @@ void GoDataForCreate::GoMeshByLink::init_subspeciesId()noexcept{
 }
 
 
-void GoDataForCreate::GoMeshByHand::init_subspeciesId( const std::string &animFrameSetName_, AnimLabel label_, size_t uWeight_ )noexcept{   
+void GoDataForCreate::GoMeshByHand::init_subspeciesId( const std::string &animFrameSetName_, const std::string &label_, size_t uWeight_ )noexcept{   
     this->subspeciesId = esrc::apply_a_random_animSubspeciesId( animFrameSetName_, label_, uWeight_ );
 }
 
