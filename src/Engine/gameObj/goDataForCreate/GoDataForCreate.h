@@ -29,6 +29,8 @@
 #include "AnimActionEName.h"
 #include "GoAltiRange.h"
 #include "GoAssemblePlan.h"
+#include "DyBinary.h"
+
 
 // need:
 class Job_Field;
@@ -75,19 +77,16 @@ public:
     goSpeciesId_t       goSpeciesId {};
     goLabelId_t         goLabelId   {};
     glm::dvec2          dpos      {}; // go 绝对 dpos
-
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
     BrokenLvl           brokenLvl   {};
-
     GoAltiRangeLabel    goAltiRangeLabel {};
-
     size_t              uWeight     {}; // base on mpos
 
     const ColliDataFromJson *colliDataFromJsonPtr {nullptr};
     
-    //---
-
     //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
+
+    DyBinary            binary  {}; // customized data
 
     std::vector<std::unique_ptr<GoMeshBase>> goMeshEntUPtrs {};
 };

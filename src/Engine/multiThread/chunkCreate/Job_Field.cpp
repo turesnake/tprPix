@@ -21,6 +21,11 @@
 #include "Job_Chunk.h"
 
 
+//-------------------- Scrit --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
+
+
+
 namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 
     // 以下这种直接标记 数字的方式 很不安全
@@ -60,7 +65,7 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 
     //=============================//
     //        bioSoup    [tmp]
-    std::map<BioSoupState, std::map<FieldFractType, goLabelId_t>> bioSoup_goLabelIds {};
+    std::map<gameObjs::bioSoup::State, std::map<FieldFractType, goLabelId_t>> bioSoup_goLabelIds {};
 
 
 }//-------------- namespace: jobF_inn end ----------------//
@@ -116,7 +121,7 @@ void Job_Field::init_for_static()noexcept{
     //---------------//
     //    bioSoup [tmp]
     jobF_inn::bioSoup_goLabelIds.insert({
-        BioSoupState::Active,
+        gameObjs::bioSoup::State::Active,
         std::map<FieldFractType, goLabelId_t>{
             { FieldFractType::MapEnt,       GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1") },
             { FieldFractType::HalfField,    GoAssemblePlanSet::str_2_goLabelId("MapEnt_2m2") },
@@ -125,7 +130,7 @@ void Job_Field::init_for_static()noexcept{
     });
 
     jobF_inn::bioSoup_goLabelIds.insert({
-        BioSoupState::Inertia,
+        gameObjs::bioSoup::State::Inertia,
         std::map<FieldFractType, goLabelId_t>{
             { FieldFractType::MapEnt,       GoAssemblePlanSet::str_2_goLabelId("MapEnt_1m1_Intertia") },
             { FieldFractType::HalfField,    GoAssemblePlanSet::str_2_goLabelId("MapEnt_2m2_Intertia") },
@@ -140,10 +145,8 @@ void Job_Field::init_for_static()noexcept{
 // 自动检测 4*4 容器，通过 分形思路，分配 bioSoup 数据实例
 void Job_Field::apply_bioSoupEnts(){
 
-    IntVec2             mpos        {};
-    BioSoupState        bioSoupState {};
-    size_t              halfEntIdx { cast_2_size_t(HALF_ENTS_PER_FIELD) };
-    const Job_MapEnt    *entPtr {nullptr}; 
+    size_t                      halfEntIdx { cast_2_size_t(HALF_ENTS_PER_FIELD) };
+    const Job_MapEnt            *entPtr {nullptr}; 
 
     IntVec2 fieldMPos = fieldKey_2_mpos(this->fieldKey);
 
@@ -153,10 +156,17 @@ void Job_Field::apply_bioSoupEnts(){
     if( inFieldSize == 1 ){
 
         entPtr = this->mapEntPtrs.at(halfEntIdx).at(halfEntIdx);
-        mpos = fieldMPos + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD };
-        bioSoupState = *(this->bioSoupFract.get_inField().begin());
+        auto bioSoupState = entPtr->get_bioSoupState();
 
-        this->create_bioSoupDataUPtr( mpos, FieldFractType::Field, bioSoupState );   
+        this->create_bioSoupDataUPtr(   FieldFractType::Field, 
+                                        fieldMPos + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD },
+                                        bioSoupState,
+                                        entPtr->get_alti()
+                                    );   
+
+        if( bioSoupState == gameObjs::bioSoup::State::Inertia ){
+            this->isCoveredBy_InertiaBioSoup = true;
+        }
 
     }else{
 
@@ -177,9 +187,12 @@ void Job_Field::apply_bioSoupEnts(){
 
                 const auto &wh = halfWHs.back(); 
                 entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
-                mpos = fieldMPos + wh;
-                bioSoupState = entPtr->get_bioSoupState();
-                this->create_bioSoupDataUPtr( mpos, FieldFractType::HalfField, bioSoupState ); 
+
+                this->create_bioSoupDataUPtr(   FieldFractType::HalfField, 
+                                                fieldMPos + wh,
+                                                entPtr->get_bioSoupState(),
+                                                entPtr->get_alti()
+                                            ); 
                 continue; // !!!
             }
 
@@ -190,10 +203,12 @@ void Job_Field::apply_bioSoupEnts(){
                     innIdx = cast_2_size_t( h * HALF_ENTS_PER_FIELD + w );
                     const auto &wh = halfWHs.at(innIdx);
                     entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
-                    mpos = fieldMPos + wh;
-                    bioSoupState = entPtr->get_bioSoupState();
 
-                    this->create_bioSoupDataUPtr( mpos, FieldFractType::MapEnt, bioSoupState ); 
+                    this->create_bioSoupDataUPtr(   FieldFractType::MapEnt, 
+                                                    fieldMPos + wh,
+                                                    entPtr->get_bioSoupState(),
+                                                    entPtr->get_alti()
+                                                ); 
                 }
             }
         }
@@ -204,18 +219,24 @@ void Job_Field::apply_bioSoupEnts(){
 
 
 
-void Job_Field::create_bioSoupDataUPtr( IntVec2 mpos_, 
-                                        FieldFractType fieldFractType_,
-                                        BioSoupState bioSoupState_ ){
+void Job_Field::create_bioSoupDataUPtr( FieldFractType fieldFractType_,
+                                        IntVec2 mpos_, 
+                                        gameObjs::bioSoup::State bioSoupState_,
+                                        MapAltitude mapEntAlti_ ){
 
 
-    if( bioSoupState_ == BioSoupState::NotExist ){
+    if( bioSoupState_ == gameObjs::bioSoup::State::NotExist ){
         return;
     }
 
+    // for debug
+    //if( bioSoupState_ != gameObjs::bioSoup::State::Active ){
+        //return;
+    //}
+
     goLabelId_t goLabelId = jobF_inn::bioSoup_goLabelIds.at(bioSoupState_).at(fieldFractType_);
 
-    auto uptr = GoDataForCreate::create_new_goDataForCreate(  
+    auto goDUPtr = GoDataForCreate::create_new_goDataForCreate(  
                                                             mpos_,
                                                             mpos_2_midDPos(mpos_), // tmp
                                                             GoSpecFromJson::str_2_goSpeciesId("bioSoup"),
@@ -223,7 +244,13 @@ void Job_Field::create_bioSoupDataUPtr( IntVec2 mpos_,
                                                             NineDirection::Center,
                                                             BrokenLvl::Lvl_0
                                                             );
-    this->bioSoupGoDatas.push_back( std::move(uptr) );
+
+    // custumized data
+    auto *bioSoupDPtr = goDUPtr->binary.init<gameObjs::bioSoup::DataForCreate>();
+    bioSoupDPtr->bioSoupState = bioSoupState_;
+    bioSoupDPtr->mapEntAlti = mapEntAlti_;
+
+    this->bioSoupGoDatas.push_back( std::move(goDUPtr) );
 }
 
 
@@ -233,6 +260,11 @@ void Job_Field::create_bioSoupDataUPtr( IntVec2 mpos_,
 // 自动检测 4*4 容器，通过 分形思路，分配 groundGo 数据实例
 void Job_Field::apply_groundGoEnts(){
 
+    if( this->isCoveredBy_InertiaBioSoup ){
+        return;
+    }
+
+    //======================================//
     glm::dvec2          dposOff     {}; // base on field-midDPos
     colorTableId_t      colorTableId {};
     size_t              uWeight {};

@@ -158,7 +158,7 @@ void insert_2_goids_inactive( goid_t id_ ){
  * -- 创建1个 go实例，并为其分配新 goid. 然后存入 memGameObjs 容器中
  * -- 不能用在 从 硬盘读出的 go数据上
  * -- return：
- *     新实例的 id 号
+ *     新实例的 goid 号
  */
 goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
@@ -283,12 +283,12 @@ void refresh_worldUIGo_chunkSignUpData( GameObj &goRef_, const glm::dvec2 &moveV
         auto [ oldChunkMemState, oldChunkPtr ] = esrc::get_chunkPtr( goRef_.currentChunkKey );
         tprAssert( oldChunkMemState == ChunkMemState::Active );  // MUST
 
-        size_t eraseNum = oldChunkPtr->erase_from_goIds( goRef_.id );
+        size_t eraseNum = oldChunkPtr->erase_from_goIds( goRef_.goid );
         tprAssert( eraseNum == 1 );
-        oldChunkPtr->erase_from_edgeGoIds( goRef_.id ); // maybe 
+        oldChunkPtr->erase_from_edgeGoIds( goRef_.goid ); // maybe 
         //---
         goRef_.currentChunkKey = newChunkKey;
-        newChunkPtr->insert_2_goIds( goRef_.id );
+        newChunkPtr->insert_2_goIds( goRef_.goid );
     }
 }
 

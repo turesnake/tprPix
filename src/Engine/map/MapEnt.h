@@ -26,26 +26,29 @@
 #include "MapAltitude.h"
 #include "GameObjType.h"
 #include "ColliderType.h"
-#include "BioSoupState.h"
 
 #include "sectionKey.h"
 #include "colorTableId.h"
 #include "Density.h"
+
+//-------------------- Script --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupState.h"
+
 
 
 //-- 64*64 pixes --
 class MemMapEnt{
 public:
     //-- 临时测试用 
-    MemMapEnt(  IntVec2         mpos_,
-                chunkKey_t      chunkKey_,
-                sectionKey_t    ecoObjKey_,
-                colorTableId_t  colorTableId_,
-                Density         density_,
-                MapAltitude     mapAlti_,
-                BioSoupState    bioSoupState_,
-                double          uWeight_,
-                bool            isEcoBorder_
+    MemMapEnt(  IntVec2                     mpos_,
+                chunkKey_t                  chunkKey_,
+                sectionKey_t                ecoObjKey_,
+                colorTableId_t              colorTableId_,
+                Density                     density_,
+                MapAltitude                 mapAlti_,
+                gameObjs::bioSoup::State    bioSoupState_,
+                double                      uWeight_,
+                bool                        isEcoBorder_
             ):
         mpos(mpos_),
         chunkKey(chunkKey_),
@@ -142,15 +145,15 @@ public:
 private:
 
     // 以下这组成员，统一在 构造函数中被 init 
-    IntVec2             mpos;
-    chunkKey_t          chunkKey;
-    sectionKey_t        ecoObjKey;
-    colorTableId_t      colorTableId;   // same as ecoObj.colorTableId
-    Density             density;
-    MapAltitude         mapAlti;        //- 本 mapent 中点pix 的 alti
-    BioSoupState        bioSoupState;
-    size_t              uWeight;        // [0, 9999]
-    bool                isEcoBorder;    // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
+    IntVec2                     mpos;
+    chunkKey_t                  chunkKey;
+    sectionKey_t                ecoObjKey;
+    colorTableId_t              colorTableId;   // same as ecoObj.colorTableId
+    Density                     density;
+    MapAltitude                 mapAlti;        //- 本 mapent 中点pix 的 alti
+    gameObjs::bioSoup::State    bioSoupState;
+    size_t                      uWeight;        // [0, 9999]
+    bool                        isEcoBorder;    // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 
 
     // signed goes 

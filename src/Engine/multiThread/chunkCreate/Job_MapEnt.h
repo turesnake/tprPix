@@ -28,12 +28,15 @@
 #include "Density.h"
 #include "MapAltitude.h"
 #include "GoSpecData.h"
-#include "BioSoupState.h"
+
+//-------------------- Script --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupState.h"
 
 
+// need:
 class MemMapEnt;
 
-
+// tmp data. created in job threads
 class Job_MapEnt{
 public:
     Job_MapEnt( IntVec2 mpos_ )
@@ -54,7 +57,7 @@ public:
     inline colorTableId_t   get_colorTableId()const noexcept{ tprAssert( this->colorTableId.has_value() ); return this->colorTableId.value(); }
     inline Density          get_density()const noexcept{ tprAssert( this->density.has_value() ); return this->density.value(); }
     inline MapAltitude      get_alti()const noexcept{ tprAssert( this->alti.has_value() ); return this->alti.value(); }
-    inline BioSoupState     get_bioSoupState()const noexcept{ tprAssert( this->bioSoupState.has_value() ); return this->bioSoupState.value(); }
+    inline gameObjs::bioSoup::State     get_bioSoupState()const noexcept{ tprAssert( this->bioSoupState.has_value() ); return this->bioSoupState.value(); }
     inline size_t           get_uWeight()const noexcept{ tprAssert( this->uWeight.has_value() ); return this->uWeight.value(); }
     inline bool             get_isEcoBorder()const noexcept{ tprAssert( this->isEcoBorder.has_value() ); return this->isEcoBorder.value(); }
 
@@ -63,15 +66,15 @@ private:
 
     //====== vals ======//
     // 确保每个数据，只被 init一次
-    std::optional<IntVec2>              mpos            {std::nullopt};
-    std::optional<chunkKey_t>           chunkKey        {std::nullopt};
-    std::optional<sectionKey_t>         ecoObjKey       {std::nullopt};
-    std::optional<colorTableId_t>       colorTableId    {std::nullopt}; // same as ecoObj.colorTableId
-    std::optional<Density>              density         {std::nullopt};
-    std::optional<MapAltitude>          alti            {std::nullopt};
-    std::optional<BioSoupState>         bioSoupState    {std::nullopt};
-    std::optional<size_t>               uWeight         {std::nullopt}; // [0, 9999]
-    std::optional<bool>                 isEcoBorder     {std::nullopt}; //- 是否为 eco边缘go default:false
+    std::optional<IntVec2>                  mpos            {std::nullopt};
+    std::optional<chunkKey_t>               chunkKey        {std::nullopt};
+    std::optional<sectionKey_t>             ecoObjKey       {std::nullopt};
+    std::optional<colorTableId_t>           colorTableId    {std::nullopt}; // same as ecoObj.colorTableId
+    std::optional<Density>                  density         {std::nullopt};
+    std::optional<MapAltitude>              alti            {std::nullopt};
+    std::optional<gameObjs::bioSoup::State> bioSoupState    {std::nullopt};
+    std::optional<size_t>                   uWeight         {std::nullopt}; // [0, 9999]
+    std::optional<bool>                     isEcoBorder     {std::nullopt}; //- 是否为 eco边缘go default:false
                              // 在未来，将被拓展为 一个 具体的数字，表示自己离 border 的距离（mapents）...
 }; 
 

@@ -121,7 +121,7 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_ ){
                     //---- 正式从 mapEnt 上清除登记 -----
                     auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
                     tprAssert( mapEntPair.first == ChunkMemState::Active );
-                    mapEntPair.second->erase_from_circular_goids( goRef.id, goRef.get_colliderType() );
+                    mapEntPair.second->erase_from_circular_goids( goRef.goid, goRef.get_colliderType() );
                 }
             }
 
@@ -140,9 +140,9 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_ ){
                     tprAssert( mapEntPair.first == ChunkMemState::Active );
 
                     if( goRef.family == GameObjFamily::Major ){
-                        mapEntPair.second->erase_square_goid( goRef.id, goRef.get_colliderType() );
+                        mapEntPair.second->erase_square_goid( goRef.goid, goRef.get_colliderType() );
                     }else if( goRef.family == GameObjFamily::BioSoup ){
-                        mapEntPair.second->erase_bioSoup_goid( goRef.id, goRef.family );
+                        mapEntPair.second->erase_bioSoup_goid( goRef.goid, goRef.family );
                     }else{
                         tprAssert(0);
                     }

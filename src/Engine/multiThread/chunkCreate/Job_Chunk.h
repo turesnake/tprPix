@@ -61,10 +61,12 @@ public:
         this->job_fields.at(fieldKey_)->insert_a_entInnPtr( mposOff_, entPtr_ );
     }
 
+    /*
     inline void apply_field_job_groundGoEnts( fieldKey_t fieldKey_ )noexcept{
         tprAssert( this->job_fields.find(fieldKey_) != this->job_fields.end() );
         this->job_fields.at(fieldKey_)->apply_groundGoEnts();
     }
+    */
     
 
     inline void set_field_min_max_altis( fieldKey_t fieldKey_, MapAltitude min_, MapAltitude max_ )noexcept{

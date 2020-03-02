@@ -19,7 +19,6 @@ enum class RenderLayerType{
     GroundGo,
     Floor,
 
-    //WaterAnim,
     BioSoup, // 深度区间 和 MajorGoes 一样大
 
     GoShadows,

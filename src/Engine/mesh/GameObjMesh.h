@@ -119,6 +119,7 @@ public:
     inline void set_animActionEName( AnimActionEName name_ )noexcept{ this->animActionEName = name_; }
     inline void set_alti(double alti_)noexcept{ this->alti = alti_; }
     inline void set_zOff(double zOff_)noexcept{ this->zOff = zOff_; }
+    inline void set_uWeight(size_t v_)noexcept{ this->uWeight = v_; }
 
     inline void accum_alti(double alti_)noexcept{ this->alti += alti_; }
     inline void accum_zOff(double zOff_)noexcept{ this->zOff += zOff_; }
@@ -159,11 +160,13 @@ public:
     inline IntVec2 get_animAction_pixNum_per_frame() const noexcept{
         return this->animActionPtr->get_pixNum_per_frame();
     }
+    inline const GameObj    &get_goCRef()const noexcept{ return this->goRef; }
     inline const glm::dvec2 &get_pposOff()const noexcept{ return this->pposOff; }
-    inline double get_zOff()const noexcept{ return this->zOff; }
-    inline double get_alti()const noexcept{ return this->alti; }
-    inline double get_picBaseZOff() const noexcept{ return this->picBaseZOff; }
-    inline const GameObj &get_goCRef() const noexcept{ return this->goRef; }
+    inline double           get_zOff()const noexcept{ return this->zOff; }
+    inline double           get_alti()const noexcept{ return this->alti; }
+    inline double           get_picBaseZOff()const noexcept{ return this->picBaseZOff; }
+    inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
+    
 
 
     inline std::pair<AnimAction::PlayType, AnimAction::State> get_animAction_state()const noexcept{
@@ -197,7 +200,7 @@ public:
 
 private:
     //======== vals ========//
-    GameObj    &goRef;
+    GameObj     &goRef;
 
     std::unique_ptr<ChildMesh> picMeshUPtr    {nullptr};
     std::unique_ptr<ChildMesh> shadowMeshUPtr {nullptr}; // 不需要时会被及时释放
@@ -208,17 +211,20 @@ private:
     AnimActionEName     animActionEName {}; // 使用 string 很不好 ...
 
 
-    glm::dvec2  pposOff {}; //- 以 go.rootAnchor 为 0点的 ppos偏移 
+    glm::dvec2  pposOff {}; 
+                    //- 以 go.rootAnchor 为 0点的 ppos偏移 
                     //  用来记录，本GameObjMesh 在 go中的 位置（图形）
                     //-- 大部分情况下（尤其是只有一个 GameObjMesh的 go实例），此值为 0
                     //   若本 GameObjMesh实例 是 root GameObjMesh。此值必须为0 (不强制...)  
                     //   此值必须 对齐于 像素
 
-    double     alti {0.0}; // 其实就是 y轴高度值，只影响 pic
+    double      alti {0.0}; 
+                    // 其实就是 y轴高度值，只影响 pic
                     // 绝大多数 gomesh，只使用 0.0
                     // 当要表达 类似 烟雾时，可以用上本值
 
-    double     zOff {0.0};   //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
+    double      zOff {0.0};   
+                    //- 一个 go实例 可能拥有数个 GameObjMesh，相互间需要区分 视觉上的前后顺序
                     //- 此处的 zOff 值只是个 相对偏移值。比如，靠近摄像机的 GameObjMesh zOff +0.1
                     //- 这个值 多数由 具象go类 填入的。
                     // *** 只在 goPic 中有意义，在 shadow 中，应该始终为 0；
@@ -227,13 +233,15 @@ private:
                     // 如果想要一个浮在所有 MajorGo 前方的图像，可以设置 zOff 为 500.0
                     // 如果想要一个 沉在所有 MajorGo 后方的图像，可设置为 -500.0
 
-
-    double            picBaseZOff {}; 
+    double      picBaseZOff {}; 
                     //- 仅用于 pic-childMesh
                     // 对于 MajorGo / BioSoup，代表 从 取景盒中点，到 各自深度区间的中点 的偏移值 
                     // 对于 其他 rendertype，  代表 从 camera.zFar， 到 各个 rendertype 对应的 固定值
-                    
 
+    size_t      uWeight {};
+                    // 随机数，方便实现各种功能
+                    // 通常在 job线程中 生成后，传递进来
+                
 
     RenderLayerType  picRenderLayerType;
 

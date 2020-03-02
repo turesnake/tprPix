@@ -36,12 +36,43 @@ using std::endl;
 namespace innTest {//---------- namespace: innTest --------------//
 
 
+class BB{
+public:
+    BB()=default;
+    double a {};
+    double b {};
+};
 
 
 void innTest_main(){
 
     return;
     cout << "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" << endl;
+
+
+
+
+
+    DyBinary binary {};
+
+    binary.init<BB>();
+
+    auto *ncptr = binary.get<BB>();
+    const auto *cptr = binary.get<BB>();
+
+    ncptr->a = 55.4;
+    ncptr->a = -13455.4;
+
+
+    double val = cptr->a;
+
+
+
+
+
+    cout << "val = " << val << endl;
+
+
 
 
 

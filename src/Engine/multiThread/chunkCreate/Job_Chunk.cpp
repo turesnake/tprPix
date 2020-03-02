@@ -206,7 +206,19 @@ void Job_Chunk::create_field_goSpecDatas(){
             //----------------------//
             //     bioSoup
             //----------------------//
-            job_fieldRef.apply_bioSoupEnts();            
+            job_fieldRef.apply_bioSoupEnts();           
+
+
+            // 所有 被 biosoup 覆盖的 mapent，都不会生成 普通go 了
+            // field 级的省略，不彻底。 还要在下方配合 mapent 级的检测
+            if( job_fieldRef.get_isCoveredBy_InertiaBioSoup() ){
+                continue;
+            }
+
+            //----------------------//
+            //     groundGo
+            //----------------------//
+            job_fieldRef.apply_groundGoEnts();
                             
             //----------------------//
             //    artifact gos
@@ -218,8 +230,9 @@ void Job_Chunk::create_field_goSpecDatas(){
                     entMPos = fieldMPos + IntVec2{ i, j };
                     mapEntKey = mpos_2_key( entMPos );
 
-                    // skip mapent in water
-                    if( !this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).get_alti().is_land() ){
+                    // skip mapent in biosoup
+                    if( auto state = this->getnc_mapEntInnRef( entMPos - this->chunkMPos ).get_bioSoupState();
+                        state != gameObjs::bioSoup::State::NotExist ){
                         continue;
                     }
 
@@ -239,6 +252,9 @@ void Job_Chunk::create_field_goSpecDatas(){
             //----------------------//
             // nature_floorYard 强制为 2f2 尺寸
             if( (h%2==0) && (w%2==0) ){
+
+                // 并不作 biosoup 检测，
+
                 
                 // 暂时关闭这个功能，现在，不管是否已经生成 人造物 floorgo，
                 // 都会再次生成 nature floorgo 
@@ -280,8 +296,9 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         natureMajorYardId,
                                         fieldMPos,
                                         fieldUWeight,
-                                        [this]( IntVec2 mpos_ )->bool { // f_is_mapent_land_
-                                            return this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_alti().is_land();
+                                        [this]( IntVec2 mpos_ )->bool { // f_is_mapent_in_bioSoup_
+                                            auto state = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_bioSoupState();
+                                            return (state != gameObjs::bioSoup::State::NotExist);
                                         }
                                         );
 

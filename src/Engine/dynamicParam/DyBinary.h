@@ -34,6 +34,13 @@ public:
         return std::any_cast<T>( &(this->data) );
     }
 
+    template<typename T>
+    inline const T *get()const noexcept{
+        tprAssert( this->data.has_value() );
+        tprAssert( this->data.type().hash_code() == typeid(T).hash_code() );
+        return std::any_cast<T>( &(this->data) );
+    }
+
 private:
     std::any data;
             // 尽管这里的 data 并不会被复制，但 std::any 不支持 move_only type class

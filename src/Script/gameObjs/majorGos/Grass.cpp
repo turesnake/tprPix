@@ -114,6 +114,7 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
                                 gmRef.get_shaderType(),  // pic shader
                                 gmRef.get_dposOff(), //- pposoff
                                 gmRef.get_zOff(),  //- zOff
+                                1151, // uweight tmp
                                 gmRef.get_isVisible() //- isVisible
                                 );
 

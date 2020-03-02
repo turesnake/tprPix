@@ -44,7 +44,7 @@ void build_natureYard_majorGoDatasForCreate(
                                         yardBlueprintId_t natureMajorYardId_,
                                         IntVec2 yardMPos_,
                                         size_t yard_uWeight_,
-                                        std::function<bool(IntVec2)> f_is_mapent_land_
+                                        std::function<bool(IntVec2)> f_is_mapent_in_bioSoup_
                                         );
 
 void build_natureYard_floorGoDatasForCreate(

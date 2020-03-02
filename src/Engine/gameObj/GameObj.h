@@ -78,23 +78,23 @@ public:
    
     //----- pvtBinary -----//
     template< typename T >
-    inline T *init_pvtBinary()noexcept{
-        return this->pvtBinary.init<T>();
-    }
+    inline T *init_pvtBinary()noexcept{ return this->pvtBinary.init<T>(); }
     template< typename T >
-    inline T *get_pvtBinaryPtr()noexcept{
-        return this->pvtBinary.get<T>();
-    }
+    inline T *get_pvtBinaryPtr()noexcept{ return this->pvtBinary.get<T>(); }
+    template< typename T >
+    inline const T *get_pvtBinaryPtr()const noexcept{ return this->pvtBinary.get<T>(); }
+    
 
     //----- goMesh -----//
     GameObjMesh &creat_new_goMesh(  const std::string &name_,
                             animSubspeciesId_t     subspeciesId_,
-                            AnimActionEName     actionEName_,
-                            RenderLayerType     layerType_,
-                            ShaderType          shaderType_,
-                            const glm::vec2     pposOff_ = glm::vec2{0.0,0.0},
-                            double              zOff_ = 0.0,
-                            bool                isVisible_ = true );
+                            AnimActionEName         actionEName_,
+                            RenderLayerType         layerType_,
+                            ShaderType              shaderType_,
+                            const glm::vec2         pposOff_ = glm::vec2{0.0,0.0},
+                            double                  zOff_ = 0.0,
+                            size_t                  uWeight = 1051, // 素数
+                            bool                    isVisible_ = true );
 
     void init_check(); //- call in end of go init 
 
@@ -202,7 +202,7 @@ public:
         // 只有 body 会被登记到 mapent中，所以不存在 BeAffect_virtual
 
     //=============== Self Values ===============//
-    goid_t              id;  
+    goid_t              goid;  
     goSpeciesId_t       speciesId  {0};
     goLabelId_t         goLabelId  {};
     GameObjFamily       family   {GameObjFamily::Major};  
@@ -268,7 +268,7 @@ public:
 
 private:
     GameObj( goid_t goid_ ):
-        id(goid_),
+        goid(goid_),
         move( *this ),
         actionSwitch( *this )
         {}

@@ -198,7 +198,7 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         }
         
         for( const auto &begoid : mapEntPair.second->get_circular_goids() ){ //- each cir-bego
-            if( begoid == dogoRef.id ){continue;}//-- skip self --
+            if( begoid == dogoRef.goid ){continue;}//-- skip self --
             Collision::begoids_circular.insert( begoid );
         }
     }
@@ -348,7 +348,7 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
         }
 
         for( const auto &begoid : mapEntPair.second->get_circular_goids() ){//- each bego
-            if( begoid == dogoRef.id ){continue;}//-- skip self --
+            if( begoid == dogoRef.goid ){continue;}//-- skip self --
             if( Collision::adjacentCirBeGos.find(begoid) != Collision::adjacentCirBeGos.end() ){ continue; }//-- skip old adjacent bego --
             Collision::begoids.insert( begoid );
         }
@@ -429,7 +429,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                 auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
                 //-- 有时，目标 mapent 所在 chunk，尚未 active 了，暂时直接忽略
                 if( mapEntPair.first == ChunkMemState::Active ){
-                    mapEntPair.second->insert_2_circular_goids( dogoRef.id, dogoRef.get_colliderType() );
+                    mapEntPair.second->insert_2_circular_goids( dogoRef.goid, dogoRef.get_colliderType() );
                 }else{
                     //-- debug --
                     cout << "++++ Collision::detect_for_move: catch not Active Chunk in adds!!!" << endl;
@@ -440,7 +440,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                 auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );  
                 //-- 有时，目标 mapent 所在 chunk，已经 not exist 了，那种的直接忽略
                 if( mapEntPair.first == ChunkMemState::Active ){
-                    mapEntPair.second->erase_from_circular_goids( dogoRef.id, dogoRef.get_colliderType() );
+                    mapEntPair.second->erase_from_circular_goids( dogoRef.goid, dogoRef.get_colliderType() );
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
                 }else{
                     //-- debug --
@@ -465,12 +465,12 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
         tprAssert( chunkPair2.first == ChunkMemState::Active );
         Chunk &oldChunkRef = *(chunkPair2.second);
 
-        size_t eraseNum = oldChunkRef.erase_from_goIds( dogoRef.id );
+        size_t eraseNum = oldChunkRef.erase_from_goIds( dogoRef.goid );
         tprAssert( eraseNum == 1 );
-        oldChunkRef.erase_from_edgeGoIds( dogoRef.id ); // maybe 
+        oldChunkRef.erase_from_edgeGoIds( dogoRef.goid ); // maybe 
         //---
         dogoRef.currentChunkKey = newChunkKey;
-        newChunkRef.insert_2_goIds( dogoRef.id );
+        newChunkRef.insert_2_goIds( dogoRef.goid );
     }
 
     //---------------------------//
@@ -478,9 +478,9 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
     //     登记到 主chunk 的 edgegoids 容器中
     size_t chunkKeysSize = dogoRef.reCollect_chunkKeys();
     if( chunkKeysSize == 1 ){
-        newChunkRef.erase_from_edgeGoIds( dogoRef.id ); // maybe
+        newChunkRef.erase_from_edgeGoIds( dogoRef.goid ); // maybe
     }else if( chunkKeysSize > 1 ){
-        newChunkRef.insert_2_edgeGoIds( dogoRef.id );
+        newChunkRef.insert_2_edgeGoIds( dogoRef.goid );
     }else{
         tprAssert(0);
     }

@@ -47,14 +47,7 @@ inline std::unordered_map<std::string, size_t> colorTableEntNames{
     { "base_7", 7 },
     //-- 地面色 --
     { "ground", 8 },
-
-    //-- water --
-    /*
-    { "water_0", 9 },
-    { "water_1", 10 },
-    { "water_2", 11 },
-    { "water_3", 12 }
-    */
+    
     // more ...
 };
 

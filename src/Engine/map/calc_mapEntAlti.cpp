@@ -26,7 +26,6 @@ namespace cmea_inn {//----------- namespace: cmea_inn ----------------//
 
 
 // 计算单个pix 的 alti
-// 这部分算法，应当和 waterAnimCanvas 中的完全一致!!!
 double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
     // 默认计算 mapent 中点 pix 的 mapAlti 值
@@ -43,7 +42,7 @@ double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
     double    pnValBig {};
     double    pnValMid {};
-    double    pnValSml {};
+    //double    pnValSml {};
     double    altiVal  {};  //- target val
 
     glm::dvec2 pixCFPos {};
@@ -65,8 +64,7 @@ double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
             //-------------
             // 强制性的，人为缩小水域面积。
-            seaLvl += -40.0; // [0.0, 100.0]
-
+            seaLvl += -30.0; // [0.0, 100.0]
                 
             if( seaLvl < 0.0 ){ //- land
                 seaLvl *= 0.3;  // [-15.0, 50.0]
@@ -76,11 +74,14 @@ double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
             //------------------//
             //--- 使用速度最快的 2D-simplex-noise ---
             pnValBig = simplex_noise2( (pixCFPos + altiSeed_pposOffBig) * cmea_inn::freqBig ) * 100.0 - seaLvl; // [-100.0, 100.0]
-            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * cmea_inn::freqMid ) * 50.0  - seaLvl; // [-50.0, 50.0]
-            pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * cmea_inn::freqSml ) * 20.0  - seaLvl; // [-20.0, 20.0]
+            pnValMid = simplex_noise2( (pixCFPos + altiSeed_pposOffMid) * cmea_inn::freqMid ) * 40.0  - seaLvl; // [-50.0, 50.0]
+            //pnValSml = simplex_noise2( (pixCFPos + altiSeed_pposOffSml) * cmea_inn::freqSml ) * 10.0  - seaLvl; // [-20.0, 20.0]
+                                // 不再累加 Sml，biosoup 边界更加柔和平整
+                                // 也更利于 被合并为 2m2 / 4m4 size, 减少 go数量
             
             //---------
-            altiVal = floor(pnValBig + pnValMid + pnValSml);
+            //altiVal = floor(pnValBig + pnValMid + pnValSml);
+            altiVal = floor(pnValBig + pnValMid );
 
             //------- 抹平头尾 -------//
             if( altiVal > 100.0 ){

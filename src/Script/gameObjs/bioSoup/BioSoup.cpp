@@ -31,19 +31,22 @@
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/assemble_go.h"
+#include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
 
 using namespace std::placeholders;
 
 #include "tprDebug.h" 
 
 
-namespace gameObjs{//------------- namespace gameObjs ----------------
+namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup ----------------
+
 //namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
 //}//--------------------- namespace: bioSoup_inn end ------------------------//
 
 
 struct FloorGo_PvtBinary{
 
+    State bioSoupState {};
     int tmp {};
     //===== padding =====//
     //...
@@ -56,7 +59,15 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
     auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
     //========== 标准化装配 ==========//
-    assemble_regularGo( goRef_, dyParams_ );
+    const GoDataForCreate *goDPtr = assemble_regularGo( goRef_, dyParams_ );
+
+    const DataForCreate *bioSoupDPtr = goDPtr->binary.get<DataForCreate>();
+    pvtBp->bioSoupState = bioSoupDPtr->bioSoupState;
+
+
+
+    // 利用此数据，来 
+
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -78,5 +89,5 @@ void BioSoup::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){ tprAsse
 
 
 
-}//------------- namespace gameObjs: end ----------------
+}//------------- namespace gameObjs::bioSoup: end ----------------
 

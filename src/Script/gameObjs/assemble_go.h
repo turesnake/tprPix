@@ -12,15 +12,13 @@
 //-------------------- Engine --------------------//
 //...
 
+// need
 class GameObj;
 class DyParam;
+class GoDataForCreate;
 
 
-void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ );
-
-
-
-
+const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ );
 
 
 #endif

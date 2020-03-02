@@ -110,12 +110,13 @@ void GameObj::init_for_uiGo(const glm::dvec2 &basePointProportion_,
  */
 GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
                                     animSubspeciesId_t     subspeciesId_,
-                                    AnimActionEName     actionEName_,
-                                    RenderLayerType     layerType_,
-                                    ShaderType          shaderType_,
-                                    const glm::vec2     pposOff_,
-                                    double              zOff_,
-                                    bool                isVisible_ ){
+                                    AnimActionEName         actionEName_,
+                                    RenderLayerType         layerType_,
+                                    ShaderType              shaderType_,
+                                    const glm::vec2         pposOff_,
+                                    double                  zOff_,
+                                    size_t                  uWeight,
+                                    bool                    isVisible_ ){
 
     auto [insertIt, insertBool] = this->goMeshs.insert({name_, std::make_unique<GameObjMesh>( *this, pposOff_, zOff_,isVisible_ ) }); 
     tprAssert( insertBool );

@@ -217,7 +217,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
                                         yardBlueprintId_t natureMajorYardId_,
                                         IntVec2 yardMPos_,
                                         size_t yard_uWeight_,
-                                        std::function<bool(IntVec2)> f_is_mapent_land_
+                                        std::function<bool(IntVec2)> f_is_mapent_in_bioSoup_
                                         ){
 
     size_t  suWeight  {};
@@ -243,8 +243,8 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
         if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
             //-- 直接可以获得 mp 位置的 goSpec 数据
 
-            // skip mapent in water
-            if( !f_is_mapent_land_(plotMPos) ){
+            // skip mapent in biosoup
+            if( f_is_mapent_in_bioSoup_(plotMPos) ){
                 continue;
             }
 
@@ -275,8 +275,8 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
                 entMPos = plotMPos + mpEntUPtr->mposOff;
                 suWeight = calc_simple_uWeight( entMPos );
 
-                // skip mapent in water
-                if( !f_is_mapent_land_(entMPos) ){
+                // skip mapent in biosoup
+                if( f_is_mapent_in_bioSoup_(entMPos) ){
                     continue;
                 }
 

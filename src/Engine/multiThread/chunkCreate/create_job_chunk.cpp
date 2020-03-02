@@ -206,7 +206,6 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
         }//- each ent in field end -- 
         //----- field data -----//
         job_chunkRef_.set_field_min_max_altis( fieldKey, minFieldAlti, maxFieldAlti );// only once
-        job_chunkRef_.apply_field_job_groundGoEnts( fieldKey );
 
     }//-- each field key end --
 

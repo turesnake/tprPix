@@ -137,6 +137,7 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
                                 ShaderType::UnifiedColor,  // pic shader
                                 glm::dvec2{}, //- pposoff
                                 0.2,  //- zOff: 在 fire 上方
+                                1151, // uweight tmp
                                 true //- isVisible
                                 );
         smokeGoMesh.set_alti( 70.0 );

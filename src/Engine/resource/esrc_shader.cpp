@@ -161,25 +161,6 @@ void init_shaders(){
         ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_unifiedColorTable.bind_2_shaderProgram( sp.get_shaderProgramObj() );
     }
-
-    /*
-    {//---- canvas: water ----//
-        auto &sp = insert_new_shader( ShaderType::Water );
-        //---
-        sp.init( "/waterAnimCanvas.vs", "/waterAnimCanvas.fs" ); 
-        sp.use_program();
-
-        sp.add_new_uniform( "model" );
-
-        //--- ubo --//
-        ubo_seeds.bind_2_shaderProgram( sp.get_shaderProgramObj() );
-        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        ubo_window.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
-        ubo_worldCoord.bind_2_shaderProgram(sp.get_shaderProgramObj());
-    }
-    */
-
     
 
     //=====//

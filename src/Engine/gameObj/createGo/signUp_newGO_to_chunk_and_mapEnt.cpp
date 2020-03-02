@@ -49,7 +49,7 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
     tprAssert( chunkMemState1 == ChunkMemState::Active );
     Chunk &currentChunkRef = *(chunkPtr1);
 
-    currentChunkRef.insert_2_goIds( goRef_.id ); //- always
+    currentChunkRef.insert_2_goIds( goRef_.goid ); //- always
 
 
     // Floor/GroundGo/WorldUI 仅参与 chunk 登记。 不登记 edgeGoids, mapent
@@ -64,7 +64,7 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
     //------------------------------//
     size_t chunkKeySize = goRef_.reCollect_chunkKeys();
     if( chunkKeySize > 1 ){
-        currentChunkRef.insert_2_edgeGoIds( goRef_.id );
+        currentChunkRef.insert_2_edgeGoIds( goRef_.goid );
     }
 
     //------------------------------//
@@ -94,7 +94,7 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
             //---- 正式注册 go 到 mapents 上 -----
             auto mapEntPair = esrc::getnc_memMapEntPtr( mpos );
             tprAssert( mapEntPair.first == ChunkMemState::Active );
-            mapEntPair.second->insert_2_circular_goids( goRef_.id, colliType );
+            mapEntPair.second->insert_2_circular_goids( goRef_.goid, colliType );
         }
 
 
@@ -123,9 +123,9 @@ void signUp_newGO_to_chunk_and_mapEnt( GameObj &goRef_ ){
             tprAssert( mapEntPair.first == ChunkMemState::Active );
 
             if( goRef_.family == GameObjFamily::Major ){
-                mapEntPair.second->set_square_goid( goRef_.id, colliType );
+                mapEntPair.second->set_square_goid( goRef_.goid, colliType );
             }else{ // BioSoup
-                mapEntPair.second->set_bioSoup_goid( goRef_.id, goRef_.family );
+                mapEntPair.second->set_bioSoup_goid( goRef_.goid, goRef_.family );
             }
         }
 

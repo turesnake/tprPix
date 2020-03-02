@@ -19,7 +19,7 @@
 
 // 被 具象go类 调用，将 GoDataForCreate 中的数据，配置进 regularGo 中
 // 在未来，参数组 可能会扩展
-void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
+const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ dyParams =================//
     // 假定都使用 DyParams_GoDataForCreate
@@ -54,9 +54,12 @@ void assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
                                 gmRef.get_shaderType(),  // pic shader
                                 gmRef.get_dposOff(), //- pposoff
                                 gmRef.get_zOff(),  //- zOff
+                                gmRef.get_uWeight(),
                                 gmRef.get_isVisible() //- isVisible
                                 );
     } 
+    //===
+    return goDataPtr;
 }
 
 

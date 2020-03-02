@@ -28,13 +28,15 @@
 
 #include "GoDataForCreate.h"
 
-
+// need:
 class Job_Chunk;
 
 
+// tmp data. created in job threads
 class Job_Field{
 
-
+    // 按照规则将 mapents，合并为 halfField / Field 
+    // 从而减少 go 的创建数量
     template< typename T >
     class Fract{
     public:
@@ -165,17 +167,20 @@ public:
     }
     
 
-    inline fieldKey_t get_fieldKey()const noexcept{ return this->fieldKey; }
-    inline size_t get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
+    inline fieldKey_t   get_fieldKey()const noexcept{ return this->fieldKey; }
+    inline size_t       get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
+    inline bool         get_isCoveredBy_InertiaBioSoup()const noexcept{ return this->isCoveredBy_InertiaBioSoup; }
+
 
     //===== static =====//
     static void init_for_static()noexcept; // MUST CALL IN MAIN !!! 
 
 private:
 
-    void create_bioSoupDataUPtr(    IntVec2 mpos_, 
-                                    FieldFractType fieldFractType_,
-                                    BioSoupState bioSoupState_ );
+    void create_bioSoupDataUPtr(    FieldFractType fieldFractType_,
+                                    IntVec2 mpos_, 
+                                    gameObjs::bioSoup::State bioSoupState_,
+                                    MapAltitude mapEntAlti_ );
 
     inline void copy_bioSoupGoDataPtrs()noexcept{
         for( const auto &uptr : this->bioSoupGoDatas ){
@@ -201,7 +206,7 @@ private:
     std::vector<std::unique_ptr<GoDataForCreate>> bioSoupGoDatas {};
 
     // 1个field，只能拥有一个 groundGo
-    // 如果本 field，被 BioSoup 占据，甚至不会分配 groundGo
+    // 如果本 field，被 Inertia-BioSoup 完全覆盖，则不会分配
     std::unique_ptr<GoDataForCreate> groundGoData {};
 
 
@@ -212,15 +217,17 @@ private:
 
 
 
-    Fract<BioSoupState>     bioSoupFract {};
-    Fract<colorTableId_t>   colorTableIdFract {};
+    Fract<gameObjs::bioSoup::State>     bioSoupFract {};
+    Fract<colorTableId_t>               colorTableIdFract {};
 
 
     
     fieldKey_t  fieldKey;
 
     //===== flags =====//
-    bool isHaveBorderEnt    {false}; //- 只要发现 border
+    bool isHaveBorderEnt            {false}; //- 只要发现 border
+    bool isCoveredBy_InertiaBioSoup {false};
+                // 若为 true，本 field 不再创建 groundGo, floorGo
 
 };
 

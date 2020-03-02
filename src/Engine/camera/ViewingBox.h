@@ -70,7 +70,7 @@ public:
     static constexpr double  groundGo_zOff          { 20.0 };
         
 
-    static constexpr double  floor_zOff             { 30.0 }; // under water
+    static constexpr double  floor_zOff             { 30.0 }; // under biosoup
         // 地表 图层。 放置 地衣，苔藓 等没有碰撞的 纯装饰性 go
 
 

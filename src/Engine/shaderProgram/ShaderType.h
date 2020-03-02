@@ -15,7 +15,6 @@ enum class ShaderType{
     Shadow,
     //---
     Ground,
-    //Water,
     BioSoup, // 异世界生物汤，会变色，暂未实现 ...
 
     //---

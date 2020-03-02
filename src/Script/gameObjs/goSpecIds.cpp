@@ -60,7 +60,7 @@ void onGoSpeciesIds_SignUp(){
     //-------------------//
     //     bioSoup
     //-------------------//
-    GoSpecFromJson::insert_2_initFuncs( "bioSoup",    std::bind( &gameObjs::BioSoup::init, _1, _2 ) );
+    GoSpecFromJson::insert_2_initFuncs( "bioSoup",    std::bind( &gameObjs::bioSoup::BioSoup::init, _1, _2 ) );
 
     //-------------------//
     //     artifacts

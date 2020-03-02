@@ -11,7 +11,7 @@
                 "goLabel": "",
                 "collide":{ "collideType": "Nil" },
                 "goMeshs":[
-                    { "afsName": "playerGoCircle", "animLabel": ""  }
+                    { "zOff": -100.0,  "afsName": "playerGoCircle", "animLabel": ""  }
                 ]
             }
         ]

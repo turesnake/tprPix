@@ -12,7 +12,8 @@
 #include "GameObj.h"
 #include "DyParam.h"
 
-namespace gameObjs{//------------- namespace gameObjs ----------------
+
+namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup ----------------
 
 class BioSoup{
 public:
@@ -24,7 +25,7 @@ private:
 };
 
 
-}//------------- namespace gameObjs: end ----------------
+}//------------- namespace gameObjs::bioSoup: end ----------------
 #endif 
 
 

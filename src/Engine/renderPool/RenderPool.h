@@ -22,8 +22,8 @@
 
 enum class RenderPoolType{
     Nil,   
-    Opaque,     // above water
-    Translucent, // above water
+    Opaque,     // above biosoup
+    Translucent, // above biosoup
     Shadow // tmp
 };
 
