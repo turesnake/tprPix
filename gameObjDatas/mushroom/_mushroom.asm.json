@@ -8,8 +8,8 @@
         
         "plans":[
 
-            { "annotation": "========== type_1 ==========" },
             {
+                "Notes": "========== type_1 ==========",
                 "goLabel.hold": "goLabel_1",
                 "collide.hold": "C_1",
                 "goMeshs":[
@@ -17,9 +17,8 @@
                 ]
             },
 
-
-            { "annotation": "========== type_2 ==========" },
             {
+                "Notes": "========== type_2 ==========",
                 "goLabel.hold": "goLabel_2",
                 "collide.hold": "C_1",
                 "goMeshs":[
@@ -68,9 +67,8 @@
             },
 
 
-
-            { "annotation": "========== type_3 ==========" },
             {
+                "Notes": "========== type_3 ==========",
                 "goLabel.hold": "goLabel_3",
                 "collide.hold": "C_1",
                 "goMeshs":[

@@ -64,9 +64,28 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const DataForCreate *bioSoupDPtr = goDPtr->binary.get<DataForCreate>();
     pvtBp->bioSoupState = bioSoupDPtr->bioSoupState;
 
+    // 计算 aaction 播放速度
+    // mapAlti: -10 位置的 bioSoup，最活跃
+    
+    double altiOff = static_cast<double>( std::abs( bioSoupDPtr->mapEntAlti.val - (-10) ) );
 
+    altiOff /= 50.0;
 
-    // 利用此数据，来 
+    double playSpeed = 0.5 + altiOff;
+    if( playSpeed > 3.0 ){
+        playSpeed = 3.0;
+    }
+
+        // cout << "playSpeed: " << playSpeed << endl;
+    
+    for( auto &[goMeshName, goMeshUPtr] : goRef_.get_goMeshs() ){
+        goMeshUPtr->bind_reset_playSpeedScale(  
+            [=](){
+                return playSpeed;
+            }
+        );
+    }
+
 
 
     //================ bind callback funcs =================//

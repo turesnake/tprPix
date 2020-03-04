@@ -54,7 +54,7 @@ using afsId_t = uint32_t; //- animFrameSet id type
 
 class AnimFrameSet{
 public:
-    AnimFrameSet( const std::string &name_ ):
+    explicit AnimFrameSet( const std::string &name_ ):
         name(name_)
         {}
 

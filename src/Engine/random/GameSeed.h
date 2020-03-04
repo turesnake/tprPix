@@ -90,7 +90,9 @@ private:
 
 
     //======== static ========//
-    static size_t   fixedShuffleSeed; // shuffle 用引擎 使用全局统一 seed，每次用前都要初始化
+    static constexpr uint_fast32_t  fixedShuffleSeed { 131 }; 
+                    // shuffle 用引擎 使用全局统一 seed，每次用前都要初始化
+                    // 素数，全局固定
 };
 
 

@@ -10,6 +10,7 @@
 //-------------------- CPP --------------------//
 #include <cmath>
 #include <memory>
+#include <vector> // tmp
 
 //-------------------- Engine --------------------//
 #include "esrc_state.h"
@@ -69,6 +70,28 @@ void init_coordinate(){
     coord_inn::worldCoordUPtr = std::make_unique<Coordinate>( xVec, yVec );
     //---
     esrc::insertState("coordinate");
+
+
+
+    // test
+    /*
+    std::vector<glm::dvec2> vi {
+        glm::dvec2{ -64.0, -64.0 },
+        glm::dvec2{ -64.0,  64.0 },
+        glm::dvec2{  64.0, -64.0 },
+        glm::dvec2{  64.0,  64.0 }
+    };
+
+    for( const auto &dpos : vi ){
+        glm::dvec2 out = get_worldCoordRef().calc_outDPos( dpos );
+        cout << "out: " << out.x 
+            << ", " << out.y
+            << endl; 
+    }
+    */
+
+
+
 }
 
 

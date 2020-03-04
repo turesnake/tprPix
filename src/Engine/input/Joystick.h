@@ -48,7 +48,7 @@ public:
     };
 
     //========== Selfs ==========//
-    Joystick( int connectIdx_ ):
+    explicit Joystick( int connectIdx_ ):
         connectIdx(connectIdx_)
         {
             this->name = glfwGetJoystickName( this->connectIdx );

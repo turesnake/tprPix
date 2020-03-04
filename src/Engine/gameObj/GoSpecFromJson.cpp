@@ -39,8 +39,10 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
     collisionRef.set_isBePass( d.isBePass );
     if( !d.isBePass ){
         collisionRef.set_functor_Is_extraPassableDogoSpeciesId( 
-            [&d](goSpeciesId_t dogoSpeciesId_)->bool {
-                return (d.extraPassableDogoSpeciesIds.find(dogoSpeciesId_) != d.extraPassableDogoSpeciesIds.end());
+            // 值捕获 
+            [specID_](goSpeciesId_t dogoSpeciesId_)->bool {
+                const auto &gRef = GoSpecFromJson::get_goSpecFromJsonRef( specID_ );
+                return (gRef.extraPassableDogoSpeciesIds.find(dogoSpeciesId_) != gRef.extraPassableDogoSpeciesIds.end());
             }
         );
     }

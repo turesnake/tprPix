@@ -31,7 +31,7 @@ enum class RenderPoolType{
 
 class RenderPool{
 public:
-    RenderPool( bool isOpaque_ ):
+    explicit RenderPool( bool isOpaque_ ):
         isOpaque(isOpaque_)
         {}
 

@@ -39,7 +39,7 @@ class MemMapEnt;
 //-- 4*4mapent 构成一个 field -- [just mem]
 class MapField{
 public:
-    MapField( IntVec2 anyMPos_ ):
+    explicit MapField( IntVec2 anyMPos_ ):
         mpos( anyMPos_2_fieldMPos(anyMPos_) )
         {
             this->init();

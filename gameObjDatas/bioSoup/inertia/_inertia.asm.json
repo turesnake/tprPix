@@ -1,0 +1,66 @@
+[
+    {
+        "goSpeciesName": "bioSoup",
+        "without_holds": true,
+
+        "renderLayerType": "BioSoup",
+        "shaderType": "OriginColor",
+
+        "plans":[
+            {
+                "goLabel": "MapEnt_1m1_Intertia",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
+                "goMeshs":[
+                    { "afsName": "bioSoup_active_1", "animLabel": "MapEnt_1m1"  }
+                ]
+            },
+
+            {
+                "goLabel": "MapEnt_2m2_Intertia",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_2m2"
+                },
+                "goMeshs":[
+                    { "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  }
+                ]
+            },
+
+            {
+                "goLabel": "MapEnt_4m4_Intertia",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_4m4"
+                },
+                "Notes": " 一个静态底：base，配合数个 动态 mesh ",
+                "goMeshs":[
+                    { "dpos": [   0,    0 ], "zOff": -0.1, "afsName": "bioSoup_active_base",    "animLabel": "MapEnt_4m4"  },
+                    { "dpos": [   0,    0 ], "zOff":  0.0, "afsName": "bioSoup_active_bigComp", "animLabel": "MapEnt_4m4"  },
+                    { "dpos": [ -51, -147 ], "zOff":  0.0, "afsName": "bioSoup_active_smlComp", "animLabel": "MapEnt_4m4" }
+                ]
+            },
+            
+
+            {
+                "goLabel": "MapEnt_4m4_Intertia",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_4m4"
+                },
+                "Notes": " 用 4个 2m2 gomesh 拼合而成，dpos坐标系已经做过扭转计算  ",
+                "goMeshs":[
+                    { "dpos": [ -26, -74 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  },
+                    { "dpos": [ -96,  20 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  },
+                    { "dpos": [  96, -20 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  },
+                    { "dpos": [  26,  74 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  }
+                ]
+            }
+
+
+        ]
+    }
+]
+

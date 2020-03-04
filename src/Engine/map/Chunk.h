@@ -36,7 +36,7 @@
 //  chunk 作为一个整体被存储到硬盘，就像 mc 中的 Field
 class Chunk{
 public:
-    Chunk( chunkKey_t chunkKey_ ):
+    explicit Chunk( chunkKey_t chunkKey_ ):
         chunkKey(chunkKey_),
         mpos(chunkKey_2_mpos(chunkKey_))
         {

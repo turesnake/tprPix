@@ -261,10 +261,12 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
             auto json_planUPtr = std::make_unique<mgmj_inn::Json_Plan>();
 
             //--- skip annotation ---
+            /*
             if( pEnt.HasMember("annotation") ||
                 pEnt.HasMember("Notes") ){
                 continue;
             }
+            */
 
             //--- goLabel / goLabel.hold ---//
             if( pEnt.HasMember("goLabel") ){

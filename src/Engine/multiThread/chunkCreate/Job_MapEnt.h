@@ -39,7 +39,7 @@ class MemMapEnt;
 // tmp data. created in job threads
 class Job_MapEnt{
 public:
-    Job_MapEnt( IntVec2 mpos_ )
+    explicit Job_MapEnt( IntVec2 mpos_ )
         {
             this->init( mpos_ );// 并不完整，还有一部分在 calc_job_chunk() 中完成
         }

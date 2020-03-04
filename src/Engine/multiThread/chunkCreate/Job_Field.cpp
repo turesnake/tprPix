@@ -224,15 +224,10 @@ void Job_Field::create_bioSoupDataUPtr( FieldFractType fieldFractType_,
                                         gameObjs::bioSoup::State bioSoupState_,
                                         MapAltitude mapEntAlti_ ){
 
-
     if( bioSoupState_ == gameObjs::bioSoup::State::NotExist ){
         return;
     }
 
-    // for debug
-    //if( bioSoupState_ != gameObjs::bioSoup::State::Active ){
-        //return;
-    //}
 
     goLabelId_t goLabelId = jobF_inn::bioSoup_goLabelIds.at(bioSoupState_).at(fieldFractType_);
 

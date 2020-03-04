@@ -31,7 +31,7 @@ class ActionSwitch{
 public:
     using F_ACTION_SWITCH = std::function<void( GameObj&, ActionSwitchType)>;
 
-    ActionSwitch( GameObj &goRef_ ):
+    explicit ActionSwitch( GameObj &goRef_ ):
         goRef(goRef_)
         {
             bitMap.resize( 64,1 ); // bitMap容器 占了 64 个元素

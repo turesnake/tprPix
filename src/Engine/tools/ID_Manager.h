@@ -34,8 +34,8 @@ enum class ID_TYPE : uint8_t {
 // 0 号 id 一定不会被分配到
 class ID_Manager{
 public:
-    explicit ID_Manager(ID_TYPE id_type_=ID_TYPE::U64,
-                        uint64_t   max_id_=0 ):
+    ID_Manager( ID_TYPE id_type_=ID_TYPE::U64,
+                uint64_t   max_id_=0 ):
         id_scope(id_type_),
         max_id(max_id_)
         {

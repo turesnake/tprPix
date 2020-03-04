@@ -5,7 +5,7 @@
         "renderLayerType": "Floor",
         "shaderType": "Floor",
 
-        "opt.floorGoLayer": "L_0",
+        "opt.floorGoLayer": "L_1",
 
         "plans":[
             {

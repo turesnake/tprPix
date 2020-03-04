@@ -200,7 +200,8 @@ void Job_Chunk::create_field_goSpecDatas(){
             auto &fieldRef = *(this->fields.at(fieldKey));
             auto &job_fieldRef = *(this->job_fields.at(fieldKey));
             fieldUWeight = fieldRef.get_uWeight();
-            EcoObj &ecoObjRef = esrc::get_ecoObjRef( fieldRef.get_ecoObjKey() );
+            sectionKey_t ecoKey = fieldRef.get_ecoObjKey();
+            EcoObj &ecoObjRef = esrc::get_ecoObjRef( ecoKey );
 
         
             //----------------------//
@@ -265,10 +266,11 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         ecoObjRef.get_natureFloorYardId(),
                                         fieldMPos,
                                         fieldUWeight,
-
-                                        [this, &ecoObjRef]( IntVec2 mpos_ )->bool { // f_is_correct_density_
+                                        // 值传递
+                                        [this, ecoKey]( IntVec2 mpos_ )->bool { // f_is_correct_density_
+                                            EcoObj &ecoRef = esrc::get_ecoObjRef( ecoKey );
                                             Density density = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_density();
-                                            return ecoObjRef.is_find_in_natureFloorDensitys(density);
+                                            return ecoRef.is_find_in_natureFloorDensitys(density);
                                         }
 
                                         );

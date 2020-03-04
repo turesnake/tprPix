@@ -16,7 +16,7 @@
 //  每 n 帧 算一次 循环
 class TimeCircle{
 public: 
-    explicit TimeCircle( TimeBase &timerRef_, size_t frameNum_ ):
+    TimeCircle( TimeBase &timerRef_, size_t frameNum_ ):
         timerRef(timerRef_),
         frameNum(frameNum_)
         {}

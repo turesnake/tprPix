@@ -30,7 +30,7 @@
 
 class Job_Chunk{
 public:
-    Job_Chunk( chunkKey_t chunkKey_ ):
+    explicit Job_Chunk( chunkKey_t chunkKey_ ):
         chunkKey(chunkKey_),
         chunkMPos(chunkKey_2_mpos(chunkKey_))
         {

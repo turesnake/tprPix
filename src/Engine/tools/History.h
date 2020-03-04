@@ -13,7 +13,7 @@
 template< typename T >
 class History{
 public:
-    History( const T &val_ ):
+    explicit History( const T &val_ ):
         oldVal(val_),
         newVal(val_),
         isDirty(false)

@@ -1,0 +1,68 @@
+[
+{
+    "afsName": "bioSoup_inertia",
+    "pngs": [
+
+        {
+            "path": "1m1.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  1,
+            "totalFrameNum": 5,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "MapEnt_1m1",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 5,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "2m2.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "MapEnt_2m2",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        },
+
+        {
+            "path": "4m4.P.png",
+            "frameNum.col":  1,
+            "frameNum.row":  1,
+            "totalFrameNum": 1,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "batch",
+                    "animLabel": "MapEnt_4m4",
+                    "fstSubIdx": 0,
+                    "fstIdx": 0,
+                    "idxNums": 1,
+                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                    "isOpaque": true
+                }
+            ]
+        }
+    ]
+}
+
+]

@@ -55,11 +55,11 @@ class GameObj;
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
 class GameObjMesh{
 public:
-    explicit GameObjMesh(   GameObj         &goRef_,
-                            const glm::dvec2 &pposOff_,
-                            double          zOff_,
-                            bool            isVisible_
-                             ):
+    GameObjMesh(    GameObj         &goRef_,
+                    const glm::dvec2 &pposOff_,
+                    double          zOff_,
+                    bool            isVisible_
+                    ):
         isVisible(isVisible_),
         goRef(goRef_),
         pposOff( tprRound(pposOff_) ), // Must align to pix
@@ -134,6 +134,8 @@ public:
         tprAssert( this->shadowMeshUPtr );
         this->shadowMeshUPtr->set_shader_program( sp_ );
     }
+
+    // speedScale: default=1.0, 值越大，播放速度越缓慢
     inline void bind_reset_playSpeedScale( F_R_double functor_ )noexcept{
         this->animActionPvtData.reset_playSpeedScale = functor_;
     }
@@ -193,10 +195,6 @@ public:
     bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
     bool    isPicFixedZOff {false}; //- 若 renderType 为 MajorGoes / BioSoup, 为 true
                                     // 仅作用于 pic, [被 ChildMesh 使用]
-
-    //bool    isRegularVAOVBO {true}; // 绝大多数 gomesh 选择 true，使用一个 rect，配合 tex来显示图元
-                                    // groundGo meshs 除外，它们使用 triangleFan 不绑定 tex
-                                    // 会影响 childMesh 的行为
 
 private:
     //======== vals ========//

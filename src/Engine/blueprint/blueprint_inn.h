@@ -62,7 +62,7 @@ private:
 
 class VarType_Plot_Manager{
 public:
-    VarType_Plot_Manager( PlotBlueprint &plot_ ){
+    explicit VarType_Plot_Manager( PlotBlueprint &plot_ ){
         for( const auto &type : plot_.get_varTypes() ){
             const auto *vtPtr = plot_.get_varTypeDataPtr_Plot( type );
             this->varTypes_P.insert({ type, VarType_P{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });
@@ -182,7 +182,7 @@ private:
 
 class VarType_Yard_Manager{
 public:
-    VarType_Yard_Manager( YardBlueprint &yard_ ){
+    explicit VarType_Yard_Manager( YardBlueprint &yard_ ){
         for( const auto &type : yard_.get_majorGo_varTypes() ){
             const auto *vtPtr = yard_.get_majorGo_varTypeDataPtr_Yard( type );
             this->varTypes_Y_majorGo.insert({ type, VarType_Y_MajorGo{vtPtr->get_isAllInstanceUseSamePlan(), 
@@ -247,7 +247,7 @@ private:
 
 class VarType_Village_Manager{
 public:
-    VarType_Village_Manager( VillageBlueprint &village_ ){
+    explicit VarType_Village_Manager( VillageBlueprint &village_ ){
         for( const auto &type : village_.get_varTypes() ){
             const auto *vtPtr = village_.get_varTypeDataPtr_Village( type );
             this->varTypes_V.insert({ type, VarType_V{ vtPtr->get_isAllInstanceUseSamePlan(), vtPtr } });

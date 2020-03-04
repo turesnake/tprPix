@@ -19,11 +19,13 @@
 
 
         "afs_lPaths": [ 
-            "_bioSoup.afs.json"
+            "active/_afs.json",
+            "inertia/_afs.json"
 
         ],
         "goAsm_lPaths": [
-            "_bioSoup.asm.json"
+            "_bioSoup.asm.json",
+            "inertia/_inertia.asm.json"
         ]
 
 

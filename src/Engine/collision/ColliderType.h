@@ -104,7 +104,7 @@ public:
 class Square{
 public:
     Square()=default;
-    Square( const glm::dvec2 &dpos_):
+    explicit Square( const glm::dvec2 &dpos_):
         dpos(dpos_),
         radius( Square::unifiedRadius )
         {}

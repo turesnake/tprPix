@@ -43,7 +43,7 @@ class Collision{
     using F_is_extraPassableDogoSpeciesId = std::function<bool(goSpeciesId_t)>; // param: dogoSpeciesId
 public:
     
-    Collision( GameObj &goRef_ ):
+    explicit Collision( GameObj &goRef_ ):
         goRef(goRef_)
         {}
 

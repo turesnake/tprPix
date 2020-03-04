@@ -299,7 +299,8 @@ public:
     // 返回一个 函数指针，存储在 village 实例中，为了可以用它，配合 具体的 dir，来获取 yardId
     static F_getYardId getFunctor_getYardId(const std::string &yardName_, 
                                             const std::string &yardLabel_ )noexcept{
-                                                                
+
+        /*                                              
         auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
 
         return [&innUMap]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
@@ -307,6 +308,16 @@ public:
                         std::nullopt  :
                         std::optional<yardBlueprintId_t>{ innUMap.at(dir_) };
         };
+        */
+
+        // 值捕获字符串
+        return [=]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
+            auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
+            return ( innUMap.find(dir_) == innUMap.end() ) ?
+                        std::nullopt  :
+                        std::optional<yardBlueprintId_t>{ innUMap.at(dir_) };
+        };
+
     }
 
     

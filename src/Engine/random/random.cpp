@@ -72,20 +72,22 @@ uint32_t get_new_seed(){
 
 
 // simple_uWeight 为每个 mapent生成的，仅用于 蓝图数据分配的 随机数
-// 仅仅在 蓝图分配阶段 被使用
 // 会被各种线程调用，所以务必不要使用 公共数据!!!
 size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept{
 
     std::default_random_engine dRandEng;
     std::uniform_int_distribution<size_t> uDistribution(0, 10000);
     //---
-    mapEntKey_t key = mpos_2_key(mpos_);
 
-    uint_fast32_t  seed = static_cast<uint_fast32_t>(key);
-    dRandEng.seed( seed );
+    uint32_t ux = static_cast<uint32_t>( mpos_.x );
+    uint32_t uy = static_cast<uint32_t>( mpos_.y );
+    uint32_t uout = ( ux ^ (uy << 1) ) +
+                    ( uy ^ (ux << 1) ); // 加法会引发溢出，但是无所谓
+
+    dRandEng.seed( static_cast<uint_fast32_t>(uout) );
     size_t randVal = uDistribution( dRandEng ); // [0, 10000]
 
-    return (cast_2_size_t(key) + randVal);
+    return (cast_2_size_t(mpos_2_key(mpos_)) + randVal);
 }
 
 

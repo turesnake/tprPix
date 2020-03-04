@@ -267,7 +267,7 @@ public:
     static ID_Manager  id_manager;
 
 private:
-    GameObj( goid_t goid_ ):
+    explicit GameObj( goid_t goid_ ):
         goid(goid_),
         move( *this ),
         actionSwitch( *this )

@@ -246,12 +246,11 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
                                     afs_inn::pixNum_per_frame.y); //- 一帧有几个像素点
 
     glm::dvec2  pixDPos {}; //- current pix dpos
-    glm::dvec2  rootAnchorDPosOff {};
-
 
     if( this->isPJTSingleFrame ){
         //-- 此时，所有 actionName 都指向同一个 id --
         auto aaposId = afs_inn::lAnimActionPosIds.begin()->second;
+        std::optional<glm::dvec2> rootAnchorDPosOff {std::nullopt};
 
         for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
@@ -259,13 +258,15 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
             pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
             if( afs_inn::find_rootAnchor_in_Jpng( afs_inn::J_frame_data_ary.at(0).at(p) ) ){
-                rootAnchorDPosOff = pixDPos;
+                tprAssert( !rootAnchorDPosOff.has_value() ); // not set yet
+                rootAnchorDPosOff = { pixDPos }; // set only once
                 break;
             }
         }//------ each frame.pix ------
+        tprAssert( rootAnchorDPosOff.has_value() );
 
         //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-        this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff );
+        this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff.value() );
 
     }else{
 
@@ -273,6 +274,7 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
             const AnimActionParam *paramPtr = animActionParams_.at(i).get();
             //---
             auto aaposId = afs_inn::lAnimActionPosIds.at(i);
+            std::optional<glm::dvec2> rootAnchorDPosOff {std::nullopt};
 
             for( size_t p=0; p<pixNum; p++ ){ //--- each frame.pix [left-bottom]
 
@@ -280,14 +282,16 @@ void AnimFrameSet::handle_pjt( const std::vector<std::shared_ptr<AnimActionParam
                 pixDPos.y = static_cast<double>( static_cast<int>(p)/afs_inn::pixNum_per_frame.x );
 
                 if( afs_inn::find_rootAnchor_in_Jpng( afs_inn::J_frame_data_ary.at(paramPtr->jFrameIdx).at(p) ) ){
-                    rootAnchorDPosOff = pixDPos;
+                    tprAssert( !rootAnchorDPosOff.has_value() ); // not set yet
+                    rootAnchorDPosOff = { pixDPos }; // set only once
                     break;
                 }
 
             }//------ each frame.pix ------
+            tprAssert( rootAnchorDPosOff.has_value() );
 
             //--- 执行所有 补充性设置， IMPORTANT!!! --- 
-            this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff );
+            this->animActionPosUPtrs.at(aaposId)->set_rootAnchorDPosOff( rootAnchorDPosOff.value() );
         }
     }
 }

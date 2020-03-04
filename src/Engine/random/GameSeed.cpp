@@ -17,13 +17,7 @@ namespace gameSeed_inn {//----------- namespace: gameSeed_inn ----------------//
     std::uniform_int_distribution<int>    uDistribution_altiSeed(-1000, 1000);
     std::uniform_real_distribution<double> uDistribution_double(-1000.0, 1000.0);
 
-
 }//-------------- namespace: gameSeed_inn end ----------------//
-
-
-//======== static ========//
-size_t  GameSeed::fixedShuffleSeed { 131 }; // 素数，全局固定
-
 
 
 /* ===========================================================
@@ -38,7 +32,7 @@ void GameSeed::init(  uint32_t baseSeed_ ){
 
     this->baseSeed = baseSeed_;
 
-    this->randEngine.seed( this->baseSeed + 431 );
+    this->randEngine.seed( static_cast<uint_fast32_t>(this->baseSeed + 431) );
 
 
     //-------- altiSeed --------//
