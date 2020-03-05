@@ -26,8 +26,6 @@ std::unordered_map<SignInMapEnts_Square_Type, std::unique_ptr<SignInMapEnts_Squa
 // 直接手动初始化数据
 void SignInMapEnts_Square::init_for_static()noexcept{
 
-    double halfMapEntDPos = static_cast<double>(HALF_PIXES_PER_MAPENT);
-
     {//----- T_1m1 -----//
         SignInMapEnts_Square &ref = SignInMapEnts_Square::insert_new_signInMapEnts_square( SignInMapEnts_Square_Type::T_1m1 );
         ref.mapEntOffs.push_back( IntVec2 { 0,  0 } );
@@ -38,20 +36,20 @@ void SignInMapEnts_Square::init_for_static()noexcept{
         SignInMapEnts_Square &ref = SignInMapEnts_Square::insert_new_signInMapEnts_square( SignInMapEnts_Square_Type::T_1m2 );
         ref.mapEntOffs.push_back( IntVec2 { 0,  0 } );
         ref.mapEntOffs.push_back( IntVec2 { 0, -1 } );
-        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ 0.0, -halfMapEntDPos };
+        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ 0.0, -HALF_PIXES_PER_MAPENT_D };
     }
 
     {//----- T_2m1 -----//
         SignInMapEnts_Square &ref = SignInMapEnts_Square::insert_new_signInMapEnts_square( SignInMapEnts_Square_Type::T_2m1 );
         ref.mapEntOffs.push_back( IntVec2 { 0,  0 } );
         ref.mapEntOffs.push_back( IntVec2 { -1, 0 } );
-        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -halfMapEntDPos, 0.0 };
+        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -HALF_PIXES_PER_MAPENT_D, 0.0 };
     }
 
     {//----- T_2m2 -----//
         SignInMapEnts_Square &ref = SignInMapEnts_Square::insert_new_signInMapEnts_square( SignInMapEnts_Square_Type::T_2m2 );
         wmes_inn::batch( ref.mapEntOffs, IntVec2{ -1, 0 }, IntVec2{ -1, 0 } );
-        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -halfMapEntDPos,  -halfMapEntDPos };
+        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -HALF_PIXES_PER_MAPENT_D,  -HALF_PIXES_PER_MAPENT_D };
     }
 
     {//----- T_3m3 -----//
@@ -63,7 +61,7 @@ void SignInMapEnts_Square::init_for_static()noexcept{
     {//----- T_4m4 -----//
         SignInMapEnts_Square &ref = SignInMapEnts_Square::insert_new_signInMapEnts_square( SignInMapEnts_Square_Type::T_4m4 );
         wmes_inn::batch( ref.mapEntOffs, IntVec2{ -2, 1 }, IntVec2{ -2, 1 } );
-        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -halfMapEntDPos,  -halfMapEntDPos };
+        ref.rootMapEntMid_2_rootAnchor_dposOff = glm::dvec2{ -HALF_PIXES_PER_MAPENT_D,  -HALF_PIXES_PER_MAPENT_D };
     }
 
     //... move ...

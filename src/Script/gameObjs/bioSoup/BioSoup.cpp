@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-//-------------------- tpr --------------------//
+//-------------------- Lib --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
@@ -24,6 +24,8 @@
 #include "create_go_oth.h"
 #include "dyParams.h"
 #include "assemble_go.h"
+#include "GoDataForCreate.h"
+#include "GoSpecFromJson.h"
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
@@ -32,6 +34,9 @@
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
+#include "Script/gameObjs/bioSoup/bioSoupInn.h"
+
+
 
 using namespace std::placeholders;
 
@@ -39,15 +44,36 @@ using namespace std::placeholders;
 
 
 namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup ----------------
+namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
 
-//namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
-//}//--------------------- namespace: bioSoup_inn end ------------------------//
+
+    class GoMesh_PvtBinary{
+    public:
+        GoMesh_PvtBinary()=default;
+        bool isParticle {false};
+        size_t animFrameCount {0}; // 动画计数器
+    };
+
+
+    bool isLocalInit {false};
+    void init();
+
+
+    double calc_playSpeed( MapAltitude mapAlti_ )noexcept;
+
+
+
+}//--------------------- namespace: bioSoup_inn end ------------------------//
+
+
+
+
 
 
 struct FloorGo_PvtBinary{
 
-    State bioSoupState {};
-    int tmp {};
+    State   bioSoupState {};
+    double  playSpeed {};
     //===== padding =====//
     //...
 };
@@ -55,35 +81,32 @@ struct FloorGo_PvtBinary{
 
 void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
+    if( !bioSoup_inn::isLocalInit ){
+        bioSoup_inn::isLocalInit = true;
+        bioSoup_inn::init();
+    }
+
+
+
     //================ go.pvtBinary =================//
     auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
     //========== 标准化装配 ==========//
     const GoDataForCreate *goDPtr = assemble_regularGo( goRef_, dyParams_ );
 
-    const DataForCreate *bioSoupDPtr = goDPtr->binary.get<DataForCreate>();
+    const DataForCreate *bioSoupDPtr = goDPtr->get_binary().get<DataForCreate>();
     pvtBp->bioSoupState = bioSoupDPtr->bioSoupState;
 
-    // 计算 aaction 播放速度
-    // mapAlti: -10 位置的 bioSoup，最活跃
-    
-    double altiOff = static_cast<double>( std::abs( bioSoupDPtr->mapEntAlti.val - (-10) ) );
+    //--
+    pvtBp->playSpeed = bioSoup_inn::calc_playSpeed( bioSoupDPtr->mapEntAlti );
 
-    altiOff /= 50.0;
-
-    double playSpeed = 0.5 + altiOff;
-    if( playSpeed > 3.0 ){
-        playSpeed = 3.0;
-    }
-
-        // cout << "playSpeed: " << playSpeed << endl;
+        // cout << "playSpeed: " << pvtBp->playSpeed << endl;
     
     for( auto &[goMeshName, goMeshUPtr] : goRef_.get_goMeshs() ){
-        goMeshUPtr->bind_reset_playSpeedScale(  
-            [=](){
-                return playSpeed;
-            }
-        );
+        goMeshUPtr->bind_reset_playSpeedScale( [=](){ return pvtBp->playSpeed; } );
+        //---
+        auto *goMeshPvtBp = goMeshUPtr->init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
+        goMeshPvtBp->isParticle = false; 
     }
 
 
@@ -98,15 +121,91 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //================ go self vals =================//
 }
 
-
-
-void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
-    goRef_.render_all_goMesh();
-}
-
 void BioSoup::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){ tprAssert(0);}
 
 
 
+
+
+void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    goRef_.render_all_goMesh();
+}
+
+
+
+
+
+
+
+
+
+namespace bioSoup_inn {//------------------ namespace: bioSoup_inn ---------------------//
+
+
+// no need to called in main
+void init(){
+
+    init_for_particle();
+
+
+
+
+}
+
+
+
+// mapAlti: -10 是动画播放最快的区域。越远离，越惰性
+double calc_playSpeed( MapAltitude mapAlti_ )noexcept{
+    double altiOff = static_cast<double>( std::abs( mapAlti_.val - (-10) ) );
+    altiOff /= 50.0;
+    double playSpeed = 0.5 + altiOff;
+    if( playSpeed > 3.0 ){
+        playSpeed = 3.0;
+    }
+    return playSpeed;
+}
+
+
+/*
+void create_particle_goMesh( GameObj goRef_, animSubspeciesId_t animSubId_ ){
+
+
+
+    GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(goMeshName, //- gmesh-name
+                                            animSubId_
+                                            AnimActionEName::Burn,
+                                            RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                            ShaderType::UnifiedColor,  // pic shader
+                                            glm::dvec2{}, //- pposoff
+                                            0.2,  //- zOff: 在 fire 上方
+                                            1151, // uweight tmp
+                                            true //- isVisible
+                                            );
+    smokeGoMesh.set_alti( 70.0 );
+    auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
+    smoke_pvtBp->isSmoke = true;
+
+
+}
+*/
+
+
+
+
+}//--------------------- namespace: bioSoup_inn end ------------------------//
 }//------------- namespace gameObjs::bioSoup: end ----------------
 

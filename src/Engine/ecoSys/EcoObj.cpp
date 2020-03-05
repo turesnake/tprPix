@@ -84,7 +84,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //------------------//
     //     oddEven
     //------------------//
-    IntVec2 SPos = floorDiv( this->mpos, static_cast<double>(ENTS_PER_SECTION) );
+    IntVec2 SPos = floorDiv( this->mpos, ENTS_PER_SECTION_D );
     this->oddEven = floorMod( SPos, 2.0 );
 
     //------------------//

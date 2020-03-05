@@ -144,8 +144,7 @@ void create_9_chunks( IntVec2 playerMPos_ ){
     //----------------------------//
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){
-            IntVec2 tmpChunkMPos = playerChunkMPos + IntVec2{   w*ENTS_PER_CHUNK,
-                                                        h*ENTS_PER_CHUNK };          
+            IntVec2 tmpChunkMPos = playerChunkMPos + IntVec2{ w*ENTS_PER_CHUNK, h*ENTS_PER_CHUNK };          
             chunkKey_t chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkCreate_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
@@ -472,7 +471,7 @@ void push_chunk_2_jobQue( chunkKey_t chunkKey_ ){
 NineDirection calc_player_move_dir( chunkKey_t oldKey_, chunkKey_t newKey_ ){
 
     IntVec2 offMPos = chunkKey_2_mpos(newKey_) - chunkKey_2_mpos(oldKey_);
-    offMPos = offMPos.floorDiv( static_cast<double>(ENTS_PER_CHUNK) );
+    offMPos = offMPos.floorDiv( ENTS_PER_CHUNK_D );
     return intVec2_2_nineDirection( offMPos );
 }
 

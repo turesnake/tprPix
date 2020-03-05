@@ -1,0 +1,39 @@
+[
+
+
+{
+    "afsName": "bioSoup_particle",
+    "pngs": [
+        {
+            "path": "particle_1.P.png",
+            "frameNum.col":  20,
+            "frameNum.row":  1,
+            "totalFrameNum": 20,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Rise_1",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 20,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+
+
+
+]

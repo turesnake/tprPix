@@ -29,22 +29,22 @@ const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyPara
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
 
     //-- set lAltiRange ---
-    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
-    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->goAltiRangeLabel ) );
+    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->get_goSpeciesId() );
+    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->get_goAltiRangeLabel() ) );
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.goLabelId = goDataPtr->goLabelId;
-    goRef_.actionDirection.reset( goDataPtr->direction );
-    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
+    goRef_.goLabelId = goDataPtr->get_goLabelId();
+    goRef_.actionDirection.reset( goDataPtr->get_direction() );
+    goRef_.brokenLvl.reset( goDataPtr->get_brokenLvl() );
 
-    tprAssert( goDataPtr->colliDataFromJsonPtr );
-    goRef_.set_colliDataFromJsonPtr( goDataPtr->colliDataFromJsonPtr );
+    tprAssert( goDataPtr->get_colliDataFromJsonPtr() );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr->get_colliDataFromJsonPtr() );
 
 
     //===== goMeshs =====//
-    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
+    for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){ // only autoInit 
+        const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
 
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

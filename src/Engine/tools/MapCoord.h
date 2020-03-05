@@ -38,8 +38,8 @@ inline IntVec2 mpos_2_ppos( IntVec2 mpos_ ) noexcept {
 //-- 当 dpos 无限接近 mapent 边界时，这个返回值就会非常不精确...
 inline IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ) noexcept {
     //-- double除法
-    double fx = dpos_.x / static_cast<double>(PIXES_PER_MAPENT);
-    double fy = dpos_.y / static_cast<double>(PIXES_PER_MAPENT);
+    double fx = dpos_.x / PIXES_PER_MAPENT_D;
+    double fy = dpos_.y / PIXES_PER_MAPENT_D;
     //-- math.floor() 
     return IntVec2{ static_cast<int>(floor(fx)), 
                     static_cast<int>(floor(fy)) };

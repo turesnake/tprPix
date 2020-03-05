@@ -111,7 +111,7 @@ size_t calc_goMesh_windDelayIdx( const glm::dvec2 &dpos_ )noexcept{
     // 延迟帧数半径
     double rad = 60;
 
-    double freq = 1.0 / ( static_cast<double>(PIXES_PER_MAPENT) * 7.0 ); // 麦浪分布圈，2*2 fields
+    double freq = 1.0 / ( PIXES_PER_MAPENT_D * 7.0 ); // 麦浪分布圈，2*2 fields
     double x = dpos_.x * freq;
     double y = dpos_.y * freq;
 

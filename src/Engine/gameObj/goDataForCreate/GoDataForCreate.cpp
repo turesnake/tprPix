@@ -63,8 +63,6 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate(
 
     auto goDUPtr = std::make_unique<GoDataForCreate>();
 
-    size_t goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, ExtraGoUWeight_ );
-
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDUPtr->direction = direction_;
     goDUPtr->brokenLvl = brokenLvl_;
@@ -72,13 +70,13 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate(
     goDUPtr->goSpeciesId = goSpeciesId_;
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
-    goDUPtr->goUWeight = goUWeight;
+    goDUPtr->goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, ExtraGoUWeight_ );
     tprAssert( goDUPtr->goUWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
     tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goUWeight );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goDUPtr->goUWeight );
 
     goDUPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
     tprAssert( planRef.colliDataFromJsonUPtr );
@@ -87,22 +85,19 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate(
     //-------------------//
     //      goMeshs
     //-------------------//
-    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goUWeight );
-    size_t randUWeightOff = goUWeight;
+    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goDUPtr->goUWeight );
+    size_t randUWeightOff = goDUPtr->goUWeight;
     for( const auto &[jgomeshName, jgomesh] : planRef.gomeshs ){ // each json goMesh
         randUWeightOff += uWeightStep;
 
-        // 有些 gomesh 不支持在 init 阶段被 创建
-        if( !jgomesh.isAutoInit ){
-            continue;
-        }
-
-        auto gmUPtr = std::make_unique<GoDataForCreate::GoMeshByLink>( &jgomesh, randUWeightOff );
+        auto gmSPtr = std::make_shared<GoDataForCreate::GoMeshByLink>( &jgomesh, randUWeightOff );
 
         // 未来，这应该是个 选配件
-        gmUPtr->set_windDelayIdx( calc_goMesh_windDelayIdx(goDUPtr->dpos + jgomesh.dposOff) );
-                                    
-        goDUPtr->goMeshEntUPtrs.push_back( std::move(gmUPtr) ); // move                                        
+        gmSPtr->set_windDelayIdx( calc_goMesh_windDelayIdx(goDUPtr->dpos + jgomesh.dposOff) );
+                                       
+        (jgomesh.isAutoInit) ?
+            goDUPtr->goMeshs_autoInit.push_back( std::move(gmSPtr) ) :
+            goDUPtr->goMeshs_notAutoInit.push_back( std::move(gmSPtr) ); // move
     }  
     //===
     return goDUPtr;
@@ -121,8 +116,6 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreat
 
     auto goDUPtr = std::make_unique<GoDataForCreate>();
 
-    size_t goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, 0 ); // no ExtraGoUWeight
-
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDUPtr->direction = direction_;
     goDUPtr->brokenLvl = BrokenLvl::Lvl_0; // meaningless
@@ -130,13 +123,13 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreat
     goDUPtr->goSpeciesId = goSpeciesId_;
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
-    goDUPtr->goUWeight = goUWeight;
+    goDUPtr->goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, 0 ); // no ExtraGoUWeight
     tprAssert( goDUPtr->goUWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
     tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goUWeight );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goDUPtr->goUWeight );
 
     goDUPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
     tprAssert( planRef.colliDataFromJsonUPtr );
@@ -145,28 +138,26 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreat
     //-------------------//
     //      goMeshs
     //-------------------//
-    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goUWeight );
-    size_t randUWeightOff = goUWeight;
+    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goDUPtr->goUWeight );
+    size_t randUWeightOff = goDUPtr->goUWeight;
     for( const auto &[jgomeshName, jgomesh] : planRef.gomeshs ){ // each json goMesh
         randUWeightOff += uWeightStep;
 
-        // 有些 gomesh 不支持在 init 阶段被 创建
-        if( !jgomesh.isAutoInit ){
-            continue;
-        }
-        auto gmUPtr = std::make_unique<GoDataForCreate::GoMeshByHand>( &jgomesh, randUWeightOff );
+        auto gmSPtr = std::make_shared<GoDataForCreate::GoMeshByHand>( &jgomesh, randUWeightOff );
         
         //------------------------//
         //     IMPORTANT!!!
         // calc gomesh.zOff, based on floorGoLayer
         //------------------------//
         tprAssert( jgomesh.floorGoLayer.has_value() );
-        gmUPtr->zOff = calc_floorGoMesh_zOff( jgomesh.floorGoLayer.value(), randUWeightOff );
+        gmSPtr->zOff = calc_floorGoMesh_zOff( jgomesh.floorGoLayer.value(), randUWeightOff );
 
         // 未来，这应该是个 选配件
-        gmUPtr->set_windDelayIdx( calc_goMesh_windDelayIdx(goDUPtr->dpos + jgomesh.dposOff) );
+        gmSPtr->set_windDelayIdx( calc_goMesh_windDelayIdx(goDUPtr->dpos + jgomesh.dposOff) );
                                     
-        goDUPtr->goMeshEntUPtrs.push_back( std::move(gmUPtr) ); // move                                        
+        (jgomesh.isAutoInit) ?
+            goDUPtr->goMeshs_autoInit.push_back( std::move(gmSPtr) ) :
+            goDUPtr->goMeshs_notAutoInit.push_back( std::move(gmSPtr) ); // move                                       
     }  
     //===
     return goDUPtr;
@@ -193,12 +184,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCrea
     goDataPtr->dpos = mpos_2_dpos(fieldMPos) + glm::dvec2{ halfPixesPerField, halfPixesPerField };
     goDataPtr->direction = NineDirection::Center;
     goDataPtr->brokenLvl = BrokenLvl::Lvl_0;
-
-    goDataPtr->goUWeight = gdfc_inn::calc_go_uWeight(jobFieldRef_.get_fieldMidMPos(),
-                                                            goDataPtr->goSpeciesId, 
-                                                            goDataPtr->goLabelId,
-                                                            0 );  // no ExtraGoUWeight
-
+    goDataPtr->goUWeight = gdfc_inn::calc_go_uWeight(jobFieldRef_.get_fieldMidMPos(), goDataPtr->goSpeciesId, goDataPtr->goLabelId, 0 );// no ExtraGoUWeight
     tprAssert(goDataPtr->goUWeight != 0  );
 
     // find plan
@@ -233,19 +219,20 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCrea
             specialGoMeshName = tprGeneral::nameString_combine("m_", goMeshIdx, "");
         }
 
-        auto goMeshUPtr = std::make_unique<GoDataForCreate::GoMeshByHand>( &gmeRef, randUWeightOff );
+        auto goMeshSPtr = std::make_shared<GoDataForCreate::GoMeshByHand>( &gmeRef, randUWeightOff );
         //---
-        goMeshUPtr->goMeshName = specialGoMeshName;
-        goMeshUPtr->dposOff = job_groundGoEntRef.dposOff;
-        goMeshUPtr->zOff = calc_uWeight_fractValue(randUWeightOff); // (0.0, 1.0)
+        goMeshSPtr->goMeshName = specialGoMeshName;
+        goMeshSPtr->dposOff = job_groundGoEntRef.dposOff;
+        goMeshSPtr->zOff = calc_uWeight_fractValue(randUWeightOff); // (0.0, 1.0)
 
-        goMeshUPtr->isVisible = true;
-        goMeshUPtr->isAutoInit = true; // meaningless
+        goMeshSPtr->isVisible = true;
+        goMeshSPtr->isAutoInit = true; // meaningless
     
-        goMeshUPtr->set_windDelayIdx( 1 ); // meaningless
+        goMeshSPtr->set_windDelayIdx( 1 ); // meaningless
     
         //---
-        goDataPtr->goMeshEntUPtrs.push_back( std::move( goMeshUPtr ) );
+        goDUPtr->goMeshs_autoInit.push_back( std::move(goMeshSPtr) ); // move 
+
         //===
         goMeshIdx++;
     }

@@ -52,10 +52,11 @@ namespace _inn {//-------- namespace: _inn ----------//
 void init_debug(){
 
     //-- init slicePic
+    /*
     slicePic.clear();
-    for( int h=0; h<PIXES_PER_MAPENT; h++ ){
-        for( int w=0; w<PIXES_PER_MAPENT; w++ ){
-            if( (h==0) || (h==PIXES_PER_MAPENT-1) || (w==0) || (w==PIXES_PER_MAPENT-1) ){
+    for( int h=0; h<; h++ ){
+        for( int w=0; w<; w++ ){
+            if( (h==0) || (h==-1) || (w==0) || (w==-1) ){
                 slicePic.push_back( CO );
             }else{
                 slicePic.push_back( e_ );
@@ -72,6 +73,7 @@ void init_debug(){
     //-- 生成 point 唯一的 texName
     texName_pointPic = create_a_texName( pointPicSize,
                                       (const GLvoid*)&(pointPic.at(0)) );
+    */
 
     //...
 }
@@ -119,8 +121,8 @@ void insert_new_mapEntSlice( const MapCoord &mcpos_ ){
     meshRef.init( texName_slice );
     meshRef.isVisible = true;
     meshRef.set_shader_program( &(esrc::get_shaderRef(ShaderType::OriginColor)) );
-    meshRef.set_scale(glm::vec3{ static_cast<float>(PIXES_PER_MAPENT), 
-                                static_cast<float>(PIXES_PER_MAPENT), 
+    meshRef.set_scale(glm::vec3{ static_cast<float>(), 
+                                static_cast<float>(), 
                                 1.0f });
     meshRef.set_translate(glm::vec3{ fpos.x,
                                      fpos.y,

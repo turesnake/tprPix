@@ -48,7 +48,6 @@ public:
     class GoMeshBase;
     class GoMeshByLink;
     class GoMeshByHand; 
-
     
     //========== Self Vals ==========//
     static std::unique_ptr<GoDataForCreate> create_new_goDataForCreate(  
@@ -74,6 +73,24 @@ public:
                                                 const std::vector<std::unique_ptr<Job_GroundGoEnt>> &groundGoEnts_ 
                                                 );
 
+    //----- get -----//
+    inline goSpeciesId_t        get_goSpeciesId()const noexcept{ return this->goSpeciesId; }
+    inline goLabelId_t          get_goLabelId()const noexcept{ return this->goLabelId; }
+    inline const glm::dvec2     &get_dpos()const noexcept{ return this->dpos; }
+    inline NineDirection        get_direction()const noexcept{ return this->direction; }
+    inline BrokenLvl            get_brokenLvl()const noexcept{ return this->brokenLvl; }
+    inline GoAltiRangeLabel     get_goAltiRangeLabel()const noexcept{ return this->goAltiRangeLabel; }
+    inline size_t               get_goUWeight()const noexcept{ return this->goUWeight; }
+    inline const ColliDataFromJson *get_colliDataFromJsonPtr()const noexcept{ return this->colliDataFromJsonPtr; }
+
+    inline DyBinary         &get_binary()noexcept{ return this->binary; }
+    inline const DyBinary   &get_binary()const noexcept{ return this->binary; }
+
+    inline const std::vector<std::shared_ptr<GoMeshBase>> &get_goMeshs_autoInit()const noexcept{ return this->goMeshs_autoInit; }
+    inline const std::vector<std::shared_ptr<GoMeshBase>> &get_goMeshs_notAutoInit()const noexcept{ return this->goMeshs_notAutoInit; }
+
+
+private:
     //========== vals ==========//
     goSpeciesId_t       goSpeciesId {};
     goLabelId_t         goLabelId   {};
@@ -83,14 +100,14 @@ public:
     GoAltiRangeLabel    goAltiRangeLabel {};
     size_t              goUWeight   {}; // mix mapEntUWeight, goSpeciesId, goLabelId
 
-
     const ColliDataFromJson *colliDataFromJsonPtr {nullptr};
     
     //bool            isNeedWind    {}; // 是否需要生成 风吹值,暂时 始终为 true
 
     DyBinary            binary  {}; // customized data
 
-    std::vector<std::unique_ptr<GoMeshBase>> goMeshEntUPtrs {};
+    std::vector<std::shared_ptr<GoMeshBase>> goMeshs_autoInit {};
+    std::vector<std::shared_ptr<GoMeshBase>> goMeshs_notAutoInit {};
 };
 
 

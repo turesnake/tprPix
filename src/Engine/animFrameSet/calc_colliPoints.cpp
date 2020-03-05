@@ -106,7 +106,7 @@ void calc_colliPoints_for_circular(  std::vector<glm::dvec2> &container_, double
     tprAssert( radius_ > 0.0 );
 
     double radius = radius_ + 10.0; //- 适当向外延伸 
-    double scale  = radius / static_cast<double>(PIXES_PER_MAPENT);
+    double scale  = radius / PIXES_PER_MAPENT_D;
 
     container_.clear();
 

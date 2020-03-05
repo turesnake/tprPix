@@ -20,7 +20,8 @@
 
         "afs_lPaths": [ 
             "active/_afs.json",
-            "inertia/_afs.json"
+            "inertia/_afs.json",
+            "particle/_afs.json"
 
         ],
         "goAsm_lPaths": [

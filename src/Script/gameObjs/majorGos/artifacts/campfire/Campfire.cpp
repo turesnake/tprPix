@@ -37,14 +37,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 
-// 目前主要用来存储 smoke gomesh 数据
-class GoMesh_PvtBinary{
-public:
-    GoMesh_PvtBinary()=default;
-    bool isSmoke {false};
-    size_t animFrameCount {0}; // 动画计数器
-};
-
 
 
 struct Campfire_PvtBinary{
@@ -59,6 +51,14 @@ struct Campfire_PvtBinary{
 
 
 namespace campfire_inn {//----------- namespace: campfire_inn ----------------//
+
+    // 目前主要用来存储 smoke gomesh 数据
+    class GoMesh_PvtBinary{
+    public:
+        GoMesh_PvtBinary()=default;
+        bool isSmoke {false};
+        size_t animFrameCount {0}; // 动画计数器
+    };
 
     void update_for_smokeGoMesh( GameObj &goRef_, GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ );
 
@@ -80,11 +80,11 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
     //========== goMeshs =========//
     GameObjMesh &rootGoMesh = goRef_.get_goMeshRef("root");
-    auto *root_pvtBp = rootGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
+    auto *root_pvtBp = rootGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
     root_pvtBp->isSmoke = false; 
 
     GameObjMesh &fireGoMesh = goRef_.get_goMeshRef("fire");
-    auto *fire_pvtBp = fireGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
+    auto *fire_pvtBp = fireGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
     fire_pvtBp->isSmoke = false; 
  
     //================ bind callback funcs =================//
@@ -141,7 +141,7 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
                                 true //- isVisible
                                 );
         smokeGoMesh.set_alti( 70.0 );
-        auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<GoMesh_PvtBinary>();
+        auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
         smoke_pvtBp->isSmoke = true;
     }
 
@@ -150,7 +150,7 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
     auto &goMeshs = goRef_.get_goMeshs();
     for( auto &[name, goMeshUPtr] : goMeshs ){
         GameObjMesh &goMeshRef = *goMeshUPtr;
-        auto *goMeshPvtBp = goMeshRef.get_pvtBinaryPtr<GoMesh_PvtBinary>();
+        auto *goMeshPvtBp = goMeshRef.get_pvtBinaryPtr<campfire_inn::GoMesh_PvtBinary>();
         if( goMeshPvtBp->isSmoke ){
 
             // 如果此 gomesh，动画播放完毕，将删除它

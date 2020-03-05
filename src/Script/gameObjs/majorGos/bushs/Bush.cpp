@@ -89,16 +89,16 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( goDataPtr->direction );
-    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
+    goRef_.actionDirection.reset( goDataPtr->get_direction() );
+    goRef_.brokenLvl.reset( goDataPtr->get_brokenLvl() );
 
-    goRef_.set_colliDataFromJsonPtr( goDataPtr->colliDataFromJsonPtr );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr->get_colliDataFromJsonPtr() );
 
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
     // 有些 bush 只有一个 gomesh，有些则是 复数个
     // 一律按 复数个来处理
-    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
+    for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){
+        const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
         
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

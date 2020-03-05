@@ -74,8 +74,8 @@ void MapField::init_nodeDPos( const glm::dvec2 &FDPos_ ){
     if(         pnY >=  1.0 ){ pnY =  0.99; }
     else if(    pnY <= -1.0 ){ pnY = -0.99; }
 
-    double scaleX = MapField::halfField - 16.0; // not too close between two field-gos
-    double scaleY = MapField::halfField - 4.0; 
+    double scaleX = HALF_PIXES_PER_FIELD_D - 16.0; // not too close between two field-gos
+    double scaleY = HALF_PIXES_PER_FIELD_D - 4.0; 
 
     pnX = floor(pnX*scaleX); //- align to pix
     pnY = floor(pnY*scaleY); //- align to pix
@@ -92,7 +92,7 @@ void MapField::init_occupyWeight( const glm::dvec2 &FDPos_ ){
 
     //-- 本 field 在 世界坐标中的 奇偶性 --
     // 得到的值将会是 {0,0}; {1,0}; {0,1}; {1,1} 中的一种
-    IntVec2 v = floorDiv( this->get_mpos(), static_cast<double>(ENTS_PER_FIELD) );
+    IntVec2 v = floorDiv( this->get_mpos(), ENTS_PER_FIELD_D );
     IntVec2 oddEven = floorMod( v, 2.0 );
 
     //-- 相邻 field 间的 occupyWeight 没有关联性，就是 白噪音 --

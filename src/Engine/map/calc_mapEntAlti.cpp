@@ -47,8 +47,8 @@ double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
     glm::dvec2 pixCFPos {};
 
-            pixCFPos.x = static_cast<double>(midPPos.x) / static_cast<double>(PIXES_PER_CHUNK);
-            pixCFPos.y = static_cast<double>(midPPos.y) / static_cast<double>(PIXES_PER_CHUNK);
+            pixCFPos.x = static_cast<double>(midPPos.x) / PIXES_PER_CHUNK_D;
+            pixCFPos.y = static_cast<double>(midPPos.y) / PIXES_PER_CHUNK_D;
             //------------------//
             //     seaLvl
             //------------------//

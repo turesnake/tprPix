@@ -44,17 +44,17 @@ goid_t create_a_Go( const GoDataForCreate *goDPtr_ ){
 
 
     //===== create a go =====//
-    goid_t goid = esrc::insert_new_regularGo( goDPtr_->dpos, goDPtr_->goUWeight );
+    goid_t goid = esrc::insert_new_regularGo( goDPtr_->get_dpos(), goDPtr_->get_goUWeight() );
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
-    tprAssert( GoSpecFromJson::find_from_initFuncs(goDPtr_->goSpeciesId) );
-    GoSpecFromJson::assemble_2_newGo( goDPtr_->goSpeciesId, goRef );
+    tprAssert( GoSpecFromJson::find_from_initFuncs(goDPtr_->get_goSpeciesId()) );
+    GoSpecFromJson::assemble_2_newGo( goDPtr_->get_goSpeciesId(), goRef );
 
     //-- check GameObjFamily --
         tprAssert( goRef.family != GameObjFamily::UI );
 
-    GoSpecFromJson::call_initFunc( goDPtr_->goSpeciesId, goRef, dyParam );
+    GoSpecFromJson::call_initFunc( goDPtr_->get_goSpeciesId(), goRef, dyParam );
 
     goRef.init_check();
     //------------------------------//
@@ -88,12 +88,12 @@ void rebind_a_diskGo( const DiskGameObj &diskGo_ ){
     dyParam.insert_ptr<DyParams_GoDataForCreate>( fUPtr.get() );
 
     //----- rebind -----//
-    esrc::insert_a_diskGo( diskGo_.goid, goDataUPtr->dpos, diskGo_.goUWeight );
+    esrc::insert_a_diskGo( diskGo_.goid, goDataUPtr->get_dpos(), diskGo_.goUWeight );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
     //-- set some static datas from JSON --
-        tprAssert( GoSpecFromJson::find_from_initFuncs(goDataUPtr->goSpeciesId) );
-    GoSpecFromJson::assemble_2_newGo( goDataUPtr->goSpeciesId, goRef ); //- tmp
+        tprAssert( GoSpecFromJson::find_from_initFuncs(goDataUPtr->get_goSpeciesId()) );
+    GoSpecFromJson::assemble_2_newGo( goDataUPtr->get_goSpeciesId(), goRef ); //- tmp
                     //-- 临时措施
                     //   在未来，已经组装 从 数据库取出的数据，而不是从 GoSpecFromJson 中
                     //   至少有一部分吧
@@ -102,7 +102,7 @@ void rebind_a_diskGo( const DiskGameObj &diskGo_ ){
     //-- check GameObjFamily --
         tprAssert( goRef.family != GameObjFamily::UI );
 
-    GoSpecFromJson::call_initFunc( goDataUPtr->goSpeciesId, goRef, dyParam );
+    GoSpecFromJson::call_initFunc( goDataUPtr->get_goSpeciesId(), goRef, dyParam );
             //-- 临时方案，最好使用 具象go类 rebind 系列函数 
 
     goRef.init_check();

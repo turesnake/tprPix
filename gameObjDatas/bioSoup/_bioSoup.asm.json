@@ -29,19 +29,7 @@
                 ]
             },
 
-            {
-                "goLabel": "MapEnt_4m4",
-                "collide":{
-                    "collideType": "Square",
-                    "signInMapEnts_square_type": "T_4m4"
-                },
-                "Notes": " 一个静态底：base，配合数个 动态 mesh ",
-                "goMeshs":[
-                    { "dpos": [   0,    0 ], "zOff": -0.1, "afsName": "bioSoup_active_base",    "animLabel": "MapEnt_4m4"  },
-                    { "dpos": [   0,    0 ], "zOff":  0.0, "afsName": "bioSoup_active_bigComp", "animLabel": "MapEnt_4m4"  },
-                    { "dpos": [ -51, -147 ], "zOff":  0.0, "afsName": "bioSoup_active_smlComp", "animLabel": "MapEnt_4m4" }
-                ]
-            },
+            
 
             {
                 "goLabel": "MapEnt_4m4",
@@ -72,8 +60,10 @@
             },
 
 
+
+
             {
-                "goLabel": "particale_1m1",
+                "goLabel": "particle_1m1",
                 "collide":{
                     "collideType": "Square",
                     "signInMapEnts_square_type": "T_1m1"
@@ -81,18 +71,33 @@
                 "Notes": " 单纯用来 交代 粒子gomesh 数据用的 ",
                 "goMeshs":[
                     { "isAutoInit": false, "dpos": [ 0, 0 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4"  }
+                ]
+            },
 
+            {
+                "goLabel": "particle_2m2",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_2m2"
+                },
+                "Notes": " 单纯用来 交代 粒子gomesh 数据用的 ",
+                "goMeshs":[
+                    { "isAutoInit": false, "dpos": [ 0, 0 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4"  }
+                ]
+            },
 
+            {
+                "goLabel": "particle_4m4",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_4m4"
+                },
+                "Notes": " 单纯用来 交代 粒子gomesh 数据用的 ",
+                "goMeshs":[
+                    { "isAutoInit": false, "dpos": [ 0, 0 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4"  }
                 ]
             }
 
-
-
-
-
-
-
-            
 
         ]
     }

@@ -70,9 +70,7 @@ namespace colliOth_inn {//----------- namespace: colliOth_inn ----------------//
 void init_for_colliOth_inn()noexcept{
     double threshold = 0.8;
 
-    double halfMapEnt = static_cast<double>(HALF_PIXES_PER_MAPENT);
-
-    double AdjacentLine = halfMapEnt - Circular::radius_for_dogo; // 32.0 - 24.0
+    double AdjacentLine = HALF_PIXES_PER_MAPENT_D - Circular::radius_for_dogo; // 32.0 - 24.0
     //---
     colliOth_inn::boundary_from_Separate_2_Adjacent = AdjacentLine - threshold;
     colliOth_inn::boundary_from_Adjacent_2_Intersect = AdjacentLine + threshold;
@@ -107,7 +105,7 @@ const std::unordered_set<NineDirection> &collect_Adjacent_nearbyMapEnts(    cons
         return colliOth_inn::outs; // empty
     }
 
-    double sum_of_2_radius = static_cast<double>(HALF_PIXES_PER_MAPENT) + Circular::radius_for_dogo;
+    double sum_of_2_radius = HALF_PIXES_PER_MAPENT_D + Circular::radius_for_dogo;
 
     glm::dvec2 mpMidDPos {};
     glm::dvec2 absOff {};
@@ -298,7 +296,7 @@ std::pair<bool,double> cast_with_mapent(    const glm::dvec2 &moveVec_,
     //------------------------------//
     //         剩余情况
     //------------------------------//
-    double sum_of_2_radius = static_cast<double>(HALF_PIXES_PER_MAPENT)  + Circular::radius_for_dogo;
+    double sum_of_2_radius = HALF_PIXES_PER_MAPENT_D + Circular::radius_for_dogo;
 
     glm::dvec2 mpMidDPos = mpos_2_midDPos( targetMPos_ );
     double leftLine = mpMidDPos.x - sum_of_2_radius;

@@ -82,17 +82,10 @@ void Job_Field::init_for_static()noexcept{
     const auto &worldCoorldRef = esrc::get_worldCoordRef();
 
     const std::vector<glm::dvec2> origin_halfFieldDposOffs{
-        glm::dvec2{ -static_cast<double>(PIXES_PER_MAPENT),
-                    -static_cast<double>(PIXES_PER_MAPENT) },// 0
-
-        glm::dvec2{  static_cast<double>(PIXES_PER_MAPENT),
-                    -static_cast<double>(PIXES_PER_MAPENT) },// 1
-
-        glm::dvec2{ -static_cast<double>(PIXES_PER_MAPENT),
-                     static_cast<double>(PIXES_PER_MAPENT) },// 2
-
-        glm::dvec2{  static_cast<double>(PIXES_PER_MAPENT),
-                     static_cast<double>(PIXES_PER_MAPENT) }// 3
+        glm::dvec2{ -PIXES_PER_MAPENT_D, -PIXES_PER_MAPENT_D },// 0
+        glm::dvec2{  PIXES_PER_MAPENT_D, -PIXES_PER_MAPENT_D },// 1
+        glm::dvec2{ -PIXES_PER_MAPENT_D,  PIXES_PER_MAPENT_D },// 2
+        glm::dvec2{  PIXES_PER_MAPENT_D,  PIXES_PER_MAPENT_D }// 3
     };
 
     for( const auto &off : origin_halfFieldDposOffs ){
@@ -101,17 +94,10 @@ void Job_Field::init_for_static()noexcept{
 
     //-----
     const std::vector<glm::dvec2> origin_mapentDposOffs{
-        glm::dvec2{ -static_cast<double>(HALF_PIXES_PER_MAPENT),
-                    -static_cast<double>(HALF_PIXES_PER_MAPENT) },// 0
-
-        glm::dvec2{  static_cast<double>(HALF_PIXES_PER_MAPENT),
-                    -static_cast<double>(HALF_PIXES_PER_MAPENT) },// 1
-
-        glm::dvec2{ -static_cast<double>(HALF_PIXES_PER_MAPENT),
-                     static_cast<double>(HALF_PIXES_PER_MAPENT) },// 2
-
-        glm::dvec2{  static_cast<double>(HALF_PIXES_PER_MAPENT),
-                     static_cast<double>(HALF_PIXES_PER_MAPENT) }// 3
+        glm::dvec2{ -HALF_PIXES_PER_MAPENT_D, -HALF_PIXES_PER_MAPENT_D },// 0
+        glm::dvec2{  HALF_PIXES_PER_MAPENT_D, -HALF_PIXES_PER_MAPENT_D },// 1
+        glm::dvec2{ -HALF_PIXES_PER_MAPENT_D,  HALF_PIXES_PER_MAPENT_D },// 2
+        glm::dvec2{  HALF_PIXES_PER_MAPENT_D,  HALF_PIXES_PER_MAPENT_D }// 3
     };
 
     for( const auto &off : origin_mapentDposOffs ){
@@ -241,7 +227,7 @@ void Job_Field::create_bioSoupDataUPtr( FieldFractType fieldFractType_,
                                                             );
 
     // custumized data
-    auto *bioSoupDPtr = goDUPtr->binary.init<gameObjs::bioSoup::DataForCreate>();
+    auto *bioSoupDPtr = goDUPtr->get_binary().init<gameObjs::bioSoup::DataForCreate>();
     bioSoupDPtr->bioSoupState = bioSoupState_;
     bioSoupDPtr->mapEntAlti = mapEntAlti_;
 

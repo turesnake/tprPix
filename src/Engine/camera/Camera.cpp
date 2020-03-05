@@ -111,9 +111,7 @@ FloatVec2 Camera::calc_canvasCFPos()const noexcept{
     float w = static_cast<float>( outDPos.x ) - (0.5f * static_cast<float>(ViewingBox::gameSZ.x));
     float h = static_cast<float>( outDPos.y ) - (0.5f * static_cast<float>(ViewingBox::gameSZ.y));
 
-    return FloatVec2{   w / static_cast<float>(PIXES_PER_CHUNK),
-                        h / static_cast<float>(PIXES_PER_CHUNK) };
-    
+    return FloatVec2{ (w / PIXES_PER_CHUNK_F), (h / PIXES_PER_CHUNK_F) };
 }
 
 

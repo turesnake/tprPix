@@ -95,8 +95,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         //=================//
         //      yard
         //=================//
-        int half_ents_per_section = ENTS_PER_SECTION / 2;
-        yardMPos = ecoObjMPos_ - IntVec2{half_ents_per_section, half_ents_per_section} + yEntUPtr->mposOff;
+        yardMPos = ecoObjMPos_ - IntVec2{HALF_ENTS_PER_SECTION, HALF_ENTS_PER_SECTION} + yEntUPtr->mposOff;
                 //-- 蓝图 以 ecoobj/section left-bottom 点为 中心点
 
         suWeight = calc_simple_mapent_uWeight( yardMPos );

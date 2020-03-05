@@ -63,7 +63,7 @@ class Job_Field{
 
     private:
         inline static size_t calc_halfFieldIdx( IntVec2 mposOff_ )noexcept{
-            IntVec2 halfFieldPos = mposOff_.floorDiv(static_cast<double>(HALF_ENTS_PER_FIELD));
+            IntVec2 halfFieldPos = mposOff_.floorDiv( HALF_ENTS_PER_FIELD_D );
             return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD + halfFieldPos.x );
         }
         //========== vals ==========//

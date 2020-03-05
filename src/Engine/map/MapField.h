@@ -106,8 +106,7 @@ private:
     std::optional<bool>             isCrossColorTable   {std::nullopt}; // 境内是否跨越 数个 colortable
 
     //===== static =====//
-    static constexpr double         halfField { static_cast<double>( PIXES_PER_FIELD ) * 0.5 };
-    static constexpr glm::dvec2     halfFieldVec2 { MapField::halfField, MapField::halfField };
+    static constexpr glm::dvec2     halfFieldVec2 { HALF_PIXES_PER_FIELD_D, HALF_PIXES_PER_FIELD_D };
 };
 
 

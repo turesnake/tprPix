@@ -527,8 +527,8 @@ void Collision::build_a_scanBody(   const glm::dvec2 &moveVec_,
     //  --
     //  目前可以把 扫掠体收集的 mapents 数量控制在 1～4 个（高峰为6个）
     //-------------------------//
-    double mpSideLen = static_cast<double>(PIXES_PER_MAPENT);
-    double threshold = 0.5; // Adjacent
+    constexpr double mpSideLen = PIXES_PER_MAPENT_D;
+    constexpr double threshold = 0.5; // Adjacent
 
     double l = floor(leftLine / mpSideLen) * mpSideLen;
     double r = floor(rightLine / mpSideLen) * mpSideLen;

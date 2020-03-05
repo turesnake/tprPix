@@ -32,10 +32,9 @@ FloorGoSize str_2_floorGoSize( const std::string &str_ )noexcept;
 // 计算某种 floorGo，从其 中点dpos，到 中点所在的 mpos 的 偏移值
 inline glm::dvec2 calc_floorGo_mid_dposOff( FloorGoSize size_ )noexcept{
 
-    double pixes_per_mapent = static_cast<double>(PIXES_PER_MAPENT);
     switch (size_){
         case FloorGoSize::MapEnt_2m2: return glm::dvec2{ 0.0, 0.0 };
-        case FloorGoSize::MapEnt_3m3: return glm::dvec2{ 0.5*pixes_per_mapent, 0.5*pixes_per_mapent };
+        case FloorGoSize::MapEnt_3m3: return glm::dvec2{ HALF_PIXES_PER_MAPENT_D, HALF_PIXES_PER_MAPENT_D };
         case FloorGoSize::MapEnt_4m4: return glm::dvec2{ 0.0, 0.0 };
         default:
             tprAssert(0);

@@ -96,15 +96,14 @@ void Grass::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.actionDirection.reset( goDataPtr->direction );
-    goRef_.brokenLvl.reset( goDataPtr->brokenLvl );
+    goRef_.actionDirection.reset( goDataPtr->get_direction() );
+    goRef_.brokenLvl.reset( goDataPtr->get_brokenLvl() );
 
-    goRef_.set_colliDataFromJsonPtr( goDataPtr->colliDataFromJsonPtr );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr->get_colliDataFromJsonPtr() );
 
     //----- gomeshs -----//
-    for( const auto &uptrRef : goDataPtr->goMeshEntUPtrs ){
-        const GoDataForCreate::GoMeshBase &gmRef = *uptrRef;
-        
+    for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){
+        const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
 
         auto &goMeshRef = goRef_.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),

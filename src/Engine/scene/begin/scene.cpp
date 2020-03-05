@@ -292,7 +292,7 @@ void inputINS_handle( const InputINS &inputINS_){
                                                                         newGoSpeciesId,   
                                                                         newGoLabelId,
                                                                         newGoDPos,
-                                                                        goDataUPtr->goUWeight,
+                                                                        goDataUPtr->get_goUWeight(),
                                                                         NineDirection::Left,
                                                                         BrokenLvl::Lvl_0
                                                                         } );              
