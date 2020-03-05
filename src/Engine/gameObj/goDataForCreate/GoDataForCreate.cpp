@@ -25,21 +25,45 @@
 extern const std::string &calc_groundGoMeshName( FieldFractType fieldFractType_, colorTableId_t colorTableId_ )noexcept;
 
 
+
+namespace gdfc_inn {//----------- namespace: gdfc_inn ----------------//
+
+    // 即便是 在同一个 mapent 上生成数个go，它们的 goUWeight 也不一样
+    size_t calc_go_uWeight( IntVec2 mpos_, goSpeciesId_t goSpeciesId_, goLabelId_t goLabelId_, size_t extra_ )noexcept{
+        size_t mapEntUWeight = calc_simple_mapent_uWeight( mpos_ );
+        size_t u =  mapEntUWeight ^ 
+                    ( static_cast<size_t>(goSpeciesId_) << 1) ^ 
+                    ( static_cast<size_t>(goLabelId_)   << 2);
+                        // 不使用 cast_2_size_t, 因为不关心 参数是否为 正负
+                        // maybe stackOverFlow, but not care
+        return (u + extra_);
+    }
+
+
+    size_t calc_goMesh_uWeightStep( size_t goUWeight_ )noexcept{
+        return (goUWeight_ % 1031);
+                        // 计算出来的返回值，不一定是 素数，是这种实现的缺点
+    }
+
+
+}//-------------- namespace: gdfc_inn end ----------------//
+
+
+
 // [-RegularGo-]
 std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate( 
                                                                     IntVec2             mpos_,
                                                                     const glm::dvec2    &dpos_,
                                                                     goSpeciesId_t       goSpeciesId_,
                                                                     goLabelId_t         goLabelId_,
-                                                                    //std::optional<NineDirection> direction_,
-                                                                    //std::optional<BrokenLvl>     brokenLvl_
-                                                                    NineDirection direction_,
-                                                                    BrokenLvl     brokenLvl_
+                                                                    NineDirection       direction_,
+                                                                    BrokenLvl           brokenLvl_,
+                                                                    size_t              ExtraGoUWeight_
                                                                     ){
 
     auto goDUPtr = std::make_unique<GoDataForCreate>();
 
-    size_t mapEntUWeight = calc_simple_uWeight( mpos_ );
+    size_t goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, ExtraGoUWeight_ );
 
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDUPtr->direction = direction_;
@@ -48,21 +72,25 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_goDataForCreate(
     goDUPtr->goSpeciesId = goSpeciesId_;
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
-    goDUPtr->uWeight = mapEntUWeight;
-    tprAssert( goDUPtr->uWeight != 0 );
+    goDUPtr->goUWeight = goUWeight;
+    tprAssert( goDUPtr->goUWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
     tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, mapEntUWeight );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goUWeight );
 
     goDUPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
     tprAssert( planRef.colliDataFromJsonUPtr );
     goDUPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
 
-    size_t randUWeightOff = mapEntUWeight;
+    //-------------------//
+    //      goMeshs
+    //-------------------//
+    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goUWeight );
+    size_t randUWeightOff = goUWeight;
     for( const auto &[jgomeshName, jgomesh] : planRef.gomeshs ){ // each json goMesh
-        randUWeightOff += 17;
+        randUWeightOff += uWeightStep;
 
         // 有些 gomesh 不支持在 init 阶段被 创建
         if( !jgomesh.isAutoInit ){
@@ -93,7 +121,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreat
 
     auto goDUPtr = std::make_unique<GoDataForCreate>();
 
-    size_t mapEntUWeight = calc_simple_uWeight( mpos_ );
+    size_t goUWeight = gdfc_inn::calc_go_uWeight( mpos_, goSpeciesId_, goLabelId_, 0 ); // no ExtraGoUWeight
 
     //--- 为 GoDataForCreate 实例 装填数据 --
     goDUPtr->direction = direction_;
@@ -102,21 +130,25 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_floorGoDataForCreat
     goDUPtr->goSpeciesId = goSpeciesId_;
     goDUPtr->goLabelId = goLabelId_;
     goDUPtr->dpos = dpos_;
-    goDUPtr->uWeight = mapEntUWeight;
-    tprAssert( goDUPtr->uWeight != 0 );
+    goDUPtr->goUWeight = goUWeight;
+    tprAssert( goDUPtr->goUWeight != 0 );
 
     //======
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDUPtr->goSpeciesId );
     tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, mapEntUWeight );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goLabelId_, goUWeight );
 
     goDUPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
     tprAssert( planRef.colliDataFromJsonUPtr );
     goDUPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
 
-    size_t randUWeightOff = mapEntUWeight;
+    //-------------------//
+    //      goMeshs
+    //-------------------//
+    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goUWeight );
+    size_t randUWeightOff = goUWeight;
     for( const auto &[jgomeshName, jgomesh] : planRef.gomeshs ){ // each json goMesh
-        randUWeightOff += 17;
+        randUWeightOff += uWeightStep;
 
         // 有些 gomesh 不支持在 init 阶段被 创建
         if( !jgomesh.isAutoInit ){
@@ -161,24 +193,34 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCrea
     goDataPtr->dpos = mpos_2_dpos(fieldMPos) + glm::dvec2{ halfPixesPerField, halfPixesPerField };
     goDataPtr->direction = NineDirection::Center;
     goDataPtr->brokenLvl = BrokenLvl::Lvl_0;
-    goDataPtr->uWeight = jobFieldRef_.get_leftBottomMapEnt_uWeight(); // 暂时等于 左下角 mapent.uWeight
-    tprAssert(goDataPtr->uWeight != 0  );
+
+    goDataPtr->goUWeight = gdfc_inn::calc_go_uWeight(jobFieldRef_.get_fieldMidMPos(),
+                                                            goDataPtr->goSpeciesId, 
+                                                            goDataPtr->goLabelId,
+                                                            0 );  // no ExtraGoUWeight
+
+    tprAssert(goDataPtr->goUWeight != 0  );
 
     // find plan
     const GoSpecFromJson &goSpecFromJson = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->goSpeciesId );
     tprAssert( goSpecFromJson.goAssemblePlanSetUPtr );
-    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goDataPtr->goLabelId, goDataPtr->uWeight );
+    const GoAssemblePlanSet::Plan &planRef = goSpecFromJson.goAssemblePlanSetUPtr->apply_a_plan( goDataPtr->goLabelId, goDataPtr->goUWeight );
     //---
     goDataPtr->goAltiRangeLabel = planRef.goAltiRangeLabel;
     goDataPtr->colliDataFromJsonPtr = planRef.colliDataFromJsonUPtr.get();
-    //=== goMeshs
+
+    //-------------------//
+    //      goMeshs
+    //-------------------//
+    size_t uWeightStep = gdfc_inn::calc_goMesh_uWeightStep( goDataPtr->goUWeight );
+
     // 根据 groundGoEnts 数据，动态创建
     size_t goMeshIdx {0};
     std::string specialGoMeshName {};
-    size_t randUWeightOff = goDataPtr->uWeight;
+    size_t randUWeightOff = goDataPtr->goUWeight;
     for( const auto &uptr : groundGoEnts_ ){
         const Job_GroundGoEnt &job_groundGoEntRef = *uptr;
-        randUWeightOff += 17;
+        randUWeightOff += uWeightStep;
 
         std::string goMeshName = calc_groundGoMeshName( job_groundGoEntRef.fieldFractType, job_groundGoEntRef.colorTableId );
               

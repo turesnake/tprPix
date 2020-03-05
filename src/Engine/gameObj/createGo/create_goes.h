@@ -49,12 +49,14 @@ namespace uiGos{//------------- namespace uiGos ----------------
 goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
-                    const DyParam &dyParams_ );
+                    const DyParam   &dyParams_,
+                    size_t          goUWeight_ );
 
 
 goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
-                    const UIAnchor &uiAnchor_,
-                    const DyParam &dyParams_ );
+                    const UIAnchor  &uiAnchor_,
+                    const DyParam   &dyParams_,
+                    size_t          goUWeight_ );
 
 }//------------- namespace uiGos: end ----------------
 

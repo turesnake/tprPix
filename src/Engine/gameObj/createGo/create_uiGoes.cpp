@@ -28,12 +28,14 @@
 namespace uiGos{//------------- namespace uiGos ----------------
 
 
+// 原始的方法，未来做整合
 goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     const glm::dvec2 &basePointProportion_, 
                     const glm::dvec2 &offDPos_,
-                    const DyParam &dyParams_ ){
+                    const DyParam   &dyParams_,
+                    size_t          goUWeight_ ){
 
-    goid_t goid = esrc::insert_new_uiGo( basePointProportion_, offDPos_ );
+    goid_t goid = esrc::insert_new_uiGo( basePointProportion_, offDPos_, goUWeight_ );
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --
@@ -53,13 +55,15 @@ goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
 }
 
 
-
+// 原始的方法，未来做整合
 goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
-                    const UIAnchor &uiAnchor_,
-                    const DyParam &dyParams_ ){
+                    const UIAnchor  &uiAnchor_,
+                    const DyParam   &dyParams_,
+                    size_t          goUWeight_ ){
 
     goid_t goid = esrc::insert_new_uiGo(uiAnchor_.get_basePointProportion(), 
-                                        uiAnchor_.get_offDPos() );
+                                        uiAnchor_.get_offDPos(),
+                                        goUWeight_ );
     GameObj &goRef = esrc::get_goRef( goid );
     
     //-- set some static datas from JSON --

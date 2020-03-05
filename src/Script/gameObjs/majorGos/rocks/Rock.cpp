@@ -19,6 +19,7 @@
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
+#include "assemble_go.h"
 
 #include "tprAssert.h"
 #include "esrc_shader.h" 
@@ -26,7 +27,7 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/gameObjs/assemble_go.h"
+
 
 
 using namespace std::placeholders;

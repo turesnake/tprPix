@@ -42,12 +42,12 @@ using F_GOID_GOPTR = std::function<void(goid_t, GameObj&)>;
 void foreach_goids_active( F_GOID_GOPTR fp_ );
 void foreach_goids_inactive( F_GOID_GOPTR fp_ );
 
-goid_t insert_new_regularGo( const glm::dvec2 &dpos_ );
-goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_, const glm::dvec2 &offDPos_ );
+goid_t insert_new_regularGo( const glm::dvec2 &dpos_, size_t goUWeight_ );
+goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_, const glm::dvec2 &offDPos_, size_t goUWeight_ );
 
-
+void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_, size_t goUWeight_ );
 void erase_the_go( goid_t id_ );
-void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ );
+
 void realloc_active_goes();
 void realloc_inactive_goes();
 

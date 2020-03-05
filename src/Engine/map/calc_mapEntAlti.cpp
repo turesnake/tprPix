@@ -64,7 +64,10 @@ double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
             //-------------
             // 强制性的，人为缩小水域面积。
-            seaLvl += -30.0; // [0.0, 100.0]
+            //seaLvl += -40.0; // [0.0, 100.0]
+            seaLvl += -50.0; // [0.0, 100.0]
+
+
                 
             if( seaLvl < 0.0 ){ //- land
                 seaLvl *= 0.3;  // [-15.0, 50.0]

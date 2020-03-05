@@ -345,9 +345,9 @@
 
         {
             "path": "active_4m4_1.P.png",
-            "frameNum.col":  6,
+            "frameNum.col":  5,
             "frameNum.row":  3,
-            "totalFrameNum": 18,
+            "totalFrameNum": 13,
             "isHaveShadow": false,
             "isPjtSingle": true,
             "subspecs": [
@@ -362,7 +362,34 @@
                             "actionPlayType": "Cycle",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "active_4m4_2.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  3,
+            "totalFrameNum": 15,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_4m4",
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Cycle",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
                             "isOpaque": true
                         }
                     ]
@@ -493,33 +520,7 @@
 {
     "afsName": "bioSoup_active_bigComp",
     "pngs": [
-        {
-            "path": "active_4m4_bigComp_1.P.png",
-            "frameNum.col":  6,
-            "frameNum.row":  3,
-            "totalFrameNum": 18,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 0,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-
-            ]
-        },
+        
 
         {
             "path": "active_4m4_bigComp_2.P.png",
@@ -532,7 +533,7 @@
                 {
                     "type": "handle",
                     "animLabel": "MapEnt_4m4",
-                    "subIdx": 1,
+                    "subIdx": 0,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
@@ -560,7 +561,7 @@
                 {
                     "type": "handle",
                     "animLabel": "MapEnt_4m4",
-                    "subIdx": 2,
+                    "subIdx": 1,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,

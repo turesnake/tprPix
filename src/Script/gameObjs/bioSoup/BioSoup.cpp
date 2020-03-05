@@ -23,6 +23,7 @@
 #include "RenderPool.h"
 #include "create_go_oth.h"
 #include "dyParams.h"
+#include "assemble_go.h"
 
 #include "esrc_shader.h" 
 #include "esrc_chunk.h"
@@ -30,7 +31,6 @@
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
-#include "Script/gameObjs/assemble_go.h"
 #include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
 
 using namespace std::placeholders;

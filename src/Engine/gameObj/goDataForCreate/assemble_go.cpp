@@ -5,7 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-#include "Script/gameObjs/assemble_go.h"
+#include "assemble_go.h"
 
 //-------------------- Engine --------------------//
 #include "tprAssert.h"

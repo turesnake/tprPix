@@ -100,19 +100,23 @@ void prepareForScene_begin(){
 
     sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_pointer_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
-                                                            emptyDyParam );
+                                                            emptyDyParam,
+                                                            17 ); // tmp，随便写的 goUWeight
     //---
     sc_begin_inn::button_archiveId_1 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),
-                                                            emptyDyParam );
+                                                            emptyDyParam,
+                                                            17 ); // tmp，随便写的 goUWeight
 
     sc_begin_inn::button_archiveId_2 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(1),
-                                                            emptyDyParam );
+                                                            emptyDyParam,
+                                                            17 ); // tmp，随便写的 goUWeight
     
     sc_begin_inn::button_archiveId_3 = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_archive_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(2),
-                                                            emptyDyParam );
+                                                            emptyDyParam,
+                                                            17 ); // tmp，随便写的 goUWeight
 
     GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
     GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
@@ -288,6 +292,7 @@ void inputINS_handle( const InputINS &inputINS_){
                                                                         newGoSpeciesId,   
                                                                         newGoLabelId,
                                                                         newGoDPos,
+                                                                        goDataUPtr->goUWeight,
                                                                         NineDirection::Left,
                                                                         BrokenLvl::Lvl_0
                                                                         } );              

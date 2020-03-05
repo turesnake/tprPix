@@ -27,6 +27,7 @@ public:
     goSpeciesId_t  goSpeciesId {}; //- u32
     goLabelId_t    goLabelId {}; // u64
     glm::dvec2     dpos     {}; //- double, double
+    size_t         goUWeight {}; // u64
     NineDirection  dir {}; // int
     BrokenLvl      brokenLvl {}; // int
 

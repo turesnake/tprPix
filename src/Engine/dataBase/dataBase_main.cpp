@@ -124,6 +124,7 @@ void atom_writeBack_to_table_gameArchive(){
     diskGo.goSpeciesId = playerGoRef.speciesId;
     diskGo.goLabelId = playerGoRef.goLabelId;
     diskGo.dpos = dposRef;
+    diskGo.goUWeight = playerGoRef.get_goUWeight();
     diskGo.dir = playerGoRef.actionDirection.get_newVal();
     diskGo.brokenLvl = playerGoRef.brokenLvl.get_newVal();
 

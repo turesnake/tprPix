@@ -44,7 +44,7 @@ goid_t create_a_Go( const GoDataForCreate *goDPtr_ ){
 
 
     //===== create a go =====//
-    goid_t goid = esrc::insert_new_regularGo( goDPtr_->dpos );
+    goid_t goid = esrc::insert_new_regularGo( goDPtr_->dpos, goDPtr_->goUWeight );
     GameObj &goRef = esrc::get_goRef( goid );
 
     //-- set some static datas from JSON --
@@ -88,7 +88,7 @@ void rebind_a_diskGo( const DiskGameObj &diskGo_ ){
     dyParam.insert_ptr<DyParams_GoDataForCreate>( fUPtr.get() );
 
     //----- rebind -----//
-    esrc::insert_a_diskGo( diskGo_.goid, goDataUPtr->dpos );
+    esrc::insert_a_diskGo( diskGo_.goid, goDataUPtr->dpos, diskGo_.goUWeight );
     GameObj &goRef = esrc::get_goRef( diskGo_.goid );
 
     //-- set some static datas from JSON --

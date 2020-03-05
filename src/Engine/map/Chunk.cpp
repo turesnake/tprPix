@@ -33,7 +33,7 @@
 
 void Chunk::init(){
 
-    this->uWeight = calc_simple_uWeight( this->mpos );
+    this->uWeight = calc_simple_mapent_uWeight( this->mpos );
 
     //  mapents
     auto &job_chunkRef = esrc::atom_getnc_job_chunkRef( this->chunkKey );

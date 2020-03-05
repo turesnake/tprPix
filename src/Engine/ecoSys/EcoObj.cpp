@@ -99,7 +99,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     //double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]
     //this->uWeight = blender_the_perlinNoise(originPerlin, 279771, 10000); // [0,9999]
 
-    this->uWeight = calc_simple_uWeight( this->mpos );
+    this->uWeight = calc_simple_mapent_uWeight( this->mpos );
 
     //------------------//
     //   occupyWeight

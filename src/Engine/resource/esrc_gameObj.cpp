@@ -160,9 +160,9 @@ void insert_2_goids_inactive( goid_t id_ ){
  * -- return：
  *     新实例的 goid 号
  */
-goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
+goid_t insert_new_regularGo( const glm::dvec2 &dpos_, size_t goUWeight_ ){
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_ ) });
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_, goUWeight_ ) });
     tprAssert( insertBool );
     return goid;
 }
@@ -173,10 +173,11 @@ goid_t insert_new_regularGo( const glm::dvec2 &dpos_ ){
  * -- 创建1个 uiGo实例，并为其分配新 goid. 然后存入 memGameObjs 容器中
  */
 goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
-                        const glm::dvec2 &offDPos_ ){
+                        const glm::dvec2 &offDPos_,
+                        size_t goUWeight_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_ ) });
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_, goUWeight_ ) });
     tprAssert( insertBool );
     return goid;
 }
@@ -190,8 +191,8 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
  * -- 从 db 中读取一个 go数据，根据此数据，来重建一个 mem态 go 实例
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
-void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_ ){
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_,dpos_) });
+void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_, size_t goUWeight_ ){
+    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_, dpos_, goUWeight_) });
     tprAssert( insertBool );
 }
 

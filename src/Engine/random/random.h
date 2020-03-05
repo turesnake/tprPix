@@ -44,7 +44,7 @@ inline size_t blender_the_perlinNoise(  double noise_,
 
 
 
-size_t calc_simple_uWeight( IntVec2 mpos_ )noexcept;
+size_t calc_simple_mapent_uWeight( IntVec2 mpos_ )noexcept;
 
 
 

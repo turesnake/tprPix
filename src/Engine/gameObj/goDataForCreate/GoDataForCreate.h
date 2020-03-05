@@ -57,7 +57,8 @@ public:
                                                 goSpeciesId_t       goSpeciesId_,
                                                 goLabelId_t         goLabelId_,
                                                 NineDirection       direction_, // 未来支持从 GoSpecFromJson 中提取默认值
-                                                BrokenLvl           brokenLvl_ // 未来支持从 GoSpecFromJson 中提取默认值
+                                                BrokenLvl           brokenLvl_, // 未来支持从 GoSpecFromJson 中提取默认值
+                                                size_t              ExtraGoUWeight_=0 // 刷怪笼赋予的 累加随机数，mapEntGo 无需关心
                                                 );
 
     static std::unique_ptr<GoDataForCreate> create_new_floorGoDataForCreate(  
@@ -80,7 +81,8 @@ public:
     NineDirection       direction {NineDirection::Center};  //- 角色 动画朝向
     BrokenLvl           brokenLvl   {};
     GoAltiRangeLabel    goAltiRangeLabel {};
-    size_t              uWeight     {}; // base on mpos
+    size_t              goUWeight   {}; // mix mapEntUWeight, goSpeciesId, goLabelId
+
 
     const ColliDataFromJson *colliDataFromJsonPtr {nullptr};
     

@@ -99,7 +99,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
         yardMPos = ecoObjMPos_ - IntVec2{half_ents_per_section, half_ents_per_section} + yEntUPtr->mposOff;
                 //-- 蓝图 以 ecoobj/section left-bottom 点为 中心点
 
-        suWeight = calc_simple_uWeight( yardMPos );
+        suWeight = calc_simple_mapent_uWeight( yardMPos );
         auto yardId = varType_village_managerUPtr->apply_a_yardBlueprintId( yEntUPtr->varTypeIdx, suWeight, yEntUPtr->direction );
 
         YardBlueprint &yardRef = YardBlueprintSet::get_yardBlueprintRef( yardId );
@@ -126,7 +126,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                 const auto *varTypeDatas_Yard_majorGoPtr = yardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
                 plotMPos = yardMPos + pEntUPtr->mposOff;
-                suWeight = calc_simple_uWeight( plotMPos );
+                suWeight = calc_simple_mapent_uWeight( plotMPos );
 
                 if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
                     //-- 直接可以获得 mp 位置的 goSpec 数据
@@ -158,7 +158,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
                     for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
 
                         entMPos = plotMPos + mpEntUPtr->mposOff;
-                        suWeight = calc_simple_uWeight( entMPos );
+                        suWeight = calc_simple_mapent_uWeight( entMPos );
 
                         const GoSpec &goSpecRef = varType_Plot_ManagerUPtr->apply_a_goSpec( mpEntUPtr->varTypeIdx, suWeight );
 
@@ -192,7 +192,7 @@ void build_ecoObj_goDatasForCreate( villageBlueprintId_t villageId_,
 
                 const auto *varTypeDatas_Yard_floorGoPtr = yardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
                 entMPos = yardMPos + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-                suWeight = calc_simple_uWeight( entMPos );
+                suWeight = calc_simple_mapent_uWeight( entMPos );
 
                 const GoSpec &goSpecRef = varType_yard_managerUPtr->apply_a_floorGoSpec( pEntUPtr->varTypeIdx, suWeight );
                 //--- 正式在 ecoObj 中创建 floor GoDataForCreate 实例 --
@@ -238,7 +238,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
         const auto *varTypeDatas_Yard_majorGoPtr = natureMajoryardRef.get_majorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
         plotMPos = yardMPos_ + pEntUPtr->mposOff;
-        suWeight = calc_simple_uWeight( plotMPos );
+        suWeight = calc_simple_mapent_uWeight( plotMPos );
 
         if( !varTypeDatas_Yard_majorGoPtr->get_isPlotBlueprint() ){
             //-- 直接可以获得 mp 位置的 goSpec 数据
@@ -273,7 +273,7 @@ void build_natureYard_majorGoDatasForCreate(   std::unordered_map<mapEntKey_t, s
             for( const auto &mpEntUPtr : plotMapData.data ){ // each mapDataEnt uptr / mapent
 
                 entMPos = plotMPos + mpEntUPtr->mposOff;
-                suWeight = calc_simple_uWeight( entMPos );
+                suWeight = calc_simple_mapent_uWeight( entMPos );
 
                 // skip mapent in biosoup
                 if( f_is_mapent_in_bioSoup_(entMPos) ){
@@ -323,7 +323,7 @@ void build_natureYard_floorGoDatasForCreate(
         const auto *varTypeDatas_Yard_floorGoPtr = natureFloorYardRef.get_floorGo_varTypeDataPtr_Yard( pEntUPtr->varTypeIdx );
 
         entMPos = yardMPos_ + pEntUPtr->mposOff; // floorGo mid点所在 mpos
-        suWeight = calc_simple_uWeight( entMPos );
+        suWeight = calc_simple_mapent_uWeight( entMPos );
 
         // skip un correct density
         if( !f_is_correct_density_(entMPos) ){

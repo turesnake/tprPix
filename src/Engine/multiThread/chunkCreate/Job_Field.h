@@ -168,8 +168,8 @@ public:
     
 
     inline fieldKey_t   get_fieldKey()const noexcept{ return this->fieldKey; }
-    inline size_t       get_leftBottomMapEnt_uWeight()const noexcept{ return this->mapEntPtrs.at(0).at(0)->get_uWeight(); } // 生成 groundGo 时使用，
     inline bool         get_isCoveredBy_InertiaBioSoup()const noexcept{ return this->isCoveredBy_InertiaBioSoup; }
+    inline IntVec2      get_fieldMidMPos()const noexcept{ return (fieldKey_2_mpos(this->fieldKey) + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD }); }
 
 
     //===== static =====//

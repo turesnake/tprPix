@@ -30,8 +30,9 @@ void atom_select_one_from_table_goes( goid_t goid_, DiskGameObj &diskGo_ ){
         diskGo_.goLabelId = static_cast<goLabelId_t>( sqlite3_column_int64(stmt_select_one_from_table_goes, 1) );
         diskGo_.dpos.x = sqlite3_column_double(stmt_select_one_from_table_goes, 2);
         diskGo_.dpos.y = sqlite3_column_double(stmt_select_one_from_table_goes, 3);
-        diskGo_.dir = idx_2_nineDirection(static_cast<size_t>( sqlite3_column_double(stmt_select_one_from_table_goes, 4) ));
-        diskGo_.brokenLvl = int_2_brokenLvl(static_cast<int>( sqlite3_column_double(stmt_select_one_from_table_goes, 5) ));
+        diskGo_.goUWeight = static_cast<size_t>( sqlite3_column_int64(stmt_select_one_from_table_goes, 4) );
+        diskGo_.dir = idx_2_nineDirection(static_cast<size_t>( sqlite3_column_double(stmt_select_one_from_table_goes, 5) ));
+        diskGo_.brokenLvl = int_2_brokenLvl(static_cast<int>( sqlite3_column_double(stmt_select_one_from_table_goes, 6) ));
     }
 }
 
@@ -62,6 +63,9 @@ void atom_insert_or_replace_to_table_goes( const DiskGameObj &diskGo_ ){
 
     sqlite3_bind_double_inn_(  ":dposY", 
                             diskGo_.dpos.y );
+
+    sqlite3_bind_int64_inn_(  ":goUWeight", 
+                            static_cast<int64_t>(diskGo_.goUWeight) );
 
     sqlite3_bind_int64_inn_(  ":dir", 
                             static_cast<int64_t>(diskGo_.dir) );

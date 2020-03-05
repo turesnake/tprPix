@@ -57,17 +57,19 @@
 class GameObj : public std::enable_shared_from_this<GameObj>{
 public:
     //-- factory --
-    static std::shared_ptr<GameObj> factory_for_regularGo(    goid_t goid_, 
-                                                            const glm::dvec2 &dpos_ )noexcept{
-        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
+    static std::shared_ptr<GameObj> factory_for_regularGo(  goid_t goid_, 
+                                                            const glm::dvec2 &dpos_,
+                                                            size_t  goUWeight_ )noexcept{
+        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_, goUWeight_) );//- can not use make_shared
         goSPtr->init_for_regularGo( dpos_ );
         return goSPtr;
     }
 
-    static std::shared_ptr<GameObj> factory_for_uiGo(    goid_t goid_, 
+    static std::shared_ptr<GameObj> factory_for_uiGo(   goid_t goid_, 
                                                         const glm::dvec2 &basePointProportion_,
-                                                        const glm::dvec2 &offDPos_ )noexcept{
-        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_) );//- can not use make_shared
+                                                        const glm::dvec2 &offDPos_,
+                                                        size_t  goUWeight_ )noexcept{
+        std::shared_ptr<GameObj> goSPtr( new GameObj(goid_, goUWeight_) );//- can not use make_shared
         goSPtr->init_for_uiGo( basePointProportion_, offDPos_ );
         return goSPtr;
     }
@@ -153,11 +155,13 @@ public:
     inline void set_colliDataFromJsonPtr( const ColliDataFromJson *ptr_ )noexcept{ this->colliDataFromJsonPtr = ptr_; }
 
     //---------------- get -----------------//
-    inline bool get_isMoving()const noexcept{ return this->move.get_isMoving(); } // 若为 false，需对齐到 像素
-    inline const std::set<chunkKey_t> &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
-    inline ColliderType get_colliderType()const noexcept{ return this->colliDataFromJsonPtr->get_colliderType(); }
-    inline goid_t get_parentGoId()const noexcept{ return this->parentGoId; }
-    inline const std::set<goid_t> &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
+    inline bool                         get_isMoving()const noexcept{ return this->move.get_isMoving(); } // 若为 false，需对齐到 像素
+    inline const std::set<chunkKey_t>   &get_chunkKeysRef()noexcept{ return this->chunkKeys; }
+    inline ColliderType                 get_colliderType()const noexcept{ return this->colliDataFromJsonPtr->get_colliderType(); }
+    inline goid_t                       get_parentGoId()const noexcept{ return this->parentGoId; }
+    inline const std::set<goid_t>       &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
+    inline size_t                       get_goUWeight()const noexcept{ return this->goUWeight; }
+
 
     inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &get_goMeshs()noexcept{ return this->goMeshs; }
 
@@ -267,10 +271,12 @@ public:
     static ID_Manager  id_manager;
 
 private:
-    explicit GameObj( goid_t goid_ ):
+    GameObj(    goid_t goid_,
+                size_t goUWeight_ ):
         goid(goid_),
-        move( *this ),
-        actionSwitch( *this )
+        move(*this),
+        actionSwitch(*this),
+        goUWeight(goUWeight_)
         {}
 
     //-- init --//
@@ -282,6 +288,7 @@ private:
 
     goid_t              parentGoId {NULLID};  // 不管是否为顶层go，都可以有自己的 父go。
     std::set<goid_t>    childGoIds {};        // 可为空 
+    size_t              goUWeight;
 
 
     std::set<chunkKey_t>  chunkKeys {}; //- 本go所有 collient 所在的 chunk 合集

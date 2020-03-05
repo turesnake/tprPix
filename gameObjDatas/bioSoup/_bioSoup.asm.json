@@ -42,6 +42,18 @@
                     { "dpos": [ -51, -147 ], "zOff":  0.0, "afsName": "bioSoup_active_smlComp", "animLabel": "MapEnt_4m4" }
                 ]
             },
+
+            {
+                "goLabel": "MapEnt_4m4",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_4m4"
+                },
+                "Notes": " 单个 gomesh ",
+                "goMeshs":[
+                    { "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4"  }
+                ]
+            },
             
 
             {
@@ -57,7 +69,29 @@
                     { "dpos": [  96, -20 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  },
                     { "dpos": [  26,  74 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_2m2"  }
                 ]
+            },
+
+
+            {
+                "goLabel": "particale_1m1",
+                "collide":{
+                    "collideType": "Square",
+                    "signInMapEnts_square_type": "T_1m1"
+                },
+                "Notes": " 单纯用来 交代 粒子gomesh 数据用的 ",
+                "goMeshs":[
+                    { "isAutoInit": false, "dpos": [ 0, 0 ], "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4"  }
+
+
+                ]
             }
+
+
+
+
+
+
+
             
 
         ]
