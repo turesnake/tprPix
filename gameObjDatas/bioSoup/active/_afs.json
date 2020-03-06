@@ -1,69 +1,4 @@
 [
-{
-    "Notes": "------------------------ 测试图像 -----------------------",
-    "afsName": "bioSoup_active",
-    "pngs": [
-        {
-            "path": "1m1.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  1,
-            "totalFrameNum": 5,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "batch",
-                    "animLabel": "MapEnt_1m1",
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 5,
-                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                    "isOpaque": true
-                }
-            ]
-        },
-
-        {
-            "path": "2m2.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "batch",
-                    "animLabel": "MapEnt_2m2",
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                    "isOpaque": true
-                }
-            ]
-        },
-
-        {
-            "path": "4m4.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "batch",
-                    "animLabel": "MapEnt_4m4",
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                    "isOpaque": true
-                }
-            ]
-        }
-    ]
-},
 
 
 {
@@ -79,13 +14,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_1m1",
+                    "animLabel": "MapEnt_1m1_1",
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
@@ -106,13 +41,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_1m1",
+                    "animLabel": "MapEnt_1m1_2",
                     "subIdx": 1,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 17,
@@ -133,13 +68,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_1m1",
+                    "animLabel": "MapEnt_1m1_3",
                     "subIdx": 2,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
@@ -160,13 +95,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_1m1",
+                    "animLabel": "MapEnt_1m1_4",
                     "subIdx": 3,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 14,
@@ -187,13 +122,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_1m1",
+                    "animLabel": "MapEnt_1m1_5",
                     "subIdx": 4,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
@@ -216,13 +151,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_2m2",
+                    "animLabel": "MapEnt_2m2_1",
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 6,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
@@ -243,13 +178,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_2m2",
+                    "animLabel": "MapEnt_2m2_2",
                     "subIdx": 1,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
@@ -270,13 +205,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_2m2",
+                    "animLabel": "MapEnt_2m2_3",
                     "subIdx": 2,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 14,
@@ -297,13 +232,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_2m2",
+                    "animLabel": "MapEnt_2m2_4",
                     "subIdx": 3,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 17,
@@ -324,13 +259,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_2m2",
+                    "animLabel": "MapEnt_2m2_5",
                     "subIdx": 4,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
@@ -353,13 +288,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_4m4",
+                    "animLabel": "MapEnt_4m4_1",
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
@@ -380,13 +315,13 @@
             "subspecs": [
                 {
                     "type": "handle",
-                    "animLabel": "MapEnt_4m4",
+                    "animLabel": "MapEnt_4m4_2",
                     "subIdx": 1,
                     "AnimActionParams":[
                         {
                             "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
-                            "actionPlayType": "Cycle",
+                            "actionPlayType": "Once",
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
@@ -394,195 +329,12 @@
                         }
                     ]
                 }
-            ]
-        }
-
-
-    ]
-},
-
-
-
-{
-    "afsName": "bioSoup_active_base",
-    "pngs": [
-        {
-            "path": "active_4m4_base.P.png",
-            "frameNum.col":  1,
-            "frameNum.row":  1,
-            "totalFrameNum": 1,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "batch",
-                    "animLabel": "MapEnt_4m4",
-                    "fstSubIdx": 0,
-                    "fstIdx": 0,
-                    "idxNums": 1,
-                    "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                    "isOpaque": true
-                }
-            ]
-        }
-    ]
-},
-
-
-{
-    "afsName": "bioSoup_active_smlComp",
-    "pngs": [
-        {
-            "path": "active_4m4_smlComp_1.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  3,
-            "totalFrameNum": 13,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 0,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-            ]
-        },
-
-        {
-            "path": "active_4m4_smlComp_2.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  3,
-            "totalFrameNum": 15,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 1,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-            ]
-        },
-
-        {
-            "path": "active_4m4_smlComp_3.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  3,
-            "totalFrameNum": 15,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 2,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-            ]
-        }
-
-    ]
-},
-
-
-{
-    "afsName": "bioSoup_active_bigComp",
-    "pngs": [
-        
-
-        {
-            "path": "active_4m4_bigComp_2.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  3,
-            "totalFrameNum": 14,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 0,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 14,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-
-            ]
-        },
-
-        {
-            "path": "active_4m4_bigComp_3.P.png",
-            "frameNum.col":  5,
-            "frameNum.row":  3,
-            "totalFrameNum": 13,
-            "isHaveShadow": false,
-            "isPjtSingle": true,
-            "subspecs": [
-                {
-                    "type": "handle",
-                    "animLabel": "MapEnt_4m4",
-                    "subIdx": 1,
-                    "AnimActionParams":[
-                        {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
-                            "type": "multiFrame",
-                            "actionPlayType": "Cycle",
-                            "isOrder":    true,
-                            "isTimeStepSame": true, "timeStep"  : 5,
-                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 13,
-                            "isOpaque": true
-                        }
-                    ]
-                }
-
             ]
         }
 
 
     ]
 }
-
-
 
 
 ]

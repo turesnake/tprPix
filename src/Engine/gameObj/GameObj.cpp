@@ -136,13 +136,6 @@ GameObjMesh &GameObj::creat_new_goMesh( const std::string &name_,
         gmesh.set_shadow_shader_program( &esrc::get_shaderRef( ShaderType::Shadow ) ); //- 暂时自动选配 tmp
     }
     
-    //-- rootColliEntHeadPtr --//
-    /*
-    if( name_ == std::string{"root"} ){
-        this->rootAnimActionPosPtr = &gmesh.get_currentAnimActionPos();
-    }
-    */
-
     return gmesh;
 }
 

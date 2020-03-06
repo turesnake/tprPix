@@ -34,6 +34,9 @@ enum class UBOType{
     GroundColorTable,
     ColorTableId,
     //...
+
+    BioSoupColorTable,
+
 };
 
 
@@ -48,6 +51,8 @@ inline std::unordered_map<UBOType, GLuint> uboBindPoints {
     {UBOType::UnifiedColorTable, 7 },
     {UBOType::GroundColorTable,  8 },
     {UBOType::ColorTableId,      9 },
+
+    {UBOType::BioSoupColorTable, 10 }
     //...
 };
 

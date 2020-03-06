@@ -39,14 +39,34 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 
 
-struct Campfire_PvtBinary{
+class Campfire_PvtBinary{
+public:
+
     int   tmp {};
+
+
+    inline bool is_need_to_create_new_smoke()noexcept{
+        this->smoke_create_count--;
+        if( this->smoke_create_count <= 0 ){
+            this->smoke_create_count = 90;
+            return true; // need to create new smoke
+        }else{
+            return false;
+        }
+    }
+
+    inline std::string create_next_smokeGoMeshName()noexcept{
+        this->smokeGoMeshIdx++;
+        return tprGeneral::nameString_combine("smoke_", this->smokeGoMeshIdx, "");
+    }
+
 
     //--- smoke gomesh ---
     animSubspeciesId_t smokeSubId {};
-    int smoke_create_count {0}; // 每隔 60帧，生成一个 smoke gomesh
-    size_t smokeGomeshIdx {0};
 
+private:
+    int smoke_create_count {0}; // 生成 smoke gomesh 的递减计数器
+    size_t smokeGoMeshIdx {0}; // 累计生成了多少个 smokeGoMesh, 生成 goMeshName 用
 };
 
 
@@ -123,23 +143,19 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
 
     //------------------------//
     // 定期生成一个 smoke gomesh 
-    pvtBp->smoke_create_count++;
-    if( pvtBp->smoke_create_count > 90 ){
-        pvtBp->smoke_create_count = 0;
+    if( pvtBp->is_need_to_create_new_smoke() ){
 
-        std::string goMeshName = tprGeneral::nameString_combine("smoke_", pvtBp->smokeGomeshIdx, "");
-        pvtBp->smokeGomeshIdx++;
-
-        GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(goMeshName, //- gmesh-name
-                                pvtBp->smokeSubId,
-                                AnimActionEName::Burn,
-                                RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                ShaderType::UnifiedColor,  // pic shader
-                                glm::dvec2{}, //- pposoff
-                                0.2,  //- zOff: 在 fire 上方
-                                1151, // uweight tmp
-                                true //- isVisible
-                                );
+        GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(
+                                        pvtBp->create_next_smokeGoMeshName(),
+                                        pvtBp->smokeSubId,
+                                        AnimActionEName::Burn,
+                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        ShaderType::UnifiedColor,  // pic shader
+                                        glm::dvec2{}, //- pposoff
+                                        0.2,  //- zOff: 在 fire 上方
+                                        1151, // uweight tmp
+                                        true //- isVisible
+                                        );
         smokeGoMesh.set_alti( 70.0 );
         auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
         smoke_pvtBp->isSmoke = true;
@@ -162,6 +178,8 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
             }
             // update
             campfire_inn::update_for_smokeGoMesh( goRef_, goMeshRef, goMeshPvtBp );
+                            // 未来将这部分 实现为 回调函数
+                            // 放弃 轮询
         }
     }
 

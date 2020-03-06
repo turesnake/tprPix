@@ -18,6 +18,11 @@
 #include "ubo_all.h"
 
 
+//-------------------- Script --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupColorTable.h"
+
+
+
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace ubo_inn {//-------- namespace: ubo_inn --------------//
  
@@ -109,6 +114,16 @@ void init_uniformBlockObjs()noexcept{
         tprAssert( insertBool );                            
     }
 
+    
+    {//---------- BioSoupColorTable ------------//
+        auto uboType = ubo::UBOType::BioSoupColorTable;
+        GLuint bindPoint = ubo::get_bindPoint(uboType);
+        GLsizeiptr dataSize = sizeof( gameObjs::bioSoup::BioSoupColorTable );
+        std::string uboName {"BioSoupColorTable"};
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        tprAssert( insertBool );                            
+    }
+    
     //...
     esrc::insertState("ubo");
 }

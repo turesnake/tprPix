@@ -25,7 +25,7 @@
 
         ],
         "goAsm_lPaths": [
-            "_bioSoup.asm.json",
+            "active/_active.asm.json",
             "inertia/_inertia.asm.json"
         ]
 

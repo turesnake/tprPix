@@ -8,7 +8,7 @@
 
         "plans":[
             {
-                "goLabel": "MapEnt_1m1_Intertia",
+                "goLabel": "MapEnt_1m1",
                 "collide":{
                     "collideType": "Square",
                     "signInMapEnts_square_type": "T_1m1"
@@ -19,7 +19,7 @@
             },
 
             {
-                "goLabel": "MapEnt_2m2_Intertia",
+                "goLabel": "MapEnt_2m2",
                 "collide":{
                     "collideType": "Square",
                     "signInMapEnts_square_type": "T_2m2"
@@ -29,8 +29,10 @@
                 ]
             },
 
+            
+
             {
-                "goLabel": "MapEnt_4m4_Intertia",
+                "goLabel": "MapEnt_4m4",
                 "collide":{
                     "collideType": "Square",
                     "signInMapEnts_square_type": "T_4m4"
@@ -40,7 +42,7 @@
                     { "afsName": "bioSoup_active_1", "animLabel": "MapEnt_4m4_1"  }
                 ]
             }
-
+            
 
         ]
     }

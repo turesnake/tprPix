@@ -265,9 +265,8 @@ void Job_Field::apply_groundGoEnts(){
         colorTableId = *(this->colorTableIdFract.get_inField().begin());
         uWeight = entPtr->get_uWeight();
 
-        ( this->isHaveBorderEnt ) ?
-            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::Field,       dposOff, colorTableId, uWeight )) :
-            groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::SimpleField, dposOff, colorTableId, uWeight ));
+        // 不再区分 isHaveBorderEnt
+        groundGoEnts.push_back( std::make_unique<Job_GroundGoEnt>( FieldFractType::Field, dposOff, colorTableId, uWeight ));
         
     }else{
 

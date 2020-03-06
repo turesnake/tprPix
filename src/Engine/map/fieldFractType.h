@@ -13,8 +13,7 @@
 enum class FieldFractType{
     MapEnt,    
     HalfField,
-    Field,       // 相邻异色mapent，所以沿用 多边形 mesh
-    SimpleField, // 相邻mapents 皆为同色，本身被简化为一个 正方形（减少计算
+    Field,
 };
 
 

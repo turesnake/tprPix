@@ -35,7 +35,8 @@
 //-------------------- Script --------------------//
 #include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
 #include "Script/gameObjs/bioSoup/bioSoupInn.h"
-
+#include "Script/gameObjs/bioSoup/BioSoupParticle.h"
+#include "Script/gameObjs/bioSoup/BioSoupBase.h"
 
 
 using namespace std::placeholders;
@@ -68,15 +69,66 @@ namespace bioSoup_inn {//------------------ namespace: bioSoup_inn -------------
 
 
 
+class BioSoup_PvtBinary{
+public:
+    BioSoup_PvtBinary():
+        baseUPtr( std::make_unique<BioSoupBase>() ),
+        particleUPtr( std::make_unique<BioSoupParticle>() )
+        {}
 
 
-struct FloorGo_PvtBinary{
+    inline void init(   size_t uWeight_, 
+                        State bioSoupState_, 
+                        SignInMapEnts_Square_Type squType_,
+                        MapAltitude mpAlti_
+                    )noexcept{
+        this->baseUPtr->init( uWeight_, bioSoupState_, squType_ );
+        this->particleUPtr->init( uWeight_, bioSoupState_, squType_, mpAlti_ );
+        this->bioSoupState = bioSoupState_;
+        //---
+        this->particleCreateCount = this->particleUPtr->get_next_createStep();
 
+    }
+
+
+    inline bool is_need_to_create_new_particle()noexcept{
+        this->particleCreateCount--;
+        if( this->particleCreateCount <= 0 ){
+            this->particleCreateCount = this->particleUPtr->get_next_createStep();
+            return true; // need to create new particle
+        }else{
+            return false;
+        }   
+    }
+
+
+    inline std::string create_new_particleGoMeshName()noexcept{
+        this->particleGoMeshIdx++;
+        return tprGeneral::nameString_combine("particle_", this->particleGoMeshIdx, "");
+    }
+
+
+    // Exist but forbidden to call
+    BioSoup_PvtBinary( const BioSoup_PvtBinary & ){ tprAssert(0); }
+    BioSoup_PvtBinary &operator=( const BioSoup_PvtBinary & );
+
+
+    std::unique_ptr<BioSoupBase>    baseUPtr {};
+    std::unique_ptr<BioSoupParticle> particleUPtr {};
+    
     State   bioSoupState {};
     double  playSpeed {};
-    //===== padding =====//
-    //...
+
+
+
+private:
+
+    size_t particleCreateCount {0}; // 生成 particle 递减计数器
+    size_t particleGoMeshIdx {0}; // 累计生成了多少个 particle GoMesh, 生成 goMeshName 用
+    
 };
+
+
 
 
 void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
@@ -86,16 +138,18 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
         bioSoup_inn::init();
     }
 
+    //========== 标准化装配 ==========//
+    const GoDataForCreate *goDPtr = assemble_regularGo( goRef_, dyParams_ );
+    const DataForCreate *bioSoupDPtr = goDPtr->get_binary().get<DataForCreate>();
 
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
-
-    //========== 标准化装配 ==========//
-    const GoDataForCreate *goDPtr = assemble_regularGo( goRef_, dyParams_ );
-
-    const DataForCreate *bioSoupDPtr = goDPtr->get_binary().get<DataForCreate>();
-    pvtBp->bioSoupState = bioSoupDPtr->bioSoupState;
+    auto *pvtBp = goRef_.init_pvtBinary<BioSoup_PvtBinary>();
+    pvtBp->init(    goRef_.get_goUWeight(), 
+                    bioSoupDPtr->bioSoupState,
+                    goDPtr->get_colliDataFromJsonPtr()->get_signInMapEnts_square_type(),
+                    bioSoupDPtr->mapEntAlti
+                );
 
     //--
     pvtBp->playSpeed = bioSoup_inn::calc_playSpeed( bioSoupDPtr->mapEntAlti );
@@ -128,19 +182,53 @@ void BioSoup::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){ tprAsse
 
 
 void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
+    //=====================================//
+    //            ptr rebind
+    //-------------------------------------//
+    auto *pvtBp = goRef_.get_pvtBinaryPtr<BioSoup_PvtBinary>();
+
+    //------------------------//
+    // 定期生成一个 particle gomesh
+    if( pvtBp->is_need_to_create_new_particle() ){
+
+        GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(
+                                        pvtBp->create_new_particleGoMeshName(),
+                                        pvtBp->particleUPtr->get_next_animSubspeciesId(),
+                                        AnimActionEName::Rise,
+                                        RenderLayerType::MajorGoes, //- 不设置 固定zOff值
+                                        ShaderType::BioSoupParticle,  // pic shader
+                                        pvtBp->particleUPtr->get_next_goMeshDposOff(), //- pposoff
+                                        0.0,  //- zOff
+                                        1151, // uweight tmp
+                                        true //- isVisible
+                                        );
+        smokeGoMesh.set_alti( 0.0 );
+        auto *particle_pvtBp = smokeGoMesh.init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
+        particle_pvtBp->isParticle = true;
+    }
+
+    //------------------------//
+    // 每帧更新所有 particle-gomesh 数据
+    auto &goMeshs = goRef_.get_goMeshs();
+    for( auto &[name, goMeshUPtr] : goMeshs ){
+        GameObjMesh &goMeshRef = *goMeshUPtr;
+        auto *goMeshPvtBp = goMeshRef.get_pvtBinaryPtr<bioSoup_inn::GoMesh_PvtBinary>();
 
 
+        // 如果此 gomesh，动画播放完毕，将删除它
+        auto [playType, playState] = goMeshRef.get_animAction_state();
+        tprAssert( playType == AnimAction::PlayType::Once );
+        if( playState == AnimAction::State::Stop ){
 
-
-
-
-
-
-
-
-
-
-
+            if( goMeshPvtBp->isParticle ){
+                goMeshs.erase( name );
+                continue; // MUST
+            }else{
+                goMeshRef.set_animSubspeciesId( pvtBp->baseUPtr->get_next_animSubspeciesId() );
+                goMeshRef.bind_animAction();
+            }
+        }
+    }
 
     goRef_.render_all_goMesh();
 }
@@ -158,12 +246,6 @@ namespace bioSoup_inn {//------------------ namespace: bioSoup_inn -------------
 
 // no need to called in main
 void init(){
-
-    init_for_particle();
-
-
-
-
 }
 
 
@@ -178,31 +260,6 @@ double calc_playSpeed( MapAltitude mapAlti_ )noexcept{
     }
     return playSpeed;
 }
-
-
-/*
-void create_particle_goMesh( GameObj goRef_, animSubspeciesId_t animSubId_ ){
-
-
-
-    GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(goMeshName, //- gmesh-name
-                                            animSubId_
-                                            AnimActionEName::Burn,
-                                            RenderLayerType::MajorGoes, //- 不设置 固定zOff值
-                                            ShaderType::UnifiedColor,  // pic shader
-                                            glm::dvec2{}, //- pposoff
-                                            0.2,  //- zOff: 在 fire 上方
-                                            1151, // uweight tmp
-                                            true //- isVisible
-                                            );
-    smokeGoMesh.set_alti( 70.0 );
-    auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
-    smoke_pvtBp->isSmoke = true;
-
-
-}
-*/
-
 
 
 

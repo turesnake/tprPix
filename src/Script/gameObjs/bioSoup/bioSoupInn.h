@@ -15,7 +15,7 @@ namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup -------
 
 
 
-void init_for_particle();
+//void init_for_particle();
 
 
 

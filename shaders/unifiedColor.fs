@@ -90,12 +90,8 @@ vec3 change_color( in vec3 val_ ){
 bool closeEnough( in vec3 a_, in vec3 b_ ){
     float threshold = 0.01;
     vec3 off = abs(a_ - b_);
-    if( (off.r <= threshold) &&
-        (off.g <= threshold) &&
-        (off.b <= threshold) ){
-        return true;
-    }else{
-        return false;
-    }
+    return ((off.r <= threshold) &&
+            (off.g <= threshold) &&
+            (off.b <= threshold) );
 }
 

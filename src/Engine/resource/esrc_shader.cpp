@@ -61,6 +61,7 @@ void init_shaders(){
     auto &ubo_unifiedColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::UnifiedColorTable );
     auto &ubo_groundColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::GroundColorTable );
     auto &ubo_colorTableId = esrc::get_uniformBlockObjRef( ubo::UBOType::ColorTableId );
+    auto &ubo_bioSoupColorTable = esrc::get_uniformBlockObjRef( ubo::UBOType::BioSoupColorTable );
     //...
 
     {//---- shadow ----//
@@ -161,7 +162,35 @@ void init_shaders(){
         ubo_time.bind_2_shaderProgram(sp.get_shaderProgramObj());
         ubo_unifiedColorTable.bind_2_shaderProgram( sp.get_shaderProgramObj() );
     }
+
     
+    {//---- bioSoup_base ----//
+        auto &sp = insert_new_shader( ShaderType::BioSoupBase );
+        //---
+        sp.init( "/bioSoupBase.vs", "/bioSoupBase.fs" );
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_bioSoupColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+    }
+
+    {//---- bioSoup_particle ----//
+        auto &sp = insert_new_shader( ShaderType::BioSoupParticle );
+        //---
+        sp.init( "/bioSoupParticle.vs", "/bioSoupParticle.fs" );
+        sp.use_program();
+
+        sp.add_new_uniform( "model" );
+        sp.add_new_uniform( "texture1" );
+        //--- ubo --//
+        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
+        ubo_bioSoupColorTable.bind_2_shaderProgram(sp.get_shaderProgramObj());
+    }
+
+
 
     //=====//
     esrc::insertState("shader");

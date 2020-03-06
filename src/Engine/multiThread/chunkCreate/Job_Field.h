@@ -225,7 +225,7 @@ private:
     fieldKey_t  fieldKey;
 
     //===== flags =====//
-    bool isHaveBorderEnt            {false}; //- 只要发现 border
+    bool isHaveBorderEnt            {false}; //- 只要发现 border. 暂时无用
     bool isCoveredBy_InertiaBioSoup {false};
                 // 若为 true，本 field 不再创建 groundGo, floorGo
 

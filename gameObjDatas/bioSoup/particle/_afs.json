@@ -4,6 +4,7 @@
 {
     "afsName": "bioSoup_particle",
     "pngs": [
+
         {
             "path": "particle_1.P.png",
             "frameNum.col":  20,
@@ -18,7 +19,7 @@
                     "subIdx": 0,
                     "AnimActionParams":[
                         {
-                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "actionEName": "Rise", "dir": "Center", "brokenLvl": 0,
                             "type": "multiFrame",
                             "actionPlayType": "Once",
                             "isOrder":    true,
@@ -29,7 +30,116 @@
                     ]
                 }
             ]
+        },
+
+        {
+            "path": "particle_2.P.png",
+            "frameNum.col":  17,
+            "frameNum.row":  1,
+            "totalFrameNum": 17,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Rise_2",
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Rise", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 17,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "particle_3.P.png",
+            "frameNum.col":  12,
+            "frameNum.row":  1,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Rise_3",
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Rise", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 12,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "particle_4.P.png",
+            "frameNum.col":  15,
+            "frameNum.row":  1,
+            "totalFrameNum": 15,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Rise_4",
+                    "subIdx": 3,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Rise", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "particle_5.P.png",
+            "frameNum.col":  12,
+            "frameNum.row":  1,
+            "totalFrameNum": 12,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Rise_5",
+                    "subIdx": 4,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Rise", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 12,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
         }
+
     ]
 }
 

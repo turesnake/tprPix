@@ -24,8 +24,12 @@
 
 #include "tprDebug.h"
 
+//-------------------- Script --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupColorTable.h"
+
+
 //-------------------- innTest --------------------//
-#include "innTest.h"
+//#include "innTest.h"
 
 
 using namespace std::placeholders;
@@ -178,6 +182,7 @@ void sceneRenderLoop_world(){
     ubo::write_ubo_Camera();
     ubo::write_ubo_Time();
     ubo::update_and_write_ubo_UnifiedColorTable();
+    gameObjs::bioSoup::write_ubo_BioSoupColorTable();
 
 
     //====================================//

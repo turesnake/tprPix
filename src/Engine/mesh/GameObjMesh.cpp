@@ -71,7 +71,6 @@ void GameObjMesh::bind_animAction( int timeStepOff_ ){
                                 this->goRef.brokenLvl.get_newVal(),
                                 this->animActionEName );
 
-
     this->animActionPtr->reset_pvtData( this->animActionPvtData );
     this->animActionPvtData.timeStepOff = timeStepOff_;
 
@@ -108,6 +107,11 @@ void GameObjMesh::RenderUpdate_auto(){
     //  animAction
     //---------------//
     this->animActionPtr->update( this->animActionPvtData );
+
+    //---------------//
+    //  callBack (only in PlayType::Once )
+    //---------------//
+    // 尚未实现 
 
     //---------------//
     //  camera renderScope

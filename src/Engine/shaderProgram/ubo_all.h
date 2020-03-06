@@ -102,6 +102,11 @@ void write_ubo_colorTableId( colorTableId_t id_ );
 
 
 
+
+
+
+
+
 }//------------- namespace ubo: end ----------------
 #endif 
 

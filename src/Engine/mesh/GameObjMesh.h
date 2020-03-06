@@ -74,14 +74,6 @@ public:
     //--------------------------//
     //   bind_animAction 系列函数，暂未设计完善
 
-    // 旧版，显式输入 所有相关参数
-    /*
-    void bind_animAction(   animSubspeciesId_t    subspeciesId_,
-                            NineDirection      dir_,
-                            BrokenLvl          brokenLvl_,
-                            const std::string &actionName_,
-                            int                timeStepOff_=0  );
-    */
 
     // 新版，相关参数 由其他 set函数 零散地设置
     // 最后调用 本函数，完成 正式 重绑定工作

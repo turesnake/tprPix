@@ -30,6 +30,8 @@ enum class AnimActionEName{
 
     Burn, // fire
 
+    Rise, // bioSoup.particle
+
     //-- playerGoCircle --
     SelfRotate,
 

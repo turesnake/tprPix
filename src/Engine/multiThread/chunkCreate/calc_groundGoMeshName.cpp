@@ -25,29 +25,25 @@ namespace cggmn_inn {//-------- namespace: cggmn_inn --------------//
     const std::unordered_map<FieldFractType, std::string> forest_umap{
         { FieldFractType::MapEnt,      "forest_sml" },
         { FieldFractType::HalfField,   "forest_mid" },
-        { FieldFractType::Field,       "forest_big" },
-        { FieldFractType::SimpleField, "forest_big" }
+        { FieldFractType::Field,       "forest_big" }
     };
 
     const std::unordered_map<FieldFractType, std::string> darkForest_umap{
         { FieldFractType::MapEnt,      "darkForest_sml" },
         { FieldFractType::HalfField,   "darkForest_mid" },
-        { FieldFractType::Field,       "darkForest_big" },
-        { FieldFractType::SimpleField, "darkForest_big" }
+        { FieldFractType::Field,       "darkForest_big" }
     };
 
     const std::unordered_map<FieldFractType, std::string> desert_umap{
         { FieldFractType::MapEnt,      "desert_sml" },
         { FieldFractType::HalfField,   "desert_mid" },
-        { FieldFractType::Field,       "desert_big" },
-        { FieldFractType::SimpleField, "desert_big" }
+        { FieldFractType::Field,       "desert_big" }
     };
 
     const std::unordered_map<FieldFractType, std::string> savannah_umap{
         { FieldFractType::MapEnt,      "savannah_sml" },
         { FieldFractType::HalfField,   "savannah_mid" },
-        { FieldFractType::Field,       "savannah_big" },
-        { FieldFractType::SimpleField, "savannah_big" }
+        { FieldFractType::Field,       "savannah_big" }
     };
 
     const std::unordered_map<EcoSysPlanType, const std::unordered_map<FieldFractType, std::string>*> goMeshNames{
