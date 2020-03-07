@@ -11,7 +11,6 @@
 #include <functional>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObj.h"
 #include "esrc_animFrameSet.h"
 #include "esrc_renderPool.h"
@@ -60,8 +59,7 @@ void GameObjMesh::bind_animAction(  animSubspeciesId_t    subspeciesId_,
 */
 
 
-/* 切换动作时的 核心函数 [-new-]
- */
+// 切换动作时的 核心函数 [-new-]
 void GameObjMesh::bind_animAction( int timeStepOff_ ){
 
     // 依赖自身存储的数据 
@@ -95,23 +93,15 @@ void GameObjMesh::bind_animAction( int timeStepOff_ ){
 
 
 
-/* ===========================================================
- *                RenderUpdate_auto
- * -----------------------------------------------------------
- * -- 针对本实例包含的 pic/shadow mesh, 执行必要的 update
- * -- 然后把它们 压入 对应的 renderpool 中
- */
+
+// -- 针对本实例包含的 pic/shadow mesh, 执行必要的 update
+// -- 然后把它们 压入 对应的 renderpool 中
 void GameObjMesh::RenderUpdate_auto(){
 
     //---------------//
     //  animAction
     //---------------//
     this->animActionPtr->update( this->animActionPvtData );
-
-    //---------------//
-    //  callBack (only in PlayType::Once )
-    //---------------//
-    // 尚未实现 
 
     //---------------//
     //  camera renderScope
@@ -155,23 +145,26 @@ void GameObjMesh::RenderUpdate_auto(){
 }
 
 
-/* ===========================================================
- *                RenderUpdate_ground
- * -----------------------------------------------------------
- * GroundGo 专用
- */
-void GameObjMesh::RenderUpdate_ground(){
+
+// 暂用于 GroundGo, FloorGo
+void GameObjMesh::RenderUpdate_in_fast_way(){
 
     tprAssert( (!this->isHaveShadow) && (this->isVisible) );
-    tprAssert( this->colorTableId != NilColorTableId ); // tmp
+    //---------------//
+    //  camera renderScope
+    //---------------//
+    glm::dvec2 goMeshDPos = this->goRef.get_dpos() + this->pposOff;
+    if( !esrc::get_camera().is_in_renderScope(goMeshDPos) ){
+        return;
+    }
+
     //---------------//
     //      pic
     //---------------//
     this->picMeshUPtr->refresh_scale_auto();
     this->picMeshUPtr->refresh_translate(); 
-    //-- 暂不区分，是否半透明 --
-    esrc::get_groundRenderPool().insert( 
-                this->colorTableId, // 暂未检测其是否被设置 ...
+    //-- 一律看作 不透明 --
+    esrc::get_renderPool(RenderPoolType::Opaque).insert( 
                 this->picMeshUPtr->get_render_z(), 
                 this->picMeshUPtr->getnc_ChildMeshPtr() );
 }

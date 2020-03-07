@@ -3,7 +3,7 @@
         "goSpeciesName": "floorGo",
 
         "renderLayerType": "Floor",
-        "shaderType": "Floor",
+        "shaderType": "OriginColor",
 
         "opt.floorGoLayer": "L_0",
 

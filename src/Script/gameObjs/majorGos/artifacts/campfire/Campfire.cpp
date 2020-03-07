@@ -99,11 +99,11 @@ void Campfire::init(GameObj &goRef_,const DyParam &dyParams_ ){
     assemble_regularGo( goRef_, dyParams_ );
 
     //========== goMeshs =========//
-    GameObjMesh &rootGoMesh = goRef_.get_goMeshRef("root");
+    GameObjMesh &rootGoMesh = goRef_.goMeshSet.get_goMeshRef("root");
     auto *root_pvtBp = rootGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
     root_pvtBp->isSmoke = false; 
 
-    GameObjMesh &fireGoMesh = goRef_.get_goMeshRef("fire");
+    GameObjMesh &fireGoMesh = goRef_.goMeshSet.get_goMeshRef("fire");
     auto *fire_pvtBp = fireGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
     fire_pvtBp->isSmoke = false; 
  
@@ -145,8 +145,9 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
     // 定期生成一个 smoke gomesh 
     if( pvtBp->is_need_to_create_new_smoke() ){
 
-        GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(
-                                        pvtBp->create_next_smokeGoMeshName(),
+        std::string goMeshName = pvtBp->create_next_smokeGoMeshName();
+        GameObjMesh &smokeGoMesh = goRef_.goMeshSet.creat_new_goMesh(
+                                        goMeshName,
                                         pvtBp->smokeSubId,
                                         AnimActionEName::Burn,
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
@@ -159,35 +160,26 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
         smokeGoMesh.set_alti( 70.0 );
         auto *smoke_pvtBp = smokeGoMesh.init_pvtBinary<campfire_inn::GoMesh_PvtBinary>();
         smoke_pvtBp->isSmoke = true;
-    }
 
-    //------------------------//
-    // 每帧更新所有 smoke-gomesh 数据
-    auto &goMeshs = goRef_.get_goMeshs();
-    for( auto &[name, goMeshUPtr] : goMeshs ){
-        GameObjMesh &goMeshRef = *goMeshUPtr;
-        auto *goMeshPvtBp = goMeshRef.get_pvtBinaryPtr<campfire_inn::GoMesh_PvtBinary>();
-        if( goMeshPvtBp->isSmoke ){
-
-            // 如果此 gomesh，动画播放完毕，将删除它
-            auto [playType, playState] = goMeshRef.get_animAction_state();
-            tprAssert( playType == AnimAction::PlayType::Once );
-            if( playState == AnimAction::State::Stop ){
-                goMeshs.erase( name );
-                continue; // MUST
+        goRef_.goMeshSet.bind_goMesh_callback_everyFrame( goMeshName,
+            [&]( GameObjMesh &goMeshRef_ ){
+                auto *goMeshPvtBp = goMeshRef_.get_pvtBinaryPtr<campfire_inn::GoMesh_PvtBinary>();
+                campfire_inn::update_for_smokeGoMesh( goRef_, goMeshRef_, goMeshPvtBp );
             }
-            // update
-            campfire_inn::update_for_smokeGoMesh( goRef_, goMeshRef, goMeshPvtBp );
-                            // 未来将这部分 实现为 回调函数
-                            // 放弃 轮询
-        }
-    }
+        );
 
+        // aaction 动画播放完毕后就 请求被销毁
+        goRef_.goMeshSet.bind_goMesh_callback_inLastFrame( goMeshName,
+            []( GameObjMesh &goMeshRef_ ){
+                goMeshRef_.set_isNeedToBeErase(true);
+            }
+        );
+    }
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_with_callback();
 }
 
 void Campfire::OnLogicUpdate( GameObj &goRef_ ){

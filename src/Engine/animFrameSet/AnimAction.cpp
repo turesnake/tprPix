@@ -32,8 +32,6 @@ using namespace std::placeholders;
 
 
 
-
-
 AnimAction::PlayType AnimAction::str_2_playType( const std::string &str_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<AnimAction::PlayType>(str_);
@@ -47,10 +45,7 @@ AnimAction::PlayType AnimAction::str_2_playType( const std::string &str_ )noexce
 }
 
 
-/* ===========================================================
- *                     init
- * -----------------------------------------------------------
- */
+
 void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
                         const AnimActionParam &param_,
                         const AnimActionPos *animActionPosPtr_,
@@ -94,7 +89,7 @@ void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
     //---------------------//
     //    update functor
     //---------------------//
-    switch( this->actionPlayType ){
+    switch( this->actionPlayType  ){
         case PlayType::Idle:
             this->update = std::bind( &AnimAction::update_idle, this, _1 );
             break;
@@ -111,13 +106,10 @@ void AnimAction::init(  const AnimFrameSet &animFrameSetRef_,
 
 
 
-/* ===========================================================
- *                     update_once
- * -----------------------------------------------------------
- * 将给定的帧序列 播放一次。当到达最后一帧时，改写 pvtData_.isLastFrame
- * 在正常流程中，外部代码在接受到这个 状态值 后，会根据具体情况，切换新的 action
- * 如果外部代码未作为，本函数将继续播放 最后一帧.
- */
+
+// 将给定的帧序列 播放一次。当到达最后一帧时，改写 pvtData_.isLastFrame
+// 在正常流程中，外部代码在接受到这个 状态值 后，会根据具体情况，切换新的 action
+// 如果外部代码未作为，本函数将继续播放 最后一帧.
 void AnimAction::update_once( AnimAction::PvtData &pvtData_ ){
 
     //-- 无限停留在最后一帧，并一直返回 LastFrame 
@@ -132,6 +124,7 @@ void AnimAction::update_once( AnimAction::PvtData &pvtData_ ){
         
         //--- currentIdx_for_frameIdxs ---
         if(pvtData_.currentIdx_for_frameIdxs==this->totalFrameNum-1){
+            pvtData_.playState = PlayState::Stop;
             pvtData_.isLastFrame = true;
             return;
         }
@@ -144,11 +137,8 @@ void AnimAction::update_once( AnimAction::PvtData &pvtData_ ){
 }
 
 
-/* ===========================================================
- *                     update_cycle
- * -----------------------------------------------------------
- * 无限循环 给定的帧序列，永不停止，除非被外部 切换成其他 action
- */
+
+// 无限循环 给定的帧序列，永不停止，除非被外部 切换成其他 action
 void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
 
     pvtData_.updates++;
@@ -157,9 +147,18 @@ void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
         pvtData_.updates = 0;
         
         //--- currentIdx_for_frameIdxs ---
-        (pvtData_.currentIdx_for_frameIdxs==this->totalFrameNum-1) ? //- end 
-                pvtData_.currentIdx_for_frameIdxs=0 :
-                pvtData_.currentIdx_for_frameIdxs++;
+        if( pvtData_.currentIdx_for_frameIdxs == this->totalFrameNum-1 ){
+            // last frame
+            pvtData_.currentIdx_for_frameIdxs=0;
+            if( pvtData_.isLastFrame != true ){
+                pvtData_.isLastFrame = true;
+            }
+        }else{
+            pvtData_.currentIdx_for_frameIdxs++;
+            if( pvtData_.isLastFrame != false ){
+                pvtData_.isLastFrame = false;
+            }
+        }
 
         pvtData_.currentFrameIdx = this->frameIdxs.at( pvtData_.currentIdx_for_frameIdxs );
         pvtData_.currentTimeStep = this->adjust_currentTimeStep(
@@ -169,23 +168,18 @@ void AnimAction::update_cycle( AnimAction::PvtData &pvtData_ ){
 
 
 
-/* ===========================================================
- *    adjust_currentTimeStep   [static]
- * -----------------------------------------------------------
- * 目前默认，excel数据中记录的 timeSteps，以 60pfs 为基准
- * return:
- *     调整过的 currentTimeStep 
- * -------
- * 目前实现了 2 种方法来控制 动画播放速度：
- * -1- reset_playSpeedScale(); 播放倍率
- *     适用于，原本 afs数据中，每一张画面，就要播放 4～7帧 的缓慢动画，比如风吹草动动画 
- *     但它不适合处理，原本就是 一帧一张图的 快速动画
- * -2- timeStepOff
- *     适合处理 一帧一张图 的快速动画，效果没有 方法1 细腻 和 直观。
- * 
- *      也许在未来会被统一为一个 控制器。目前先这么混合用着 
- *      ...
- */
+// 目前默认，json 数据中记录的 timeSteps，以 60pfs 为基准
+// return:
+//     调整过的 currentTimeStep 
+// -------
+// 目前实现了 2 种方法来控制 动画播放速度：
+// -1- reset_playSpeedScale(); 播放倍率
+//     适用于，原本 afs数据中，每一张画面，就要播放 4～7帧 的缓慢动画，比如风吹草动动画 
+//     但它不适合处理，原本就是 一帧一张图的 快速动画
+// -2- timeStepOff
+//     适合处理 一帧一张图 的快速动画，效果没有 方法1 细腻 和 直观。
+//
+//      也许在未来会被统一为一个 控制器。目前先这么混合用着 
 size_t AnimAction::adjust_currentTimeStep( size_t currentTimeStep_, AnimAction::PvtData &pvtData_ ){
 
     //--------------//

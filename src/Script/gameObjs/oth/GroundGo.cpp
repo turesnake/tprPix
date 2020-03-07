@@ -62,7 +62,7 @@ void GroundGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
 
 void GroundGo::OnRenderUpdate( GameObj &goRef_ ){
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_groundGoMesh();
 }
 
 

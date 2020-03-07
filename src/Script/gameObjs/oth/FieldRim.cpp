@@ -73,7 +73,7 @@ void FieldRim::init(GameObj &goRef_,const DyParam &dyParams_ ){
 
 
 void FieldRim::OnRenderUpdate( GameObj &goRef_ ){
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_without_callback();
 }
 
 

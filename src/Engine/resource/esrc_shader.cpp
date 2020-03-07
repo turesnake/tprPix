@@ -134,19 +134,7 @@ void init_shaders(){
         //--- ubo --//
         ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
     }
-
-
-    {//---- floor_shader ----//
-        auto &sp = insert_new_shader( ShaderType::Floor );
-        //---
-        sp.init( "/floor.vs", "/floor.fs" ); 
-        sp.use_program();
-
-        sp.add_new_uniform( "model" );
-        sp.add_new_uniform( "texture1" );
-        //--- ubo --//
-        ubo_camera.bind_2_shaderProgram(sp.get_shaderProgramObj());
-    }
+    
 
     {//---- canvas: ground ----//
         auto &sp = insert_new_shader( ShaderType::Ground );

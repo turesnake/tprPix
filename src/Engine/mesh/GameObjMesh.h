@@ -15,8 +15,8 @@
  *     数个 子锚点 ／ child anchor  -- 用来绑定其他 GameObjMeshes
  * ----------------------------
  */
-#ifndef TPR_GAME_MESH_H
-#define TPR_GAME_MESH_H
+#ifndef TPR_GAME_OBJ_MESH_H
+#define TPR_GAME_OBJ_MESH_H
 //=== *** glad FIRST, glfw SECEND *** ===
 // Don't include glfw3.h ALONE!!!
 #include <glad/glad.h>  
@@ -69,10 +69,8 @@ public:
         }
 
     void RenderUpdate_auto();
-    void RenderUpdate_ground();
+    void RenderUpdate_in_fast_way();
 
-    //--------------------------//
-    //   bind_animAction 系列函数，暂未设计完善
 
 
     // 新版，相关参数 由其他 set函数 零散地设置
@@ -112,6 +110,7 @@ public:
     inline void set_alti(double alti_)noexcept{ this->alti = alti_; }
     inline void set_zOff(double zOff_)noexcept{ this->zOff = zOff_; }
     inline void set_uWeight(size_t v_)noexcept{ this->uWeight = v_; }
+    inline void set_isNeedToBeErase(bool b_)noexcept{ this->isNeedToBeErase = b_; }
 
     inline void accum_alti(double alti_)noexcept{ this->alti += alti_; }
     inline void accum_zOff(double zOff_)noexcept{ this->zOff += zOff_; }
@@ -160,22 +159,29 @@ public:
     inline double           get_alti()const noexcept{ return this->alti; }
     inline double           get_picBaseZOff()const noexcept{ return this->picBaseZOff; }
     inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
-    
+    inline bool             get_isNeedToBeErase()const noexcept{ return this->isNeedToBeErase; }
 
+    inline const AnimAction::PvtData *get_animActionPvtDataPtr()const noexcept{ return &(this->animActionPvtData); }
 
-    inline std::pair<AnimAction::PlayType, AnimAction::State> get_animAction_state()const noexcept{
-        auto type = this->animActionPtr->get_actionPlayType();
+    // 目前仅被 WindAnim 使用
+    // 也许未来可以被彻底取消 ...
+    inline std::pair<AnimAction::PlayType, AnimAction::PlayState> get_animAction_state()const noexcept{
+        return { this->animActionPvtData.playType, this->animActionPvtData.playState };
+        /*
+        //auto type = this->animActionPtr->get_actionPlayType();
+        auto type = this->animActionPvtData.playType;
         switch (type){
-            case AnimAction::PlayType::Idle:  return { type, AnimAction::State::Stop };
-            case AnimAction::PlayType::Cycle: return { type, AnimAction::State::Working };
+            case AnimAction::PlayType::Idle:  return { type, AnimAction::PlayState::Stop };
+            case AnimAction::PlayType::Cycle: return { type, AnimAction::PlayState::Working };
             case AnimAction::PlayType::Once:
                 return ((this->animActionPvtData.isLastFrame) ?
-                        std::pair<AnimAction::PlayType, AnimAction::State>{ type, AnimAction::State::Stop } :
-                        std::pair<AnimAction::PlayType, AnimAction::State>{ type, AnimAction::State::Working });
+                        std::pair<AnimAction::PlayType, AnimAction::PlayState>{ type, AnimAction::PlayState::Stop } :
+                        std::pair<AnimAction::PlayType, AnimAction::PlayState>{ type, AnimAction::PlayState::Working });
             default:
                 tprAssert(0);
-                return { AnimAction::PlayType::Idle, AnimAction::State::Stop }; // never reach
+                return { AnimAction::PlayType::Idle, AnimAction::PlayState::Stop }; // never reach
         }
+        */
     }
 
     
@@ -241,6 +247,13 @@ private:
     colorTableId_t  colorTableId { NilColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
 
     DyBinary   pvtBinary  {}; // store dynamic datas
+
+
+
+    //======== flags ========//
+    bool    isNeedToBeErase     {false}; // 请求外部管理者，删除自己
+
+
 };                           
 
 

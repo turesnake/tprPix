@@ -156,14 +156,21 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
         // cout << "playSpeed: " << pvtBp->playSpeed << endl;
     
-    for( auto &[goMeshName, goMeshUPtr] : goRef_.get_goMeshs() ){
-        goMeshUPtr->bind_reset_playSpeedScale( [=](){ return pvtBp->playSpeed; } );
-        //---
-        auto *goMeshPvtBp = goMeshUPtr->init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
-        goMeshPvtBp->isParticle = false; 
-    }
+    std::string rootGoMeshName = "root";
+    auto &rootGoMeshRef = goRef_.goMeshSet.get_goMeshRef(rootGoMeshName);
+    rootGoMeshRef.bind_reset_playSpeedScale( [=](){ return pvtBp->playSpeed; } );
+    //---
+    auto *goMeshPvtBp = rootGoMeshRef.init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
+    goMeshPvtBp->isParticle = false; 
 
-
+    // 每次 aaction动画播放完毕后，就切换一个动画
+    goRef_.goMeshSet.bind_goMesh_callback_inLastFrame( rootGoMeshName,
+        [=]( GameObjMesh &goMeshRef_ ){
+            goMeshRef_.set_animSubspeciesId( pvtBp->baseUPtr->get_next_animSubspeciesId() );
+            goMeshRef_.bind_animAction();
+        }
+    );
+    
 
     //================ bind callback funcs =================//
     //-- 故意将 首参数this 绑定到 保留类实例 dog_a 身上
@@ -189,10 +196,12 @@ void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
 
     //------------------------//
     // 定期生成一个 particle gomesh
+    
     if( pvtBp->is_need_to_create_new_particle() ){
 
-        GameObjMesh &smokeGoMesh = goRef_.creat_new_goMesh(
-                                        pvtBp->create_new_particleGoMeshName(),
+        std::string goMeshName = pvtBp->create_new_particleGoMeshName();
+        GameObjMesh &smokeGoMesh = goRef_.goMeshSet.creat_new_goMesh(
+                                        goMeshName,
                                         pvtBp->particleUPtr->get_next_animSubspeciesId(),
                                         AnimActionEName::Rise,
                                         RenderLayerType::MajorGoes, //- 不设置 固定zOff值
@@ -205,32 +214,16 @@ void BioSoup::OnRenderUpdate( GameObj &goRef_ ){
         smokeGoMesh.set_alti( 0.0 );
         auto *particle_pvtBp = smokeGoMesh.init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
         particle_pvtBp->isParticle = true;
-    }
 
-    //------------------------//
-    // 每帧更新所有 particle-gomesh 数据
-    auto &goMeshs = goRef_.get_goMeshs();
-    for( auto &[name, goMeshUPtr] : goMeshs ){
-        GameObjMesh &goMeshRef = *goMeshUPtr;
-        auto *goMeshPvtBp = goMeshRef.get_pvtBinaryPtr<bioSoup_inn::GoMesh_PvtBinary>();
-
-
-        // 如果此 gomesh，动画播放完毕，将删除它
-        auto [playType, playState] = goMeshRef.get_animAction_state();
-        tprAssert( playType == AnimAction::PlayType::Once );
-        if( playState == AnimAction::State::Stop ){
-
-            if( goMeshPvtBp->isParticle ){
-                goMeshs.erase( name );
-                continue; // MUST
-            }else{
-                goMeshRef.set_animSubspeciesId( pvtBp->baseUPtr->get_next_animSubspeciesId() );
-                goMeshRef.bind_animAction();
+        // aaction 动画播放完毕后就 请求被销毁
+        goRef_.goMeshSet.bind_goMesh_callback_inLastFrame( goMeshName,
+            []( GameObjMesh &goMeshRef_ ){
+                goMeshRef_.set_isNeedToBeErase(true);
             }
-        }
+        );
     }
-
-    goRef_.render_all_goMesh();
+    
+    goRef_.goMeshSet.render_all_goMeshs_with_callback();
 }
 
 

@@ -25,7 +25,6 @@ enum class ShaderType{
     GroundColor,
     //---
     PlayerGoCircle,
-    Floor
     //-- gos --
     
 };

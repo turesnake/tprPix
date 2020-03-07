@@ -46,7 +46,7 @@ const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyPara
     for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){ // only autoInit 
         const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
 
-        auto &goMeshRef = goRef_.creat_new_goMesh( 
+        auto &goMeshRef = goRef_.goMeshSet.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),
                                 gmRef.get_subspeciesId(),
                                 gmRef.get_animActionEName(),

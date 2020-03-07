@@ -40,7 +40,7 @@ class AnimActionParam;
 class AnimAction{
 public:
     //================== nested ================//
-    enum class State{
+    enum class PlayState{
         Stop,   // always for idle, and part of Once
         Working // always for Cycle, and part of Once
     };
@@ -69,13 +69,20 @@ public:
                                  // 此值会被 累加在每一份 currentTimeStep 上，
 
         //-- flags --//
-        bool     isLastFrame {false}; //- 仅用于 Once 模式
+        PlayType    playType    {}; // copy from AnimAction.obj
+        PlayState   playState   {};
+        bool        isLastFrame {false};//- Once: 播放进 最后一帧以及之后，永远处于 true
+                                        //- Cycle: 每一次播放到最后一帧，才为 true
+                                        //- Idle: always true
+                                        //========
+                                        // 实际上，由于动画中的每一图元帧，都会被播放好几 时间帧。
+                                        // 所有，isLastFrame 并不仅仅在 一个 时间帧 内被设置为 true
+                                        // 而是在 尾图元帧 播放的所有 时间帧里，被设置为 true
+
         //--- functor ---//
         F_R_double  reset_playSpeedScale {nullptr}; // 外界控制 aaction播放速度的 第二种方式
     };
 
-    //================== functor type ================//
-    using F_UPDATE = std::function<void(AnimAction::PvtData &)>;
 
     //================== self ================//
     AnimAction() = default;
@@ -87,7 +94,7 @@ public:
                 size_t headIdx_,
                 bool isHaveShadow_ );
 
-    F_UPDATE                update {nullptr};
+    std::function<void(AnimAction::PvtData &)>  update {nullptr};
     
     //- 当 gomesh 切换 animAction 时
     //  通过此函数，来重置自己的 pvtdata 值 --
@@ -95,14 +102,34 @@ public:
         pvtData_.currentIdx_for_frameIdxs = 0;
         pvtData_.currentFrameIdx = this->frameIdxs.at(0);
         pvtData_.currentTimeStep = this->timeSteps.at(0);
-        pvtData_.isLastFrame = false;
+        pvtData_.playType = this->actionPlayType;
+        switch (pvtData_.playType){
+            case PlayType::Idle:
+                pvtData_.playState = PlayState::Stop; // always
+                pvtData_.isLastFrame = true;  // always
+                break;
+            case PlayType::Once:
+                pvtData_.playState = PlayState::Working;
+                pvtData_.isLastFrame = false;
+                break;
+            case PlayType::Cycle:
+                pvtData_.playState = PlayState::Working; // always
+                pvtData_.isLastFrame = false; 
+                break;
+            default:
+                tprAssert(0);
+                break;
+        }
     }
     
     //----- get -----//
     inline bool get_isHaveShadow() const noexcept{ return this->isHaveShadow; }
     inline bool get_isOpaque() const noexcept{ return this->isOpaque; }
     inline IntVec2 get_pixNum_per_frame() const noexcept{ return this->pixNum_per_frame; }
-    inline PlayType get_actionPlayType()const noexcept{ return this->actionPlayType; }
+
+
+    inline PlayType get_actionPlayType()const noexcept{ return this->actionPlayType;  } // 将被废弃
+
     
     inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
         return this->animActionPosPtr->get_rootAnchorDPosOff();
@@ -121,7 +148,7 @@ public:
 
 
 private:
-    inline void update_idle( AnimAction::PvtData &pvtData_ ){}
+    inline void update_idle( AnimAction::PvtData &pvtData_ ){  }
     void update_once( AnimAction::PvtData &pvtData_ );
     void update_cycle( AnimAction::PvtData &pvtData_ );
 
@@ -134,7 +161,7 @@ private:
 
     const AnimActionPos *animActionPosPtr {nullptr}; // 1-animAction, 1-animActionPos 
 
-    PlayType   actionPlayType {}; 
+    PlayType    actionPlayType {}; 
 
     //- 用户可以手动编排 frameIdx 序列。同时，默认 容器中的第一帧，就是 enterIdx --
     std::vector<size_t> frameIdxs {}; //- 相对于 AnimFrameSet 全frames数据的 idx

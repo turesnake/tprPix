@@ -86,6 +86,21 @@ void CircuitBoard::erase_dogoMessages(  goid_t dogoid_,
         MapEntMessage &mpMsgRef = *(it->second);
 
         // 比较累的操作，手动从 mmap 容器中找到 目标元素，删除之
+
+        auto fit=mpMsgRef.dogoids.find(weight);
+        while( fit != mpMsgRef.dogoids.end() ){
+            if( fit->first != weight ){
+                //break;
+                fit++;
+                continue;
+            }
+            if( fit->second == dogoid_ ){
+                fit = mpMsgRef.dogoids.erase(fit);
+                break;
+            }
+        }
+
+        /*
         for( auto fit=mpMsgRef.dogoids.find(weight); fit!=mpMsgRef.dogoids.end(); fit++ ){
             if( fit->first != weight ){
                 break;
@@ -95,6 +110,7 @@ void CircuitBoard::erase_dogoMessages(  goid_t dogoid_,
                 break;
             }
         }
+        */
 
         // 如果目标 mapEntMessage.dogoids 已经空了
         //  直接删除 本 MapEntMessage 实例 

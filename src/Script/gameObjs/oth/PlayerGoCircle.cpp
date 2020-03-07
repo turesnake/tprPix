@@ -51,7 +51,7 @@ void PlayerGoCircle::init(GameObj &goRef_,const DyParam &dyParams_ ){
     assemble_regularGo( goRef_, dyParams_ );
 
 
-        auto &rootGoMesh = goRef_.get_goMeshRef("root");
+        auto &rootGoMesh = goRef_.goMeshSet.get_goMeshRef("root");
 
         rootGoMesh.rotateScaleData.reset_rotateOrder( std::vector<RotateType>{ RotateType::X, RotateType::Z } ); //- 只需设置一次
         rootGoMesh.rotateScaleData.set_rotateDegree( glm::vec3( 40.0f, 0.0f, 0.0f ) );
@@ -88,7 +88,7 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     goRef_.move.set_drag_targetDPos( playerGoRef.get_dpos() );
 
     //-- 每1渲染帧，手动旋转 circle 一个小角度 --
-    auto &rootGoMeshRef = goRef_.get_goMeshRef("root");
+    auto &rootGoMeshRef = goRef_.goMeshSet.get_goMeshRef("root");
     glm::vec3 rotateDegree = rootGoMeshRef.rotateScaleData.get_rotateDegreeRef();
     rotateDegree.z += 3.0f;
     if( rotateDegree.z > 360.0f ){
@@ -113,7 +113,7 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_without_callback();
 
                     //-- 改为 调用 gomesh 的 专用 RenderUpdate 函数，可以定制 缩放的那种 
 
@@ -135,7 +135,7 @@ void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
+    GameObjMesh &goMeshRef = goRef_.goMeshSet.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
 

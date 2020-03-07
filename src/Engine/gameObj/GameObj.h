@@ -24,7 +24,7 @@
 //-------------------- Engine --------------------//
 #include "functorTypes.h"
 #include "GameObjType.h" 
-#include "GameObjMesh.h" 
+#include "GameObjMeshSet.h" 
 #include "goLabelId.h"
 #include "ID_Manager.h" 
 #include "IntVec.h" 
@@ -87,17 +87,6 @@ public:
     inline const T *get_pvtBinaryPtr()const noexcept{ return this->pvtBinary.get<T>(); }
     
 
-    //----- goMesh -----//
-    GameObjMesh &creat_new_goMesh(  const std::string &name_,
-                            animSubspeciesId_t     subspeciesId_,
-                            AnimActionEName         actionEName_,
-                            RenderLayerType         layerType_,
-                            ShaderType              shaderType_,
-                            const glm::vec2         pposOff_ = glm::vec2{0.0,0.0},
-                            double                  zOff_ = 0.0,
-                            size_t                  uWeight = 1051, // 素数
-                            bool                    isVisible_ = true );
-
     void init_check(); //- call in end of go init 
 
 
@@ -115,23 +104,6 @@ public:
 
     inline bool find_in_chunkKeys( chunkKey_t chunkKey_ ) const noexcept{
         return (this->chunkKeys.find(chunkKey_) != this->chunkKeys.end());
-    }
-    inline GameObjMesh &get_goMeshRef( const std::string &name_ )noexcept{
-            tprAssert( this->goMeshs.find(name_) != this->goMeshs.end() ); //- tmp
-        return *(this->goMeshs.at(name_));
-    }
-
-    
-    inline void render_all_goMesh()noexcept{
-        for( auto &pairRef : this->goMeshs ){
-            pairRef.second->RenderUpdate_auto();
-        }
-    }
-    //-- now, just used in GroundGo --
-    inline void render_all_groundGoMesh()noexcept{
-        for( auto &pairRef : this->goMeshs ){
-            pairRef.second->RenderUpdate_ground();
-        }
     }
 
     inline void insert_2_childGoIds( goid_t id_ )noexcept{
@@ -162,8 +134,6 @@ public:
     inline const std::set<goid_t>       &get_childGoIdsRef()const noexcept{ return this->childGoIds; }
     inline size_t                       get_goUWeight()const noexcept{ return this->goUWeight; }
 
-
-    inline std::unordered_map<std::string, std::unique_ptr<GameObjMesh>> &get_goMeshs()noexcept{ return this->goMeshs; }
 
     inline Collision &get_collisionRef()noexcept{ 
             tprAssert(this->collisionUPtr); // tmp
@@ -237,6 +207,8 @@ public:
     ActionSwitch    actionSwitch; //-- 将被 ActionFSM 取代...
     ActionFSM       actionFSM {}; //- 尚未完工...
 
+    GameObjMeshSet  goMeshSet;
+
     //PubBinary       pubBinary {}; //- 动态变量存储区，此处的变量 可被 engine层/script层 使用
     PubBinary2      pubBinary {};  //- 简易版，存储所有元素, 仅用于测试 ...
                                 // in future, use DyBinary
@@ -246,8 +218,9 @@ public:
     chunkKey_t      currentChunkKey {}; //- 本go 当前所在 chunk key
                                         //  在 本go被创建，以及每次move时，被更新
 
-
     GoFunctorSet    pubFunctors {}; // 存储一组，通过 GoFunctorLabel 索引的 任意类型的函数对象
+
+
      
 
     //======== flags ========//
@@ -276,6 +249,7 @@ private:
         goid(goid_),
         move(*this),
         actionSwitch(*this),
+        goMeshSet(*this),
         goUWeight(goUWeight_)
         {}
 
@@ -295,16 +269,6 @@ private:
                                         // only used for majorGos
                                         // 通过 reCollect_chunkKeys() 来更新。
                                         // 在 本go 生成时，以及 每一次移动时，都要更新这个 容器数据
-
-    // - rootGoMesh  -- name = “root”; 核心goMesh;
-    // - childGoMesh -- 剩下的goMesh，名字随意
-    std::unordered_map<std::string, std::unique_ptr<GameObjMesh>>  goMeshs {};
-                            //- go实例 与 GoMesh实例 强关联
-                            // 大部分go不会卸载／增加自己的 GoMesh实例
-                            //- 在一个 具象go类实例 的创建过程中，会把特定的 GoMesh实例 存入此容器
-                            //- 只存储在 mem态。 在go实例存入 硬盘时，GoMesh实例会被丢弃
-                            //- 等再次从section 加载时，再根据 具象go类型，生成新的 GoMesh实例。
-
 
     //====== pos sys =====//
     std::variant<   std::monostate, // 当变量为空时，v.index() 返回 0

@@ -127,7 +127,7 @@ void WindAnim::update()noexcept{
         GameObjMesh &goMeshRef = *iUPtr->goMeshPtr;
         
         if( isNeedStartWind ){
-            if( goMeshRef.get_animAction_state().second == AnimAction::State::Working ){
+            if( goMeshRef.get_animAction_state().second == AnimAction::PlayState::Working ){ // 未来此处将被修改 
                 continue; // skip
             }
             if( !iUPtr->isWindClockWorking ){

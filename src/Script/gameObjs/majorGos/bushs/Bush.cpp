@@ -100,7 +100,7 @@ void Bush::init(GameObj &goRef_, const DyParam &dyParams_ ){
     for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){
         const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
         
-        auto &goMeshRef = goRef_.creat_new_goMesh( 
+        auto &goMeshRef = goRef_.goMeshSet.creat_new_goMesh( 
                                 gmRef.get_goMeshName(),
                                 gmRef.get_subspeciesId(),
                                 gmRef.get_animActionEName(),
@@ -157,7 +157,7 @@ void Bush::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_without_callback();
 }
 
 

@@ -123,16 +123,13 @@ void Chicken::OnRenderUpdate( GameObj &goRef_ ){
     Chicken::move_AnimAction_switch( goRef_ );
 
     goRef_.move.RenderUpdate();
-
             // 不应该直接调用它
             // 而是要在 条件合适时
-            
-
 
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_without_callback();
 }
 
 
@@ -191,7 +188,7 @@ void Chicken::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
     //auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
+    GameObjMesh &goMeshRef = goRef_.goMeshSet.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
     switch( type_ ){
@@ -265,6 +262,8 @@ void Chicken::moveState_manage( GameObj &goRef_,
     tprAssert( it != moveStateTable.table.end() );
     AnimActionEName  actionEName = it->second.first;
     int timeStepOff = it->second.second;
+
+    //cout << "timeStepOff = " << timeStepOff << endl;
         
 
     // 开启 fly 模式

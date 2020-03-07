@@ -57,7 +57,7 @@ void Button_SceneBegin_Pointer::init(GameObj &goRef_,const DyParam &dyParams_ ){
     //================ animFrameSet／animFrameIdxHandle/ goMesh =================//
 
         //-- 制作 mesh 实例: "root" --
-        GameObjMesh &rootGoMesh = goRef_.creat_new_goMesh(
+        GameObjMesh &rootGoMesh = goRef_.goMeshSet.creat_new_goMesh(
                                 "root", //- gmesh-name
                                 subspeciesId,
                                 AnimActionEName::Pointer,
@@ -97,7 +97,7 @@ void Button_SceneBegin_Pointer::OnRenderUpdate( GameObj &goRef_ ){
     //=====================================//
     //  将 确认要渲染的 goMeshs，添加到 renderPool         
     //-------------------------------------//
-    goRef_.render_all_goMesh();
+    goRef_.goMeshSet.render_all_goMeshs_without_callback();
 }
 
 
@@ -119,7 +119,7 @@ void Button_SceneBegin_Pointer::OnActionSwitch( GameObj &goRef_, ActionSwitchTyp
     auto brokenLvl = goRef_.brokenLvl.get_newVal();
 
     //-- 获得所有 goMesh 的访问权 --
-    GameObjMesh &goMeshRef = goRef_.get_goMeshRef("root");
+    GameObjMesh &goMeshRef = goRef_.goMeshSet.get_goMeshRef("root");
 
     //-- 处理不同的 actionSwitch 分支 --
 
