@@ -210,7 +210,8 @@ void ChunkCreateReleaseZone::init_releaseZoneOffMPoses(){
     int offLen = this->releaseZone.get_offLen();
     for( int h=-offLen; h<=offLen; h++ ){
         for( int w=-offLen; w<=offLen; w++ ){
-            this->releaseZoneOffMPoses.push_back( IntVec2{ w*ENTS_PER_CHUNK , h*ENTS_PER_CHUNK } );
+            //this->releaseZoneOffMPoses.push_back( IntVec2{ w*ENTS_PER_CHUNK , h*ENTS_PER_CHUNK } );
+            this->releaseZoneOffMPoses.emplace_back( w*ENTS_PER_CHUNK , h*ENTS_PER_CHUNK );
         }
     }
 }

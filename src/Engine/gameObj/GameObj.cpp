@@ -183,8 +183,8 @@ void GameObj::debug(){
         "mapEnt.lvl: {0}" \
         "; val: {1}" \
         "; mp-ecoKey: {2}",
-        mpRef.get_mapAlti().lvl,
-        mpRef.get_mapAlti().val,
+        mpRef.get_mapAlti().get_lvl(),
+        mpRef.get_mapAlti().get_val(),
         mpRef.get_ecoObjKey()
     );
 

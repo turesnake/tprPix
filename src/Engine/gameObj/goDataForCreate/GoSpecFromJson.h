@@ -40,7 +40,7 @@ public:
     }
 
     inline void insert_2_lAltiRanges( GoAltiRangeLabel label_, GoAltiRange val_ )noexcept{
-        auto [insertIt, insertBool] = this->lAltiRanges.insert({ label_, val_ });
+        auto [insertIt, insertBool] = this->lAltiRanges.emplace( label_, val_ );
         tprAssert( insertBool );
     }
 
@@ -88,7 +88,7 @@ public:
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
         std::unique_ptr<GoSpecFromJson> uptr ( new GoSpecFromJson() ); // can't use std::make_unique
-        auto [insertIt, insertBool] = GoSpecFromJson::dataUPtrs.insert({ id, std::move(uptr) });
+        auto [insertIt, insertBool] = GoSpecFromJson::dataUPtrs.emplace( id, std::move(uptr) );
         tprAssert( insertBool );
         GoSpecFromJson &ref = *(insertIt->second);
         //--
@@ -135,7 +135,7 @@ public:
 
     inline static void insert_2_initFuncs( const std::string &goTypeName_, const F_GO_INIT &functor_ ){
         goSpeciesId_t id = GoSpecFromJson::str_2_goSpeciesId( goTypeName_ );
-        auto [insertIt, insertBool] = GoSpecFromJson::initFuncs.insert({ id, functor_ });
+        auto [insertIt, insertBool] = GoSpecFromJson::initFuncs.emplace( id, functor_ );
         tprAssert( insertBool );
     }
 
@@ -145,8 +145,8 @@ private:
     GoSpecFromJson()=default;
     
     inline static void insert_2_goSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
-        auto out1 = GoSpecFromJson::ids_2_names.insert({ id_, name_ });
-        auto out2 = GoSpecFromJson::names_2_ids.insert({ name_, id_ });
+        auto out1 = GoSpecFromJson::ids_2_names.emplace( id_, name_ );
+        auto out2 = GoSpecFromJson::names_2_ids.emplace( name_, id_ );
         tprAssert( out1.second );
         tprAssert( out2.second );
     }

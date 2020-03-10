@@ -34,7 +34,7 @@ private:
     static inline SignInMapEnts_Square &insert_new_signInMapEnts_square( SignInMapEnts_Square_Type type_ )noexcept{
 
         std::unique_ptr<SignInMapEnts_Square> uptr ( new SignInMapEnts_Square() ); // can't use std::make_unique
-        auto [insertIt, insertBool] = SignInMapEnts_Square::dataUPtrs.insert({ type_, std::move(uptr) });
+        auto [insertIt, insertBool] = SignInMapEnts_Square::dataUPtrs.emplace( type_, std::move(uptr) );
         tprAssert( insertBool );
         return *(insertIt->second);
     }

@@ -32,7 +32,7 @@ GameObjMesh &GameObjMeshSet::creat_new_goMesh(
                                 ){
 
     auto gmUPtr = std::make_unique<GameObjMesh>( this->goRef, pposOff_, zOff_,isVisible_ );
-    auto [insertIt, insertBool] = this->goMeshs.insert({name_, std::make_unique<GameObjMeshSet::Data>( std::move(gmUPtr) ) }); 
+    auto [insertIt, insertBool] = this->goMeshs.emplace( name_, std::make_unique<GameObjMeshSet::Data>( std::move(gmUPtr) ) ); 
     tprAssert( insertBool );
     GameObjMesh &gmesh = *(insertIt->second->goMesh);   
 

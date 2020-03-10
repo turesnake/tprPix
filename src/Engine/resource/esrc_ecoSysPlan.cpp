@@ -66,7 +66,7 @@ EcoSysPlan &insert_new_ecoSysPlan( EcoSysPlanType type_ ){
     ecoPlanUPtr->set_id( ecoPlanId );
     ecoPlanUPtr->set_type( type_ );
 
-    auto [insertIt, insertBool] = ecoPlan_inn::ecoSysPlanes.insert({ ecoPlanId, std::move(ecoPlanUPtr) });
+    auto [insertIt, insertBool] = ecoPlan_inn::ecoSysPlanes.emplace( ecoPlanId, std::move(ecoPlanUPtr) );
     tprAssert( insertBool );//- must not exist
 
     ecoPlan_inn::ecoSysPlanIds_in_type.at(ecoSysPlanType_2_idx(type_)).push_back(ecoPlanId);

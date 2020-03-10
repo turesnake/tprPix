@@ -19,24 +19,17 @@
 
 using namespace std::placeholders;
 
-//#include "tprDebug.h" 
-
 
 namespace gameObjs{//------------- namespace gameObjs ----------------
 
-
-struct FloorGo_PvtBinary{
-
-    int tmp {};
-    //===== padding =====//
-    //...
-};
+//struct FloorGo_PvtBinary{
+//};
 
 
 void FloorGo::init(GameObj &goRef_, const DyParam &dyParams_ ){
 
     //================ go.pvtBinary =================//
-    auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
+    //auto *pvtBp = goRef_.init_pvtBinary<FloorGo_PvtBinary>();
 
     //========== 标准化装配 ==========//
     assemble_regularGo( goRef_, dyParams_ );

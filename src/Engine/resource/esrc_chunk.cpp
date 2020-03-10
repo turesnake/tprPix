@@ -60,7 +60,7 @@ ChunkCreateReleaseZone &get_chunkCreateReleaseZoneRef(){
  * 仅被 check_and_build_sections.cpp -> create_one_chunk() 调用
  */
 Chunk &insert_and_init_new_chunk( chunkKey_t chunkKey_ ){
-    auto [insertIt, insertBool] = chunk_inn::chunks.insert({ chunkKey_, std::make_unique<Chunk>( chunkKey_ ) });
+    auto [insertIt, insertBool] = chunk_inn::chunks.emplace( chunkKey_, std::make_unique<Chunk>( chunkKey_ ) );
     tprAssert( insertBool );
     Chunk &chunkRef = *(insertIt->second);
 

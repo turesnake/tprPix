@@ -15,11 +15,7 @@
 
 //-------------------- Script --------------------//
 
-
-
 using namespace std::placeholders;
-
-//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------

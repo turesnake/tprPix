@@ -45,7 +45,8 @@ public:
 
     
     inline void collect_dirAxes_from_joystick( const glm::dvec2 &val_ )noexcept{
-        this->dirAxes.set( val_ );
+        //this->dirAxes.set( val_ );
+        this->dirAxes = DirAxes{ val_ };
     }
 
     inline bool get_key( GameKey key_ )const noexcept{

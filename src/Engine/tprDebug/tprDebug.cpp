@@ -40,6 +40,9 @@ namespace tprDebug {//---------- namespace: tprDebug --------------//
 
 void tmp_console_inn( const std::string &str_ ){
     cout << str_ << endl;
+
+            // 未来改用 spdlog
+            // ...
 }
 
 

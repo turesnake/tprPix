@@ -27,7 +27,6 @@
 #include <cmath>
 
 
-
 //-------------------- Engine --------------------//
 #include "tprAssert.h"
 #include "tprMath.h"

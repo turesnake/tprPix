@@ -9,12 +9,9 @@
  */
 #ifndef TPR_RGBA_H
 #define TPR_RGBA_H
-//------------------- CPP --------------------//
-#include <cmath>
-#include <string>
 
-//------------------- Engine --------------------//
-#include "tprAssert.h"
+#include "pch.h"
+
 
 
 enum class RGBA_ChannelType : uint8_t {
@@ -29,15 +26,15 @@ enum class RGBA_ChannelType : uint8_t {
 class RGBA{
 public: 
     //---- constructor -----//
-    RGBA() = default;
-    RGBA( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ ):
+    constexpr RGBA() = default;
+    constexpr RGBA( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_ ):
         r(r_),
         g(g_),
         b(b_),
         a(a_)
         {}
     
-    inline bool is_near( const RGBA &a_, uint8_t off_ ) const noexcept {
+    inline bool is_near( const RGBA &a_, uint8_t off_ )const noexcept {
         int rr = static_cast<int>(this->r) - static_cast<int>(a_.r);
         int gg = static_cast<int>(this->g) - static_cast<int>(a_.g);
         int bb = static_cast<int>(this->b) - static_cast<int>(a_.b);
@@ -50,15 +47,8 @@ public:
         );
     }
 
-    inline void set( uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_  ) noexcept {
-        this->r = r_;
-        this->g = g_; 
-        this->b = b_;
-        this->a = a_;
-    }
-
     //-- 支持更复杂的数据 累加 --
-    inline RGBA add( int r_, int g_, int b_, int a_ ) const noexcept {
+    inline RGBA add( int r_, int g_, int b_, int a_ )const noexcept {
         int rr = static_cast<int>(this->r) + r_;
         int gg = static_cast<int>(this->g) + g_;
         int bb = static_cast<int>(this->b) + b_;
@@ -72,7 +62,10 @@ public:
                         static_cast<uint8_t>(aa) };
     }
 
-    std::string to_string()const noexcept; // for debug
+
+    inline std::string to_string()const noexcept{ // for debug
+        return fmt::format( "RGBA:{0},{1},{2},{3};", this->r, this->g, this->b, this->a );
+    }
 
     //======== vals ========//
     uint8_t r {0};
@@ -85,10 +78,10 @@ public:
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator==( const RGBA &a_, const RGBA &b_  ) noexcept {
+inline constexpr bool operator==( const RGBA &a_, const RGBA &b_  ) noexcept {
     return ( (a_.r==b_.r) && (a_.g==b_.g) && (a_.b==b_.b) && (a_.a==b_.a) );
 }
-inline bool operator!=( const RGBA &a_, const RGBA &b_  ) noexcept {
+inline constexpr bool operator!=( const RGBA &a_, const RGBA &b_  ) noexcept {
     return ( (a_.r!=b_.r) || (a_.g!=b_.g) || (a_.b!=b_.b) || (a_.a!=b_.a) );
 }
 
@@ -97,7 +90,7 @@ inline bool operator!=( const RGBA &a_, const RGBA &b_  ) noexcept {
  *                   operator +
  * -----------------------------------------------------------
  */
-inline RGBA operator + ( const RGBA &a_, const RGBA &b_ ) noexcept {
+inline constexpr RGBA operator + ( const RGBA &a_, const RGBA &b_ ) noexcept {
     int rr = static_cast<int>(a_.r) + static_cast<int>(b_.r);
     int gg = static_cast<int>(a_.g) + static_cast<int>(b_.g);
     int bb = static_cast<int>(a_.b) + static_cast<int>(b_.b);

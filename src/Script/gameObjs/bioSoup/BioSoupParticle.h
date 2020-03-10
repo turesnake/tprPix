@@ -55,7 +55,7 @@ public:
 
 
         {// extraCreateStepDelay 
-            double d = static_cast<double>(std::abs(mpAlti_.val)) * 1.7;
+            double d = static_cast<double>(std::abs(mpAlti_.get_val())) * 1.7;
             this->extraCreateStepDelay = static_cast<size_t>( std::floor(d) );
         }
 

@@ -20,11 +20,7 @@
 //-------------------- Script --------------------//
 #include "Script/components/windAnim/WindAnim.h"
 
-
-
 using namespace std::placeholders;
-
-//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------

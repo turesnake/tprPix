@@ -8,9 +8,6 @@
  * ----------------------------
  */
 #include "pch.h"
-//-------------------- CPP --------------------//
-#include <sstream>
-
 
 //-------------------- Engine --------------------//
 #include "esrc_animFrameSet.h"
@@ -33,7 +30,7 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
-    auto [insertIt, insertBool] = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
+    auto [insertIt, insertBool] = anim_inn::animFrameSets.emplace( name_, std::make_unique<AnimFrameSet>(name_) );
 
     if( !insertBool ){
         tprDebug::console( "find duplicate afsName: {}", name_ );
@@ -59,7 +56,7 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
 // 仅用于 创建阶段 
 AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
     // if target key is existed, insert will not happen. but still ret target ent-it
-    auto [insertIt, insertBool] = anim_inn::animSubs.insert({ id_, std::make_unique<AnimSubspecies>() });
+    auto [insertIt, insertBool] = anim_inn::animSubs.emplace( id_, std::make_unique<AnimSubspecies>() );
     return *(insertIt->second);
 }
 

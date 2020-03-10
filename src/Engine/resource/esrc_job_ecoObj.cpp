@@ -40,7 +40,7 @@ EcoObj &atom_insert_new_job_ecoObj( sectionKey_t ecoObjKey_ ){
     //--- atom ---//
     {
         std::unique_lock<std::shared_mutex> ul( jeo_inn::sharedMutex ); //- write
-        auto [insertIt, insertBool] = jeo_inn::job_ecoObjs.insert({ ecoObjKey_, std::move(job_ecoObjUPtr) });
+        auto [insertIt, insertBool] = jeo_inn::job_ecoObjs.emplace( ecoObjKey_, std::move(job_ecoObjUPtr) );
         tprAssert( insertBool ); //- MUST NOT EXIST
         return *(insertIt->second);
     }

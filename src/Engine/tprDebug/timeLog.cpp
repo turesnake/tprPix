@@ -58,8 +58,8 @@ void init_timeLog(){
 
 void collect_deltaTime(double deltaTime_){
     size_t frame =  cast_2_size_t( floor(1.0 / deltaTime_) );
-    auto [insertIt, insertBool] = timeLog_inn::frameRawDatas.insert({ timeLog_inn::idx, 
-                                        std::make_unique<timeLog_inn::FrameData>( timeLog_inn::idx, deltaTime_, frame ) });
+    auto [insertIt, insertBool] = timeLog_inn::frameRawDatas.emplace( timeLog_inn::idx, 
+                                        std::make_unique<timeLog_inn::FrameData>( timeLog_inn::idx, deltaTime_, frame ) );
     tprAssert( insertBool );
     timeLog_inn::idx++;
 }
@@ -102,7 +102,7 @@ void process_and_echo_timeLog(){
     for( auto &pair : timeLog_inn::frameRawDatas ){
         auto &tmpIdx = pair.first;
         auto &tmpFrame = pair.second->frame;
-        rankingList.insert({ tmpFrame, tmpIdx });// multi
+        rankingList.emplace( tmpFrame, tmpIdx );// multi
     }
 
 

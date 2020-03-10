@@ -41,7 +41,8 @@ void BioSoupBase::init_for_static(){
                         std::vector<animSubspeciesId_t>                 &originIds_,
                         int                                             num_ ){
         for( int n=0; n<num_; n++ ){
-            targetV_.push_back( std::vector<animSubspeciesId_t>{} );
+            //targetV_.push_back( std::vector<animSubspeciesId_t>{} );
+            targetV_.emplace_back();
             auto &vRef = targetV_.back();
             vRef.insert( vRef.end(), originIds_.begin(), originIds_.end() );
             vRef.insert( vRef.end(), originIds_.begin(), originIds_.end() ); // twice

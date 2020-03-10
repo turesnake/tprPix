@@ -504,7 +504,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 const auto &ghArray = json::check_and_get_value( hEnt, "goLabel.holds", json::JsonValType::Object );
                 for( auto &ghEnt : ghArray.GetObject() ){ // each plan
                     tprAssert( ghEnt.value.IsString() );
-                    auto [insertIt, insertBool] = goLabel_holds.insert({ ghEnt.name.GetString(), ghEnt.value.GetString() });
+                    auto [insertIt, insertBool] = goLabel_holds.emplace( ghEnt.name.GetString(), ghEnt.value.GetString() );
                     tprAssert( insertBool );
                 }
             }
@@ -515,7 +515,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 const auto &types = json::check_and_get_value( hEnt, "afsName.holds", json::JsonValType::Object );
                 for( auto &typeEnt : types.GetObject() ){
                     tprAssert( typeEnt.value.IsString() );
-                    auto [insertIt, insertBool] = afsName_holds.insert({ typeEnt.name.GetString(), typeEnt.value.GetString() });
+                    auto [insertIt, insertBool] = afsName_holds.emplace( typeEnt.name.GetString(), typeEnt.value.GetString() );
                     tprAssert( insertBool );
                 }
             }
@@ -526,7 +526,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 const auto &types = json::check_and_get_value( hEnt, "animLabel.holds", json::JsonValType::Object );
                 for( auto &typeEnt : types.GetObject() ){
                     tprAssert( typeEnt.value.IsString() );
-                    auto [insertIt, insertBool] = animLabel_holds.insert({ typeEnt.name.GetString(), typeEnt.value.GetString() });
+                    auto [insertIt, insertBool] = animLabel_holds.emplace( typeEnt.name.GetString(), typeEnt.value.GetString() );
                     tprAssert( insertBool );
                 }
             }
@@ -537,7 +537,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 const auto &types = json::check_and_get_value( hEnt, "collide.holds", json::JsonValType::Object );
                 for( auto &cEnt : types.GetObject() ){
                     tprAssert( cEnt.value.IsObject() );
-                    auto [insertIt, insertBool] = collide_holds.insert({ cEnt.name.GetString(), mgmj_inn::parse_collide(cEnt.value) });
+                    auto [insertIt, insertBool] = collide_holds.emplace( cEnt.name.GetString(), mgmj_inn::parse_collide(cEnt.value) );
                     tprAssert( insertBool );
                 }
             }
@@ -730,7 +730,7 @@ void aseembel_jsonPlan_2_plan(  GoAssemblePlanSet &goAssemblePlanSetRef_, const 
         goMeshEnt.floorGoLayer = json_GoMeshEntRef.floorGoLayer;
 
         //---
-        planRef_.gomeshs.insert({ goMeshEnt.goMeshName, goMeshEnt });
+        planRef_.gomeshs.emplace( goMeshEnt.goMeshName, goMeshEnt );
     }
 }
 

@@ -59,7 +59,7 @@ public:
     void init_densityDatas( double densitySeaLvlOff_, const std::vector<double> &datas_ );
 
     inline DensityPool &create_new_densityPool( Density density_ )noexcept{
-        auto [insertIt, insertBool] = this->densityPools.insert({ density_, std::make_unique<DensityPool>() });
+        auto [insertIt, insertBool] = this->densityPools.emplace( density_, std::make_unique<DensityPool>() );
         tprAssert( insertBool );
         return *(insertIt->second);
     }

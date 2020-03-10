@@ -296,8 +296,8 @@ void parse_moveStateTable( const Value &pngEnt_, GoSpecFromJson &goSpecFromJsonR
             maxILvl = speedILvl;
         }
 
-        auto [insertIt, insertBool] = tRef.table.insert({ int_2_SpeedLevel(speedILvl),
-                                            std::pair<AnimActionEName,int>{ actionEName, timeStepOff } });
+        auto [insertIt, insertBool] = tRef.table.emplace( int_2_SpeedLevel(speedILvl),
+                                            std::pair<AnimActionEName,int>{ actionEName, timeStepOff } );
         tprAssert( insertBool );
     }
 

@@ -16,7 +16,6 @@
 
 
 // 被 具象go类 调用，将 GoDataForCreate 中的数据，配置进 regularGo 中
-// 在未来，参数组 可能会扩展
 const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ ){
 
     //================ dyParams =================//
@@ -24,24 +23,29 @@ const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyPara
     size_t typeHash = dyParams_.get_typeHash();
     tprAssert( typeHash == typeid(DyParams_GoDataForCreate).hash_code() );
     const DyParams_GoDataForCreate *bpParamPtr = dyParams_.get_binaryPtr<DyParams_GoDataForCreate>();
-    const GoDataForCreate *goDataPtr = bpParamPtr->goDataPtr;
+    //===
+    return assemble_regularGo( goRef_, bpParamPtr->goDataPtr );
+}
+
+// 直接解析 goDataForCreate 版
+// 部分 具象go-class 可以提前解开 dyParam, 改动 goData 后，再传入本函数
+const GoDataForCreate *assemble_regularGo( GameObj &goRef_, const GoDataForCreate *goDataPtr_ ){
 
     //-- set lAltiRange ---
-    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr->get_goSpeciesId() );
-    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr->get_goAltiRangeLabel() ) );
-
+    const GoSpecFromJson &goSpecFromJsonRef = GoSpecFromJson::get_goSpecFromJsonRef( goDataPtr_->get_goSpeciesId() );
+    goRef_.set_pos_lAltiRange( goSpecFromJsonRef.get_lAltiRange( goDataPtr_->get_goAltiRangeLabel() ) );
 
     //----- must before creat_new_goMesh() !!! -----//
-    goRef_.goLabelId = goDataPtr->get_goLabelId();
-    goRef_.actionDirection.reset( goDataPtr->get_direction() );
-    goRef_.brokenLvl.reset( goDataPtr->get_brokenLvl() );
+    goRef_.goLabelId = goDataPtr_->get_goLabelId();
+    goRef_.actionDirection.reset( goDataPtr_->get_direction() );
+    goRef_.brokenLvl.reset( goDataPtr_->get_brokenLvl() );
 
-    tprAssert( goDataPtr->get_colliDataFromJsonPtr() );
-    goRef_.set_colliDataFromJsonPtr( goDataPtr->get_colliDataFromJsonPtr() );
+    tprAssert( goDataPtr_->get_colliDataFromJsonPtr() );
+    goRef_.set_colliDataFromJsonPtr( goDataPtr_->get_colliDataFromJsonPtr() );
 
 
     //===== goMeshs =====//
-    for( const auto &sptrRef : goDataPtr->get_goMeshs_autoInit() ){ // only autoInit 
+    for( const auto &sptrRef : goDataPtr_->get_goMeshs_autoInit() ){ // only autoInit 
         const GoDataForCreate::GoMeshBase &gmRef = *sptrRef;
 
         auto &goMeshRef = goRef_.goMeshSet.creat_new_goMesh( 
@@ -57,7 +61,7 @@ const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyPara
                                 );
     } 
     //===
-    return goDataPtr;
+    return goDataPtr_;
 }
 
 

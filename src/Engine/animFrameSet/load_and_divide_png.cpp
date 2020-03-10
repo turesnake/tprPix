@@ -55,7 +55,8 @@ IntVec2 load_and_divide_png( const std::string &path_,
     //-- 事先准备好 每一帧的容器 --
     frame_data_ary_.clear();
     for( size_t i=0; i<totalFrameNum_; i++ ){
-        frame_data_ary_.push_back( std::vector<RGBA>{} );
+        //frame_data_ary_.push_back( std::vector<RGBA>{} );
+        frame_data_ary_.emplace_back();
     }
 
     auto fit = frame_data_ary_.begin(); //- 指向某个 帧容器

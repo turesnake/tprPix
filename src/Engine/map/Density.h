@@ -38,15 +38,10 @@ public:
             double ecoObj_densitySeaLvlOff_,
             const std::vector<double> *ecoObj_densityDivideValsPtr_ )
         {
-            this->set( fieldMPos_, ecoObj_densitySeaLvlOff_, ecoObj_densityDivideValsPtr_ );
+            this->init( fieldMPos_, ecoObj_densitySeaLvlOff_, ecoObj_densityDivideValsPtr_ );
         }
 
-
-    void set(   IntVec2 fieldMPos_, 
-                double ecoObj_densitySeaLvlOff_,
-                const std::vector<double> *ecoObj_densityDivideValsPtr_ );
-
-    inline int get_lvl() const noexcept{ return this->lvl; }
+    inline constexpr int get_lvl() const noexcept{ return this->lvl; }
 
     //-- 主要用于 遍历一些容器 --
     inline size_t get_idx() const noexcept{
@@ -92,6 +87,9 @@ public:
 
 
 private:
+    void init(   IntVec2 fieldMPos_, 
+                double ecoObj_densitySeaLvlOff_,
+                const std::vector<double> *ecoObj_densityDivideValsPtr_ );
     //===== vals =====//
     int lvl {0}; // [-3, 3] 共7档
 
@@ -103,13 +101,13 @@ private:
 
 
 
-inline bool operator < ( Density a_, Density b_ ) noexcept {
+inline constexpr bool operator < ( Density a_, Density b_ ) noexcept {
     return (a_.get_lvl() < b_.get_lvl());
 }
-inline bool operator == ( Density a_, Density b_ ) noexcept {
+inline constexpr bool operator == ( Density a_, Density b_ ) noexcept {
     return (a_.get_lvl() == b_.get_lvl());
 }
-inline bool operator != ( Density a_, Density b_ ) noexcept {
+inline constexpr bool operator != ( Density a_, Density b_ ) noexcept {
     return (a_.get_lvl() != b_.get_lvl());
 }
 

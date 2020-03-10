@@ -549,11 +549,10 @@ void Collision::build_a_scanBody(   const glm::dvec2 &moveVec_,
     IntVec2 mp_rightTop   = dpos_2_mpos( glm::dvec2{ rightLine, topLine } );
 
     Collision::mapEnts_in_scanBody.clear();
-    IntVec2 mpos {};
     for( int j=mp_leftBottom.y; j<=mp_rightTop.y; j++ ){
         for( int i=mp_leftBottom.x; i<=mp_rightTop.x; i++ ){
-            mpos.set( i, j );
-            Collision::mapEnts_in_scanBody.push_back( mpos );
+            //Collision::mapEnts_in_scanBody.push_back( IntVec2{i,j} );
+            Collision::mapEnts_in_scanBody.emplace_back( i, j );
         }
     }
 }

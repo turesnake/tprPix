@@ -24,8 +24,8 @@
 class GoAltiRange{
 public:
     //---- constructor -----//
-    GoAltiRange() = default;
-    GoAltiRange( double low_, double high_ ):
+    constexpr GoAltiRange() = default;
+    constexpr GoAltiRange( double low_, double high_ ):
         low(low_),
         high(high_)
         { tprAssert(low <= high); }
@@ -41,7 +41,7 @@ public:
         high = high_;
     }
 
-    inline bool is_collide( const GoAltiRange& a_ )noexcept{
+    inline constexpr bool is_collide( const GoAltiRange& a_ )const noexcept{
         // 某个 碰撞体，高度间距几乎为0，直接判断不会发生碰撞
         if( is_closeEnough<double>(this->low, this->high, 0.01) || 
             is_closeEnough<double>(a_.low, a_.high, 0.01) ){
@@ -66,11 +66,11 @@ public:
  *                 operator +, -
  * -----------------------------------------------------------
  */
-inline GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ )noexcept{
+inline constexpr GoAltiRange operator + ( const GoAltiRange &a_, const GoAltiRange &b_ )noexcept{
     return  GoAltiRange{  a_.low + b_.low,
                           a_.high + b_.high };
 }
-inline GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept{
+inline constexpr GoAltiRange operator + ( const GoAltiRange &a_, double addAlti_ )noexcept{
     return  GoAltiRange{a_.low  + addAlti_,
                         a_.high + addAlti_ };
 }

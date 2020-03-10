@@ -21,7 +21,6 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-//#include "tprCast.h"
 #include "blueprint_oth.h"
 #include "FloorGoType.h"
 
@@ -31,12 +30,7 @@
 
 //--------------- Script ------------------//
 
-
-
 using namespace rapidjson;
-
-
-#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//

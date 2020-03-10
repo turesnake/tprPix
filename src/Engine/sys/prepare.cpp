@@ -21,10 +21,6 @@
 	#include <fcntl.h>    //-- open，openat, AT_FDCWD
 #endif
 
-//-------------------- CPP --------------------//
-#include <fstream>   //-- ifstream
-#include <sstream>   //-- stringstream
-
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 #include "magic_enum.hpp"
@@ -39,11 +35,7 @@
 #endif
 
 //-------------------- Engine --------------------//
-//#include "tprAssert.h"
 #include "global.h"
-
-//#include "tprDebug.h"
-
 
 
 //----- type detection -----//

@@ -40,7 +40,7 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
         varTypeDatas_Yard_MajorGoId_t id = VarTypeDatas_Yard_MajorGo::id_manager.apply_a_u32_id();// 盲目分配id
-        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move( uptr_ ) }); 
+        auto [insertIt, insertBool] = this->goSpecPool.emplace( id, std::move( uptr_ ) ); 
         tprAssert( insertBool );
         //---
         this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
@@ -90,7 +90,7 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{ 
         varTypeDatas_Yard_FloorGoId_t id = VarTypeDatas_Yard_FloorGo::id_manager.apply_a_u32_id();// 盲目分配id
-        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        auto [insertIt, insertBool] = this->goSpecPool.emplace( id, std::move(uptr_) ); 
         tprAssert( insertBool );
         //---
         this->goSpecRandPool.insert( this->goSpecRandPool.end(), num_, id );
@@ -169,7 +169,7 @@ public:
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->majorGo_mapDataIds.insert( this->majorGo_mapDataIds.end(), num_, id );
         //---
-        auto [insertIt, insertBool] = this->majorGo_mapDatas.insert({ id, MapData{} });
+        auto [insertIt, insertBool] = this->majorGo_mapDatas.emplace( id, MapData{} );
         tprAssert( insertBool );
         return { id, &(insertIt->second) };
     }
@@ -178,14 +178,14 @@ public:
         mapDataId_t id = YardBlueprint::mapDataId_manager.apply_a_u32_id();
         this->floorGo_mapDataIds.insert( this->floorGo_mapDataIds.end(), num_, id );
         //---
-        auto [insertIt, insertBool] = this->floorGo_mapDatas.insert({ id, MapData{} });
+        auto [insertIt, insertBool] = this->floorGo_mapDatas.emplace( id, MapData{} );
         tprAssert( insertBool );
         return { id, &(insertIt->second) };
     }
 
     inline void bind_floorId_2_majorId( mapDataId_t majorId_, mapDataId_t floorId_ )noexcept{
         tprAssert( this->isHaveMajorGos && this->isHaveFloorGos );
-        auto [insertIt, insertBool] = this->majorDataId_2_floorDataIds.insert({ majorId_, floorId_ });
+        auto [insertIt, insertBool] = this->majorDataId_2_floorDataIds.emplace( majorId_, floorId_ );
         tprAssert( insertBool ); // Must
     }
 

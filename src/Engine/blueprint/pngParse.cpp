@@ -126,7 +126,8 @@ IntVec2 parse_png_for_plot(  std::vector<MapData> &mapDatasRef_,
         auto &M_frameRef = pngParse_inn::M_frame_data_ary.at(i);
         auto &D_frameRef = pngParse_inn::D_frame_data_ary.at(i);
         //--
-        mapDatasRef_.push_back( MapData{} ); // new empty ent
+        //mapDatasRef_.push_back( MapData{} ); // new empty ent
+        mapDatasRef_.emplace_back(); // new empty ent
         auto &mdRef = mapDatasRef_.back();
         pngParse_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Plot, false );
     }
@@ -324,7 +325,8 @@ IntVec2 parse_png_for_village(  std::vector<MapData> &mapDatasRef_,
         auto &M_frameRef = pngParse_inn::M_frame_data_ary.at(i);
         auto &D_frameRef = pngParse_inn::D_frame_data_ary.at(i);
         //--
-        mapDatasRef_.push_back( MapData{} ); // new empty ent
+        //mapDatasRef_.push_back( MapData{} ); // new empty ent
+        mapDatasRef_.emplace_back(); // new empty ent
         auto &mdRef = mapDatasRef_.back();
         pngParse_inn::handle_frame( mdRef, pixNum_per_frame, M_frameRef, D_frameRef, BlueprintType::Village, false );
 

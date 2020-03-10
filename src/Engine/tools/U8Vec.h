@@ -31,11 +31,6 @@ public:
         this->y = 0;
     }
 
-    inline void set( uint8_t x_, uint8_t y_ ) noexcept {
-        this->x = x_;
-        this->y = y_;
-    }
-
     //======== vals ========//
     uint8_t  x {0};
     uint8_t  y {0};

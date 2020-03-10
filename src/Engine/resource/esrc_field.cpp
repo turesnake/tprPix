@@ -21,9 +21,6 @@
 #include "esrc_state.h"
 
 
-
-//#include "tprDebug.h"
-
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace field_inn {//------------ namespace: field_inn --------------//
 
@@ -42,7 +39,7 @@ void init_fields(){
 void move_fieldUPtrs( std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> &fields_ ){
 
     for( auto &[iKey, iUPtr] : fields_ ){
-        auto [insertIt, insertBool] = field_inn::fields.insert({ iKey, std::move(iUPtr) });
+        auto [insertIt, insertBool] = field_inn::fields.emplace( iKey, std::move(iUPtr) );
         tprAssert( insertBool );
     }
 }
@@ -57,8 +54,8 @@ void erase_all_fields_in_chunk( IntVec2 chunkMPos_ ){
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){
-            tmpFieldMPos.set(   chunkMPos_.x + w*ENTS_PER_FIELD,
-                                chunkMPos_.y + h*ENTS_PER_FIELD );
+            tmpFieldMPos = IntVec2{ chunkMPos_.x + w*ENTS_PER_FIELD,
+                                    chunkMPos_.y + h*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey( tmpFieldMPos );
 
             eraseNum = field_inn::fields.erase(tmpFieldKey);

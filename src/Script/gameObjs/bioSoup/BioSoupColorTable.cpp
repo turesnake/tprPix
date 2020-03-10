@@ -13,6 +13,9 @@
 
 #include "esrc_uniformBlockObj.h"
 
+//-------------------- Script --------------------//
+#include "Script/gameObjs/bioSoup/BioSoupColor.h"
+
 
 
 namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup ----------------
@@ -28,15 +31,24 @@ namespace bsct_inn {//------------- namespace bsct_inn ----------------
 
 void write_ubo_BioSoupColorTable(){
 
-    // update datas
 
-    bsct_inn::bioSoupColorTable.base_light = FloatVec4{ 215.0f/255.0f, 191.0f/255.0f, 135.0f/255.0f, 1.0f };
-    bsct_inn::bioSoupColorTable.base_mid   = FloatVec4{ 193.0f/255.0f, 165.0f/255.0f, 120.0f/255.0f, 1.0f };
-    bsct_inn::bioSoupColorTable.base_dark  = FloatVec4{ 173.0f/255.0f, 141.0f/255.0f, 105.0f/255.0f, 1.0f };
 
-    bsct_inn::bioSoupColorTable.particle_light = FloatVec4{ 215.0f/255.0f+0.2f, 191.0f/255.0f+0.2f, 135.0f/255.0f+0.2f, 1.0f };
-    bsct_inn::bioSoupColorTable.particle_mid   = FloatVec4{ 193.0f/255.0f+0.2f, 165.0f/255.0f+0.2f, 120.0f/255.0f+0.2f, 1.0f };
-    bsct_inn::bioSoupColorTable.particle_dark  = FloatVec4{ 173.0f/255.0f+0.2f, 141.0f/255.0f+0.2f, 105.0f/255.0f+0.2f, 1.0f };
+    const Color &baseColor = ColorNodeChain::calc_next_baseColor();
+
+
+    Color particle {
+        baseColor.light + 0.2f,
+        baseColor.mid   + 0.2f,
+        baseColor.dark  + 0.2f
+    };
+
+    bsct_inn::bioSoupColorTable.base_light = floatVec3_2_floatVec4( baseColor.light, 1.0f );
+    bsct_inn::bioSoupColorTable.base_mid   = floatVec3_2_floatVec4( baseColor.mid,   1.0f );
+    bsct_inn::bioSoupColorTable.base_dark  = floatVec3_2_floatVec4( baseColor.dark,  1.0f );
+
+    bsct_inn::bioSoupColorTable.particle_light = floatVec3_2_floatVec4( particle.light, 1.0f );
+    bsct_inn::bioSoupColorTable.particle_mid   = floatVec3_2_floatVec4( particle.mid,   1.0f );
+    bsct_inn::bioSoupColorTable.particle_dark  = floatVec3_2_floatVec4( particle.dark,  1.0f );
 
 
     // do write

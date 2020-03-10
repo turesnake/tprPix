@@ -111,7 +111,7 @@ public:
         colorTableId_t id = ColorTable::id_manager.apply_a_u32_id();// start from 1
         //---
         this->name_ids.insert({ name_, id });
-        auto [insertIt, insertBool] = this->colorTableUPtrs.insert({ id, std::make_unique<ColorTable>() });
+        auto [insertIt, insertBool] = this->colorTableUPtrs.emplace( id, std::make_unique<ColorTable>() );
         tprAssert( insertBool );
         //---
         return { id, insertIt->second.get() };
@@ -164,7 +164,7 @@ public:
 
     inline void insert_2_ecoSysPlanTypes( colorTableId_t id_, EcoSysPlanType type_ )noexcept{
         tprAssert( (type_!=EcoSysPlanType::BegIdx) && (type_!=EcoSysPlanType::EndIdx) );
-        auto [insertIt, insertBool] = this->ecoSysPlanTypes.insert({ id_, type_ });
+        auto [insertIt, insertBool] = this->ecoSysPlanTypes.emplace( id_, type_ );
         tprAssert( insertBool );
     }
 

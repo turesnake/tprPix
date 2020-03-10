@@ -19,6 +19,7 @@ class GoDataForCreate;
 
 
 const GoDataForCreate *assemble_regularGo( GameObj &goRef_,const DyParam &dyParams_ );
+const GoDataForCreate *assemble_regularGo( GameObj &goRef_, const GoDataForCreate *goDataPtr_ );
 
 
 #endif

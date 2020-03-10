@@ -26,7 +26,7 @@ public:
 
     template<typename T>
     inline void insert( GoFunctorLabel label_, T functor_ )noexcept{
-        auto [insertIt, insertBool] = this->functors.insert({ label_, DyFunctor{} });
+        auto [insertIt, insertBool] = this->functors.emplace( label_, DyFunctor{} );
         tprAssert( insertBool );
         DyFunctor &f = insertIt->second;
         //---

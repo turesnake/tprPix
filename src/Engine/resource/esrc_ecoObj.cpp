@@ -50,7 +50,7 @@ void init_ecoObjs()noexcept{
 
 
 void moveIn_ecoObjUPtr_from_job( sectionKey_t ecoObjKey_, std::unique_ptr<EcoObj> ecoObjUPtr_ ){
-    auto [insertIt, insertBool] = ecoObj_inn::ecoObjs.insert({ ecoObjKey_, std::move(ecoObjUPtr_) }); // move
+    auto [insertIt, insertBool] = ecoObj_inn::ecoObjs.emplace( ecoObjKey_, std::move(ecoObjUPtr_) ); // move
     tprAssert( insertBool );
 }
 

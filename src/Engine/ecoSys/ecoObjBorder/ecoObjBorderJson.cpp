@@ -25,9 +25,6 @@
 using namespace rapidjson;
 
 
-//#include "tprDebug.h"
-
-
 std::tuple<IntVec2, size_t, std::string> EcoObjBorder::parse_plotJsonFile(){
 
     tprDebug::console( "   ----- parse_ecoObjBorderJsonFile: start ----- " );

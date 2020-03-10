@@ -9,11 +9,8 @@
 #include "MapAltitude.h"
 
 
-/* ===========================================================
- *                         set    [2]
- * -----------------------------------------------------------
- */
-void MapAltitude::set( double altiVal_from_gpgpu_ ){
+
+void MapAltitude::init( double altiVal_from_gpgpu_ ){
 
     tprAssert( (altiVal_from_gpgpu_>=-100.0) && (altiVal_from_gpgpu_<=100.0) );
     this->val = static_cast<int>(floor(altiVal_from_gpgpu_));

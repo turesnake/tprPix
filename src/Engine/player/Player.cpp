@@ -22,10 +22,7 @@
 #include "esrc_gameObj.h" 
 
 
-
 using namespace std::placeholders;
-
-//#include "tprDebug.h" //- tmp
 
 /* ===========================================================
  *                   get_goRef

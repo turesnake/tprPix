@@ -161,7 +161,7 @@ void insert_2_goids_inactive( goid_t id_ ){
  */
 goid_t insert_new_regularGo( const glm::dvec2 &dpos_, size_t goUWeight_ ){
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_regularGo( goid, dpos_, goUWeight_ ) });
+    auto [insertIt, insertBool] = go_inn::gameObjs.emplace( goid, GameObj::factory_for_regularGo( goid, dpos_, goUWeight_ ) );
     tprAssert( insertBool );
     return goid;
 }
@@ -176,7 +176,7 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
                         size_t goUWeight_ ){
 
     goid_t goid = GameObj::id_manager.apply_a_u64_id();
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_, goUWeight_ ) });
+    auto [insertIt, insertBool] = go_inn::gameObjs.emplace( goid, GameObj::factory_for_uiGo( goid, basePointProportion_, offDPos_, goUWeight_ ) );
     tprAssert( insertBool );
     return goid;
 }
@@ -191,7 +191,7 @@ goid_t insert_new_uiGo( const glm::dvec2 &basePointProportion_,
  * -- 为其分配新 goid. 然后存入 memGameObjs 容器中
  */
 void insert_a_diskGo( goid_t goid_, const glm::dvec2 &dpos_, size_t goUWeight_ ){
-    auto [insertIt, insertBool] = go_inn::gameObjs.insert({ goid_, GameObj::factory_for_regularGo(goid_, dpos_, goUWeight_) });
+    auto [insertIt, insertBool] = go_inn::gameObjs.emplace( goid_, GameObj::factory_for_regularGo(goid_, dpos_, goUWeight_) );
     tprAssert( insertBool );
 }
 

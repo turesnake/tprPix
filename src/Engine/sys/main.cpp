@@ -38,7 +38,6 @@
 
 #include "timeLog.h" // debug_tmp
 #include "speedLog.h" // debug_tmp
-#include "tprDebug.h" //- tmp
 
 //-------------------- innTest --------------------//
 #include "innTest.h"
@@ -46,6 +45,7 @@
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
 #include "Script/components/windAnim/WindAnim.h"
+#include "Script/gameObjs/bioSoup/BioSoupColor.h"
 
 
 
@@ -147,9 +147,14 @@ int main( int argc, char* argv[] ){
 
     Job_Field::init_for_static();
 
+
+    gameObjs::bioSoup::ColorNodeChain::init_for_state();
+
+
     tprDebug::init_timeLog();
     tprDebug::init_speedLog();
     //tprDebug::init_debug();
+
 
     //------------------------------------------//
     //            启动 job线程组

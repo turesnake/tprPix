@@ -46,7 +46,7 @@ Job_Chunk &atom_insert_new_job_chunk( chunkKey_t chunkKey_ ){
     auto job_chunkUPtr = std::make_unique<Job_Chunk>(chunkKey_);
     //--- atom ---//
     std::unique_lock<std::shared_mutex> ul( jchunk_inn::sharedMutex ); //- write
-    auto [insertIt, insertBool] = jchunk_inn::job_chunks.insert({ chunkKey_, std::move(job_chunkUPtr) });
+    auto [insertIt, insertBool] = jchunk_inn::job_chunks.emplace( chunkKey_, std::move(job_chunkUPtr) );
     tprAssert( insertBool ); //- MUST NOT EXIST
     return *(insertIt->second);
 }

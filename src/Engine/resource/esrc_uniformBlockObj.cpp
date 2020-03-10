@@ -37,7 +37,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Seeds) );
         std::string uboName {"Seeds"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );
     }
 
@@ -46,7 +46,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( ubo::UBO_Camera_size );
         std::string uboName {"Camera"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -55,7 +55,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Window) );
         std::string uboName {"Window"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -64,7 +64,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_Time) );
         std::string uboName {"Time"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -73,7 +73,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(ubo::UBO_WorldCoord) );
         std::string uboName {"WorldCoord"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -82,7 +82,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>(ColorTable::get_dataSize());
         std::string uboName {"OriginColorTable"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -91,7 +91,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>(ColorTable::get_dataSize());
         std::string uboName {"UnifiedColorTable"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -100,7 +100,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = static_cast<GLsizeiptr>( sizeof(FloatVec4) * 20 );// shader 中手写了 [20]数组，丑陋的方案...
         std::string uboName {"GroundColorTable"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -109,7 +109,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = sizeof(colorTableId_t);
         std::string uboName {"ColorTableId"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
 
@@ -119,7 +119,7 @@ void init_uniformBlockObjs()noexcept{
         GLuint bindPoint = ubo::get_bindPoint(uboType);
         GLsizeiptr dataSize = sizeof( gameObjs::bioSoup::BioSoupColorTable );
         std::string uboName {"BioSoupColorTable"};
-        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.insert({  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) });
+        auto [insertIt, insertBool] = ubo_inn::uboUPtrs.emplace(  uboType, std::make_unique<ubo::UniformBlockObj>(bindPoint, dataSize, uboName) );
         tprAssert( insertBool );                            
     }
     

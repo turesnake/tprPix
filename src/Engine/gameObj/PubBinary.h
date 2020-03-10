@@ -29,7 +29,7 @@ public:
         byteoff_t  off {0}; 
         for( const auto &i : types_ ){
             idx = static_cast<idx_t>(i);
-            auto [insertIt, insertBool] = valOffs.insert({ idx, off });
+            auto [insertIt, insertBool] = valOffs.emplace( idx, off );
             tprAssert( insertBool );
             off += (byteoff_t)(get_PubBinaryValSizes().at(idx));
         }

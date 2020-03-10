@@ -364,7 +364,7 @@ void create_new_goDataForCreate(std::unordered_map<mapEntKey_t, std::unique_ptr<
                                                     mapDataEntRef_.brokenLvl
                                                 );
 
-    auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::move(goDUPtr) });
+    auto [insertIt, insertBool] = goDatasForCreate_.emplace( mpos_2_key(mpos_), std::move(goDUPtr) );
     tprAssert( insertBool );
 }
 
@@ -390,7 +390,7 @@ void create_new_floorGoDataForCreate(std::unordered_map<mapEntKey_t, std::unique
                                                     mapDataEntRef_.direction
                                                 );
 
-    auto [insertIt, insertBool] = goDatasForCreate_.insert({ mpos_2_key(mpos_), std::move(goDUPtr) });
+    auto [insertIt, insertBool] = goDatasForCreate_.emplace( mpos_2_key(mpos_), std::move(goDUPtr) );
     tprAssert( insertBool );
 }
 

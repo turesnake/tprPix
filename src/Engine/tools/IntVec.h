@@ -35,11 +35,6 @@ public:
         this->y = 0;
     }
 
-    inline void set( int x_, int y_ ) noexcept {
-        this->x = x_;
-        this->y = y_;
-    }
-
     //--------
     inline IntVec2& operator += ( IntVec2 a_ ) noexcept {
         this->x += a_.x;
@@ -68,12 +63,22 @@ public:
     }
 
     //======== static ========//
-    static bool is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noexcept;
+    static constexpr bool is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noexcept;
 
     //======== vals ========//
     int  x {0}; 
     int  y {0};
 };
+
+
+//======= static =======//
+// x/y 差值均小于 off_ 时，返回 true 
+inline constexpr bool IntVec2::is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noexcept {
+    size_t off_x = cast_2_size_t( std::abs( static_cast<double>(v1_.x-v2_.x) ) );
+    size_t off_y = cast_2_size_t( std::abs( static_cast<double>(v1_.y-v2_.y) ) ); 
+                                            // prevent std::abs ambiguous
+    return ( (off_x<off_) && (off_y<off_) );
+}
 
 
 // std::hash 特化
@@ -100,10 +105,10 @@ struct hash<IntVec2>{
  *                  operator  ==, !=
  * -----------------------------------------------------------
  */
-inline bool operator == ( IntVec2 a_, IntVec2 b_ ) noexcept {
+inline constexpr bool operator == ( IntVec2 a_, IntVec2 b_ ) noexcept {
     return ( (a_.x==b_.x) && (a_.y==b_.y) );
 }
-inline bool operator != ( IntVec2 a_, IntVec2 b_ ) noexcept {
+inline constexpr bool operator != ( IntVec2 a_, IntVec2 b_ ) noexcept {
     return ( (a_.x!=b_.x) || (a_.y!=b_.y) );
 }
 
@@ -113,7 +118,7 @@ inline bool operator != ( IntVec2 a_, IntVec2 b_ ) noexcept {
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
  * -- IntVec2 可以成为 std::map / std::set 的 key
  */
-inline bool operator < ( IntVec2 a_, IntVec2 b_ ) noexcept {
+inline constexpr bool operator < ( IntVec2 a_, IntVec2 b_ ) noexcept {
     if( a_.x == b_.x ){
         return ( a_.y < b_.y );
     }
@@ -124,10 +129,10 @@ inline bool operator < ( IntVec2 a_, IntVec2 b_ ) noexcept {
  *                   operator +, -
  * -----------------------------------------------------------
  */
-inline IntVec2 operator + ( IntVec2 a_, IntVec2 b_ ) noexcept {
+inline constexpr IntVec2 operator + ( IntVec2 a_, IntVec2 b_ ) noexcept {
     return IntVec2 { a_.x+b_.x, a_.y+b_.y };
 }
-inline IntVec2 operator - ( IntVec2 a_, IntVec2 b_ ) noexcept {
+inline constexpr IntVec2 operator - ( IntVec2 a_, IntVec2 b_ ) noexcept {
     return IntVec2 { a_.x-b_.x, a_.y-b_.y };
 }
 
@@ -135,25 +140,15 @@ inline IntVec2 operator - ( IntVec2 a_, IntVec2 b_ ) noexcept {
  *                   operator * 
  * -----------------------------------------------------------
  */
-inline IntVec2 operator * ( IntVec2 a_, int m_ ) noexcept {
+inline constexpr IntVec2 operator * ( IntVec2 a_, int m_ ) noexcept {
     return IntVec2 { a_.x*m_, a_.y*m_ };
 }
-inline IntVec2 operator * ( int m_, IntVec2 a_ ) noexcept {
+inline constexpr IntVec2 operator * ( int m_, IntVec2 a_ ) noexcept {
     return IntVec2 { a_.x*m_, a_.y*m_ };
 }
 
 
-/* ===========================================================
- *                  is_closeEnough
- * -----------------------------------------------------------
- * x/y 差值均小于 off_ 时，返回 true
- */
-inline bool IntVec2::is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noexcept {
-    size_t off_x = cast_2_size_t( std::abs( static_cast<double>(v1_.x-v2_.x) ) );
-    size_t off_y = cast_2_size_t( std::abs( static_cast<double>(v1_.y-v2_.y) ) ); 
-                                            // prevent std::abs ambiguous
-    return ( (off_x<off_) && (off_y<off_) );
-}
+
 
 
 
@@ -165,7 +160,7 @@ inline bool IntVec2::is_closeEnough( IntVec2 v1_, IntVec2 v2_, size_t off_ ) noe
  *  -1- double 除法
  *  -2- math.floor()
  */
-inline IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
+inline constexpr IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
     double fx = static_cast<double>(a_.x) / div_;
     double fy = static_cast<double>(a_.y) / div_;
     return IntVec2{ static_cast<int>(floor(fx)),
@@ -180,7 +175,7 @@ inline IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
  *  -1- double 除法
  *  -2- math.floor()
  */
-inline IntVec2 floorMod( IntVec2 v_, double mod_ ) noexcept {
+inline constexpr IntVec2 floorMod( IntVec2 v_, double mod_ ) noexcept {
     double fx = ( static_cast<double>(v_.x) ) / mod_;
     double fy = ( static_cast<double>(v_.y) ) / mod_;
     double floorX = floor(fx) * mod_;

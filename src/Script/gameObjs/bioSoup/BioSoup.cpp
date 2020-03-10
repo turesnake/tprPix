@@ -229,7 +229,7 @@ void init(){
 
 // mapAlti: -10 是动画播放最快的区域。越远离，越惰性
 double calc_playSpeed( MapAltitude mapAlti_ )noexcept{
-    double altiOff = static_cast<double>( std::abs( mapAlti_.val - (-10) ) );
+    double altiOff = static_cast<double>( std::abs( mapAlti_.get_val() - (-10) ) );
     altiOff /= 50.0;
     double playSpeed = 0.5 + altiOff;
     if( playSpeed > 3.0 ){

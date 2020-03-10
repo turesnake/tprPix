@@ -55,7 +55,7 @@ public:
         goSpeciesId_t id = static_cast<goSpeciesId_t>( hasher(name_) ); // size_t -> uint64_t
 
         std::unique_ptr<UIGoSpecFromJson> uptr ( new UIGoSpecFromJson() ); // can't use std::make_unique
-        auto [insertIt, insertBool] = UIGoSpecFromJson::dataUPtrs.insert({ id, std::move(uptr) });
+        auto [insertIt, insertBool] = UIGoSpecFromJson::dataUPtrs.emplace( id, std::move(uptr) );
         tprAssert( insertBool );
         UIGoSpecFromJson &ref = *(insertIt->second);
         //---
@@ -92,7 +92,7 @@ public:
 
     inline static void insert_2_initFuncs( const std::string &goTypeName_, const F_GO_INIT &functor_ ){
         goSpeciesId_t id = UIGoSpecFromJson::str_2_uiGoSpeciesId( goTypeName_ );
-        auto [insertIt, insertBool] = UIGoSpecFromJson::initFuncs.insert({ id, functor_ });
+        auto [insertIt, insertBool] = UIGoSpecFromJson::initFuncs.emplace( id, functor_ );
         tprAssert( insertBool );
     }
 
@@ -101,8 +101,8 @@ private:
     UIGoSpecFromJson()=default;
 
     inline static void insert_2_uiGoSpeciesIds_names_containers( goSpeciesId_t id_, const std::string &name_ ){
-        auto out1 = UIGoSpecFromJson::ids_2_names.insert({ id_, name_ });
-        auto out2 = UIGoSpecFromJson::names_2_ids.insert({ name_, id_ });
+        auto out1 = UIGoSpecFromJson::ids_2_names.emplace( id_, name_ );
+        auto out2 = UIGoSpecFromJson::names_2_ids.emplace( name_, id_ );
         tprAssert( out1.second );
         tprAssert( out2.second );
     }

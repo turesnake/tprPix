@@ -21,8 +21,6 @@
 
 #include "esrc_animFrameSet.h"
 
-//#include "tprDebug.h" //- tmp
-
 
 namespace afs_inn {//----------------- namespace: afs_inn ------------------//
 
@@ -96,7 +94,7 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
         //---
         for( size_t i=0; i<animActionParams_.size(); i++ ){
             const AnimActionParam *paramPtr = animActionParams_.at(i).get();
-            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.emplace( i, aaPosId );
             tprAssert( insertBool );
         }
 
@@ -108,7 +106,7 @@ void AnimFrameSet::insert_a_png(  const std::string &path_pic_,
             auto aaPosId = AnimActionPos::id_manager.apply_a_u32_id();
             this->animActionPosUPtrs.insert({ aaPosId, std::make_unique<AnimActionPos>() });
             //---
-            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.insert({ i, aaPosId });
+            auto [insertIt, insertBool] = afs_inn::lAnimActionPosIds.emplace( i, aaPosId );
             tprAssert( insertBool );
         }
     }

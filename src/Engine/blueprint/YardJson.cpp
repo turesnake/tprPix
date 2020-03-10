@@ -22,7 +22,6 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-//#include "tprCast.h"
 #include "blueprint_oth.h"
 #include "GoSpecFromJson.h"
 
@@ -32,11 +31,7 @@
 
 //--------------- Script ------------------//
 
-
-
 using namespace rapidjson;
-
-//#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -203,14 +198,15 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
                     //    MajorGo
                     //----------------//
                     auto sptr = parse_majorGo_varType( pVarType, isAllInstanceUseSamePlan );
-                    public_majorGo_varTypes.push_back({ varTypeIdx, sptr });
-
+                    //public_majorGo_varTypes.push_back({ varTypeIdx, sptr });
+                    public_majorGo_varTypes.emplace_back( varTypeIdx, sptr );
                 }else{
                     //----------------//
                     //    FloorGo
                     //----------------//
                     auto sptr = parse_floorGo_varType( pVarType, isAllInstanceUseSamePlan );
-                    public_floorGo_varTypes.push_back({ varTypeIdx, sptr });
+                    //public_floorGo_varTypes.push_back({ varTypeIdx, sptr });
+                    public_floorGo_varTypes.emplace_back( varTypeIdx, sptr );
 
                 }
             }

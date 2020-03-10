@@ -48,7 +48,7 @@ public:
     inline ActionState *insert_new_state( const std::string &name_ )noexcept{
         // ***| INSERT FIRST, INIT LATER  |***
         ActionState state {};
-        auto [insertIt, insertBool] = states.insert({ name_, state }); //- copy
+        auto [insertIt, insertBool] = states.emplace( name_, state ); //- copy
         tprAssert( insertBool );
 
         // init...

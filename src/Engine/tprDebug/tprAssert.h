@@ -12,7 +12,6 @@
 
 #include "SysConfig.h"
 
-
 /* ===========================================================
  *                    tprAssert_inn
  * -----------------------------------------------------------
@@ -20,14 +19,14 @@
 #if defined TPR_OS_WIN32_
 
     #include <windows.h>
-    #include <sstream>   //-- stringstream
-    inline int tprMessageBox(  const std::string &e_,
-                                const std::string &file_,
-                                int line_ ){
-        std::stringstream ss;                               
-        ss << e_ << "\n";                                 
-        ss << file_ << ": " << line_;                  
-        MessageBox( nullptr, ss.str().c_str(), "tprAssert", MB_OK);
+    #include "fmt/format.h"
+    inline int tprMessageBox( const std::string &e_, const std::string &file_, int line_ ){
+        std::string str = fmt::format(
+            "ERROR: {0}\n" \
+            "file: {1}: {2}",
+            e_, file_, line_
+        );
+        MessageBox( nullptr, str.c_str(), "tprAssert", MB_OK);
         exit(-99);  
         return 0; //- never reach                                        
     }

@@ -82,7 +82,7 @@ public:
 
     inline void insert_2_goSpecPool( std::unique_ptr<GoSpec> uptr_, size_t num_ )noexcept{
         varTypeDatas_PlotId_t id = VarTypeDatas_Plot::id_manager.apply_a_u32_id();// 盲目分配id
-        auto [insertIt, insertBool] = this->goSpecPool.insert({ id, std::move(uptr_) }); 
+        auto [insertIt, insertBool] = this->goSpecPool.emplace( id, std::move(uptr_) ); 
         tprAssert( insertBool );
         //--
         this->randPool.insert( this->randPool.end(), num_, id );

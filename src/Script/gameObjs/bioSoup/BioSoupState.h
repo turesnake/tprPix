@@ -20,9 +20,9 @@ enum class State{
 };
 
 inline State calc_bioSoupState_by_mapAlti( MapAltitude mapAlti_ ){
-    if(         mapAlti_.val < -23.0 ){ return State::Inertia;
-    }else if(   mapAlti_.val < 0.0 ){  return State::Active;
-    }else{                              return State::NotExist;
+    if(         mapAlti_.get_val() < -23.0 ){   return State::Inertia;
+    }else if(   mapAlti_.get_val() < 0.0 ){     return State::Active;
+    }else{                                      return State::NotExist;
     }
 }
 

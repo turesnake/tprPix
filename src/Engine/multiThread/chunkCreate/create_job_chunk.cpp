@@ -146,8 +146,8 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
         for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
-            tmpFieldMPos.set(   currentChunkMPos.x + w*ENTS_PER_FIELD, 
-                                currentChunkMPos.y + h*ENTS_PER_FIELD );
+            tmpFieldMPos = IntVec2{ currentChunkMPos.x + w*ENTS_PER_FIELD, 
+                                    currentChunkMPos.y + h*ENTS_PER_FIELD };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             fieldKeys.push_back(tmpFieldKey);
 
@@ -165,16 +165,16 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     //------------
     IntVec2         tmpEntMPos {};
-    MapAltitude     minFieldAlti {};  
-    MapAltitude     maxFieldAlti {};
+    //MapAltitude     minFieldAlti {};  
+    //MapAltitude     maxFieldAlti {};
 
     //--- just 32 * 32 mapents in a chunk ---
     for( const auto &fieldKey : fieldKeys ){ //- each field key
 
         tmpFieldMPos = fieldKey_2_mpos(fieldKey);
 
-        minFieldAlti.set(  100.0 );
-        maxFieldAlti.set( -100.0 );
+        MapAltitude minFieldAlti { 100.0  };
+        MapAltitude maxFieldAlti { -100.0 };
 
         for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
             for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field

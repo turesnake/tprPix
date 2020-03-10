@@ -41,8 +41,8 @@ public:
         }
 
 
-    inline void set( double x_, double y_ )noexcept{ this->innSet( x_, y_ ); }
-    inline void set( const glm::dvec2 &v_ )noexcept{ this->innSet( v_.x, v_.y ); }
+    //inline void set( double x_, double y_ )noexcept{ this->innSet( x_, y_ ); }
+    //inline void set( const glm::dvec2 &v_ )noexcept{ this->innSet( v_.x, v_.y ); }
 
     inline void clear_all()noexcept{
         this->originVal = glm::dvec2{0.0, 0.0};
@@ -126,10 +126,6 @@ private:
 inline bool operator == ( DirAxes a_, DirAxes b_ ) noexcept {
     return is_closeEnough( a_.get_worldVal(), b_.get_worldVal(), DirAxes::threshold );
 }
-
-
-
-
 inline bool operator != ( DirAxes a_, DirAxes b_ ) noexcept {
     return !(a_==b_);
 }

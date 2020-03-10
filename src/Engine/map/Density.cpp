@@ -19,14 +19,10 @@ int Density::minLvl {-3};
 int Density::maxLvl {3};
 
 
-/* ===========================================================
- *                         set
- * -----------------------------------------------------------
- * 根据 ecoObj 预设的方案 来配置 density.lvl
- */
-void Density::set(  IntVec2 fieldMPos_, 
-                    double ecoObj_densitySeaLvlOff_,
-                    const std::vector<double> *ecoObj_densityDivideValsPtr_ ){
+//根据 ecoObj 预设的方案 来配置 density.lvl
+void Density::init(   IntVec2 fieldMPos_, 
+                        double ecoObj_densitySeaLvlOff_,
+                        const std::vector<double> *ecoObj_densityDivideValsPtr_ ){
     //-----------//
     //   seaLvl
     //-----------//

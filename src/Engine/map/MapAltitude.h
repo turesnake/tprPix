@@ -18,17 +18,20 @@
 class MapAltitude{
 public:
     MapAltitude() = default;
-
     explicit MapAltitude( double val_ ){
-        this->set( val_ );
+        this->init( val_ );
     }
     
-    void set( double altiVal_from_gpgpu_ );
-
     //-- 仅表达是否为land，很可能为 临水区域 --
     inline bool is_land() const noexcept{
         return (this->val >= 0);
     }
+
+    inline int get_val()const noexcept{ return this->val; }
+    inline int get_lvl()const noexcept{ return this->lvl; }
+
+private:
+    void init( double altiVal_from_gpgpu_ );
 
     //===== vals =====//
     int  val {0}; //- [-100,100]
@@ -52,12 +55,11 @@ public:
  * -----------------------------------------------------------
  * -- 通过这个 "<" 运算符重载，IntVec2 类型将支持 set.find() 
  */
-inline bool operator < ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
-    return ( a_.val < b_.val );
+inline constexpr bool operator < ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
+    return ( a_.get_val() < b_.get_val() );
 }
-
-inline bool operator > ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
-    return ( a_.val > b_.val );
+inline constexpr bool operator > ( const MapAltitude &a_, const MapAltitude &b_ )noexcept{
+    return ( a_.get_val() > b_.get_val() );
 }
 
 

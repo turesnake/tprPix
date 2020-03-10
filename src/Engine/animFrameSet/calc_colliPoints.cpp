@@ -131,7 +131,7 @@ namespace calc_colli_inn {//----------- namespace: calc_colli_inn -------------/
 void init(){
 
     //----- colliPointScales_cir_1m1 ------//
-    calc_colli_inn::colliPointScales_cir_1m1.push_back( glm::dvec2{ 0.0, 0.0 } );
+    calc_colli_inn::colliPointScales_cir_1m1.emplace_back(  0.0, 0.0  );
     calc_colli_inn::colliPointScales_cir_1m1.insert( calc_colli_inn::colliPointScales_cir_1m1.end(),
                                                     calc_colli_inn::scales_xy.cbegin(), 
                                                     calc_colli_inn::scales_xy.cend() );
