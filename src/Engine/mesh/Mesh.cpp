@@ -8,15 +8,12 @@
  *   handle single texture.
  * ----------------------------
  */
+#include "pch.h"
 #include "Mesh.h" 
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "esrc_VAOVBO.h" 
-
 #include "esrc_coordinate.h"
-
-//#include "tprDebug.h" 
 
 //namespace mesh_inn {//------------------ namespace: mesh_inn ---------------------//
 //}//--------------------- namespace: mesh_inn end ------------------------//

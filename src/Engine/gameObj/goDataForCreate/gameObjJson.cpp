@@ -5,9 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
 
 //--------------- Libs ------------------//
@@ -18,10 +17,9 @@
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
-#include "GameObj.h"
+#include "GameObjType.h"
 #include "AnimFrameSet.h"
 #include "AnimActionEName.h"
 
@@ -34,9 +32,7 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
 
 namespace json{//------------- namespace json ----------------
 namespace goJson_inn {//-------- namespace: goJson_inn --------------//
@@ -51,7 +47,7 @@ namespace goJson_inn {//-------- namespace: goJson_inn --------------//
  */
 void parse_goJsonFile(){
 
-    cout << "   ----- parse_goJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_goJsonFile: start ----- " );
 
 
     std::vector<std::string> path_files {};
@@ -65,7 +61,7 @@ void parse_goJsonFile(){
     GoSpecFromJson::check_all_extraPassableDogoSpeciesIds();
 
     esrc::insertState("json_gameObj");
-    cout << "   ----- parse_goJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_goJsonFile: end ----- " );
 }
 
 

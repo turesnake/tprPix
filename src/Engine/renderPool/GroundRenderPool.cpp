@@ -5,6 +5,7 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GroundRenderPool.h"
 
 
@@ -13,7 +14,6 @@
 
 #include "ubo_all.h"
 
-#include "tprDebug.h"
 
 //-- Must after esrc::init_colorTableSet !!!
 void GroundRenderPool::init()noexcept{
@@ -26,7 +26,6 @@ void GroundRenderPool::init()noexcept{
         auto [insertIt, insertBool] = this->pools.insert({ iId, std::multimap<float, ChildMesh*>{} });
         tprAssert( insertBool );
     }
-    cout << endl;
 }
 
 

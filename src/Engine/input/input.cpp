@@ -7,19 +7,10 @@
  *   键盘，鼠标，joystick 等输入设备 管理文件
  * ----------------------------
  */
+#include "pch.h"
 #include "input.h" 
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <unordered_map>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "config.h"
-#include "IntVec.h" 
 #include "KeyBoard.h"
 #include "GameKey.h"
 
@@ -33,7 +24,6 @@
 #include "esrc_window.h"
 #include "esrc_thread.h"
 
-#include "tprDebug.h" //- tmp
 
 
 namespace input{//------------- namespace input --------------------
@@ -333,11 +323,9 @@ void debug_inputData(){
     const auto &kbRef = input_inn::inputDataUPtr->keyboard;
 
     if( kbRef.get_isAnyKeyPress() ){
-        cout << "-- KeyBoard: ";
         for( const auto &k : kbRef.get_pressedKeysRef() ){
-            cout << keyBoardKey_2_str(k) << ", ";
+            tprDebug::console( "-- KeyBoard: {}", keyBoardKey_2_str(k) );
         }
-        cout << endl;
     }
 
     //----------------------------//
@@ -348,20 +336,21 @@ void debug_inputData(){
     if( mouseRef.cursorDPos != input_inn::oldMouseCursorDPos ){
         input_inn::oldMouseCursorDPos = mouseRef.cursorDPos;
 
-        cout << "++ Mouse: Cursor: " << mouseRef.cursorDPos.x
-            << ", " << mouseRef.cursorDPos.y 
-            << endl;
+        tprDebug::console(
+            "++ Mouse: Cursor: {0}, {1}",
+            mouseRef.cursorDPos.x, mouseRef.cursorDPos.y 
+        );
     }
 
 
     if( mouseRef.leftButton ){
-        cout << "++ Mouse: Left_Button: press;" << endl;
+        tprDebug::console( "++ Mouse: Left_Button: press;" );
     }
     if( mouseRef.rightButton ){
-        cout << "++ Mouse: Right_Button: press;" << endl;
+        tprDebug::console( "++ Mouse: Right_Button: press;" );
     }
     if( mouseRef.midButton ){
-        cout << "++ Mouse: Mid_Button: press;" << endl;
+        tprDebug::console( "++ Mouse: Mid_Button: press;" );
     }
 
     //----------------------------//
@@ -381,41 +370,41 @@ void debug_inputData(){
         RT = joyRef.get_RT();
 
         if( !is_closeEnough<double>( leftAxes.x, 0.0, 0.001 ) ){
-            cout << "  LeftAxes.x: " << leftAxes.x << endl;
+            tprDebug::console( "  LeftAxes.x: {}", leftAxes.x );
         }  
         if( !is_closeEnough<double>( leftAxes.y, 0.0, 0.001 ) ){
-            cout << "                LeftAxes.y: " << leftAxes.y << endl;
+            tprDebug::console( "                LeftAxes.y: {}", leftAxes.y );
         }  
 
         if( !is_closeEnough<double>( rightAxes.x, 0.0, 0.001 ) ){
-            cout << "  RightAxes.x: " << rightAxes.x << endl;
+            tprDebug::console( "  RightAxes.x: {}", rightAxes.x );
         }
         if( !is_closeEnough<double>( rightAxes.y, 0.0, 0.001 ) ){
-            cout << "                RightAxes.y: " << rightAxes.y << endl;
+            tprDebug::console( "                RightAxes.y: {}", rightAxes.y );
         }
 
         if( !is_closeEnough<double>( LT, -1.0, 0.001 ) ){
-            cout << "  LT: " << LT << endl;
+            tprDebug::console( "  LT: {}", LT );
         }   
         if( !is_closeEnough<double>( RT, -1.0, 0.001 ) ){
-            cout << "  RT: " << RT << endl;
+            tprDebug::console( "  RT: {}", RT );
         }  
 
-        if( joyRef.get_button(Joystick::Button::A) ){ cout << "A, " << endl; }
-        if( joyRef.get_button(Joystick::Button::B) ){ cout << "B, " << endl; }
-        if( joyRef.get_button(Joystick::Button::X) ){ cout << "X, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Y) ){ cout << "Y, " << endl; }
-        if( joyRef.get_button(Joystick::Button::LB) ){ cout << "LB, " << endl; }
-        if( joyRef.get_button(Joystick::Button::RB) ){ cout << "RB, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Back) ){ cout << "Back, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Start) ){ cout << "Start, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Guide) ){ cout << "Guide, " << endl; }
-        if( joyRef.get_button(Joystick::Button::LeftThumb) ){ cout << "LeftThumb, " << endl; }
-        if( joyRef.get_button(Joystick::Button::RightThumb) ){ cout << "RightThumb, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Hat_Up) ){ cout << "Hat_Up, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Hat_Down) ){ cout << "Hat_Down, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Hat_Left) ){ cout << "Hat_Left, " << endl; }
-        if( joyRef.get_button(Joystick::Button::Hat_Right) ){ cout << "Hat_Right, " << endl; }
+        if( joyRef.get_button(Joystick::Button::A) ){           tprDebug::console( "A, " ); }
+        if( joyRef.get_button(Joystick::Button::B) ){           tprDebug::console( "B, " ); }
+        if( joyRef.get_button(Joystick::Button::X) ){           tprDebug::console( "X, " ); }
+        if( joyRef.get_button(Joystick::Button::Y) ){           tprDebug::console( "Y, " ); }
+        if( joyRef.get_button(Joystick::Button::LB) ){          tprDebug::console( "LB, " ); }
+        if( joyRef.get_button(Joystick::Button::RB) ){          tprDebug::console( "RB, " ); }
+        if( joyRef.get_button(Joystick::Button::Back) ){        tprDebug::console( "Back, " ); }
+        if( joyRef.get_button(Joystick::Button::Start) ){       tprDebug::console( "Start, " ); }
+        if( joyRef.get_button(Joystick::Button::Guide) ){       tprDebug::console( "Guide, " ); }
+        if( joyRef.get_button(Joystick::Button::LeftThumb) ){   tprDebug::console( "LeftThumb, " ); }
+        if( joyRef.get_button(Joystick::Button::RightThumb) ){  tprDebug::console( "RightThumb, " ); }
+        if( joyRef.get_button(Joystick::Button::Hat_Up) ){      tprDebug::console( "Hat_Up, " ); }
+        if( joyRef.get_button(Joystick::Button::Hat_Down) ){    tprDebug::console( "Hat_Down, " ); }
+        if( joyRef.get_button(Joystick::Button::Hat_Left) ){    tprDebug::console( "Hat_Left, " ); }
+        if( joyRef.get_button(Joystick::Button::Hat_Right) ){   tprDebug::console( "Hat_Right, " ); }
     }
 
 } 

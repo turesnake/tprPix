@@ -15,19 +15,13 @@
 #ifndef TPR_COLOR_TABLE_H
 #define TPR_COLOR_TABLE_H
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
-#include <memory>
-#include <functional> // hash
-#include <utility> // pair
+#include "pch.h"
 
+//-------------------- CPP --------------------//
+#include <utility> // pair
 #include <cstdint>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "FloatVec.h"
 #include "ID_Manager.h" 
 #include "colorTableId.h"

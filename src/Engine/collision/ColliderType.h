@@ -8,14 +8,7 @@
 #ifndef TPR_COLLIDER_TYPE_H
 #define TPR_COLLIDER_TYPE_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <string>
-
-//------------------- Engine --------------------//
-#include "tprAssert.h"
+#include "pch.h"
 
 enum class ColliderType{
     Nil,

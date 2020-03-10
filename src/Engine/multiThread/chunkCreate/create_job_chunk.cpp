@@ -7,23 +7,17 @@
  *  job: build job_chunk
  * ----------------------------
  */
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+#include "pch.h"
 
 //-------------------- CPP --------------------//
 #include <cstring>
-#include <cmath>
-#include <map>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "jobs_all.h"
 #include "Job.h"
 #include "simplexNoise.h"
-#include "config.h"
 #include "MapTexture.h" 
 #include "Quad.h"
-#include "tprCast.h"
 #include "random.h"
 #include "EcoObjBorder.h"
 
@@ -36,12 +30,7 @@
 #include "Job_Field.h"
 
 
-/*
-#include <iostream>
-#include <string>
-using std::cout;
-using std::endl;
-*/
+
 
 namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
 

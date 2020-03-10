@@ -12,25 +12,16 @@
  *  -    di(dre)
  * ----------------------------
  */
+#include "pch.h"
 #include "random.h" 
 
-//-------------------- CPP --------------------//
-#include <string>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "input.h" 
 #include "gl_funcs.h" 
-#include "IntVec.h" 
 #include "mapEntKey.h"
 
 #include "esrc_time.h"
-
-
-using std::string;
-
-
-//#include "tprDebug.h" //- tmp
 
 
 namespace random_inn {//------------- namespace: random_inn ----------------//

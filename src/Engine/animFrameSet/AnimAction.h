@@ -12,15 +12,9 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <functional>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "IntVec.h" 
 #include "NineDirection.h"
 #include "RGBA.h" 
 #include "AnimActionPos.h"

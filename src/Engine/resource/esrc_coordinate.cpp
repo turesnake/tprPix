@@ -5,20 +5,11 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_coordinate.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <memory>
-#include <vector> // tmp
 
 //-------------------- Engine --------------------//
 #include "esrc_state.h"
-
-
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -74,7 +65,7 @@ void init_coordinate(){
 
 
     // test
-    /*
+    
     std::vector<glm::dvec2> vi {
         glm::dvec2{ -64.0, -64.0 },
         glm::dvec2{ -64.0,  64.0 },
@@ -84,13 +75,8 @@ void init_coordinate(){
 
     for( const auto &dpos : vi ){
         glm::dvec2 out = get_worldCoordRef().calc_outDPos( dpos );
-        cout << "out: " << out.x 
-            << ", " << out.y
-            << endl; 
+        tprDebug::console( "out: {}, {}", out.x, out.y );
     }
-    */
-
-
 
 }
 

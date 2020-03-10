@@ -10,6 +10,8 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
+#include "pch.h"
+
 //-------------------- Engine --------------------//
 #include "prepare.h"
 #include "global.h"
@@ -33,8 +35,6 @@
 
 #include "esrc_all.h"
 #include "ubo_all.h"
-
-
 
 #include "timeLog.h" // debug_tmp
 #include "speedLog.h" // debug_tmp
@@ -82,7 +82,6 @@ int main( int argc, char* argv[] ){
     //==========================================//
     //                  TEST
     //------------------------------------------//
-        //cout << "\n\n__ DEBUG _ RETURN __\n" << endl;
         //return(0);
         innTest::innTest_main();
 
@@ -150,7 +149,7 @@ int main( int argc, char* argv[] ){
 
     tprDebug::init_timeLog();
     tprDebug::init_speedLog();
-    tprDebug::init_debug();
+    //tprDebug::init_debug();
 
     //------------------------------------------//
     //            启动 job线程组

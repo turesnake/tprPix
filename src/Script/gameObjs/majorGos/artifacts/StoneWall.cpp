@@ -5,29 +5,21 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/artifacts/StoneWall.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
 #include "assemble_go.h"
-
-#include "esrc_shader.h" 
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -83,8 +75,6 @@ void StoneWall::OnLogicUpdate( GameObj &goRef_ ){}
 
 
 void StoneWall::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
-        cout << "StoneWall::OnActionSwitch" << endl;
         tprAssert(0);
         
 }

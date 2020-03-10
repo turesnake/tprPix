@@ -5,20 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoFunctorLabel.h"
 
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 // 手动设置 上下界
@@ -38,7 +30,7 @@ GoFunctorLabel str_2_goFunctorLabel( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find GoFunctorLabel: " << str_ << endl;
+        tprDebug::console( "can't find GoFunctorLabel: {}", str_ );
         tprAssert(0);
         return GoFunctorLabel::Nil; // never reach
     }

@@ -5,12 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ColorTable.h"
 
 //------------------- Engine --------------------//
 #include "esrc_time.h"
-
-#include "tprDebug.h"
 
 
 //============== static ===============//
@@ -46,13 +45,13 @@ void CurrentColorTable::update()noexcept{
 
 void ColorTableSet::debug()noexcept{
 
-    cout << "  === ColorTableSet ===" << endl;
+    tprDebug::console( "  === ColorTableSet ===" );
     for( const auto &[iName, iId] : this->name_ids ){
 
-        cout << "  name: " << iName
-            << ", colorTableId: " << iId
-            << endl;
+        tprDebug::console( 
+            "  name: {}, colorTableId: {}",
+            iName, iId
+        );
     }
-
 }
 

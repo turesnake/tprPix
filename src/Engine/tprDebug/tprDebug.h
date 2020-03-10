@@ -10,33 +10,29 @@
 #ifndef TPR_DEBUG_H
 #define TPR_DEBUG_H
 
-#include <iostream>
 #include <string>
-using std::cout;
-using std::endl;
-using std::flush;
-using std::string;
+#include "fmt/format.h"
 
-//-------------------- CPP --------------------//
-#include <vector>
-
-//-------------------- Engine --------------------//
-#include "Mesh.h"
-#include "MapCoord.h"
 
 
 namespace tprDebug {//---------- namespace: tprDebug --------------//
 
-void init_debug();
 
-//-- mapEntSlices --//
-void clear_mapEntSlices();
-//void insert_new_mapEntSlice( const MapCoord &mcpos_ );
-void draw_renderPool_mapEntSlices();
+// 简单地打印一段 字符串到 console
+// 推荐使用 fmt 拼接
 
-void clear_pointPics();
-void insert_new_pointPic( const glm::vec2 &fpos_ );
-void draw_renderPool_pointPics();
+void tmp_console_inn( const std::string &str_ );
+
+
+// 简单的套娃
+template < typename S, typename... Args >
+void console(const S& format_str, Args&&... args) {
+
+    //...
+    auto str = fmt::format( format_str, args... );
+    tmp_console_inn( str );
+}
+
 
 
 }//-------------------- namespace: tprDebug end --------------//

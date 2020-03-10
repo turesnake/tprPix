@@ -5,12 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "chunkCreate.h"
 #include "sectionKey.h"
-#include "tprAssert.h"
+//#include "tprAssert.h"
+#include "GameObj.h"
 
 #include "jobs_all.h"
 #include "Job.h"

@@ -5,32 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/trees/FigTree.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
 #include "assemble_go.h"
 
-#include "tprAssert.h"
-#include "esrc_shader.h" 
-#include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
-
 //-------------------- Script --------------------//
 
-
-
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
-
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
 
@@ -116,8 +102,7 @@ void FigTree::OnLogicUpdate( GameObj &goRef_ ){
 
 
 void FigTree::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
-        cout << "FigTree::OnActionSwitch" << endl;
+    tprAssert(0);
     //=====================================//
     //            ptr rebind
     //-------------------------------------//

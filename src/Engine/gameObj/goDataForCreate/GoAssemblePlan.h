@@ -7,21 +7,13 @@
  */
 #ifndef TPR_GO_ASSEMBLE_PLAN_H
 #define TPR_GO_ASSEMBLE_PLAN_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+
+#include "pch.h"
 
 //------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <memory>
-#include <functional> // hash
-#include <optional>
 #include <variant>
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "goLabelId.h"
 #include "GameObjType.h"
 #include "ID_Manager.h" 

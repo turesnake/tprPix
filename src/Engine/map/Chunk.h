@@ -10,26 +10,15 @@
 #ifndef TPR_CHUNK_H
 #define TPR_CHUNK_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <set>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "IntVec.h" 
 #include "MapEnt.h"
-#include "config.h" 
 #include "GameObjType.h"
 #include "fieldKey.h"
 #include "chunkKey.h"
 #include "MapCoord.h" 
 #include "sectionKey.h"
-
-#include "tprCast.h"
 
 
 //-- 64*64 个 mapEnt, 组成一张 chunk  [mem] --

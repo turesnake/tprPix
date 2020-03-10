@@ -6,7 +6,10 @@
  * ----------------------------------------------------------
  * handle Village-blueprint json files
  */
+#include "pch.h"
 #include "VillageBlueprint.h"
+
+
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"
@@ -18,7 +21,7 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-#include "tprCast.h"
+//#include "tprCast.h"
 #include "blueprint_oth.h"
 #include "FloorGoType.h"
 
@@ -32,9 +35,8 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -47,7 +49,7 @@ namespace villageJson_inn {//-------- namespace: villageJson_inn --------------/
 
 void parse_villageJsonFiles(){
 
-    cout << "   ----- parse_villageJsonFiles: start ----- " << endl;
+    tprDebug::console( "   ----- parse_villageJsonFiles: start ----- " );
 
 
     std::vector<std::string> path_files {};
@@ -57,7 +59,7 @@ void parse_villageJsonFiles(){
         villageJson_inn::parse_single_villageJsonFile(i);
     }
 
-    cout << "   ----- parse_villageJsonFiles: end ----- " << endl;
+    tprDebug::console( "   ----- parse_villageJsonFiles: end ----- " );
 }
 
 

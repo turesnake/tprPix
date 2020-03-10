@@ -9,13 +9,10 @@
 #ifndef TPR_DATA_BASE_INN_H
 #define TPR_DATA_BASE_INN_H
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <mutex>
-#include <cstdint> // uint8_t
+#include "pch.h"
 
+//-------------------- CPP --------------------//
+#include <mutex>
 
 //-------------------- Engine --------------------//
 #include "wrapSqlite3.h"

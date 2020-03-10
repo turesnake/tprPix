@@ -5,12 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/bioSoup/BioSoupBase.h"
 
-#include "config.h"
-#include "IntVec.h"
 #include "random.h"
-#include "GameObj.h"
 #include "assemble_go.h"
 #include "GoDataForCreate.h"
 #include "GoSpecFromJson.h"
@@ -18,8 +16,6 @@
 
 #include "esrc_coordinate.h"
 #include "esrc_animFrameSet.h"
-
-#include "tprDebug.h"
 
 
 //-------------------- Script --------------------//
@@ -41,7 +37,7 @@ void BioSoupBase::init_for_static(){
     randEngine.seed( get_new_seed() );
 
     // 快捷函数
-    auto f_insert = [&](std::vector<std::vector<animSubspeciesId_t>>    &targetV_,
+    auto f_insert = [ &randEngine ](std::vector<std::vector<animSubspeciesId_t>>    &targetV_,
                         std::vector<animSubspeciesId_t>                 &originIds_,
                         int                                             num_ ){
         for( int n=0; n<num_; n++ ){

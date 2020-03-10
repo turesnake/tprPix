@@ -5,12 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/bioSoup/BioSoupColorTable.h"
-
 
 //-------------------- Engine --------------------//
 #include "uniformBlockObjs.h"
-
 
 #include "esrc_uniformBlockObj.h"
 

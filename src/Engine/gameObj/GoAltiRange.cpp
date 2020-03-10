@@ -5,20 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoAltiRange.h"
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//-------------------- Engine --------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
-
 
 
 GoAltiRangeLabel str_2_goAltiRangeLabel( const std::string &str_ )noexcept{
@@ -30,7 +21,7 @@ GoAltiRangeLabel str_2_goAltiRangeLabel( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find GoAltiRangeLabel: " << str_ << endl;
+        tprDebug::console( "can't find GoAltiRangeLabel: {}", str_ );
         tprAssert(0);
         return GoAltiRangeLabel::Default; // never reach
     }

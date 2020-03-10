@@ -5,20 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GameObjMesh.h" 
-
-//-------------------- CPP --------------------//
-#include <functional>
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
+#include "RenderPool.h"
 #include "esrc_animFrameSet.h"
 #include "esrc_renderPool.h"
 #include "esrc_camera.h"
 
 using namespace std::placeholders;
 
-//#include "tprDebug.h"
 
 
 /* 切换动作时的 核心函数 [-old-]

@@ -67,6 +67,6 @@ cp -R ${DIR_src_gameObjDatas}.   ${DIR_dst_gameObjDatas}
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 #cmake -DCMAKE_BUILD_TYPE=Debug ..
-make
+make -j5
 cd ..
 

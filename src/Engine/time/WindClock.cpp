@@ -5,18 +5,15 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "WindClock.h"
-
 
 //------------------- CPP --------------------//
 #include <random>
 
 //------------------- Engine --------------------// 
 #include "random.h"
-#include "tprMath.h"
 #include "simplexNoise.h"
-
-#include "tprDebug.h"
 
 
 void WindClock::init()noexcept{

@@ -5,6 +5,7 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_window.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

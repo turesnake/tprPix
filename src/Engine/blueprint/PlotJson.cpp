@@ -6,7 +6,9 @@
  * ----------------------------------------------------------
  * handle plot-blueprint json files
  */
+#include "pch.h"
 #include "PlotBlueprint.h"
+
 
 
 //--------------- Libs ------------------//
@@ -19,7 +21,7 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-#include "tprCast.h"
+//#include "tprCast.h"
 #include "blueprint_oth.h"
 
 #include "GoSpecFromJson.h"
@@ -30,13 +32,10 @@
 
 //--------------- Script ------------------//
 
-
-
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+//#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -49,8 +48,7 @@ namespace plotJson_inn {//-------- namespace: plotJson_inn --------------//
 
 void parse_plotJsonFiles(){
 
-    cout << "   ----- parse_plotJsonFiles: start ----- " << endl;
-
+    tprDebug::console( "   ----- parse_plotJsonFiles: start ----- " );
 
     esrc::is_setState("json_gameObj"); // MUST
 
@@ -62,7 +60,7 @@ void parse_plotJsonFiles(){
         plotJson_inn::parse_single_plotJsonFile(i);
     }
 
-    cout << "   ----- parse_plotJsonFiles: end ----- " << endl;
+    tprDebug::console( "   ----- parse_plotJsonFiles: end ----- " );
 }
 
 

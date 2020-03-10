@@ -8,10 +8,7 @@
 #ifndef TPR_YARD_BLUE_PRINT_H
 #define TPR_YARD_BLUE_PRINT_H
 
-//-------------------- CPP --------------------//
-#include <unordered_set>
-#include <functional>
-#include <optional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -21,13 +18,9 @@
 #include "fieldKey.h"
 
 #include "FloorGoType.h"
-
 #include "PlotBlueprint.h"
-
 #include "blueprint_oth.h"
-
 #include "ID_Manager.h"
-
 
 
 
@@ -300,19 +293,8 @@ public:
     static F_getYardId getFunctor_getYardId(const std::string &yardName_, 
                                             const std::string &yardLabel_ )noexcept{
 
-        /*                                              
-        auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
-
-        return [&innUMap]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
-            return ( innUMap.find(dir_) == innUMap.end() ) ?
-                        std::nullopt  :
-                        std::optional<yardBlueprintId_t>{ innUMap.at(dir_) };
-        };
-        */
-
-        // 值捕获字符串
-        return [=]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
-            auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_, yardLabel_ );
+        return [ yardName_l=yardName_, yardLabel_l=yardLabel_ ]( NineDirection dir_ )->std::optional<yardBlueprintId_t>{
+            auto &innUMap = YardBlueprintSet::get_dir_2_yardId_umap( yardName_l, yardLabel_l );
             return ( innUMap.find(dir_) == innUMap.end() ) ?
                         std::nullopt  :
                         std::optional<yardBlueprintId_t>{ innUMap.at(dir_) };

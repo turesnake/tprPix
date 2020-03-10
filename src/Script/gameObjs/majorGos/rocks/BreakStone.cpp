@@ -5,32 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/rocks/BreakStone.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "assemble_go.h"
-
-#include "tprAssert.h"
-#include "esrc_shader.h" 
-#include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -100,7 +86,7 @@ void BreakStone::OnLogicUpdate( GameObj &goRef_ ){
 
 void BreakStone::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "BreakStone::OnActionSwitch" << endl;
+    tprAssert(0);
     //=====================================//
     //            ptr rebind
     //-------------------------------------//

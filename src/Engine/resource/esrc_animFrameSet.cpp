@@ -7,19 +7,14 @@
  *  资源管理:  animFrameSeta
  * ----------------------------
  */
+#include "pch.h"
 //-------------------- CPP --------------------//
-#include <string>
 #include <sstream>
-#include <memory>
 
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "esrc_animFrameSet.h"
 
-#include "tprDebug.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 namespace anim_inn {//----------- namespace: anim_inn -------------//
@@ -41,7 +36,7 @@ AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
     auto [insertIt, insertBool] = anim_inn::animFrameSets.insert({ name_, std::make_unique<AnimFrameSet>(name_) });
 
     if( !insertBool ){
-        cout << "find duplicate afsName: " << name_ << endl; 
+        tprDebug::console( "find duplicate afsName: {}", name_ );
     }
     tprAssert( insertBool );
     return *(insertIt->second);
@@ -54,8 +49,7 @@ animSubspeciesId_t apply_a_random_animSubspeciesId( const std::string  &animFram
                                                     size_t              uWeight_ ){
         // debug
         if( anim_inn::animFrameSets.find(animFrameSetName_) == anim_inn::animFrameSets.end() ){
-            cout << "animFrameSetName_: " <<  animFrameSetName_ 
-                << endl;
+            tprDebug::console( "animFrameSetName_: {}", animFrameSetName_ );
         }
         tprAssert( anim_inn::animFrameSets.find(animFrameSetName_) != anim_inn::animFrameSets.end() );
     return anim_inn::animFrameSets.at(animFrameSetName_)->apply_a_random_animSubspeciesId( label_, uWeight_ );
@@ -87,10 +81,15 @@ AnimAction *get_animActionPtr(  animSubspeciesId_t subId_,
     auto ret = anim_inn::animSubs.at(subId_)->get_animActionPtr( dir_, brokenLvl_, actionEName_ );
     if( !ret.has_value() ){
         // debug
-        cout << "\ndir_ = " << nineDirection_2_str(dir_)
-            << "\nbrokenLvl_ = " << brokenLvl_2_str( brokenLvl_ )
-            << "\nactionEName_ = " << animActionEName_2_str( actionEName_ )
-            << endl;
+        tprDebug::console( 
+            "\ndir_ = {0}" \
+            "\nbrokenLvl_ = {1}" \
+            "\nactionEName_ = {2}",
+            nineDirection_2_str(dir_),
+            brokenLvl_2_str( brokenLvl_ ),
+            animActionEName_2_str( actionEName_ )
+        );
+
         tprAssert(0);
     }
 

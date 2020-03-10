@@ -5,14 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Chunk.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <map>
-
 //-------------------- Engine --------------------//
-#include "tprCast.h"
 #include "ViewingBox.h"
 #include "EcoObj.h"
 #include "random.h"
@@ -23,11 +19,6 @@
 #include "simplexNoise.h"
 #include "create_goes.h"
 
-#include "esrc_shader.h"
-#include "esrc_ecoObj.h"
-#include "esrc_camera.h"
-#include "esrc_field.h"
-#include "esrc_gameSeed.h"
 #include "esrc_job_chunk.h"
 
 

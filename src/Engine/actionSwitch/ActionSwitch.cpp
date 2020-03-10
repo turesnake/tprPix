@@ -5,11 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ActionSwitch.h"
 
-
 //-------------------- Engine --------------------//
-#include "GameObj.h"
 
 
 void ActionSwitch::call_func( ActionSwitchType type_ ){

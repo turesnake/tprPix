@@ -5,19 +5,14 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_chunkMemState.h"
 //-------------------- CPP --------------------//
-#include <unordered_map>
-#include <memory>
 #include <deque>
-#include <unordered_set>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "esrc_state.h"
 
-
-#include "tprDebug.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -61,25 +56,29 @@ void init_chunkMemStates()noexcept{
 
 void chunkMemState_debug( chunkKey_t key_, const std::string &str_ ){
     auto state = get_chunkMemState( key_ );
-    cout << "" << str_ << ": ";
     switch (state){
-        case ChunkMemState::NotExist: cout << " NotExist" << endl; break;
-        case ChunkMemState::WaitForCreate: cout << " NotExist" << endl; break;
-        case ChunkMemState::OnCreating: cout << " OnCreating" << endl; break;
-        case ChunkMemState::Active: cout << " Active" << endl; break;
-        case ChunkMemState::WaitForRelease: cout << " WaitForRelease" << endl; break;
-        case ChunkMemState::OnReleasing: cout << " OnReleasing" << endl; break;
+        case ChunkMemState::NotExist:           tprDebug::console( "{}: NotExist", str_ ); break;
+        case ChunkMemState::WaitForCreate:      tprDebug::console( "{}: NotExist", str_ ); break;
+        case ChunkMemState::OnCreating:         tprDebug::console( "{}: OnCreating", str_ ); break;
+        case ChunkMemState::Active:             tprDebug::console( "{}: Active", str_ ); break;
+        case ChunkMemState::WaitForRelease:     tprDebug::console( "{}: WaitForRelease", str_ ); break;
+        case ChunkMemState::OnReleasing:        tprDebug::console( "{}: OnReleasing", str_ ); break;
         default: tprAssert(0); break;
     }
 }
 
 //- only used by esrc_chunk -
 void chunkStates_debug(){
-    cout << "\nchunkKeys_onCreating.size() = " << chunkMS_inn::chunkKeys_onCreating.size()
-        << "\nchunkKeys_active.size() = " << chunkMS_inn::chunkKeys_active.size()
-        << "\nchunks_waitForRelease.size() = " << chunkMS_inn::chunkKeys_waitForRelease.size()
-        << "\nchunks_onReleasing.size() = " << chunkMS_inn::chunkKeys_onReleasing.size()
-        << endl;
+    tprDebug::console(
+        "\nchunkKeys_onCreating.size() = {0}" \
+        "\nchunkKeys_active.size() = {1}" \
+        "\nchunks_waitForRelease.size() = {2}" \
+        "\nchunks_onReleasing.size() = {3}",
+        chunkMS_inn::chunkKeys_onCreating.size(),
+        chunkMS_inn::chunkKeys_active.size(),
+        chunkMS_inn::chunkKeys_waitForRelease.size(),
+        chunkMS_inn::chunkKeys_onReleasing.size()
+    );
 }
 
 //- only used by esrc_chunk -

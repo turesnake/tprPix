@@ -10,9 +10,6 @@
 //--- glm - 0.9.9.5 ---
 #include "glm_no_warnings.h"
 
-//-------------------- CPP --------------------//
-//#include <vector>
-
 //-------------------- Engine --------------------//
 #include "sectionKey.h"
 #include "colorTableId.h"

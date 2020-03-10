@@ -5,20 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ColliderType.h"
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//-------------------- Engine --------------------//
-#include "config.h"
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 double Circular::radius_for_dogo { 24.0 }; // Must small than HALF_PIXES_PER_MAPENT_D
@@ -38,7 +29,7 @@ ColliderType str_2_colliderType( const std::string &name_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find ColliderType: " << name_ << endl;
+        tprDebug::console( "can't find ColliderType: {}", name_ );
         tprAssert(0);
         return ColliderType::Nil; // never reach
     }

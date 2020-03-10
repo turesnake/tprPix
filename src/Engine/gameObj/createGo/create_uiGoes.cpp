@@ -7,10 +7,10 @@
  *  初级版本
  * ----------
  */
+#include "pch.h"
 #include "create_goes.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GoSpecFromJson.h"
 #include "UIGoSpecFromJson.h"
 
@@ -20,8 +20,6 @@
 //--------------- Script ------------------//
 #include "Script/gameObjs/allGoes.h"
 #include "Script/json/json_all.h"
-
-#include "tprDebug.h"
 
 
 

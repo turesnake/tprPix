@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "AnimFrameSet.h"
 
 //-------------------- CPP --------------------//
@@ -12,12 +13,7 @@
 #include <iterator>
 #include <utility> //- move
 
-//------------------- Libs --------------------//
-#include "tprGeneral.h" 
-
 //------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "global.h"
 #include "create_texNames.h"
 #include "load_and_divide_png.h"
@@ -25,7 +21,7 @@
 
 #include "esrc_animFrameSet.h"
 
-#include "tprDebug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 
 namespace afs_inn {//----------------- namespace: afs_inn ------------------//

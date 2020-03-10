@@ -5,39 +5,21 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/floorGos/FloorGo.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <functional>
-#include <string>
-#include <vector>
-
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprMath.h"
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
-#include "RenderPool.h"
-#include "create_go_oth.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
 #include "assemble_go.h"
-
-#include "esrc_shader.h" 
-#include "esrc_chunk.h"
-#include "esrc_ecoObj.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

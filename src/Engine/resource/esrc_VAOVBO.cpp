@@ -5,11 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_VAOVBO.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <memory>
 
 //-------------------- Engine --------------------//
 #include "esrc_state.h"

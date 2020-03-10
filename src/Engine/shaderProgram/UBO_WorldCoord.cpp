@@ -5,11 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ubo_all.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-
 #include "esrc_uniformBlockObj.h"
 #include "esrc_state.h"
 #include "esrc_coordinate.h"

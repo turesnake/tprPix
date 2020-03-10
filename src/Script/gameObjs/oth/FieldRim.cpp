@@ -5,35 +5,19 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/oth/FieldRim.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <functional>
-#include <string>
-
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "DyParam.h"
-#include "RenderPool.h"
-#include "create_go_oth.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "assemble_go.h"
-
-#include "esrc_shader.h" 
-#include "esrc_chunk.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

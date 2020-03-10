@@ -5,20 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
+
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
 
 #include "KeyBoard.h" // After magic_enum.hpp
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 // 手动设置 上下界

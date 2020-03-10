@@ -12,16 +12,11 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "FloatVec.h"
-#include "tprAssert.h"
 
 
 class Camera{

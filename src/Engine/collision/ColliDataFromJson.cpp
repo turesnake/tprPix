@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ColliDataFromJson.h"
 
 //------------------- Engine --------------------//
@@ -12,8 +13,6 @@
 
 #include "esrc_state.h"
 #include "esrc_coordinate.h"
-
-#include "tprDebug.h"
 
 
 //===== static =====//

@@ -5,11 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoAssemblePlan.h"
 
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
 
 //--------------- Libs ------------------//
@@ -20,7 +19,6 @@
 #include "tprGeneral.h"
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 #include "RenderLayerType.h"
@@ -33,7 +31,6 @@
 
 #include "calc_colliPoints.h"
 
-
 #include "esrc_state.h"
 
 
@@ -43,9 +40,7 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
 
 namespace json {//-------- namespace: json --------------//
 namespace mgmj_inn {//-------- namespace: mgmj_inn --------------//

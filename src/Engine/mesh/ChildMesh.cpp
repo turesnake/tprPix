@@ -5,19 +5,16 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ChildMesh.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObj.h"
 #include "GameObjMesh.h"
+
 #include "esrc_VAOVBO.h" 
 #include "esrc_camera.h"
-#include "esrc_shader.h"
-
 #include "esrc_coordinate.h"
-
-#include "tprDebug.h"
 
 
 namespace childMesh_inn {//------------------ namespace: childMesh_inn ---------------------//

@@ -5,13 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "calc_colliPoints.h"
 
-
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "tprAssert.h"
-
 #include "ColliderType.h"
 
 

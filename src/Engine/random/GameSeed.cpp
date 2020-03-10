@@ -7,8 +7,8 @@
  *   game seed for random
  * ----------------------------
  */
+#include "pch.h"
 #include "GameSeed.h"
-#include "tprDebug.h"
 #include "tprAssert.h"
 
 

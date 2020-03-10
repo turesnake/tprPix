@@ -5,9 +5,9 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "AnimSubspecies.h"
 
-#include "tprDebug.h"
 
 //============== static ===============//
 ID_Manager  AnimSubspecies::id_manager { ID_TYPE::U32, 1};

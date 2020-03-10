@@ -7,26 +7,25 @@
  *   hold data about player
  * ----------------------------
  */
+#include "pch.h"
 #include "Player.h"
 
-//-------------------- CPP --------------------//
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "input.h" 
 #include "GameKey.h"
-#include "esrc_camera.h" 
-#include "esrc_gameObj.h" 
 #include "dyParams.h"
 #include "create_goes.h"
 #include "GoSpecFromJson.h"
 
 
+#include "esrc_camera.h" 
+#include "esrc_gameObj.h" 
+
+
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" //- tmp
+//#include "tprDebug.h" //- tmp
 
 /* ===========================================================
  *                   get_goRef
@@ -77,10 +76,6 @@ void Player::bind_go( goid_t goid_ ){
                                                     BrokenLvl::Lvl_0
                                                     );
         this->playerGoCircle_goid = gameObjs::create_a_Go( goDataUPtr.get() );
-
-
-                    //cout << "playerGoCir_goid: " << this->playerGoCircle_goid
-                    //    << endl;
 
 
         

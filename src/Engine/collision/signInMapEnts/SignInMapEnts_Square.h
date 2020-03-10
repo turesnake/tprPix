@@ -7,18 +7,11 @@
  */
 #ifndef TPR_SIGN_IN_MAP_ENTS_SQUARE_H
 #define TPR_SIGN_IN_MAP_ENTS_SQUARE_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
 
-//--------------- CPP ------------------//
-#include <unordered_map>
-#include <vector>
+#include "pch.h"
 
 //--------------- Engine ------------------//
 #include "SignInMapEnts_Square_Type.h"
-#include "IntVec.h"
-#include "tprAssert.h"
-
 
 
 class SignInMapEnts_Square{

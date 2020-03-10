@@ -7,22 +7,17 @@
  *   ecoObj 内存态
  * ----------------------------
  */
+#include "pch.h"
 //-------------------- CPP --------------------//
-#include <cmath>
 #include <shared_mutex> //- c++17 读写锁
-#include <memory>
-#include <set>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "config.h"
 #include "sectionKey.h"
+#include "GameObj.h"
 
 #include "esrc_ecoObj.h"
 #include "esrc_state.h"
 #include "esrc_player.h"
-
-#include "tprDebug.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -89,9 +84,10 @@ void del_ecoObjs_tooFarAway()noexcept{
         }
     }
 
-        cout << "ecoObjs.size = " << ecoObj_inn::ecoObjs.size()
-            << ";      delKeys.size = " << delKeys.size()
-            << endl;
+        tprDebug::console( 
+            "ecoObjs.size = {0};      delKeys.size = {1}",
+            ecoObj_inn::ecoObjs.size(), delKeys.size()
+        );
         
     //---
     size_t eraseNum {};

@@ -5,14 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "occupyWeight.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-
-//-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 
 
 namespace ow_inn {//-------- namespace: ow_inn --------------//

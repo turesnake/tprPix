@@ -9,17 +9,10 @@
  */
 #ifndef TPR_MAP_FIELD_H
 #define TPR_MAP_FIELD_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <unordered_map>
-#include <optional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "IntVec.h"
 #include "EcoSysPlanType.h"
 #include "MapCoord.h"
 #include "chunkKey.h"
@@ -29,7 +22,6 @@
 #include "MapAltitude.h"
 #include "occupyWeight.h"
 #include "Density.h"
-#include "tprCast.h"
 #include "colorTableId.h"
 
 

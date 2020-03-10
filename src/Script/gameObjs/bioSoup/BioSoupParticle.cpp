@@ -5,14 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/bioSoup/BioSoupParticle.h"
 
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "IntVec.h"
 #include "random.h"
-#include "GameObj.h"
 #include "assemble_go.h"
 #include "GoDataForCreate.h"
 #include "GoSpecFromJson.h"
@@ -20,8 +18,6 @@
 
 #include "esrc_coordinate.h"
 #include "esrc_animFrameSet.h"
-
-#include "tprDebug.h"
 
 
 //-------------------- Script --------------------//
@@ -37,7 +33,6 @@ namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup -------
 
 //======= static =======//
 bool                                        BioSoupParticle::isStaticInit {false};
-//std::vector<animSubspeciesId_t>           BioSoupParticle::animSubspeciesIds {};
 std::vector<std::vector<animSubspeciesId_t>> BioSoupParticle::animSubspeciesIdSets {};
 std::vector<std::vector<glm::dvec2>>        BioSoupParticle::goMeshDposOffSets_2m2 {};
 std::vector<std::vector<glm::dvec2>>        BioSoupParticle::goMeshDposOffSets_4m4 {};
@@ -143,10 +138,6 @@ void BioSoupParticle::init_for_static(){
     //===========//
 
 
-
-
-
-    cout << "bioSoup::particle: init done" << endl;
 }
 
 

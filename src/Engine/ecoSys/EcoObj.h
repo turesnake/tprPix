@@ -8,22 +8,14 @@
 #ifndef TPR_ECO_OBJ_H
 #define TPR_ECO_OBJ_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <map>
-#include <set>
-#include <optional>
-#include <unordered_set>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "sectionKey.h"
 #include "EcoSysPlanType.h"
 #include "Quad.h"
 #include "occupyWeight.h"
 #include "RGBA.h"
-#include "IntVec.h"
 #include "GameObjType.h"
 #include "Density.h"
 #include "GoSpecData.h"
@@ -31,7 +23,6 @@
 #include "GoDataForCreate.h"
 #include "mapEntKey.h"
 #include "blueprint.h"
-#include "Density.h"
 #include "fieldKey.h"
 #include "EcoObjBorder.h"
 

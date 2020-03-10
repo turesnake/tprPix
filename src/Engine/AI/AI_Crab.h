@@ -10,13 +10,9 @@
 #ifndef TPR_AI_CRAB_H
 #define TPR_AI_CRAB_H
 
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <functional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "IntVec.h"
 #include "GameObj.h"
 #include "functorTypes.h"
 

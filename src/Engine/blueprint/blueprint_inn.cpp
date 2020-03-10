@@ -5,10 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "blueprint_inn.h"
-
-
-#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -19,8 +17,7 @@ yardBlueprintId_t VarType_V::apply_a_yardBlueprintId( size_t uWeight_, NineDirec
         
     auto ret = this->vtPtr->apply_rand_yardBlueprintId( uWeight_, yardDir_ );
     if( !ret.has_value() ){
-        cout << "can't find yardDir_ = " << nineDirection_2_str( yardDir_ ) 
-            << endl;
+        tprDebug::console( "can't find yardDir_ = ", nineDirection_2_str( yardDir_ ) );
         tprAssert(0);
     }
 

@@ -7,10 +7,8 @@
  *   glsl版 simplex-noise, 移植到 cpu上
  * ----------------------------
  */
+#include "pch.h"
 #include "simplexNoise.h"
-
-//-------------------- CPP ----------------------//
-#include <cmath>
 
 
 /* ===========================================================
@@ -69,6 +67,10 @@ double dotV2( double ax_, double ay_, double bx_, double by_ ){
 }
 
 
+// to mask the "max" macro in minwindef.h
+//#undef max
+
+
 
 /* ===========================================================
  *                   simplex_noise2
@@ -81,10 +83,10 @@ double simplex_noise2( double x_, double y_ ){
 }
 double simplex_noise2( const glm::dvec2 &v_ ){
 
-    const glm::dvec4 C {0.211324865405187,  // (3.0-sqrt(3.0))/6.0
-                        0.366025403784439,   // 0.5*(sqrt(3.0)-1.0)
-                        -0.577350269189626,   // -1.0 + 2.0 * C.x
-                        0.024390243902439 }; // 1.0 / 41.0
+    constexpr glm::dvec4 C {0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+                            0.366025403784439,   // 0.5*(sqrt(3.0)-1.0)
+                            -0.577350269189626,   // -1.0 + 2.0 * C.x
+                            0.024390243902439 }; // 1.0 / 41.0
                 
     // First corner
     glm::dvec2 i  = glm::floor( v_ + dotV2(v_.x, v_.y, C.y, C.y) );
@@ -112,10 +114,18 @@ double simplex_noise2( const glm::dvec2 &v_ ){
                                 p.y + i.x + i1.x,
                                 p.z + i.x + 1.0 } );
 
-    glm::dvec3 m = glm::max( glm::dvec3{0.5 - dotV2(x0.x, x0.y, x0.x, x0.y), 
-                                        0.5 - dotV2(x12.x, x12.y, x12.x, x12.y), 
-                                        0.5 - dotV2(x12.z, x12.w, x12.z, x12.w) }, 
-                            glm::dvec3{ 0.0, 0.0, 0.0 } );
+
+    glm::dvec3 max_1   {0.5 - dotV2(x0.x, x0.y, x0.x, x0.y), 
+                        0.5 - dotV2(x12.x, x12.y, x12.x, x12.y), 
+                        0.5 - dotV2(x12.z, x12.w, x12.z, x12.w) };
+
+    constexpr glm::dvec3 max_2 { 0.0, 0.0, 0.0 };
+
+    // wrap the function in parenthesis
+    // to mask the "max" macro in minwindef.h
+    glm::dvec3 m = (glm::max)( max_1, max_2 );
+
+
     m *= m;
     m *= m;
     // Gradients: 41 points uniformly over a line, mapped onto a diamond.

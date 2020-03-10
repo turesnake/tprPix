@@ -35,7 +35,7 @@ Make sure the compiler version support **C++17**.
 The installation in **Mac** is very easy.
 
 First,make sure you have installed:
-- **CMake**(3.1 or later)
+- **CMake**(3.16 or later; to support PCH and Unity builds)
 - **Clang**(new enough to support **C++17** )
 - **OpenGL** libs
 
@@ -62,7 +62,7 @@ Similar to  **Mac OS X**.
 
 First,make sure you have installed:
 
-**CMake**(3.1 or later)
+**CMake**(3.16 or later; to support PCH and Unity builds)
 
     $ sudo apt-get install cmake
 

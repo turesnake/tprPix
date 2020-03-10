@@ -5,39 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoAssemblePlan.h"
 
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
-
-//--------------- Libs ------------------//
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-
-#include "tprGeneral.h"
-
-//------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "global.h"
-#include "fileIO.h"
-
-#include "json_oth.h"
-
-#include "esrc_state.h"
-
-//--------------- Script ------------------//
-#include "Script/json/json_all.h"
-
-
-using namespace rapidjson;
-
-#include <iostream>
-using std::cout;
-using std::endl;
-
 
 //======== static ========//
 ID_Manager  GoAssemblePlanSet::Plan::id_manager { ID_TYPE::U32, 0};

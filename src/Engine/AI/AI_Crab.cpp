@@ -7,6 +7,7 @@
  *   螃蟹式 AI 
  * -----------------------
  */
+//#include "pch.h"
 //#include "AI_Crab.h"
 
 
@@ -33,10 +34,7 @@ void AI_Crab::logicUpdate(){
         //---
 
         const IntVec2 mpos = this->goPtr->get_goPos_currentMPos();
-        cout << "go_mpos: " << mpos.x
-            << ", " << mpos.y;
-        cout << ";  tmpVal = " << this->get_tmpVal_functor()
-            << endl;
+        
     }
     
 

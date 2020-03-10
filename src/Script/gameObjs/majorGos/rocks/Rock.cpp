@@ -5,34 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/rocks/Rock.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
 #include "assemble_go.h"
 
-#include "tprAssert.h"
-#include "esrc_shader.h" 
-#include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
-
 //-------------------- Script --------------------//
 
-
-
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -104,7 +88,7 @@ void Rock::OnLogicUpdate( GameObj &goRef_ ){
 
 void Rock::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "Rock::OnActionSwitch" << endl;
+    tprAssert(0);
     //=====================================//
     //            ptr rebind
     //-------------------------------------//

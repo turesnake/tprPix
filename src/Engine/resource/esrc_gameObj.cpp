@@ -7,19 +7,11 @@
  *  GameObj 在 内存中的 管理
  * ----------------------------
  */
+#include "pch.h"
 #include "esrc_gameObj.h"
 #include "esrc_camera.h"
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <memory>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-
 #include "esrc_chunk.h"
 #include "esrc_state.h"
 
@@ -64,11 +56,15 @@ void init_gameObjs(){
 
 void debug_for_gameObjs()noexcept{
 
-    cout << "esrc_gameObjs:"
-        << "\n    gameObjs: " << go_inn::gameObjs.size() 
-        << "\n    gos_active: " << go_inn::goids_active.size()
-        << "\n    gos_inactive: " << go_inn::goids_inactive.size() 
-        << endl;
+    tprDebug::console( 
+        "esrc_gameObjs:" \
+        "\n    gameObjs: {0}" \
+        "\n    gos_active: {1}" \
+        "\n    gos_inactive: {2}",
+        go_inn::gameObjs.size() ,
+        go_inn::goids_active.size(),
+        go_inn::goids_inactive.size() 
+    );
 }
 
 
@@ -93,9 +89,12 @@ GameObj &get_goRef( goid_t id_, const std::string str_ ){
 
         //-- debug 
         if( go_inn::gameObjs.find(id_) == go_inn::gameObjs.end() ){
-            cout << "ERROR:get_goRef(): " << str_
-                << "\n    goid = " << id_ 
-                << endl;
+
+            tprDebug::console( 
+                "ERROR:get_goRef(): {0}" \
+                "\n    goid = {1}",
+                str_, id_ 
+            );
         }
 
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp

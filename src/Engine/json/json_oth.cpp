@@ -5,20 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "json_oth.h"
-
-//--------------- CPP ------------------//
-#include <string>
 
 //--------------- Libs ------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 
-#include "tprDebug.h" 
 
 
 using namespace rapidjson;
@@ -83,7 +79,7 @@ const rapidjson::Value &check_and_get_value( const rapidjson::Value &val_,
                                             JsonValType jsonValType_ ){
         // debug ...
         if( !val_.HasMember(name_.c_str()) ){
-            cout << "ERROR: name_ = " << name_ << endl;
+            tprDebug::console( "ERROR: name_ = {}", name_ );
         }
     tprAssert( val_.HasMember(name_.c_str()) );
     const Value &a = val_[name_.c_str()];

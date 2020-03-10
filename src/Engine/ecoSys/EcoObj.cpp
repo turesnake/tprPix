@@ -5,18 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "EcoObj.h"
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
-#include "config.h"
 #include "random.h"
 #include "Density.h"
 #include "simplexNoise.h"
@@ -24,7 +16,6 @@
 #include "esrc_ecoSysPlan.h"
 #include "esrc_ecoObj.h"
 
-#include "tprDebug.h"
 
 
 namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//

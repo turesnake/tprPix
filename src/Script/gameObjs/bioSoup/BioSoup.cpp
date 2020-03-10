@@ -5,32 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/bioSoup/BioSoup.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <functional>
-#include <string>
-#include <vector>
 
 //-------------------- Lib --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
-#include "RenderPool.h"
-#include "create_go_oth.h"
 #include "dyParams.h"
 #include "assemble_go.h"
 #include "GoDataForCreate.h"
 #include "GoSpecFromJson.h"
-
-#include "esrc_shader.h" 
-#include "esrc_chunk.h"
-#include "esrc_ecoObj.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/bioSoup/BioSoupDataForCreate.h"
@@ -40,8 +26,6 @@
 
 
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs::bioSoup {//------------- namespace gameObjs::bioSoup ----------------
@@ -154,19 +138,19 @@ void BioSoup::init(GameObj &goRef_, const DyParam &dyParams_ ){
     //--
     pvtBp->playSpeed = bioSoup_inn::calc_playSpeed( bioSoupDPtr->mapEntAlti );
 
-        // cout << "playSpeed: " << pvtBp->playSpeed << endl;
+  
     
     std::string rootGoMeshName = "root";
     auto &rootGoMeshRef = goRef_.goMeshSet.get_goMeshRef(rootGoMeshName);
-    rootGoMeshRef.bind_reset_playSpeedScale( [=](){ return pvtBp->playSpeed; } );
+    rootGoMeshRef.bind_reset_playSpeedScale( [pvtBp_l=pvtBp](){ return pvtBp_l->playSpeed; } );
     //---
     auto *goMeshPvtBp = rootGoMeshRef.init_pvtBinary<bioSoup_inn::GoMesh_PvtBinary>();
     goMeshPvtBp->isParticle = false; 
 
     // 每次 aaction动画播放完毕后，就切换一个动画
     goRef_.goMeshSet.bind_goMesh_callback_inLastFrame( rootGoMeshName,
-        [=]( GameObjMesh &goMeshRef_ ){
-            goMeshRef_.set_animSubspeciesId( pvtBp->baseUPtr->get_next_animSubspeciesId() );
+        [pvtBp_l=pvtBp]( GameObjMesh &goMeshRef_ ){
+            goMeshRef_.set_animSubspeciesId( pvtBp_l->baseUPtr->get_next_animSubspeciesId() );
             goMeshRef_.bind_animAction();
         }
     );

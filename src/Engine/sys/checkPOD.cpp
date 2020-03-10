@@ -6,10 +6,9 @@
  * ----------------------------------------------------------
  * check some struct/class in app, make sure them are POD  
  */
-
+#include "pch.h"
 //-------------------- CPP --------------------//
 #include <type_traits>
-
 #include <any>
 
 
@@ -17,27 +16,24 @@
 #include "dyParams.h"
 
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 template< typename T >
 void print_pod_info( const std::string &str_ ){
-    cout  << str_ << endl;
+
+    tprDebug::console( str_ );
     bool b {};
     b = std::is_trivial<T>::value;
-    if( b ){    cout << "    is Trivial;" << endl;
-    }else{      cout << "    is Not Trivial;" << endl;
+    if( b ){    tprDebug::console( "    is Trivial;" );
+    }else{      tprDebug::console( "    is Not Trivial;" );
     }
     //---
     b = std::is_standard_layout<T>::value;
-    if( b ){    cout << "    is Standard Layout;" << endl;
-    }else{      cout << "    is Not Standard Layout;" << endl;
+    if( b ){    tprDebug::console( "    is Standard Layout;" );
+    }else{      tprDebug::console( "    is Not Standard Layout;" );
     }
     //---
     b = std::is_pod<T>::value;
-    if( b ){    cout << "    is POD;" << endl;
-    }else{      cout << "    is Not POD;" << endl;
+    if( b ){    tprDebug::console( "    is POD;" );
+    }else{      tprDebug::console( "    is Not POD;" );
     }
 }
 

@@ -7,19 +7,15 @@
  *    加载 解析 “图元帧式的png文件” 
  * ----------------------------
  */
+#include "pch.h"
 #include "stb_image_no_warnings.h"
 
 //------------------- CPP --------------------//
 #include <iterator>
 
-
 //------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "load_and_divide_png.h"
 
-
-#include "tprDebug.h"
 
 /* ===========================================================
  *                load_and_divide_png
@@ -49,7 +45,7 @@ IntVec2 load_and_divide_png( const std::string &path_,
     stbi_set_flip_vertically_on_load( 1 ); //-- 防止 图片 y轴颠倒。
     data = stbi_load( path_.c_str(), &width, &height, &nrChannels, 0 );
         if(  data == nullptr ){
-            cout << path_ << endl;
+            tprDebug::console( "path:{}", path_ );
             tprAssert( data != nullptr );
         }
 

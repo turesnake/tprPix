@@ -5,20 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ShaderType.h"
 
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 
@@ -33,7 +25,7 @@ ShaderType str_2_shaderType( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find ShaderType: " << str_ << endl;
+        tprDebug::console( "can't find ShaderType: {}", str_ );
         tprAssert(0);
         return ShaderType::UnifiedColor; // never reach
     }

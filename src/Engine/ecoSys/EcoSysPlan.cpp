@@ -5,19 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "EcoSysPlan.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "Density.h"
 #include "random.h"
 #include "esrc_gameSeed.h"
-
-
-#include "tprDebug.h"
 
 
 
@@ -94,27 +88,6 @@ void EcoSysPlan::init_check()noexcept{
     std::shuffle(   this->natureFlooryardIdRandPool.begin(), 
                     this->natureFlooryardIdRandPool.end(), 
                     esrc::get_gameSeed().getnc_shuffleEngine() );
-
-
-
-            // debug 检查下 natureFloorYards
-            /*
-            cout << "       ---KKK---\n"
-                << "densitys: ";
-            for( const auto &i : this->natureFloorDensitys ){
-                cout << i.get_idx() << ", ";
-            }
-            cout << endl;
-
-            cout << "yardIds: ";
-            for( const auto &i : this->natureFlooryardIdRandPool ){
-                cout << i << ", ";
-            }
-            cout << endl;
-            */
-
-
-
 
 
 }

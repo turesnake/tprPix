@@ -33,16 +33,9 @@
 // Don't include glfw3.h ALONE!!!
 #include <glad/glad.h> 
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "IntVec.h" 
 #include "RGBA.h" 
 #include "AnimActionPos.h"
 #include "AnimAction.h"

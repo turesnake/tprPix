@@ -6,7 +6,10 @@
  * ----------------------------------------------------------
  * handle yard-blueprint json files
  */
+#include "pch.h"
 #include "YardBlueprint.h"
+
+
 
 
 //--------------- Libs ------------------//
@@ -19,7 +22,7 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-#include "tprCast.h"
+//#include "tprCast.h"
 #include "blueprint_oth.h"
 #include "GoSpecFromJson.h"
 
@@ -33,9 +36,7 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+//#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -56,7 +57,7 @@ namespace yardJson_inn {//-------- namespace: yardJson_inn --------------//
 
 void parse_yardJsonFiles(){
 
-    cout << "   ----- parse_yardJsonFiles: start ----- " << endl;
+    tprDebug::console( "   ----- parse_yardJsonFiles: start ----- " );
 
 
     std::vector<std::string> path_files {};
@@ -66,7 +67,7 @@ void parse_yardJsonFiles(){
         yardJson_inn::parse_single_yardJsonFile(i);
     }
 
-    cout << "   ----- parse_yardJsonFiles: end ----- " << endl;
+    tprDebug::console( "   ----- parse_yardJsonFiles: end ----- " );
 }
 
 

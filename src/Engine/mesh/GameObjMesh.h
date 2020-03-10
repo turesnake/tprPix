@@ -21,23 +21,14 @@
 // Don't include glfw3.h ALONE!!!
 #include <glad/glad.h>  
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <string>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprMath.h"
 #include "ChildMesh.h"
 #include "AnimAction.h"
 #include "AnimActionEName.h"
 #include "RotateScaleData.h"
 #include "animSubspeciesId.h"
-#include "RenderPool.h"
 #include "colorTableId.h"
 #include "DyBinary.h"
 #include "functorTypes.h"

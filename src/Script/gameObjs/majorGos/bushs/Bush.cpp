@@ -5,32 +5,20 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/bushs/Bush.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
-//-------------------- Lib --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 
-#include "tprAssert.h"
-#include "esrc_shader.h" 
 #include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
 
 
 //-------------------- Script --------------------//
 #include "Script/components/windAnim/WindAnim.h"
 
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------

@@ -7,6 +7,7 @@
  *    texture for map sys
  * ----------------------------
  */
+#include "pch.h"
 #include "MapTexture.h" 
 
 //------------------- Engine --------------------//

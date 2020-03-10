@@ -8,17 +8,9 @@
 #ifndef TPR_MAP_ENT_H
 #define TPR_MAP_ENT_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_set> 
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "IntVec.h" 
 #include "GoAltiRange.h"
 #include "MapCoord.h"
 #include "chunkKey.h"

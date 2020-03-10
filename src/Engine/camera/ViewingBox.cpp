@@ -5,18 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ViewingBox.h"
-
-//--------------- CPP ------------------//
-#include <cmath>
 
 //--------------- Script ------------------//
 #include "Script/json/json_all.h"
 
 #include "esrc_state.h"
-
-
-#include "tprDebug.h"
 
 
 //-- init is delay to ViewingBox::init() --
@@ -87,12 +82,14 @@ void ViewingBox::init(){
     esrc::insertState( "viewingBox" );
 
     //---------
-            cout<< " ViewingBox:\n"
-                << " === windowSZ: " << ViewingBox::windowSZ.x
-                << ", " << ViewingBox::windowSZ.y << ";\n"
-                << " === gameSZ: " << ViewingBox::gameSZ.x
-                << ", " << ViewingBox::gameSZ.y << ";\n"
-                << endl;
+
+            tprDebug::console( 
+                " ViewingBox:\n" \
+                " === windowSZ: {0}, {1};" \
+                " === gameSZ: {2}, {3};\n",
+                ViewingBox::windowSZ.x, ViewingBox::windowSZ.y,
+                ViewingBox::gameSZ.x, ViewingBox::gameSZ.y
+            );
 
 }
 

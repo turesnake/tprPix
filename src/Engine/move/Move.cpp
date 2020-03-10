@@ -5,11 +5,10 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Move.h"
 
 //-------------------- CPP --------------------//
-#include <cmath>
-#include <vector>
 #include <utility> //- pair
 #include <iomanip>
 
@@ -17,7 +16,6 @@
 #include "magic_enum.hpp"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "SpeedLevel.h"
 #include "GameObjPos.h"
 #include "MapCoord.h"
@@ -31,21 +29,13 @@
 #include "speedLog.h"
 
 
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
-
-
-
 MoveType str_2_moveType( const std::string name_ )noexcept{
 
     auto labelOP = magic_enum::enum_cast<MoveType>(name_);
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find MoveType: " << name_ << endl;
+        tprDebug::console( "can't find MoveType: {}", name_ );
         tprAssert(0);
         return MoveType::Crawl; // never reach
     }

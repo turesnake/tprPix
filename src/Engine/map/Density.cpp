@@ -5,18 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Density.h"
 
-//------------------- CPP --------------------//
-#include <cmath>
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
-
-//#include "tprDebug.h"
 
 //---------- static ----------//
 int Density::minLvl {-3};

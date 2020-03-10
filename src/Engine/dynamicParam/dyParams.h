@@ -16,11 +16,7 @@
 
 //-------------------- Engine --------------------//
 #include "DyParam.h"
-#include "MapAltitude.h"
-#include "Density.h"
 #include "GoDataForCreate.h"
-
-#include "Job_Field.h"
 
 
 

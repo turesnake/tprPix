@@ -5,39 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/oth/GroundGo.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <functional>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
-//-------------------- tpr --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "DyParam.h"
-#include "RenderPool.h"
-#include "create_go_oth.h"
-#include "fieldFractType.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "assemble_go.h"
 
-#include "esrc_shader.h" 
-#include "esrc_animFrameSet.h"
-#include "esrc_VAOVBO.h"
-
 //-------------------- Script --------------------//
 
-
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs{//------------- namespace gameObjs ----------------

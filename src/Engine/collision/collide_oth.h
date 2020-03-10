@@ -10,23 +10,12 @@
 #ifndef TPR_COLLIDE_OTH_H
 #define TPR_COLLIDE_OTH_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <utility> // pair
-#include <vector>
-#include <set>
-#include <unordered_set>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "ColliderType.h"
-#include "tprMath.h"
-#include "IntVec.h"
 #include "NineDirection.h"
 #include "MapCoord.h"
-
 #include "SpeedLevel.h" // tmp
 
 

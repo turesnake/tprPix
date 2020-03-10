@@ -5,8 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//-------------------- CPP --------------------//
-#include <memory>
+#include "pch.h"
+
 //-------------------- Engine --------------------//
 #include "ViewingBox.h"
 #include "esrc_canvas.h"
@@ -17,7 +17,6 @@
 #include "esrc_shader.h"
 #include "esrc_state.h"
 
-//#include "tprDebug.h" //- tmp
 
 namespace esrc{//------------------ namespace: esrc -------------------------//
 

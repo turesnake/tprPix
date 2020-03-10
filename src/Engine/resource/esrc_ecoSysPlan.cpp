@@ -7,11 +7,9 @@
  *  资源管理:  ecoSysPlanes
  * ----------------------------
  */
-//-------------------- CPP --------------------//
-#include <memory>
+#include "pch.h"
+
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "random.h"
 #include "esrc_ecoSysPlan.h"
 #include "esrc_gameSeed.h"
@@ -19,7 +17,6 @@
 //-------------------- Script --------------------//
 #include "Script/json/json_all.h"
 
-//#include "tprDebug.h" //- tmp
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 

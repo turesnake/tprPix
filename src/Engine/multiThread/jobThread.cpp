@@ -1,24 +1,20 @@
 /*
- * ========================== JobThread.h =======================
+ * ========================== JobThread.cpp =======================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.24
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
+
 //-------------------- CPP --------------------//
-#include <iostream>
 #include <string>
 #include <thread>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "Job.h"
 #include "jobs_all.h"
 #include "esrc_jobQue.h"
-
-
-using std::cout;
-using std::endl;
 
 
 /* ===========================================================
@@ -28,7 +24,7 @@ using std::endl;
  */
 void jobThread_main(){
 
-    cout << "jobThread_main(): start;" << endl;
+    tprDebug::console( "jobThread_main(): start;" );
 
     //-- 一个 jobThread 只有一个 job实例，就在这里
     //   不应放在 堆中，因为 本函数可能是 数个 thread 的 main函数
@@ -67,8 +63,9 @@ void jobThread_main(){
     }//--- while: end ---
 
     //-- exit the job thread --
-    cout << "jobThread_main(): end the jobThread: " << std::this_thread::get_id()
-         << endl;
+    //auto id = std::this_thread::get_id(); // 支持 << 运算符
+    //tprDebug::console( "jobThread_main(): end the jobThread: {}", static_cast<uint64_t>( std::this_thread::get_id()) );
+    tprDebug::console( "jobThread_main(): end the jobThread:" );
 }
 
 

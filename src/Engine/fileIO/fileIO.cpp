@@ -5,20 +5,16 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "fileIO.h"
 
 //--------------- Libs ------------------//
-#include "tprGeneral.h"
-
 #include "SysConfig.h" // MUST BEFORE TPR_OS_WIN32_ !!!
 #if defined TPR_OS_WIN32_ 
     #include "tprFileSys_win.h"
 #elif defined TPR_OS_UNIX_ 
     #include "tprFileSys_unix.h"
 #endif
-
-//-------------------- Engine --------------------//
-#include "tprAssert.h"
 
 /* ===========================================================
  *                    read_a_file

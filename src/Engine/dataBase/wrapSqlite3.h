@@ -11,12 +11,14 @@
 #define TPR_WRAP_SQLITE3_H
 
 //-------------------- CPP --------------------//
-#include <iostream>
 #include <string>
 
 //-------------------- Libs --------------------//
 #include "tprAssert.h"
 #include "sqlite3.h"
+
+
+#include "tprDebug.h"
 
 
 /* ===========================================================
@@ -27,17 +29,24 @@
  */
 inline void handle_sqlite_err_inn( sqlite3 *db_, int rc_, const std::string &funcName_ ){
     tprAssert( rc_ != SQLITE_OK );
-    std::cout << "ERROR: " << funcName_ << ": \n"
-        << sqlite3_errmsg( db_ )
-        << std::endl;
+
+    tprDebug::console(
+        "ERROR: {0}: \n{1}",
+        funcName_,
+        sqlite3_errmsg( db_ )
+    );
+
     sqlite3_close( db_ ); //- better
     tprAssert(0);
 }
 inline void handle_sqlite_err_without_db_inn( int rc_, const std::string &funcName_ ){
     tprAssert( rc_ != SQLITE_OK );
-    std::cout << "ERROR_CODE: " << funcName_ << ": \n"
-        << sqlite3_errstr( rc_ )
-        << std::endl;
+
+    tprDebug::console(
+        "ERROR_CODE: {0}: \n{1}",
+        funcName_,
+        sqlite3_errstr( rc_ )
+    );
     tprAssert(0);
 }
 
@@ -211,8 +220,7 @@ inline void w_sqlite3_bind_zeroblob( sqlite3 *db_, sqlite3_stmt *pStmt_, int idx
 inline int w_sqlite3_bind_parameter_index( sqlite3_stmt *pStmt_, const char *zName_){
     int retIdx = sqlite3_bind_parameter_index( pStmt_, zName_);
     if( retIdx == 0 ){
-        std::cout << "cant find parameter: " << zName_
-            << std::endl;
+        tprDebug::console( "cant find parameter: {}", zName_ );
         tprAssert(0);
     }
     return retIdx;

@@ -13,9 +13,13 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h" 
-#include "GameObj.h" 
+#include "GameObjType.h" 
+#include "ID_Manager.h" 
+#include "SpeedLevel.h"
 #include "InputINS.h"
 
+// need:
+class GameObj;
 
 
 //-- 玩家数据 [内存态] --

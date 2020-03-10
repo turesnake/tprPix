@@ -5,31 +5,23 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/chicken/Chicken.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <functional>
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "GoSpecFromJson.h"
 #include "assemble_go.h"
 
-#include "esrc_shader.h" 
 #include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -262,8 +254,6 @@ void Chicken::moveState_manage( GameObj &goRef_,
     tprAssert( it != moveStateTable.table.end() );
     AnimActionEName  actionEName = it->second.first;
     int timeStepOff = it->second.second;
-
-    //cout << "timeStepOff = " << timeStepOff << endl;
         
 
     // 开启 fly 模式

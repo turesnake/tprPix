@@ -10,16 +10,9 @@
 #ifndef TPR_ECOSYS_PLAN_H
 #define TPR_ECOSYS_PLAN_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <map>
-#include <set>
-#include <string>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "RGBA.h" 
 #include "GameObjType.h"
 #include "ID_Manager.h" 

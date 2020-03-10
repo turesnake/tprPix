@@ -7,30 +7,18 @@
  * 
  * ----------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/oth/PlayerGoCircle.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-#include <vector>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "assemble_go.h"
 
-#include "esrc_shader.h" 
 #include "esrc_player.h"
-#include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
-
-
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -122,8 +110,6 @@ void PlayerGoCircle::OnRenderUpdate( GameObj &goRef_ ){
 
 
 void PlayerGoCircle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-
-        cout << "PlayerGoCircle::OnActionSwitch" << endl;
 
     //=====================================//
     //            ptr rebind

@@ -5,27 +5,18 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/uiGos/Button_SceneBegin_Pointer.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-#include <vector>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 
-#include "esrc_shader.h" 
 #include "esrc_player.h"
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
 
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace uiGos {//------------- namespace uiGos ----------------
@@ -108,7 +99,6 @@ void Button_SceneBegin_Pointer::OnRenderUpdate( GameObj &goRef_ ){
  */
 void Button_SceneBegin_Pointer::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-            cout << "Button_SceneBegin_Pointer::OnActionSwitch" << endl;
 
     //=====================================//
     //            ptr rebind

@@ -5,8 +5,8 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_player.h"
-#include <memory>
 #include "esrc_state.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

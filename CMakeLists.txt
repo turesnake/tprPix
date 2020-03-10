@@ -17,6 +17,7 @@
 #---------------------------------------------------#
 #                cmake version
 #---------------------------------------------------#
+# 3.16 or Later is better, to support PCH and Unity builds
 cmake_minimum_required(VERSION 3.1)
 message( STATUS "cmake: ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" )
 
@@ -111,6 +112,12 @@ FILE(GLOB_RECURSE PIXEL_FILES
 #---------------------------------------------------#
 #                      tprpix 
 #---------------------------------------------------#
+
+if( ${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.16 )
+    set ( CMAKE_UNITY_BUILD_BATCH_SIZE 16 ) # 10 ～ 20
+endif()
+
+
 add_executable(
     tprpix
     ${PIXEL_FILES}
@@ -121,6 +128,13 @@ set_target_properties(tprpix PROPERTIES PREFIX "")
 set_target_properties(tprpix PROPERTIES OUTPUT_NAME "tprpix")
 
 
+
+if( ${CMAKE_VERSION} VERSION_GREATER_EQUAL 3.16 )
+    target_precompile_headers( tprpix PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/pch/pch.h ) # PCH
+    set_target_properties( tprpix PROPERTIES UNITY_BUILD ON) # UNITY
+endif()
+
+
 #---------------------------------------------------#
 #                   include
 #---------------------------------------------------#
@@ -128,9 +142,11 @@ target_include_directories ( tprpix PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/magic_enum
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt-6.1.2/include
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Config
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/pch
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/actionFSM
@@ -223,7 +239,7 @@ endif( UNIX )
 add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/glad)
 add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprGeneral)
 add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/sqlite.3.28)
-
+add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt-6.1.2 EXCLUDE_FROM_ALL)
 
 #---------------------------------------------------#
 #             target_link_libraries
@@ -236,6 +252,7 @@ if ( UNIX )
         glfw
         ${GLFW_LIBRARIES}
         SQLite
+        fmt
         )
 
 else()
@@ -245,6 +262,7 @@ else()
         glad
         ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
         SQLite
+        fmt
         )
 endif( UNIX )
 
@@ -271,6 +289,7 @@ target_compile_options( tprpix
                         
                         -Wno-unused-variable #----- tmp ----
                         -Wno-unused-private-field #----- tmp ----
+
 
                         )
 

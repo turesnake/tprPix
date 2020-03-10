@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_jobQue.h"
 
 //-------------------- CPP --------------------//
@@ -13,12 +14,6 @@
 #include <condition_variable>
 #include <atomic>
 #include <chrono>
-
-#include <iostream>
-#include <string>
-using std::cout;
-using std::endl;
-
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -99,7 +94,7 @@ std::shared_ptr<Job> atom_pop_from_jobQue(){
     auto jobSPtr = std::make_shared<Job>(); //- new one
     {//--- atom ---//
         std::unique_lock<std::mutex> ul(jobQue_inn::jobQueMutex);
-        jobQue_inn::jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), []{ return !jobQue_inn::jobQue.empty(); } );
+        jobQue_inn::jobQueCondVar.wait_for( ul, std::chrono::milliseconds(500), [](){ return !jobQue_inn::jobQue.empty(); } );
                 //- 阻塞，直到 生产者调用 notify_xxx() 函数
                 //  通过 参数3 用来防止 假醒
                 //- 参数3 判断式 在被调用时，仍处于 unique_lock 实例的作用范围，所以是线程安全的

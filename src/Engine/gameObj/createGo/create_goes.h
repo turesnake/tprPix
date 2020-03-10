@@ -13,7 +13,6 @@
 
 //-------------------- Engine --------------------//
 #include "IntVec.h"
-#include "Density.h"
 #include "dyParams.h"
 #include "UIAnchor.h"
 #include "Chunk.h"

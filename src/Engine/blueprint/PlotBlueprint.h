@@ -8,14 +8,10 @@
 #ifndef TPR_PLOT_BLUE_PRINT_H
 #define TPR_PLOT_BLUE_PRINT_H
 
+#include "pch.h"
+
 //-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <memory>
-#include <set>
 #include <variant>
-#include <optional>
 
 //-------------------- Engine --------------------//
 #include "BlueprintVarType.h"
@@ -24,9 +20,7 @@
 #include "NineDirection.h"
 #include "BrokenLvl.h"
 #include "FloorGoType.h"
-#include "IntVec.h"
 #include "ID_Manager.h"
-#include "tprAssert.h"
 #include "GoAssemblePlan.h"
 
 

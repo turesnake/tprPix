@@ -8,17 +8,10 @@
 #ifndef TPR_ANIM_SUB_SPECIES_H
 #define TPR_ANIM_SUB_SPECIES_H
 
+#include "pch.h"
 
 //-------------------- CPP --------------------//
-#include <cmath>
-#include <string>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
-#include <memory>
 #include <algorithm> 
-#include <optional>
-
 
 //-------------------- Engine --------------------//
 #include "ID_Manager.h" 
@@ -26,7 +19,6 @@
 #include "animSubspeciesId.h"
 #include "AnimActionEName.h"
 #include "NineDirection.h"
-#include "tprCast.h"
 #include "BrokenLvl.h"
 
 

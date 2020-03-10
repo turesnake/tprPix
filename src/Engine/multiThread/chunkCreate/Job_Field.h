@@ -7,24 +7,15 @@
  */
 #ifndef TPR_JOB_FIELD_H
 #define TPR_JOB_FIELD_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <unordered_map>
-#include <map>
-#include <set>
-#include <functional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "Job_MapEnt.h"
 #include "animSubspeciesId.h"
 #include "mapEntKey.h"
-#include "tprCast.h"
 #include "goLabelId.h"
 #include "fieldFractType.h"
-
 
 #include "GoDataForCreate.h"
 

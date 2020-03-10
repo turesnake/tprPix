@@ -5,23 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_chunk.h"
 //-------------------- CPP --------------------//
-#include <unordered_map>
-#include <memory>
 #include <deque>
-#include <unordered_set>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "config.h"
 #include "chunkCreate.h"
 
 #include "esrc_renderPool.h"
 #include "esrc_state.h"
 #include "esrc_player.h"
-
-#include "tprDebug.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
@@ -34,8 +28,8 @@ namespace chunk_inn {//------------ namespace: chunk_inn --------------//
 }//---------------- namespace: chunk_inn end --------------//
 
 extern void chunkStates_debug();
-extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ );
-extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active();
+extern void erase_chunkKey_from_onReleasing( chunkKey_t chunkKey_ )noexcept;
+extern const std::unordered_set<chunkKey_t> &get_chunkKeys_active()noexcept;
 
 
 void init_chunks(){
@@ -48,8 +42,7 @@ void init_chunks(){
 
 
 void chunks_debug(){
-    cout << "\nchunks.size() = " << chunk_inn::chunks.size() 
-        << endl;
+    tprDebug::console( "\nchunks.size() = {}", chunk_inn::chunks.size() );
     chunkStates_debug();
 }
 

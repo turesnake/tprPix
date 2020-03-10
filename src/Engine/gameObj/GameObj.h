@@ -9,16 +9,10 @@
  */
 #ifndef TPR_GAME_OBJ_H
 #define TPR_GAME_OBJ_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+
+#include "pch.h"
 
 //-------------------- CPP --------------------//
-#include <string>
-#include <vector>
-#include <set>
-#include <functional>
-#include <unordered_map>
-#include <memory>
 #include <variant>
 
 //-------------------- Engine --------------------//
@@ -27,7 +21,6 @@
 #include "GameObjMeshSet.h" 
 #include "goLabelId.h"
 #include "ID_Manager.h" 
-#include "IntVec.h" 
 #include "Move.h"
 #include "MapCoord.h" 
 #include "GameObjPos.h"

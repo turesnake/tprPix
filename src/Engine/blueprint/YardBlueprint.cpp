@@ -5,15 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "YardBlueprint.h"
 
-
 //-------------------- Engine --------------------//
-#include "config.h"
 #include "esrc_gameSeed.h"
 
-
-#include "tprDebug.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -169,9 +166,10 @@ yardBlueprintId_t YardBlueprintSet::init_new_yard(  const std::string &yardName_
 YardBlueprint &YardBlueprintSet::get_yardBlueprintRef( yardBlueprintId_t id_ )noexcept{
     // debug
     if( YardBlueprintSet::yardUPtrs.find(id_) == YardBlueprintSet::yardUPtrs.end() ){
-        cout << "yardId = " << id_
-            << "; YardBlueprint::yardUPtrs.size() = " << YardBlueprintSet::yardUPtrs.size()
-            << endl;
+        tprDebug::console(
+            "yardId = {0}; YardBlueprint::yardUPtrs.size() = {1}",
+            id_, YardBlueprintSet::yardUPtrs.size()
+        );
     }
     tprAssert( YardBlueprintSet::yardUPtrs.find(id_) != YardBlueprintSet::yardUPtrs.end() );
     return *(YardBlueprintSet::yardUPtrs.at(id_));

@@ -5,17 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "innTest.h"
-
-
-//------------------- CPP --------------------//
-#include <memory>
 
 //------------------- Libs --------------------//
 #include "magic_enum.hpp"
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "History.h"
 #include "DirAxes.h"
 #include "DyBinary.h"
@@ -26,59 +22,20 @@
 #include "NineDirection.h"
 
 
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
-
-
 namespace innTest {//---------- namespace: innTest --------------//
 
 
-class BB{
-public:
-    BB()=default;
-    double a {};
-    double b {};
-};
+
 
 
 void innTest_main(){
 
     return;
-    cout << "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" << endl;
+    tprDebug::console( "\n~~~~~~~~~~ innTest:start ~~~~~~~~~~\n" );
 
 
 
-
-
-    DyBinary binary {};
-
-    binary.init<BB>();
-
-    auto *ncptr = binary.get<BB>();
-    const auto *cptr = binary.get<BB>();
-
-    ncptr->a = 55.4;
-    ncptr->a = -13455.4;
-
-
-    double val = cptr->a;
-
-
-
-
-
-    cout << "val = " << val << endl;
-
-
-
-
-
-
-    cout << "\n\n~~~~~~~~~~ innTest:end ~~~~~~~~~~" << endl;
-    
+    tprDebug::console( "\n\n~~~~~~~~~~ innTest:end ~~~~~~~~~~" );
 }
 
 

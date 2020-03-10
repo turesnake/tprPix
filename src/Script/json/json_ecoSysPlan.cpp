@@ -5,22 +5,15 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
-//--------------- CPP ------------------//
-#include <string>
-#include <vector>
-#include <memory>
-#include <unordered_set>
+#include "pch.h"
+
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "global.h"
 #include "fileIO.h"
 #include "EcoSysPlan.h"
@@ -43,9 +36,6 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace json{//------------- namespace json ----------------
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//
@@ -81,7 +71,7 @@ namespace espJson_inn {//-------- namespace: espJson_inn --------------//
  */
 void parse_ecoSysPlansJsonFile(){
 
-    cout << "   ----- parse_ecoSysPlansJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_ecoSysPlansJsonFile: start ----- " );
 
     esrc::is_setState("json_gameObj");
     esrc::is_setState("blueprint");
@@ -94,7 +84,7 @@ void parse_ecoSysPlansJsonFile(){
     }
 
     esrc::insertState("json_ecoSysPlan");
-    cout << "   ----- parse_ecoSysPlansJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_ecoSysPlansJsonFile: end ----- " );
 }
 
 namespace espJson_inn {//-------- namespace: espJson_inn --------------//

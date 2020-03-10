@@ -5,11 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "colorTableId.h"
-
-//------------------- CPP --------------------//
-#include <functional> // hash
-#include <string>
 
 
 //const colorTableId_t NilColorTableId { std::hash<std::string>{}("DEFAULT") };

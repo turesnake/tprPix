@@ -5,10 +5,10 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Canvas.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "create_texNames.h"
 #include "esrc_camera.h"
 

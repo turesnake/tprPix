@@ -8,21 +8,15 @@
 #ifndef TPR_DENSITY_POOL_H
 #define TPR_DENSITY_POOL_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <unordered_map>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprMath.h"
 #include "GoSpecData.h"
 #include "random.h"
 
 #include "blueprintId.h"
 
 //--- need ---//
-//class EcoEnt;
 class FieldDistributePlan;
 
 

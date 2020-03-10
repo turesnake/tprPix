@@ -8,6 +8,7 @@
  *  本文件看起来有些多余
  * ----------------------------
  */
+#include "pch.h"
 extern void scriptMain();
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

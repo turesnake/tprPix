@@ -21,10 +21,6 @@
 #include "DirAxes.h"
 #include "History.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 //-- need --
 class GameObj;
 class GameObjPos;
@@ -62,28 +58,28 @@ public:
             case MoveType::Crawl:      
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_crawl, this ); 
                 this->isMovingFunc =
-                    [this](){
-                        if( this->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
+                    [this_l=this](){
+                        if( this_l->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
                             return false;
                         }
-                        return !this->crawlDirAxes.get_newVal().is_zero();
+                        return !this_l->crawlDirAxes.get_newVal().is_zero();
                     };
                 return;
             case MoveType::Drag: 
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_drag, this ); 
                 this->isMovingFunc =
-                    [this](){
-                        if( this->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
+                    [this_l=this](){
+                        if( this_l->moveSpeedLvl.get_newVal() == SpeedLevel::LV_0 ){
                             return false;
                         }
-                        return this->isMoving;
+                        return this_l->isMoving;
                     };
                 return;
             case MoveType::Adsorb: 
                 this->renderUpdateFunc = std::bind( &Move::renderUpdate_adsorb, this ); 
                 this->isMovingFunc = 
-                    [this](){
-                        return this->isMoving;
+                    [this_l=this](){
+                        return this_l->isMoving;
                     };
                 return;
             default:

@@ -5,21 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_job_ecoObj.h"
 
 //-------------------- CPP --------------------//
-#include <unordered_map>
 #include <mutex>
 #include <shared_mutex>
-#include <set>
-#include <memory>
+
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "tprAssert.h"
-
 #include "esrc_state.h"
-
 #include "esrc_ecoObj.h"
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

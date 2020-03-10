@@ -1,5 +1,5 @@
 /*
- * ===================   begin/scene.cpp ===================
+ * =================== begin_scene.cpp ===================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.29
  *                                        MODIFY -- 
@@ -12,18 +12,11 @@
  * 
  * ----------------------------
  */
+#include "pch.h"
 #include "sceneLoop.h"
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <unordered_map>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "input.h"
-#include "IntVec.h"
 #include "chunkCreate.h"
 #include "dataBase.h"
 #include "GameArchive.h"
@@ -43,7 +36,7 @@
 
 using namespace std::placeholders;
 
-#include "tprDebug.h"
+//#include "tprDebug.h"
 
 
 namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ------------------//
@@ -229,7 +222,7 @@ void inputINS_handle( const InputINS &inputINS_){
     //-----------------------//
     if( inputINS_.get_key(GameKey::A) ){
         is_input_open = false;
-        cout << "enter" << endl;
+        tprDebug::console( "enter" );
 
         //-- 此时，targetIdx 就是选中的 archive
         //  可以将其 写入 游戏mem态，并进入 后续流程
@@ -239,7 +232,7 @@ void inputINS_handle( const InputINS &inputINS_){
 
         if( gameArchives.find(archiveId) == gameArchives.end() ){
 
-            cout << "New Archive" << endl;
+            tprDebug::console( "New Archive" );
             //-----------------------//
             //   玩家选中的 存档为 空 
             //-----------------------//
@@ -258,8 +251,7 @@ void inputINS_handle( const InputINS &inputINS_){
                 IntVec2    newGoMPos    { 0,0 };
                 glm::dvec2 newGoDPos = mpos_2_dpos( newGoMPos );
 
-
-                //cout << "9-chunks create start" << endl;
+                //tprDebug::console( "9-chunks create start" );
 
                 //--- 先 生成 chunks 基础数据 --
                 chunkCreate::create_9_chunks( newGoMPos );
@@ -272,7 +264,7 @@ void inputINS_handle( const InputINS &inputINS_){
 
                 //----- 临时创建，玩家操纵的 go -------//
                 // old
-                //cout << "chicken create start" << endl;
+                //tprDebug::console( "chicken create start" );
 
                 goSpeciesId_t newGoSpeciesId = GoSpecFromJson::str_2_goSpeciesId( "chicken" );
                 goLabelId_t   newGoLabelId = GoAssemblePlanSet::str_2_goLabelId("Hen");
@@ -297,7 +289,7 @@ void inputINS_handle( const InputINS &inputINS_){
                                                                         BrokenLvl::Lvl_0
                                                                         } );              
 
-                //cout << "chicken create done" << endl;
+
 
                 //-- db::table_gameArchive --                
                 esrc::get_gameArchive() = GameArchive {   archiveId, 
@@ -313,7 +305,7 @@ void inputINS_handle( const InputINS &inputINS_){
                 esrc::get_player().bind_go( newGoId ); //-- 务必在 go数据实例化后 再调用 --
 
         }else{
-            cout << "Exist Archive" << endl;
+            tprDebug::console( "Exist Archive" );
             //-----------------------//
             //  玩家选中的 存档 已经存在 
             //-----------------------//
@@ -324,12 +316,12 @@ void inputINS_handle( const InputINS &inputINS_){
             esrc::get_gameSeed().init( targetGameArchive.baseSeed );
             GameObj::id_manager.set_max_id( targetGameArchive.maxGoId );
 
-                cout << "maxGoId_from_db = " << GameObj::id_manager.get_max_id() << endl;
+                tprDebug::console(  "maxGoId_from_db = {}", GameObj::id_manager.get_max_id() );
 
             //-- gameTime --
             esrc::get_timer().start_record_gameTime( targetGameArchive.gameTime );
 
-                cout << "gameTime_from_db = " << targetGameArchive.gameTime << endl;
+                tprDebug::console( "gameTime_from_db = {}", targetGameArchive.gameTime );
 
             //-- db::table_goes --
             DiskGameObj diskGo {};

@@ -5,12 +5,10 @@
  *                                        修改 -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
+
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
-#include <vector>
-#include <memory>
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"
@@ -20,8 +18,6 @@
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "global.h"
 #include "fileIO.h"
 #include "AnimFrameSet.h"
@@ -35,9 +31,8 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+//#include "tprDebug.h"
 
 
 namespace json{//------------- namespace json ----------------
@@ -95,7 +90,7 @@ namespace afsJson_inn {//-------- namespace: afsJson_inn --------------//
  */
 void parse_animFrameSetJsonFile(){
 
-    cout << "   ----- parse_animFrameSetJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_animFrameSetJsonFile: start ----- " );
 
     std::vector<std::string> path_files {};
     collect_fileNames( path_jsons, "animFrameSet", "_files.json", path_files );
@@ -115,7 +110,7 @@ void parse_animFrameSetJsonFile(){
     
     //-------------
     esrc::insertState("json_animFrameSet");
-    cout << "   ----- parse_animFrameSetJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_animFrameSetJsonFile: end ----- " );
 }
 
 

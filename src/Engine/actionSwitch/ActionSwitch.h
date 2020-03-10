@@ -14,9 +14,7 @@
 #ifndef TPR_ACTION_SWITCH_H
 #define TPR_ACTION_SWITCH_H
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <memory>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "ActionSwitchType.h"

@@ -10,14 +10,10 @@
 #ifndef TPR_VIEWING_BOX_H
 #define TPR_VIEWING_BOX_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "config.h"
 #include "RenderLayerType.h"
-#include "IntVec.h"
 
 
 class ViewingBox{

@@ -7,21 +7,10 @@
  */
 #include "BlueprintVarType.h"
 
-//-------------------- CPP --------------------//
-#include <unordered_map>
-#include <map>
-
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
-//--------------- Engine ------------------//
-#include "tprAssert.h"
 
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace bpv_inn {//------------------ namespace: bpv_inn start ---------------------//
@@ -100,7 +89,7 @@ VariableTypeIdx str_2_variableTypeIdx( const std::string &name_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find VariableTypeIdx: " << name_ << endl;
+        tprDebug::console( "can't find VariableTypeIdx: {}", name_ );
         tprAssert(0);
         return VariableTypeIdx::V_1; // never reach
     }

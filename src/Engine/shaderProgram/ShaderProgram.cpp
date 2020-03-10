@@ -5,20 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ShaderProgram.h"
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 
-//#include "tprDebug.h" //- tmp
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 //======== static ========//
@@ -57,8 +53,7 @@ void ShaderProgram::init(   const std::string &lpathVs_,
     glGetProgramiv( this->shaderProgram, GL_LINK_STATUS, &success );
     if( !success ){
         glGetProgramInfoLog( this->shaderProgram, 512, nullptr, infoLog );
-        cout << "---- ShaderProgram::init: error: ----\n" 
-             << infoLog << endl;
+        tprDebug::console( "---- ShaderProgram::init: error: ----\n{}", infoLog );
         tprAssert(0);
     }
     //--- 及时释放 ---
@@ -88,7 +83,7 @@ void ShaderProgram::compile( GLuint shaderObj_, const std::string &sbuf_ ){
     glGetShaderiv( shaderObj_, GL_COMPILE_STATUS, &success );
     if( !success ){
         glGetShaderInfoLog( shaderObj_, 512, nullptr, infoLog );
-        cout << infoLog << endl;
+        tprDebug::console( "{}", infoLog );
         tprAssert(0);
     }
 }

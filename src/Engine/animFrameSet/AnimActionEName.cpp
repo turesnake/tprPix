@@ -5,19 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "AnimActionEName.h"
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 AnimActionEName str_2_animActionEName( const std::string &str_ )noexcept{
@@ -26,7 +18,7 @@ AnimActionEName str_2_animActionEName( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find AnimActionEName: " << str_ << endl;
+        tprDebug::console( "can't find AnimAction::AnimActionEName: {}", str_  );
         tprAssert(0);
         return AnimActionEName::Idle; // never reach
     }

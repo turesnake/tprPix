@@ -5,23 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GameObj.h" 
-
-//-------------------- CPP --------------------//
-#include <functional>
 
 //-------------------- Engine --------------------//
 #include "Chunk.h"
 #include "GoSpecFromJson.h"
 
-
 #include "esrc_chunk.h"
-#include "esrc_shader.h"
-#include "esrc_coordinate.h"
 
 using namespace std::placeholders;
-
-#include "tprDebug.h" //- tmp
 
 
 //============== static ===============//
@@ -186,16 +179,14 @@ void GameObj::debug(){
 
     MemMapEnt &mpRef = *mapEntPair.second;
 
-    cout << "mapEnt.lvl: " << mpRef.get_mapAlti().lvl
-        << "; val: " << mpRef.get_mapAlti().val
-        << "; mp-ecoKey: " << mpRef.get_ecoObjKey()
-        << endl;
-
-    /*
-    cout << "sizeof(go) = " << sizeof( *this )
-        << "; sizeof(GO) = " << sizeof( GameObj )
-        << endl;
-    */
+    tprDebug::console( 
+        "mapEnt.lvl: {0}" \
+        "; val: {1}" \
+        "; mp-ecoKey: {2}",
+        mpRef.get_mapAlti().lvl,
+        mpRef.get_mapAlti().val,
+        mpRef.get_ecoObjKey()
+    );
 
 }
 

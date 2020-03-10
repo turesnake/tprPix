@@ -9,8 +9,7 @@
  *    ssrc::go_name_speciesIds 中去
  * ----------------------------
  */
-//-------------------- CPP --------------------//
-#include <string>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 
@@ -30,7 +29,6 @@
 
 using namespace std::placeholders;
 
-//#include "tprDebug.h" //- tmp
 
 //namespace goSpeciesIds_inn {//-------------- namespace: goSpeciesIds_inn ---------------------
 //}//------------------------- namespace: goSpeciesIds_inn end -------------------
@@ -121,9 +119,6 @@ void onGoSpeciesIds_SignUp(){
     UIGoSpecFromJson::insert_2_initFuncs( "button_sceneBegin_archive_2", std::bind( &uiGos::Button_SceneBegin_Archive::init, _1, _2 ) );
     UIGoSpecFromJson::insert_2_initFuncs( "button_sceneBegin_pointer_2", std::bind( &uiGos::Button_SceneBegin_Pointer::init, _1, _2 ) );
 
-
-
-    //cout << "--- onGoSpeciesIds_SignUp(). DONE. ---" << endl; 
 }
 
 
@@ -134,7 +129,7 @@ void onGoSpeciesIds_SignUp(){
 
 //-- 仅用于流程测试 
 void onStart_test(){
-    //cout << "--- onStart_test(). DONE. ---" << endl;
+
 }
 
 

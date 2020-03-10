@@ -5,9 +5,9 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "config.h"
 #include "MapCoord.h"
 #include "simplexNoise.h"
 #include "esrc_gameSeed.h"

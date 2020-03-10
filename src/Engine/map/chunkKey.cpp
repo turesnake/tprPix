@@ -7,17 +7,11 @@
  *    Chunk "id":  (int)w + (int)h
  * ----------------------------
  */
+#include "pch.h"
 #include "chunkKey.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "sectionKey.h"
-
-
-//#include "tprDebug.h"
 
 
 /* ===========================================================

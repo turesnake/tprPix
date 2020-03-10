@@ -9,19 +9,10 @@
 #ifndef TPR_COLLI_DATA_FROM_JPNG_H
 #define TPR_COLLI_DATA_FROM_JPNG_H
 
-
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <memory>
-#include <functional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GoAltiRange.h"
-#include "IntVec.h"
 #include "ColliderType.h"
 #include "SignInMapEnts_Square_Type.h"
 

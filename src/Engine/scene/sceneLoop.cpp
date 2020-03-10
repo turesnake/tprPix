@@ -5,9 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-
+#include "pch.h"
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "sceneLoop.h"
 #include "sceneLoopInn.h"
 

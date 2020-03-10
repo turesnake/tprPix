@@ -1,5 +1,5 @@
 /*
- * ====================== world/scene.cpp ===================
+ * ====================== world_scene.cpp ===================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.29
  *                                        MODIFY -- 
@@ -10,10 +10,10 @@
  * 
  * ----------------------------
  */
+#include "pch.h"
 #include "sceneLoop.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "input.h"
 #include "chunkCreate.h"
 #include "chunkRelease.h"
@@ -22,14 +22,9 @@
 
 #include "esrc_all.h" //- 所有资源
 
-#include "tprDebug.h"
 
 //-------------------- Script --------------------//
 #include "Script/gameObjs/bioSoup/BioSoupColorTable.h"
-
-
-//-------------------- innTest --------------------//
-//#include "innTest.h"
 
 
 using namespace std::placeholders;
@@ -219,8 +214,8 @@ void sceneRenderLoop_world(){
     esrc::draw_groundCanvas();
     esrc::get_groundRenderPool().draw();
 
-        tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
-        tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
+        //tprDebug::draw_renderPool_mapEntSlices();  //-- tprDebug 但是不在此文件中 clear
+        //tprDebug::draw_renderPool_pointPics();     //-- tprDebug 但是不在此文件中 clear
 
     //-- opaque First, Translucent Second !!! --
     esrc::get_renderPool(RenderPoolType::Opaque).draw();
@@ -275,17 +270,25 @@ void inputINS_handle( const InputINS &inputINS_){
         if( speedLevel_2_size_t(lvl) < speedLevel_2_size_t(SpeedLevel::LV_10) ){
             SpeedLevel newLvl = calc_higher_speedLvl(lvl);
             playerRef.set_moveSpeedLvl( newLvl );
-                cout << " + " << static_cast<int>(newLvl) 
-                    << ", " << SpeedLevel_2_val(newLvl)
-                    << endl; 
+
+                tprDebug::console( 
+                    " + {0}, {1}",
+                    static_cast<int>(newLvl),
+                    SpeedLevel_2_val(newLvl)
+                );
+
+
         }
     }
     if( (isOld_B_press==false) && (isNew_B_press) ){
         SpeedLevel newLvl = calc_lower_speedLvl(lvl);
         playerRef.set_moveSpeedLvl( newLvl );
-            cout << " - " << static_cast<int>(newLvl) 
-                << ", " << SpeedLevel_2_val(newLvl)
-                << endl;
+        
+            tprDebug::console( 
+                " - {0}, {1}",
+                static_cast<int>(newLvl) ,
+                SpeedLevel_2_val(newLvl)
+            );
     }
     if( (isOld_X_press==false) && (isNew_X_press) ){
 

@@ -8,24 +8,18 @@
 #ifndef TPR_GO_DATA_FOR_CREATE_H
 #define TPR_GO_DATA_FOR_CREATE_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+#include "pch.h"
 
 
 //------------------- CPP --------------------//
-#include <vector>
-#include <memory>
 #include <variant>
-#include <optional>
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObjType.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
 #include "FloorGoType.h"
 #include "animSubspeciesId.h"
-#include "IntVec.h"
 #include "AnimActionEName.h"
 #include "GoAltiRange.h"
 #include "GoAssemblePlan.h"

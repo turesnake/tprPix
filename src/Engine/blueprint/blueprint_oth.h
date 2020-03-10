@@ -8,18 +8,13 @@
 #ifndef TPR_BLUE_PRINT_OTH_H
 #define TPR_BLUE_PRINT_OTH_H
 
-//-------------------- CPP --------------------//
-#include <string>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "blueprintId.h"
 #include "GameObjType.h"
 #include "NineDirection.h"
 #include "BrokenLvl.h"
-#include "IntVec.h"
-#include "config.h"
-#include "tprAssert.h"
-#include "tprCast.h"
 
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
@@ -48,9 +43,9 @@ inline YardSize sizeByMapEnt_2_yardSize( IntVec2 size_ )noexcept{
 
     tprAssert(  (size_.x == size_.y) &&
                 (size_.x > 0) &&
-                ((size_.x % cast_2_size_t(ENTS_PER_FIELD)) == 0) );
+                ((size_.x % ENTS_PER_FIELD) == 0) );
     
-    switch ( size_.x / cast_2_size_t(ENTS_PER_FIELD) ){
+    switch ( size_.x / ENTS_PER_FIELD ){
         case 1: return YardSize::_1f1;
         case 2: return YardSize::_2f2;
         case 3: return YardSize::_3f3;

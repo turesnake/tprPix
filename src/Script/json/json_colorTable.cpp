@@ -5,9 +5,8 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
 
 //--------------- Libs ------------------//
@@ -15,10 +14,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 #include "EcoSysPlanType.h"
@@ -34,9 +30,6 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace json{//------------- namespace json ----------------
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//
@@ -51,7 +44,7 @@ namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn ---------
  */
 void parse_colorTableJsonFile(){
 
-    cout << "   ----- parse_colorTableJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_colorTableJsonFile: start ----- " );
 
     tprAssert( esrc::is_setState("colorTableSet") );
 
@@ -63,7 +56,7 @@ void parse_colorTableJsonFile(){
     }
 
     esrc::insertState("json_colorTableSet");
-    cout << "   ----- parse_colorTableJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_colorTableJsonFile: end ----- " );
 }
 
 namespace colorTableJson_inn {//-------- namespace: colorTableJson_inn --------------//

@@ -7,26 +7,17 @@
  *   4*4mapent 构成一个 field   [第二版]
  * ----------------------------
  */
+#include "pch.h"
 #include "MapField.h"
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <map>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "random.h"
-#include "IntVec.h"
 #include "EcoObj.h"
 #include "simplexNoise.h"
 #include "MapEnt.h"
 
 #include "esrc_gameSeed.h"
 #include "esrc_ecoObj.h"
-#include "tprCast.h"
-
-#include "tprDebug.h"
 
 
 // 仅 初始化 一阶数据
@@ -35,7 +26,7 @@
 void MapField::init(){
 
     //--- fieldKey ---
-    tprAssert(!this->fieldKey.has_value())
+    tprAssert(!this->fieldKey.has_value());
     this->fieldKey = { fieldMPos_2_fieldKey(this->get_mpos()) };
 
     //---- fieldFPos ----

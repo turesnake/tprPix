@@ -15,15 +15,9 @@
 #ifndef TPR_ACTION_FSM_H
 #define TPR_ACTION_FSM_H
 
-
-//-------------------- CPP --------------------//
-#include <functional>
-#include <unordered_map>
-#include <string>
-
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "functorTypes.h"
 
 

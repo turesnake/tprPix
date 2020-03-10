@@ -8,17 +8,12 @@
 #ifndef TPR_ECO_OBJ_BORDER_H
 #define TPR_ECO_OBJ_BORDER_H
 
+#include "pch.h"
 
 //-------------------- CPP --------------------//
-#include <vector>
 #include <tuple>
-#include <memory>
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "tprAssert.h"
-#include "tprCast.h"
-#include "IntVec.h"
 #include "NineDirection.h"
 
 

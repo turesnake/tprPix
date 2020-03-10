@@ -5,16 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "assemble_go.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObj.h"
 #include "DyParam.h"
 #include "GoSpecFromJson.h"
 #include "dyParams.h"
-
-#include "esrc_shader.h" 
 
 
 // 被 具象go类 调用，将 GoDataForCreate 中的数据，配置进 regularGo 中

@@ -5,15 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_renderPool.h"
 
 //-------------------- CPP --------------------//
-#include <unordered_map>
-#include <memory>
-
 #include "esrc_state.h"
 
-#include "tprDebug.h" //- tmp
 
 namespace esrc {//------------------ namespace: esrc -------------------------//
 
@@ -43,11 +40,15 @@ void init_renderPools()noexcept{
 
 void debug_for_renderPools()noexcept{
 
-    cout << "renderPools:"
-        << "\n  Opaque size: " << get_renderPool(RenderPoolType::Opaque).get_poolSize()
-        << "\n  Translucent size: " << get_renderPool(RenderPoolType::Translucent).get_poolSize()
-        << "\n  Shadow size: " << get_renderPool(RenderPoolType::Shadow).get_poolSize()
-        << endl;
+    tprDebug::console( 
+        "renderPools:" \
+        "\n  Opaque size: {0}" \
+        "\n  Translucent size: {1}" \
+        "\n  Shadow size: {2}",
+        get_renderPool(RenderPoolType::Opaque).get_poolSize(),
+        get_renderPool(RenderPoolType::Translucent).get_poolSize(),
+        get_renderPool(RenderPoolType::Shadow).get_poolSize()
+    );
 
 }
 

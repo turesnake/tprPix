@@ -7,18 +7,14 @@
  *  以 chunk 为单位的，需要被 job线程 计算生成的 数据集 
  * ----------------------------
  */
+#include "pch.h"
 #include "Job_Chunk.h"
-
-//-------------------- CPP --------------------//
-#include <functional>
-#include <vector>
 
 //-------------------- Engine --------------------//
 #include "simplexNoise.h"
 #include "mapEntKey.h"
 #include "GoAssemblePlan.h"
 #include "WindClock.h"
-#include "IntVec.h"
 #include "random.h"
 
 #include "GoSpecFromJson.h"
@@ -267,9 +263,9 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         fieldMPos,
                                         fieldUWeight,
                                         // 值传递
-                                        [this, ecoKey]( IntVec2 mpos_ )->bool { // f_is_correct_density_
-                                            EcoObj &ecoRef = esrc::get_ecoObjRef( ecoKey );
-                                            Density density = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_density();
+                                        [this_l=this, ecoKey_l=ecoKey]( IntVec2 mpos_ )->bool { // f_is_correct_density_
+                                            EcoObj &ecoRef = esrc::get_ecoObjRef( ecoKey_l );
+                                            Density density = this_l->getnc_mapEntInnRef( mpos_ - this_l->chunkMPos ).get_density();
                                             return ecoRef.is_find_in_natureFloorDensitys(density);
                                         }
 
@@ -298,8 +294,8 @@ void Job_Chunk::create_field_goSpecDatas(){
                                         natureMajorYardId,
                                         fieldMPos,
                                         fieldUWeight,
-                                        [this]( IntVec2 mpos_ )->bool { // f_is_mapent_in_bioSoup_
-                                            auto state = this->getnc_mapEntInnRef( mpos_ - this->chunkMPos ).get_bioSoupState();
+                                        [this_l=this]( IntVec2 mpos_ )->bool { // f_is_mapent_in_bioSoup_
+                                            auto state = this_l->getnc_mapEntInnRef( mpos_ - this_l->chunkMPos ).get_bioSoupState();
                                             return (state != gameObjs::bioSoup::State::NotExist);
                                         }
                                         );

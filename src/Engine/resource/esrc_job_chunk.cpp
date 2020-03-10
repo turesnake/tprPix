@@ -5,19 +5,15 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_job_chunk.h"
 
 //-------------------- CPP --------------------//
-#include <unordered_map>
 #include <mutex>
 #include <shared_mutex>
 #include <deque>
-#include <memory>
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "tprAssert.h"
-
 #include "esrc_state.h"
 
 

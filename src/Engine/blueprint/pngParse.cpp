@@ -5,25 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "PlotBlueprint.h"
 #include "YardBlueprint.h"
 
-//------------------- CPP --------------------//
-#include <vector>
-#include <cstdint> // uint8_t
-
-//------------------- Libs --------------------//
-#include "tprGeneral.h" 
-
 //------------------- Engine --------------------//
 #include "load_and_divide_png.h"
-#include "tprMath.h"
-#include "IntVec.h"
 #include "RGBA.h"
-#include "config.h"
 #include "blueprint_oth.h"
 
-#include "tprDebug.h"
+
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 namespace pngParse_inn {//-------- namespace: pngParse_inn --------------//
@@ -406,9 +397,7 @@ void handle_frame(  MapData &mapDataRef_,
 
                     // debug
                     if( !outM.has_value() ){
-                        cout << "Illegal Pix Color:" 
-                            << m_rgba.to_string()
-                            << endl;
+                        tprDebug::console( "Illegal Pix Color: {}", m_rgba.to_string() );
                     }
 
             tprAssert( outM.has_value() );
@@ -476,9 +465,7 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
             auto outM = rgba_2_VariableTypeIdx( m_rgba );
                     // debug
                     if( !outM.has_value() ){
-                        cout << "Illegal Pix Color:" 
-                            << m_rgba.to_string()
-                            << endl;
+                        tprDebug::console( "Illegal Pix Color: {}", m_rgba.to_string() );
                     }
             tprAssert( outM.has_value() );
 

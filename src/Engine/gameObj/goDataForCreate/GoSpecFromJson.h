@@ -7,20 +7,10 @@
  */
 #ifndef TPR_GO_SPEC_FROM_JSON_H
 #define TPR_GO_SPEC_FROM_JSON_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
 
-//-------------------- CPP --------------------//
-#include <string>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <set>
-#include <memory>
-#include <functional> // hash
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObjType.h" 
 #include "Move.h"
 #include "PubBinary2.h"

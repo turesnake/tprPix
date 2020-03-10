@@ -8,20 +8,11 @@
 #ifndef TPR_CIRCUIT_BOARD_H
 #define TPR_CIRCUIT_BOARD_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <functional>
-#include <unordered_map>
-#include <set>
-#include <map>
-#include <memory>
-
+#include "pch.h"
 
 //------------------- Engine --------------------//
 #include "GameObjType.h"
-#include "IntVec.h"
 #include "mapEntKey.h"
-#include "tprAssert.h"
 
 
 

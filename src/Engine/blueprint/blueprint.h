@@ -9,19 +9,13 @@
 #ifndef TPR_BLUE_PRINT_H
 #define TPR_BLUE_PRINT_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <functional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "blueprintId.h"
 #include "mapEntKey.h"
 #include "GoDataForCreate.h"
-#include "IntVec.h"
 #include "fieldKey.h"
-#include "Density.h"
 
 namespace blueprint {//------------------ namespace: blueprint start ---------------------//
 

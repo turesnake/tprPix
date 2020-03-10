@@ -5,23 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "NineDirection.h"
 
 size_t nineDirectionSize {9};
 
-
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
-
 
 
 std::string nineDirection_2_str( NineDirection dir_ )noexcept{
@@ -35,7 +25,7 @@ NineDirection str_2_nineDirection( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find NineDirection: " << str_ << endl;
+        tprDebug::console( "can't find NineDirection: {}", str_ );
         tprAssert(0);
         return NineDirection::Center; // never reach
     }

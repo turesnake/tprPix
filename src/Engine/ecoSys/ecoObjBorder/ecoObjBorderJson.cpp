@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "EcoObjBorder.h"
 
 //--------------- Libs ------------------//
@@ -17,21 +18,19 @@
 //--------------- Engine ------------------//
 #include "global.h"
 #include "fileIO.h"
-#include "tprCast.h"
 #include "json_oth.h"
 
 
 //--------------- Script ------------------//
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
+
+//#include "tprDebug.h"
 
 
 std::tuple<IntVec2, size_t, std::string> EcoObjBorder::parse_plotJsonFile(){
 
-    cout << "   ----- parse_ecoObjBorderJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_ecoObjBorderJsonFile: start ----- " );
 
     //-----------------------------//
     //         load file
@@ -70,7 +69,7 @@ std::tuple<IntVec2, size_t, std::string> EcoObjBorder::parse_plotJsonFile(){
         std::string dirPath = json::get_jsonFile_dirPath( path_file ); // json 文件 所在目录的 path
         pngPath = tprGeneral::path_combine( dirPath, lPath );
     }
-    cout << "   ----- parse_ecoObjBorderJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_ecoObjBorderJsonFile: end ----- " );
     //===
     return { frameNum, totalFrameNum, pngPath };
 }

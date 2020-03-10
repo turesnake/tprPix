@@ -10,11 +10,7 @@
 #ifndef TPR_COORD_H
 #define TPR_COORD_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <unordered_map>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
 #include "NineDirection.h"

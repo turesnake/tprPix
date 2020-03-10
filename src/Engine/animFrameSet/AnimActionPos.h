@@ -9,18 +9,10 @@
 #ifndef TPR_ANIM_ACTION_POS_H
 #define TPR_ANIM_ACTION_POS_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
-
-//-------------------- CPP --------------------//
-#include <vector>
-#include <memory>
-#include <functional>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GoAltiRange.h"
-#include "IntVec.h"
 #include "ColliderType.h"
 #include "ColliDataFromJson.h"
 #include "ID_Manager.h" 

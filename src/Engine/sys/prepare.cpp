@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "prepare.h"
 
 //---------------- from cmake ------------------//
@@ -21,7 +22,6 @@
 #endif
 
 //-------------------- CPP --------------------//
-#include <string> 
 #include <fstream>   //-- ifstream
 #include <sstream>   //-- stringstream
 
@@ -39,13 +39,10 @@
 #endif
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
+//#include "tprAssert.h"
 #include "global.h"
 
-
-#include <iostream>
-using std::cout;
-using std::endl;
+//#include "tprDebug.h"
 
 
 
@@ -138,7 +135,7 @@ void build_path_cwd( char *exeDirPath_ ){
     char ubuf[ PATH_MAX + 1 ];
     char *res = realpath( exeDirPath_, ubuf);
     if (!res) {
-        cout << "realpath ERROR; exeDirPath_ = " << exeDirPath_ << endl;
+        tprDebug::console( "realpath ERROR; exeDirPath_ = {}", exeDirPath_ );
         tprAssert(0);
     }
     //- ubuf 暂为 .../xxx.exe 的 path，需要截去最后一段 
@@ -159,7 +156,7 @@ void check_and_creat_important_dir(){
     std::string err_info = "check_and_creat_important_dir(): ";
 
     //----------------------------//
-    cout << "path_cwd = " << path_cwd << endl;
+    tprDebug::console( "path_cwd = {}", path_cwd );
 
 #if defined TPR_OS_WIN32_
 
@@ -274,21 +271,21 @@ void check_and_creat_important_dir(){
  */
 void check_OS(){
 
-    cout << SYSTEM_NAME << endl;
+    tprDebug::console( "{}", SYSTEM_NAME );
 
     current_OS = OS_NULL; //-- 先设置为 未找到状态
 
     #if defined TPR_OS_MACOSX_
         current_OS = OS_APPLE;
-        cout << "TPR_OS_MACOSX_" << endl;
+        tprDebug::console( "TPR_OS_MACOSX_" );
 
     #elif defined TPR_OS_LINUX_
         current_OS = OS_UNIX;
-        cout << "TPR_OS_LINUX_" << endl;
+        tprDebug::console( "TPR_OS_LINUX_" );
 
     #elif defined TPR_OS_WIN32_
         current_OS = OS_WIN32;
-        cout << "TPR_OS_WIN32_" << endl;
+        tprDebug::console( "TPR_OS_WIN32_" );
     #endif 
     
 }
@@ -308,12 +305,12 @@ void check_fst_run(){
     //-- 查看 already_run 文件 是否存在，若存在，open return -1， 若不存在，创建它。
     if( open(path.c_str(),(O_RDONLY | O_CREAT | O_EXCL),RWXR_XR_X) >= 0 ){
         //-- 说明 目标文件 不存在： 本程序第一次运行 --
-        //cout << "+++ fst run. +++" << endl;
+        //tprDebug::console( "+++ fst run. +++" );
         is_fst_run = true;
 
     }else{
         //-- 说明 目标文件 存在： 本程序 不是 第一次运行 --
-        //cout << "+++ not fst run. +++" << endl;
+        //tprDebug::console( "+++ not fst run. +++" );
         is_fst_run = false;
     }
 }

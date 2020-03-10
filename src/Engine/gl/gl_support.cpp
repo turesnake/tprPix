@@ -12,20 +12,14 @@
 #include<glad/glad.h>  
 #include<GLFW/glfw3.h>
 
-//-------------------- CPP ----------------------//
-#include <cmath>
-#include <string>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "input.h" 
 #include "global.h"
 #include "gl_funcs.h" 
 #include "ViewingBox.h"
-#include "IntVec.h"
 #include "esrc_window.h" 
-
-#include "tprDebug.h" //- tmp
 
 //------------------- 提供给全局的 函数 ----------------
 void glfw_init();
@@ -153,9 +147,12 @@ void glad_init(){
         tprAssert(0);
     }
 
-    cout << "OpenGL: " <<  GLVersion.major
-        << ". " <<  GLVersion.minor
-        << endl;
+    tprDebug::console( 
+        "OpenGL: {0}. {1}",
+        GLVersion.major, GLVersion.minor
+    );
+
+
             // mac 4.1
             // win 0.0 -- 估计是有问题
 }

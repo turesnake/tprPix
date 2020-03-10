@@ -5,9 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "ubo_all.h"
 
 //-------------------- Engine --------------------//
+#include "GameObj.h"
+
 #include "esrc_colorTableSet.h"
 #include "esrc_uniformBlockObj.h"
 #include "esrc_player.h"
@@ -15,8 +18,6 @@
 #include "esrc_chunk.h"
 
 #include "esrc_time.h"
-
-#include "tprDebug.h"
 
 namespace ubo{//------------- namespace ubo ----------------
 

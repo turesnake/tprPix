@@ -11,6 +11,7 @@
  *  控制 move 指令输入，（进一步控制 collision ）
  * ----------------------------
  */
+#include "pch.h"
 #include "ActionFSM.h"
 
 

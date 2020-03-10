@@ -8,17 +8,10 @@
 #ifndef TPR_CHUNK_CREATE_ZONE_H
 #define TPR_CHUNK_CREATE_ZONE_H
 
-//-------------------- CPP --------------------//
-#include <cmath>
-#include <vector>
-#include <unordered_set>
-#include <unordered_map>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprCast.h"
-#include "config.h"
 #include "Chunk.h"
-#include "tprAssert.h"
 #include "NineDirection.h"
 
 

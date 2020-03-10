@@ -5,14 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Collision.h"
 
-//-------------------- CPP --------------------//
-#include <unordered_set>
-#include <map>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "GameObjMesh.h"
 #include "GameObj.h"
 #include "AnimActionPos.h"
@@ -25,8 +21,6 @@
 #include "esrc_gameObj.h"
 #include "esrc_time.h"
 #include "esrc_coordinate.h"
-
-#include "tprDebug.h"
 
 
 //===== static =====//
@@ -432,7 +426,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                     mapEntPair.second->insert_2_circular_goids( dogoRef.goid, dogoRef.get_colliderType() );
                 }else{
                     //-- debug --
-                    cout << "++++ Collision::detect_for_move: catch not Active Chunk in adds!!!" << endl;
+                    tprDebug::console( "++++ Collision::detect_for_move: catch not Active Chunk in adds!!!" );
                 }
             }
             //-- dels --
@@ -444,7 +438,7 @@ void Collision::reSignUp_dogo_to_chunk_and_mapents( const glm::dvec2 &moveVec_ )
                         //-- 执行正式的注销操作，并确保原初 存在唯一的 目标元素
                 }else{
                     //-- debug --
-                    cout << "++++ Collision::detect_for_move: catch not Active Chunk in dels!!!" << endl;
+                    tprDebug::console( "++++ Collision::detect_for_move: catch not Active Chunk in dels!!!" );
                 }
                     
             }

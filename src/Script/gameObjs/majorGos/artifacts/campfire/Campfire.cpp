@@ -5,23 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/artifacts/campfire/Campfire.h"
-
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
 
 //-------------------- Lib --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "assemble_go.h"
 
-#include "esrc_shader.h" 
 #include "esrc_animFrameSet.h"
 
 //-------------------- Script --------------------//
@@ -29,7 +23,7 @@
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -41,9 +35,6 @@ namespace gameObjs {//------------- namespace gameObjs ----------------
 
 class Campfire_PvtBinary{
 public:
-
-    int   tmp {};
-
 
     inline bool is_need_to_create_new_smoke()noexcept{
         this->smoke_create_count--;
@@ -80,7 +71,7 @@ namespace campfire_inn {//----------- namespace: campfire_inn ----------------//
         size_t animFrameCount {0}; // 动画计数器
     };
 
-    void update_for_smokeGoMesh( GameObj &goRef_, GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ );
+    void update_for_smokeGoMesh( GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ );
 
 }//-------------- namespace: campfire_inn end ----------------//
 
@@ -162,9 +153,9 @@ void Campfire::OnRenderUpdate( GameObj &goRef_ ){
         smoke_pvtBp->isSmoke = true;
 
         goRef_.goMeshSet.bind_goMesh_callback_everyFrame( goMeshName,
-            [&]( GameObjMesh &goMeshRef_ ){
+            []( GameObjMesh &goMeshRef_ ){
                 auto *goMeshPvtBp = goMeshRef_.get_pvtBinaryPtr<campfire_inn::GoMesh_PvtBinary>();
-                campfire_inn::update_for_smokeGoMesh( goRef_, goMeshRef_, goMeshPvtBp );
+                campfire_inn::update_for_smokeGoMesh( goMeshRef_, goMeshPvtBp );
             }
         );
 
@@ -188,8 +179,7 @@ void Campfire::OnLogicUpdate( GameObj &goRef_ ){
 
 // 暂未实现
 void Campfire::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-        cout << "Campfire::OnActionSwitch" << endl;
-        tprAssert(0);
+    tprAssert(0);
 }
 
 
@@ -198,7 +188,7 @@ namespace campfire_inn {//----------- namespace: campfire_inn ----------------//
 
 
 
-void update_for_smokeGoMesh( GameObj &goRef_, GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ ){
+void update_for_smokeGoMesh( GameObjMesh &smokeGoMesh_, GoMesh_PvtBinary *goMeshBp_ ){
 
     goMeshBp_->animFrameCount++;
     double animDCount = static_cast<double>(goMeshBp_->animFrameCount);

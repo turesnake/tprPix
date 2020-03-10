@@ -5,21 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/artifacts/glassBottle/GlassBottle.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "assemble_go.h"
-
-#include "esrc_shader.h" 
-#include "esrc_animFrameSet.h"
 
 
 //-------------------- Script --------------------//
@@ -27,7 +19,7 @@
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -102,8 +94,7 @@ void GlassBottle::OnLogicUpdate( GameObj &goRef_ ){
 
 
 void GlassBottle::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
-        cout << "GlassBottle::OnActionSwitch" << endl;
-        tprAssert(0);
+    tprAssert(0);
 }
 
 

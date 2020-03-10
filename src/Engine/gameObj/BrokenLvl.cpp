@@ -5,21 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "BrokenLvl.h"
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//------------------- Engine --------------------//
-#include "tprAssert.h"
-
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
-
 
 
 std::string brokenLvl_2_str( BrokenLvl bl_ )noexcept{
@@ -33,7 +23,7 @@ BrokenLvl str_2_brokenLvl( const std::string &str_ )noexcept{
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find BrokenLvl: " << str_ << endl;
+        tprDebug::console( "can't find BrokenLvl: {}", str_ );
         tprAssert(0);
         return BrokenLvl::Lvl_0; // never reach
     }

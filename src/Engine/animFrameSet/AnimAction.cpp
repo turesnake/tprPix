@@ -5,27 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "AnimAction.h"
-
-//------------------- CPP --------------------//
-#include <cmath>
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
 
 //------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
 #include "AnimFrameSet.h"
 
 #include "esrc_time.h"
-
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 using namespace std::placeholders;
@@ -38,7 +27,7 @@ AnimAction::PlayType AnimAction::str_2_playType( const std::string &str_ )noexce
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find AnimAction::PlayType: " << str_ << endl;
+        tprDebug::console( "can't find AnimAction::PlayType: {}", str_  );
         tprAssert(0);
         return AnimAction::PlayType::Idle; // never reach
     }

@@ -5,11 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "UIGoSpecFromJson.h"
 
 //--------------- CPP ------------------//
-#include <unordered_map>
-#include <string>
 #include <utility>
 
 //--------------- Libs ------------------//
@@ -17,10 +16,7 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 
@@ -31,9 +27,6 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace json{//------------- namespace json ----------------
 namespace uiJson_inn {//-------- namespace: uiJson_inn --------------//
@@ -49,7 +42,7 @@ namespace uiJson_inn {//-------- namespace: uiJson_inn --------------//
  */
 void parse_uiGoJsonFile(){
 
-    cout << "   ----- parse_uiGoJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_uiGoJsonFile: start ----- " );
 
 
     std::vector<std::string> path_files {};
@@ -60,7 +53,7 @@ void parse_uiGoJsonFile(){
     }
 
     esrc::insertState("json_uiGo");
-    cout << "   ----- parse_uiGoJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_uiGoJsonFile: end ----- " );
 }
 
 

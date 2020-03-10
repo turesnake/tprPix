@@ -5,6 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoDataForCreate.h"
 
 //-------------------- Libs --------------------//
@@ -20,7 +21,6 @@
 
 #include "esrc_animFrameSet.h"
 
-#include "tprDebug.h"
 
 extern const std::string &calc_groundGoMeshName( FieldFractType fieldFractType_, colorTableId_t colorTableId_ )noexcept;
 

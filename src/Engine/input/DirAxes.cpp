@@ -5,13 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "DirAxes.h"
 
 //-------------------- Engine --------------------//
 #include "esrc_coordinate.h"
-#include "tprMath.h"
-
-#include "tprDebug.h"
 
 
 // 将 初始值 修正成 游戏坐标系中的 值

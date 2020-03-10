@@ -1,29 +1,24 @@
 /*
- * ===================== dataBase.cpp ==========================
+ * ===================== dataBase_main.cpp ==========================
  *                          -- tpr --
  *                                        CREATE -- 2019.04.29
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "dataBase.h"
 #include "dataBase_inn.h"
-
-//-------------------- CPP --------------------//
-#include <string>
-#include <vector>
 
 //------------------- Libs --------------------//
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
+#include "global.h"
 #include "GameObj.h"
 #include "esrc_gameArchive.h"
 #include "esrc_player.h"
 #include "esrc_time.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 namespace db{//---------------- namespace: db ----------------------//
@@ -40,7 +35,7 @@ void atom_init_dataBase(){
 
     //-- 返回 0，说明为 单线程 模式 --
     //   已在 编译阶段设置
-    cout << "sqlite3_threadsafe(): " << sqlite3_threadsafe() << endl;
+    tprDebug::console( "sqlite3_threadsafe(): {}", sqlite3_threadsafe() );
 
     //------------------//
     //       open
@@ -155,7 +150,8 @@ void atom_close_dataBase(){
 
     //-- close --
     sqlite3_close( dbConnect );
-    cout << "== DATABASE ALL SUCCESS; ==" << endl;
+
+    tprDebug::console( "== DATABASE ALL SUCCESS; ==" );
 }
 
 
@@ -164,11 +160,16 @@ void atom_close_dataBase(){
  * -----------------------------------------------------------
  */
 int callback_1(void *data_, int argc_, char **argv_, char **azColNames_){
-    cout << (const char*)data_ << endl;
+
+    tprDebug::console( (const char*)data_ );
     for(int i=0; i<argc_; i++){
-      cout << azColNames_[i] << " = "
-            << (argv_[i] ? argv_[i] : "NULL")
-            << endl;
+
+        tprDebug::console(  
+            "{0} = {1}",
+            azColNames_[i],
+            (argv_[i] ? argv_[i] : "NULL")
+        );
+
     }
     printf("\n");
     return 0;

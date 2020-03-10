@@ -8,19 +8,13 @@
 #ifndef TPR_SignInMapEnts_CIRCLE_H
 #define TPR_SignInMapEnts_CIRCLE_H
 
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
+#include "pch.h"
 
 //-------------------- CPP --------------------//
-#include <functional>
-#include <vector>
-#include <set>
 #include <utility> // pair
 
 
 //-------------------- Engine --------------------//
-#include "config.h" 
-#include "IntVec.h"
 #include "MapCoord.h"
 
 

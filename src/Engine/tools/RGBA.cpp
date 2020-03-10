@@ -5,10 +5,10 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "RGBA.h"
 
 //------------------- CPP --------------------//
-#include <iostream>
 #include <sstream> //- stringstream
 
 

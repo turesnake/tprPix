@@ -8,12 +8,9 @@
 #ifndef TPR_COLLISION_2_H
 #define TPR_COLLISION_2_H
 
+#include "pch.h"
+
 //-------------------- CPP --------------------//
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-#include <map>
-#include <memory>
 #include <utility> //pair
 #include <variant>
 

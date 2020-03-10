@@ -5,12 +5,10 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Job_Field.h"
 
 //-------------------- Engine --------------------//
-#include "config.h"
-#include "tprMath.h"
-#include "tprCast.h"
 #include "GoSpecFromJson.h"
 #include "Job_GroundGoEnt.h"
 

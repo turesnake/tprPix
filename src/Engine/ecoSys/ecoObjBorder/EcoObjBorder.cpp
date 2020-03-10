@@ -5,21 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "EcoObjBorder.h"
-
-
-//-------------------- CPP --------------------//
-#include <string>
-
-//--------------- Libs ------------------//
-#include "tprGeneral.h"
 
 
 //-------------------- Engine --------------------//
 #include "global.h"
 #include "load_and_divide_png.h"
 #include "RGBA.h"
-#include "tprCast.h"
 
 
 //======= static =======//

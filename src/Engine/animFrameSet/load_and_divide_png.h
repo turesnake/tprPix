@@ -8,13 +8,11 @@
 #ifndef TPR_LOAD_AND_DIVIDE_PNG_H
 #define TPR_LOAD_AND_DIVIDE_PNG_H
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <string>
+#include "pch.h"
+
 
 //------------------- Engine --------------------//
 #include "RGBA.h"
-#include "IntVec.h"
 
 
 IntVec2 load_and_divide_png(const std::string &path_,

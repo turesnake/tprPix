@@ -5,21 +5,14 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "collide_oth.h"
-
-//-------------------- CPP --------------------//
-#include <unordered_map>
-#include <set>
-#include <map>
 
 //-------------------- Engine --------------------//
 #include "NineDirection.h"
 #include "MapCoord.h"
 
 #include "esrc_coordinate.h"
-
-
-#include "tprDebug.h"
 
 
 namespace colliOth_inn {//----------- namespace: colliOth_inn ----------------//
@@ -281,14 +274,14 @@ std::pair<bool,double> cast_with_mapent(    const glm::dvec2 &moveVec_,
     //- 说明 此时正贴着墙壁 上下移动 
     if( is_closeEnough<double>( moveVec_.x, 0.0, 0.001 ) ){
         if( dogoTargetMPos.x != targetMPos_.x ){
-            //cout << "--- X ---" << endl;
+            //tprDebug::console( "--- X ---" );
             return { false, 1.0 }; // 不相交
         }
     }
     //- 说明 此时正贴着墙壁 左右移动 
     if( is_closeEnough<double>( moveVec_.y, 0.0, 0.001 ) ){
         if( dogoTargetMPos.y != targetMPos_.y ){
-            //cout << "--- Y ---" << endl;
+            //tprDebug::console( "--- Y ---" );
             return { false, 1.0 }; // 不相交
         }
     }

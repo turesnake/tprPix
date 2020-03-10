@@ -5,22 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Joystick.h"
-
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-
-//--------------- Engine ------------------//
-#include "tprMath.h"
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 namespace joystick_inn {//------------------- namespace: joystick_inn ----------------------//

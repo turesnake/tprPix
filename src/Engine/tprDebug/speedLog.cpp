@@ -5,17 +5,12 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "speedLog.h"
 
 //------------------- CPP --------------------//
-#include <cmath>
-#include <string>
-#include <iostream>
 #include <sstream>
 #include <fstream>
-#include <memory>
-#include <unordered_map>
-#include <map>
 #include <iomanip>
 
 //------------------- Libs --------------------//
@@ -24,10 +19,10 @@
 //-------------------- Engine --------------------//
 #include "global.h"
 #include "timeLog.h"
-#include "tprMath.h"
 
-using std::cout;
+
 using std::endl;
+
 
 
 namespace tprDebug {//---------- namespace: tprDebug --------------//

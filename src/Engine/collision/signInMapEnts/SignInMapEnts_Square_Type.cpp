@@ -5,20 +5,11 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "SignInMapEnts_Square_Type.h"
-
 
 //--------------- Libs ------------------//
 #include "magic_enum.hpp"
-
-//--------------- Engine ------------------//
-#include "tprAssert.h"
-
-//-- tmp debug --
-#include <string>
-#include <iostream>
-using std::cout;
-using std::endl;
 
 
 
@@ -34,7 +25,7 @@ SignInMapEnts_Square_Type str_2_signInMapEnts_square_type( const std::string &st
     if( labelOP.has_value() ){
         return *labelOP;
     }else{
-        cout << "can't find SignInMapEnts_Square_Type: " << str_ << endl;
+        tprDebug::console( "can't find SignInMapEnts_Square_Type: {}", str_ );
         tprAssert(0);
         return SignInMapEnts_Square_Type::T_1m1; // never reach
     }

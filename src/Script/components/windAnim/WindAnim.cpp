@@ -5,17 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/components/windAnim/WindAnim.h"
-
-
 
 //-------------------- Engine --------------------//
 #include "random.h"
-#include "tprAssert.h"
 #include "esrc_time.h"
 
-
-#include "tprDebug.h"
 
 
 namespace component{//------------- namespace component ----------------

@@ -5,18 +5,13 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_ecoObjMemState.h"
 //-------------------- CPP --------------------//
-#include <unordered_map>
-#include <memory>
 #include <deque>
-#include <unordered_set>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "esrc_state.h"
-
-#include "tprDebug.h"
 
 
 namespace esrc {//------------------ namespace: esrc -------------------------//

@@ -5,13 +5,13 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "GoSpecFromJson.h"
 
 
 //-------------------- Engine --------------------//
 #include "GameObj.h"
 
-#include "tprDebug.h"
 
 //======== static ========//
 std::unordered_map<goSpeciesId_t, std::unique_ptr<GoSpecFromJson>> GoSpecFromJson::dataUPtrs {};
@@ -39,9 +39,9 @@ void GoSpecFromJson::assemble_2_newGo( goSpeciesId_t specID_, GameObj &goRef_ ){
     collisionRef.set_isBePass( d.isBePass );
     if( !d.isBePass ){
         collisionRef.set_functor_Is_extraPassableDogoSpeciesId( 
-            // 值捕获 
-            [specID_](goSpeciesId_t dogoSpeciesId_)->bool {
-                const auto &gRef = GoSpecFromJson::get_goSpecFromJsonRef( specID_ );
+            
+            [ specID_l=specID_ ](goSpeciesId_t dogoSpeciesId_)->bool {
+                const auto &gRef = GoSpecFromJson::get_goSpecFromJsonRef( specID_l );
                 return (gRef.extraPassableDogoSpeciesIds.find(dogoSpeciesId_) != gRef.extraPassableDogoSpeciesIds.end());
             }
         );

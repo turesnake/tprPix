@@ -5,33 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/Grass.h"
 
 //-------------------- CPP --------------------//
-#include <functional>
-#include <string>
 #include <random>
 
-//-------------------- Lib --------------------//
-#include "tprGeneral.h"
-
 //-------------------- Engine --------------------//
-#include "Density.h"
 #include "animSubspeciesId.h"
-#include "tprAssert.h"
-#include "tprCast.h"
-#include "create_go_oth.h"
 #include "random.h"
 #include "simplexNoise.h"
 #include "dyParams.h"
-
-#include "esrc_time.h"
-#include "esrc_shader.h" 
-#include "esrc_chunk.h"
-#include "esrc_gameSeed.h"
-#include "esrc_animFrameSet.h"
-#include "esrc_colorTableSet.h"
-
 
 //-------------------- Script --------------------//
 #include "Script/components/windAnim/WindAnim.h"
@@ -40,7 +24,7 @@
 
 using namespace std::placeholders;
 
-#include "tprDebug.h" 
+//#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------

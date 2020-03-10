@@ -5,12 +5,11 @@
  *                                        MODIFY --
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "esrc_uniformBlockObj.h"
-#include <memory>
 
 //-------------------- Engine --------------------//
 #include "uniformBlockObjs.h"
-#include "tprAssert.h"
 #include "ColorTable.h"
 
 #include "esrc_state.h"

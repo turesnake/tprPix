@@ -5,18 +5,16 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
+
 //-------------------- C --------------------//
 #include <cstring>
 
 //-------------------- CPP --------------------//
-#include <set>
-#include <unordered_map>
 #include <thread>
 #include <chrono>
-#include <memory>
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "NineDirection.h"
 #include "Chunk.h"
 #include "sectionKey.h"
@@ -37,7 +35,6 @@
 
 #include "chunkCreate.h"
 
-#include "tprDebug.h"
 
 
 namespace chunkCreate {//------- namespace: chunkCreate ----------//
@@ -136,7 +133,7 @@ void create_9_chunks( IntVec2 playerMPos_ ){
         std::this_thread::sleep_for( std::chrono::milliseconds(5) ); // 待机一段时间
     }
 
-        cout << "5*5 ecoobjs create Done! " << endl;
+        tprDebug::console( "5*5 ecoobjs create Done! " );
 
 
     //----------------------------//
@@ -198,7 +195,7 @@ void collect_chunks_need_to_be_create_in_update(){
                     break;
 
                 case ChunkMemState::WaitForCreate:
-                            cout << "find chunk: WaitForCreate" << endl;
+                            tprDebug::console( "find chunk: WaitForCreate" );
                     // do nothing
                 case ChunkMemState::OnCreating:
                 case ChunkMemState::Active:
@@ -363,9 +360,11 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
 
 
             double timeP_2 = esrc::get_timer().get_currentTime();
-            cout << "chunkCreate: "
-                << "build_go_time: " << (timeP_2-timeP_1)
-                << endl;
+
+            tprDebug::console( 
+                "chunkCreate: build_go_time: {}",
+                (timeP_2-timeP_1)
+            );
 
             // 应该把这部分数据，记录到 log 中
             // ...

@@ -7,20 +7,10 @@
  */
 #ifndef TPR_JOB_MAP_ENT_H
 #define TPR_JOB_MAP_ENT_H
-//--- glm - 0.9.9.5 ---
-#include "glm_no_warnings.h"
 
-//-------------------- CPP --------------------//
-#include <vector>
-#include <unordered_map>
-#include <optional>
-#include <set>
+#include "pch.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "tprCast.h"
-#include "config.h"
-#include "IntVec.h"
 #include "sectionKey.h"
 #include "chunkKey.h"
 #include "fieldKey.h"

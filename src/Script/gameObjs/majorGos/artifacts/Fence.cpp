@@ -5,28 +5,17 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
+#include "pch.h"
 #include "Script/gameObjs/majorGos/artifacts/Fence.h"
 
-//-------------------- CPP --------------------//
-#include <functional>
-#include <string>
-
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
-#include "Density.h"
 #include "animSubspeciesId.h"
 #include "dyParams.h"
 #include "assemble_go.h"
 
-#include "esrc_shader.h" 
-#include "esrc_animFrameSet.h"
-
 //-------------------- Script --------------------//
 
-
 using namespace std::placeholders;
-
-#include "tprDebug.h" 
 
 
 namespace gameObjs {//------------- namespace gameObjs ----------------
@@ -105,7 +94,6 @@ void Fence::OnLogicUpdate( GameObj &goRef_ ){
 
 void Fence::OnActionSwitch( GameObj &goRef_, ActionSwitchType type_ ){
 
-        cout << "Fence::OnActionSwitch" << endl;
         tprAssert(0);
     //=====================================//
     //            ptr rebind

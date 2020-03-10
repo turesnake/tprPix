@@ -5,8 +5,7 @@
  *                                        MODIFY -- 
  * ----------------------------------------------------------
  */
-//--------------- CPP ------------------//
-#include <string>
+#include "pch.h"
 
 //--------------- Libs ------------------//
 #include "rapidjson/document.h"
@@ -16,7 +15,6 @@
 #include "tprGeneral.h"
 
 //-------------------- Engine --------------------//
-#include "tprAssert.h"
 #include "global.h"
 #include "fileIO.h"
 
@@ -29,10 +27,6 @@
 
 using namespace rapidjson;
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 
 namespace json{//------------- namespace json ----------------
 
@@ -44,7 +38,7 @@ namespace json{//------------- namespace json ----------------
  */
 WindowConfigJsonData parse_windowConfigJsonFile(){
 
-    cout << "   ----- parse_windowConfigJsonFile: start ----- " << endl;
+    tprDebug::console( "   ----- parse_windowConfigJsonFile: start ----- " );
 
     //-----------------------------//
     //         load file
@@ -76,7 +70,7 @@ WindowConfigJsonData parse_windowConfigJsonFile(){
         windowConfig.isFullScreen = a.GetBool();
     }
 
-    cout << "   ----- parse_windowConfigJsonFile: end ----- " << endl;
+    tprDebug::console( "   ----- parse_windowConfigJsonFile: end ----- " );
 
     esrc::insertState("json_windowConfig");
     return windowConfig;
