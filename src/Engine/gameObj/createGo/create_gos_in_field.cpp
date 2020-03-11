@@ -24,14 +24,16 @@
 
 
 
-/* only called in chunkCreate
- * all kinds of gos 
- */
+// only called in chunkCreate
+// all kinds of gos 
 void create_gos_in_field(   fieldKey_t      fieldKey_, 
                             const Chunk     &chunkRef_,
                             const Job_Chunk &job_chunkRef_ ){
 
-    const auto &fieldRef = esrc::get_field(fieldKey_);
+    auto fieldOpt = esrc::get_fieldPtr(fieldKey_);
+    tprAssert( fieldOpt.has_value() );
+    const auto &fieldRef = *fieldOpt.value();
+
     const auto *job_fieldPtr = job_chunkRef_.get_job_fieldPtr(fieldKey_);
 
     //----- ground go ------//

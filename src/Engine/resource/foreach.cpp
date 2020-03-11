@@ -22,7 +22,12 @@ void foreach_goids_active( F_GOID_GOPTR fp_ ){
 
     auto it = esrc::get_goids_active().begin();
     for( ; it!=esrc::get_goids_active().end(); it++ ){
-        fp_( *it, esrc::get_goRef(*it) );
+
+        auto goOpt = esrc::get_goPtr( *it );
+        tprAssert( goOpt.has_value() );
+        GameObj &goRef = *goOpt.value();
+        //--
+        fp_( *it, goRef );
     }
 }
 
@@ -36,7 +41,12 @@ void foreach_goids_inactive( F_GOID_GOPTR fp_ ){
 
     auto it = esrc::get_goids_inactive().begin();
     for( ; it!=esrc::get_goids_inactive().end(); it++ ){
-        fp_( *it, esrc::get_goRef(*it) );
+
+        auto goOpt = esrc::get_goPtr( *it );
+        tprAssert( goOpt.has_value() );
+        GameObj &goRef = *goOpt.value();
+        //--
+        fp_( *it, goRef );
     }
 }
 

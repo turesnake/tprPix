@@ -71,6 +71,13 @@ namespace sc_begin_inn {//-------------- namespace: sc_begin_inn ---------------
     //===== funcs =====//
     void inputINS_handle( const InputINS &inputINS_);
 
+    // tmp
+    GameObj &get_goRef( goid_t id_ )noexcept{
+        auto goOpt = esrc::get_goPtr( id_ );
+        tprAssert( goOpt.has_value() );
+        return *goOpt.value();
+    }
+
 }//------------------ namespace: sc_begin_inn end ------------------//
 
 
@@ -109,10 +116,10 @@ void prepareForScene_begin(){
                                                             emptyDyParam,
                                                             17 ); // tmp，随便写的 goUWeight
 
-    GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
-    GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
-    GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
-    GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
+    GameObj &button_pointerRef = sc_begin_inn::get_goRef( sc_begin_inn::button_pointerId );
+    GameObj &button_archiveRef_1 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_1 );
+    GameObj &button_archiveRef_2 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_2 );
+    GameObj &button_archiveRef_3 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_3 );
 
     //----------------------------//
     //            db
@@ -176,10 +183,10 @@ void sceneRenderLoop_begin(){
     //     - shadowMeshs
     //     - picMeshs
     //------------------------//
-    GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
-    GameObj &button_archiveRef_1 = esrc::get_goRef( sc_begin_inn::button_archiveId_1 );
-    GameObj &button_archiveRef_2 = esrc::get_goRef( sc_begin_inn::button_archiveId_2 );
-    GameObj &button_archiveRef_3 = esrc::get_goRef( sc_begin_inn::button_archiveId_3 );
+    GameObj &button_pointerRef   = sc_begin_inn::get_goRef( sc_begin_inn::button_pointerId );
+    GameObj &button_archiveRef_1 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_1 );
+    GameObj &button_archiveRef_2 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_2 );
+    GameObj &button_archiveRef_3 = sc_begin_inn::get_goRef( sc_begin_inn::button_archiveId_3 );
 
     button_pointerRef.RenderUpdate( button_pointerRef );
     button_archiveRef_1.RenderUpdate( button_archiveRef_1 );
@@ -359,7 +366,11 @@ void inputINS_handle( const InputINS &inputINS_){
         }   
         //---    
 
-        GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );   
+        // get go ref
+        auto goOpt = esrc::get_goPtr( sc_begin_inn::button_pointerId );
+        tprAssert( goOpt.has_value() );
+        GameObj &button_pointerRef = *goOpt.value();
+
         button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_dpos() );
 
 
@@ -375,7 +386,11 @@ void inputINS_handle( const InputINS &inputINS_){
         }
         //---
 
-        GameObj &button_pointerRef = esrc::get_goRef( sc_begin_inn::button_pointerId );
+        // get go ref
+        auto goOpt = esrc::get_goPtr( sc_begin_inn::button_pointerId );
+        tprAssert( goOpt.has_value() );
+        GameObj &button_pointerRef = *goOpt.value();
+
         button_pointerRef.move.set_adsorb_targetDPos( butonUIAnchors.at(targetIdx).get_dpos() );
     }
 

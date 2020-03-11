@@ -65,9 +65,11 @@ void erase_all_fields_in_chunk( IntVec2 chunkMPos_ ){
 }
 
 
-const MapField &get_field( fieldKey_t fieldKey_ ){
-    tprAssert( field_inn::fields.find(fieldKey_) != field_inn::fields.end() );
-    return *(field_inn::fields.at( fieldKey_ ));
+std::optional<const MapField*> get_fieldPtr( fieldKey_t fieldKey_ ){
+    if( field_inn::fields.find(fieldKey_) == field_inn::fields.end() ){
+        return std::nullopt;
+    }   
+    return { field_inn::fields.at(fieldKey_).get() };
 }
 
 

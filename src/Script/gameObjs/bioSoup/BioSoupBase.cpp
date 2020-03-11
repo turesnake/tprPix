@@ -41,9 +41,8 @@ void BioSoupBase::init_for_static(){
                         std::vector<animSubspeciesId_t>                 &originIds_,
                         int                                             num_ ){
         for( int n=0; n<num_; n++ ){
-            //targetV_.push_back( std::vector<animSubspeciesId_t>{} );
-            targetV_.emplace_back();
-            auto &vRef = targetV_.back();
+            auto &vRef = targetV_.emplace_back();
+            //auto &vRef = targetV_.back();
             vRef.insert( vRef.end(), originIds_.begin(), originIds_.end() );
             vRef.insert( vRef.end(), originIds_.begin(), originIds_.end() ); // twice
             std::shuffle( vRef.begin(), vRef.end(), randEngine );
@@ -57,6 +56,8 @@ void BioSoupBase::init_for_static(){
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_1m1_3", 11 ) );
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_1m1_4", 11 ) );
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_1m1_5", 11 ) );
+        ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_1m1_6", 11 ) );
+        ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_1m1_7", 11 ) );
         //=
         f_insert( BioSoupBase::animSubspeciesIdSets_1m1, ids, 17 );
     }
@@ -68,6 +69,8 @@ void BioSoupBase::init_for_static(){
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_2m2_3", 11 ) );
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_2m2_4", 11 ) );
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_2m2_5", 11 ) );
+        ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_2m2_6", 11 ) );
+        ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_2m2_7", 11 ) );
         //=
         f_insert( BioSoupBase::animSubspeciesIdSets_2m2, ids, 17 );
     }
@@ -76,6 +79,7 @@ void BioSoupBase::init_for_static(){
         std::vector<animSubspeciesId_t> ids;
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_4m4_1", 11 ) );
         ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_4m4_2", 11 ) );
+        ids.insert( ids.end(), 1, esrc::apply_a_random_animSubspeciesId( "bioSoup_active_1", "MapEnt_4m4_3", 11 ) );
         //=
         f_insert( BioSoupBase::animSubspeciesIdSets_4m4, ids, 17 );
     }

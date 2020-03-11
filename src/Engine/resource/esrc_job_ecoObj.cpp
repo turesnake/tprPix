@@ -32,9 +32,8 @@ namespace jeo_inn {//------------ namespace: jeo_inn --------------//
 }//---------------- namespace: jeo_inn end --------------//
 
 
-/* [-WRITE-]
- * 通常由 job线程 调用
- */
+// [-WRITE-]
+// [* job-threads *]
 EcoObj &atom_insert_new_job_ecoObj( sectionKey_t ecoObjKey_ ){
     auto job_ecoObjUPtr = std::make_unique<EcoObj>();
     //--- atom ---//
@@ -47,8 +46,7 @@ EcoObj &atom_insert_new_job_ecoObj( sectionKey_t ecoObjKey_ ){
 }
 
 
-/* 通常由 job线程 调用
- */
+// [* job-threads *]
 void atom_insert_2_job_ecoObjFlags( sectionKey_t ecoObjKey_ ){
     //--- atom ---//
     std::lock_guard<std::mutex> lg( jeo_inn::job_ecoObjFlagsMutex );
@@ -57,10 +55,9 @@ void atom_insert_2_job_ecoObjFlags( sectionKey_t ecoObjKey_ ){
 }
 
 
-/* [-WRITE-]
- * 一次性把所有已创建好的 ecoobjUPtr，move 到 esrc 容器
- * -- 通常由 主线程 调用
- */
+// [-WRITE-]
+// [* main-thread *]
+// 一次性把所有已创建好的 ecoobjUPtr，move 到 esrc 容器
 size_t atom_move_all_ecoObjUptrs_from_job_2_esrc(){
 
     {//--- atom ---//
@@ -69,6 +66,8 @@ size_t atom_move_all_ecoObjUptrs_from_job_2_esrc(){
             return 0; // 
         }
     }
+
+    // 由于 本函数只被 main-thread 调用，所以这么分段加锁 是没问题的。
 
     //--- atom ---//
     std::unique_lock<std::shared_mutex> ul( jeo_inn::sharedMutex ); //- write

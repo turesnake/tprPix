@@ -60,7 +60,6 @@
                     "goSpecPool":[
         
                         { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 7 },
-                        
                         { "goSpeciesName": "grass", "goLabel":"Flower_HighWhite_Mid", "num": 1 },
         
                         { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 1 },

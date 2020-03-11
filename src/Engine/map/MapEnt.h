@@ -99,6 +99,12 @@ public:
     inline void set_bioSoup_goid( goid_t goid_, GameObjFamily family_ )noexcept{ 
 
         tprAssert( family_ == GameObjFamily::BioSoup );
+
+
+        if( this->bioSoupGo != 0 ){
+            tprDebug::console("bioSoupGo = {}", this->bioSoupGo );
+        }
+
         tprAssert( this->bioSoupGo == 0 ); // 一定要先合法地释放掉旧元素后，再登记新元素。禁止直接覆盖！
         this->bioSoupGo = goid_;
         //--
@@ -156,7 +162,7 @@ private:
                                     // 一个 mapent 其实还允许出现 floorGo
                                     // 但是它们不是 majorGo，不参与游戏交互。
                                     // 所以不会被登记到 mapent 中
-    goid_t                      bioSoupGo {}; // only one
+    goid_t                      bioSoupGo {0}; // only one
                                     // 一个 mapent 允许同时含有 一个 mp-go, 一个 bioSoup
     
 };

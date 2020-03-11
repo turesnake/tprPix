@@ -96,6 +96,9 @@ void parse_single_yardJsonFile( const std::string &path_file_ ){
     bool isFloorGo {};
 
     //=====//
+    if( !doc.IsArray() ){
+        tprDebug::console("ERROR_filePath:\n{}", path_file_ );
+    }
     tprAssert( doc.IsArray() );
     for( auto &docEnt : doc.GetArray() ){
 

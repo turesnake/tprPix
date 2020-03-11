@@ -139,6 +139,60 @@
             ]
         },
 
+        {
+            "path": "active_1m1_6.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  5,
+            "totalFrameNum": 25,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_1m1_6",
+                    "subIdx": 5,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 25,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "active_1m1_7.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  3,
+            "totalFrameNum": 11,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_1m1_7",
+                    "subIdx": 6,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 6,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 11,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
 
 
         {
@@ -276,6 +330,60 @@
             ]
         },
 
+        {
+            "path": "active_2m2_6.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  5,
+            "totalFrameNum": 25,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_2m2_6",
+                    "subIdx": 5,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 25,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "active_2m2_7.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 19,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_2m2_7",
+                    "subIdx": 6,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 6,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 19,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
 
 
         {
@@ -325,6 +433,33 @@
                             "isOrder":    true,
                             "isTimeStepSame": true, "timeStep"  : 5,
                             "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 15,
+                            "isOpaque": true
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "active_4m4_3.P.png",
+            "frameNum.col":  5,
+            "frameNum.row":  4,
+            "totalFrameNum": 19,
+            "isHaveShadow": false,
+            "isPjtSingle": true,
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "MapEnt_4m4_3",
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        {
+                            "actionEName": "Idle", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": true, "timeStep"  : 5,
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 19,
                             "isOpaque": true
                         }
                     ]

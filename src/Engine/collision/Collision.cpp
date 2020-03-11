@@ -145,7 +145,9 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
             continue;
         }
 
-        GameObj &begoRef = esrc::get_goRef( squ_goid );
+        auto begoOpt = esrc::get_goPtr( squ_goid );
+        tprAssert( begoOpt.has_value() );
+        GameObj &begoRef = *begoOpt.value();
 
         //----- isMoveCollide -----//
         //      bego.isBePass
@@ -199,7 +201,9 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
 
     //--------
     for( const auto &begoid : Collision::begoids_circular ){ //- each cir-bego
-        GameObj &begoRef = esrc::get_goRef( begoid );
+        auto begoOpt = esrc::get_goPtr( begoid );
+        tprAssert( begoOpt.has_value() );
+        GameObj &begoRef = *begoOpt.value();
 
         //----- isMoveCollide -----//
         //      bego.isBePass
@@ -225,7 +229,11 @@ std::pair<bool, glm::dvec2> Collision::collect_AdjacentBegos_and_deflect_moveVec
         bool is_rightSide_have {false};
         //--
         for( const auto &[iGoid, iVec] : Collision::adjacentCirBeGos ){
-            GameObj &begoRef = esrc::get_goRef( iGoid );
+
+            // get go ref
+            auto begoOpt = esrc::get_goPtr( iGoid );
+            tprAssert( begoOpt.has_value() );
+            GameObj &begoRef = *begoOpt.value();
             
             //----- 过滤掉那些 背向而行 的 bego -----
             if( is_dogoCircular_leave_begoCircular(moveVec_, dogoDPos, begoRef.calc_circular(CollideFamily::Move) ) ){
@@ -300,7 +308,10 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
             continue; //- skip
         }
 
-        GameObj &begoRef = esrc::get_goRef( squ_goid );
+        // get go ref
+        auto begoOpt = esrc::get_goPtr( squ_goid );
+        tprAssert( begoOpt.has_value() );
+        GameObj &begoRef = *begoOpt.value();
 
         //----- isMoveCollide -----//
         //      bego.isBePass
@@ -353,7 +364,10 @@ std::pair<bool,glm::dvec2> Collision::collect_IntersectBegos_and_truncate_moveVe
     Circular begoCir {};
     for( const auto &begoid : Collision::begoids ){//- each bego (cirs)
 
-        GameObj &begoRef = esrc::get_goRef( begoid );
+        // get go ref
+        auto begoOpt = esrc::get_goPtr( begoid );
+        tprAssert( begoOpt.has_value() );
+        GameObj &begoRef = *begoOpt.value();
 
         //----- isMoveCollide -----//
         //      bego.isBePass

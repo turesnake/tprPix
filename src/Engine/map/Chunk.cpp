@@ -27,7 +27,10 @@ void Chunk::init(){
     this->uWeight = calc_simple_mapent_uWeight( this->mpos );
 
     //  mapents
-    auto &job_chunkRef = esrc::atom_getnc_job_chunkRef( this->chunkKey );
+    auto job_chunk_opt = esrc::atom_getnc_job_chunk_ptr( this->chunkKey );
+    tprAssert( job_chunk_opt.has_value() );
+    auto &job_chunkRef = *(job_chunk_opt.value());
+
     this->memMapEnts.reserve( cast_2_size_t( ENTS_PER_CHUNK * ENTS_PER_CHUNK ) ); // reserve FIRST
     for( int h=0; h<ENTS_PER_CHUNK; h++ ){
         for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent

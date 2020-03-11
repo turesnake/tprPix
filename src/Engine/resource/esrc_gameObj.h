@@ -12,6 +12,7 @@
 //-------------------- CPP --------------------//
 #include <string>
 #include <functional> 
+#include <optional>
 #include <unordered_map>
 #include <unordered_set> 
 
@@ -32,8 +33,9 @@ std::unordered_set<goid_t> &get_goids_inactive();
 void insert_2_goids_active( goid_t id_ );
 void insert_2_goids_inactive( goid_t id_ );
 
-GameObj &get_goRef( goid_t id_, const std::string str_="" );
-GameObj *get_goRawPtr( goid_t id_ );
+std::optional<GameObj*> get_goPtr( goid_t id_ )noexcept;
+
+//GameObj *get_goRawPtr( goid_t id_ );
 
 bool is_go_active(goid_t id_  ); //- tmp
 

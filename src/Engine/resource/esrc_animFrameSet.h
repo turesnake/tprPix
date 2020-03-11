@@ -21,7 +21,7 @@ namespace esrc {//------------------ namespace: esrc -------------------------//
 
 AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ );
 
-AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ );
+//AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ); // not used
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ );
 

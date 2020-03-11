@@ -5,9 +5,9 @@
     "yardName": "house_forest_2f2",
 
     "pngLPath": "house_2f2.M.png",
-    "frameNum.col":  1,
+    "frameNum.col":  2,
     "frameNum.row":  4,
-    "totalFrameNum": 4,
+    "totalFrameNum": 8,
 
     "isHaveMajorGos": true,
     "isHaveFloorGos": false,
@@ -34,6 +34,44 @@
             "goSpecPool":[
                 { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
             ]
+        },
+
+        {
+            "Notes": " 罐头 ",
+            "type": "V_9",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pot", "goLabel":"", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " grass-1 ",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 5 }
+            ]
+        },
+
+        {
+            "Notes": " grass-2 ",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 1 },
+                { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 }
+            ]
         }
 
     ],
@@ -44,8 +82,7 @@
             "dir": "Left",
             "isAllFramesInclude": false,
             "fstFrameIdx": 0,
-            "frameNums": 1,
-
+            "frameNums": 2,
             "varTypes":[]
         },
 
@@ -53,9 +90,8 @@
             "yardLabel": "",
             "dir": "Top",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 1,
-            "frameNums": 1,
-
+            "fstFrameIdx": 2,
+            "frameNums": 2,
             "varTypes":[]
         },
 
@@ -63,9 +99,8 @@
             "yardLabel": "",
             "dir": "Right",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 2,
-            "frameNums": 1,
-
+            "fstFrameIdx": 4,
+            "frameNums": 2,
             "varTypes":[]
         },
 
@@ -73,9 +108,8 @@
             "yardLabel": "",
             "dir": "Bottom",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 3,
-            "frameNums": 1,
-
+            "fstFrameIdx": 6,
+            "frameNums": 2,
             "varTypes":[]
         }
     ]
@@ -87,12 +121,12 @@
     "yardName": "house_forest_3f3",
 
     "pngLPath": "house_3f3.M.png",
-    "frameNum.col":  1,
+    "frameNum.col":  2,
     "frameNum.row":  4,
-    "totalFrameNum": 4,
+    "totalFrameNum": 8,
 
     "isHaveMajorGos": true,
-    "isHaveFloorGos": false,
+    "isHaveFloorGos": true,
 
     "public_varTypes":[
         {
@@ -109,6 +143,16 @@
         },
 
         {
+            "Notes": " 栅栏 ",
+            "type": "V_19",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
+            ]
+        },
+        
+        {
             "Notes": " 篝火 ",
             "type": "V_4",
             "isFloorGo": false,
@@ -116,8 +160,101 @@
             "goSpecPool":[
                 { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
             ]
+        },
+
+        {
+            "Notes": " 罐头 ",
+            "type": "V_9",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pot", "goLabel":"", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 牲口水槽 1m2 ",
+            "type": "V_12",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 },
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_YellowWater", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 牲口水槽 2m1 ",
+            "type": "V_15",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 },
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_YellowWater", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " grass-1 ",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 5 }
+            ]
+        },
+
+        {
+            "Notes": " grass-2 ",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 1 },
+                { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 墙根下的 本eco nature 纹理 ------------------ ",
+            "type": "V_24",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "Forest_1_2m2", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 浅色 木头地板 ------------------ ",
+            "type": "V_29",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "WoodFloor_Light_2m2", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 深色 木头地板 ",
+            "type": "V_30",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "WoodFloor_Dark_2m2", "num": 1 }
+            ]
         }
-        
+
     ],
 
     "yardObjs":[
@@ -126,7 +263,7 @@
             "dir": "Left",
             "isAllFramesInclude": false,
             "fstFrameIdx": 0,
-            "frameNums": 1,
+            "frameNums": 2,
 
             "varTypes":[]
         },
@@ -135,8 +272,8 @@
             "yardLabel": "",
             "dir": "Top",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 1,
-            "frameNums": 1,
+            "fstFrameIdx": 2,
+            "frameNums": 2,
 
             "varTypes":[]
         },
@@ -145,8 +282,8 @@
             "yardLabel": "",
             "dir": "Right",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 2,
-            "frameNums": 1,
+            "fstFrameIdx": 4,
+            "frameNums": 2,
 
             "varTypes":[]
         },
@@ -155,8 +292,8 @@
             "yardLabel": "",
             "dir": "Bottom",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 3,
-            "frameNums": 1,
+            "fstFrameIdx": 6,
+            "frameNums": 2,
 
             "varTypes":[]
         }
@@ -169,12 +306,12 @@
     "yardName": "house_forest_4f4",
 
     "pngLPath": "house_4f4.M.png",
-    "frameNum.col":  1,
+    "frameNum.col":  3,
     "frameNum.row":  4,
-    "totalFrameNum": 4,
+    "totalFrameNum": 12,
 
     "isHaveMajorGos": true,
-    "isHaveFloorGos": false,
+    "isHaveFloorGos": true,
 
     "public_varTypes":[
         {
@@ -188,7 +325,121 @@
                 { "goSpeciesName": "stoneWall", "goLabel": "Grey", "num": 1 },
                 { "goSpeciesName": "stoneWall", "goLabel": "Dark", "num": 1 }
             ]
+        },
+
+        {
+            "Notes": " 栅栏 ",
+            "type": "V_19",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": true,
+            "goSpecPool":[
+                { "goSpeciesName": "fence", "goLabel": "T2", "num": 1 }
+            ]
+        },
+        
+        {
+            "Notes": " 篝火 ",
+            "type": "V_4",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "campfire", "goLabel": "Fire", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 罐头 ",
+            "type": "V_9",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "pot", "goLabel":"", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 牲口水槽 1m2 ",
+            "type": "V_12",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 },
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_YellowWater", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " 牲口水槽 2m1 ",
+            "type": "V_15",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_emptyWater", "num": 1 },
+                { "goSpeciesName": "trough", "goLabel": "DarkBody_YellowWater", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " grass-1 ",
+            "type": "V_10",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 5 }
+            ]
+        },
+
+        {
+            "Notes": " grass-2 ",
+            "type": "V_11",
+            "isFloorGo": false,
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Sml", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Shamrock_Green_Mid", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Big", "num": 1 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Mid", "num": 3 },
+                { "goSpeciesName": "grass", "goLabel":"Flower_White_Sml", "num": 1 },
+
+                { "goSpeciesName": "mushroom", "goLabel":"Mid", "num": 1 },
+                { "goSpeciesName": "bush", "goLabel": "Greyberry", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 墙根下的 本eco nature 纹理 ------------------ ",
+            "type": "V_24",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "Forest_1_2m2", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 浅色 木头地板 ------------------ ",
+            "type": "V_29",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "WoodFloor_Light_2m2", "num": 1 }
+            ]
+        },
+
+        {
+            "Notes": " FloorGo: 深色 木头地板 ",
+            "type": "V_30",
+            "isFloorGo": true,
+            "FloorGoSize": "MapEnt_2m2",
+            "isAllInstanceUseSamePlan": false,
+            "goSpecPool":[
+                { "goSpeciesName": "floorGo", "goLabel": "WoodFloor_Dark_2m2", "num": 1 }
+            ]
         }
+
     ],
 
     "yardObjs":[
@@ -197,7 +448,7 @@
             "dir": "Left",
             "isAllFramesInclude": false,
             "fstFrameIdx": 0,
-            "frameNums": 1,
+            "frameNums": 3,
 
             "varTypes":[]
         },
@@ -206,8 +457,8 @@
             "yardLabel": "",
             "dir": "Top",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 1,
-            "frameNums": 1,
+            "fstFrameIdx": 3,
+            "frameNums": 3,
 
             "varTypes":[]
         },
@@ -216,8 +467,8 @@
             "yardLabel": "",
             "dir": "Right",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 2,
-            "frameNums": 1,
+            "fstFrameIdx": 6,
+            "frameNums": 3,
 
             "varTypes":[]
         },
@@ -226,8 +477,8 @@
             "yardLabel": "",
             "dir": "Bottom",
             "isAllFramesInclude": false,
-            "fstFrameIdx": 3,
-            "frameNums": 1,
+            "fstFrameIdx": 9,
+            "frameNums": 3,
 
             "varTypes":[]
         }

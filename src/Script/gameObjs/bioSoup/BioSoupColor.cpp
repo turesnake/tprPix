@@ -58,10 +58,10 @@ void ColorNodeChain::init_for_state()noexcept{
         "test", 
         new ColorNodeChain( //- can not use make_unique
             std::vector<ColorNode>{
-            ColorNode{ &color_inn::baseColor_yolk_1,        0.03f },
+            ColorNode{ &color_inn::baseColor_yolk_1,        0.01f },
             ColorNode{ &color_inn::baseColor_matcha_1,      0.03f },
-            ColorNode{ &color_inn::baseColor_poplarWhite_1, 0.03f },
-            ColorNode{ &color_inn::baseColor_dark_1,        0.03f }
+            //ColorNode{ &color_inn::baseColor_poplarWhite_1, 0.03f },
+            ColorNode{ &color_inn::baseColor_dark_1,        0.02f }
         })
     );
     tprAssert( insertBool );

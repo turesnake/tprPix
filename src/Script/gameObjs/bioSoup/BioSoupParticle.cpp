@@ -83,8 +83,8 @@ void BioSoupParticle::init_for_static(){
         // 生成 21 份数据 2m2
         for( int n=0; n<21; n++ ){
             //BioSoupParticle::goMeshDposOffSets_2m2.push_back( std::vector<glm::dvec2>{} ); // empty
-            BioSoupParticle::goMeshDposOffSets_2m2.emplace_back(); // empty
-            auto &v2Ref = BioSoupParticle::goMeshDposOffSets_2m2.back();
+            auto &v2Ref = BioSoupParticle::goMeshDposOffSets_2m2.emplace_back(); // empty
+            //auto &v2Ref = BioSoupParticle::goMeshDposOffSets_2m2.back();
             v2Ref.insert( v2Ref.end(), goMesh_dposOffs_2m2.begin(), goMesh_dposOffs_2m2.end() );
             v2Ref.insert( v2Ref.end(), goMesh_dposOffs_2m2.begin(), goMesh_dposOffs_2m2.end() ); // 复制两份
             std::shuffle( v2Ref.begin(), v2Ref.end(), randEngine );
@@ -93,8 +93,8 @@ void BioSoupParticle::init_for_static(){
         // 生成 17 份数据 4m4
         for( int n=0; n<17; n++ ){
             //BioSoupParticle::goMeshDposOffSets_4m4.push_back( std::vector<glm::dvec2>{} ); // empty
-            BioSoupParticle::goMeshDposOffSets_4m4.emplace_back(); // empty
-            auto &v4Ref = BioSoupParticle::goMeshDposOffSets_4m4.back();
+            auto &v4Ref = BioSoupParticle::goMeshDposOffSets_4m4.emplace_back(); // empty
+            //auto &v4Ref = BioSoupParticle::goMeshDposOffSets_4m4.back();
             v4Ref.insert( v4Ref.end(), goMesh_dposOffs_2m2.begin(), goMesh_dposOffs_2m2.end() ); // 只复制一份
             std::shuffle( v4Ref.begin(), v4Ref.end(), randEngine );
         }
@@ -112,8 +112,8 @@ void BioSoupParticle::init_for_static(){
         // 17 种 方案
         for( int n=0; n<17; n++ ){
             //BioSoupParticle::animSubspeciesIdSets.push_back( std::vector<animSubspeciesId_t>{} );
-            BioSoupParticle::animSubspeciesIdSets.emplace_back();
-            auto &vRef = BioSoupParticle::animSubspeciesIdSets.back();
+            auto &vRef = BioSoupParticle::animSubspeciesIdSets.emplace_back();
+            //auto &vRef = BioSoupParticle::animSubspeciesIdSets.back();
             vRef.insert( vRef.end(), allIds.begin(), allIds.end() );
             vRef.insert( vRef.end(), allIds.begin(), allIds.end() ); // twice
             std::shuffle( vRef.begin(), vRef.end(), randEngine );
@@ -129,8 +129,8 @@ void BioSoupParticle::init_for_static(){
 
     for( int n=0; n<33; n++ ){
         //BioSoupParticle::createStepSets.push_back( std::vector<size_t>{} );
-        BioSoupParticle::createStepSets.emplace_back();
-        auto &vRef = BioSoupParticle::createStepSets.back();
+        auto &vRef = BioSoupParticle::createStepSets.emplace_back();
+        //auto &vRef = BioSoupParticle::createStepSets.back();
         // 一份数据，17个 值
         vRef.push_back( uDistribution_fst(randEngine) ); 
         vRef.push_back( uDistribution_fst(randEngine) ); // 前2个值通常比较小

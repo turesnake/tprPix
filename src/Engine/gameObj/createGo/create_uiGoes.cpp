@@ -34,7 +34,10 @@ goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
                     size_t          goUWeight_ ){
 
     goid_t goid = esrc::insert_new_uiGo( basePointProportion_, offDPos_, goUWeight_ );
-    GameObj &goRef = esrc::get_goRef( goid );
+    // get go ref
+    auto goOpt = esrc::get_goPtr( goid );
+    tprAssert( goOpt.has_value() );
+    GameObj &goRef = *goOpt.value();
     
     //-- set some static datas from JSON --
         tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpeciesId_) );
@@ -62,7 +65,10 @@ goid_t create_a_UIGo( goSpeciesId_t goSpeciesId_,
     goid_t goid = esrc::insert_new_uiGo(uiAnchor_.get_basePointProportion(), 
                                         uiAnchor_.get_offDPos(),
                                         goUWeight_ );
-    GameObj &goRef = esrc::get_goRef( goid );
+    // get go ref
+    auto goOpt = esrc::get_goPtr( goid );
+    tprAssert( goOpt.has_value() );
+    GameObj &goRef = *goOpt.value();
     
     //-- set some static datas from JSON --
         tprAssert( UIGoSpecFromJson::find_from_initFuncs(goSpeciesId_) );

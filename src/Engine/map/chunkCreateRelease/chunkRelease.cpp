@@ -110,7 +110,11 @@ void quit_edgeGos_from_mapEnt( Chunk &chunkRef_ ){
     chunkKey_t tmpChunkKey  {};
     for( auto &goid : chunkRef_.get_edgeGoIds() ){//- foreach edgeGoId
 
-        auto &goRef = esrc::get_goRef(goid );
+        // get go ref
+        auto goOpt = esrc::get_goPtr( goid );
+        tprAssert( goOpt.has_value() );
+        GameObj &goRef = *goOpt.value();
+
         auto colliderType = goRef.get_colliderType();
         if( colliderType == ColliderType::Circular ){
             // only MajorGo

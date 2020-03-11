@@ -108,8 +108,7 @@ std::pair<ChunkMemState, Chunk*> get_chunkPtr( chunkKey_t key_ ){
                 
 }
 
-/* 仅在 chunkRelease::release_one_chunk() 中被调用
- */
+// 仅在 chunkRelease::release_one_chunk() 中被调用
 Chunk &get_chunkRef_onReleasing( chunkKey_t key_ ){
         tprAssert( get_chunkMemState(key_) == ChunkMemState::OnReleasing );
     return *(chunk_inn::chunks.at(key_));

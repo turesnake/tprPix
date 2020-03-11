@@ -29,14 +29,20 @@ using namespace std::placeholders;
  * -----------------------------------------------------------
  */
 GameObj &Player::get_goRef() const {
-    return esrc::get_goRef( this->goid );
+    auto goOpt = esrc::get_goPtr( this->goid );
+    tprAssert( goOpt.has_value() );
+    return *goOpt.value();
 }
 
 
 void Player::set_moveSpeedLvl( SpeedLevel lvl_ )noexcept{
 
-    auto &playerGoRef = esrc::get_goRef( this->goid );
-    auto &cirGoRef = esrc::get_goRef( this->playerGoCircle_goid );
+    // get go ref
+    auto &playerGoRef = this->get_goRef();
+    auto cgoOpt = esrc::get_goPtr( this->playerGoCircle_goid );
+    tprAssert( cgoOpt.has_value() );
+    GameObj &cirGoRef = *cgoOpt.value();
+    //--
     playerGoRef.move.moveSpeedLvl.set_newVal( lvl_ );
     cirGoRef.move.moveSpeedLvl.set_newVal( lvl_ );
 }
@@ -55,7 +61,12 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- bind new go --//
         tprAssert( goid_ != NULLID );
-        auto &newGoRef = esrc::get_goRef( goid_ );
+        // get go ref
+        auto ngoOpt = esrc::get_goPtr( goid_ );
+        tprAssert( ngoOpt.has_value() );
+        GameObj &newGoRef = *ngoOpt.value();
+
+
         newGoRef.isControlByPlayer = true;
         this->goid = goid_;
 
@@ -77,12 +88,17 @@ void Player::bind_go( goid_t goid_ ){
 
         
         //-- playerGoCircle 的数据同步 --
-        GameObj &playerGoCircleRef = esrc::get_goRef( this->playerGoCircle_goid );
+        // get go ref
+        auto pgoOpt = esrc::get_goPtr( this->playerGoCircle_goid );
+        tprAssert( pgoOpt.has_value() );
+        GameObj &playerGoCircleRef = *pgoOpt.value();
+
         playerGoCircleRef.move.moveSpeedLvl.reset( newGoRef.move.moveSpeedLvl.get_newVal() ); //- 同步 speedLv
 
     }else{
         //-- 解绑旧go --//
-        GameObj &oldGoRef = esrc::get_goRef( this->goid );
+        GameObj &oldGoRef = this->get_goRef();
+
         oldGoRef.isControlByPlayer = false;
 
         //=== 检测 chunk 中的 go数据 是否被 实例化到 mem态 ===//
@@ -90,7 +106,11 @@ void Player::bind_go( goid_t goid_ ){
 
         //-- bind new go --//
         tprAssert( goid_ != NULLID );
-        GameObj &newGoRef = esrc::get_goRef( goid_ );
+        // get go ref
+        auto ngoOpt = esrc::get_goPtr( goid_ );
+        tprAssert( ngoOpt.has_value() );
+        GameObj &newGoRef = *ngoOpt.value();
+
         newGoRef.isControlByPlayer = true;
         this->goid = goid_;
 
@@ -113,7 +133,7 @@ void Player::handle_inputINS( const InputINS &inputINS_ ){
     //  此处会有很多 处理 _inputINS 数据的操作
     //  在未来展开...
 
-    GameObj &goRef = esrc::get_goRef( this->goid );
+    GameObj &goRef = this->get_goRef();
     goRef.move.set_newCrawlDirAxes( inputINS_.get_dirAxes() );
 }
 

@@ -31,7 +31,6 @@ namespace anim_inn {//----------- namespace: anim_inn -------------//
 
 AnimFrameSet &insert_new_animFrameSet( const std::string &name_ ){
     auto [insertIt, insertBool] = anim_inn::animFrameSets.emplace( name_, std::make_unique<AnimFrameSet>(name_) );
-
     if( !insertBool ){
         tprDebug::console( "find duplicate afsName: {}", name_ );
     }
@@ -61,10 +60,13 @@ AnimSubspecies &find_or_insert_new_animSubspecies( animSubspeciesId_t id_ ){
 }
 
 
+// not used
+/*
 AnimSubspecies &get_animSubspeciesRef( animSubspeciesId_t id_ ){
         tprAssert( anim_inn::animSubs.find(id_) != anim_inn::animSubs.end() );
     return *(anim_inn::animSubs.at(id_));
 }
+*/
 
 
 

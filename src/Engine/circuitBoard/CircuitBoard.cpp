@@ -59,7 +59,9 @@ void CircuitBoard::check_and_call_messages( IntVec2 mpos_, GameObj &begoRef_ )no
 
             // dogo Must Existed 
             tprAssert( esrc::is_go_active(dogoid) );
-            GameObj &dogoRef = esrc::get_goRef(dogoid );
+            auto dogoOpt = esrc::get_goPtr(dogoid );
+            tprAssert( dogoOpt.has_value() );
+            GameObj &dogoRef = *dogoOpt.value();
 
             // call message functor
             auto it = CircuitBoard::functors.find(dogoid);

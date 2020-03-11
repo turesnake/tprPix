@@ -226,19 +226,16 @@ void collect_chunks_need_to_be_create_in_update(){
  */
 std::optional<chunkKey_t> chunkCreate_3_receive_data_and_create_one_chunk(){
 
-    //-- 没有需要 生成的 chunk 时，直接退出 --
-    if( esrc::atom_is_job_chunkFlags_empty() ){
+    //-- 从 已经制作好 job_chunk 的队列中，取出一个 chunk
+    auto retOpt = esrc::atom_pop_from_job_chunkFlags();
+    if( !retOpt.has_value() ){
+        //-- 没有需要 生成的 chunk 时，直接退出 --
         return std::nullopt;
     }
 
-    //-- 从 已经制作好 job_chunk 的队列中，取出一个 chunk
-    chunkKey_t chunkKey = esrc::atom_pop_from_job_chunkFlags();
-    
-        //-- 正式生成这个 chunk 实例
-        cb_inn::create_one_chunk( chunkKey );
-                //-- 实际上，目前的 job线程 是空的，
-                //   所有运算 都在这个 函数中...
-
+    chunkKey_t chunkKey = retOpt.value();
+    //-- 正式生成这个 chunk 实例
+    cb_inn::create_one_chunk( chunkKey );
     //-- 及时删除 job_chunk 数据本体 --
     esrc::atom_erase_from_job_chunks( chunkKey ); //- MUST !!!  
     return { chunkKey };
@@ -278,20 +275,21 @@ void create_chunks_from_waitingQue(){
 namespace cb_inn {//----------- namespace: cb_inn ----------------//
 
 
-/* only be called by create_9_chunks()
- */
+// only be called by create_9_chunks()
 void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
 
     while( true ){
-        //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
-        if( esrc::atom_is_job_chunkFlags_empty() ){
+
+        auto retOpt = chunkCreate_3_receive_data_and_create_one_chunk();
+
+        if( !retOpt.has_value() ){
+            //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
             continue;
-        }
-        auto chunkKeyOpt = chunkCreate_3_receive_data_and_create_one_chunk();
-        tprAssert( chunkKeyOpt.has_value() );
-        if( chunkKeyOpt.value() == chunkKey_ ){
-            return;
+        }else{
+            if( retOpt.value() == chunkKey_ ){
+                return;
+            }
         }
     }
 }
@@ -329,7 +327,11 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
     //            [4]
     // 将 job_chunk 中的 fields，移动到 主容器
     //------------------------------//
-    auto &job_chunkRef = esrc::atom_getnc_job_chunkRef( chunkKey_ );
+    auto job_chunk_opt = esrc::atom_getnc_job_chunk_ptr( chunkKey_ );
+    tprAssert( job_chunk_opt.has_value() );
+    auto &job_chunkRef = *(job_chunk_opt.value());
+
+
     esrc::move_fieldUPtrs( job_chunkRef.get_fields() );
 
 
@@ -498,7 +500,11 @@ void signUp_nearby_chunks_edgeGo_2_mapEnt( chunkKey_t chunkKey_, IntVec2 chunkMP
 
             for( const auto &goid : chunkRef.get_edgeGoIds() ){//- each edgeGoId
 
-                auto &goRef = esrc::get_goRef(goid);
+                // get go ref
+                auto goOpt = esrc::get_goPtr( goid );
+                tprAssert( goOpt.has_value() );
+                GameObj &goRef = *goOpt.value();
+
                 if( goRef.find_in_chunkKeys(chunkKey_) ){// target go
 
 

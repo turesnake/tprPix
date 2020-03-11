@@ -65,27 +65,21 @@ void atom_erase_from_job_chunks( chunkKey_t chunkKey_ ){
 }
 
 /* ===========================================================
- *              atom_getnc_job_chunkRef      [-READ-]
+ *              atom_getnc_job_chunk_ptr     [-READ-]
  * -----------------------------------------------------------
  * 只能由 主线程 调用
  */
-Job_Chunk &atom_getnc_job_chunkRef( chunkKey_t chunkKey_ ){
+std::optional<Job_Chunk*> atom_getnc_job_chunk_ptr( chunkKey_t chunkKey_ ){
     //--- atom ---//
     std::shared_lock<std::shared_mutex> sl( jchunk_inn::sharedMutex ); //- read
-    tprAssert( jchunk_inn::job_chunks.find(chunkKey_) != jchunk_inn::job_chunks.end() ); //- MUST EXIST
-    return *(jchunk_inn::job_chunks.at(chunkKey_));
+    if( jchunk_inn::job_chunks.find(chunkKey_) == jchunk_inn::job_chunks.end() ){
+        return std::nullopt;
+    }else{
+        return { jchunk_inn::job_chunks.at(chunkKey_).get() };
+    }
 }
 
-/* ===========================================================
- *              atom_is_job_chunkFlags_empty
- * -----------------------------------------------------------
- * -- 查看 状态表 是否为空
- */
-bool atom_is_job_chunkFlags_empty(){
-    //--- atom ---//
-    std::lock_guard<std::mutex> lg( jchunk_inn::job_chunkFlagsMutex );
-    return jchunk_inn::job_chunkFlags.empty();
-}
+
 
 /* ===========================================================
  *              atom_push_back_2_job_chunkFlags
@@ -98,19 +92,25 @@ void atom_push_back_2_job_chunkFlags( chunkKey_t chunkKey_ ){
     jchunk_inn::job_chunkFlags.push_back( chunkKey_ );
 }
 
+
+
 /* ===========================================================
  *            atom_pop_from_job_chunkFlags
  * -----------------------------------------------------------
  * -- 通常由 主线程 调用
  */
-chunkKey_t atom_pop_from_job_chunkFlags(){
-    chunkKey_t key {};
+std::optional<chunkKey_t> atom_pop_from_job_chunkFlags(){
+    
     {//--- atom ---//
         std::lock_guard<std::mutex> lg( jchunk_inn::job_chunkFlagsMutex );
-        key = jchunk_inn::job_chunkFlags.front();
-        jchunk_inn::job_chunkFlags.pop_front();
+        if( jchunk_inn::job_chunkFlags.empty() ){
+            return std::nullopt;
+        }else{
+            chunkKey_t key = jchunk_inn::job_chunkFlags.front();
+            jchunk_inn::job_chunkFlags.pop_front();
+            return { key };
+        }
     }
-    return key;
 }
 
 }//---------------------- namespace: esrc -------------------------//

@@ -169,7 +169,8 @@ void Job_Field::apply_bioSoupEnts(){
             tprAssert( !halfSetRef.empty() );
             if( halfSetRef.size() == 1 ){
 
-                const auto &wh = halfWHs.back(); 
+                const auto &wh = halfWHs.back(); // 静态数据，无需担心 back 会访问空
+                //const auto &wh = *halfWHs.begin();
                 entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
 
                 this->create_bioSoupDataUPtr(   FieldFractType::HalfField, 
@@ -284,7 +285,8 @@ void Job_Field::apply_groundGoEnts(){
             tprAssert( !halfSetRef.empty() );
             if( halfSetRef.size() == 1 ){
 
-                const auto &wh = halfWHs.back(); 
+                const auto &wh = halfWHs.back(); // 静态数据，无需担心 back 会访问空
+                //const auto &wh = *halfWHs.begin();
                 entPtr = this->mapEntPtrs.at( static_cast<size_t>(wh.y)).at( static_cast<size_t>(wh.x));
                 dposOff = halfDposOff;
                 colorTableId = entPtr->get_colorTableId();

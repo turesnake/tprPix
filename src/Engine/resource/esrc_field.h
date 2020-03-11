@@ -12,6 +12,7 @@
 #include <utility> //- pair
 #include <memory>
 #include <unordered_map>
+#include <optional>
 
 //-------------------- Engine --------------------//
 #include "MapField.h"
@@ -26,7 +27,8 @@ void move_fieldUPtrs( std::unordered_map<fieldKey_t, std::unique_ptr<MapField>> 
 
 void erase_all_fields_in_chunk( IntVec2 chunkMPos_ );
 
-const MapField &get_field( fieldKey_t fieldKey_ );
+std::optional<const MapField*> get_fieldPtr( fieldKey_t fieldKey_ );
+
 
 
 }//---------------------- namespace: esrc -------------------------//

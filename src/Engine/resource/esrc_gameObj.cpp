@@ -79,27 +79,15 @@ std::weak_ptr<GameObj> get_goWPtr( goid_t id_ ){
     return  std::weak_ptr<GameObj>( go_inn::gameObjs.at(id_) );
 }
 
-/* ===========================================================
- *                  get_goRef
- * -----------------------------------------------------------
- * -- 返回 go实例 引用
- * -- 通过此接口，外部只有权 读取改写 go实例，无权删除 go实例，无法长期持有 go实例指针
- */
-GameObj &get_goRef( goid_t id_, const std::string str_ ){
 
-        //-- debug 
-        if( go_inn::gameObjs.find(id_) == go_inn::gameObjs.end() ){
 
-            tprDebug::console( 
-                "ERROR:get_goRef(): {0}" \
-                "\n    goid = {1}",
-                str_, id_ 
-            );
-        }
-
-        tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
-    return *(go_inn::gameObjs.at(id_));
+std::optional<GameObj*> get_goPtr(goid_t id_)noexcept{
+    if( go_inn::gameObjs.find(id_) == go_inn::gameObjs.end() ){
+        return std::nullopt;
+    }
+    return go_inn::gameObjs.at(id_).get();
 }
+
 
 
 bool is_go_active(goid_t id_  ){
@@ -120,18 +108,12 @@ void erase_the_go( goid_t id_ ){
     tprAssert( eraseNum == 1 );
 }
 
-
-
-/* ===========================================================
- *                  get_goRawPtr
- * -----------------------------------------------------------
- * -- 返回 go实例 裸指针
- * -- 通过此接口，外部只有权 读取改写 go实例，无权删除 go实例，无关长期持有 go实例指针
- */
+/*
 GameObj *get_goRawPtr( goid_t id_ ){
         tprAssert( go_inn::gameObjs.find(id_) != go_inn::gameObjs.end() );//- tmp
     return go_inn::gameObjs.at(id_).get();
 }
+*/
 
 std::unordered_set<goid_t> &get_goids_active(){
     return go_inn::goids_active;
@@ -212,7 +194,10 @@ void realloc_active_goes(){
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_active ){
-        GameObj &goRef = esrc::get_goRef(id, "realloc_active_goes");
+        // get go ref
+        auto goOpt = esrc::get_goPtr( id );
+        tprAssert( goOpt.has_value() );
+        GameObj &goRef = *goOpt.value();
 
         v = get_camera().get_currentDPos() - goRef.get_dpos();
 
@@ -247,7 +232,10 @@ void realloc_inactive_goes(){
 
     //-- 将 符合条件的 goid 先放到一个 vector 容器中 --
     for( auto id : go_inn::goids_inactive ){
-        GameObj &goRef = esrc::get_goRef(id, "realloc_inactive_goes");
+        // get go ref
+        auto goOpt = esrc::get_goPtr( id );
+        tprAssert( goOpt.has_value() );
+        GameObj &goRef = *goOpt.value();
 
         v = get_camera().get_currentDPos() - goRef.get_dpos();
 

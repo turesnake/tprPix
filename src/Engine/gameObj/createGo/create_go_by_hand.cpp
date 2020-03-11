@@ -43,7 +43,11 @@ goid_t create_a_Go( const GoDataForCreate *goDPtr_ ){
 
     //===== create a go =====//
     goid_t goid = esrc::insert_new_regularGo( goDPtr_->get_dpos(), goDPtr_->get_goUWeight() );
-    GameObj &goRef = esrc::get_goRef( goid );
+    // get go ref
+    auto goOpt = esrc::get_goPtr( goid );
+    tprAssert( goOpt.has_value() );
+    GameObj &goRef = *goOpt.value();
+
 
     //-- set some static datas from JSON --
     tprAssert( GoSpecFromJson::find_from_initFuncs(goDPtr_->get_goSpeciesId()) );
@@ -87,7 +91,10 @@ void rebind_a_diskGo( const DiskGameObj &diskGo_ ){
 
     //----- rebind -----//
     esrc::insert_a_diskGo( diskGo_.goid, goDataUPtr->get_dpos(), diskGo_.goUWeight );
-    GameObj &goRef = esrc::get_goRef( diskGo_.goid );
+    // get go ref
+    auto goOpt = esrc::get_goPtr( diskGo_.goid );
+    tprAssert( goOpt.has_value() );
+    GameObj &goRef = *goOpt.value();
 
     //-- set some static datas from JSON --
         tprAssert( GoSpecFromJson::find_from_initFuncs(goDataUPtr->get_goSpeciesId()) );
