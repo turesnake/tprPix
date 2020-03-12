@@ -1,9 +1,10 @@
 *.DS_Store
 */.DS_Store
 *DailyLog
-*ud.sh
-*ur.sh
-/excels
+ud.sh
+ur.sh
+excels/
+Docs/
 /.vscode
 /build/
 /old/
