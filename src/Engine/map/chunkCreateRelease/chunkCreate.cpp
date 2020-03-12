@@ -149,7 +149,11 @@ void create_9_chunks( IntVec2 playerMPos_ ){
                         // 此处禁止优化，必须逐个创建，逐个确认
         }
     }
+
+    tprDebug::console( " nearby 3*3 chunks create Done! " );
 }
+
+    
 
 
 /* 在游戏运行时，定期检查 玩家位置。及时生成 新的 chunk
@@ -281,10 +285,10 @@ void wait_until_target_chunk_created( chunkKey_t chunkKey_ ){
     while( true ){
 
         auto retOpt = chunkCreate_3_receive_data_and_create_one_chunk();
-
         if( !retOpt.has_value() ){
             //-- 没有需要 生成的 chunk 时，待机一会儿，再次 while 循环 --
             std::this_thread::sleep_for( std::chrono::milliseconds(5) );
+            tprDebug::console( " waiting for chunkCreate " );
             continue;
         }else{
             if( retOpt.value() == chunkKey_ ){
