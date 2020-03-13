@@ -1,7 +1,7 @@
 [
     { "Desert.json": false },
 
-    { "Savannah.json": false },
+    { "Savannah.json": true },
 
     { "Forest_1.json": true },
 
