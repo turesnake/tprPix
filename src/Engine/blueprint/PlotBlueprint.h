@@ -35,10 +35,8 @@ public:
 
     //------- vals -------//
     VariableTypeIdx varTypeIdx {};
-    //--
     IntVec2         mposOff {}; // based on left-bottom 
     BrokenLvl       brokenLvl {};
-
     NineDirection   direction {NineDirection::Center};  //- 角色 动画朝向
 };
 
@@ -60,12 +58,8 @@ public:
     goSpeciesId_t           goSpeciesId    {};
     std::string             afsName     {}; // 允许为 "", 此时 animLabel == ""
     std::string             animLabel   {};
-    
     goLabelId_t             goLabelId {};
-
     bool                    isPlaceHolder {false}; // 单纯的占位元素，当从分配池中抽到 此类元素时，什么go也不生成
-
-
 };
 
 

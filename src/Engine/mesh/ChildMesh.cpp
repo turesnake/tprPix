@@ -40,7 +40,7 @@ void ChildMesh::init()noexcept{
  * 目前每个mesh，每帧都被调用，计算量不大。
  */
 void ChildMesh::refresh_scale_auto(){
-    const IntVec2 p = this->goMeshRef.get_animAction_pixNum_per_frame();
+    const IntVec2 p = this->goMeshRef.animActionPtr->get_pixNum_per_frame();
 
     this->scale_frameSZ.x = static_cast<float>(p.x);
     this->scale_frameSZ.y = static_cast<float>(p.y);
@@ -59,14 +59,14 @@ void ChildMesh::refresh_scale_auto(){
 void ChildMesh::refresh_translate(){
 
     const auto &worldCoord = esrc::get_worldCoordRef();
-    const auto &goRef = this->goMeshRef.get_goCRef();
+    const auto &goRef = this->goMeshRef.goRef;
 
     const glm::dvec2 &currentDPos = goRef.get_dpos();
-    const glm::dvec2 &rOff = this->goMeshRef.get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
-    const glm::dvec2 &goMeshPPosOff = this->goMeshRef.get_pposOff();
+    const glm::dvec2 &rOff = this->goMeshRef.animActionPtr->get_currentRootAnchorDPosOff(); // 图元帧 左下角 到 rootAnchor 的 偏移
+    const glm::dvec2 &goMeshPPosOff = this->goMeshRef.pposOff;
     double goAlti = goRef.get_pos_alti();
-    double goMeshAlti = this->goMeshRef.get_alti();
-    double zOff = this->goMeshRef.get_zOff();
+    double goMeshAlti = this->goMeshRef.alti;
+    double zOff = this->goMeshRef.zOff;
 
     bool isNeedCoordTransform = goRef.family != GameObjFamily::UI; // 只有 uiGo 不需要坐标系转换
 
@@ -95,9 +95,9 @@ void ChildMesh::refresh_translate(){
                                     
         if( goMeshRef.isPicFixedZOff ){
             this->translate_val.z = static_cast<float>(esrc::get_camera().get_zFar() + 
-                                    goMeshRef.get_picBaseZOff() + zOff);
+                                    goMeshRef.picBaseZOff + zOff);
         }else{
-            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + zOff + goMeshRef.get_picBaseZOff() );
+            this->translate_val.z = static_cast<float>( -(outDPos.y + goMeshPPosOff.y) + zOff + goMeshRef.picBaseZOff );
 
 
                                         //-- ** 注意！**  z值的计算有不同：
@@ -144,9 +144,10 @@ void ChildMesh::draw(){
     }
 
     //---------- call back -------------
-    if( this->before_drawCall ){
-        this->before_drawCall();
-    }
+    // not used yet ...
+    //if( this->before_drawCall ){
+    //    this->before_drawCall();
+    //}
 
     //---------- refresh texName -------------
     GLuint texName {};

@@ -37,7 +37,7 @@ public:
     void draw();
 
     inline void set_shader_program( ShaderProgram *sp_ ) noexcept{ this->shaderPtr=sp_; }
-    inline void bind_before_drawCall( F_void f_ ){ this->before_drawCall = f_; }
+    //inline void bind_before_drawCall( F_void f_ ){ this->before_drawCall = f_; }
 
     //-- 此函数 只能在 RenderUpdate 阶段被调用 --
     //-- 其余代码 不应随意调用 此函数!!! --
@@ -76,7 +76,8 @@ private:
     glm::vec3 scale_total      {glm::vec3(1.0f, 1.0f, 1.0f)}; //- 最终传入 mat4 的值  
 
     //----- functor -----//
-    F_void before_drawCall {nullptr}; // call back. e.g. do some shader uniform bind
+    // not used yet ...
+    //F_void before_drawCall {nullptr}; // call back. e.g. do some shader uniform bind
 
     //======== flags ========//  
     bool    isPic {true}; //-- pic / shadow

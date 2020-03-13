@@ -13,7 +13,7 @@ namespace blueprint {//------------------ namespace: blueprint start -----------
 namespace blueP_inn {//----------- namespace: blueP_inn ----------------//
 
 
-yardBlueprintId_t VarType_V::apply_a_yardBlueprintId( size_t uWeight_, NineDirection yardDir_ )noexcept{
+yardBlueprintId_t VarType_Village_Manager::VarType::apply_a_yardBlueprintId( size_t uWeight_, NineDirection yardDir_ )noexcept{
         
     auto ret = this->vtPtr->apply_rand_yardBlueprintId( uWeight_, yardDir_ );
     if( !ret.has_value() ){

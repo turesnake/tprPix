@@ -103,7 +103,6 @@ configure_file(
 #   GLOB_RECURSE 会递归访问目录，是一种粗粒度的写法
 #   如果想要精细控制，应该在部分目录 该用 GLOB 
 FILE(GLOB_RECURSE PIXEL_FILES   
-                        src/Config/*.cpp
                         src/Engine/*.cpp
                         src/innTest/*.cpp 
                         src/Script/*.cpp 
@@ -145,7 +144,6 @@ target_include_directories ( tprpix PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt-6.1.2/include
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Config
     ${CMAKE_CURRENT_SOURCE_DIR}/src/pch
 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine

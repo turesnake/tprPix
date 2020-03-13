@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+#   support both ubuntu / macosx(10.12 or later version)
+#
 #------------- prepare dirs ---------------
 
 DIR_base="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -65,10 +67,9 @@ cp -R ${DIR_src_jsons}.     ${DIR_dst_jsons}
 cp -R ${DIR_src_blueprintDatas}.   ${DIR_dst_blueprintDatas} 
 cp -R ${DIR_src_gameObjDatas}.   ${DIR_dst_gameObjDatas} 
 
-#------------- build cpp/c# ----------------
+#------------- build cpp ----------------
 cd build
-#cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake -DCMAKE_BUILD_TYPE=Debug ..
-make -j4
+make -j5
 cd ..
 

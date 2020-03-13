@@ -43,6 +43,7 @@ GameObjMesh &GameObjMeshSet::creat_new_goMesh(
     gmesh.bind_animAction(); // Must Before Everything!!!
 
     //----- init -----//
+    gmesh.set_uWeight( uWeight );
     gmesh.set_pic_renderLayer( layerType_ ); 
     gmesh.set_pic_shader_program( &esrc::get_shaderRef(shaderType_) );
     if( gmesh.isHaveShadow ){

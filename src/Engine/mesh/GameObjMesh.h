@@ -29,13 +29,13 @@
 #include "AnimActionEName.h"
 #include "RotateScaleData.h"
 #include "animSubspeciesId.h"
-#include "colorTableId.h"
 #include "DyBinary.h"
 #include "functorTypes.h"
 
 
 //--- need ---//
 class GameObj;
+class GameObjMeshSet;
 
 //-- GameObjMesh 是个 "整合类"，不存在进一步的 具象类 --
 // GameObjMesh 被轻量化了：
@@ -45,16 +45,18 @@ class GameObj;
 //  当切换 action 时，GameObjMesh实例 并不销毁／新建。而是更新自己的 数据组 （空间最优，时间最劣）
 //  这个方法也有其他问题：如果不同类型的 go.GameObjMeshs 数量不同，该怎么办？
 class GameObjMesh{
+    friend class ChildMesh;
+    friend class GameObjMeshSet;
 public:
     GameObjMesh(    GameObj         &goRef_,
                     const glm::dvec2 &pposOff_,
                     double          zOff_,
                     bool            isVisible_
                     ):
-        isVisible(isVisible_),
         goRef(goRef_),
         pposOff( tprRound(pposOff_) ), // Must align to pix
-        zOff( zOff_)
+        zOff( zOff_),
+        isVisible(isVisible_)
         {
             // picMeshUPtr,shadowMeshUPtr 将被延迟到 bind_animAction() 中创建销毁
         }
@@ -62,12 +64,9 @@ public:
     void RenderUpdate_auto();
     void RenderUpdate_in_fast_way();
 
-
-
     // 新版，相关参数 由其他 set函数 零散地设置
     // 最后调用 本函数，完成 正式 重绑定工作
     void bind_animAction( int timeStepOff_=0  );
-
 
     //----- pvtBinary -----//
     template< typename T >
@@ -80,6 +79,42 @@ public:
     }
 
     //------------- set -------------//
+    inline void set_animSubspeciesId( animSubspeciesId_t id_ )noexcept{ this->animSubspeciesId = id_; }
+    inline void set_animActionEName( AnimActionEName name_ )noexcept{ this->animActionEName = name_; }
+    inline void set_alti(double alti_)noexcept{ this->alti = alti_; }
+    inline void set_zOff(double zOff_)noexcept{ this->zOff = zOff_; }
+    inline void set_uWeight(size_t v_)noexcept{ this->uWeight = v_; }
+    inline void set_isNeedToBeErase(bool b_)noexcept{ this->isNeedToBeErase = b_; }
+    inline void set_isVisible(bool b_)noexcept{ this->isVisible = b_; }
+
+
+    inline void accum_alti(double alti_)noexcept{ this->alti += alti_; }
+    inline void accum_zOff(double zOff_)noexcept{ this->zOff += zOff_; }
+    inline void accum_pposOff( const glm::dvec2 off_ ){ this->pposOff += off_; }
+
+    // speedScale: default=1.0, 值越大，播放速度越缓慢
+    inline void bind_reset_playSpeedScale( F_R_double functor_ )noexcept{
+        this->animActionPvtData.reset_playSpeedScale = functor_;
+    }
+    
+    //------------- get -------------//    
+    inline size_t   get_uWeight()const noexcept{ return this->uWeight; }
+    inline bool     get_isNeedToBeErase()const noexcept{ return this->isNeedToBeErase; }
+    inline bool     get_isVisible()const noexcept{ return this->isVisible; }
+
+
+    inline const AnimAction::PvtData *get_animActionPvtDataPtr()const noexcept{ return &(this->animActionPvtData); }
+
+    // 目前仅被 WindAnim 使用
+    // 也许未来可以被彻底取消 ...
+    inline std::pair<AnimAction::PlayType, AnimAction::PlayState> get_animAction_state()const noexcept{
+        return { this->animActionPvtData.playType, this->animActionPvtData.playState };
+    }
+    
+    RotateScaleData rotateScaleData {}; // 管理所有 childMesh rotate 操作
+
+private:
+    //------------- set -------------// 
     inline void set_pic_renderLayer( RenderLayerType layerType_ )noexcept{
         this->picRenderLayerType = layerType_;
         if( layerType_ == RenderLayerType::MajorGoes ){
@@ -95,19 +130,6 @@ public:
             this->picBaseZOff = ViewingBox::get_renderLayerZOff(layerType_);
         }
     }
-    inline void set_colorTableId( colorTableId_t id_ )noexcept{ this->colorTableId = id_; }
-    inline void set_animSubspeciesId( animSubspeciesId_t id_ )noexcept{ this->animSubspeciesId = id_; }
-    inline void set_animActionEName( AnimActionEName name_ )noexcept{ this->animActionEName = name_; }
-    inline void set_alti(double alti_)noexcept{ this->alti = alti_; }
-    inline void set_zOff(double zOff_)noexcept{ this->zOff = zOff_; }
-    inline void set_uWeight(size_t v_)noexcept{ this->uWeight = v_; }
-    inline void set_isNeedToBeErase(bool b_)noexcept{ this->isNeedToBeErase = b_; }
-
-    inline void accum_alti(double alti_)noexcept{ this->alti += alti_; }
-    inline void accum_zOff(double zOff_)noexcept{ this->zOff += zOff_; }
-    inline void accum_pposOff( const glm::dvec2 off_ ){ this->pposOff += off_; }
-
-
     inline void set_pic_shader_program( ShaderProgram *sp_ )noexcept{
         tprAssert( this->picMeshUPtr );
         this->picMeshUPtr->set_shader_program( sp_ );
@@ -117,19 +139,7 @@ public:
         this->shadowMeshUPtr->set_shader_program( sp_ );
     }
 
-    // speedScale: default=1.0, 值越大，播放速度越缓慢
-    inline void bind_reset_playSpeedScale( F_R_double functor_ )noexcept{
-        this->animActionPvtData.reset_playSpeedScale = functor_;
-    }
-    inline void bind_pic_before_drawCall( F_void f_ ){
-        tprAssert( this->picMeshUPtr );
-        this->picMeshUPtr->bind_before_drawCall( f_ );
-    }
-
-    //------------- get -------------//    
-    inline const AnimActionPos &get_currentAnimActionPos() const noexcept{
-        return this->animActionPtr->get_currentAnimActionPos();
-    }   
+    //------------- get -------------// 
     inline GLuint get_currentTexName_pic() const noexcept{
         return this->animActionPtr->get_currentTexName_pic( this->animActionPvtData );
     }
@@ -137,55 +147,9 @@ public:
         tprAssert( this->isHaveShadow );
         return this->animActionPtr->get_currentTexName_shadow( this->animActionPvtData );
     }
-    inline const glm::dvec2 &get_currentRootAnchorDPosOff() const noexcept{
-        return this->animActionPtr->get_currentRootAnchorDPosOff();
-    }
-
-    inline IntVec2 get_animAction_pixNum_per_frame() const noexcept{
-        return this->animActionPtr->get_pixNum_per_frame();
-    }
-    inline const GameObj    &get_goCRef()const noexcept{ return this->goRef; }
-    inline const glm::dvec2 &get_pposOff()const noexcept{ return this->pposOff; }
-    inline double           get_zOff()const noexcept{ return this->zOff; }
-    inline double           get_alti()const noexcept{ return this->alti; }
-    inline double           get_picBaseZOff()const noexcept{ return this->picBaseZOff; }
-    inline size_t           get_uWeight()const noexcept{ return this->uWeight; }
-    inline bool             get_isNeedToBeErase()const noexcept{ return this->isNeedToBeErase; }
-
-    inline const AnimAction::PvtData *get_animActionPvtDataPtr()const noexcept{ return &(this->animActionPvtData); }
-
-    // 目前仅被 WindAnim 使用
-    // 也许未来可以被彻底取消 ...
-    inline std::pair<AnimAction::PlayType, AnimAction::PlayState> get_animAction_state()const noexcept{
-        return { this->animActionPvtData.playType, this->animActionPvtData.playState };
-        /*
-        //auto type = this->animActionPtr->get_actionPlayType();
-        auto type = this->animActionPvtData.playType;
-        switch (type){
-            case AnimAction::PlayType::Idle:  return { type, AnimAction::PlayState::Stop };
-            case AnimAction::PlayType::Cycle: return { type, AnimAction::PlayState::Working };
-            case AnimAction::PlayType::Once:
-                return ((this->animActionPvtData.isLastFrame) ?
-                        std::pair<AnimAction::PlayType, AnimAction::PlayState>{ type, AnimAction::PlayState::Stop } :
-                        std::pair<AnimAction::PlayType, AnimAction::PlayState>{ type, AnimAction::PlayState::Working });
-            default:
-                tprAssert(0);
-                return { AnimAction::PlayType::Idle, AnimAction::PlayState::Stop }; // never reach
-        }
-        */
-    }
-
     
-    RotateScaleData rotateScaleData {}; // 管理所有 childMesh rotate 操作
 
-    //======== flags ========//
-    bool    isHaveShadow {}; //- 是否拥有 shadow 数据
-                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
-    bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
-    bool    isPicFixedZOff {false}; //- 若 renderType 为 MajorGoes / BioSoup, 为 true
-                                    // 仅作用于 pic, [被 ChildMesh 使用]
 
-private:
     //======== vals ========//
     GameObj     &goRef;
 
@@ -235,14 +199,18 @@ private:
     AnimAction          *animActionPtr {nullptr};
     AnimAction::PvtData  animActionPvtData {}; //- 配合 AnimAction 提供的接口 来使用
 
-    colorTableId_t  colorTableId { NilColorTableId }; // just used in GroundGo 临时而又丑陋的实现 ...
-
     DyBinary   pvtBinary  {}; // store dynamic datas
 
 
 
     //======== flags ========//
     bool    isNeedToBeErase     {false}; // 请求外部管理者，删除自己
+
+    bool    isHaveShadow {}; //- 是否拥有 shadow 数据
+                             //- 在 this->init() 之前，此值就被确认了 [被 ChildMesh 使用]
+    bool    isVisible  {true};  //- 是否可见 ( go and shadow )    
+    bool    isPicFixedZOff {false}; //- 若 renderType 为 MajorGoes / BioSoup, 为 true
+                                    // 仅作用于 pic, [被 ChildMesh 使用]
 
 
 };                           

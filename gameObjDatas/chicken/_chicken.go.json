@@ -7,7 +7,7 @@
         "moveType": "Crawl",
         "isMoveCollide": true,
         "isDoPass": false,
-        "isBePass": true,
+        "isBePass": false,
         "moveSpeedLvl": 4,
 
         "moveStateTable":[
