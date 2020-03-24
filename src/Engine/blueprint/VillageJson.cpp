@@ -122,8 +122,8 @@ void parse_single_villageJsonFile( const std::string &path_file_ ){
 
         // 读取解析 png 数据，
         IntVec2 frameSizeByMapEnt = parse_png_for_village( villageRef.getnc_mapDatasRef(), pngPath_M, frameNum, totalFrameNum, isHaveRoad );
-        tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_SECTION ) && 
-                    (frameSizeByMapEnt.y == FIELDS_PER_SECTION ) );
+        tprAssert(  (frameSizeByMapEnt.x == FIELDS_PER_SECTION<> ) && 
+                    (frameSizeByMapEnt.y == FIELDS_PER_SECTION<> ) );
 
         //--- varTypes ---//
         const auto &varTypes = json::check_and_get_value( docEnt, "varTypes", json::JsonValType::Array );

@@ -44,24 +44,24 @@ namespace cb_inn {//----------- namespace: cb_inn ----------------//
     // 此数据 和 MapField.cpp 中存在重复
     const std::vector<IntVec2> nearby_4_sectionMPosOffs {
         IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_SECTION, 0 },
-        IntVec2{ 0, ENTS_PER_SECTION },
-        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }
+        IntVec2{ ENTS_PER_SECTION<>, 0 },
+        IntVec2{ 0, ENTS_PER_SECTION<> },
+        IntVec2{ ENTS_PER_SECTION<>, ENTS_PER_SECTION<> }
     };
 
 
     //- 周边8个 chunk mpos 偏移，[九宫格]
     const std::vector<IntVec2> nearby_8_chunkMPosOffs {
-        IntVec2{ -ENTS_PER_CHUNK, -ENTS_PER_CHUNK },
-        IntVec2{ -ENTS_PER_CHUNK, 0 },
-        IntVec2{ -ENTS_PER_CHUNK, ENTS_PER_CHUNK },
+        IntVec2{ -ENTS_PER_CHUNK<>, -ENTS_PER_CHUNK<> },
+        IntVec2{ -ENTS_PER_CHUNK<>, 0 },
+        IntVec2{ -ENTS_PER_CHUNK<>, ENTS_PER_CHUNK<> },
         //--
-        IntVec2{ 0, -ENTS_PER_CHUNK },
-        IntVec2{ 0, ENTS_PER_CHUNK },
+        IntVec2{ 0, -ENTS_PER_CHUNK<> },
+        IntVec2{ 0, ENTS_PER_CHUNK<> },
         //--
-        IntVec2{ ENTS_PER_CHUNK, -ENTS_PER_CHUNK },
-        IntVec2{ ENTS_PER_CHUNK, 0 },
-        IntVec2{ ENTS_PER_CHUNK, ENTS_PER_CHUNK }
+        IntVec2{ ENTS_PER_CHUNK<>, -ENTS_PER_CHUNK<> },
+        IntVec2{ ENTS_PER_CHUNK<>, 0 },
+        IntVec2{ ENTS_PER_CHUNK<>, ENTS_PER_CHUNK<> }
     };
 
 
@@ -104,7 +104,7 @@ void create_9_chunks( IntVec2 playerMPos_ ){
     std::set<sectionKey_t> near_25_ecoObjKeys {};
     for( int h=-2; h<=2; h++ ){
         for( int w=-2; w<=2; w++ ){            
-            IntVec2 tmpSectionMPos = playerSectionMPos + IntVec2{ w*ENTS_PER_SECTION, h*ENTS_PER_SECTION };
+            IntVec2 tmpSectionMPos = playerSectionMPos + IntVec2{ w*ENTS_PER_SECTION<>, h*ENTS_PER_SECTION<> };
             sectionKey_t ecoObjKey = sectionMPos_2_sectionKey( tmpSectionMPos );
             near_25_ecoObjKeys.insert( ecoObjKey );            
         }
@@ -141,7 +141,7 @@ void create_9_chunks( IntVec2 playerMPos_ ){
     //----------------------------//
     for( int h=-1; h<=1; h++ ){
         for( int w=-1; w<=1; w++ ){
-            IntVec2 tmpChunkMPos = playerChunkMPos + IntVec2{ w*ENTS_PER_CHUNK, h*ENTS_PER_CHUNK };          
+            IntVec2 tmpChunkMPos = playerChunkMPos + IntVec2{ w*ENTS_PER_CHUNK<>, h*ENTS_PER_CHUNK<> };          
             chunkKey_t chunkKey = chunkMPos_2_chunkKey(tmpChunkMPos);
             tprAssert( esrc::get_chunkMemState(chunkKey) == ChunkMemState::NotExist ); // MUST
             cb_inn::chunkCreate_1_push_job( chunkKey, tmpChunkMPos ); //-- 正式创建，跨线程新方案
@@ -357,9 +357,9 @@ void create_one_chunk( chunkKey_t chunkKey_ ){
 
 
     IntVec2     fieldMPos   {};
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){     
-            fieldMPos = chunkRef.get_mpos() + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+    for( int h=0; h<FIELDS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK<>; w++ ){     
+            fieldMPos = chunkRef.get_mpos() + IntVec2{ w*ENTS_PER_FIELD<>, h*ENTS_PER_FIELD<> };
             create_gos_in_field( fieldMPos_2_fieldKey(fieldMPos), chunkRef, job_chunkRef );
         }
     }

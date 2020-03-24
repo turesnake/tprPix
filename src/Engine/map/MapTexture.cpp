@@ -17,8 +17,8 @@
 
 namespace mapTexture_inn {//----------- namespace: mapTexture_inn ---------------//
 
-    IntVec2  pixWH {    PIXES_PER_CHUNK_IN_TEXTURE, 
-                        PIXES_PER_CHUNK_IN_TEXTURE };
+    IntVec2  pixWH {    PIXES_PER_CHUNK_IN_TEXTURE<>, 
+                        PIXES_PER_CHUNK_IN_TEXTURE<> };
 
 }//-------------- namespace : end ---------------//
 

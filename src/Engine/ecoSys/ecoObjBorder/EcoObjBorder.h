@@ -24,15 +24,15 @@ class EcoObjBorder{
 public:
     EcoObjBorder()
         {
-            this->frame.resize( cast_2_size_t( ENTS_PER_SECTION*ENTS_PER_SECTION ), NineDirection::Center );
+            this->frame.resize( ENTS_PER_SECTION<size_t> * ENTS_PER_SECTION<size_t>, NineDirection::Center );
         }
 
     
     // param: mapent 相对与 ecoobj 左下角的 mposOff
     inline NineDirection assign_mapent_to_nearFour_ecoObjs_dir( IntVec2 mposOff_ )const noexcept{
-        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_SECTION) &&
-                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_SECTION) );
-        size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_SECTION + mposOff_.x);
+        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_SECTION<>) &&
+                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_SECTION<>) );
+        size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_SECTION<> + mposOff_.x);
         return this->frame.at( idx );
     }
 

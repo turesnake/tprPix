@@ -23,9 +23,9 @@ namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
     //-- 周边4个 node 实例 mpos off 值 --
     const std::vector<IntVec2> nearFour_node_ecoObj_mposOffs {
         IntVec2{ 0, 0 },
-        IntVec2{ ENTS_PER_SECTION*2, 0 },
-        IntVec2{ 0, ENTS_PER_SECTION*2 },
-        IntVec2{ ENTS_PER_SECTION*2, ENTS_PER_SECTION*2 }
+        IntVec2{ ENTS_PER_SECTION<>*2, 0 },
+        IntVec2{ 0, ENTS_PER_SECTION<>*2 },
+        IntVec2{ ENTS_PER_SECTION<>*2, ENTS_PER_SECTION<>*2 }
     };
 
 }//------------- namespace: ecoObj_inn end --------------//
@@ -38,7 +38,7 @@ namespace ecoObj_inn {//-------- namespace: ecoObj_inn --------------//
 void EcoObj::calc_nearFour_node_ecoObjKey(sectionKey_t targetKey_,
                                             std::vector<sectionKey_t> &container_ ){
     //-- 获得 (2*2 section) 单元 左下角 mpos --
-    int sideLen { 2*ENTS_PER_SECTION };
+    int sideLen { 2*ENTS_PER_SECTION<> };
     IntVec2 baseMPos = floorDiv( sectionKey_2_mpos(targetKey_), static_cast<double>(sideLen) ) * sideLen;
 
     container_.clear();
@@ -84,7 +84,7 @@ void EcoObj::init_fstOrder( sectionKey_t sectionKey_ ){
     // 3*3 个 ecoObj 组成一个 pn晶格
     //double freq2 = 1.0 / 3.0; 
     //glm::dvec2 fv = this->mcpos.get_dpos();
-    //fv /= static_cast<double>(ENTS_PER_SECTION);
+    //fv /= static_cast<double>(ENTS_PER_SECTION<>);
     //fv += esrc::get_gameSeed().get_ecoObjWeight_dposOff();
 
     //double originPerlin = simplex_noise2( fv.x * freq2, fv.y * freq2 ); //- [-1.0, 1.0]

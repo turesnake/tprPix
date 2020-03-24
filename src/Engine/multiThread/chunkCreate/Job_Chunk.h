@@ -46,10 +46,10 @@ public:
     
     inline Job_MapEnt &getnc_mapEntInnRef( IntVec2 mposOff_ )noexcept{
 
-        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK) &&
-                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK) );
+        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK<>) &&
+                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK<>) );
 
-        size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK + mposOff_.x);
+        size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK<> + mposOff_.x);
         tprAssert( idx < this->mapEntInns.size() );
         return *(this->mapEntInns.at(idx));
     }

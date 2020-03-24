@@ -73,7 +73,7 @@ namespace jobF_inn {//----------- namespace: jobF_inn ----------------//
 // [*main-thread*]
 void Job_Field::init_for_static()noexcept{
 
-    tprAssert( (ENTS_PER_FIELD==4) && (HALF_ENTS_PER_FIELD==2) ); // MUST
+    tprAssert( ((ENTS_PER_FIELD<>)==4) && ((HALF_ENTS_PER_FIELD<>)==2) ); // MUST
     tprAssert( esrc::is_setState("gameObj") );
     
     //=====//
@@ -129,7 +129,7 @@ void Job_Field::init_for_static()noexcept{
 // 自动检测 4*4 容器，通过 分形思路，分配 bioSoup 数据实例
 void Job_Field::apply_bioSoupEnts(){
 
-    size_t                      halfEntIdx { cast_2_size_t(HALF_ENTS_PER_FIELD) };
+    size_t                      halfEntIdx { HALF_ENTS_PER_FIELD<size_t> };
     const Job_MapEnt            *entPtr {nullptr}; 
 
     IntVec2 fieldMPos = fieldKey_2_mpos(this->fieldKey);
@@ -143,7 +143,7 @@ void Job_Field::apply_bioSoupEnts(){
         auto bioSoupState = entPtr->get_bioSoupState();
 
         this->create_bioSoupDataUPtr(   FieldFractType::Field, 
-                                        fieldMPos + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD },
+                                        fieldMPos + IntVec2{ HALF_ENTS_PER_FIELD<>, HALF_ENTS_PER_FIELD<> },
                                         bioSoupState,
                                         entPtr->get_alti()
                                     );   
@@ -182,10 +182,10 @@ void Job_Field::apply_bioSoupEnts(){
             }
 
             //--- 需要将 halfField 拆分为 4-mapent ---
-            for( int h=0; h<HALF_ENTS_PER_FIELD; h++ ){
-                for( int w=0; w<HALF_ENTS_PER_FIELD; w++ ){ // each mapent in halfField
+            for( size_t h=0; h<HALF_ENTS_PER_FIELD<size_t>; h++ ){
+                for( size_t w=0; w<HALF_ENTS_PER_FIELD<size_t>; w++ ){ // each mapent in halfField
 
-                    innIdx = cast_2_size_t( h * HALF_ENTS_PER_FIELD + w );
+                    innIdx = h * HALF_ENTS_PER_FIELD<size_t> + w;
                     const auto &wh = halfWHs.at(innIdx);
                     entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 
@@ -248,7 +248,7 @@ void Job_Field::apply_groundGoEnts(){
     glm::dvec2          dposOff     {}; // base on field-midDPos
     colorTableId_t      colorTableId {};
     size_t              uWeight {};
-    size_t              halfEntIdx { cast_2_size_t(HALF_ENTS_PER_FIELD) };
+    size_t              halfEntIdx { HALF_ENTS_PER_FIELD<size_t> };
     const Job_MapEnt    *entPtr {nullptr}; 
 
     std::vector<std::unique_ptr<Job_GroundGoEnt>> groundGoEnts {};
@@ -297,10 +297,10 @@ void Job_Field::apply_groundGoEnts(){
             }
 
             //--- 需要将 halfField 拆分为 4-mapent ---
-            for( int h=0; h<HALF_ENTS_PER_FIELD; h++ ){
-                for( int w=0; w<HALF_ENTS_PER_FIELD; w++ ){ // each mapent in halfField
+            for( size_t h=0; h<HALF_ENTS_PER_FIELD<size_t>; h++ ){
+                for( size_t w=0; w<HALF_ENTS_PER_FIELD<size_t>; w++ ){ // each mapent in halfField
 
-                    innIdx = cast_2_size_t( h * HALF_ENTS_PER_FIELD + w );
+                    innIdx = h * HALF_ENTS_PER_FIELD<size_t> + w;
                     const auto &wh = halfWHs.at(innIdx);
                     entPtr = this->mapEntPtrs.at(static_cast<size_t>(wh.y)).at(static_cast<size_t>(wh.x));
 

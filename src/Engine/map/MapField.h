@@ -56,7 +56,7 @@ public:
     inline IntVec2          get_mpos()const noexcept{ tprAssert(this->mpos.has_value()); return this->mpos.value(); }
     inline glm::dvec2       get_dpos()const noexcept{  return mpos_2_dpos(this->get_mpos()); }
     inline glm::dvec2       get_midDPos()const noexcept{ return (this->get_dpos() + MapField::halfFieldVec2); }
-    inline IntVec2          get_midMPos()const noexcept{ return (this->get_mpos() + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD }); }
+    inline IntVec2          get_midMPos()const noexcept{ return (this->get_mpos() + IntVec2{ HALF_ENTS_PER_FIELD<>, HALF_ENTS_PER_FIELD<> }); }
     inline const glm::dvec2 &get_nodeDPos()const noexcept{ tprAssert(this->nodeDPos.has_value()); return this->nodeDPos.value(); }
     inline MapAltitude      get_nodeMapAlti()const noexcept{ tprAssert(this->nodeMapAlti.has_value()); return this->nodeMapAlti.value(); }
     inline MapAltitude      get_minMapAlti()const noexcept{ tprAssert(this->minMapAlti.has_value()); return this->minMapAlti.value(); }

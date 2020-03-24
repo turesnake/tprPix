@@ -39,9 +39,9 @@ namespace bcd_inn {//----------- namespace: bcd_inn ----------------//
     //- section 四个端点 坐标偏移（以 ENTS_PER_SECTION 为单位）[left-bottom]
     const std::vector<IntVec2> quadSectionKeyOffs {
         IntVec2{ 0, 0 },                                // 0: LeftBottom
-        IntVec2{ ENTS_PER_SECTION, 0 },                 // 1: RightBottom
-        IntVec2{ 0, ENTS_PER_SECTION },                 // 2: LeftTop
-        IntVec2{ ENTS_PER_SECTION, ENTS_PER_SECTION }   // 3: RightTop
+        IntVec2{ ENTS_PER_SECTION<>, 0 },                 // 1: RightBottom
+        IntVec2{ 0, ENTS_PER_SECTION<> },                 // 2: LeftTop
+        IntVec2{ ENTS_PER_SECTION<>, ENTS_PER_SECTION<> }   // 3: RightTop
     };
 
 
@@ -123,8 +123,8 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
 
     // 补完 job_MapEnt 的下半部分 init 工作
     IntVec2     mposOff {};
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
+    for( int h=0; h<ENTS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK<>; w++ ){
             mposOff = IntVec2{ w, h };
             Job_MapEnt &mapEntRef = job_chunkRef_.getnc_mapEntInnRef(mposOff);
             assign_mapent_to_nearFour_ecoObjs_2(ecoReadOnlyUPtr->ecoObjBorderPtr,
@@ -138,16 +138,16 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
     //      fieldKeys
     //------------------------//
     std::vector<fieldKey_t> fieldKeys {}; //- 8*8 fieldKeys，only used inner
-    fieldKeys.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) ); // reserve FIRST !!!
+    fieldKeys.reserve( FIELDS_PER_CHUNK<size_t> * FIELDS_PER_CHUNK<size_t> ); // reserve FIRST !!!
 
     IntVec2    tmpFieldMPos {};
     fieldKey_t tmpFieldKey {};
     IntVec2    fieldNodeOff {};
 
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
-            tmpFieldMPos = IntVec2{ currentChunkMPos.x + w*ENTS_PER_FIELD, 
-                                    currentChunkMPos.y + h*ENTS_PER_FIELD };
+    for( int h=0; h<FIELDS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK<>; w++ ){ //- each field in chunk (8*8)
+            tmpFieldMPos = IntVec2{ currentChunkMPos.x + w*ENTS_PER_FIELD<>, 
+                                    currentChunkMPos.y + h*ENTS_PER_FIELD<> };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             fieldKeys.push_back(tmpFieldKey);
 
@@ -176,8 +176,8 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
         MapAltitude minFieldAlti { 100.0  };
         MapAltitude maxFieldAlti { -100.0 };
 
-        for( int eh=0; eh<ENTS_PER_FIELD; eh++ ){
-            for( int ew=0; ew<ENTS_PER_FIELD; ew++ ){ //- each ent in field
+        for( int eh=0; eh<ENTS_PER_FIELD<>; eh++ ){
+            for( int ew=0; ew<ENTS_PER_FIELD<>; ew++ ){ //- each ent in field
 
                 tmpEntMPos = tmpFieldMPos + IntVec2{ ew, eh };
                 mposOff = tmpEntMPos - currentChunkMPos;

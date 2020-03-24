@@ -31,7 +31,7 @@
 
 
 inline IntVec2 mpos_2_ppos( IntVec2 mpos_ ) noexcept {
-    return (mpos_*PIXES_PER_MAPENT);
+    return (mpos_*PIXES_PER_MAPENT<>);
 }
 
 
@@ -47,15 +47,15 @@ inline IntVec2 dpos_2_mpos( const glm::dvec2 &dpos_ ) noexcept {
 
 
 inline glm::dvec2 mpos_2_dpos( IntVec2 mpos_ ) noexcept {
-    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT),
-                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT) };
+    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT<>),
+                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT<>) };
 }
 
 
 
 inline glm::dvec2 mpos_2_midDPos( IntVec2 mpos_ ) noexcept {
-    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT),
-                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT + HALF_PIXES_PER_MAPENT) };
+    return glm::dvec2{  static_cast<double>(mpos_.x * PIXES_PER_MAPENT<> + HALF_PIXES_PER_MAPENT<>),
+                        static_cast<double>(mpos_.y * PIXES_PER_MAPENT<> + HALF_PIXES_PER_MAPENT<>) };
 }
 
 

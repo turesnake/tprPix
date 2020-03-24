@@ -40,8 +40,8 @@ void EcoObjBorder::init(){
                                             frame_data_ary );
 
     // 上侧，右侧 会额外多出来 1pix，用作 frame 间 间隙
-    tprAssert(  pixNum_per_frame.x == (ENTS_PER_SECTION+1) && 
-                pixNum_per_frame.y == (ENTS_PER_SECTION+1) );
+    tprAssert(  pixNum_per_frame.x == (ENTS_PER_SECTION<>+1) && 
+                pixNum_per_frame.y == (ENTS_PER_SECTION<>+1) );
 
     //---------------//
     //  parse png_data
@@ -57,11 +57,11 @@ void EcoObjBorder::init(){
 
         EcoObjBorder &eobRef = EcoObjBorder::create_new_ecoObjBorder();
 
-        for( int j=0; j<ENTS_PER_SECTION; j++ ){
-            for( int i=0; i<ENTS_PER_SECTION; i++ ){ // eac pix
+        for( int j=0; j<ENTS_PER_SECTION<>; j++ ){
+            for( int i=0; i<ENTS_PER_SECTION<>; i++ ){ // eac pix
 
-                size_t pixInIdx  = cast_2_size_t( j * (ENTS_PER_SECTION+1) + i ); // 输入：png帧中，pixIdx
-                size_t pixOutIdx = cast_2_size_t( j * ENTS_PER_SECTION + i );     // 输出：成品数据帧中，pixIdx
+                size_t pixInIdx  = cast_2_size_t( j * (ENTS_PER_SECTION<>+1) + i ); // 输入：png帧中，pixIdx
+                size_t pixOutIdx = cast_2_size_t( j * ENTS_PER_SECTION<> + i );     // 输出：成品数据帧中，pixIdx
 
                 const RGBA &pix = frameData.at( pixInIdx );
                 if(      pix.is_near(leftBottomColor, 5) ){  pixDir = NineDirection::LeftBottom; }

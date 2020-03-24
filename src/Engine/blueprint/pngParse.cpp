@@ -405,8 +405,8 @@ void handle_frame(  MapData &mapDataRef_,
 
             if( blueprintType_ == BlueprintType::Village ){
                 // village png 的像素尺寸 是 field 为单位
-                entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD, 
-                                            static_cast<int>(j)*ENTS_PER_FIELD };
+                entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD<>, 
+                                            static_cast<int>(j)*ENTS_PER_FIELD<> };
             }else{
                 // plot/yard png 的像素尺寸 是 mapent 为单位
                 entUPtr->mposOff = IntVec2{ i, j };
@@ -516,8 +516,8 @@ void handle_RD_frame_for_village(   MapData &mapDataRef_,
         tprAssert( outM.has_value() );
 
         entUPtr->varTypeIdx = outM.value();    
-        entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD, 
-                                    static_cast<int>(j)*ENTS_PER_FIELD }; // village png 的像素尺寸 是 field 为单位
+        entUPtr->mposOff = IntVec2{ static_cast<int>(i)*ENTS_PER_FIELD<>, 
+                                    static_cast<int>(j)*ENTS_PER_FIELD<> }; // village png 的像素尺寸 是 field 为单位
         entUPtr->direction = roadDir;
         entUPtr->brokenLvl = BrokenLvl::Lvl_0; // road 的 BrokenLvl 值一律为 Lvl_0
         //---

@@ -43,9 +43,9 @@ inline YardSize sizeByMapEnt_2_yardSize( IntVec2 size_ )noexcept{
 
     tprAssert(  (size_.x == size_.y) &&
                 (size_.x > 0) &&
-                ((size_.x % ENTS_PER_FIELD) == 0) );
+                ((size_.x % ENTS_PER_FIELD<>) == 0) );
     
-    switch ( size_.x / ENTS_PER_FIELD ){
+    switch ( size_.x / ENTS_PER_FIELD<> ){
         case 1: return YardSize::_1f1;
         case 2: return YardSize::_2f2;
         case 3: return YardSize::_3f3;
@@ -61,7 +61,7 @@ inline YardSize sizeByMapEnt_2_yardSize( IntVec2 size_ )noexcept{
 
 //-- 获得不同尺寸的 yard 的边长 （以 mapent 为单位）
 inline int yardSize_2_mapEnt_sideLen( YardSize type_ )noexcept{
-    return static_cast<int>(type_) * ENTS_PER_FIELD;
+    return static_cast<int>(type_) * ENTS_PER_FIELD<>;
 }
 
 

@@ -56,8 +56,8 @@ void BioSoupParticle::init_for_static(){
         constexpr glm::dvec2 centerDposOff_4m4 { HALF_PIXES_PER_FIELD_D, HALF_PIXES_PER_FIELD_D };
 
 
-        for( int j=0; j<HALF_ENTS_PER_FIELD; j++ ){
-            for( int i=0; i<HALF_ENTS_PER_FIELD; i++ ){
+        for( int j=0; j<HALF_ENTS_PER_FIELD<>; j++ ){
+            for( int i=0; i<HALF_ENTS_PER_FIELD<>; i++ ){
 
                 glm::dvec2 point { static_cast<double>(i), static_cast<double>(j) }; // base on left=bottom
                 point *= PIXES_PER_MAPENT_D;
@@ -67,8 +67,8 @@ void BioSoupParticle::init_for_static(){
             }
         }
 
-        for( int j=0; j<ENTS_PER_FIELD; j++ ){
-            for( int i=0; i<ENTS_PER_FIELD; i++ ){
+        for( int j=0; j<ENTS_PER_FIELD<>; j++ ){
+            for( int i=0; i<ENTS_PER_FIELD<>; i++ ){
 
                 glm::dvec2 point { static_cast<double>(i), static_cast<double>(j) }; // base on left=bottom
                 point *= PIXES_PER_MAPENT_D;

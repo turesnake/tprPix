@@ -174,7 +174,7 @@ std::unique_ptr<GoDataForCreate> GoDataForCreate::create_new_groundGoDataForCrea
    
 
     IntVec2 fieldMPos = fieldKey_2_mpos(jobFieldRef_.get_fieldKey());
-    double halfPixesPerField = static_cast<double>(PIXES_PER_FIELD) * 0.5;
+    double halfPixesPerField = PIXES_PER_FIELD_D * 0.5;
     //===   
     auto goDUPtr = std::make_unique<GoDataForCreate>();
     GoDataForCreate *goDataPtr = goDUPtr.get();

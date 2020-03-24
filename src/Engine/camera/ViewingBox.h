@@ -55,7 +55,7 @@ public:
 
             
     //----- 取景盒 深度size -----
-    static constexpr double z                       { static_cast<double>(VIEWING_BOX_Z_DEEP) };
+    static constexpr double z                       { VIEWING_BOX_Z_DEEP<double> };
     static constexpr double halfZ                   { 0.5 * ViewingBox::z };
 
     //-- distance from zFar(to zNear) --

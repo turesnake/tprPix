@@ -77,7 +77,7 @@ void  collect_ecoObjs_need_to_be_create(){
         sectionKey_t    ecoObjKey {};
         for( int h=-2; h<=2; h++ ){
             for( int w=-2; w<=2; w++ ){            
-                tmpSectionMPos = currentPlayerSectionMPos + IntVec2{ w*ENTS_PER_SECTION, h*ENTS_PER_SECTION };
+                tmpSectionMPos = currentPlayerSectionMPos + IntVec2{ w*ENTS_PER_SECTION<>, h*ENTS_PER_SECTION<> };
                 ecoObjKey = sectionMPos_2_sectionKey( tmpSectionMPos );
 
                 auto state = esrc::get_ecoObjMemState( ecoObjKey );

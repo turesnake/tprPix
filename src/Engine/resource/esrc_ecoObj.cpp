@@ -70,7 +70,7 @@ void del_ecoObjs_tooFarAway()noexcept{
     //--------------
     std::set<sectionKey_t> delKeys {};
 
-    int     limit  { 4 * ENTS_PER_SECTION };// release-zone 半径 
+    int     limit  { 4 * ENTS_PER_SECTION<> };// release-zone 半径 
                                             // 确保这个 班级足够大，大到我们可以不用为 ecoobj 数据加锁
                                             // 一种非常危险的 操作
 

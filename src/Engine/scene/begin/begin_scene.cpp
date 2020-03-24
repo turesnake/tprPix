@@ -94,7 +94,7 @@ void prepareForScene_begin(){
     //----------------------------//
     //- 所有 uigo，默认使用 1m1 collientset, 手动修正，使得 rootanchor，对齐于 目标 mpos
     //  最简陋的实现，tmp...
-    IntVec2 initPPosOff {-HALF_PIXES_PER_MAPENT, -HALF_PIXES_PER_MAPENT};
+    IntVec2 initPPosOff { -HALF_PIXES_PER_MAPENT<>, -HALF_PIXES_PER_MAPENT<> };
 
     sc_begin_inn::button_pointerId = uiGos::create_a_UIGo(UIGoSpecFromJson::str_2_uiGoSpeciesId("button_sceneBegin_pointer_2"), 
                                                             sc_begin_inn::butonUIAnchors.at(0),

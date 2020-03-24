@@ -31,9 +31,9 @@ void Chunk::init(){
     tprAssert( job_chunk_opt.has_value() );
     auto &job_chunkRef = *(job_chunk_opt.value());
 
-    this->memMapEnts.reserve( cast_2_size_t( ENTS_PER_CHUNK * ENTS_PER_CHUNK ) ); // reserve FIRST
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){//- each mapent
+    this->memMapEnts.reserve( ENTS_PER_CHUNK<size_t> * ENTS_PER_CHUNK<size_t> ); // reserve FIRST
+    for( int h=0; h<ENTS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK<>; w++ ){//- each mapent
             const auto &jobMapEnt = job_chunkRef.getnc_mapEntInnRef( IntVec2{w,h} );
             this->memMapEnts.push_back( std::make_unique<MemMapEnt>( 
                                                         this->mpos + IntVec2{w,h},

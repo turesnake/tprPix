@@ -75,7 +75,7 @@ inline IntVec2 chunkKey_2_mpos( chunkKey_t key_ )noexcept{
  * -- 传入 任意 mapent 的 mpos，获得其 所在 chunk 的 mpos（chunk左下角）
  */
 inline IntVec2 anyMPos_2_chunkMPos( IntVec2 anyMPos_ )noexcept{
-    return ( floorDiv(anyMPos_, ENTS_PER_CHUNK_D) * ENTS_PER_CHUNK );
+    return ( floorDiv(anyMPos_, ENTS_PER_CHUNK_D) * ENTS_PER_CHUNK<> );
 }
 
 
@@ -140,7 +140,7 @@ inline chunkKey_t chunkMPos_2_chunkKey( IntVec2 chunkMPos_ )noexcept{
  */
 inline IntVec2 chunkMPos_2_chunkCPos( IntVec2 chunkMPos_ )noexcept{
         tprAssert( anyMPos_2_chunkMPos(chunkMPos_) == chunkMPos_ ); //- tmp
-    return floorDiv( chunkMPos_, static_cast<double>(ENTS_PER_CHUNK)  );
+    return floorDiv( chunkMPos_, ENTS_PER_CHUNK_D );
 }
 
 

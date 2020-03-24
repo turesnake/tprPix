@@ -57,7 +57,7 @@ namespace jChunk_inn {//-------- namespace: jChunk_inn --------------//
         fieldKey_t fieldKey {};
         for( int j=0; j<2; j++ ){
             for( int i=0; i<2; i++ ){ // near 2f2 field
-                mpos = anyMPos_ + IntVec2{ i*ENTS_PER_FIELD, j*ENTS_PER_FIELD };
+                mpos = anyMPos_ + IntVec2{ i*ENTS_PER_FIELD<>, j*ENTS_PER_FIELD<> };
                 fieldKey = anyMPos_2_fieldKey( mpos );
                 if( ecoObjRef_.is_find_in_artifactFieldKeys(fieldKey) ){
                     return true;
@@ -76,23 +76,23 @@ void Job_Chunk::init()noexcept{
     //-------------------//
     //    mapEntInns
     //-------------------//
-    this->mapEntInns.reserve( ENTS_PER_CHUNK * ENTS_PER_CHUNK );
-    for( int h=0; h<ENTS_PER_CHUNK; h++ ){
-        for( int w=0; w<ENTS_PER_CHUNK; w++ ){
+    this->mapEntInns.reserve( ENTS_PER_CHUNK<> * ENTS_PER_CHUNK<> );
+    for( int h=0; h<ENTS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<ENTS_PER_CHUNK<>; w++ ){
             this->mapEntInns.push_back( std::make_unique<Job_MapEnt>( this->chunkMPos + IntVec2{w, h} ) );
         }
     }
 
     //-------------------//
-    this->job_fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
-    this->fields.reserve( cast_2_size_t(FIELDS_PER_CHUNK * FIELDS_PER_CHUNK) );
+    this->job_fields.reserve( FIELDS_PER_CHUNK<size_t> * FIELDS_PER_CHUNK<size_t> );
+    this->fields.reserve( FIELDS_PER_CHUNK<size_t> * FIELDS_PER_CHUNK<size_t> );
 
     IntVec2     tmpFieldMPos {};
     fieldKey_t  tmpFieldKey {};
-    for( size_t h=0; h<cast_2_size_t(FIELDS_PER_CHUNK); h++ ){
-        for( size_t w=0; w<cast_2_size_t(FIELDS_PER_CHUNK); w++ ){
-            tmpFieldMPos = this->chunkMPos + IntVec2{   static_cast<int>(w)*ENTS_PER_FIELD, 
-                                                        static_cast<int>(h)*ENTS_PER_FIELD };
+    for( size_t h=0; h<FIELDS_PER_CHUNK<size_t>; h++ ){
+        for( size_t w=0; w<FIELDS_PER_CHUNK<size_t>; w++ ){
+            tmpFieldMPos = this->chunkMPos + IntVec2{   static_cast<int>(w)*ENTS_PER_FIELD<>, 
+                                                        static_cast<int>(h)*ENTS_PER_FIELD<> };
             tmpFieldKey = fieldMPos_2_fieldKey(tmpFieldMPos);
             //---
             auto [insertIt1, insertBool1] = this->job_fields.insert({ tmpFieldKey, std::make_unique<Job_Field>( *this, tmpFieldKey ) });
@@ -109,9 +109,9 @@ void Job_Chunk::write_2_field_from_jobData(){
 
     IntVec2     fieldMPos   {};
     fieldKey_t  fieldKey    {};    
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk
-            fieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+    for( int h=0; h<FIELDS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK<>; w++ ){ //- each field in chunk
+            fieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD<>, h*ENTS_PER_FIELD<> };
             fieldKey = fieldMPos_2_fieldKey( fieldMPos );
             //---
             auto &jobField = *(this->job_fields.at(fieldKey).get());
@@ -127,10 +127,10 @@ void Job_Chunk::write_2_field_from_jobData(){
 
 bool Job_Chunk::is_mapEnt_a_ecoBorder( IntVec2 mposOff_ )noexcept{
 
-    tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK) &&
-                (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK) ); //- [0,31]
+    tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_CHUNK<>) &&
+                (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_CHUNK<>) ); //- [0,31]
 
-    size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK + mposOff_.x);
+    size_t idx = cast_2_size_t(mposOff_.y * ENTS_PER_CHUNK<> + mposOff_.x);
     tprAssert( idx < this->mapEntInns.size() );
 
     //---
@@ -140,15 +140,15 @@ bool Job_Chunk::is_mapEnt_a_ecoBorder( IntVec2 mposOff_ )noexcept{
     // 根据 mp 在 chunk 中位置
     // 确定它的 相邻mp 检测组
     const std::vector<IntVec2> *nearMPsPtr {nullptr};
-    if( (mposOff_.x==0) || (mposOff_.x==ENTS_PER_CHUNK-1) ){
+    if( (mposOff_.x==0) || (mposOff_.x==ENTS_PER_CHUNK<>-1) ){
         // 贴着 chunk 左右 两条垂直边
-        if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK-1) ){
+        if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK<>-1) ){
             // 目标 mp 为 chunk 4个顶点之一
             return false;
         }   
         nearMPsPtr = &jChunk_inn::near_2_vertical_mps;
 
-    }else if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK-1) ){
+    }else if( (mposOff_.y==0) || (mposOff_.y==ENTS_PER_CHUNK<>-1) ){
         // 贴着 chunk 上下 两条横向边
         nearMPsPtr = &jChunk_inn::near_2_horizontal_mps;
     }else{
@@ -162,10 +162,10 @@ bool Job_Chunk::is_mapEnt_a_ecoBorder( IntVec2 mposOff_ )noexcept{
     for( const auto &mpOff : *nearMPsPtr ){
         //-- skip outEnt --
         tmpOffV = mposOff_ + mpOff; // [0,31]
-        tprAssert(  (tmpOffV.x>=0) && (tmpOffV.x<ENTS_PER_CHUNK) &&
-                    (tmpOffV.y>=0) && (tmpOffV.y<ENTS_PER_CHUNK) );
+        tprAssert(  (tmpOffV.x>=0) && (tmpOffV.x<ENTS_PER_CHUNK<>) &&
+                    (tmpOffV.y>=0) && (tmpOffV.y<ENTS_PER_CHUNK<>) );
         //-- do check --
-        tmpIdx = static_cast<size_t>(tmpOffV.y * ENTS_PER_CHUNK + tmpOffV.x);
+        tmpIdx = static_cast<size_t>(tmpOffV.y * ENTS_PER_CHUNK<> + tmpOffV.x);
 
         tmpEcoKey = this->mapEntInns.at(tmpIdx)->get_ecoObjKey();
         if( selfEcoKey != tmpEcoKey ){
@@ -187,10 +187,10 @@ void Job_Chunk::create_field_goSpecDatas(){
     IntVec2         entMPos {};
     mapEntKey_t     mapEntKey {};
     
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){ //- each field in chunk (8*8)
+    for( int h=0; h<FIELDS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK<>; w++ ){ //- each field in chunk (8*8)
 
-            fieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD, h*ENTS_PER_FIELD };
+            fieldMPos = this->chunkMPos + IntVec2{ w*ENTS_PER_FIELD<>, h*ENTS_PER_FIELD<> };
             fieldKey = fieldMPos_2_fieldKey(fieldMPos);
             //---
             auto &fieldRef = *(this->fields.at(fieldKey));
@@ -222,8 +222,8 @@ void Job_Chunk::create_field_goSpecDatas(){
             //----------------------//
             // 数据存储在 ecoobj 实例中
             // 只需简单地将指针 复制到 chunk 容器里
-            for( int j=0; j<ENTS_PER_FIELD; j++ ){
-                for( int i=0; i<ENTS_PER_FIELD; i++ ){ // each mapent in field
+            for( int j=0; j<ENTS_PER_FIELD<>; j++ ){
+                for( int i=0; i<ENTS_PER_FIELD<>; i++ ){ // each mapent in field
                     entMPos = fieldMPos + IntVec2{ i, j };
                     mapEntKey = mpos_2_key( entMPos );
 

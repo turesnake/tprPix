@@ -190,8 +190,8 @@ void calc_yard_fieldKeys( std::unordered_set<fieldKey_t> &outContainer_,
 
     for( int j=0; j<sideLen; j++ ){
         for( int i=0; i<sideLen; i++ ){
-            fieldMPos.x = yardFieldMPos.x + i*ENTS_PER_FIELD;
-            fieldMPos.y = yardFieldMPos.y + j*ENTS_PER_FIELD;
+            fieldMPos.x = yardFieldMPos.x + i*ENTS_PER_FIELD<>;
+            fieldMPos.y = yardFieldMPos.y + j*ENTS_PER_FIELD<>;
             outContainer_.insert( fieldMPos_2_fieldKey(fieldMPos) ); // maybe
         }
     }

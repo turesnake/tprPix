@@ -29,7 +29,7 @@ namespace cmea_inn {//----------- namespace: cmea_inn ----------------//
 double calc_mapEntAlti( IntVec2 mpos_ )noexcept{
 
     // 默认计算 mapent 中点 pix 的 mapAlti 值
-    IntVec2 midPPos = mpos_2_ppos(mpos_) + IntVec2{ HALF_PIXES_PER_MAPENT, HALF_PIXES_PER_MAPENT };
+    IntVec2 midPPos = mpos_2_ppos(mpos_) + IntVec2{ HALF_PIXES_PER_MAPENT<>, HALF_PIXES_PER_MAPENT<> };
 
     GameSeed &gameSeedRef = esrc::get_gameSeed();
     glm::dvec2  altiSeed_pposOffBig = gameSeedRef.get_altiSeed_pposOffBig();

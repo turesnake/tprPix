@@ -23,7 +23,7 @@ public:
     explicit ChunkZone( int sideLen_ ): //- based on chunk
         sideLen(sideLen_),
         offLen(sideLen_/2),
-        offLenMPos(offLen*ENTS_PER_CHUNK),
+        offLenMPos(offLen*ENTS_PER_CHUNK<>),
         chunkNums( cast_2_size_t(sideLen_*sideLen_) )
         {
             tprAssert( (sideLen_>0) && (sideLen_%2 != 0) );

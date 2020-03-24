@@ -52,10 +52,10 @@ void erase_all_fields_in_chunk( IntVec2 chunkMPos_ ){
     fieldKey_t tmpFieldKey {};
     size_t     eraseNum {};
 
-    for( int h=0; h<FIELDS_PER_CHUNK; h++ ){
-        for( int w=0; w<FIELDS_PER_CHUNK; w++ ){
-            tmpFieldMPos = IntVec2{ chunkMPos_.x + w*ENTS_PER_FIELD,
-                                    chunkMPos_.y + h*ENTS_PER_FIELD };
+    for( int h=0; h<FIELDS_PER_CHUNK<>; h++ ){
+        for( int w=0; w<FIELDS_PER_CHUNK<>; w++ ){
+            tmpFieldMPos = IntVec2{ chunkMPos_.x + w*ENTS_PER_FIELD<>,
+                                    chunkMPos_.y + h*ENTS_PER_FIELD<> };
             tmpFieldKey = fieldMPos_2_fieldKey( tmpFieldMPos );
 
             eraseNum = field_inn::fields.erase(tmpFieldKey);

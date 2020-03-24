@@ -71,7 +71,7 @@ inline IntVec2 sectionKey_2_mpos( sectionKey_t key_ )noexcept{
  * -- 传入 任意 mapent 的 mpos，获得其 所在 section 的 mpos（section左下角）
  */
 inline IntVec2 anyMPos_2_sectionMPos( IntVec2 anyMPos_ )noexcept{
-    return ( floorDiv(anyMPos_, ENTS_PER_SECTION_D) * ENTS_PER_SECTION );
+    return ( floorDiv(anyMPos_, ENTS_PER_SECTION_D) * ENTS_PER_SECTION<> );
 }
 
 

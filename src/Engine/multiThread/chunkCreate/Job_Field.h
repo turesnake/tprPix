@@ -33,12 +33,12 @@ class Job_Field{
     public:
         Fract()
             {
-                this->inHalfFields.resize( cast_2_size_t( HALF_ENTS_PER_FIELD * HALF_ENTS_PER_FIELD ) );
+                this->inHalfFields.resize( HALF_ENTS_PER_FIELD<size_t> * HALF_ENTS_PER_FIELD<size_t> );
             }
 
         inline void insert( IntVec2 mposOff_, const T &val_ )noexcept{
-            tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
-                        (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
+            tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD<>) &&
+                        (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD<>));
             //--- field ---//
             this->inField.insert(val_); // maybe
             //--- halfField ---//
@@ -55,7 +55,7 @@ class Job_Field{
     private:
         inline static size_t calc_halfFieldIdx( IntVec2 mposOff_ )noexcept{
             IntVec2 halfFieldPos = mposOff_.floorDiv( HALF_ENTS_PER_FIELD_D );
-            return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD + halfFieldPos.x );
+            return cast_2_size_t( halfFieldPos.y * HALF_ENTS_PER_FIELD<> + halfFieldPos.x );
         }
         //========== vals ==========//
         std::set<T> inField {};        
@@ -71,17 +71,17 @@ public:
         fieldKey(fieldKey_)
         {
             //-- 二维数组 --
-            this->mapEntPtrs.resize( cast_2_size_t(ENTS_PER_FIELD) ); // h
+            this->mapEntPtrs.resize( ENTS_PER_FIELD<size_t> ); // h
             for( auto &c : this->mapEntPtrs ){
-                c.resize( cast_2_size_t(ENTS_PER_FIELD) ); // w
+                c.resize( ENTS_PER_FIELD<size_t> ); // w
             }
         }
 
     
     // param: mposOff_ base on field.mpos
     inline void insert_a_entInnPtr( IntVec2 mposOff_, Job_MapEnt *entPtr_ )noexcept{
-        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD) &&
-                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD));
+        tprAssert(  (mposOff_.x>=0) && (mposOff_.x<ENTS_PER_FIELD<>) &&
+                    (mposOff_.y>=0) && (mposOff_.y<ENTS_PER_FIELD<>));
 
         //--- mapEntPtrs ---
         this->mapEntPtrs.at(static_cast<size_t>(mposOff_.y)).at(static_cast<size_t>(mposOff_.x)) = entPtr_;
@@ -160,7 +160,7 @@ public:
 
     inline fieldKey_t   get_fieldKey()const noexcept{ return this->fieldKey; }
     inline bool         get_isCoveredBy_InertiaBioSoup()const noexcept{ return this->isCoveredBy_InertiaBioSoup; }
-    inline IntVec2      get_fieldMidMPos()const noexcept{ return (fieldKey_2_mpos(this->fieldKey) + IntVec2{ HALF_ENTS_PER_FIELD, HALF_ENTS_PER_FIELD }); }
+    inline IntVec2      get_fieldMidMPos()const noexcept{ return (fieldKey_2_mpos(this->fieldKey) + IntVec2{ HALF_ENTS_PER_FIELD<>, HALF_ENTS_PER_FIELD<> }); }
 
 
     //===== static =====//

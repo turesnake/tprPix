@@ -148,7 +148,7 @@ inline glm::dvec2 limit_moveSpeed( const glm::dvec2 &speedV_ )noexcept{
 
     // Avoid Radical Sign / 避免开根号 --
     double moveLen =  speedV_.x*speedV_.x + speedV_.y*speedV_.y;
-    if( moveLen < static_cast<double>(PIXES_PER_MAPENT*PIXES_PER_MAPENT) ){
+    if( moveLen < PIXES_PER_MAPENT_D * PIXES_PER_MAPENT_D ){
         return speedV_;
     }
     //-- max legal speed vec --
