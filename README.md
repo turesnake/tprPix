@@ -160,6 +160,14 @@ You can find **tprpix.exe** file in **.../appRootDir/build/publish/ folder**.
 
 
 
+## the Ultimate_Publish_Folder
+
+No matter which platform you compile on, the **Ultimate Publish Folder** is unique:
+**.../appRootDir/build/publish/ folder**. 
+you can copy this **publish** folder to any location which will not affect the executable of app.
+All the resources needed for the app are integrated in the publish directory.
+
+
 
 ## How to Play
 This game support both **Keyboard** and most mainstream **Joysticks**. 
@@ -186,9 +194,33 @@ Well,the remaining parts are still on developing.
 So, please be  patient...
 
 
-## License under the [BSD 3-Clause](LICENSE)
 
-## Welcome feedback and suggestions
+# Existed Problems
+Do not panic if you encounter the following problems:
+
+
+## Fall into a crash when you create a new **Archive**
+This bug has a small chance to be triggered.
+When encountering this problem, it is recommended that you force to exit the program first. And **DELETE** the folder: **.../appRootDir/build/publish/dataBase/** directly. The app archive task is managed by this folder.Please feel free to delete it roughly.
+
+
+## What can I do if three archives are full
+Currently, the **UI System** is not finished yet.Even the archive system is incomplete.
+If the archives is full, Please **DELETE** the folder: **.../appRootDir/build/publish/dataBase/** directly.
+
+
+## What to do in case of flashback in operation
+You can submit the command line information to issues. Or contact me through the following information, this will help me to complete the program better.
+
+
+## More Bugs to be revealed
+...
+
+
+
+# License under the [BSD 3-Clause](LICENSE)
+
+# Welcome feedback and suggestions
 Since the project is still on developing,
 more content will be launched later.
 
