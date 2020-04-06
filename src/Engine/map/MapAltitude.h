@@ -27,8 +27,8 @@ public:
         return (this->val >= 0);
     }
 
-    inline int get_val()const noexcept{ return this->val; }
-    inline int get_lvl()const noexcept{ return this->lvl; }
+    constexpr inline int get_val()const noexcept{ return this->val; }
+    constexpr inline int get_lvl()const noexcept{ return this->lvl; }
 
 private:
     void init( double altiVal_from_gpgpu_ );
