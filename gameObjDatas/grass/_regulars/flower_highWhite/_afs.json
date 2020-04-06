@@ -1,0 +1,298 @@
+[
+
+
+{
+    "afsName": "grass_flower_highWhite",
+    "pngs": [
+        
+        {
+            "path": "whiteFlower_sml1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Sml",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_sml2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel": "Sml",
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_sml3.P.png",
+            "frameNum.col":  4,
+            "frameNum.row":  4,
+            "totalFrameNum": 16,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+  
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Sml",
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 10,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 16,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        
+
+
+        {
+            "path": "whiteFlower_mid1.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 0,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_mid2.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 1,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_mid3.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+  
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 2,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_mid4.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+ 
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 3,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_mid5.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+       
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 4,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        },
+
+        {
+            "path": "whiteFlower_mid6.P.png",
+            "frameNum.col":  6,
+            "frameNum.row":  3,
+            "totalFrameNum": 18,
+            "isHaveShadow": true,
+            "isPjtSingle": true,
+            "isShadowSingle": false,
+    
+            "subspecs": [
+                {
+                    "type": "handle",
+                    "animLabel":  "Mid",
+                    "subIdx": 5,
+                    "AnimActionParams":[
+                        { "actionEName": "Idle", "dir": "Center", "brokenLvl": 0, "type": "singleFrame", "lFrameIdx": 0, "isOpaque": true },
+                        {
+                            "actionEName": "Wind", "dir": "Center", "brokenLvl": 0,
+                            "type": "multiFrame",
+                            "actionPlayType": "Once",
+                            "isOrder":    true,
+                            "isTimeStepSame": false, "timeSteps"  : [ 5,5,5, 6,6,6,6, 7,7,7,7, 8,8,8,8, 9,9,9 ],
+                            "isSeries": true, "fstFrameIdx" : 0, "frameNums" : 18,
+                            "isOpaque": true
+                        }
+                    
+                    ]
+                }
+            ]
+        }
+
+
+    ]
+}
+
+
+
+
+
+]

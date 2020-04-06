@@ -1,0 +1,92 @@
+[
+
+    {
+        "goSpeciesName": "grass",
+
+        "renderLayerType": "MajorGoes",
+        "shaderType": "OriginColor",
+        
+        "plans":[
+            {
+                "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
+                ]
+            },
+
+
+            {
+                "goLabel.hold": "goLabel_1",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0, 0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+            
+
+            {
+                "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0, -10], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [0, 7], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+
+
+            {
+                "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0, -13], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
+                    {  "dpos": [0, 7], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
+                ]
+            },
+
+            {
+                "goLabel.hold": "goLabel_2",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0, -12], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [0, 10], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  }
+                ]
+            },
+
+            
+            {
+                "goLabel.hold": "goLabel_3",
+                "collide.hold": "C_1",
+                "goMeshs":[
+                    {  "dpos": [0,  0], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Mid"  },
+                    {  "dpos": [5, -20], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  },
+                    {  "dpos": [5, 10], "zOff": 0.0, "afsName.hold": "afs_1", "animLabel": "Sml"  }
+                ]
+            }
+            
+        ],
+
+        "holds":[
+            {
+                "afsName.holds":{
+                    "afs_1": "grass_flower_highWhite"
+                },
+
+                "collide.holds":{
+                    "C_1":{
+                        "collideType": "Square",
+                        "signInMapEnts_square_type": "T_1m1"
+                    }
+                },
+
+
+                "goLabel.holds":{
+                    "goLabel_1": "Flower_HighWhite_Sml",
+                    "goLabel_2": "Flower_HighWhite_Mid",
+                    "goLabel_3": "Flower_HighWhite_Big"
+                }
+            }
+        ]
+    }
+]
+
