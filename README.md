@@ -129,6 +129,10 @@ in **CMake Settings** panel, remove the existed configuration, and add a new one
 
 ![x64-Clang-Release](Docs/pngs/win10/003.png)
 
+if **x64-Clang-Release** was not in **CMake Settings** panel, please check whether CMake and Clang tools installed in Visual Studio ->
+
+![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
+
 reset the **Build root** to `${projectDir}\build` ->
 
 ![Build root](Docs/pngs/win10/004.png)
