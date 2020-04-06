@@ -25,7 +25,7 @@ public:
         y(y_)
         {}
     
-    IntVec2( size_t x_, size_t y_ ):
+    constexpr IntVec2( size_t x_, size_t y_ ):
         x(static_cast<int>(x_)),
         y(static_cast<int>(y_))
         {}

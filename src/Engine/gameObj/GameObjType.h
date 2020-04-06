@@ -16,7 +16,7 @@
 
 
 class GameObj;
-class UIObj;
+//class UIObj;
 class DyParam; 
 
 

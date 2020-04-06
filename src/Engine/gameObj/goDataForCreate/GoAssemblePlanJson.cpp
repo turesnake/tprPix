@@ -463,7 +463,7 @@ void parse_single_goAssemblePlanJsonFile( const std::string &path_file_ ){
                 json_planUPtr->gomeshs.push_back( json_GoMeshEnt ); // copy
                 goMeshIdx++;
             }
-            json_goAssemblePlanSet.planUPtrs.push_back( std::move(json_planUPtr) ); // copy
+            json_goAssemblePlanSet.planUPtrs.push_back( std::move(json_planUPtr) );
         }
 
         //=======================//

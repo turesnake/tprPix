@@ -41,6 +41,8 @@
 
     $ cd .../appRootDir/
 
+(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+
 接着，运行一份 shell 脚本程序：
 
     $ ./unix_release.sh
@@ -51,8 +53,8 @@
 现在，所有的安装工作都已经 **完成** 了!!!
 
 你可以在目录： **.../appRootDir/build/publish/** 中找到可执行文件：**tprpix**。
-
 双击它，开始我们的游戏!!!
+(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 
 ### Ubuntu 
@@ -84,6 +86,8 @@
 
     $ cd .../appRootDir/
 
+(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+
 接着，运行一份 shell 脚本程序：
 
     $ ./unix_release.sh
@@ -94,6 +98,7 @@
 现在，所有的安装工作都已经 **完成** 了!!!
 
 你可以在目录： **.../appRootDir/build/publish/** 中找到可执行文件：**tprpix**。
+(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 在 **终端** 中启动它：
 
@@ -155,6 +160,7 @@
 
 你可以在目录 **.../appRootDir/build/publish/** 中，找到可执行文件 **tprpix.exe**，
 它就是我们的程序本体。
+(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 双击此文件，开始我们的游戏!!!
 

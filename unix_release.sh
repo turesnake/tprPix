@@ -52,7 +52,7 @@ if [ ! -d "${DIR_dst_gameObjDatas}" ]; then
 fi
 
 # Access Permission
-#chmod -R ug=rwx ${DIR_out}
+chmod -R ug=rwx ${DIR_out}
 
 #-----------------------#
 # cp -R "dir1"/. "dir2" 
