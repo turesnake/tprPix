@@ -20,7 +20,7 @@
 class IntVec2{
 public:
     IntVec2() = default;
-    IntVec2( int x_, int y_ ):
+    constexpr IntVec2( int x_, int y_ ):
         x(x_),
         y(y_)
         {}
