@@ -20,12 +20,12 @@
 class IntVec2{
 public:
     IntVec2() = default;
-    IntVec2( int x_, int y_ ):
+    constexpr IntVec2( int x_, int y_ ):
         x(x_),
         y(y_)
         {}
     
-    IntVec2( size_t x_, size_t y_ ):
+    constexpr IntVec2( size_t x_, size_t y_ ):
         x(static_cast<int>(x_)),
         y(static_cast<int>(y_))
         {}
