@@ -75,7 +75,10 @@ size_t calc_simple_mapent_uWeight( IntVec2 mpos_ )noexcept{
     uint32_t uout = ux ^ (uy << 1); // maybe stackOverFlow, but not care
 
     dRandEng.seed( static_cast<uint_fast32_t>(uout) );
-    size_t randVal = uDistribution(dRandEng) + cast_2_size_t(mpos_2_key(mpos_));
+
+    //size_t randVal = uDistribution(dRandEng) + cast_2_size_t(mpos_2_key(mpos_));
+    size_t randVal = uDistribution(dRandEng);
+    randVal += static_cast<size_t>(mpos_2_key(mpos_));
 
     tprAssert( randVal != 0 );
     return randVal;

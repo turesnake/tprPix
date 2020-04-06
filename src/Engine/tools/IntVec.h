@@ -160,7 +160,7 @@ inline constexpr IntVec2 operator * ( int m_, IntVec2 a_ ) noexcept {
  *  -1- double 除法
  *  -2- math.floor()
  */
-inline constexpr IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
+inline IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
     double fx = static_cast<double>(a_.x) / div_;
     double fy = static_cast<double>(a_.y) / div_;
     return IntVec2{ static_cast<int>(floor(fx)),
@@ -175,7 +175,7 @@ inline constexpr IntVec2 floorDiv(  IntVec2 a_, double div_ ) noexcept {
  *  -1- double 除法
  *  -2- math.floor()
  */
-inline constexpr IntVec2 floorMod( IntVec2 v_, double mod_ ) noexcept {
+inline IntVec2 floorMod( IntVec2 v_, double mod_ ) noexcept {
     double fx = ( static_cast<double>(v_.x) ) / mod_;
     double fy = ( static_cast<double>(v_.y) ) / mod_;
     double floorX = floor(fx) * mod_;
