@@ -16,25 +16,25 @@ namespace color_inn {//------------- namespace color_inn ----------------
     //               base colors 
     //==============================================//
     // 蛋黄色 1
-    constexpr Color baseColor_yolk_1 {
+    const Color baseColor_yolk_1 {
         rgba_2_floatVec3(RGBA{ 215, 191, 135, 255 }),
         rgba_2_floatVec3(RGBA{ 193, 165, 120, 255 }),
         rgba_2_floatVec3(RGBA{ 173, 141, 105, 255 })
     };
     // 抹茶色 1
-    constexpr Color baseColor_matcha_1 {
+    const Color baseColor_matcha_1 {
         rgba_2_floatVec3(RGBA{ 186, 186, 134, 255 }),
         rgba_2_floatVec3(RGBA{ 163, 159, 121, 255 }),
         rgba_2_floatVec3(RGBA{ 145, 136, 106, 255 })
     };
     // daefForest 中 松树干 的黑色
-    constexpr Color baseColor_dark_1 {
+    const Color baseColor_dark_1 {
         rgba_2_floatVec3(RGBA{ 112, 113, 101, 255 }),
         rgba_2_floatVec3(RGBA{  98,  98,  98, 255 }),
         rgba_2_floatVec3(RGBA{  77,  76,  70, 255 })
     };
     // 白杨树杆 的颜色
-    constexpr Color baseColor_poplarWhite_1 {
+    const Color baseColor_poplarWhite_1 {
         rgba_2_floatVec3(RGBA{ 253, 247, 209, 255 }),
         rgba_2_floatVec3(RGBA{ 213, 207, 177, 255 }),
         rgba_2_floatVec3(RGBA{ 174, 173, 147, 255 })

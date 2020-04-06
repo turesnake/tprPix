@@ -76,9 +76,15 @@ size_t calc_simple_mapent_uWeight( IntVec2 mpos_ )noexcept{
 
     dRandEng.seed( static_cast<uint_fast32_t>(uout) );
 
-    //size_t randVal = uDistribution(dRandEng) + cast_2_size_t(mpos_2_key(mpos_));
-    size_t randVal = uDistribution(dRandEng);
-    randVal += static_cast<size_t>(mpos_2_key(mpos_));
+    //===== 一段丑陋的实现，确保 整合出来的 随机数 randVal，一定不为 0 =====
+    size_t v = uDistribution(dRandEng);
+    int64_t k = std::abs(static_cast<int64_t>(mpos_2_key(mpos_)));
+    size_t randVal = v + static_cast<size_t>(k);
+
+    // 确保一定不为 0
+    if( randVal == 0 ){
+        randVal = v;
+    }
 
     tprAssert( randVal != 0 );
     return randVal;
