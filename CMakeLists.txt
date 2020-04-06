@@ -1,14 +1,8 @@
 #===================================================#
-#           CMakeLists.txt -- 根目录
+#           CMakeLists.txt -- rootFolder
 #===================================================#
 
-#---- 推荐选项 ----
-# cmake -DCMAKE_BUILD_TYPE=Release ..
-# cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-# cmake -DCMAKE_BUILD_TYPE=Debug ..
-# make 
-
-
+# 变量解释
 # PROJECT_SOURCE_DIR       --- 
 # PROJECT_BINARY_DIR       --- cmake 编译所在的目录 path
 # CMAKE_CURRENT_SOURCE_DIR --- current CMakeLists.txt path
@@ -46,20 +40,10 @@ endif( APPLE )
 
 
 #-- c++17
-#-- CMAKE_CXX_STANDARD 是 cmake 3.1 后的新语句。可放心使用
-#-- 当低于此版本时，.h文件中的 inline 关键词将失效
 set (CMAKE_CXX_STANDARD 17)
-
 
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
-
-
-#-- 显示编译时使用的 编译选项
-#set ( CMAKE_VERBOSE_MAKEFILE ON )
-
-#-- 单独设置 c++ 的编译选项 的方式:
-#add_definitions ( -DXXX_XXX=1 )
 
 
 #---------------------------------------------------#
@@ -68,7 +52,6 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 project ( tprPixelCPP )
 
 #-- *** test: 0.2 ***
-#-- c#_app_with_cpp_dlls
 set ( VERSION_MAJOR 0 )
 set ( VERSION_MINOR 2 )
 
@@ -81,7 +64,8 @@ set (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/publish)
 
 
 #---------------------------------------------------#
-#                     SySconfig
+#                  SySconfig
+#               暂未添加用途，测试用
 #---------------------------------------------------#
 #-- 配置 一个 h文件，用来 从 cmake 传递一些 变量 到 源文件 中。
 #-- 我们需要手动编写 .h.in 文件。
@@ -99,9 +83,10 @@ configure_file(
 #                     src
 #---------------------------------------------------#
 #-- 创建变量 PIXEL_FILES （是个 list）
-#-- 包含 主进程需要的 cpp 文件
+#-- 包含 主进程需要的所有 cpp 文件
 #   GLOB_RECURSE 会递归访问目录，是一种粗粒度的写法
 #   如果想要精细控制，应该在部分目录 该用 GLOB 
+#   请把所有 .cpp 文件写入 src 目录，然后就不用管了
 FILE(GLOB_RECURSE PIXEL_FILES   
                         src/Engine/*.cpp
                         src/innTest/*.cpp 
@@ -137,6 +122,8 @@ endif()
 #---------------------------------------------------#
 #                   include
 #---------------------------------------------------#
+# 很粗鲁的写法
+# 每新增一个 include 目录，就要手动添加进这个列表中
 target_include_directories ( tprpix PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
@@ -208,7 +195,6 @@ target_include_directories ( tprpix SYSTEM PUBLIC
 
 
 #-- glfw --
-#-- 这两个目录中的文件 好像是 一样的 --
 if( UNIX )
     target_include_directories ( tprpix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix/include)
 else()
@@ -265,6 +251,7 @@ else()
 endif( UNIX )
 
 
+# 编译选项，可以自行增删
 target_compile_options( tprpix
                         PRIVATE 
                         -Wall -Wextra
@@ -292,17 +279,9 @@ target_compile_options( tprpix
                         )
 
 
-#=========== 强行关闭所有 优化 ============
-#set ( TPR_LINK_FLAGS "-rdynamic" )
-
-#-- 这组属性确实在 win 中起了作用，建议保留 
-#-- 可以使用 dumpbin /exports xxx.dll 查看 win 中 dll 符号表
-#set( CMAKE_SHARED_LINKER_FLAGS                "${TPR_LINK_FLAGS}" )
-#set( CMAKE_SHARED_LINKER_FLAGS_DEBUG          "${TPR_LINK_FLAGS}" )
-#set( CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL     "${TPR_LINK_FLAGS}" )
-#set( CMAKE_SHARED_LINKER_FLAGS_RELEASE        "${TPR_LINK_FLAGS}" )
-#set( CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "${TPR_LINK_FLAGS}" )
-
+#=========== 优化设置（非正式） ============
+# 整体上只做了一次改动：
+#   release 模式，仍然允许 assert 宏起效
 
 #-------- UNIX ----------
 if( UNIX )

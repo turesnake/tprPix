@@ -43,6 +43,8 @@ Then,open your terminal, and "cd" to the app's root folder:
 
     $ cd .../appRootDir/
 
+(Notes: the "appRootDir" here should be replaced by real root directory name)
+
 after that, run a shell script:
 
     $ ./unix_release.sh
@@ -53,6 +55,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
+(Notes: the "appRootDir" here should be replaced by real root directory name)
 
 **Double Click** it and **Start your Game**!!!
 
@@ -86,6 +89,8 @@ Then,open your terminal, and "cd" to the app's root folder:
 
     $ cd .../appRootDir/
 
+(Notes: the "appRootDir" here should be replaced by real root directory name)
+
 after that, run a shell script:
 
     $ ./unix_release.sh
@@ -96,6 +101,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
+(Notes: the "appRootDir" here should be replaced by real root directory name)
 
 run the app in terminal:
 
@@ -148,6 +154,7 @@ This script file will automatically copy some folders to `app/build/publish/`,
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix.exe** file in **.../appRootDir/build/publish/ folder**. 
+(Notes: the "appRootDir" here should be replaced by real root directory name)
 
 **Double Click** it and **Start your Game**!!!
 
