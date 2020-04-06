@@ -42,11 +42,11 @@ void UIGoSpecFromJson::assemble_2_newUIGo( goSpeciesId_t specID_, GameObj &goRef
     goRef_.isMoveCollide = false;
 
     //------ default -------//
-    goRef_.isDirty = false;
+    goRef_.isDirty = false;         
     goRef_.isControlByPlayer = false;
     //...
     //------ tmp -------//
-    goRef_.isActive = true; //- tmp. 是否进入激活圈，应该由 mpos 计算出来 未实现
+    goRef_.isActive = true; //- tmp. 是否进入激活圈，应该由 mpos 计算出来 未实现  
     //...
 }
 
