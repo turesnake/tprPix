@@ -41,7 +41,7 @@
 
     $ cd .../appRootDir/
 
-(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+(**注意**，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 接着，运行一份 shell 脚本程序：
 
@@ -54,7 +54,7 @@
 
 你可以在目录： **.../appRootDir/build/publish/** 中找到可执行文件：**tprpix**。
 双击它，开始我们的游戏!!!
-(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+(**注意**，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 
 ### Ubuntu 
@@ -86,7 +86,7 @@
 
     $ cd .../appRootDir/
 
-(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+(**注意**，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 接着，运行一份 shell 脚本程序：
 
@@ -98,7 +98,7 @@
 现在，所有的安装工作都已经 **完成** 了!!!
 
 你可以在目录： **.../appRootDir/build/publish/** 中找到可执行文件：**tprpix**。
-(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+(**注意**，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 在 **终端** 中启动它：
 
@@ -133,8 +133,7 @@
 ![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
 
 
-找到 **Build root** 一览，将其值修改为: `${projectDir}\build` ->
-(注意，这一步改写非常重要，请务必操作正确！！！)
+找到 **Build root** 一览，将其值修改为: `${projectDir}\build` (**注意**，这一步改写非常重要，请务必操作正确！！！)
 
 ![Build root](Docs/pngs/win10/004.png)
 
@@ -166,7 +165,7 @@
 
 你可以在目录 **.../appRootDir/build/publish/** 中，找到可执行文件 **tprpix.exe**，
 它就是我们的程序本体。
-(注意，此处的 "appRootDir" 应替换为实际的根目录名字)
+(**注意**，此处的 "appRootDir" 应替换为实际的根目录名字)
 
 双击此文件，开始我们的游戏!!!
 
@@ -206,6 +205,20 @@
 在目前版本中，一旦玩家进入游戏世界，可以控制一只小鸡四处游览世界。通过按下 **键盘键:H** 或者 **游戏手柄键:H**,可以让小鸡速度加快甚至飞行。这原本是提供给开发者来检视 世界生成效果用的。
 
 鉴于本游戏的剩余部分仍在开发中，所以还请体验者们耐心等待。
+
+
+### 如何修改程序窗口尺寸
+现阶段暂不支持 全屏模式。改写窗口尺寸的配置文件，放置在 **.../publish/jsons/windowConfig.json** 文件中。如图所示：
+
+![Window Config](Docs/pngs/oth/windowConfig.png)
+
+如果你想调整你的 **窗口尺寸**，请修改变量：`windowPixW, windowPixH`（单位为像素）。正如变量：`recommend:windowPixW, recommend:windowPixH` 所示，推荐的尺寸是 1920，1200。（事实上，你可以将变量 `windowPixW, windowPixH` 改写成任意整形数值（integer），只要记得别超出你的显示器限制。程序会自动照顾好窗口长宽比。）
+
+请勿修改变量 `recommend:windowPixW, recommend:windowPixH`，它们对程序不起任何作用，仅仅是一份提示。
+请勿保持变量 `isFullScreen` 值为 `false`。 针对它的修改将使程序启动失败。
+
+在修改完参数后，保存文件。再次运行 app，就能获得对应效果。无需再次编译。
+
 
 
 # 现存的问题

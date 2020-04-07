@@ -43,7 +43,7 @@ Then,open your terminal, and "cd" to the app's root folder:
 
     $ cd .../appRootDir/
 
-(Notes: the "appRootDir" here should be replaced by real root directory name)
+(**Notes**: the "appRootDir" here should be replaced by real root directory name)
 
 after that, run a shell script:
 
@@ -55,7 +55,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
-(Notes: the "appRootDir" here should be replaced by real root directory name)
+(**Notes**: the "appRootDir" here should be replaced by real root directory name)
 
 **Double Click** it and **Start your Game**!!!
 
@@ -89,7 +89,7 @@ Then,open your terminal, and "cd" to the app's root folder:
 
     $ cd .../appRootDir/
 
-(Notes: the "appRootDir" here should be replaced by real root directory name)
+(**Notes**: the "appRootDir" here should be replaced by real root directory name)
 
 after that, run a shell script:
 
@@ -101,7 +101,7 @@ you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix** file in **.../appRootDir/build/publish/** folder. 
-(Notes: the "appRootDir" here should be replaced by real root directory name)
+(**Notes**: the "appRootDir" here should be replaced by real root directory name)
 
 run the app in terminal:
 
@@ -133,7 +133,7 @@ if **x64-Clang-Release** was not in **CMake Settings** panel, please check wheth
 
 ![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
 
-reset the **Build root** to `${projectDir}\build` ->
+reset the **Build root** to `${projectDir}\build` (**Notes**: This **STEP** is very important!!! Please make sure the changes are **CORRECT**.)
 
 ![Build root](Docs/pngs/win10/004.png)
 
@@ -158,7 +158,7 @@ This script file will automatically copy some folders to `app/build/publish/`,
 Now, All the Installation has **DONE**!!!
 
 You can find **tprpix.exe** file in **.../appRootDir/build/publish/ folder**. 
-(Notes: the "appRootDir" here should be replaced by real root directory name)
+(**Notes**: the "appRootDir" here should be replaced by real root directory name)
 
 **Double Click** it and **Start your Game**!!!
 
@@ -197,6 +197,20 @@ Once you enter the game-world, The only thing you can do is control a chicken(us
 Well,the remaining parts are still on developing.
 So, please be  patient...
 
+
+### How to change the app window size
+Currently, FullScreen mode is not support yet. The Config file who control the window size is placed in file: **.../publish/jsons/windowConfig.json**. As show below:
+
+![Window Config](Docs/pngs/oth/windowConfig.png)
+
+If you want to change the **Window Size**, please modify the variables: `windowPixW, windowPixH` (base on pixel). As the variables `recommend:windowPixW, recommend:windowPixH` show, the recommended size is: 1920, 1200. (In fact, you can change `windowPixW, windowPixH` to any integer value, just not bigger than your monitor, and the program will automatically take care of the window aspect ratio.)
+
+
+**PLEASE** do not **MODIFY** the variables: `recommend:windowPixW, recommend:windowPixH`. They are just some tips.
+**PLEASE** do not **MODIFY** the variable: `isFullScreen`. Keep its value at `false`. Any change to this variable will case a crash in runtime.
+
+
+After the modifying, save the file. run the app again, you will get new effect. **NO need to compile again.**
 
 
 # Existed Problems
