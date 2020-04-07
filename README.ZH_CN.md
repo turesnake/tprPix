@@ -128,6 +128,11 @@
 
 ![x64-Clang-Release](Docs/pngs/win10/003.png)
 
+如果 **CMake Settings** 面板中没有 **x64-Clang-Release** 选项，请检查Visual Studio中是否安装了如下组件
+
+![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
+
+
 找到 **Build root** 一览，将其值修改为: `${projectDir}\build` ->
 (注意，这一步改写非常重要，请务必操作正确！！！)
 
