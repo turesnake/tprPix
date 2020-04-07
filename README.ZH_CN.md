@@ -210,7 +210,7 @@
 ### 如何修改程序窗口尺寸
 现阶段暂不支持 全屏模式。改写窗口尺寸的配置文件，放置在 **.../publish/jsons/windowConfig.json** 文件中。如图所示：
 
-![Window Config](Docs/pngs/oth/windowConfig.png)
+![Window Config](Docs/pngs/oth/windowConfig_1.png)
 
 如果你想调整你的 **窗口尺寸**，请修改变量：`windowPixW, windowPixH`（单位为像素）。正如变量：`recommend:windowPixW, recommend:windowPixH` 所示，推荐的尺寸是 1920，1200。（事实上，你可以将变量 `windowPixW, windowPixH` 改写成任意整形数值（integer），只要记得别超出你的显示器限制。程序会自动照顾好窗口长宽比。）
 

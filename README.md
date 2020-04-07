@@ -201,7 +201,7 @@ So, please be  patient...
 ### How to change the app window size
 Currently, FullScreen mode is not support yet. The Config file who control the window size is placed in file: **.../publish/jsons/windowConfig.json**. As show below:
 
-![Window Config](Docs/pngs/oth/windowConfig.png)
+![Window Config](Docs/pngs/oth/windowConfig_1.png)
 
 If you want to change the **Window Size**, please modify the variables: `windowPixW, windowPixH` (base on pixel). As the variables `recommend:windowPixW, recommend:windowPixH` show, the recommended size is: 1920, 1200. (In fact, you can change `windowPixW, windowPixH` to any integer value, just not bigger than your monitor, and the program will automatically take care of the window aspect ratio.)
 
