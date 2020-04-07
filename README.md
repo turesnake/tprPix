@@ -198,7 +198,8 @@ Well,the remaining parts are still on developing.
 So, please be  patient...
 
 
-### How to change the app window size
+
+## How to change the app window size
 Currently, FullScreen mode is not support yet. The Config file who control the window size is placed in file: **.../publish/jsons/windowConfig.json**. As show below:
 
 ![Window Config](Docs/pngs/oth/windowConfig_1.png)
@@ -207,10 +208,11 @@ If you want to change the **Window Size**, please modify the variables: `windowP
 
 
 **PLEASE** do not **MODIFY** the variables: `recommend:windowPixW, recommend:windowPixH`. They are just some tips.
-**PLEASE** do not **MODIFY** the variable: `isFullScreen`. Keep its value at `false`. Any change to this variable will case a crash in runtime.
+
+**PLEASE** do not **MODIFY** the variable: `isFullScreen`. Keep its value as `false`. Any change to this variable will case a crash in runtime.
 
 
-After the modifying, save the file. run the app again, you will get new effect. **NO need to compile again.**
+After the modifying, save the file. run the app again, you will get new effect. **NO Need To Compile Again.**
 
 
 # Existed Problems
