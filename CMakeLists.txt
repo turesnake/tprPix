@@ -122,67 +122,55 @@ endif()
 #---------------------------------------------------#
 #                   include
 #---------------------------------------------------#
+
+# macro():
+# 本宏函数，会检查目录 src/Engine/ 及其递归子目录，
+# 如果某个目录，内含 .h/.hpp 文件，这个目录就会被收集到一个 list 中
+# 最终返回这个 list
+MACRO( collect_head_dirs return_list )
+    FILE(GLOB_RECURSE   new_list 
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/*.h
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/*.hpp
+                        )
+    SET(dir_list "")
+    FOREACH(file_path ${new_list})
+        GET_FILENAME_COMPONENT(dir_path ${file_path} PATH)
+        SET(dir_list ${dir_list} ${dir_path})
+    ENDFOREACH()
+    LIST(REMOVE_DUPLICATES dir_list)
+    SET(${return_list} ${dir_list})
+ENDMACRO()
+
+
+# call macro
+collect_head_dirs( engine_header_dirs )
+
+# 打印实际收集到的 目录数目 （无关紧要部分）
+list(LENGTH engine_header_dirs engine_header_dirs_count )
+message(STATUS "[INFO] Found ${engine_header_dirs_count} engine header directories.")
+
+
+
 # 很粗鲁的写法
 # 每新增一个 include 目录，就要手动添加进这个列表中
 target_include_directories ( tprpix PUBLIC
 
+    # === 跨平台宏文件（cmake创建） ===
+    ${EXECUTABLE_OUTPUT_PATH}/sysconfig
+
+    # === 第三方库 ===
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/rapidjson
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/magic_enum
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/fmt-6.1.2/include
 
+    # === 项目代码 ===
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/pch
-
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/actionFSM
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/actionSwitch
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/affect
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/AI
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/animFrameSet
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/blueprint
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/camera
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/circuitBoard
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/collision/signInMapEnts
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/color
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/coordinate
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dataBase
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/dynamicParam
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/ecoSys/ecoObjBorder
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/fileIO
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/createGo
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gameObj/goDataForCreate
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/gl
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/input
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/json
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/map/chunkCreateRelease
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/mesh
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/move
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/chunkCreate
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/multiThread/ecoObjCreate
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/player
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/random
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/renderPool
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/resource
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/scene
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/script
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/shaderProgram
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/sys
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/time
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tools
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/tprDebug
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/UI
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine/VAOVBO
-
     ${CMAKE_CURRENT_SOURCE_DIR}/src/innTest
-
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Script
 
-    ${EXECUTABLE_OUTPUT_PATH}/sysconfig
+    # 自动包含 src/Engine/ 目录下的所有 有效目录
+    ${engine_header_dirs}
     )
 
 
