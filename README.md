@@ -192,6 +192,9 @@ in game-world, you can push **Button:A** to Let the character speed up
 - **key:Enter** to confirm.
 - **key:H/J/K/L** is mapped to **'A/B/X/Y'** in Joystick.
 
+
+**Please note that when the system input method is Chinese mode, the keyboard keys will not be recognized by the game. Be sure to switch to the English input mode.**
+
 Once you enter the game-world, The only thing you can do is control a chicken(used for test), walk around and fly(By pressing the key: **'H'**(keyboard) or **'A'**(joystick) continuously)
 
 Well,the remaining parts are still on developing.
@@ -248,7 +251,6 @@ If you have any suggestions，please contact me.
 
 
 ## Contact
-*   E-mail: [turesnake@gmail.com](mailto:turesnake@gmail.com)
 *   E-mail: [turesnake@icloud.com](mailto:turesnake@icloud.com)
 *   QQ: 651700603
 *   WeChat：turesnake
