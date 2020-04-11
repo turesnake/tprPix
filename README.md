@@ -50,7 +50,9 @@ after that, run a shell script:
     $ ./unix_release.sh
 
 the shell script: `unix_release.sh`, will automatically install everything for you, which contains some folder replication work.
-you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
+you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you. In the **Debug** mode, the running performance of the game will be reduced significantly. So, please call the **Release** mode as much as possible.
+
+
 
 Now, All the Installation has **DONE**!!!
 
@@ -96,7 +98,7 @@ after that, run a shell script:
     $ ./unix_release.sh
 
 the shell script: `unix_release.sh`, will automatically install everything for you, which contains some folder replication work.
-you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you.
+you can also choose `unix_debug.sh`, which will build a **DEBUG** app for you. In the **Debug** mode, the running performance of the game will be reduced significantly. So, please call the **Release** mode as much as possible.
 
 Now, All the Installation has **DONE**!!!
 
