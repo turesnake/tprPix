@@ -46,7 +46,6 @@ void MapField::init(){
 
 
 
-// 暂时未被使用
 void MapField::init_nodeDPos( const glm::dvec2 &FDPos_ ){
 
     double    freq  { 7.0 };
