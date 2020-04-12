@@ -111,45 +111,29 @@
 
 ### Win10
 
+
 为了支持 **Win10** 中的 **Clang**，我们首先要安装 **Visual Studio 2019**。
+
+同时，确保你的 **Visual Studio** 中也安装了如下组件:
+
+![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
 
 然后，启动 **Visual Studio 2019**，点选初始界面中的 `Open a local folder` 按钮，在弹出的窗口中，选择本程序的根目录 ->
 
 ![open a local folder](Docs/pngs/win10/000.png)
 
-进入主界面后，选择 **Manage Configurations...** 按钮 ->
 
-![Manage Configurations](Docs/pngs/win10/001.png)
+进入主界面后，VS 会主动识别出一份根目录下的配置文件：`CMakeSettings.json`，并且根据这份文件内的描述，自动创建一份名为 `x64-Clang-Release` 的 配置方案（configurations）。此时你会看到 VS: **Output 面板**中 正在做有关 cmake Cache 的解析和生成工作。 稍等数秒后，你会在 **Output 面板** 中看到：
 
+    CMake generation finished.
 
-在随之而来的 **CMake Settings** 面板中，移除掉已经存在的 **DEBUG** 配置，然后手动选择一份新的配置：**x64-Clang-Release** ->
-
-
-![CMake Settings panel](Docs/pngs/win10/002.png)
-
-![x64-Clang-Release](Docs/pngs/win10/003.png)
-
-如果 **CMake Settings** 面板中没有 **x64-Clang-Release** 选项，请检查Visual Studio中是否安装了如下组件
-
-![Check Clang and Cmake](Docs/pngs/win10/clang_and_cmke_check.png)
+这表明 cmake Cache 生成成功了！
 
 
-找到 **Build root** 一览，将其值修改为: `${projectDir}\build` (**注意**，这一步改写非常重要，请务必操作正确！！！)
-
-![Build root](Docs/pngs/win10/004.png)
-
-在左侧的 **Solution Explorer** 面板中，右键单击文件：`CMakeLists.txt`，在弹出的下拉菜单中选择：`Generate Cache for tprPixelCPP` ->
-
-![CMakeLists.txt](Docs/pngs/win10/005.png)
-
-![Generate Cache for tprPixelCPP](Docs/pngs/win10/006.png)
-
-这将帮助我们生成 cmake Cache 数据。
-等待片刻，直到下方 **Output** 面板中出现 `CMake generation finished.` 信息。
-这表示 cmake Cache 生成成功。
+**注意:** 如果在这一过程中发生错误，请阅读 [这份文章](Docs/how_to_handle_visual_studio.md)，学习如何以 **手动配置** 的方式，来生成 cmake Cache。
 
 
-紧接着。在 **Visual Studio 2019** 左上方的 `Build` 菜单中，找到 `Build All` 按钮，点击它，开始正式的 **Build** 工作。（也可以使用快捷键:`F7`） ->
+在 cmake Cache 生成成功后。在 **Visual Studio 2019** 左上方的 `Build` 菜单中，找到 `Build All` 按钮，点击它，开始正式的 **Build** 工作。（也可以使用快捷键:`F7`） ->
 
 ![Build All](Docs/pngs/win10/009.png)
 
