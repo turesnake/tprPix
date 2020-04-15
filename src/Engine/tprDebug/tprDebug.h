@@ -10,6 +10,7 @@
 #ifndef TPR_DEBUG_H
 #define TPR_DEBUG_H
 
+#include <utility>
 #include <string>
 #include "fmt/format.h"
 
@@ -28,7 +29,7 @@ void tmp_console_inn( const std::string &str_ );
 template < typename S, typename... Args >
 void console(const S& format_str, Args&&... args) {
     
-    auto str = fmt::format( format_str, args... );
+    auto str = fmt::format( format_str, std::forward<Args>(args)... );
     tmp_console_inn( str );
 }
 
