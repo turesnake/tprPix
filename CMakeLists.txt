@@ -251,7 +251,9 @@ endif( UNIX )
 # 编译选项，可以自行增删
 target_compile_options( tprpix
                         PRIVATE 
+                        -Werror
                         -Wall -Wextra
+                        
                         -Wno-c++98-compat
                         -Wno-c++98-compat-pedantic
                         -Wno-language-extension-token      #- glad
@@ -310,7 +312,5 @@ else()
 
 
 endif( UNIX )
-
-
 
 

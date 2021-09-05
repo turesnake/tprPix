@@ -110,9 +110,6 @@ namespace prepare_inn {//------------ namespace: prepare_inn ------------//
  */
 void build_path_cwd( char *exeDirPath_ ){
 
-    //-- 这部分工作，已经由 C# 完成 ---
-    //path_cwd = exeDirPath_;
-
 #if defined TPR_OS_WIN32_
 
 	char buf[MAX_PATH];
