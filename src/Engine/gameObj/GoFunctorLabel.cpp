@@ -17,7 +17,7 @@
 // 否则会按 [-128,128] 的默认范围。屏蔽掉额外的值
 namespace magic_enum {
 template <>
-  struct enum_range<GoFunctorLabel> {
+  struct customize::enum_range<GoFunctorLabel> {
     static constexpr int min = 0;
     static constexpr int max = 1000;
 };

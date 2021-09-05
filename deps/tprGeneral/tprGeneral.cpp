@@ -78,6 +78,7 @@ std::string path_combine( const std::string &_pa, const std::string &_pb ){
 }
 
 
+
 /* ===========================================================
  *                       path_combine [2]
  * -----------------------------------------------------------
@@ -89,8 +90,6 @@ std::string path_combine( const char *_pa, const char *_pb ){
     std::string b = _pb;
     return path_combine( a, b );
 }
-
-
 
 
 
