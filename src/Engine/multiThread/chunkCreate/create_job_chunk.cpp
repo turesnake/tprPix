@@ -159,7 +159,7 @@ void calc_job_chunk( Job_Chunk &job_chunkRef_ ){
             field.init_colorTableId( mapEntInnRef.get_colorTableId() );
             field.init_density( mapEntInnRef.get_density() );
             field.init_nodeMapAlti( mapEntInnRef.get_alti() );
-            field.init_uWeight( mapEntInnRef.get_uWeight() );
+            field.init_uWeight( static_cast<double>( mapEntInnRef.get_uWeight() ) );
         }
     }
 

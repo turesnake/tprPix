@@ -87,12 +87,15 @@ void process_and_echo_timeLog(){
 
     for( auto &pair : timeLog_inn::frameRawDatas ){
         auto &tf = *(pair.second);
-        if( tf.frame > maxFrame ){
-            maxFrame = tf.frame;
+
+        double tf_frame_d = static_cast<double>(tf.frame);
+
+        if( tf_frame_d > maxFrame ){
+            maxFrame = tf_frame_d;
             maxIdx = tf.idx;
         }
-        if( tf.frame < minFrame ){
-            minFrame = tf.frame;
+        if( tf_frame_d < minFrame ){
+            minFrame = tf_frame_d;
             minIdx = tf.idx;
         }
     }

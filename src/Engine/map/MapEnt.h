@@ -49,7 +49,7 @@ public:
         density(density_),
         mapAlti(mapAlti_),
         bioSoupState(bioSoupState_),
-        uWeight(uWeight_),
+        uWeight( static_cast<size_t>(uWeight_) ),
         isEcoBorder(isEcoBorder_)
         {}
      

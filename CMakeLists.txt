@@ -250,8 +250,8 @@ endif( UNIX )
 
 # 编译选项，可以自行增删
 target_compile_options( tprpix
-                        PRIVATE 
-                        -Werror
+                        PRIVATE  
+                        #-Werror         # 20220605 这个限制变得更严苛了, 暂时先去掉它
                         -Wall -Wextra
                         
                         -Wno-c++98-compat
