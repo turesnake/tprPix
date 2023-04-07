@@ -26,9 +26,14 @@ target_include_directories ( tprGeneral
 
 target_compile_options ( tprGeneral 
                         PRIVATE 
-                        -Wall 
-                        -Wno-c++98-compat
-						-Wno-c++98-compat-pedantic
+                        $<$<BOOL:${CXX_COMPILER_IS_GNU_LIKE}>:$<BUILD_INTERFACE:
+                            -Wall 
+                            -Wno-c++98-compat
+                            -Wno-c++98-compat-pedantic
+                        >>
+                        $<$<BOOL:${CXX_COMPILER_IS_MSVC_LIKE}>:$<BUILD_INTERFACE:
+                            /W3
+                        >>
                         )
 
 

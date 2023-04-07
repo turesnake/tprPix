@@ -24,7 +24,12 @@ target_include_directories (glad
                             
 target_compile_options (glad 
                         PRIVATE 
-                        -Wno-language-extension-token
+                        $<$<BOOL:${CXX_COMPILER_IS_GNU_LIKE}>:$<BUILD_INTERFACE:
+                            -Wno-language-extension-token
+                        >>
+                        $<$<BOOL:${CXX_COMPILER_IS_MSVC_LIKE}>:$<BUILD_INTERFACE:
+                            /W3
+                        >>
                         )
 
 

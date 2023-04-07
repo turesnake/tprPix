@@ -23,6 +23,8 @@
 //-- 以便 源码 中使用。
 #define SYSTEM_NAME "@CMAKE_SYSTEM_NAME@"
 
-
+#ifdef _MSC_VER
+#pragma warning(disable : 4819) // for code page warnings
+#endif
 
 #endif

@@ -24,12 +24,23 @@ target_include_directories (tprInWin
 
 target_compile_options ( tprInWin 
                         PRIVATE 
-                        -Wall 
-                        -Wno-c++98-compat
-                        -Wno-c++98-compat-pedantic
-                        -Wno-zero-as-null-pointer-constant
-                        -Wno-nonportable-system-include-path
-                        -Wno-old-style-cast
+                        $<$<BOOL:${CXX_COMPILER_IS_CLANG_ALL}>:$<BUILD_INTERFACE:
+                            -Wall 
+                            -Wno-c++98-compat
+                            -Wno-c++98-compat-pedantic
+                            -Wno-zero-as-null-pointer-constant
+                            -Wno-nonportable-system-include-path
+                            -Wno-old-style-cast
+                        >>
+                        $<$<BOOL:${CXX_COMPILER_IS_GCC}>:$<BUILD_INTERFACE:
+                            -Wall
+                            -Wno-zero-as-null-pointer-constant
+                            -Wno-old-style-cast
+                            -Wno-conversion-null
+                        >>
+                        $<$<BOOL:${CXX_COMPILER_IS_MSVC_LIKE}>:$<BUILD_INTERFACE:
+                            /W3
+                        >>
                         )
 
 
