@@ -377,4 +377,20 @@ else()
 
 endif()
 
+#-------------------------------------------------------------------------------------#
+#            copy necessary files after every build (only when different)
+#-------------------------------------------------------------------------------------#
+function(copy_dir_to_target_file_dir target dirname source)
+    set(source ${ARGV})
+    list(POP_FRONT source)
+    list(POP_FRONT source)
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${source} $<TARGET_FILE_DIR:${target}>/${dirname} # need cmake 3.26
+        COMMAND_EXPAND_LISTS
+    )
+endfunction()
 
+copy_dir_to_target_file_dir(tprpix shaders          ${CMAKE_SOURCE_DIR}/shaders)
+copy_dir_to_target_file_dir(tprpix jsons            ${CMAKE_SOURCE_DIR}/jsons)
+copy_dir_to_target_file_dir(tprpix blueprintDatas   ${CMAKE_SOURCE_DIR}/blueprintDatas)
+copy_dir_to_target_file_dir(tprpix gameObjDatas     ${CMAKE_SOURCE_DIR}/gameObjDatas)
