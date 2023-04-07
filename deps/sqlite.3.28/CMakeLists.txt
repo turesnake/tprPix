@@ -32,7 +32,7 @@ target_compile_options ( SQLite
                         PRIVATE 
                         $<$<BOOL:${CXX_COMPILER_IS_GNU_LIKE}>:$<BUILD_INTERFACE:
                             -Wno-unused-variable
-                            -Wno-implicit-const-int-float-conversion
+                            -Wno-implicit-int-float-conversion
                         >>
                         $<$<BOOL:${CXX_COMPILER_IS_MSVC_LIKE}>:$<BUILD_INTERFACE:
                             /W3
