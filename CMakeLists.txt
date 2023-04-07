@@ -12,7 +12,7 @@
 #                cmake version
 #---------------------------------------------------#
 # 3.16 or Later is better, to support PCH and Unity builds
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.15)
 message( STATUS "cmake: ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" )
 
 
@@ -199,19 +199,59 @@ else()
 endif( UNIX )
 
 
+#---------------------------------------------------#
+#             distinguish different compilers
+#---------------------------------------------------#
+set(CXX_COMPILER_IS_GCC OFF)            # gcc
+set(CXX_COMPILER_IS_CLANG OFF)          # clang
+set(CXX_COMPILER_IS_MSVC OFF)           # msvc
+set(CXX_COMPILER_IS_CLANG_CL OFF)       # clang-cl
+set(CXX_COMPILER_IS_GNU_LIKE OFF)       # gcc, clang, clang-cl
+set(CXX_COMPILER_IS_GCC_CLANG OFF)      # gcc, clang
+set(CXX_COMPILER_IS_CLANG_ALL OFF)      # clang, clang-cl
+set(CXX_COMPILER_IS_MSVC_LIKE OFF)      # msvc, clang-cl
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    set(CXX_COMPILER_IS_GCC ON)
+    set(CXX_COMPILER_IS_GNU_LIKE ON)
+    set(CXX_COMPILER_IS_GCC_CLANG ON)
+    message(STATUS "[INFO] Compiler: gcc")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if (CMAKE_CXX_SIMULATE_ID MATCHES "MSVC" AND CMAKE_CL_64)
+        set(CXX_COMPILER_IS_CLANG_CL ON)
+        set(CXX_COMPILER_IS_GNU_LIKE ON)
+        set(CXX_COMPILER_IS_CLANG_ALL ON)
+        set(CXX_COMPILER_IS_MSVC_LIKE ON)
+        message(STATUS "[INFO] Compiler: clang-cl")
+    else ()
+        set(CXX_COMPILER_IS_CLANG ON)
+        set(CXX_COMPILER_IS_GNU_LIKE ON)
+        set(CXX_COMPILER_IS_GCC_CLANG ON)
+        set(CXX_COMPILER_IS_CLANG_ALL ON)
+        message(STATUS "[INFO] Compiler: clang")
+    endif ()
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    set(CXX_COMPILER_IS_MSVC ON)
+    set(CXX_COMPILER_IS_MSVC_LIKE ON)
+    message(STATUS "[INFO] Compiler: msvc")
+else ()
+    message(FATAL_ERROR "Unsupported Compiler!")
+endif ()
+
 
 #---------------------------------------------------#
 #             子目录 CMakeLists.txt
 #---------------------------------------------------#
 #-- 子 CMakeLists.txt 执行的 中间产物，将分别放在 
 #      build/src  build/libhello  目录中。
+
+#-- 官网推荐，避免编译 test --
+# 需要在 add_subdirectory 语句之前
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix EXCLUDE_FROM_ALL)
+
 if( UNIX )
-    #-- 官网推荐，避免编译 test --
-    # 需要在 add_subdirectory 语句之前
-    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_unix)
     add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprInUnix)
 else()
     add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/deps/tprInWin)
@@ -241,7 +281,8 @@ else()
         tprGeneral
         tprInWin
         glad
-        ${CMAKE_CURRENT_SOURCE_DIR}/deps/glfw_win/lib-vc2017/glfw3.lib
+        glfw
+        ${GLFW_LIBRARIES}
         SQLite
         fmt
         )
@@ -251,30 +292,51 @@ endif( UNIX )
 # 编译选项，可以自行增删
 target_compile_options( tprpix
                         PRIVATE  
-                        #-Werror         # 20220605 这个限制变得更严苛了, 暂时先去掉它
-                        -Wall -Wextra
-                        
-                        -Wno-c++98-compat
-                        -Wno-c++98-compat-pedantic
-                        -Wno-language-extension-token      #- glad
-						-Wno-documentation                 #- glfw3
-						-Wno-documentation-unknown-command #- glfw3
-						-Wno-nonportable-system-include-path
-						-Wno-reserved-id-macro
-						-Wno-global-constructors            #++ need ++
-                        -Wno-exit-time-destructors          #++ need ++
-                        -Wno-covered-switch-default         #++ need ++
-                        -Wno-switch-enum                    #++ need ++
-                        -Wno-unused-parameter               #++ need ++
-                        -Wno-unused-member-function         #++ need ++
-                        -Wno-missing-variable-declarations  #++ need ++
-                        -Wno-missing-prototypes
-                        -Wno-old-style-cast   #---- tmp ---- 
-                        
-                        -Wno-unused-variable #----- tmp ----
-                        -Wno-unused-private-field #----- tmp ----
+                        # clang/clang-cl
+                        $<$<BOOL:${CXX_COMPILER_IS_CLANG_ALL}>:$<BUILD_INTERFACE:
+                            # -Werror         # 20220605 这个限制变得更严苛了, 暂时先去掉它
+                            -Wall
+                            -Wextra
 
+                            -Wno-c++98-compat
+                            -Wno-c++98-compat-pedantic
+                            -Wno-language-extension-token      #- glad
+                            -Wno-documentation                 #- glfw3
+                            -Wno-documentation-unknown-command #- glfw3
+                            -Wno-nonportable-system-include-path
+                            -Wno-reserved-id-macro
+                            -Wno-global-constructors            #++ need ++
+                            -Wno-exit-time-destructors          #++ need ++
+                            -Wno-covered-switch-default         #++ need ++
+                            -Wno-switch-enum                    #++ need ++
+                            -Wno-unused-parameter               #++ need ++
+                            -Wno-unused-member-function         #++ need ++
+                            -Wno-missing-variable-declarations  #++ need ++
+                            -Wno-missing-prototypes
+                            -Wno-old-style-cast   #---- tmp ---- 
 
+                            -Wno-unused-variable #----- tmp ----
+                            -Wno-unused-private-field #----- tmp ----
+                            -Wno-unused-but-set-variable
+                        >>
+                        # gcc
+                        $<$<BOOL:${CXX_COMPILER_IS_GCC}>:$<BUILD_INTERFACE:
+                            -Wall
+                            -Wextra
+
+                            -Wno-switch-enum                    #++ need ++
+                            -Wno-unused-parameter               #++ need ++
+
+                            -Wno-old-style-cast   #---- tmp ---- 
+                            -Wno-unused-variable #----- tmp ----
+
+                            -Wconversion-null
+                            -Wno-unused-but-set-variable
+                        >>
+                        # msvc/clang-cl
+                        $<$<BOOL:${CXX_COMPILER_IS_MSVC_LIKE}>:$<BUILD_INTERFACE:
+                            /W3
+                        >>
                         )
 
 
@@ -283,7 +345,8 @@ target_compile_options( tprpix
 #   release 模式，仍然允许 assert 宏起效
 
 #-------- UNIX ----------
-if( UNIX )
+# gcc/clang
+if( NOT CXX_COMPILER_IS_MSVC_LIKE )
     set ( CMAKE_C_FLAGS                  "-O0"              CACHE STRING "regular mode: no optimize" FORCE )
     set ( CMAKE_C_FLAGS_DEBUG            "-O0 -g"           CACHE STRING "debug mode: no optimize" FORCE )
     set ( CMAKE_C_FLAGS_MINSIZEREL       "-O0 -DNDEBUG"     CACHE STRING "minSizeRel mode: no optimize" FORCE )
@@ -297,6 +360,7 @@ if( UNIX )
     set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO  "-O2 -g -DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
 
 #-------- WIN ----------
+# msvc/clang-cl
 else()
     # do not have CMAKE_C_FLAGS;
     set ( CMAKE_C_FLAGS_DEBUG            "/MDd /Zi /Ob0 /Od /RTC1"   CACHE STRING "debug mode: no optimize" FORCE )
@@ -311,6 +375,6 @@ else()
     set ( CMAKE_CXX_FLAGS_RELWITHDEBINFO   "/MD /Zi /O2 /Ob1 /DNDEBUG" CACHE STRING "relWithDebugInfo mode: no optimize" FORCE )
 
 
-endif( UNIX )
+endif()
 
 
