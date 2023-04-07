@@ -394,3 +394,37 @@ copy_dir_to_target_file_dir(tprpix shaders          ${CMAKE_SOURCE_DIR}/shaders)
 copy_dir_to_target_file_dir(tprpix jsons            ${CMAKE_SOURCE_DIR}/jsons)
 copy_dir_to_target_file_dir(tprpix blueprintDatas   ${CMAKE_SOURCE_DIR}/blueprintDatas)
 copy_dir_to_target_file_dir(tprpix gameObjDatas     ${CMAKE_SOURCE_DIR}/gameObjDatas)
+
+#-------------------------------------------------------------------------------------#
+#            disable some unnecessary 3rd party libraries warnings
+#-------------------------------------------------------------------------------------#
+target_compile_options(glfw PRIVATE
+    $<$<BOOL:${CXX_COMPILER_IS_CLANG}>:$<BUILD_INTERFACE:
+        -Wno-deprecated-declarations
+    >>
+    $<$<BOOL:${CXX_COMPILER_IS_CLANG_CL}>:$<BUILD_INTERFACE:
+        -Wno-documentation-unknown-command
+        -Wno-documentation
+        -Wno-reserved-macro-identifier
+        -Wno-reserved-identifier
+        -Wno-nonportable-system-include-path
+        -Wno-missing-prototypes
+        -Wno-sign-conversion
+        -Wno-extra-semi-stmt
+        -Wno-cast-qual
+        -Wno-pedantic
+        -Wno-cast-function-type
+        -Wno-format-nonliteral
+        -Wno-double-promotion
+        -Wno-shadow
+        -Wno-unused-parameter
+        -Wno-missing-field-initializers
+        -Wno-implicit-int-float-conversion
+        -Wno-undef
+        -Wno-missing-variable-declarations
+        -Wno-float-equal
+        -Wno-switch-enum
+        -Wno-bad-function-cast
+        -Wno-implicit-int-conversion
+    >>
+)
